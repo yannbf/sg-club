@@ -1,4 +1,4 @@
-import { writeFileSync } from 'node:fs'
+import { writeFileSync, readFileSync, existsSync } from 'node:fs'
 
 // Type definitions for the API response
 interface Creator {
@@ -69,45 +69,107 @@ class SteamGiftsFetcher {
     return (await response.json()) as SteamGiftsResponse
   }
 
-  private async getLastPage(): Promise<number> {
-    console.log('Fetching last page...')
-    const response = await this.fetchPage(99999)
-    console.log(`Last page is: ${response.page}`)
-    return response.page
+  private loadExistingGiveaways(filename: string): Map<number, Giveaway> {
+    const giveawayMap = new Map<number, Giveaway>()
+
+    if (existsSync(filename)) {
+      try {
+        const data = readFileSync(filename, 'utf-8')
+        const existingGiveaways: Giveaway[] = JSON.parse(data)
+
+        for (const giveaway of existingGiveaways) {
+          giveawayMap.set(giveaway.id, giveaway)
+        }
+
+        console.log(`📁 Loaded ${existingGiveaways.length} existing giveaways`)
+      } catch (error) {
+        console.warn(`⚠️  Could not load existing file: ${error}`)
+      }
+    } else {
+      console.log('📄 No existing file found, starting fresh')
+    }
+
+    return giveawayMap
   }
 
-  public async fetchAllGiveaways(): Promise<Giveaway[]> {
+  private getTwoWeeksAgoTimestamp(): number {
+    const twoWeeksAgo = new Date()
+    twoWeeksAgo.setDate(twoWeeksAgo.getDate() - 14)
+    return Math.floor(twoWeeksAgo.getTime() / 1000)
+  }
+
+  public async fetchNewGiveaways(
+    filename: string = 'all_giveaways.json'
+  ): Promise<Giveaway[]> {
     try {
-      const lastPage = await this.getLastPage()
-      const allGiveaways: Giveaway[] = []
+      // Load existing giveaways
+      const existingGiveaways = this.loadExistingGiveaways(filename)
+      const twoWeeksAgoTimestamp = this.getTwoWeeksAgoTimestamp()
 
-      console.log(`Fetching all pages from ${lastPage} to 1...`)
+      console.log(
+        `🚀 Fetching new giveaways (stopping at giveaways that ended 2+ weeks ago)...`
+      )
 
-      // Fetch all pages from last to first
-      for (let page = lastPage; page >= 1; page--) {
-        console.log(`Fetching page ${page}/${lastPage}...`)
+      let page = 1
+      let newGiveawaysCount = 0
+      let shouldContinue = true
+
+      while (shouldContinue) {
+        console.log(`📄 Fetching page ${page}...`)
 
         const response = await this.fetchPage(page)
 
         if (!response.success) {
-          console.error(`Failed to fetch page ${page}`)
-          continue
+          console.error(`❌ Failed to fetch page ${page}`)
+          break
         }
 
-        allGiveaways.push(...response.results)
+        if (response.results.length === 0) {
+          console.log('📭 No more giveaways found')
+          break
+        }
+
+        for (const giveaway of response.results) {
+          // Check if this giveaway ended more than 2 weeks ago
+          if (giveaway.end_timestamp < twoWeeksAgoTimestamp) {
+            console.log(
+              `⏰ Reached cutoff point: giveaway "${
+                giveaway.name
+              }" ended ${new Date(
+                giveaway.end_timestamp * 1000
+              ).toLocaleString()}`
+            )
+            shouldContinue = false
+            break
+          }
+
+          // Add or update the giveaway
+          if (!existingGiveaways.has(giveaway.id)) {
+            newGiveawaysCount++
+            console.log(`➕ New: ${giveaway.name}`)
+          } else {
+            console.log(`🔄 Updated: ${giveaway.name}`)
+          }
+          existingGiveaways.set(giveaway.id, giveaway)
+        }
 
         // Add a small delay to be respectful to the server
         await new Promise((resolve) => setTimeout(resolve, 100))
+        page++
       }
 
-      console.log(`Fetched ${allGiveaways.length} giveaways total`)
-
-      // Sort by created_timestamp (newest first)
+      // Convert map back to array and sort by created_timestamp (newest first)
+      const allGiveaways = Array.from(existingGiveaways.values())
       allGiveaways.sort((a, b) => b.created_timestamp - a.created_timestamp)
+
+      console.log(`\n📊 Summary:`)
+      console.log(`  • Total giveaways: ${allGiveaways.length}`)
+      console.log(`  • New giveaways found: ${newGiveawaysCount}`)
+      console.log(`  • Pages fetched: ${page - 1}`)
 
       return allGiveaways
     } catch (error) {
-      console.error('Error fetching giveaways:', error)
+      console.error('❌ Error fetching giveaways:', error)
       throw error
     }
   }
@@ -116,13 +178,11 @@ class SteamGiftsFetcher {
 // Main execution
 async function main(): Promise<void> {
   const fetcher = new SteamGiftsFetcher()
+  const filename = 'all_giveaways.json'
 
   try {
-    console.log('🚀 Starting to fetch all giveaways...')
-    const allGiveaways = await fetcher.fetchAllGiveaways()
-
-    console.log('\n=== SUMMARY ===')
-    console.log(`📊 Total giveaways: ${allGiveaways.length}`)
+    console.log('🚀 Starting incremental giveaway update...')
+    const allGiveaways = await fetcher.fetchNewGiveaways(filename)
 
     if (allGiveaways.length > 0) {
       const oldestDate = new Date(
@@ -134,20 +194,23 @@ async function main(): Promise<void> {
         `📅 Date range: ${oldestDate.toLocaleString()} to ${newestDate.toLocaleString()}`
       )
 
-      console.log('\n=== FIRST 10 GIVEAWAYS (sorted by created_timestamp) ===')
-      allGiveaways.slice(0, 10).forEach((giveaway, index) => {
+      console.log('\n=== LATEST 10 GIVEAWAYS ===')
+      allGiveaways.slice(0, 10).forEach((giveaway: Giveaway, index: number) => {
         const createdDate = new Date(giveaway.created_timestamp * 1000)
+        const endDate = new Date(giveaway.end_timestamp * 1000)
+        const isActive = giveaway.end_timestamp > Date.now() / 1000
+        const status = isActive ? '🟢 Active' : '🔴 Ended'
+
         console.log(
           `${index + 1}. ${giveaway.name} (${
             giveaway.points
-          } points) - Created: ${createdDate.toLocaleString()}`
+          } points) - ${status} - Ends: ${endDate.toLocaleString()}`
         )
       })
 
       // Save to file
-      const filename = 'all_giveaways.json'
       writeFileSync(filename, JSON.stringify(allGiveaways, null, 2))
-      console.log(`\n💾 All giveaways saved to ${filename}`)
+      console.log(`\n💾 Updated giveaways saved to ${filename}`)
     } else {
       console.log('⚠️  No giveaways found')
     }

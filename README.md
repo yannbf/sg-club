@@ -5,11 +5,12 @@ A modern TypeScript ESM application for scraping SteamGifts group giveaways with
 ## Features
 
 - 🚀 **Modern ESM** - Uses ES Modules throughout
-- 📊 **Complete Pagination** - Fetches all giveaways across all pages
+- 🔄 **Incremental Updates** - Optimized for cron jobs, only fetches new data
 - 🎯 **TypeScript** - Fully typed with comprehensive interfaces
-- 🔄 **Smart Fetching** - Discovers last page automatically
-- 📁 **Data Export** - Saves results to JSON format
+- ⏰ **Smart Cutoff** - Stops fetching when reaching giveaways that ended 2+ weeks ago
+- 📁 **Data Persistence** - Updates existing JSON file instead of recreating
 - ⚡ **Built-in Fetch** - Uses Node.js native fetch (no external dependencies)
+- 🔗 **Deduplication** - Prevents duplicate entries and updates existing ones
 
 ## Requirements
 
@@ -40,6 +41,18 @@ npm run dev
 
 ```bash
 npm run build
+```
+
+### Cron Job Setup
+
+For automated updates, add to your crontab:
+
+```bash
+# Run every 30 minutes
+*/30 * * * * cd /path/to/gusbot && npm run fetch-giveaways
+
+# Or run every hour
+0 * * * * cd /path/to/gusbot && npm run fetch-giveaways
 ```
 
 ## Scripts
@@ -88,15 +101,18 @@ interface Giveaway {
 ## Output
 
 The script generates:
-- Console output with summary statistics
-- `all_giveaways.json` - Complete dataset of all giveaways, sorted by creation date
+- Console output with update statistics and latest giveaways
+- `all_giveaways.json` - Updated dataset with new giveaways, sorted by creation date
+- Shows active/ended status for each giveaway
 
 ## Configuration
 
-The script is configured to fetch from:
+The script is optimized for cron job usage:
 - **Group**: The Giveaways Club
 - **Cookie**: Configured for authentication
+- **Cutoff**: Stops at giveaways that ended 2+ weeks ago
 - **Delay**: 100ms between requests to be respectful to the server
+- **Incremental**: Loads existing data and only fetches new pages
 
 ## Development
 
