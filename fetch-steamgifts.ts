@@ -153,8 +153,8 @@ class SteamGiftsFetcher {
           existingGiveaways.set(giveaway.id, giveaway)
         }
 
-        // Add a small delay to be respectful to the server
-        await new Promise((resolve) => setTimeout(resolve, 100))
+        // Add a 3-second delay to avoid rate limiting
+        await new Promise((resolve) => setTimeout(resolve, 3000))
         page++
       }
 

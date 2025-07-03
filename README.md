@@ -111,7 +111,7 @@ The script is optimized for cron job usage:
 - **Group**: The Giveaways Club
 - **Cookie**: Configured for authentication
 - **Cutoff**: Stops at giveaways that ended 2+ weeks ago
-- **Delay**: 100ms between requests to be respectful to the server
+- **Delay**: 3 seconds between requests to avoid rate limiting
 - **Incremental**: Loads existing data and only fetches new pages
 
 ## Development
