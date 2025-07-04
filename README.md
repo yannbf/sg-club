@@ -45,6 +45,17 @@ npm run fetch-giveaways-html
 npm run fetch-users
 ```
 
+### Check Steam Game Stats
+
+```bash
+npm run check-steam-game <steamId> <appId>
+```
+
+Example:
+```bash
+npm run check-steam-game 76561198054649894 570
+```
+
 ### Development Mode (with watch)
 
 #### API Approach
@@ -85,6 +96,7 @@ For automated updates, add to your crontab:
 - `npm run fetch-giveaways` - Run the API-based giveaway fetcher (recommended)
 - `npm run fetch-giveaways-html` - Run the HTML scraping giveaway fetcher
 - `npm run fetch-users` - Run the user statistics fetcher
+- `npm run check-steam-game` - Check Steam game ownership, playtime, and achievements for a user
 - `npm run dev` - Run API fetcher in development mode with file watching
 - `npm run dev-html` - Run HTML scraper in development mode with file watching
 - `npm run dev-users` - Run user fetcher in development mode with file watching
@@ -135,6 +147,14 @@ Both approaches support:
 - **Smart user management** - removes users no longer in the group
 - Generates `group_users.json`
 - Full pagination support with rate limiting
+
+### 4. Steam Game Checker (`check-steam-game.ts`)
+- Checks if a Steam user owns a specific game
+- Displays detailed playtime information (total and recent)
+- **Achievement tracking** - shows progress and recent unlocks
+- **Comprehensive stats** - ownership, playtime, and achievement completion
+- Uses Steam Web API for real-time data
+- Handles privacy settings and error cases gracefully
 
 ## Data Structure
 
@@ -304,15 +324,52 @@ The user fetching script generates:
 
 ## Configuration
 
-The script is optimized for cron job usage:
+The giveaway scripts are optimized for cron job usage:
 - **Group**: The Giveaways Club
 - **Cookie**: Configured for authentication
 - **Cutoff**: Stops at giveaways that ended 2+ weeks ago (can be overridden)
 - **Delay**: 3 seconds between requests to avoid rate limiting
-- **Incremental**: Loads existing data and only fetches new pages
+
+### Steam API Configuration
+
+For the Steam game checker, you need a Steam Web API key:
+
+1. **Get your API key**: Visit [https://steamcommunity.com/dev/apikey](https://steamcommunity.com/dev/apikey)
+2. **Set environment variable**: 
+   ```bash
+   # Option 1: Export in shell
+   export STEAM_API_KEY=your_api_key_here
+   
+   # Option 2: Create .env file (recommended)
+   echo "STEAM_API_KEY=your_api_key_here" > .env
+   ```
+3. **Usage**: The script automatically loads `.env` files and requires the target user's Steam profile to be public
+
+📋 **See [SETUP.md](SETUP.md) for detailed configuration instructions and troubleshooting.**
+
+#### Steam Game Checker Usage
+
+```bash
+# Check if a user owns a specific game and their progress
+npm run check-steam-game <steamId> <appId>
+
+# Example: Check if user owns Dota 2 (App ID: 570)
+npm run check-steam-game 76561198054649894 570
+```
+
+**Parameters:**
+- `steamId` - The user's 64-bit Steam ID (found in their profile URL)
+- `appId` - The game's Steam App ID (found in the store URL)
+
+**What it shows:**
+- Game ownership status
+- Total playtime and recent playtime
+- Achievement progress and recent unlocks
+- Game status (never played, barely played, etc.)
 
 ### Environment Variables
 
+- `STEAM_API_KEY` - Required for Steam game checker. Get from [https://steamcommunity.com/dev/apikey](https://steamcommunity.com/dev/apikey)
 - `FETCH_ALL_PAGES=true` - Enable unlimited fetching mode. Instead of stopping at giveaways that ended 2+ weeks ago, continues fetching until reaching the last page (detected by duplicate page content)
 
 #### Examples:

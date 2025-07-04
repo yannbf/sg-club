@@ -10,6 +10,7 @@
     "fetch-giveaways": "tsx fetch-steamgifts.ts",
     "fetch-giveaways-html": "tsx fetch-steamgifts-html.ts",
     "fetch-users": "tsx fetch-users.ts",
+    "check-steam-game": "tsx check-steam-game.ts",
     "build": "tsc",
     "dev": "tsx watch fetch-steamgifts.ts",
     "dev-html": "tsx watch fetch-steamgifts-html.ts",
@@ -19,6 +20,7 @@
     "@types/cheerio": "^0.22.35",
     "cheerio": "^1.1.0",
     "csv-writer": "^1.6.0",
+    "dotenv": "^17.0.1",
     "playwright": "^1.40.0",
     "prompt-sync": "^4.2.0"
   },
