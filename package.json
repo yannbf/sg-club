@@ -8,23 +8,34 @@
     "start": "node steamgifts-scraper.js",
     "install-playwright": "npx playwright install chromium",
     "fetch-giveaways": "tsx fetch-steamgifts.ts",
+    "fetch-giveaways-html": "tsx fetch-steamgifts-html.ts",
+    "fetch-users": "tsx fetch-users.ts",
     "build": "tsc",
-    "dev": "tsx watch fetch-steamgifts.ts"
+    "dev": "tsx watch fetch-steamgifts.ts",
+    "dev-html": "tsx watch fetch-steamgifts-html.ts",
+    "dev-users": "tsx watch fetch-users.ts"
   },
   "dependencies": {
-    "playwright": "^1.40.0",
+    "@types/cheerio": "^0.22.35",
+    "cheerio": "^1.1.0",
     "csv-writer": "^1.6.0",
+    "playwright": "^1.40.0",
     "prompt-sync": "^4.2.0"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
-    "typescript": "^5.3.0",
-    "tsx": "^4.7.0"
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.0"
   },
   "engines": {
     "node": ">=22.0.0"
   },
-  "keywords": ["steamgifts", "scraper", "playwright", "automation"],
+  "keywords": [
+    "steamgifts",
+    "scraper",
+    "playwright",
+    "automation"
+  ],
   "author": "",
   "license": "MIT"
-} 
+}
