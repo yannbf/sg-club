@@ -1,12 +1,11 @@
 {
   "name": "steamgifts-scraper",
   "version": "1.0.0",
-  "description": "A JavaScript scraper for SteamGifts group statistics using Playwright",
+  "description": "A JavaScript scraper for SteamGifts group statistics",
   "type": "module",
   "main": "steamgifts-scraper.js",
   "scripts": {
     "start": "node steamgifts-scraper.js",
-    "install-playwright": "npx playwright install chromium",
     "fetch-giveaways": "tsx fetch-steamgifts.ts",
     "fetch-giveaways-html": "tsx fetch-steamgifts-html.ts",
     "fetch-users": "tsx fetch-users.ts",
@@ -20,9 +19,7 @@
     "@types/cheerio": "^0.22.35",
     "cheerio": "^1.1.0",
     "csv-writer": "^1.6.0",
-    "dotenv": "^17.0.1",
-    "playwright": "^1.40.0",
-    "prompt-sync": "^4.2.0"
+    "dotenv": "^17.0.1"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
@@ -35,7 +32,6 @@
   "keywords": [
     "steamgifts",
     "scraper",
-    "playwright",
     "automation"
   ],
   "author": "",
