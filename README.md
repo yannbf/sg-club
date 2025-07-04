@@ -11,6 +11,8 @@ A modern TypeScript ESM application for scraping SteamGifts group giveaways with
 - 📁 **Data Persistence** - Updates existing JSON file instead of recreating
 - ⚡ **Built-in Fetch** - Uses Node.js native fetch (no external dependencies)
 - 🔗 **Deduplication** - Prevents duplicate entries and updates existing ones
+- 🎮 **CV Status Detection** - Automatically determines Community Value status (FULL_CV, REDUCED_CV, NO_CV)
+- 🔄 **Unlimited Mode** - Optional mode to fetch all historical giveaways until the last page
 
 ## Requirements
 
@@ -95,6 +97,7 @@ interface Giveaway {
   comment_count: number
   entry_count: number
   creator: Creator
+  cv_status?: 'FULL_CV' | 'REDUCED_CV' | 'NO_CV'
 }
 ```
 
@@ -110,9 +113,23 @@ The script generates:
 The script is optimized for cron job usage:
 - **Group**: The Giveaways Club
 - **Cookie**: Configured for authentication
-- **Cutoff**: Stops at giveaways that ended 2+ weeks ago
+- **Cutoff**: Stops at giveaways that ended 2+ weeks ago (can be overridden)
 - **Delay**: 3 seconds between requests to avoid rate limiting
 - **Incremental**: Loads existing data and only fetches new pages
+
+### Environment Variables
+
+- `FETCH_ALL_PAGES=true` - Enable unlimited fetching mode. Instead of stopping at giveaways that ended 2+ weeks ago, continues fetching until reaching the last page (detected by duplicate page content)
+
+#### Examples:
+
+```bash
+# Normal mode (stops at 2 weeks ago)
+npm run fetch-giveaways
+
+# Unlimited mode (fetch everything until last page)
+FETCH_ALL_PAGES=true npm run fetch-giveaways
+```
 
 ## Development
 
