@@ -5,7 +5,7 @@ export interface Creator {
 }
 
 export interface Giveaway {
-  id: number
+  id: string
   name: string
   points: number
   copies: number
