@@ -63,6 +63,9 @@ npm run fetch-giveaways
 # Analyze users and Steam data
 npm run fetch-users
 
+# Analyze users without Steam API calls (faster)
+SKIP_STEAM_API=true npm run fetch-users
+
 # Generate insights report
 npm run generate-insights
 
@@ -160,6 +163,7 @@ The static website provides:
 ```env
 STEAM_API_KEY=your_steam_api_key
 FETCH_ALL_PAGES=true          # Fetch complete dataset
+SKIP_STEAM_API=true           # Skip Steam API calls for faster execution
 ```
 
 ### Customization

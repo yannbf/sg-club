@@ -370,6 +370,7 @@ class SteamGiftsUserFetcher {
             link: giveaway.link,
             cv_status: giveaway.cv_status || 'FULL_CV',
             entries: giveaway.entry_count,
+            copies: giveaway.copies,
             end_timestamp: giveaway.end_timestamp,
           }
 
@@ -590,51 +591,61 @@ class SteamGiftsUserFetcher {
         )
       }
 
-      // Augment users with Steam info if they don't have it
-      console.log(`\n🔍 Checking for missing Steam information...`)
-      const usersNeedingSteamInfo = Array.from(existingUsers.values()).filter(
-        (user) => !user.steam_id && !user.steam_profile_url
-      )
+      // Augment users with Steam info if they don't have it (skip if env flag is set)
+      const skipSteamApi = process.env.SKIP_STEAM_API === 'true'
 
-      if (usersNeedingSteamInfo.length > 0) {
+      if (skipSteamApi) {
         console.log(
-          `📋 Found ${usersNeedingSteamInfo.length} users without Steam info`
+          `\n🚫 Skipping Steam profile fetching (SKIP_STEAM_API=true)`
+        )
+      } else {
+        console.log(`\n🔍 Checking for missing Steam information...`)
+        const usersNeedingSteamInfo = Array.from(existingUsers.values()).filter(
+          (user) => !user.steam_id && !user.steam_profile_url
         )
 
-        for (const user of usersNeedingSteamInfo) {
-          try {
-            const steamInfo = await this.fetchUserSteamInfo(user)
+        if (usersNeedingSteamInfo.length > 0) {
+          console.log(
+            `📋 Found ${usersNeedingSteamInfo.length} users without Steam info`
+          )
 
-            if (steamInfo.steam_id || steamInfo.steam_profile_url) {
-              const updatedUser = {
-                ...user,
-                steam_id: steamInfo.steam_id,
-                steam_profile_url: steamInfo.steam_profile_url,
-              }
-              existingUsers.set(user.username, updatedUser)
-              steamInfoFetched++
+          for (const user of usersNeedingSteamInfo) {
+            try {
+              const steamInfo = await this.fetchUserSteamInfo(user)
 
-              if (steamInfo.steam_id) {
-                console.log(
-                  `✅ ${user.username} -> Steam ID: ${steamInfo.steam_id}`
-                )
+              if (steamInfo.steam_id || steamInfo.steam_profile_url) {
+                const updatedUser = {
+                  ...user,
+                  steam_id: steamInfo.steam_id,
+                  steam_profile_url: steamInfo.steam_profile_url,
+                }
+                existingUsers.set(user.username, updatedUser)
+                steamInfoFetched++
+
+                if (steamInfo.steam_id) {
+                  console.log(
+                    `✅ ${user.username} -> Steam ID: ${steamInfo.steam_id}`
+                  )
+                } else {
+                  console.log(
+                    `✅ ${user.username} -> Steam profile found (custom URL)`
+                  )
+                }
               } else {
-                console.log(
-                  `✅ ${user.username} -> Steam profile found (custom URL)`
-                )
+                console.log(`❌ ${user.username} -> No Steam profile found`)
               }
-            } else {
-              console.log(`❌ ${user.username} -> No Steam profile found`)
-            }
 
-            // Add delay to avoid rate limiting
-            await delay(1000)
-          } catch (error) {
-            console.warn(`⚠️  Error processing ${user.username}:`, error)
+              // Add delay to avoid rate limiting
+              await delay(1000)
+            } catch (error) {
+              console.warn(`⚠️  Error processing ${user.username}:`, error)
+            }
           }
+        } else {
+          console.log(
+            `✅ All users already have Steam info or no Steam profiles`
+          )
         }
-      } else {
-        console.log(`✅ All users already have Steam info or no Steam profiles`)
       }
 
       // Load giveaway data and enrich users
@@ -642,8 +653,13 @@ class SteamGiftsUserFetcher {
       if (giveaways.length > 0) {
         this.enrichUsersWithGiveaways(existingUsers, giveaways)
 
-        // Update Steam play data for won games
-        await this.updateSteamPlayData(existingUsers, giveaways)
+        // Update Steam play data for won games (skip if env flag is set)
+        const skipSteamApi = process.env.SKIP_STEAM_API === 'true'
+        if (skipSteamApi) {
+          console.log('🚫 Skipping Steam API calls (SKIP_STEAM_API=true)')
+        } else {
+          await this.updateSteamPlayData(existingUsers, giveaways)
+        }
       }
 
       // Convert map back to array and sort by value difference (highest first)
@@ -818,8 +834,12 @@ async function main(): Promise<void> {
               user.giveaways_created?.filter(
                 (g) => g.winners && g.winners.some((w) => w.activated)
               ).length || 0
+            const totalCopies =
+              user.giveaways_created?.reduce((sum, g) => sum + g.copies, 0) || 0
 
-            activityParts.push(`🎁 Created: ${createdCount}`)
+            activityParts.push(
+              `🎁 Created: ${createdCount} (${totalCopies} copies)`
+            )
             if (endedGiveaways.length > 0 && createdWithWinners > 0)
               activityParts.push(`${createdWithWinners} with winners`)
             if (ongoingGiveaways.length > 0)

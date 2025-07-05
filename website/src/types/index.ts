@@ -41,6 +41,7 @@ export interface User {
     link: string
     cv_status: 'FULL_CV' | 'REDUCED_CV' | 'NO_CV'
     entries: number
+    copies: number
     end_timestamp: number
     had_winners?: boolean
     winners?: {

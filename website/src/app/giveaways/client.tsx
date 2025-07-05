@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useMemo } from 'react'
-import { formatDate, getCVBadgeColor, getCVLabel } from '@/lib/data'
+import { formatRelativeTime, getCVBadgeColor, getCVLabel } from '@/lib/data'
 import { Giveaway } from '@/types'
 import Link from 'next/link'
 
@@ -133,7 +133,21 @@ export default function GiveawaysClient({ giveaways }: Props) {
       {/* Giveaways List */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredAndSortedGiveaways.map((giveaway) => (
-          <div key={giveaway.id} className="bg-white rounded-lg shadow hover:shadow-md transition-shadow">
+          <div key={giveaway.id} className="bg-white rounded-lg shadow hover:shadow-md transition-shadow overflow-hidden">
+            {/* Game Image */}
+            {giveaway.app_id && (
+              <div className="w-full h-48 bg-gray-200 overflow-hidden">
+                <img
+                  src={`https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/${giveaway.app_id}/header.jpg`}
+                  alt={giveaway.name}
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    e.currentTarget.style.display = 'none'
+                  }}
+                />
+              </div>
+            )}
+            
             <div className="p-6">
               <div className="flex items-start justify-between mb-3">
                 <h3 className="text-lg font-semibold text-gray-900 line-clamp-2 flex-1">
@@ -161,13 +175,18 @@ export default function GiveawaysClient({ giveaways }: Props) {
                 </div>
                 
                 <div className="flex items-center justify-between text-sm">
+                  <span className="text-gray-600">Copies:</span>
+                  <span className="font-medium">{giveaway.copies}</span>
+                </div>
+                
+                <div className="flex items-center justify-between text-sm">
                   <span className="text-gray-600">Entries:</span>
                   <span className="font-medium">{giveaway.entry_count}</span>
                 </div>
                 
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-gray-600">End Date:</span>
-                  <span className="font-medium">{formatDate(giveaway.end_timestamp)}</span>
+                  <span className="text-gray-600">Status:</span>
+                  <span className="font-medium">{formatRelativeTime(giveaway.end_timestamp)}</span>
                 </div>
               </div>
               

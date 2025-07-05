@@ -90,6 +90,7 @@ export interface User {
     link: string
     cv_status: CVStatus
     entries: number
+    copies: number
     end_timestamp: number
     had_winners?: boolean // Only set if giveaway has ended
     winners?: Array<{
