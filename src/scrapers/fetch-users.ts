@@ -265,7 +265,11 @@ class SteamGiftsUserFetcher {
 
     let steamCheckedCount = 0
     let steamErrorCount = 0
+    let steamSkippedCount = 0
     const steamChecker = getSteamChecker()
+
+    // Calculate timestamp for 2 months ago (60 days)
+    const twoMonthsAgo = Date.now() / 1000 - 60 * 24 * 60 * 60
 
     for (const [username, user] of users) {
       if (!user.steam_id || !user.giveaways_won) continue
@@ -276,6 +280,17 @@ class SteamGiftsUserFetcher {
         // Find the giveaway to get the app_id
         const giveaway = giveaways.find((g) => g.link === wonGame.link)
         if (!giveaway?.app_id) continue
+
+        // Only check Steam data for giveaways that ended within the last 2 months
+        if (wonGame.end_timestamp < twoMonthsAgo) {
+          steamSkippedCount++
+          console.log(
+            `⏭️  Skipping ${username}: ${wonGame.name} (ended ${Math.floor(
+              (Date.now() / 1000 - wonGame.end_timestamp) / (24 * 60 * 60)
+            )} days ago)`
+          )
+          continue
+        }
 
         try {
           console.log(`🔍 Checking Steam data for ${username}: ${wonGame.name}`)
@@ -313,6 +328,7 @@ class SteamGiftsUserFetcher {
 
     console.log(`🎮 Steam data update complete:`)
     console.log(`  • Checked: ${steamCheckedCount}`)
+    console.log(`  • Skipped (>2 months old): ${steamSkippedCount}`)
     console.log(`  • Errors: ${steamErrorCount}`)
   }
 

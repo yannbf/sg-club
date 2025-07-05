@@ -1,5 +1,5 @@
 import { readFileSync, writeFileSync, existsSync } from 'node:fs'
-import type { UserGroupData, User } from '../types/steamgifts.js'
+import type { UserGroupData, User, Giveaway } from '../types/steamgifts.js'
 import { formatPlaytime } from './common.js'
 
 interface InsightData {
@@ -12,6 +12,14 @@ interface InsightData {
   totalGiveawaysWithNoEntries: number
   totalValueSent: number
   totalValueReceived: number
+
+  // Historical giveaway data
+  allGiveaways: {
+    total: number
+    fromActiveMembers: number
+    fromFormerMembers: number
+    formerMembersList: Array<{ username: string; giveawayCount: number }>
+  }
 
   // User categorization
   netContributors: User[]
@@ -65,6 +73,24 @@ class GroupInsightsGenerator {
     }
   }
 
+  private loadAllGiveaways(
+    filename: string = 'data/all_giveaways_html.json'
+  ): Giveaway[] {
+    if (!existsSync(filename)) {
+      console.error(`❌ File not found: ${filename}`)
+      return []
+    }
+
+    try {
+      const data = readFileSync(filename, 'utf-8')
+      const giveaways = JSON.parse(data) as Giveaway[]
+      return giveaways
+    } catch (error) {
+      console.error(`❌ Error reading giveaways data: ${error}`)
+      return []
+    }
+  }
+
   private analyzeData(userData: UserGroupData): InsightData {
     const users = userData.users
 
@@ -80,6 +106,42 @@ class GroupInsightsGenerator {
           (giveaway) => !giveaway.had_winners
         ).length
       }
+    }
+
+    // Load and analyze all giveaways to get historical data
+    const allGiveaways = this.loadAllGiveaways()
+    const currentUsernames = new Set(users.map((user) => user.username))
+
+    // Count giveaways by creator status
+    const giveawaysByCreator = new Map<string, number>()
+    let giveawaysFromActiveMembers = 0
+    let giveawaysFromFormerMembers = 0
+
+    for (const giveaway of allGiveaways) {
+      const creator = giveaway.creator.username
+      giveawaysByCreator.set(
+        creator,
+        (giveawaysByCreator.get(creator) || 0) + 1
+      )
+
+      if (currentUsernames.has(creator)) {
+        giveawaysFromActiveMembers++
+      } else {
+        giveawaysFromFormerMembers++
+      }
+    }
+
+    // Get list of former members with their giveaway counts
+    const formerMembersList = Array.from(giveawaysByCreator.entries())
+      .filter(([username]) => !currentUsernames.has(username))
+      .map(([username, giveawayCount]) => ({ username, giveawayCount }))
+      .sort((a, b) => b.giveawayCount - a.giveawayCount)
+
+    const historicalGiveawayData = {
+      total: allGiveaways.length,
+      fromActiveMembers: giveawaysFromActiveMembers,
+      fromFormerMembers: giveawaysFromFormerMembers,
+      formerMembersList,
     }
 
     // Count won giveaways
@@ -183,6 +245,7 @@ class GroupInsightsGenerator {
       totalGiveawaysWithNoEntries,
       totalValueSent,
       totalValueReceived,
+      allGiveaways: historicalGiveawayData,
       netContributors,
       neutralUsers,
       netReceivers,
@@ -216,9 +279,19 @@ class GroupInsightsGenerator {
     insights.push('EXECUTIVE SUMMARY')
     insights.push('-'.repeat(40))
     insights.push(`Total Active Members: ${data.totalUsers}`)
+    insights.push('')
+    insights.push('GIVEAWAY STATISTICS (All Time)')
     insights.push(
-      `Total Giveaways Created: ${data.totalGiveawaysCreated.toFixed(0)}`
+      `Total Giveaways Since Group Start: ${data.allGiveaways.total}`
     )
+    insights.push(
+      `  • From Active Members: ${data.allGiveaways.fromActiveMembers}`
+    )
+    insights.push(
+      `  • From Former Members: ${data.allGiveaways.fromFormerMembers}`
+    )
+    insights.push('')
+    insights.push('CURRENT ACTIVITY')
     insights.push(`Total Giveaways Won: ${data.totalGiveawaysWon.toFixed(0)}`)
     insights.push(
       `Total Giveaways with No Entries: ${data.totalGiveawaysWithNoEntries.toFixed(
@@ -254,6 +327,27 @@ class GroupInsightsGenerator {
       } else {
         insights.push('✅ LOW: Most giveaways are attractive to the community')
       }
+      insights.push('')
+    }
+
+    // Former Members Analysis
+    if (data.allGiveaways.formerMembersList.length > 0) {
+      insights.push('FORMER MEMBERS WHO LEFT THE GROUP')
+      insights.push('-'.repeat(40))
+      insights.push(
+        `${data.allGiveaways.formerMembersList.length} former members created ${data.allGiveaways.fromFormerMembers} giveaways before leaving:`
+      )
+      insights.push('')
+
+      data.allGiveaways.formerMembersList.forEach((member, index) => {
+        const giveawayText =
+          member.giveawayCount === 1 ? 'giveaway' : 'giveaways'
+        insights.push(
+          `${(index + 1).toString().padStart(2)}. ${member.username} - ${
+            member.giveawayCount
+          } ${giveawayText}`
+        )
+      })
       insights.push('')
     }
 
