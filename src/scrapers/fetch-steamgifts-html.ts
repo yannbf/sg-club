@@ -307,7 +307,7 @@ class SteamGiftsHTMLScraper {
         const giveawayId = linkParts[0] || ''
 
         // Generate a numeric ID from the giveaway code (for compatibility)
-        const id = this.generateNumericId(giveawayId)
+        const id = giveawayId
 
         const headingText = $heading.text()
         const pointsMatch = headingText.match(/\((\d+)P\)/)
@@ -650,7 +650,7 @@ class SteamGiftsHTMLScraper {
 
         if (currentPath) {
           // Add delay to avoid rate limiting
-          await delay(3000)
+          await delay(1800)
         }
       }
 
