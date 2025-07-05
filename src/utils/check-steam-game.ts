@@ -10,9 +10,17 @@ import type {
 } from '../types/steam.js'
 import { formatPlaytime, formatDate, getRequiredEnvVar } from './common.js'
 
-export {} // Make this file a module
+export interface GamePlayData {
+  owned: boolean
+  playtime_minutes: number
+  playtime_formatted: string
+  achievements_unlocked: number
+  achievements_total: number
+  achievements_percentage: number
+  never_played: boolean
+}
 
-class SteamGameChecker {
+export class SteamGameChecker {
   private readonly baseUrl = 'https://api.steampowered.com'
   private readonly apiKey: string
 
@@ -63,13 +71,9 @@ class SteamGameChecker {
       if (data.playerstats.success) {
         return data.playerstats.achievements || []
       } else {
-        console.log(
-          `⚠️  Achievement data not available (profile private or no achievements)`
-        )
         return []
       }
     } catch (error) {
-      console.log(`⚠️  Could not fetch achievements: ${error}`)
       return []
     }
   }
@@ -81,8 +85,63 @@ class SteamGameChecker {
       const data: GameSchemaResponse = await this.fetchSteamAPI(endpoint)
       return data.game
     } catch (error) {
-      console.log(`⚠️  Could not fetch game schema: ${error}`)
       return null
+    }
+  }
+
+  public async getGamePlayData(
+    steamId: string,
+    appId: number
+  ): Promise<GamePlayData> {
+    // Get owned games
+    const ownedGames = await this.getOwnedGames(steamId)
+
+    if (ownedGames.length === 0) {
+      return {
+        owned: false,
+        playtime_minutes: 0,
+        playtime_formatted: '0 minutes',
+        achievements_unlocked: 0,
+        achievements_total: 0,
+        achievements_percentage: 0,
+        never_played: true,
+      }
+    }
+
+    // Find the specific game
+    const gameInfo = ownedGames.find((game) => game.appid === appId)
+
+    if (!gameInfo) {
+      return {
+        owned: false,
+        playtime_minutes: 0,
+        playtime_formatted: '0 minutes',
+        achievements_unlocked: 0,
+        achievements_total: 0,
+        achievements_percentage: 0,
+        never_played: true,
+      }
+    }
+
+    // Get achievements
+    const achievements = await this.getPlayerAchievements(steamId, appId)
+    const unlockedAchievements = achievements.filter((a) => a.achieved === 1)
+    const totalAchievements = achievements.length
+    const completionPercentage =
+      totalAchievements > 0
+        ? Number(
+            ((unlockedAchievements.length / totalAchievements) * 100).toFixed(1)
+          )
+        : 0
+
+    return {
+      owned: true,
+      playtime_minutes: gameInfo.playtime_forever,
+      playtime_formatted: formatPlaytime(gameInfo.playtime_forever),
+      achievements_unlocked: unlockedAchievements.length,
+      achievements_total: totalAchievements,
+      achievements_percentage: completionPercentage,
+      never_played: gameInfo.playtime_forever === 0,
     }
   }
 
@@ -201,6 +260,22 @@ class SteamGameChecker {
   }
 }
 
+// Export singleton instance
+let steamChecker: SteamGameChecker | null = null
+
+export function getSteamChecker(): SteamGameChecker {
+  if (!steamChecker) {
+    const apiKey = process.env.STEAM_API_KEY
+    if (!apiKey) {
+      throw new Error(
+        'Steam API key not found. Set STEAM_API_KEY environment variable.'
+      )
+    }
+    steamChecker = new SteamGameChecker(apiKey)
+  }
+  return steamChecker
+}
+
 async function main(): Promise<void> {
   const args = process.argv.slice(2)
 
@@ -243,5 +318,7 @@ async function main(): Promise<void> {
   }
 }
 
-// Run the script
-await main()
+// Run the script only if called directly
+if (import.meta.url === `file://${process.argv[1]}`) {
+  await main()
+}

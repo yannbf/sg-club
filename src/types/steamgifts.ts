@@ -45,6 +45,17 @@ export interface SteamGiftsResponse {
   results: Giveaway[]
 }
 
+export interface SteamPlayData {
+  owned: boolean
+  playtime_minutes: number
+  playtime_formatted: string
+  achievements_unlocked: number
+  achievements_total: number
+  achievements_percentage: number
+  never_played: boolean
+  last_checked?: number // Timestamp when this data was last fetched
+}
+
 export interface User {
   username: string
   profile_url: string
@@ -72,6 +83,7 @@ export interface User {
     cv_status: CVStatus
     status: 'received' | 'not_received' | 'awaiting_feedback'
     end_timestamp: number
+    steam_play_data?: SteamPlayData
   }>
   giveaways_created?: Array<{
     name: string
@@ -86,6 +98,11 @@ export interface User {
       activated: boolean // true if name is not null and status is received
     }>
   }>
+}
+
+export interface UserGroupData {
+  lastUpdated: number
+  users: User[]
 }
 
 export interface UserStats {

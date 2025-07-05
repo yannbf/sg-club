@@ -5,7 +5,13 @@ import type {
   UserStats,
   Giveaway,
   CVStatus,
+  UserGroupData,
+  SteamPlayData,
 } from '../types/steamgifts.js'
+import {
+  getSteamChecker,
+  type GamePlayData,
+} from '../utils/check-steam-game.js'
 import { delay } from '../utils/common.js'
 
 class SteamGiftsUserFetcher {
@@ -251,6 +257,65 @@ class SteamGiftsUserFetcher {
     return cvStats
   }
 
+  private async updateSteamPlayData(
+    users: Map<string, User>,
+    giveaways: Giveaway[]
+  ): Promise<void> {
+    console.log(`🎮 Updating Steam play data for won games...`)
+
+    let steamCheckedCount = 0
+    let steamErrorCount = 0
+    const steamChecker = getSteamChecker()
+
+    for (const [username, user] of users) {
+      if (!user.steam_id || !user.giveaways_won) continue
+
+      let userUpdated = false
+
+      for (const wonGame of user.giveaways_won) {
+        // Find the giveaway to get the app_id
+        const giveaway = giveaways.find((g) => g.link === wonGame.link)
+        if (!giveaway?.app_id) continue
+
+        try {
+          console.log(`🔍 Checking Steam data for ${username}: ${wonGame.name}`)
+          const gamePlayData = await steamChecker.getGamePlayData(
+            user.steam_id,
+            giveaway.app_id
+          )
+
+          wonGame.steam_play_data = {
+            ...gamePlayData,
+            last_checked: Date.now(),
+          }
+
+          userUpdated = true
+          steamCheckedCount++
+
+          // Rate limiting - 1 second between Steam API calls
+          await delay(1000)
+        } catch (error) {
+          console.warn(
+            `⚠️  Error checking Steam data for ${username}/${wonGame.name}:`,
+            error
+          )
+          steamErrorCount++
+
+          // Rate limiting even on errors
+          await delay(1000)
+        }
+      }
+
+      if (userUpdated) {
+        users.set(username, user)
+      }
+    }
+
+    console.log(`🎮 Steam data update complete:`)
+    console.log(`  • Checked: ${steamCheckedCount}`)
+    console.log(`  • Errors: ${steamErrorCount}`)
+  }
+
   private enrichUsersWithGiveaways(
     users: Map<string, User>,
     giveaways: Giveaway[]
@@ -344,13 +409,25 @@ class SteamGiftsUserFetcher {
     if (existsSync(filename)) {
       try {
         const data = readFileSync(filename, 'utf-8')
-        const existingUsers: User[] = JSON.parse(data)
+        const existingData: UserGroupData = JSON.parse(data)
+
+        // Handle both old format (User[]) and new format (UserGroupData)
+        const existingUsers = Array.isArray(existingData)
+          ? existingData
+          : existingData.users
 
         for (const user of existingUsers) {
           userMap.set(user.username, user)
         }
 
         console.log(`📁 Loaded ${existingUsers.length} existing users`)
+        if (!Array.isArray(existingData)) {
+          console.log(
+            `📅 Last updated: ${new Date(
+              existingData.lastUpdated
+            ).toLocaleString()}`
+          )
+        }
       } catch (error) {
         console.warn(`⚠️  Could not load existing file: ${error}`)
       }
@@ -548,6 +625,9 @@ class SteamGiftsUserFetcher {
       const giveaways = this.loadGiveawayData()
       if (giveaways.length > 0) {
         this.enrichUsersWithGiveaways(existingUsers, giveaways)
+
+        // Update Steam play data for won games
+        await this.updateSteamPlayData(existingUsers, giveaways)
       }
 
       // Convert map back to array and sort by value difference (highest first)
@@ -667,6 +747,23 @@ async function main(): Promise<void> {
               user.giveaways_won?.filter((g) => g.status === 'received')
                 .length || 0
 
+            // Steam play data summary
+            const gamesWithSteamData =
+              user.giveaways_won?.filter(
+                (g) => g.steam_play_data && g.steam_play_data.owned
+              ).length || 0
+            const totalPlaytime =
+              user.giveaways_won?.reduce(
+                (sum, g) => sum + (g.steam_play_data?.playtime_minutes || 0),
+                0
+              ) || 0
+            const totalAchievements =
+              user.giveaways_won?.reduce(
+                (sum, g) =>
+                  sum + (g.steam_play_data?.achievements_unlocked || 0),
+                0
+              ) || 0
+
             activityParts.push(
               `🏆 Won: ${wonCount} (${activatedWins} activated)`
             )
@@ -675,6 +772,17 @@ async function main(): Promise<void> {
             if (wonWithReducedCV > 0)
               activityParts.push(`⚠️ ${wonWithReducedCV} Reduced CV`)
             if (wonWithNoCV > 0) activityParts.push(`❌ ${wonWithNoCV} No CV`)
+
+            if (gamesWithSteamData > 0) {
+              activityParts.push(`🎮 ${gamesWithSteamData} owned`)
+              if (totalPlaytime > 0) {
+                const hours = Math.floor(totalPlaytime / 60)
+                activityParts.push(`⏱️ ${hours}h played`)
+              }
+              if (totalAchievements > 0) {
+                activityParts.push(`🏅 ${totalAchievements} achievements`)
+              }
+            }
           }
 
           if (createdCount > 0) {
@@ -796,8 +904,12 @@ async function main(): Promise<void> {
         })`
       )
 
-      // Save to file
-      writeFileSync(filename, JSON.stringify(allUsers, null, 2))
+      // Save to file with lastUpdated timestamp
+      const userGroupData: UserGroupData = {
+        lastUpdated: Date.now(),
+        users: allUsers,
+      }
+      writeFileSync(filename, JSON.stringify(userGroupData, null, 2))
       console.log(`\n💾 Users saved to ${filename}`)
     } else {
       console.log('⚠️  No users found')
