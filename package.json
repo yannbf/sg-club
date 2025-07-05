@@ -9,6 +9,7 @@
     "fetch-giveaways": "tsx src/scrapers/fetch-steamgifts-html.ts",
     "fetch-users": "tsx src/scrapers/fetch-users.ts",
     "check-steam-game": "tsx src/utils/check-steam-game.ts",
+    "generate-insights": "tsx src/utils/generate-insights.ts",
     "build": "tsc",
     "dev": "tsx watch src/scrapers/fetch-steamgifts-html.ts",
     "dev-users": "tsx watch src/scrapers/fetch-users.ts"
