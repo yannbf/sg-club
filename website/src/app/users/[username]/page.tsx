@@ -79,6 +79,12 @@ export default async function UserDetailPage({ params }: Props) {
     }
   }
 
+  const getAppIdForWonGame = (gameLink: string) => {
+    // Find the corresponding giveaway from the main giveaways data using the link
+    const matchingGiveaway = giveaways.find(g => g.link === gameLink)
+    return matchingGiveaway?.app_id || null
+  }
+
   return (
     <div className="px-4 sm:px-0">
       {/* User Header */}
@@ -185,34 +191,52 @@ export default async function UserDetailPage({ params }: Props) {
             🏆 Games Won ({user.giveaways_won.length})
           </h2>
           <div className="space-y-4">
-            {user.giveaways_won.map((game, index) => (
-              <div key={index} className="border border-gray-200 rounded-lg p-4">
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <h3 className="font-semibold text-gray-900">{game.name}</h3>
-                    <div className="flex items-center mt-1 space-x-4">
-                      <span className={`px-2 py-1 text-xs font-semibold rounded-full ${getCVBadgeColor(game.cv_status)}`}>
-                        {getCVLabel(game.cv_status)}
-                      </span>
-                      <span className="text-sm text-gray-600">
-                        Won {formatRelativeTime(game.end_timestamp)}
-                      </span>
-                      <span className={`text-sm font-medium ${
-                        game.status === 'received' ? 'text-green-600' : 'text-orange-600'
-                      }`}>
-                        {game.status === 'received' ? 'Activated' : 'Not Activated'}
-                      </span>
+            {user.giveaways_won.map((game, index) => {
+              const appId = getAppIdForWonGame(game.link)
+              
+              return (
+                <div key={index} className="border border-gray-200 rounded-lg overflow-hidden">
+                  <div className="flex">
+                    {/* Game Image */}
+                    {appId && (
+                      <div className="w-32 h-24 bg-gray-200 flex-shrink-0 overflow-hidden">
+                        <img
+                          src={`https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/${appId}/header.jpg`}
+                          alt={game.name}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    )}
+                    
+                    <div className="p-4 flex-1">
+                      <div className="flex items-start justify-between">
+                        <div className="flex-1">
+                          <h3 className="font-semibold text-gray-900">{game.name}</h3>
+                          <div className="flex items-center mt-1 space-x-4">
+                            <span className={`px-2 py-1 text-xs font-semibold rounded-full ${getCVBadgeColor(game.cv_status)}`}>
+                              {getCVLabel(game.cv_status)}
+                            </span>
+                            <span className="text-sm text-gray-600">
+                              Won {formatRelativeTime(game.end_timestamp)}
+                            </span>
+                            <span className={`text-sm font-medium ${
+                              game.status === 'received' ? 'text-green-600' : 'text-orange-600'
+                            }`}>
+                              {game.status === 'received' ? 'Activated' : 'Not Activated'}
+                            </span>
+                          </div>
+                        </div>
+                        <a
+                          href={`https://www.steamgifts.com/giveaway/${game.link}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-600 hover:text-blue-800 text-sm"
+                        >
+                          View →
+                        </a>
+                      </div>
                     </div>
                   </div>
-                  <a
-                    href={`https://www.steamgifts.com/giveaway/${game.link}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-blue-600 hover:text-blue-800 text-sm"
-                  >
-                    View →
-                  </a>
-                </div>
                 
                 {game.steam_play_data && (
                   <div className="mt-3 pt-3 border-t border-gray-200">
@@ -251,7 +275,8 @@ export default async function UserDetailPage({ params }: Props) {
                   </div>
                 )}
               </div>
-            ))}
+              )
+            })}
           </div>
         </div>
       )}
@@ -263,7 +288,27 @@ export default async function UserDetailPage({ params }: Props) {
             🎁 Giveaways Created ({userGiveaways.length})
           </h2>
           <div className="space-y-4">
-            {userGiveaways.map((giveaway) => {
+            {userGiveaways
+              .sort((a, b) => {
+                const now = Date.now() / 1000
+                const aActive = a.end_timestamp > now
+                const bActive = b.end_timestamp > now
+                
+                // If both are active or both are ended, sort by end_timestamp
+                if (aActive === bActive) {
+                  if (aActive) {
+                    // Both active: sort by end_timestamp ascending (soonest to end first)
+                    return a.end_timestamp - b.end_timestamp
+                  } else {
+                    // Both ended: sort by end_timestamp descending (most recently ended first)
+                    return b.end_timestamp - a.end_timestamp
+                  }
+                }
+                
+                // Active giveaways come first
+                return aActive ? -1 : 1
+              })
+              .map((giveaway) => {
               const status = getGiveawayStatus(giveaway.end_timestamp)
               
               return (
