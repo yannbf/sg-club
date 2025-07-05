@@ -1,61 +1,16 @@
 import 'dotenv/config'
+import type {
+  SteamGameInfo,
+  SteamAchievement,
+  SteamGameSchema,
+  PlayerAchievements,
+  OwnedGamesResponse,
+  PlayerAchievementsResponse,
+  GameSchemaResponse,
+} from '../types/steam.js'
+import { formatPlaytime, formatDate, getRequiredEnvVar } from './common.js'
 
 export {} // Make this file a module
-
-interface SteamGameInfo {
-  appid: number
-  name: string
-  playtime_forever: number
-  playtime_2weeks?: number
-  img_icon_url?: string
-  img_logo_url?: string
-  has_community_visible_stats?: boolean
-}
-
-interface SteamAchievement {
-  apiname: string
-  achieved: number
-  unlocktime: number
-  name?: string
-  description?: string
-}
-
-interface SteamGameSchema {
-  gameName: string
-  gameVersion: string
-  availableGameStats: {
-    achievements?: Array<{
-      name: string
-      displayName: string
-      description: string
-      icon: string
-      icongray: string
-      hidden: number
-    }>
-  }
-}
-
-interface PlayerAchievements {
-  steamID: string
-  gameName: string
-  achievements: SteamAchievement[]
-  success: boolean
-}
-
-interface OwnedGamesResponse {
-  response: {
-    game_count: number
-    games: SteamGameInfo[]
-  }
-}
-
-interface PlayerAchievementsResponse {
-  playerstats: PlayerAchievements
-}
-
-interface GameSchemaResponse {
-  game: SteamGameSchema
-}
 
 class SteamGameChecker {
   private readonly baseUrl = 'https://api.steampowered.com'
@@ -131,28 +86,6 @@ class SteamGameChecker {
     }
   }
 
-  private formatPlaytime(minutes: number): string {
-    if (minutes === 0) return '0 minutes'
-
-    const hours = Math.floor(minutes / 60)
-    const remainingMinutes = minutes % 60
-
-    if (hours === 0) {
-      return `${remainingMinutes} minute${remainingMinutes === 1 ? '' : 's'}`
-    } else if (remainingMinutes === 0) {
-      return `${hours} hour${hours === 1 ? '' : 's'}`
-    } else {
-      return `${hours} hour${
-        hours === 1 ? '' : 's'
-      } ${remainingMinutes} minute${remainingMinutes === 1 ? '' : 's'}`
-    }
-  }
-
-  private formatDate(timestamp: number): string {
-    if (timestamp === 0) return 'Never'
-    return new Date(timestamp * 1000).toLocaleDateString()
-  }
-
   public async checkGame(steamId: string, appId: number): Promise<void> {
     console.log(`🔍 Checking game ownership and stats...`)
     console.log(`👤 Steam ID: ${steamId}`)
@@ -182,12 +115,12 @@ class SteamGameChecker {
     // Display game info
     console.log(`✅ Game found: ${gameInfo.name}`)
     console.log(
-      `⏱️  Total playtime: ${this.formatPlaytime(gameInfo.playtime_forever)}`
+      `⏱️  Total playtime: ${formatPlaytime(gameInfo.playtime_forever)}`
     )
 
     if (gameInfo.playtime_2weeks) {
       console.log(
-        `📅 Playtime (last 2 weeks): ${this.formatPlaytime(
+        `📅 Playtime (last 2 weeks): ${formatPlaytime(
           gameInfo.playtime_2weeks
         )}`
       )
@@ -236,7 +169,7 @@ class SteamGameChecker {
           schemaAchievement?.description ||
           achievement.description ||
           'No description'
-        const unlockDate = this.formatDate(achievement.unlocktime)
+        const unlockDate = formatDate(achievement.unlocktime)
 
         console.log(`   🏅 ${displayName}`)
         console.log(`      ${description}`)
@@ -249,9 +182,7 @@ class SteamGameChecker {
     console.log(`📋 Summary:`)
     console.log(`   • Game: ${gameInfo.name}`)
     console.log(`   • Owned: Yes`)
-    console.log(
-      `   • Playtime: ${this.formatPlaytime(gameInfo.playtime_forever)}`
-    )
+    console.log(`   • Playtime: ${formatPlaytime(gameInfo.playtime_forever)}`)
     console.log(
       `   • Achievements: ${unlockedAchievements.length}/${totalAchievements} (${completionPercentage}%)`
     )

@@ -1,26 +1,7 @@
 import { writeFileSync, readFileSync, existsSync } from 'node:fs'
 import { load } from 'cheerio'
-
-interface User {
-  username: string
-  profile_url: string
-  avatar_url: string
-  sent_count: number
-  sent_value: number
-  received_count: number
-  received_value: number
-  gift_difference: number
-  value_difference: number
-  steam_id?: string | null
-  steam_profile_url?: string | null
-}
-
-interface UserStats {
-  totalUsers: number
-  newUsers: number
-  updatedUsers: number
-  pagesFetched: number
-}
+import type { User, UserStats } from '../types/steamgifts.js'
+import { delay } from '../utils/common.js'
 
 class SteamGiftsUserFetcher {
   private readonly baseUrl = 'https://www.steamgifts.com'
@@ -206,7 +187,7 @@ class SteamGiftsUserFetcher {
   }
 
   public async fetchUsers(
-    filename: string = 'group_users.json'
+    filename: string = 'data/group_users.json'
   ): Promise<User[]> {
     try {
       // Load existing users
@@ -262,7 +243,7 @@ class SteamGiftsUserFetcher {
 
         if (currentPath) {
           // Add delay to avoid rate limiting
-          await new Promise((resolve) => setTimeout(resolve, 3000))
+          await delay(3000)
         }
       }
 
@@ -321,7 +302,7 @@ class SteamGiftsUserFetcher {
             }
 
             // Add delay to avoid rate limiting
-            await new Promise((resolve) => setTimeout(resolve, 1000))
+            await delay(1000)
           } catch (error) {
             console.warn(`⚠️  Error processing ${user.username}:`, error)
           }
@@ -379,7 +360,7 @@ class SteamGiftsUserFetcher {
 // Main execution
 async function main(): Promise<void> {
   const fetcher = new SteamGiftsUserFetcher()
-  const filename = 'group_users.json'
+  const filename = 'data/group_users.json'
 
   try {
     console.log('🚀 Starting user fetching...')

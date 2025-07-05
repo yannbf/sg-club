@@ -1,57 +1,23 @@
 import { writeFileSync, readFileSync, existsSync } from 'node:fs'
 import { load } from 'cheerio'
+import type {
+  Giveaway,
+  BundleGame,
+  BundleGamesResponse,
+  CVStatus,
+} from '../types/steamgifts.js'
+import {
+  delay,
+  formatDate,
+  parseSteamUrl,
+  generateIdFromCode,
+} from '../utils/common.js'
 
-// Type definitions matching the API structure
+// HTML-specific Creator interface (different from API)
 interface Creator {
-  id: number
-  steam_id: string
   username: string
-}
-
-// Bundle Games API interfaces
-interface BundleGame {
-  name: string
-  app_id: number
-  package_id: number | null
-  reduced_value_timestamp: number | null
-  no_value_timestamp: number | null
-}
-
-interface BundleGamesResponse {
-  success: boolean
-  page: number
-  per_page: number
-  results: BundleGame[]
-}
-
-type CVStatus = 'FULL_CV' | 'REDUCED_CV' | 'NO_CV'
-
-interface Giveaway {
-  id: number
-  name: string
-  points: number
-  copies: number
-  app_id: number | null
-  package_id: number | null
-  link: string
-  created_timestamp: number
-  start_timestamp: number
-  end_timestamp: number
-  region_restricted: boolean
-  invite_only: boolean
-  whitelist: boolean
-  group: boolean
-  contributor_level: number
-  comment_count: number
-  entry_count: number
-  creator: Creator
-  cv_status?: 'FULL_CV' | 'REDUCED_CV' | 'NO_CV'
-  // HTML-specific fields
-  hasWinners?: boolean
-  winners?: Array<{
-    name: string | null // null for anonymous/awaiting feedback
-    status: 'received' | 'not_received' | 'awaiting_feedback'
-  }>
+  avatar: string
+  role: string
 }
 
 interface ScrapingStats {
@@ -119,7 +85,7 @@ class SteamGiftsHTMLScraper {
 
       if (currentPath) {
         // Add delay to avoid rate limiting
-        await new Promise((resolve) => setTimeout(resolve, 1000))
+        await delay(1000)
       }
     }
 
@@ -244,7 +210,7 @@ class SteamGiftsHTMLScraper {
         : await this.fetchBundleGamesByName(giveaway.name)
 
       // Add 500ms delay to avoid hitting API quota
-      await new Promise((resolve) => setTimeout(resolve, 500))
+      await delay(500)
 
       if (!bundleData.success || bundleData.results.length === 0) {
         // Game not found in bundle games = FULL_CV
@@ -387,10 +353,16 @@ class SteamGiftsHTMLScraper {
           .find('.giveaway__username')
           .text()
           .trim()
+        const creatorAvatar =
+          $columns
+            .find('.giveaway__username')
+            .closest('.giveaway__column')
+            .find('img')
+            .attr('src') || ''
         const creator: Creator = {
-          id: 0, // HTML scraping doesn't provide creator ID
-          steam_id: '', // HTML scraping doesn't provide steam_id
           username: creatorUsername,
+          avatar: creatorAvatar,
+          role: 'user', // Default role since we can't determine it from HTML
         }
 
         const region_restricted = !!$columns.find(
@@ -542,14 +514,7 @@ class SteamGiftsHTMLScraper {
   }
 
   private generateNumericId(giveawayCode: string): number {
-    // Generate a consistent numeric ID from the giveaway code
-    let hash = 0
-    for (let i = 0; i < giveawayCode.length; i++) {
-      const char = giveawayCode.charCodeAt(i)
-      hash = (hash << 5) - hash + char
-      hash = hash & hash // Convert to 32-bit integer
-    }
-    return Math.abs(hash)
+    return generateIdFromCode(giveawayCode)
   }
 
   private getNextPage(html: string): string | null {
@@ -596,12 +561,12 @@ class SteamGiftsHTMLScraper {
 
   private getTwoWeeksAgoTimestamp(): number {
     const twoWeeksAgo = new Date()
-    twoWeeksAgo.setDate(twoWeeksAgo.getDate() - 2)
+    twoWeeksAgo.setDate(twoWeeksAgo.getDate() - 1)
     return Math.floor(twoWeeksAgo.getTime() / 1000)
   }
 
   public async scrapeGiveaways(
-    filename: string = 'all_giveaways_html.json'
+    filename: string = 'data/all_giveaways_html.json'
   ): Promise<Giveaway[]> {
     try {
       // Load existing giveaways
@@ -685,29 +650,47 @@ class SteamGiftsHTMLScraper {
 
         if (currentPath) {
           // Add delay to avoid rate limiting
-          await new Promise((resolve) => setTimeout(resolve, 3000))
+          await delay(3000)
         }
       }
 
-      // Convert map back to array and sort by created_timestamp (newest first)
+      // Convert map back to array and sort by urgency (ending soonest first)
       const allGiveaways = Array.from(existingGiveaways.values())
-      allGiveaways.sort((a, b) => b.created_timestamp - a.created_timestamp)
+      const now = Math.floor(Date.now() / 1000)
+
+      // Separate active and ended giveaways
+      const activeGiveaways = allGiveaways.filter((g) => g.end_timestamp > now)
+      const endedGiveaways = allGiveaways.filter((g) => g.end_timestamp <= now)
+
+      // Sort active giveaways by end date (soonest ending first)
+      activeGiveaways.sort((a, b) => a.end_timestamp - b.end_timestamp)
+
+      // Sort ended giveaways by end date (most recently ended first)
+      endedGiveaways.sort((a, b) => b.end_timestamp - a.end_timestamp)
+
+      // Combine: active first, then ended
+      const sortedGiveaways = [...activeGiveaways, ...endedGiveaways]
 
       // Display statistics
       const stats: ScrapingStats = {
-        totalGiveaways: allGiveaways.length,
+        totalGiveaways: sortedGiveaways.length,
         newGiveaways: newGiveawaysCount,
         updatedGiveaways: updatedGiveawaysCount,
         pagesFetched,
         oldestDate: new Date(
-          allGiveaways[allGiveaways.length - 1]?.created_timestamp * 1000
+          sortedGiveaways[sortedGiveaways.length - 1]?.created_timestamp * 1000
         ),
-        newestDate: new Date(allGiveaways[0]?.created_timestamp * 1000),
+        newestDate: new Date(sortedGiveaways[0]?.created_timestamp * 1000),
       }
 
-      this.displayStats(stats, unlimitedMode)
+      this.displayStats(
+        stats,
+        unlimitedMode,
+        activeGiveaways.length,
+        endedGiveaways.length
+      )
 
-      return allGiveaways
+      return sortedGiveaways
     } catch (error) {
       console.error('❌ Error scraping giveaways:', error)
       throw error
@@ -794,9 +777,16 @@ class SteamGiftsHTMLScraper {
     return giveawayIds.join(',')
   }
 
-  private displayStats(stats: ScrapingStats, unlimitedMode: boolean): void {
+  private displayStats(
+    stats: ScrapingStats,
+    unlimitedMode: boolean,
+    activeCount: number = 0,
+    endedCount: number = 0
+  ): void {
     console.log(`\n📊 Scraping Summary:`)
     console.log(`  • Total giveaways: ${stats.totalGiveaways}`)
+    console.log(`  • Active giveaways: ${activeCount}`)
+    console.log(`  • Ended giveaways: ${endedCount}`)
     console.log(`  • New giveaways: ${stats.newGiveaways}`)
     console.log(`  • Updated giveaways: ${stats.updatedGiveaways}`)
     console.log(`  • Pages fetched: ${stats.pagesFetched}`)
@@ -810,10 +800,6 @@ class SteamGiftsHTMLScraper {
       console.log(`  • Mode: Limited (stopped at 2 weeks ago)`)
     }
 
-    // Count active vs ended giveaways
-    const now = Date.now() / 1000
-    const activeCount = stats.totalGiveaways // This would need to be calculated from the actual data
-
     console.log(`\n📈 Additional Stats:`)
     console.log(`  • Data source: HTML scraping`)
     console.log(`  • Includes winner information: Yes`)
@@ -824,7 +810,7 @@ class SteamGiftsHTMLScraper {
 // Main execution
 async function main(): Promise<void> {
   const scraper = new SteamGiftsHTMLScraper()
-  const filename = 'all_giveaways_html.json'
+  const filename = 'data/all_giveaways_html.json'
 
   try {
     console.log('🚀 Starting HTML scraping for giveaways...')
@@ -833,13 +819,19 @@ async function main(): Promise<void> {
     if (allGiveaways.length > 0) {
       // Update CV status for all giveaways
       const updatedGiveaways = await scraper.updateCVStatus(allGiveaways)
-      console.log('\n=== LATEST 10 GIVEAWAYS ===')
+      const now = Date.now() / 1000
+      const activeCount = updatedGiveaways.filter(
+        (g) => g.end_timestamp > now
+      ).length
+
+      console.log('\n=== GIVEAWAYS BY URGENCY (TOP 10) ===')
       updatedGiveaways
+        .filter((g) => g.end_timestamp > now) // Only show active giveaways
+        .sort((a, b) => a.end_timestamp - b.end_timestamp) // Sort by end time (ascending - soonest first)
         .slice(0, 10)
         .forEach((giveaway: Giveaway, index: number) => {
-          const createdDate = new Date(giveaway.created_timestamp * 1000)
           const endDate = new Date(giveaway.end_timestamp * 1000)
-          const isActive = giveaway.end_timestamp > Date.now() / 1000
+          const isActive = giveaway.end_timestamp > now
           const status = isActive ? '🟢 Active' : '🔴 Ended'
           const cvStatus = giveaway.cv_status || 'UNKNOWN'
           const cvEmoji =
@@ -848,6 +840,11 @@ async function main(): Promise<void> {
               : cvStatus === 'REDUCED_CV'
               ? '⚠️'
               : '❌'
+
+          // Show time until end for active giveaways, or when it ended for ended ones
+          const timeInfo = isActive
+            ? `Ends: ${endDate.toLocaleString()}`
+            : `Ended: ${endDate.toLocaleString()}`
 
           let winnerInfo = ''
           if (giveaway.hasWinners !== undefined) {
@@ -894,9 +891,22 @@ async function main(): Promise<void> {
           console.log(
             `${index + 1}. ${giveaway.name} (${
               giveaway.points
-            } points) - ${status} - ${cvEmoji} ${cvStatus}${winnerInfo} - Ends: ${endDate.toLocaleString()}`
+            } points) - ${status} - ${cvEmoji} ${cvStatus}${winnerInfo} - ${timeInfo}`
           )
         })
+
+      if (
+        activeCount < updatedGiveaways.length &&
+        updatedGiveaways.length > 10
+      ) {
+        const endedShown = Math.max(0, 10 - activeCount)
+        console.log(
+          `\n📊 Showing ${Math.min(
+            activeCount,
+            10
+          )} active and ${endedShown} ended giveaways`
+        )
+      }
 
       // Save to file
       writeFileSync(filename, JSON.stringify(updatedGiveaways, null, 2))

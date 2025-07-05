@@ -1,65 +1,27 @@
 import { writeFileSync, readFileSync, existsSync } from 'node:fs'
+import { join } from 'node:path'
+import type {
+  Giveaway,
+  SteamGiftsResponse,
+  BundleGame,
+  BundleGamesResponse,
+  CVStatus,
+} from '../types/steamgifts.js'
+import { delay, formatDate } from '../utils/common.js'
 
-// Type definitions for the API response
+// API-specific Creator interface (different from HTML scraping)
 interface Creator {
   id: number
   steam_id: string
   username: string
 }
 
-interface Giveaway {
-  id: number
-  name: string
-  points: number
-  copies: number
-  app_id: number | null
-  package_id: number | null
-  link: string
-  created_timestamp: number
-  start_timestamp: number
-  end_timestamp: number
-  region_restricted: boolean
-  invite_only: boolean
-  whitelist: boolean
-  group: boolean
-  contributor_level: number
-  comment_count: number
-  entry_count: number
-  creator: Creator
-  cv_status?: 'FULL_CV' | 'REDUCED_CV' | 'NO_CV'
-}
-
+// API-specific Group interface (different from HTML scraping)
 interface Group {
   id: number
   gid: string
   name: string
 }
-
-interface SteamGiftsResponse {
-  success: boolean
-  page: number
-  per_page: number
-  group: Group
-  results: Giveaway[]
-}
-
-// Bundle Games API interfaces
-interface BundleGame {
-  name: string
-  app_id: number
-  package_id: number | null
-  reduced_value_timestamp: number | null
-  no_value_timestamp: number | null
-}
-
-interface BundleGamesResponse {
-  success: boolean
-  page: number
-  per_page: number
-  results: BundleGame[]
-}
-
-type CVStatus = 'FULL_CV' | 'REDUCED_CV' | 'NO_CV'
 
 class SteamGiftsFetcher {
   private readonly baseUrl =
@@ -163,7 +125,7 @@ class SteamGiftsFetcher {
         : await this.fetchBundleGamesByName(giveaway.name)
 
       // Add 500ms delay to avoid hitting API quota
-      await new Promise((resolve) => setTimeout(resolve, 500))
+      await delay(500)
 
       if (!bundleData.success || bundleData.results.length === 0) {
         // Game not found in bundle games = FULL_CV
@@ -268,7 +230,7 @@ class SteamGiftsFetcher {
   }
 
   public async fetchNewGiveaways(
-    filename: string = 'all_giveaways.json'
+    filename: string = 'data/all_giveaways.json'
   ): Promise<Giveaway[]> {
     try {
       // Load existing giveaways
@@ -324,9 +286,7 @@ class SteamGiftsFetcher {
             console.log(
               `⏰ Reached cutoff point: giveaway "${
                 giveaway.name
-              }" ended ${new Date(
-                giveaway.end_timestamp * 1000
-              ).toLocaleString()}`
+              }" ended ${formatDate(giveaway.end_timestamp)}`
             )
             shouldContinue = false
             break
@@ -352,16 +312,31 @@ class SteamGiftsFetcher {
         }
 
         // Add a 3-second delay to avoid rate limiting
-        await new Promise((resolve) => setTimeout(resolve, 3000))
+        await delay(3000)
         page++
       }
 
-      // Convert map back to array and sort by created_timestamp (newest first)
+      // Convert map back to array and sort by urgency (ending soonest first)
       const allGiveaways = Array.from(existingGiveaways.values())
-      allGiveaways.sort((a, b) => b.created_timestamp - a.created_timestamp)
+      const now = Math.floor(Date.now() / 1000)
+
+      // Separate active and ended giveaways
+      const activeGiveaways = allGiveaways.filter((g) => g.end_timestamp > now)
+      const endedGiveaways = allGiveaways.filter((g) => g.end_timestamp <= now)
+
+      // Sort active giveaways by end date (soonest ending first)
+      activeGiveaways.sort((a, b) => a.end_timestamp - b.end_timestamp)
+
+      // Sort ended giveaways by end date (most recently ended first)
+      endedGiveaways.sort((a, b) => b.end_timestamp - a.end_timestamp)
+
+      // Combine: active first, then ended
+      const sortedGiveaways = [...activeGiveaways, ...endedGiveaways]
 
       console.log(`\n📊 Summary:`)
-      console.log(`  • Total giveaways: ${allGiveaways.length}`)
+      console.log(`  • Total giveaways: ${sortedGiveaways.length}`)
+      console.log(`  • Active giveaways: ${activeGiveaways.length}`)
+      console.log(`  • Ended giveaways: ${endedGiveaways.length}`)
       console.log(`  • New giveaways found: ${newGiveawaysCount}`)
       console.log(`  • Pages fetched: ${page - 1}`)
       if (unlimitedMode) {
@@ -370,7 +345,7 @@ class SteamGiftsFetcher {
         console.log(`  • Mode: Limited (stopped at 2 weeks ago)`)
       }
 
-      return allGiveaways
+      return sortedGiveaways
     } catch (error) {
       console.error('❌ Error fetching giveaways:', error)
       throw error
@@ -455,7 +430,7 @@ class SteamGiftsFetcher {
 // Main execution
 async function main(): Promise<void> {
   const fetcher = new SteamGiftsFetcher()
-  const filename = 'all_giveaways.json'
+  const filename = 'data/all_giveaways.json'
 
   try {
     console.log('🚀 Starting incremental giveaway update...')
@@ -474,13 +449,19 @@ async function main(): Promise<void> {
       // Update CV status for all giveaways
       const updatedGiveaways = await fetcher.updateCVStatus(allGiveaways)
 
-      console.log('\n=== LATEST 10 GIVEAWAYS ===')
+      const now = Date.now() / 1000
+      const activeCount = updatedGiveaways.filter(
+        (g) => g.end_timestamp > now
+      ).length
+
+      console.log('\n=== GIVEAWAYS BY URGENCY (TOP 10) ===')
       updatedGiveaways
+        .filter((g) => g.end_timestamp > now) // Only show active giveaways
+        .sort((a, b) => a.end_timestamp - b.end_timestamp) // Sort by end time (ascending - soonest first)
         .slice(0, 10)
         .forEach((giveaway: Giveaway, index: number) => {
-          const createdDate = new Date(giveaway.created_timestamp * 1000)
           const endDate = new Date(giveaway.end_timestamp * 1000)
-          const isActive = giveaway.end_timestamp > Date.now() / 1000
+          const isActive = giveaway.end_timestamp > now
           const status = isActive ? '🟢 Active' : '🔴 Ended'
           const cvStatus = giveaway.cv_status || 'UNKNOWN'
           const cvEmoji =
@@ -490,12 +471,30 @@ async function main(): Promise<void> {
               ? '⚠️'
               : '❌'
 
+          // Show time until end for active giveaways, or when it ended for ended ones
+          const timeInfo = isActive
+            ? `Ends: ${endDate.toLocaleString()}`
+            : `Ended: ${endDate.toLocaleString()}`
+
           console.log(
             `${index + 1}. ${giveaway.name} (${
               giveaway.points
-            } points) - ${status} - ${cvEmoji} ${cvStatus} - Ends: ${endDate.toLocaleString()}`
+            } points) - ${status} - ${cvEmoji} ${cvStatus} - ${timeInfo}`
           )
         })
+
+      if (
+        activeCount < updatedGiveaways.length &&
+        updatedGiveaways.length > 10
+      ) {
+        const endedShown = Math.max(0, 10 - activeCount)
+        console.log(
+          `\n📊 Showing ${Math.min(
+            activeCount,
+            10
+          )} active and ${endedShown} ended giveaways`
+        )
+      }
 
       // Save to file
       writeFileSync(filename, JSON.stringify(updatedGiveaways, null, 2))

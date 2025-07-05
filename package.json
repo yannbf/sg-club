@@ -6,14 +6,14 @@
   "main": "steamgifts-scraper.js",
   "scripts": {
     "start": "node steamgifts-scraper.js",
-    "fetch-giveaways": "tsx fetch-steamgifts.ts",
-    "fetch-giveaways-html": "tsx fetch-steamgifts-html.ts",
-    "fetch-users": "tsx fetch-users.ts",
-    "check-steam-game": "tsx check-steam-game.ts",
+    "fetch-giveaways": "tsx src/scrapers/fetch-steamgifts.ts",
+    "fetch-giveaways-html": "tsx src/scrapers/fetch-steamgifts-html.ts",
+    "fetch-users": "tsx src/scrapers/fetch-users.ts",
+    "check-steam-game": "tsx src/utils/check-steam-game.ts",
     "build": "tsc",
-    "dev": "tsx watch fetch-steamgifts.ts",
-    "dev-html": "tsx watch fetch-steamgifts-html.ts",
-    "dev-users": "tsx watch fetch-users.ts"
+    "dev": "tsx watch src/scrapers/fetch-steamgifts.ts",
+    "dev-html": "tsx watch src/scrapers/fetch-steamgifts-html.ts",
+    "dev-users": "tsx watch src/scrapers/fetch-users.ts"
   },
   "dependencies": {
     "@types/cheerio": "^0.22.35",
