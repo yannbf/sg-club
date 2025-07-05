@@ -29,14 +29,8 @@ npm install
 
 ### Fetch All Giveaways
 
-#### API Approach (Recommended)
 ```bash
 npm run fetch-giveaways
-```
-
-#### HTML Scraping Approach
-```bash
-npm run fetch-giveaways-html
 ```
 
 ### Fetch Group Users
@@ -58,14 +52,8 @@ npm run check-steam-game 76561198054649894 570
 
 ### Development Mode (with watch)
 
-#### API Approach
 ```bash
 npm run dev
-```
-
-#### HTML Scraping Approach
-```bash
-npm run dev-html
 ```
 
 #### User Fetching
@@ -93,44 +81,33 @@ For automated updates, add to your crontab:
 
 ## Scripts
 
-- `npm run fetch-giveaways` - Run the API-based giveaway fetcher (recommended)
-- `npm run fetch-giveaways-html` - Run the HTML scraping giveaway fetcher
+- `npm run fetch-giveaways` - Run the HTML scraping giveaway fetcher
 - `npm run fetch-users` - Run the user statistics fetcher
 - `npm run check-steam-game` - Check Steam game ownership, playtime, and achievements for a user
-- `npm run dev` - Run API fetcher in development mode with file watching
-- `npm run dev-html` - Run HTML scraper in development mode with file watching
+- `npm run dev` - Run HTML scraper in development mode with file watching
 - `npm run dev-users` - Run user fetcher in development mode with file watching
 - `npm run build` - Compile TypeScript to JavaScript
 - `npm run start` - Run the original Playwright scraper
 - `npm run install-playwright` - Install Playwright dependencies
 
-## Two Approaches
+## Giveaway Fetching
 
-This project offers two different methods for fetching giveaway data:
+This project uses HTML scraping to fetch comprehensive giveaway data:
 
-### 1. API Approach (`fetch-steamgifts.ts`)
-- **Recommended** for regular use
-- Uses SteamGifts JSON API endpoints
-- Faster and more efficient
-- Includes CV (Community Value) status detection
-- Generates `all_giveaways.json`
-- Structured data with consistent format
-
-### 2. HTML Scraping Approach (`fetch-steamgifts-html.ts`)
-- Alternative method using HTML parsing
-- Scrapes the actual web pages using Cheerio
+### HTML Scraping Approach (`fetch-steamgifts-html.ts`)
+- Uses HTML parsing with Cheerio
+- Scrapes the actual web pages for complete data
 - **Unique advantages**: 
   - Includes winner information for ended giveaways
   - Detects winner feedback status (received/not received/awaiting)
   - **Detailed multi-copy winner tracking** - automatically fetches individual winner status for giveaways with >3 copies
   - Proper whitelist/region restriction detection
   - Handles paginated winner lists
-- **Same features as API approach**: CV status detection with caching
+- **CV (Community Value) status detection** with caching
 - Generates `all_giveaways_html.json`
-- Slightly slower but provides additional data
 - Better for historical analysis with winner data
 
-Both approaches support:
+The HTML scraping approach supports:
 - Incremental updates
 - 2-week cutoff or unlimited mode (`FETCH_ALL_PAGES=true`)
 - Rate limiting
@@ -160,7 +137,7 @@ Both approaches support:
 
 ### Giveaway Data Structure
 
-Both approaches generate giveaway data with the following structure:
+The HTML scraping approach generates giveaway data with the following structure:
 
 ```typescript
 interface Giveaway {
@@ -182,19 +159,19 @@ interface Giveaway {
   comment_count: number
   entry_count: number
   creator: Creator
-  cv_status?: 'FULL_CV' | 'REDUCED_CV' | 'NO_CV'  // Both approaches
-  // HTML scraping specific fields
-  hasWinners?: boolean           // HTML approach only
-  winners?: Array<{              // HTML approach only - unified winner structure
+  cv_status?: 'FULL_CV' | 'REDUCED_CV' | 'NO_CV'
+  // Winner information for ended giveaways
+  hasWinners?: boolean
+  winners?: Array<{
     name: string | null          // Winner's username, null for anonymous/awaiting feedback
     status: 'received' | 'not_received' | 'awaiting_feedback'
   }>
 }
 ```
 
-### Winner Structure (HTML approach only)
+### Winner Structure
 
-The HTML scraping approach provides detailed winner information for ended giveaways. Winners are represented as an array of objects with consistent structure:
+The scraper provides detailed winner information for ended giveaways. Winners are represented as an array of objects with consistent structure:
 
 #### Single Winner Example:
 ```json
@@ -265,18 +242,6 @@ The HTML scraping approach provides detailed winner information for ended giveaw
 - `"not_received"` - Winner confirmed they did NOT receive the game
 - `"awaiting_feedback"` - Winner hasn't provided feedback yet (shows as anonymous)
 
-### API Response Structure (API approach)
-
-```typescript
-interface SteamGiftsResponse {
-  success: boolean
-  page: number
-  per_page: number
-  group: Group
-  results: Giveaway[]
-}
-```
-
 ### User Data Structure (User fetching approach)
 
 ```typescript
@@ -310,9 +275,9 @@ interface User {
 
 ## Output
 
-The giveaway scripts generate:
+The giveaway script generates:
 - Console output with update statistics and latest giveaways
-- `all_giveaways.json` - Updated dataset with new giveaways, sorted by creation date
+- `all_giveaways_html.json` - Updated dataset with new giveaways, sorted by creation date
 - Shows active/ended status for each giveaway
 
 The user fetching script generates:
@@ -324,7 +289,7 @@ The user fetching script generates:
 
 ## Configuration
 
-The giveaway scripts are optimized for cron job usage:
+The giveaway script is optimized for cron job usage:
 - **Group**: The Giveaways Club
 - **Cookie**: Configured for authentication
 - **Cutoff**: Stops at giveaways that ended 2+ weeks ago (can be overridden)

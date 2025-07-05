@@ -6,13 +6,11 @@
   "main": "steamgifts-scraper.js",
   "scripts": {
     "start": "node steamgifts-scraper.js",
-    "fetch-giveaways": "tsx src/scrapers/fetch-steamgifts.ts",
-    "fetch-giveaways-html": "tsx src/scrapers/fetch-steamgifts-html.ts",
+    "fetch-giveaways": "tsx src/scrapers/fetch-steamgifts-html.ts",
     "fetch-users": "tsx src/scrapers/fetch-users.ts",
     "check-steam-game": "tsx src/utils/check-steam-game.ts",
     "build": "tsc",
-    "dev": "tsx watch src/scrapers/fetch-steamgifts.ts",
-    "dev-html": "tsx watch src/scrapers/fetch-steamgifts-html.ts",
+    "dev": "tsx watch src/scrapers/fetch-steamgifts-html.ts",
     "dev-users": "tsx watch src/scrapers/fetch-users.ts"
   },
   "dependencies": {
