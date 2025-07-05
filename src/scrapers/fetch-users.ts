@@ -1,6 +1,11 @@
 import { writeFileSync, readFileSync, existsSync } from 'node:fs'
 import { load } from 'cheerio'
-import type { User, UserStats } from '../types/steamgifts.js'
+import type {
+  User,
+  UserStats,
+  Giveaway,
+  CVStatus,
+} from '../types/steamgifts.js'
 import { delay } from '../utils/common.js'
 
 class SteamGiftsUserFetcher {
@@ -163,6 +168,100 @@ class SteamGiftsUserFetcher {
     }
   }
 
+  private loadGiveawayData(): Giveaway[] {
+    const giveawayFilename = 'data/all_giveaways_html.json'
+
+    if (!existsSync(giveawayFilename)) {
+      console.log(
+        `⚠️  Giveaway file ${giveawayFilename} not found, skipping giveaway enrichment`
+      )
+      return []
+    }
+
+    try {
+      const data = readFileSync(giveawayFilename, 'utf-8')
+      const giveaways: Giveaway[] = JSON.parse(data)
+      console.log(`📁 Loaded ${giveaways.length} giveaways for user enrichment`)
+      return giveaways
+    } catch (error) {
+      console.warn(`⚠️  Could not load giveaway file: ${error}`)
+      return []
+    }
+  }
+
+  private enrichUsersWithGiveaways(
+    users: Map<string, User>,
+    giveaways: Giveaway[]
+  ): void {
+    console.log(`\n🎯 Enriching users with giveaway information...`)
+
+    let enrichedCount = 0
+
+    for (const [username, user] of users) {
+      const giveawaysWon: User['giveaways_won'] = []
+      const giveawaysCreated: User['giveaways_created'] = []
+
+      // Find giveaways won by this user
+      for (const giveaway of giveaways) {
+        if (giveaway.winners && giveaway.winners.length > 0) {
+          for (const winner of giveaway.winners) {
+            if (winner.name === username) {
+              giveawaysWon.push({
+                name: giveaway.name,
+                link: giveaway.link,
+                cv_status: giveaway.cv_status || 'FULL_CV',
+                status: winner.status,
+              })
+              break
+            }
+          }
+        }
+      }
+
+      // Find giveaways created by this user
+      for (const giveaway of giveaways) {
+        if (giveaway.creator.username === username) {
+          const giveawayCreated: User['giveaways_created'][0] = {
+            name: giveaway.name,
+            link: giveaway.link,
+            cv_status: giveaway.cv_status || 'FULL_CV',
+            entries: giveaway.entry_count,
+            had_winners: giveaway.hasWinners || false,
+          }
+
+          // Add winner details if there are winners
+          if (giveaway.winners && giveaway.winners.length > 0) {
+            giveawayCreated.winners = giveaway.winners.map((winner) => ({
+              name: winner.name,
+              status: winner.status,
+              activated: winner.name !== null && winner.status === 'received',
+            }))
+          }
+
+          giveawaysCreated.push(giveawayCreated)
+        }
+      }
+
+      // Update user with giveaway information
+      if (giveawaysWon.length > 0 || giveawaysCreated.length > 0) {
+        const updatedUser: User = {
+          ...user,
+          giveaways_won: giveawaysWon.length > 0 ? giveawaysWon : undefined,
+          giveaways_created:
+            giveawaysCreated.length > 0 ? giveawaysCreated : undefined,
+        }
+        users.set(username, updatedUser)
+        enrichedCount++
+
+        const wonCount = giveawaysWon.length
+        const createdCount = giveawaysCreated.length
+        console.log(`✅ ${username}: ${wonCount} won, ${createdCount} created`)
+      }
+    }
+
+    console.log(`📊 Enriched ${enrichedCount} users with giveaway data`)
+  }
+
   private loadExistingUsers(filename: string): Map<string, User> {
     const userMap = new Map<string, User>()
 
@@ -227,12 +326,14 @@ class SteamGiftsUserFetcher {
             updatedUsersCount++
             console.log(`🔄 Updated: ${user.username}`)
 
-            // Merge existing Steam info with new data
+            // Merge existing Steam info and giveaway data with new data
             const existingUser = existingUsers.get(user.username)!
             const updatedUser = {
               ...user,
               steam_id: existingUser.steam_id,
               steam_profile_url: existingUser.steam_profile_url,
+              giveaways_won: existingUser.giveaways_won,
+              giveaways_created: existingUser.giveaways_created,
             }
             existingUsers.set(user.username, updatedUser)
           }
@@ -309,6 +410,12 @@ class SteamGiftsUserFetcher {
         }
       } else {
         console.log(`✅ All users already have Steam info or no Steam profiles`)
+      }
+
+      // Load giveaway data and enrich users
+      const giveaways = this.loadGiveawayData()
+      if (giveaways.length > 0) {
+        this.enrichUsersWithGiveaways(existingUsers, giveaways)
       }
 
       // Convert map back to array and sort by value difference (highest first)
@@ -400,6 +507,59 @@ async function main(): Promise<void> {
 
         if (user.steam_id) {
           console.log(`   Steam ID: ${user.steam_id}`)
+        }
+
+        // Display giveaway activity
+        const wonCount = user.giveaways_won?.length || 0
+        const createdCount = user.giveaways_created?.length || 0
+
+        if (wonCount > 0 || createdCount > 0) {
+          const activityParts = []
+
+          if (wonCount > 0) {
+            const wonWithFullCV =
+              user.giveaways_won?.filter((g) => g.cv_status === 'FULL_CV')
+                .length || 0
+            const wonWithReducedCV =
+              user.giveaways_won?.filter((g) => g.cv_status === 'REDUCED_CV')
+                .length || 0
+            const wonWithNoCV =
+              user.giveaways_won?.filter((g) => g.cv_status === 'NO_CV')
+                .length || 0
+            const activatedWins =
+              user.giveaways_won?.filter((g) => g.status === 'received')
+                .length || 0
+
+            activityParts.push(
+              `🏆 Won: ${wonCount} (${activatedWins} activated)`
+            )
+            if (wonWithFullCV > 0)
+              activityParts.push(`✅ ${wonWithFullCV} Full CV`)
+            if (wonWithReducedCV > 0)
+              activityParts.push(`⚠️ ${wonWithReducedCV} Reduced CV`)
+            if (wonWithNoCV > 0) activityParts.push(`❌ ${wonWithNoCV} No CV`)
+          }
+
+          if (createdCount > 0) {
+            const createdWithWinners =
+              user.giveaways_created?.filter((g) => g.had_winners).length || 0
+            const createdWithNoEntries =
+              user.giveaways_created?.filter((g) => g.entries === 0).length || 0
+            const activatedGiveaways =
+              user.giveaways_created?.filter(
+                (g) => g.winners && g.winners.some((w) => w.activated)
+              ).length || 0
+
+            activityParts.push(`🎁 Created: ${createdCount}`)
+            if (createdWithWinners > 0)
+              activityParts.push(`${createdWithWinners} with winners`)
+            if (activatedGiveaways > 0)
+              activityParts.push(`${activatedGiveaways} activated by winners`)
+            if (createdWithNoEntries > 0)
+              activityParts.push(`${createdWithNoEntries} no entries`)
+          }
+
+          console.log(`   ${activityParts.join(' | ')}`)
         }
       })
 

@@ -57,6 +57,24 @@ export interface User {
   value_difference: number
   steam_id?: string | null
   steam_profile_url?: string | null
+  giveaways_won?: Array<{
+    name: string
+    link: string
+    cv_status: CVStatus
+    status: 'received' | 'not_received' | 'awaiting_feedback'
+  }>
+  giveaways_created?: Array<{
+    name: string
+    link: string
+    cv_status: CVStatus
+    entries: number
+    had_winners: boolean
+    winners?: Array<{
+      name: string | null
+      status: 'received' | 'not_received' | 'awaiting_feedback'
+      activated: boolean // true if name is not null and status is received
+    }>
+  }>
 }
 
 export interface UserStats {
