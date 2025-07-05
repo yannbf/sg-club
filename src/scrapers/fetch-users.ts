@@ -61,8 +61,8 @@ class SteamGiftsUserFetcher {
           // Parse sent data (e.g., "5.0 ($279.95)")
           const sentText = $columns.eq(0).text().trim()
           const sentMatch = sentText.match(/([0-9.]+)\s*\(\$([0-9.,]+)\)/)
-          const sent_count = sentMatch ? parseFloat(sentMatch[1]) : 0
-          const sent_value = sentMatch
+          const total_sent_count = sentMatch ? parseFloat(sentMatch[1]) : 0
+          const total_sent_value = sentMatch
             ? parseFloat(sentMatch[2].replace(/,/g, ''))
             : 0
 
@@ -71,33 +71,43 @@ class SteamGiftsUserFetcher {
           const receivedMatch = receivedText.match(
             /([0-9.]+)\s*\(\$([0-9.,]+)\)/
           )
-          const received_count = receivedMatch
+          const total_received_count = receivedMatch
             ? parseFloat(receivedMatch[1])
             : 0
-          const received_value = receivedMatch
+          const total_received_value = receivedMatch
             ? parseFloat(receivedMatch[2].replace(/,/g, ''))
             : 0
 
           // Parse gift difference (e.g., "+5.0")
           const giftDiffText = $columns.eq(2).text().trim()
-          const gift_difference =
+          const total_gift_difference =
             parseFloat(giftDiffText.replace(/[+$,]/g, '')) || 0
 
           // Parse value difference (e.g., "+$279.95")
           const valueDiffText = $columns.eq(3).text().trim()
-          const value_difference =
+          const total_value_difference =
             parseFloat(valueDiffText.replace(/[+$,]/g, '')) || 0
 
           users.push({
             username,
             profile_url,
             avatar_url,
-            sent_count,
-            sent_value,
-            received_count,
-            received_value,
-            gift_difference,
-            value_difference,
+            stats: {
+              total_sent_count,
+              total_sent_value,
+              total_received_count,
+              total_received_value,
+              total_gift_difference,
+              total_value_difference,
+              // Initialize CV-specific stats to 0, will be calculated later
+              fcv_sent_count: 0,
+              rcv_sent_count: 0,
+              ncv_sent_count: 0,
+              fcv_received_count: 0,
+              rcv_received_count: 0,
+              ncv_received_count: 0,
+              fcv_gift_difference: 0,
+            },
           })
         }
       } catch (error) {
@@ -189,21 +199,74 @@ class SteamGiftsUserFetcher {
     }
   }
 
+  private calculateCVStats(user: User): Partial<User['stats']> {
+    const cvStats = {
+      fcv_sent_count: 0,
+      rcv_sent_count: 0,
+      ncv_sent_count: 0,
+      fcv_received_count: 0,
+      rcv_received_count: 0,
+      ncv_received_count: 0,
+      fcv_gift_difference: 0,
+    }
+
+    // Count sent giveaways by CV status
+    if (user.giveaways_created) {
+      for (const giveaway of user.giveaways_created) {
+        switch (giveaway.cv_status) {
+          case 'FULL_CV':
+            cvStats.fcv_sent_count++
+            break
+          case 'REDUCED_CV':
+            cvStats.rcv_sent_count++
+            break
+          case 'NO_CV':
+            cvStats.ncv_sent_count++
+            break
+        }
+      }
+    }
+
+    // Count received giveaways by CV status
+    if (user.giveaways_won) {
+      for (const giveaway of user.giveaways_won) {
+        switch (giveaway.cv_status) {
+          case 'FULL_CV':
+            cvStats.fcv_received_count++
+            break
+          case 'REDUCED_CV':
+            cvStats.rcv_received_count++
+            break
+          case 'NO_CV':
+            cvStats.ncv_received_count++
+            break
+        }
+      }
+    }
+
+    // Calculate gift difference for full CV
+    cvStats.fcv_gift_difference =
+      cvStats.fcv_sent_count - cvStats.fcv_received_count
+
+    return cvStats
+  }
+
   private enrichUsersWithGiveaways(
     users: Map<string, User>,
     giveaways: Giveaway[]
   ): void {
-    console.log(`\n🎯 Enriching users with giveaway information...`)
+    console.log(`🔄 Enriching users with giveaway data...`)
 
     let enrichedCount = 0
+    const now = Date.now() / 1000 // Current timestamp in seconds
 
     for (const [username, user] of users) {
-      const giveawaysWon: User['giveaways_won'] = []
-      const giveawaysCreated: User['giveaways_created'] = []
+      const giveawaysWon: NonNullable<User['giveaways_won']> = []
+      const giveawaysCreated: NonNullable<User['giveaways_created']> = []
 
       // Find giveaways won by this user
       for (const giveaway of giveaways) {
-        if (giveaway.winners && giveaway.winners.length > 0) {
+        if (giveaway.winners) {
           for (const winner of giveaway.winners) {
             if (winner.name === username) {
               giveawaysWon.push({
@@ -211,8 +274,8 @@ class SteamGiftsUserFetcher {
                 link: giveaway.link,
                 cv_status: giveaway.cv_status || 'FULL_CV',
                 status: winner.status,
+                end_timestamp: giveaway.end_timestamp,
               })
-              break
             }
           }
         }
@@ -221,12 +284,17 @@ class SteamGiftsUserFetcher {
       // Find giveaways created by this user
       for (const giveaway of giveaways) {
         if (giveaway.creator.username === username) {
-          const giveawayCreated: User['giveaways_created'][0] = {
+          const giveawayCreated: NonNullable<User['giveaways_created']>[0] = {
             name: giveaway.name,
             link: giveaway.link,
             cv_status: giveaway.cv_status || 'FULL_CV',
             entries: giveaway.entry_count,
-            had_winners: giveaway.hasWinners || false,
+            end_timestamp: giveaway.end_timestamp,
+          }
+
+          // Only set had_winners if the giveaway has ended
+          if (giveaway.end_timestamp < now) {
+            giveawayCreated.had_winners = giveaway.hasWinners || false
           }
 
           // Add winner details if there are winners
@@ -250,6 +318,14 @@ class SteamGiftsUserFetcher {
           giveaways_created:
             giveawaysCreated.length > 0 ? giveawaysCreated : undefined,
         }
+
+        // Calculate CV-specific stats
+        const cvStats = this.calculateCVStats(updatedUser)
+        updatedUser.stats = {
+          ...updatedUser.stats,
+          ...cvStats,
+        }
+
         users.set(username, updatedUser)
         enrichedCount++
 
@@ -283,6 +359,50 @@ class SteamGiftsUserFetcher {
     }
 
     return userMap
+  }
+
+  private mergeUsers(existingUsers: User[], newUsers: User[]): User[] {
+    const userMap = new Map<string, User>()
+
+    // Add existing users to map
+    existingUsers.forEach((user) => {
+      userMap.set(user.username, user)
+    })
+
+    // Merge new users
+    newUsers.forEach((newUser) => {
+      const existingUser = userMap.get(newUser.username)
+      if (existingUser) {
+        // Update existing user with new stats and preserve Steam info
+        userMap.set(newUser.username, {
+          ...existingUser,
+          ...newUser,
+          stats: {
+            ...newUser.stats, // Use new stats from current scrape
+            // Preserve CV-specific stats if they exist
+            fcv_sent_count: existingUser.stats.fcv_sent_count || 0,
+            rcv_sent_count: existingUser.stats.rcv_sent_count || 0,
+            ncv_sent_count: existingUser.stats.ncv_sent_count || 0,
+            fcv_received_count: existingUser.stats.fcv_received_count || 0,
+            rcv_received_count: existingUser.stats.rcv_received_count || 0,
+            ncv_received_count: existingUser.stats.ncv_received_count || 0,
+            fcv_gift_difference: existingUser.stats.fcv_gift_difference || 0,
+          },
+          // Preserve Steam info
+          steam_id: existingUser.steam_id || newUser.steam_id,
+          steam_profile_url:
+            existingUser.steam_profile_url || newUser.steam_profile_url,
+          // Preserve giveaway data
+          giveaways_won: existingUser.giveaways_won,
+          giveaways_created: existingUser.giveaways_created,
+        })
+      } else {
+        // New user
+        userMap.set(newUser.username, newUser)
+      }
+    })
+
+    return Array.from(userMap.values())
   }
 
   public async fetchUsers(
@@ -334,6 +454,18 @@ class SteamGiftsUserFetcher {
               steam_profile_url: existingUser.steam_profile_url,
               giveaways_won: existingUser.giveaways_won,
               giveaways_created: existingUser.giveaways_created,
+              stats: {
+                ...user.stats,
+                // Preserve existing CV stats if they exist
+                fcv_sent_count: existingUser.stats?.fcv_sent_count || 0,
+                rcv_sent_count: existingUser.stats?.rcv_sent_count || 0,
+                ncv_sent_count: existingUser.stats?.ncv_sent_count || 0,
+                fcv_received_count: existingUser.stats?.fcv_received_count || 0,
+                rcv_received_count: existingUser.stats?.rcv_received_count || 0,
+                ncv_received_count: existingUser.stats?.ncv_received_count || 0,
+                fcv_gift_difference:
+                  existingUser.stats?.fcv_gift_difference || 0,
+              },
             }
             existingUsers.set(user.username, updatedUser)
           }
@@ -420,7 +552,10 @@ class SteamGiftsUserFetcher {
 
       // Convert map back to array and sort by value difference (highest first)
       const allUsers = Array.from(existingUsers.values())
-      allUsers.sort((a, b) => b.value_difference - a.value_difference)
+      allUsers.sort(
+        (a, b) =>
+          b.stats.total_value_difference - a.stats.total_value_difference
+      )
 
       // Display statistics
       const stats: UserStats = {
@@ -477,32 +612,34 @@ async function main(): Promise<void> {
       console.log('\n=== TOP 10 CONTRIBUTORS BY VALUE ===')
       allUsers.slice(0, 10).forEach((user: User, index: number) => {
         const giftIcon =
-          user.gift_difference > 0
+          user.stats.total_gift_difference > 0
             ? '📈'
-            : user.gift_difference < 0
+            : user.stats.total_gift_difference < 0
             ? '📉'
             : '➖'
         const valueIcon =
-          user.value_difference > 0
+          user.stats.total_value_difference > 0
             ? '💰'
-            : user.value_difference < 0
+            : user.stats.total_value_difference < 0
             ? '💸'
             : '💱'
         const steamIcon = user.steam_id ? '🎮' : ''
 
         console.log(
           `${index + 1}. ${user.username} ${steamIcon} - ${giftIcon} ${
-            user.gift_difference > 0 ? '+' : ''
-          }${user.gift_difference.toFixed(1)} gifts, ${valueIcon} ${
-            user.value_difference > 0 ? '+' : ''
-          }$${user.value_difference.toFixed(2)}`
+            user.stats.total_gift_difference > 0 ? '+' : ''
+          }${user.stats.total_gift_difference.toFixed(1)} gifts, ${valueIcon} ${
+            user.stats.total_value_difference > 0 ? '+' : ''
+          }$${user.stats.total_value_difference.toFixed(2)}`
         )
         console.log(
-          `   Sent: ${user.sent_count.toFixed(1)} ($${user.sent_value.toFixed(
-            2
-          )}) | Received: ${user.received_count.toFixed(
+          `   Sent: ${user.stats.total_sent_count.toFixed(
             1
-          )} ($${user.received_value.toFixed(2)})`
+          )} ($${user.stats.total_sent_value.toFixed(
+            2
+          )}) | Received: ${user.stats.total_received_count.toFixed(
+            1
+          )} ($${user.stats.total_received_value.toFixed(2)})`
         )
 
         if (user.steam_id) {
@@ -541,8 +678,16 @@ async function main(): Promise<void> {
           }
 
           if (createdCount > 0) {
-            const createdWithWinners =
-              user.giveaways_created?.filter((g) => g.had_winners).length || 0
+            const now = Date.now() / 1000 // Current timestamp in seconds
+            const endedGiveaways =
+              user.giveaways_created?.filter((g) => g.end_timestamp < now) || []
+            const ongoingGiveaways =
+              user.giveaways_created?.filter((g) => g.end_timestamp >= now) ||
+              []
+
+            const createdWithWinners = endedGiveaways.filter(
+              (g) => g.had_winners
+            ).length
             const createdWithNoEntries =
               user.giveaways_created?.filter((g) => g.entries === 0).length || 0
             const activatedGiveaways =
@@ -551,8 +696,10 @@ async function main(): Promise<void> {
               ).length || 0
 
             activityParts.push(`🎁 Created: ${createdCount}`)
-            if (createdWithWinners > 0)
+            if (endedGiveaways.length > 0 && createdWithWinners > 0)
               activityParts.push(`${createdWithWinners} with winners`)
+            if (ongoingGiveaways.length > 0)
+              activityParts.push(`${ongoingGiveaways.length} ongoing`)
             if (activatedGiveaways > 0)
               activityParts.push(`${activatedGiveaways} activated by winners`)
             if (createdWithNoEntries > 0)
@@ -564,28 +711,57 @@ async function main(): Promise<void> {
       })
 
       // Calculate and display summary statistics
-      const totalSent = allUsers.reduce((sum, user) => sum + user.sent_count, 0)
+      const totalSent = allUsers.reduce(
+        (sum, user) => sum + user.stats.total_sent_count,
+        0
+      )
       const totalSentValue = allUsers.reduce(
-        (sum, user) => sum + user.sent_value,
+        (sum, user) => sum + user.stats.total_sent_value,
         0
       )
       const totalReceived = allUsers.reduce(
-        (sum, user) => sum + user.received_count,
+        (sum, user) => sum + user.stats.total_received_count,
         0
       )
       const totalReceivedValue = allUsers.reduce(
-        (sum, user) => sum + user.received_value,
+        (sum, user) => sum + user.stats.total_received_value,
+        0
+      )
+
+      // Calculate CV-specific stats
+      const totalFCVSent = allUsers.reduce(
+        (sum, user) => sum + user.stats.fcv_sent_count,
+        0
+      )
+      const totalRCVSent = allUsers.reduce(
+        (sum, user) => sum + user.stats.rcv_sent_count,
+        0
+      )
+      const totalNCVSent = allUsers.reduce(
+        (sum, user) => sum + user.stats.ncv_sent_count,
+        0
+      )
+      const totalFCVReceived = allUsers.reduce(
+        (sum, user) => sum + user.stats.fcv_received_count,
+        0
+      )
+      const totalRCVReceived = allUsers.reduce(
+        (sum, user) => sum + user.stats.rcv_received_count,
+        0
+      )
+      const totalNCVReceived = allUsers.reduce(
+        (sum, user) => sum + user.stats.ncv_received_count,
         0
       )
 
       const positiveContributors = allUsers.filter(
-        (user) => user.gift_difference > 0
+        (user) => user.stats.total_gift_difference > 0
       ).length
       const neutralContributors = allUsers.filter(
-        (user) => user.gift_difference === 0
+        (user) => user.stats.total_gift_difference === 0
       ).length
       const negativeContributors = allUsers.filter(
-        (user) => user.gift_difference < 0
+        (user) => user.stats.total_gift_difference < 0
       ).length
 
       console.log('\n📊 Group Statistics:')
@@ -602,6 +778,23 @@ async function main(): Promise<void> {
       console.log(`  • Net contributors: ${positiveContributors} users`)
       console.log(`  • Neutral: ${neutralContributors} users`)
       console.log(`  • Net receivers: ${negativeContributors} users`)
+
+      console.log(`\n📈 CV-Specific Statistics:`)
+      console.log(
+        `  • Full CV: ${totalFCVSent} sent, ${totalFCVReceived} received (Difference: ${
+          totalFCVSent - totalFCVReceived
+        })`
+      )
+      console.log(
+        `  • Reduced CV: ${totalRCVSent} sent, ${totalRCVReceived} received (Difference: ${
+          totalRCVSent - totalRCVReceived
+        })`
+      )
+      console.log(
+        `  • No CV: ${totalNCVSent} sent, ${totalNCVReceived} received (Difference: ${
+          totalNCVSent - totalNCVReceived
+        })`
+      )
 
       // Save to file
       writeFileSync(filename, JSON.stringify(allUsers, null, 2))

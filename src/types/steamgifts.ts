@@ -49,26 +49,37 @@ export interface User {
   username: string
   profile_url: string
   avatar_url: string
-  sent_count: number
-  sent_value: number
-  received_count: number
-  received_value: number
-  gift_difference: number
-  value_difference: number
   steam_id?: string | null
   steam_profile_url?: string | null
+  stats: {
+    total_sent_count: number
+    total_sent_value: number
+    total_received_count: number
+    total_received_value: number
+    total_gift_difference: number
+    total_value_difference: number
+    fcv_sent_count: number
+    rcv_sent_count: number
+    ncv_sent_count: number
+    fcv_received_count: number
+    rcv_received_count: number
+    ncv_received_count: number
+    fcv_gift_difference: number
+  }
   giveaways_won?: Array<{
     name: string
     link: string
     cv_status: CVStatus
     status: 'received' | 'not_received' | 'awaiting_feedback'
+    end_timestamp: number
   }>
   giveaways_created?: Array<{
     name: string
     link: string
     cv_status: CVStatus
     entries: number
-    had_winners: boolean
+    end_timestamp: number
+    had_winners?: boolean // Only set if giveaway has ended
     winners?: Array<{
       name: string | null
       status: 'received' | 'not_received' | 'awaiting_feedback'
