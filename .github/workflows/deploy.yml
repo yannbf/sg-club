@@ -10,7 +10,7 @@ permissions:
   contents: write
 
 jobs:
-  generate-and-commit:
+  trigger-build:
     runs-on: ubuntu-latest
     
     steps:
@@ -19,37 +19,12 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
         
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-          cache: 'npm'
-          
-      - name: Install root dependencies
-        run: npm ci
-        
-      - name: Install website dependencies
-        run: cd website && npm ci
-        
-      - name: Generate data and update website files
-        run: npm run generate-website-data
-        env:
-          NODE_ENV: production
-          FETCH_ALL_PAGES: true
-          STEAM_API_KEY: ${{ secrets.STEAM_API_KEY }}
-          
       - name: Configure Git
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           
-      - name: Commit and push changes
+      - name: Create and push empty commit
         run: |
-          git add data/
-          git add website/public/data/
-          if git diff --staged --quiet; then
-            echo "No changes to commit"
-          else
-            git commit -m "🤖 Auto-update data files - $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
-            git push origin ${{ github.ref_name }}
-          fi 
+          git commit --allow-empty -m "🔄 Trigger website build - $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
+          git push origin ${{ github.ref_name }} 
