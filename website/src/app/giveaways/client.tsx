@@ -4,13 +4,15 @@ import { useState, useMemo } from 'react'
 import { formatRelativeTime, getCVBadgeColor, getCVLabel, formatLastUpdated } from '@/lib/data'
 import { Giveaway } from '@/types'
 import Link from 'next/link'
+import UserAvatar from '../users/[username]/UserAvatar'
 
 interface Props {
   giveaways: Giveaway[]
   lastUpdated: string | null
+  userAvatars: Map<string, string>
 }
 
-export default function GiveawaysClient({ giveaways, lastUpdated }: Props) {
+export default function GiveawaysClient({ giveaways, lastUpdated, userAvatars }: Props) {
   const [searchTerm, setSearchTerm] = useState('')
   const [sortBy, setSortBy] = useState<'date' | 'entries' | 'points'>('date')
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc')
@@ -254,13 +256,33 @@ export default function GiveawaysClient({ giveaways, lastUpdated }: Props) {
                       <span className="font-medium">Winners:</span>
                       <div className="mt-1">
                         {giveaway.winners.map((winner, index) => (
-                          <Link
-                            key={index}
-                            href={`/users/${winner.name}`}
-                            className="text-blue-600 hover:text-blue-800 mr-2"
-                          >
-                            {winner.name}
-                          </Link>
+                          userAvatars.get(winner.name) ? (
+                            <Link
+                              key={index}
+                              href={`/users/${winner.name}`}
+                              className="text-blue-600 hover:text-blue-800 mr-2 inline-flex items-center"
+                            >
+                              <UserAvatar
+                                src={userAvatars.get(winner.name) || 'https://cdn-icons-png.flaticon.com/512/9287/9287610.png'}
+                                username={winner.name}
+                              />
+                              {winner.name}
+                            </Link>
+                          ) : (
+                            <a
+                              key={index}
+                              href={`http://steamgifts.com/user/${winner.name}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-gray-500 hover:text-gray-700 mr-2 inline-flex items-center"
+                            >
+                              <UserAvatar
+                                src={'https://cdn-icons-png.flaticon.com/512/9287/9287610.png'}
+                                username={winner.name}
+                              />
+                              {winner.name} (ex member)
+                            </a>
+                          )
                         ))}
                       </div>
                     </div>

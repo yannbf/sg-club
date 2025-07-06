@@ -3,12 +3,13 @@ import { formatRelativeTime, formatPlaytime, getCVBadgeColor, getCVLabel } from 
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import GameImage from './GameImage'
+import UserAvatar from './UserAvatar'
 import { Giveaway } from '@/types'
 
 export async function generateStaticParams() {
   const userData = await getAllUsers()
   if (!userData) return []
-  
+
   return userData.users.map((user) => ({
     username: user.username,
   }))
@@ -21,16 +22,20 @@ interface Props {
 export default async function UserDetailPage({ params }: Props) {
   const { username } = await params
   const user = await getUser(decodeURIComponent(username))
-  
+  const allUsers = await getAllUsers()
+
   if (!user) {
     notFound()
   }
 
   const giveaways = await getAllGiveaways()
-  
+
   // Get giveaways created by this user from the main giveaways data
   const userGiveaways = giveaways.filter(g => g.creator.username === user.username)
-  
+
+  // Create a map of usernames to avatar URLs
+  const userAvatars = new Map(allUsers?.users.map(user => [user.username, user.avatar_url]))
+
   const getUserTypeIcon = () => {
     if (user.stats.total_gift_difference > 0) {
       return { icon: '📈', label: 'Net Contributor', color: 'text-green-600' }
@@ -71,7 +76,7 @@ export default async function UserDetailPage({ params }: Props) {
     const now = Date.now() / 1000
     const isActive = giveaway.end_timestamp > now
     const hasNoEntries = !isActive && giveaway.entry_count === 0
-    
+
     return {
       isActive,
       statusIcon: isActive ? '🟢' : hasNoEntries ? '‼️' : '🔴',
@@ -190,7 +195,7 @@ export default async function UserDetailPage({ params }: Props) {
           <div className="space-y-4">
             {user.giveaways_won.map((game, index) => {
               const matchingGiveaway = giveaways.find(g => g.link === game.link)
-              
+
               return (
                 <div key={index} className="border border-gray-200 rounded-lg overflow-hidden">
                   <div className="flex">
@@ -200,7 +205,7 @@ export default async function UserDetailPage({ params }: Props) {
                       packageId={matchingGiveaway?.package_id?.toString()}
                       name={game.name}
                     />
-                    
+
                     <div className="p-4 flex-1">
                       <div className="flex items-start justify-between">
                         <div className="flex-1">
@@ -212,9 +217,8 @@ export default async function UserDetailPage({ params }: Props) {
                             <span className="text-sm text-gray-600">
                               Won {formatRelativeTime(game.end_timestamp)}
                             </span>
-                            <span className={`text-sm font-medium ${
-                              game.status === 'received' ? 'text-green-600' : 'text-orange-600'
-                            }`}>
+                            <span className={`text-sm font-medium ${game.status === 'received' ? 'text-green-600' : 'text-orange-600'
+                              }`}>
                               {game.status === 'received' ? 'Activated' : 'Not Activated'}
                             </span>
                           </div>
@@ -230,44 +234,43 @@ export default async function UserDetailPage({ params }: Props) {
                       </div>
                     </div>
                   </div>
-                
-                {game.steam_play_data && (
-                  <div className="mt-3 pt-3 border-t border-gray-200">
-                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-sm">
-                      <div>
-                        <span className="text-gray-600">Owned:</span>
-                        <span className={`ml-1 font-medium ${game.steam_play_data.owned ? 'text-green-600' : 'text-red-600'}`}>
-                          {game.steam_play_data.owned ? 'Yes' : 'No'}
-                        </span>
+
+                  {game.steam_play_data && (
+                    <div className="mt-3 pt-3 border-t border-gray-200">
+                      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-sm">
+                        <div>
+                          <span className="text-gray-600">Owned:</span>
+                          <span className={`ml-1 font-medium ${game.steam_play_data.owned ? 'text-green-600' : 'text-red-600'}`}>
+                            {game.steam_play_data.owned ? 'Yes' : 'No'}
+                          </span>
+                        </div>
+                        {game.steam_play_data.owned && (
+                          <>
+                            <div>
+                              <span className="text-gray-600">Playtime:</span>
+                              <span className="ml-1 font-medium">
+                                {formatPlaytime(game.steam_play_data.playtime_minutes)}
+                              </span>
+                            </div>
+                            <div>
+                              <span className="text-gray-600">Achievements:</span>
+                              <span className="ml-1 font-medium">
+                                {game.steam_play_data.achievements_unlocked}/{game.steam_play_data.achievements_total}
+                              </span>
+                            </div>
+                            <div>
+                              <span className="text-gray-600">Status:</span>
+                              <span className={`ml-1 font-medium ${game.steam_play_data.never_played ? 'text-red-600' : 'text-green-600'
+                                }`}>
+                                {game.steam_play_data.never_played ? 'Never Played' : 'Played'}
+                              </span>
+                            </div>
+                          </>
+                        )}
                       </div>
-                      {game.steam_play_data.owned && (
-                        <>
-                          <div>
-                            <span className="text-gray-600">Playtime:</span>
-                            <span className="ml-1 font-medium">
-                              {formatPlaytime(game.steam_play_data.playtime_minutes)}
-                            </span>
-                          </div>
-                          <div>
-                            <span className="text-gray-600">Achievements:</span>
-                            <span className="ml-1 font-medium">
-                              {game.steam_play_data.achievements_unlocked}/{game.steam_play_data.achievements_total}
-                            </span>
-                          </div>
-                          <div>
-                            <span className="text-gray-600">Status:</span>
-                            <span className={`ml-1 font-medium ${
-                              game.steam_play_data.never_played ? 'text-red-600' : 'text-green-600'
-                            }`}>
-                              {game.steam_play_data.never_played ? 'Never Played' : 'Played'}
-                            </span>
-                          </div>
-                        </>
-                      )}
                     </div>
-                  </div>
-                )}
-              </div>
+                  )}
+                </div>
               )
             })}
           </div>
@@ -286,7 +289,7 @@ export default async function UserDetailPage({ params }: Props) {
                 const now = Date.now() / 1000
                 const aActive = a.end_timestamp > now
                 const bActive = b.end_timestamp > now
-                
+
                 // If both are active or both are ended, sort by end_timestamp
                 if (aActive === bActive) {
                   if (aActive) {
@@ -297,85 +300,107 @@ export default async function UserDetailPage({ params }: Props) {
                     return b.end_timestamp - a.end_timestamp
                   }
                 }
-                
+
                 // Active giveaways come first
                 return aActive ? -1 : 1
               })
               .map((giveaway) => {
-              const status = getGiveawayStatus(giveaway)
-              
-              return (
-                <div key={giveaway.id} className={`border rounded-lg overflow-hidden ${status.borderColor} ${status.backgroundColor}`}>
-                  <div className="flex">
-                    {/* Game Image */}
-                    <GameImage
-                      appId={giveaway.app_id?.toString()}
-                      packageId={giveaway.package_id?.toString()}
-                      name={giveaway.name}
-                    />
-                    
-                    <div className="p-4 flex-1">
-                      <div className="flex items-start justify-between">
-                        <div className="flex-1">
-                          <div className="flex items-center gap-2 mb-1">
-                            <h3 className="font-semibold text-gray-900">{giveaway.name}</h3>
-                            <span className={`inline-flex items-center px-2 py-1 text-xs font-medium rounded-full ${status.isActive ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}`}>
-                              {status.statusIcon} {status.statusText}
-                            </span>
+                const status = getGiveawayStatus(giveaway)
+
+                return (
+                  <div key={giveaway.id} className={`border rounded-lg overflow-hidden ${status.borderColor} ${status.backgroundColor}`}>
+                    <div className="flex">
+                      {/* Game Image */}
+                      <GameImage
+                        appId={giveaway.app_id?.toString()}
+                        packageId={giveaway.package_id?.toString()}
+                        name={giveaway.name}
+                      />
+
+                      <div className="p-4 flex-1">
+                        <div className="flex items-start justify-between">
+                          <div className="flex-1">
+                            <div className="flex items-center gap-2 mb-1">
+                              <h3 className="font-semibold text-gray-900">{giveaway.name}</h3>
+                              <span className={`inline-flex items-center px-2 py-1 text-xs font-medium rounded-full ${status.isActive ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}`}>
+                                {status.statusIcon} {status.statusText}
+                              </span>
+                            </div>
+                            <div className="flex items-center mt-1 space-x-4">
+                              <span className={`px-2 py-1 text-xs font-semibold rounded-full ${getCVBadgeColor(giveaway.cv_status || 'FULL_CV')}`}>
+                                {getCVLabel(giveaway.cv_status || 'FULL_CV')}
+                              </span>
+                              <span className="text-sm text-gray-600">
+                                {giveaway.points} points
+                              </span>
+                              <span className="text-sm text-gray-600">
+                                {giveaway.copies} {giveaway.copies === 1 ? 'copy' : 'copies'}
+                              </span>
+                              <span className="text-sm text-gray-600">
+                                {giveaway.entry_count} entries
+                              </span>
+                              <span className={`text-sm font-medium ${status.statusColor}`}>
+                                {formatRelativeTime(giveaway.end_timestamp)}
+                              </span>
+                            </div>
                           </div>
-                          <div className="flex items-center mt-1 space-x-4">
-                            <span className={`px-2 py-1 text-xs font-semibold rounded-full ${getCVBadgeColor(giveaway.cv_status || 'FULL_CV')}`}>
-                              {getCVLabel(giveaway.cv_status || 'FULL_CV')}
-                            </span>
-                            <span className="text-sm text-gray-600">
-                              {giveaway.points} points
-                            </span>
-                            <span className="text-sm text-gray-600">
-                              {giveaway.copies} {giveaway.copies === 1 ? 'copy' : 'copies'}
-                            </span>
-                            <span className="text-sm text-gray-600">
-                              {giveaway.entry_count} entries
-                            </span>
-                            <span className={`text-sm font-medium ${status.statusColor}`}>
-                              {formatRelativeTime(giveaway.end_timestamp)}
-                            </span>
-                          </div>
-                        </div>
-                        <a
-                          href={`https://www.steamgifts.com/giveaway/${giveaway.link}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-blue-600 hover:text-blue-800 text-sm"
-                        >
-                          View →
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                
-                {giveaway.winners && giveaway.winners.length > 0 && (
-                  <div className="px-4 pb-4">
-                    <div className="pt-3 border-t border-gray-200">
-                      <div className="text-sm">
-                        <span className="text-gray-600">Winners:</span>
-                        <div className="mt-1">
-                          {giveaway.winners.map((winner, index) => (
-                            <Link
-                              key={index}
-                              href={`/users/${winner.name}`}
-                              className="text-blue-600 hover:text-blue-800 mr-2"
-                            >
-                              {winner.name}
-                            </Link>
-                          ))}
+                          <a
+                            href={`https://www.steamgifts.com/giveaway/${giveaway.link}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-600 hover:text-blue-800 text-sm"
+                          >
+                            View →
+                          </a>
                         </div>
                       </div>
                     </div>
+
+                    {giveaway.winners && giveaway.winners.length > 0 && (
+                      <div className="px-4 pb-4">
+                        <div className="pt-3 border-t border-gray-200">
+                          <div className="text-sm">
+                            <span className="text-gray-600">Winners:</span>
+                            <div className="mt-1">
+                              {giveaway.winners.map((winner, index) => (
+                                winner.name ? (
+                                  userAvatars.get(winner.name) ? (
+                                    <Link
+                                      key={index}
+                                      href={`/users/${winner.name}`}
+                                      className="text-blue-600 hover:text-blue-800 mr-2 inline-flex items-center"
+                                    >
+                                      <UserAvatar
+                                        src={userAvatars.get(winner.name) || 'https://cdn-icons-png.flaticon.com/512/9287/9287610.png'}
+                                        username={winner.name}
+                                      />
+                                      {winner.name}
+                                    </Link>
+                                  ) : (
+                                    <a
+                                      key={index}
+                                      href={`http://steamgifts.com/user/${winner.name}`}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="text-gray-500 hover:text-gray-700 mr-2 inline-flex items-center"
+                                    >
+                                      <UserAvatar
+                                        src={'https://cdn-icons-png.flaticon.com/512/9287/9287610.png'}
+                                        username={winner.name}
+                                      />
+                                      {winner.name} (ex member)
+                                    </a>
+                                  )
+                                ) : <span key={index}>🕐 Awaiting feedback</span>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </div>
-                )}
-              </div>
-              )
-            })}
+                )
+              })}
           </div>
         </div>
       )}
