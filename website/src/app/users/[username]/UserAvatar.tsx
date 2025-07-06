@@ -1,5 +1,7 @@
 'use client'
 
+import Image from 'next/image'
+
 interface UserAvatarProps {
   src: string
   username: string
@@ -7,10 +9,12 @@ interface UserAvatarProps {
 
 export default function UserAvatar({ src, username }: UserAvatarProps) {
   return (
-    <img
+    <Image
       src={src}
       alt={username}
-      className="w-6 h-6 rounded-full mr-1"
+      width={24}
+      height={24}
+      className="rounded-full mr-1"
       onError={(e) => {
         e.currentTarget.src = 'https://cdn-icons-png.flaticon.com/512/9287/9287610.png'
       }}

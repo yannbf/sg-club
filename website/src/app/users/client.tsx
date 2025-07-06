@@ -4,6 +4,7 @@ import { useState, useMemo } from 'react'
 import { formatPlaytime } from '@/lib/data'
 import { User } from '@/types'
 import Link from 'next/link'
+import Image from 'next/image'
 
 interface Props {
   users: User[]
@@ -13,7 +14,7 @@ export default function UsersClient({ users }: Props) {
   const [searchTerm, setSearchTerm] = useState('')
   const [sortBy, setSortBy] = useState<'username' | 'sent' | 'received' | 'difference' | 'value' | 'playtime'>('difference')
   const [filterType, setFilterType] = useState<'all' | 'contributors' | 'receivers' | 'neutral'>('all')
-  const [showOnlySteam, setShowOnlySteam] = useState(false)
+  const [showOnlySteam] = useState(false)
 
   const getTotalPlaytime = (user: User) => {
     if (!user.giveaways_won) return 0
@@ -156,10 +157,12 @@ export default function UsersClient({ users }: Props) {
           <div key={user.username} className="bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-200 p-6">
             <div className="flex items-center mb-4">
               {user.avatar_url ? (
-                <img
+                <Image
                   src={user.avatar_url}
                   alt={user.username}
-                  className="w-12 h-12 rounded-full border-2 border-gray-200"
+                  width={48}
+                  height={48}
+                  className="rounded-full border-2 border-gray-200"
                 />
               ) : (
                 <div className="w-12 h-12 rounded-full border-2 border-gray-200 bg-gradient-to-br from-blue-100 to-purple-100 flex items-center justify-center">
