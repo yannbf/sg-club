@@ -4,6 +4,14 @@ import { Giveaway, UserGroupData, User } from '@/types'
 let buildTimeGiveaways: Giveaway[] | null = null
 let buildTimeUsers: UserGroupData | null = null
 
+// Helper to get base URL for data files
+function getBaseUrl() {
+  if (process.env.NODE_ENV === 'development') {
+    return `http://localhost:${process.env.PORT || 3000}`
+  }
+  return ''
+}
+
 async function loadBuildTimeData() {
   if (typeof window !== 'undefined') {
     // Client-side - use fetch
@@ -14,32 +22,42 @@ async function loadBuildTimeData() {
   }
 
   // Server-side during build - import directly
-  try {
-    if (!buildTimeGiveaways) {
-      const fs = await import('fs')
-      const path = await import('path')
-      const giveawaysPath = path.join(
-        process.cwd(),
-        'public',
-        'data',
-        'giveaways.json'
-      )
-      const giveawaysData = fs.readFileSync(giveawaysPath, 'utf8')
-      const parsed = JSON.parse(giveawaysData)
-      buildTimeGiveaways = parsed.giveaways || []
+  if (process.env.NODE_ENV === 'development') {
+    // In development, always use fetch to avoid fs module issues
+    return {
+      giveaways: await fetchGiveaways(),
+      users: await fetchUsers(),
     }
+  }
 
-    if (!buildTimeUsers) {
-      const fs = await import('fs')
-      const path = await import('path')
-      const usersPath = path.join(
-        process.cwd(),
-        'public',
-        'data',
-        'group_users.json'
-      )
-      const usersData = fs.readFileSync(usersPath, 'utf8')
-      buildTimeUsers = JSON.parse(usersData)
+  try {
+    if (!buildTimeGiveaways || !buildTimeUsers) {
+      // Only import fs and path when we're definitely on the server
+      const { readFileSync } = await import('fs')
+      const { join } = await import('path')
+
+      if (!buildTimeGiveaways) {
+        const giveawaysPath = join(
+          process.cwd(),
+          'public',
+          'data',
+          'giveaways.json'
+        )
+        const giveawaysData = readFileSync(giveawaysPath, 'utf8')
+        const parsed = JSON.parse(giveawaysData)
+        buildTimeGiveaways = parsed.giveaways || []
+      }
+
+      if (!buildTimeUsers) {
+        const usersPath = join(
+          process.cwd(),
+          'public',
+          'data',
+          'group_users.json'
+        )
+        const usersData = readFileSync(usersPath, 'utf8')
+        buildTimeUsers = JSON.parse(usersData)
+      }
     }
 
     return {
@@ -58,7 +76,8 @@ async function loadBuildTimeData() {
 // Client-side fetch functions
 async function fetchGiveaways(): Promise<Giveaway[]> {
   try {
-    const response = await fetch('/data/giveaways.json')
+    const baseUrl = getBaseUrl()
+    const response = await fetch(`${baseUrl}/data/giveaways.json`)
     if (!response.ok) throw new Error('Failed to fetch giveaways')
     const data = await response.json()
     return data.giveaways || []
@@ -70,7 +89,8 @@ async function fetchGiveaways(): Promise<Giveaway[]> {
 
 async function fetchLastUpdated(): Promise<string | null> {
   try {
-    const response = await fetch('/data/giveaways.json')
+    const baseUrl = getBaseUrl()
+    const response = await fetch(`${baseUrl}/data/giveaways.json`)
     if (!response.ok) throw new Error('Failed to fetch giveaways')
     const data = await response.json()
     return data.last_updated || null
@@ -82,7 +102,8 @@ async function fetchLastUpdated(): Promise<string | null> {
 
 async function fetchUsers(): Promise<UserGroupData | null> {
   try {
-    const response = await fetch('/data/group_users.json')
+    const baseUrl = getBaseUrl()
+    const response = await fetch(`${baseUrl}/data/group_users.json`)
     if (!response.ok) throw new Error('Failed to fetch users')
     return await response.json()
   } catch (error) {
@@ -213,22 +234,22 @@ export function getCVLabel(cvStatus: string): string {
 }
 
 export async function getLastUpdated(): Promise<string | null> {
-  if (typeof window !== 'undefined') {
-    // Client-side - use fetch
+  if (typeof window !== 'undefined' || process.env.NODE_ENV === 'development') {
+    // Client-side or development - use fetch
     return await fetchLastUpdated()
   }
 
   // Server-side during build - read directly from file
   try {
-    const fs = await import('fs')
-    const path = await import('path')
-    const giveawaysPath = path.join(
+    const { readFileSync } = await import('fs')
+    const { join } = await import('path')
+    const giveawaysPath = join(
       process.cwd(),
       'public',
       'data',
       'giveaways.json'
     )
-    const giveawaysData = fs.readFileSync(giveawaysPath, 'utf8')
+    const giveawaysData = readFileSync(giveawaysPath, 'utf8')
     const parsed = JSON.parse(giveawaysData)
     return parsed.last_updated || null
   } catch (error) {

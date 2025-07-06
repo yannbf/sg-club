@@ -34,8 +34,6 @@ export default async function Home() {
   const neutralUsers = users.filter(user => user.stats.total_gift_difference === 0).length
   const netReceivers = users.filter(user => user.stats.total_gift_difference < 0).length
 
-  const usersWithSteam = users.filter(user => user.steam_id).length
-
   return (
     <div className="px-4 sm:px-0">
       <div className="mb-8">

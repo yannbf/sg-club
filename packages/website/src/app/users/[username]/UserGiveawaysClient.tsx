@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { Giveaway } from '@/types'
 import { formatRelativeTime, getCVBadgeColor, getCVLabel } from '@/lib/data'
 import GameImage from './GameImage'
-import UserAvatar from './UserAvatar'
+import UserAvatar from '@/components/UserAvatar'
 
 interface Props {
   giveaways: Giveaway[]
@@ -146,7 +146,7 @@ export default function UserGiveawaysClient({ giveaways, userAvatars }: Props) {
                       <span className="text-gray-600">Winners:</span>
                       <div className="mt-1">
                         {giveaway.winners.map((winner, index) => (
-                          userAvatars.get(winner.name) ? (
+                          !winner.name ? <p key={index}>Awaiting feedback</p> : userAvatars.get(winner.name) ? (
                             <Link
                               key={index}
                               href={`/users/${winner.name}`}

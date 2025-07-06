@@ -4,12 +4,25 @@ import { useState, useMemo } from 'react'
 import { formatRelativeTime, getCVBadgeColor, getCVLabel, formatLastUpdated } from '@/lib/data'
 import { Giveaway } from '@/types'
 import Link from 'next/link'
-import UserAvatar from '../users/[username]/UserAvatar'
+import Image from 'next/image'
+import UserAvatar from '@/components/UserAvatar'
 
 interface Props {
   giveaways: Giveaway[]
   lastUpdated: string | null
   userAvatars: Map<string, string>
+}
+
+const PLACEHOLDER_IMAGE = 'https://steamplayercount.com/theme/img/placeholder.svg'
+
+function getGameImageUrl(giveaway: Giveaway): string {
+  if (giveaway.app_id) {
+    return `https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/${giveaway.app_id}/header.jpg`
+  }
+  if (giveaway.package_id) {
+    return `https://shared.akamai.steamstatic.com/store_item_assets/steam/subs/${giveaway.package_id}/header.jpg`
+  }
+  return PLACEHOLDER_IMAGE
 }
 
 export default function GiveawaysClient({ giveaways, lastUpdated, userAvatars }: Props) {
@@ -18,6 +31,7 @@ export default function GiveawaysClient({ giveaways, lastUpdated, userAvatars }:
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc')
   const [filterCV, setFilterCV] = useState<'all' | 'FULL_CV' | 'REDUCED_CV' | 'NO_CV'>('all')
   const [giveawayStatus, setGiveawayStatus] = useState<'open' | 'ended' | 'all'>('open')
+  const [failedImages, setFailedImages] = useState<Set<string>>(new Set())
 
   const filteredAndSortedGiveaways = useMemo(() => {
     const filtered = giveaways.filter(giveaway => {
@@ -173,22 +187,19 @@ export default function GiveawaysClient({ giveaways, lastUpdated, userAvatars }:
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredAndSortedGiveaways.map((giveaway) => {
           const isEnded = giveaway.end_timestamp < Date.now() / 1000;
+          const imageUrl = failedImages.has(giveaway.id) ? PLACEHOLDER_IMAGE : getGameImageUrl(giveaway);
+
           return (
             <div key={giveaway.id} className={`bg-white rounded-lg shadow hover:shadow-md transition-shadow overflow-hidden border-2 ${isEnded ? 'border-gray-200' : 'border-green-200'}`}>
               {/* Game Image */}
-              <div className="w-full h-48 bg-gray-200 overflow-hidden">
-                <img
-                  src={
-                    giveaway.app_id
-                      ? `https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/${giveaway.app_id}/header.jpg`
-                      : giveaway.package_id
-                      ? `https://shared.akamai.steamstatic.com/store_item_assets/steam/subs/${giveaway.package_id}/header.jpg`
-                      : 'https://steamplayercount.com/theme/img/placeholder.svg'
-                  }
-                  alt={giveaway.name}
-                  className="w-full h-full object-cover"
-                  onError={(e) => {
-                    e.currentTarget.src = 'https://steamplayercount.com/theme/img/placeholder.svg'
+              <div className="w-full h-48 bg-gray-200 overflow-hidden relative">
+                <Image
+                  src={imageUrl}
+                  alt={giveaway.name || 'Game giveaway image'}
+                  fill
+                  className="object-cover"
+                  onError={() => {
+                    setFailedImages(prev => new Set([...prev, giveaway.id]))
                   }}
                 />
               </div>
@@ -206,12 +217,15 @@ export default function GiveawaysClient({ giveaways, lastUpdated, userAvatars }:
                 <div className="space-y-2 mb-4">
                   <div className="flex items-center justify-between text-sm">
                     <span className="text-gray-600">Creator:</span>
-                    <Link
-                      href={`/users/${giveaway.creator.username}`}
-                      className="text-blue-600 hover:text-blue-800 font-medium"
-                    >
-                      {giveaway.creator.username}
-                    </Link>
+                    <div className="flex items-center">
+                      <UserAvatar
+                        src={userAvatars.get(giveaway.creator.username) || 'https://cdn-icons-png.flaticon.com/512/9287/9287610.png'}
+                        username={giveaway.creator.username}
+                      />
+                      <Link href={`/users/${giveaway.creator.username}`} className="text-sm text-gray-600 hover:text-gray-800">
+                        {giveaway.creator.username}
+                      </Link>
+                    </div>
                   </div>
                   
                   <div className="flex items-center justify-between text-sm">
@@ -257,17 +271,15 @@ export default function GiveawaysClient({ giveaways, lastUpdated, userAvatars }:
                       <div className="mt-1">
                         {giveaway.winners.map((winner, index) => (
                           userAvatars.get(winner.name) ? (
-                            <Link
-                              key={index}
-                              href={`/users/${winner.name}`}
-                              className="text-blue-600 hover:text-blue-800 mr-2 inline-flex items-center"
-                            >
+                            <div key={index} className="flex items-center">
                               <UserAvatar
                                 src={userAvatars.get(winner.name) || 'https://cdn-icons-png.flaticon.com/512/9287/9287610.png'}
                                 username={winner.name}
                               />
-                              {winner.name}
-                            </Link>
+                              <Link href={`/users/${winner.name}`} className="text-sm text-blue-600 hover:text-blue-800">
+                                {winner.name}
+                              </Link>
+                            </div>
                           ) : (
                             <a
                               key={index}
