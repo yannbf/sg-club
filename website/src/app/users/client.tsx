@@ -143,21 +143,6 @@ export default function UsersClient({ users }: Props) {
             <option value="neutral">Neutral Users</option>
           </select>
         </div>
-        
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Filter
-          </label>
-          <label className="flex items-center">
-            <input
-              type="checkbox"
-              checked={showOnlySteam}
-              onChange={(e) => setShowOnlySteam(e.target.checked)}
-              className="mr-2 h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-            />
-            <span className="text-sm text-gray-700">Only Steam users</span>
-          </label>
-        </div>
       </div>
 
       {/* Results Summary */}
