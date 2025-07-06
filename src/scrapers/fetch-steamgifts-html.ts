@@ -542,13 +542,19 @@ class SteamGiftsHTMLScraper {
     if (existsSync(filename)) {
       try {
         const data = readFileSync(filename, 'utf-8')
-        const existingGiveaways: Giveaway[] = JSON.parse(data)
+        const parsed = JSON.parse(data)
+
+        const existingGiveaways: Giveaway[] = parsed.giveaways || []
 
         for (const giveaway of existingGiveaways) {
           giveawayMap.set(giveaway.id, giveaway)
         }
 
         console.log(`📁 Loaded ${existingGiveaways.length} existing giveaways`)
+
+        if (parsed.last_updated) {
+          console.log(`   Last updated: ${parsed.last_updated}`)
+        }
       } catch (error) {
         console.warn(`⚠️  Could not load existing file: ${error}`)
       }
@@ -559,27 +565,25 @@ class SteamGiftsHTMLScraper {
     return giveawayMap
   }
 
-  private getTwoWeeksAgoTimestamp(): number {
-    const twoWeeksAgo = new Date()
-    twoWeeksAgo.setDate(twoWeeksAgo.getDate() - 1)
-    return Math.floor(twoWeeksAgo.getTime() / 1000)
+  private getCurrentTimestamp(): number {
+    return Math.floor(Date.now() / 1000)
   }
 
   public async scrapeGiveaways(
-    filename: string = 'website/public/data/all_giveaways_html.json'
+    filename: string = 'website/public/data/giveaways.json'
   ): Promise<Giveaway[]> {
     try {
       // Load existing giveaways
       const existingGiveaways = this.loadExistingGiveaways(filename)
-      const twoWeeksAgoTimestamp = this.getTwoWeeksAgoTimestamp()
+      const currentTimestamp = this.getCurrentTimestamp()
 
       // Check if unlimited fetch mode is enabled
-      const unlimitedMode = process.env.FETCH_ALL_PAGES === 'true'
+      const unlimitedMode = true //process.env.FETCH_ALL_PAGES === 'true'
 
       console.log(
         unlimitedMode
           ? `🚀 Scraping ALL giveaways (unlimited mode - until last page)...`
-          : `🚀 Scraping new giveaways (stopping at giveaways that ended 2+ weeks ago)...`
+          : `🚀 Scraping new giveaways (stopping when we reach ended giveaways)...`
       )
 
       let currentPath: string | null = this.startUrl
@@ -616,20 +620,7 @@ class SteamGiftsHTMLScraper {
         let shouldContinue = true
 
         for (const giveaway of giveaways) {
-          // In normal mode, check if this giveaway ended more than 2 weeks ago
-          if (!unlimitedMode && giveaway.end_timestamp < twoWeeksAgoTimestamp) {
-            console.log(
-              `⏰ Reached cutoff point: giveaway "${
-                giveaway.name
-              }" ended ${new Date(
-                giveaway.end_timestamp * 1000
-              ).toLocaleString()}`
-            )
-            shouldContinue = false
-            break
-          }
-
-          // Add or update the giveaway
+          // Add or update the giveaway first
           if (!existingGiveaways.has(giveaway.id)) {
             newGiveawaysCount++
             console.log(`➕ New: ${giveaway.name}`)
@@ -639,6 +630,19 @@ class SteamGiftsHTMLScraper {
           }
 
           existingGiveaways.set(giveaway.id, giveaway)
+
+          // In normal mode, check if this giveaway has ended
+          if (!unlimitedMode && giveaway.end_timestamp < currentTimestamp) {
+            console.log(
+              `⏰ Reached cutoff point: giveaway "${
+                giveaway.name
+              }" has ended at ${new Date(
+                giveaway.end_timestamp * 1000
+              ).toLocaleString()}`
+            )
+            shouldContinue = false
+            break
+          }
         }
 
         if (!shouldContinue) {
@@ -689,6 +693,16 @@ class SteamGiftsHTMLScraper {
         activeGiveaways.length,
         endedGiveaways.length
       )
+
+      // Log the update summary
+      console.log(`\n📊 Update Summary:`)
+      console.log(
+        `  • Total giveaways updated: ${
+          newGiveawaysCount + updatedGiveawaysCount
+        } out of ${sortedGiveaways.length}`
+      )
+      console.log(`  • New giveaways added: ${newGiveawaysCount}`)
+      console.log(`  • Existing giveaways updated: ${updatedGiveawaysCount}`)
 
       return sortedGiveaways
     } catch (error) {
@@ -797,7 +811,7 @@ class SteamGiftsHTMLScraper {
     if (unlimitedMode) {
       console.log(`  • Mode: Unlimited (scraped until last page)`)
     } else {
-      console.log(`  • Mode: Limited (stopped at 2 weeks ago)`)
+      console.log(`  • Mode: Limited (stopped at ended giveaways)`)
     }
 
     console.log(`\n📈 Additional Stats:`)
@@ -810,7 +824,7 @@ class SteamGiftsHTMLScraper {
 // Main execution
 async function main(): Promise<void> {
   const scraper = new SteamGiftsHTMLScraper()
-  const filename = 'website/public/data/all_giveaways_html.json'
+  const filename = 'website/public/data/giveaways.json'
 
   try {
     console.log('🚀 Starting HTML scraping for giveaways...')
@@ -908,8 +922,12 @@ async function main(): Promise<void> {
         )
       }
 
-      // Save to file
-      writeFileSync(filename, JSON.stringify(updatedGiveaways, null, 2))
+      // Save to file with timestamp
+      const dataWithTimestamp = {
+        last_updated: new Date().toISOString(),
+        giveaways: updatedGiveaways,
+      }
+      writeFileSync(filename, JSON.stringify(dataWithTimestamp, null, 2))
       console.log(`\n💾 Giveaways saved to ${filename}`)
     } else {
       console.log('⚠️  No giveaways found')

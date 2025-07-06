@@ -12,6 +12,7 @@
     "generate-insights": "tsx src/utils/generate-insights.ts",
     "run-all": "echo '🚀 Starting full pipeline with website build...' && START_TIME=$(date +%s) && FETCH_ALL_PAGES=true npm run fetch-giveaways && npm run fetch-users && npm run generate-insights && npm run website:build && END_TIME=$(date +%s) && echo \"✅ Full pipeline with website completed in $((END_TIME - START_TIME)) seconds\"",
     "generate-website-data": "echo '🚀 Generating all the data...' && START_TIME=$(date +%s) && npm run fetch-giveaways && npm run fetch-users && npm run generate-insights && END_TIME=$(date +%s) && echo \"✅ Full pipeline with data generated in $((END_TIME - START_TIME)) seconds\"",
+    "generate-all-website-data": "echo '🚀 Generating all the data...' && START_TIME=$(date +%s) && FETCH_ALL_PAGES=true npm run fetch-giveaways && npm run fetch-users && npm run generate-insights && END_TIME=$(date +%s) && echo \"✅ Full pipeline with data generated in $((END_TIME - START_TIME)) seconds\"",
     "build": "tsc",
     "website:dev": "cd website && npm run dev",
 

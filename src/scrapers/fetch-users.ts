@@ -185,7 +185,7 @@ class SteamGiftsUserFetcher {
   }
 
   private loadGiveawayData(): Giveaway[] {
-    const giveawayFilename = 'website/public/data/all_giveaways_html.json'
+    const giveawayFilename = 'website/public/data/giveaways.json'
 
     if (!existsSync(giveawayFilename)) {
       console.log(
@@ -662,12 +662,9 @@ class SteamGiftsUserFetcher {
         }
       }
 
-      // Convert map back to array and sort by value difference (highest first)
+      // Convert map back to array and sort by username (alphabetically)
       const allUsers = Array.from(existingUsers.values())
-      allUsers.sort(
-        (a, b) =>
-          b.stats.total_value_difference - a.stats.total_value_difference
-      )
+      allUsers.sort((a, b) => a.username.localeCompare(b.username))
 
       // Display statistics
       const stats: UserStats = {

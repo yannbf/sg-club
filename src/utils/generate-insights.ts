@@ -74,7 +74,7 @@ class GroupInsightsGenerator {
   }
 
   private loadAllGiveaways(
-    filename: string = 'website/public/data/all_giveaways_html.json'
+    filename: string = 'website/public/data/giveaways.json'
   ): Giveaway[] {
     if (!existsSync(filename)) {
       console.error(`❌ File not found: ${filename}`)
@@ -83,7 +83,8 @@ class GroupInsightsGenerator {
 
     try {
       const data = readFileSync(filename, 'utf-8')
-      const giveaways = JSON.parse(data) as Giveaway[]
+      const parsed = JSON.parse(data)
+      const giveaways = parsed.giveaways || []
       return giveaways
     } catch (error) {
       console.error(`❌ Error reading giveaways data: ${error}`)

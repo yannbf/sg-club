@@ -75,10 +75,10 @@ You can trigger a data update manually:
 ## What Gets Updated
 
 The workflow updates these files:
-- `website/public/data/all_giveaways_html.json` - Latest giveaway data (generated directly to website)
+- `website/public/data/giveaways.json` - Latest giveaway data (generated directly to website)
 - `website/public/data/group_users.json` - Updated user statistics (generated directly to website)
-- `data/group_insights.txt` - Generated insights (for analysis)
-- `data/user_insights.txt` - User insights (for analysis)
+- `insights/group_insights.txt` - Generated insights (for analysis)
+- `insights/user_insights.txt` - User insights (for analysis)
 
 ## Schedule Customization
 

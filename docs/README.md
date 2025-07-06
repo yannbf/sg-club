@@ -104,7 +104,7 @@ This project uses HTML scraping to fetch comprehensive giveaway data:
   - Proper whitelist/region restriction detection
   - Handles paginated winner lists
 - **CV (Community Value) status detection** with caching
-- Generates `all_giveaways_html.json`
+- Generates `giveaways.json`
 - Better for historical analysis with winner data
 
 The HTML scraping approach supports:
@@ -277,7 +277,7 @@ interface User {
 
 The giveaway script generates:
 - Console output with update statistics and latest giveaways
-- `all_giveaways_html.json` - Updated dataset with new giveaways, sorted by creation date
+- `giveaways.json` - Updated dataset with new giveaways, sorted by creation date
 - Shows active/ended status for each giveaway
 
 The user fetching script generates:

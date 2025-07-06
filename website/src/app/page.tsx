@@ -1,4 +1,4 @@
-import { getAllGiveaways, getAllUsers, formatDateTime } from '@/lib/data'
+import { getAllGiveaways, getAllUsers, formatLastUpdated } from '@/lib/data'
 import Link from 'next/link'
 
 export default async function Home() {
@@ -16,7 +16,7 @@ export default async function Home() {
   const users = userData.users
   const activeMembers = users.length
   const totalGiveaways = giveaways.length
-  const lastUpdated = formatDateTime(userData.lastUpdated / 1000)
+  const lastUpdated = userData.lastUpdated ? formatLastUpdated(new Date(userData.lastUpdated).toISOString()) : 'Unknown'
 
   // Calculate statistics
   const totalGiveawaysCreated = users.reduce((sum, user) => {

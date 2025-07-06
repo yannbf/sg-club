@@ -40,7 +40,7 @@ npx serve out
 
 The website reads from JSON data files in the `public/data/` directory:
 
-- `all_giveaways_html.json` - Complete giveaway data
+- `giveaways.json` - Complete giveaway data with last_updated timestamp
 - `group_users.json` - User statistics and Steam integration data
 
 These files are automatically copied from the main project's `data/` directory during build.

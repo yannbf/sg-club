@@ -2,6 +2,7 @@ import { getUser, getAllGiveaways, getAllUsers } from '@/lib/data'
 import { formatRelativeTime, formatPlaytime, getCVBadgeColor, getCVLabel } from '@/lib/data'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
+import GameImage from './GameImage'
 
 export async function generateStaticParams() {
   const userData = await getAllUsers()
@@ -77,12 +78,6 @@ export default async function UserDetailPage({ params }: Props) {
       borderColor: isActive ? 'border-green-200' : 'border-gray-200',
       backgroundColor: isActive ? 'bg-green-50' : 'bg-white'
     }
-  }
-
-  const getAppIdForWonGame = (gameLink: string) => {
-    // Find the corresponding giveaway from the main giveaways data using the link
-    const matchingGiveaway = giveaways.find(g => g.link === gameLink)
-    return matchingGiveaway?.app_id || null
   }
 
   return (
@@ -192,21 +187,17 @@ export default async function UserDetailPage({ params }: Props) {
           </h2>
           <div className="space-y-4">
             {user.giveaways_won.map((game, index) => {
-              const appId = getAppIdForWonGame(game.link)
+              const matchingGiveaway = giveaways.find(g => g.link === game.link)
               
               return (
                 <div key={index} className="border border-gray-200 rounded-lg overflow-hidden">
                   <div className="flex">
                     {/* Game Image */}
-                    {appId && (
-                      <div className="w-32 h-24 bg-gray-200 flex-shrink-0 overflow-hidden">
-                        <img
-                          src={`https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/${appId}/header.jpg`}
-                          alt={game.name}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                    )}
+                    <GameImage
+                      appId={matchingGiveaway?.app_id?.toString()}
+                      packageId={matchingGiveaway?.package_id?.toString()}
+                      name={game.name}
+                    />
                     
                     <div className="p-4 flex-1">
                       <div className="flex items-start justify-between">
@@ -315,15 +306,11 @@ export default async function UserDetailPage({ params }: Props) {
                 <div key={giveaway.id} className={`border ${status.borderColor} rounded-lg overflow-hidden ${status.backgroundColor} ${status.isActive ? 'shadow-md' : 'shadow'}`}>
                   <div className="flex">
                     {/* Game Image */}
-                    {giveaway.app_id && (
-                      <div className="w-32 h-24 bg-gray-200 flex-shrink-0 overflow-hidden">
-                        <img
-                          src={`https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/${giveaway.app_id}/header.jpg`}
-                          alt={giveaway.name}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                    )}
+                    <GameImage
+                      appId={giveaway.app_id?.toString()}
+                      packageId={giveaway.package_id?.toString()}
+                      name={giveaway.name}
+                    />
                     
                     <div className="p-4 flex-1">
                       <div className="flex items-start justify-between">

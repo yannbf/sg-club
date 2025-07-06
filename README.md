@@ -98,9 +98,9 @@ gusbot/
 ## 📊 Data Output
 
 ### Generated Files
-- `data/all_giveaways_html.json` - Complete giveaway database
-- `data/group_users.json` - User statistics with Steam integration
-- `data/group_insights.txt` - Automated analytics report
+- `website/public/data/giveaways.json` - Complete giveaway database
+- `website/public/data/group_users.json` - User statistics with Steam integration
+- `insights/group_insights.txt` - Automated analytics report
 
 ### Data Features
 - **Giveaway Data**: Name, points, entries, CV status, winners, timestamps

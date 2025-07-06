@@ -20,12 +20,13 @@ async function loadBuildTimeData() {
       const path = await import('path')
       const giveawaysPath = path.join(
         process.cwd(),
-        '..',
+        'public',
         'data',
-        'all_giveaways_html.json'
+        'giveaways.json'
       )
       const giveawaysData = fs.readFileSync(giveawaysPath, 'utf8')
-      buildTimeGiveaways = JSON.parse(giveawaysData)
+      const parsed = JSON.parse(giveawaysData)
+      buildTimeGiveaways = parsed.giveaways || []
     }
 
     if (!buildTimeUsers) {
@@ -33,7 +34,7 @@ async function loadBuildTimeData() {
       const path = await import('path')
       const usersPath = path.join(
         process.cwd(),
-        '..',
+        'public',
         'data',
         'group_users.json'
       )
@@ -57,12 +58,25 @@ async function loadBuildTimeData() {
 // Client-side fetch functions
 async function fetchGiveaways(): Promise<Giveaway[]> {
   try {
-    const response = await fetch('/data/all_giveaways_html.json')
+    const response = await fetch('/data/giveaways.json')
     if (!response.ok) throw new Error('Failed to fetch giveaways')
-    return await response.json()
+    const data = await response.json()
+    return data.giveaways || []
   } catch (error) {
     console.error('Error reading giveaways data:', error)
     return []
+  }
+}
+
+async function fetchLastUpdated(): Promise<string | null> {
+  try {
+    const response = await fetch('/data/giveaways.json')
+    if (!response.ok) throw new Error('Failed to fetch giveaways')
+    const data = await response.json()
+    return data.last_updated || null
+  } catch (error) {
+    console.error('Error reading giveaways data:', error)
+    return null
   }
 }
 
@@ -196,4 +210,67 @@ export function getCVLabel(cvStatus: string): string {
     default:
       return 'Unknown'
   }
+}
+
+export async function getLastUpdated(): Promise<string | null> {
+  if (typeof window !== 'undefined') {
+    // Client-side - use fetch
+    return await fetchLastUpdated()
+  }
+
+  // Server-side during build - read directly from file
+  try {
+    const fs = await import('fs')
+    const path = await import('path')
+    const giveawaysPath = path.join(
+      process.cwd(),
+      'public',
+      'data',
+      'giveaways.json'
+    )
+    const giveawaysData = fs.readFileSync(giveawaysPath, 'utf8')
+    const parsed = JSON.parse(giveawaysData)
+    return parsed.last_updated || null
+  } catch (error) {
+    console.error('Error reading giveaways last updated:', error)
+    return null
+  }
+}
+
+export function formatLastUpdated(isoString: string): string {
+  const date = new Date(isoString)
+  const now = new Date()
+
+  // Format: dd/mm/yyyy, hh:mm
+  const formatted =
+    date.toLocaleDateString('en-GB', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+    }) +
+    ', ' +
+    date.toLocaleTimeString('en-GB', {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false,
+    })
+
+  // Calculate time difference
+  const diffMs = now.getTime() - date.getTime()
+  const diffMinutes = Math.floor(diffMs / (1000 * 60))
+  const diffHours = Math.floor(diffMinutes / 60)
+  const diffDays = Math.floor(diffHours / 24)
+
+  let relativeTime = ''
+  if (diffDays > 0) {
+    relativeTime = `${diffDays} day${diffDays > 1 ? 's' : ''} ago`
+  } else if (diffHours > 0) {
+    relativeTime = `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`
+  } else if (diffMinutes > 0) {
+    relativeTime = `${diffMinutes} minute${diffMinutes > 1 ? 's' : ''} ago`
+  } else {
+    relativeTime = 'just now'
+  }
+
+  return `${formatted} (${relativeTime})`
 }
