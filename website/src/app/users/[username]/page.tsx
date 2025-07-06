@@ -3,6 +3,7 @@ import { formatRelativeTime, formatPlaytime, getCVBadgeColor, getCVLabel } from 
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import GameImage from './GameImage'
+import { Giveaway } from '@/types'
 
 export async function generateStaticParams() {
   const userData = await getAllUsers()
@@ -66,17 +67,18 @@ export default async function UserDetailPage({ params }: Props) {
     return user.giveaways_won.filter(game => game.steam_play_data?.never_played).length
   }
 
-  const getGiveawayStatus = (endTimestamp: number) => {
+  const getGiveawayStatus = (giveaway: Giveaway) => {
     const now = Date.now() / 1000
-    const isActive = endTimestamp > now
+    const isActive = giveaway.end_timestamp > now
+    const hasNoEntries = !isActive && giveaway.entry_count === 0
     
     return {
       isActive,
-      statusIcon: isActive ? '🟢' : '🔴',
-      statusText: isActive ? 'Active' : 'Ended',
-      statusColor: isActive ? 'text-green-600' : 'text-red-600',
-      borderColor: isActive ? 'border-green-200' : 'border-gray-200',
-      backgroundColor: isActive ? 'bg-green-50' : 'bg-white'
+      statusIcon: isActive ? '🟢' : hasNoEntries ? '‼️' : '🔴',
+      statusText: isActive ? 'Active' : hasNoEntries ? 'Ended with no entries' : 'Ended',
+      statusColor: isActive ? 'text-green-600' : hasNoEntries ? 'text-red-600' : 'text-red-600',
+      borderColor: isActive ? 'border-green-200' : hasNoEntries ? 'border-red-200' : 'border-gray-200',
+      backgroundColor: isActive ? 'bg-green-50' : hasNoEntries ? 'bg-red-50' : 'bg-white'
     }
   }
 
@@ -300,10 +302,10 @@ export default async function UserDetailPage({ params }: Props) {
                 return aActive ? -1 : 1
               })
               .map((giveaway) => {
-              const status = getGiveawayStatus(giveaway.end_timestamp)
+              const status = getGiveawayStatus(giveaway)
               
               return (
-                <div key={giveaway.id} className={`border ${status.borderColor} rounded-lg overflow-hidden ${status.backgroundColor} ${status.isActive ? 'shadow-md' : 'shadow'}`}>
+                <div key={giveaway.id} className={`border rounded-lg overflow-hidden ${status.borderColor} ${status.backgroundColor}`}>
                   <div className="flex">
                     {/* Game Image */}
                     <GameImage
