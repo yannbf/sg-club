@@ -619,9 +619,9 @@ class GroupInsightsGenerator {
 
   public generateReport(
     inputFile: string = '../website/public/data/group_users.json',
-    outputFile: string = '../data/group_insights.txt'
+    outputFile: string = '../scraper/data/group_insights.txt'
   ): void {
-    console.log('📊 Generating group insights report...')
+    console.log('📊 Generating group insights report...', process.cwd())
 
     const userData = this.loadUserData(inputFile)
     if (!userData) {
