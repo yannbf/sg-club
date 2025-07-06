@@ -10,11 +10,11 @@
     "fetch-users": "tsx src/scrapers/fetch-users.ts",
     "check-steam-game": "tsx src/utils/check-steam-game.ts",
     "generate-insights": "tsx src/utils/generate-insights.ts",
-    "run-all": "echo '🚀 Starting full analysis pipeline...' && START_TIME=$(date +%s) && FETCH_ALL_PAGES=true npm run fetch-giveaways && npm run fetch-users && npm run generate-insights && END_TIME=$(date +%s) && echo \"✅ Full analysis completed in $((END_TIME - START_TIME)) seconds\"",
-    "run-all-with-website": "echo '🚀 Starting full pipeline with website build...' && START_TIME=$(date +%s) && FETCH_ALL_PAGES=true npm run fetch-giveaways && npm run fetch-users && npm run generate-insights && npm run website:update-data && npm run website:build && END_TIME=$(date +%s) && echo \"✅ Full pipeline with website completed in $((END_TIME - START_TIME)) seconds\"",
+    "run-all": "echo '🚀 Starting full pipeline with website build...' && START_TIME=$(date +%s) && FETCH_ALL_PAGES=true npm run fetch-giveaways && npm run fetch-users && npm run generate-insights && npm run website:build && END_TIME=$(date +%s) && echo \"✅ Full pipeline with website completed in $((END_TIME - START_TIME)) seconds\"",
+    "generate-website-data": "echo '🚀 Generating all the data...' && START_TIME=$(date +%s) && npm run fetch-giveaways && npm run fetch-users && npm run generate-insights && END_TIME=$(date +%s) && echo \"✅ Full pipeline with data generated in $((END_TIME - START_TIME)) seconds\"",
     "build": "tsc",
     "website:dev": "cd website && npm run dev",
-    "website:update-data": "cp data/all_giveaways_html.json website/public/data/ && cp data/group_users.json website/public/data/",
+
     "website:build": "cd website && npm run build",
     "website:serve": "cd website && npx serve out"
   },

@@ -1,30 +1,21 @@
-# Deployment Guide
+# Data Update Automation Guide
 
-This guide explains how to set up automated deployment of your SteamGifts website using GitHub Actions and GitHub Pages.
+This guide explains how to set up automated data generation for your SteamGifts website using GitHub Actions.
 
 ## Overview
 
-The deployment process:
+The automated data update process:
 1. **Runs every 12 hours** (at 00:00 and 12:00 UTC)
 2. **Generates fresh data** by running all scrapers
-3. **Builds the website** with the latest data
-4. **Deploys automatically** to GitHub Pages
+3. **Updates website data files** with the latest information
+4. **Commits changes** back to the repository
 
-## GitHub Pages Setup
+## Setup
 
-### 1. Enable GitHub Pages
+### Repository Permissions
 
-1. Go to your repository settings on GitHub
-2. Scroll down to the "Pages" section
-3. Under "Source", select **GitHub Actions**
-4. Save the settings
-
-### 2. Repository Permissions
-
-The workflow needs proper permissions to deploy to GitHub Pages. These are already configured in the workflow file:
-- `contents: read` - to read the repository
-- `pages: write` - to write to GitHub Pages
-- `id-token: write` - for secure authentication
+The workflow needs write permissions to commit changes. This is already configured in the workflow file:
+- `contents: write` - to read the repository and commit changes
 
 ## Environment Variables
 
@@ -66,24 +57,32 @@ If you don't want to use Steam API functionality, you can skip it entirely:
 - `SKIP_STEAM_API` - Set to `true` to skip Steam API calls entirely
 - `NODE_ENV` - Set to `production` for the build
 
-## Manual Deployment
+## Manual Data Update
 
-You can trigger a deployment manually:
+You can trigger a data update manually:
 
 1. Go to the "Actions" tab in your repository
-2. Select "Deploy Website with Data Update"
+2. Select "Update Website Data"
 3. Click "Run workflow"
 4. Choose the branch and click "Run workflow"
 
 ## Monitoring
 
-- **View deployment logs**: Go to Actions tab and click on any workflow run
-- **Check website**: After deployment, your site will be available at `https://[username].github.io/[repository-name]`
-- **Deployment status**: Each step shows success/failure status
+- **View update logs**: Go to Actions tab and click on any workflow run
+- **Check for new commits**: After the workflow runs, check the repository for new commits with updated data files
+- **Update status**: Each step shows success/failure status
+
+## What Gets Updated
+
+The workflow updates these files:
+- `website/public/data/all_giveaways_html.json` - Latest giveaway data (generated directly to website)
+- `website/public/data/group_users.json` - Updated user statistics (generated directly to website)
+- `data/group_insights.txt` - Generated insights (for analysis)
+- `data/user_insights.txt` - User insights (for analysis)
 
 ## Schedule Customization
 
-To change the deployment schedule, edit the cron expression in `.github/workflows/deploy.yml`:
+To change the update schedule, edit the cron expression in `.github/workflows/deploy.yml`:
 
 ```yaml
 schedule:
@@ -100,20 +99,21 @@ Common cron patterns:
 
 ### Common Issues
 
-1. **Deployment fails**: Check the Actions logs for specific error messages
+1. **Workflow fails**: Check the Actions logs for specific error messages
 2. **Data not updating**: Ensure scrapers are working and environment variables are set
-3. **Website not loading**: Verify the Next.js build completed successfully
+3. **No commits created**: Check if there were actually changes to commit
+4. **Permission errors**: Ensure the repository has Actions enabled and write permissions
 
 ### Debug Steps
 
 1. Check the workflow logs in the Actions tab
 2. Verify all dependencies are correctly installed
 3. Test the `npm run run-all-with-website` command locally
-4. Ensure GitHub Pages is enabled and configured correctly
+4. Check if the generated files actually have changes
 
 ## Cost Considerations
 
 - GitHub Actions provides 2000 minutes/month for free on public repositories
-- Each deployment run takes approximately 5-10 minutes
+- Each data update run takes approximately 5-10 minutes
 - Running every 12 hours = ~60 runs/month = ~300-600 minutes/month
 - This should fit comfortably within the free tier 

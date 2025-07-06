@@ -536,8 +536,8 @@ class SteamGiftsHTMLScraper {
     return null
   }
 
-  private loadExistingGiveaways(filename: string): Map<number, Giveaway> {
-    const giveawayMap = new Map<number, Giveaway>()
+  private loadExistingGiveaways(filename: string): Map<string, Giveaway> {
+    const giveawayMap = new Map<string, Giveaway>()
 
     if (existsSync(filename)) {
       try {
@@ -566,7 +566,7 @@ class SteamGiftsHTMLScraper {
   }
 
   public async scrapeGiveaways(
-    filename: string = 'data/all_giveaways_html.json'
+    filename: string = 'website/public/data/all_giveaways_html.json'
   ): Promise<Giveaway[]> {
     try {
       // Load existing giveaways
@@ -810,7 +810,7 @@ class SteamGiftsHTMLScraper {
 // Main execution
 async function main(): Promise<void> {
   const scraper = new SteamGiftsHTMLScraper()
-  const filename = 'data/all_giveaways_html.json'
+  const filename = 'website/public/data/all_giveaways_html.json'
 
   try {
     console.log('🚀 Starting HTML scraping for giveaways...')

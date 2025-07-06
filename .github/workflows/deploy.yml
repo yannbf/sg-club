@@ -1,4 +1,4 @@
-name: Deploy Website with Data Update
+name: Update Website Data
 
 on:
   schedule:
@@ -7,24 +7,17 @@ on:
   workflow_dispatch: # Allow manual triggering
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
+  contents: write
 
 jobs:
-  build-and-deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  generate-and-commit:
     runs-on: ubuntu-latest
     
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
         
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -38,25 +31,25 @@ jobs:
       - name: Install website dependencies
         run: cd website && npm ci
         
-      - name: Run data generation and website build
-        run: npm run run-all-with-website
+      - name: Generate data and update website files
+        run: npm run generate-website-data
         env:
           NODE_ENV: production
           FETCH_ALL_PAGES: true
           STEAM_API_KEY: ${{ secrets.STEAM_API_KEY }}
-          # Optional: Set SKIP_STEAM_API=true if you want to skip Steam API calls
-          # SKIP_STEAM_API: true
           
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-        with:
-          static_site_generator: next
+      - name: Configure Git
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
           
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: './website/out'
-          
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4 
+      - name: Commit and push changes
+        run: |
+          git add data/
+          git add website/public/data/
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "🤖 Auto-update data files - $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
+            git push origin ${{ github.ref_name }}
+          fi 
