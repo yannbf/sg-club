@@ -196,7 +196,7 @@ class SteamGiftsUserFetcher {
 
     try {
       const data = readFileSync(giveawayFilename, 'utf-8')
-      const giveaways: Giveaway[] = JSON.parse(data)
+      const giveaways: Giveaway[] = JSON.parse(data).giveaways
       console.log(`📁 Loaded ${giveaways.length} giveaways for user enrichment`)
       return giveaways
     } catch (error) {
