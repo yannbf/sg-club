@@ -1,12 +1,13 @@
 {
-  "name": "website",
+  "name": "@gusbot/website",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "cd .. && npm run generate-all-website-data && cd website && next build",
+    "build": "pnpm run --filter scraper generate-all-website-data && next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "serve": "npx serve out"
   },
   "dependencies": {
     "react": "^19.0.0",

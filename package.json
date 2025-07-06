@@ -1,37 +1,19 @@
 {
-  "name": "steamgifts-scraper",
+  "name": "gusbot",
+  "private": true,
   "version": "1.0.0",
-  "description": "A JavaScript scraper for SteamGifts group statistics",
-  "type": "module",
-  "main": "steamgifts-scraper.js",
+  "description": "SteamGifts group statistics and website",
   "scripts": {
-    "start": "node steamgifts-scraper.js",
-    "fetch-giveaways": "tsx src/scrapers/fetch-steamgifts-html.ts",
-    "fetch-users": "tsx src/scrapers/fetch-users.ts",
-    "check-steam-game": "tsx src/utils/check-steam-game.ts",
-    "generate-insights": "tsx src/utils/generate-insights.ts",
-    "run-all": "echo '🚀 Starting full pipeline with website build...' && START_TIME=$(date +%s) && FETCH_ALL_PAGES=true npm run fetch-giveaways && npm run fetch-users && npm run generate-insights && npm run website:build && END_TIME=$(date +%s) && echo \"✅ Full pipeline with website completed in $((END_TIME - START_TIME)) seconds\"",
-    "generate-website-data": "echo '🚀 Generating all the data...' && START_TIME=$(date +%s) && npm run fetch-giveaways && npm run fetch-users && npm run generate-insights && END_TIME=$(date +%s) && echo \"✅ Full pipeline with data generated in $((END_TIME - START_TIME)) seconds\"",
-    "generate-all-website-data": "echo '🚀 Generating all the data...' && START_TIME=$(date +%s) && FETCH_ALL_PAGES=true npm run fetch-giveaways && npm run fetch-users && npm run generate-insights && END_TIME=$(date +%s) && echo \"✅ Full pipeline with data generated in $((END_TIME - START_TIME)) seconds\"",
-    "build": "tsc",
-    "website:dev": "cd website && npm run dev",
-
-    "website:build": "cd website && npm run build",
-    "website:serve": "cd website && npx serve out"
-  },
-  "dependencies": {
-    "@types/cheerio": "^0.22.35",
-    "cheerio": "^1.1.0",
-    "csv-writer": "^1.6.0",
-    "dotenv": "^17.0.1"
-  },
-  "devDependencies": {
-    "@types/node": "^22.0.0",
-    "tsx": "^4.7.0",
-    "typescript": "^5.3.0"
+    "run-all": "pnpm run --filter scraper run-all",
+    "generate-website-data": "pnpm run --filter scraper generate-website-data",
+    "generate-all-website-data": "pnpm run --filter scraper generate-all-website-data",
+    "website:dev": "pnpm run --filter website dev",
+    "website:build": "pnpm run --filter website build",
+    "website:serve": "pnpm run --filter website serve"
   },
   "engines": {
-    "node": ">=22.0.0"
+    "node": ">=22.0.0",
+    "pnpm": ">=8.0.0"
   },
   "keywords": [
     "steamgifts",

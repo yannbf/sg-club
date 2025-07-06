@@ -570,7 +570,7 @@ class SteamGiftsHTMLScraper {
   }
 
   public async scrapeGiveaways(
-    filename: string = 'website/public/data/giveaways.json'
+    filename: string = '../website/public/data/giveaways.json'
   ): Promise<Giveaway[]> {
     try {
       // Load existing giveaways
@@ -824,10 +824,10 @@ class SteamGiftsHTMLScraper {
 // Main execution
 async function main(): Promise<void> {
   const scraper = new SteamGiftsHTMLScraper()
-  const filename = 'website/public/data/giveaways.json'
+  const filename = '../website/public/data/giveaways.json'
 
   try {
-    console.log('🚀 Starting HTML scraping for giveaways...')
+    console.log('🚀 Starting giveaway scraping...')
     const allGiveaways = await scraper.scrapeGiveaways(filename)
 
     if (allGiveaways.length > 0) {

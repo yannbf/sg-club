@@ -185,7 +185,7 @@ class SteamGiftsUserFetcher {
   }
 
   private loadGiveawayData(): Giveaway[] {
-    const giveawayFilename = 'website/public/data/giveaways.json'
+    const giveawayFilename = '../website/public/data/giveaways.json'
 
     if (!existsSync(giveawayFilename)) {
       console.log(
@@ -711,7 +711,7 @@ class SteamGiftsUserFetcher {
 // Main execution
 async function main(): Promise<void> {
   const fetcher = new SteamGiftsUserFetcher()
-  const filename = 'website/public/data/group_users.json'
+  const filename = '../website/public/data/group_users.json'
 
   try {
     console.log('🚀 Starting user fetching...')

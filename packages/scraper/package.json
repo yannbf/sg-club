@@ -1,0 +1,32 @@
+{
+  "name": "@gusbot/scraper",
+  "version": "1.0.0",
+  "description": "A JavaScript scraper for SteamGifts group statistics",
+  "type": "module",
+  "main": "src/index.ts",
+  "scripts": {
+    "start": "tsx src/index.ts",
+    "fetch-giveaways": "tsx src/scrapers/fetch-steamgifts-html.ts",
+    "fetch-users": "tsx src/scrapers/fetch-users.ts",
+    "check-steam-game": "tsx src/utils/check-steam-game.ts",
+    "generate-insights": "tsx src/utils/generate-insights.ts",
+    "run-all": "echo '🚀 Starting full pipeline with website build...' && START_TIME=$(date +%s) && FETCH_ALL_PAGES=true pnpm run fetch-giveaways && pnpm run fetch-users && pnpm run generate-insights && pnpm run --filter website build && END_TIME=$(date +%s) && echo \"✅ Full pipeline with website completed in $((END_TIME - START_TIME)) seconds\"",
+    "generate-website-data": "echo '🚀 Generating all the data...' && START_TIME=$(date +%s) && pnpm run fetch-giveaways && pnpm run fetch-users && pnpm run generate-insights && END_TIME=$(date +%s) && echo \"✅ Full pipeline with data generated in $((END_TIME - START_TIME)) seconds\"",
+    "generate-all-website-data": "echo '🚀 Generating all the data...' && START_TIME=$(date +%s) && FETCH_ALL_PAGES=true pnpm run fetch-giveaways && pnpm run fetch-users && pnpm run generate-insights && END_TIME=$(date +%s) && echo \"✅ Full pipeline with data generated in $((END_TIME - START_TIME)) seconds\"",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@types/cheerio": "^0.22.35",
+    "cheerio": "^1.1.0",
+    "csv-writer": "^1.6.0",
+    "dotenv": "^17.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.0"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  }
+} 

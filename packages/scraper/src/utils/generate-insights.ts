@@ -74,7 +74,7 @@ class GroupInsightsGenerator {
   }
 
   private loadAllGiveaways(
-    filename: string = 'website/public/data/giveaways.json'
+    filename: string = '../website/public/data/giveaways.json'
   ): Giveaway[] {
     if (!existsSync(filename)) {
       console.error(`❌ File not found: ${filename}`)
@@ -618,8 +618,8 @@ class GroupInsightsGenerator {
   }
 
   public generateReport(
-    inputFile: string = 'website/public/data/group_users.json',
-    outputFile: string = 'data/group_insights.txt'
+    inputFile: string = '../website/public/data/group_users.json',
+    outputFile: string = '../data/group_insights.txt'
   ): void {
     console.log('📊 Generating group insights report...')
 
