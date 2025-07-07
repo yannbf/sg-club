@@ -75,11 +75,11 @@ export default function UsersClient({ users }: Props) {
 
   const getUserTypeBadge = (user: User) => {
     if (user.stats.total_gift_difference > 0) {
-      return <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">Net Contributor</span>
+      return <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-success-light text-success-foreground">Net Contributor</span>
     } else if (user.stats.total_gift_difference < 0) {
-      return <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">Net Receiver</span>
+      return <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-error-light text-error-foreground">Net Receiver</span>
     } else {
-      return <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">Neutral</span>
+      return <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-info-light text-info-foreground">Neutral</span>
     }
   }
 
@@ -103,74 +103,77 @@ export default function UsersClient({ users }: Props) {
 
   return (
     <div className="space-y-6">
+      <h1 className="text-3xl font-bold">Users</h1>
       {/* Filter Controls */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Search
-          </label>
-          <input
-            type="text"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="Search usernames..."
-            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-          />
-        </div>
-        
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Sort by
-          </label>
-          <div className="flex gap-2">
-            <select
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value as 'username' | 'sent' | 'received' | 'difference' | 'value' | 'playtime')}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-            >
-              <option value="difference">Gift Difference</option>
-              <option value="value">Value Difference</option>
-              <option value="sent">Gifts Sent</option>
-              <option value="received">Gifts Received</option>
-              <option value="playtime">Total Playtime</option>
-              <option value="username">Username</option>
-            </select>
-            <button
-              onClick={() => setSortDirection(prev => prev === 'asc' ? 'desc' : 'asc')}
-              className="px-3 py-2 border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              title={`Sort ${sortDirection === 'asc' ? 'Ascending' : 'Descending'}`}
-            >
-              {sortDirection === 'asc' ? '↑' : '↓'}
-            </button>
+      <div className="bg-card-background rounded-lg border-card-border border p-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-muted-foreground mb-2">
+              Search
+            </label>
+            <input
+              type="text"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              placeholder="Search usernames..."
+              className="w-full px-3 py-2 border border-card-border rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-accent"
+            />
           </div>
-        </div>
-        
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            User Type
-          </label>
-          <select
-            value={filterType}
-            onChange={(e) => setFilterType(e.target.value as 'all' | 'contributors' | 'receivers' | 'neutral')}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-          >
-            <option value="all">All Users</option>
-            <option value="contributors">Net Contributors</option>
-            <option value="receivers">Net Receivers</option>
-            <option value="neutral">Neutral Users</option>
-          </select>
+          
+          <div>
+            <label className="block text-sm font-medium text-muted-foreground mb-2">
+              Sort by
+            </label>
+            <div className="flex gap-2">
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value as 'username' | 'sent' | 'received' | 'difference' | 'value' | 'playtime')}
+                className="w-full px-3 py-2 border border-card-border rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-accent"
+              >
+                <option value="difference">Gift Difference</option>
+                <option value="value">Value Difference</option>
+                <option value="sent">Gifts Sent</option>
+                <option value="received">Gifts Received</option>
+                <option value="playtime">Total Playtime</option>
+                <option value="username">Username</option>
+              </select>
+              <button
+                onClick={() => setSortDirection(prev => prev === 'asc' ? 'desc' : 'asc')}
+                className="px-3 py-2 border border-card-border rounded-md bg-transparent hover:bg-accent/10 focus:outline-none focus:ring-2 focus:ring-accent"
+                title={`Sort ${sortDirection === 'asc' ? 'Ascending' : 'Descending'}`}
+              >
+                {sortDirection === 'asc' ? '↑' : '↓'}
+              </button>
+            </div>
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium text-muted-foreground mb-2">
+              User Type
+            </label>
+            <select
+              value={filterType}
+              onChange={(e) => setFilterType(e.target.value as 'all' | 'contributors' | 'receivers' | 'neutral')}
+              className="w-full px-3 py-2 border border-card-border rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-accent"
+            >
+              <option value="all">All Users</option>
+              <option value="contributors">Net Contributors</option>
+              <option value="receivers">Net Receivers</option>
+              <option value="neutral">Neutral Users</option>
+            </select>
+          </div>
         </div>
       </div>
 
       {/* Results Summary */}
-      <div className="text-sm text-gray-600">
+      <div className="text-sm text-muted-foreground">
         Showing {filteredAndSortedUsers.length} of {users.length} members
       </div>
 
       {/* Users Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredAndSortedUsers.map((user) => (
-          <div key={user.username} className="bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-200 p-6">
+          <div key={user.username} className="bg-card-background rounded-lg border-card-border border hover:shadow-lg transition-all duration-200 p-6">
             <div className="flex items-center mb-4">
               {user.avatar_url ? (
                 <Image
@@ -178,26 +181,26 @@ export default function UsersClient({ users }: Props) {
                   alt={user.username}
                   width={48}
                   height={48}
-                  className="rounded-full border-2 border-gray-200"
+                  className="rounded-full border-2 border-card-border"
                 />
               ) : (
-                <div className="w-12 h-12 rounded-full border-2 border-gray-200 bg-gradient-to-br from-blue-100 to-purple-100 flex items-center justify-center">
+                <div className="w-12 h-12 rounded-full border-2 border-card-border bg-gradient-to-br from-accent-blue/20 to-accent-purple/20 flex items-center justify-center">
                   <span className="text-xl">👤</span>
                 </div>
               )}
               <div className="ml-4 flex-1">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-lg font-semibold text-gray-900">
+                  <h3 className="text-lg font-semibold">
                     <Link
                       href={`/users/${user.username}`}
-                      className="hover:text-blue-600 transition-colors"
+                      className="hover:text-accent transition-colors"
                     >
                       {user.username}
                     </Link>
                   </h3>
                   <div className="flex items-center space-x-2">
                     {user.steam_id && (
-                      <span className="text-lg" title="Steam Account Connected">🎮</span>
+                      <span className="text-lg text-muted-foreground" title="Steam Account Connected">🎮</span>
                     )}
                   </div>
                 </div>
@@ -210,77 +213,65 @@ export default function UsersClient({ users }: Props) {
             <div className="space-y-3">
               <div className="grid grid-cols-2 gap-4">
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-green-600">{user.stats.total_sent_count}</div>
-                  <div className="text-xs text-gray-500">Gifts Sent</div>
+                  <div className="text-2xl font-bold text-success-foreground">{user.stats.total_sent_count}</div>
+                  <div className="text-xs text-muted-foreground">Gifts Sent</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-blue-600">{user.stats.total_received_count}</div>
-                  <div className="text-xs text-gray-500">Gifts Received</div>
+                  <div className="text-2xl font-bold text-info-foreground">{user.stats.total_received_count}</div>
+                  <div className="text-xs text-muted-foreground">Gifts Received</div>
                 </div>
               </div>
               
               <div className="grid grid-cols-2 gap-4">
                 <div className="text-center">
                   <div className={`text-lg font-medium ${
-                    user.stats.total_gift_difference > 0 ? 'text-green-600' : 
-                    user.stats.total_gift_difference < 0 ? 'text-red-600' : 
-                    'text-gray-600'
+                    user.stats.total_gift_difference > 0 ? 'text-success-foreground' : 
+                    user.stats.total_gift_difference < 0 ? 'text-error-foreground' : 
+                    'text-muted-foreground'
                   }`}>
                     {user.stats.total_gift_difference > 0 ? '+' : ''}{user.stats.total_gift_difference}
                   </div>
-                  <div className="text-xs text-gray-500">Gift Difference</div>
+                  <div className="text-xs text-muted-foreground">Gift Difference</div>
                 </div>
                 <div className="text-center">
                   <div className={`text-lg font-medium ${
-                    user.stats.total_value_difference > 0 ? 'text-green-600' : 
-                    user.stats.total_value_difference < 0 ? 'text-red-600' : 
-                    'text-gray-600'
+                    user.stats.total_value_difference > 0 ? 'text-success-foreground' : 
+                    user.stats.total_value_difference < 0 ? 'text-error-foreground' : 
+                    'text-muted-foreground'
                   }`}>
                     {user.stats.total_value_difference > 0 ? '+' : ''}${user.stats.total_value_difference}
                   </div>
-                  <div className="text-xs text-gray-500">Value Difference</div>
+                  <div className="text-xs text-muted-foreground">Value Difference</div>
                 </div>
               </div>
 
               {user.steam_id && (
-                <div className="pt-3 border-t border-gray-200">
+                <div className="pt-3 border-t border-card-border">
                   <div className="grid grid-cols-2 gap-4">
                     <div className="text-center">
-                      <div className="text-sm font-medium text-purple-600">
+                      <div className="text-sm font-medium text-accent-purple">
                         {formatPlaytime(getTotalPlaytime(user))}
                       </div>
-                      <div className="text-xs text-gray-500">Total Playtime</div>
+                      <div className="text-xs text-muted-foreground">Total Playtime</div>
                     </div>
                     <div className="text-center">
-                      <div className="text-sm font-medium text-orange-600">
-                        {getTotalAchievements(user)}
-                      </div>
-                      <div className="text-xs text-gray-500">Achievements</div>
+                      <div className="text-sm font-medium text-accent-yellow">{getTotalAchievements(user)}</div>
+                      <div className="text-xs text-muted-foreground">Achievements</div>
+                    </div>
+                  </div>
+                  
+                  <div className="mt-4 grid grid-cols-2 gap-4">
+                    <div className="text-center">
+                      <div className="text-sm font-medium text-accent-orange">{getNoEntryGiveaways(user)}</div>
+                      <div className="text-xs text-muted-foreground">No-Entry GAs</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-sm font-medium text-accent-green">{getRecentWins(user)}</div>
+                      <div className="text-xs text-muted-foreground">Recent Wins</div>
                     </div>
                   </div>
                 </div>
               )}
-
-              {/* Quick Stats */}
-              <div className="pt-3 border-t border-gray-200">
-                <div className="flex flex-col space-y-2">
-                  <div className="flex justify-between items-center">
-                    <div className="text-xs text-gray-500">
-                      {user.giveaways_won?.length || 0} games won ({getRecentWins(user)} last 14 days)
-                    </div>
-                    <Link
-                      href={`/users/${user.username}`}
-                      className="text-blue-600 hover:text-blue-800 text-sm font-medium"
-                    >
-                      View Details →
-                    </Link>
-                  </div>
-                  <div className="text-xs text-gray-500">
-                    {user.giveaways_created?.length || 0} giveaways created
-                    {getNoEntryGiveaways(user) > 0 && ` (${getNoEntryGiveaways(user)} with no entries)`}
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         ))}

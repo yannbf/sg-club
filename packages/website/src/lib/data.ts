@@ -210,13 +210,13 @@ export function formatPlaytime(minutes: number): string {
 export function getCVBadgeColor(cvStatus: string): string {
   switch (cvStatus) {
     case 'FULL_CV':
-      return 'bg-green-100 text-green-800'
+      return 'bg-accent-green/20 text-accent-green'
     case 'REDUCED_CV':
-      return 'bg-yellow-100 text-yellow-800'
+      return 'bg-accent-yellow/20 text-accent-yellow'
     case 'NO_CV':
-      return 'bg-red-100 text-red-800'
+      return 'bg-accent-red/20 text-accent-red'
     default:
-      return 'bg-gray-100 text-gray-800'
+      return 'bg-muted/20 text-muted-foreground'
   }
 }
 

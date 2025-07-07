@@ -18,37 +18,32 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <nav className="bg-blue-600 text-white shadow-lg">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex justify-between h-16">
-              <div className="flex items-center">
-                <Link href="/" className="text-xl font-bold">
-                  SteamGifts Group Analytics
-                </Link>
-              </div>
-              <div className="flex items-center space-x-4">
-                <Link 
-                  href="/" 
-                  className="hover:bg-blue-700 px-3 py-2 rounded-md text-sm font-medium"
-                >
-                  Overview
-                </Link>
-                <Link 
-                  href="/giveaways" 
-                  className="hover:bg-blue-700 px-3 py-2 rounded-md text-sm font-medium"
-                >
-                  Giveaways
-                </Link>
-                <Link 
-                  href="/users" 
-                  className="hover:bg-blue-700 px-3 py-2 rounded-md text-sm font-medium"
-                >
-                  Users
-                </Link>
-              </div>
-            </div>
+        <header className="sticky top-0 z-50 w-full border-b border-card-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+          <div className="container px-4 flex h-14 max-w-screen-2xl items-center">
+            <nav className="flex items-center space-x-4 lg:space-x-6">
+              <Link href="/" className="mr-6 flex items-center space-x-2">
+                <img
+                  src="https://avatars.fastly.steamstatic.com/13cc7998f870155897fd892086cfcee14670c978_full.jpg"
+                  alt="SteamGifts Analytics Logo" 
+                  className="h-8 w-8 rounded-full object-cover"
+                />
+                <span className="font-bold">The Giveaways Club</span>
+              </Link>
+              <Link
+                href="/giveaways"
+                className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+              >
+                Giveaways
+              </Link>
+              <Link
+                href="/users"
+                className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+              >
+                Users
+              </Link>
+            </nav>
           </div>
-        </nav>
+        </header>
         <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
           {children}
         </main>

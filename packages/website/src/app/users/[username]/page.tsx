@@ -37,11 +37,11 @@ export default async function UserDetailPage({ params }: Props) {
 
   const getUserTypeIcon = () => {
     if (user.stats.total_gift_difference > 0) {
-      return { icon: '📈', label: 'Net Contributor', color: 'text-green-600' }
+      return { icon: '📈', label: 'Net Contributor', color: 'text-success-foreground' }
     } else if (user.stats.total_gift_difference < 0) {
-      return { icon: '📉', label: 'Net Receiver', color: 'text-red-600' }
+      return { icon: '📉', label: 'Net Receiver', color: 'text-error-foreground' }
     } else {
-      return { icon: '➖', label: 'Neutral', color: 'text-gray-600' }
+      return { icon: '➖', label: 'Neutral', color: 'text-muted-foreground' }
     }
   }
 
@@ -72,9 +72,9 @@ export default async function UserDetailPage({ params }: Props) {
   }
 
   return (
-    <div className="px-4 sm:px-0">
+    <div className="space-y-8">
       {/* User Header */}
-      <div className="bg-white rounded-lg shadow p-6 mb-6">
+      <div className="bg-card-background rounded-lg border-card-border border p-6 mb-6">
         <div className="flex items-center">
           {user.avatar_url && (
             <Image
@@ -82,14 +82,14 @@ export default async function UserDetailPage({ params }: Props) {
               alt={user.username}
               width={64}
               height={64}
-              className="rounded-full mr-4"
+              className="rounded-full mr-4 border-2 border-card-border"
             />
           )}
           <div className="flex-1">
             <div className="flex items-center">
-              <h1 className="text-3xl font-bold text-gray-900">{user.username}</h1>
-              <span className="ml-3 text-2xl">{userType.icon}</span>
-              {user.steam_id && <span className="ml-2 text-2xl">🎮</span>}
+              <h1 className="text-3xl font-bold">{user.username}</h1>
+              <span className="ml-3 text-2xl" title={userType.label}>{userType.icon}</span>
+              {user.steam_id && <span className="ml-2 text-2xl text-muted-foreground" title="Steam Account Linked">🎮</span>}
             </div>
             <p className={`text-lg font-medium ${userType.color}`}>
               {userType.label}
@@ -99,7 +99,7 @@ export default async function UserDetailPage({ params }: Props) {
                 href={user.steam_profile_url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-blue-600 hover:text-blue-800 text-sm"
+                className="text-accent hover:underline text-sm"
               >
                 View Steam Profile →
               </a>
@@ -110,64 +110,64 @@ export default async function UserDetailPage({ params }: Props) {
 
       {/* Statistics Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-        <div className="bg-white rounded-lg shadow p-6">
+        <div className="bg-card-background rounded-lg border-card-border border p-6">
           <div className="text-center">
-            <div className="text-3xl font-bold text-blue-600">{user.stats.total_sent_count}</div>
-            <div className="text-sm text-gray-600">Gifts Sent</div>
-            <div className="text-xs text-gray-500">${user.stats.total_sent_value.toFixed(2)}</div>
+            <div className="text-3xl font-bold text-info-foreground">{user.stats.total_sent_count}</div>
+            <div className="text-sm text-muted-foreground">Gifts Sent</div>
+            <div className="text-xs text-muted-foreground">${user.stats.total_sent_value.toFixed(2)}</div>
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow p-6">
+        <div className="bg-card-background rounded-lg border-card-border border p-6">
           <div className="text-center">
-            <div className="text-3xl font-bold text-green-600">{user.stats.total_received_count}</div>
-            <div className="text-sm text-gray-600">Gifts Received</div>
-            <div className="text-xs text-gray-500">${user.stats.total_received_value.toFixed(2)}</div>
+            <div className="text-3xl font-bold text-success-foreground">{user.stats.total_received_count}</div>
+            <div className="text-sm text-muted-foreground">Gifts Received</div>
+            <div className="text-xs text-muted-foreground">${user.stats.total_received_value.toFixed(2)}</div>
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow p-6">
+        <div className="bg-card-background rounded-lg border-card-border border p-6">
           <div className="text-center">
             <div className={`text-3xl font-bold ${userType.color}`}>
               {user.stats.total_gift_difference > 0 ? '+' : ''}{user.stats.total_gift_difference}
             </div>
-            <div className="text-sm text-gray-600">Gift Difference</div>
+            <div className="text-sm text-muted-foreground">Gift Difference</div>
             <div className={`text-xs ${userType.color}`}>
               {user.stats.total_value_difference > 0 ? '+' : ''}${user.stats.total_value_difference.toFixed(2)}
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow p-6">
+        <div className="bg-card-background rounded-lg border-card-border border p-6">
           <div className="text-center">
-            <div className="text-3xl font-bold text-purple-600">{userGiveaways.length}</div>
-            <div className="text-sm text-gray-600">Total Giveaways</div>
-            <div className="text-xs text-gray-500">Created</div>
+            <div className="text-3xl font-bold text-accent-purple">{userGiveaways.length}</div>
+            <div className="text-sm text-muted-foreground">Total Giveaways</div>
+            <div className="text-xs text-muted-foreground">Created</div>
           </div>
         </div>
       </div>
 
       {/* Steam Statistics */}
       {user.steam_id && user.giveaways_won && user.giveaways_won.some(g => g.steam_play_data) && (
-        <div className="bg-white rounded-lg shadow p-6 mb-6">
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">🎮 Steam Activity</h2>
-          <p className="text-sm text-gray-600 mb-4">Activity related only to the games won in the group</p>
+        <div className="bg-card-background rounded-lg border-card-border border p-6 mb-6">
+          <h2 className="text-xl font-semibold mb-4">🎮 Steam Activity</h2>
+          <p className="text-sm text-muted-foreground mb-4">Activity related only to the games won in the group</p>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div className="text-center">
-              <div className="text-2xl font-bold text-orange-600">{getOwnedGames()}</div>
-              <div className="text-sm text-gray-600">Activated Games</div>
+              <div className="text-2xl font-bold text-accent-orange">{getOwnedGames()}</div>
+              <div className="text-sm text-muted-foreground">Activated Games</div>
             </div>
             <div className="text-center">
-              <div className="text-2xl font-bold text-blue-600">{formatPlaytime(getTotalPlaytime())}</div>
-              <div className="text-sm text-gray-600">Total Playtime</div>
+              <div className="text-2xl font-bold text-accent-blue">{formatPlaytime(getTotalPlaytime())}</div>
+              <div className="text-sm text-muted-foreground">Total Playtime</div>
             </div>
             <div className="text-center">
-              <div className="text-2xl font-bold text-yellow-600">{getTotalAchievements()}</div>
-              <div className="text-sm text-gray-600">Total Achievements</div>
+              <div className="text-2xl font-bold text-accent-yellow">{getTotalAchievements()}</div>
+              <div className="text-sm text-muted-foreground">Total Achievements</div>
             </div>
             <div className="text-center">
-              <div className="text-2xl font-bold text-red-600">{getNeverPlayedGames()}</div>
-              <div className="text-sm text-gray-600">Never Played</div>
+              <div className="text-2xl font-bold text-error-foreground">{getNeverPlayedGames()}</div>
+              <div className="text-sm text-muted-foreground">Never Played</div>
             </div>
           </div>
         </div>
@@ -175,8 +175,8 @@ export default async function UserDetailPage({ params }: Props) {
 
       {/* Games Won */}
       {user.giveaways_won && user.giveaways_won.length > 0 && (
-        <div className="bg-white rounded-lg shadow p-6 mb-6">
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">
+        <div className="bg-card-background rounded-lg border-card-border border p-6 mb-6">
+          <h2 className="text-xl font-semibold mb-4">
             🏆 Games Won ({user.giveaways_won.length})
           </h2>
           <div className="space-y-4">
@@ -184,7 +184,7 @@ export default async function UserDetailPage({ params }: Props) {
               const matchingGiveaway = giveaways.find(g => g.link === game.link)
 
               return (
-                <div key={index} className="border border-gray-200 rounded-lg overflow-hidden">
+                <div key={index} className="border border-card-border rounded-lg overflow-hidden">
                   <div className="flex">
                     {/* Game Image */}
                     <GameImage
@@ -196,15 +196,15 @@ export default async function UserDetailPage({ params }: Props) {
                     <div className="p-4 flex-1">
                       <div className="flex items-start justify-between">
                         <div className="flex-1">
-                          <h3 className="font-semibold text-gray-900">{game.name}</h3>
+                          <h3 className="font-semibold">{game.name}</h3>
                           <div className="flex items-center mt-1 space-x-4">
                             <span className={`px-2 py-1 text-xs font-semibold rounded-full ${getCVBadgeColor(game.cv_status)}`}>
                               {getCVLabel(game.cv_status)}
                             </span>
-                            <span className="text-sm text-gray-600">
+                            <span className="text-sm text-muted-foreground">
                               Won {formatRelativeTime(game.end_timestamp)}
                             </span>
-                            <span className={`text-sm font-medium ${game.status === 'received' ? 'text-green-600' : 'text-orange-600'}`}>
+                            <span className={`text-sm font-medium ${game.status === 'received' ? 'text-success-foreground' : 'text-warning-foreground'}`}>
                               {game.status === 'received' ? 'Activated' : 'Not Activated'}
                             </span>
                           </div>
@@ -213,7 +213,7 @@ export default async function UserDetailPage({ params }: Props) {
                           href={`https://www.steamgifts.com/giveaway/${game.link}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-blue-600 hover:text-blue-800 text-sm"
+                          className="text-accent hover:underline text-sm"
                         >
                           View →
                         </a>
@@ -222,31 +222,31 @@ export default async function UserDetailPage({ params }: Props) {
                   </div>
 
                   {game.steam_play_data && (
-                    <div className="mt-3 pt-3 border-t border-gray-200">
+                    <div className="bg-background/50 p-4">
                       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-sm">
                         <div>
-                          <span className="text-gray-600">Owned:</span>
-                          <span className={`ml-1 font-medium ${game.steam_play_data.owned ? 'text-green-600' : 'text-red-600'}`}>
+                          <span className="text-muted-foreground">Owned:</span>
+                          <span className={`ml-1 font-medium ${game.steam_play_data.owned ? 'text-success-foreground' : 'text-error-foreground'}`}>
                             {game.steam_play_data.owned ? 'Yes' : 'No'}
                           </span>
                         </div>
                         {game.steam_play_data.owned && (
                           <>
                             <div>
-                              <span className="text-gray-600">Playtime:</span>
+                              <span className="text-muted-foreground">Playtime:</span>
                               <span className="ml-1 font-medium">
                                 {formatPlaytime(game.steam_play_data.playtime_minutes)}
                               </span>
                             </div>
                             <div>
-                              <span className="text-gray-600">Achievements:</span>
+                              <span className="text-muted-foreground">Achievements:</span>
                               <span className="ml-1 font-medium">
                                 {game.steam_play_data.achievements_unlocked}/{game.steam_play_data.achievements_total}
                               </span>
                             </div>
                             <div>
-                              <span className="text-gray-600">Status:</span>
-                              <span className={`ml-1 font-medium ${game.steam_play_data.never_played ? 'text-red-600' : 'text-green-600'}`}>
+                              <span className="text-muted-foreground">Status:</span>
+                              <span className={`ml-1 font-medium ${game.steam_play_data.never_played ? 'text-error-foreground' : 'text-success-foreground'}`}>
                                 {game.steam_play_data.never_played ? 'Never Played' : 'Played'}
                               </span>
                             </div>
@@ -263,9 +263,10 @@ export default async function UserDetailPage({ params }: Props) {
       )}
 
       {/* Giveaways Created */}
-      {userGiveaways.length > 0 && (
-        <UserGiveawaysClient giveaways={userGiveaways} userAvatars={userAvatars} />
-      )}
+      <UserGiveawaysClient 
+        giveaways={userGiveaways}
+        userAvatars={userAvatars}
+      />
     </div>
   )
 } 

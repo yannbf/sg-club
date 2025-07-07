@@ -1,9 +1,6 @@
-@import "tailwindcss";
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 @theme inline {
   --color-background: var(--background);
@@ -12,15 +9,77 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #ffffff;
+    --foreground: #171717;
+    --card-background: #ffffff;
+    --card-border: #e5e7eb;
+    --muted: #6b7280;
+    --muted-foreground: #4b5563;
+    
+    /* Accent Colors */
+    --accent: #3b82f6;
+    --accent-foreground: #ffffff;
+    --accent-blue: #3b82f6;
+    --accent-purple: #8b5cf6;
+    --accent-green: #22c55e;
+    --accent-yellow: #eab308;
+    --accent-red: #ef4444;
+    --accent-orange: #f97316;
+    
+    /* Status Colors */
+    --success: #22c55e;
+    --success-foreground: #166534;
+    --success-light: #dcfce7;
+    --warning: #f59e0b;
+    --warning-foreground: #854d0e;
+    --warning-light: #fef3c7;
+    --error: #ef4444;
+    --error-foreground: #991b1b;
+    --error-light: #fee2e2;
+    --info: #3b82f6;
+    --info-foreground: #1e3a8a;
+    --info-light: #dbeafe;
   }
-}
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --background: #111827;
+      --foreground: #f3f4f6;
+      --card-background: #1f2937;
+      --card-border: #374151;
+      --muted: #9ca3af;
+      --muted-foreground: #d1d5db;
+      
+      /* Accent Colors - Adjusted for dark mode */
+      --accent: #60a5fa;
+      --accent-foreground: #1e3a8a;
+      --accent-blue: #60a5fa;
+      --accent-purple: #a78bfa;
+      --accent-green: #34d399;
+      --accent-yellow: #fbbf24;
+      --accent-red: #f87171;
+      --accent-orange: #fb923c;
+      
+      /* Status Colors - Adjusted for dark mode */
+      --success: #34d399;
+      --success-foreground: #34d399;
+      --success-light: rgba(52, 211, 153, 0.2);
+      --warning: #fbbf24;
+      --warning-foreground: #92400e;
+      --warning-light: rgba(251, 191, 36, 0.2);
+      --error: #f87171;
+      --error-foreground: #b91c1c;
+      --error-light: rgba(248, 113, 113, 0.2);
+      --info: #60a5fa;
+      --info-foreground: #60a5fa;
+      --info-light: rgba(96, 165, 250, 0.2);
+    }
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: Arial, Helvetica, sans-serif;
+  }
 }

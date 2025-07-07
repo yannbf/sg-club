@@ -25,9 +25,9 @@ export default function UserGiveawaysClient({ giveaways, userAvatars }: Props) {
       isActive,
       statusIcon: isActive ? '🟢' : hasNoEntries ? '‼️' : '🔴',
       statusText: isActive ? 'Active' : hasNoEntries ? 'Ended with no entries' : 'Ended',
-      statusColor: isActive ? 'text-green-600' : hasNoEntries ? 'text-red-600' : 'text-red-600',
-      borderColor: isActive ? 'border-green-200' : hasNoEntries ? 'border-red-200' : 'border-gray-200',
-      backgroundColor: isActive ? 'bg-green-50' : hasNoEntries ? 'bg-red-50' : 'bg-white'
+      statusColor: isActive ? 'text-success-foreground' : 'text-error-foreground',
+      borderColor: isActive ? 'border-success' : hasNoEntries ? 'border-error' : 'border-card-border',
+      backgroundColor: isActive ? 'bg-success-light/30' : hasNoEntries ? 'bg-error-light/30' : 'bg-card-background'
     }
   }
 
@@ -62,16 +62,16 @@ export default function UserGiveawaysClient({ giveaways, userAvatars }: Props) {
   })
 
   return (
-    <div className="bg-white rounded-lg shadow p-6">
+    <div className="bg-card-background rounded-lg border-card-border border p-6">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-xl font-semibold text-gray-900">
+        <h2 className="text-xl font-semibold">
           🎁 Giveaways Created ({giveaways.length})
         </h2>
         <div className="flex gap-2 items-center">
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value as 'date' | 'entries' | 'points')}
-            className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="px-3 py-2 border border-card-border rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-accent"
           >
             <option value="date">End Date</option>
             <option value="entries">Entry Count</option>
@@ -79,7 +79,7 @@ export default function UserGiveawaysClient({ giveaways, userAvatars }: Props) {
           </select>
           <button
             onClick={() => setSortDirection(prev => prev === 'asc' ? 'desc' : 'asc')}
-            className="px-3 py-2 border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="px-3 py-2 border border-card-border rounded-md bg-transparent hover:bg-accent/10 focus:outline-none focus:ring-2 focus:ring-accent"
             title={`Sort ${sortDirection === 'asc' ? 'Ascending' : 'Descending'}`}
           >
             {sortDirection === 'asc' ? '↑' : '↓'}
@@ -104,8 +104,8 @@ export default function UserGiveawaysClient({ giveaways, userAvatars }: Props) {
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-1">
-                        <h3 className="font-semibold text-gray-900">{giveaway.name}</h3>
-                        <span className={`inline-flex items-center px-2 py-1 text-xs font-medium rounded-full ${status.isActive ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}`}>
+                        <h3 className="font-semibold">{giveaway.name}</h3>
+                        <span className={`inline-flex items-center px-2 py-1 text-xs font-medium rounded-full ${status.isActive ? 'bg-success-light text-success-foreground' : 'bg-muted text-muted-foreground'}`}>
                           {status.statusIcon} {status.statusText}
                         </span>
                       </div>
@@ -113,13 +113,13 @@ export default function UserGiveawaysClient({ giveaways, userAvatars }: Props) {
                         <span className={`px-2 py-1 text-xs font-semibold rounded-full ${getCVBadgeColor(giveaway.cv_status || 'FULL_CV')}`}>
                           {getCVLabel(giveaway.cv_status || 'FULL_CV')}
                         </span>
-                        <span className="text-sm text-gray-600">
+                        <span className="text-sm text-muted-foreground">
                           {giveaway.points} points
                         </span>
-                        <span className="text-sm text-gray-600">
+                        <span className="text-sm text-muted-foreground">
                           {giveaway.copies} {giveaway.copies === 1 ? 'copy' : 'copies'}
                         </span>
-                        <span className="text-sm text-gray-600">
+                        <span className="text-sm text-muted-foreground">
                           {giveaway.entry_count} entries
                         </span>
                         <span className={`text-sm font-medium ${status.statusColor}`}>
@@ -131,7 +131,7 @@ export default function UserGiveawaysClient({ giveaways, userAvatars }: Props) {
                       href={`https://www.steamgifts.com/giveaway/${giveaway.link}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-blue-600 hover:text-blue-800 text-sm"
+                      className="text-accent hover:underline text-sm"
                     >
                       View →
                     </a>
@@ -141,16 +141,16 @@ export default function UserGiveawaysClient({ giveaways, userAvatars }: Props) {
 
               {giveaway.winners && giveaway.winners.length > 0 && (
                 <div className="px-4 pb-4">
-                  <div className="pt-3 border-t border-gray-200">
+                  <div className="pt-3 border-t border-card-border">
                     <div className="text-sm">
-                      <span className="text-gray-600">Winners:</span>
+                      <span className="text-muted-foreground">Winners:</span>
                       <div className="mt-1">
                         {giveaway.winners.map((winner, index) => (
                           !winner.name ? <p key={index}>Awaiting feedback</p> : userAvatars.get(winner.name) ? (
                             <Link
                               key={index}
                               href={`/users/${winner.name}`}
-                              className="text-blue-600 hover:text-blue-800 mr-2 inline-flex items-center"
+                              className="text-accent hover:underline mr-2 inline-flex items-center"
                             >
                               <UserAvatar
                                 src={userAvatars.get(winner.name) || 'https://cdn-icons-png.flaticon.com/512/9287/9287610.png'}
@@ -164,7 +164,7 @@ export default function UserGiveawaysClient({ giveaways, userAvatars }: Props) {
                               href={`http://steamgifts.com/user/${winner.name}`}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="text-gray-500 hover:text-gray-700 mr-2 inline-flex items-center"
+                              className="text-muted-foreground hover:text-foreground mr-2 inline-flex items-center"
                             >
                               <UserAvatar
                                 src={'https://cdn-icons-png.flaticon.com/512/9287/9287610.png'}

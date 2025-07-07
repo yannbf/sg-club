@@ -86,35 +86,35 @@ export default function GiveawaysClient({ giveaways, lastUpdated, userAvatars }:
     const hasWinners = giveaway.winners && giveaway.winners.length > 0
     
     if (!isEnded) {
-      return <span className="px-2 py-1 text-xs font-semibold bg-blue-100 text-blue-800 rounded-full">Active</span>
+      return <span className="px-2 py-1 text-xs font-semibold bg-info-light text-info-foreground rounded-full">Active</span>
     }
     
     if (hasWinners) {
-      return <span className="px-2 py-1 text-xs font-semibold bg-green-100 text-green-800 rounded-full">Completed</span>
+      return <span className="px-2 py-1 text-xs font-semibold bg-success-light text-success-foreground rounded-full">Completed</span>
     }
     
-    return <span className="px-2 py-1 text-xs font-semibold bg-red-100 text-red-800 rounded-full">No Winners</span>
+    return <span className="px-2 py-1 text-xs font-semibold bg-error-light text-error-foreground rounded-full">No Winners</span>
   }
 
   return (
-    <div className="px-4 sm:px-0">
+    <div className="space-y-8">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">All Giveaways</h1>
-        <p className="mt-2 text-sm text-gray-600">
+        <h1 className="text-3xl font-bold">All Giveaways</h1>
+        <p className="mt-2 text-sm text-muted-foreground">
           {giveaways.length} total giveaways • {filteredAndSortedGiveaways.length} shown
         </p>
         {lastUpdated && (
-          <p className="mt-1 text-sm text-gray-600">
+          <p className="mt-1 text-sm text-muted-foreground">
             Last updated: {formatLastUpdated(lastUpdated)}
           </p>
         )}
       </div>
 
       {/* Filters */}
-      <div className="bg-white rounded-lg shadow p-6 mb-6">
+      <div className="bg-card-background rounded-lg border-card-border border p-6 mb-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-muted-foreground mb-2">
               Search
             </label>
             <input
@@ -122,19 +122,19 @@ export default function GiveawaysClient({ giveaways, lastUpdated, userAvatars }:
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               placeholder="Search games or creators..."
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 border border-card-border rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-accent"
             />
           </div>
           
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-muted-foreground mb-2">
               Sort by
             </label>
             <div className="flex gap-2">
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value as 'date' | 'entries' | 'points')}
-                className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="flex-1 px-3 py-2 border border-card-border rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-accent"
               >
                 <option value="date">End Date</option>
                 <option value="entries">Entry Count</option>
@@ -142,7 +142,7 @@ export default function GiveawaysClient({ giveaways, lastUpdated, userAvatars }:
               </select>
               <button
                 onClick={() => setSortDirection(prev => prev === 'asc' ? 'desc' : 'asc')}
-                className="px-3 py-2 border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="px-3 py-2 border border-card-border rounded-md bg-transparent hover:bg-accent/10 focus:outline-none focus:ring-2 focus:ring-accent"
                 title={`Sort ${sortDirection === 'asc' ? 'Ascending' : 'Descending'}`}
               >
                 {sortDirection === 'asc' ? '↑' : '↓'}
@@ -151,13 +151,13 @@ export default function GiveawaysClient({ giveaways, lastUpdated, userAvatars }:
           </div>
           
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-muted-foreground mb-2">
               CV Status
             </label>
             <select
               value={filterCV}
               onChange={(e) => setFilterCV(e.target.value as 'all' | 'FULL_CV' | 'REDUCED_CV' | 'NO_CV')}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 border border-card-border rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-accent"
             >
               <option value="all">All CV Types</option>
               <option value="FULL_CV">Full CV</option>
@@ -167,13 +167,13 @@ export default function GiveawaysClient({ giveaways, lastUpdated, userAvatars }:
           </div>
           
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-muted-foreground mb-2">
               Filter
             </label>
             <select
               value={giveawayStatus}
               onChange={(e) => setGiveawayStatus(e.target.value as 'open' | 'ended' | 'all')}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 border border-card-border rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-accent"
             >
               <option value="all">All Giveaways</option>
               <option value="open">Open Giveaways</option>
@@ -188,11 +188,12 @@ export default function GiveawaysClient({ giveaways, lastUpdated, userAvatars }:
         {filteredAndSortedGiveaways.map((giveaway) => {
           const isEnded = giveaway.end_timestamp < Date.now() / 1000;
           const imageUrl = failedImages.has(giveaway.id) ? PLACEHOLDER_IMAGE : getGameImageUrl(giveaway);
+          const borderColor = isEnded ? 'border-card-border' : 'border-success';
 
           return (
-            <div key={giveaway.id} className={`bg-white rounded-lg shadow hover:shadow-md transition-shadow overflow-hidden border-2 ${isEnded ? 'border-gray-200' : 'border-green-200'}`}>
+            <div key={giveaway.id} className={`bg-card-background rounded-lg shadow-md hover:shadow-lg transition-shadow overflow-hidden border-2 ${borderColor}`}>
               {/* Game Image */}
-              <div className="w-full h-48 bg-gray-200 overflow-hidden relative">
+              <div className="w-full h-48 bg-muted overflow-hidden relative">
                 <Image
                   src={imageUrl}
                   alt={giveaway.name || 'Game giveaway image'}
@@ -206,7 +207,7 @@ export default function GiveawaysClient({ giveaways, lastUpdated, userAvatars }:
               
               <div className="p-6">
                 <div className="flex items-start justify-between mb-3">
-                  <h3 className="text-lg font-semibold text-gray-900 line-clamp-2 flex-1">
+                  <h3 className="text-lg font-semibold line-clamp-2 flex-1">
                     {giveaway.name}
                   </h3>
                   <div className="ml-2 flex-shrink-0">
@@ -216,90 +217,54 @@ export default function GiveawaysClient({ giveaways, lastUpdated, userAvatars }:
                 
                 <div className="space-y-2 mb-4">
                   <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-600">Creator:</span>
+                    <span className="text-muted-foreground">Creator:</span>
                     <div className="flex items-center">
                       <UserAvatar
                         src={userAvatars.get(giveaway.creator.username) || 'https://cdn-icons-png.flaticon.com/512/9287/9287610.png'}
                         username={giveaway.creator.username}
                       />
-                      <Link href={`/users/${giveaway.creator.username}`} className="text-sm text-gray-600 hover:text-gray-800">
+                      <Link href={`/users/${giveaway.creator.username}`} className="text-sm text-muted-foreground hover:text-foreground">
                         {giveaway.creator.username}
                       </Link>
                     </div>
                   </div>
                   
                   <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-600">Points:</span>
+                    <span className="text-muted-foreground">Points:</span>
                     <span className="font-medium">{giveaway.points}</span>
                   </div>
                   
                   <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-600">Copies:</span>
+                    <span className="text-muted-foreground">Copies:</span>
                     <span className="font-medium">{giveaway.copies}</span>
                   </div>
                   
                   <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-600">Entries:</span>
+                    <span className="text-muted-foreground">Entries:</span>
                     <span className="font-medium">{giveaway.entry_count}</span>
                   </div>
                   
                   <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-600">Status:</span>
+                    <span className="text-muted-foreground">End date:</span>
                     <span className="font-medium">{formatRelativeTime(giveaway.end_timestamp)}</span>
                   </div>
                 </div>
-                
+
                 <div className="flex items-center justify-between">
-                  <span className={`px-2 py-1 text-xs font-semibold rounded-full ${getCVBadgeColor(giveaway.cv_status || 'FULL_CV')}`}>
+                  <span
+                    className={`text-xs font-bold px-2 py-1 rounded-full ${getCVBadgeColor(giveaway.cv_status || 'FULL_CV')}`}
+                  >
                     {getCVLabel(giveaway.cv_status || 'FULL_CV')}
                   </span>
-                  
                   <a
                     href={`https://www.steamgifts.com/giveaway/${giveaway.link}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+                    className="text-sm font-medium text-accent hover:underline"
                   >
-                    View on SG →
+                    View on SteamGifts
                   </a>
                 </div>
-                
-                {giveaway.winners && giveaway.winners.length > 0 && (
-                  <div className="mt-4 pt-4 border-t border-gray-200">
-                    <div className="text-sm text-gray-600">
-                      <span className="font-medium">Winners:</span>
-                      <div className="mt-1">
-                        {giveaway.winners.map((winner, index) => (
-                          userAvatars.get(winner.name) ? (
-                            <div key={index} className="flex items-center">
-                              <UserAvatar
-                                src={userAvatars.get(winner.name) || 'https://cdn-icons-png.flaticon.com/512/9287/9287610.png'}
-                                username={winner.name}
-                              />
-                              <Link href={`/users/${winner.name}`} className="text-sm text-blue-600 hover:text-blue-800">
-                                {winner.name}
-                              </Link>
-                            </div>
-                          ) : (
-                            <a
-                              key={index}
-                              href={`http://steamgifts.com/user/${winner.name}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-gray-500 hover:text-gray-700 mr-2 inline-flex items-center"
-                            >
-                              <UserAvatar
-                                src={'https://cdn-icons-png.flaticon.com/512/9287/9287610.png'}
-                                username={winner.name}
-                              />
-                              {winner.name} (ex member)
-                            </a>
-                          )
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                )}
               </div>
             </div>
           )
