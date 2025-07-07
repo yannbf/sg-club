@@ -13,6 +13,7 @@ interface Props {
 export default function UsersClient({ users }: Props) {
   const [searchTerm, setSearchTerm] = useState('')
   const [sortBy, setSortBy] = useState<'username' | 'sent' | 'received' | 'difference' | 'value' | 'playtime'>('difference')
+  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc')
   const [filterType, setFilterType] = useState<'all' | 'contributors' | 'receivers' | 'neutral'>('all')
   const [showOnlySteam] = useState(false)
 
@@ -45,26 +46,32 @@ export default function UsersClient({ users }: Props) {
     })
 
     filtered.sort((a, b) => {
+      let comparison = 0
       switch (sortBy) {
         case 'username':
-          return a.username.localeCompare(b.username)
+          comparison = a.username.localeCompare(b.username)
+          break
         case 'sent':
-          return b.stats.total_sent_count - a.stats.total_sent_count
+          comparison = b.stats.total_sent_count - a.stats.total_sent_count
+          break
         case 'received':
-          return b.stats.total_received_count - a.stats.total_received_count
+          comparison = b.stats.total_received_count - a.stats.total_received_count
+          break
         case 'difference':
-          return b.stats.total_gift_difference - a.stats.total_gift_difference
+          comparison = b.stats.total_gift_difference - a.stats.total_gift_difference
+          break
         case 'value':
-          return b.stats.total_value_difference - a.stats.total_value_difference
+          comparison = b.stats.total_value_difference - a.stats.total_value_difference
+          break
         case 'playtime':
-          return getTotalPlaytime(b) - getTotalPlaytime(a)
-        default:
-          return 0
+          comparison = getTotalPlaytime(b) - getTotalPlaytime(a)
+          break
       }
+      return sortDirection === 'asc' ? -comparison : comparison
     })
 
     return filtered
-  }, [users, searchTerm, sortBy, filterType, showOnlySteam])
+  }, [users, searchTerm, sortBy, filterType, showOnlySteam, sortDirection])
 
   const getUserTypeBadge = (user: User) => {
     if (user.stats.total_gift_difference > 0) {
@@ -115,18 +122,27 @@ export default function UsersClient({ users }: Props) {
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Sort by
           </label>
-          <select
-            value={sortBy}
-            onChange={(e) => setSortBy(e.target.value as 'username' | 'sent' | 'received' | 'difference' | 'value' | 'playtime')}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-          >
-            <option value="difference">Gift Difference</option>
-            <option value="value">Value Difference</option>
-            <option value="sent">Gifts Sent</option>
-            <option value="received">Gifts Received</option>
-            <option value="playtime">Total Playtime</option>
-            <option value="username">Username</option>
-          </select>
+          <div className="flex gap-2">
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value as 'username' | 'sent' | 'received' | 'difference' | 'value' | 'playtime')}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+            >
+              <option value="difference">Gift Difference</option>
+              <option value="value">Value Difference</option>
+              <option value="sent">Gifts Sent</option>
+              <option value="received">Gifts Received</option>
+              <option value="playtime">Total Playtime</option>
+              <option value="username">Username</option>
+            </select>
+            <button
+              onClick={() => setSortDirection(prev => prev === 'asc' ? 'desc' : 'asc')}
+              className="px-3 py-2 border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              title={`Sort ${sortDirection === 'asc' ? 'Ascending' : 'Descending'}`}
+            >
+              {sortDirection === 'asc' ? '↑' : '↓'}
+            </button>
+          </div>
         </div>
         
         <div>
