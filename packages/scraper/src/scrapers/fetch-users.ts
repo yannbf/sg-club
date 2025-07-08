@@ -272,7 +272,23 @@ class SteamGiftsUserFetcher {
     const twoMonthsAgo = Date.now() / 1000 - 60 * 24 * 60 * 60
 
     for (const [username, user] of users) {
-      if (!user.steam_id || !user.giveaways_won) continue
+      if (!user.steam_id) continue
+
+      // Check Steam profile visibility first
+      const visibility = await steamChecker.checkProfileVisibility(
+        user.steam_id
+      )
+      user.steam_profile_is_private = !visibility.is_public
+
+      if (user.steam_profile_is_private) {
+        console.log(
+          `🙈 Skipping Steam data for ${username} (profile is private)`
+        )
+        users.set(username, user) // Make sure to save the updated private flag
+        continue
+      }
+
+      if (!user.giveaways_won) continue
 
       let userUpdated = false
 

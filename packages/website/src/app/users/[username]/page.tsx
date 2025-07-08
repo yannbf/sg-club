@@ -91,7 +91,7 @@ export default async function UserDetailPage({ params }: Props) {
             <div className="flex items-center">
               <h1 className="text-3xl font-bold">{user.username}</h1>
               <span className="ml-3 text-2xl" title={userType.label}>{userType.icon}</span>
-              {user.steam_id && <span className="ml-2 text-2xl text-muted-foreground" title="Steam Account Linked">🎮</span>}
+              {user.steam_id && !user.steam_profile_is_private && <span className="ml-2 text-2xl text-muted-foreground" title="Steam Account Linked">🎮</span>}
             </div>
             <p className={`text-lg font-medium ${userType.color}`}>
               {userType.label}
@@ -161,7 +161,7 @@ export default async function UserDetailPage({ params }: Props) {
       </div>
 
       {/* Steam Statistics */}
-      {user.steam_id && user.giveaways_won && user.giveaways_won.some(g => g.steam_play_data) && (
+      {user.steam_id && !user.steam_profile_is_private && user.giveaways_won && user.giveaways_won.some(g => g.steam_play_data) && (
         <div className="bg-card-background rounded-lg border-card-border border p-6 mb-6">
           <h2 className="text-xl font-semibold mb-4">🎮 Steam Activity</h2>
           <p className="text-sm text-muted-foreground mb-4">Activity related only to the games won in the group</p>

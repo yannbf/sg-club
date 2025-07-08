@@ -20,6 +20,11 @@ export interface GamePlayData {
   never_played: boolean
 }
 
+export interface SteamProfileVisibility {
+  is_public: boolean
+  visibility_state: number
+}
+
 export class SteamGameChecker {
   private readonly baseUrl = 'https://api.steampowered.com'
   private readonly apiKey: string
@@ -89,6 +94,29 @@ export class SteamGameChecker {
     }
   }
 
+  public async checkProfileVisibility(
+    steamId: string
+  ): Promise<SteamProfileVisibility> {
+    const endpoint = `/ISteamUser/GetPlayerSummaries/v0002/?key=${this.apiKey}&steamids=${steamId}`
+    try {
+      const data = await this.fetchSteamAPI(endpoint)
+      if (data.response.players.length > 0) {
+        const player = data.response.players[0]
+        const visibility_state = player.communityvisibilitystate
+        // 3 is public, anything else is considered private for our purposes
+        return { is_public: visibility_state === 3, visibility_state }
+      }
+      // No player found for ID, assume private
+      return { is_public: false, visibility_state: 0 }
+    } catch (error) {
+      console.error(
+        `❌ Failed to get player summaries for Steam ID ${steamId}`,
+        error
+      )
+      return { is_public: false, visibility_state: 0 }
+    }
+  }
+
   public async getGamePlayData(
     steamId: string,
     appId: number
@@ -138,6 +166,8 @@ export class SteamGameChecker {
       owned: true,
       playtime_minutes: gameInfo.playtime_forever,
       playtime_formatted: formatPlaytime(gameInfo.playtime_forever),
+      is_playtime_private:
+        gameInfo.playtime_forever === 0 && totalAchievements > 0,
       achievements_unlocked: unlockedAchievements.length,
       achievements_total: totalAchievements,
       achievements_percentage: completionPercentage,

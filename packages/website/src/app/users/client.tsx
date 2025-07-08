@@ -199,7 +199,7 @@ export default function UsersClient({ users }: Props) {
                     </Link>
                   </h3>
                   <div className="flex items-center space-x-2">
-                    {user.steam_id && (
+                    {user.steam_id && !user.steam_profile_is_private && (
                       <span className="text-lg text-muted-foreground" title="Steam Account Connected">🎮</span>
                     )}
                   </div>
@@ -245,7 +245,7 @@ export default function UsersClient({ users }: Props) {
                 </div>
               </div>
 
-              {user.steam_id && (
+              {user.steam_id && !user.steam_profile_is_private && (
                 <div className="pt-3 border-t border-card-border">
                   <div className="grid grid-cols-2 gap-4">
                     <div className="text-center">

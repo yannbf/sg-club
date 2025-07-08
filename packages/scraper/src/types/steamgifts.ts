@@ -62,6 +62,7 @@ export interface User {
   avatar_url: string
   steam_id?: string | null
   steam_profile_url?: string | null
+  steam_profile_is_private?: boolean
   stats: {
     total_sent_count: number
     total_sent_value: number
