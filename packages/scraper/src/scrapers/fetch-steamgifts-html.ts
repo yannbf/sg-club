@@ -29,7 +29,7 @@ interface ScrapingStats {
   newestDate: Date
 }
 
-class SteamGiftsHTMLScraper {
+export class SteamGiftsHTMLScraper {
   private readonly baseUrl = 'https://www.steamgifts.com'
   private readonly startUrl = '/group/WlYTQ/thegiveawaysclub'
   private readonly cookie =
@@ -64,7 +64,7 @@ class SteamGiftsHTMLScraper {
     return await response.text()
   }
 
-  private async fetchDetailedWinners(giveawayPath: string): Promise<
+  async fetchDetailedWinners(giveawayPath: string): Promise<
     Array<{
       name: string | null
       status: 'received' | 'not_received' | 'awaiting_feedback'
@@ -104,6 +104,10 @@ class SteamGiftsHTMLScraper {
       name: string | null
       status: 'received' | 'not_received' | 'awaiting_feedback'
     }> = []
+
+    if ($('.page__heading__breadcrumbs').text().includes('Error')) {
+      return []
+    }
 
     $('.table__row-outer-wrap').each((_, el) => {
       try {
@@ -941,5 +945,7 @@ async function main(): Promise<void> {
   }
 }
 
-// Run the script
-await main()
+// Run the script only if it's the entry point
+if (!process.env.VITEST) {
+  await main()
+}
