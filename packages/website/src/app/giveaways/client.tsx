@@ -6,6 +6,7 @@ import { Giveaway } from '@/types'
 import Link from 'next/link'
 import Image from 'next/image'
 import UserAvatar from '@/components/UserAvatar'
+import { LastUpdated } from '@/components/LastUpdated'
 
 interface Props {
   giveaways: Giveaway[]
@@ -86,11 +87,11 @@ export default function GiveawaysClient({ giveaways, lastUpdated, userAvatars }:
     const hasWinners = giveaway.winners && giveaway.winners.length > 0
     
     if (!isEnded) {
-      return <span className="px-2 py-1 text-xs font-semibold bg-info-light text-info-foreground rounded-full">Active</span>
+      return <span className="px-2 py-1 text-xs font-semibold bg-info-light text-info-foreground rounded-full">Open</span>
     }
     
     if (hasWinners) {
-      return <span className="px-2 py-1 text-xs font-semibold bg-success-light text-success-foreground rounded-full">Completed</span>
+      return <span className="px-2 py-1 text-xs font-semibold bg-success-light text-success-foreground rounded-full">Ended</span>
     }
     
     return <span className="px-2 py-1 text-xs font-semibold bg-error-light text-error-foreground rounded-full">No Winners</span>
@@ -100,13 +101,8 @@ export default function GiveawaysClient({ giveaways, lastUpdated, userAvatars }:
     <div className="space-y-8">
       <div className="mb-8">
         <h1 className="text-3xl font-bold">All Giveaways</h1>
-        <p className="mt-2 text-sm text-muted-foreground">
-          {giveaways.length} total giveaways • {filteredAndSortedGiveaways.length} shown
-        </p>
         {lastUpdated && (
-          <p className="mt-1 text-sm text-muted-foreground">
-            Last updated: {formatLastUpdated(lastUpdated)}
-          </p>
+          <LastUpdated lastUpdatedDate={lastUpdated} />
         )}
       </div>
 
@@ -193,16 +189,18 @@ export default function GiveawaysClient({ giveaways, lastUpdated, userAvatars }:
           return (
             <div key={giveaway.id} className={`bg-card-background rounded-lg shadow-md hover:shadow-lg transition-shadow overflow-hidden border-2 ${borderColor}`}>
               {/* Game Image */}
-              <div className="w-full h-48 bg-muted overflow-hidden relative">
-                <Image
-                  src={imageUrl}
-                  alt={giveaway.name || 'Game giveaway image'}
-                  fill
-                  className="object-cover"
-                  onError={() => {
-                    setFailedImages(prev => new Set([...prev, giveaway.id]))
-                  }}
-                />
+              <div className="w-full h-48 bg-muted overflow-hidden relative hover:shadow">
+                <a href={`https://www.steamgifts.com/giveaway/${giveaway.link}`} target="_blank" rel="noopener noreferrer">
+                  <Image
+                    src={imageUrl}
+                    alt={giveaway.name || 'Game giveaway image'}
+                    fill
+                    className="object-cover cursor-pointer"
+                    onError={() => {
+                      setFailedImages(prev => new Set([...prev, giveaway.id]))
+                    }}
+                  />
+                </a>
               </div>
               
               <div className="p-6">
@@ -257,12 +255,12 @@ export default function GiveawaysClient({ giveaways, lastUpdated, userAvatars }:
                     {getCVLabel(giveaway.cv_status || 'FULL_CV')}
                   </span>
                   <a
-                    href={`https://www.steamgifts.com/giveaway/${giveaway.link}`}
+                    href={`https://store.steampowered.com/${giveaway.app_id ? 'app' : 'sub'}/${giveaway.app_id || giveaway.package_id}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-sm font-medium text-accent hover:underline"
                   >
-                    View on SteamGifts
+                    View on Steam
                   </a>
                 </div>
               </div>

@@ -77,13 +77,15 @@ export default async function UserDetailPage({ params }: Props) {
       <div className="bg-card-background rounded-lg border-card-border border p-6 mb-6">
         <div className="flex items-center">
           {user.avatar_url && (
-            <Image
-              src={user.avatar_url}
-              alt={user.username}
-              width={64}
-              height={64}
-              className="rounded-full mr-4 border-2 border-card-border"
-            />
+            <a href={`https://www.steamgifts.com/user/${user.username}`} target="_blank" rel="noopener noreferrer">
+              <Image
+                src={user.avatar_url}
+                alt={user.username}
+                width={64}
+                height={64}
+                className="rounded-full mr-4 border-2 border-card-border"
+              />
+            </a>
           )}
           <div className="flex-1">
             <div className="flex items-center">
@@ -94,6 +96,17 @@ export default async function UserDetailPage({ params }: Props) {
             <p className={`text-lg font-medium ${userType.color}`}>
               {userType.label}
             </p>
+            {user.profile_url && (
+              <a
+                href={`https://www.steamgifts.com/user/${user.username}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-accent hover:underline text-sm"
+              >
+                View SG Profile →
+              </a>
+            )}
+            <br/>
             {user.steam_profile_url && (
               <a
                 href={user.steam_profile_url}
@@ -263,7 +276,7 @@ export default async function UserDetailPage({ params }: Props) {
       )}
 
       {/* Giveaways Created */}
-      <UserGiveawaysClient 
+      <UserGiveawaysClient
         giveaways={userGiveaways}
         userAvatars={userAvatars}
       />

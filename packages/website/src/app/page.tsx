@@ -1,5 +1,6 @@
 import { getAllGiveaways, getAllUsers, formatLastUpdated } from '@/lib/data'
 import Link from 'next/link'
+import { LastUpdated } from '@/components/LastUpdated'
 
 export default async function Home() {
   const giveaways = await getAllGiveaways()
@@ -16,7 +17,6 @@ export default async function Home() {
   const users = userData.users
   const activeMembers = users.length
   const totalGiveaways = giveaways.length
-  const lastUpdated = userData.lastUpdated ? formatLastUpdated(new Date(userData.lastUpdated).toISOString()) : 'Unknown'
 
   // Calculate statistics
   const totalGiveawaysCreated = users.reduce((sum, user) => {
@@ -38,9 +38,7 @@ export default async function Home() {
     <div className="space-y-8">
       <div className="mb-8">
         <h1 className="text-3xl font-bold">Group Analytics Overview</h1>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Last updated: {lastUpdated}
-        </p>
+        {userData.lastUpdated ? <LastUpdated lastUpdatedDate={new Date(userData.lastUpdated).toISOString()} /> : <p className="mt-2 text-sm text-muted-foreground">Last updated: Unknown</p>}
       </div>
 
       {/* Key Statistics */}

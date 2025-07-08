@@ -24,7 +24,7 @@ export default function UserGiveawaysClient({ giveaways, userAvatars }: Props) {
     return {
       isActive,
       statusIcon: isActive ? '🟢' : hasNoEntries ? '‼️' : '🔴',
-      statusText: isActive ? 'Active' : hasNoEntries ? 'Ended with no entries' : 'Ended',
+      statusText: isActive ? 'Open' : hasNoEntries ? 'Ended with no entries' : 'Ended',
       statusColor: isActive ? 'text-success-foreground' : 'text-error-foreground',
       borderColor: isActive ? 'border-success' : hasNoEntries ? 'border-error' : 'border-card-border',
       backgroundColor: isActive ? 'bg-success-light/30' : hasNoEntries ? 'bg-error-light/30' : 'bg-card-background'

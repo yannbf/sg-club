@@ -19,16 +19,16 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <header className="sticky top-0 z-50 w-full border-b border-card-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-          <div className="container px-4 flex h-14 max-w-screen-2xl items-center">
+          <div className="container px-4 flex h-14 max-w-screen-2xl items-center justify-between">
+            <Link href="/" className="text-sm flex items-center space-x-2">
+              <img
+                src="https://avatars.fastly.steamstatic.com/13cc7998f870155897fd892086cfcee14670c978_full.jpg"
+                alt="SteamGifts Analytics Logo" 
+                className="h-8 w-8 rounded-full object-cover"
+              />
+              <span className="font-bold">The Giveaways Club</span>
+            </Link>
             <nav className="flex items-center space-x-4 lg:space-x-6">
-              <Link href="/" className="mr-6 flex items-center space-x-2">
-                <img
-                  src="https://avatars.fastly.steamstatic.com/13cc7998f870155897fd892086cfcee14670c978_full.jpg"
-                  alt="SteamGifts Analytics Logo" 
-                  className="h-8 w-8 rounded-full object-cover"
-                />
-                <span className="font-bold">The Giveaways Club</span>
-              </Link>
               <Link
                 href="/giveaways"
                 className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
@@ -44,7 +44,7 @@ export default function RootLayout({
             </nav>
           </div>
         </header>
-        <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+        <main className="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
           {children}
         </main>
       </body>
