@@ -6,25 +6,11 @@ on:
     - cron: '0 0,12 * * *'
   workflow_dispatch: # Allow manual triggering
 
-permissions:
-  contents: write
-
 jobs:
-  trigger-build:
+  trigger-vercel-deploy:
     runs-on: ubuntu-latest
-    
+
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-        
-      - name: Configure Git
+      - name: Trigger Vercel Deploy Hook
         run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          
-      - name: Create and push empty commit
-        run: |
-          git commit --allow-empty -m "🔄 Trigger website build - $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
-          git push origin ${{ github.ref_name }} 
+          curl -X POST "${{ secrets.VERCEL_DEPLOY_HOOK_URL }}"
