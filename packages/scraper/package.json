@@ -17,7 +17,8 @@
     "build": "tsc",
     "test": "vitest",
     "test:watch": "vitest watch",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "fetch-prices": "tsx src/utils/fetch-game-prices.ts"
   },
   "dependencies": {
     "@types/cheerio": "^0.22.35",
