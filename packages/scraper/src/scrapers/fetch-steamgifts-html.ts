@@ -41,14 +41,17 @@ class SteamGiftsHTMLScraper {
   // Key can be app_id (number) or game name (string) for games without app_id
   private bundleGameCache = new Map<number | string, BundleGame | null>()
 
-  private async fetchPage(path: string): Promise<string> {
+  private async fetchPage(
+    path: string,
+    useCookie: boolean = false
+  ): Promise<string> {
     const url = this.baseUrl + path
     console.log(`📄 Fetching: ${url}`)
 
     const response = await fetch(url, {
       method: 'GET',
       headers: {
-        // Cookie: this.cookie,
+        Cookie: useCookie ? this.cookie : '',
         'User-Agent':
           'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
       },
