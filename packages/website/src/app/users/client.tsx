@@ -250,7 +250,9 @@ export default function UsersClient({ users }: Props) {
                   <div className="grid grid-cols-2 gap-4">
                     <div className="text-center">
                       <div className="text-sm font-medium text-accent-purple">
-                        {formatPlaytime(getTotalPlaytime(user))}
+                        {getTotalPlaytime(user) === 0 && getTotalAchievements(user) > 0 
+                          ? 'Unavailable'
+                          : formatPlaytime(getTotalPlaytime(user))}
                       </div>
                       <div className="text-xs text-muted-foreground">Total Playtime</div>
                     </div>

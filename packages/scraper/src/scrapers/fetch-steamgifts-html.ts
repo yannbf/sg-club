@@ -581,7 +581,7 @@ class SteamGiftsHTMLScraper {
       const currentTimestamp = this.getCurrentTimestamp()
 
       // Check if unlimited fetch mode is enabled
-      const unlimitedMode = true //process.env.FETCH_ALL_PAGES === 'true'
+      const unlimitedMode = process.env.FETCH_ALL_PAGES === 'true'
 
       console.log(
         unlimitedMode

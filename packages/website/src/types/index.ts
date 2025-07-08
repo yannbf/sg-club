@@ -34,6 +34,7 @@ export interface User {
       achievements_total: number
       achievements_percentage: number
       never_played: boolean
+      is_playtime_private: boolean
       last_checked: number
     }
   }[]
@@ -95,4 +96,16 @@ export interface InsightData {
   totalGiveawaysFromActiveMembers: number
   totalGiveawaysFromFormerMembers: number
   formerMembers: Array<{ username: string; giveawayCount: number }>
+}
+
+export interface SteamPlayData {
+  owned: boolean
+  playtime_minutes: number
+  playtime_formatted: string
+  achievements_unlocked: number
+  achievements_total: number
+  achievements_percentage: number
+  never_played: boolean
+  is_playtime_private: boolean
+  last_checked: number
 }

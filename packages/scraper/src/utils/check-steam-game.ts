@@ -18,6 +18,7 @@ export interface GamePlayData {
   achievements_total: number
   achievements_percentage: number
   never_played: boolean
+  is_playtime_private: boolean
 }
 
 export interface SteamProfileVisibility {
@@ -133,6 +134,7 @@ export class SteamGameChecker {
         achievements_total: 0,
         achievements_percentage: 0,
         never_played: true,
+        is_playtime_private: false,
       }
     }
 
@@ -148,6 +150,7 @@ export class SteamGameChecker {
         achievements_total: 0,
         achievements_percentage: 0,
         never_played: true,
+        is_playtime_private: false,
       }
     }
 
@@ -166,12 +169,13 @@ export class SteamGameChecker {
       owned: true,
       playtime_minutes: gameInfo.playtime_forever,
       playtime_formatted: formatPlaytime(gameInfo.playtime_forever),
-      is_playtime_private:
-        gameInfo.playtime_forever === 0 && totalAchievements > 0,
       achievements_unlocked: unlockedAchievements.length,
       achievements_total: totalAchievements,
       achievements_percentage: completionPercentage,
-      never_played: gameInfo.playtime_forever === 0,
+      never_played:
+        gameInfo.playtime_forever === 0 && unlockedAchievements.length === 0,
+      is_playtime_private:
+        gameInfo.playtime_forever === 0 && unlockedAchievements.length > 0,
     }
   }
 

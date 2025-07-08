@@ -171,7 +171,11 @@ export default async function UserDetailPage({ params }: Props) {
               <div className="text-sm text-muted-foreground">Activated Games</div>
             </div>
             <div className="text-center">
-              <div className="text-2xl font-bold text-accent-blue">{formatPlaytime(getTotalPlaytime())}</div>
+              <div className="text-2xl font-bold text-accent-blue">
+                {getTotalPlaytime() === 0 && getTotalAchievements() > 0 
+                  ? 'Unavailable'
+                  : formatPlaytime(getTotalPlaytime())}
+              </div>
               <div className="text-sm text-muted-foreground">Total Playtime</div>
             </div>
             <div className="text-center">
@@ -248,7 +252,9 @@ export default async function UserDetailPage({ params }: Props) {
                             <div>
                               <span className="text-muted-foreground">Playtime:</span>
                               <span className="ml-1 font-medium">
-                                {formatPlaytime(game.steam_play_data.playtime_minutes)}
+                                {game.steam_play_data.is_playtime_private
+                                  ? 'Unavailable'
+                                  : formatPlaytime(game.steam_play_data.playtime_minutes)}
                               </span>
                             </div>
                             <div>
