@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
+import Image from "next/image";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,7 +22,9 @@ export default function RootLayout({
         <header className="sticky top-0 z-50 w-full border-b border-card-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
           <div className="container px-4 flex h-14 max-w-screen-2xl items-center justify-between">
             <Link href="/" className="text-sm flex items-center space-x-2">
-              <img
+              <Image
+                width={32}
+                height={32}
                 src="https://avatars.fastly.steamstatic.com/13cc7998f870155897fd892086cfcee14670c978_full.jpg"
                 alt="SteamGifts Analytics Logo" 
                 className="h-8 w-8 rounded-full object-cover"

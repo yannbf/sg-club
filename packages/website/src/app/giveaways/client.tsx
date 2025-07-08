@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useMemo } from 'react'
-import { formatRelativeTime, getCVBadgeColor, getCVLabel, formatLastUpdated } from '@/lib/data'
+import { formatRelativeTime, getCVBadgeColor, getCVLabel } from '@/lib/data'
 import { Giveaway } from '@/types'
 import Link from 'next/link'
 import Image from 'next/image'

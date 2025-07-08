@@ -1,4 +1,4 @@
-import { getAllGiveaways, getAllUsers, formatLastUpdated } from '@/lib/data'
+import { getAllGiveaways, getAllUsers } from '@/lib/data'
 import Link from 'next/link'
 import { LastUpdated } from '@/components/LastUpdated'
 
