@@ -41,7 +41,7 @@ export class SteamGiftsHTMLScraper {
   // Key can be app_id (number) or game name (string) for games without app_id
   private bundleGameCache = new Map<number | string, BundleGame | null>()
 
-  private async fetchPage(
+  public async fetchPage(
     path: string,
     useCookie: boolean = false
   ): Promise<string> {
