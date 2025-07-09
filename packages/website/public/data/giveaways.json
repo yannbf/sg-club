@@ -1,156 +1,6 @@
 {
-  "last_updated": "2025-07-08T21:22:54.153Z",
+  "last_updated": "2025-07-09T09:47:37.303Z",
   "giveaways": [
-    {
-      "id": "5JBDd",
-      "name": "Creepy Castle",
-      "points": 10,
-      "copies": 1,
-      "app_id": 450440,
-      "package_id": null,
-      "link": "5JBDd/creepy-castle",
-      "created_timestamp": 1751767809,
-      "start_timestamp": 1751767749,
-      "end_timestamp": 1752023280,
-      "region_restricted": false,
-      "invite_only": false,
-      "whitelist": false,
-      "group": true,
-      "contributor_level": 0,
-      "comment_count": 0,
-      "entry_count": 2,
-      "creator": {
-        "username": "ithamore",
-        "avatar": "",
-        "role": "user"
-      },
-      "cv_status": "FULL_CV"
-    },
-    {
-      "id": "KGrTf",
-      "name": "The Devil Within: Satgat",
-      "points": 25,
-      "copies": 1,
-      "app_id": 1802880,
-      "package_id": null,
-      "link": "KGrTf/the-devil-within-satgat",
-      "created_timestamp": 1751856661,
-      "start_timestamp": 1751856601,
-      "end_timestamp": 1752032940,
-      "region_restricted": false,
-      "invite_only": false,
-      "whitelist": false,
-      "group": true,
-      "contributor_level": 0,
-      "comment_count": 1,
-      "entry_count": 5,
-      "creator": {
-        "username": "karm2002",
-        "avatar": "",
-        "role": "user"
-      },
-      "cv_status": "FULL_CV"
-    },
-    {
-      "id": "idFvE",
-      "name": "Weird West: Definitive Edition",
-      "points": 40,
-      "copies": 1,
-      "app_id": 1097350,
-      "package_id": null,
-      "link": "idFvE/weird-west-definitive-edition",
-      "created_timestamp": 1751856779,
-      "start_timestamp": 1751856719,
-      "end_timestamp": 1752033060,
-      "region_restricted": false,
-      "invite_only": false,
-      "whitelist": false,
-      "group": true,
-      "contributor_level": 0,
-      "comment_count": 0,
-      "entry_count": 1,
-      "creator": {
-        "username": "karm2002",
-        "avatar": "",
-        "role": "user"
-      },
-      "cv_status": "FULL_CV"
-    },
-    {
-      "id": "Fq2P7",
-      "name": "Bramble: The Mountain King",
-      "points": 30,
-      "copies": 1,
-      "app_id": 1623940,
-      "package_id": null,
-      "link": "Fq2P7/bramble-the-mountain-king",
-      "created_timestamp": 1751856704,
-      "start_timestamp": 1751856644,
-      "end_timestamp": 1752033060,
-      "region_restricted": false,
-      "invite_only": false,
-      "whitelist": false,
-      "group": true,
-      "contributor_level": 0,
-      "comment_count": 0,
-      "entry_count": 5,
-      "creator": {
-        "username": "karm2002",
-        "avatar": "",
-        "role": "user"
-      },
-      "cv_status": "FULL_CV"
-    },
-    {
-      "id": "Q1c6U",
-      "name": "Agricola: All Creatures Big and Small",
-      "points": 7,
-      "copies": 1,
-      "app_id": 528180,
-      "package_id": null,
-      "link": "Q1c6U/agricola-all-creatures-big-and-small",
-      "created_timestamp": 1751432399,
-      "start_timestamp": 1751432339,
-      "end_timestamp": 1752033600,
-      "region_restricted": false,
-      "invite_only": false,
-      "whitelist": true,
-      "group": true,
-      "contributor_level": 0,
-      "comment_count": 0,
-      "entry_count": 120,
-      "creator": {
-        "username": "lockcjwen",
-        "avatar": "",
-        "role": "user"
-      },
-      "cv_status": "REDUCED_CV"
-    },
-    {
-      "id": "R8bbb",
-      "name": "Ib",
-      "points": 13,
-      "copies": 1,
-      "app_id": 1901370,
-      "package_id": null,
-      "link": "R8bbb/ib",
-      "created_timestamp": 1751787057,
-      "start_timestamp": 1751786997,
-      "end_timestamp": 1752047640,
-      "region_restricted": false,
-      "invite_only": false,
-      "whitelist": false,
-      "group": true,
-      "contributor_level": 0,
-      "comment_count": 0,
-      "entry_count": 18,
-      "creator": {
-        "username": "gus09",
-        "avatar": "",
-        "role": "user"
-      },
-      "cv_status": "FULL_CV"
-    },
     {
       "id": "Nmigo",
       "name": "Dead Cells",
@@ -174,6 +24,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "cv_status": "FULL_CV"
     },
     {
@@ -193,12 +45,14 @@
       "group": true,
       "contributor_level": 0,
       "comment_count": 9,
-      "entry_count": 12,
+      "entry_count": 15,
       "creator": {
         "username": "Troutroum",
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "cv_status": "FULL_CV"
     },
     {
@@ -218,12 +72,14 @@
       "group": true,
       "contributor_level": 0,
       "comment_count": 5,
-      "entry_count": 7,
+      "entry_count": 8,
       "creator": {
         "username": "Ignition365",
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "cv_status": "FULL_CV"
     },
     {
@@ -243,12 +99,14 @@
       "group": true,
       "contributor_level": 0,
       "comment_count": 2,
-      "entry_count": 5,
+      "entry_count": 8,
       "creator": {
         "username": "CosmicDrink",
         "avatar": "",
         "role": "user"
       },
+      "required_play": true,
+      "is_shared": false,
       "cv_status": "FULL_CV"
     },
     {
@@ -267,13 +125,15 @@
       "whitelist": false,
       "group": true,
       "contributor_level": 0,
-      "comment_count": 0,
-      "entry_count": 11,
+      "comment_count": 1,
+      "entry_count": 13,
       "creator": {
         "username": "akfas",
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "cv_status": "FULL_CV"
     },
     {
@@ -292,13 +152,15 @@
       "whitelist": false,
       "group": true,
       "contributor_level": 0,
-      "comment_count": 2,
-      "entry_count": 8,
+      "comment_count": 6,
+      "entry_count": 9,
       "creator": {
         "username": "schmoan",
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "cv_status": "FULL_CV"
     },
     {
@@ -318,12 +180,14 @@
       "group": true,
       "contributor_level": 0,
       "comment_count": 0,
-      "entry_count": 25,
+      "entry_count": 26,
       "creator": {
         "username": "Eindirk",
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "cv_status": "FULL_CV"
     },
     {
@@ -349,6 +213,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "cv_status": "FULL_CV"
     },
     {
@@ -374,6 +240,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "cv_status": "FULL_CV"
     },
     {
@@ -399,6 +267,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "cv_status": "FULL_CV"
     },
     {
@@ -418,12 +288,14 @@
       "group": true,
       "contributor_level": 0,
       "comment_count": 0,
-      "entry_count": 20,
+      "entry_count": 26,
       "creator": {
         "username": "vot4ol",
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "cv_status": "FULL_CV"
     },
     {
@@ -443,12 +315,14 @@
       "group": true,
       "contributor_level": 0,
       "comment_count": 2,
-      "entry_count": 14,
+      "entry_count": 17,
       "creator": {
         "username": "vot4ol",
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "cv_status": "FULL_CV"
     },
     {
@@ -467,13 +341,15 @@
       "whitelist": false,
       "group": true,
       "contributor_level": 0,
-      "comment_count": 0,
-      "entry_count": 3,
+      "comment_count": 1,
+      "entry_count": 5,
       "creator": {
         "username": "yannbz",
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "cv_status": "FULL_CV"
     },
     {
@@ -493,12 +369,14 @@
       "group": true,
       "contributor_level": 0,
       "comment_count": 0,
-      "entry_count": 9,
+      "entry_count": 8,
       "creator": {
         "username": "Metalhead8489",
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "cv_status": "FULL_CV"
     },
     {
@@ -524,6 +402,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "cv_status": "FULL_CV"
     },
     {
@@ -549,6 +429,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "cv_status": "FULL_CV"
     },
     {
@@ -568,12 +450,14 @@
       "group": true,
       "contributor_level": 0,
       "comment_count": 0,
-      "entry_count": 22,
+      "entry_count": 21,
       "creator": {
         "username": "RussellCZ",
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "cv_status": "FULL_CV"
     },
     {
@@ -592,13 +476,15 @@
       "whitelist": false,
       "group": true,
       "contributor_level": 0,
-      "comment_count": 1,
-      "entry_count": 30,
+      "comment_count": 2,
+      "entry_count": 32,
       "creator": {
         "username": "Bainsol",
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "cv_status": "FULL_CV"
     },
     {
@@ -618,12 +504,14 @@
       "group": true,
       "contributor_level": 0,
       "comment_count": 5,
-      "entry_count": 23,
+      "entry_count": 27,
       "creator": {
         "username": "Bainsol",
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "cv_status": "FULL_CV"
     },
     {
@@ -649,6 +537,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "cv_status": "FULL_CV"
     },
     {
@@ -674,6 +564,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "cv_status": "FULL_CV"
     },
     {
@@ -699,6 +591,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "cv_status": "FULL_CV"
     },
     {
@@ -724,6 +618,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "cv_status": "FULL_CV"
     },
     {
@@ -743,12 +639,14 @@
       "group": true,
       "contributor_level": 0,
       "comment_count": 0,
-      "entry_count": 17,
+      "entry_count": 21,
       "creator": {
         "username": "Markox21",
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "cv_status": "FULL_CV"
     },
     {
@@ -767,13 +665,15 @@
       "whitelist": false,
       "group": true,
       "contributor_level": 0,
-      "comment_count": 0,
-      "entry_count": 6,
+      "comment_count": 1,
+      "entry_count": 24,
       "creator": {
         "username": "Troutroum",
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "cv_status": "FULL_CV"
     },
     {
@@ -792,13 +692,15 @@
       "whitelist": false,
       "group": true,
       "contributor_level": 0,
-      "comment_count": 7,
-      "entry_count": 18,
+      "comment_count": 9,
+      "entry_count": 25,
       "creator": {
         "username": "winfryd",
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "cv_status": "FULL_CV"
     },
     {
@@ -824,6 +726,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "cv_status": "FULL_CV"
     },
     {
@@ -843,12 +747,14 @@
       "group": true,
       "contributor_level": 0,
       "comment_count": 5,
-      "entry_count": 23,
+      "entry_count": 24,
       "creator": {
         "username": "QuinlanLJ",
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "cv_status": "FULL_CV"
     },
     {
@@ -874,6 +780,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "cv_status": "FULL_CV"
     },
     {
@@ -899,6 +807,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "cv_status": "FULL_CV"
     },
     {
@@ -924,6 +834,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "cv_status": "FULL_CV"
     },
     {
@@ -943,12 +855,14 @@
       "group": true,
       "contributor_level": 0,
       "comment_count": 0,
-      "entry_count": 2,
+      "entry_count": 4,
       "creator": {
         "username": "Noodles91",
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "cv_status": "FULL_CV"
     },
     {
@@ -974,6 +888,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "cv_status": "FULL_CV"
     },
     {
@@ -993,12 +909,14 @@
       "group": true,
       "contributor_level": 0,
       "comment_count": 0,
-      "entry_count": 3,
+      "entry_count": 5,
       "creator": {
         "username": "Noodles91",
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "cv_status": "FULL_CV"
     },
     {
@@ -1024,6 +942,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "cv_status": "FULL_CV"
     },
     {
@@ -1049,6 +969,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "cv_status": "FULL_CV"
     },
     {
@@ -1074,6 +996,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "cv_status": "FULL_CV"
     },
     {
@@ -1099,6 +1023,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "cv_status": "FULL_CV"
     },
     {
@@ -1118,12 +1044,14 @@
       "group": true,
       "contributor_level": 0,
       "comment_count": 1,
-      "entry_count": 15,
+      "entry_count": 16,
       "creator": {
         "username": "herbesdeprovence",
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "cv_status": "FULL_CV"
     },
     {
@@ -1143,12 +1071,14 @@
       "group": true,
       "contributor_level": 0,
       "comment_count": 0,
-      "entry_count": 4,
+      "entry_count": 7,
       "creator": {
         "username": "Rinocap",
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "cv_status": "FULL_CV"
     },
     {
@@ -1174,6 +1104,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "cv_status": "FULL_CV"
     },
     {
@@ -1199,6 +1131,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "cv_status": "FULL_CV"
     },
     {
@@ -1224,6 +1158,116 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
+      "cv_status": "FULL_CV"
+    },
+    {
+      "id": "1suPp",
+      "name": "Can't Drive This",
+      "points": 20,
+      "copies": 1,
+      "app_id": 466980,
+      "package_id": null,
+      "link": "1suPp/cant-drive-this",
+      "created_timestamp": 1752023411,
+      "start_timestamp": 1752023351,
+      "end_timestamp": 1752206340,
+      "region_restricted": false,
+      "invite_only": false,
+      "whitelist": false,
+      "group": true,
+      "contributor_level": 0,
+      "comment_count": 0,
+      "entry_count": 0,
+      "creator": {
+        "username": "CupcakeDollykins",
+        "avatar": "",
+        "role": "user"
+      },
+      "required_play": false,
+      "is_shared": false,
+      "cv_status": "FULL_CV"
+    },
+    {
+      "id": "0PTlq",
+      "name": "Tandem: A Tale of Shadows",
+      "points": 10,
+      "copies": 1,
+      "app_id": 1436920,
+      "package_id": null,
+      "link": "0PTlq/tandem-a-tale-of-shadows",
+      "created_timestamp": 1752022299,
+      "start_timestamp": 1752022239,
+      "end_timestamp": 1752206340,
+      "region_restricted": false,
+      "invite_only": false,
+      "whitelist": false,
+      "group": true,
+      "contributor_level": 0,
+      "comment_count": 0,
+      "entry_count": 0,
+      "creator": {
+        "username": "CupcakeDollykins",
+        "avatar": "",
+        "role": "user"
+      },
+      "required_play": false,
+      "is_shared": false,
+      "cv_status": "FULL_CV"
+    },
+    {
+      "id": "GT6zT",
+      "name": "What Remains of Edith Finch",
+      "points": 20,
+      "copies": 1,
+      "app_id": 501300,
+      "package_id": null,
+      "link": "GT6zT/what-remains-of-edith-finch",
+      "created_timestamp": 1752020464,
+      "start_timestamp": 1752020404,
+      "end_timestamp": 1752220800,
+      "region_restricted": true,
+      "invite_only": false,
+      "whitelist": false,
+      "group": true,
+      "contributor_level": 0,
+      "comment_count": 0,
+      "entry_count": 1,
+      "creator": {
+        "username": "Griske14",
+        "avatar": "",
+        "role": "user"
+      },
+      "required_play": false,
+      "is_shared": false,
+      "cv_status": "FULL_CV"
+    },
+    {
+      "id": "pP8ER",
+      "name": "Loop Hero",
+      "points": 15,
+      "copies": 1,
+      "app_id": 1282730,
+      "package_id": null,
+      "link": "pP8ER/loop-hero",
+      "created_timestamp": 1752021704,
+      "start_timestamp": 1752021644,
+      "end_timestamp": 1752238800,
+      "region_restricted": false,
+      "invite_only": false,
+      "whitelist": false,
+      "group": true,
+      "contributor_level": 0,
+      "comment_count": 1,
+      "entry_count": 3,
+      "creator": {
+        "username": "Sakakino",
+        "avatar": "",
+        "role": "user"
+      },
+      "required_play": false,
+      "is_shared": false,
       "cv_status": "FULL_CV"
     },
     {
@@ -1249,6 +1293,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "cv_status": "FULL_CV"
     },
     {
@@ -1268,12 +1314,14 @@
       "group": true,
       "contributor_level": 0,
       "comment_count": 0,
-      "entry_count": 7,
+      "entry_count": 24,
       "creator": {
         "username": "oct4vius",
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "cv_status": "REDUCED_CV"
     },
     {
@@ -1293,12 +1341,14 @@
       "group": true,
       "contributor_level": 0,
       "comment_count": 1,
-      "entry_count": 13,
+      "entry_count": 36,
       "creator": {
         "username": "oct4vius",
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "cv_status": "REDUCED_CV"
     },
     {
@@ -1324,6 +1374,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "cv_status": "FULL_CV"
     },
     {
@@ -1349,6 +1401,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "cv_status": "FULL_CV"
     },
     {
@@ -1374,6 +1428,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "cv_status": "FULL_CV"
     },
     {
@@ -1399,6 +1455,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "cv_status": "FULL_CV"
     },
     {
@@ -1424,6 +1482,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "cv_status": "FULL_CV"
     },
     {
@@ -1449,6 +1509,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "cv_status": "FULL_CV"
     },
     {
@@ -1468,12 +1530,14 @@
       "group": true,
       "contributor_level": 0,
       "comment_count": 0,
-      "entry_count": 71,
+      "entry_count": 78,
       "creator": {
         "username": "lockcjwen",
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "cv_status": "REDUCED_CV"
     },
     {
@@ -1493,12 +1557,14 @@
       "group": true,
       "contributor_level": 0,
       "comment_count": 3,
-      "entry_count": 53,
+      "entry_count": 57,
       "creator": {
         "username": "AndyFrost",
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "cv_status": "FULL_CV"
     },
     {
@@ -1518,12 +1584,14 @@
       "group": true,
       "contributor_level": 0,
       "comment_count": 0,
-      "entry_count": 8,
+      "entry_count": 9,
       "creator": {
         "username": "Patxxv",
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "cv_status": "REDUCED_CV"
     },
     {
@@ -1543,12 +1611,41 @@
       "group": true,
       "contributor_level": 0,
       "comment_count": 1,
-      "entry_count": 15,
+      "entry_count": 16,
       "creator": {
         "username": "BanjoBearLV",
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
+      "cv_status": "FULL_CV"
+    },
+    {
+      "id": "lsZIi",
+      "name": "Inscryption",
+      "points": 20,
+      "copies": 1,
+      "app_id": 1092790,
+      "package_id": null,
+      "link": "lsZIi/inscryption",
+      "created_timestamp": 1752046602,
+      "start_timestamp": 1752046542,
+      "end_timestamp": 1752336000,
+      "region_restricted": false,
+      "invite_only": false,
+      "whitelist": false,
+      "group": true,
+      "contributor_level": 0,
+      "comment_count": 0,
+      "entry_count": 3,
+      "creator": {
+        "username": "z00rox",
+        "avatar": "",
+        "role": "user"
+      },
+      "required_play": false,
+      "is_shared": false,
       "cv_status": "FULL_CV"
     },
     {
@@ -1574,6 +1671,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "cv_status": "FULL_CV"
     },
     {
@@ -1599,6 +1698,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "cv_status": "FULL_CV"
     },
     {
@@ -1618,12 +1719,14 @@
       "group": true,
       "contributor_level": 0,
       "comment_count": 0,
-      "entry_count": 7,
+      "entry_count": 8,
       "creator": {
         "username": "drbeckett",
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "cv_status": "FULL_CV"
     },
     {
@@ -1643,12 +1746,14 @@
       "group": true,
       "contributor_level": 0,
       "comment_count": 0,
-      "entry_count": 74,
+      "entry_count": 80,
       "creator": {
         "username": "lockcjwen",
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "cv_status": "REDUCED_CV"
     },
     {
@@ -1668,12 +1773,14 @@
       "group": true,
       "contributor_level": 0,
       "comment_count": 0,
-      "entry_count": 7,
+      "entry_count": 8,
       "creator": {
         "username": "BanjoBearLV",
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "cv_status": "FULL_CV"
     },
     {
@@ -1693,12 +1800,14 @@
       "group": true,
       "contributor_level": 0,
       "comment_count": 0,
-      "entry_count": 2,
+      "entry_count": 8,
       "creator": {
         "username": "Carenard",
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "cv_status": "FULL_CV"
     },
     {
@@ -1718,12 +1827,14 @@
       "group": true,
       "contributor_level": 0,
       "comment_count": 0,
-      "entry_count": 3,
+      "entry_count": 10,
       "creator": {
         "username": "Carenard",
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "cv_status": "FULL_CV"
     },
     {
@@ -1743,12 +1854,14 @@
       "group": true,
       "contributor_level": 0,
       "comment_count": 0,
-      "entry_count": 6,
+      "entry_count": 11,
       "creator": {
         "username": "Carenard",
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "cv_status": "FULL_CV"
     },
     {
@@ -1774,6 +1887,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "cv_status": "FULL_CV"
     },
     {
@@ -1799,6 +1914,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "cv_status": "FULL_CV"
     },
     {
@@ -1824,7 +1941,36 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "cv_status": "FULL_CV"
+    },
+    {
+      "id": "eyWnE",
+      "name": "Jewel Match Twilight 3 Collector's Ed...",
+      "points": 10,
+      "copies": 1,
+      "app_id": 1747670,
+      "package_id": null,
+      "link": "eyWnE/jewel-match-twilight-3-collectors-edition",
+      "created_timestamp": 1752024732,
+      "start_timestamp": 1752024672,
+      "end_timestamp": 1752638400,
+      "region_restricted": false,
+      "invite_only": false,
+      "whitelist": true,
+      "group": true,
+      "contributor_level": 0,
+      "comment_count": 0,
+      "entry_count": 44,
+      "creator": {
+        "username": "lockcjwen",
+        "avatar": "",
+        "role": "user"
+      },
+      "required_play": false,
+      "is_shared": true,
+      "cv_status": "REDUCED_CV"
     },
     {
       "id": "nWn4q",
@@ -1849,6 +1995,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "cv_status": "FULL_CV"
     },
     {
@@ -1868,12 +2016,14 @@
       "group": true,
       "contributor_level": 0,
       "comment_count": 4,
-      "entry_count": 29,
+      "entry_count": 30,
       "creator": {
         "username": "Patxxv",
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "cv_status": "FULL_CV"
     },
     {
@@ -1893,12 +2043,218 @@
       "group": true,
       "contributor_level": 0,
       "comment_count": 0,
-      "entry_count": 5,
+      "entry_count": 6,
       "creator": {
         "username": "Cloverleaf",
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
+      "cv_status": "FULL_CV"
+    },
+    {
+      "id": "R8bbb",
+      "name": "Ib",
+      "points": 13,
+      "copies": 1,
+      "app_id": 1901370,
+      "package_id": null,
+      "link": "R8bbb/ib",
+      "created_timestamp": 1751787057,
+      "start_timestamp": 1751786997,
+      "end_timestamp": 1752047640,
+      "region_restricted": false,
+      "invite_only": false,
+      "whitelist": false,
+      "group": true,
+      "contributor_level": 0,
+      "comment_count": 0,
+      "entry_count": 20,
+      "creator": {
+        "username": "gus09",
+        "avatar": "",
+        "role": "user"
+      },
+      "required_play": false,
+      "is_shared": false,
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "FULL_CV"
+    },
+    {
+      "id": "Q1c6U",
+      "name": "Agricola: All Creatures Big and Small",
+      "points": 7,
+      "copies": 1,
+      "app_id": 528180,
+      "package_id": null,
+      "link": "Q1c6U/agricola-all-creatures-big-and-small",
+      "created_timestamp": 1751432399,
+      "start_timestamp": 1751432339,
+      "end_timestamp": 1752033600,
+      "region_restricted": false,
+      "invite_only": false,
+      "whitelist": true,
+      "group": true,
+      "contributor_level": 0,
+      "comment_count": 0,
+      "entry_count": 135,
+      "creator": {
+        "username": "lockcjwen",
+        "avatar": "",
+        "role": "user"
+      },
+      "required_play": false,
+      "is_shared": true,
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "REDUCED_CV"
+    },
+    {
+      "id": "idFvE",
+      "name": "Weird West: Definitive Edition",
+      "points": 40,
+      "copies": 1,
+      "app_id": 1097350,
+      "package_id": null,
+      "link": "idFvE/weird-west-definitive-edition",
+      "created_timestamp": 1751856779,
+      "start_timestamp": 1751856719,
+      "end_timestamp": 1752033060,
+      "region_restricted": false,
+      "invite_only": false,
+      "whitelist": false,
+      "group": true,
+      "contributor_level": 0,
+      "comment_count": 0,
+      "entry_count": 2,
+      "creator": {
+        "username": "karm2002",
+        "avatar": "",
+        "role": "user"
+      },
+      "required_play": false,
+      "is_shared": false,
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "FULL_CV"
+    },
+    {
+      "id": "Fq2P7",
+      "name": "Bramble: The Mountain King",
+      "points": 30,
+      "copies": 1,
+      "app_id": 1623940,
+      "package_id": null,
+      "link": "Fq2P7/bramble-the-mountain-king",
+      "created_timestamp": 1751856704,
+      "start_timestamp": 1751856644,
+      "end_timestamp": 1752033060,
+      "region_restricted": false,
+      "invite_only": false,
+      "whitelist": false,
+      "group": true,
+      "contributor_level": 0,
+      "comment_count": 0,
+      "entry_count": 7,
+      "creator": {
+        "username": "karm2002",
+        "avatar": "",
+        "role": "user"
+      },
+      "required_play": false,
+      "is_shared": false,
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "FULL_CV"
+    },
+    {
+      "id": "KGrTf",
+      "name": "The Devil Within: Satgat",
+      "points": 25,
+      "copies": 1,
+      "app_id": 1802880,
+      "package_id": null,
+      "link": "KGrTf/the-devil-within-satgat",
+      "created_timestamp": 1751856661,
+      "start_timestamp": 1751856601,
+      "end_timestamp": 1752032940,
+      "region_restricted": false,
+      "invite_only": false,
+      "whitelist": false,
+      "group": true,
+      "contributor_level": 0,
+      "comment_count": 1,
+      "entry_count": 8,
+      "creator": {
+        "username": "karm2002",
+        "avatar": "",
+        "role": "user"
+      },
+      "required_play": false,
+      "is_shared": false,
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "FULL_CV"
+    },
+    {
+      "id": "5JBDd",
+      "name": "Creepy Castle",
+      "points": 10,
+      "copies": 1,
+      "app_id": 450440,
+      "package_id": null,
+      "link": "5JBDd/creepy-castle",
+      "created_timestamp": 1751767809,
+      "start_timestamp": 1751767749,
+      "end_timestamp": 1752023280,
+      "region_restricted": false,
+      "invite_only": false,
+      "whitelist": false,
+      "group": true,
+      "contributor_level": 0,
+      "comment_count": 1,
+      "entry_count": 3,
+      "creator": {
+        "username": "ithamore",
+        "avatar": "",
+        "role": "user"
+      },
+      "required_play": false,
+      "is_shared": false,
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": "Eindirk",
+          "status": "received"
+        }
+      ],
       "cv_status": "FULL_CV"
     },
     {
@@ -1917,18 +2273,20 @@
       "whitelist": false,
       "group": true,
       "contributor_level": 0,
-      "comment_count": 8,
+      "comment_count": 11,
       "entry_count": 32,
       "creator": {
         "username": "Grogglz",
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "Troutroum",
+          "status": "received"
         }
       ],
       "cv_status": "FULL_CV"
@@ -1956,6 +2314,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -1963,31 +2323,6 @@
           "status": "received"
         }
       ],
-      "cv_status": "FULL_CV"
-    },
-    {
-      "id": "NuN5w",
-      "name": "Revenge of the Savage Planet",
-      "points": 30,
-      "copies": 1,
-      "app_id": 2787320,
-      "package_id": null,
-      "link": "NuN5w/revenge-of-the-savage-planet",
-      "created_timestamp": 1751705229,
-      "start_timestamp": 1751705169,
-      "end_timestamp": 1751994000,
-      "region_restricted": false,
-      "invite_only": false,
-      "whitelist": false,
-      "group": true,
-      "contributor_level": 0,
-      "comment_count": 1,
-      "entry_count": 13,
-      "creator": {
-        "username": "Tucs",
-        "avatar": "",
-        "role": "user"
-      },
       "cv_status": "FULL_CV"
     },
     {
@@ -2013,6 +2348,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -2038,13 +2375,15 @@
       "whitelist": false,
       "group": true,
       "contributor_level": 0,
-      "comment_count": 0,
+      "comment_count": 2,
       "entry_count": 24,
       "creator": {
         "username": "DancingVaquinha",
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -2077,6 +2416,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -2109,6 +2450,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -2120,31 +2463,6 @@
           "status": "received"
         }
       ],
-      "cv_status": "FULL_CV"
-    },
-    {
-      "id": "Kj8ul",
-      "name": "The Elder Scrolls IV: Oblivion Game o...",
-      "points": 20,
-      "copies": 1,
-      "app_id": 900883,
-      "package_id": null,
-      "link": "Kj8ul/the-elder-scrolls-iv-oblivion-game-of-the-year-edition-deluxe-2009",
-      "created_timestamp": 1751378845,
-      "start_timestamp": 1751378785,
-      "end_timestamp": 1751986800,
-      "region_restricted": false,
-      "invite_only": false,
-      "whitelist": false,
-      "group": true,
-      "contributor_level": 0,
-      "comment_count": 0,
-      "entry_count": 1,
-      "creator": {
-        "username": "ManowGamer",
-        "avatar": "",
-        "role": "user"
-      },
       "cv_status": "FULL_CV"
     },
     {
@@ -2170,6 +2488,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -2202,6 +2522,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -2234,6 +2556,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -2266,6 +2590,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -2298,6 +2624,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -2330,6 +2658,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -2362,6 +2692,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -2394,6 +2726,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -2426,6 +2760,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -2458,6 +2794,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -2490,6 +2828,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -2522,6 +2862,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -2554,6 +2896,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -2586,6 +2930,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -2618,6 +2964,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -2654,6 +3002,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -2686,6 +3036,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -2718,6 +3070,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -2750,6 +3104,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -2782,6 +3138,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -2814,6 +3172,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -2846,6 +3206,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": false,
       "winners": [],
       "cv_status": "FULL_CV"
@@ -2873,6 +3235,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -2905,6 +3269,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -2941,6 +3307,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -2973,6 +3341,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -3005,6 +3375,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -3037,6 +3409,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -3069,6 +3443,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -3101,6 +3477,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -3133,6 +3511,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -3165,6 +3545,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -3197,6 +3579,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -3229,6 +3613,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -3261,6 +3647,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -3297,6 +3685,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -3329,6 +3719,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -3361,6 +3753,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -3393,6 +3787,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -3425,6 +3821,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -3457,6 +3855,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": false,
       "winners": [],
       "cv_status": "FULL_CV"
@@ -3484,6 +3884,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -3516,6 +3918,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -3548,6 +3952,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -3580,6 +3986,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -3612,6 +4020,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -3619,7 +4029,7 @@
           "status": "received"
         }
       ],
-      "cv_status": "FULL_CV"
+      "cv_status": "REDUCED_CV"
     },
     {
       "id": "1jEDV",
@@ -3644,6 +4054,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -3676,6 +4088,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -3708,6 +4122,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -3740,6 +4156,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -3765,18 +4183,20 @@
       "whitelist": false,
       "group": true,
       "contributor_level": 0,
-      "comment_count": 1,
+      "comment_count": 3,
       "entry_count": 7,
       "creator": {
         "username": "elysium1988",
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "Rosayde",
+          "status": "received"
         }
       ],
       "cv_status": "FULL_CV"
@@ -3804,6 +4224,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -3836,6 +4258,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -3868,6 +4292,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -3900,6 +4326,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -3932,6 +4360,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": true,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -3964,6 +4394,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -3996,6 +4428,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -4028,6 +4462,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": true,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -4064,6 +4500,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -4096,6 +4534,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -4128,6 +4568,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -4160,6 +4602,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -4192,6 +4636,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -4224,6 +4670,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -4256,6 +4704,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -4288,6 +4738,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -4320,6 +4772,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -4352,6 +4806,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -4384,6 +4840,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -4416,6 +4874,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -4448,6 +4908,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -4480,6 +4942,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -4512,6 +4976,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -4544,6 +5010,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -4576,6 +5044,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -4608,6 +5078,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -4640,6 +5112,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -4672,9 +5146,11 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": false,
       "winners": [],
-      "cv_status": "FULL_CV"
+      "cv_status": "REDUCED_CV"
     },
     {
       "id": "FhlQT",
@@ -4699,6 +5175,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": false,
       "winners": [],
       "cv_status": "FULL_CV"
@@ -4726,6 +5204,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": false,
       "winners": [],
       "cv_status": "FULL_CV"
@@ -4753,6 +5233,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -4785,6 +5267,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -4817,6 +5301,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -4849,6 +5335,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -4881,6 +5369,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -4913,6 +5403,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -4945,6 +5437,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": false,
       "winners": [],
       "cv_status": "REDUCED_CV"
@@ -4972,6 +5466,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -5004,6 +5500,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -5036,6 +5534,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -5068,6 +5568,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -5100,6 +5602,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -5132,6 +5636,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -5164,6 +5670,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -5196,6 +5704,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -5228,6 +5738,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -5260,6 +5772,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -5292,6 +5806,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -5324,6 +5840,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -5356,6 +5874,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -5388,6 +5908,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -5420,6 +5942,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -5452,6 +5976,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -5484,6 +6010,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -5516,6 +6044,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -5552,6 +6082,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -5588,6 +6120,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": false,
       "winners": [],
       "cv_status": "FULL_CV"
@@ -5615,6 +6149,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -5647,6 +6183,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -5679,6 +6217,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -5711,6 +6251,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -5743,6 +6285,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -5775,6 +6319,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -5807,6 +6353,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -5839,6 +6387,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -5871,6 +6421,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -5903,6 +6455,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -5935,6 +6489,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -5967,6 +6523,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -5999,6 +6557,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -6031,6 +6591,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -6063,6 +6625,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": true,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -6095,6 +6659,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -6127,6 +6693,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -6159,6 +6727,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -6191,6 +6761,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -6223,6 +6795,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -6255,6 +6829,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -6287,6 +6863,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -6319,6 +6897,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": false,
       "winners": [],
       "cv_status": "FULL_CV"
@@ -6346,6 +6926,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -6378,6 +6960,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -6410,6 +6994,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -6442,6 +7028,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -6474,6 +7062,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -6506,6 +7096,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -6538,6 +7130,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -6570,6 +7164,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -6602,6 +7198,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -6634,6 +7232,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -6666,6 +7266,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -6698,6 +7300,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": false,
       "winners": [],
       "cv_status": "FULL_CV"
@@ -6725,6 +7329,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -6757,6 +7363,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -6789,6 +7397,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -6821,6 +7431,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -6853,6 +7465,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -6885,6 +7499,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -6917,6 +7533,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -6949,6 +7567,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -6981,6 +7601,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -7013,6 +7635,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -7045,6 +7669,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -7077,6 +7703,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -7109,6 +7737,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -7141,6 +7771,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -7173,6 +7805,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -7205,6 +7839,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -7237,6 +7873,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -7269,6 +7907,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -7301,6 +7941,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -7333,6 +7975,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -7365,6 +8009,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": false,
       "winners": [],
       "cv_status": "FULL_CV"
@@ -7392,6 +8038,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": false,
       "winners": [],
       "cv_status": "FULL_CV"
@@ -7419,6 +8067,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -7451,6 +8101,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -7483,6 +8135,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -7515,6 +8169,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -7547,6 +8203,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -7579,6 +8237,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -7611,6 +8271,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -7643,6 +8305,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -7675,6 +8339,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": false,
       "winners": [],
       "cv_status": "FULL_CV"
@@ -7702,6 +8368,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -7734,6 +8402,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -7766,6 +8436,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -7791,13 +8463,15 @@
       "whitelist": false,
       "group": true,
       "contributor_level": 0,
-      "comment_count": 0,
+      "comment_count": 1,
       "entry_count": 10,
       "creator": {
         "username": "herbesdeprovence",
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -7823,13 +8497,15 @@
       "whitelist": false,
       "group": true,
       "contributor_level": 0,
-      "comment_count": 1,
+      "comment_count": 2,
       "entry_count": 14,
       "creator": {
         "username": "herbesdeprovence",
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -7862,6 +8538,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": false,
       "winners": [],
       "cv_status": "FULL_CV"
@@ -7889,6 +8567,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -7921,6 +8601,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -7953,6 +8635,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -7985,6 +8669,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -8017,6 +8703,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -8049,6 +8737,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -8081,6 +8771,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -8113,6 +8805,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -8145,6 +8839,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -8177,6 +8873,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -8209,6 +8907,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -8241,6 +8941,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -8273,6 +8975,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -8305,6 +9009,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -8337,6 +9043,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -8369,6 +9077,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -8405,6 +9115,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -8441,6 +9153,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -8473,6 +9187,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -8505,6 +9221,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -8537,6 +9255,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -8569,6 +9289,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": true,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -8601,6 +9323,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -8633,6 +9357,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -8665,6 +9391,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -8697,6 +9425,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -8729,6 +9459,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -8761,6 +9493,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -8793,6 +9527,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": true,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -8825,6 +9561,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -8857,6 +9595,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -8889,6 +9629,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -8921,6 +9663,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -8953,6 +9697,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -8985,6 +9731,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -9017,6 +9765,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -9049,6 +9799,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -9081,6 +9833,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -9113,6 +9867,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -9145,6 +9901,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -9177,6 +9935,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -9209,6 +9969,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -9249,6 +10011,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -9281,6 +10045,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -9313,6 +10079,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -9345,6 +10113,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -9377,6 +10147,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -9409,6 +10181,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -9445,6 +10219,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -9477,6 +10253,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -9509,6 +10287,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -9541,6 +10321,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -9573,6 +10355,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -9605,6 +10389,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -9637,6 +10423,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -9669,6 +10457,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -9701,6 +10491,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -9733,6 +10525,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -9765,6 +10559,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -9801,6 +10597,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -9841,6 +10639,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -9873,6 +10673,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -9909,6 +10711,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -9941,6 +10745,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -9973,6 +10779,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -10005,6 +10813,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -10037,6 +10847,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -10069,6 +10881,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -10101,6 +10915,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -10133,6 +10949,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -10165,6 +10983,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": false,
       "winners": [],
       "cv_status": "FULL_CV"
@@ -10192,6 +11012,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -10224,6 +11046,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -10256,6 +11080,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -10288,6 +11114,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -10320,6 +11148,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -10352,6 +11182,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -10384,6 +11216,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -10416,6 +11250,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -10448,6 +11284,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -10480,6 +11318,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -10512,6 +11352,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -10548,6 +11390,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -10580,6 +11424,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -10612,6 +11458,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -10644,6 +11492,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -10676,6 +11526,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -10708,6 +11560,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -10740,6 +11594,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -10772,6 +11628,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -10804,6 +11662,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -10836,6 +11696,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -10868,6 +11730,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -10900,6 +11764,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -10932,6 +11798,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -10964,6 +11832,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -10996,6 +11866,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -11028,6 +11900,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -11060,6 +11934,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -11092,6 +11968,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -11124,6 +12002,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": true,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -11156,6 +12036,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -11188,6 +12070,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -11220,6 +12104,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -11252,6 +12138,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -11284,6 +12172,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -11316,6 +12206,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -11348,6 +12240,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -11380,6 +12274,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -11412,6 +12308,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -11444,6 +12342,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -11476,6 +12376,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -11508,6 +12410,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -11540,6 +12444,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -11572,6 +12478,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -11604,6 +12512,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -11636,6 +12546,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -11668,6 +12580,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -11700,6 +12614,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -11732,6 +12648,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -11764,6 +12682,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -11800,6 +12720,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -11832,6 +12754,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -11868,6 +12792,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -11900,6 +12826,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -11932,6 +12860,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -11964,6 +12894,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -11996,6 +12928,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -12028,6 +12962,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -12060,6 +12996,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -12092,6 +13030,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -12124,6 +13064,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -12156,6 +13098,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -12188,6 +13132,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -12220,6 +13166,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -12252,6 +13200,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -12284,6 +13234,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -12316,6 +13268,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -12348,6 +13302,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -12380,6 +13336,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -12412,6 +13370,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -12444,6 +13404,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -12476,6 +13438,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -12508,6 +13472,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -12540,6 +13506,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -12572,6 +13540,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -12604,6 +13574,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -12636,6 +13608,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -12668,6 +13642,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -12700,6 +13676,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -12732,6 +13710,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -12764,6 +13744,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -12796,6 +13778,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -12828,6 +13812,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -12860,6 +13846,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -12892,6 +13880,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -12924,6 +13914,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -12956,6 +13948,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -12988,6 +13982,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -13020,6 +14016,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -13052,6 +14050,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -13084,6 +14084,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -13116,6 +14118,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -13148,6 +14152,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -13180,6 +14186,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -13212,6 +14220,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -13244,6 +14254,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": false,
       "winners": [],
       "cv_status": "FULL_CV"
@@ -13271,6 +14283,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -13303,6 +14317,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -13335,6 +14351,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -13367,6 +14385,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -13399,6 +14419,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -13431,6 +14453,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -13463,6 +14487,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -13495,6 +14521,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -13527,6 +14555,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -13559,6 +14589,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -13591,6 +14623,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -13631,6 +14665,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -13667,6 +14703,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -13699,6 +14737,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -13731,6 +14771,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -13763,6 +14805,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -13795,6 +14839,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -13827,6 +14873,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -13859,6 +14907,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -13891,6 +14941,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -13923,6 +14975,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -13955,6 +15009,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -13987,6 +15043,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -14027,6 +15085,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -14059,6 +15119,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -14091,6 +15153,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -14123,6 +15187,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -14155,6 +15221,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -14187,6 +15255,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": false,
       "winners": [],
       "cv_status": "FULL_CV"
@@ -14214,6 +15284,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -14246,6 +15318,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -14278,6 +15352,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -14310,6 +15386,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": false,
       "winners": [],
       "cv_status": "FULL_CV"
@@ -14337,6 +15415,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -14377,6 +15457,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -14409,6 +15491,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -14441,6 +15525,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -14473,6 +15559,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -14505,6 +15593,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -14537,6 +15627,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -14569,6 +15661,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -14605,6 +15699,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -14641,6 +15737,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -14681,6 +15779,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -14713,6 +15813,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -14745,6 +15847,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -14777,6 +15881,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -14809,6 +15915,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -14849,6 +15957,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -14881,6 +15991,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -14913,6 +16025,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -14945,6 +16059,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -14977,6 +16093,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -15013,6 +16131,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -15045,6 +16165,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -15077,6 +16199,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -15109,6 +16233,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -15141,6 +16267,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -15173,6 +16301,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -15205,6 +16335,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -15237,6 +16369,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -15269,6 +16403,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -15305,6 +16441,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -15337,6 +16475,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -15369,6 +16509,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -15401,6 +16543,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -15433,6 +16577,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -15465,6 +16611,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -15497,6 +16645,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -15529,6 +16679,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -15561,6 +16713,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -15593,6 +16747,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -15625,6 +16781,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -15657,6 +16815,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -15689,6 +16849,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -15721,6 +16883,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -15753,6 +16917,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -15785,6 +16951,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -15817,6 +16985,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -15849,6 +17019,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -15881,6 +17053,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -15913,6 +17087,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -15949,6 +17125,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -15985,6 +17163,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -16017,6 +17197,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -16049,6 +17231,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -16081,6 +17265,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -16113,6 +17299,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -16145,6 +17333,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -16177,6 +17367,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -16213,6 +17405,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -16245,6 +17439,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -16281,6 +17477,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -16313,6 +17511,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -16345,6 +17545,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -16377,6 +17579,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -16409,6 +17613,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -16441,6 +17647,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -16473,6 +17681,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -16505,6 +17715,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -16537,6 +17749,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -16569,6 +17783,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -16601,6 +17817,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -16633,6 +17851,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -16665,6 +17885,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -16697,6 +17919,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -16729,6 +17953,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -16761,6 +17987,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -16793,6 +18021,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -16825,6 +18055,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -16857,6 +18089,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -16889,6 +18123,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -16921,6 +18157,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -16953,6 +18191,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -16985,6 +18225,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -17017,6 +18259,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -17049,6 +18293,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -17081,6 +18327,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -17113,6 +18361,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -17145,6 +18395,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -17177,6 +18429,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -17209,6 +18463,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -17241,6 +18497,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -17273,6 +18531,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -17305,6 +18565,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -17337,6 +18599,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -17369,6 +18633,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -17401,6 +18667,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": false,
       "winners": [],
       "cv_status": "FULL_CV"
@@ -17428,6 +18696,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -17460,6 +18730,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -17492,6 +18764,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -17524,6 +18798,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -17556,6 +18832,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -17588,6 +18866,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -17620,6 +18900,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -17652,6 +18934,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -17684,6 +18968,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -17716,6 +19002,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -17748,6 +19036,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -17780,6 +19070,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -17812,6 +19104,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -17844,6 +19138,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -17876,6 +19172,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -17908,6 +19206,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -17940,6 +19240,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -17947,7 +19249,7 @@
           "status": "received"
         }
       ],
-      "cv_status": "FULL_CV"
+      "cv_status": "REDUCED_CV"
     },
     {
       "id": "pPfpb",
@@ -17972,6 +19274,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -18004,6 +19308,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -18036,6 +19342,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -18068,6 +19376,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -18100,6 +19410,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -18136,6 +19448,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -18168,6 +19482,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -18200,6 +19516,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -18232,6 +19550,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -18264,6 +19584,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -18296,6 +19618,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -18328,6 +19652,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -18360,6 +19686,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -18392,6 +19720,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -18424,6 +19754,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -18456,6 +19788,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -18488,6 +19822,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -18520,6 +19856,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -18552,6 +19890,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -18584,6 +19924,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -18616,6 +19958,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -18648,6 +19992,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -18680,6 +20026,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -18712,6 +20060,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -18744,6 +20094,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -18776,6 +20128,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -18808,6 +20162,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -18840,6 +20196,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -18872,6 +20230,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -18904,6 +20264,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -18936,6 +20298,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -18968,6 +20332,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -19000,6 +20366,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -19032,6 +20400,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -19064,6 +20434,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -19096,6 +20468,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -19128,6 +20502,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -19160,6 +20536,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -19192,6 +20570,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -19224,6 +20604,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -19256,6 +20638,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -19288,6 +20672,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -19320,6 +20706,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -19356,6 +20744,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -19388,6 +20778,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -19420,6 +20812,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -19452,6 +20846,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -19484,6 +20880,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -19516,6 +20914,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -19548,6 +20948,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -19580,6 +20982,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -19612,6 +21016,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -19644,6 +21050,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -19676,6 +21084,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -19708,6 +21118,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -19740,6 +21152,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -19772,6 +21186,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -19804,6 +21220,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -19836,6 +21254,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -19868,6 +21288,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -19900,6 +21322,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -19932,6 +21356,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -19964,6 +21390,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -19996,6 +21424,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -20028,6 +21458,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -20060,6 +21492,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -20092,6 +21526,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -20124,6 +21560,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -20156,6 +21594,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -20188,6 +21628,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -20220,6 +21662,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -20252,6 +21696,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -20284,6 +21730,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -20316,6 +21764,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -20348,6 +21798,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -20380,6 +21832,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -20412,6 +21866,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -20444,6 +21900,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -20476,6 +21934,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -20508,6 +21968,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -20540,6 +22002,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -20572,6 +22036,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -20604,6 +22070,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -20636,6 +22104,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -20668,6 +22138,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -20700,6 +22172,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -20732,6 +22206,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -20764,6 +22240,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -20796,6 +22274,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -20832,6 +22312,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -20864,6 +22346,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -20896,6 +22380,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -20928,6 +22414,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -20960,6 +22448,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -20992,6 +22482,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -21024,6 +22516,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -21056,6 +22550,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -21088,6 +22584,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -21120,6 +22618,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -21152,6 +22652,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -21184,6 +22686,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -21216,6 +22720,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -21248,6 +22754,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -21280,6 +22788,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -21312,6 +22822,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -21344,6 +22856,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -21376,6 +22890,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -21408,6 +22924,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -21440,6 +22958,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -21472,6 +22992,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -21504,6 +23026,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -21536,6 +23060,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -21568,6 +23094,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -21600,6 +23128,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -21632,6 +23162,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -21664,6 +23196,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -21696,6 +23230,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -21728,6 +23264,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -21760,6 +23298,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -21792,6 +23332,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -21824,6 +23366,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -21856,6 +23400,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -21888,6 +23434,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -21920,6 +23468,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -21952,6 +23502,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -21984,6 +23536,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -22016,6 +23570,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -22048,6 +23604,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -22080,6 +23638,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -22112,6 +23672,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -22144,6 +23706,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -22176,6 +23740,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -22208,6 +23774,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -22240,6 +23808,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
@@ -22272,6 +23842,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -22304,6 +23876,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -22336,6 +23910,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -22368,6 +23944,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -22400,6 +23978,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -22432,6 +24012,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -22464,6 +24046,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -22496,6 +24080,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -22528,6 +24114,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -22560,6 +24148,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -22592,6 +24182,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -22624,6 +24216,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -22656,6 +24250,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -22688,6 +24284,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -22720,6 +24318,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -22752,6 +24352,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -22784,6 +24386,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -22816,6 +24420,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -22848,6 +24454,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -22880,6 +24488,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -22912,6 +24522,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -22944,6 +24556,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -22976,6 +24590,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -23008,6 +24624,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -23040,6 +24658,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -23072,6 +24692,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -23104,6 +24726,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -23136,6 +24760,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -23168,6 +24794,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -23200,6 +24828,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -23232,6 +24862,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -23264,6 +24896,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {
@@ -23296,6 +24930,8 @@
         "avatar": "",
         "role": "user"
       },
+      "required_play": false,
+      "is_shared": false,
       "hasWinners": true,
       "winners": [
         {

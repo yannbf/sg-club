@@ -227,7 +227,7 @@ class SteamGiftsUserFetcher {
 
     // Load game prices
     const gamePrices = JSON.parse(
-      readFileSync('website/public/data/game_prices.json', 'utf-8')
+      readFileSync('../website/public/data/game_prices.json', 'utf-8')
     ) as GamePrice[]
     const gamePriceMap = new Map(gamePrices.map((game) => [game.name, game]))
 
@@ -235,7 +235,7 @@ class SteamGiftsUserFetcher {
     if (user.giveaways_created) {
       for (const giveaway of user.giveaways_created) {
         // TODO: Add check for shared giveaway flag when it's added
-        const isSharedGiveaway = false // This will be replaced with actual check when the flag is added
+        const isSharedGiveaway = giveaway.is_shared // This will be replaced with actual check when the flag is added
 
         switch (giveaway.cv_status) {
           case 'FULL_CV':
@@ -243,7 +243,9 @@ class SteamGiftsUserFetcher {
             if (!isSharedGiveaway) {
               const gamePrice = gamePriceMap.get(giveaway.name)
               if (gamePrice) {
-                cvStats.real_total_sent_value += gamePrice.price_usd_full / 100 // Convert cents to dollars
+                cvStats.real_total_sent_value += Number(
+                  (gamePrice.price_usd_full / 100).toFixed(2)
+                ) // Convert cents to dollars and round to 2 decimals
                 cvStats.real_total_sent_count++
               }
             }
@@ -253,8 +255,9 @@ class SteamGiftsUserFetcher {
             if (!isSharedGiveaway) {
               const gamePrice = gamePriceMap.get(giveaway.name)
               if (gamePrice) {
-                cvStats.real_total_sent_value +=
-                  gamePrice.price_usd_reduced / 100 // Convert cents to dollars
+                cvStats.real_total_sent_value += Number(
+                  (gamePrice.price_usd_reduced / 100).toFixed(2)
+                ) // Convert cents to dollars and round to 2 decimals
                 cvStats.real_total_sent_count++
               }
             }
@@ -271,7 +274,7 @@ class SteamGiftsUserFetcher {
     if (user.giveaways_won) {
       for (const giveaway of user.giveaways_won) {
         // TODO: Add check for shared giveaway flag when it's added
-        const isSharedGiveaway = false // This will be replaced with actual check when the flag is added
+        const isSharedGiveaway = giveaway.is_shared // This will be replaced with actual check when the flag is added
 
         switch (giveaway.cv_status) {
           case 'FULL_CV':
@@ -279,8 +282,9 @@ class SteamGiftsUserFetcher {
             if (!isSharedGiveaway) {
               const gamePrice = gamePriceMap.get(giveaway.name)
               if (gamePrice) {
-                cvStats.real_total_received_value +=
-                  gamePrice.price_usd_full / 100 // Convert cents to dollars
+                cvStats.real_total_received_value += Number(
+                  (gamePrice.price_usd_full / 100).toFixed(2)
+                ) // Convert cents to dollars and round to 2 decimals
                 cvStats.real_total_received_count++
               }
             }
@@ -290,8 +294,9 @@ class SteamGiftsUserFetcher {
             if (!isSharedGiveaway) {
               const gamePrice = gamePriceMap.get(giveaway.name)
               if (gamePrice) {
-                cvStats.real_total_received_value +=
-                  gamePrice.price_usd_reduced / 100 // Convert cents to dollars
+                cvStats.real_total_received_value += Number(
+                  (gamePrice.price_usd_reduced / 100).toFixed(2)
+                ) // Convert cents to dollars and round to 2 decimals
                 cvStats.real_total_received_count++
               }
             }
@@ -432,6 +437,8 @@ class SteamGiftsUserFetcher {
                 cv_status: giveaway.cv_status || 'FULL_CV',
                 status: winner.status,
                 end_timestamp: giveaway.end_timestamp,
+                required_play: giveaway.required_play || false,
+                is_shared: giveaway.is_shared || false,
               })
             }
           }
@@ -448,6 +455,8 @@ class SteamGiftsUserFetcher {
             entries: giveaway.entry_count,
             copies: giveaway.copies,
             end_timestamp: giveaway.end_timestamp,
+            required_play: giveaway.required_play || false,
+            is_shared: giveaway.is_shared || false,
           }
 
           // Only set had_winners if the giveaway has ended
@@ -576,7 +585,7 @@ class SteamGiftsUserFetcher {
   }
 
   public async fetchUsers(
-    filename: string = 'website/public/data/group_users.json'
+    filename: string = '../website/public/data/group_users.json'
   ): Promise<User[]> {
     try {
       // Load existing users

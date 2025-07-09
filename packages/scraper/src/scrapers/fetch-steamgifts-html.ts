@@ -347,6 +347,11 @@ export class SteamGiftsHTMLScraper {
 
     const giveawayElements = $('.giveaway__row-outer-wrap').toArray()
 
+    // Get existing giveaways map for quick lookup
+    const existingGiveaways = this.loadExistingGiveaways(
+      '../website/public/data/giveaways.json'
+    )
+
     for (let i = 0; i < giveawayElements.length; i++) {
       const el = giveawayElements[i]
       try {
@@ -533,6 +538,29 @@ export class SteamGiftsHTMLScraper {
           }
         }
 
+        // Check if we already have detailed info for this giveaway
+        const existingGiveaway = existingGiveaways.get(id)
+        let detailedInfo = {
+          required_play: false,
+          is_shared: false,
+        }
+
+        if (existingGiveaway?.is_shared !== undefined) {
+          console.log(`💾 Using cached detailed info for: ${name}`)
+          detailedInfo = {
+            required_play: existingGiveaway.required_play || false,
+            is_shared: existingGiveaway.is_shared,
+          }
+        } else {
+          // Fetch detailed giveaway information
+          console.log(`🔍 Fetching detailed info for: ${name}`)
+          const detailedHtml = await this.fetchPage(`/giveaway/${link}`, true)
+          detailedInfo = await this.parseGiveawayDetails(detailedHtml)
+
+          // Add delay to avoid rate limiting
+          await delay(1000)
+        }
+
         const giveaway: Giveaway = {
           id,
           name,
@@ -552,6 +580,8 @@ export class SteamGiftsHTMLScraper {
           comment_count,
           entry_count,
           creator,
+          required_play: detailedInfo.required_play,
+          is_shared: detailedInfo.is_shared,
           ...(timeText.startsWith('Ended')
             ? {
                 hasWinners,

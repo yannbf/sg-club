@@ -33,6 +33,7 @@ export interface Giveaway {
   // New properties
   required_play?: boolean
   is_shared?: boolean
+  is_whitelist?: boolean
 }
 
 export interface Group {
@@ -88,6 +89,8 @@ export interface User {
     status: 'received' | 'not_received' | 'awaiting_feedback'
     end_timestamp: number
     steam_play_data?: SteamPlayData
+    required_play: boolean
+    is_shared: boolean
   }>
   giveaways_created?: Array<{
     name: string
@@ -97,6 +100,8 @@ export interface User {
     copies: number
     end_timestamp: number
     had_winners?: boolean // Only set if giveaway has ended
+    required_play: boolean
+    is_shared: boolean
     winners?: Array<{
       name: string | null
       status: 'received' | 'not_received' | 'awaiting_feedback'

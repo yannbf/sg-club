@@ -1,3 +1,4 @@
+import { existsSync } from 'fs'
 import fs from 'fs/promises'
 import path from 'path'
 import { setTimeout } from 'timers/promises'
@@ -91,6 +92,12 @@ async function processGames() {
       import.meta.dirname,
       '../../../website/public/data/giveaways.json'
     )
+    if (!existsSync(giveawaysPath)) {
+      console.log(
+        '⚠️ No giveaways.json file found. Please run the scraper first to generate it.'
+      )
+      process.exit(0)
+    }
     const giveawaysData = await fs.readFile(giveawaysPath, 'utf-8')
     const { giveaways }: { giveaways: Giveaway[] } = JSON.parse(giveawaysData)
 
