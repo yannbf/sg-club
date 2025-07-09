@@ -192,7 +192,10 @@ export class SteamGiftsHTMLScraper {
     return (await response.json()) as BundleGamesResponse
   }
 
-  private async getCVStatus(giveaway: Giveaway): Promise<CVStatus> {
+  private async getCVStatus(
+    giveaway: Giveaway,
+    useEndTimestamp: boolean = false
+  ): Promise<CVStatus> {
     // Determine cache key - use app_id if available, otherwise use game name
     const cacheKey = giveaway.app_id || giveaway.name
     const searchBy = giveaway.app_id ? 'app_id' : 'name'
@@ -203,7 +206,7 @@ export class SteamGiftsHTMLScraper {
       console.log(
         `💾 Cache hit for ${giveaway.name} (${searchBy}: ${cacheKey})`
       )
-      return this.calculateCVStatus(giveaway, bundleGame)
+      return this.calculateCVStatus(giveaway, bundleGame, useEndTimestamp)
     }
 
     try {
@@ -246,7 +249,7 @@ export class SteamGiftsHTMLScraper {
       this.bundleGameCache.set(cacheKey, bundleGame)
 
       // Calculate and return CV status
-      return this.calculateCVStatus(giveaway, bundleGame)
+      return this.calculateCVStatus(giveaway, bundleGame, useEndTimestamp)
     } catch (error) {
       console.error(`❌ Error fetching CV data for ${giveaway.name}:`, error)
       // Cache null to avoid repeated failed requests
@@ -257,31 +260,43 @@ export class SteamGiftsHTMLScraper {
 
   private calculateCVStatus(
     giveaway: Giveaway,
-    bundleGame: BundleGame | null
+    bundleGame: BundleGame | null,
+    useEndTimestamp: boolean = false
   ): CVStatus {
     if (!bundleGame) {
       return 'FULL_CV'
     }
+
+    // Get the timestamp to compare against - either creation or end timestamp
+    const compareTimestamp = useEndTimestamp
+      ? giveaway.end_timestamp
+      : giveaway.created_timestamp
 
     // Check CV status based on timestamps
     const hasReducedTimestamp = bundleGame.reduced_value_timestamp !== null
     const hasNoValueTimestamp = bundleGame.no_value_timestamp !== null
 
     if (hasNoValueTimestamp && hasReducedTimestamp) {
-      // Both timestamps exist, check if no_value_timestamp is earlier than created_timestamp
-      if (bundleGame.no_value_timestamp! < giveaway.created_timestamp) {
+      // Both timestamps exist, check if no_value_timestamp is earlier than compareTimestamp
+      if (bundleGame.no_value_timestamp! < compareTimestamp) {
         console.log(
-          `❌ ${giveaway.name} -> NO_CV (no value timestamp earlier than creation)`
+          `❌ ${giveaway.name} -> NO_CV (no value timestamp earlier than ${
+            useEndTimestamp ? 'end' : 'creation'
+          })`
         )
         return 'NO_CV'
       }
     }
 
     if (hasReducedTimestamp && !hasNoValueTimestamp) {
-      // Only reduced timestamp exists, check if it's earlier than created_timestamp
-      if (bundleGame.reduced_value_timestamp! < giveaway.created_timestamp) {
+      // Only reduced timestamp exists, check if it's earlier than compareTimestamp
+      if (bundleGame.reduced_value_timestamp! < compareTimestamp) {
         console.log(
-          `⚠️  ${giveaway.name} -> REDUCED_CV (reduced value timestamp earlier than creation)`
+          `⚠️  ${
+            giveaway.name
+          } -> REDUCED_CV (reduced value timestamp earlier than ${
+            useEndTimestamp ? 'end' : 'creation'
+          })`
         )
         return 'REDUCED_CV'
       }
@@ -718,9 +733,14 @@ export class SteamGiftsHTMLScraper {
     }
   }
 
-  public async updateCVStatus(giveaways: Giveaway[]): Promise<Giveaway[]> {
+  public async updateCVStatus(
+    giveaways: Giveaway[],
+    isWonGiveaways: boolean = false
+  ): Promise<Giveaway[]> {
     console.log(
-      `\n🎯 Starting CV status update for ${giveaways.length} giveaways...`
+      `\n🎯 Starting CV status update for ${giveaways.length} ${
+        isWonGiveaways ? 'won ' : ''
+      }giveaways...`
     )
 
     let processedCount = 0
@@ -736,7 +756,11 @@ export class SteamGiftsHTMLScraper {
       const cacheKey = giveaway.app_id || giveaway.name
       if (this.bundleGameCache.has(cacheKey)) {
         const bundleGame = this.bundleGameCache.get(cacheKey)!
-        giveaway.cv_status = this.calculateCVStatus(giveaway, bundleGame)
+        giveaway.cv_status = this.calculateCVStatus(
+          giveaway,
+          bundleGame,
+          isWonGiveaways
+        )
         cacheHits++
         console.log(
           `💾 Cache hit for ${giveaway.name} -> ${giveaway.cv_status}`
@@ -745,7 +769,7 @@ export class SteamGiftsHTMLScraper {
       }
 
       // Fetch CV status
-      giveaway.cv_status = await this.getCVStatus(giveaway)
+      giveaway.cv_status = await this.getCVStatus(giveaway, isWonGiveaways)
       processedCount++
 
       // Show progress every 10 giveaways
@@ -780,14 +804,6 @@ export class SteamGiftsHTMLScraper {
     console.log(`  • REDUCED_CV: ${totalCvCounts.REDUCED_CV}`)
     console.log(`  • NO_CV: ${totalCvCounts.NO_CV}`)
     console.log(`  • UNKNOWN: ${totalCvCounts.UNKNOWN}`)
-    console.log(
-      `  • Total: ${
-        totalCvCounts.FULL_CV +
-        totalCvCounts.REDUCED_CV +
-        totalCvCounts.NO_CV +
-        totalCvCounts.UNKNOWN
-      }`
-    )
 
     return giveaways
   }
