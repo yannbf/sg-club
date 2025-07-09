@@ -68,6 +68,30 @@ describe('SteamGiftsHTMLScraper', () => {
     })
   })
 
+  describe('parseGiveawayDetails', () => {
+    it('should correctly identify a shared giveaway and whitelist', async () => {
+      const html = loadMockHtml('sg-shared-group-ga-page.html')
+      const result = await scraper['parseGiveawayDetails'](html)
+
+      expect(result).toEqual({
+        required_play: false,
+        is_shared: true,
+        is_whitelist: true,
+      })
+    })
+
+    it('should correctly identify a giveaway with play required', async () => {
+      const html = loadMockHtml('sg-giveaway-page.html')
+      const result = await scraper['parseGiveawayDetails'](html)
+
+      expect(result).toEqual({
+        required_play: true,
+        is_shared: false,
+        is_whitelist: false,
+      })
+    })
+  })
+
   describe('getNextPage', () => {
     it('should correctly parse next page link when available', () => {
       const html = loadMockHtml('sg-group-giveaways-page.html')

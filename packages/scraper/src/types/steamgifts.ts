@@ -23,13 +23,16 @@ export interface Giveaway {
   comment_count: number
   entry_count: number
   creator: Creator
-  cv_status?: 'FULL_CV' | 'REDUCED_CV' | 'NO_CV'
+  cv_status?: CVStatus
   // HTML scraping specific fields
   hasWinners?: boolean
   winners?: Array<{
     name: string | null
     status: 'received' | 'not_received' | 'awaiting_feedback'
   }>
+  // New properties
+  required_play?: boolean
+  is_shared?: boolean
 }
 
 export interface Group {
@@ -114,6 +117,23 @@ export interface UserStats {
   pagesFetched: number
 }
 
+export interface UserCVStats {
+  fcv_sent_count: number
+  rcv_sent_count: number
+  ncv_sent_count: number
+  fcv_received_count: number
+  rcv_received_count: number
+  ncv_received_count: number
+  fcv_gift_difference: number
+  // Real value statistics
+  real_total_sent_value: number
+  real_total_received_value: number
+  real_total_value_difference: number
+  real_total_sent_count: number
+  real_total_received_count: number
+  real_total_gift_difference: number
+}
+
 // CV Status related interfaces
 export interface BundleGame {
   name: string
@@ -131,3 +151,12 @@ export interface BundleGamesResponse {
 }
 
 export type CVStatus = 'FULL_CV' | 'REDUCED_CV' | 'NO_CV'
+
+export interface GamePrice {
+  name: string
+  app_id: number | null
+  package_id: number | null
+  price_usd_full: number
+  price_usd_reduced: number
+  needs_manual_update: boolean
+}

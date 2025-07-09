@@ -7,6 +7,8 @@ import type {
   CVStatus,
   UserGroupData,
   SteamPlayData,
+  GamePrice,
+  UserCVStats,
 } from '../types/steamgifts.js'
 import {
   getSteamChecker,
@@ -205,8 +207,8 @@ class SteamGiftsUserFetcher {
     }
   }
 
-  private calculateCVStats(user: User): Partial<User['stats']> {
-    const cvStats = {
+  private calculateCVStats(user: User): UserCVStats {
+    const cvStats: UserCVStats = {
       fcv_sent_count: 0,
       rcv_sent_count: 0,
       ncv_sent_count: 0,
@@ -214,37 +216,89 @@ class SteamGiftsUserFetcher {
       rcv_received_count: 0,
       ncv_received_count: 0,
       fcv_gift_difference: 0,
+      // Add new stats for real values
+      real_total_sent_value: 0,
+      real_total_received_value: 0,
+      real_total_value_difference: 0,
+      real_total_sent_count: 0,
+      real_total_received_count: 0,
+      real_total_gift_difference: 0,
     }
 
-    // Count sent giveaways by CV status
+    // Load game prices
+    const gamePrices = JSON.parse(
+      readFileSync('website/public/data/game_prices.json', 'utf-8')
+    ) as GamePrice[]
+    const gamePriceMap = new Map(gamePrices.map((game) => [game.name, game]))
+
+    // Count sent giveaways by CV status and calculate real values
     if (user.giveaways_created) {
       for (const giveaway of user.giveaways_created) {
+        // TODO: Add check for shared giveaway flag when it's added
+        const isSharedGiveaway = false // This will be replaced with actual check when the flag is added
+
         switch (giveaway.cv_status) {
           case 'FULL_CV':
             cvStats.fcv_sent_count++
+            if (!isSharedGiveaway) {
+              const gamePrice = gamePriceMap.get(giveaway.name)
+              if (gamePrice) {
+                cvStats.real_total_sent_value += gamePrice.price_usd_full / 100 // Convert cents to dollars
+                cvStats.real_total_sent_count++
+              }
+            }
             break
           case 'REDUCED_CV':
             cvStats.rcv_sent_count++
+            if (!isSharedGiveaway) {
+              const gamePrice = gamePriceMap.get(giveaway.name)
+              if (gamePrice) {
+                cvStats.real_total_sent_value +=
+                  gamePrice.price_usd_reduced / 100 // Convert cents to dollars
+                cvStats.real_total_sent_count++
+              }
+            }
             break
           case 'NO_CV':
             cvStats.ncv_sent_count++
+            // No value added for NO_CV games
             break
         }
       }
     }
 
-    // Count received giveaways by CV status
+    // Count received giveaways by CV status and calculate real values
     if (user.giveaways_won) {
       for (const giveaway of user.giveaways_won) {
+        // TODO: Add check for shared giveaway flag when it's added
+        const isSharedGiveaway = false // This will be replaced with actual check when the flag is added
+
         switch (giveaway.cv_status) {
           case 'FULL_CV':
             cvStats.fcv_received_count++
+            if (!isSharedGiveaway) {
+              const gamePrice = gamePriceMap.get(giveaway.name)
+              if (gamePrice) {
+                cvStats.real_total_received_value +=
+                  gamePrice.price_usd_full / 100 // Convert cents to dollars
+                cvStats.real_total_received_count++
+              }
+            }
             break
           case 'REDUCED_CV':
             cvStats.rcv_received_count++
+            if (!isSharedGiveaway) {
+              const gamePrice = gamePriceMap.get(giveaway.name)
+              if (gamePrice) {
+                cvStats.real_total_received_value +=
+                  gamePrice.price_usd_reduced / 100 // Convert cents to dollars
+                cvStats.real_total_received_count++
+              }
+            }
             break
           case 'NO_CV':
             cvStats.ncv_received_count++
+            // No value added for NO_CV games
             break
         }
       }
@@ -253,6 +307,12 @@ class SteamGiftsUserFetcher {
     // Calculate gift difference for full CV
     cvStats.fcv_gift_difference =
       cvStats.fcv_sent_count - cvStats.fcv_received_count
+
+    // Calculate real value differences
+    cvStats.real_total_value_difference =
+      cvStats.real_total_sent_value - cvStats.real_total_received_value
+    cvStats.real_total_gift_difference =
+      cvStats.real_total_sent_count - cvStats.real_total_received_count
 
     return cvStats
   }

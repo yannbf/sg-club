@@ -246,6 +246,27 @@ export default function GiveawaysClient({ giveaways, lastUpdated, userAvatars }:
                     <span className="text-muted-foreground">End date:</span>
                     <span className="font-medium">{formatRelativeTime(giveaway.end_timestamp)}</span>
                   </div>
+
+                  {/* New properties */}
+                  {(giveaway.required_play || giveaway.is_shared || giveaway.whitelist) && (
+                    <div className="flex items-center gap-2 mt-2">
+                      {giveaway.required_play && (
+                        <span className="text-xs font-medium px-2 py-1 bg-warning-light text-warning-foreground rounded-full">
+                          Play Required
+                        </span>
+                      )}
+                      {giveaway.is_shared && (
+                        <span className="text-xs font-medium px-2 py-1 bg-info-light text-info-foreground rounded-full">
+                          Shared Giveaway
+                        </span>
+                      )}
+                      {giveaway.whitelist && (
+                        <span className="text-xs font-medium px-2 py-1 bg-accent-light text-accent-foreground rounded-full">
+                          Whitelist
+                        </span>
+                      )}
+                    </div>
+                  )}
                 </div>
 
                 <div className="flex items-center justify-between">

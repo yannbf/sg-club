@@ -307,6 +307,34 @@ export class SteamGiftsHTMLScraper {
     return 'FULL_CV'
   }
 
+  private async parseGiveawayDetails(html: string): Promise<{
+    required_play: boolean
+    is_shared: boolean
+    is_whitelist: boolean
+  }> {
+    const $ = load(html)
+
+    // Check if play is required by looking for text in the description
+    const description = $('.page__description').text().trim()
+    const required_play = description.toLowerCase().includes('play required')
+
+    // Check if it's a whitelist giveaway
+    const is_whitelist = $('.featured__column--whitelist').length > 0
+
+    // Check if it's a shared giveaway by looking at the group name
+    // A giveaway is considered shared if it's a whitelist giveaway or if the group name is not "The Giveaways Club"
+    const groupText = $('.featured__column--group').text().trim()
+    const is_shared =
+      is_whitelist ||
+      (groupText !== 'The Giveaways Club' && groupText.length > 0)
+
+    return {
+      required_play,
+      is_shared,
+      is_whitelist,
+    }
+  }
+
   private async parseGiveaways(html: string): Promise<Giveaway[]> {
     const $ = load(html)
     const giveaways: Giveaway[] = []

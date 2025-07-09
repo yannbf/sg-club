@@ -88,6 +88,9 @@ export interface Giveaway {
     status: string
   }[]
   hasWinners?: boolean
+  // New properties
+  required_play?: boolean
+  is_shared?: boolean
 }
 
 export interface InsightData {
