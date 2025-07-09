@@ -36,10 +36,16 @@ export class SteamGiftsHTMLScraper {
     'PHPSESSID=91ic94969ca1030jaons7142nq852vmq9mfvis7lbqi35i7i'
   private readonly bundleGamesUrl =
     'https://www.steamgifts.com/bundle-games/search' as const
+  // Change this for debugging purposes whenever needed
+  private readonly pageLimit?: number
 
   // Cache for bundle game data to avoid duplicate API calls
   // Key can be app_id (number) or game name (string) for games without app_id
   private bundleGameCache = new Map<number | string, BundleGame | null>()
+
+  constructor(pageLimit?: number) {
+    this.pageLimit = pageLimit
+  }
 
   public async fetchPage(
     path: string,
@@ -636,6 +642,11 @@ export class SteamGiftsHTMLScraper {
           : `🚀 Scraping new giveaways (stopping when we reach ended giveaways)...`
       )
 
+      // Log page limit if set
+      if (this.pageLimit !== undefined) {
+        console.log(`📄 Page limit set to: ${this.pageLimit} pages`)
+      }
+
       let currentPath: string | null = this.startUrl
       let pagesFetched = 0
       let newGiveawaysCount = 0
@@ -647,6 +658,12 @@ export class SteamGiftsHTMLScraper {
       while (currentPath) {
         const html = await this.fetchPage(currentPath)
         pagesFetched++
+
+        // Check if we've hit the page limit
+        if (this.pageLimit !== undefined && pagesFetched >= this.pageLimit) {
+          console.log(`📄 Reached page limit of ${this.pageLimit} pages`)
+          break
+        }
 
         // For unlimited mode - check if we've seen this page content before
         if (unlimitedMode) {
