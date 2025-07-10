@@ -20,7 +20,8 @@
     "test:watch": "vitest watch",
     "test:coverage": "vitest run --coverage",
     "fetch-prices": "tsx src/utils/fetch-game-prices.ts",
-    "get-giveaway": "tsx src/scripts/get-giveaway.ts"
+    "get-giveaway": "tsx src/scripts/get-giveaway.ts",
+    "check-hltb": "tsx src/scripts/get-hltb.ts"
   },
   "dependencies": {
     "@types/cheerio": "^0.22.35",
