@@ -227,7 +227,7 @@ class SteamGiftsUserFetcher {
 
     // Load game prices
     const gamePrices = JSON.parse(
-      readFileSync('../website/public/data/game_prices.json', 'utf-8')
+      readFileSync('../website/public/data/game_data.json', 'utf-8')
     ) as GamePrice[]
     const gamePriceMap = new Map(gamePrices.map((game) => [game.name, game]))
 

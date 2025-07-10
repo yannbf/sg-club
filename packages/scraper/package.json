@@ -12,16 +12,16 @@
     "fetch-giveaway-points": "tsx src/utils/fetch-giveaway-points.ts",
     "get-html-page": "tsx src/utils/get-html-page.ts",
     "generate-insights": "tsx src/utils/generate-insights.ts",
-    "run-all": "echo '🚀 Starting full pipeline with website build...' && START_TIME=$(date +%s) && FETCH_ALL_PAGES=true pnpm run fetch-giveaways && pnpm run fetch-users && pnpm run generate-insights && pnpm run --filter website build && END_TIME=$(date +%s) && echo \"✅ Full pipeline with website completed in $((END_TIME - START_TIME)) seconds\"",
-    "generate-website-data": "echo '🚀 Generating all the data...' && START_TIME=$(date +%s) && pnpm run fetch-giveaways && pnpm run fetch-users && pnpm run generate-insights && END_TIME=$(date +%s) && echo \"✅ Full pipeline with data generated in $((END_TIME - START_TIME)) seconds\"",
-    "generate-all-website-data": "echo '🚀 Generating all the data...' && START_TIME=$(date +%s) && pnpm run fetch-prices && FETCH_ALL_PAGES=true pnpm run fetch-giveaways && pnpm run fetch-users && pnpm run generate-insights && END_TIME=$(date +%s) && echo \"✅ Full pipeline with data generated in $((END_TIME - START_TIME)) seconds\"",
     "build": "tsc",
     "test": "vitest",
     "test:watch": "vitest watch",
     "test:coverage": "vitest run --coverage",
-    "fetch-prices": "tsx src/utils/fetch-game-prices.ts",
+    "fetch-game-data": "tsx src/utils/fetch-game-prices.ts",
     "get-giveaway": "tsx src/scripts/get-giveaway.ts",
-    "check-hltb": "tsx src/scripts/get-hltb.ts"
+    "check-hltb": "tsx src/scripts/get-hltb.ts",
+    "run-all": "echo '🚀 Starting full pipeline with website build...' && START_TIME=$(date +%s) && FETCH_ALL_PAGES=true pnpm run fetch-giveaways && pnpm run fetch-users && pnpm run generate-insights && pnpm run --filter website build && END_TIME=$(date +%s) && echo \"✅ Full pipeline with website completed in $((END_TIME - START_TIME)) seconds\"",
+    "generate-website-data": "echo '🚀 Generating all the data...' && START_TIME=$(date +%s) && pnpm run fetch-giveaways && pnpm run fetch-users && pnpm run generate-insights && END_TIME=$(date +%s) && echo \"✅ Full pipeline with data generated in $((END_TIME - START_TIME)) seconds\"",
+    "generate-all-website-data": "echo '🚀 Generating all the data...' && START_TIME=$(date +%s) && pnpm run fetch-game-data && FETCH_ALL_PAGES=true pnpm run fetch-giveaways && pnpm run fetch-users && pnpm run generate-insights && END_TIME=$(date +%s) && echo \"✅ Full pipeline with data generated in $((END_TIME - START_TIME)) seconds\""
   },
   "dependencies": {
     "@types/cheerio": "^0.22.35",

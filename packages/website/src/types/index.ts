@@ -93,6 +93,16 @@ export interface Giveaway {
   is_shared?: boolean
 }
 
+export interface GameData {
+  name: string
+  app_id: number | null
+  package_id: number | null
+  price_usd_full: number
+  price_usd_reduced: number
+  needs_manual_update: boolean
+  hltb_main_story_hours: number | null
+}
+
 export interface InsightData {
   totalUsers: number
   totalGiveaways: number

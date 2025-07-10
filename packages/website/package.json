@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "pnpm run lint && pnpm run --filter scraper generate-all-website-data && next build",
+    "build-only": "pnpm run lint && next build",
     "start": "next start",
     "lint": "next lint",
     "serve": "npx serve out"

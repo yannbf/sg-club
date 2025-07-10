@@ -2,16 +2,18 @@
 
 import { useState, useMemo } from 'react'
 import { formatRelativeTime, getCVBadgeColor, getCVLabel } from '@/lib/data'
-import { Giveaway } from '@/types'
+import { Giveaway, GameData } from '@/types'
 import Link from 'next/link'
 import Image from 'next/image'
 import UserAvatar from '@/components/UserAvatar'
 import { LastUpdated } from '@/components/LastUpdated'
+import { useGameData } from '@/lib/hooks'
 
 interface Props {
   giveaways: Giveaway[]
   lastUpdated: string | null
   userAvatars: Map<string, string>
+  gameData: GameData[]
 }
 
 const PLACEHOLDER_IMAGE = 'https://steamplayercount.com/theme/img/placeholder.svg'
@@ -26,7 +28,8 @@ function getGameImageUrl(giveaway: Giveaway): string {
   return PLACEHOLDER_IMAGE
 }
 
-export default function GiveawaysClient({ giveaways, lastUpdated, userAvatars }: Props) {
+export default function GiveawaysClient({ giveaways, lastUpdated, userAvatars, gameData }: Props) {
+  const { getGameData } = useGameData(gameData)
   const [searchTerm, setSearchTerm] = useState('')
   const [sortBy, setSortBy] = useState<'date' | 'entries' | 'points'>('date')
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc')
@@ -37,14 +40,14 @@ export default function GiveawaysClient({ giveaways, lastUpdated, userAvatars }:
   const filteredAndSortedGiveaways = useMemo(() => {
     const filtered = giveaways.filter(giveaway => {
       const matchesSearch = giveaway.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                           giveaway.creator.username.toLowerCase().includes(searchTerm.toLowerCase())
+        giveaway.creator.username.toLowerCase().includes(searchTerm.toLowerCase())
       const matchesCV = filterCV === 'all' || giveaway.cv_status === filterCV
       const now = Date.now() / 1000
       const isEnded = giveaway.end_timestamp < now
-      const matchesStatus = giveawayStatus === 'all' || 
-                          (giveawayStatus === 'open' && !isEnded) ||
-                          (giveawayStatus === 'ended' && isEnded)
-      
+      const matchesStatus = giveawayStatus === 'all' ||
+        (giveawayStatus === 'open' && !isEnded) ||
+        (giveawayStatus === 'ended' && isEnded)
+
       return matchesSearch && matchesCV && matchesStatus
     })
 
@@ -85,15 +88,15 @@ export default function GiveawaysClient({ giveaways, lastUpdated, userAvatars }:
     const now = Date.now() / 1000
     const isEnded = giveaway.end_timestamp < now
     const hasWinners = giveaway.winners && giveaway.winners.length > 0
-    
+
     if (!isEnded) {
       return <span className="px-2 py-1 text-xs font-semibold bg-info-light text-info-foreground rounded-full">Open</span>
     }
-    
+
     if (hasWinners) {
       return <span className="px-2 py-1 text-xs font-semibold bg-success-light text-success-foreground rounded-full">Ended</span>
     }
-    
+
     return <span className="px-2 py-1 text-xs font-semibold bg-error-light text-error-foreground rounded-full">No Winners</span>
   }
 
@@ -121,7 +124,7 @@ export default function GiveawaysClient({ giveaways, lastUpdated, userAvatars }:
               className="w-full px-3 py-2 border border-card-border rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-accent"
             />
           </div>
-          
+
           <div>
             <label className="block text-sm font-medium text-muted-foreground mb-2">
               Sort by
@@ -145,7 +148,7 @@ export default function GiveawaysClient({ giveaways, lastUpdated, userAvatars }:
               </button>
             </div>
           </div>
-          
+
           <div>
             <label className="block text-sm font-medium text-muted-foreground mb-2">
               CV Status
@@ -161,7 +164,7 @@ export default function GiveawaysClient({ giveaways, lastUpdated, userAvatars }:
               <option value="NO_CV">No CV</option>
             </select>
           </div>
-          
+
           <div>
             <label className="block text-sm font-medium text-muted-foreground mb-2">
               Filter
@@ -185,6 +188,7 @@ export default function GiveawaysClient({ giveaways, lastUpdated, userAvatars }:
           const isEnded = giveaway.end_timestamp < Date.now() / 1000;
           const imageUrl = failedImages.has(giveaway.id) ? PLACEHOLDER_IMAGE : getGameImageUrl(giveaway);
           const borderColor = isEnded ? 'border-card-border' : 'border-success';
+          const gameData = getGameData(giveaway.app_id)
 
           return (
             <div key={giveaway.id} className={`bg-card-background rounded-lg shadow-md hover:shadow-lg transition-shadow overflow-hidden border-2 ${borderColor}`}>
@@ -202,7 +206,7 @@ export default function GiveawaysClient({ giveaways, lastUpdated, userAvatars }:
                   />
                 </a>
               </div>
-              
+
               <div className="p-6">
                 <div className="flex items-start justify-between mb-3">
                   <h3 className="text-lg font-semibold line-clamp-2 flex-1">
@@ -212,7 +216,7 @@ export default function GiveawaysClient({ giveaways, lastUpdated, userAvatars }:
                     {getStatusBadge(giveaway)}
                   </div>
                 </div>
-                
+
                 <div className="space-y-2 mb-4">
                   <div className="flex items-center justify-between text-sm">
                     <span className="text-muted-foreground">Creator:</span>
@@ -226,43 +230,50 @@ export default function GiveawaysClient({ giveaways, lastUpdated, userAvatars }:
                       </Link>
                     </div>
                   </div>
-                  
+
                   <div className="flex items-center justify-between text-sm">
                     <span className="text-muted-foreground">Points:</span>
                     <span className="font-medium">{giveaway.points}</span>
                   </div>
-                  
+
                   <div className="flex items-center justify-between text-sm">
                     <span className="text-muted-foreground">Copies:</span>
                     <span className="font-medium">{giveaway.copies}</span>
                   </div>
-                  
+
                   <div className="flex items-center justify-between text-sm">
                     <span className="text-muted-foreground">Entries:</span>
                     <span className="font-medium">{giveaway.entry_count}</span>
                   </div>
-                  
+
                   <div className="flex items-center justify-between text-sm">
                     <span className="text-muted-foreground">End date:</span>
                     <span className="font-medium">{formatRelativeTime(giveaway.end_timestamp)}</span>
                   </div>
+
+                  {gameData && 'hltb_main_story_hours' in gameData && (
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-muted-foreground">How long to beat:</span>
+                      <span className="font-medium">{gameData?.hltb_main_story_hours === null ? 'N/A' : `${gameData?.hltb_main_story_hours} hours`}</span>
+                    </div>
+                  )}
 
                   {/* New properties */}
                   {(giveaway.required_play || giveaway.is_shared || giveaway.whitelist) && (
                     <div className="flex items-center gap-2 mt-2">
                       {giveaway.required_play && (
                         <span className="text-xs font-medium px-2 py-1 bg-warning-light text-warning-foreground rounded-full">
-                          Play Required
+                          🎮 Play Required
                         </span>
                       )}
                       {giveaway.is_shared && (
                         <span className="text-xs font-medium px-2 py-1 bg-info-light text-info-foreground rounded-full">
-                          Shared Giveaway
+                          👥 Shared Giveaway
                         </span>
                       )}
                       {giveaway.whitelist && (
-                        <span className="text-xs font-medium px-2 py-1 bg-accent-light text-accent-foreground rounded-full">
-                          Whitelist
+                        <span className="text-xs font-medium px-2 py-1 bg-info-light text-info-foreground rounded-full">
+                          🩵 Whitelist
                         </span>
                       )}
                     </div>
@@ -289,7 +300,7 @@ export default function GiveawaysClient({ giveaways, lastUpdated, userAvatars }:
           )
         })}
       </div>
-      
+
       {filteredAndSortedGiveaways.length === 0 && (
         <div className="text-center py-12">
           <p className="text-gray-500 text-lg">No giveaways found matching your filters.</p>

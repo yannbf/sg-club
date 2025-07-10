@@ -2,17 +2,20 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { Giveaway } from '@/types'
+import { Giveaway, GameData } from '@/types'
 import { formatRelativeTime, getCVBadgeColor, getCVLabel } from '@/lib/data'
 import GameImage from './GameImage'
 import UserAvatar from '@/components/UserAvatar'
+import { useGameData } from '@/lib/hooks'
 
 interface Props {
   giveaways: Giveaway[]
   userAvatars: Map<string, string>
+  gameData: GameData[]
 }
 
-export default function UserGiveawaysClient({ giveaways, userAvatars }: Props) {
+export default function UserGiveawaysClient({ giveaways, userAvatars, gameData }: Props) {
+  const { getGameData } = useGameData(gameData)
   const [sortBy, setSortBy] = useState<'date' | 'entries' | 'points'>('date')
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc')
 
@@ -90,6 +93,7 @@ export default function UserGiveawaysClient({ giveaways, userAvatars }: Props) {
       <div className="space-y-4">
         {sortedGiveaways.map((giveaway) => {
           const status = getGiveawayStatus(giveaway)
+          const gameData = getGameData(giveaway.app_id)
 
           return (
             <div key={giveaway.id} className={`border rounded-lg overflow-hidden ${status.borderColor} ${status.backgroundColor}`}>
@@ -104,7 +108,13 @@ export default function UserGiveawaysClient({ giveaways, userAvatars }: Props) {
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-1">
-                        <h3 className="font-semibold">{giveaway.name}</h3>
+                        <h3 className="font-semibold">
+                          <a
+                            href={`https://www.steamgifts.com/giveaway/${giveaway.link}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-accent hover:underline text-sm"
+                          >{giveaway.name} ({giveaway.points}P)</a></h3>
                         <span className={`inline-flex items-center px-2 py-1 text-xs font-medium rounded-full ${status.isActive ? 'bg-success-light text-success-foreground' : 'bg-muted text-muted-foreground'}`}>
                           {status.statusIcon} {status.statusText}
                         </span>
@@ -112,9 +122,6 @@ export default function UserGiveawaysClient({ giveaways, userAvatars }: Props) {
                       <div className="flex items-center mt-1 space-x-4">
                         <span className={`px-2 py-1 text-xs font-semibold rounded-full ${getCVBadgeColor(giveaway.cv_status || 'FULL_CV')}`}>
                           {getCVLabel(giveaway.cv_status || 'FULL_CV')}
-                        </span>
-                        <span className="text-sm text-muted-foreground">
-                          {giveaway.points} points
                         </span>
                         <span className="text-sm text-muted-foreground">
                           {giveaway.copies} {giveaway.copies === 1 ? 'copy' : 'copies'}
@@ -125,6 +132,14 @@ export default function UserGiveawaysClient({ giveaways, userAvatars }: Props) {
                         <span className={`text-sm font-medium ${status.statusColor}`}>
                           {formatRelativeTime(giveaway.end_timestamp)}
                         </span>
+                        {gameData && 'hltb_main_story_hours' in gameData && (<div>
+                          <span className="text-muted-foreground">⏱️ HLTB:</span>
+                          <span className="ml-1 font-medium">
+                            <span className="text-sm text-muted-foreground">
+                              {gameData?.hltb_main_story_hours === null ? 'N/A' : `${gameData?.hltb_main_story_hours} hours`}
+                            </span>
+                          </span>
+                        </div>)}
                       </div>
 
                       {/* New properties */}
@@ -132,30 +147,22 @@ export default function UserGiveawaysClient({ giveaways, userAvatars }: Props) {
                         <div className="flex items-center gap-2 mt-2">
                           {giveaway.required_play && (
                             <span className="text-xs font-medium px-2 py-1 bg-warning-light text-warning-foreground rounded-full">
-                              Play Required
+                              🎮 Play Required
                             </span>
                           )}
                           {giveaway.is_shared && (
                             <span className="text-xs font-medium px-2 py-1 bg-info-light text-info-foreground rounded-full">
-                              Shared Giveaway
+                              👥 Shared Giveaway
                             </span>
                           )}
                           {giveaway.whitelist && (
-                            <span className="text-xs font-medium px-2 py-1 bg-accent-light text-accent-foreground rounded-full">
-                              Whitelist
+                            <span className="text-xs font-medium px-2 py-1 bg-info-light text-info-foreground rounded-full">
+                              🩵 Whitelist
                             </span>
                           )}
                         </div>
                       )}
                     </div>
-                    <a
-                      href={`https://www.steamgifts.com/giveaway/${giveaway.link}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-accent hover:underline text-sm"
-                    >
-                      View →
-                    </a>
                   </div>
                 </div>
               </div>

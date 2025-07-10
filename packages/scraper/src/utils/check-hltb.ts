@@ -11,7 +11,6 @@ interface HltbSearchOptions {
 interface HltbGameData {
   game_name: string
   comp_main: number // in seconds
-  comp_main_count: number
 }
 
 interface HltbSearchResponse {
@@ -58,7 +57,6 @@ export class HltbFetcher {
   public async getGameInfo(gameName: string): Promise<{
     name: string
     mainStoryHours: number | null
-    confidence: number | null
   }> {
     const terms = this.normalizeName(gameName)
     const url = await this.getKeyPath()
@@ -106,7 +104,7 @@ export class HltbFetcher {
     const data: HltbSearchResponse = (await res.json()) as HltbSearchResponse
 
     if (data.count === 0) {
-      return { name: gameName, mainStoryHours: null, confidence: null }
+      return { name: gameName, mainStoryHours: null }
     }
 
     let selected = data.data[0]
@@ -117,14 +115,12 @@ export class HltbFetcher {
       }
     }
 
-    console.log({ selected })
     const hours = selected.comp_main / 3600
     const rounded = Math.round(hours * 2) / 2
 
     return {
       name: selected.game_name,
       mainStoryHours: rounded || null,
-      confidence: selected.comp_main_count || null,
     }
   }
 }
