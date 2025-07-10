@@ -9,6 +9,7 @@
     "fetch-giveaways": "tsx src/scrapers/fetch-steamgifts-html.ts",
     "fetch-users": "tsx src/scrapers/fetch-users.ts",
     "check-steam-game": "tsx src/utils/check-steam-game.ts",
+    "fetch-giveaway-points": "tsx src/utils/fetch-giveaway-points.ts",
     "get-html-page": "tsx src/utils/get-html-page.ts",
     "generate-insights": "tsx src/utils/generate-insights.ts",
     "run-all": "echo '🚀 Starting full pipeline with website build...' && START_TIME=$(date +%s) && FETCH_ALL_PAGES=true pnpm run fetch-giveaways && pnpm run fetch-users && pnpm run generate-insights && pnpm run --filter website build && END_TIME=$(date +%s) && echo \"✅ Full pipeline with website completed in $((END_TIME - START_TIME)) seconds\"",
@@ -18,17 +19,22 @@
     "test": "vitest",
     "test:watch": "vitest watch",
     "test:coverage": "vitest run --coverage",
-    "fetch-prices": "tsx src/utils/fetch-game-prices.ts"
+    "fetch-prices": "tsx src/utils/fetch-game-prices.ts",
+    "get-giveaway": "tsx src/scripts/get-giveaway.ts"
   },
   "dependencies": {
     "@types/cheerio": "^0.22.35",
     "cheerio": "^1.1.0",
     "csv-writer": "^1.6.0",
-    "dotenv": "^17.0.1"
+    "dotenv": "^17.0.1",
+    "google-auth-library": "^10.1.0",
+    "googleapis": "^152.0.0"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
+    "@types/papaparse": "^5.3.16",
     "@vitest/coverage-v8": "^1.4.0",
+    "papaparse": "^5.5.3",
     "tsx": "^4.7.0",
     "typescript": "^5.3.0",
     "vitest": "^1.4.0"
@@ -36,4 +42,4 @@
   "engines": {
     "node": ">=22.0.0"
   }
-} 
+}
