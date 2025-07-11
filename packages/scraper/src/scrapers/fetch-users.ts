@@ -115,6 +115,9 @@ class SteamGiftsUserFetcher {
               rcv_received_count: 0,
               ncv_received_count: 0,
               fcv_gift_difference: 0,
+              // Initialize shared giveaway counts
+              shared_sent_count: 0,
+              shared_received_count: 0,
             },
           })
         }
@@ -223,6 +226,9 @@ class SteamGiftsUserFetcher {
       real_total_sent_count: 0,
       real_total_received_count: 0,
       real_total_gift_difference: 0,
+      // Initialize shared giveaway counts
+      shared_sent_count: 0,
+      shared_received_count: 0,
     }
 
     // Load game prices
@@ -234,13 +240,15 @@ class SteamGiftsUserFetcher {
     // Count sent giveaways by CV status and calculate real values
     if (user.giveaways_created) {
       for (const giveaway of user.giveaways_created) {
-        // TODO: Add check for shared giveaway flag when it's added
-        const isSharedGiveaway = giveaway.is_shared // This will be replaced with actual check when the flag is added
+        // Track shared giveaways
+        if (giveaway.is_shared) {
+          cvStats.shared_sent_count++
+        }
 
         switch (giveaway.cv_status) {
           case 'FULL_CV':
             cvStats.fcv_sent_count++
-            if (!isSharedGiveaway) {
+            if (!giveaway.is_shared) {
               const gamePrice = gamePriceMap.get(giveaway.name)
               if (gamePrice) {
                 cvStats.real_total_sent_value += Number(
@@ -252,7 +260,7 @@ class SteamGiftsUserFetcher {
             break
           case 'REDUCED_CV':
             cvStats.rcv_sent_count++
-            if (!isSharedGiveaway) {
+            if (!giveaway.is_shared) {
               const gamePrice = gamePriceMap.get(giveaway.name)
               if (gamePrice) {
                 cvStats.real_total_sent_value += Number(
@@ -273,13 +281,15 @@ class SteamGiftsUserFetcher {
     // Count received giveaways by CV status and calculate real values
     if (user.giveaways_won) {
       for (const giveaway of user.giveaways_won) {
-        // TODO: Add check for shared giveaway flag when it's added
-        const isSharedGiveaway = giveaway.is_shared // This will be replaced with actual check when the flag is added
+        // Track shared giveaways
+        if (giveaway.is_shared) {
+          cvStats.shared_received_count++
+        }
 
         switch (giveaway.cv_status) {
           case 'FULL_CV':
             cvStats.fcv_received_count++
-            if (!isSharedGiveaway) {
+            if (!giveaway.is_shared) {
               const gamePrice = gamePriceMap.get(giveaway.name)
               if (gamePrice) {
                 cvStats.real_total_received_value += Number(
@@ -291,7 +301,7 @@ class SteamGiftsUserFetcher {
             break
           case 'REDUCED_CV':
             cvStats.rcv_received_count++
-            if (!isSharedGiveaway) {
+            if (!giveaway.is_shared) {
               const gamePrice = gamePriceMap.get(giveaway.name)
               if (gamePrice) {
                 cvStats.real_total_received_value += Number(
@@ -980,6 +990,16 @@ async function main(): Promise<void> {
         0
       )
 
+      // Calculate shared giveaway stats
+      const totalSharedSent = allUsers.reduce(
+        (sum, user) => sum + user.stats.shared_sent_count,
+        0
+      )
+      const totalSharedReceived = allUsers.reduce(
+        (sum, user) => sum + user.stats.shared_received_count,
+        0
+      )
+
       const positiveContributors = allUsers.filter(
         (user) => user.stats.total_gift_difference > 0
       ).length
@@ -1019,6 +1039,11 @@ async function main(): Promise<void> {
       console.log(
         `  • No CV: ${totalNCVSent} sent, ${totalNCVReceived} received (Difference: ${
           totalNCVSent - totalNCVReceived
+        })`
+      )
+      console.log(
+        `  • Shared: ${totalSharedSent} sent, ${totalSharedReceived} received (Difference: ${
+          totalSharedSent - totalSharedReceived
         })`
       )
 

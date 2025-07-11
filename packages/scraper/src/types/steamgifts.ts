@@ -81,6 +81,8 @@ export interface User {
     rcv_received_count: number
     ncv_received_count: number
     fcv_gift_difference: number
+    shared_sent_count: number
+    shared_received_count: number
   }
   giveaways_won?: Array<{
     name: string
@@ -137,6 +139,9 @@ export interface UserCVStats {
   real_total_sent_count: number
   real_total_received_count: number
   real_total_gift_difference: number
+  // Shared giveaway statistics
+  shared_sent_count: number
+  shared_received_count: number
 }
 
 // CV Status related interfaces
