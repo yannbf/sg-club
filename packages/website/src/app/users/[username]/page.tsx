@@ -1,8 +1,7 @@
 import { getUser, getAllGiveaways, getAllUsers, getGameData } from '@/lib/data'
-import { formatPlaytime, formatRelativeTime, getCVBadgeColor, getCVLabel } from '@/lib/data'
+import { formatPlaytime } from '@/lib/data'
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
-import GameImage from './GameImage'
 import UserGiveawaysClient from './UserGiveawaysClient'
 import WonGiveawaysClient from './WonGiveawaysClient'
 
