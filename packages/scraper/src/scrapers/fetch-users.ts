@@ -243,31 +243,27 @@ class SteamGiftsUserFetcher {
         // Track shared giveaways
         if (giveaway.is_shared) {
           cvStats.shared_sent_count++
+          continue
         }
 
         switch (giveaway.cv_status) {
           case 'FULL_CV':
             cvStats.fcv_sent_count++
-            if (!giveaway.is_shared) {
-              const gamePrice = gamePriceMap.get(giveaway.name)
-              if (gamePrice) {
-                cvStats.real_total_sent_value += Number(
-                  (gamePrice.price_usd_full / 100).toFixed(2)
-                ) // Convert cents to dollars and round to 2 decimals
-                cvStats.real_total_sent_count++
-              }
+            cvStats.real_total_sent_count++
+            const gamePriceFullCV = gamePriceMap.get(giveaway.name)
+            if (gamePriceFullCV) {
+              cvStats.real_total_sent_value += Number(
+                (gamePriceFullCV.price_usd_full / 100).toFixed(2)
+              ) // Convert cents to dollars and round to 2 decimals
             }
             break
           case 'REDUCED_CV':
             cvStats.rcv_sent_count++
-            if (!giveaway.is_shared) {
-              const gamePrice = gamePriceMap.get(giveaway.name)
-              if (gamePrice) {
-                cvStats.real_total_sent_value += Number(
-                  (gamePrice.price_usd_reduced / 100).toFixed(2)
-                ) // Convert cents to dollars and round to 2 decimals
-                cvStats.real_total_sent_count++
-              }
+            const gamePriceReducedCV = gamePriceMap.get(giveaway.name)
+            if (gamePriceReducedCV) {
+              cvStats.real_total_sent_value += Number(
+                (gamePriceReducedCV.price_usd_reduced / 100).toFixed(2)
+              ) // Convert cents to dollars and round to 2 decimals
             }
             break
           case 'NO_CV':
@@ -284,31 +280,27 @@ class SteamGiftsUserFetcher {
         // Track shared giveaways
         if (giveaway.is_shared) {
           cvStats.shared_received_count++
+          continue
         }
 
         switch (giveaway.cv_status) {
           case 'FULL_CV':
+            cvStats.real_total_received_count++
             cvStats.fcv_received_count++
-            if (!giveaway.is_shared) {
-              const gamePrice = gamePriceMap.get(giveaway.name)
-              if (gamePrice) {
-                cvStats.real_total_received_value += Number(
-                  (gamePrice.price_usd_full / 100).toFixed(2)
-                ) // Convert cents to dollars and round to 2 decimals
-                cvStats.real_total_received_count++
-              }
+            const gamePriceFullCV = gamePriceMap.get(giveaway.name)
+            if (gamePriceFullCV) {
+              cvStats.real_total_received_value += Number(
+                (gamePriceFullCV.price_usd_full / 100).toFixed(2)
+              ) // Convert cents to dollars and round to 2 decimals
             }
             break
           case 'REDUCED_CV':
             cvStats.rcv_received_count++
-            if (!giveaway.is_shared) {
-              const gamePrice = gamePriceMap.get(giveaway.name)
-              if (gamePrice) {
-                cvStats.real_total_received_value += Number(
-                  (gamePrice.price_usd_reduced / 100).toFixed(2)
-                ) // Convert cents to dollars and round to 2 decimals
-                cvStats.real_total_received_count++
-              }
+            const gamePriceReducedCV = gamePriceMap.get(giveaway.name)
+            if (gamePriceReducedCV) {
+              cvStats.real_total_received_value += Number(
+                (gamePriceReducedCV.price_usd_reduced / 100).toFixed(2)
+              ) // Convert cents to dollars and round to 2 decimals
             }
             break
           case 'NO_CV':
@@ -324,10 +316,16 @@ class SteamGiftsUserFetcher {
       cvStats.fcv_sent_count - cvStats.fcv_received_count
 
     // Calculate real value differences
-    cvStats.real_total_value_difference =
-      cvStats.real_total_sent_value - cvStats.real_total_received_value
-    cvStats.real_total_gift_difference =
-      cvStats.real_total_sent_count - cvStats.real_total_received_count
+    cvStats.real_total_value_difference = Number(
+      (
+        cvStats.real_total_sent_value - cvStats.real_total_received_value
+      ).toFixed(2)
+    )
+    cvStats.real_total_gift_difference = Number(
+      (
+        cvStats.real_total_sent_count - cvStats.real_total_received_count
+      ).toFixed(2)
+    )
 
     return cvStats
   }

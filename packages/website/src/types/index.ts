@@ -16,6 +16,14 @@ export interface User {
     rcv_received_count: number
     ncv_received_count: number
     fcv_gift_difference: number
+    real_total_sent_count: number
+    real_total_sent_value: number
+    real_total_received_count: number
+    real_total_received_value: number
+    real_total_gift_difference: number
+    real_total_value_difference: number
+    shared_sent_count: number
+    shared_received_count: number
   }
   steam_id?: string
   steam_profile_url?: string

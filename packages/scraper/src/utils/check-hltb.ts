@@ -18,7 +18,7 @@ interface HltbSearchResponse {
   data: HltbGameData[]
 }
 
-export class HltbFetcher {
+class HltbFetcher {
   private fetchUrl = 'https://umadb.ro/hltb/fetch.php'
   private hltbBaseUrl = 'https://howlongtobeat.com'
 
