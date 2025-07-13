@@ -231,6 +231,13 @@ class SteamGiftsUserFetcher {
       shared_received_count: 0,
       giveaways_created: 0,
       giveaways_with_no_entries: 0,
+      // Initialize last activity timestamps
+      last_giveaway_created_at: user.giveaways_created?.length
+        ? Math.max(...user.giveaways_created.map((g) => g.end_timestamp))
+        : null,
+      last_giveaway_won_at: user.giveaways_won?.length
+        ? Math.max(...user.giveaways_won.map((g) => g.end_timestamp))
+        : null,
     }
 
     // Load game prices
@@ -435,15 +442,29 @@ class SteamGiftsUserFetcher {
   }
 
   private enrichUsersWithGiveaways(
-    users: Map<string, User>,
+    existingUsers: Map<string, User>,
     giveaways: Giveaway[]
   ): void {
-    console.log(`🔄 Enriching users with giveaway data...`)
+    console.log(`\n🎁 Enriching users with giveaway data...`)
 
     let enrichedCount = 0
     const now = Date.now() / 1000 // Current timestamp in seconds
+    // Create a map of giveaways by creator for faster lookup
+    const giveawaysByCreator = new Map<string, Giveaway[]>()
+    for (const giveaway of giveaways) {
+      const creatorGiveaways =
+        giveawaysByCreator.get(giveaway.creator.username) || []
+      creatorGiveaways.push(giveaway)
+      giveawaysByCreator.set(giveaway.creator.username, creatorGiveaways)
+    }
 
-    for (const [username, user] of users) {
+    // Process each user
+    for (const [username, user] of existingUsers) {
+      // Get all giveaways created by this user
+      const userGiveaways = giveawaysByCreator.get(username) || []
+
+      // These timestamps are now calculated in calculateStats
+
       const giveawaysWon: NonNullable<User['giveaways_won']> = []
       const giveawaysCreated: NonNullable<User['giveaways_created']> = []
 
@@ -514,7 +535,7 @@ class SteamGiftsUserFetcher {
           ...userStats,
         }
 
-        users.set(username, updatedUser)
+        existingUsers.set(username, updatedUser)
         enrichedCount++
 
         const wonCount = giveawaysWon.length

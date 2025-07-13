@@ -144,6 +144,9 @@ export interface UserGiveawaysStats {
   // Shared giveaway statistics
   shared_sent_count: number
   shared_received_count: number
+  // Last activity timestamps
+  last_giveaway_created_at: number | null
+  last_giveaway_won_at: number | null
 }
 
 // CV Status related interfaces

@@ -24,6 +24,8 @@ export interface User {
     real_total_value_difference: number
     shared_sent_count: number
     shared_received_count: number
+    last_giveaway_created_at: number | null
+    last_giveaway_won_at: number | null
   }
   steam_id?: string
   steam_profile_url?: string

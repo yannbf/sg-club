@@ -3,10 +3,11 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { Giveaway, GameData } from '@/types'
-import { formatRelativeTime, getCVBadgeColor, getCVLabel } from '@/lib/data'
+import { getCVBadgeColor, getCVLabel } from '@/lib/data'
 import GameImage from './GameImage'
 import UserAvatar from '@/components/UserAvatar'
 import { useGameData } from '@/lib/hooks'
+import FormattedDate from '@/components/FormattedDate'
 
 interface Props {
   giveaways: Giveaway[]
@@ -130,7 +131,7 @@ export default function UserGiveawaysClient({ giveaways, userAvatars, gameData }
                           {giveaway.entry_count} entries
                         </span>
                         <span className={`text-sm font-medium ${status.statusColor}`}>
-                          {formatRelativeTime(giveaway.end_timestamp)}
+                          <FormattedDate timestamp={giveaway.end_timestamp} />
                         </span>
                         {gameData && 'hltb_main_story_hours' in gameData && (<div>
                           <span className="text-muted-foreground">⏱️ HLTB:</span>

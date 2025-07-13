@@ -7,6 +7,7 @@ import WonGiveawaysClient from './WonGiveawaysClient'
 import { useState } from 'react'
 import type { User, UserGroupData } from '@/types'
 import type { Giveaway, GameData } from '@/types'
+import FormattedDate from '@/components/FormattedDate'
 
 interface Props {
   user: User
@@ -106,6 +107,18 @@ export default function UserDetailPageClient({ user, allUsers, giveaways, gameDa
                 View Steam Profile →
               </a>
             )}
+            <div className="mt-4 text-sm text-muted-foreground space-y-1">
+              {user.stats.last_giveaway_created_at && (
+                <div>Last giveaway created: <span className="text-foreground">
+                  <FormattedDate timestamp={user.stats.last_giveaway_created_at} />
+                </span></div>
+              )}
+              {user.stats.last_giveaway_won_at && (
+                <div>Last giveaway won: <span className="text-foreground">
+                  <FormattedDate timestamp={user.stats.last_giveaway_won_at} />
+                </span></div>
+              )}
+            </div>
           </div>
         </div>
       </div>

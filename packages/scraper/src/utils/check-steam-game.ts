@@ -35,8 +35,9 @@ export class SteamGameChecker {
   }
 
   private async fetchSteamAPI(endpoint: string): Promise<any> {
+    const requestUrl = `${this.baseUrl}${endpoint}`
     try {
-      const response = await fetch(`${this.baseUrl}${endpoint}`)
+      const response = await fetch(requestUrl)
 
       if (!response.ok) {
         throw new Error(
@@ -46,7 +47,7 @@ export class SteamGameChecker {
 
       return await response.json()
     } catch (error) {
-      console.error(`❌ Error fetching Steam API: ${error}`)
+      console.error(`❌ Error fetching Steam API (${requestUrl}): ${error}`)
       throw error
     }
   }

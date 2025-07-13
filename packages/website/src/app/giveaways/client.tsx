@@ -1,13 +1,14 @@
 'use client'
 
 import { useState, useMemo } from 'react'
-import { formatRelativeTime, getCVBadgeColor, getCVLabel } from '@/lib/data'
+import { getCVBadgeColor, getCVLabel } from '@/lib/data'
 import { Giveaway, GameData } from '@/types'
 import Link from 'next/link'
 import Image from 'next/image'
 import UserAvatar from '@/components/UserAvatar'
 import { LastUpdated } from '@/components/LastUpdated'
 import { useGameData } from '@/lib/hooks'
+import FormattedDate from '@/components/FormattedDate'
 
 interface Props {
   giveaways: Giveaway[]
@@ -248,7 +249,7 @@ export default function GiveawaysClient({ giveaways, lastUpdated, userAvatars, g
 
                   <div className="flex items-center justify-between text-sm">
                     <span className="text-muted-foreground">End date:</span>
-                    <span className="font-medium">{formatRelativeTime(giveaway.end_timestamp)}</span>
+                    <FormattedDate timestamp={giveaway.end_timestamp} className="font-medium" />
                   </div>
 
                   {gameData && 'hltb_main_story_hours' in gameData && (

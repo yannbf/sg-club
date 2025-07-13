@@ -167,77 +167,16 @@ export async function getGiveaway(link: string): Promise<Giveaway | null> {
   return giveaways.find((giveaway) => giveaway.link === link) || null
 }
 
-export function formatDate(timestamp: number): string {
-  return new Date(timestamp * 1000).toLocaleDateString('en-GB', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric',
-    timeZone: 'UTC',
-  })
-}
-
-export function formatDateTime(timestamp: number): string {
-  return new Date(timestamp * 1000).toLocaleString('en-GB', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-    timeZone: 'UTC',
-  })
-}
-
-export function formatRelativeTime(timestamp: number): string {
-  const now = Date.now() / 1000
-  const diff = timestamp - now
-  const absDiff = Math.abs(diff)
-
-  // Define time units in seconds
-  const units = [
-    { name: 'year', seconds: 31536000 },
-    { name: 'month', seconds: 2592000 },
-    { name: 'week', seconds: 604800 },
-    { name: 'day', seconds: 86400 },
-    { name: 'hour', seconds: 3600 },
-    { name: 'minute', seconds: 60 },
-    { name: 'second', seconds: 1 },
-  ]
-
-  // Find the appropriate unit
-  for (const unit of units) {
-    if (absDiff >= unit.seconds) {
-      const value = Math.floor(absDiff / unit.seconds)
-      const unitName = value === 1 ? unit.name : unit.name + 's'
-
-      if (diff > 0) {
-        return `${value} ${unitName} remaining`
-      } else {
-        return `${value} ${unitName} ago`
-      }
-    }
-  }
-
-  // Less than a second
-  if (diff > 0) {
-    return 'Less than a second remaining'
-  } else {
-    return 'Just now'
-  }
-}
-
 export function formatPlaytime(minutes: number): string {
-  if (minutes === 0) return '0 minutes'
-
+  if (minutes < 60) {
+    return `${minutes} minutes`
+  }
   const hours = Math.floor(minutes / 60)
   const remainingMinutes = minutes % 60
-
-  if (hours === 0) {
-    return `${remainingMinutes} minutes`
-  } else if (remainingMinutes === 0) {
+  if (remainingMinutes === 0) {
     return `${hours} hours`
-  } else {
-    return `${hours}h ${remainingMinutes}m`
   }
+  return `${hours}h ${remainingMinutes}m`
 }
 
 export function getCVBadgeColor(cvStatus: string): string {

@@ -1,9 +1,10 @@
 'use client'
 
 import { Giveaway, GameData, User } from '@/types'
-import { formatRelativeTime, getCVBadgeColor, getCVLabel, formatPlaytime } from '@/lib/data'
+import { getCVBadgeColor, getCVLabel, formatPlaytime } from '@/lib/data'
 import GameImage from './GameImage'
 import { useGameData } from '@/lib/hooks'
+import FormattedDate from '@/components/FormattedDate'
 
 interface Props {
   giveaways: Giveaway[]
@@ -50,7 +51,7 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData }
                           {getCVLabel(game.cv_status)}
                         </span>
                         <span className="text-sm text-muted-foreground">
-                          Won {formatRelativeTime(game.end_timestamp)}
+                          Won <FormattedDate timestamp={game.end_timestamp} />
                         </span>
                       </div>
                     </div>

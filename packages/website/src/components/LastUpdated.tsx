@@ -1,22 +1,13 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { formatLastUpdated } from '@/lib/data'
+import FormattedDate from './FormattedDate'
 
 export function LastUpdated({ lastUpdatedDate }: { lastUpdatedDate: string }) {
-  const [formattedDate, setFormattedDate] = useState('')
-
-  useEffect(() => {
-    setFormattedDate(formatLastUpdated(lastUpdatedDate))
-  }, [lastUpdatedDate])
-
-  if (!formattedDate) {
-    return null
-  }
+  const timestamp = Math.floor(new Date(lastUpdatedDate).getTime() / 1000)
 
   return (
     <p className="mt-2 text-sm text-muted-foreground">
-      Last updated: {formattedDate}
+      Last updated: <FormattedDate timestamp={timestamp} />
     </p>
   )
 } 

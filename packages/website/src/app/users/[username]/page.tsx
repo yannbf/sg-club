@@ -12,8 +12,12 @@ export async function generateStaticParams() {
   }))
 }
 
-export default async function UserDetailPage({ params }: { params: { username: string } }) {
-  const { username } = params
+export default async function UserDetailPage({
+  params,
+}: {
+  params: Promise<{ username: string }>
+}) {
+  const { username } = await params
   const user = await getUser(decodeURIComponent(username))
   const allUsers = await getAllUsers()
   const giveaways = await getAllGiveaways()
