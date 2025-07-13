@@ -124,7 +124,9 @@ export interface UserStats {
   pagesFetched: number
 }
 
-export interface UserCVStats {
+export interface UserGiveawaysStats {
+  giveaways_created: number
+  giveaways_with_no_entries: number
   fcv_sent_count: number
   rcv_sent_count: number
   ncv_sent_count: number

@@ -24,7 +24,7 @@ export default async function UserDetailPage({ params }: { params: { username: s
   }
 
   // Convert gameData from object to array
-  const gameData = Object.entries(gameDataObj).map(([_, data]) => data)
+  const gameData = Object.entries(gameDataObj).map(([, data]) => data)
 
   return (
     <UserDetailPageClient
