@@ -22,7 +22,7 @@ export class GiveawayPointsManager {
   private readonly SHEET_ID = '1h20q3RPeYTDwL_hl3uWEq6SSRbSlsHJW3VhN538oP3A'
   private cachedData: GiveawayData[] | null = null
   private lastFetchTime: number = 0
-  private readonly CACHE_DURATION = 5 * 60 * 1000 // 5 minutes in milliseconds
+  private readonly CACHE_DURATION = 25 * 60 * 1000 // 25 minutes in milliseconds
   private fetchPromise: Promise<GiveawayData[]> | null = null
 
   private constructor() {}

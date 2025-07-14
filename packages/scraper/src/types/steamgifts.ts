@@ -93,6 +93,7 @@ export interface User {
     steam_play_data?: SteamPlayData
     required_play: boolean
     is_shared: boolean
+    proof_of_play?: boolean
   }>
   giveaways_created?: Array<{
     name: string

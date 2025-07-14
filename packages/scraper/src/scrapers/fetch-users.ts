@@ -15,6 +15,7 @@ import {
   type GamePlayData,
 } from '../utils/check-steam-game.js'
 import { delay } from '../utils/common.js'
+import { GiveawayPointsManager } from '../utils/fetch-giveaway-points.js'
 
 class SteamGiftsUserFetcher {
   private readonly baseUrl = 'https://www.steamgifts.com'
@@ -441,11 +442,15 @@ class SteamGiftsUserFetcher {
     console.log(`  • Errors: ${steamErrorCount}`)
   }
 
-  private enrichUsersWithGiveaways(
+  private async enrichUsersWithGiveaways(
     existingUsers: Map<string, User>,
     giveaways: Giveaway[]
-  ): void {
+  ): Promise<void> {
     console.log(`\n🎁 Enriching users with giveaway data...`)
+
+    const pointsManager = GiveawayPointsManager.getInstance()
+    const allPointsData = await pointsManager.getAllGiveaways()
+    const pointsMap = new Map(allPointsData.map((p) => [p.id, p]))
 
     let enrichedCount = 0
     const now = Date.now() / 1000 // Current timestamp in seconds
@@ -473,6 +478,9 @@ class SteamGiftsUserFetcher {
         if (giveaway.winners) {
           for (const winner of giveaway.winners) {
             if (winner.name === username) {
+              const giveawayId = giveaway.link.split('/')[0]
+              const pointsData = pointsMap.get(giveawayId)
+
               giveawaysWon.push({
                 name: giveaway.name,
                 link: giveaway.link,
@@ -481,6 +489,7 @@ class SteamGiftsUserFetcher {
                 end_timestamp: giveaway.end_timestamp,
                 required_play: giveaway.required_play || false,
                 is_shared: giveaway.is_shared || false,
+                proof_of_play: pointsData?.completePlaying ?? false,
               })
             }
           }
@@ -776,7 +785,7 @@ class SteamGiftsUserFetcher {
       // Load giveaway data and enrich users
       const giveaways = this.loadGiveawayData()
       if (giveaways.length > 0) {
-        this.enrichUsersWithGiveaways(existingUsers, giveaways)
+        await this.enrichUsersWithGiveaways(existingUsers, giveaways)
 
         // Update Steam play data for won games (skip if env flag is set)
         const skipSteamApi = process.env.SKIP_STEAM_API === 'true'
