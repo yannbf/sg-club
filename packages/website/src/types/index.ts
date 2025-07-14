@@ -37,6 +37,7 @@ export interface User {
     cv_status: 'FULL_CV' | 'REDUCED_CV' | 'NO_CV'
     status: string
     end_timestamp: number
+    proof_of_play?: boolean
     steam_play_data?: {
       owned: boolean
       playtime_minutes: number

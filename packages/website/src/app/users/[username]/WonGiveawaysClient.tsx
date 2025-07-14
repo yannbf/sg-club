@@ -50,6 +50,11 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData }
                         <span className={`px-2 py-1 text-xs font-semibold rounded-full ${getCVBadgeColor(game.cv_status)}`}>
                           {getCVLabel(game.cv_status)}
                         </span>
+                        {game.proof_of_play && (
+                          <span className="px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">
+                            Proof of Play
+                          </span>
+                        )}
                         <span className="text-sm text-muted-foreground">
                           Won <FormattedDate timestamp={game.end_timestamp} />
                         </span>

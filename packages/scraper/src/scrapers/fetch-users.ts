@@ -505,7 +505,10 @@ export class SteamGiftsUserFetcher {
                 end_timestamp: giveaway.end_timestamp,
                 required_play: giveaway.required_play || false,
                 is_shared: giveaway.is_shared || false,
-                proof_of_play: pointsData?.completePlaying ?? false,
+                proof_of_play:
+                  (pointsData?.completePlaying &&
+                    pointsData?.winner === username) ??
+                  false,
               })
             }
           }
