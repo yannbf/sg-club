@@ -17,7 +17,7 @@ import {
 import { delay } from '../utils/common.js'
 import { GiveawayPointsManager } from '../utils/fetch-giveaway-points.js'
 
-class SteamGiftsUserFetcher {
+export class SteamGiftsUserFetcher {
   private readonly baseUrl = 'https://www.steamgifts.com'
   private readonly startUrl = '/group/WlYTQ/thegiveawaysclub/users'
   private readonly cookie =
@@ -116,6 +116,7 @@ class SteamGiftsUserFetcher {
               rcv_received_count: 0,
               ncv_received_count: 0,
               fcv_gift_difference: 0,
+              giveaway_ratio: 0,
               // Initialize shared giveaway counts
               shared_sent_count: 0,
               shared_received_count: 0,
@@ -211,7 +212,7 @@ class SteamGiftsUserFetcher {
     }
   }
 
-  private calculateStats(user: User): UserGiveawaysStats {
+  public calculateStats(user: User): UserGiveawaysStats {
     const userStats: UserGiveawaysStats = {
       fcv_sent_count: 0,
       rcv_sent_count: 0,
@@ -220,6 +221,7 @@ class SteamGiftsUserFetcher {
       rcv_received_count: 0,
       ncv_received_count: 0,
       fcv_gift_difference: 0,
+      giveaway_ratio: 0,
       // Add new stats for real values
       real_total_sent_value: 0,
       real_total_received_value: 0,
@@ -263,32 +265,38 @@ class SteamGiftsUserFetcher {
 
         // Track shared giveaways
         if (giveaway.is_shared) {
-          userStats.shared_sent_count++
+          userStats.shared_sent_count += giveaway.copies
           continue
         }
 
         switch (giveaway.cv_status) {
           case 'FULL_CV':
-            userStats.fcv_sent_count++
-            userStats.real_total_sent_count++
+            userStats.fcv_sent_count += giveaway.copies
+            userStats.real_total_sent_count += giveaway.copies
             const gamePriceFullCV = gamePriceMap.get(giveaway.name)
             if (gamePriceFullCV) {
               userStats.real_total_sent_value += Number(
-                (gamePriceFullCV.price_usd_full / 100).toFixed(2)
+                (
+                  (gamePriceFullCV.price_usd_full / 100) *
+                  giveaway.copies
+                ).toFixed(2)
               ) // Convert cents to dollars and round to 2 decimals
             }
             break
           case 'REDUCED_CV':
-            userStats.rcv_sent_count++
+            userStats.rcv_sent_count += giveaway.copies
             const gamePriceReducedCV = gamePriceMap.get(giveaway.name)
             if (gamePriceReducedCV) {
               userStats.real_total_sent_value += Number(
-                (gamePriceReducedCV.price_usd_reduced / 100).toFixed(2)
+                (
+                  (gamePriceReducedCV.price_usd_reduced / 100) *
+                  giveaway.copies
+                ).toFixed(2)
               ) // Convert cents to dollars and round to 2 decimals
             }
             break
           case 'NO_CV':
-            userStats.ncv_sent_count++
+            userStats.ncv_sent_count += giveaway.copies
             // No value added for NO_CV games
             break
         }
@@ -335,6 +343,14 @@ class SteamGiftsUserFetcher {
     // Calculate gift difference for full CV
     userStats.fcv_gift_difference =
       userStats.fcv_sent_count - userStats.fcv_received_count
+
+    const fcv_won_without_proof_of_play =
+      user.giveaways_won?.filter(
+        (g) => g.cv_status === 'FULL_CV' && !g.proof_of_play
+      ).length || 0
+
+    userStats.giveaway_ratio =
+      userStats.fcv_sent_count - fcv_won_without_proof_of_play / 3
 
     // Calculate real value differences
     userStats.real_total_value_difference = Number(
@@ -615,6 +631,7 @@ class SteamGiftsUserFetcher {
             rcv_received_count: existingUser.stats.rcv_received_count || 0,
             ncv_received_count: existingUser.stats.ncv_received_count || 0,
             fcv_gift_difference: existingUser.stats.fcv_gift_difference || 0,
+            giveaway_ratio: existingUser.stats.giveaway_ratio || 0,
           },
           // Preserve Steam info
           steam_id: existingUser.steam_id || newUser.steam_id,
@@ -693,6 +710,7 @@ class SteamGiftsUserFetcher {
                 ncv_received_count: existingUser.stats?.ncv_received_count || 0,
                 fcv_gift_difference:
                   existingUser.stats?.fcv_gift_difference || 0,
+                giveaway_ratio: existingUser.stats?.giveaway_ratio || 0,
               },
             }
             existingUsers.set(user.username, updatedUser)
@@ -1062,24 +1080,6 @@ async function main(): Promise<void> {
       )
       console.log(`  • Net contributors: ${positiveContributors} users`)
       console.log(`  • Neutral: ${neutralContributors} users`)
-      console.log(`  • Net receivers: ${negativeContributors} users`)
-
-      console.log(`\n📈 CV-Specific Statistics:`)
-      console.log(
-        `  • Full CV: ${totalFCVSent} sent, ${totalFCVReceived} received (Difference: ${
-          totalFCVSent - totalFCVReceived
-        })`
-      )
-      console.log(
-        `  • Reduced CV: ${totalRCVSent} sent, ${totalRCVReceived} received (Difference: ${
-          totalRCVSent - totalRCVReceived
-        })`
-      )
-      console.log(
-        `  • No CV: ${totalNCVSent} sent, ${totalNCVReceived} received (Difference: ${
-          totalNCVSent - totalNCVReceived
-        })`
-      )
       console.log(
         `  • Shared: ${totalSharedSent} sent, ${totalSharedReceived} received (Difference: ${
           totalSharedSent - totalSharedReceived
@@ -1102,5 +1102,7 @@ async function main(): Promise<void> {
   }
 }
 
-// Run the script
-await main()
+if (process.env.VITEST !== 'true') {
+  // Run the script
+  await main()
+}

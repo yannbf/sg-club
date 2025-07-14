@@ -83,6 +83,7 @@ export interface User {
     fcv_gift_difference: number
     shared_sent_count: number
     shared_received_count: number
+    giveaway_ratio?: number
   }
   giveaways_won?: Array<{
     name: string
@@ -135,6 +136,7 @@ export interface UserGiveawaysStats {
   rcv_received_count: number
   ncv_received_count: number
   fcv_gift_difference: number
+  giveaway_ratio?: number
   // Real value statistics
   real_total_sent_value: number
   real_total_received_value: number

@@ -12,7 +12,7 @@ interface Props {
 
 export default function UsersClient({ users }: Props) {
   const [searchTerm, setSearchTerm] = useState('')
-  const [sortBy, setSortBy] = useState<'username' | 'sent' | 'received' | 'difference' | 'value' | 'playtime'>('difference')
+  const [sortBy, setSortBy] = useState<'username' | 'sent' | 'received' | 'difference' | 'value' | 'playtime' | 'ratio'>('difference')
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc')
   const [filterType, setFilterType] = useState<'all' | 'contributors' | 'receivers' | 'neutral'>('all')
   const [showOnlySteam] = useState(false)
@@ -28,20 +28,21 @@ export default function UsersClient({ users }: Props) {
     const filtered = users.filter(user => {
       const matchesSearch = user.username.toLowerCase().includes(searchTerm.toLowerCase())
       const matchesSteam = !showOnlySteam || user.steam_id
-      
+
       let matchesType = true
+      const ratio = user.stats.giveaway_ratio ?? 0
       switch (filterType) {
         case 'contributors':
-          matchesType = user.stats.total_gift_difference > 0
+          matchesType = ratio > 0
           break
         case 'receivers':
-          matchesType = user.stats.total_gift_difference < 0
+          matchesType = ratio < -1
           break
         case 'neutral':
-          matchesType = user.stats.total_gift_difference === 0
+          matchesType = ratio <= 0 && ratio >= -1
           break
       }
-      
+
       return matchesSearch && matchesSteam && matchesType
     })
 
@@ -52,19 +53,22 @@ export default function UsersClient({ users }: Props) {
           comparison = a.username.localeCompare(b.username)
           break
         case 'sent':
-          comparison = b.stats.total_sent_count - a.stats.total_sent_count
+          comparison = b.stats.real_total_sent_count - a.stats.real_total_sent_count
           break
         case 'received':
-          comparison = b.stats.total_received_count - a.stats.total_received_count
+          comparison = b.stats.real_total_received_count - a.stats.real_total_received_count
           break
         case 'difference':
-          comparison = b.stats.total_gift_difference - a.stats.total_gift_difference
+          comparison = b.stats.real_total_gift_difference - a.stats.real_total_gift_difference
           break
         case 'value':
-          comparison = b.stats.total_value_difference - a.stats.total_value_difference
+          comparison = b.stats.real_total_value_difference - a.stats.real_total_value_difference
           break
         case 'playtime':
           comparison = getTotalPlaytime(b) - getTotalPlaytime(a)
+          break
+        case 'ratio':
+          comparison = (b.stats.giveaway_ratio ?? 0) - (a.stats.giveaway_ratio ?? 0)
           break
       }
       return sortDirection === 'asc' ? -comparison : comparison
@@ -74,9 +78,10 @@ export default function UsersClient({ users }: Props) {
   }, [users, searchTerm, sortBy, filterType, showOnlySteam, sortDirection])
 
   const getUserTypeBadge = (user: User) => {
-    if (user.stats.total_gift_difference > 0) {
+    const ratio = user.stats.giveaway_ratio ?? 0
+    if (ratio > 0) {
       return <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-success-light text-success-foreground">Net Contributor</span>
-    } else if (user.stats.total_gift_difference < 0) {
+    } else if (ratio < -1) {
       return <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-error-light text-error-foreground">Net Receiver</span>
     } else {
       return <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-info-light text-info-foreground">Neutral</span>
@@ -119,7 +124,7 @@ export default function UsersClient({ users }: Props) {
               className="w-full px-3 py-2 border border-card-border rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-accent"
             />
           </div>
-          
+
           <div>
             <label className="block text-sm font-medium text-muted-foreground mb-2">
               Sort by
@@ -127,7 +132,7 @@ export default function UsersClient({ users }: Props) {
             <div className="flex gap-2">
               <select
                 value={sortBy}
-                onChange={(e) => setSortBy(e.target.value as 'username' | 'sent' | 'received' | 'difference' | 'value' | 'playtime')}
+                onChange={(e) => setSortBy(e.target.value as 'username' | 'sent' | 'received' | 'difference' | 'value' | 'playtime' | 'ratio')}
                 className="w-full px-3 py-2 border border-card-border rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-accent"
               >
                 <option value="difference">Gift Difference</option>
@@ -136,6 +141,7 @@ export default function UsersClient({ users }: Props) {
                 <option value="received">Gifts Received</option>
                 <option value="playtime">Total Playtime</option>
                 <option value="username">Username</option>
+                <option value="ratio">Giveaway Ratio</option>
               </select>
               <button
                 onClick={() => setSortDirection(prev => prev === 'asc' ? 'desc' : 'asc')}
@@ -146,7 +152,7 @@ export default function UsersClient({ users }: Props) {
               </button>
             </div>
           </div>
-          
+
           <div>
             <label className="block text-sm font-medium text-muted-foreground mb-2">
               User Type
@@ -168,6 +174,9 @@ export default function UsersClient({ users }: Props) {
       {/* Results Summary */}
       <div className="text-sm text-muted-foreground">
         Showing {filteredAndSortedUsers.length} of {users.length} members
+      </div>
+      <div className="text-sm text-muted-foreground italic">
+        * The user ratio is based on full CV 1:3 without counting games that had proof of play.
       </div>
 
       {/* Users Grid */}
@@ -209,40 +218,48 @@ export default function UsersClient({ users }: Props) {
                 </div>
               </div>
             </div>
-            
+
             <div className="space-y-3">
               <div className="grid grid-cols-2 gap-4">
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-success-foreground">{user.stats.total_sent_count}</div>
+                  <div className="text-2xl font-bold text-success-foreground">{user.stats.real_total_sent_count}</div>
                   <div className="text-xs text-muted-foreground">Gifts Sent</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-info-foreground">{user.stats.total_received_count}</div>
+                  <div className="text-2xl font-bold text-info-foreground">{user.stats.real_total_received_count}</div>
                   <div className="text-xs text-muted-foreground">Gifts Received</div>
                 </div>
               </div>
-              
+
               <div className="grid grid-cols-2 gap-4">
                 <div className="text-center">
-                  <div className={`text-lg font-medium ${
-                    user.stats.total_gift_difference > 0 ? 'text-success-foreground' : 
-                    user.stats.total_gift_difference < 0 ? 'text-error-foreground' : 
-                    'text-muted-foreground'
-                  }`}>
-                    {user.stats.total_gift_difference > 0 ? '+' : ''}{user.stats.total_gift_difference}
+                  <div className={`text-lg font-medium ${user.stats.real_total_gift_difference > 0 ? 'text-success-foreground' :
+                      user.stats.real_total_gift_difference < 0 ? 'text-error-foreground' :
+                        'text-muted-foreground'
+                    }`}>
+                    {user.stats.real_total_gift_difference > 0 ? '+' : ''}{user.stats.real_total_gift_difference}
                   </div>
                   <div className="text-xs text-muted-foreground">Gift Difference</div>
                 </div>
                 <div className="text-center">
-                  <div className={`text-lg font-medium ${
-                    user.stats.total_value_difference > 0 ? 'text-success-foreground' : 
-                    user.stats.total_value_difference < 0 ? 'text-error-foreground' : 
-                    'text-muted-foreground'
-                  }`}>
-                    {user.stats.total_value_difference > 0 ? '+' : ''}${user.stats.total_value_difference}
+                  <div className={`text-lg font-medium ${user.stats.real_total_value_difference > 0 ? 'text-success-foreground' :
+                      user.stats.real_total_value_difference < 0 ? 'text-error-foreground' :
+                        'text-muted-foreground'
+                    }`}>
+                    {user.stats.real_total_value_difference > 0 ? '+' : ''}${user.stats.real_total_value_difference}
                   </div>
                   <div className="text-xs text-muted-foreground">Value Difference</div>
                 </div>
+              </div>
+
+              <div className="text-center pt-3 border-t border-card-border">
+                <div className={`text-lg font-medium ${(user.stats.giveaway_ratio ?? 0) > 0 ? 'text-success-foreground' :
+                    (user.stats.giveaway_ratio ?? 0) < -1 ? 'text-error-foreground' :
+                      'text-muted-foreground'
+                  }`}>
+                  {(user.stats.giveaway_ratio ?? 0).toFixed(2)}
+                </div>
+                <div className="text-xs text-muted-foreground">Giveaway Ratio</div>
               </div>
 
               {user.steam_id && !user.steam_profile_is_private && (
@@ -250,7 +267,7 @@ export default function UsersClient({ users }: Props) {
                   <div className="grid grid-cols-2 gap-4">
                     <div className="text-center">
                       <div className="text-sm font-medium text-accent-purple">
-                        {getTotalPlaytime(user) === 0 && getTotalAchievements(user) > 0 
+                        {getTotalPlaytime(user) === 0 && getTotalAchievements(user) > 0
                           ? 'Unavailable'
                           : formatPlaytime(getTotalPlaytime(user))}
                       </div>
@@ -261,7 +278,7 @@ export default function UsersClient({ users }: Props) {
                       <div className="text-xs text-muted-foreground">Achievements</div>
                     </div>
                   </div>
-                  
+
                   <div className="mt-4 grid grid-cols-2 gap-4">
                     <div className="text-center">
                       <div className="text-sm font-medium text-accent-orange">{getNoEntryGiveaways(user)}</div>

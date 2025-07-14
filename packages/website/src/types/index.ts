@@ -16,6 +16,7 @@ export interface User {
     rcv_received_count: number
     ncv_received_count: number
     fcv_gift_difference: number
+    giveaway_ratio?: number
     real_total_sent_count: number
     real_total_sent_value: number
     real_total_received_count: number
