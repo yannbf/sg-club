@@ -520,28 +520,26 @@ class SteamGiftsUserFetcher {
       }
 
       // Update user with giveaway information
-      if (giveawaysWon.length > 0 || giveawaysCreated.length > 0) {
-        const updatedUser: User = {
-          ...user,
-          giveaways_won: giveawaysWon.length > 0 ? giveawaysWon : undefined,
-          giveaways_created:
-            giveawaysCreated.length > 0 ? giveawaysCreated : undefined,
-        }
-
-        // Calculate user stats
-        const userStats = this.calculateStats(updatedUser)
-        updatedUser.stats = {
-          ...updatedUser.stats,
-          ...userStats,
-        }
-
-        existingUsers.set(username, updatedUser)
-        enrichedCount++
-
-        const wonCount = giveawaysWon.length
-        const createdCount = giveawaysCreated.length
-        console.log(`✅ ${username}: ${wonCount} won, ${createdCount} created`)
+      const updatedUser: User = {
+        ...user,
+        giveaways_won: giveawaysWon.length > 0 ? giveawaysWon : undefined,
+        giveaways_created:
+          giveawaysCreated.length > 0 ? giveawaysCreated : undefined,
       }
+
+      // Calculate user stats
+      const userStats = this.calculateStats(updatedUser)
+      updatedUser.stats = {
+        ...updatedUser.stats,
+        ...userStats,
+      }
+
+      existingUsers.set(username, updatedUser)
+      enrichedCount++
+
+      const wonCount = giveawaysWon.length
+      const createdCount = giveawaysCreated.length
+      console.log(`✅ ${username}: ${wonCount} won, ${createdCount} created`)
     }
 
     console.log(`📊 Enriched ${enrichedCount} users with giveaway data`)

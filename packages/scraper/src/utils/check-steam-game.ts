@@ -40,9 +40,22 @@ export class SteamGameChecker {
       const response = await fetch(requestUrl)
 
       if (!response.ok) {
-        throw new Error(
-          `Steam API request failed: ${response.status} ${response.statusText}`
-        )
+        try {
+          const data = (await response.json()) as any
+          if (data.playerstats.error) {
+            throw new Error(
+              'Steam API request failed: ' + String(data.playerstats.error)
+            )
+          } else {
+            throw data
+          }
+        } catch (error: unknown) {
+          throw new Error(
+            `Steam API request failed: ${response.status} ${
+              response.statusText
+            } ${error instanceof Error ? error.message : String(error)}`
+          )
+        }
       }
 
       return await response.json()
