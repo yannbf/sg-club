@@ -12,5 +12,5 @@ export default async function UsersPage() {
     )
   }
 
-  return <UsersClient users={userData.users} />
+  return <UsersClient users={Object.values(userData.users)} />
 } 

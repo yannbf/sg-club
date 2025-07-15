@@ -150,6 +150,14 @@ export async function getAllUsers(): Promise<UserGroupData | null> {
   return data.users
 }
 
+export async function getAllUsersAsArray(): Promise<User[]> {
+  const data = await loadBuildTimeData()
+  if (!data.users) {
+    return []
+  }
+  return Object.values(data.users.users)
+}
+
 export async function getGameData(): Promise<GameData[]> {
   const data = await loadBuildTimeData()
   return data.gameData
@@ -159,7 +167,8 @@ export async function getUser(username: string): Promise<User | null> {
   const userData = await getAllUsers()
   if (!userData) return null
 
-  return userData.users.find((user) => user.username === username) || null
+  // The `users` property is now a record, so we can access it directly.
+  return userData.users[username] || null
 }
 
 export async function getGiveaway(link: string): Promise<Giveaway | null> {

@@ -68,7 +68,7 @@ export interface User {
 
 export interface UserGroupData {
   lastUpdated: number
-  users: User[]
+  users: Record<string, User>
 }
 
 export interface Giveaway {

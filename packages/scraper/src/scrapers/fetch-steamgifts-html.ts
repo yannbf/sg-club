@@ -12,6 +12,7 @@ import {
   parseSteamUrl,
   generateIdFromCode,
 } from '../utils/common.js'
+import { logError } from '../utils/log-error.js'
 
 // HTML-specific Creator interface (different from API)
 interface Creator {
@@ -64,7 +65,10 @@ export class SteamGiftsHTMLScraper {
     })
 
     if (!response.ok) {
-      throw new Error(`Failed to fetch ${url}: ${response.statusText}`)
+      const errorMessage = `Failed to fetch ${url}: ${response.statusText}`
+      const error = new Error(errorMessage)
+      logError(error, errorMessage)
+      throw error
     }
 
     return await response.text()
@@ -85,16 +89,23 @@ export class SteamGiftsHTMLScraper {
     let currentPath: string | null = winnersPath
 
     while (currentPath) {
-      const html = await this.fetchPage(currentPath)
-      const pageWinners = this.parseWinnersPage(html)
-      detailedWinners.push(...pageWinners)
+      try {
+        const html = await this.fetchPage(currentPath)
+        const pageWinners = this.parseWinnersPage(html)
+        detailedWinners.push(...pageWinners)
 
-      // Check for next page
-      currentPath = this.getNextPage(html)
+        // Check for next page
+        currentPath = this.getNextPage(html)
 
-      if (currentPath) {
-        // Add delay to avoid rate limiting
-        await delay(1000)
+        if (currentPath) {
+          // Add delay to avoid rate limiting
+          await delay(1000)
+        }
+      } catch (error) {
+        const errorMessage = `Failed to fetch winners page: ${this.baseUrl}${currentPath}`
+        console.warn(`⚠️  ${errorMessage}:`, error)
+        logError(error, errorMessage)
+        break
       }
     }
 
@@ -169,7 +180,10 @@ export class SteamGiftsHTMLScraper {
     })
 
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`)
+      const errorMessage = `HTTP error! status: ${response.status}`
+      const error = new Error(errorMessage)
+      logError(error, errorMessage)
+      throw error
     }
 
     return (await response.json()) as BundleGamesResponse
@@ -192,7 +206,10 @@ export class SteamGiftsHTMLScraper {
     })
 
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`)
+      const errorMessage = `HTTP error! status: ${response.status}`
+      const error = new Error(errorMessage)
+      logError(error, errorMessage)
+      throw error
     }
 
     return (await response.json()) as BundleGamesResponse
@@ -225,8 +242,8 @@ export class SteamGiftsHTMLScraper {
         ? await this.fetchBundleGames(giveaway.app_id)
         : await this.fetchBundleGamesByName(giveaway.name)
 
-      // Add 500ms delay to avoid hitting API quota
-      await delay(500)
+      // Add 700ms delay to avoid hitting API quota
+      await delay(700)
 
       if (!bundleData.success || bundleData.results.length === 0) {
         // Game not found in bundle games = FULL_CV
@@ -257,7 +274,9 @@ export class SteamGiftsHTMLScraper {
       // Calculate and return CV status
       return this.calculateCVStatus(giveaway, bundleGame, useEndTimestamp)
     } catch (error) {
-      console.error(`❌ Error fetching CV data for ${giveaway.name}:`, error)
+      const errorMessage = `Error fetching CV data for ${giveaway.name}`
+      console.error(`❌ ${errorMessage}:`, error)
+      logError(error, errorMessage)
       // Cache null to avoid repeated failed requests
       this.bundleGameCache.set(cacheKey, null)
       return 'FULL_CV'
@@ -558,7 +577,7 @@ export class SteamGiftsHTMLScraper {
           detailedInfo = await this.parseGiveawayDetails(detailedHtml)
 
           // Add delay to avoid rate limiting
-          await delay(1000)
+          await delay(1500)
         }
 
         const giveaway: Giveaway = {
@@ -804,7 +823,9 @@ export class SteamGiftsHTMLScraper {
 
       return sortedGiveaways
     } catch (error) {
-      console.error('❌ Error scraping giveaways:', error)
+      const errorMessage = 'Error scraping giveaways'
+      console.error(`❌ ${errorMessage}:`, error)
+      logError(error, errorMessage)
       throw error
     }
   }
@@ -1032,7 +1053,9 @@ async function main(): Promise<void> {
       console.log('⚠️  No giveaways found')
     }
   } catch (error) {
-    console.error('❌ Failed to scrape giveaways:', error)
+    const errorMessage = 'Failed to scrape giveaways'
+    console.error(`❌ ${errorMessage}:`, error)
+    logError(error, errorMessage)
     process.exit(1)
   }
 }

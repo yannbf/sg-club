@@ -8,7 +8,12 @@ export default async function GiveawaysPage() {
   const gameData = await getGameData()
 
   // Create a map of usernames to avatar URLs
-  const userAvatars = new Map(allUsers?.users.map(user => [user.username, user.avatar_url]))
+  const userAvatars = new Map(
+    Object.values(allUsers?.users || {}).map((user) => [
+      user.username,
+      user.avatar_url,
+    ])
+  )
 
   return <GiveawaysClient 
     giveaways={giveaways} 

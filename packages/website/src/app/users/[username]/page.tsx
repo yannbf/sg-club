@@ -7,7 +7,7 @@ export async function generateStaticParams() {
   const userData = await getAllUsers()
   if (!userData) return []
 
-  return userData.users.map((user) => ({
+  return Object.values(userData.users).map((user) => ({
     username: user.username,
   }))
 }

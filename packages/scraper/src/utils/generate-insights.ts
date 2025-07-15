@@ -45,6 +45,10 @@ interface InsightData {
     averagePlaytimePerGame: number
     gamesNeverPlayed: number
   }
+  sharedGiveaways: {
+    sent: number
+    received: number
+  }
 }
 
 class GroupInsightsGenerator {
@@ -57,15 +61,6 @@ class GroupInsightsGenerator {
     try {
       const data = readFileSync(filename, 'utf-8')
       const userData = JSON.parse(data) as UserGroupData
-
-      // Handle old format
-      if (Array.isArray(userData)) {
-        return {
-          lastUpdated: Date.now(),
-          users: userData,
-        }
-      }
-
       return userData
     } catch (error) {
       console.error(`❌ Error reading user data: ${error}`)
@@ -93,21 +88,17 @@ class GroupInsightsGenerator {
   }
 
   private analyzeData(userData: UserGroupData): InsightData {
-    const users = userData.users
+    const users = Object.values(userData.users)
 
-    // Count actual giveaways from giveaways_created arrays
-    let totalGiveawaysCreated = 0
-    let totalGiveawaysWithNoEntries = 0
-
-    for (const user of users) {
-      if (user.giveaways_created) {
-        totalGiveawaysCreated += user.giveaways_created.length
-        // Count giveaways that ended with no entries
-        totalGiveawaysWithNoEntries += user.giveaways_created.filter(
-          (giveaway) => !giveaway.had_winners
-        ).length
-      }
-    }
+    // Count actual giveaways from stats
+    const totalGiveawaysCreated = users.reduce(
+      (sum, user) => sum + (user.stats.giveaways_created || 0),
+      0
+    )
+    const totalGiveawaysWithNoEntries = users.reduce(
+      (sum, user) => sum + (user.stats.giveaways_with_no_entries || 0),
+      0
+    )
 
     // Load and analyze all giveaways to get historical data
     const allGiveaways = this.loadAllGiveaways()
@@ -147,32 +138,35 @@ class GroupInsightsGenerator {
 
     // Count won giveaways
     const totalGiveawaysWon = users.reduce(
-      (sum, user) => sum + user.stats.total_received_count,
+      (sum, user) => sum + user.stats.real_total_received_count,
       0
     )
     const totalValueSent = users.reduce(
-      (sum, user) => sum + user.stats.total_sent_value,
+      (sum, user) => sum + user.stats.real_total_sent_value,
       0
     )
     const totalValueReceived = users.reduce(
-      (sum, user) => sum + user.stats.total_received_value,
+      (sum, user) => sum + user.stats.real_total_received_value,
       0
     )
 
-    // User categorization
+    // User categorization based on real gift difference
     const netContributors = users
-      .filter((user) => user.stats.total_gift_difference > 0)
+      .filter((user) => user.stats.real_total_gift_difference > 0)
       .sort(
         (a, b) =>
-          b.stats.total_value_difference - a.stats.total_value_difference
+          b.stats.real_total_value_difference -
+          a.stats.real_total_value_difference
       )
     const neutralUsers = users.filter(
-      (user) => user.stats.total_gift_difference === 0
+      (user) => user.stats.real_total_gift_difference === 0
     )
     const netReceivers = users
-      .filter((user) => user.stats.total_gift_difference < 0)
+      .filter((user) => user.stats.real_total_gift_difference < 0)
       .sort(
-        (a, b) => a.stats.total_gift_difference - b.stats.total_gift_difference
+        (a, b) =>
+          a.stats.real_total_gift_difference -
+          b.stats.real_total_gift_difference
       )
 
     // Steam integration
@@ -238,6 +232,14 @@ class GroupInsightsGenerator {
       gamesNeverPlayed,
     }
 
+    const sharedGiveaways = {
+      sent: users.reduce((sum, user) => sum + user.stats.shared_sent_count, 0),
+      received: users.reduce(
+        (sum, user) => sum + user.stats.shared_received_count,
+        0
+      ),
+    }
+
     return {
       totalUsers: users.length,
       lastUpdated: new Date(userData.lastUpdated),
@@ -254,6 +256,7 @@ class GroupInsightsGenerator {
       usersWithoutSteam,
       cvStats,
       steamStats,
+      sharedGiveaways,
     }
   }
 
@@ -496,6 +499,20 @@ class GroupInsightsGenerator {
         insights.push('⚠️  NOTE: Consider focusing on higher CV games')
       }
     }
+    insights.push('')
+
+    // Shared Giveaways Analysis
+    insights.push('SHARED GIVEAWAYS ANALYSIS')
+    insights.push('-'.repeat(40))
+    insights.push(`Total Shared Giveaways Sent: ${data.sharedGiveaways.sent}`)
+    insights.push(
+      `Total Shared Giveaways Received: ${data.sharedGiveaways.received}`
+    )
+    insights.push(
+      `Net Difference: ${
+        data.sharedGiveaways.sent - data.sharedGiveaways.received
+      }`
+    )
     insights.push('')
 
     // Engagement Patterns

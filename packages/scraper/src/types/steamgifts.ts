@@ -67,24 +67,7 @@ export interface User {
   steam_id?: string | null
   steam_profile_url?: string | null
   steam_profile_is_private?: boolean
-  stats: {
-    total_sent_count: number
-    total_sent_value: number
-    total_received_count: number
-    total_received_value: number
-    total_gift_difference: number
-    total_value_difference: number
-    fcv_sent_count: number
-    rcv_sent_count: number
-    ncv_sent_count: number
-    fcv_received_count: number
-    rcv_received_count: number
-    ncv_received_count: number
-    fcv_gift_difference: number
-    shared_sent_count: number
-    shared_received_count: number
-    giveaway_ratio?: number
-  }
+  stats: UserGiveawaysStats
   giveaways_won?: Array<{
     name: string
     link: string
@@ -116,7 +99,7 @@ export interface User {
 
 export interface UserGroupData {
   lastUpdated: number
-  users: User[]
+  users: Record<string, User>
 }
 
 export interface UserStats {
@@ -129,6 +112,12 @@ export interface UserStats {
 export interface UserGiveawaysStats {
   giveaways_created: number
   giveaways_with_no_entries: number
+  total_sent_count: number
+  total_sent_value: number
+  total_received_count: number
+  total_received_value: number
+  total_gift_difference: number
+  total_value_difference: number
   fcv_sent_count: number
   rcv_sent_count: number
   ncv_sent_count: number
@@ -137,17 +126,17 @@ export interface UserGiveawaysStats {
   ncv_received_count: number
   fcv_gift_difference: number
   giveaway_ratio?: number
-  // Real value statistics
+  // Real values
   real_total_sent_value: number
   real_total_received_value: number
   real_total_value_difference: number
   real_total_sent_count: number
   real_total_received_count: number
   real_total_gift_difference: number
-  // Shared giveaway statistics
+  // Shared giveaways
   shared_sent_count: number
   shared_received_count: number
-  // Last activity timestamps
+  // Other stats
   last_giveaway_created_at: number | null
   last_giveaway_won_at: number | null
 }

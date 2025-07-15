@@ -14,7 +14,7 @@ export default async function Home() {
     )
   }
 
-  const users = userData.users
+  const users = Object.values(userData.users)
   const activeMembers = users.length
   const totalGiveaways = giveaways.length
 

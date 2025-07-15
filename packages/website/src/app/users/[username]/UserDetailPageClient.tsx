@@ -23,7 +23,12 @@ export default function UserDetailPageClient({ user, allUsers, giveaways, gameDa
   const userGiveaways = giveaways.filter(g => g.creator.username === user.username)
 
   // Create a map of usernames to avatar URLs
-  const userAvatars = new Map(allUsers?.users.map(user => [user.username, user.avatar_url]))
+  const userAvatars = new Map(
+    Object.values(allUsers?.users || {}).map((user) => [
+      user.username,
+      user.avatar_url,
+    ])
+  )
 
   const getUserTypeIcon = () => {
     if (user.stats.total_gift_difference > 0) {

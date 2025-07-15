@@ -15,6 +15,7 @@ import {
   type GamePlayData,
 } from '../utils/check-steam-game.js'
 import { delay } from '../utils/common.js'
+import { logError } from '../utils/log-error.js'
 import { GiveawayPointsManager } from '../utils/fetch-giveaway-points.js'
 
 export class SteamGiftsUserFetcher {
@@ -154,8 +155,8 @@ export class SteamGiftsUserFetcher {
     user: User
   ): Promise<{ steam_id: string | null; steam_profile_url: string | null }> {
     try {
-      const userProfileUrl = this.baseUrl + user.profile_url
-      console.log(`🔍 Fetching Steam info for: ${user.username}`)
+      // const userProfileUrl = this.baseUrl + user.profile_url
+      // console.log(`🔍 Fetching Steam info for: ${user.username}`)
 
       const html = await this.fetchPage(user.profile_url)
       const $ = load(html)
@@ -186,7 +187,9 @@ export class SteamGiftsUserFetcher {
 
       return { steam_id: null, steam_profile_url: null }
     } catch (error) {
-      console.warn(`⚠️  Error fetching Steam info for ${user.username}:`, error)
+      const errorMessage = `Error fetching Steam info for ${user.username}`
+      console.warn(`⚠️  ${errorMessage}:`, error)
+      logError(error, errorMessage)
       return { steam_id: null, steam_profile_url: null }
     }
   }
@@ -381,14 +384,31 @@ export class SteamGiftsUserFetcher {
     // Calculate timestamp for 2 months ago (60 days)
     const twoMonthsAgo = Date.now() / 1000 - 60 * 24 * 60 * 60
 
-    for (const [username, user] of users) {
+    const usersToUpdate = Array.from(users.values()).filter((u) => u.steam_id)
+    const totalUsers = usersToUpdate.length
+    let processedUsers = 0
+
+    for (const user of usersToUpdate) {
+      processedUsers++
+      const username = user.username
+      console.log(
+        `[${processedUsers}/${totalUsers}] 🎮 Checking Steam data for ${username}`
+      )
+
       if (!user.steam_id) continue
 
       // Check Steam profile visibility first
-      const visibility = await steamChecker.checkProfileVisibility(
-        user.steam_id
-      )
-      user.steam_profile_is_private = !visibility.is_public
+      try {
+        const visibility = await steamChecker.checkProfileVisibility(
+          user.steam_id
+        )
+        user.steam_profile_is_private = !visibility.is_public
+      } catch (error) {
+        const errorMessage = `Error checking profile visibility for ${user.username} (${user.steam_id})`
+        console.warn(`⚠️  ${errorMessage}:`, error)
+        logError(error, errorMessage)
+        continue // skip user
+      }
 
       if (user.steam_profile_is_private) {
         console.log(
@@ -419,7 +439,7 @@ export class SteamGiftsUserFetcher {
         }
 
         try {
-          console.log(`🔍 Checking Steam data for ${username}: ${wonGame.name}`)
+          // console.log(`🔍 Checking Steam data for ${username}: ${wonGame.name}`)
           const gamePlayData = await steamChecker.getGamePlayData(
             user.steam_id,
             giveaway.app_id
@@ -434,16 +454,15 @@ export class SteamGiftsUserFetcher {
           steamCheckedCount++
 
           // Rate limiting - 1 second between Steam API calls
-          await delay(1000)
+          await delay(400)
         } catch (error) {
-          console.warn(
-            `⚠️  Error checking Steam data for ${username}/${wonGame.name}:`,
-            error
-          )
+          const errorMessage = `Error checking Steam data for ${username}/${wonGame.name}`
+          console.warn(`⚠️  ${errorMessage}:`, error)
+          logError(error, errorMessage)
           steamErrorCount++
 
           // Rate limiting even on errors
-          await delay(1000)
+          await delay(400)
         }
       }
 
@@ -470,6 +489,7 @@ export class SteamGiftsUserFetcher {
 
     let enrichedCount = 0
     const now = Date.now() / 1000 // Current timestamp in seconds
+    const totalUsers = existingUsers.size
     // Create a map of giveaways by creator for faster lookup
     const giveawaysByCreator = new Map<string, Giveaway[]>()
     for (const giveaway of giveaways) {
@@ -481,6 +501,7 @@ export class SteamGiftsUserFetcher {
 
     // Process each user
     for (const [username, user] of existingUsers) {
+      enrichedCount++
       // Get all giveaways created by this user
       const userGiveaways = giveawaysByCreator.get(username) || []
 
@@ -563,11 +584,12 @@ export class SteamGiftsUserFetcher {
       }
 
       existingUsers.set(username, updatedUser)
-      enrichedCount++
 
       const wonCount = giveawaysWon.length
       const createdCount = giveawaysCreated.length
-      console.log(`✅ ${username}: ${wonCount} won, ${createdCount} created`)
+      console.log(
+        `[${enrichedCount}/${totalUsers}] ✅ ${username}: ${wonCount} won, ${createdCount} created`
+      )
     }
 
     console.log(`📊 Enriched ${enrichedCount} users with giveaway data`)
@@ -581,17 +603,14 @@ export class SteamGiftsUserFetcher {
         const data = readFileSync(filename, 'utf-8')
         const existingData: UserGroupData = JSON.parse(data)
 
-        // Handle both old format (User[]) and new format (UserGroupData)
-        const existingUsers = Array.isArray(existingData)
-          ? existingData
-          : existingData.users
+        const userList = Object.values(existingData.users)
 
-        for (const user of existingUsers) {
+        for (const user of userList) {
           userMap.set(user.username, user)
         }
 
-        console.log(`📁 Loaded ${existingUsers.length} existing users`)
-        if (!Array.isArray(existingData)) {
+        console.log(`📁 Loaded ${userList.length} existing users`)
+        if (existingData.lastUpdated) {
           console.log(
             `📅 Last updated: ${new Date(
               existingData.lastUpdated
@@ -653,6 +672,49 @@ export class SteamGiftsUserFetcher {
     return Array.from(userMap.values())
   }
 
+  private async _fetchAllUsersFromPages(): Promise<User[]> {
+    const allScrapedUsers: User[] = []
+    let currentPath: string | null = this.startUrl
+    let pagesFetched = 0
+
+    console.log('📄 Fetching all user pages...')
+    while (currentPath) {
+      let html: string
+      try {
+        html = await this.fetchPage(currentPath)
+        pagesFetched++
+      } catch (error) {
+        const errorMessage = `Failed to fetch page: ${this.baseUrl}${currentPath}`
+        console.warn(`⚠️  ${errorMessage}:`, error)
+        logError(error, errorMessage)
+        break
+      }
+
+      const usersOnPage = this.parseUsers(html)
+      if (usersOnPage.length === 0) {
+        console.log('📭 No more users found.')
+        break
+      }
+
+      allScrapedUsers.push(...usersOnPage)
+      console.log(
+        `   ... found ${usersOnPage.length} users on page ${pagesFetched}. Total: ${allScrapedUsers.length}`
+      )
+
+      // Get next page
+      currentPath = this.getNextPage(html)
+
+      if (currentPath) {
+        // Add delay to avoid rate limiting
+        await delay(1000)
+      }
+    }
+    console.log(
+      `✅ Fetched a total of ${allScrapedUsers.length} users from ${pagesFetched} pages this run.`
+    )
+    return allScrapedUsers
+  }
+
   public async fetchUsers(
     filename: string = '../website/public/data/group_users.json'
   ): Promise<User[]> {
@@ -660,72 +722,68 @@ export class SteamGiftsUserFetcher {
       // Load existing users
       const existingUsers = this.loadExistingUsers(filename)
 
-      console.log(`🚀 Fetching group users...`)
+      console.log('🚀 Fetching group users...')
 
-      let currentPath: string | null = this.startUrl
-      let pagesFetched = 0
+      const attempts = 2
+      let bestAttempt: User[] = []
+      for (let i = 0; i < attempts; i++) {
+        console.log(
+          `\n🚀 Attempt ${i + 1} of ${attempts} to fetch user list...`
+        )
+        const currentAttemptUsers = await this._fetchAllUsersFromPages()
+        if (currentAttemptUsers.length > bestAttempt.length) {
+          bestAttempt = currentAttemptUsers
+        }
+        if (i < attempts - 1) {
+          await delay(3000) // wait between attempts
+        }
+      }
+
+      console.log(
+        `\n✅ Selected the best result with ${bestAttempt.length} users.`
+      )
+      const allScrapedUsers = bestAttempt
+
       let newUsersCount = 0
       let updatedUsersCount = 0
       let steamInfoFetched = 0
 
       // Track current group members to identify removed users
       const currentGroupUsers = new Set<string>()
+      allScrapedUsers.forEach((u) => currentGroupUsers.add(u.username))
 
-      while (currentPath) {
-        const html = await this.fetchPage(currentPath)
-        pagesFetched++
+      for (const user of allScrapedUsers) {
+        // Check if user exists and merge data
+        if (!existingUsers.has(user.username)) {
+          newUsersCount++
+          console.log(`➕ New: ${user.username}`)
+          existingUsers.set(user.username, user)
+        } else {
+          updatedUsersCount++
+          console.log(`🔄 Updated: ${user.username}`)
 
-        const users = this.parseUsers(html)
-
-        if (users.length === 0) {
-          console.log('📭 No users found on this page')
-          break
-        }
-
-        for (const user of users) {
-          currentGroupUsers.add(user.username)
-
-          // Check if user exists and merge data
-          if (!existingUsers.has(user.username)) {
-            newUsersCount++
-            console.log(`➕ New: ${user.username}`)
-            existingUsers.set(user.username, user)
-          } else {
-            updatedUsersCount++
-            console.log(`🔄 Updated: ${user.username}`)
-
-            // Merge existing Steam info and giveaway data with new data
-            const existingUser = existingUsers.get(user.username)!
-            const updatedUser = {
-              ...user,
-              steam_id: existingUser.steam_id,
-              steam_profile_url: existingUser.steam_profile_url,
-              giveaways_won: existingUser.giveaways_won,
-              giveaways_created: existingUser.giveaways_created,
-              stats: {
-                ...user.stats,
-                // Preserve existing CV stats if they exist
-                fcv_sent_count: existingUser.stats?.fcv_sent_count || 0,
-                rcv_sent_count: existingUser.stats?.rcv_sent_count || 0,
-                ncv_sent_count: existingUser.stats?.ncv_sent_count || 0,
-                fcv_received_count: existingUser.stats?.fcv_received_count || 0,
-                rcv_received_count: existingUser.stats?.rcv_received_count || 0,
-                ncv_received_count: existingUser.stats?.ncv_received_count || 0,
-                fcv_gift_difference:
-                  existingUser.stats?.fcv_gift_difference || 0,
-                giveaway_ratio: existingUser.stats?.giveaway_ratio || 0,
-              },
-            }
-            existingUsers.set(user.username, updatedUser)
+          // Merge existing Steam info and giveaway data with new data
+          const existingUser = existingUsers.get(user.username)!
+          const updatedUser = {
+            ...user,
+            steam_id: existingUser.steam_id,
+            steam_profile_url: existingUser.steam_profile_url,
+            giveaways_won: existingUser.giveaways_won,
+            giveaways_created: existingUser.giveaways_created,
+            stats: {
+              ...user.stats,
+              // Preserve existing CV stats if they exist
+              fcv_sent_count: existingUser.stats?.fcv_sent_count || 0,
+              rcv_sent_count: existingUser.stats?.rcv_sent_count || 0,
+              ncv_sent_count: existingUser.stats?.ncv_sent_count || 0,
+              fcv_received_count: existingUser.stats?.fcv_received_count || 0,
+              rcv_received_count: existingUser.stats?.rcv_received_count || 0,
+              ncv_received_count: existingUser.stats?.ncv_received_count || 0,
+              fcv_gift_difference: existingUser.stats?.fcv_gift_difference || 0,
+              giveaway_ratio: existingUser.stats?.giveaway_ratio || 0,
+            },
           }
-        }
-
-        // Get next page
-        currentPath = this.getNextPage(html)
-
-        if (currentPath) {
-          // Add delay to avoid rate limiting
-          await delay(3000)
+          existingUsers.set(user.username, updatedUser)
         }
       }
 
@@ -764,8 +822,13 @@ export class SteamGiftsUserFetcher {
             `📋 Found ${usersNeedingSteamInfo.length} users without Steam info`
           )
 
+          let steamInfoCounter = 0
           for (const user of usersNeedingSteamInfo) {
+            steamInfoCounter++
             try {
+              console.log(
+                `[${steamInfoCounter}/${usersNeedingSteamInfo.length}] 🔍 Fetching Steam info for: ${user.username}`
+              )
               const steamInfo = await this.fetchUserSteamInfo(user)
 
               if (steamInfo.steam_id || steamInfo.steam_profile_url) {
@@ -778,20 +841,20 @@ export class SteamGiftsUserFetcher {
                 steamInfoFetched++
 
                 if (steamInfo.steam_id) {
-                  console.log(
-                    `✅ ${user.username} -> Steam ID: ${steamInfo.steam_id}`
-                  )
+                  // console.log(
+                  //   `✅ ${user.username} -> Steam ID: ${steamInfo.steam_id}`
+                  // )
                 } else {
-                  console.log(
-                    `✅ ${user.username} -> Steam profile found (custom URL)`
-                  )
+                  // console.log(
+                  //   `✅ ${user.username} -> Steam profile found (custom URL)`
+                  // )
                 }
               } else {
-                console.log(`❌ ${user.username} -> No Steam profile found`)
+                // console.log(`❌ ${user.username} -> No Steam profile found`)
               }
 
               // Add delay to avoid rate limiting
-              await delay(1000)
+              await delay(400)
             } catch (error) {
               console.warn(`⚠️  Error processing ${user.username}:`, error)
             }
@@ -826,10 +889,24 @@ export class SteamGiftsUserFetcher {
         totalUsers: allUsers.length,
         newUsers: newUsersCount,
         updatedUsers: updatedUsersCount,
-        pagesFetched,
+        pagesFetched: 0, // This is no longer tracked in the main function
       }
 
       this.displayStats(stats, steamInfoFetched, removedUsers.length)
+
+      // Convert user array to a record for saving
+      const usersRecord: Record<string, User> = {}
+      for (const user of allUsers) {
+        usersRecord[user.username] = user
+      }
+
+      // Save to file with lastUpdated timestamp
+      const userGroupData: UserGroupData = {
+        lastUpdated: Date.now(),
+        users: usersRecord,
+      }
+      writeFileSync(filename, JSON.stringify(userGroupData, null, 2))
+      console.log(`\n💾 Users saved to ${filename}`)
 
       return allUsers
     } catch (error) {
@@ -847,7 +924,6 @@ export class SteamGiftsUserFetcher {
     console.log(`  • Total users: ${stats.totalUsers}`)
     console.log(`  • New users: ${stats.newUsers}`)
     console.log(`  • Updated users: ${stats.updatedUsers}`)
-    console.log(`  • Pages fetched: ${stats.pagesFetched}`)
 
     if (steamInfoFetched > 0) {
       console.log(`  • Steam info fetched: ${steamInfoFetched}`)
@@ -1088,14 +1164,6 @@ async function main(): Promise<void> {
           totalSharedSent - totalSharedReceived
         })`
       )
-
-      // Save to file with lastUpdated timestamp
-      const userGroupData: UserGroupData = {
-        lastUpdated: Date.now(),
-        users: allUsers,
-      }
-      writeFileSync(filename, JSON.stringify(userGroupData, null, 2))
-      console.log(`\n💾 Users saved to ${filename}`)
     } else {
       console.log('⚠️  No users found')
     }

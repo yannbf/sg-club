@@ -9,6 +9,7 @@ import type {
   GameSchemaResponse,
 } from '../types/steam.js'
 import { formatPlaytime, formatDate, getRequiredEnvVar } from './common.js'
+import { logError } from './log-error.js'
 
 export interface GamePlayData {
   owned: boolean
@@ -43,13 +44,16 @@ export class SteamGameChecker {
         try {
           const data = (await response.json()) as any
           if (data.playerstats.error) {
-            throw new Error(
+            const error = new Error(
               'Steam API request failed: ' + String(data.playerstats.error)
             )
+            logError(error, `Error fetching Steam API (${requestUrl})`)
+            throw error
           } else {
             throw data
           }
         } catch (error: unknown) {
+          logError(error, `Error fetching Steam API (${requestUrl})`)
           throw new Error(
             `Steam API request failed: ${response.status} ${
               response.statusText
@@ -60,7 +64,11 @@ export class SteamGameChecker {
 
       return await response.json()
     } catch (error) {
-      console.error(`❌ Error fetching Steam API (${requestUrl}): ${error}`)
+      const appId = endpoint.split('appid=')[1]
+      console.error(
+        `❌ Error fetching Steam API (${appId} - ${requestUrl}): ${error}`
+      )
+      logError(error, `Error fetching Steam API (${appId} - ${requestUrl})`)
       throw error
     }
   }
@@ -72,7 +80,7 @@ export class SteamGameChecker {
       const data: OwnedGamesResponse = await this.fetchSteamAPI(endpoint)
       return data.response.games || []
     } catch (error) {
-      console.error(`❌ Failed to get owned games for Steam ID ${steamId}`)
+      logError(error, `Failed to get owned games for Steam ID ${steamId}`)
       return []
     }
   }
@@ -91,9 +99,17 @@ export class SteamGameChecker {
       if (data.playerstats.success) {
         return data.playerstats.achievements || []
       } else {
+        logError(
+          data.playerstats,
+          `Failed to get player achievements for Steam ID ${steamId}`
+        )
         return []
       }
     } catch (error) {
+      logError(
+        error,
+        `Failed to get player achievements for Steam ID ${steamId}`
+      )
       return []
     }
   }
