@@ -207,7 +207,7 @@ export default function GiveawaysClient({ giveaways, lastUpdated, userAvatars, g
                   : 'bg-transparent border border-card-border hover:bg-accent/10'
                 }`}
             >
-              🌍 Region Restricted
+              🌍 Restricted
             </button>
             <button
               onClick={() => setFilterPlayRequired(prev => !prev)}
@@ -321,7 +321,7 @@ export default function GiveawaysClient({ giveaways, lastUpdated, userAvatars, g
                     <div className="flex items-center gap-2 mt-2">
                       {giveaway.region_restricted && (
                         <span className="text-xs font-medium px-2 py-1 bg-info-light text-info-foreground rounded-full">
-                          🌍 Region restricted
+                          🌍 Restricted
                         </span>
                       )}
                       {giveaway.required_play && (
@@ -331,7 +331,7 @@ export default function GiveawaysClient({ giveaways, lastUpdated, userAvatars, g
                       )}
                       {giveaway.is_shared && (
                         <span className="text-xs font-medium px-2 py-1 bg-info-light text-info-foreground rounded-full">
-                          👥 Shared Giveaway
+                          👥 Shared
                         </span>
                       )}
                       {giveaway.whitelist && (

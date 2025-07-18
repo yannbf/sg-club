@@ -144,8 +144,13 @@ export default function UserGiveawaysClient({ giveaways, userAvatars, gameData }
                       </div>
 
                       {/* New properties */}
-                      {(giveaway.required_play || giveaway.is_shared || giveaway.whitelist) && (
+                      {(giveaway.required_play || giveaway.is_shared || giveaway.whitelist || giveaway.region_restricted) && (
                         <div className="flex items-center gap-2 mt-2">
+                          {giveaway.region_restricted && (
+                            <span className="text-xs font-medium px-2 py-1 bg-info-light text-info-foreground rounded-full">
+                              🌍 Restricted
+                            </span>
+                          )}
                           {giveaway.required_play && (
                             <span className="text-xs font-medium px-2 py-1 bg-warning-light text-warning-foreground rounded-full">
                               🎮 Play Required
@@ -153,7 +158,7 @@ export default function UserGiveawaysClient({ giveaways, userAvatars, gameData }
                           )}
                           {giveaway.is_shared && (
                             <span className="text-xs font-medium px-2 py-1 bg-info-light text-info-foreground rounded-full">
-                              👥 Shared Giveaway
+                              👥 Shared
                             </span>
                           )}
                           {giveaway.whitelist && (
