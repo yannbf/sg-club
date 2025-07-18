@@ -15,6 +15,26 @@ interface Props {
 export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData }: Props) {
   const { getGameData } = useGameData(gameData)
 
+  const getProofOfPlayStatus = (game: NonNullable<User['giveaways_won']>[0]) => {
+    if (game.proof_of_play) return null;
+
+    const TWO_MONTHS_IN_SECONDS = 60 * 60 * 24 * 60;
+    const TEN_DAYS_IN_SECONDS = 60 * 60 * 24 * 10;
+    const now = Date.now() / 1000;
+    const timeSinceWon = now - game.end_timestamp;
+    
+    const isExpired = timeSinceWon > TWO_MONTHS_IN_SECONDS;
+    const isCloseToExpiring = TWO_MONTHS_IN_SECONDS - timeSinceWon <= TEN_DAYS_IN_SECONDS;
+    const textColorClass = isExpired ? 'text-error-foreground font-medium' : isCloseToExpiring? 'text-accent-yellow font-medium' : '';
+
+    if (isExpired) {
+      return <span className={textColorClass}> (Proof of play expired)</span>;
+    }
+
+    const daysRemaining = Math.ceil((TWO_MONTHS_IN_SECONDS - timeSinceWon) / (60 * 60 * 24));
+    return <span className={textColorClass}> ({daysRemaining} days remaining for proof of play)</span>;
+  };
+
   return (
     <div className="bg-card-background rounded-lg border-card-border border p-6 mb-6">
       <h2 className="text-xl font-semibold mb-4">
@@ -57,6 +77,7 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData }
                         )}
                         <span className="text-sm text-muted-foreground">
                           Won <FormattedDate timestamp={game.end_timestamp} />
+                          {getProofOfPlayStatus(game)}
                         </span>
                       </div>
                     </div>
@@ -108,4 +129,4 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData }
       </div>
     </div>
   )
-} 
+}

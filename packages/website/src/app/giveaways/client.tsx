@@ -38,6 +38,12 @@ export default function GiveawaysClient({ giveaways, lastUpdated, userAvatars, g
   const [giveawayStatus, setGiveawayStatus] = useState<'open' | 'ended' | 'all'>('open')
   const [failedImages, setFailedImages] = useState<Set<string>>(new Set())
 
+  // Add new state variables for label filters
+  const [filterRegion, setFilterRegion] = useState<boolean>(false)
+  const [filterPlayRequired, setFilterPlayRequired] = useState<boolean>(false)
+  const [filterShared, setFilterShared] = useState<boolean>(false)
+  const [filterWhitelist, setFilterWhitelist] = useState<boolean>(false)
+
   const filteredAndSortedGiveaways = useMemo(() => {
     const filtered = giveaways.filter(giveaway => {
       const matchesSearch = giveaway.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -49,7 +55,15 @@ export default function GiveawaysClient({ giveaways, lastUpdated, userAvatars, g
         (giveawayStatus === 'open' && !isEnded) ||
         (giveawayStatus === 'ended' && isEnded)
 
-      return matchesSearch && matchesCV && matchesStatus
+      // Add new label filters
+      const matchesLabels = (
+        (!filterRegion || giveaway.region_restricted) &&
+        (!filterPlayRequired || giveaway.required_play) &&
+        (!filterShared || giveaway.is_shared) &&
+        (!filterWhitelist || giveaway.whitelist)
+      )
+
+      return matchesSearch && matchesCV && matchesStatus && matchesLabels
     })
 
     filtered.sort((a, b) => {
@@ -83,7 +97,8 @@ export default function GiveawaysClient({ giveaways, lastUpdated, userAvatars, g
     })
 
     return filtered
-  }, [giveaways, searchTerm, sortBy, sortDirection, filterCV, giveawayStatus])
+  }, [giveaways, searchTerm, sortBy, sortDirection, filterCV, giveawayStatus,
+    filterRegion, filterPlayRequired, filterShared, filterWhitelist])
 
   const getStatusBadge = (giveaway: Giveaway) => {
     const now = Date.now() / 1000
@@ -181,6 +196,48 @@ export default function GiveawaysClient({ giveaways, lastUpdated, userAvatars, g
             </select>
           </div>
         </div>
+
+        {/* Add new row for label filters */}
+        <div className="lg:col-span-4 mt-4">
+          <div className="flex flex-wrap gap-3">
+            <button
+              onClick={() => setFilterRegion(prev => !prev)}
+              className={`px-3 py-2 text-sm rounded-full transition-colors ${filterRegion
+                  ? 'bg-info-light text-info-foreground'
+                  : 'bg-transparent border border-card-border hover:bg-accent/10'
+                }`}
+            >
+              🌍 Region Restricted
+            </button>
+            <button
+              onClick={() => setFilterPlayRequired(prev => !prev)}
+              className={`px-3 py-2 text-sm rounded-full transition-colors ${filterPlayRequired
+                  ? 'bg-warning-light text-warning-foreground'
+                  : 'bg-transparent border border-card-border hover:bg-accent/10'
+                }`}
+            >
+              🎮 Play Required
+            </button>
+            <button
+              onClick={() => setFilterShared(prev => !prev)}
+              className={`px-3 py-2 text-sm rounded-full transition-colors ${filterShared
+                  ? 'bg-info-light text-info-foreground'
+                  : 'bg-transparent border border-card-border hover:bg-accent/10'
+                }`}
+            >
+              👥 Shared
+            </button>
+            <button
+              onClick={() => setFilterWhitelist(prev => !prev)}
+              className={`px-3 py-2 text-sm rounded-full transition-colors ${filterWhitelist
+                  ? 'bg-info-light text-info-foreground'
+                  : 'bg-transparent border border-card-border hover:bg-accent/10'
+                }`}
+            >
+              🩵 Whitelist
+            </button>
+          </div>
+        </div>
       </div>
 
       {/* Giveaways List */}
@@ -260,8 +317,13 @@ export default function GiveawaysClient({ giveaways, lastUpdated, userAvatars, g
                   )}
 
                   {/* New properties */}
-                  {(giveaway.required_play || giveaway.is_shared || giveaway.whitelist) && (
+                  {(giveaway.required_play || giveaway.is_shared || giveaway.whitelist || giveaway.region_restricted) && (
                     <div className="flex items-center gap-2 mt-2">
+                      {giveaway.region_restricted && (
+                        <span className="text-xs font-medium px-2 py-1 bg-info-light text-info-foreground rounded-full">
+                          🌍 Region restricted
+                        </span>
+                      )}
                       {giveaway.required_play && (
                         <span className="text-xs font-medium px-2 py-1 bg-warning-light text-warning-foreground rounded-full">
                           🎮 Play Required
@@ -309,4 +371,77 @@ export default function GiveawaysClient({ giveaways, lastUpdated, userAvatars, g
       )}
     </div>
   )
-} 
+}
+
+// {/* Filters */}
+// <div className="bg-card-background rounded-lg border-card-border border p-6 mb-6">
+//   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+//     <div>
+//       <label className="block text-sm font-medium text-muted-foreground mb-2">
+//         Search
+//       </label>
+//       <input
+//         type="text"
+//         value={searchTerm}
+//         onChange={(e) => setSearchTerm(e.target.value)}
+//         placeholder="Search games or creators..."
+//         className="w-full px-3 py-2 border border-card-border rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-accent"
+//       />
+//     </div>
+
+//     <div>
+//       <label className="block text-sm font-medium text-muted-foreground mb-2">
+//         Sort by
+//       </label>
+//       <div className="flex gap-2">
+//         <select
+//           value={sortBy}
+//           onChange={(e) => setSortBy(e.target.value as 'date' | 'entries' | 'points')}
+//           className="flex-1 px-3 py-2 border border-card-border rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-accent"
+//         >
+//           <option value="date">End Date</option>
+//           <option value="entries">Entry Count</option>
+//           <option value="points">Points</option>
+//         </select>
+//         <button
+//           onClick={() => setSortDirection(prev => prev === 'asc' ? 'desc' : 'asc')}
+//           className="px-3 py-2 border border-card-border rounded-md bg-transparent hover:bg-accent/10 focus:outline-none focus:ring-2 focus:ring-accent"
+//           title={`Sort ${sortDirection === 'asc' ? 'Ascending' : 'Descending'}`}
+//         >
+//           {sortDirection === 'asc' ? '↑' : '↓'}
+//         </button>
+//       </div>
+//     </div>
+
+//     <div>
+//       <label className="block text-sm font-medium text-muted-foreground mb-2">
+//         CV Status
+//       </label>
+//       <select
+//         value={filterCV}
+//         onChange={(e) => setFilterCV(e.target.value as 'all' | 'FULL_CV' | 'REDUCED_CV' | 'NO_CV')}
+//         className="w-full px-3 py-2 border border-card-border rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-accent"
+//       >
+//         <option value="all">All CV Types</option>
+//         <option value="FULL_CV">Full CV</option>
+//         <option value="REDUCED_CV">Reduced CV</option>
+//         <option value="NO_CV">No CV</option>
+//       </select>
+//     </div>
+
+//     <div>
+//       <label className="block text-sm font-medium text-muted-foreground mb-2">
+//         Filter
+//       </label>
+//       <select
+//         value={giveawayStatus}
+//         onChange={(e) => setGiveawayStatus(e.target.value as 'open' | 'ended' | 'all')}
+//         className="w-full px-3 py-2 border border-card-border rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-accent"
+//       >
+//         <option value="all">All Giveaways</option>
+//         <option value="open">Open Giveaways</option>
+//         <option value="ended">Ended Giveaways</option>
+//       </select>
+//     </div>
+//   </div>
+// </div>
