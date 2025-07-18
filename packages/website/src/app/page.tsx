@@ -137,13 +137,13 @@ export default async function Home() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <Link
             href="/giveaways"
-            className="flex items-center justify-center px-4 py-3 border border-transparent text-sm font-medium rounded-md text-accent-foreground bg-accent hover:bg-accent/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent"
+            className="flex items-center justify-center px-4 py-3 border border-transparent text-sm font-medium rounded-md text-white bg-accent hover:bg-accent/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent"
           >
             View All Giveaways
           </Link>
           <Link
             href="/users"
-            className="flex items-center justify-center px-4 py-3 border border-transparent text-sm font-medium rounded-md text-accent-foreground bg-accent hover:bg-accent/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent"
+            className="flex items-center justify-center px-4 py-3 border border-transparent text-sm font-medium rounded-md text-white bg-accent hover:bg-accent/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent"
           >
             View All Users
           </Link>

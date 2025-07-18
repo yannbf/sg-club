@@ -5,6 +5,7 @@ import { formatPlaytime } from '@/lib/data'
 import { User } from '@/types'
 import Link from 'next/link'
 import Image from 'next/image'
+import FormattedDate from '@/components/FormattedDate'
 
 interface Props {
   users: User[]
@@ -12,7 +13,7 @@ interface Props {
 
 export default function UsersClient({ users }: Props) {
   const [searchTerm, setSearchTerm] = useState('')
-  const [sortBy, setSortBy] = useState<'username' | 'sent' | 'received' | 'difference' | 'value' | 'playtime' | 'ratio'>('difference')
+  const [sortBy, setSortBy] = useState<'username' | 'sent' | 'received' | 'difference' | 'value' | 'playtime' | 'ratio' | 'last_created' | 'last_won'>('difference')
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc')
   const [filterType, setFilterType] = useState<'all' | 'contributors' | 'receivers' | 'neutral'>('all')
   const [showOnlySteam] = useState(false)
@@ -70,6 +71,18 @@ export default function UsersClient({ users }: Props) {
         case 'ratio':
           comparison = (b.stats.giveaway_ratio ?? 0) - (a.stats.giveaway_ratio ?? 0)
           break
+        case 'last_created': {
+          const timeA = a.stats.last_giveaway_created_at || 0
+          const timeB = b.stats.last_giveaway_created_at || 0
+          comparison = timeB - timeA
+          break
+        }
+        case 'last_won': {
+          const timeA = a.stats.last_giveaway_won_at || 0
+          const timeB = b.stats.last_giveaway_won_at || 0
+          comparison = timeB - timeA
+          break
+        }
       }
       return sortDirection === 'asc' ? -comparison : comparison
     })
@@ -132,7 +145,7 @@ export default function UsersClient({ users }: Props) {
             <div className="flex gap-2">
               <select
                 value={sortBy}
-                onChange={(e) => setSortBy(e.target.value as 'username' | 'sent' | 'received' | 'difference' | 'value' | 'playtime' | 'ratio')}
+                onChange={(e) => setSortBy(e.target.value as 'username' | 'sent' | 'received' | 'difference' | 'value' | 'playtime' | 'ratio' | 'last_created' | 'last_won')}
                 className="w-full px-3 py-2 border border-card-border rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-accent"
               >
                 <option value="difference">Gift Difference</option>
@@ -142,6 +155,8 @@ export default function UsersClient({ users }: Props) {
                 <option value="playtime">Total Playtime</option>
                 <option value="username">Username</option>
                 <option value="ratio">Giveaway Ratio</option>
+                <option value="last_created">Last GA Created</option>
+                <option value="last_won">Last GA Won</option>
               </select>
               <button
                 onClick={() => setSortDirection(prev => prev === 'asc' ? 'desc' : 'asc')}
@@ -249,6 +264,23 @@ export default function UsersClient({ users }: Props) {
                     {user.stats.real_total_value_difference > 0 ? '+' : ''}${user.stats.real_total_value_difference}
                   </div>
                   <div className="text-xs text-muted-foreground">Value Difference</div>
+                </div>
+              </div>
+
+              <div className="pt-3 border-t border-card-border">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="text-center">
+                    <div className="text-sm font-medium">
+                      {user.stats.last_giveaway_created_at ? <FormattedDate timestamp={user.stats.last_giveaway_created_at} /> : 'Never' }
+                    </div>
+                    <div className="text-xs text-muted-foreground">Last GA Created</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-sm font-medium">
+                      {user.stats.last_giveaway_won_at ? <FormattedDate timestamp={user.stats.last_giveaway_won_at} /> : 'Never'}
+                    </div>
+                    <div className="text-xs text-muted-foreground">Last GA Won</div>
+                  </div>
                 </div>
               </div>
 

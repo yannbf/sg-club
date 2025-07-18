@@ -85,6 +85,7 @@ export interface User {
     cv_status: CVStatus
     entries: number
     copies: number
+    created_timestamp: number
     end_timestamp: number
     had_winners?: boolean // Only set if giveaway has ended
     required_play: boolean

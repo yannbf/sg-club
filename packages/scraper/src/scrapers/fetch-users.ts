@@ -216,7 +216,15 @@ export class SteamGiftsUserFetcher {
   }
 
   public calculateStats(user: User): UserGiveawaysStats {
-    const userStats: UserGiveawaysStats = {
+    const userStats: Omit<
+      UserGiveawaysStats,
+      | 'total_sent_count'
+      | 'total_sent_value'
+      | 'total_received_count'
+      | 'total_received_value'
+      | 'total_gift_difference'
+      | 'total_value_difference'
+    > = {
       fcv_sent_count: 0,
       rcv_sent_count: 0,
       ncv_sent_count: 0,
@@ -239,7 +247,7 @@ export class SteamGiftsUserFetcher {
       giveaways_with_no_entries: 0,
       // Initialize last activity timestamps
       last_giveaway_created_at: user.giveaways_created?.length
-        ? Math.max(...user.giveaways_created.map((g) => g.end_timestamp))
+        ? Math.max(...user.giveaways_created.map((g) => g.created_timestamp))
         : null,
       last_giveaway_won_at: user.giveaways_won?.length
         ? Math.max(...user.giveaways_won.map((g) => g.end_timestamp))
@@ -367,7 +375,7 @@ export class SteamGiftsUserFetcher {
       ).toFixed(2)
     )
 
-    return userStats
+    return userStats as UserGiveawaysStats
   }
 
   private async updateSteamPlayData(
@@ -545,6 +553,7 @@ export class SteamGiftsUserFetcher {
             cv_status: giveaway.cv_status || 'FULL_CV',
             entries: giveaway.entry_count,
             copies: giveaway.copies,
+            created_timestamp: giveaway.created_timestamp,
             end_timestamp: giveaway.end_timestamp,
             required_play: giveaway.required_play || false,
             is_shared: giveaway.is_shared || false,
