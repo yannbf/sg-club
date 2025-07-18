@@ -341,7 +341,7 @@ export class SteamGiftsHTMLScraper {
 
     // Check if play is required by looking for text in the description
     const description = $('.page__description').text().trim()
-    const required_play = description.toLowerCase().includes('play required')
+    const required_play = description.includes('PLAY REQUIRED')
 
     // Check if it's a whitelist giveaway
     const is_whitelist = $('.featured__column--whitelist').length > 0
