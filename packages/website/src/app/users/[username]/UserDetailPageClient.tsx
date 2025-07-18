@@ -31,9 +31,10 @@ export default function UserDetailPageClient({ user, allUsers, giveaways, gameDa
   )
 
   const getUserTypeIcon = () => {
-    if (user.stats.total_gift_difference > 0) {
+    const ratio = user.stats.giveaway_ratio ?? 0
+    if (ratio > 0) {
       return { icon: '📈', label: 'Net Contributor', color: 'text-success-foreground' }
-    } else if (user.stats.total_gift_difference < 0) {
+    } else if (ratio < -1) {
       return { icon: '📉', label: 'Net Receiver', color: 'text-error-foreground' }
     } else {
       return { icon: '➖', label: 'Neutral', color: 'text-muted-foreground' }
@@ -66,6 +67,9 @@ export default function UserDetailPageClient({ user, allUsers, giveaways, gameDa
     return user.giveaways_won.filter(game => game.steam_play_data?.never_played).length
   }
 
+  const createdGiveaways = user.giveaways_created ? Object.values(user.giveaways_created).length : 0
+  const ongoingGiveaways = user.giveaways_created ? Object.values(user.giveaways_created).filter(ga => ga.end_timestamp > Date.now() / 1000).length : 0
+
   return (
     <div className="space-y-8">
       {/* User Header */}
@@ -89,7 +93,7 @@ export default function UserDetailPageClient({ user, allUsers, giveaways, gameDa
               {user.steam_id && !user.steam_profile_is_private && <span className="ml-2 text-2xl text-muted-foreground" title="Steam Account Linked">🎮</span>}
             </div>
             <p className={`text-lg font-medium ${userType.color}`}>
-              {userType.label}
+              {userType.label} ({user.stats.giveaway_ratio ? user.stats.giveaway_ratio.toFixed(2) : 0})
             </p>
             {user.profile_url && (
               <a
@@ -175,7 +179,14 @@ export default function UserDetailPageClient({ user, allUsers, giveaways, gameDa
                 <span>Original Stats</span>
                 <span className="text-xs text-muted-foreground ml-2">(including  reduced, shared, etc.)</span>
               </h3>
-              <div className="grid grid-cols-3 gap-2">
+              <div className="grid grid-cols-4 gap-2">
+                <div className="text-center col-span-1">
+                  <div className="text-xl font-bold text-accent-blue">
+                    {createdGiveaways}
+                  </div>
+                  <div className="text-xs text-muted-foreground">Created GAs</div>
+                  <div className="text-xs text-muted-foreground">{ongoingGiveaways} ongoing</div>
+                </div>
                 <div className="text-center">
                   <div className="text-xl font-bold text-info-foreground">{user.stats.total_sent_count}</div>
                   <div className="text-xs text-muted-foreground">Sent</div>
@@ -313,4 +324,4 @@ export default function UserDetailPageClient({ user, allUsers, giveaways, gameDa
       />
     </div>
   )
-} 
+}
