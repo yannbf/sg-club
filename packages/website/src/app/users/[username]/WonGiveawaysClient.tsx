@@ -16,7 +16,7 @@ interface Props {
 export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData }: Props) {
   const { getGameData } = useGameData(gameData)
 
-  const getGiveawayInfo = useCallback((giveaway: any) => {
+  const getGiveawayInfo = useCallback((giveaway: NonNullable<User['giveaways_won']>[0]) => {
     return giveaways.find(g => g.link === giveaway.link)
   }, [giveaways])
 
