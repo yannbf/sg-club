@@ -37,16 +37,16 @@ export default function RootLayout({
             </div>
             <nav className="flex items-center space-x-4 lg:space-x-6">
               <Link
-                href="/giveaways"
-                className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-              >
-                Giveaways
-              </Link>
-              <Link
                 href="/games"
                 className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
               >
                 Games
+              </Link>
+              <Link
+                href="/giveaways"
+                className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+              >
+                Giveaways
               </Link>
               <Link
                 href="/users"

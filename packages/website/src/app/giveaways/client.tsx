@@ -203,8 +203,8 @@ export default function GiveawaysClient({ giveaways, lastUpdated, userAvatars, g
             <button
               onClick={() => setFilterRegion(prev => !prev)}
               className={`px-3 py-2 text-sm rounded-full transition-colors ${filterRegion
-                  ? 'bg-info-light text-info-foreground'
-                  : 'bg-transparent border border-card-border hover:bg-accent/10'
+                ? 'bg-info-light text-info-foreground'
+                : 'bg-transparent border border-card-border hover:bg-accent/10'
                 }`}
             >
               🌍 Restricted
@@ -212,8 +212,8 @@ export default function GiveawaysClient({ giveaways, lastUpdated, userAvatars, g
             <button
               onClick={() => setFilterPlayRequired(prev => !prev)}
               className={`px-3 py-2 text-sm rounded-full transition-colors ${filterPlayRequired
-                  ? 'bg-warning-light text-warning-foreground'
-                  : 'bg-transparent border border-card-border hover:bg-accent/10'
+                ? 'bg-warning-light text-warning-foreground'
+                : 'bg-transparent border border-card-border hover:bg-accent/10'
                 }`}
             >
               🎮 Play Required
@@ -221,8 +221,8 @@ export default function GiveawaysClient({ giveaways, lastUpdated, userAvatars, g
             <button
               onClick={() => setFilterShared(prev => !prev)}
               className={`px-3 py-2 text-sm rounded-full transition-colors ${filterShared
-                  ? 'bg-info-light text-info-foreground'
-                  : 'bg-transparent border border-card-border hover:bg-accent/10'
+                ? 'bg-info-light text-info-foreground'
+                : 'bg-transparent border border-card-border hover:bg-accent/10'
                 }`}
             >
               👥 Shared
@@ -230,8 +230,8 @@ export default function GiveawaysClient({ giveaways, lastUpdated, userAvatars, g
             <button
               onClick={() => setFilterWhitelist(prev => !prev)}
               className={`px-3 py-2 text-sm rounded-full transition-colors ${filterWhitelist
-                  ? 'bg-info-light text-info-foreground'
-                  : 'bg-transparent border border-card-border hover:bg-accent/10'
+                ? 'bg-info-light text-info-foreground'
+                : 'bg-transparent border border-card-border hover:bg-accent/10'
                 }`}
             >
               🩵 Whitelist
@@ -246,13 +246,13 @@ export default function GiveawaysClient({ giveaways, lastUpdated, userAvatars, g
           const isEnded = giveaway.end_timestamp < Date.now() / 1000;
           const imageUrl = failedImages.has(giveaway.id) ? PLACEHOLDER_IMAGE : getGameImageUrl(giveaway);
           const borderColor = isEnded ? 'border-card-border' : 'border-success';
-          const gameData = getGameData(giveaway.app_id)
+          const gameData = getGameData(giveaway.app_id ?? giveaway.package_id)
 
           return (
             <div key={giveaway.id} className={`bg-card-background rounded-lg shadow-md hover:shadow-lg transition-shadow overflow-hidden border-2 ${borderColor}`}>
               {/* Game Image */}
               <div className="w-full h-48 bg-muted overflow-hidden relative hover:shadow">
-                <a href={`https://www.steamgifts.com/giveaway/${giveaway.link}`} target="_blank" rel="noopener noreferrer">
+                <a href={`https://store.steampowered.com/${giveaway.app_id ? `app/${giveaway.app_id}` : `sub/${giveaway.package_id}`}`} target="_blank" rel="noopener noreferrer">
                   <Image
                     src={imageUrl}
                     alt={giveaway.name || 'Game giveaway image'}
@@ -267,9 +267,12 @@ export default function GiveawaysClient({ giveaways, lastUpdated, userAvatars, g
 
               <div className="p-6">
                 <div className="flex items-start justify-between mb-3">
-                  <h3 className="text-lg font-semibold line-clamp-2 flex-1">
-                    {giveaway.name}
-                  </h3>
+                  <a
+                    href={`https://www.steamgifts.com/giveaway/${giveaway.link}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-accent hover:underline text-lg font-semibold line-clamp-2 flex-1"
+                  >{giveaway.name} ({giveaway.points}P)</a>
                   <div className="ml-2 flex-shrink-0">
                     {getStatusBadge(giveaway)}
                   </div>
@@ -283,7 +286,7 @@ export default function GiveawaysClient({ giveaways, lastUpdated, userAvatars, g
                         src={userAvatars.get(giveaway.creator.username) || 'https://cdn-icons-png.flaticon.com/512/9287/9287610.png'}
                         username={giveaway.creator.username}
                       />
-                      <Link href={`/users/${giveaway.creator.username}`} className="text-sm text-muted-foreground hover:text-foreground">
+                      <Link href={`/users/${giveaway.creator.username}`} className="text-accent hover:underline mr-2 inline-flex items-center">
                         {giveaway.creator.username}
                       </Link>
                     </div>
@@ -349,27 +352,58 @@ export default function GiveawaysClient({ giveaways, lastUpdated, userAvatars, g
                   >
                     {getCVLabel(giveaway.cv_status || 'FULL_CV')}
                   </span>
-                  <a
-                    href={`https://store.steampowered.com/${giveaway.app_id ? 'app' : 'sub'}/${giveaway.app_id || giveaway.package_id}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-sm font-medium text-accent hover:underline"
-                  >
-                    View on Steam
-                  </a>
                 </div>
+                {giveaway.winners && giveaway.winners.length > 0 && (
+                  <div className="mt-2 border-t border-card-border">
+                    <div className="text-sm mt-2">
+                      <span className="text-muted-foreground">Winners:</span>
+                      <div className="mt-1">
+                        {giveaway.winners.map((winner, index) => (
+                          !winner.name ? <p key={index}>Awaiting feedback</p> : userAvatars.get(winner.name) ? (
+                            <Link
+                              key={index}
+                              href={`/users/${winner.name}`}
+                              className="text-accent hover:underline mr-2 inline-flex items-center"
+                            >
+                              <UserAvatar
+                                src={userAvatars.get(winner.name) || 'https://cdn-icons-png.flaticon.com/512/9287/9287610.png'}
+                                username={winner.name}
+                              />
+                              {winner.name}
+                            </Link>
+                          ) : (
+                            <a
+                              key={index}
+                              href={`http://steamgifts.com/user/${winner.name}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-muted-foreground hover:text-foreground mr-2 inline-flex items-center"
+                            >
+                              <UserAvatar
+                                src={'https://cdn-icons-png.flaticon.com/512/9287/9287610.png'}
+                                username={winner.name}
+                              />
+                              {winner.name} (ex member)
+                            </a>
+                          )
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           )
         })}
       </div>
-
-      {filteredAndSortedGiveaways.length === 0 && (
-        <div className="text-center py-12">
-          <p className="text-gray-500 text-lg">No giveaways found matching your filters.</p>
-        </div>
-      )}
-    </div>
+      {
+        filteredAndSortedGiveaways.length === 0 && (
+          <div className="text-center py-12">
+            <p className="text-gray-500 text-lg">No giveaways found matching your filters.</p>
+          </div>
+        )
+      }
+    </div >
   )
 }
 

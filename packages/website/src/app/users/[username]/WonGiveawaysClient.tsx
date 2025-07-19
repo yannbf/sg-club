@@ -5,6 +5,7 @@ import { getCVBadgeColor, getCVLabel, formatPlaytime } from '@/lib/data'
 import GameImage from './GameImage'
 import { useGameData } from '@/lib/hooks'
 import FormattedDate from '@/components/FormattedDate'
+import { useCallback } from 'react'
 
 interface Props {
   giveaways: Giveaway[]
@@ -15,6 +16,10 @@ interface Props {
 export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData }: Props) {
   const { getGameData } = useGameData(gameData)
 
+  const getGiveawayInfo = useCallback((giveaway: any) => {
+    return giveaways.find(g => g.link === giveaway.link)
+  }, [giveaways])
+
   const getProofOfPlayStatus = (game: NonNullable<User['giveaways_won']>[0]) => {
     if (game.proof_of_play) return null;
 
@@ -22,10 +27,10 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData }
     const TEN_DAYS_IN_SECONDS = 60 * 60 * 24 * 10;
     const now = Date.now() / 1000;
     const timeSinceWon = now - game.end_timestamp;
-    
+
     const isExpired = timeSinceWon > TWO_MONTHS_IN_SECONDS;
     const isCloseToExpiring = TWO_MONTHS_IN_SECONDS - timeSinceWon <= TEN_DAYS_IN_SECONDS;
-    const textColorClass = isExpired ? 'text-error-foreground font-medium' : isCloseToExpiring? 'text-accent-yellow font-medium' : '';
+    const textColorClass = isExpired ? 'text-error-foreground font-medium' : isCloseToExpiring ? 'text-accent-yellow font-medium' : '';
 
     if (isExpired) {
       return <span className={textColorClass}> (Proof of play expired)</span>;
@@ -43,7 +48,8 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData }
       <div className="space-y-4">
         {wonGiveaways.map((game, index) => {
           const matchingGiveaway = giveaways.find(g => g.link === game.link)
-          const gameData = getGameData(matchingGiveaway?.app_id)
+          const gameData = getGameData(matchingGiveaway?.app_id ?? matchingGiveaway?.package_id)
+          const giveawayInfo = getGiveawayInfo(game)
 
           return (
             <div key={index} className="border border-card-border rounded-lg overflow-hidden">
@@ -80,6 +86,35 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData }
                           {getProofOfPlayStatus(game)}
                         </span>
                       </div>
+                      {giveawayInfo && <>
+                        {(giveawayInfo.required_play || giveawayInfo.is_shared || giveawayInfo.whitelist || giveawayInfo.region_restricted) && (
+                          <div className="flex items-center">
+
+                            <div className="flex items-center gap-2 mt-2">
+                              {giveawayInfo.region_restricted && (
+                                <span className="text-xs font-medium px-2 py-1 bg-info-light text-info-foreground rounded-full">
+                                  🌍 Restricted
+                                </span>
+                              )}
+                              {giveawayInfo.required_play && (
+                                <span className="text-xs font-medium px-2 py-1 bg-warning-light text-warning-foreground rounded-full">
+                                  🎮 Play Required
+                                </span>
+                              )}
+                              {giveawayInfo.is_shared && (
+                                <span className="text-xs font-medium px-2 py-1 bg-info-light text-info-foreground rounded-full">
+                                  👥 Shared
+                                </span>
+                              )}
+                              {giveawayInfo.whitelist && (
+                                <span className="text-xs font-medium px-2 py-1 bg-info-light text-info-foreground rounded-full">
+                                  🩵 Whitelist
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                        )}
+                      </>}
                     </div>
                   </div>
                 </div>
@@ -125,6 +160,7 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData }
               )}
             </div>
           )
+
         })}
       </div>
     </div>

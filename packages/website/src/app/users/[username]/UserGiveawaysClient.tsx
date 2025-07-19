@@ -94,10 +94,10 @@ export default function UserGiveawaysClient({ giveaways, userAvatars, gameData }
       <div className="space-y-4">
         {sortedGiveaways.map((giveaway) => {
           const status = getGiveawayStatus(giveaway)
-          const gameData = getGameData(giveaway.app_id)
+          const gameData = getGameData(giveaway.app_id ?? giveaway.package_id)
 
           return (
-            <div key={giveaway.id} className={`border rounded-lg overflow-hidden ${status.borderColor} ${status.backgroundColor}`}>
+            <div key={giveaway.id ?? giveaway.package_id} className={`border rounded-lg overflow-hidden ${status.borderColor} ${status.backgroundColor}`}>
               <div className="flex">
                 <GameImage
                   appId={giveaway.app_id?.toString()}

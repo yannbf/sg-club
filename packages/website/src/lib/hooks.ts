@@ -6,8 +6,9 @@ export function useGameData(gameData: GameData[]) {
     const map = new Map<number, GameData>()
 
     gameData.forEach((game) => {
-      if (game.app_id) {
-        map.set(game.app_id, game)
+      const id = game.app_id ?? game.package_id
+      if (id) {
+        map.set(id, game)
       }
     })
 
