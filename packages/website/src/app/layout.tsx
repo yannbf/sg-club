@@ -43,6 +43,12 @@ export default function RootLayout({
                 Giveaways
               </Link>
               <Link
+                href="/games"
+                className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+              >
+                Games
+              </Link>
+              <Link
                 href="/users"
                 className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
               >
