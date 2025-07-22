@@ -26,26 +26,46 @@ function getGameImageUrl(game: GameData): string {
 
 export default function GamesClient({ giveaways, gameData, userAvatars }: Props) {
   const [searchTerm, setSearchTerm] = useState('')
-  const [sortBy, setSortBy] = useState<'name' | 'giveaways' | 'copies'>('name')
-  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc')
+  const [sortBy, setSortBy] = useState<'name' | 'giveaways' | 'copies'>('giveaways')
+  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc')
 
   const gamesWithGiveawayData = useMemo(() => {
-    const gameMap = new Map<number, { game: GameData; giveawaysCount: number; copiesCount: number; winners: { name: string }[] }>()
+    const gameMap = new Map<number, {
+      game: GameData;
+      giveawaysCount: number;
+      endedGiveawaysCount: number;
+      openGiveawaysCount: number;
+      zeroEntriesGiveawaysCount: number;
+      copiesCount: number;
+      winners: { name: string }[]
+    }>()
 
     giveaways.forEach(giveaway => {
-      if (giveaway.winners && giveaway.winners.length > 0 && giveaway.end_timestamp <= Date.now() / 1000) {
-        const game_id = giveaway.app_id ?? giveaway.package_id
-        const game = gameData.find(g => g.app_id === game_id || g.package_id === game_id)
-        if (game) {
-          if (!gameMap.has(game_id)) {
-            gameMap.set(game_id, { game, giveawaysCount: 0, copiesCount: 0, winners: [] })
-          }
-          const gameEntry = gameMap.get(game_id)!
-          gameEntry.giveawaysCount++
+      const game_id = giveaway.app_id ?? giveaway.package_id
+      const game = gameData.find(g => g.app_id === game_id || g.package_id === game_id)
+      if (game) {
+        if (!gameMap.has(game_id)) {
+          gameMap.set(game_id, { game, giveawaysCount: 0, endedGiveawaysCount: 0, openGiveawaysCount: 0, zeroEntriesGiveawaysCount: 0, copiesCount: 0, winners: [] })
+        }
+        const gameEntry = gameMap.get(game_id)!
+        gameEntry.giveawaysCount++
+
+        if (giveaway.hasWinners && giveaway.end_timestamp <= Date.now() / 1000) {
           gameEntry.copiesCount += giveaway.copies
-          if (giveaway.winners) {
-            gameEntry.winners.push(...giveaway.winners)
-          }
+        }
+
+        if (!giveaway.hasWinners && giveaway.end_timestamp <= Date.now() / 1000) {
+          gameEntry.zeroEntriesGiveawaysCount++
+        }
+
+        if (giveaway.end_timestamp > Date.now() / 1000) {
+          gameEntry.openGiveawaysCount++
+        } else {
+          gameEntry.endedGiveawaysCount++
+        }
+
+        if (giveaway.winners) {
+          gameEntry.winners.push(...giveaway.winners)
         }
       }
     })
@@ -92,7 +112,7 @@ export default function GamesClient({ giveaways, gameData, userAvatars }: Props)
               type="text"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Search games..."
+              placeholder="Type a game name..."
               className="w-full px-3 py-2 border border-card-border rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-accent"
             />
           </div>
@@ -125,63 +145,74 @@ export default function GamesClient({ giveaways, gameData, userAvatars }: Props)
 
       {/* Games List */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {gamesWithGiveawayData.map(({ game, giveawaysCount, copiesCount, winners }) => (
-          <div key={game.app_id ?? game.package_id} className="bg-card-background rounded-lg border-card-border border overflow-hidden">
-            <Link href={`https://store.steampowered.com/${game.app_id ? 'app' : 'sub'}/${game.app_id || game.package_id}`} target="_blank">
-              <Image
-                src={getGameImageUrl(game)}
-                alt={game.name}
-                width={600}
-                height={900}
-                className="w-full h-48 object-cover"
-              />
-            </Link>
-            <div className="p-4">
-              <a href={`https://www.steamgifts.com/group/WlYTQ/thegiveawaysclub/search?q=${encodeURIComponent(game.name)}`} target="_blank" className="text-accent hover:underline text-lg font-bold truncate">
-                {game.name}
-              </a>
-              <p className="text-sm text-muted-foreground">{giveawaysCount} {giveawaysCount === 1 ? 'Giveaway' : 'Giveaways'}</p>
-              <p className="text-sm text-muted-foreground">{copiesCount} {copiesCount === 1 ? 'Copy' : 'Copies'}</p>
-              <div className="mt-2">
-                <h3 className="text-sm font-semibold">Winners:</h3>
-                <div className="flex flex-wrap gap-1 mt-1">
-                  {winners.slice(0, 5).map((winner, index) => (
-                    userAvatars.get(winner.name) ? (
-                      <Link
-                        key={index}
-                        href={`/users/${winner.name}`}
-                        className="text-xs bg-accent/20 text-accent-foreground px-2 py-1 rounded-full flex"
-                      >
-                        <UserAvatar
-                          src={userAvatars.get(winner.name) || 'https://cdn-icons-png.flaticon.com/512/9287/9287610.png'}
-                          username={winner.name}
-                        />
-                        {winner.name}
-                      </Link>
-                    ) : (
-                      <a
-                        key={index}
-                        href={`http://steamgifts.com/user/${winner.name}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-xs bg-accent/20 text-accent-foreground px-2 py-1 rounded-full flex"
-                      >
-                        <UserAvatar
-                          src={'https://cdn-icons-png.flaticon.com/512/9287/9287610.png'}
-                          username={winner.name}
-                        />
-                        {winner.name} (ex member)
-                      </a>
-                    )
-                  ))}
-                  {winners.length > 5 && (
-                    <span className="text-xs text-muted-foreground">+ {winners.length - 5} more</span>
-                  )}
-                </div>
+        {gamesWithGiveawayData.map(({ game, giveawaysCount, copiesCount, endedGiveawaysCount, openGiveawaysCount, winners }) => {
+          const hasOpenGiveaways = openGiveawaysCount > 0
+          const hasEndedGiveaways = endedGiveawaysCount > 0
+          const endedWithNoEntries = hasEndedGiveaways && copiesCount === 0
+
+          const hasGiveaways = giveawaysCount > 0
+          return (
+            <div key={game.app_id ?? game.package_id} className={`bg-card-background rounded-lg border-card-border border overflow-hidden ${endedWithNoEntries ? 'opacity-60 border-red-500' : ''}`}>
+              <Link href={`https://store.steampowered.com/${game.app_id ? 'app' : 'sub'}/${game.app_id || game.package_id}`} target="_blank">
+                <Image
+                  src={getGameImageUrl(game)}
+                  alt={game.name}
+                  width={600}
+                  height={900}
+                  className="w-full h-48 object-cover"
+                />
+              </Link>
+              <div className="p-4">
+                <a href={`https://www.steamgifts.com/group/WlYTQ/thegiveawaysclub/search?q=${encodeURIComponent(game.name)}`} target="_blank" className="text-accent hover:underline text-lg font-bold truncate">
+                  {game.name}
+                </a>
+                {endedWithNoEntries ? (
+                  <p className="text-sm text-muted-foreground">All giveaways ended with no entries.</p>
+                ) :
+                  <>
+                    {hasGiveaways && <p className="text-sm text-muted-foreground">{giveawaysCount} {giveawaysCount === 1 ? 'Giveaway' : 'Giveaways'} created {hasOpenGiveaways ? `(${openGiveawaysCount} open)` : ''}</p>}
+                    {winners.length > 0 && <div className="mt-2">
+                      <h3 className="text-sm font-semibold">{winners.length} {winners.length === 1 ? 'Winner' : 'Winners'}:</h3>
+                      <div className="flex flex-wrap gap-1 mt-1">
+                        {winners.slice(0, 5).map((winner, index) => (
+                          userAvatars.get(winner.name) ? (
+                            <Link
+                              key={index}
+                              href={`/users/${winner.name}`}
+                              className="text-xs bg-accent/20 text-accent-foreground px-2 py-1 rounded-full flex"
+                            >
+                              <UserAvatar
+                                src={userAvatars.get(winner.name) || 'https://cdn-icons-png.flaticon.com/512/9287/9287610.png'}
+                                username={winner.name}
+                              />
+                              {winner.name}
+                            </Link>
+                          ) : (
+                            <a
+                              key={index}
+                              href={`http://steamgifts.com/user/${winner.name}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-xs bg-accent/20 text-accent-foreground px-2 py-1 rounded-full flex"
+                            >
+                              <UserAvatar
+                                src={'https://cdn-icons-png.flaticon.com/512/9287/9287610.png'}
+                                username={winner.name}
+                              />
+                              {winner.name} (ex member)
+                            </a>
+                          )
+                        ))}
+                        {winners.length > 5 && (
+                          <span className="text-xs text-muted-foreground">+ {winners.length - 5} more</span>
+                        )}
+                      </div>
+                    </div>}
+                  </>}
               </div>
             </div>
-          </div>
-        ))}
+          )
+        })}
       </div>
     </div>
   )
