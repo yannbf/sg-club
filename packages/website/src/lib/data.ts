@@ -1,8 +1,9 @@
-import { Giveaway, UserGroupData, User, GameData } from '@/types'
+import { Giveaway, UserGroupData, User, GameData, UserEntry } from '@/types'
 
 // For build time - import data directly
 let buildTimeGiveaways: Giveaway[] | null = null
 let buildTimeUsers: UserGroupData | null = null
+let buildTimeUserEntries: UserEntry | null = null
 let buildTimeGameData: GameData[] | null = null
 
 // Helper to get base URL for data files
@@ -19,6 +20,7 @@ async function loadBuildTimeData() {
     return {
       giveaways: await fetchGiveaways(),
       users: await fetchUsers(),
+      userEntries: await fetchUserEntries(),
       gameData: await fetchGameData(),
     }
   }
@@ -29,12 +31,18 @@ async function loadBuildTimeData() {
     return {
       giveaways: await fetchGiveaways(),
       users: await fetchUsers(),
+      userEntries: await fetchUserEntries(),
       gameData: await fetchGameData(),
     }
   }
 
   try {
-    if (!buildTimeGiveaways || !buildTimeUsers || !buildTimeGameData) {
+    if (
+      !buildTimeGiveaways ||
+      !buildTimeUsers ||
+      !buildTimeGameData ||
+      !buildTimeUserEntries
+    ) {
       // Only import fs and path when we're definitely on the server
       const { readFileSync } = await import('fs')
       const { join } = await import('path')
@@ -72,11 +80,23 @@ async function loadBuildTimeData() {
         const gameData = readFileSync(gameDataPath, 'utf8')
         buildTimeGameData = JSON.parse(gameData)
       }
+
+      if (!buildTimeUserEntries) {
+        const usersPath = join(
+          process.cwd(),
+          'public',
+          'data',
+          'user_entries.json'
+        )
+        const entriesData = readFileSync(usersPath, 'utf8')
+        buildTimeUserEntries = JSON.parse(entriesData)
+      }
     }
 
     return {
       giveaways: buildTimeGiveaways || [],
       users: buildTimeUsers,
+      userEntries: buildTimeUserEntries,
       gameData: buildTimeGameData || [],
     }
   } catch (error) {
@@ -84,6 +104,7 @@ async function loadBuildTimeData() {
     return {
       giveaways: [],
       users: null,
+      userEntries: null,
       gameData: [],
     }
   }
@@ -120,6 +141,18 @@ async function fetchUsers(): Promise<UserGroupData | null> {
   try {
     const baseUrl = getBaseUrl()
     const response = await fetch(`${baseUrl}/data/group_users.json`)
+    if (!response.ok) throw new Error('Failed to fetch users')
+    return await response.json()
+  } catch (error) {
+    console.error('Error reading users data:', error)
+    return null
+  }
+}
+
+async function fetchUserEntries(): Promise<UserEntry | null> {
+  try {
+    const baseUrl = getBaseUrl()
+    const response = await fetch(`${baseUrl}/data/user_entries.json`)
     if (!response.ok) throw new Error('Failed to fetch users')
     return await response.json()
   } catch (error) {
@@ -169,6 +202,11 @@ export async function getUser(username: string): Promise<User | null> {
 
   // The `users` property is now a record, so we can access it directly.
   return userData.users[username] || null
+}
+
+export async function getUserEntries(): Promise<UserEntry | null> {
+  const data = await loadBuildTimeData()
+  return data.userEntries || null
 }
 
 export async function getGiveaway(link: string): Promise<Giveaway | null> {

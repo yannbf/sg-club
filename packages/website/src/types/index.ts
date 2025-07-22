@@ -134,3 +134,11 @@ export interface SteamPlayData {
   is_playtime_private: boolean
   last_checked: number
 }
+
+export type UserEntry = Record<
+  string,
+  Array<{
+    timestamp: number
+    ga_link: string
+  }>
+>

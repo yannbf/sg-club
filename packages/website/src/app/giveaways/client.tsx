@@ -19,7 +19,7 @@ interface Props {
 
 const PLACEHOLDER_IMAGE = 'https://steamplayercount.com/theme/img/placeholder.svg'
 
-function getGameImageUrl(giveaway: Giveaway): string {
+export function getGameImageUrl(giveaway: Giveaway): string {
   if (giveaway.app_id) {
     return `https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/${giveaway.app_id}/header.jpg`
   }
@@ -27,6 +27,22 @@ function getGameImageUrl(giveaway: Giveaway): string {
     return `https://shared.akamai.steamstatic.com/store_item_assets/steam/subs/${giveaway.package_id}/header.jpg`
   }
   return PLACEHOLDER_IMAGE
+}
+
+export function getStatusBadge(giveaway: Giveaway) {
+  const now = Date.now() / 1000
+  const isEnded = giveaway.end_timestamp < now
+  const hasWinners = giveaway.winners && giveaway.winners.length > 0
+
+  if (!isEnded) {
+    return <span className="px-2 py-1 text-xs font-semibold bg-info-light text-info-foreground rounded-full">Open</span>
+  }
+
+  if (hasWinners) {
+    return <span className="px-2 py-1 text-xs font-semibold bg-success-light text-success-foreground rounded-full">Ended</span>
+  }
+
+  return <span className="px-2 py-1 text-xs font-semibold bg-error-light text-error-foreground rounded-full">No Winners</span>
 }
 
 export default function GiveawaysClient({ giveaways, lastUpdated, userAvatars, gameData }: Props) {
@@ -99,22 +115,6 @@ export default function GiveawaysClient({ giveaways, lastUpdated, userAvatars, g
     return filtered
   }, [giveaways, searchTerm, sortBy, sortDirection, filterCV, giveawayStatus,
     filterRegion, filterPlayRequired, filterShared, filterWhitelist])
-
-  const getStatusBadge = (giveaway: Giveaway) => {
-    const now = Date.now() / 1000
-    const isEnded = giveaway.end_timestamp < now
-    const hasWinners = giveaway.winners && giveaway.winners.length > 0
-
-    if (!isEnded) {
-      return <span className="px-2 py-1 text-xs font-semibold bg-info-light text-info-foreground rounded-full">Open</span>
-    }
-
-    if (hasWinners) {
-      return <span className="px-2 py-1 text-xs font-semibold bg-success-light text-success-foreground rounded-full">Ended</span>
-    }
-
-    return <span className="px-2 py-1 text-xs font-semibold bg-error-light text-error-foreground rounded-full">No Winners</span>
-  }
 
   return (
     <div className="space-y-8">
@@ -404,6 +404,97 @@ export default function GiveawaysClient({ giveaways, lastUpdated, userAvatars, g
         )
       }
     </div >
+  )
+}
+
+export function GiveawaysList({ giveaways, userAvatars }: { giveaways: Giveaway[], userAvatars: Map<string, string> }) {
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {giveaways.map((giveaway) => {
+        const isEnded = giveaway.end_timestamp < Date.now() / 1000;
+        const imageUrl = getGameImageUrl(giveaway) ?? PLACEHOLDER_IMAGE;
+        const borderColor = isEnded ? 'border-card-border' : 'border-success';
+
+        return (
+          <div key={giveaway.id} className={`bg-card-background rounded-lg shadow-md hover:shadow-lg transition-shadow overflow-hidden border-2 ${borderColor}`}>
+            {/* Game Image */}
+            <div className="w-full h-48 bg-muted overflow-hidden relative hover:shadow">
+              <a href={`https://store.steampowered.com/${giveaway.app_id ? `app/${giveaway.app_id}` : `sub/${giveaway.package_id}`}`} target="_blank" rel="noopener noreferrer">
+                <Image
+                  src={imageUrl}
+                  alt={giveaway.name || 'Game giveaway image'}
+                  fill
+                  className="object-cover cursor-pointer"
+                  onError={() => { }}
+                />
+              </a>
+            </div>
+
+            <div className="p-6">
+              <div className="flex items-start justify-between mb-3">
+                <a
+                  href={`https://www.steamgifts.com/giveaway/${giveaway.link}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-accent hover:underline text-lg font-semibold line-clamp-2 flex-1"
+                >{giveaway.name} ({giveaway.points}P)</a>
+                <div className="ml-2 flex-shrink-0">
+                  {getStatusBadge(giveaway)}
+                </div>
+              </div>
+
+              <div className="space-y-2 mb-4">
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-muted-foreground">Creator:</span>
+                  <div className="flex items-center">
+                    <UserAvatar
+                      src={userAvatars.get(giveaway.creator.username) || 'https://cdn-icons-png.flaticon.com/512/9287/9287610.png'}
+                      username={giveaway.creator.username}
+                    />
+                    <Link href={`/users/${giveaway.creator.username}`} className="text-accent hover:underline mr-2 inline-flex items-center">
+                      {giveaway.creator.username}
+                    </Link>
+                  </div>
+                </div>
+
+                {(giveaway.required_play || giveaway.is_shared || giveaway.whitelist || giveaway.region_restricted) && (
+                  <div className="flex items-center gap-2 mt-2">
+                    {giveaway.region_restricted && (
+                      <span className="text-xs font-medium px-2 py-1 bg-info-light text-info-foreground rounded-full">
+                        🌍 Restricted
+                      </span>
+                    )}
+                    {giveaway.required_play && (
+                      <span className="text-xs font-medium px-2 py-1 bg-warning-light text-warning-foreground rounded-full">
+                        🎮 Play Required
+                      </span>
+                    )}
+                    {giveaway.is_shared && (
+                      <span className="text-xs font-medium px-2 py-1 bg-info-light text-info-foreground rounded-full">
+                        👥 Shared
+                      </span>
+                    )}
+                    {giveaway.whitelist && (
+                      <span className="text-xs font-medium px-2 py-1 bg-info-light text-info-foreground rounded-full">
+                        🩵 Whitelist
+                      </span>
+                    )}
+                  </div>
+                )}
+              </div>
+
+              <div className="flex items-center justify-between">
+                <span
+                  className={`text-xs font-bold px-2 py-1 rounded-full ${getCVBadgeColor(giveaway.cv_status || 'FULL_CV')}`}
+                >
+                  {getCVLabel(giveaway.cv_status || 'FULL_CV')}
+                </span>
+              </div>
+            </div>
+          </div>
+        )
+      })}
+    </div>
   )
 }
 

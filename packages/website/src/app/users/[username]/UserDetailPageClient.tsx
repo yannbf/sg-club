@@ -5,22 +5,26 @@ import Image from 'next/image'
 import UserGiveawaysClient from './UserGiveawaysClient'
 import WonGiveawaysClient from './WonGiveawaysClient'
 import { useState } from 'react'
-import type { User, UserGroupData } from '@/types'
+import type { User, UserGroupData, UserEntry } from '@/types'
 import type { Giveaway, GameData } from '@/types'
 import FormattedDate from '@/components/FormattedDate'
+import { GiveawaysList } from '@/app/giveaways/client'
 
 interface Props {
   user: User
   allUsers: UserGroupData | null
   giveaways: Giveaway[]
   gameData: GameData[]
+  userEntries: UserEntry | null
 }
 
-export default function UserDetailPageClient({ user, allUsers, giveaways, gameData }: Props) {
+export default function UserDetailPageClient({ user, allUsers, giveaways, gameData, userEntries }: Props) {
   const [showDetailedStats, setShowDetailedStats] = useState(false)
 
   // Get giveaways created by this user from the main giveaways data
   const userGiveaways = giveaways.filter(g => g.creator.username === user.username)
+  const enteredGiveawayLinks = userEntries?.[user.username]?.map(entry => entry.ga_link) || []
+  const enteredGiveaways = giveaways.filter(g => enteredGiveawayLinks.map(ga => ga.split('/giveaway/')[1]).includes(g.link))
 
   // Create a map of usernames to avatar URLs
   const userAvatars = new Map(
@@ -322,6 +326,11 @@ export default function UserDetailPageClient({ user, allUsers, giveaways, gameDa
         userAvatars={userAvatars}
         gameData={gameData}
       />
+
+      <h2 className="text-xl font-semibold">
+        🎟️ Giveaways Entered ({enteredGiveaways.length})
+      </h2>
+      <GiveawaysList giveaways={enteredGiveaways} userAvatars={userAvatars} />
     </div>
   )
 }

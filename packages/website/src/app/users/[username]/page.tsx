@@ -1,5 +1,5 @@
 // page.tsx
-import { getUser, getAllGiveaways, getAllUsers, getGameData } from '@/lib/data'
+import { getUser, getAllGiveaways, getAllUsers, getGameData, getUserEntries } from '@/lib/data'
 import { notFound } from 'next/navigation'
 import UserDetailPageClient from './UserDetailPageClient'
 
@@ -21,6 +21,7 @@ export default async function UserDetailPage({
   const user = await getUser(decodeURIComponent(username))
   const allUsers = await getAllUsers()
   const giveaways = await getAllGiveaways()
+  const userEntries = await getUserEntries()
   const gameDataObj = await getGameData()
   
   if (!user) {
@@ -36,6 +37,7 @@ export default async function UserDetailPage({
       allUsers={allUsers}
       giveaways={giveaways}
       gameData={gameData}
+      userEntries={userEntries}
     />
   )
 } 
