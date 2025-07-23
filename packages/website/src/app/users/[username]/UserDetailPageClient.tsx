@@ -27,7 +27,6 @@ export default function UserDetailPageClient({ user, allUsers, giveaways, gameDa
   const enteredGiveaways = enteredGiveawayData.map(g => giveaways.find(ga => ga.link === g.link)).filter(g => g !== undefined)
   const lastEnteredGiveaway = enteredGiveawayData.sort((a, b) => b.joined_at - a.joined_at)[0]
 
-  console.log({ userEntries, enteredGiveaways })
   // Create a map of usernames to avatar URLs
   const userAvatars = new Map(
     Object.values(allUsers?.users || {}).map((user) => [

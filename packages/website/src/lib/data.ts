@@ -16,11 +16,10 @@ function getBaseUrl() {
 
 // turns { "ga_id1": [{ user: "user1", joined_at: 1716796800 }, { user: "user2", joined_at: 1716796800 }] }
 // into { "user1": [{ link: "ga_id1", joined_at: 1716796800 }], "user2": [{ link: "ga_id1", joined_at: 1716796800 }] }
-type UserEntry = Record<string, { username: string; joined_at: number }[]>
-type InvertedUserEntry = Record<string, { link: string; joined_at: number }[]>
+type InputData = Record<string, { username: string; joined_at: number }[]>
 
-function processUserEntries(input: UserEntry): InvertedUserEntry {
-  const output: InvertedUserEntry = {}
+function processUserEntries(input: InputData): UserEntry {
+  const output: UserEntry = {}
 
   for (const [link, userEntries] of Object.entries(input)) {
     for (const entry of userEntries) {
