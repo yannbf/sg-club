@@ -40,10 +40,22 @@ describe('SteamGiftsHTMLScraper', () => {
 
       expect(entries).toMatchInlineSnapshot(`
         [
-          "GordonShephard",
-          "deathhell44",
-          "faelynaris",
-          "Cos2k",
+          {
+            "joined_at": "1752100978",
+            "username": "GordonShephard",
+          },
+          {
+            "joined_at": "1752100026",
+            "username": "deathhell44",
+          },
+          {
+            "joined_at": "1752099953",
+            "username": "faelynaris",
+          },
+          {
+            "joined_at": "1752085340",
+            "username": "Cos2k",
+          },
         ]
       `)
     })

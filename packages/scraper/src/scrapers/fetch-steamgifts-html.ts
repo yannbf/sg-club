@@ -107,10 +107,12 @@ export class SteamGiftsHTMLScraper {
     return detailedWinners
   }
 
-  async fetchDetailedEntries(giveawayPath: string): Promise<Array<string>> {
+  async fetchDetailedEntries(
+    giveawayPath: string
+  ): Promise<Array<{ username: string; joined_at: string }>> {
     const entriesPath = `/giveaway/${giveawayPath}/entries`
     // username
-    const detailedEntries: Array<string> = []
+    const detailedEntries: Array<{ username: string; joined_at: string }> = []
 
     let currentPath: string | null = entriesPath
 
@@ -191,15 +193,20 @@ export class SteamGiftsHTMLScraper {
     return winners
   }
 
-  private parseEntriesPage(html: string): Array<string> {
+  private parseEntriesPage(
+    html: string
+  ): Array<{ username: string; joined_at: string }> {
     const $ = load(html)
-    const entries: Array<string> = []
+    const entries: Array<{ username: string; joined_at: string }> = []
 
     $('.table__row-outer-wrap').each((_, el) => {
       const $row = $(el)
       const $usernameLink = $row.find('.table__column__heading')
       const username = $usernameLink.text().trim()
-      entries.push(username)
+      const joined_at = $row
+        .find('.table__column--width-small span')
+        .attr('data-timestamp') as string
+      entries.push({ username, joined_at })
     })
 
     return entries
@@ -985,10 +992,17 @@ async function main(): Promise<void> {
 
   try {
     console.log('🚀 Starting giveaway scraping...')
-    // const allGiveaways = await scraper.scrapeGiveaways(filename)
-    const allGiveaways = JSON.parse(readFileSync(filename, 'utf-8')).giveaways
+    // turn this to true if you want to debug the postprocessing code
+    const SKIP_FETCHING_GIVEAWAYS = false
+    const allGiveaways = SKIP_FETCHING_GIVEAWAYS
+      ? JSON.parse(readFileSync(filename, 'utf-8')).giveaways
+      : await scraper.scrapeGiveaways(filename)
+
     if (allGiveaways.length > 0) {
-      let existingEntries: Record<string, string[]> = {}
+      let existingEntries: Record<
+        string,
+        { username: string; joined_at: string }[]
+      > = {}
       if (existsSync(entriesFilename)) {
         existingEntries = JSON.parse(readFileSync(entriesFilename, 'utf-8'))
       } else {
@@ -1000,17 +1014,18 @@ async function main(): Promise<void> {
         // if giveaway has finished and is not in existingEntries or if it's currently ongoing
         const hasFinishedAndNotRegistered =
           giveaway.end_timestamp < Date.now() / 1000 &&
-          !existingEntries[giveaway.id]
+          !existingEntries[giveaway.link]
         const isOpenGiveaway = giveaway.end_timestamp > Date.now() / 1000
+
         if (
-          (giveaway.entries > 0 && hasFinishedAndNotRegistered) ||
-          (giveaway.entries > 0 && isOpenGiveaway)
+          (giveaway.entry_count > 0 && hasFinishedAndNotRegistered) ||
+          (giveaway.entry_count > 0 && isOpenGiveaway)
         ) {
           const entries = await scraper.fetchDetailedEntries(giveaway.link)
           console.log(
             `🔍 Fetched ${entries.length} entries for: ${giveaway.name}`
           )
-          existingEntries[giveaway.id] = entries
+          existingEntries[giveaway.link] = entries
           giveawaysWithUpdatedEntries++
           await delay(1000)
         }

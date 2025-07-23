@@ -23,9 +23,11 @@ export default function UserDetailPageClient({ user, allUsers, giveaways, gameDa
 
   // Get giveaways created by this user from the main giveaways data
   const userGiveaways = giveaways.filter(g => g.creator.username === user.username)
-  const enteredGiveawayIds = userEntries?.[user.username] || []
-  const enteredGiveaways = giveaways.filter(g => enteredGiveawayIds.includes(g.id))
+  const enteredGiveawayData = userEntries?.[user.username] || []
+  const enteredGiveaways = enteredGiveawayData.map(g => giveaways.find(ga => ga.link === g.link)).filter(g => g !== undefined)
+  const lastEnteredGiveaway = enteredGiveawayData.sort((a, b) => b.joined_at - a.joined_at)[0]
 
+  console.log({ userEntries, enteredGiveaways })
   // Create a map of usernames to avatar URLs
   const userAvatars = new Map(
     Object.values(allUsers?.users || {}).map((user) => [
@@ -129,6 +131,11 @@ export default function UserDetailPageClient({ user, allUsers, giveaways, gameDa
               {user.stats.last_giveaway_won_at && (
                 <div>Last giveaway won: <span className="text-foreground">
                   <FormattedDate timestamp={user.stats.last_giveaway_won_at} />
+                </span></div>
+              )}
+              {lastEnteredGiveaway && (
+                <div>Last giveaway entered: <span className="text-foreground">
+                  <span className="font-bold">{giveaways.find(g => g.link === lastEnteredGiveaway.link)?.name}</span> <FormattedDate timestamp={lastEnteredGiveaway.joined_at} />
                 </span></div>
               )}
             </div>

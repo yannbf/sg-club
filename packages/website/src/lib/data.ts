@@ -14,20 +14,23 @@ function getBaseUrl() {
   return ''
 }
 
-type UserEntry = Record<string, string[]>
-type InvertedUserEntry = Record<string, string[]>
+// turns { "ga_id1": [{ user: "user1", joined_at: 1716796800 }, { user: "user2", joined_at: 1716796800 }] }
+// into { "user1": [{ link: "ga_id1", joined_at: 1716796800 }], "user2": [{ link: "ga_id1", joined_at: 1716796800 }] }
+type UserEntry = Record<string, { username: string; joined_at: number }[]>
+type InvertedUserEntry = Record<string, { link: string; joined_at: number }[]>
 
-// turns { "ga_id1": ["user1", "user2"] }
-// into { "user1": ["ga_id1"], "user2": ["ga_id1"] }
 function processUserEntries(input: UserEntry): InvertedUserEntry {
   const output: InvertedUserEntry = {}
 
-  for (const [id, users] of Object.entries(input)) {
-    for (const user of users) {
-      if (!output[user]) {
-        output[user] = []
+  for (const [link, userEntries] of Object.entries(input)) {
+    for (const entry of userEntries) {
+      const { username, joined_at } = entry
+
+      if (!output[username]) {
+        output[username] = []
       }
-      output[user].push(id)
+
+      output[username].push({ link, joined_at })
     }
   }
 

@@ -135,9 +135,7 @@ export interface SteamPlayData {
   last_checked: number
 }
 
-type GiveawayId = string
-type UserId = string
 export type UserEntry = Record<
-  UserId,
-  Array<GiveawayId>
+  string,
+  Array<{ link: string; joined_at: number }>
 >
