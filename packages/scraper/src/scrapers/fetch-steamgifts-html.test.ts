@@ -8,6 +8,7 @@ describe('SteamGiftsHTMLScraper', () => {
   beforeEach(() => {
     scraper = new SteamGiftsHTMLScraper()
     scraper.fetchDetailedWinners = vi.fn(() => Promise.resolve([]))
+    scraper.fetchDetailedEntries = vi.fn(() => Promise.resolve([]))
   })
 
   describe('parseWinnersPage', () => {
@@ -23,6 +24,28 @@ describe('SteamGiftsHTMLScraper', () => {
         { name: 'ManowGamer', status: 'received' },
         { name: 'VinroyIsViral', status: 'received' },
       ])
+    })
+
+    it('should handle winners page with error message', () => {
+      const html = loadMockHtml('sg-winners-error-not-in-group-page.html')
+      const winners = scraper['parseWinnersPage'](html)
+      expect(winners).toHaveLength(0)
+    })
+  })
+
+  describe('parseEntriesPage', () => {
+    it('should correctly parse entries page with different statuses', () => {
+      const html = loadMockHtml('sg-giveaway-entries-page.html')
+      const entries = scraper['parseEntriesPage'](html)
+
+      expect(entries).toMatchInlineSnapshot(`
+        [
+          "GordonShephard",
+          "deathhell44",
+          "faelynaris",
+          "Cos2k",
+        ]
+      `)
     })
 
     it('should handle winners page with error message', () => {

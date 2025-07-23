@@ -109,7 +109,7 @@ export class SteamGiftsUserFetcher {
               total_received_value,
               total_gift_difference,
               total_value_difference,
-              // Initialize CV-specific stats to 0, will be calculated later
+              // Initialize CV-specific and ratio stats to 0, will be calculated later
               fcv_sent_count: 0,
               rcv_sent_count: 0,
               ncv_sent_count: 0,
@@ -117,10 +117,19 @@ export class SteamGiftsUserFetcher {
               rcv_received_count: 0,
               ncv_received_count: 0,
               fcv_gift_difference: 0,
+              real_total_sent_value: 0,
+              real_total_received_value: 0,
+              real_total_value_difference: 0,
+              real_total_sent_count: 0,
+              real_total_received_count: 0,
+              real_total_gift_difference: 0,
               giveaway_ratio: 0,
-              // Initialize shared giveaway counts
               shared_sent_count: 0,
               shared_received_count: 0,
+              giveaways_created: 0,
+              giveaways_with_no_entries: 0,
+              last_giveaway_created_at: null,
+              last_giveaway_won_at: null,
             },
           })
         }

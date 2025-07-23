@@ -6,12 +6,7 @@ import type {
   BundleGamesResponse,
   CVStatus,
 } from '../types/steamgifts.js'
-import {
-  delay,
-  formatDate,
-  parseSteamUrl,
-  generateIdFromCode,
-} from '../utils/common.js'
+import { delay } from '../utils/common.js'
 import { logError } from '../utils/log-error.js'
 
 // HTML-specific Creator interface (different from API)
@@ -45,7 +40,7 @@ export class SteamGiftsHTMLScraper {
   private bundleGameCache = new Map<number | string, BundleGame | null>()
 
   constructor(pageLimit?: number) {
-    this.pageLimit = pageLimit
+    this.pageLimit = 2
   }
 
   public async fetchPage(
@@ -112,6 +107,37 @@ export class SteamGiftsHTMLScraper {
     return detailedWinners
   }
 
+  async fetchDetailedEntries(giveawayPath: string): Promise<Array<string>> {
+    const entriesPath = `/giveaway/${giveawayPath}/entries`
+    // username
+    const detailedEntries: Array<string> = []
+
+    let currentPath: string | null = entriesPath
+
+    while (currentPath) {
+      try {
+        const html = await this.fetchPage(currentPath, true)
+        const pageEntries = this.parseEntriesPage(html)
+        detailedEntries.push(...pageEntries)
+
+        // Check for next page
+        currentPath = this.getNextPage(html)
+
+        if (currentPath) {
+          // Add delay to avoid rate limiting
+          await delay(1000)
+        }
+      } catch (error) {
+        const errorMessage = `Failed to fetch entries page: ${this.baseUrl}${currentPath}`
+        console.warn(`⚠️  ${errorMessage}:`, error)
+        logError(error, errorMessage)
+        break
+      }
+    }
+
+    return detailedEntries
+  }
+
   private parseWinnersPage(html: string): Array<{
     name: string | null
     status: 'received' | 'not_received' | 'awaiting_feedback'
@@ -163,6 +189,20 @@ export class SteamGiftsHTMLScraper {
     })
 
     return winners
+  }
+
+  private parseEntriesPage(html: string): Array<string> {
+    const $ = load(html)
+    const entries: Array<string> = []
+
+    $('.table__row-outer-wrap').each((_, el) => {
+      const $row = $(el)
+      const $usernameLink = $row.find('.table__column__heading')
+      const username = $usernameLink.text().trim()
+      entries.push(username)
+    })
+
+    return entries
   }
 
   private async fetchBundleGames(appId: number): Promise<BundleGamesResponse> {
@@ -618,10 +658,6 @@ export class SteamGiftsHTMLScraper {
     return giveaways
   }
 
-  private generateNumericId(giveawayCode: string): number {
-    return generateIdFromCode(giveawayCode)
-  }
-
   private getNextPage(html: string): string | null {
     const $ = load(html)
     const $pagination = $('.pagination__navigation')
@@ -945,12 +981,46 @@ export class SteamGiftsHTMLScraper {
 async function main(): Promise<void> {
   const scraper = new SteamGiftsHTMLScraper()
   const filename = '../website/public/data/giveaways.json'
+  const entriesFilename = '../website/public/data/user_entries.json'
 
   try {
     console.log('🚀 Starting giveaway scraping...')
-    const allGiveaways = await scraper.scrapeGiveaways(filename)
-
+    // const allGiveaways = await scraper.scrapeGiveaways(filename)
+    const allGiveaways = JSON.parse(readFileSync(filename, 'utf-8')).giveaways
     if (allGiveaways.length > 0) {
+      let existingEntries: Record<string, string[]> = {}
+      if (existsSync(entriesFilename)) {
+        existingEntries = JSON.parse(readFileSync(entriesFilename, 'utf-8'))
+      } else {
+        console.log('📄 No existing entries file found, starting fresh')
+      }
+
+      let giveawaysWithUpdatedEntries = 0
+      for (const giveaway of allGiveaways) {
+        // if giveaway has finished and is not in existingEntries or if it's currently ongoing
+        const hasFinishedAndNotRegistered =
+          giveaway.end_timestamp < Date.now() / 1000 &&
+          !existingEntries[giveaway.id]
+        const isOpenGiveaway = giveaway.end_timestamp > Date.now() / 1000
+        if (
+          (giveaway.entries > 0 && hasFinishedAndNotRegistered) ||
+          (giveaway.entries > 0 && isOpenGiveaway)
+        ) {
+          const entries = await scraper.fetchDetailedEntries(giveaway.link)
+          console.log(
+            `🔍 Fetched ${entries.length} entries for: ${giveaway.name}`
+          )
+          existingEntries[giveaway.id] = entries
+          giveawaysWithUpdatedEntries++
+          await delay(1000)
+        }
+      }
+
+      if (giveawaysWithUpdatedEntries > 0) {
+        writeFileSync(entriesFilename, JSON.stringify(existingEntries, null, 2))
+        console.log(`🔍 Updated ${giveawaysWithUpdatedEntries} entries`)
+      }
+
       // Update CV status for all giveaways
       const updatedGiveaways = await scraper.updateCVStatus(allGiveaways)
       const now = Date.now() / 1000

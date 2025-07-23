@@ -14,7 +14,6 @@ async function main() {
       console.log('✅ Game found:', {
         name: gameInfo.name,
         mainStoryHours: gameInfo.mainStoryHours,
-        confidence: `${gameInfo.confidence} user reports`,
       })
     } else {
       console.log(`❌ No game found with name: ${gameName}`)

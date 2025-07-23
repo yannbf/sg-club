@@ -11,10 +11,12 @@ import { useGameData } from '@/lib/hooks'
 import FormattedDate from '@/components/FormattedDate'
 
 interface Props {
+  heading?: string
   giveaways: Giveaway[]
   lastUpdated: string | null
   userAvatars: Map<string, string>
   gameData: GameData[]
+  defaultGiveawayStatus?: 'open' | 'ended' | 'all'
 }
 
 const PLACEHOLDER_IMAGE = 'https://steamplayercount.com/theme/img/placeholder.svg'
@@ -45,13 +47,13 @@ export function getStatusBadge(giveaway: Giveaway) {
   return <span className="px-2 py-1 text-xs font-semibold bg-error-light text-error-foreground rounded-full">No Winners</span>
 }
 
-export default function GiveawaysClient({ giveaways, lastUpdated, userAvatars, gameData }: Props) {
+export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, lastUpdated, userAvatars, gameData, defaultGiveawayStatus = 'open' }: Props) {
   const { getGameData } = useGameData(gameData)
   const [searchTerm, setSearchTerm] = useState('')
   const [sortBy, setSortBy] = useState<'date' | 'entries' | 'points'>('date')
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc')
   const [filterCV, setFilterCV] = useState<'all' | 'FULL_CV' | 'REDUCED_CV' | 'NO_CV'>('all')
-  const [giveawayStatus, setGiveawayStatus] = useState<'open' | 'ended' | 'all'>('open')
+  const [giveawayStatus, setGiveawayStatus] = useState<'open' | 'ended' | 'all'>(defaultGiveawayStatus)
   const [failedImages, setFailedImages] = useState<Set<string>>(new Set())
 
   // Add new state variables for label filters
@@ -119,7 +121,7 @@ export default function GiveawaysClient({ giveaways, lastUpdated, userAvatars, g
   return (
     <div className="space-y-8">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold">All Giveaways</h1>
+        <h1 className="text-3xl font-bold">{heading}</h1>
         {lastUpdated && (
           <LastUpdated lastUpdatedDate={lastUpdated} />
         )}

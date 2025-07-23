@@ -135,10 +135,9 @@ export interface SteamPlayData {
   last_checked: number
 }
 
+type GiveawayId = string
+type UserId = string
 export type UserEntry = Record<
-  string,
-  Array<{
-    timestamp: number
-    ga_link: string
-  }>
+  UserId,
+  Array<GiveawayId>
 >

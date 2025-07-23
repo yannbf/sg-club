@@ -165,6 +165,14 @@ describe('SteamGiftsUserFetcher', () => {
             had_winners: true,
             is_shared: false,
             required_play: false,
+            created_timestamp: 0,
+            winners: [
+              {
+                name: 'User A',
+                status: 'received',
+                activated: true,
+              },
+            ],
           },
         ],
       }
@@ -297,6 +305,14 @@ describe('SteamGiftsUserFetcher', () => {
             had_winners: true,
             is_shared: false,
             required_play: false,
+            created_timestamp: 0,
+            winners: [
+              {
+                name: 'User A',
+                status: 'received',
+                activated: true,
+              },
+            ],
           },
         ],
       }
@@ -339,6 +355,14 @@ describe('SteamGiftsUserFetcher', () => {
             had_winners: true,
             is_shared: false,
             required_play: false,
+            created_timestamp: 0,
+            winners: [
+              {
+                name: 'User A',
+                status: 'received',
+                activated: true,
+              },
+            ],
           }, // $30
           {
             name: 'No CV Game',
@@ -350,6 +374,14 @@ describe('SteamGiftsUserFetcher', () => {
             had_winners: true,
             is_shared: false,
             required_play: false,
+            created_timestamp: 0,
+            winners: [
+              {
+                name: 'User A',
+                status: 'received',
+                activated: true,
+              },
+            ],
           },
         ],
       }

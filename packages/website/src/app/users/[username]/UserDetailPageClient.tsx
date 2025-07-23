@@ -8,7 +8,7 @@ import { useState } from 'react'
 import type { User, UserGroupData, UserEntry } from '@/types'
 import type { Giveaway, GameData } from '@/types'
 import FormattedDate from '@/components/FormattedDate'
-import { GiveawaysList } from '@/app/giveaways/client'
+import GiveawaysClient, { GiveawaysList } from '@/app/giveaways/client'
 
 interface Props {
   user: User
@@ -23,8 +23,8 @@ export default function UserDetailPageClient({ user, allUsers, giveaways, gameDa
 
   // Get giveaways created by this user from the main giveaways data
   const userGiveaways = giveaways.filter(g => g.creator.username === user.username)
-  const enteredGiveawayLinks = userEntries?.[user.username]?.map(entry => entry.ga_link) || []
-  const enteredGiveaways = giveaways.filter(g => enteredGiveawayLinks.map(ga => ga.split('/giveaway/')[1]).includes(g.link))
+  const enteredGiveawayIds = userEntries?.[user.username] || []
+  const enteredGiveaways = giveaways.filter(g => enteredGiveawayIds.includes(g.id))
 
   // Create a map of usernames to avatar URLs
   const userAvatars = new Map(
@@ -327,10 +327,14 @@ export default function UserDetailPageClient({ user, allUsers, giveaways, gameDa
         gameData={gameData}
       />
 
-      <h2 className="text-xl font-semibold">
-        🎟️ Giveaways Entered ({enteredGiveaways.length})
-      </h2>
-      <GiveawaysList giveaways={enteredGiveaways} userAvatars={userAvatars} />
+      <GiveawaysClient
+        heading="🎟️ Giveaways Entered"
+        giveaways={enteredGiveaways}
+        userAvatars={userAvatars}
+        gameData={gameData}
+        lastUpdated={null}
+        defaultGiveawayStatus="all"
+      />
     </div>
   )
 }

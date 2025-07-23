@@ -14,6 +14,26 @@ function getBaseUrl() {
   return ''
 }
 
+type UserEntry = Record<string, string[]>
+type InvertedUserEntry = Record<string, string[]>
+
+// turns { "ga_id1": ["user1", "user2"] }
+// into { "user1": ["ga_id1"], "user2": ["ga_id1"] }
+function processUserEntries(input: UserEntry): InvertedUserEntry {
+  const output: InvertedUserEntry = {}
+
+  for (const [id, users] of Object.entries(input)) {
+    for (const user of users) {
+      if (!output[user]) {
+        output[user] = []
+      }
+      output[user].push(id)
+    }
+  }
+
+  return output
+}
+
 async function loadBuildTimeData() {
   if (typeof window !== 'undefined') {
     // Client-side - use fetch
@@ -89,7 +109,7 @@ async function loadBuildTimeData() {
           'user_entries.json'
         )
         const entriesData = readFileSync(usersPath, 'utf8')
-        buildTimeUserEntries = JSON.parse(entriesData)
+        buildTimeUserEntries = processUserEntries(JSON.parse(entriesData))
       }
     }
 
@@ -154,7 +174,8 @@ async function fetchUserEntries(): Promise<UserEntry | null> {
     const baseUrl = getBaseUrl()
     const response = await fetch(`${baseUrl}/data/user_entries.json`)
     if (!response.ok) throw new Error('Failed to fetch users')
-    return await response.json()
+    const data = await response.json()
+    return processUserEntries(data)
   } catch (error) {
     console.error('Error reading users data:', error)
     return null
