@@ -8,7 +8,7 @@ import { useState } from 'react'
 import type { User, UserGroupData, UserEntry } from '@/types'
 import type { Giveaway, GameData } from '@/types'
 import FormattedDate from '@/components/FormattedDate'
-import GiveawaysClient, { GiveawaysList } from '@/app/giveaways/client'
+import GiveawaysClient from '@/app/giveaways/client'
 
 interface Props {
   user: User
