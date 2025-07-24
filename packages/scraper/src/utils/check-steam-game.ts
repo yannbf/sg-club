@@ -125,6 +125,21 @@ export class SteamGameChecker {
     }
   }
 
+  public async getPlayerCountryCode(steamID: string): Promise<string | null> {
+    const response = await fetch(
+      `https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=${this.apiKey}&steamids=${steamID}`
+    )
+    const data = (await response.json()) as {
+      response: { players: { loccountrycode: string }[] }
+    }
+    const user = data.response.players[0]
+    if (user?.loccountrycode) {
+      return user.loccountrycode.toLowerCase()
+    }
+
+    return null
+  }
+
   public async checkProfileVisibility(
     steamId: string
   ): Promise<SteamProfileVisibility> {

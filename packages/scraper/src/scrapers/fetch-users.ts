@@ -18,6 +18,12 @@ import { delay } from '../utils/common.js'
 import { logError } from '../utils/log-error.js'
 import { GiveawayPointsManager } from '../utils/fetch-giveaway-points.js'
 
+const debug = (args: any) => {
+  if (process.env.DEBUG) {
+    console.log(args)
+  }
+}
+
 export class SteamGiftsUserFetcher {
   private readonly baseUrl = 'https://www.steamgifts.com'
   private readonly startUrl = '/group/WlYTQ/thegiveawaysclub/users'
@@ -295,12 +301,10 @@ export class SteamGiftsUserFetcher {
             userStats.real_total_sent_count += giveaway.copies
             const gamePriceFullCV = gamePriceMap.get(giveaway.name)
             if (gamePriceFullCV) {
-              userStats.real_total_sent_value += Number(
-                (
-                  (gamePriceFullCV.price_usd_full / 100) *
-                  giveaway.copies
-                ).toFixed(2)
-              ) // Convert cents to dollars and round to 2 decimals
+              const finalValue =
+                (gamePriceFullCV.price_usd_full / 100) * giveaway.copies
+              debug(`Adding Full CV value for ${giveaway.name}: ${finalValue}`)
+              userStats.real_total_sent_value += Number(finalValue.toFixed(2))
             }
             break
           case 'REDUCED_CV':
@@ -321,6 +325,8 @@ export class SteamGiftsUserFetcher {
             break
         }
       }
+
+      debug(`Total sent value: ${userStats.real_total_sent_value}`)
     }
 
     // Count received giveaways by CV status and calculate real values
@@ -882,6 +888,34 @@ export class SteamGiftsUserFetcher {
             `✅ All users already have Steam info or no Steam profiles`
           )
         }
+
+        const usersNeedingCountryCodeInfo = Array.from(
+          existingUsers.values()
+        ).filter((user) => !user.country_code)
+
+        if (usersNeedingCountryCodeInfo.length > 0) {
+          console.log(
+            `📋 Found ${usersNeedingCountryCodeInfo.length} users without country code info`
+          )
+          const steamChecker = getSteamChecker()
+          for (const user of usersNeedingCountryCodeInfo) {
+            if (user.steam_id) {
+              const countryCode = await steamChecker.getPlayerCountryCode(
+                user.steam_id
+              )
+              existingUsers.set(user.username, {
+                ...user,
+                country_code: countryCode,
+              })
+              console.log(`✅ ${user.username} -> Country code: ${countryCode}`)
+              await delay(400)
+            } else {
+              console.log(
+                `❌ ${user.username} -> No Steam ID. Skipping fetching country code`
+              )
+            }
+          }
+        }
       }
 
       // Load giveaway data and enrich users
@@ -1194,4 +1228,13 @@ async function main(): Promise<void> {
 if (process.env.VITEST !== 'true') {
   // Run the script
   await main()
+  // const fetcher = new SteamGiftsUserFetcher()
+  // const userData = readFileSync(
+  //   '../website/public/data/group_users.json',
+  //   'utf8'
+  // )
+  // const users = JSON.parse(userData)
+  // const user = users.users['Ignition365']
+  // const stats = fetcher.calculateStats(user)
+  // console.log(stats)
 }
