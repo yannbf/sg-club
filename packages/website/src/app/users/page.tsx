@@ -3,7 +3,8 @@ import UsersClient from './client'
 
 export default async function UsersPage() {
   const userData = await getAllUsers()
-  
+  const lastUpdated = userData?.lastUpdated
+
   if (!userData) {
     return (
       <div className="flex items-center justify-center h-64">
@@ -12,5 +13,5 @@ export default async function UsersPage() {
     )
   }
 
-  return <UsersClient users={Object.values(userData.users)} />
+  return <UsersClient users={Object.values(userData.users)} lastUpdated={lastUpdated} />
 } 

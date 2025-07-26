@@ -31,6 +31,7 @@ export interface User {
   steam_id?: string
   steam_profile_url?: string
   steam_profile_is_private?: boolean
+  country_code?: string | null
   giveaways_won?: {
     name: string
     link: string

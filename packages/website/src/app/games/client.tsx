@@ -5,11 +5,13 @@ import { Giveaway, GameData } from '@/types'
 import Link from 'next/link'
 import Image from 'next/image'
 import UserAvatar from '@/components/UserAvatar'
+import { LastUpdated } from '@/components/LastUpdated'
 
 interface Props {
   giveaways: Giveaway[]
   gameData: GameData[]
   userAvatars: Map<string, string>
+  lastUpdated: number | null
 }
 
 const PLACEHOLDER_IMAGE = 'https://steamplayercount.com/theme/img/placeholder.svg'
@@ -22,9 +24,9 @@ function getGameImageUrl(game: GameData): string {
       : PLACEHOLDER_IMAGE
 
   return src
-}
+} 
 
-export default function GamesClient({ giveaways, gameData, userAvatars }: Props) {
+export default function GamesClient({ giveaways, gameData, userAvatars, lastUpdated }: Props) {
   const [searchTerm, setSearchTerm] = useState('')
   const [sortBy, setSortBy] = useState<'name' | 'giveaways' | 'copies'>('giveaways')
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc')
@@ -97,10 +99,12 @@ export default function GamesClient({ giveaways, gameData, userAvatars }: Props)
 
   return (
     <div className="space-y-8">
-      <h1 className="text-3xl font-bold">Games given</h1>
-      <p>
-        Below you will find a list of all the games given in the group since its creation, alongside the amount of copies and giveaways.
-      </p>
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold">Games given</h1>
+        {lastUpdated && (
+          <LastUpdated lastUpdatedDate={lastUpdated} />
+        )}
+      </div>
       {/* Filters */}
       <div className="bg-card-background rounded-lg border-card-border border p-6 mb-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

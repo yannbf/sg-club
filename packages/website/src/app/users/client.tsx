@@ -6,12 +6,14 @@ import { User } from '@/types'
 import Link from 'next/link'
 import Image from 'next/image'
 import FormattedDate from '@/components/FormattedDate'
+import { LastUpdated } from '@/components/LastUpdated'
 
 interface Props {
   users: User[]
+  lastUpdated?: number | null
 }
 
-export default function UsersClient({ users }: Props) {
+export default function UsersClient({ users, lastUpdated }: Props) {
   const [searchTerm, setSearchTerm] = useState('')
   const [sortBy, setSortBy] = useState<'username' | 'sent' | 'received' | 'difference' | 'value' | 'playtime' | 'ratio' | 'last_created' | 'last_won'>('difference')
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc')
@@ -121,7 +123,12 @@ export default function UsersClient({ users }: Props) {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-3xl font-bold">Users</h1>
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold">Users</h1>
+        {lastUpdated && (
+          <LastUpdated lastUpdatedDate={lastUpdated} />
+        )}
+      </div>
       {/* Filter Controls */}
       <div className="bg-card-background rounded-lg border-card-border border p-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -249,8 +256,8 @@ export default function UsersClient({ users }: Props) {
               <div className="grid grid-cols-2 gap-4">
                 <div className="text-center">
                   <div className={`text-lg font-medium ${user.stats.real_total_gift_difference > 0 ? 'text-success-foreground' :
-                      user.stats.real_total_gift_difference < 0 ? 'text-error-foreground' :
-                        'text-muted-foreground'
+                    user.stats.real_total_gift_difference < 0 ? 'text-error-foreground' :
+                      'text-muted-foreground'
                     }`}>
                     {user.stats.real_total_gift_difference > 0 ? '+' : ''}{user.stats.real_total_gift_difference}
                   </div>
@@ -258,8 +265,8 @@ export default function UsersClient({ users }: Props) {
                 </div>
                 <div className="text-center">
                   <div className={`text-lg font-medium ${user.stats.real_total_value_difference > 0 ? 'text-success-foreground' :
-                      user.stats.real_total_value_difference < 0 ? 'text-error-foreground' :
-                        'text-muted-foreground'
+                    user.stats.real_total_value_difference < 0 ? 'text-error-foreground' :
+                      'text-muted-foreground'
                     }`}>
                     {user.stats.real_total_value_difference > 0 ? '+' : ''}${user.stats.real_total_value_difference}
                   </div>
@@ -271,7 +278,7 @@ export default function UsersClient({ users }: Props) {
                 <div className="grid grid-cols-2 gap-4">
                   <div className="text-center">
                     <div className="text-sm font-medium">
-                      {user.stats.last_giveaway_created_at ? <FormattedDate timestamp={user.stats.last_giveaway_created_at} /> : 'Never' }
+                      {user.stats.last_giveaway_created_at ? <FormattedDate timestamp={user.stats.last_giveaway_created_at} /> : 'Never'}
                     </div>
                     <div className="text-xs text-muted-foreground">Last GA Created</div>
                   </div>
@@ -286,8 +293,8 @@ export default function UsersClient({ users }: Props) {
 
               <div className="text-center pt-3 border-t border-card-border">
                 <div className={`text-lg font-medium ${(user.stats.giveaway_ratio ?? 0) > 0 ? 'text-success-foreground' :
-                    (user.stats.giveaway_ratio ?? 0) < -1 ? 'text-error-foreground' :
-                      'text-muted-foreground'
+                  (user.stats.giveaway_ratio ?? 0) < -1 ? 'text-error-foreground' :
+                    'text-muted-foreground'
                   }`}>
                   {(user.stats.giveaway_ratio ?? 0).toFixed(2)}
                 </div>

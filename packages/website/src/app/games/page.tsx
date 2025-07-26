@@ -6,6 +6,7 @@ export default async function GamesPage() {
   const gameData = await getGameData()
 
   const allUsers = await getAllUsers()
+  const lastUpdated = allUsers?.lastUpdated ?? null
 
   // Create a map of usernames to avatar URLs
   const userAvatars = new Map(
@@ -15,5 +16,5 @@ export default async function GamesPage() {
     ])
   )
 
-  return <GamesClient giveaways={giveaways} gameData={gameData} userAvatars={userAvatars} />
+  return <GamesClient giveaways={giveaways} gameData={gameData} userAvatars={userAvatars} lastUpdated={lastUpdated} />
 }

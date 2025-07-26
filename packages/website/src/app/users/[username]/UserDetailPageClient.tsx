@@ -18,6 +18,16 @@ interface Props {
   userEntries: UserEntry | null
 }
 
+const countryNames = new Intl.DisplayNames(['en'], { type: 'region' });
+
+const CountryFlag = ({ countryCode }: { countryCode: string | null | undefined }) => {
+  const src = countryCode ? `https://flagcdn.com/24x18/${countryCode}.png` : 'https://friconix.com/jpg/fi-snsuxl-question-mark.jpg';
+
+  const alt = countryCode ?? 'country info not available';
+  const title = countryCode ? (countryNames.of(countryCode.toUpperCase()) || countryCode.toUpperCase()) : 'Country info not available';
+  return <img src={src} alt={alt} title={title} className="ml-2 text-2xl text-muted-foreground" />
+}
+
 export default function UserDetailPageClient({ user, allUsers, giveaways, gameData, userEntries }: Props) {
   const [showDetailedStats, setShowDetailedStats] = useState(false)
 
@@ -93,24 +103,21 @@ export default function UserDetailPageClient({ user, allUsers, giveaways, gameDa
           )}
           <div className="flex-1">
             <div className="flex items-center">
-              <h1 className="text-3xl font-bold">{user.username}</h1>
-              <span className="ml-3 text-2xl" title={userType.label}>{userType.icon}</span>
-              {user.steam_id && !user.steam_profile_is_private && <span className="ml-2 text-2xl text-muted-foreground" title="Steam Account Linked">🎮</span>}
-            </div>
-            <p className={`text-lg font-medium ${userType.color}`}>
-              {userType.label} ({user.stats.giveaway_ratio ? user.stats.giveaway_ratio.toFixed(2) : 0})
-            </p>
-            {user.profile_url && (
               <a
                 href={`https://www.steamgifts.com/user/${user.username}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-accent hover:underline text-sm"
+                className="text-3xl font-bold text-accent hover:underline text-sm"
               >
-                View SG Profile →
+                <h1 className="text-3xl font-bold">
+                  {user.username}
+                </h1>
               </a>
-            )}
-            <br />
+              <CountryFlag countryCode={user.country_code} />
+            </div>
+            <p className={`text-lg font-medium ${userType.color}`}>
+              {userType.label} ({user.stats.giveaway_ratio ? user.stats.giveaway_ratio.toFixed(2) : 0})
+            </p>
             {user.steam_profile_url && (
               <a
                 href={user.steam_profile_url}

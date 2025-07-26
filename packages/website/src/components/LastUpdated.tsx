@@ -2,7 +2,7 @@
 
 import FormattedDate from './FormattedDate'
 
-export function LastUpdated({ lastUpdatedDate }: { lastUpdatedDate: string }) {
+export function LastUpdated({ lastUpdatedDate }: { lastUpdatedDate: number | string }) {
   const timestamp = Math.floor(new Date(lastUpdatedDate).getTime() / 1000)
 
   return (
