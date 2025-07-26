@@ -2,7 +2,7 @@ import { existsSync } from 'fs'
 import fs from 'fs/promises'
 import path from 'path'
 import { setTimeout } from 'timers/promises'
-import { hltb } from './check-hltb'
+import { hltb } from './fetch-hltb-data'
 
 interface Giveaway {
   app_id?: number

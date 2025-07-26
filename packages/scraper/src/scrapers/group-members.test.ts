@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { readFileSync } from 'node:fs'
-import { SteamGiftsUserFetcher } from './fetch-users'
+import { SteamGiftsUserFetcher } from './group-members'
 import type { User, GamePrice } from '../types/steamgifts'
 
 vi.mock('node:fs')

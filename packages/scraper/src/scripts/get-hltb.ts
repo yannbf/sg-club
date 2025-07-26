@@ -1,4 +1,4 @@
-import { hltb } from '../utils/check-hltb'
+import { hltb } from '../api/fetch-hltb-data'
 
 async function main() {
   const gameName = process.argv[2]

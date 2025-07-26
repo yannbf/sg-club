@@ -1,5 +1,5 @@
 import fs from 'fs'
-import { SteamGiftsHTMLScraper } from '../scrapers/fetch-steamgifts-html'
+import { SteamGiftsHTMLScraper } from '../scrapers/group-giveaways'
 
 const SHARED_GA_URL = '/giveaway/VOC6u/klang'
 // const GA_ENTRIES_URL = '/giveaway/VOC6u/klang/entries'

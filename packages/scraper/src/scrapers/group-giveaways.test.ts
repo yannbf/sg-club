@@ -1,12 +1,13 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { loadMockHtml } from '../test-utils/load-mock-html'
-import { SteamGiftsHTMLScraper } from './fetch-steamgifts-html'
+import { SteamGiftsHTMLScraper } from './group-giveaways'
 
 describe('SteamGiftsHTMLScraper', () => {
   let scraper: SteamGiftsHTMLScraper
 
   beforeEach(() => {
     scraper = new SteamGiftsHTMLScraper()
+    scraper.fetchPage = vi.fn(() => Promise.resolve(''))
     scraper.fetchDetailedWinners = vi.fn(() => Promise.resolve([]))
     scraper.fetchDetailedEntries = vi.fn(() => Promise.resolve([]))
   })
@@ -90,12 +91,14 @@ describe('SteamGiftsHTMLScraper', () => {
           "group": true,
           "id": "0T6OW",
           "invite_only": false,
+          "is_shared": false,
           "link": "0T6OW/untitled-goose-game",
           "name": "Untitled Goose
                               Game",
           "package_id": null,
           "points": 20,
           "region_restricted": false,
+          "required_play": false,
           "start_timestamp": 1751715897,
           "whitelist": false,
         }

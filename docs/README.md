@@ -94,7 +94,7 @@ For automated updates, add to your crontab:
 
 This project uses HTML scraping to fetch comprehensive giveaway data:
 
-### HTML Scraping Approach (`fetch-steamgifts-html.ts`)
+### HTML Scraping Approach (`group-giveaways.ts`)
 - Uses HTML parsing with Cheerio
 - Scrapes the actual web pages for complete data
 - **Unique advantages**: 

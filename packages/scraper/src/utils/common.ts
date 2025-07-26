@@ -2,6 +2,9 @@
  * Delays execution for the specified number of milliseconds
  */
 export async function delay(ms: number): Promise<void> {
+  if (process.env.VITEST) {
+    return
+  }
   return new Promise((resolve) => setTimeout(resolve, ms))
 }
 

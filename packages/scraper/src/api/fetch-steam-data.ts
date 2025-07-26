@@ -8,8 +8,12 @@ import type {
   PlayerAchievementsResponse,
   GameSchemaResponse,
 } from '../types/steam.js'
-import { formatPlaytime, formatDate, getRequiredEnvVar } from './common.js'
-import { logError } from './log-error.js'
+import {
+  formatPlaytime,
+  formatDate,
+  getRequiredEnvVar,
+} from '../utils/common.js'
+import { logError } from '../utils/log-error.js'
 
 export interface GamePlayData {
   owned: boolean

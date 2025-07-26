@@ -662,10 +662,7 @@ class GroupInsightsGenerator {
   }
 }
 
-async function main(): Promise<void> {
+export async function generateInsights(): Promise<void> {
   const generator = new GroupInsightsGenerator()
   generator.generateReport()
 }
-
-// Run the script
-await main()

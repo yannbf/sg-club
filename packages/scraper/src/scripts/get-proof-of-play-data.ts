@@ -1,4 +1,4 @@
-import { GiveawayPointsManager } from '../utils/fetch-giveaway-points'
+import { GiveawayPointsManager } from '../api/fetch-proof-of-play'
 
 async function main() {
   const giveawayId = process.argv[2]
