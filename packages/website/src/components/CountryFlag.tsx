@@ -14,7 +14,7 @@ const CountryFlag = ({ countryCode }: { countryCode: string | null | undefined }
   return (
     <Tooltip content={getCountryName(countryCode)}>
       <div className="flex items-center">
-        <img src={src} alt={alt} className="ml-2 text-2xl text-muted-foreground" />
+        <img width={24} height={18} src={src} alt={alt} className="ml-2 text-2xl text-muted-foreground" />
       </div>
     </Tooltip>
   )
