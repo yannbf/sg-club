@@ -27,7 +27,10 @@ export class SteamGiftsUserFetcher {
   private readonly cookie =
     'PHPSESSID=91ic94969ca1030jaons7142nq852vmq9mfvis7lbqi35i7i'
 
-  private async fetchPage(path: string): Promise<string> {
+  private async fetchPage(
+    path: string,
+    retryCount: number = 0
+  ): Promise<string> {
     const url = this.baseUrl + path
     console.log(`📄 Fetching: ${url}`)
 
@@ -41,7 +44,22 @@ export class SteamGiftsUserFetcher {
     })
 
     if (!response.ok) {
-      throw new Error(`Failed to fetch ${url}: ${response.statusText}`)
+      const errorMessage = `Failed to fetch ${url}: ${response.statusText}`
+
+      if (
+        response.status === 429 ||
+        response.statusText.includes('Too Many Requests')
+      ) {
+        console.log(`⚠️  Rate limit exceeded, retrying: ${url}`)
+        if (retryCount < 3) {
+          await delay(10000)
+          return await this.fetchPage(path, retryCount + 1)
+        }
+      }
+
+      const error = new Error(errorMessage)
+      logError(error, errorMessage)
+      throw error
     }
 
     return await response.text()
@@ -367,13 +385,13 @@ export class SteamGiftsUserFetcher {
     userStats.fcv_gift_difference =
       userStats.fcv_sent_count - userStats.fcv_received_count
 
-    const fcv_won_without_proof_of_play =
+    const fcv_won_without_i_played_bro =
       user.giveaways_won?.filter(
-        (g) => g.cv_status === 'FULL_CV' && !g.proof_of_play
+        (g) => g.cv_status === 'FULL_CV' && !g.i_played_bro
       ).length || 0
 
     userStats.giveaway_ratio =
-      userStats.fcv_sent_count - fcv_won_without_proof_of_play / 3
+      userStats.fcv_sent_count - fcv_won_without_i_played_bro / 3
 
     // Calculate real value differences
     userStats.real_total_value_difference = Number(
@@ -513,10 +531,9 @@ export class SteamGiftsUserFetcher {
     // Create a map of giveaways by creator for faster lookup
     const giveawaysByCreator = new Map<string, Giveaway[]>()
     for (const giveaway of giveaways) {
-      const creatorGiveaways =
-        giveawaysByCreator.get(giveaway.creator.username) || []
+      const creatorGiveaways = giveawaysByCreator.get(giveaway.creator) || []
       creatorGiveaways.push(giveaway)
-      giveawaysByCreator.set(giveaway.creator.username, creatorGiveaways)
+      giveawaysByCreator.set(giveaway.creator, creatorGiveaways)
     }
 
     // Process each user
@@ -538,7 +555,7 @@ export class SteamGiftsUserFetcher {
               const giveawayId = giveaway.link.split('/')[0]
               const pointsData = pointsMap.get(giveawayId)
 
-              giveawaysWon.push({
+              const giveawayData: NonNullable<User['giveaways_won']>[0] = {
                 name: giveaway.name,
                 link: giveaway.link,
                 cv_status: giveaway.cv_status || 'FULL_CV',
@@ -546,11 +563,30 @@ export class SteamGiftsUserFetcher {
                 end_timestamp: giveaway.end_timestamp,
                 required_play: giveaway.required_play || false,
                 is_shared: giveaway.is_shared || false,
-                proof_of_play:
-                  (pointsData?.completePlaying &&
-                    pointsData?.winner === username) ??
-                  false,
-              })
+              }
+
+              if (pointsData) {
+                if (pointsData?.completePlaying) {
+                  giveawayData.i_played_bro =
+                    (pointsData?.completePlaying &&
+                      pointsData?.winner === username) ??
+                    false
+                }
+
+                if (pointsData.playRequirements) {
+                  giveawayData.required_play_meta = {
+                    requirements_met:
+                      pointsData.playRequirements?.playRequirementsMet ?? false,
+                    deadline: pointsData.playRequirements?.deadline,
+                    deadline_in_months:
+                      pointsData.playRequirements?.deadlineInMonths,
+                    additional_notes:
+                      pointsData.playRequirements?.additionalNotes,
+                  }
+                }
+              }
+
+              giveawaysWon.push(giveawayData)
             }
           }
         }
@@ -558,7 +594,7 @@ export class SteamGiftsUserFetcher {
 
       // Find giveaways created by this user
       for (const giveaway of giveaways) {
-        if (giveaway.creator.username === username) {
+        if (giveaway.creator === username) {
           const giveawayCreated: NonNullable<User['giveaways_created']>[0] = {
             name: giveaway.name,
             link: giveaway.link,
@@ -705,9 +741,10 @@ export class SteamGiftsUserFetcher {
         html = await this.fetchPage(currentPath)
         pagesFetched++
       } catch (error) {
-        const errorMessage = `Failed to fetch page: ${this.baseUrl}${currentPath}`
-        console.warn(`⚠️  ${errorMessage}:`, error)
-        logError(error, errorMessage)
+        console.warn(
+          `⚠️  Failed to fetch page: ${this.baseUrl}${currentPath}:`,
+          error
+        )
         break
       }
 

@@ -71,7 +71,7 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
   const filteredAndSortedGiveaways = useMemo(() => {
     const filtered = giveaways.filter(giveaway => {
       const matchesSearch = giveaway.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        giveaway.creator.username.toLowerCase().includes(searchTerm.toLowerCase())
+        giveaway.creator.toLowerCase().includes(searchTerm.toLowerCase())
       const matchesCV = filterCV === 'all' || giveaway.cv_status === filterCV
       const now = Date.now() / 1000
       const isEnded = giveaway.end_timestamp < now
@@ -300,13 +300,13 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
                     <span className="text-muted-foreground">Creator:</span>
                     <div className="flex items-center">
                       <UserAvatar
-                        src={userAvatars.get(giveaway.creator.username) || 'https://cdn-icons-png.flaticon.com/512/9287/9287610.png'}
-                        username={giveaway.creator.username}
+                        src={userAvatars.get(giveaway.creator) || 'https://cdn-icons-png.flaticon.com/512/9287/9287610.png'}
+                        username={giveaway.creator}
                       />
                       {/* todo: add country flag */}
                       {/* <CountryFlag countryCode={giveaway.creator.country_code} /> */}
-                      <Link href={`/users/${giveaway.creator.username}`} className="text-accent hover:underline mr-2 inline-flex items-center">
-                        {giveaway.creator.username}
+                      <Link href={`/users/${giveaway.creator}`} className="text-accent hover:underline mr-2 inline-flex items-center">
+                        {giveaway.creator}
                       </Link>
                     </div>
                   </div>

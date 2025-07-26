@@ -1,6 +1,7 @@
 import Papa from 'papaparse'
 
-// Define the structure of a giveaway row
+// ─── Interfaces ───────────────────────────────────────────────────────
+
 interface GiveawayRow {
   ID: string
   GAME: string
@@ -9,21 +10,55 @@ interface GiveawayRow {
   'EXTRA POINTS': string
 }
 
+interface PlayRequirementRow {
+  ID: string
+  GAME: string
+  WINNER: string
+  'PLAY REQUIREMENTS MET': string
+  DEADLINE: string
+  'DEADLINE (IN MONTHS)': string
+  'ADDITIONAL NOTES': string
+}
+
+interface PlayRequirementData {
+  id: string
+  game: string
+  winner: string
+  playRequirementsMet: boolean
+  deadline: string
+  deadlineInMonths: number
+  additionalNotes: string
+}
+
 interface GiveawayData {
   id: string
   game: string
   winner: string
   completePlaying: boolean
   extraPoints: number
+  playRequirements?: PlayRequirementData
 }
+
+// ─── Class ────────────────────────────────────────────────────────────
 
 export class GiveawayPointsManager {
   private static instance: GiveawayPointsManager
   private readonly SHEET_ID = '1h20q3RPeYTDwL_hl3uWEq6SSRbSlsHJW3VhN538oP3A'
-  private cachedData: GiveawayData[] | null = null
-  private lastFetchTime: number = 0
-  private readonly CACHE_DURATION = 25 * 60 * 1000 // 25 minutes in milliseconds
-  private fetchPromise: Promise<GiveawayData[]> | null = null
+
+  private readonly GID = {
+    GIVEAWAYS: '0', // proof of play tab
+    PLAY_REQUIRED: '2065024481', // play required tab
+  }
+
+  private readonly CACHE_DURATION = 25 * 60 * 1000 // 25 min
+
+  private giveawayCache: GiveawayData[] | null = null
+  private giveawayLastFetch = 0
+  private giveawayFetchPromise: Promise<GiveawayData[]> | null = null
+
+  private playReqCache: PlayRequirementData[] | null = null
+  private playReqLastFetch = 0
+  private playReqFetchPromise: Promise<PlayRequirementData[]> | null = null
 
   private constructor() {}
 
@@ -34,7 +69,41 @@ export class GiveawayPointsManager {
     return GiveawayPointsManager.instance
   }
 
-  private parseRow(row: GiveawayRow): GiveawayData {
+  // ─── Shared CSV Fetcher ─────────────────────────────────────────────
+
+  private async fetchCsvData<T>(gid: string): Promise<T[]> {
+    const csvUrl = `https://docs.google.com/spreadsheets/d/${this.SHEET_ID}/export?format=csv&gid=${gid}`
+
+    try {
+      const response = await fetch(csvUrl)
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch sheet: ${response.statusText}`)
+      }
+
+      const csvText = await response.text()
+      const parsed = Papa.parse<T>(csvText, {
+        header: true,
+        skipEmptyLines: true,
+      })
+
+      if (parsed.errors.length > 0) {
+        console.warn('⚠️ Parse warnings:', parsed.errors)
+      }
+
+      return parsed.data
+    } catch (err) {
+      console.error(
+        '❌ CSV Fetch error:',
+        err instanceof Error ? err.message : err
+      )
+      throw err
+    }
+  }
+
+  // ─── Giveaway Logic ─────────────────────────────────────────────────
+
+  private parseGiveawayRow(row: GiveawayRow): GiveawayData {
     return {
       id: row.ID,
       game: row.GAME,
@@ -44,99 +113,106 @@ export class GiveawayPointsManager {
     }
   }
 
-  private async fetchAllGiveaways(): Promise<GiveawayData[]> {
-    // If there's already a fetch in progress, wait for it
-    if (this.fetchPromise) {
-      console.log('🔄 Fetch already in progress, waiting...')
-      return this.fetchPromise
-    }
+  private async fetchGiveaways(): Promise<GiveawayData[]> {
+    if (this.giveawayFetchPromise) return this.giveawayFetchPromise
 
-    // Check if we have valid cached data
     const now = Date.now()
-    if (this.cachedData && now - this.lastFetchTime < this.CACHE_DURATION) {
-      console.log('📦 Using cached data')
-      return this.cachedData
+    if (
+      this.giveawayCache &&
+      now - this.giveawayLastFetch < this.CACHE_DURATION
+    ) {
+      return this.giveawayCache
     }
 
-    // Start new fetch
-    this.fetchPromise = this.doFetch()
+    this.giveawayFetchPromise = Promise.all([
+      this.fetchCsvData<GiveawayRow>(this.GID.GIVEAWAYS),
+      this.fetchPlayRequirements(),
+    ])
+      .then(([giveawayRows, playReqs]) => {
+        const playReqMap = new Map<string, PlayRequirementData>()
+        for (const pr of playReqs) {
+          playReqMap.set(pr.id, pr)
+        }
 
-    try {
-      const data = await this.fetchPromise
-      return data
-    } finally {
-      // Clear the promise so future fetches can occur
-      this.fetchPromise = null
-    }
-  }
+        const giveaways = giveawayRows
+          .filter((row) => row.ID && row.GAME)
+          .map((row) => {
+            const base = this.parseGiveawayRow(row)
+            const playRequirements = playReqMap.get(base.id)
+            return { ...base, playRequirements }
+          })
 
-  private async doFetch(): Promise<GiveawayData[]> {
-    const csvUrl = `https://docs.google.com/spreadsheets/d/${this.SHEET_ID}/export?format=csv`
-
-    try {
-      console.log('🔄 Fetching spreadsheet data...')
-      const response = await fetch(csvUrl)
-
-      if (!response.ok) {
-        throw new Error(`Failed to fetch sheet: ${response.statusText}`)
-      }
-
-      const csvText = await response.text()
-      const parsed = Papa.parse<GiveawayRow>(csvText, {
-        header: true,
-        skipEmptyLines: true,
+        this.giveawayCache = giveaways
+        this.giveawayLastFetch = Date.now()
+        return giveaways
+      })
+      .finally(() => {
+        this.giveawayFetchPromise = null
       })
 
-      if (parsed.errors.length > 0) {
-        console.warn('⚠️  Parse warnings:', parsed.errors)
-      }
-
-      // Transform and validate the data
-      const giveaways = parsed.data
-        .filter((row) => row.ID && row.GAME) // Skip incomplete rows
-        .map((row) => this.parseRow(row))
-
-      // Update cache
-      this.cachedData = giveaways
-      this.lastFetchTime = Date.now()
-
-      console.log(`✅ Fetched ${giveaways.length} giveaways`)
-      return giveaways
-    } catch (err) {
-      console.error(
-        '❌ Error fetching data:',
-        err instanceof Error ? err.message : err
-      )
-      // If we have cached data, return it as fallback
-      if (this.cachedData) {
-        console.log('📦 Using cached data as fallback')
-        return this.cachedData
-      }
-      throw err
-    }
-  }
-
-  public async getGiveawayById(
-    giveawayId: string
-  ): Promise<GiveawayData | null> {
-    try {
-      const giveaways = await this.fetchAllGiveaways()
-      const giveaway = giveaways.find((g) => g.id === giveawayId)
-
-      if (giveaway) {
-        console.log('🎯 Giveaway found:', giveaway)
-        return giveaway
-      } else {
-        console.log('❌ No giveaway found for ID:', giveawayId)
-        return null
-      }
-    } catch (err) {
-      console.error('❌ Error:', err instanceof Error ? err.message : err)
-      return null
-    }
+    return this.giveawayFetchPromise
   }
 
   public async getAllGiveaways(): Promise<GiveawayData[]> {
-    return this.fetchAllGiveaways()
+    return this.fetchGiveaways()
+  }
+
+  public async getGiveawayById(id: string): Promise<GiveawayData | null> {
+    const giveaways = await this.fetchGiveaways()
+    return giveaways.find((g) => g.id === id) || null
+  }
+
+  // ─── Play Requirements Logic ────────────────────────────────────────
+
+  private parsePlayRequirementRow(
+    row: PlayRequirementRow
+  ): PlayRequirementData {
+    return {
+      id: row.ID,
+      game: row.GAME,
+      winner: row.WINNER,
+      playRequirementsMet: row['PLAY REQUIREMENTS MET'].toUpperCase() === 'YES',
+      deadline: row.DEADLINE,
+      deadlineInMonths: parseInt(row['DEADLINE (IN MONTHS)'], 10) || 0,
+      additionalNotes: row['ADDITIONAL NOTES'] || '',
+    }
+  }
+
+  private async fetchPlayRequirements(): Promise<PlayRequirementData[]> {
+    if (this.playReqFetchPromise) return this.playReqFetchPromise
+
+    const now = Date.now()
+    if (
+      this.playReqCache &&
+      now - this.playReqLastFetch < this.CACHE_DURATION
+    ) {
+      return this.playReqCache
+    }
+
+    this.playReqFetchPromise = this.fetchCsvData<PlayRequirementRow>(
+      this.GID.PLAY_REQUIRED
+    )
+      .then((rows) =>
+        rows
+          .filter((row) => row.ID && row.GAME)
+          .map((row) => this.parsePlayRequirementRow(row))
+      )
+      .then((data) => {
+        this.playReqCache = data
+        this.playReqLastFetch = Date.now()
+        return data
+      })
+      .finally(() => {
+        this.playReqFetchPromise = null
+      })
+
+    return this.playReqFetchPromise
+  }
+
+  public async getPlayRequirementsById(
+    id: string
+  ): Promise<PlayRequirementData | null> {
+    const playReqs = await this.fetchPlayRequirements()
+    return playReqs.find((p) => p.id === id) || null
   }
 }

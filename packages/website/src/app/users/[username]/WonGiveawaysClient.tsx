@@ -6,6 +6,7 @@ import GameImage from './GameImage'
 import { useGameData } from '@/lib/hooks'
 import FormattedDate from '@/components/FormattedDate'
 import { useCallback } from 'react'
+import Tooltip from '@/components/Tooltip'
 
 interface Props {
   giveaways: Giveaway[]
@@ -17,11 +18,13 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData }
   const { getGameData } = useGameData(gameData)
 
   const getGiveawayInfo = useCallback((giveaway: NonNullable<User['giveaways_won']>[0]) => {
-    return giveaways.find(g => g.link === giveaway.link)
+    const giveawayInfo = giveaways.find(g => g.link === giveaway.link)
+    const extraGiveawayInfo = wonGiveaways.find(g => g.link === giveaway.link)
+    return { ...giveawayInfo, ...extraGiveawayInfo }
   }, [giveaways])
 
-  const getProofOfPlayStatus = (game: NonNullable<User['giveaways_won']>[0]) => {
-    if (game.proof_of_play) return null;
+  const getIplayBroStatus = (game: NonNullable<User['giveaways_won']>[0]) => {
+    if (game.i_played_bro) return null;
 
     const TWO_MONTHS_IN_SECONDS = 60 * 60 * 24 * 60;
     const TEN_DAYS_IN_SECONDS = 60 * 60 * 24 * 10;
@@ -33,11 +36,11 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData }
     const textColorClass = isExpired ? 'text-error-foreground font-medium' : isCloseToExpiring ? 'text-accent-yellow font-medium' : '';
 
     if (isExpired) {
-      return <span className={textColorClass}> (Proof of play expired)</span>;
+      return <span className={textColorClass}> <code>I play, bro</code> expired)</span>;
     }
 
     const daysRemaining = Math.ceil((TWO_MONTHS_IN_SECONDS - timeSinceWon) / (60 * 60 * 24));
-    return <span className={textColorClass}> ({daysRemaining} days remaining for proof of play)</span>;
+    return <span className={textColorClass}> ({daysRemaining} days remaining for <code>I play, bro</code> proof)</span>;
   };
 
   return (
@@ -64,26 +67,32 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData }
                 <div className="p-4 flex-1">
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
-                      <h3 className="font-semibold">
+                      <h3 className="font-semibold flex items-center gap-2">
                         <a
                           href={`https://www.steamgifts.com/giveaway/${game.link}`}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="text-accent hover:underline text-sm"
                         >{game.name} ({matchingGiveaway?.points}P)</a>
+
+                        {game.i_played_bro && (
+                          <span className="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
+                            ⭐️ I played, bro!
+                          </span>
+                        )}
+                        {game.proof_required_play && (
+                          <span className="px-2 py-1 text-xs font-semibold rounded-full bg-purple-100 text-purple-800">
+                            ✅ Proof of Play
+                          </span>
+                        )}
                       </h3>
                       <div className="flex items-center mt-1 space-x-4">
                         <span className={`px-2 py-1 text-xs font-semibold rounded-full ${getCVBadgeColor(game.cv_status)}`}>
                           {getCVLabel(game.cv_status)}
                         </span>
-                        {game.proof_of_play && (
-                          <span className="px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">
-                            Proof of Play
-                          </span>
-                        )}
                         <span className="text-sm text-muted-foreground">
                           Won <FormattedDate timestamp={game.end_timestamp} />
-                          {getProofOfPlayStatus(game)}
+                          {getIplayBroStatus(game)}
                         </span>
                       </div>
                       {giveawayInfo && <>
@@ -96,10 +105,14 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData }
                                   🌍 Restricted
                                 </span>
                               )}
-                              {giveawayInfo.required_play && (
-                                <span className="text-xs font-medium px-2 py-1 bg-warning-light text-warning-foreground rounded-full">
-                                  🎮 Play Required
-                                </span>
+                              {/* TODO Add tooltip with notes */}
+                              {(giveawayInfo.required_play || (giveawayInfo as any).required_play_meta) && (
+                                <Tooltip content={(giveawayInfo as any).required_play_meta?.additional_notes || 'No additional notes for required play'}>
+                                  <span className="text-xs font-medium px-2 py-1 bg-warning-light text-warning-foreground rounded-full">
+
+                                    🎮 Play Required
+                                  </span>
+                                </Tooltip>
                               )}
                               {giveawayInfo.is_shared && (
                                 <span className="text-xs font-medium px-2 py-1 bg-info-light text-info-foreground rounded-full">

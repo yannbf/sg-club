@@ -80,15 +80,10 @@ describe('SteamGiftsHTMLScraper', () => {
         {
           "app_id": 1332010,
           "comment_count": 4,
-          "contributor_level": 0,
           "copies": 1,
           "created_timestamp": 1753371963,
-          "creator": {
-            "avatar": "",
-            "role": "user",
-            "username": "Patzl",
-          },
-          "end_timestamp": undefined,
+          "creator": "Patzl",
+          "end_timestamp": 1754125200,
           "entry_count": 0,
           "group": true,
           "id": "IHdPD",
@@ -99,7 +94,7 @@ describe('SteamGiftsHTMLScraper', () => {
           "package_id": null,
           "points": 30,
           "region_restricted": false,
-          "required_play": false,
+          "required_play": true,
           "start_timestamp": 1753567200,
           "whitelist": false,
         }
@@ -110,14 +105,9 @@ describe('SteamGiftsHTMLScraper', () => {
         {
           "app_id": 1309710,
           "comment_count": 3,
-          "contributor_level": 0,
           "copies": 1,
           "created_timestamp": 1753055803,
-          "creator": {
-            "avatar": "",
-            "role": "user",
-            "username": "NateSCC",
-          },
+          "creator": "NateSCC",
           "end_timestamp": 1753545240,
           "entry_count": 100,
           "group": true,

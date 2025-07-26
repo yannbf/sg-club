@@ -38,7 +38,10 @@ export interface User {
     cv_status: 'FULL_CV' | 'REDUCED_CV' | 'NO_CV'
     status: string
     end_timestamp: number
-    proof_of_play?: boolean
+    i_played_bro?: boolean
+    proof_required_play?: boolean
+    proof_required_play_deadline_in_months?: number
+    proof_required_play_additional_notes?: string
     steam_play_data?: {
       owned: boolean
       playtime_minutes: number
@@ -90,11 +93,7 @@ export interface Giveaway {
   contributor_level: number
   comment_count: number
   entry_count: number
-  creator: {
-    username: string
-    avatar: string
-    role: string
-  }
+  creator: string
   cv_status?: 'FULL_CV' | 'REDUCED_CV' | 'NO_CV'
   winners?: {
     name: string

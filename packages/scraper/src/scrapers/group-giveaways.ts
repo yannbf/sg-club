@@ -9,12 +9,7 @@ import type {
 import { delay } from '../utils/common.js'
 import { logError } from '../utils/log-error.js'
 
-// HTML-specific Creator interface (different from API)
-interface Creator {
-  username: string
-  avatar: string
-  role: string
-}
+type Creator = string
 
 interface ScrapingStats {
   totalGiveaways: number
@@ -62,7 +57,8 @@ export class SteamGiftsHTMLScraper {
 
   public async fetchPage(
     path: string,
-    useCookie: boolean = false
+    useCookie: boolean = false,
+    retryCount: number = 0
   ): Promise<string> {
     const url = this.baseUrl + path
     console.log(`📄 Fetching: ${url}`)
@@ -78,6 +74,19 @@ export class SteamGiftsHTMLScraper {
 
     if (!response.ok) {
       const errorMessage = `Failed to fetch ${url}: ${response.statusText}`
+
+      if (
+        response.status === 429 ||
+        response.statusText.includes('Too Many Requests')
+      ) {
+        console.log(`⚠️  Rate limit exceeded, retrying: ${url}`)
+        if (retryCount < 3) {
+          await delay(10000)
+          return await this.fetchPage(path, useCookie, retryCount + 1)
+        }
+        throw new Error(errorMessage)
+      }
+
       const error = new Error(errorMessage)
       logError(error, errorMessage)
       throw error
@@ -306,8 +315,8 @@ export class SteamGiftsHTMLScraper {
         ? await this.fetchBundleGames(giveaway.app_id)
         : await this.fetchBundleGamesByName(giveaway.name)
 
-      // Add 700ms delay to avoid hitting API quota
-      await delay(700)
+      // Add 1200ms delay to avoid hitting API quota
+      await delay(1200)
 
       if (!bundleData.success || bundleData.results.length === 0) {
         // Game not found in bundle games = FULL_CV
@@ -408,7 +417,8 @@ export class SteamGiftsHTMLScraper {
     const description = $('.page__description').text().trim()
     const required_play =
       description.includes('PLAY REQUIRED') ||
-      description.toLowerCase().includes('play within')
+      description.toLowerCase().includes('play within') ||
+      description.toLowerCase().includes('Playing is mandatory')
 
     // Check if it's a whitelist giveaway
     const is_whitelist = $('.featured__column--whitelist').length > 0
@@ -541,21 +551,7 @@ export class SteamGiftsHTMLScraper {
           start_timestamp = created_timestamp
         }
 
-        const creatorUsername = $columns
-          .find('.giveaway__username')
-          .text()
-          .trim()
-        const creatorAvatar =
-          $columns
-            .find('.giveaway__username')
-            .closest('.giveaway__column')
-            .find('img')
-            .attr('src') || ''
-        const creator: Creator = {
-          username: creatorUsername,
-          avatar: creatorAvatar,
-          role: 'user', // Default role since we can't determine it from HTML
-        }
+        const creator = $columns.find('.giveaway__username').text().trim()
 
         const region_restricted = !!$columns.find(
           '.giveaway__column--region-restricted'
@@ -718,7 +714,7 @@ export class SteamGiftsHTMLScraper {
           invite_only,
           whitelist,
           group,
-          contributor_level: 0, // HTML scraping doesn't provide contributor level
+          // contributor_level: 0, // bring this back if we ever need this info
           comment_count,
           entry_count,
           creator,

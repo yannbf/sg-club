@@ -1,9 +1,3 @@
-export interface Creator {
-  username: string
-  avatar: string
-  role: string
-}
-
 export interface Giveaway {
   id: string
   name: string
@@ -19,10 +13,9 @@ export interface Giveaway {
   invite_only: boolean
   whitelist: boolean
   group: boolean
-  contributor_level: number
   comment_count: number
   entry_count: number
-  creator: Creator
+  creator: string
   cv_status?: CVStatus
   // HTML scraping specific fields
   hasWinners?: boolean
@@ -78,7 +71,13 @@ export interface User {
     steam_play_data?: SteamPlayData
     required_play: boolean
     is_shared: boolean
-    proof_of_play?: boolean
+    i_played_bro?: boolean
+    required_play_meta?: {
+      requirements_met: boolean
+      deadline?: string
+      deadline_in_months?: number
+      additional_notes?: string
+    }
   }>
   giveaways_created?: Array<{
     name: string
