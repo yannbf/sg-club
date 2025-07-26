@@ -3,6 +3,7 @@ import { groupGiveawaysScraper } from '../scrapers/group-giveaways'
 import { delay } from '../utils/common'
 import type { Giveaway } from '../types/steamgifts'
 import { logError } from '../utils/log-error'
+import { GiveawayPointsManager } from '../api/fetch-proof-of-play'
 
 export async function generateGiveawaysData(): Promise<void> {
   const filename = '../website/public/data/giveaways.json'
@@ -11,9 +12,9 @@ export async function generateGiveawaysData(): Promise<void> {
   try {
     console.log('🚀 Starting giveaway scraping...')
     // turn this to true if you want to debug the postprocessing code
-    const SKIP_FETCHING_GIVEAWAYS = false
+    const SKIP_FETCHING_GIVEAWAYS = true
     const allGiveaways = SKIP_FETCHING_GIVEAWAYS
-      ? JSON.parse(readFileSync(filename, 'utf-8')).giveaways
+      ? (JSON.parse(readFileSync(filename, 'utf-8')).giveaways as Giveaway[])
       : await groupGiveawaysScraper.scrapeGiveaways(filename)
 
     if (allGiveaways.length > 0) {
@@ -27,8 +28,17 @@ export async function generateGiveawaysData(): Promise<void> {
         console.log('📄 No existing entries file found, starting fresh')
       }
 
+      const pointsManager = GiveawayPointsManager.getInstance()
+      const allPointsData = await pointsManager.getAllGiveaways()
+      const pointsMap = new Map(allPointsData.map((p) => [p.id, p]))
+
       let giveawaysWithUpdatedEntries = 0
       for (const giveaway of allGiveaways) {
+        const pointsData = pointsMap.get(giveaway.id)
+        if (pointsData) {
+          giveaway.required_play =
+            giveaway.required_play || !!pointsData.playRequirements
+        }
         // if giveaway has finished and is not in existingEntries or if it's currently ongoing
         const hasFinishedAndNotRegistered =
           giveaway.end_timestamp < Date.now() / 1000 &&

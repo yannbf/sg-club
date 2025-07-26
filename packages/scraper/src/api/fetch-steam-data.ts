@@ -221,8 +221,7 @@ export class SteamGameChecker {
       achievements_unlocked: unlockedAchievements.length,
       achievements_total: totalAchievements,
       achievements_percentage: completionPercentage,
-      never_played:
-        gameInfo.playtime_forever === 0 && unlockedAchievements.length === 0,
+      never_played: unlockedAchievements.length === 0,
       is_playtime_private:
         gameInfo.playtime_forever === 0 && unlockedAchievements.length > 0,
     }

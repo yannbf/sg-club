@@ -34,7 +34,7 @@ interface GiveawayData {
   id: string
   game: string
   winner: string
-  completePlaying: boolean
+  completedIplayBro: boolean
   extraPoints: number
   playRequirements?: PlayRequirementData
 }
@@ -108,7 +108,7 @@ export class GiveawayPointsManager {
       id: row.ID,
       game: row.GAME,
       winner: row.WINNER,
-      completePlaying: row['COMPLETE PLAYING'].toUpperCase() === 'YES',
+      completedIplayBro: row['COMPLETE PLAYING'].toUpperCase() === 'YES',
       extraPoints: parseInt(row['EXTRA POINTS'], 10) || 0,
     }
   }
@@ -129,11 +129,13 @@ export class GiveawayPointsManager {
       this.fetchPlayRequirements(),
     ])
       .then(([giveawayRows, playReqs]) => {
+        // Create map of play requirements by ID
         const playReqMap = new Map<string, PlayRequirementData>()
         for (const pr of playReqs) {
           playReqMap.set(pr.id, pr)
         }
 
+        // Process giveaway rows and include any matching play requirements
         const giveaways = giveawayRows
           .filter((row) => row.ID && row.GAME)
           .map((row) => {
@@ -141,6 +143,21 @@ export class GiveawayPointsManager {
             const playRequirements = playReqMap.get(base.id)
             return { ...base, playRequirements }
           })
+
+        // Add any play requirements that don't have matching giveaway rows
+        const existingIds = new Set(giveaways.map((g) => g.id))
+        for (const pr of playReqs) {
+          if (!existingIds.has(pr.id)) {
+            giveaways.push({
+              id: pr.id,
+              game: pr.game,
+              winner: pr.winner,
+              completedIplayBro: false,
+              extraPoints: 0,
+              playRequirements: pr,
+            })
+          }
+        }
 
         this.giveawayCache = giveaways
         this.giveawayLastFetch = Date.now()

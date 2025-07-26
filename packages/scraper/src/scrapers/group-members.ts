@@ -566,9 +566,9 @@ export class SteamGiftsUserFetcher {
               }
 
               if (pointsData) {
-                if (pointsData?.completePlaying) {
+                if (pointsData?.completedIplayBro) {
                   giveawayData.i_played_bro =
-                    (pointsData?.completePlaying &&
+                    (pointsData?.completedIplayBro &&
                       pointsData?.winner === username) ??
                     false
                 }
