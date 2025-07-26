@@ -7,7 +7,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import UserAvatar from '@/components/UserAvatar'
 import { LastUpdated } from '@/components/LastUpdated'
-import { useGameData } from '@/lib/hooks'
+import { useGameData, useDebounce } from '@/lib/hooks'
 import FormattedDate, { TimeDifference } from '@/components/FormattedDate'
 // import CountryFlag from '@/components/CountryFlag'
 
@@ -56,6 +56,7 @@ export function getStatusBadge(giveaway: Giveaway) {
 export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, lastUpdated, userAvatars, gameData, defaultGiveawayStatus = 'open' }: Props) {
   const { getGameData } = useGameData(gameData)
   const [searchTerm, setSearchTerm] = useState('')
+  const debouncedSearchTerm = useDebounce(searchTerm, 300)
   const [sortBy, setSortBy] = useState<'date' | 'entries' | 'points'>('date')
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc')
   const [filterCV, setFilterCV] = useState<'all' | 'FULL_CV' | 'REDUCED_CV' | 'NO_CV'>('all')
@@ -70,8 +71,11 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
 
   const filteredAndSortedGiveaways = useMemo(() => {
     const filtered = giveaways.filter(giveaway => {
-      const matchesSearch = giveaway.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        giveaway.creator.toLowerCase().includes(searchTerm.toLowerCase())
+      const searchTermLower = debouncedSearchTerm.toLowerCase()
+      const isExactIdMatch = (debouncedSearchTerm.length === 5 && giveaway.link.split('/')[0] === debouncedSearchTerm)
+      const matchesSearch = giveaway.name.toLowerCase().includes(searchTermLower) ||
+        giveaway.creator.toLowerCase().includes(searchTermLower) ||
+        isExactIdMatch // Search by giveaway ID
       const matchesCV = filterCV === 'all' || giveaway.cv_status === filterCV
       const now = Date.now() / 1000
       const isEnded = giveaway.end_timestamp < now
@@ -87,7 +91,7 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
         (!filterWhitelist || giveaway.whitelist)
       )
 
-      return matchesSearch && matchesCV && matchesStatus && matchesLabels
+      return isExactIdMatch || matchesSearch && matchesCV && matchesStatus && matchesLabels
     })
 
     filtered.sort((a, b) => {
@@ -129,7 +133,7 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
     })
 
     return filtered
-  }, [giveaways, searchTerm, sortBy, sortDirection, filterCV, giveawayStatus,
+  }, [giveaways, debouncedSearchTerm, sortBy, sortDirection, filterCV, giveawayStatus,
     filterRegion, filterPlayRequired, filterShared, filterWhitelist])
 
   return (
