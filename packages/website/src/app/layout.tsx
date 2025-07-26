@@ -7,8 +7,8 @@ import Image from "next/image";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "SteamGifts Group Analytics",
-  description: "Analytics dashboard for SteamGifts group activities",
+  title: "The Giveaways Club Analytics",
+  description: "TGC dashboard",
 };
 
 export default function RootLayout({
@@ -32,7 +32,8 @@ export default function RootLayout({
                 />
               </a>
               <Link href="/" >
-                <span className="font-bold">The Giveaways Club</span>
+                <span className="font-bold hidden md:block">The Giveaways Club</span>
+                <span className="font-bold md:hidden">TGC</span>
               </Link>
             </div>
             <nav className="flex items-center space-x-4 lg:space-x-6">

@@ -35,8 +35,8 @@ export default async function Home() {
   const netReceivers = users.filter(user => (user.stats.giveaway_ratio ?? 0) < -1).length
 
   return (
-    <div className="container mx-auto p-4 md:p-6">
-      <div className="flex justify-between items-center mb-4">
+    <div className="space-y-8">
+      <div className="mb-4">
         <h1 className="text-3xl font-bold">Group Analytics Overview</h1>
         {userData.lastUpdated ? <LastUpdated lastUpdatedDate={new Date(userData.lastUpdated).toISOString()} /> : <p className="mt-2 text-sm text-muted-foreground">Last updated: Unknown</p>}
       </div>
