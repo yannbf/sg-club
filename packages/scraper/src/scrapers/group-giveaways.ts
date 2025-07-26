@@ -25,6 +25,23 @@ interface ScrapingStats {
   newestDate: Date
 }
 
+interface SchemaOrgEvent {
+  name: string
+  startDate: number
+  endDate: number
+  eventStatus?: string
+  eventAttendanceMode?: string
+  location?: {
+    url?: string
+  }
+  image?: string
+  description?: string
+  organizer?: {
+    name?: string
+    url?: string
+  }
+}
+
 export class SteamGiftsHTMLScraper {
   private readonly baseUrl = 'https://www.steamgifts.com'
   private readonly startUrl = '/group/WlYTQ/thegiveawaysclub'
@@ -383,6 +400,7 @@ export class SteamGiftsHTMLScraper {
     required_play: boolean
     is_shared: boolean
     is_whitelist: boolean
+    end_timestamp: number
   }> {
     const $ = load(html)
 
@@ -402,11 +420,45 @@ export class SteamGiftsHTMLScraper {
       is_whitelist ||
       (groupText !== 'The Giveaways Club' && groupText.length > 0)
 
+    const metadata = this.extractDataFromDetailedGiveawayPage(html)
+
     return {
       required_play,
       is_shared,
       is_whitelist,
+      end_timestamp: metadata?.endDate!,
     }
+  }
+
+  private extractDataFromDetailedGiveawayPage(
+    html: string
+  ): Partial<SchemaOrgEvent> | null {
+    const $ = load(html)
+    const scriptTags = $('script[type="application/ld+json"]')
+
+    for (let i = 0; i < scriptTags.length; i++) {
+      try {
+        const jsonText = $(scriptTags[i]).html()
+        if (!jsonText) continue
+
+        const parsed = JSON.parse(jsonText)
+
+        if (parsed['@type'] === 'Event') {
+          return {
+            name: parsed.name,
+            startDate: Math.floor(new Date(parsed.startDate).getTime() / 1000),
+            endDate: Math.floor(new Date(parsed.endDate).getTime() / 1000),
+            image: parsed.image,
+            description: parsed.description,
+          }
+        }
+      } catch (err) {
+        console.warn('⚠️ Error parsing JSON-LD script tag:', err)
+        continue
+      }
+    }
+
+    return null
   }
 
   private async parseGiveaways(html: string): Promise<Giveaway[]> {
@@ -465,18 +517,29 @@ export class SteamGiftsHTMLScraper {
 
         const $timeDiv = $columns.find('div').first()
         const timeText = $timeDiv.text().trim()
-        const $endSpan = $timeDiv.find('span')
-        const end_timestamp = parseInt(
-          $endSpan.attr('data-timestamp') || '0',
-          10
-        )
+        const $startOrEndSpan = $timeDiv.find('span')
 
+        // Created at is always available
         const $createdSpan = $columns.find('.giveaway__column--width-fill span')
         const created_timestamp = parseInt(
           $createdSpan.attr('data-timestamp') || '0',
           10
         )
-        const start_timestamp = created_timestamp - 60
+
+        let end_timestamp, start_timestamp
+
+        // if first element says begins in, it's a future giveaway that we don't know end timestamp yet
+        // so we need to fetch detailed info later
+        if (timeText.includes('Begins in')) {
+          start_timestamp = parseInt(
+            $startOrEndSpan.attr('data-timestamp')!,
+            10
+          )
+        } else {
+          end_timestamp = parseInt($startOrEndSpan.attr('data-timestamp')!, 10)
+
+          start_timestamp = created_timestamp
+        }
 
         const creatorUsername = $columns
           .find('.giveaway__username')
@@ -611,13 +674,18 @@ export class SteamGiftsHTMLScraper {
         let detailedInfo = {
           required_play: false,
           is_shared: false,
+          end_timestamp: existingGiveaway?.end_timestamp,
         }
 
-        if (existingGiveaway?.is_shared !== undefined) {
+        if (
+          existingGiveaway?.is_shared !== undefined &&
+          existingGiveaway.end_timestamp !== undefined
+        ) {
           console.log(`💾 Using cached detailed info for: ${name}`)
           detailedInfo = {
             required_play: existingGiveaway.required_play || false,
             is_shared: existingGiveaway.is_shared,
+            end_timestamp: existingGiveaway.end_timestamp,
           }
         } else {
           // Fetch detailed giveaway information
@@ -629,6 +697,12 @@ export class SteamGiftsHTMLScraper {
           await delay(1500)
         }
 
+        // one way or another we will figure out the end date
+        const gaEndTimestamp =
+          existingGiveaway?.end_timestamp ??
+          end_timestamp ??
+          (detailedInfo.end_timestamp as number)
+
         const giveaway: Giveaway = {
           id,
           name,
@@ -639,7 +713,7 @@ export class SteamGiftsHTMLScraper {
           link,
           created_timestamp,
           start_timestamp,
-          end_timestamp,
+          end_timestamp: gaEndTimestamp,
           region_restricted,
           invite_only,
           whitelist,

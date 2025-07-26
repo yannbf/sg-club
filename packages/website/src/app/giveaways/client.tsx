@@ -8,7 +8,7 @@ import Image from 'next/image'
 import UserAvatar from '@/components/UserAvatar'
 import { LastUpdated } from '@/components/LastUpdated'
 import { useGameData } from '@/lib/hooks'
-import FormattedDate from '@/components/FormattedDate'
+import FormattedDate, { TimeDifference } from '@/components/FormattedDate'
 
 interface Props {
   heading?: string
@@ -34,7 +34,12 @@ export function getGameImageUrl(giveaway: Giveaway): string {
 export function getStatusBadge(giveaway: Giveaway) {
   const now = Date.now() / 1000
   const isEnded = giveaway.end_timestamp < now
+  const isFuture = giveaway.start_timestamp > now
   const hasWinners = giveaway.winners && giveaway.winners.length > 0
+
+  if (isFuture) {
+    return <span className="px-2 py-1 text-xs font-semibold bg-accent-purple text-white rounded-full">Not started</span>
+  }
 
   if (!isEnded) {
     return <span className="px-2 py-1 text-xs font-semibold bg-info-light text-info-foreground rounded-full">Open</span>
@@ -97,6 +102,14 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
       let comparison = 0
       switch (sortBy) {
         case 'date':
+          const aStartInFuture = a.start_timestamp > now
+          const bStartInFuture = b.start_timestamp > now
+
+          // First compare if either start date is in the future
+          if (sortDirection === 'asc' && aStartInFuture !== bStartInFuture) {
+            return aStartInFuture ? -1 : 1
+          }
+
           // For ended giveaways, reverse the comparison to show most recently ended first
           if (giveawayStatus === 'all' && aIsEnded && bIsEnded) {
             comparison = b.end_timestamp - a.end_timestamp
@@ -247,7 +260,8 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
         {filteredAndSortedGiveaways.map((giveaway) => {
           const isEnded = giveaway.end_timestamp < Date.now() / 1000;
           const imageUrl = failedImages.has(giveaway.id) ? PLACEHOLDER_IMAGE : getGameImageUrl(giveaway);
-          const borderColor = isEnded ? 'border-card-border' : 'border-success';
+          const isFuture = giveaway.start_timestamp > Date.now() / 1000;
+          const borderColor = isEnded ? 'border-card-border' : isFuture ? 'border-accent-purple' : 'border-success';
           const gameData = getGameData(giveaway.app_id ?? giveaway.package_id)
 
           return (
@@ -310,8 +324,18 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
                   </div>
 
                   <div className="flex items-center justify-between text-sm">
+                    <span className="text-muted-foreground">Start date:</span>
+                    <FormattedDate timestamp={giveaway.start_timestamp} className="font-medium" />
+                  </div>
+
+                  <div className="flex items-center justify-between text-sm">
                     <span className="text-muted-foreground">End date:</span>
                     <FormattedDate timestamp={giveaway.end_timestamp} className="font-medium" />
+                  </div>
+
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-muted-foreground">GA duration:</span>
+                    <TimeDifference startTimestamp={giveaway.start_timestamp} endTimestamp={giveaway.end_timestamp} className="font-medium" />
                   </div>
 
                   {gameData && 'hltb_main_story_hours' in gameData && (

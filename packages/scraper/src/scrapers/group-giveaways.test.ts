@@ -74,33 +74,64 @@ describe('SteamGiftsHTMLScraper', () => {
       const giveaways = await scraper['parseGiveaways'](html)
 
       expect(giveaways).toHaveLength(25)
-      expect(giveaways[0]).toMatchInlineSnapshot(`
+
+      const giveawayStartingInFuture = giveaways[0]
+      expect(giveawayStartingInFuture).toMatchInlineSnapshot(`
         {
-          "app_id": 837470,
-          "comment_count": 3,
+          "app_id": 1332010,
+          "comment_count": 4,
           "contributor_level": 0,
           "copies": 1,
-          "created_timestamp": 1751715957,
+          "created_timestamp": 1753371963,
           "creator": {
             "avatar": "",
             "role": "user",
-            "username": "Troutroum",
+            "username": "Patzl",
           },
-          "end_timestamp": 1751913000,
-          "entry_count": 22,
+          "end_timestamp": undefined,
+          "entry_count": 0,
           "group": true,
-          "id": "0T6OW",
+          "id": "IHdPD",
           "invite_only": false,
           "is_shared": false,
-          "link": "0T6OW/untitled-goose-game",
-          "name": "Untitled Goose
-                              Game",
+          "link": "IHdPD/stray",
+          "name": "Stray",
           "package_id": null,
-          "points": 20,
+          "points": 30,
           "region_restricted": false,
           "required_play": false,
-          "start_timestamp": 1751715897,
+          "start_timestamp": 1753567200,
           "whitelist": false,
+        }
+      `)
+
+      const normalGiveaway = giveaways[2]
+      expect(normalGiveaway).toMatchInlineSnapshot(`
+        {
+          "app_id": 1309710,
+          "comment_count": 3,
+          "contributor_level": 0,
+          "copies": 1,
+          "created_timestamp": 1753055803,
+          "creator": {
+            "avatar": "",
+            "role": "user",
+            "username": "NateSCC",
+          },
+          "end_timestamp": 1753545240,
+          "entry_count": 100,
+          "group": true,
+          "id": "oiSDZ",
+          "invite_only": false,
+          "is_shared": true,
+          "link": "oiSDZ/the-stone-of-madness",
+          "name": "The Stone of Madness",
+          "package_id": null,
+          "points": 30,
+          "region_restricted": false,
+          "required_play": true,
+          "start_timestamp": 1753055803,
+          "whitelist": true,
         }
       `)
     })
@@ -111,22 +142,40 @@ describe('SteamGiftsHTMLScraper', () => {
       const html = loadMockHtml('sg-shared-group-ga-page.html')
       const result = await scraper['parseGiveawayDetails'](html)
 
-      expect(result).toEqual({
-        required_play: false,
-        is_shared: true,
-        is_whitelist: true,
-      })
+      expect(result).toEqual(
+        expect.objectContaining({
+          required_play: false,
+          is_shared: true,
+          is_whitelist: true,
+        })
+      )
     })
 
     it('should correctly identify a giveaway with play required', async () => {
       const html = loadMockHtml('sg-giveaway-page.html')
       const result = await scraper['parseGiveawayDetails'](html)
 
-      expect(result).toEqual({
-        required_play: true,
-        is_shared: false,
-        is_whitelist: false,
-      })
+      expect(result).toEqual(
+        expect.objectContaining({
+          required_play: true,
+          is_shared: false,
+          is_whitelist: false,
+        })
+      )
+    })
+
+    it('should extract end timestamp from giveaway that has not started yet', async () => {
+      const html = loadMockHtml('sg-giveaway-not-started-page.html')
+      const result = await scraper['parseGiveawayDetails'](html)
+
+      expect(result).toMatchInlineSnapshot(`
+        {
+          "end_timestamp": 1754125200,
+          "is_shared": false,
+          "is_whitelist": false,
+          "required_play": true,
+        }
+      `)
     })
   })
 
