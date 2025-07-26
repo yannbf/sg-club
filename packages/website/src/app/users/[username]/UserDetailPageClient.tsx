@@ -9,6 +9,7 @@ import type { User, UserGroupData, UserEntry } from '@/types'
 import type { Giveaway, GameData } from '@/types'
 import FormattedDate from '@/components/FormattedDate'
 import GiveawaysClient from '@/app/giveaways/client'
+import CountryFlag from '@/components/CountryFlag'
 
 interface Props {
   user: User
@@ -16,16 +17,6 @@ interface Props {
   giveaways: Giveaway[]
   gameData: GameData[]
   userEntries: UserEntry | null
-}
-
-const countryNames = new Intl.DisplayNames(['en'], { type: 'region' });
-
-const CountryFlag = ({ countryCode }: { countryCode: string | null | undefined }) => {
-  const src = countryCode ? `https://flagcdn.com/24x18/${countryCode}.png` : 'https://friconix.com/jpg/fi-snsuxl-question-mark.jpg';
-
-  const alt = countryCode ?? 'country info not available';
-  const title = countryCode ? (countryNames.of(countryCode.toUpperCase()) || countryCode.toUpperCase()) : 'Country info not available';
-  return <img src={src} alt={alt} title={title} className="ml-2 text-2xl text-muted-foreground" />
 }
 
 export default function UserDetailPageClient({ user, allUsers, giveaways, gameData, userEntries }: Props) {

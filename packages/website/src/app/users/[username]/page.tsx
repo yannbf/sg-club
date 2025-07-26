@@ -14,7 +14,8 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: { params: { username: string } }): Promise<Metadata> {
-  const username = decodeURIComponent(params.username)
+  const paramsData = await params
+  const username = decodeURIComponent(paramsData.username)
   const user = await getUser(username)
 
   if (!user) {
@@ -27,10 +28,10 @@ export async function generateMetadata({ params }: { params: { username: string 
   const description = `Ratio ${user.stats.giveaway_ratio} | Created ${user.giveaways_created?.length ?? 0} GAs | Received ${user.stats.real_total_received_count} | Sent ${user.stats.total_sent_count} | Received ${user.stats.total_received_count}`
 
   return {
-    title: `${user.username}'s Profile`,
+    title: `TGC - ${user.username}`,
     description,
     openGraph: {
-      title: `${user.username}'s Profile`,
+      title: `TGC - ${user.username}`,
       description,
     },
   }

@@ -9,6 +9,7 @@ import UserAvatar from '@/components/UserAvatar'
 import { LastUpdated } from '@/components/LastUpdated'
 import { useGameData } from '@/lib/hooks'
 import FormattedDate, { TimeDifference } from '@/components/FormattedDate'
+// import CountryFlag from '@/components/CountryFlag'
 
 interface Props {
   heading?: string
@@ -302,6 +303,8 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
                         src={userAvatars.get(giveaway.creator.username) || 'https://cdn-icons-png.flaticon.com/512/9287/9287610.png'}
                         username={giveaway.creator.username}
                       />
+                      {/* todo: add country flag */}
+                      {/* <CountryFlag countryCode={giveaway.creator.country_code} /> */}
                       <Link href={`/users/${giveaway.creator.username}`} className="text-accent hover:underline mr-2 inline-flex items-center">
                         {giveaway.creator.username}
                       </Link>
