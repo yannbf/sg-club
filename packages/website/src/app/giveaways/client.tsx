@@ -261,6 +261,12 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
       </div>
 
       {/* Giveaways List */}
+
+      {/* Results Summary */}
+      <div className="text-sm text-muted-foreground">
+        Showing {filteredAndSortedGiveaways.length} of {giveaways.length} giveaways
+      </div>
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredAndSortedGiveaways.map((giveaway) => {
           const isEnded = giveaway.end_timestamp < Date.now() / 1000;

@@ -49,7 +49,8 @@ export default async function UserDetailPage(
   const giveaways = await getAllGiveaways()
   const userEntries = await getUserEntries()
   const gameDataObj = await getGameData()
-  
+  const lastUpdated = allUsers?.lastUpdated ?? null
+
   if (!user) {
     notFound()
   }
@@ -64,6 +65,7 @@ export default async function UserDetailPage(
       giveaways={giveaways}
       gameData={gameData}
       userEntries={userEntries}
+      lastUpdated={lastUpdated}
     />
   )
 } 

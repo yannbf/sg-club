@@ -10,6 +10,7 @@ import type { Giveaway, GameData } from '@/types'
 import FormattedDate from '@/components/FormattedDate'
 import GiveawaysClient from '@/app/giveaways/client'
 import CountryFlag from '@/components/CountryFlag'
+import { LastUpdated } from '@/components/LastUpdated'
 
 interface Props {
   user: User
@@ -17,9 +18,10 @@ interface Props {
   giveaways: Giveaway[]
   gameData: GameData[]
   userEntries: UserEntry | null
+  lastUpdated: number | null
 }
 
-export default function UserDetailPageClient({ user, allUsers, giveaways, gameData, userEntries }: Props) {
+export default function UserDetailPageClient({ user, allUsers, giveaways, gameData, userEntries, lastUpdated }: Props) {
   const [showDetailedStats, setShowDetailedStats] = useState(false)
 
   // Get giveaways created by this user from the main giveaways data
@@ -78,6 +80,9 @@ export default function UserDetailPageClient({ user, allUsers, giveaways, gameDa
 
   return (
     <div className="space-y-8">
+      {lastUpdated && (
+        <LastUpdated lastUpdatedDate={lastUpdated} />
+      )}
       {/* User Header */}
       <div className="bg-card-background rounded-lg border-card-border border p-6 mb-6">
         <div className="flex items-center">
