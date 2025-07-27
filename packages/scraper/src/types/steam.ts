@@ -6,6 +6,8 @@ export interface SteamGameInfo {
   img_icon_url?: string
   img_logo_url?: string
   has_community_visible_stats?: boolean
+  has_no_available_stats?: boolean
+  last_checked_at?: number
 }
 
 export interface SteamAchievement {

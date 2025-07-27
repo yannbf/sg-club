@@ -24,6 +24,7 @@ export interface GamePlayData {
   achievements_percentage: number
   never_played: boolean
   is_playtime_private: boolean
+  has_no_available_stats: boolean
 }
 
 export interface SteamProfileVisibility {
@@ -34,6 +35,8 @@ export interface SteamProfileVisibility {
 export class SteamGameChecker {
   private readonly baseUrl = 'https://api.steampowered.com'
   private readonly apiKey: string
+  private readonly noStatsCache: Map<number, number> = new Map()
+  private readonly TWO_WEEKS_IN_MS = 14 * 24 * 60 * 60 * 1000
 
   constructor(apiKey: string) {
     this.apiKey = apiKey
@@ -51,6 +54,11 @@ export class SteamGameChecker {
             const error = new Error(
               'Steam API request failed: ' + String(data.playerstats.error)
             )
+
+            if (data.playerstats.error === 'Requested app has no stats') {
+              error.name = 'NoStatsError'
+            }
+
             logError(error, `Error fetching Steam API (${requestUrl})`)
             throw error
           } else {
@@ -92,7 +100,7 @@ export class SteamGameChecker {
   private async getPlayerAchievements(
     steamId: string,
     appId: number
-  ): Promise<SteamAchievement[]> {
+  ): Promise<SteamAchievement[] | null> {
     const endpoint = `/ISteamUserStats/GetPlayerAchievements/v0001/?appid=${appId}&key=${this.apiKey}&steamid=${steamId}&format=json`
 
     try {
@@ -110,6 +118,9 @@ export class SteamGameChecker {
         return []
       }
     } catch (error) {
+      if (error instanceof Error && error.name === 'NoStatsError') {
+        return null
+      }
       logError(
         error,
         `Failed to get player achievements for Steam ID ${steamId}`
@@ -171,6 +182,25 @@ export class SteamGameChecker {
     steamId: string,
     appId: number
   ): Promise<GamePlayData> {
+    // Check cache first
+    const lastChecked = this.noStatsCache.get(appId)
+    if (lastChecked && Date.now() - lastChecked < this.TWO_WEEKS_IN_MS) {
+      console.log(
+        `[INFO] Game with appId ${appId} is in the 'no stats' cache. Skipping.`
+      )
+      return {
+        owned: false,
+        playtime_minutes: 0,
+        playtime_formatted: '0 minutes',
+        achievements_unlocked: 0,
+        achievements_total: 0,
+        achievements_percentage: 0,
+        never_played: true,
+        is_playtime_private: false,
+        has_no_available_stats: true,
+      }
+    }
+
     // Get owned games
     const ownedGames = await this.getOwnedGames(steamId)
 
@@ -184,6 +214,7 @@ export class SteamGameChecker {
         achievements_percentage: 0,
         never_played: true,
         is_playtime_private: false,
+        has_no_available_stats: false,
       }
     }
 
@@ -200,11 +231,27 @@ export class SteamGameChecker {
         achievements_percentage: 0,
         never_played: true,
         is_playtime_private: false,
+        has_no_available_stats: false,
       }
     }
 
     // Get achievements
     const achievements = await this.getPlayerAchievements(steamId, appId)
+
+    if (achievements === null) {
+      return {
+        owned: true,
+        playtime_minutes: gameInfo.playtime_forever,
+        playtime_formatted: formatPlaytime(gameInfo.playtime_forever),
+        achievements_unlocked: 0,
+        achievements_total: 0,
+        achievements_percentage: 0,
+        never_played: true,
+        is_playtime_private: false,
+        has_no_available_stats: true,
+      }
+    }
+
     const unlockedAchievements = achievements.filter((a) => a.achieved === 1)
     const totalAchievements = achievements.length
     const completionPercentage =
@@ -224,6 +271,7 @@ export class SteamGameChecker {
       never_played: unlockedAchievements.length === 0,
       is_playtime_private:
         gameInfo.playtime_forever === 0 && unlockedAchievements.length > 0,
+      has_no_available_stats: false,
     }
   }
 
@@ -271,6 +319,11 @@ export class SteamGameChecker {
     console.log(`\n🏆 Checking achievements...`)
     const achievements = await this.getPlayerAchievements(steamId, appId)
     const gameSchema = await this.getGameSchema(appId)
+
+    if (achievements === null) {
+      console.log(`   No achievement data available for this game on Steam`)
+      return
+    }
 
     if (achievements.length === 0) {
       console.log(`   No achievement data available`)
@@ -339,6 +392,13 @@ export class SteamGameChecker {
     } else {
       console.log(`   • Status: Played extensively`)
     }
+  }
+
+  public async setHasNoAvailableStats(appId: number): Promise<void> {
+    this.noStatsCache.set(appId, Date.now())
+    console.log(
+      `[INFO] Game with appId ${appId} has been flagged as having no available stats.`
+    )
   }
 }
 
