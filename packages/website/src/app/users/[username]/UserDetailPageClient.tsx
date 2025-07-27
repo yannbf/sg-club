@@ -21,6 +21,10 @@ interface Props {
   lastUpdated: number | null
 }
 
+const warningToMessageMap: Record<string, string> = {
+  unplayed_required_play_giveaways: 'Has no played two or more required play giveaways',
+}
+
 export default function UserDetailPageClient({ user, allUsers, giveaways, gameData, userEntries, lastUpdated }: Props) {
   const [showDetailedStats, setShowDetailedStats] = useState(false)
 
@@ -144,6 +148,17 @@ export default function UserDetailPageClient({ user, allUsers, giveaways, gameDa
           </div>
         </div>
       </div>
+
+      {user.warnings?.length && (
+        <div className="bg-card-background rounded-lg border-red-500 border p-4">
+          <h3 className="text-sm font-semibold mb-3">⚠️ Warnings</h3>
+          <ul className="list-disc list-inside text-sm text-muted-foreground">
+            {user.warnings.map((warning) => (
+              <li key={warning}>{warningToMessageMap[warning] ?? warning}</li>
+            ))}
+          </ul>
+        </div>
+      )}
 
       {/* Statistics Grid */}
       <div className="space-y-4 mb-6">

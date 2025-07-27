@@ -2,6 +2,7 @@ export interface User {
   username: string
   profile_url: string
   avatar_url: string
+  warnings?: string[]
   stats: {
     total_sent_count: number
     total_sent_value: number

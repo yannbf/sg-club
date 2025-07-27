@@ -62,6 +62,7 @@ export interface User {
   steam_profile_is_private?: boolean
   country_code?: string | null
   stats: UserGiveawaysStats
+  warnings?: string[]
   giveaways_won?: Array<{
     name: string
     link: string

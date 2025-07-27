@@ -983,6 +983,20 @@ export class SteamGiftsUserFetcher {
       // Convert user array to a record for saving
       const usersRecord: Record<string, User> = {}
       for (const user of allUsers) {
+        // go through giveaways won, check which are required play and if they are not completed, if 2 or more, set the user to has_warning true
+        const unplayedRequiredPlayGiveaways =
+          user.giveaways_won?.filter(
+            (g) => g.required_play && !g.required_play_meta?.requirements_met
+          ) ?? []
+        if (unplayedRequiredPlayGiveaways.length >= 2) {
+          user.warnings = Array.from(
+            new Set([
+              ...(user.warnings || []),
+              'unplayed_required_play_giveaways',
+            ])
+          )
+        }
+
         usersRecord[user.username] = user
       }
 

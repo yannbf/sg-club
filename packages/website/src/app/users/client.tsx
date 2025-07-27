@@ -17,8 +17,20 @@ export default function UsersClient({ users, lastUpdated }: Props) {
   const [searchTerm, setSearchTerm] = useState('')
   const [sortBy, setSortBy] = useState<'username' | 'sent' | 'received' | 'difference' | 'value' | 'playtime' | 'ratio' | 'last_created' | 'last_won'>('difference')
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc')
-  const [filterType, setFilterType] = useState<'all' | 'contributors' | 'receivers' | 'neutral'>('all')
+  const [filterTags, setFilterTags] = useState({
+    warnings: false,
+    contributors: false,
+    receivers: false,
+    neutral: false,
+  });
   const [showOnlySteam] = useState(false)
+
+  const handleToggleTag = (tag: keyof typeof filterTags) => {
+    setFilterTags(prev => ({
+      ...prev,
+      [tag]: !prev[tag],
+    }));
+  };
 
   const getTotalPlaytime = (user: User) => {
     if (!user.giveaways_won) return 0
@@ -32,21 +44,25 @@ export default function UsersClient({ users, lastUpdated }: Props) {
       const matchesSearch = user.username.toLowerCase().includes(searchTerm.toLowerCase())
       const matchesSteam = !showOnlySteam || user.steam_id
 
-      let matchesType = true
-      const ratio = user.stats.giveaway_ratio ?? 0
-      switch (filterType) {
-        case 'contributors':
-          matchesType = ratio > 0
-          break
-        case 'receivers':
-          matchesType = ratio < -1
-          break
-        case 'neutral':
-          matchesType = ratio <= 0 && ratio >= -1
-          break
+      const activeFilterKeys = (Object.keys(filterTags) as Array<keyof typeof filterTags>).filter(
+        key => filterTags[key]
+      );
+
+      if (activeFilterKeys.length === 0) {
+        return matchesSearch && matchesSteam;
       }
 
-      return matchesSearch && matchesSteam && matchesType
+      const ratio = user.stats.giveaway_ratio ?? 0;
+      const userFlags = {
+        warnings: (user.warnings?.length ?? 0) > 0,
+        contributors: ratio > 0,
+        receivers: ratio < -1,
+        neutral: ratio <= 0 && ratio >= -1,
+      };
+
+      const matchesTags = activeFilterKeys.some(key => userFlags[key]);
+
+      return matchesSearch && matchesSteam && matchesTags
     })
 
     filtered.sort((a, b) => {
@@ -90,7 +106,7 @@ export default function UsersClient({ users, lastUpdated }: Props) {
     })
 
     return filtered
-  }, [users, searchTerm, sortBy, filterType, showOnlySteam, sortDirection])
+  }, [users, searchTerm, sortBy, filterTags, showOnlySteam, sortDirection])
 
   const getUserTypeBadge = (user: User) => {
     const ratio = user.stats.giveaway_ratio ?? 0
@@ -175,20 +191,45 @@ export default function UsersClient({ users, lastUpdated }: Props) {
             </div>
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-muted-foreground mb-2">
-              User Type
-            </label>
-            <select
-              value={filterType}
-              onChange={(e) => setFilterType(e.target.value as 'all' | 'contributors' | 'receivers' | 'neutral')}
-              className="w-full px-3 py-2 border border-card-border rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-accent"
-            >
-              <option value="all">All Users</option>
-              <option value="contributors">Net Contributors</option>
-              <option value="receivers">Net Receivers</option>
-              <option value="neutral">Neutral Users</option>
-            </select>
+          <div className="lg:col-span-4 mt-4">
+            <div className="flex flex-wrap gap-3">
+              <button
+                onClick={() => handleToggleTag('warnings')}
+                className={`px-3 py-2 text-sm rounded-full transition-colors ${filterTags.warnings
+                  ? 'bg-error-light text-error-foreground'
+                  : 'bg-transparent border border-card-border hover:bg-accent/10'
+                  }`}
+              >
+                ⚠️ Warnings
+              </button>
+              <button
+                onClick={() => handleToggleTag('contributors')}
+                className={`px-3 py-2 text-sm rounded-full transition-colors ${filterTags.contributors
+                  ? 'bg-success-light text-success-foreground'
+                  : 'bg-transparent border border-card-border hover:bg-accent/10'
+                  }`}
+              >
+                💰 Net Contributor
+              </button>
+              <button
+                onClick={() => handleToggleTag('receivers')}
+                className={`px-3 py-2 text-sm rounded-full transition-colors ${filterTags.receivers
+                  ? 'bg-error-light text-error-foreground'
+                  : 'bg-transparent border border-card-border hover:bg-accent/10'
+                  }`}
+              >
+                💸 Net Receiver
+              </button>
+              <button
+                onClick={() => handleToggleTag('neutral')}
+                className={`px-3 py-2 text-sm rounded-full transition-colors ${filterTags.neutral
+                  ? 'bg-info-light text-info-foreground'
+                  : 'bg-transparent border border-card-border hover:bg-accent/10'
+                  }`}
+              >
+                ⚖️ Neutral
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -203,136 +244,142 @@ export default function UsersClient({ users, lastUpdated }: Props) {
 
       {/* Users Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredAndSortedUsers.map((user) => (
-          <div key={user.username} className="bg-card-background rounded-lg border-card-border border hover:shadow-lg transition-all duration-200 p-6">
-            <div className="flex items-center mb-4">
-              {user.avatar_url ? (
-                <Image
-                  src={user.avatar_url}
-                  alt={user.username}
-                  width={48}
-                  height={48}
-                  className="rounded-full border-2 border-card-border"
-                />
-              ) : (
-                <div className="w-12 h-12 rounded-full border-2 border-card-border bg-gradient-to-br from-accent-blue/20 to-accent-purple/20 flex items-center justify-center">
-                  <span className="text-xl">👤</span>
-                </div>
-              )}
-              <div className="ml-4 flex-1">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-lg font-semibold">
-                    <Link
-                      href={`/users/${user.username}`}
-                      className="hover:text-accent transition-colors"
-                    >
-                      {user.username}
-                    </Link>
-                  </h3>
-                  <div className="flex items-center space-x-2">
-                    {user.steam_id && !user.steam_profile_is_private && (
-                      <span className="text-lg text-muted-foreground" title="Steam Account Connected">🎮</span>
+        {filteredAndSortedUsers.map((user) => {
+          const borderColor = user.warnings?.length ? 'border-error' : 'border-card-border'
+          return (
+            <div key={user.username} className={`bg-card-background rounded-lg border-card-border border hover:shadow-lg transition-all duration-200 p-6 ${borderColor}`}>
+              <div className="flex items-center mb-4">
+                {user.avatar_url ? (
+                  <Image
+                    src={user.avatar_url}
+                    alt={user.username}
+                    width={48}
+                    height={48}
+                    className="rounded-full border-2 border-card-border"
+                  />
+                ) : (
+                  <div className="w-12 h-12 rounded-full border-2 border-card-border bg-gradient-to-br from-accent-blue/20 to-accent-purple/20 flex items-center justify-center">
+                    <span className="text-xl">👤</span>
+                  </div>
+                )}
+                <div className="ml-4 flex-1">
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-lg font-semibold">
+                      <Link
+                        href={`/users/${user.username}`}
+                        className="hover:text-accent transition-colors"
+                      >
+                        {user.username}
+                      </Link>
+                    </h3>
+                    <div className="flex items-center space-x-2">
+                      {user.steam_id && !user.steam_profile_is_private && (
+                        <span className="text-lg text-muted-foreground" title="Steam Account Connected">🎮</span>
+                      )}
+                    </div>
+                  </div>
+                  <div className="mt-1">
+                    {getUserTypeBadge(user)}
+                    {user.warnings?.length && (
+                      <span className="inline-flex items-center ml-2 px-2.5 py-0.5 rounded-full text-xs font-medium bg-error-light text-error-foreground">Warnings</span>
                     )}
                   </div>
                 </div>
-                <div className="mt-1">
-                  {getUserTypeBadge(user)}
-                </div>
-              </div>
-            </div>
-
-            <div className="space-y-3">
-              <div className="grid grid-cols-2 gap-4">
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-success-foreground">{user.stats.real_total_sent_count}</div>
-                  <div className="text-xs text-muted-foreground">Gifts Sent</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-info-foreground">{user.stats.real_total_received_count}</div>
-                  <div className="text-xs text-muted-foreground">Gifts Received</div>
-                </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
-                <div className="text-center">
-                  <div className={`text-lg font-medium ${user.stats.real_total_gift_difference > 0 ? 'text-success-foreground' :
-                    user.stats.real_total_gift_difference < 0 ? 'text-error-foreground' :
-                      'text-muted-foreground'
-                    }`}>
-                    {user.stats.real_total_gift_difference > 0 ? '+' : ''}{user.stats.real_total_gift_difference}
-                  </div>
-                  <div className="text-xs text-muted-foreground">Gift Difference</div>
-                </div>
-                <div className="text-center">
-                  <div className={`text-lg font-medium ${user.stats.real_total_value_difference > 0 ? 'text-success-foreground' :
-                    user.stats.real_total_value_difference < 0 ? 'text-error-foreground' :
-                      'text-muted-foreground'
-                    }`}>
-                    {user.stats.real_total_value_difference > 0 ? '+' : ''}${user.stats.real_total_value_difference}
-                  </div>
-                  <div className="text-xs text-muted-foreground">Value Difference</div>
-                </div>
-              </div>
-
-              <div className="pt-3 border-t border-card-border">
+              <div className="space-y-3">
                 <div className="grid grid-cols-2 gap-4">
                   <div className="text-center">
-                    <div className="text-sm font-medium">
-                      {user.stats.last_giveaway_created_at ? <FormattedDate timestamp={user.stats.last_giveaway_created_at} /> : 'Never'}
-                    </div>
-                    <div className="text-xs text-muted-foreground">Last GA Created</div>
+                    <div className="text-2xl font-bold text-success-foreground">{user.stats.real_total_sent_count}</div>
+                    <div className="text-xs text-muted-foreground">Gifts Sent</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-sm font-medium">
-                      {user.stats.last_giveaway_won_at ? <FormattedDate timestamp={user.stats.last_giveaway_won_at} /> : 'Never'}
-                    </div>
-                    <div className="text-xs text-muted-foreground">Last GA Won</div>
+                    <div className="text-2xl font-bold text-info-foreground">{user.stats.real_total_received_count}</div>
+                    <div className="text-xs text-muted-foreground">Gifts Received</div>
                   </div>
                 </div>
-              </div>
 
-              <div className="text-center pt-3 border-t border-card-border">
-                <div className={`text-lg font-medium ${(user.stats.giveaway_ratio ?? 0) > 0 ? 'text-success-foreground' :
-                  (user.stats.giveaway_ratio ?? 0) < -1 ? 'text-error-foreground' :
-                    'text-muted-foreground'
-                  }`}>
-                  {(user.stats.giveaway_ratio ?? 0).toFixed(2)}
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="text-center">
+                    <div className={`text-lg font-medium ${user.stats.real_total_gift_difference > 0 ? 'text-success-foreground' :
+                      user.stats.real_total_gift_difference < 0 ? 'text-error-foreground' :
+                        'text-muted-foreground'
+                      }`}>
+                      {user.stats.real_total_gift_difference > 0 ? '+' : ''}{user.stats.real_total_gift_difference}
+                    </div>
+                    <div className="text-xs text-muted-foreground">Gift Difference</div>
+                  </div>
+                  <div className="text-center">
+                    <div className={`text-lg font-medium ${user.stats.real_total_value_difference > 0 ? 'text-success-foreground' :
+                      user.stats.real_total_value_difference < 0 ? 'text-error-foreground' :
+                        'text-muted-foreground'
+                      }`}>
+                      {user.stats.real_total_value_difference > 0 ? '+' : ''}${user.stats.real_total_value_difference}
+                    </div>
+                    <div className="text-xs text-muted-foreground">Value Difference</div>
+                  </div>
                 </div>
-                <div className="text-xs text-muted-foreground">Giveaway Ratio</div>
-              </div>
 
-              {user.steam_id && !user.steam_profile_is_private && (
                 <div className="pt-3 border-t border-card-border">
                   <div className="grid grid-cols-2 gap-4">
                     <div className="text-center">
-                      <div className="text-sm font-medium text-accent-purple">
-                        {getTotalPlaytime(user) === 0 && getTotalAchievements(user) > 0
-                          ? 'Unavailable'
-                          : formatPlaytime(getTotalPlaytime(user))}
+                      <div className="text-sm font-medium">
+                        {user.stats.last_giveaway_created_at ? <FormattedDate timestamp={user.stats.last_giveaway_created_at} /> : 'Never'}
                       </div>
-                      <div className="text-xs text-muted-foreground">Total Playtime</div>
+                      <div className="text-xs text-muted-foreground">Last GA Created</div>
                     </div>
                     <div className="text-center">
-                      <div className="text-sm font-medium text-accent-yellow">{getTotalAchievements(user)}</div>
-                      <div className="text-xs text-muted-foreground">Achievements</div>
-                    </div>
-                  </div>
-
-                  <div className="mt-4 grid grid-cols-2 gap-4">
-                    <div className="text-center">
-                      <div className="text-sm font-medium text-accent-orange">{getNoEntryGiveaways(user)}</div>
-                      <div className="text-xs text-muted-foreground">No-Entry GAs</div>
-                    </div>
-                    <div className="text-center">
-                      <div className="text-sm font-medium text-accent-green">{getRecentWins(user)}</div>
-                      <div className="text-xs text-muted-foreground">Recent Wins</div>
+                      <div className="text-sm font-medium">
+                        {user.stats.last_giveaway_won_at ? <FormattedDate timestamp={user.stats.last_giveaway_won_at} /> : 'Never'}
+                      </div>
+                      <div className="text-xs text-muted-foreground">Last GA Won</div>
                     </div>
                   </div>
                 </div>
-              )}
+
+                <div className="text-center pt-3 border-t border-card-border">
+                  <div className={`text-lg font-medium ${(user.stats.giveaway_ratio ?? 0) > 0 ? 'text-success-foreground' :
+                    (user.stats.giveaway_ratio ?? 0) < -1 ? 'text-error-foreground' :
+                      'text-muted-foreground'
+                    }`}>
+                    {(user.stats.giveaway_ratio ?? 0).toFixed(2)}
+                  </div>
+                  <div className="text-xs text-muted-foreground">Giveaway Ratio</div>
+                </div>
+
+                {user.steam_id && !user.steam_profile_is_private && (
+                  <div className="pt-3 border-t border-card-border">
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="text-center">
+                        <div className="text-sm font-medium text-accent-purple">
+                          {getTotalPlaytime(user) === 0 && getTotalAchievements(user) > 0
+                            ? 'Unavailable'
+                            : formatPlaytime(getTotalPlaytime(user))}
+                        </div>
+                        <div className="text-xs text-muted-foreground">Total Playtime</div>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-sm font-medium text-accent-yellow">{getTotalAchievements(user)}</div>
+                        <div className="text-xs text-muted-foreground">Achievements</div>
+                      </div>
+                    </div>
+
+                    <div className="mt-4 grid grid-cols-2 gap-4">
+                      <div className="text-center">
+                        <div className="text-sm font-medium text-accent-orange">{getNoEntryGiveaways(user)}</div>
+                        <div className="text-xs text-muted-foreground">No-Entry GAs</div>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-sm font-medium text-accent-green">{getRecentWins(user)}</div>
+                        <div className="text-xs text-muted-foreground">Recent Wins</div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
-        ))}
+          )
+        })}
       </div>
 
       {/* Empty State */}

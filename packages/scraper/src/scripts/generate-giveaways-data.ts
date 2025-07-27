@@ -12,7 +12,7 @@ export async function generateGiveawaysData(): Promise<void> {
   try {
     console.log('🚀 Starting giveaway scraping...')
     // turn this to true if you want to debug the postprocessing code
-    const SKIP_FETCHING_GIVEAWAYS = true
+    const SKIP_FETCHING_GIVEAWAYS = false
     const allGiveaways = SKIP_FETCHING_GIVEAWAYS
       ? (JSON.parse(readFileSync(filename, 'utf-8')).giveaways as Giveaway[])
       : await groupGiveawaysScraper.scrapeGiveaways(filename)
