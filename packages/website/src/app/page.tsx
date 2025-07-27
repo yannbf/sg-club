@@ -4,7 +4,6 @@ import Image from 'next/image'
 import { LastUpdated } from '@/components/LastUpdated'
 import UserAvatar from '@/components/UserAvatar'
 import { GameData, Giveaway, User } from '@/types'
-import { FaGift, FaMedal, FaGamepad, FaTrophy } from 'react-icons/fa'
 
 const PLACEHOLDER_IMAGE = 'https://steamplayercount.com/theme/img/placeholder.svg'
 
@@ -64,6 +63,9 @@ function InsightSection({ title, data }: InsightSectionProps) {
     <>
       <h3 className="text-xl font-bold mb-6">🕒 {title}</h3>
       <div className="bg-card-background rounded-lg border-card-border border p-6">
+        <p className="text-sm text-red-500 mb-3">
+          * Only full CV giveaways are taken into account in the calculation
+        </p>
         <h4 className="text-md font-semibold mb-3">Top 5 Most Created Giveaway Games</h4>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 mb-6">
           {data.topGames.map(({ game, count }) => (
@@ -87,10 +89,18 @@ function InsightSection({ title, data }: InsightSectionProps) {
           ))}
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          <UserRanking title="🎁 Top creators" users={data.topCreators} />
-          <UserRanking title="🏅 Top winners" users={data.topWinners} />
-          <UserRanking title="🎮 Top gamers (playtime)" users={data.topGamers} />
-          <UserRanking title="🏆 Top achievement hunters" users={data.topAchievementHunters} />
+          <div>
+            <UserRanking title="🎁 Top creators" users={data.topCreators} />
+          </div>
+          <div className="md:border-l md:pl-4">
+            <UserRanking title="🏅 Top winners" users={data.topWinners} />
+          </div>
+          <div className="lg:border-l lg:pl-4">
+            <UserRanking title="🎮 Top gamers (playtime)" users={data.topGamers} />
+          </div>
+          <div className="lg:border-l lg:pl-4">
+            <UserRanking title="🏆 Top achievement hunters" users={data.topAchievementHunters} />
+          </div>
         </div>
       </div>
     </>
@@ -98,7 +108,8 @@ function InsightSection({ title, data }: InsightSectionProps) {
 }
 
 export default async function Home() {
-  const giveaways = await getAllGiveaways()
+  const allGiveaways = await getAllGiveaways()
+  const giveaways = allGiveaways.filter(ga => ga.cv_status === 'FULL_CV')
   const userData = await getAllUsers()
   const allGameData = await getGameData()
 
@@ -112,20 +123,22 @@ export default async function Home() {
 
   const users = Object.values(userData.users)
   const activeMembers = users.length
-  const totalGiveaways = giveaways.length
+  const totalGiveawaysCount = allGiveaways.length
 
   const usersWithWarnings = users.filter(user => (user.warnings?.length || 0) > 0)
   const usersWithWarningsCount = usersWithWarnings.length
   const usersWithWarningsPercentage = (usersWithWarningsCount / activeMembers) * 100
 
   // Calculate statistics
-  const totalGiveawaysCreated = users.reduce((sum, user) => {
-    return sum + (user.giveaways_created?.length || 0)
+  const totalGiveawaysCreated = totalGiveawaysCount
+
+  const totalGiveawaysCreatedFullCV = allGiveaways.filter(ga => ga.cv_status === 'FULL_CV').length
+
+  const totalGiveawaysWon = allGiveaways.reduce((sum, giveaway) => {
+    return sum + (giveaway.winners?.filter(w => w.status === 'received').length || 0)
   }, 0)
 
-  const totalGiveawaysWon = users.reduce((sum, user) => {
-    return sum + (user.giveaways_created?.filter(ga => ga.had_winners && ga.winners?.filter(w => w.activated).length).length || 0)
-  }, 0)
+  const totalGiveawaysWonFullCV = allGiveaways.filter(ga => ga.cv_status === 'FULL_CV' && ga.winners?.filter(w => w.status === 'received').length).length
 
   const totalValueSent = users.reduce((sum, user) => sum + user.stats.total_sent_value, 0)
   const totalValueReceived = users.reduce((sum, user) => sum + user.stats.total_received_value, 0)
@@ -243,7 +256,7 @@ export default async function Home() {
             </div>
             <div className="ml-4">
               <p className="text-sm font-medium text-muted-foreground">Total Giveaways</p>
-              <p className="text-2xl font-semibold">{totalGiveaways}</p>
+              <p className="text-2xl font-semibold">{totalGiveawaysCount}</p>
             </div>
           </div>
         </div>
@@ -305,6 +318,14 @@ export default async function Home() {
             <div className="flex justify-between">
               <span className="text-sm text-muted-foreground">Giveaways Successfully Sent</span>
               <span className="text-sm font-semibold text-success-foreground">{totalGiveawaysWon}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-sm text-muted-foreground"><strong>Full CV</strong> Giveaways Created</span>
+              <span className="text-sm font-semibold text-info-foreground">{totalGiveawaysCreatedFullCV}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-sm text-muted-foreground"><strong>Full CV</strong> Giveaways Successfully Sent</span>
+              <span className="text-sm font-semibold text-success-foreground">{totalGiveawaysWonFullCV}</span>
             </div>
             <div className="flex justify-between">
               <span className="text-sm text-muted-foreground">Total Value Received</span>
