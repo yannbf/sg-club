@@ -1,4 +1,8 @@
-import { groupMemberScraper } from '../scrapers/group-members'
+import { readFileSync } from 'node:fs'
+import {
+  groupMemberScraper,
+  SteamGiftsUserFetcher,
+} from '../scrapers/group-members'
 import type { User } from '../types/steamgifts'
 
 // Main execution
@@ -234,13 +238,22 @@ export async function generateMembersData(): Promise<void> {
   }
 }
 
+const DEBUG = false
+// @ts-expect-error this is expected
+if (DEBUG === true) {
+  const fetcher = new SteamGiftsUserFetcher()
+  const userData = readFileSync(
+    '../website/public/data/group_users.json',
+    'utf8'
+  )
+  const users = JSON.parse(userData)
+  const user = users.users['a10i']
+  const stats = await fetcher.enrichUsersWithGiveaways(
+    new Map([['a10i', user]]),
+    fetcher.loadGiveawayData()
+  )
+  console.log(stats)
+  process.exit(0)
+}
+
 await generateMembersData()
-// const fetcher = new SteamGiftsUserFetcher()
-// const userData = readFileSync(
-//   '../website/public/data/group_users.json',
-//   'utf8'
-// )
-// const users = JSON.parse(userData)
-// const user = users.users['Ignition365']
-// const stats = fetcher.calculateStats(user)
-// console.log(stats)

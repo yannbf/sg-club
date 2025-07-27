@@ -224,7 +224,7 @@ export class SteamGiftsUserFetcher {
     }
   }
 
-  private loadGiveawayData(): Giveaway[] {
+  public loadGiveawayData(): Giveaway[] {
     const giveawayFilename = '../website/public/data/giveaways.json'
 
     if (!existsSync(giveawayFilename)) {
@@ -547,7 +547,7 @@ export class SteamGiftsUserFetcher {
     console.log(`  • Errors: ${steamErrorCount}`)
   }
 
-  private async enrichUsersWithGiveaways(
+  public async enrichUsersWithGiveaways(
     existingUsers: Map<string, User>,
     giveaways: Giveaway[]
   ): Promise<void> {
@@ -597,12 +597,10 @@ export class SteamGiftsUserFetcher {
                 is_shared: giveaway.is_shared || false,
               }
 
-              if (pointsData) {
-                if (pointsData?.completedIplayBro) {
+              if (pointsData && pointsData.winner === username) {
+                if (pointsData.completedIplayBro) {
                   giveawayData.i_played_bro =
-                    (pointsData?.completedIplayBro &&
-                      pointsData?.winner === username) ??
-                    false
+                    pointsData.completedIplayBro ?? false
                 }
 
                 if (pointsData.playRequirements) {
