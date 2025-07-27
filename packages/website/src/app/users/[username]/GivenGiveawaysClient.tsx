@@ -26,6 +26,7 @@ export default function GivenGiveawaysClient({ giveaways, userAvatars, gameData 
   const [filterRegion, setFilterRegion] = useState<boolean>(false)
   const [filterPlayRequired, setFilterPlayRequired] = useState<boolean>(false)
   const [filterShared, setFilterShared] = useState<boolean>(false)
+  const [isCollapsed, setIsCollapsed] = useState(false)
 
   const getGiveawayStatus = (giveaway: Giveaway) => {
     const now = Date.now() / 1000
@@ -88,213 +89,223 @@ export default function GivenGiveawaysClient({ giveaways, userAvatars, gameData 
         <h2 className="text-xl font-semibold">
           🎁 Giveaways Created ({giveaways.length})
         </h2>
-      </div>
-
-      {/* Filter and Sort Controls */}
-      <div className="flex flex-wrap items-center justify-between gap-4 mb-4 p-4 bg-background/50 rounded-lg">
-        <div className="flex flex-wrap items-center gap-4 flex-grow">
-          {/* Search Input */}
-          <div className="flex-grow md:flex-grow-0">
-            <input
-              type="text"
-              placeholder="Search..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full md:w-48 px-3 py-2 border border-card-border rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-accent text-sm"
-            />
-          </div>
-
-          {/* CV Filter */}
-          <div className="flex items-center gap-2">
-            <label htmlFor="cv-filter" className="text-sm font-medium">CV:</label>
-            <select
-              id="cv-filter"
-              value={filterCV}
-              onChange={(e) => setFilterCV(e.target.value as 'all' | 'FULL_CV' | 'REDUCED_CV' | 'NO_CV')}
-              className="px-3 py-2 border border-card-border rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-accent text-sm"
-            >
-              <option value="all">All</option>
-              <option value="FULL_CV">Full</option>
-              <option value="REDUCED_CV">Reduced</option>
-              <option value="NO_CV">No CV</option>
-            </select>
-          </div>
-
-          {/* Sort Controls */}
-          <div className="flex items-center gap-2">
-            <label htmlFor="sort-by" className="text-sm font-medium">Sort by:</label>
-            <select
-              id="sort-by"
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value as 'date' | 'entries' | 'points')}
-              className="px-3 py-2 border border-card-border rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-accent text-sm"
-            >
-              <option value="date">End Date</option>
-              <option value="entries">Entries</option>
-              <option value="points">Points</option>
-            </select>
-            <button
-              onClick={() => setSortDirection(prev => prev === 'asc' ? 'desc' : 'asc')}
-              className="px-3 py-2 border border-card-border rounded-md bg-transparent hover:bg-accent/10 focus:outline-none focus:ring-2 focus:ring-accent"
-              title={`Sort ${sortDirection === 'asc' ? 'Descending' : 'Ascending'}`}
-            >
-              {sortDirection === 'asc' ? '↑' : '↓'}
-            </button>
-          </div>
-        </div>
-        <div className="text-sm text-muted-foreground">
-          Showing {filteredAndSortedGiveaways.length} of {giveaways.length}
-        </div>
-      </div>
-
-      {/* Label Filters */}
-      <div className="flex items-center gap-2 mb-4">
         <button
-          onClick={() => setFilterRegion(!filterRegion)}
-          className={`px-3 py-1 text-sm rounded-full border transition-colors ${filterRegion ? 'bg-info-light text-info-foreground border-info' : 'bg-transparent border-card-border'}`}
+          onClick={() => setIsCollapsed(!isCollapsed)}
+          className="text-accent hover:text-accent-hover transition-colors text-sm font-medium"
         >
-          🌍 Restricted
-        </button>
-        <button
-          onClick={() => setFilterPlayRequired(!filterPlayRequired)}
-          className={`px-3 py-1 text-sm rounded-full border transition-colors ${filterPlayRequired ? 'bg-warning-light text-warning-foreground border-warning' : 'bg-transparent border-card-border'}`}
-        >
-          🎮 Play Required
-        </button>
-        <button
-          onClick={() => setFilterShared(!filterShared)}
-          className={`px-3 py-1 text-sm rounded-full border transition-colors ${filterShared ? 'bg-purple-light text-purple-foreground border-purple' : 'bg-transparent border-card-border'}`}
-        >
-          👥 Shared
+          {isCollapsed ? 'Show' : 'Hide'} {isCollapsed ? '↓' : '↑'}
         </button>
       </div>
 
-      <div className="space-y-4">
-        {filteredAndSortedGiveaways.map((giveaway) => {
-          const status = getGiveawayStatus(giveaway)
-          const gameData = getGameData(giveaway.app_id ?? giveaway.package_id)
-
-          return (
-            <div key={giveaway.id ?? giveaway.package_id} className={`border rounded-lg overflow-hidden ${status.borderColor} ${status.backgroundColor}`}>
-              <div className="flex">
-                <GameImage
-                  appId={giveaway.app_id?.toString()}
-                  packageId={giveaway.package_id?.toString()}
-                  name={giveaway.name}
+      {!isCollapsed && (
+        <>
+          {/* Filter and Sort Controls */}
+          <div className="flex flex-wrap items-center justify-between gap-4 mb-4 p-4 bg-background/50 rounded-lg">
+            <div className="flex flex-wrap items-center gap-4 flex-grow">
+              {/* Search Input */}
+              <div className="flex-grow md:flex-grow-0">
+                <input
+                  type="text"
+                  placeholder="Search..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full md:w-48 px-3 py-2 border border-card-border rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-accent text-sm"
                 />
-
-                <div className="p-4 flex-1">
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-1">
-                        <h3 className="font-semibold">
-                          <a
-                            href={`https://www.steamgifts.com/giveaway/${giveaway.link}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-accent hover:underline text-sm"
-                          >{giveaway.name} ({giveaway.points}P)</a></h3>
-                        <span className={`inline-flex items-center px-2 py-1 text-xs font-medium rounded-full ${status.isActive ? 'bg-success-light text-success-foreground' : 'bg-muted text-muted-foreground'}`}>
-                          {status.statusIcon} {status.statusText}
-                        </span>
-                      </div>
-                      <div className="flex items-center mt-1 space-x-4">
-                        <span className={`px-2 py-1 text-xs font-semibold rounded-full ${getCVBadgeColor(giveaway.cv_status || 'FULL_CV')}`}>
-                          {getCVLabel(giveaway.cv_status || 'FULL_CV')}
-                        </span>
-                        <span className="text-sm text-muted-foreground">
-                          {giveaway.copies} {giveaway.copies === 1 ? 'copy' : 'copies'}
-                        </span>
-                        <span className="text-sm text-muted-foreground">
-                          {giveaway.entry_count} entries
-                        </span>
-                        <span className={`text-sm font-medium ${status.statusColor}`}>
-                          <FormattedDate timestamp={giveaway.end_timestamp} />
-                        </span>
-                        {gameData && 'hltb_main_story_hours' in gameData && (<div>
-                          <span className="text-muted-foreground">⏱️ HLTB:</span>
-                          <span className="ml-1 font-medium">
-                            <span className="text-sm text-muted-foreground">
-                              {gameData?.hltb_main_story_hours === null ? 'N/A' : `${gameData?.hltb_main_story_hours} hours`}
-                            </span>
-                          </span>
-                        </div>)}
-                      </div>
-
-                      {/* New properties */}
-                      <div className="flex items-center gap-2 mt-2">
-                        {giveaway.region_restricted && (
-                          <span className="text-xs font-medium px-2 py-1 bg-info-light text-info-foreground rounded-full">
-                            🌍 Restricted
-                          </span>
-                        )}
-                        {(giveaway.required_play || giveaway.required_play_meta) && (
-                          <Tooltip content={giveaway.required_play_meta?.additional_notes || 'No additional notes for required play'}>
-                            <span className="text-xs font-medium px-2 py-1 bg-warning-light text-warning-foreground rounded-full">
-                              🎮 Play Required
-                            </span>
-                          </Tooltip>
-                        )}
-                        {giveaway.is_shared && (
-                          <span className="text-xs font-medium px-2 py-1 bg-info-light text-info-foreground rounded-full">
-                            👥 Shared
-                          </span>
-                        )}
-                        {giveaway.whitelist && (
-                          <span className="text-xs font-medium px-2 py-1 bg-info-light text-info-foreground rounded-full">
-                            🩵 Whitelist
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                </div>
               </div>
 
-              {giveaway.winners && giveaway.winners.length > 0 && (
-                <div className="px-4 pb-4">
-                  <div className="pt-3 border-t border-card-border">
-                    <div className="text-sm">
-                      <span className="text-muted-foreground">Winners:</span>
-                      <div className="mt-1">
-                        {giveaway.winners.map((winner, index) => (
-                          !winner.name ? <p key={index}>Awaiting feedback</p> : userAvatars.get(winner.name) ? (
-                            <Link
-                              key={index}
-                              href={`/users/${winner.name}`}
-                              className="text-accent hover:underline mr-2 inline-flex items-center"
-                            >
-                              <UserAvatar
-                                src={userAvatars.get(winner.name) || 'https://cdn-icons-png.flaticon.com/512/9287/9287610.png'}
-                                username={winner.name}
-                              />
-                              {winner.name}
-                            </Link>
-                          ) : (
-                            <a
-                              key={index}
-                              href={`http://steamgifts.com/user/${winner.name}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-muted-foreground hover:text-foreground mr-2 inline-flex items-center"
-                            >
-                              <UserAvatar
-                                src={'https://cdn-icons-png.flaticon.com/512/9287/9287610.png'}
-                                username={winner.name}
-                              />
-                              {winner.name} (ex member)
-                            </a>
-                          )
-                        ))}
+              {/* CV Filter */}
+              <div className="flex items-center gap-2">
+                <label htmlFor="cv-filter" className="text-sm font-medium">CV:</label>
+                <select
+                  id="cv-filter"
+                  value={filterCV}
+                  onChange={(e) => setFilterCV(e.target.value as 'all' | 'FULL_CV' | 'REDUCED_CV' | 'NO_CV')}
+                  className="px-3 py-2 border border-card-border rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-accent text-sm"
+                >
+                  <option value="all">All</option>
+                  <option value="FULL_CV">Full</option>
+                  <option value="REDUCED_CV">Reduced</option>
+                  <option value="NO_CV">No CV</option>
+                </select>
+              </div>
+
+              {/* Sort Controls */}
+              <div className="flex items-center gap-2">
+                <label htmlFor="sort-by" className="text-sm font-medium">Sort by:</label>
+                <select
+                  id="sort-by"
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value as 'date' | 'entries' | 'points')}
+                  className="px-3 py-2 border border-card-border rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-accent text-sm"
+                >
+                  <option value="date">End Date</option>
+                  <option value="entries">Entries</option>
+                  <option value="points">Points</option>
+                </select>
+                <button
+                  onClick={() => setSortDirection(prev => prev === 'asc' ? 'desc' : 'asc')}
+                  className="px-3 py-2 border border-card-border rounded-md bg-transparent hover:bg-accent/10 focus:outline-none focus:ring-2 focus:ring-accent"
+                  title={`Sort ${sortDirection === 'asc' ? 'Descending' : 'Ascending'}`}
+                >
+                  {sortDirection === 'asc' ? '↑' : '↓'}
+                </button>
+              </div>
+            </div>
+            <div className="text-sm text-muted-foreground">
+              Showing {filteredAndSortedGiveaways.length} of {giveaways.length}
+            </div>
+          </div>
+
+          {/* Label Filters */}
+          <div className="flex items-center gap-2 mb-4">
+            <button
+              onClick={() => setFilterRegion(!filterRegion)}
+              className={`px-3 py-1 text-sm rounded-full border transition-colors ${filterRegion ? 'bg-info-light text-info-foreground border-info' : 'bg-transparent border-card-border'}`}
+            >
+              🌍 Restricted
+            </button>
+            <button
+              onClick={() => setFilterPlayRequired(!filterPlayRequired)}
+              className={`px-3 py-1 text-sm rounded-full border transition-colors ${filterPlayRequired ? 'bg-warning-light text-warning-foreground border-warning' : 'bg-transparent border-card-border'}`}
+            >
+              🎮 Play Required
+            </button>
+            <button
+              onClick={() => setFilterShared(!filterShared)}
+              className={`px-3 py-1 text-sm rounded-full border transition-colors ${filterShared ? 'bg-purple-light text-purple-foreground border-purple' : 'bg-transparent border-card-border'}`}
+            >
+              👥 Shared
+            </button>
+          </div>
+
+          <div className="space-y-4">
+            {filteredAndSortedGiveaways.map((giveaway) => {
+              const status = getGiveawayStatus(giveaway)
+              const gameData = getGameData(giveaway.app_id ?? giveaway.package_id)
+
+              return (
+                <div key={giveaway.id ?? giveaway.package_id} className={`border rounded-lg overflow-hidden ${status.borderColor} ${status.backgroundColor}`}>
+                  <div className="flex">
+                    <GameImage
+                      appId={giveaway.app_id?.toString()}
+                      packageId={giveaway.package_id?.toString()}
+                      name={giveaway.name}
+                    />
+
+                    <div className="p-4 flex-1">
+                      <div className="flex items-start justify-between">
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2 mb-1">
+                            <h3 className="font-semibold">
+                              <a
+                                href={`https://www.steamgifts.com/giveaway/${giveaway.link}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-accent hover:underline text-sm"
+                              >{giveaway.name} ({giveaway.points}P)</a></h3>
+                            <span className={`inline-flex items-center px-2 py-1 text-xs font-medium rounded-full ${status.isActive ? 'bg-success-light text-success-foreground' : 'bg-muted text-muted-foreground'}`}>
+                              {status.statusIcon} {status.statusText}
+                            </span>
+                          </div>
+                          <div className="flex items-center mt-1 space-x-4">
+                            <span className={`px-2 py-1 text-xs font-semibold rounded-full ${getCVBadgeColor(giveaway.cv_status || 'FULL_CV')}`}>
+                              {getCVLabel(giveaway.cv_status || 'FULL_CV')}
+                            </span>
+                            <span className="text-sm text-muted-foreground">
+                              {giveaway.copies} {giveaway.copies === 1 ? 'copy' : 'copies'}
+                            </span>
+                            <span className="text-sm text-muted-foreground">
+                              {giveaway.entry_count} entries
+                            </span>
+                            <span className={`text-sm font-medium ${status.statusColor}`}>
+                              <FormattedDate timestamp={giveaway.end_timestamp} />
+                            </span>
+                            {gameData && 'hltb_main_story_hours' in gameData && (<div>
+                              <span className="text-muted-foreground">⏱️ HLTB:</span>
+                              <span className="ml-1 font-medium">
+                                <span className="text-sm text-muted-foreground">
+                                  {gameData?.hltb_main_story_hours === null ? 'N/A' : `${gameData?.hltb_main_story_hours} hours`}
+                                </span>
+                              </span>
+                            </div>)}
+                          </div>
+
+                          {/* New properties */}
+                          <div className="flex items-center gap-2 mt-2">
+                            {giveaway.region_restricted && (
+                              <span className="text-xs font-medium px-2 py-1 bg-info-light text-info-foreground rounded-full">
+                                🌍 Restricted
+                              </span>
+                            )}
+                            {(giveaway.required_play || giveaway.required_play_meta) && (
+                              <Tooltip content={giveaway.required_play_meta?.additional_notes || 'No additional notes for required play'}>
+                                <span className="text-xs font-medium px-2 py-1 bg-warning-light text-warning-foreground rounded-full">
+                                  🎮 Play Required
+                                </span>
+                              </Tooltip>
+                            )}
+                            {giveaway.is_shared && (
+                              <span className="text-xs font-medium px-2 py-1 bg-info-light text-info-foreground rounded-full">
+                                👥 Shared
+                              </span>
+                            )}
+                            {giveaway.whitelist && (
+                              <span className="text-xs font-medium px-2 py-1 bg-info-light text-info-foreground rounded-full">
+                                🩵 Whitelist
+                              </span>
+                            )}
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
+
+                  {giveaway.winners && giveaway.winners.length > 0 && (
+                    <div className="px-4 pb-4">
+                      <div className="pt-3 border-t border-card-border">
+                        <div className="text-sm">
+                          <span className="text-muted-foreground">Winners:</span>
+                          <div className="mt-1">
+                            {giveaway.winners.map((winner, index) => (
+                              !winner.name ? <p key={index}>Awaiting feedback</p> : userAvatars.get(winner.name) ? (
+                                <Link
+                                  key={index}
+                                  href={`/users/${winner.name}`}
+                                  className="text-accent hover:underline mr-2 inline-flex items-center"
+                                >
+                                  <UserAvatar
+                                    src={userAvatars.get(winner.name) || 'https://cdn-icons-png.flaticon.com/512/9287/9287610.png'}
+                                    username={winner.name}
+                                  />
+                                  {winner.name}
+                                </Link>
+                              ) : (
+                                <a
+                                  key={index}
+                                  href={`http://steamgifts.com/user/${winner.name}`}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="text-muted-foreground hover:text-foreground mr-2 inline-flex items-center"
+                                >
+                                  <UserAvatar
+                                    src={'https://cdn-icons-png.flaticon.com/512/9287/9287610.png'}
+                                    username={winner.name}
+                                  />
+                                  {winner.name} (ex member)
+                                </a>
+                              )
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
-          )
-        })}
-      </div>
+              )
+            })}
+          </div>
+        </>
+      )}
     </div>
   )
 } 
