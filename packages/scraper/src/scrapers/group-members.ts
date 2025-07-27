@@ -306,39 +306,42 @@ export class SteamGiftsUserFetcher {
 
         // Track shared giveaways
         if (giveaway.is_shared) {
-          userStats.shared_sent_count += giveaway.copies
+          userStats.shared_sent_count +=
+            giveaway.winners?.filter((w) => w.activated).length ?? 0
           continue
         }
 
-        switch (giveaway.cv_status) {
-          case 'FULL_CV':
-            userStats.fcv_sent_count += giveaway.copies
-            userStats.real_total_sent_count += giveaway.copies
-            const gamePriceFullCV = gamePriceMap.get(giveaway.name)
-            if (gamePriceFullCV) {
-              const finalValue =
-                (gamePriceFullCV.price_usd_full / 100) * giveaway.copies
-              debug(`Adding Full CV value for ${giveaway.name}: ${finalValue}`)
-              userStats.real_total_sent_value += Number(finalValue.toFixed(2))
-            }
-            break
-          case 'REDUCED_CV':
-            userStats.rcv_sent_count += giveaway.copies
-            const gamePriceReducedCV = gamePriceMap.get(giveaway.name)
-            if (gamePriceReducedCV) {
-              userStats.real_total_sent_value += Number(
-                (
-                  (gamePriceReducedCV.price_usd_reduced / 100) *
-                  giveaway.copies
-                ).toFixed(2)
-              ) // Convert cents to dollars and round to 2 decimals
-            }
-            break
-          case 'NO_CV':
-            userStats.ncv_sent_count += giveaway.copies
-            // No value added for NO_CV games
-            break
-        }
+        giveaway.winners?.forEach((winner) => {
+          if (!winner.activated) return
+
+          switch (giveaway.cv_status) {
+            case 'FULL_CV':
+              userStats.fcv_sent_count++
+              userStats.real_total_sent_count++
+              const gamePriceFullCV = gamePriceMap.get(giveaway.name)
+              if (gamePriceFullCV) {
+                const finalValue = gamePriceFullCV.price_usd_full / 100
+                debug(
+                  `Adding Full CV value for ${giveaway.name}: ${finalValue}`
+                )
+                userStats.real_total_sent_value += Number(finalValue.toFixed(2))
+              }
+              break
+            case 'REDUCED_CV':
+              userStats.rcv_sent_count++
+              const gamePriceReducedCV = gamePriceMap.get(giveaway.name)
+              if (gamePriceReducedCV) {
+                userStats.real_total_sent_value += Number(
+                  (gamePriceReducedCV.price_usd_reduced / 100).toFixed(2)
+                ) // Convert cents to dollars and round to 2 decimals
+              }
+              break
+            case 'NO_CV':
+              userStats.ncv_sent_count++
+              // No value added for NO_CV games
+              break
+          }
+        })
       }
 
       debug(`Total sent value: ${userStats.real_total_sent_value}`)
