@@ -114,6 +114,10 @@ export default async function Home() {
   const activeMembers = users.length
   const totalGiveaways = giveaways.length
 
+  const usersWithWarnings = users.filter(user => (user.warnings?.length || 0) > 0)
+  const usersWithWarningsCount = usersWithWarnings.length
+  const usersWithWarningsPercentage = (usersWithWarningsCount / activeMembers) * 100
+
   // Calculate statistics
   const totalGiveawaysCreated = users.reduce((sum, user) => {
     return sum + (user.giveaways_created?.length || 0)
@@ -131,24 +135,6 @@ export default async function Home() {
   const netReceivers = users.filter(user => (user.stats.giveaway_ratio ?? 0) < -1).length
 
   const userMap = new Map(users.map(u => [u.username, u]))
-
-  // --- Top 5 Most Created Games ---
-  const gameGiveawayCounts = giveaways.reduce((acc, ga) => {
-    const gameId = ga.app_id ?? ga.package_id
-    if (gameId) {
-      acc.set(gameId, (acc.get(gameId) || 0) + 1)
-    }
-    return acc
-  }, new Map<number, number>())
-
-  const top5Games = Array.from(gameGiveawayCounts.entries())
-    .sort(([, a], [, b]) => b - a)
-    .slice(0, 5)
-    .map(([gameId, count]) => {
-      const game = allGameData.find(g => g.app_id === gameId || g.package_id === gameId)
-      return { game, count }
-    })
-    .filter(item => item.game) as { game: GameData; count: number }[]
 
   // --- Insight Calculations ---
   const calculateInsights = (giveawayList: Giveaway[], userList: User[]) => {
@@ -289,15 +275,21 @@ export default async function Home() {
               </span>
             </div>
             <div className="flex justify-between">
+              <span className="text-sm text-muted-foreground">Neutral Users</span>
+              <span className="text-sm font-semibold text-muted-foreground">
+                {neutralUsers} ({((neutralUsers / activeMembers) * 100).toFixed(1)}%)
+              </span>
+            </div>
+            <div className="flex justify-between">
               <span className="text-sm text-muted-foreground">Net Receivers</span>
               <span className="text-sm font-semibold text-error-foreground">
                 {netReceivers} ({((netReceivers / activeMembers) * 100).toFixed(1)}%)
               </span>
             </div>
             <div className="flex justify-between">
-              <span className="text-sm text-muted-foreground">Neutral Users</span>
-              <span className="text-sm font-semibold text-muted-foreground">
-                {neutralUsers} ({((neutralUsers / activeMembers) * 100).toFixed(1)}%)
+              <span className="text-sm text-muted-foreground">Users with warnings</span>
+              <span className="text-sm font-semibold text-error-foreground">
+                {usersWithWarningsCount} ({usersWithWarningsPercentage.toFixed(1)}%)
               </span>
             </div>
           </div>
