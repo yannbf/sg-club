@@ -245,7 +245,7 @@ export class SteamGiftsUserFetcher {
     }
   }
 
-  public calculateStats(user: User): UserGiveawaysStats {
+  public calculateStats(user: User, giveaways: Giveaway[]): UserGiveawaysStats {
     const userStats: Omit<
       UserGiveawaysStats,
       | 'total_sent_count'
@@ -288,7 +288,16 @@ export class SteamGiftsUserFetcher {
     const gamePrices = JSON.parse(
       readFileSync('../website/public/data/game_data.json', 'utf-8')
     ) as GamePrice[]
-    const gamePriceMap = new Map(gamePrices.map((game) => [game.name, game]))
+    const gamePriceMap = new Map<string, GamePrice>()
+    for (const game of gamePrices) {
+      if (game.app_id) {
+        gamePriceMap.set(`app/${game.app_id}`, game)
+      }
+      if (game.package_id) {
+        gamePriceMap.set(`sub/${game.package_id}`, game)
+      }
+    }
+    const giveawayMap = new Map(giveaways.map((g) => [g.link, g]))
 
     // Count sent giveaways by CV status and calculate real values
     if (user.giveaways_created) {
@@ -299,40 +308,50 @@ export class SteamGiftsUserFetcher {
       userStats.giveaways_created = user.giveaways_created.length ?? 0
       userStats.giveaways_with_no_entries = giveawaysWithNoEntriesCount ?? 0
 
-      for (const giveaway of user.giveaways_created) {
-        if (!giveaway.had_winners) {
+      for (const createdGiveaway of user.giveaways_created) {
+        if (!createdGiveaway.had_winners) {
           continue
         }
 
         // Track shared giveaways
-        if (giveaway.is_shared) {
+        if (createdGiveaway.is_shared) {
           userStats.shared_sent_count +=
-            giveaway.winners?.filter((w) => w.activated).length ?? 0
+            createdGiveaway.winners?.filter((w) => w.activated).length ?? 0
           continue
         }
 
-        giveaway.winners?.forEach((winner) => {
+        const fullGiveaway = giveawayMap.get(createdGiveaway.link)
+        if (!fullGiveaway) {
+          continue
+        }
+
+        createdGiveaway.winners?.forEach((winner) => {
           if (!winner.activated) return
 
-          switch (giveaway.cv_status) {
+          let gamePrice: GamePrice | undefined
+          if (fullGiveaway.app_id) {
+            gamePrice = gamePriceMap.get(`app/${fullGiveaway.app_id}`)
+          } else if (fullGiveaway.package_id) {
+            gamePrice = gamePriceMap.get(`sub/${fullGiveaway.package_id}`)
+          }
+
+          switch (createdGiveaway.cv_status) {
             case 'FULL_CV':
               userStats.fcv_sent_count++
               userStats.real_total_sent_count++
-              const gamePriceFullCV = gamePriceMap.get(giveaway.name)
-              if (gamePriceFullCV) {
-                const finalValue = gamePriceFullCV.price_usd_full / 100
+              if (gamePrice) {
+                const finalValue = gamePrice.price_usd_full / 100
                 debug(
-                  `Adding Full CV value for ${giveaway.name}: ${finalValue}`
+                  `Adding Full CV value for ${createdGiveaway.name}: ${finalValue}`
                 )
                 userStats.real_total_sent_value += Number(finalValue.toFixed(2))
               }
               break
             case 'REDUCED_CV':
               userStats.rcv_sent_count++
-              const gamePriceReducedCV = gamePriceMap.get(giveaway.name)
-              if (gamePriceReducedCV) {
+              if (gamePrice) {
                 userStats.real_total_sent_value += Number(
-                  (gamePriceReducedCV.price_usd_reduced / 100).toFixed(2)
+                  (gamePrice.price_usd_reduced / 100).toFixed(2)
                 ) // Convert cents to dollars and round to 2 decimals
               }
               break
@@ -349,30 +368,40 @@ export class SteamGiftsUserFetcher {
 
     // Count received giveaways by CV status and calculate real values
     if (user.giveaways_won) {
-      for (const giveaway of user.giveaways_won) {
+      for (const wonGiveaway of user.giveaways_won) {
         // Track shared giveaways
-        if (giveaway.is_shared) {
+        if (wonGiveaway.is_shared) {
           userStats.shared_received_count++
           continue
         }
 
-        switch (giveaway.cv_status) {
+        const fullGiveaway = giveawayMap.get(wonGiveaway.link)
+        if (!fullGiveaway) {
+          continue
+        }
+
+        let gamePrice: GamePrice | undefined
+        if (fullGiveaway.app_id) {
+          gamePrice = gamePriceMap.get(`app/${fullGiveaway.app_id}`)
+        } else if (fullGiveaway.package_id) {
+          gamePrice = gamePriceMap.get(`sub/${fullGiveaway.package_id}`)
+        }
+
+        switch (wonGiveaway.cv_status) {
           case 'FULL_CV':
             userStats.real_total_received_count++
             userStats.fcv_received_count++
-            const gamePriceFullCV = gamePriceMap.get(giveaway.name)
-            if (gamePriceFullCV) {
+            if (gamePrice) {
               userStats.real_total_received_value += Number(
-                (gamePriceFullCV.price_usd_full / 100).toFixed(2)
+                (gamePrice.price_usd_full / 100).toFixed(2)
               ) // Convert cents to dollars and round to 2 decimals
             }
             break
           case 'REDUCED_CV':
             userStats.rcv_received_count++
-            const gamePriceReducedCV = gamePriceMap.get(giveaway.name)
-            if (gamePriceReducedCV) {
+            if (gamePrice) {
               userStats.real_total_received_value += Number(
-                (gamePriceReducedCV.price_usd_reduced / 100).toFixed(2)
+                (gamePrice.price_usd_reduced / 100).toFixed(2)
               ) // Convert cents to dollars and round to 2 decimals
             }
             break
@@ -610,6 +639,29 @@ export class SteamGiftsUserFetcher {
             is_shared: giveaway.is_shared || false,
           }
 
+          const giveawayId = giveaway.link.split('/')[0]
+          const pointsData = pointsMap.get(giveawayId)
+
+          if (pointsData) {
+            if (pointsData?.completedIplayBro) {
+              giveawayCreated.i_played_bro =
+                (pointsData?.completedIplayBro &&
+                  pointsData?.winner === username) ??
+                false
+            }
+
+            if (pointsData.playRequirements) {
+              giveawayCreated.required_play_meta = {
+                requirements_met:
+                  pointsData.playRequirements?.playRequirementsMet ?? false,
+                deadline: pointsData.playRequirements?.deadline,
+                deadline_in_months:
+                  pointsData.playRequirements?.deadlineInMonths,
+                additional_notes: pointsData.playRequirements?.additionalNotes,
+              }
+            }
+          }
+
           // Only set had_winners if the giveaway has ended
           if (giveaway.end_timestamp < now) {
             giveawayCreated.had_winners = giveaway.hasWinners || false
@@ -637,7 +689,7 @@ export class SteamGiftsUserFetcher {
       }
 
       // Calculate user stats
-      const userStats = this.calculateStats(updatedUser)
+      const userStats = this.calculateStats(updatedUser, giveaways)
       updatedUser.stats = {
         ...updatedUser.stats,
         ...userStats,

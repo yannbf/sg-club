@@ -8,6 +8,7 @@ import GameImage from './GameImage'
 import UserAvatar from '@/components/UserAvatar'
 import { useGameData } from '@/lib/hooks'
 import FormattedDate from '@/components/FormattedDate'
+import Tooltip from '@/components/Tooltip'
 
 interface Props {
   giveaways: Giveaway[]
@@ -15,7 +16,7 @@ interface Props {
   gameData: GameData[]
 }
 
-export default function UserGiveawaysClient({ giveaways, userAvatars, gameData }: Props) {
+export default function GivenGiveawaysClient({ giveaways, userAvatars, gameData }: Props) {
   const { getGameData } = useGameData(gameData)
   const [sortBy, setSortBy] = useState<'date' | 'entries' | 'points'>('date')
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc')
@@ -144,30 +145,30 @@ export default function UserGiveawaysClient({ giveaways, userAvatars, gameData }
                       </div>
 
                       {/* New properties */}
-                      {(giveaway.required_play || giveaway.is_shared || giveaway.whitelist || giveaway.region_restricted) && (
-                        <div className="flex items-center gap-2 mt-2">
-                          {giveaway.region_restricted && (
-                            <span className="text-xs font-medium px-2 py-1 bg-info-light text-info-foreground rounded-full">
-                              🌍 Restricted
-                            </span>
-                          )}
-                          {giveaway.required_play && (
+                      <div className="flex items-center gap-2 mt-2">
+                        {giveaway.region_restricted && (
+                          <span className="text-xs font-medium px-2 py-1 bg-info-light text-info-foreground rounded-full">
+                            🌍 Restricted
+                          </span>
+                        )}
+                        {(giveaway.required_play || giveaway.required_play_meta) && (
+                          <Tooltip content={giveaway.required_play_meta?.additional_notes || 'No additional notes for required play'}>
                             <span className="text-xs font-medium px-2 py-1 bg-warning-light text-warning-foreground rounded-full">
                               🎮 Play Required
                             </span>
-                          )}
-                          {giveaway.is_shared && (
-                            <span className="text-xs font-medium px-2 py-1 bg-info-light text-info-foreground rounded-full">
-                              👥 Shared
-                            </span>
-                          )}
-                          {giveaway.whitelist && (
-                            <span className="text-xs font-medium px-2 py-1 bg-info-light text-info-foreground rounded-full">
-                              🩵 Whitelist
-                            </span>
-                          )}
-                        </div>
-                      )}
+                          </Tooltip>
+                        )}
+                        {giveaway.is_shared && (
+                          <span className="text-xs font-medium px-2 py-1 bg-info-light text-info-foreground rounded-full">
+                            👥 Shared
+                          </span>
+                        )}
+                        {giveaway.whitelist && (
+                          <span className="text-xs font-medium px-2 py-1 bg-info-light text-info-foreground rounded-full">
+                            🩵 Whitelist
+                          </span>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>

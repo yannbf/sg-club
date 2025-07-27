@@ -28,6 +28,7 @@ export async function generateGiveawaysData(): Promise<void> {
         console.log('📄 No existing entries file found, starting fresh')
       }
 
+      console.log('🔍 Fetching play requirements data...')
       const pointsManager = GiveawayPointsManager.getInstance()
       const allPointsData = await pointsManager.getAllGiveaways()
       const pointsMap = new Map(allPointsData.map((p) => [p.id, p]))
@@ -49,6 +50,7 @@ export async function generateGiveawaysData(): Promise<void> {
           (giveaway.entry_count > 0 && hasFinishedAndNotRegistered) ||
           (giveaway.entry_count > 0 && isOpenGiveaway)
         ) {
+          console.log(`🔍 Fetching entries for: ${giveaway.name}`)
           const entries = await groupGiveawaysScraper.fetchDetailedEntries(
             giveaway.link
           )
@@ -66,6 +68,7 @@ export async function generateGiveawaysData(): Promise<void> {
         console.log(`🔍 Updated ${giveawaysWithUpdatedEntries} entries`)
       }
 
+      console.log('🔍 Updating CV status for all giveaways...')
       // Update CV status for all giveaways
       const updatedGiveaways = await groupGiveawaysScraper.updateCVStatus(
         allGiveaways

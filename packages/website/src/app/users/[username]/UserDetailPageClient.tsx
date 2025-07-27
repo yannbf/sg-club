@@ -2,7 +2,7 @@
 
 import { formatPlaytime } from '@/lib/data'
 import Image from 'next/image'
-import UserGiveawaysClient from './UserGiveawaysClient'
+import GivenGiveawaysClient from './GivenGiveawaysClient'
 import WonGiveawaysClient from './WonGiveawaysClient'
 import { useState } from 'react'
 import type { User, UserGroupData, UserEntry } from '@/types'
@@ -345,7 +345,7 @@ export default function UserDetailPageClient({ user, allUsers, giveaways, gameDa
       )}
 
       {/* Giveaways Created */}
-      <UserGiveawaysClient
+      <GivenGiveawaysClient
         giveaways={userGiveaways}
         userAvatars={userAvatars}
         gameData={gameData}
@@ -357,7 +357,7 @@ export default function UserDetailPageClient({ user, allUsers, giveaways, gameDa
         userAvatars={userAvatars}
         gameData={gameData}
         lastUpdated={null}
-        defaultGiveawayStatus="all"
+        defaultGiveawayStatus="open"
       />
     </div>
   )

@@ -40,9 +40,13 @@ export interface User {
     status: string
     end_timestamp: number
     i_played_bro?: boolean
-    proof_required_play?: boolean
-    proof_required_play_deadline_in_months?: number
-    proof_required_play_additional_notes?: string
+    required_play?: boolean
+    required_play_meta?: {
+      requirements_met: boolean
+      deadline?: string
+      deadline_in_months?: number
+      additional_notes?: string
+    }
     steam_play_data?: {
       owned: boolean
       playtime_minutes: number
@@ -104,6 +108,12 @@ export interface Giveaway {
   // New properties
   required_play?: boolean
   is_shared?: boolean
+  required_play_meta?: {
+    requirements_met: boolean
+    deadline?: string
+    deadline_in_months?: number
+    additional_notes?: string
+  }
 }
 
 export interface GameData {

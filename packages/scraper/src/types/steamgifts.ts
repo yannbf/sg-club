@@ -91,6 +91,13 @@ export interface User {
     had_winners?: boolean // Only set if giveaway has ended
     required_play: boolean
     is_shared: boolean
+    i_played_bro?: boolean
+    required_play_meta?: {
+      requirements_met: boolean
+      deadline?: string
+      deadline_in_months?: number
+      additional_notes?: string
+    }
     winners?: Array<{
       name: string | null
       status: 'received' | 'not_received' | 'awaiting_feedback'

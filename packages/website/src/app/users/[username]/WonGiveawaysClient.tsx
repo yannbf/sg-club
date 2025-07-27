@@ -53,7 +53,6 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData }
           const matchingGiveaway = giveaways.find(g => g.link === game.link)
           const gameData = getGameData(matchingGiveaway?.app_id ?? matchingGiveaway?.package_id)
           const giveawayInfo = getGiveawayInfo(game)
-
           return (
             <div key={index} className="border border-card-border rounded-lg overflow-hidden">
               <div className="flex">
@@ -80,7 +79,7 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData }
                             ⭐️ I played, bro!
                           </span>
                         )}
-                        {game.proof_required_play && (
+                        {game.required_play_meta?.requirements_met && (
                           <span className="px-2 py-1 text-xs font-semibold rounded-full bg-purple-100 text-purple-800">
                             ✅ Proof of Play
                           </span>
@@ -96,37 +95,32 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData }
                         </span>
                       </div>
                       {giveawayInfo && <>
-                        {(giveawayInfo.required_play || giveawayInfo.is_shared || giveawayInfo.whitelist || giveawayInfo.region_restricted) && (
-                          <div className="flex items-center">
-
-                            <div className="flex items-center gap-2 mt-2">
-                              {giveawayInfo.region_restricted && (
-                                <span className="text-xs font-medium px-2 py-1 bg-info-light text-info-foreground rounded-full">
-                                  🌍 Restricted
+                        <div className="flex items-center">
+                          <div className="flex items-center gap-2 mt-2">
+                            {giveawayInfo.region_restricted && (
+                              <span className="text-xs font-medium px-2 py-1 bg-info-light text-info-foreground rounded-full">
+                                🌍 Restricted
+                              </span>
+                            )}
+                            {(giveawayInfo.required_play || giveawayInfo.required_play_meta) && (
+                              <Tooltip content={giveawayInfo.required_play_meta?.additional_notes || 'No additional notes for required play'}>
+                                <span className="text-xs font-medium px-2 py-1 bg-warning-light text-warning-foreground rounded-full">
+                                  🎮 Play Required
                                 </span>
-                              )}
-                              {/* TODO Add tooltip with notes */}
-                              {(giveawayInfo.required_play || (giveawayInfo as any).required_play_meta) && (
-                                <Tooltip content={(giveawayInfo as any).required_play_meta?.additional_notes || 'No additional notes for required play'}>
-                                  <span className="text-xs font-medium px-2 py-1 bg-warning-light text-warning-foreground rounded-full">
-
-                                    🎮 Play Required
-                                  </span>
-                                </Tooltip>
-                              )}
-                              {giveawayInfo.is_shared && (
-                                <span className="text-xs font-medium px-2 py-1 bg-info-light text-info-foreground rounded-full">
-                                  👥 Shared
-                                </span>
-                              )}
-                              {giveawayInfo.whitelist && (
-                                <span className="text-xs font-medium px-2 py-1 bg-info-light text-info-foreground rounded-full">
-                                  🩵 Whitelist
-                                </span>
-                              )}
-                            </div>
+                              </Tooltip>
+                            )}
+                            {giveawayInfo.is_shared && (
+                              <span className="text-xs font-medium px-2 py-1 bg-info-light text-info-foreground rounded-full">
+                                👥 Shared
+                              </span>
+                            )}
+                            {giveawayInfo.whitelist && (
+                              <span className="text-xs font-medium px-2 py-1 bg-info-light text-info-foreground rounded-full">
+                                🩵 Whitelist
+                              </span>
+                            )}
                           </div>
-                        )}
+                        </div>
                       </>}
                     </div>
                   </div>
