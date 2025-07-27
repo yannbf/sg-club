@@ -223,8 +223,13 @@ export async function getUser(username: string): Promise<User | null> {
   const userData = await getAllUsers()
   if (!userData) return null
 
-  // The `users` property is now a record, so we can access it directly.
-  return userData.users[username] || null
+  // Find the user case-insensitively by comparing lowercase usernames
+  const lowerUsername = username.toLowerCase()
+  const matchingUser = Object.entries(userData.users).find(
+    ([key]) => key.toLowerCase() === lowerUsername
+  )
+
+  return matchingUser ? matchingUser[1] : null
 }
 
 export async function getUserEntries(): Promise<UserEntry | null> {
