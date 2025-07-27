@@ -6,7 +6,7 @@ import { Giveaway, GameData } from '@/types'
 import { getCVBadgeColor, getCVLabel } from '@/lib/data'
 import GameImage from './GameImage'
 import UserAvatar from '@/components/UserAvatar'
-import { useGameData } from '@/lib/hooks'
+import { useGameData, useDebounce } from '@/lib/hooks'
 import FormattedDate from '@/components/FormattedDate'
 import Tooltip from '@/components/Tooltip'
 
@@ -20,6 +20,12 @@ export default function GivenGiveawaysClient({ giveaways, userAvatars, gameData 
   const { getGameData } = useGameData(gameData)
   const [sortBy, setSortBy] = useState<'date' | 'entries' | 'points'>('date')
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc')
+  const [searchTerm, setSearchTerm] = useState('')
+  const debouncedSearchTerm = useDebounce(searchTerm, 300)
+  const [filterCV, setFilterCV] = useState<'all' | 'FULL_CV' | 'REDUCED_CV' | 'NO_CV'>('all')
+  const [filterRegion, setFilterRegion] = useState<boolean>(false)
+  const [filterPlayRequired, setFilterPlayRequired] = useState<boolean>(false)
+  const [filterShared, setFilterShared] = useState<boolean>(false)
 
   const getGiveawayStatus = (giveaway: Giveaway) => {
     const now = Date.now() / 1000
@@ -36,7 +42,17 @@ export default function GivenGiveawaysClient({ giveaways, userAvatars, gameData 
     }
   }
 
-  const sortedGiveaways = [...giveaways].sort((a, b) => {
+  const filteredAndSortedGiveaways = [...giveaways].filter(giveaway => {
+    const searchTermLower = debouncedSearchTerm.toLowerCase()
+    const matchesSearch = giveaway.name.toLowerCase().includes(searchTermLower)
+    const matchesCV = filterCV === 'all' || giveaway.cv_status === filterCV
+    const matchesLabels = (
+      (!filterRegion || giveaway.region_restricted) &&
+      (!filterPlayRequired || (giveaway.required_play || giveaway.required_play_meta)) &&
+      (!filterShared || giveaway.is_shared)
+    )
+    return matchesSearch && matchesCV && matchesLabels
+  }).sort((a, b) => {
     const now = Date.now() / 1000
     const aIsEnded = a.end_timestamp < now
     const bIsEnded = b.end_timestamp < now
@@ -72,28 +88,89 @@ export default function GivenGiveawaysClient({ giveaways, userAvatars, gameData 
         <h2 className="text-xl font-semibold">
           🎁 Giveaways Created ({giveaways.length})
         </h2>
-        <div className="flex gap-2 items-center">
-          <select
-            value={sortBy}
-            onChange={(e) => setSortBy(e.target.value as 'date' | 'entries' | 'points')}
-            className="px-3 py-2 border border-card-border rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-accent"
-          >
-            <option value="date">End Date</option>
-            <option value="entries">Entry Count</option>
-            <option value="points">Points</option>
-          </select>
-          <button
-            onClick={() => setSortDirection(prev => prev === 'asc' ? 'desc' : 'asc')}
-            className="px-3 py-2 border border-card-border rounded-md bg-transparent hover:bg-accent/10 focus:outline-none focus:ring-2 focus:ring-accent"
-            title={`Sort ${sortDirection === 'asc' ? 'Ascending' : 'Descending'}`}
-          >
-            {sortDirection === 'asc' ? '↑' : '↓'}
-          </button>
+      </div>
+
+      {/* Filter and Sort Controls */}
+      <div className="flex flex-wrap items-center justify-between gap-4 mb-4 p-4 bg-background/50 rounded-lg">
+        <div className="flex flex-wrap items-center gap-4 flex-grow">
+          {/* Search Input */}
+          <div className="flex-grow md:flex-grow-0">
+            <input
+              type="text"
+              placeholder="Search..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full md:w-48 px-3 py-2 border border-card-border rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-accent text-sm"
+            />
+          </div>
+
+          {/* CV Filter */}
+          <div className="flex items-center gap-2">
+            <label htmlFor="cv-filter" className="text-sm font-medium">CV:</label>
+            <select
+              id="cv-filter"
+              value={filterCV}
+              onChange={(e) => setFilterCV(e.target.value as 'all' | 'FULL_CV' | 'REDUCED_CV' | 'NO_CV')}
+              className="px-3 py-2 border border-card-border rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-accent text-sm"
+            >
+              <option value="all">All</option>
+              <option value="FULL_CV">Full</option>
+              <option value="REDUCED_CV">Reduced</option>
+              <option value="NO_CV">No CV</option>
+            </select>
+          </div>
+
+          {/* Sort Controls */}
+          <div className="flex items-center gap-2">
+            <label htmlFor="sort-by" className="text-sm font-medium">Sort by:</label>
+            <select
+              id="sort-by"
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value as 'date' | 'entries' | 'points')}
+              className="px-3 py-2 border border-card-border rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-accent text-sm"
+            >
+              <option value="date">End Date</option>
+              <option value="entries">Entries</option>
+              <option value="points">Points</option>
+            </select>
+            <button
+              onClick={() => setSortDirection(prev => prev === 'asc' ? 'desc' : 'asc')}
+              className="px-3 py-2 border border-card-border rounded-md bg-transparent hover:bg-accent/10 focus:outline-none focus:ring-2 focus:ring-accent"
+              title={`Sort ${sortDirection === 'asc' ? 'Descending' : 'Ascending'}`}
+            >
+              {sortDirection === 'asc' ? '↑' : '↓'}
+            </button>
+          </div>
+        </div>
+        <div className="text-sm text-muted-foreground">
+          Showing {filteredAndSortedGiveaways.length} of {giveaways.length}
         </div>
       </div>
 
+      {/* Label Filters */}
+      <div className="flex items-center gap-2 mb-4">
+        <button
+          onClick={() => setFilterRegion(!filterRegion)}
+          className={`px-3 py-1 text-sm rounded-full border transition-colors ${filterRegion ? 'bg-info-light text-info-foreground border-info' : 'bg-transparent border-card-border'}`}
+        >
+          🌍 Restricted
+        </button>
+        <button
+          onClick={() => setFilterPlayRequired(!filterPlayRequired)}
+          className={`px-3 py-1 text-sm rounded-full border transition-colors ${filterPlayRequired ? 'bg-warning-light text-warning-foreground border-warning' : 'bg-transparent border-card-border'}`}
+        >
+          🎮 Play Required
+        </button>
+        <button
+          onClick={() => setFilterShared(!filterShared)}
+          className={`px-3 py-1 text-sm rounded-full border transition-colors ${filterShared ? 'bg-purple-light text-purple-foreground border-purple' : 'bg-transparent border-card-border'}`}
+        >
+          👥 Shared
+        </button>
+      </div>
+
       <div className="space-y-4">
-        {sortedGiveaways.map((giveaway) => {
+        {filteredAndSortedGiveaways.map((giveaway) => {
           const status = getGiveawayStatus(giveaway)
           const gameData = getGameData(giveaway.app_id ?? giveaway.package_id)
 

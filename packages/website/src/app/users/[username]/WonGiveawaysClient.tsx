@@ -3,9 +3,9 @@
 import { Giveaway, GameData, User } from '@/types'
 import { getCVBadgeColor, getCVLabel, formatPlaytime } from '@/lib/data'
 import GameImage from './GameImage'
-import { useGameData } from '@/lib/hooks'
+import { useGameData, useDebounce } from '@/lib/hooks'
 import FormattedDate from '@/components/FormattedDate'
-import { useCallback } from 'react'
+import { useCallback, useState, useMemo } from 'react'
 import Tooltip from '@/components/Tooltip'
 
 interface Props {
@@ -16,12 +16,19 @@ interface Props {
 
 export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData }: Props) {
   const { getGameData } = useGameData(gameData)
+  const [searchTerm, setSearchTerm] = useState('')
+  const debouncedSearchTerm = useDebounce(searchTerm, 300)
+  const [filterCV, setFilterCV] = useState<'all' | 'FULL_CV' | 'REDUCED_CV' | 'NO_CV'>('all')
+  const [filterRegion, setFilterRegion] = useState<boolean>(false)
+  const [filterPlayRequired, setFilterPlayRequired] = useState<boolean>(false)
+  const [filterShared, setFilterShared] = useState<boolean>(false)
+  const [filterUnplayedRequired, setFilterUnplayedRequired] = useState<boolean>(false)
 
   const getGiveawayInfo = useCallback((giveaway: NonNullable<User['giveaways_won']>[0]) => {
     const giveawayInfo = giveaways.find(g => g.link === giveaway.link)
     const extraGiveawayInfo = wonGiveaways.find(g => g.link === giveaway.link)
     return { ...giveawayInfo, ...extraGiveawayInfo }
-  }, [giveaways])
+  }, [giveaways, wonGiveaways])
 
   const getIplayBroStatus = (game: NonNullable<User['giveaways_won']>[0]) => {
     if (game.i_played_bro) return null;
@@ -43,13 +50,97 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData }
     return <span className={textColorClass}> ({daysRemaining} days remaining for <code>I play, bro</code> proof)</span>;
   };
 
+  const filteredWonGiveaways = useMemo(() => {
+    return wonGiveaways.filter(game => {
+      const giveawayInfo = getGiveawayInfo(game)
+      const searchTermLower = debouncedSearchTerm.toLowerCase()
+
+      const matchesSearch = game.name.toLowerCase().includes(searchTermLower)
+      const matchesCV = filterCV === 'all' || game.cv_status === filterCV
+
+      const matchesLabels =
+        (!filterRegion || giveawayInfo?.region_restricted) &&
+        (!filterPlayRequired || giveawayInfo?.required_play || giveawayInfo?.required_play_meta) &&
+        (!filterShared || giveawayInfo?.is_shared)
+
+      const matchesUnplayedRequired =
+        !filterUnplayedRequired ||
+        ((giveawayInfo?.required_play || giveawayInfo?.required_play_meta) && game.steam_play_data?.never_played)
+
+      return matchesSearch && matchesCV && matchesLabels && matchesUnplayedRequired
+    })
+  }, [wonGiveaways, debouncedSearchTerm, getGiveawayInfo, filterCV, filterRegion, filterPlayRequired, filterShared, filterUnplayedRequired])
+
   return (
     <div className="bg-card-background rounded-lg border-card-border border p-6 mb-6">
-      <h2 className="text-xl font-semibold mb-4">
-        🏆 Games Won ({wonGiveaways.length})
-      </h2>
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-xl font-semibold">
+          🏆 Games Won ({wonGiveaways.length})
+        </h2>
+      </div>
+
+      {/* Filter and Sort Controls */}
+      <div className="flex flex-wrap items-center justify-between gap-4 mb-4 p-4 bg-background/50 rounded-lg">
+        <div className="flex flex-wrap items-center gap-4 flex-grow">
+          {/* Search Input */}
+          <div className="flex-grow md:flex-grow-0">
+            <input
+              type="text"
+              placeholder="Search..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full md:w-48 px-3 py-2 border border-card-border rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-accent text-sm"
+            />
+          </div>
+
+          {/* CV Filter */}
+          <div className="flex items-center gap-2">
+            <label htmlFor="cv-filter-won" className="text-sm font-medium">CV:</label>
+            <select
+              id="cv-filter-won"
+              value={filterCV}
+              onChange={(e) => setFilterCV(e.target.value as 'all' | 'FULL_CV' | 'REDUCED_CV' | 'NO_CV')}
+              className="px-3 py-2 border border-card-border rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-accent text-sm"
+            >
+              <option value="all">All</option>
+              <option value="FULL_CV">Full</option>
+              <option value="REDUCED_CV">Reduced</option>
+              <option value="NO_CV">No CV</option>
+            </select>
+          </div>
+        </div>
+        <div className="text-sm text-muted-foreground">
+          Showing {filteredWonGiveaways.length} of {wonGiveaways.length}
+        </div>
+      </div>
+      <div className="flex flex-wrap items-center gap-2 mb-4">
+        <button
+          onClick={() => setFilterRegion(!filterRegion)}
+          className={`px-3 py-1 text-sm rounded-full border transition-colors ${filterRegion ? 'bg-info-light text-info-foreground border-info' : 'bg-transparent border-card-border'}`}
+        >
+          🌍 Restricted
+        </button>
+        <button
+          onClick={() => setFilterPlayRequired(!filterPlayRequired)}
+          className={`px-3 py-1 text-sm rounded-full border transition-colors ${filterPlayRequired ? 'bg-warning-light text-warning-foreground border-warning' : 'bg-transparent border-card-border'}`}
+        >
+          🎮 Play Required
+        </button>
+        <button
+          onClick={() => setFilterShared(!filterShared)}
+          className={`px-3 py-1 text-sm rounded-full border transition-colors ${filterShared ? 'bg-purple-light text-purple-foreground border-purple' : 'bg-transparent border-card-border'}`}
+        >
+          👥 Shared
+        </button>
+        <button
+          onClick={() => setFilterUnplayedRequired(!filterUnplayedRequired)}
+          className={`px-3 py-1 text-sm rounded-full border transition-colors ${filterUnplayedRequired ? 'bg-error-light text-error-foreground border-error' : 'bg-transparent border-card-border'}`}
+        >
+          Unplayed Required
+        </button>
+      </div>
       <div className="space-y-4">
-        {wonGiveaways.map((game, index) => {
+        {filteredWonGiveaways.map((game, index) => {
           const matchingGiveaway = giveaways.find(g => g.link === game.link)
           const gameData = getGameData(matchingGiveaway?.app_id ?? matchingGiveaway?.package_id)
           const giveawayInfo = getGiveawayInfo(game)
