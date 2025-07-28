@@ -256,9 +256,11 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData }
                             </div>)}
                             <div>
                               <span className="text-muted-foreground">Achievements:</span>
-                              <span className="ml-1 font-medium">
+                              {game.steam_play_data.has_no_available_stats ? <span className="ml-1 font-medium text-error-foreground">
+                                Unavailable
+                              </span> : <span className="ml-1 font-medium">
                                 {game.steam_play_data.achievements_unlocked}/{game.steam_play_data.achievements_total}
-                              </span>
+                              </span>}
                             </div>
                           </>
                         )}

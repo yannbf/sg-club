@@ -30,13 +30,25 @@ interface PlayRequirementData {
   additionalNotes: string
 }
 
-interface GiveawayData {
+export interface GiveawayData {
   id: string
   game: string
   winner: string
   completedIplayBro: boolean
   extraPoints: number
   playRequirements?: PlayRequirementData
+}
+
+interface GiveawayDataMap {
+  [id: string]: {
+    game: string
+    winners: {
+      name: string
+      completedIplayBro: boolean
+      extraPoints: number
+      playRequirements?: PlayRequirementData
+    }[]
+  }
 }
 
 // ─── Class ────────────────────────────────────────────────────────────
@@ -103,7 +115,9 @@ export class GiveawayPointsManager {
 
   // ─── Giveaway Logic ─────────────────────────────────────────────────
 
-  private parseGiveawayRow(row: GiveawayRow): GiveawayData {
+  private parseGiveawayRow(
+    row: GiveawayRow
+  ): Omit<GiveawayData, 'playRequirements'> {
     return {
       id: row.ID,
       game: row.GAME,
@@ -129,25 +143,30 @@ export class GiveawayPointsManager {
       this.fetchPlayRequirements(),
     ])
       .then(([giveawayRows, playReqs]) => {
-        // Create map of play requirements by ID
-        const playReqMap = new Map<string, PlayRequirementData>()
-        for (const pr of playReqs) {
-          playReqMap.set(pr.id, pr)
-        }
+        // Create maps for faster lookups
+        const playReqsByIdAndWinner = new Map<string, PlayRequirementData>()
+        playReqs.forEach((pr) => {
+          const key = `${pr.id}:${pr.winner.toLowerCase()}`
+          playReqsByIdAndWinner.set(key, pr)
+        })
 
         // Process giveaway rows and include any matching play requirements
         const giveaways = giveawayRows
           .filter((row) => row.ID && row.GAME)
           .map((row) => {
             const base = this.parseGiveawayRow(row)
-            const playRequirements = playReqMap.get(base.id)
+            const key = `${base.id}:${base.winner.toLowerCase()}`
+            const playRequirements = playReqsByIdAndWinner.get(key)
             return { ...base, playRequirements }
           })
 
         // Add any play requirements that don't have matching giveaway rows
-        const existingIds = new Set(giveaways.map((g) => g.id))
+        const existingKeys = new Set(
+          giveaways.map((g) => `${g.id}:${g.winner.toLowerCase()}`)
+        )
         for (const pr of playReqs) {
-          if (!existingIds.has(pr.id)) {
+          const key = `${pr.id}:${pr.winner.toLowerCase()}`
+          if (!existingKeys.has(key)) {
             giveaways.push({
               id: pr.id,
               game: pr.game,
@@ -174,9 +193,9 @@ export class GiveawayPointsManager {
     return this.fetchGiveaways()
   }
 
-  public async getGiveawayById(id: string): Promise<GiveawayData | null> {
+  public async getGiveawayById(id: string): Promise<GiveawayData[] | null> {
     const giveaways = await this.fetchGiveaways()
-    return giveaways.find((g) => g.id === id) || null
+    return giveaways.filter((g) => g.id === id) || null
   }
 
   // ─── Play Requirements Logic ────────────────────────────────────────

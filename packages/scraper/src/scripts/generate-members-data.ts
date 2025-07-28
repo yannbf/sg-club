@@ -247,12 +247,17 @@ if (DEBUG === true) {
     'utf8'
   )
   const users = JSON.parse(userData)
-  const user = users.users['a10i']
-  const stats = await fetcher.enrichUsersWithGiveaways(
-    new Map([['a10i', user]]),
-    fetcher.loadGiveawayData()
-  )
-  console.log(stats)
+  const user = users.users['Patxxv']
+
+  // DEBUGGING FOR REQUIRED PLAY DATA
+  // const stats = await fetcher.enrichUsersWithGiveaways(
+  //   new Map([[user.username, user]]),
+  //   fetcher.loadGiveawayData()
+  // )
+  // console.log(stats)
+
+  // DEBUGGING FOR GENERATING ALL DATA INCLUDING STEAM PROFILE DATA
+  await fetcher.fetchUsers('debug-users.json', [user])
   process.exit(0)
 }
 

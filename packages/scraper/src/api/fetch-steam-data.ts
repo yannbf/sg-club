@@ -24,7 +24,7 @@ export interface GamePlayData {
   achievements_percentage: number
   never_played: boolean
   is_playtime_private: boolean
-  has_no_available_stats: boolean
+  has_no_available_stats?: boolean
 }
 
 export interface SteamProfileVisibility {
@@ -51,12 +51,15 @@ export class SteamGameChecker {
         try {
           const data = (await response.json()) as any
           if (data.playerstats.error) {
-            const error = new Error(
-              'Steam API request failed: ' + String(data.playerstats.error)
-            )
+            const errorType = String(data.playerstats.error)
+            const error = new Error('Steam API request failed: ' + errorType)
 
-            if (data.playerstats.error === 'Requested app has no stats') {
+            if (errorType.includes('Requested app has no stats')) {
               error.name = 'NoStatsError'
+            }
+
+            if (errorType.includes('Profile is not public')) {
+              error.name = 'ProfileNotPublicError'
             }
 
             logError(error, `Error fetching Steam API (${requestUrl})`)
@@ -77,9 +80,7 @@ export class SteamGameChecker {
       return await response.json()
     } catch (error) {
       const appId = endpoint.split('appid=')[1]
-      console.error(
-        `❌ Error fetching Steam API (${appId} - ${requestUrl}): ${error}`
-      )
+      console.error(`❌ Error fetching Steam API: ${requestUrl}`)
       logError(error, `Error fetching Steam API (${appId} - ${requestUrl})`)
       throw error
     }
@@ -118,13 +119,19 @@ export class SteamGameChecker {
         return []
       }
     } catch (error) {
-      if (error instanceof Error && error.name === 'NoStatsError') {
-        return null
-      }
       logError(
         error,
         `Failed to get player achievements for Steam ID ${steamId}`
       )
+      if (
+        error instanceof Error &&
+        (error.name === 'NoStatsError' ||
+          error.name === 'ProfileNotPublicError' ||
+          error.message.includes('Requested app has no stats') ||
+          error.message.includes('Profile is not public'))
+      ) {
+        return null
+      }
       return []
     }
   }
@@ -136,6 +143,7 @@ export class SteamGameChecker {
       const data: GameSchemaResponse = await this.fetchSteamAPI(endpoint)
       return data.game
     } catch (error) {
+      logError(error, `Failed to get game schema for appId ${appId}`)
       return null
     }
   }
@@ -170,13 +178,14 @@ export class SteamGameChecker {
       // No player found for ID, assume private
       return { is_public: false, visibility_state: 0 }
     } catch (error) {
-      console.error(
-        `❌ Failed to get player summaries for Steam ID ${steamId}`,
-        error
-      )
+      const errorMessage = `Failed to get player summaries for Steam ID ${steamId}`
+      logError(error, errorMessage)
+      console.error(errorMessage)
       return { is_public: false, visibility_state: 0 }
     }
   }
+
+  private ownedGamesCache: Map<string, SteamGameInfo[]> = new Map()
 
   public async getGamePlayData(
     steamId: string,
@@ -201,20 +210,60 @@ export class SteamGameChecker {
       }
     }
 
+    // Get achievements first
+    const achievements = await this.getPlayerAchievements(steamId, appId)
+    let achievementsData = {
+      achievements_unlocked: 0,
+      achievements_total: 0,
+      achievements_percentage: 0,
+    } as Pick<
+      GamePlayData,
+      | 'achievements_unlocked'
+      | 'achievements_total'
+      | 'achievements_percentage'
+      | 'never_played'
+      | 'has_no_available_stats'
+    >
+
+    if (achievements) {
+      const unlockedAchievements =
+        achievements?.filter((a) => a.achieved === 1) || []
+      const totalAchievements = achievements?.length || 0
+      const completionPercentage =
+        totalAchievements > 0
+          ? Number(
+              ((unlockedAchievements.length / totalAchievements) * 100).toFixed(
+                1
+              )
+            )
+          : 0
+
+      achievementsData = {
+        achievements_unlocked: unlockedAchievements.length,
+        achievements_total: totalAchievements,
+        achievements_percentage: completionPercentage,
+        never_played: unlockedAchievements.length === 0,
+      }
+    } else {
+      achievementsData = {
+        ...achievementsData,
+        has_no_available_stats: true,
+      }
+    }
+
     // Get owned games
-    const ownedGames = await this.getOwnedGames(steamId)
+    const ownedGames =
+      this.ownedGamesCache.get(steamId) || (await this.getOwnedGames(steamId))
+    this.ownedGamesCache.set(steamId, ownedGames)
 
     if (ownedGames.length === 0) {
+      // console.log('No owned games found, skipping...')
       return {
         owned: false,
         playtime_minutes: 0,
         playtime_formatted: '0 minutes',
-        achievements_unlocked: 0,
-        achievements_total: 0,
-        achievements_percentage: 0,
-        never_played: true,
+        ...achievementsData,
         is_playtime_private: false,
-        has_no_available_stats: false,
       }
     }
 
@@ -222,56 +271,37 @@ export class SteamGameChecker {
     const gameInfo = ownedGames.find((game) => game.appid === appId)
 
     if (!gameInfo) {
+      // console.log('Game not found, skipping...')
       return {
         owned: false,
         playtime_minutes: 0,
         playtime_formatted: '0 minutes',
-        achievements_unlocked: 0,
-        achievements_total: 0,
-        achievements_percentage: 0,
-        never_played: true,
+        ...achievementsData,
         is_playtime_private: false,
-        has_no_available_stats: false,
       }
     }
 
-    // Get achievements
-    const achievements = await this.getPlayerAchievements(steamId, appId)
-
     if (achievements === null) {
+      // console.log('No achievements found, skipping...')
       return {
         owned: true,
         playtime_minutes: gameInfo.playtime_forever,
         playtime_formatted: formatPlaytime(gameInfo.playtime_forever),
-        achievements_unlocked: 0,
-        achievements_total: 0,
-        achievements_percentage: 0,
+        ...achievementsData,
         never_played: true,
         is_playtime_private: false,
         has_no_available_stats: true,
       }
     }
 
-    const unlockedAchievements = achievements.filter((a) => a.achieved === 1)
-    const totalAchievements = achievements.length
-    const completionPercentage =
-      totalAchievements > 0
-        ? Number(
-            ((unlockedAchievements.length / totalAchievements) * 100).toFixed(1)
-          )
-        : 0
-
     return {
       owned: true,
       playtime_minutes: gameInfo.playtime_forever,
       playtime_formatted: formatPlaytime(gameInfo.playtime_forever),
-      achievements_unlocked: unlockedAchievements.length,
-      achievements_total: totalAchievements,
-      achievements_percentage: completionPercentage,
-      never_played: unlockedAchievements.length === 0,
+      ...achievementsData,
       is_playtime_private:
-        gameInfo.playtime_forever === 0 && unlockedAchievements.length > 0,
-      has_no_available_stats: false,
+        gameInfo.playtime_forever === 0 &&
+        achievementsData.achievements_unlocked > 0,
     }
   }
 

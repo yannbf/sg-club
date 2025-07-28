@@ -22,7 +22,7 @@ interface Props {
 }
 
 const warningToMessageMap: Record<string, string> = {
-  unplayed_required_play_giveaways: 'Has no played two or more required play giveaways',
+  unplayed_required_play_giveaways: 'Has not played two or more required play giveaways',
 }
 
 export default function UserDetailPageClient({ user, allUsers, giveaways, gameData, userEntries, lastUpdated }: Props) {
@@ -71,12 +71,12 @@ export default function UserDetailPageClient({ user, allUsers, giveaways, gameDa
 
   const getOwnedGames = () => {
     if (!user.giveaways_won) return 0
-    return user.giveaways_won.filter(game => game.steam_play_data?.owned).length
+    return user.giveaways_won.length
   }
 
   const getNeverPlayedGames = () => {
     if (!user.giveaways_won) return 0
-    return user.giveaways_won.filter(game => game.steam_play_data?.never_played).length
+    return user.giveaways_won.filter(game => !game.steam_play_data || game.steam_play_data.never_played).length
   }
 
   const createdGiveaways = user.giveaways_created ? Object.values(user.giveaways_created).length : 0
@@ -327,10 +327,27 @@ export default function UserDetailPageClient({ user, allUsers, giveaways, gameDa
               <div className="text-2xl font-bold text-accent-yellow">{getTotalAchievements()}</div>
               <div className="text-sm text-muted-foreground">Total Achievements</div>
             </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-error-foreground">{getNeverPlayedGames()}</div>
-              <div className="text-sm text-muted-foreground">Never Played</div>
-            </div>
+            {user.giveaways_won && user.giveaways_won.length > 0 && (
+              <div className="text-center">
+                <div className={`text-2xl font-bold ${(() => {
+                  const total = getOwnedGames();
+                  const played = total - getNeverPlayedGames();
+                  const playedRate = total > 0 ? (played / total) * 100 : 0;
+                  if (playedRate >= 66) return 'text-success-foreground';
+                  if (playedRate >= 33) return 'text-accent-yellow';
+                  return 'text-error-foreground';
+                })()}`}>
+                  {(() => {
+                    const total = getOwnedGames();
+                    const played = total - getNeverPlayedGames();
+                    if (total === 0) return '0/0 (0.0%)';
+                    const missingData = user.giveaways_won?.some(game => !game.steam_play_data);
+                    return `${played}/${total} (${((played / total) * 100).toFixed(1)}%)${missingData ? ' ⚠️' : ''}`;
+                  })()}
+                </div>
+                <div className="text-sm text-muted-foreground">Play Rate</div>
+              </div>
+            )}
           </div>
         </div>
       )}

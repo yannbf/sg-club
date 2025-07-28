@@ -15,7 +15,7 @@ interface Props {
 
 export default function UsersClient({ users, lastUpdated }: Props) {
   const [searchTerm, setSearchTerm] = useState('')
-  const [sortBy, setSortBy] = useState<'username' | 'sent' | 'received' | 'difference' | 'value' | 'playtime' | 'ratio' | 'last_created' | 'last_won'>('difference')
+  const [sortBy, setSortBy] = useState<'username' | 'sent' | 'received' | 'difference' | 'value' | 'playtime' | 'ratio' | 'last_created' | 'last_won' | 'play_rate'>('difference')
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc')
   const [filterTags, setFilterTags] = useState({
     warnings: false,
@@ -31,6 +31,26 @@ export default function UsersClient({ users, lastUpdated }: Props) {
       [tag]: !prev[tag],
     }));
   };
+
+  const getUnplayedGamesStats = (user: User) => {
+    if (!user.giveaways_won) return { played: 0, total: 0, percentage: 0 }
+    const total = user.giveaways_won.length
+    const unplayed = user.giveaways_won.filter(game => 
+      !game.steam_play_data || game.steam_play_data.never_played
+    ).length
+    const played = total - unplayed
+    return {
+      played,
+      total,
+      percentage: total > 0 ? (played / total) * 100 : 0
+    }
+  }
+
+  const getPlayedRateColor = (percentage: number) => {
+    if (percentage >= 66) return 'text-success-foreground'
+    if (percentage >= 33) return 'text-accent-yellow'
+    return 'text-error-foreground'
+  }
 
   const getTotalPlaytime = (user: User) => {
     if (!user.giveaways_won) return 0
@@ -101,6 +121,12 @@ export default function UsersClient({ users, lastUpdated }: Props) {
           comparison = timeB - timeA
           break
         }
+        case 'play_rate': {
+          const statsA = getUnplayedGamesStats(a)
+          const statsB = getUnplayedGamesStats(b)
+          comparison = statsB.percentage - statsA.percentage
+          break
+        }
       }
       return sortDirection === 'asc' ? -comparison : comparison
     })
@@ -168,16 +194,17 @@ export default function UsersClient({ users, lastUpdated }: Props) {
             <div className="flex gap-2">
               <select
                 value={sortBy}
-                onChange={(e) => setSortBy(e.target.value as 'username' | 'sent' | 'received' | 'difference' | 'value' | 'playtime' | 'ratio' | 'last_created' | 'last_won')}
+                onChange={(e) => setSortBy(e.target.value as 'username' | 'sent' | 'received' | 'difference' | 'value' | 'playtime' | 'ratio' | 'last_created' | 'last_won' | 'play_rate')}
                 className="w-full px-3 py-2 border border-card-border rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-accent"
               >
+                <option value="ratio">Giveaway Ratio</option>
+                <option value="play_rate">Play Rate</option>
                 <option value="difference">Gift Difference</option>
                 <option value="value">Value Difference</option>
                 <option value="sent">Gifts Sent</option>
                 <option value="received">Gifts Received</option>
                 <option value="playtime">Total Playtime</option>
                 <option value="username">Username</option>
-                <option value="ratio">Giveaway Ratio</option>
                 <option value="last_created">Last GA Created</option>
                 <option value="last_won">Last GA Won</option>
               </select>
@@ -347,7 +374,7 @@ export default function UsersClient({ users, lastUpdated }: Props) {
                   <div className="text-xs text-muted-foreground">Giveaway Ratio</div>
                 </div>
 
-                {user.steam_id && !user.steam_profile_is_private && (
+                {user.steam_id && !user.steam_profile_is_private && user.giveaways_won && user.giveaways_won.length > 0 && (
                   <div className="pt-3 border-t border-card-border">
                     <div className="grid grid-cols-2 gap-4">
                       <div className="text-center">
@@ -364,7 +391,7 @@ export default function UsersClient({ users, lastUpdated }: Props) {
                       </div>
                     </div>
 
-                    <div className="mt-4 grid grid-cols-2 gap-4">
+                    <div className="mt-4 grid grid-cols-3 gap-4">
                       <div className="text-center">
                         <div className="text-sm font-medium text-accent-orange">{getNoEntryGiveaways(user)}</div>
                         <div className="text-xs text-muted-foreground">No-Entry GAs</div>
@@ -373,6 +400,22 @@ export default function UsersClient({ users, lastUpdated }: Props) {
                         <div className="text-sm font-medium text-accent-green">{getRecentWins(user)}</div>
                         <div className="text-xs text-muted-foreground">Recent Wins</div>
                       </div>
+                      {user.giveaways_won && user.giveaways_won.length > 0 && (
+                        <div className="text-center">
+                          <div className={`text-sm font-medium ${(() => {
+                            const stats = getUnplayedGamesStats(user)
+                            return getPlayedRateColor(stats.percentage)
+                          })()}`}>
+                            {(() => {
+                              const stats = getUnplayedGamesStats(user)
+                              if (stats.total === 0) return '0/0 (0.0%)';
+                              const missingData = user.giveaways_won.some(game => !game.steam_play_data);
+                              return `${stats.played}/${stats.total} (${stats.percentage.toFixed(1)}%)${missingData ? ' ⚠️' : ''}`;
+                            })()}
+                          </div>
+                          <div className="text-xs text-muted-foreground">Play Rate</div>
+                        </div>
+                      )}
                     </div>
                   </div>
                 )}

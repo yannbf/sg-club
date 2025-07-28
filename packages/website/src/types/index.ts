@@ -56,6 +56,7 @@ export interface User {
       achievements_percentage: number
       never_played: boolean
       is_playtime_private: boolean
+      has_no_available_stats: boolean
       last_checked: number
     }
   }[]

@@ -14,10 +14,11 @@ import { getSteamChecker, type GamePlayData } from '../api/fetch-steam-data.js'
 import { delay } from '../utils/common.js'
 import { logError } from '../utils/log-error.js'
 import { GiveawayPointsManager } from '../api/fetch-proof-of-play.js'
+import type { GiveawayData } from '../api/fetch-proof-of-play.js'
 
-const debug = (args: any) => {
+const debug = (...args: any[]) => {
   if (process.env.DEBUG) {
-    console.log(args)
+    console.log(...args)
   }
 }
 
@@ -472,7 +473,9 @@ export class SteamGiftsUserFetcher {
         const visibility = await steamChecker.checkProfileVisibility(
           user.steam_id
         )
-        user.steam_profile_is_private = !visibility.is_public
+        if (!visibility.is_public) {
+          user.steam_profile_is_private = !visibility.is_public
+        }
       } catch (error) {
         const errorMessage = `Error checking profile visibility for ${user.username} (${user.steam_id})`
         console.warn(`⚠️  ${errorMessage}:`, error)
@@ -491,8 +494,11 @@ export class SteamGiftsUserFetcher {
       if (!user.giveaways_won) continue
 
       let userUpdated = false
+      // Create a copy of the user's won games to preserve existing data
+      const updatedGiveawaysWon = [...user.giveaways_won]
 
-      for (const wonGame of user.giveaways_won) {
+      for (let i = 0; i < updatedGiveawaysWon.length; i++) {
+        const wonGame = updatedGiveawaysWon[i]
         // Find the giveaway to get the app_id
         const giveaway = giveaways.find((g) => g.link === wonGame.link)
         if (!giveaway?.app_id) continue
@@ -509,22 +515,31 @@ export class SteamGiftsUserFetcher {
         }
 
         try {
-          // console.log(`🔍 Checking Steam data for ${username}: ${wonGame.name}`)
           const gamePlayData = await steamChecker.getGamePlayData(
             user.steam_id,
             giveaway.app_id
           )
 
-          wonGame.steam_play_data = {
-            ...gamePlayData,
-            last_checked: Date.now(),
+          // Only update if we got valid data
+          if (gamePlayData) {
+            updatedGiveawaysWon[i] = {
+              ...wonGame,
+              steam_play_data: {
+                ...gamePlayData,
+                last_checked: Date.now(),
+              },
+            }
+            userUpdated = true
+            steamCheckedCount++
+          } else {
+            console.log(
+              `⚠️  No valid Steam data returned for ${username}: ${wonGame.name}`
+            )
+            steamErrorCount++
           }
 
-          userUpdated = true
-          steamCheckedCount++
-
-          // Rate limiting - 1 second between Steam API calls
-          await delay(400)
+          // Rate limiting - 1000ms between Steam API calls
+          await delay(1000)
         } catch (error) {
           const errorMessage = `Error checking Steam data for ${username}/${wonGame.name}`
           console.warn(`⚠️  ${errorMessage}:`, error)
@@ -532,12 +547,15 @@ export class SteamGiftsUserFetcher {
           steamErrorCount++
 
           // Rate limiting even on errors
-          await delay(400)
+          await delay(1000)
         }
       }
 
       if (userUpdated) {
-        users.set(username, user)
+        users.set(username, {
+          ...user,
+          giveaways_won: updatedGiveawaysWon,
+        })
       }
     }
 
@@ -555,7 +573,13 @@ export class SteamGiftsUserFetcher {
 
     const pointsManager = GiveawayPointsManager.getInstance()
     const allPointsData = await pointsManager.getAllGiveaways()
-    const pointsMap = new Map(allPointsData.map((p) => [p.id, p]))
+    // Create a map of arrays to store multiple entries per giveaway ID
+    const pointsMap = new Map<string, GiveawayData[]>()
+    allPointsData.forEach((pointData) => {
+      const entries = pointsMap.get(pointData.id) || []
+      entries.push(pointData)
+      pointsMap.set(pointData.id, entries)
+    })
 
     let enrichedCount = 0
     const now = Date.now() / 1000 // Current timestamp in seconds
@@ -574,18 +598,37 @@ export class SteamGiftsUserFetcher {
       // Get all giveaways created by this user
       const userGiveaways = giveawaysByCreator.get(username) || []
 
-      // These timestamps are now calculated in calculateStats
-
       const giveawaysWon: NonNullable<User['giveaways_won']> = []
       const giveawaysCreated: NonNullable<User['giveaways_created']> = []
+
+      // Create a map of existing won games to preserve Steam data
+      const existingWonGames = new Map(
+        user.giveaways_won?.map((game) => [game.link, game]) || []
+      )
 
       // Find giveaways won by this user
       for (const giveaway of giveaways) {
         if (giveaway.winners) {
           for (const winner of giveaway.winners) {
-            if (winner.name === username) {
+            if (
+              winner.name?.toLowerCase() === username.toLowerCase() &&
+              winner.status === 'received'
+            ) {
               const giveawayId = giveaway.link.split('/')[0]
-              const pointsData = pointsMap.get(giveawayId)
+              const pointsDataEntries = pointsMap.get(giveawayId) || []
+              // Find the specific entry for this winner
+              const pointsData = pointsDataEntries.find(
+                (entry) =>
+                  entry.winner?.toLowerCase() === username.toLowerCase()
+              )
+
+              // using this to debug, running via generate-members-data script
+              if (process.env.DEBUG === 'true') {
+                debug({ giveaway, pointsData })
+              }
+
+              // Get existing game data to preserve Steam data
+              const existingGame = existingWonGames.get(giveaway.link)
 
               const giveawayData: NonNullable<User['giveaways_won']>[0] = {
                 name: giveaway.name,
@@ -595,9 +638,11 @@ export class SteamGiftsUserFetcher {
                 end_timestamp: giveaway.end_timestamp,
                 required_play: giveaway.required_play || false,
                 is_shared: giveaway.is_shared || false,
+                // Preserve existing Steam data if it exists
+                steam_play_data: existingGame?.steam_play_data,
               }
 
-              if (pointsData && pointsData.winner === username) {
+              if (pointsData) {
                 if (pointsData.completedIplayBro) {
                   giveawayData.i_played_bro =
                     pointsData.completedIplayBro ?? false
@@ -638,24 +683,31 @@ export class SteamGiftsUserFetcher {
           }
 
           const giveawayId = giveaway.link.split('/')[0]
-          const pointsData = pointsMap.get(giveawayId)
+          const pointsDataEntries = pointsMap.get(giveawayId) || []
 
-          if (pointsData) {
-            if (pointsData?.completedIplayBro) {
-              giveawayCreated.i_played_bro =
-                (pointsData?.completedIplayBro &&
-                  pointsData?.winner === username) ??
-                false
+          // For created giveaways, check if any winner has completed the requirements
+          const anyWinnerCompletedIPlayBro = pointsDataEntries.some(
+            (entry) => entry.completedIplayBro
+          )
+          const anyWinnerMetRequirements = pointsDataEntries.some(
+            (entry) => entry.playRequirements?.playRequirementsMet
+          )
+
+          if (pointsDataEntries.length > 0) {
+            // Take the first entry for deadline info since it should be the same for all winners
+            const firstEntry = pointsDataEntries[0]
+
+            if (firstEntry.completedIplayBro !== undefined) {
+              giveawayCreated.i_played_bro = anyWinnerCompletedIPlayBro
             }
 
-            if (pointsData.playRequirements) {
+            if (firstEntry.playRequirements) {
               giveawayCreated.required_play_meta = {
-                requirements_met:
-                  pointsData.playRequirements?.playRequirementsMet ?? false,
-                deadline: pointsData.playRequirements?.deadline,
+                requirements_met: anyWinnerMetRequirements,
+                deadline: firstEntry.playRequirements.deadline,
                 deadline_in_months:
-                  pointsData.playRequirements?.deadlineInMonths,
-                additional_notes: pointsData.playRequirements?.additionalNotes,
+                  firstEntry.playRequirements.deadlineInMonths,
+                additional_notes: firstEntry.playRequirements.additionalNotes,
               }
             }
           }
@@ -684,6 +736,11 @@ export class SteamGiftsUserFetcher {
         giveaways_won: giveawaysWon.length > 0 ? giveawaysWon : undefined,
         giveaways_created:
           giveawaysCreated.length > 0 ? giveawaysCreated : undefined,
+        // Preserve Steam-related data
+        steam_id: user.steam_id,
+        steam_profile_url: user.steam_profile_url,
+        steam_profile_is_private: user.steam_profile_is_private,
+        country_code: user.country_code,
       }
 
       // Calculate user stats
@@ -827,7 +884,8 @@ export class SteamGiftsUserFetcher {
   }
 
   public async fetchUsers(
-    filename: string = '../website/public/data/group_users.json'
+    filename: string = '../website/public/data/group_users.json',
+    usersList?: User[]
   ): Promise<User[]> {
     try {
       // Load existing users
@@ -835,25 +893,27 @@ export class SteamGiftsUserFetcher {
 
       console.log('🚀 Fetching group users...')
 
-      const attempts = 2
-      let bestAttempt: User[] = []
-      for (let i = 0; i < attempts; i++) {
+      let allScrapedUsers: User[] = usersList ?? []
+      if (!usersList) {
+        const attempts = 2
+        let bestAttempt: User[] = []
+        for (let i = 0; i < attempts; i++) {
+          console.log(
+            `\n🚀 Attempt ${i + 1} of ${attempts} to fetch user list...`
+          )
+          const currentAttemptUsers = await this._fetchAllUsersFromPages()
+          if (currentAttemptUsers.length > bestAttempt.length) {
+            bestAttempt = currentAttemptUsers
+          }
+          if (i < attempts - 1) {
+            await delay(3000) // wait between attempts
+          }
+        }
         console.log(
-          `\n🚀 Attempt ${i + 1} of ${attempts} to fetch user list...`
+          `\n✅ Selected the best result with ${bestAttempt.length} users.`
         )
-        const currentAttemptUsers = await this._fetchAllUsersFromPages()
-        if (currentAttemptUsers.length > bestAttempt.length) {
-          bestAttempt = currentAttemptUsers
-        }
-        if (i < attempts - 1) {
-          await delay(3000) // wait between attempts
-        }
+        allScrapedUsers = bestAttempt
       }
-
-      console.log(
-        `\n✅ Selected the best result with ${bestAttempt.length} users.`
-      )
-      const allScrapedUsers = bestAttempt
 
       let newUsersCount = 0
       let updatedUsersCount = 0
@@ -877,9 +937,15 @@ export class SteamGiftsUserFetcher {
           const existingUser = existingUsers.get(user.username)!
           const updatedUser = {
             ...user,
+            // Preserve all Steam-related data
             steam_id: existingUser.steam_id,
             steam_profile_url: existingUser.steam_profile_url,
-            giveaways_won: existingUser.giveaways_won,
+            steam_profile_is_private: existingUser.steam_profile_is_private,
+            country_code: existingUser.country_code,
+            giveaways_won: existingUser.giveaways_won?.map((game) => ({
+              ...game,
+              steam_play_data: game.steam_play_data, // Preserve steam_play_data
+            })),
             giveaways_created: existingUser.giveaways_created,
             stats: {
               ...user.stats,
