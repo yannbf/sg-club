@@ -1,4 +1,5 @@
-import { existsSync, readFileSync, writeFileSync } from 'node:fs'
+import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'node:fs'
+import { dirname } from 'node:path'
 import { groupGiveawaysScraper } from '../scrapers/group-giveaways'
 import { delay } from '../utils/common'
 import type { Giveaway } from '../types/steamgifts'
@@ -8,6 +9,7 @@ import { GiveawayPointsManager } from '../api/fetch-proof-of-play'
 export async function generateGiveawaysData(): Promise<void> {
   const filename = '../website/public/data/giveaways.json'
   const entriesFilename = '../website/public/data/user_entries.json'
+  const investigationFilename = '../website/investigation/giveaway_leavers.json'
 
   try {
     console.log('🚀 Starting giveaway scraping...')
@@ -28,12 +30,27 @@ export async function generateGiveawaysData(): Promise<void> {
         console.log('📄 No existing entries file found, starting fresh')
       }
 
+      let giveawayLeavers: Record<
+        string,
+        { timestamp: string; ga_link: string; detected_at: number }[]
+      > = {}
+      if (existsSync(investigationFilename)) {
+        try {
+          giveawayLeavers = JSON.parse(
+            readFileSync(investigationFilename, 'utf-8')
+          )
+        } catch (e) {
+          console.error('Error parsing giveaway_leavers.json', e)
+        }
+      }
+
       console.log('🔍 Fetching play requirements data...')
       const pointsManager = GiveawayPointsManager.getInstance()
       const allPointsData = await pointsManager.getAllGiveaways()
       const pointsMap = new Map(allPointsData.map((p) => [p.id, p]))
 
       let giveawaysWithUpdatedEntries = 0
+      let hasNewLeavers = false
       for (const giveaway of allGiveaways) {
         const pointsData = pointsMap.get(giveaway.id)
         if (pointsData) {
@@ -54,6 +71,75 @@ export async function generateGiveawaysData(): Promise<void> {
           const entries = await groupGiveawaysScraper.fetchDetailedEntries(
             giveaway.link
           )
+
+          const oldEntriesForGiveaway = existingEntries[giveaway.link] ?? []
+          if (oldEntriesForGiveaway.length > 0) {
+            const newEntryUsernames = new Set(entries.map((e) => e.username))
+            const oldEntryUsernames = new Set(
+              oldEntriesForGiveaway.map((e) => e.username)
+            )
+
+            const leavers = oldEntriesForGiveaway.filter(
+              (oldEntry) => !newEntryUsernames.has(oldEntry.username)
+            )
+
+            if (leavers.length > 0) {
+              hasNewLeavers = true
+              console.log(
+                `🏃‍♂️ Detected ${leavers.length} leavers for: ${giveaway.name}`
+              )
+              const detected_at = Math.floor(Date.now() / 1000)
+              for (const leaver of leavers) {
+                if (!giveawayLeavers[leaver.username]) {
+                  giveawayLeavers[leaver.username] = []
+                }
+                const alreadyExists = giveawayLeavers[leaver.username].some(
+                  (l) =>
+                    l.ga_link === giveaway.link &&
+                    l.timestamp === leaver.joined_at
+                )
+                if (!alreadyExists) {
+                  giveawayLeavers[leaver.username].push({
+                    timestamp: leaver.joined_at,
+                    ga_link: giveaway.link,
+                    detected_at,
+                  })
+                }
+              }
+            }
+
+            const reJoiners = entries.filter(
+              (newEntry) =>
+                !oldEntryUsernames.has(newEntry.username) &&
+                giveawayLeavers[newEntry.username]
+            )
+
+            if (reJoiners.length > 0) {
+              for (const reJoiner of reJoiners) {
+                const leaverRecords = giveawayLeavers[reJoiner.username]
+                if (leaverRecords) {
+                  const initialCount = leaverRecords.length
+                  giveawayLeavers[reJoiner.username] = leaverRecords.filter(
+                    (l) => l.ga_link !== giveaway.link
+                  )
+
+                  if (
+                    giveawayLeavers[reJoiner.username].length < initialCount
+                  ) {
+                    hasNewLeavers = true
+                    console.log(
+                      `👍 Detected re-joiner ${reJoiner.username} for: ${giveaway.name}. Removing from leavers list.`
+                    )
+                  }
+
+                  if (giveawayLeavers[reJoiner.username].length === 0) {
+                    delete giveawayLeavers[reJoiner.username]
+                  }
+                }
+              }
+            }
+          }
+
           console.log(
             `🔍 Fetched ${entries.length} entries for: ${giveaway.name}`
           )
@@ -66,6 +152,17 @@ export async function generateGiveawaysData(): Promise<void> {
       if (giveawaysWithUpdatedEntries > 0) {
         writeFileSync(entriesFilename, JSON.stringify(existingEntries, null, 2))
         console.log(`🔍 Updated ${giveawaysWithUpdatedEntries} entries`)
+      }
+
+      if (hasNewLeavers) {
+        mkdirSync(dirname(investigationFilename), { recursive: true })
+        writeFileSync(
+          investigationFilename,
+          JSON.stringify(giveawayLeavers, null, 2)
+        )
+        console.log(
+          `💾 Giveaway leavers data saved to ${investigationFilename}`
+        )
       }
 
       console.log('🔍 Updating CV status for all giveaways...')
