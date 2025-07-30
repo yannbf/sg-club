@@ -32,7 +32,12 @@ export async function generateGiveawaysData(): Promise<void> {
 
       let giveawayLeavers: Record<
         string,
-        { timestamp: string; ga_link: string; detected_at: number }[]
+        {
+          joined_at_timestamp: string
+          ga_link: string
+          leave_detected_at: number
+          time_difference_minutes: number
+        }[]
       > = {}
       if (existsSync(investigationFilename)) {
         try {
@@ -88,7 +93,10 @@ export async function generateGiveawaysData(): Promise<void> {
               console.log(
                 `🏃‍♂️ Detected ${leavers.length} leavers for: ${giveaway.name}`
               )
-              const detected_at = Math.floor(Date.now() / 1000)
+              const leave_detected_at = Math.floor(Date.now() / 1000)
+              const time_difference_minutes = Math.round(
+                (giveaway.end_timestamp - leave_detected_at) / 60
+              )
               for (const leaver of leavers) {
                 if (!giveawayLeavers[leaver.username]) {
                   giveawayLeavers[leaver.username] = []
@@ -96,13 +104,14 @@ export async function generateGiveawaysData(): Promise<void> {
                 const alreadyExists = giveawayLeavers[leaver.username].some(
                   (l) =>
                     l.ga_link === giveaway.link &&
-                    l.timestamp === leaver.joined_at
+                    l.joined_at_timestamp === leaver.joined_at
                 )
                 if (!alreadyExists) {
                   giveawayLeavers[leaver.username].push({
-                    timestamp: leaver.joined_at,
+                    joined_at_timestamp: leaver.joined_at,
                     ga_link: giveaway.link,
-                    detected_at,
+                    leave_detected_at,
+                    time_difference_minutes,
                   })
                 }
               }
