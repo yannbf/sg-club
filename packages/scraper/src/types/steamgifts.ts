@@ -9,9 +9,9 @@ export interface Giveaway {
   created_timestamp: number
   start_timestamp: number
   end_timestamp: number
-  region_restricted: boolean
-  invite_only: boolean
-  whitelist: boolean
+  region_restricted?: boolean
+  invite_only?: boolean
+  whitelist?: boolean
   group: boolean
   comment_count: number
   entry_count: number

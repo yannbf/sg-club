@@ -36,7 +36,7 @@ export async function generateGiveawaysData(): Promise<void> {
           joined_at_timestamp: string
           ga_link: string
           leave_detected_at: number
-          time_difference_minutes: number
+          time_difference_hours: number
         }[]
       > = {}
       if (existsSync(investigationFilename)) {
@@ -94,8 +94,8 @@ export async function generateGiveawaysData(): Promise<void> {
                 `🏃‍♂️ Detected ${leavers.length} leavers for: ${giveaway.name}`
               )
               const leave_detected_at = Math.floor(Date.now() / 1000)
-              const time_difference_minutes = Math.round(
-                (giveaway.end_timestamp - leave_detected_at) / 60
+              const time_difference_hours = Math.round(
+                (giveaway.end_timestamp - leave_detected_at) / (60 * 60)
               )
               for (const leaver of leavers) {
                 if (!giveawayLeavers[leaver.username]) {
@@ -111,7 +111,7 @@ export async function generateGiveawaysData(): Promise<void> {
                     joined_at_timestamp: leaver.joined_at,
                     ga_link: giveaway.link,
                     leave_detected_at,
-                    time_difference_minutes,
+                    time_difference_hours,
                   })
                 }
               }

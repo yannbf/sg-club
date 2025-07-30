@@ -7,6 +7,7 @@ import { useGameData, useDebounce } from '@/lib/hooks'
 import FormattedDate from '@/components/FormattedDate'
 import { useCallback, useState, useMemo } from 'react'
 import Tooltip from '@/components/Tooltip'
+import { DeadlineStatus } from '@/components/DeadlineStatus'
 
 interface Props {
   giveaways: Giveaway[]
@@ -30,26 +31,6 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData }
     const extraGiveawayInfo = wonGiveaways.find(g => g.link === giveaway.link)
     return { ...giveawayInfo, ...extraGiveawayInfo }
   }, [giveaways, wonGiveaways])
-
-  const getIplayBroStatus = (game: NonNullable<User['giveaways_won']>[0]) => {
-    if (game.i_played_bro) return null;
-
-    const TWO_MONTHS_IN_SECONDS = 60 * 60 * 24 * 60;
-    const TEN_DAYS_IN_SECONDS = 60 * 60 * 24 * 10;
-    const now = Date.now() / 1000;
-    const timeSinceWon = now - game.end_timestamp;
-
-    const isExpired = timeSinceWon > TWO_MONTHS_IN_SECONDS;
-    const isCloseToExpiring = TWO_MONTHS_IN_SECONDS - timeSinceWon <= TEN_DAYS_IN_SECONDS;
-    const textColorClass = isExpired ? 'text-error-foreground font-medium' : isCloseToExpiring ? 'text-accent-yellow font-medium' : '';
-
-    if (isExpired) {
-      return <span className={textColorClass}> <code>I play, bro</code> expired)</span>;
-    }
-
-    const daysRemaining = Math.ceil((TWO_MONTHS_IN_SECONDS - timeSinceWon) / (60 * 60 * 24));
-    return <span className={textColorClass}> ({daysRemaining} days remaining for <code>I play, bro</code> proof)</span>;
-  };
 
   const filteredWonGiveaways = useMemo(() => {
     return wonGiveaways.filter(game => {
@@ -189,9 +170,21 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData }
                             <span className={`px-2 py-1 text-xs font-semibold rounded-full ${getCVBadgeColor(game.cv_status)}`}>
                               {getCVLabel(game.cv_status)}
                             </span>
-                            <span className="text-sm text-muted-foreground">
+                            <span className="text-xs text-muted-foreground">
                               Won <FormattedDate timestamp={game.end_timestamp} />
-                              {getIplayBroStatus(game)}
+                              {!game.required_play && !game.i_played_bro && (
+                                <DeadlineStatus
+                                  endTimestamp={game.end_timestamp}
+                                  tagLabel="IpBro"
+                                />
+                              )}
+                              {game.required_play && game.required_play_meta && !game.required_play_meta.requirements_met && (
+                                <DeadlineStatus
+                                  endTimestamp={game.end_timestamp}
+                                  deadlineInMonths={game.required_play_meta.deadline_in_months}
+                                  tagLabel="PReq"
+                                />
+                              )}
                             </span>
                           </div>
                           {giveawayInfo && <>
@@ -203,9 +196,9 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData }
                                   </span>
                                 )}
                                 {(giveawayInfo.required_play || giveawayInfo.required_play_meta) && (
-                                  <Tooltip content={giveawayInfo.required_play_meta?.additional_notes || 'No additional notes for required play'}>
+                                  <Tooltip content={giveawayInfo.required_play_meta?.additional_notes || 'No additional notes'}>
                                     <span className="text-xs font-medium px-2 py-1 bg-warning-light text-warning-foreground rounded-full">
-                                      🎮 Play Required
+                                      🎮 Play Required {giveawayInfo.required_play_meta?.additional_notes && `*`}
                                     </span>
                                   </Tooltip>
                                 )}
@@ -227,43 +220,39 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData }
                     </div>
                   </div>
 
-                  {game.steam_play_data && (
-                    <div className="bg-background/50 p-4">
+                  {game.steam_play_data && game.steam_play_data.owned && (
+                    <div className="bg-background/50 p-4 border-t border-card-border">
                       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-sm">
-                        {game.steam_play_data.owned && (
-                          <>
-                            <div>
-                              <span className="text-muted-foreground">Status:</span>
-                              <span className={`ml-1 font-medium ${game.steam_play_data.never_played ? 'text-error-foreground' : 'text-success-foreground'}`}>
-                                {game.steam_play_data.never_played ? 'Never Played' : 'Played'}
-                              </span>
-                            </div>
-                            <div>
-                              <span className="text-muted-foreground">Playtime:</span>
-                              <span className="ml-1 font-medium">
-                                {game.steam_play_data.is_playtime_private
-                                  ? 'Unavailable'
-                                  : formatPlaytime(game.steam_play_data.playtime_minutes)}
-                              </span>
-                            </div>
-                            {gameData && 'hltb_main_story_hours' in gameData && (<div>
-                              <span className="text-muted-foreground">⏱️ HLTB:</span>
-                              <span className="ml-1 font-medium">
-                                <span className="text-sm text-muted-foreground">
-                                  {gameData?.hltb_main_story_hours === null ? 'N/A' : `${gameData?.hltb_main_story_hours} hours`}
-                                </span>
-                              </span>
-                            </div>)}
-                            <div>
-                              <span className="text-muted-foreground">Achievements:</span>
-                              {game.steam_play_data.has_no_available_stats ? <span className="ml-1 font-medium text-error-foreground">
-                                Unavailable
-                              </span> : <span className="ml-1 font-medium">
-                                {game.steam_play_data.achievements_unlocked}/{game.steam_play_data.achievements_total}
-                              </span>}
-                            </div>
-                          </>
-                        )}
+                        <div>
+                          <span className="text-muted-foreground">Status:</span>
+                          <span className={`ml-1 font-medium ${game.steam_play_data.never_played ? 'text-error-foreground' : 'text-success-foreground'}`}>
+                            {game.steam_play_data.never_played ? 'Never Played' : 'Played'}
+                          </span>
+                        </div>
+                        <div>
+                          <span className="text-muted-foreground">Playtime:</span>
+                          <span className="ml-1 font-medium">
+                            {game.steam_play_data.is_playtime_private
+                              ? 'Unavailable'
+                              : formatPlaytime(game.steam_play_data.playtime_minutes)}
+                          </span>
+                        </div>
+                        {gameData && 'hltb_main_story_hours' in gameData && (<div>
+                          <span className="text-muted-foreground">⏱️ HLTB:</span>
+                          <span className="ml-1 font-medium">
+                            <span className="text-sm text-muted-foreground">
+                              {gameData?.hltb_main_story_hours === null ? 'N/A' : `${gameData?.hltb_main_story_hours} hours`}
+                            </span>
+                          </span>
+                        </div>)}
+                        <div>
+                          <span className="text-muted-foreground">Achievements:</span>
+                          {game.steam_play_data.has_no_available_stats ? <span className="ml-1 font-medium text-error-foreground">
+                            Unavailable
+                          </span> : <span className="ml-1 font-medium">
+                            {game.steam_play_data.achievements_unlocked}/{game.steam_play_data.achievements_total}
+                          </span>}
+                        </div>
                       </div>
                     </div>
                   )}

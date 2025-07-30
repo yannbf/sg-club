@@ -648,16 +648,29 @@ export class SteamGiftsUserFetcher {
                     pointsData.completedIplayBro ?? false
                 }
 
-                if (pointsData.playRequirements) {
+                if (
+                  pointsData.playRequirements &&
+                  !pointsData.playRequirements.ignoreRequirements
+                ) {
                   giveawayData.required_play_meta = {
                     requirements_met:
-                      pointsData.playRequirements?.playRequirementsMet ?? false,
-                    deadline: pointsData.playRequirements?.deadline,
+                      pointsData.playRequirements.playRequirementsMet ?? false,
                     deadline_in_months:
-                      pointsData.playRequirements?.deadlineInMonths,
-                    additional_notes:
-                      pointsData.playRequirements?.additionalNotes,
+                      pointsData.playRequirements.deadlineInMonths,
+                    ...(pointsData.playRequirements.deadline && {
+                      deadline: pointsData.playRequirements.deadline,
+                    }),
+                    ...(pointsData.playRequirements.additionalNotes && {
+                      additional_notes:
+                        pointsData.playRequirements.additionalNotes,
+                    }),
                   }
+                } else if (
+                  pointsData.playRequirements &&
+                  pointsData.playRequirements.ignoreRequirements
+                ) {
+                  // requirements are ignored if "PLAY REQUIREMENTS MET" in the sheet contains "NA"
+                  giveawayData.required_play = false
                 }
               }
 

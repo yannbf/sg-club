@@ -15,9 +15,9 @@ interface PlayRequirementRow {
   GAME: string
   WINNER: string
   'PLAY REQUIREMENTS MET': string
-  DEADLINE: string
+  'DEADLINE (dd-mm-yyyy)': string
   'DEADLINE (IN MONTHS)': string
-  'ADDITIONAL NOTES': string
+  REQUIREMENTS: string
 }
 
 interface PlayRequirementData {
@@ -25,6 +25,7 @@ interface PlayRequirementData {
   game: string
   winner: string
   playRequirementsMet: boolean
+  ignoreRequirements: boolean
   deadline: string
   deadlineInMonths: number
   additionalNotes: string
@@ -208,9 +209,10 @@ export class GiveawayPointsManager {
       game: row.GAME,
       winner: row.WINNER,
       playRequirementsMet: row['PLAY REQUIREMENTS MET'].toUpperCase() === 'YES',
-      deadline: row.DEADLINE,
-      deadlineInMonths: parseInt(row['DEADLINE (IN MONTHS)'], 10) || 0,
-      additionalNotes: row['ADDITIONAL NOTES'] || '',
+      ignoreRequirements: row['PLAY REQUIREMENTS MET'].toUpperCase() === 'NA',
+      deadline: row['DEADLINE (dd-mm-yyyy)'],
+      deadlineInMonths: parseInt(row['DEADLINE (IN MONTHS)'], 10) || 2,
+      additionalNotes: row['REQUIREMENTS'] || '',
     }
   }
 

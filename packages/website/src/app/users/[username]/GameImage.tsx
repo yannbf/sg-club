@@ -16,7 +16,7 @@ export default function GameImage({ appId, packageId, name }: GameImageProps) {
       : 'https://steamplayercount.com/theme/img/placeholder.svg'
 
   return (
-    <div className="w-48 h-24 bg-muted overflow-hidden flex-shrink-0">
+    <div className="w-48 bg-muted overflow-hidden flex-shrink-0">
       <a href={`https://store.steampowered.com/${appId ? `app/${appId}` : `sub/${packageId}`}`} target="_blank" rel="noopener noreferrer">
         <Image
           src={src}

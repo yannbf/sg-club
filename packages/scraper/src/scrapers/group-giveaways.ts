@@ -710,16 +710,20 @@ export class SteamGiftsHTMLScraper {
           created_timestamp,
           start_timestamp,
           end_timestamp: gaEndTimestamp,
-          region_restricted,
-          invite_only,
-          whitelist,
+          ...(region_restricted && { region_restricted }),
+          ...(invite_only && { invite_only }),
+          ...(whitelist && { whitelist }),
           group,
           // contributor_level: 0, // bring this back if we ever need this info
           comment_count,
           entry_count,
           creator,
-          required_play: detailedInfo.required_play,
-          is_shared: detailedInfo.is_shared,
+          ...(detailedInfo.required_play && {
+            required_play: detailedInfo.required_play,
+          }),
+          ...(detailedInfo.is_shared && {
+            is_shared: detailedInfo.is_shared,
+          }),
           ...(timeText.startsWith('Ended')
             ? {
                 hasWinners,
