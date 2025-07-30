@@ -87,7 +87,7 @@ export default function GivenGiveawaysClient({ giveaways, userAvatars, gameData 
     <div className="bg-card-background rounded-lg border-card-border border p-6">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-xl font-semibold">
-          🎁 Giveaways Created ({giveaways.length})
+          🎁 Giveaways Created ({filteredAndSortedGiveaways.length})
         </h2>
         <button
           onClick={() => setIsCollapsed(!isCollapsed)}
