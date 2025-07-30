@@ -76,7 +76,7 @@ describe('SteamGiftsUserFetcher', () => {
         ],
         giveaways_created: [],
       }
-      const stats = fetcher.calculateStats(user as User)
+      const stats = fetcher.calculateStats(user as User, [])
       expect(stats.giveaway_ratio).toBe(-1)
     })
 
@@ -116,7 +116,7 @@ describe('SteamGiftsUserFetcher', () => {
         ],
         giveaways_created: [],
       }
-      const stats = fetcher.calculateStats(user as User)
+      const stats = fetcher.calculateStats(user as User, [])
       expect(stats.giveaway_ratio).toBe(0)
     })
 
@@ -176,7 +176,7 @@ describe('SteamGiftsUserFetcher', () => {
           },
         ],
       }
-      const stats = fetcher.calculateStats(user as User)
+      const stats = fetcher.calculateStats(user as User, [])
       expect(stats.giveaway_ratio).toBe(0)
     })
 
@@ -236,7 +236,7 @@ describe('SteamGiftsUserFetcher', () => {
         ],
         giveaways_created: [],
       }
-      const stats = fetcher.calculateStats(user as User)
+      const stats = fetcher.calculateStats(user as User, [])
       expect(stats.giveaway_ratio).toBe(-1)
     })
 
@@ -316,7 +316,7 @@ describe('SteamGiftsUserFetcher', () => {
           },
         ],
       }
-      const stats = fetcher.calculateStats(user as User)
+      const stats = fetcher.calculateStats(user as User, [])
       expect(stats.giveaway_ratio).toBeCloseTo(-0.666)
     })
 
@@ -385,7 +385,7 @@ describe('SteamGiftsUserFetcher', () => {
           },
         ],
       }
-      const stats = fetcher.calculateStats(user as User)
+      const stats = fetcher.calculateStats(user as User, [])
       expect(stats.real_total_sent_value).toBe(30)
       expect(stats.real_total_received_value).toBe(20) // 10 (full) + 10 (reduced)
       expect(stats.real_total_value_difference).toBe(10)

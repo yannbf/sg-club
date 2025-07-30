@@ -241,6 +241,7 @@ export async function generateMembersData(): Promise<void> {
 const DEBUG = false
 // @ts-expect-error this is expected
 if (DEBUG === true) {
+  process.env.DEBUG = 'true'
   const fetcher = new SteamGiftsUserFetcher()
   const userData = readFileSync(
     '../website/public/data/group_users.json',

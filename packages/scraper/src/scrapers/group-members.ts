@@ -501,7 +501,7 @@ export class SteamGiftsUserFetcher {
         const wonGame = updatedGiveawaysWon[i]
         // Find the giveaway to get the app_id
         const giveaway = giveaways.find((g) => g.link === wonGame.link)
-        if (!giveaway?.app_id) continue
+        if (!giveaway?.app_id && !giveaway?.package_id) continue
 
         // Only check Steam data for giveaways that ended within the last 2 months
         if (wonGame.end_timestamp < twoMonthsAgo) {
@@ -515,11 +515,13 @@ export class SteamGiftsUserFetcher {
         }
 
         try {
+          debug(`Checking Steam data for ${username}: ${wonGame.name}`)
           const gamePlayData = await steamChecker.getGamePlayData(
             user.steam_id,
-            giveaway.app_id,
+            giveaway.app_id ?? giveaway.package_id!,
             giveaway.package_id ? 'sub' : 'app'
           )
+          debug(`Got Steam data: ${JSON.stringify(gamePlayData)}`)
 
           // Only update if we got valid data
           if (gamePlayData) {
@@ -625,7 +627,7 @@ export class SteamGiftsUserFetcher {
 
               // using this to debug, running via generate-members-data script
               if (process.env.DEBUG === 'true') {
-                debug({ giveaway, pointsData })
+                debug(`Points data for ${giveaway.name}:`, pointsData)
               }
 
               // Get existing game data to preserve Steam data

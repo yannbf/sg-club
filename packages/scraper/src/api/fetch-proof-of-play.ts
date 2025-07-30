@@ -25,10 +25,10 @@ interface PlayRequirementData {
   game: string
   winner: string
   playRequirementsMet: boolean
-  ignoreRequirements: boolean
-  deadline: string
-  deadlineInMonths: number
-  additionalNotes: string
+  ignoreRequirements?: boolean
+  deadline?: string
+  deadlineInMonths?: number
+  additionalNotes?: string
 }
 
 export interface GiveawayData {
@@ -204,16 +204,26 @@ export class GiveawayPointsManager {
   private parsePlayRequirementRow(
     row: PlayRequirementRow
   ): PlayRequirementData {
-    return {
+    let data: PlayRequirementData = {
       id: row.ID,
       game: row.GAME,
       winner: row.WINNER,
       playRequirementsMet: row['PLAY REQUIREMENTS MET'].toUpperCase() === 'YES',
       ignoreRequirements: row['PLAY REQUIREMENTS MET'].toUpperCase() === 'NA',
-      deadline: row['DEADLINE (dd-mm-yyyy)'],
-      deadlineInMonths: parseInt(row['DEADLINE (IN MONTHS)'], 10) || 2,
-      additionalNotes: row['REQUIREMENTS'] || '',
+      deadline: undefined,
+      deadlineInMonths: 2,
+      additionalNotes: undefined,
     }
+
+    if (row['DEADLINE (dd-mm-yyyy)'] !== '') {
+      data.deadline = row['DEADLINE (dd-mm-yyyy)']
+      data.deadlineInMonths = parseInt(row['DEADLINE (IN MONTHS)'], 10) || 2
+    }
+    if (row['REQUIREMENTS'] !== '') {
+      data.additionalNotes = row['REQUIREMENTS']
+    }
+
+    return data
   }
 
   private async fetchPlayRequirements(): Promise<PlayRequirementData[]> {

@@ -263,14 +263,14 @@ export class SteamGameChecker {
 
   public async getGamePlayData(
     steamId: string,
-    appId: number,
+    appOrSubId: number,
     type: 'app' | 'sub' = 'app'
   ): Promise<GamePlayData> {
     // Check cache first
-    const lastChecked = this.noStatsCache.get(appId)
+    const lastChecked = this.noStatsCache.get(appOrSubId)
     if (lastChecked && Date.now() - lastChecked < this.TWO_WEEKS_IN_MS) {
       console.log(
-        `[INFO] Game with appId ${appId} is in the 'no stats' cache. Skipping.`
+        `[INFO] Game with appId ${appOrSubId} is in the 'no stats' cache. Skipping.`
       )
       return {
         owned: false,
@@ -286,15 +286,15 @@ export class SteamGameChecker {
     }
 
     if (type === 'sub') {
-      console.log(`[INFO] Getting appId from subId ${appId}`)
-      const appIdFromSub = await this.getAppIdFromSubId(appId)
+      console.log(`[INFO] Getting appId from subId ${appOrSubId}`)
+      const appIdFromSub = await this.getAppIdFromSubId(appOrSubId)
       if (appIdFromSub) {
-        appId = appIdFromSub
+        appOrSubId = appIdFromSub
       }
     }
 
     // Get achievements first
-    const achievements = await this.getPlayerAchievements(steamId, appId)
+    const achievements = await this.getPlayerAchievements(steamId, appOrSubId)
     let achievementsData = {
       achievements_unlocked: 0,
       achievements_total: 0,
@@ -351,7 +351,7 @@ export class SteamGameChecker {
     }
 
     // Find the specific game
-    const gameInfo = ownedGames.find((game) => game.appid === appId)
+    const gameInfo = ownedGames.find((game) => game.appid === appOrSubId)
 
     if (!gameInfo) {
       // console.log('Game not found, skipping...')
