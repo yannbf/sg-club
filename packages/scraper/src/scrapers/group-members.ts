@@ -517,7 +517,8 @@ export class SteamGiftsUserFetcher {
         try {
           const gamePlayData = await steamChecker.getGamePlayData(
             user.steam_id,
-            giveaway.app_id
+            giveaway.app_id,
+            giveaway.package_id ? 'sub' : 'app'
           )
 
           // Only update if we got valid data

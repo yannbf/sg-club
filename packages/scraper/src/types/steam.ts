@@ -54,3 +54,35 @@ export interface PlayerAchievementsResponse {
 export interface GameSchemaResponse {
   game: SteamGameSchema
 }
+
+export interface SteamPackageApp {
+  id: number
+  name: string
+}
+
+export interface SteamPackageDetails {
+  success: boolean
+  data?: {
+    name: string
+    apps: SteamPackageApp[]
+  }
+}
+
+export interface SteamPackageDetailsResponse {
+  [packageId: string]: SteamPackageDetails
+}
+
+export interface SteamAppDetailsData {
+  type: string
+  name: string
+  steam_appid: number
+}
+
+export interface SteamAppDetails {
+  success: boolean
+  data?: SteamAppDetailsData
+}
+
+export interface SteamAppDetailsResponse {
+  [appId: string]: SteamAppDetails
+}

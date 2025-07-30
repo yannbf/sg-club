@@ -7,6 +7,8 @@ import type {
   OwnedGamesResponse,
   PlayerAchievementsResponse,
   GameSchemaResponse,
+  SteamAppDetailsResponse,
+  SteamPackageDetailsResponse,
 } from '../types/steam.js'
 import {
   formatPlaytime,
@@ -96,6 +98,78 @@ export class SteamGameChecker {
       logError(error, `Failed to get owned games for Steam ID ${steamId}`)
       return []
     }
+  }
+
+  public async getAppIdFromSubId(subId: number): Promise<number | null> {
+    const packageDetailsUrl = `https://store.steampowered.com/api/packagedetails/?packageids=${subId}`
+
+    try {
+      const packageResponse = await fetch(packageDetailsUrl)
+      if (!packageResponse.ok) {
+        logError(
+          new Error(`HTTP error! status: ${packageResponse.status}`),
+          `Failed to fetch package details for subId ${subId}`
+        )
+        return null
+      }
+
+      const packageData =
+        (await packageResponse.json()) as SteamPackageDetailsResponse
+      const packageDetails = packageData[subId]
+
+      if (!packageDetails?.success || !packageDetails.data) {
+        logError(
+          new Error(
+            'Package details request was not successful or missing data'
+          ),
+          `No valid data for subId ${subId}`
+        )
+        return null
+      }
+
+      const apps = packageDetails.data.apps
+
+      for (const app of apps) {
+        const appDetailsUrl = `https://store.steampowered.com/api/appdetails/?appids=${app.id}`
+        try {
+          // Delay to avoid rate limiting
+          await new Promise((resolve) => setTimeout(resolve, 1000))
+          const appResponse = await fetch(appDetailsUrl)
+
+          if (!appResponse.ok) {
+            logError(
+              new Error(`HTTP error! status: ${appResponse.status}`),
+              `Failed to fetch app details for appId ${app.id} (from subId ${subId})`
+            )
+            continue // Try next app
+          }
+
+          const appData = (await appResponse.json()) as SteamAppDetailsResponse
+          const appDetails = appData[String(app.id)]
+
+          if (
+            appDetails?.success &&
+            appDetails.data &&
+            appDetails.data.type === 'game'
+          ) {
+            console.log(
+              `[INFO] Found game appID ${appDetails.data.steam_appid} for subID ${subId}`
+            )
+            return appDetails.data.steam_appid
+          }
+        } catch (error) {
+          logError(
+            error,
+            `Error processing app details for appId ${app.id} (from subId ${subId})`
+          )
+        }
+      }
+    } catch (error) {
+      logError(error, `Failed to get appId from subId ${subId}`)
+    }
+
+    console.log(`[INFO] No game appID found for subID ${subId}`)
+    return null
   }
 
   private async getPlayerAchievements(
@@ -189,7 +263,8 @@ export class SteamGameChecker {
 
   public async getGamePlayData(
     steamId: string,
-    appId: number
+    appId: number,
+    type: 'app' | 'sub' = 'app'
   ): Promise<GamePlayData> {
     // Check cache first
     const lastChecked = this.noStatsCache.get(appId)
@@ -207,6 +282,14 @@ export class SteamGameChecker {
         never_played: true,
         is_playtime_private: false,
         has_no_available_stats: true,
+      }
+    }
+
+    if (type === 'sub') {
+      console.log(`[INFO] Getting appId from subId ${appId}`)
+      const appIdFromSub = await this.getAppIdFromSubId(appId)
+      if (appIdFromSub) {
+        appId = appIdFromSub
       }
     }
 
