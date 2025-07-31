@@ -1,6 +1,7 @@
 import { generateInsights } from '../utils/generate-insights'
 import { generateGiveawaysData } from './generate-giveaways-data'
 import { generateMembersData } from './generate-members-data'
+import { fileURLToPath } from 'node:url'
 
 async function generateAllData(): Promise<void> {
   console.log('🚀 Generating all the data...')
@@ -13,4 +14,9 @@ async function generateAllData(): Promise<void> {
   console.log(`✅ Full pipeline with data generated in ${duration} seconds`)
 }
 
-await generateAllData()
+if (import.meta.url.startsWith('file:')) {
+  const modulePath = fileURLToPath(import.meta.url)
+  if (process.argv[1] === modulePath) {
+    await generateAllData()
+  }
+}

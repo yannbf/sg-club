@@ -4,6 +4,7 @@ import {
   SteamGiftsUserFetcher,
 } from '../scrapers/group-members'
 import type { User } from '../types/steamgifts'
+import { fileURLToPath } from 'node:url'
 
 // Main execution
 export async function generateMembersData(): Promise<void> {
@@ -262,4 +263,9 @@ if (DEBUG === true) {
   process.exit(0)
 }
 
-await generateMembersData()
+if (import.meta.url.startsWith('file:')) {
+  const modulePath = fileURLToPath(import.meta.url)
+  if (process.argv[1] === modulePath) {
+    await generateMembersData()
+  }
+}

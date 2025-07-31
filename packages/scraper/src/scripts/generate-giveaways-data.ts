@@ -5,6 +5,7 @@ import { delay } from '../utils/common'
 import type { Giveaway } from '../types/steamgifts'
 import { logError } from '../utils/log-error'
 import { GiveawayPointsManager } from '../api/fetch-proof-of-play'
+import { fileURLToPath } from 'node:url'
 
 export async function generateGiveawaysData(): Promise<void> {
   const filename = '../website/public/data/giveaways.json'
@@ -286,4 +287,9 @@ export async function generateGiveawaysData(): Promise<void> {
   }
 }
 
-await generateGiveawaysData()
+if (import.meta.url.startsWith('file:')) {
+  const modulePath = fileURLToPath(import.meta.url)
+  if (process.argv[1] === modulePath) {
+    await generateGiveawaysData()
+  }
+}
