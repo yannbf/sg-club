@@ -2,6 +2,10 @@
 import { getUser, getAllGiveaways, getAllUsers, getGameData, getUserEntries } from '@/lib/data'
 import { notFound } from 'next/navigation'
 import UserDetailPageClient from './UserDetailPageClient'
+import leaversData from '@/../investigation/giveaway_leavers.json';
+import { GiveawayLeaver } from '@/types/stats';
+import { Giveaway } from '@/types';
+import { giveaways as allGiveaways } from '@/../public/data/giveaways.json';
 // import { Metadata } from 'next'
 
 export async function generateStaticParams() {
@@ -37,6 +41,15 @@ export async function generateStaticParams() {
 //   }
 // }
 
+type Leaver = {
+  joined_at_timestamp: string;
+  ga_link: string;
+  leave_detected_at: number;
+  time_difference_hours: number;
+};
+
+const leavers: Record<string, Leaver[]> = leaversData;
+
 export default async function UserDetailPage(
   props: {
     params: Promise<{ username: string }>
@@ -55,6 +68,25 @@ export default async function UserDetailPage(
     notFound()
   }
 
+  const userLeavers = leavers[params.username] || [];
+  const userLeaversWithGaData: GiveawayLeaver[] = userLeavers.map((leaver) => {
+    const gaId = leaver.ga_link.split('/')[0];
+    const giveaway = allGiveaways.find((ga) => ga.id === gaId);
+    return {
+      ...leaver,
+      giveaway: giveaway
+        ? {
+          ...(giveaway as unknown as Giveaway),
+          game: {
+            image_url: `https://cdn.akamai.steamstatic.com/steam/apps/${giveaway.app_id}/header.jpg`,
+            name: giveaway.name,
+            app_id: giveaway.app_id,
+          },
+        }
+        : undefined,
+    };
+  });
+
   // Convert gameData from object to array
   const gameData = Object.entries(gameDataObj).map(([, data]) => data)
 
@@ -66,6 +98,7 @@ export default async function UserDetailPage(
       gameData={gameData}
       userEntries={userEntries}
       lastUpdated={lastUpdated}
+      leavers={userLeaversWithGaData}
     />
   )
 } 

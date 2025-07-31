@@ -11,6 +11,8 @@ import FormattedDate from '@/components/FormattedDate'
 import GiveawaysClient from '@/app/giveaways/client'
 import CountryFlag from '@/components/CountryFlag'
 import { LastUpdated } from '@/components/LastUpdated'
+import GiveawayLeaversClient from './GiveawayLeaversClient'
+import { GiveawayLeaver } from '@/types/stats'
 
 interface Props {
   user: User
@@ -19,13 +21,14 @@ interface Props {
   gameData: GameData[]
   userEntries: UserEntry | null
   lastUpdated: number | null
+  leavers: GiveawayLeaver[];
 }
 
 const warningToMessageMap: Record<string, string> = {
   unplayed_required_play_giveaways: 'Has not played two or more required play giveaways',
 }
 
-export default function UserDetailPageClient({ user, allUsers, giveaways, gameData, userEntries, lastUpdated }: Props) {
+export default function UserDetailPageClient({ user, allUsers, giveaways, gameData, userEntries, lastUpdated, leavers }: Props) {
   const [showDetailedStats, setShowDetailedStats] = useState(false)
 
   // Get giveaways created by this user from the main giveaways data
@@ -376,6 +379,8 @@ export default function UserDetailPageClient({ user, allUsers, giveaways, gameDa
         lastUpdated={null}
         defaultGiveawayStatus="open"
       />
+
+      {leavers.length > 0 && <GiveawayLeaversClient leavers={leavers} />}
     </div>
   )
 }

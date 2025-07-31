@@ -36,24 +36,30 @@ export default function RootLayout({
                 <span className="font-bold md:hidden">TGC</span>
               </Link>
             </div>
-            <nav className="flex items-center space-x-4 lg:space-x-6">
+            <nav className="flex items-center gap-4 text-sm font-medium text-muted-foreground">
               <Link
                 href="/games"
-                className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+                className="transition-colors hover:text-foreground"
               >
                 Games
               </Link>
               <Link
                 href="/giveaways"
-                className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+                className="transition-colors hover:text-foreground"
               >
                 Giveaways
               </Link>
               <Link
                 href="/users"
-                className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+                className="transition-colors hover:text-foreground"
               >
                 Users
+              </Link>
+              <Link
+                href="/stats"
+                className="transition-colors hover:text-foreground"
+              >
+                Leavers
               </Link>
             </nav>
           </div>

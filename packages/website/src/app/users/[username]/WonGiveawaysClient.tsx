@@ -2,7 +2,7 @@
 
 import { Giveaway, GameData, User } from '@/types'
 import { getCVBadgeColor, getCVLabel, formatPlaytime } from '@/lib/data'
-import GameImage from './GameImage'
+import GameImage from '@/components/GameImage'
 import { useGameData, useDebounce } from '@/lib/hooks'
 import FormattedDate from '@/components/FormattedDate'
 import { useCallback, useState, useMemo } from 'react'

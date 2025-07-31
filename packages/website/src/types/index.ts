@@ -117,6 +117,12 @@ export interface Giveaway {
   }
 }
 
+export interface GiveawayGame {
+  name: string
+  image_url: string
+  app_id: number
+}
+
 export interface GameData {
   name: string
   app_id: number | null
