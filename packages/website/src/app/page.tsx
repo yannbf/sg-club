@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { LastUpdated } from '@/components/LastUpdated'
 import UserAvatar from '@/components/UserAvatar'
 import { GameData, Giveaway, User } from '@/types'
+import GameImage from '@/components/GameImage'
 
 const PLACEHOLDER_IMAGE = 'https://steamplayercount.com/theme/img/placeholder.svg'
 
@@ -70,15 +71,12 @@ function InsightSection({ title, data }: InsightSectionProps) {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 mb-6">
           {data.topGames.map(({ game, count }) => (
             <div key={game.app_id ?? game.package_id} className="bg-card-background rounded-lg border-card-border border overflow-hidden">
-              <Link href={`https://store.steampowered.com/${game.app_id ? 'app' : 'sub'}/${game.app_id || game.package_id}`} target="_blank">
-                <Image
-                  src={getGameImageUrl(game)}
-                  alt={game.name}
-                  width={600}
-                  height={900}
-                  className="w-full object-cover"
-                />
-              </Link>
+              <GameImage
+                appId={game.app_id?.toString()}
+                packageId={game.package_id?.toString()}
+                name={game.name}
+                fillWidth={true}
+              />
               <div className="p-4">
                 <a href={`https://www.steamgifts.com/group/WlYTQ/thegiveawaysclub/search?q=${encodeURIComponent(game.name)}`} target="_blank" className="text-accent hover:underline text-lg font-bold truncate block">
                   {game.name}
@@ -194,6 +192,11 @@ export default async function Home() {
       return acc
     }, new Map<number, number>())
 
+    console.log({
+      bla: Array.from(gameGiveawayCounts.entries())
+        .sort(([, a], [, b]) => b - a).slice(0, 5)
+    })
+
     return {
       topCreators: mapAndSort(creators),
       topWinners: mapAndSort(winners),
@@ -203,7 +206,11 @@ export default async function Home() {
         .sort(([, a], [, b]) => b - a)
         .slice(0, 5)
         .map(([gameId, count]) => {
-          const game = allGameData.find(g => g.app_id === gameId || g.package_id === gameId)
+          const game = allGameData.find(g => {
+            return g.app_id === gameId || g.package_id === gameId
+          })
+          const giveaway = giveawayList.find(g => g.app_id === gameId || g.package_id === gameId)
+          console.log({ game, giveaway })
           return { game, count }
         })
         .filter(item => item.game) as { game: GameData; count: number }[]
@@ -221,6 +228,7 @@ export default async function Home() {
   // Last 7 Days Insights
   const sevenDaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000
   const last7DaysGiveaways = giveaways.filter(ga => ga.created_timestamp * 1000 > sevenDaysAgo)
+  // console.log({last7DaysGiveaways})
   const last7DaysInsights = calculateInsights(last7DaysGiveaways, users)
 
   return (
