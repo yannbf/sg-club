@@ -187,7 +187,8 @@ function formatStats(stats: Stats): string {
 `
 }
 
-async function processGames() {
+export async function generateGamePrices() {
+  console.log('🚀 Starting game price fetcher...\n')
   const stats: Stats = {
     totalGames: 0,
     cachedGames: 0,
@@ -332,5 +333,4 @@ async function processGames() {
 }
 
 // Run the script
-console.log('🚀 Starting game price fetcher...\n')
-processGames().catch(console.error)
+// processGames().catch(console.error)

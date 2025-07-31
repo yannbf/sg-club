@@ -14,7 +14,7 @@
     "generate-members-data": "tsx src/scripts/generate-members-data.ts",
     "get-proof-of-play-data": "tsx src/scripts/get-proof-of-play-data.ts",
     "check-hltb": "tsx src/scripts/get-hltb.ts",
-    "fetch-game-data": "tsx src/api/fetch-game-prices.ts",
+    "fetch-game-prices": "tsx src/api/fetch-game-prices.ts",
     "get-playtime-data": "tsx src/scripts/get-playtime-data.ts",
     "get-html-page": "tsx src/utils/get-html-page.ts",
     "generate-insights": "tsx src/utils/generate-insights.ts",
