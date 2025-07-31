@@ -109,6 +109,7 @@ export interface Giveaway {
   // New properties
   required_play?: boolean
   is_shared?: boolean
+  event_type?: string
   required_play_meta?: {
     requirements_met: boolean
     deadline?: string

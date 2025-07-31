@@ -87,16 +87,11 @@ describe('SteamGiftsHTMLScraper', () => {
           "entry_count": 0,
           "group": true,
           "id": "IHdPD",
-          "invite_only": false,
-          "is_shared": false,
           "link": "IHdPD/stray",
           "name": "Stray",
           "package_id": null,
           "points": 30,
-          "region_restricted": false,
-          "required_play": true,
           "start_timestamp": 1753567200,
-          "whitelist": false,
         }
       `)
 
@@ -112,13 +107,11 @@ describe('SteamGiftsHTMLScraper', () => {
           "entry_count": 100,
           "group": true,
           "id": "oiSDZ",
-          "invite_only": false,
           "is_shared": true,
           "link": "oiSDZ/the-stone-of-madness",
           "name": "The Stone of Madness",
           "package_id": null,
           "points": 30,
-          "region_restricted": false,
           "required_play": true,
           "start_timestamp": 1753055803,
           "whitelist": true,
@@ -154,6 +147,20 @@ describe('SteamGiftsHTMLScraper', () => {
       )
     })
 
+    it('should correctly identify a giveaway with event type', async () => {
+      const html = loadMockHtml('sg-giveaway-page.html')
+      const result = await scraper['parseGiveawayDetails'](html)
+
+      expect(result).toEqual(
+        expect.objectContaining({
+          required_play: true,
+          is_shared: false,
+          is_whitelist: false,
+          event_type: 'rpg_august',
+        })
+      )
+    })
+
     it('should extract end timestamp from giveaway that has not started yet', async () => {
       const html = loadMockHtml('sg-giveaway-not-started-page.html')
       const result = await scraper['parseGiveawayDetails'](html)
@@ -161,6 +168,7 @@ describe('SteamGiftsHTMLScraper', () => {
       expect(result).toMatchInlineSnapshot(`
         {
           "end_timestamp": 1754125200,
+          "event_type": undefined,
           "is_shared": false,
           "is_whitelist": false,
           "required_play": true,

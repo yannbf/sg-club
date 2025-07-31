@@ -68,14 +68,15 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
   const [filterPlayRequired, setFilterPlayRequired] = useState<boolean>(false)
   const [filterShared, setFilterShared] = useState<boolean>(false)
   const [filterWhitelist, setFilterWhitelist] = useState<boolean>(false)
+  const [filterEvent, setFilterEvent] = useState<boolean>(false)
 
   const filteredAndSortedGiveaways = useMemo(() => {
     const filtered = giveaways.filter(giveaway => {
       const searchTermLower = debouncedSearchTerm.toLowerCase()
       const isExactIdMatch = (debouncedSearchTerm.length === 5 && giveaway.link.split('/')[0] === debouncedSearchTerm)
       const matchesSearch = giveaway.name.toLowerCase().includes(searchTermLower) ||
-        giveaway.creator.toLowerCase().includes(searchTermLower) ||
-        isExactIdMatch // Search by giveaway ID
+        giveaway.creator.toLowerCase().includes(searchTermLower)
+
       const matchesCV = filterCV === 'all' || giveaway.cv_status === filterCV
       const now = Date.now() / 1000
       const isEnded = giveaway.end_timestamp < now
@@ -88,10 +89,11 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
         (!filterRegion || giveaway.region_restricted) &&
         (!filterPlayRequired || giveaway.required_play) &&
         (!filterShared || giveaway.is_shared) &&
-        (!filterWhitelist || giveaway.whitelist)
+        (!filterWhitelist || giveaway.whitelist) &&
+        (!filterEvent || giveaway.event_type)
       )
 
-      return isExactIdMatch || matchesSearch && matchesCV && matchesStatus && matchesLabels
+      return isExactIdMatch || (matchesSearch && matchesCV && matchesStatus && matchesLabels)
     })
 
     filtered.sort((a, b) => {
@@ -134,7 +136,7 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
 
     return filtered
   }, [giveaways, debouncedSearchTerm, sortBy, sortDirection, filterCV, giveawayStatus,
-    filterRegion, filterPlayRequired, filterShared, filterWhitelist])
+    filterRegion, filterPlayRequired, filterShared, filterWhitelist, filterEvent])
 
   return (
     <div className="space-y-8">
@@ -237,6 +239,15 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
                 }`}
             >
               🎮 Play Required
+            </button>
+            <button
+              onClick={() => setFilterEvent(prev => !prev)}
+              className={`px-3 py-2 text-sm rounded-full transition-colors ${filterEvent
+                ? 'bg-warning-light text-warning-foreground'
+                : 'bg-transparent border border-card-border hover:bg-accent/10'
+                }`}
+            >
+              🔥 Group Event
             </button>
             <button
               onClick={() => setFilterShared(prev => !prev)}
@@ -358,31 +369,33 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
                     </div>
                   )}
 
-                  {/* New properties */}
-                  {(giveaway.required_play || giveaway.is_shared || giveaway.whitelist || giveaway.region_restricted) && (
-                    <div className="flex items-center gap-2 mt-2">
-                      {giveaway.region_restricted && (
-                        <span className="text-xs font-medium px-2 py-1 bg-info-light text-info-foreground rounded-full">
-                          🌍 Restricted
-                        </span>
-                      )}
-                      {giveaway.required_play && (
-                        <span className="text-xs font-medium px-2 py-1 bg-warning-light text-warning-foreground rounded-full">
-                          🎮 Play Required
-                        </span>
-                      )}
-                      {giveaway.is_shared && (
-                        <span className="text-xs font-medium px-2 py-1 bg-info-light text-info-foreground rounded-full">
-                          👥 Shared
-                        </span>
-                      )}
-                      {giveaway.whitelist && (
-                        <span className="text-xs font-medium px-2 py-1 bg-info-light text-info-foreground rounded-full">
-                          🩵 Whitelist
-                        </span>
-                      )}
-                    </div>
-                  )}
+                  <div className="flex items-center gap-2 mt-2">
+                    {giveaway.region_restricted && (
+                      <span className="text-xs font-medium px-2 py-1 bg-info-light text-info-foreground rounded-full">
+                        🌍 Restricted
+                      </span>
+                    )}
+                    {giveaway.required_play && (
+                      <span className="text-xs font-medium px-2 py-1 bg-warning-light text-warning-foreground rounded-full">
+                        🎮 Play Required
+                      </span>
+                    )}
+                    {giveaway.event_type && (
+                      <span className="text-xs font-medium px-2 py-1 bg-accent-purple text-white rounded-full">
+                        🔥 Group Event
+                      </span>
+                    )}
+                    {giveaway.is_shared && (
+                      <span className="text-xs font-medium px-2 py-1 bg-info-light text-info-foreground rounded-full">
+                        👥 Shared
+                      </span>
+                    )}
+                    {giveaway.whitelist && (
+                      <span className="text-xs font-medium px-2 py-1 bg-info-light text-info-foreground rounded-full">
+                        🩵 Whitelist
+                      </span>
+                    )}
+                  </div>
                 </div>
 
                 <div className="flex items-center justify-between">

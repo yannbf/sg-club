@@ -37,6 +37,14 @@ interface SchemaOrgEvent {
   }
 }
 
+interface GiveawayDetailedInfo {
+  required_play: boolean
+  is_shared: boolean
+  is_whitelist: boolean
+  end_timestamp: number
+  event_type?: string
+}
+
 export class SteamGiftsHTMLScraper {
   private readonly baseUrl = 'https://www.steamgifts.com'
   private readonly startUrl = '/group/WlYTQ/thegiveawaysclub'
@@ -405,12 +413,9 @@ export class SteamGiftsHTMLScraper {
     return 'FULL_CV'
   }
 
-  private async parseGiveawayDetails(html: string): Promise<{
-    required_play: boolean
-    is_shared: boolean
-    is_whitelist: boolean
-    end_timestamp: number
-  }> {
+  private async parseGiveawayDetails(
+    html: string
+  ): Promise<GiveawayDetailedInfo> {
     const $ = load(html)
 
     // Check if play is required by looking for text in the description
@@ -419,6 +424,15 @@ export class SteamGiftsHTMLScraper {
       description.includes('PLAY REQUIRED') ||
       description.toLowerCase().includes('play within') ||
       description.toLowerCase().includes('Playing is mandatory')
+
+    let event_type = undefined
+    if (description.includes('RPG AUGUST')) {
+      event_type = 'rpg_august'
+    }
+
+    if (description.includes('EVENT')) {
+      // for future events, event_type will be set
+    }
 
     // Check if it's a whitelist giveaway
     const is_whitelist = $('.featured__column--whitelist').length > 0
@@ -436,6 +450,7 @@ export class SteamGiftsHTMLScraper {
       required_play,
       is_shared,
       is_whitelist,
+      event_type,
       end_timestamp: metadata?.endDate!,
     }
   }
@@ -667,10 +682,11 @@ export class SteamGiftsHTMLScraper {
 
         // Check if we already have detailed info for this giveaway
         const existingGiveaway = existingGiveaways.get(id)
-        let detailedInfo = {
+        let detailedInfo: Partial<GiveawayDetailedInfo> = {
           required_play: false,
           is_shared: false,
           end_timestamp: existingGiveaway?.end_timestamp,
+          event_type: existingGiveaway?.event_type,
         }
 
         if (
@@ -682,6 +698,7 @@ export class SteamGiftsHTMLScraper {
             required_play: existingGiveaway.required_play || false,
             is_shared: existingGiveaway.is_shared,
             end_timestamp: existingGiveaway.end_timestamp,
+            event_type: existingGiveaway.event_type,
           }
         } else {
           // Fetch detailed giveaway information
@@ -720,6 +737,9 @@ export class SteamGiftsHTMLScraper {
           creator,
           ...(detailedInfo.required_play && {
             required_play: detailedInfo.required_play,
+          }),
+          ...(detailedInfo.event_type && {
+            event_type: detailedInfo.event_type,
           }),
           ...(detailedInfo.is_shared && {
             is_shared: detailedInfo.is_shared,

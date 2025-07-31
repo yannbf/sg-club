@@ -27,6 +27,7 @@ export interface Giveaway {
   required_play?: boolean
   is_shared?: boolean
   is_whitelist?: boolean
+  event_type?: string
 }
 
 export interface Group {
