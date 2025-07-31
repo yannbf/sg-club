@@ -22,7 +22,7 @@ export default function GivenGiveawaysClient({ giveaways, userAvatars, gameData 
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc')
   const [searchTerm, setSearchTerm] = useState('')
   const debouncedSearchTerm = useDebounce(searchTerm, 300)
-  const [filterCV, setFilterCV] = useState<'all' | 'FULL_CV' | 'REDUCED_CV' | 'NO_CV'>('all')
+  const [filterCV, setFilterCV] = useState<'all' | 'FULL_CV' | 'REDUCED_CV' | 'NO_CV' | 'RATIO_VALID'>('all')
   const [filterRegion, setFilterRegion] = useState<boolean>(false)
   const [filterPlayRequired, setFilterPlayRequired] = useState<boolean>(false)
   const [filterShared, setFilterShared] = useState<boolean>(false)
@@ -32,13 +32,19 @@ export default function GivenGiveawaysClient({ giveaways, userAvatars, gameData 
     const now = Date.now() / 1000
     const isActive = giveaway.end_timestamp > now
     const hasNoEntries = !isActive && giveaway.entry_count === 0
+    const isAwaitingFeedback = !isActive && giveaway.winners?.some((winner) => !winner.name)
+
+    let borderColor = isActive ? 'border-success' : hasNoEntries ? 'border-error' : 'border-card-border'
+    if (isAwaitingFeedback) {
+      borderColor = 'border-warning'
+    }
 
     return {
       isActive,
       statusIcon: isActive ? '🟢' : hasNoEntries ? '‼️' : '🔴',
       statusText: isActive ? 'Open' : hasNoEntries ? 'Ended with no entries' : 'Ended',
       statusColor: isActive ? 'text-success-foreground' : 'text-error-foreground',
-      borderColor: isActive ? 'border-success' : hasNoEntries ? 'border-error' : 'border-card-border',
+      borderColor,
       backgroundColor: isActive ? 'bg-success-light/30' : hasNoEntries ? 'bg-error-light/30' : 'bg-card-background'
     }
   }
@@ -46,13 +52,24 @@ export default function GivenGiveawaysClient({ giveaways, userAvatars, gameData 
   const filteredAndSortedGiveaways = [...giveaways].filter(giveaway => {
     const searchTermLower = debouncedSearchTerm.toLowerCase()
     const matchesSearch = giveaway.name.toLowerCase().includes(searchTermLower)
-    const matchesCV = filterCV === 'all' || giveaway.cv_status === filterCV
-    const matchesLabels = (
-      (!filterRegion || giveaway.region_restricted) &&
-      (!filterPlayRequired || (giveaway.required_play || giveaway.required_play_meta)) &&
-      (!filterShared || giveaway.is_shared)
-    )
-    return matchesSearch && matchesCV && matchesLabels
+
+    let matchesCVAndLabels
+    if (filterCV === 'RATIO_VALID') {
+      matchesCVAndLabels =
+        giveaway.cv_status === 'FULL_CV' &&
+        !giveaway.is_shared &&
+        !giveaway.whitelist &&
+        (!filterRegion || giveaway.region_restricted) &&
+        (!filterPlayRequired || (giveaway.required_play || giveaway.required_play_meta))
+    } else {
+      matchesCVAndLabels =
+        (filterCV === 'all' || giveaway.cv_status === filterCV) &&
+        (!filterRegion || giveaway.region_restricted) &&
+        (!filterPlayRequired || (giveaway.required_play || giveaway.required_play_meta)) &&
+        (!filterShared || giveaway.is_shared)
+    }
+
+    return matchesSearch && matchesCVAndLabels
   }).sort((a, b) => {
     const now = Date.now() / 1000
     const aIsEnded = a.end_timestamp < now
@@ -119,10 +136,11 @@ export default function GivenGiveawaysClient({ giveaways, userAvatars, gameData 
                 <select
                   id="cv-filter"
                   value={filterCV}
-                  onChange={(e) => setFilterCV(e.target.value as 'all' | 'FULL_CV' | 'REDUCED_CV' | 'NO_CV')}
+                  onChange={(e) => setFilterCV(e.target.value as 'all' | 'FULL_CV' | 'REDUCED_CV' | 'NO_CV' | 'RATIO_VALID')}
                   className="px-3 py-2 border border-card-border rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-accent text-sm"
                 >
                   <option value="all">All</option>
+                  <option value="RATIO_VALID">Ratio Valid</option>
                   <option value="FULL_CV">Full</option>
                   <option value="REDUCED_CV">Reduced</option>
                   <option value="NO_CV">No CV</option>
@@ -172,7 +190,8 @@ export default function GivenGiveawaysClient({ giveaways, userAvatars, gameData 
             </button>
             <button
               onClick={() => setFilterShared(!filterShared)}
-              className={`px-3 py-1 text-sm rounded-full border transition-colors ${filterShared ? 'bg-purple-light text-purple-foreground border-purple' : 'bg-transparent border-card-border'}`}
+              disabled={filterCV === 'RATIO_VALID'}
+              className={`px-3 py-1 text-sm rounded-full border transition-colors ${filterShared ? 'bg-purple-light text-purple-foreground border-purple' : 'bg-transparent border-card-border'} ${filterCV === 'RATIO_VALID' ? 'opacity-50 cursor-not-allowed' : ''}`}
             >
               👥 Shared
             </button>
@@ -250,7 +269,7 @@ export default function GivenGiveawaysClient({ giveaways, userAvatars, gameData 
                               </span>
                             )}
                             {giveaway.whitelist && (
-                              <span className="text-xs font-medium px-2 py-1 bg-info-light text-info-foreground rounded-full">
+                              <span className="text-xs font-medium px-2 py-1 bg-gray-200 text-gray-800 rounded-full dark:bg-gray-700 dark:text-gray-300">
                                 🩵 Whitelist
                               </span>
                             )}
