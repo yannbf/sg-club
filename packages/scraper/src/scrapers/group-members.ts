@@ -1060,7 +1060,7 @@ export class SteamGiftsUserFetcher {
 
         const usersNeedingCountryCodeInfo = Array.from(
           existingUsers.values()
-        ).filter((user) => !user.country_code)
+        ).filter((user) => user.country_code === undefined)
 
         if (usersNeedingCountryCodeInfo.length > 0) {
           console.log(
