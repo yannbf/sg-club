@@ -192,11 +192,6 @@ export default async function Home() {
       return acc
     }, new Map<number, number>())
 
-    console.log({
-      bla: Array.from(gameGiveawayCounts.entries())
-        .sort(([, a], [, b]) => b - a).slice(0, 5)
-    })
-
     return {
       topCreators: mapAndSort(creators),
       topWinners: mapAndSort(winners),
@@ -210,7 +205,6 @@ export default async function Home() {
             return g.app_id === gameId || g.package_id === gameId
           })
           const giveaway = giveawayList.find(g => g.app_id === gameId || g.package_id === gameId)
-          console.log({ game, giveaway })
           return { game, count }
         })
         .filter(item => item.game) as { game: GameData; count: number }[]
@@ -228,7 +222,6 @@ export default async function Home() {
   // Last 7 Days Insights
   const sevenDaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000
   const last7DaysGiveaways = giveaways.filter(ga => ga.created_timestamp * 1000 > sevenDaysAgo)
-  // console.log({last7DaysGiveaways})
   const last7DaysInsights = calculateInsights(last7DaysGiveaways, users)
 
   return (

@@ -43,5 +43,5 @@ export default function Page() {
     })
     .filter((ga) => ga.leavers.length > 0);
 
-  return <Client giveaways={giveawaysWithLeavers} />;
+  return <Client giveaways={giveawaysWithLeavers as any} />;
 } 
