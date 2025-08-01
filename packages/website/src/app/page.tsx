@@ -52,7 +52,7 @@ function InsightSection({ title, data }: InsightSectionProps) {
       <h3 className="text-xl font-bold mb-6">🕒 {title}</h3>
       <div className="bg-card-background rounded-lg border-card-border border p-6">
         <p className="text-sm text-red-500 mb-3">
-          * Only full CV giveaways are taken into account in the calculation
+          * Only exclusive, full CV giveaways are taken into account in the calculation
         </p>
         <h4 className="text-md font-semibold mb-3">Top 5 Most Created Giveaway Games</h4>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 mb-6">
@@ -94,7 +94,7 @@ function InsightSection({ title, data }: InsightSectionProps) {
 
 export default async function Home() {
   const allGiveaways = await getAllGiveaways()
-  const giveaways = allGiveaways.filter(ga => ga.cv_status === 'FULL_CV')
+  const giveaways = allGiveaways.filter(ga => ga.cv_status === 'FULL_CV' && !ga.is_shared && !ga.whitelist)
   const userData = await getAllUsers()
   const allGameData = await getGameData()
 
