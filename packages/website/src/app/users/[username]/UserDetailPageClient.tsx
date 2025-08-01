@@ -78,6 +78,8 @@ export default function UserDetailPageClient({ user, allUsers, giveaways, gameDa
     return user.giveaways_won.length
   }
 
+  const realCvRatio = user.stats.real_total_received_count === 0 ? 0 : Number((user.stats.real_total_sent_count / user.stats.real_total_received_count).toFixed(2))
+
   const createdGiveaways = user.giveaways_created ? Object.values(user.giveaways_created).length : 0
   const ongoingGiveaways = user.giveaways_created ? Object.values(user.giveaways_created).filter(ga => ga.end_timestamp > Date.now() / 1000).length : 0
 
@@ -172,7 +174,7 @@ export default function UserDetailPageClient({ user, allUsers, giveaways, gameDa
               {showDetailedStats ? 'Show Less' : 'Show Breakdown'} {showDetailedStats ? '↑' : '↓'}
             </button>
           </div>
-          <div className="grid grid-cols-3 gap-2">
+          <div className="grid grid-cols-4 gap-2">
             <div className="text-center">
               <div className="text-xl font-bold text-info-foreground">{user.stats.real_total_sent_count}</div>
               <div className="text-xs text-muted-foreground">Sent</div>
@@ -186,12 +188,22 @@ export default function UserDetailPageClient({ user, allUsers, giveaways, gameDa
             </div>
 
             <div className="text-center">
-              <div className={`text-xl font-bold ${userType.color}`}>
+              <div className={`text-xl font-bold ${user.stats.real_total_gift_difference > 0 ? 'text-success-foreground' : 'text-error-foreground'}`}>
                 {user.stats.real_total_gift_difference > 0 ? '+' : ''}{user.stats.real_total_gift_difference}
               </div>
               <div className="text-xs text-muted-foreground">Difference</div>
-              <div className={`text-xs ${userType.color}`}>
+              <div className={`text-xs ${user.stats.real_total_value_difference > 0 ? 'text-success-foreground' : 'text-error-foreground'}`}>
                 {user.stats.real_total_value_difference > 0 ? '+' : ''}${user.stats.real_total_value_difference.toFixed(2)}
+              </div>
+            </div>
+
+            <div className="text-center">
+              <div className={`text-xl font-bold ${realCvRatio > 0 ? 'text-success-foreground' : 'text-error-foreground'}`}>
+                {realCvRatio > 0 ? '+' : ''}{realCvRatio}
+              </div>
+              <div className="text-xs text-muted-foreground">CV Ratio</div>
+              <div className={`text-xs ${realCvRatio > 0 ? 'text-success-foreground' : 'text-error-foreground'}`}>
+                {realCvRatio > 0 ? '+' : ''}${realCvRatio}
               </div>
             </div>
           </div>
