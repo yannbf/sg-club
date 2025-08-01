@@ -1,13 +1,15 @@
 import Client from './client';
 import leaversData from '@/../investigation/giveaway_leavers.json';
-import { giveaways } from '@/../public/data/giveaways.json';
-import { users } from '@/../public/data/group_users.json';
+import giveawaysData from '@/../public/data/giveaways.json';
+import usersData from '@/../public/data/group_users.json';
 import { GiveawayLeaver } from '@/types/stats';
 
 const leavers: Record<string, Omit<GiveawayLeaver, 'giveaway'>[]> = leaversData;
 
+const users = usersData.users;
+
 export default function Page() {
-  const giveawaysWithLeavers = giveaways
+  const giveawaysWithLeavers = giveawaysData.giveaways
     .map((ga) => {
       const leaversForGa: {
         user: { username: string; avatar_url: string };

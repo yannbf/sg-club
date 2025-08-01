@@ -1,7 +1,7 @@
 import { User } from "@/types"
 import Tooltip from "./Tooltip"
 
-const getUnplayedGamesStats = (user: User) => {
+export const getUnplayedGamesStats = (user: User) => {
   if (!user.giveaways_won) return { played: 0, total: 0, percentage: 0 }
   const total = user.giveaways_won.length
   const unplayed = user.giveaways_won.filter(game =>

@@ -7,7 +7,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import FormattedDate from '@/components/FormattedDate'
 import { LastUpdated } from '@/components/LastUpdated'
-import { UnplayedGamesStats } from '@/components/UnplayedGamesStats'
+import { getUnplayedGamesStats, UnplayedGamesStats } from '@/components/UnplayedGamesStats'
 
 interface Props {
   users: User[]

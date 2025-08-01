@@ -1,22 +1,9 @@
 import { getAllGiveaways, getAllUsers, getGameData } from '@/lib/data'
 import Link from 'next/link'
-import Image from 'next/image'
 import { LastUpdated } from '@/components/LastUpdated'
 import UserAvatar from '@/components/UserAvatar'
 import { GameData, Giveaway, User } from '@/types'
 import GameImage from '@/components/GameImage'
-
-const PLACEHOLDER_IMAGE = 'https://steamplayercount.com/theme/img/placeholder.svg'
-
-function getGameImageUrl(game: GameData): string {
-  const src = game.app_id
-    ? `https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/${game.app_id}/header.jpg`
-    : game.package_id
-      ? `https://shared.akamai.steamstatic.com/store_item_assets/steam/subs/${game.package_id}/header.jpg`
-      : PLACEHOLDER_IMAGE
-
-  return src
-}
 
 interface UserRankingProps {
   title: React.ReactNode
@@ -204,7 +191,6 @@ export default async function Home() {
           const game = allGameData.find(g => {
             return g.app_id === gameId || g.package_id === gameId
           })
-          const giveaway = giveawayList.find(g => g.app_id === gameId || g.package_id === gameId)
           return { game, count }
         })
         .filter(item => item.game) as { game: GameData; count: number }[]

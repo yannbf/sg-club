@@ -9,6 +9,7 @@ import UserAvatar from '@/components/UserAvatar'
 import { useGameData, useDebounce } from '@/lib/hooks'
 import FormattedDate from '@/components/FormattedDate'
 import Tooltip from '@/components/Tooltip'
+import { CvStatusIndicator } from '@/components/CvStatusIndicator'
 
 interface Props {
   giveaways: Giveaway[]
@@ -221,8 +222,8 @@ export default function GivenGiveawaysClient({ giveaways, userAvatars, gameData 
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="text-accent hover:underline text-sm"
-                              >{giveaway.name} ({giveaway.points}P)</a></h3>
-                            <span className={`inline-flex items-center px-2 py-1 text-xs font-medium rounded-full ${status.isActive ? 'bg-success-light text-success-foreground' : 'bg-muted text-muted-foreground'}`}>
+                              >{giveaway.name} ({giveaway.points}P) <CvStatusIndicator giveaway={giveaway} /></a></h3>
+                            <span className={`inline-flex items-center px-2 py-1 text-xs font-medium rounded-full ${status.isActive ? 'bg-success-light text-success-foreground' : 'bg-muted text-white'}`}>
                               {status.statusIcon} {status.statusText}
                             </span>
                           </div>

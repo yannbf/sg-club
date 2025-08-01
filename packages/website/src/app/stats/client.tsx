@@ -8,6 +8,7 @@ import GameImage from '@/components/GameImage';
 import UserAvatar from '@/components/UserAvatar';
 import Tooltip from '@/components/Tooltip';
 import FormattedDate, { getFullDate } from '@/components/FormattedDate';
+import { CvStatusIndicator } from '@/components/CvStatusIndicator';
 
 type GiveawayWithLeavers = Giveaway & {
   leavers: {
@@ -61,14 +62,14 @@ export default function Client({ giveaways }: Props) {
                 name={ga.name}
               />
               <div>
-                <h2 className="text-xl font-bold">
+                <h2 className="text-md font-bold">
                   <Link
                     href={`https://steamgifts.com/giveaway/${ga.link}`}
                     className="text-blue-500 hover:underline"
                   >
-                    {ga.name}
+                    {ga.name} ({ga.points}) <CvStatusIndicator giveaway={ga} />
                   </Link>
-                  <div className="flex items-center justify-between text-sm">
+                  <div className="flex items-center justify-between text-xs">
                     {ga.end_timestamp > Date.now() / 1000 ? (
                       <span className="text-muted-500">Ends  <FormattedDate timestamp={ga.end_timestamp} className="font-medium" /></span>
                     ) : (

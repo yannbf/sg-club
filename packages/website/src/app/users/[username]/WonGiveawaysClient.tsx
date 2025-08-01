@@ -8,6 +8,7 @@ import FormattedDate from '@/components/FormattedDate'
 import { useCallback, useState, useMemo } from 'react'
 import Tooltip from '@/components/Tooltip'
 import { DeadlineStatus } from '@/components/DeadlineStatus'
+import { CvStatusIndicator } from '@/components/CvStatusIndicator'
 
 interface Props {
   giveaways: Giveaway[]
@@ -155,7 +156,7 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData }
                               target="_blank"
                               rel="noopener noreferrer"
                               className="text-accent hover:underline text-sm"
-                            >{game.name} ({matchingGiveaway?.points}P)</a>
+                            >{game.name} ({matchingGiveaway?.points}P) <CvStatusIndicator giveaway={matchingGiveaway} /></a>
 
                             {game.i_played_bro && (
                               <span className="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">

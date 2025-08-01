@@ -9,7 +9,7 @@ import UserAvatar from '@/components/UserAvatar'
 import { LastUpdated } from '@/components/LastUpdated'
 import { useGameData, useDebounce } from '@/lib/hooks'
 import FormattedDate, { TimeDifference } from '@/components/FormattedDate'
-// import CountryFlag from '@/components/CountryFlag'
+import { CvStatusIndicator } from '@/components/CvStatusIndicator'
 
 interface Props {
   heading?: string
@@ -310,7 +310,7 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-accent hover:underline text-lg font-semibold line-clamp-2 flex-1"
-                  >{giveaway.name} ({giveaway.points}P)</a>
+                  >{giveaway.name} ({giveaway.points}P) <CvStatusIndicator giveaway={giveaway} /></a>
                   <div className="ml-2 flex-shrink-0">
                     {getStatusBadge(giveaway)}
                   </div>

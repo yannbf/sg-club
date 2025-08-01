@@ -28,14 +28,15 @@ export default function GiveawayLeaversClient({ leavers }: Props) {
                 <GameImage
                   appId={String(leaver.giveaway.app_id)}
                   name={leaver.giveaway.name}
+                  fillWidth
                 />
                 <div className="p-4 flex flex-col flex-grow">
-                  <h2 className="text-lg font-bold flex-grow">
+                  <h2 className="text-sm font-bold flex-grow">
                     <Link
                       href={`https://steamgifts.com/giveaway/${leaver.ga_link}`}
                       className="text-blue-500 hover:underline"
                     >
-                      {leaver.giveaway.name}
+                      {leaver.giveaway.name} ({leaver.giveaway.points}) {(leaver.giveaway.is_shared || leaver.giveaway.whitelist || leaver.giveaway.cv_status !== 'FULL_CV') && <span className="text-sm text-red-500 font-medium">**</span> }
                     </Link>
                   </h2>
                   <Tooltip
@@ -43,14 +44,16 @@ export default function GiveawayLeaversClient({ leavers }: Props) {
                       leaver.leave_detected_at
                     )}`}
                   >
-                    <p
-                      className={
-                        leaver.time_difference_hours < 24
-                          ? 'text-red-500'
-                          : ''
-                      }
-                    >
-                      {leaver.time_difference_hours} hours before end date
+                    <p className="text-sm">
+                      <span className={`mr-1 ${leaver.time_difference_hours < 24
+                        ? 'text-red-500 font-medium'
+                        : leaver.time_difference_hours < 48
+                          ? 'text-yellow-500 font-medium'
+                          : 'text-green-500 font-medium'
+                        }`}>
+                        {leaver.time_difference_hours}h
+                      </span>
+                      before end date
                     </p>
                   </Tooltip>
                 </div>

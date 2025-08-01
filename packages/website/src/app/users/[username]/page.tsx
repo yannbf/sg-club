@@ -5,7 +5,6 @@ import UserDetailPageClient from './UserDetailPageClient'
 import leaversData from '@/../investigation/giveaway_leavers.json';
 import { GiveawayLeaver } from '@/types/stats';
 import { Giveaway } from '@/types';
-import { giveaways as allGiveaways } from '@/../public/data/giveaways.json';
 // import { Metadata } from 'next'
 
 export async function generateStaticParams() {
@@ -71,7 +70,7 @@ export default async function UserDetailPage(
   const userLeavers = leavers[params.username] || [];
   const userLeaversWithGaData: GiveawayLeaver[] = userLeavers.map((leaver) => {
     const gaId = leaver.ga_link.split('/')[0];
-    const giveaway = allGiveaways.find((ga) => ga.id === gaId);
+    const giveaway = giveaways.find((ga) => ga.id === gaId);
     return {
       ...leaver,
       giveaway: giveaway
