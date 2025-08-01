@@ -3,6 +3,7 @@ import fs from 'fs/promises'
 import path from 'path'
 import { setTimeout } from 'timers/promises'
 import { hltb } from './fetch-hltb-data'
+import { steamChecker } from './fetch-steam-data'
 
 interface Giveaway {
   app_id?: number
@@ -14,6 +15,7 @@ interface GameData {
   name: string
   app_id: number | null
   package_id: number | null
+  app_id_for_package_id?: number | null
   price_usd_full: number | null
   price_usd_reduced: number | null
   needs_manual_update: boolean
@@ -282,6 +284,19 @@ export async function generateGamePrices() {
         price_usd_reduced: priceData.price_usd_reduced,
         needs_manual_update: priceData.needs_manual_update,
         hltb_main_story_hours: null, // Will be updated below
+      }
+
+      if (
+        existingGame?.package_id &&
+        existingGame.app_id_for_package_id === undefined
+      ) {
+        const appIdForSubId = await steamChecker.getAppIdForSubId(
+          existingGame.package_id
+        )
+        console.log(
+          `🔍 Found app ID for package ID ${existingGame.package_id}: ${appIdForSubId}`
+        )
+        gameData.app_id_for_package_id = appIdForSubId
       }
 
       // Fetch HLTB data if we have a valid game name

@@ -34,6 +34,16 @@ export interface SteamProfileVisibility {
   visibility_state: number
 }
 
+const API_KEY = process.env.STEAM_API_KEY
+if (!API_KEY) {
+  console.error(`❌ Steam API key not found`)
+  console.error(`   Set STEAM_API_KEY environment variable`)
+  console.error(
+    `   Get your API key from: https://steamcommunity.com/dev/apikey`
+  )
+  process.exit(1)
+}
+
 export class SteamGameChecker {
   private readonly baseUrl = 'https://api.steampowered.com'
   private readonly apiKey: string
@@ -100,7 +110,7 @@ export class SteamGameChecker {
     }
   }
 
-  public async getAppIdFromSubId(subId: number): Promise<number | null> {
+  public async getAppIdForSubId(subId: number): Promise<number | null> {
     const packageDetailsUrl = `https://store.steampowered.com/api/packagedetails/?packageids=${subId}`
 
     try {
@@ -284,7 +294,7 @@ export class SteamGameChecker {
 
     if (type === 'sub') {
       console.log(`[INFO] Getting appId from subId ${appOrSubId}`)
-      const appIdFromSub = await this.getAppIdFromSubId(appOrSubId)
+      const appIdFromSub = await this.getAppIdForSubId(appOrSubId)
       if (appIdFromSub) {
         console.log(
           `[INFO] Found appId ${appIdFromSub} from subId ${appOrSubId}`
@@ -515,22 +525,6 @@ export class SteamGameChecker {
   }
 }
 
-// Export singleton instance
-let steamChecker: SteamGameChecker | null = null
-
-export function getSteamChecker(): SteamGameChecker {
-  if (!steamChecker) {
-    const apiKey = process.env.STEAM_API_KEY
-    if (!apiKey) {
-      throw new Error(
-        'Steam API key not found. Set STEAM_API_KEY environment variable.'
-      )
-    }
-    steamChecker = new SteamGameChecker(apiKey)
-  }
-  return steamChecker
-}
-
 async function main(): Promise<void> {
   const args = process.argv.slice(2)
 
@@ -553,17 +547,7 @@ async function main(): Promise<void> {
     process.exit(1)
   }
 
-  const apiKey = process.env.STEAM_API_KEY
-  if (!apiKey) {
-    console.error(`❌ Steam API key not found`)
-    console.error(`   Set STEAM_API_KEY environment variable`)
-    console.error(
-      `   Get your API key from: https://steamcommunity.com/dev/apikey`
-    )
-    process.exit(1)
-  }
-
-  const checker = new SteamGameChecker(apiKey)
+  const checker = new SteamGameChecker(API_KEY!)
 
   try {
     await checker.checkGame(steamId, appId)
@@ -572,6 +556,8 @@ async function main(): Promise<void> {
     process.exit(1)
   }
 }
+
+export const steamChecker = new SteamGameChecker(API_KEY)
 
 // Run the script only if called directly
 if (import.meta.url === `file://${process.argv[1]}`) {

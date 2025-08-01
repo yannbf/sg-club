@@ -12,6 +12,7 @@
     "test:coverage": "vitest run --coverage",
     "generate-giveaways-data": "tsx src/scripts/generate-giveaways-data.ts",
     "generate-members-data": "tsx src/scripts/generate-members-data.ts",
+    "generate-game-data": "tsx src/scripts/generate-game-data.ts",
     "get-proof-of-play-data": "tsx src/scripts/get-proof-of-play-data.ts",
     "check-hltb": "tsx src/scripts/get-hltb.ts",
     "fetch-game-prices": "tsx src/api/fetch-game-prices.ts",

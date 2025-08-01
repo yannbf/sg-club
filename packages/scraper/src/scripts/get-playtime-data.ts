@@ -1,4 +1,4 @@
-import { getSteamChecker } from '../api/fetch-steam-data'
+import { steamChecker } from '../api/fetch-steam-data'
 
 async function main() {
   const steamId = process.argv[2] ?? '76561197984532155'
@@ -9,7 +9,6 @@ async function main() {
   }
 
   try {
-    const steamChecker = getSteamChecker()
     const playtime = await steamChecker.getGamePlayData(
       steamId,
       Number(appId),
