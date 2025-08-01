@@ -7,6 +7,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import FormattedDate from '@/components/FormattedDate'
 import { LastUpdated } from '@/components/LastUpdated'
+import { UnplayedGamesStats } from '@/components/UnplayedGamesStats'
 
 interface Props {
   users: User[]
@@ -31,26 +32,6 @@ export default function UsersClient({ users, lastUpdated }: Props) {
       [tag]: !prev[tag],
     }));
   };
-
-  const getUnplayedGamesStats = (user: User) => {
-    if (!user.giveaways_won) return { played: 0, total: 0, percentage: 0 }
-    const total = user.giveaways_won.length
-    const unplayed = user.giveaways_won.filter(game => 
-      !game.steam_play_data || game.steam_play_data.never_played
-    ).length
-    const played = total - unplayed
-    return {
-      played,
-      total,
-      percentage: total > 0 ? (played / total) * 100 : 0
-    }
-  }
-
-  const getPlayedRateColor = (percentage: number) => {
-    if (percentage >= 66) return 'text-success-foreground'
-    if (percentage >= 33) return 'text-accent-yellow'
-    return 'text-error-foreground'
-  }
 
   const getTotalPlaytime = (user: User) => {
     if (!user.giveaways_won) return 0
@@ -400,22 +381,7 @@ export default function UsersClient({ users, lastUpdated }: Props) {
                         <div className="text-sm font-medium text-accent-green">{getRecentWins(user)}</div>
                         <div className="text-xs text-muted-foreground">Recent Wins</div>
                       </div>
-                      {user.giveaways_won && user.giveaways_won.length > 0 && (
-                        <div className="text-center">
-                          <div className={`text-sm font-medium ${(() => {
-                            const stats = getUnplayedGamesStats(user)
-                            return getPlayedRateColor(stats.percentage)
-                          })()}`}>
-                            {(() => {
-                              const stats = getUnplayedGamesStats(user)
-                              if (stats.total === 0) return '0/0 (0.0%)';
-                              const missingData = user.giveaways_won.some(game => !game.steam_play_data);
-                              return `${stats.played}/${stats.total} (${stats.percentage.toFixed(1)}%)${missingData ? ' ⚠️' : ''}`;
-                            })()}
-                          </div>
-                          <div className="text-xs text-muted-foreground">Play Rate</div>
-                        </div>
-                      )}
+                      <UnplayedGamesStats user={user} />
                     </div>
                   </div>
                 )}

@@ -118,12 +118,8 @@ export class SteamGameChecker {
       const packageDetails = packageData[subId]
 
       if (!packageDetails?.success || !packageDetails.data) {
-        logError(
-          new Error(
-            'Package details request was not successful or missing data'
-          ),
-          `No valid data for subId ${subId}`
-        )
+        const errorMessage = `Package details request was not successful or missing data for subId ${packageDetailsUrl}`
+        logError(new Error(errorMessage), errorMessage)
         return null
       }
 
@@ -165,6 +161,7 @@ export class SteamGameChecker {
         }
       }
     } catch (error) {
+      console.log(error, `Failed to get appId from subId ${subId}`)
       logError(error, `Failed to get appId from subId ${subId}`)
     }
 
@@ -289,6 +286,9 @@ export class SteamGameChecker {
       console.log(`[INFO] Getting appId from subId ${appOrSubId}`)
       const appIdFromSub = await this.getAppIdFromSubId(appOrSubId)
       if (appIdFromSub) {
+        console.log(
+          `[INFO] Found appId ${appIdFromSub} from subId ${appOrSubId}`
+        )
         appOrSubId = appIdFromSub
       }
     }

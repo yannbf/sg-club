@@ -134,6 +134,8 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData }
               const matchingGiveaway = giveaways.find(g => g.link === game.link)
               const gameData = getGameData(matchingGiveaway?.app_id ?? matchingGiveaway?.package_id)
               const giveawayInfo = getGiveawayInfo(game)
+
+              const hasUnavailableStats = !game.steam_play_data || game.steam_play_data?.has_no_available_stats || game.steam_play_data.is_playtime_private
               return (
                 <div key={index} className="border border-card-border rounded-lg overflow-hidden">
                   <div className="flex">
@@ -172,7 +174,7 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData }
                             </span>
                             <span className="text-xs text-muted-foreground">
                               Won <FormattedDate timestamp={game.end_timestamp} />
-                              {!game.required_play && !game.i_played_bro && (
+                              {!game.required_play && !game.i_played_bro && game.cv_status === 'FULL_CV' && (
                                 <DeadlineStatus
                                   endTimestamp={game.end_timestamp}
                                   tagLabel="IpBro"
@@ -219,6 +221,14 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData }
                       </div>
                     </div>
                   </div>
+
+                  {hasUnavailableStats && (
+                    <div className="bg-background/50 p-4 border-t border-card-border">
+                      <div className="text-sm text-muted-foreground font-medium">
+                        ⚠️ No stats available
+                      </div>
+                    </div>
+                  )}
 
                   {game.steam_play_data && game.steam_play_data.owned && (
                     <div className="bg-background/50 p-4 border-t border-card-border">

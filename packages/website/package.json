@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build-only": "pnpm run lint && next build",
+    "data": "pnpm run --filter scraper generate-website-data",
     "build-data": "pnpm run lint && pnpm run --filter scraper generate-website-data && next build",
     "build": "pnpm run build-data",
     "build-and-push": "pnpm run build-data && git diff --quiet --exit-code packages/website/investigation/giveaway_leavers.json || (git add packages/website/investigation/giveaway_leavers.json && git commit -m 'chore: updated investigation file' && git push)",

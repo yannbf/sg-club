@@ -450,6 +450,7 @@ export class SteamGiftsUserFetcher {
     let steamCheckedCount = 0
     let steamErrorCount = 0
     let steamSkippedCount = 0
+    let noStatsAvailableCount = 0
     const steamChecker = getSteamChecker()
 
     // Calculate timestamp for 2 months ago (60 days)
@@ -515,6 +516,20 @@ export class SteamGiftsUserFetcher {
         }
 
         try {
+          // Skip if the game has no stats available and was checked within the last 2 weeks
+          if (
+            wonGame.steam_play_data?.has_no_available_stats &&
+            wonGame.steam_play_data?.last_checked &&
+            Date.now() - wonGame.steam_play_data.last_checked <
+              14 * 24 * 60 * 60 * 1000
+          ) {
+            console.log(
+              `⚠️  Skipping ${username}: ${wonGame.name} (no stats available and checked within the last 2 weeks)`
+            )
+            noStatsAvailableCount++
+            continue
+          }
+
           debug(`Checking Steam data for ${username}: ${wonGame.name}`)
           const gamePlayData = await steamChecker.getGamePlayData(
             user.steam_id,
@@ -565,6 +580,7 @@ export class SteamGiftsUserFetcher {
     console.log(`🎮 Steam data update complete:`)
     console.log(`  • Checked: ${steamCheckedCount}`)
     console.log(`  • Skipped (>2 months old): ${steamSkippedCount}`)
+    console.log(`  • No stats available: ${noStatsAvailableCount}`)
     console.log(`  • Errors: ${steamErrorCount}`)
   }
 

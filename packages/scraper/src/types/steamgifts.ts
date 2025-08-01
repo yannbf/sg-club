@@ -52,6 +52,7 @@ export interface SteamPlayData {
   achievements_percentage: number
   never_played: boolean
   last_checked?: number // Timestamp when this data was last fetched
+  has_no_available_stats?: boolean
 }
 
 export interface User {
