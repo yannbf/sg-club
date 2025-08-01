@@ -10,7 +10,7 @@ import type {
   GamePrice,
   UserGiveawaysStats,
 } from '../types/steamgifts.js'
-import { getSteamChecker, type GamePlayData } from '../api/fetch-steam-data.js'
+import { steamChecker, type GamePlayData } from '../api/fetch-steam-data.js'
 import { delay } from '../utils/common.js'
 import { logError } from '../utils/log-error.js'
 import { GiveawayPointsManager } from '../api/fetch-proof-of-play.js'
@@ -451,7 +451,6 @@ export class SteamGiftsUserFetcher {
     let steamErrorCount = 0
     let steamSkippedCount = 0
     let noStatsAvailableCount = 0
-    const steamChecker = getSteamChecker()
 
     // Calculate timestamp for 2 months ago (60 days)
     const twoMonthsAgo = Date.now() / 1000 - 60 * 24 * 60 * 60
