@@ -4,6 +4,8 @@ import { generateMembersData } from './generate-members-data'
 import { fileURLToPath } from 'node:url'
 import { generateGamePrices } from '../api/fetch-game-prices'
 import { execSync } from 'node:child_process'
+import { existsSync, readFileSync } from 'node:fs'
+import path from 'node:path'
 
 // perhaps we will use this later.
 async function maybeCommitAndPush() {
@@ -30,6 +32,27 @@ async function maybeCommitAndPush() {
 }
 
 async function generateAllData(): Promise<void> {
+  const giveawaysJsonPath = path.join(
+    path.dirname(fileURLToPath(import.meta.url)),
+    '../../website/public/data/giveaways.json'
+  )
+
+  if (existsSync(giveawaysJsonPath)) {
+    const giveawaysData = JSON.parse(readFileSync(giveawaysJsonPath, 'utf-8'))
+    if (giveawaysData.last_updated) {
+      const lastUpdated = new Date(giveawaysData.last_updated)
+      const now = new Date()
+      const oneHour = 60 * 60 * 1000 // in milliseconds
+
+      if (now.getTime() - lastUpdated.getTime() < oneHour) {
+        console.log(
+          `✅ Data was updated less than one hour ago at ${lastUpdated.toLocaleTimeString()}. Skipping generation.`
+        )
+        return
+      }
+    }
+  }
+
   console.log('🚀 Generating all the data...')
   const startTime = Date.now()
   await generateGiveawaysData()
