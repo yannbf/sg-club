@@ -34,7 +34,7 @@ async function maybeCommitAndPush() {
 async function generateAllData(): Promise<void> {
   const giveawaysJsonPath = path.join(
     path.dirname(fileURLToPath(import.meta.url)),
-    '../../website/public/data/giveaways.json'
+    '../../../website/public/data/giveaways.json'
   )
 
   if (existsSync(giveawaysJsonPath)) {
@@ -42,9 +42,11 @@ async function generateAllData(): Promise<void> {
     if (giveawaysData.last_updated) {
       const lastUpdated = new Date(giveawaysData.last_updated)
       const now = new Date()
-      const oneHour = 60 * 60 * 1000 // in milliseconds
+      const oneHour = 60 * 60 * 1000
 
-      if (now.getTime() - lastUpdated.getTime() < oneHour) {
+      const hasBeenUpdatedRecently =
+        now.getTime() - lastUpdated.getTime() < oneHour
+      if (hasBeenUpdatedRecently) {
         console.log(
           `✅ Data was updated less than one hour ago at ${lastUpdated.toLocaleTimeString()}. Skipping generation.`
         )
