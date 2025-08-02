@@ -381,7 +381,7 @@ export class SteamGameChecker {
         playtime_minutes: gameInfo.playtime_forever,
         playtime_formatted: formatPlaytime(gameInfo.playtime_forever),
         ...achievementsData,
-        never_played: true,
+        never_played: gameInfo.playtime_forever === 0,
         is_playtime_private: false,
         has_no_available_stats: true,
       }
