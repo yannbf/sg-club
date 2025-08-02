@@ -1081,7 +1081,6 @@ export class SteamGiftsUserFetcher {
           console.log(
             `📋 Found ${usersNeedingCountryCodeInfo.length} users without country code info`
           )
-          const steamChecker = getSteamChecker()
           for (const user of usersNeedingCountryCodeInfo) {
             if (user.steam_id) {
               const countryCode = await steamChecker.getPlayerCountryCode(

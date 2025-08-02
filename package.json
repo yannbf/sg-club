@@ -5,7 +5,7 @@
   "description": "SteamGifts group statistics and website",
   "scripts": {
     "run-all": "pnpm run --filter scraper run-all",
-    "generate-website-data": "pnpm run --filter scraper generate-website-data",
+    "data": "pnpm run --filter scraper data",
     "generate-all-website-data": "pnpm run --filter scraper generate-all-website-data",
     "website:dev": "pnpm run --filter website dev",
     "website:build": "pnpm run --filter website build",
