@@ -20,7 +20,7 @@ type GiveawayWithLeavers = Giveaway & {
 
 type Props = {
   giveaways: GiveawayWithLeavers[];
-  lastUpdated: number;
+  lastUpdated: string | null
 };
 
 export default function Client({ giveaways, lastUpdated }: Props) {
