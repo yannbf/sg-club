@@ -9,6 +9,7 @@ import UserAvatar from '@/components/UserAvatar';
 import Tooltip from '@/components/Tooltip';
 import FormattedDate, { getFullDate } from '@/components/FormattedDate';
 import { CvStatusIndicator } from '@/components/CvStatusIndicator';
+import { LastUpdated } from '@/components/LastUpdated';
 
 type GiveawayWithLeavers = Giveaway & {
   leavers: {
@@ -19,9 +20,10 @@ type GiveawayWithLeavers = Giveaway & {
 
 type Props = {
   giveaways: GiveawayWithLeavers[];
+  lastUpdated: number;
 };
 
-export default function Client({ giveaways }: Props) {
+export default function Client({ giveaways, lastUpdated }: Props) {
   const [search, setSearch] = useState('');
 
   const filteredGiveaways = giveaways.filter((ga) => {
@@ -44,8 +46,14 @@ export default function Client({ giveaways }: Props) {
   });
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Giveaway Leavers</h1>
+
+    <div className="space-y-6">
+      <div className="mb-0">
+        <h1 className="text-3xl font-bold">Giveaway Leavers</h1>
+      {lastUpdated && (
+        <LastUpdated lastUpdatedDate={lastUpdated} />
+      )}
+      </div>
       <input
         type="text"
         placeholder="Search for a giveaway name, id or username"
@@ -75,7 +83,7 @@ export default function Client({ giveaways }: Props) {
                     ) : (
                       <span className="text-muted-500">Ended <FormattedDate timestamp={ga.end_timestamp} className="font-medium" /></span>
                     )}
-                    
+
                   </div>
                 </h2>
                 <div className="flex flex-wrap gap-4 mt-2">
@@ -102,8 +110,8 @@ export default function Client({ giveaways }: Props) {
                               leaver.time_difference_hours < 24
                                 ? 'text-red-500 font-bold'
                                 : leaver.time_difference_hours < 48
-                                ? 'text-yellow-500 font-bold'
-                                : 'text-green-500 font-bold'
+                                  ? 'text-yellow-500 font-bold'
+                                  : 'text-green-500 font-bold'
                             }>
                             {leaver.time_difference_hours}h
                           </p>

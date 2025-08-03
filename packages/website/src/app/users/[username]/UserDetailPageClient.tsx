@@ -14,6 +14,7 @@ import { LastUpdated } from '@/components/LastUpdated'
 import GiveawayLeaversClient from './GiveawayLeaversClient'
 import { GiveawayLeaver } from '@/types/stats'
 import { UnplayedGamesStats } from '@/components/UnplayedGamesStats'
+import Tooltip from '@/components/Tooltip'
 
 interface Props {
   user: User
@@ -78,7 +79,7 @@ export default function UserDetailPageClient({ user, allUsers, giveaways, gameDa
     return user.giveaways_won.length
   }
 
-  const realCvRatio = user.stats.real_total_received_count === 0 ? 0 : Number((user.stats.real_total_sent_count / user.stats.real_total_received_count).toFixed(2))
+  const realCvRatio = user.stats.real_total_received_value === 0 ? 0 : Number((user.stats.real_total_sent_value / user.stats.real_total_received_value).toFixed(2))
 
   const createdGiveaways = user.giveaways_created ? Object.values(user.giveaways_created).length : 0
   const ongoingGiveaways = user.giveaways_created ? Object.values(user.giveaways_created).filter(ga => ga.end_timestamp > Date.now() / 1000).length : 0
@@ -117,7 +118,7 @@ export default function UserDetailPageClient({ user, allUsers, giveaways, gameDa
               <CountryFlag countryCode={user.country_code} />
             </div>
             <p className={`text-lg font-medium ${userType.color}`}>
-              {userType.label} ({user.stats.giveaway_ratio ? user.stats.giveaway_ratio.toFixed(2) : 0})
+              {userType.label} ({user.stats.giveaway_ratio ? user.stats.giveaway_ratio.toFixed(2) : 0} ratio)
             </p>
             {user.steam_profile_url && (
               <a
@@ -198,13 +199,13 @@ export default function UserDetailPageClient({ user, allUsers, giveaways, gameDa
             </div>
 
             <div className="text-center">
-              <div className={`text-xl font-bold ${realCvRatio > 0 ? 'text-success-foreground' : 'text-error-foreground'}`}>
-                {realCvRatio > 0 ? '+' : ''}{realCvRatio}
+              <div className={`text-xl font-bold text-muted-foreground}`}>
+                <Tooltip content={`Sent divided by Received ($${user.stats.real_total_sent_value}/$${user.stats.real_total_received_value}) = ${realCvRatio}`}>
+                  <span>{realCvRatio}
+                  </span>
+                </Tooltip>
               </div>
               <div className="text-xs text-muted-foreground">CV Ratio</div>
-              <div className={`text-xs ${realCvRatio > 0 ? 'text-success-foreground' : 'text-error-foreground'}`}>
-                {realCvRatio > 0 ? '+' : ''}${realCvRatio}
-              </div>
             </div>
           </div>
         </div>

@@ -45,5 +45,7 @@ export default function Page() {
     })
     .filter((ga) => ga.leavers.length > 0);
 
-  return <Client giveaways={giveawaysWithLeavers as any} />;
+  const lastUpdated = giveawaysData.last_updated
+
+  return <Client giveaways={giveawaysWithLeavers as any} lastUpdated={lastUpdated} />;
 } 
