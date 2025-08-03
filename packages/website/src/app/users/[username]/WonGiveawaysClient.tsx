@@ -14,9 +14,10 @@ interface Props {
   giveaways: Giveaway[]
   wonGiveaways: NonNullable<User['giveaways_won']>
   gameData: GameData[]
+  user: User
 }
 
-export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData }: Props) {
+export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData, user }: Props) {
   const { getGameData } = useGameData(gameData)
   const [searchTerm, setSearchTerm] = useState('')
   const debouncedSearchTerm = useDebounce(searchTerm, 300)
@@ -260,9 +261,9 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData }
                           <span className="text-muted-foreground">Achievements:</span>
                           {game.steam_play_data.has_no_available_stats ? <span className="ml-1 font-medium text-error-foreground">
                             Unavailable
-                          </span> : <span className="ml-1 font-medium">
+                          </span> : <a href={`https://steamcommunity.com/profiles/${user.steam_id}/stats/${gameData?.app_id}`} target="_blank" rel="noopener noreferrer" className="ml-1 font-medium text-accent hover:underline">
                             {game.steam_play_data.achievements_unlocked}/{game.steam_play_data.achievements_total} ({game.steam_play_data.achievements_percentage}%)
-                          </span>}
+                          </a>}
                         </div>
                       </div>
                     </div>

@@ -349,6 +349,7 @@ export default function UserDetailPageClient({ user, allUsers, giveaways, gameDa
           giveaways={giveaways}
           wonGiveaways={user.giveaways_won}
           gameData={gameData}
+          user={user}
         />
       )}
 
