@@ -28,6 +28,9 @@ const GAME_DATA = JSON.parse(
 const GIVEAWAY_DATA = JSON.parse(
   readFileSync('../website/public/data/giveaways.json', 'utf-8')
 ).giveaways as Giveaway[]
+const USER_ENTRIES = JSON.parse(
+  readFileSync('../website/public/data/user_entries.json', 'utf-8')
+) as { [key: string]: { link: string; joined_at: number }[] }
 
 // getGameInfo receives a giveaway link, then finds the HLTB data for the game
 // and returns the game data
@@ -1158,6 +1161,23 @@ export class SteamGiftsUserFetcher {
           ) ?? []
         if (unplayedRequiredPlayGiveaways.length >= 2) {
           warnings.push('unplayed_required_play_giveaways')
+
+          const enteredGiveawayData = USER_ENTRIES?.[user.username] || []
+
+          if (unplayedRequiredPlayGiveaways.length === 2) {
+            const enteredGiveawaysWithPlayRequired = enteredGiveawayData
+              .map((g) => giveaways.find((ga) => ga.link === g.link))
+              .filter((g) => g !== undefined && g.required_play)
+
+            if (enteredGiveawaysWithPlayRequired.length > 0) {
+              warnings.push('illegal_entered_required_play_giveaways')
+            }
+          } else if (
+            unplayedRequiredPlayGiveaways.length >= 3 &&
+            enteredGiveawayData.length > 0
+          ) {
+            warnings.push('illegal_entered_any_giveaways')
+          }
         }
 
         const gamesThatNeedRequirePlayReview = user.giveaways_won?.filter(

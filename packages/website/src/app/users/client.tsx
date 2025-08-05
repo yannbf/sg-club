@@ -289,7 +289,7 @@ export default function UsersClient({ users, lastUpdated }: Props) {
                   <div className="mt-1">
                     {getUserTypeBadge(user)}
                     {user.warnings?.length && (
-                      <span className="inline-flex items-center ml-2 px-2.5 py-0.5 rounded-full text-xs font-medium bg-error-light text-error-foreground">Warnings</span>
+                      <span className="inline-flex items-center ml-2 px-2.5 py-0.5 rounded-full text-xs font-medium bg-error-light text-error-foreground">Needs attention</span>
                     )}
                   </div>
                 </div>
