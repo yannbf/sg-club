@@ -138,6 +138,13 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData, 
               const giveawayInfo = getGiveawayInfo(game)
 
               const hasUnavailableStats = !game.steam_play_data || game.steam_play_data?.has_no_available_stats || game.steam_play_data.is_playtime_private
+
+              const hasHalfAchievements = game.steam_play_data?.achievements_percentage && game.steam_play_data?.achievements_percentage >= 50
+              const hasPotentiallyCompletedMainStory = game.steam_play_data?.playtime_minutes && game.steam_play_data?.playtime_minutes >= (gameData?.hltb_main_story_hours || 0) / 60
+              const hasOver15HoursPlaytime = game.steam_play_data?.playtime_minutes && game.steam_play_data?.playtime_minutes >= 15 * 60
+
+              const needsReview = game.required_play && !game.required_play_meta?.requirements_met && (hasHalfAchievements || hasPotentiallyCompletedMainStory || hasOver15HoursPlaytime)
+
               return (
                 <div key={index} className="border border-card-border rounded-lg overflow-hidden">
                   <div className="flex">
@@ -205,6 +212,11 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData, 
                                       🎮 Play Required {giveawayInfo.required_play_meta?.additional_notes && `*`}
                                     </span>
                                   </Tooltip>
+                                )}
+                                {needsReview && (
+                                  <span className="text-xs font-medium px-2 py-1 bg-orange-500 text-white rounded-full">
+                                    🔍 Needs Play Required Review
+                                  </span>
                                 )}
                                 {giveawayInfo.is_shared && (
                                   <span className="text-xs font-medium px-2 py-1 bg-info-light text-info-foreground rounded-full">
