@@ -1170,7 +1170,7 @@ export class SteamGiftsUserFetcher {
             const hasPotentiallyCompletedMainStory =
               g.steam_play_data?.playtime_minutes &&
               g.steam_play_data?.playtime_minutes >=
-                (gameData?.hltb_main_story_hours || 0) / 60
+                ((gameData?.hltb_main_story_hours || 0) * 0.9) / 60
 
             const hasOver15HoursPlaytime =
               g.steam_play_data?.playtime_minutes &&
