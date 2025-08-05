@@ -22,6 +22,25 @@ const debug = (...args: any[]) => {
   }
 }
 
+const GAME_DATA = JSON.parse(
+  readFileSync('../website/public/data/game_data.json', 'utf-8')
+) as GamePrice[]
+const GIVEAWAY_DATA = JSON.parse(
+  readFileSync('../website/public/data/giveaways.json', 'utf-8')
+).giveaways as Giveaway[]
+
+// getGameInfo receives a giveaway link, then finds the HLTB data for the game
+// and returns the game data
+const getGameInfo = (link: string) => {
+  const giveawayData = GIVEAWAY_DATA.find((g) => g.link === link)
+  const gameData = GAME_DATA.find(
+    (g) =>
+      g.app_id === giveawayData?.app_id ||
+      g.package_id === giveawayData?.package_id
+  )
+  return gameData
+}
+
 export class SteamGiftsUserFetcher {
   private readonly baseUrl = 'https://www.steamgifts.com'
   private readonly startUrl = '/group/WlYTQ/thegiveawaysclub/users'
@@ -1132,18 +1151,58 @@ export class SteamGiftsUserFetcher {
       // Convert user array to a record for saving
       const usersRecord: Record<string, User> = {}
       for (const user of allUsers) {
-        // go through giveaways won, check which are required play and if they are not completed, if 2 or more, set the user to has_warning true
+        let warnings: string[] = []
         const unplayedRequiredPlayGiveaways =
           user.giveaways_won?.filter(
             (g) => g.required_play && !g.required_play_meta?.requirements_met
           ) ?? []
         if (unplayedRequiredPlayGiveaways.length >= 2) {
-          user.warnings = Array.from(
-            new Set([
-              ...(user.warnings || []),
-              'unplayed_required_play_giveaways',
-            ])
+          warnings.push('unplayed_required_play_giveaways')
+        }
+
+        const gamesThatNeedRequirePlayReview = user.giveaways_won?.filter(
+          (g) => {
+            const gameData = getGameInfo(g.link)
+
+            const hasHalfAchievements =
+              g.steam_play_data?.achievements_percentage &&
+              g.steam_play_data?.achievements_percentage >= 50
+            const hasPotentiallyCompletedMainStory =
+              g.steam_play_data?.playtime_minutes &&
+              g.steam_play_data?.playtime_minutes >=
+                (gameData?.hltb_main_story_hours || 0) / 60
+
+            const hasOver15HoursPlaytime =
+              g.steam_play_data?.playtime_minutes &&
+              g.steam_play_data?.playtime_minutes >= 15 * 60
+
+            const shouldReview =
+              hasHalfAchievements ||
+              hasPotentiallyCompletedMainStory ||
+              hasOver15HoursPlaytime
+
+            return (
+              g.required_play &&
+              !g.required_play_meta?.requirements_met &&
+              shouldReview
+            )
+          }
+        )
+
+        if (
+          gamesThatNeedRequirePlayReview?.length &&
+          gamesThatNeedRequirePlayReview.length > 0
+        ) {
+          warnings.push('required_plays_need_review')
+        }
+
+        if (warnings.length > 0) {
+          console.log(
+            `🔍 ${user.username} has warnings: ${warnings.join(', ')}`
           )
+          user.warnings = warnings
+        } else if (user.warnings) {
+          user.warnings = undefined
         }
 
         usersRecord[user.username] = user

@@ -28,6 +28,7 @@ interface Props {
 
 const warningToMessageMap: Record<string, string> = {
   unplayed_required_play_giveaways: 'Has not played two or more required play giveaways',
+  required_plays_need_review: 'Has required play games that need review',
 }
 
 export default function UserDetailPageClient({ user, allUsers, giveaways, gameData, userEntries, lastUpdated, leavers }: Props) {

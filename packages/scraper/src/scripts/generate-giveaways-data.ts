@@ -92,7 +92,9 @@ export async function generateGiveawaysData(): Promise<void> {
             if (leavers.length > 0) {
               hasNewLeavers = true
               console.log(
-                `🏃‍♂️ Detected ${leavers.length} leavers for: ${giveaway.name}`
+                `🏃‍♂️ Detected ${leavers.length} leavers for: ${
+                  giveaway.link
+                }\n - ${leavers.map((l) => l.username).join(', ')}`
               )
               const leave_detected_at = Math.floor(Date.now() / 1000)
               const time_difference_hours = Math.round(

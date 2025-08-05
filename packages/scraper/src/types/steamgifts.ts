@@ -13,7 +13,7 @@ export interface Giveaway {
   invite_only?: boolean
   whitelist?: boolean
   group: boolean
-  comment_count: number
+  comment_count?: number
   entry_count: number
   creator: string
   cv_status?: CVStatus
@@ -177,4 +177,5 @@ export interface GamePrice {
   price_usd_full: number
   price_usd_reduced: number
   needs_manual_update: boolean
+  hltb_main_story_hours: number | null
 }
