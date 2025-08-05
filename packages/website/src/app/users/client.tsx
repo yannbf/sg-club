@@ -208,7 +208,7 @@ export default function UsersClient({ users, lastUpdated }: Props) {
                   : 'bg-transparent border border-card-border hover:bg-accent/10'
                   }`}
               >
-                ⚠️ Warnings
+                ⚠️ Needs attention
               </button>
               <button
                 onClick={() => handleToggleTag('contributors')}

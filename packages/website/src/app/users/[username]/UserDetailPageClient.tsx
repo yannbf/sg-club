@@ -154,7 +154,7 @@ export default function UserDetailPageClient({ user, allUsers, giveaways, gameDa
 
       {user.warnings?.length && (
         <div className="bg-card-background rounded-lg border-red-500 border p-4">
-          <h3 className="text-sm font-semibold mb-3">⚠️ Warnings</h3>
+          <h3 className="text-sm font-semibold mb-3">⚠️ Needs attention</h3>
           <ul className="list-disc list-inside text-sm text-muted-foreground">
             {user.warnings.map((warning) => (
               <li key={warning}>{warningToMessageMap[warning] ?? warning}</li>
