@@ -38,8 +38,8 @@ const getGameInfo = (link: string) => {
   const giveawayData = GIVEAWAY_DATA.find((g) => g.link === link)
   const gameData = GAME_DATA.find(
     (g) =>
-      g.app_id === giveawayData?.app_id ||
-      g.package_id === giveawayData?.package_id
+      (g.app_id && g.app_id === giveawayData?.app_id) ||
+      (g.package_id && g.package_id === giveawayData?.package_id)
   )
   return gameData
 }
@@ -1190,8 +1190,13 @@ export class SteamGiftsUserFetcher {
             const hasPotentiallyCompletedMainStory =
               g.steam_play_data?.playtime_minutes &&
               g.steam_play_data?.playtime_minutes >=
-                ((gameData?.hltb_main_story_hours || 0) * 0.9) / 60
+                (gameData?.hltb_main_story_hours || 0) * 0.9 * 60
 
+            console.log({
+              playData: g.steam_play_data,
+              gameData,
+              hltbCalculated: (gameData?.hltb_main_story_hours || 0) * 0.9 * 60,
+            })
             const hasOver15HoursPlaytime =
               g.steam_play_data?.playtime_minutes &&
               g.steam_play_data?.playtime_minutes >= 15 * 60
