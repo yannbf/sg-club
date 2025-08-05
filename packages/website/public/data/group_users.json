@@ -11612,7 +11612,7 @@
           "had_winners": true,
           "winners": [
             {
-              "name": "ArxTun",
+              "name": "Jhonnyve",
               "status": "received",
               "activated": true
             }
@@ -19133,30 +19133,94 @@
         "total_received_value": 119.98,
         "total_gift_difference": -1,
         "total_value_difference": -99.99,
-        "fcv_sent_count": 0,
+        "fcv_sent_count": 1,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
-        "fcv_received_count": 0,
+        "fcv_received_count": 2,
         "rcv_received_count": 0,
         "ncv_received_count": 0,
-        "fcv_gift_difference": 0,
-        "real_total_sent_value": 0,
-        "real_total_received_value": 0,
-        "real_total_value_difference": 0,
-        "real_total_sent_count": 0,
-        "real_total_received_count": 0,
-        "real_total_gift_difference": 0,
-        "giveaway_ratio": 0,
+        "fcv_gift_difference": -1,
+        "real_total_sent_value": 19.99,
+        "real_total_received_value": 119.98,
+        "real_total_value_difference": -99.99,
+        "real_total_sent_count": 1,
+        "real_total_received_count": 2,
+        "real_total_gift_difference": -1,
+        "giveaway_ratio": 0.33333333333333337,
         "shared_sent_count": 0,
         "shared_received_count": 0,
-        "giveaways_created": 0,
+        "giveaways_created": 1,
         "giveaways_with_no_entries": 0,
-        "last_giveaway_created_at": null,
-        "last_giveaway_won_at": null
+        "last_giveaway_created_at": 1751306327,
+        "last_giveaway_won_at": 1751299200
       },
       "steam_id": "76561199574536589",
       "steam_profile_url": "https://steamcommunity.com/profiles/76561199574536589",
-      "country_code": "ve"
+      "steam_profile_is_private": false,
+      "country_code": "ve",
+      "giveaways_won": [
+        {
+          "name": "Baldur's Gate 3",
+          "link": "9lcGf/baldurs-gate-3",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1751299200,
+          "required_play": false,
+          "is_shared": false,
+          "steam_play_data": {
+            "owned": true,
+            "playtime_minutes": 0,
+            "playtime_formatted": "0 minutes",
+            "achievements_unlocked": 0,
+            "achievements_total": 54,
+            "achievements_percentage": 0,
+            "never_played": true,
+            "is_playtime_private": false,
+            "last_checked": 1754226641423
+          }
+        },
+        {
+          "name": "Cyberpunk 2077",
+          "link": "PSS1p/cyberpunk-2077",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1751266800,
+          "required_play": false,
+          "is_shared": false,
+          "steam_play_data": {
+            "owned": true,
+            "playtime_minutes": 0,
+            "playtime_formatted": "0 minutes",
+            "achievements_unlocked": 0,
+            "achievements_total": 57,
+            "achievements_percentage": 0,
+            "never_played": true,
+            "is_playtime_private": false,
+            "last_checked": 1754226642629
+          }
+        }
+      ],
+      "giveaways_created": [
+        {
+          "name": "Skul: The Hero Slayer",
+          "link": "Or7lz/skul-the-hero-slayer",
+          "cv_status": "FULL_CV",
+          "entries": 5,
+          "copies": 1,
+          "created_timestamp": 1751306327,
+          "end_timestamp": 1751392560,
+          "required_play": false,
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "Rosayde",
+              "status": "received",
+              "activated": true
+            }
+          ]
+        }
+      ]
     },
     "karm2002": {
       "username": "karm2002",
@@ -34003,7 +34067,7 @@
           "had_winners": true,
           "winners": [
             {
-              "name": "ArxTun",
+              "name": "Jhonnyve",
               "status": "received",
               "activated": true
             }
