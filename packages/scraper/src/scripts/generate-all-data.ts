@@ -44,6 +44,16 @@ async function generateAllData(): Promise<void> {
       const now = new Date()
       const oneHour = 60 * 60 * 1000
 
+      // for debugging purposes show NOW and LAST UPDATED in readable format
+      console.log(`NOW: ${now.toLocaleString()}`)
+      console.log(`LAST UPDATED: ${lastUpdated.toLocaleString()}`)
+      const difference = now.getTime() - lastUpdated.getTime()
+      console.log(
+        `DIFFERENCE: ${difference} milliseconds or ${
+          difference / 60000
+        } minutes`
+      )
+
       const hasBeenUpdatedRecently =
         now.getTime() - lastUpdated.getTime() < oneHour
       if (hasBeenUpdatedRecently) {
