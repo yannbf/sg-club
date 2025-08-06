@@ -25,9 +25,15 @@ const debug = (...args: any[]) => {
 const GAME_DATA = JSON.parse(
   readFileSync('../website/public/data/game_data.json', 'utf-8')
 ) as GamePrice[]
-const GIVEAWAY_DATA = JSON.parse(
-  readFileSync('../website/public/data/giveaways.json', 'utf-8')
-).giveaways as Giveaway[]
+let GIVEAWAY_DATA: Giveaway[] = []
+try {
+  GIVEAWAY_DATA = JSON.parse(
+    readFileSync('../website/public/data/giveaways.json', 'utf-8')
+  ).giveaways as Giveaway[]
+} catch (error) {
+  console.warn(`⚠️  Could not load giveaway file: ${error}`)
+}
+
 const USER_ENTRIES = JSON.parse(
   readFileSync('../website/public/data/user_entries.json', 'utf-8')
 ) as { [key: string]: { link: string; joined_at: number }[] }
