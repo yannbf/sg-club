@@ -44,15 +44,16 @@ interface InsightSectionProps {
     topAchievementHunters: { user: User; value: number }[]
     topGames: { game: GameData; count: number }[]
   }
+  disclaimer?: string
 }
 
-function InsightSection({ title, data }: InsightSectionProps) {
+function InsightSection({ title, data, disclaimer }: InsightSectionProps) {
   return (
     <>
       <h3 className="text-xl font-bold mb-6">🕒 {title}</h3>
       <div className="bg-card-background rounded-lg border-card-border border p-6">
         <p className="text-sm text-red-500 mb-3">
-          * Only exclusive, full CV giveaways are taken into account in the calculation
+          * Only exclusive, full CV giveaways{disclaimer ? ` (${disclaimer})` : ''} are taken into account in the calculation
         </p>
         <h4 className="text-md font-semibold mb-3">Top 5 Most Created Giveaway Games</h4>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 mb-6">
@@ -107,6 +108,7 @@ export default async function Home() {
   }
 
   const users = Object.values(userData.users)
+  //.filter(user => user.username === 'gus09') // for debugging
   const activeMembers = users.length
   const totalGiveawaysCount = allGiveaways.length
 
@@ -143,8 +145,9 @@ export default async function Home() {
 
     const winners = new Map<string, number>()
     userList.forEach(user => {
-      const winsInPeriod = user.giveaways_won?.filter(win =>
-        giveawayList.some(ga => ga.link === win.link)
+      const winsInPeriod = user.giveaways_won?.filter(win => {
+        return giveawayList.some(ga => ga.link === win.link)
+      }
       ).length || 0
       if (winsInPeriod > 0) {
         winners.set(user.username, winsInPeriod)
@@ -207,7 +210,7 @@ export default async function Home() {
 
   // Last 7 Days Insights
   const sevenDaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000
-  const last7DaysGiveaways = giveaways.filter(ga => ga.created_timestamp * 1000 > sevenDaysAgo)
+  const last7DaysGiveaways = giveaways.filter(ga => ga.end_timestamp * 1000 > sevenDaysAgo)
   const last7DaysInsights = calculateInsights(last7DaysGiveaways, users)
 
   return (
@@ -322,9 +325,9 @@ export default async function Home() {
         </div>
       </div>
 
-      <InsightSection title="Last 7 Days Insights" data={last7DaysInsights} />
-      <InsightSection title="Last 30 Days Insights" data={last30DaysInsights} />
-      <InsightSection title="All-Time Insights" data={allTimeInsights} />
+      <InsightSection title="Last 7 Days Insights" data={last7DaysInsights} disclaimer="won in last 7 days" />
+      <InsightSection title="Last 30 Days Insights" data={last30DaysInsights} disclaimer="won in last 30 days" />
+      <InsightSection title="All-Time Insights" data={allTimeInsights} disclaimer="all time" />
     </div>
   )
 }
