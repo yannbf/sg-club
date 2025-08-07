@@ -217,7 +217,9 @@ export class GiveawayPointsManager {
 
     if (row['DEADLINE (dd-mm-yyyy)'] !== '') {
       data.deadline = row['DEADLINE (dd-mm-yyyy)']
-      data.deadlineInMonths = parseInt(row['DEADLINE (IN MONTHS)'], 10) || 2
+    }
+    if (row['DEADLINE (IN MONTHS)'] !== '') {
+      data.deadlineInMonths = parseInt(row['DEADLINE (IN MONTHS)'], 10)
     }
     if (row['REQUIREMENTS'] !== '') {
       data.additionalNotes = row['REQUIREMENTS']
