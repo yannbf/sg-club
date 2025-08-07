@@ -8,6 +8,7 @@ import Image from 'next/image'
 import FormattedDate from '@/components/FormattedDate'
 import { LastUpdated } from '@/components/LastUpdated'
 import { getUnplayedGamesStats, UnplayedGamesStats } from '@/components/UnplayedGamesStats'
+import { getWarningsSeverity } from './[username]/UserDetailPageClient'
 
 interface Props {
   users: User[]
@@ -253,9 +254,9 @@ export default function UsersClient({ users, lastUpdated }: Props) {
       {/* Users Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredAndSortedUsers.map((user) => {
-          const borderColor = user.warnings?.length ? 'border-error' : 'border-card-border'
+          const borderColor = user.warnings?.length ? `border-${getWarningsSeverity(user.warnings)}` : 'border-card-border'
           return (
-            <div key={user.username} className={`bg-card-background rounded-lg border-card-border border hover:shadow-lg transition-all duration-200 p-6 ${borderColor}`}>
+            <div key={user.username} className={`bg-card-background rounded-lg border hover:shadow-lg transition-all duration-200 p-6 ${borderColor}`}>
               <div className="flex items-center mb-4">
                 {user.avatar_url ? (
                   <Image

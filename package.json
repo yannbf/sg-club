@@ -7,7 +7,7 @@
     "run-all": "pnpm run --filter scraper run-all",
     "data": "pnpm run --filter scraper data",
     "generate-all-website-data": "pnpm run --filter scraper generate-all-website-data",
-    "website:dev": "pnpm run --filter website dev",
+    "dev": "pnpm run --filter website dev",
     "website:build": "pnpm run --filter website build",
     "website:serve": "pnpm run --filter website serve"
   },

@@ -15,6 +15,9 @@
     --foreground: #171717;
     --card-background: #ffffff;
     --card-border: #e5e7eb;
+    --card-border-problem: #ef4444;
+    --card-border-warning: #f59e0b;
+    --card-border-info: #3b82f6;
     --muted: #6b7280;
     --muted-foreground: #4b5563;
     
@@ -49,6 +52,9 @@
       --foreground: #f3f4f6;
       --card-background: #1f2937;
       --card-border: #374151;
+      --card-border-problem: #ef4444;
+      --card-border-warning: #f59e0b;
+      --card-border-info: #3b82f6;
       --muted: #9ca3af;
       --muted-foreground: #d1d5db;
       

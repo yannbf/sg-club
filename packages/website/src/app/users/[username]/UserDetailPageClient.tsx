@@ -26,11 +26,50 @@ interface Props {
   leavers: GiveawayLeaver[];
 }
 
-const warningToMessageMap: Record<string, string> = {
-  unplayed_required_play_giveaways: 'Has not played two or more required play giveaways',
-  required_plays_need_review: 'Has required play games which were played and need review',
-  illegal_entered_required_play_giveaways: 'Has entered required play giveaways while not having played 2 required play giveaways',
-  illegal_entered_any_giveaways: 'Has entered any giveaways while not having played 3 or more required play giveaways',
+type UserWarning = {
+  description: string
+  severity: 'problem' | 'warning' | 'info'
+}
+
+export const getWarningsSeverity = (warnings: string[]): 'problem' | 'warning' | 'info' => {
+  // return the highest severity of the warnings
+  let hasWarning = false
+  for (const warning of warnings) {
+    const warningSeverity = warningToMessageMap[warning].severity
+    if (warningSeverity === 'problem') {
+      return 'problem'
+    }
+
+    if (warningSeverity === 'warning') {
+      hasWarning = true
+    }
+  }
+
+  if (hasWarning) {
+    return 'warning'
+  }
+
+  return 'info'
+}
+
+
+const warningToMessageMap: Record<string, UserWarning> = {
+  unplayed_required_play_giveaways: {
+    description: 'Has not played two or more required play giveaways',
+    severity: 'warning',
+  },
+  required_plays_need_review: {
+    description: 'Has required play games which were played and need review',
+    severity: 'info',
+  },
+  illegal_entered_required_play_giveaways: {
+    description: 'Has entered required play giveaways while not having played 2 required play giveaways',
+    severity: 'problem',
+  },
+  illegal_entered_any_giveaways: {
+    description: 'Has entered any giveaways while not having played 3 or more required play giveaways',
+    severity: 'problem',
+  },
 }
 
 export default function UserDetailPageClient({ user, allUsers, giveaways, gameData, userEntries, lastUpdated, leavers }: Props) {
@@ -155,11 +194,11 @@ export default function UserDetailPageClient({ user, allUsers, giveaways, gameDa
       </div>
 
       {user.warnings?.length && (
-        <div className="bg-card-background rounded-lg border-red-500 border p-4">
+        <div className={`bg-card-background rounded-lg border-${getWarningsSeverity(user.warnings)} border p-4`}>
           <h3 className="text-sm font-semibold mb-3">⚠️ Needs attention</h3>
           <ul className="list-disc list-inside text-sm text-muted-foreground">
             {user.warnings.map((warning) => (
-              <li key={warning}>{warningToMessageMap[warning] ?? warning}</li>
+              <li key={warning}>{warningToMessageMap[warning].description ?? warning}</li>
             ))}
           </ul>
         </div>

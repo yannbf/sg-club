@@ -40,6 +40,11 @@ const config: Config = {
         'warning-foreground': 'var(--warning-foreground)',
         'warning-light': 'var(--warning-light)',
       },
+      borderColor: {
+        problem: 'var(--card-border-problem)',
+        warning: 'var(--card-border-warning)',
+        info: 'var(--card-border-info)',
+      },
       keyframes: {
         'fade-in': {
           '0%': { opacity: '0' },
