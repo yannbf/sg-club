@@ -150,6 +150,11 @@ export interface UserGiveawaysStats {
   // Other stats
   last_giveaway_created_at: number | null
   last_giveaway_won_at: number | null
+  total_achievements_percentage?: number
+  average_achievements_percentage?: number
+  real_total_achievements_percentage?: number
+  real_average_achievements_percentage?: number
+  has_missing_achievements_data?: boolean
 }
 
 // CV Status related interfaces

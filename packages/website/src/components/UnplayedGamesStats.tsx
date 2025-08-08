@@ -29,15 +29,15 @@ export function UnplayedGamesStats({ user, size = 'medium' }: { user: User, size
   const stats = getUnplayedGamesStats(user);
   const missingData = user.giveaways_won.some(game => !game.steam_play_data || game.steam_play_data.has_no_available_stats);
   const rateText = stats.total === 0
-    ? '0/0 (0.0%)'
-    : `${stats.played}/${stats.total} (${stats.percentage.toFixed(1)}%)`;
+    ? '0/0 (0%)'
+    : `${stats.played}/${stats.total} (${stats.percentage.toFixed(0)}%)`;
 
   return (
     <div className="text-center">
       <div className={`${size === 'medium' ? 'text-sm font-medium' : 'text-2xl font-bold'} ${getPlayedRateColor(stats.percentage)}`}>
         {rateText}
         {missingData && (
-          <Tooltip content="Some or all games have no available stats">
+          <Tooltip content="Some or all games have no available stats so this might be innacurate">
             <span>⚠️</span>
           </Tooltip>
         )}

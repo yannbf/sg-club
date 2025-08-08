@@ -250,6 +250,22 @@ export default function UserDetailPageClient({ user, allUsers, giveaways, gameDa
               <div className="text-xs text-muted-foreground">CV Ratio</div>
             </div>
           </div>
+          {showDetailedStats && (
+            <div className="mt-4 pt-4 border-t border-card-border/50 grid grid-cols-4 gap-2">
+              <div className="text-center col-span-2">
+                <div className={`text-xl font-bold text-muted-foreground`}>
+                  {user.stats.real_total_achievements_percentage ?? 0}%
+                </div>
+                <div className="text-xs text-muted-foreground">Total Achievements</div>
+              </div>
+              <div className="text-center col-span-2">
+                <div className={`text-xl font-bold text-muted-foreground`}>
+                  {user.stats.real_average_achievements_percentage ?? 0}%
+                </div>
+                <div className="text-xs text-muted-foreground">Avg. Achievements</div>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Detailed Stats (conditionally rendered) */}
@@ -362,7 +378,14 @@ export default function UserDetailPageClient({ user, allUsers, giveaways, gameDa
       {/* Steam Statistics */}
       {user.steam_id && !user.steam_profile_is_private && user.giveaways_won && user.giveaways_won.some(g => g.steam_play_data) && (
         <div className="bg-card-background rounded-lg border-card-border border p-6 mb-6">
-          <h2 className="text-xl font-semibold mb-4">🎮 Steam Activity</h2>
+          <h2 className="text-xl font-semibold mb-4 flex items-center">
+            🎮 Steam Activity
+            {user.stats.has_missing_achievements_data && (
+              <Tooltip content="Some games won by this user don't have achievement data available on Steam, so the percentages might not be accurate.">
+                <span className="ml-2 text-lg">⚠️</span>
+              </Tooltip>
+            )}
+          </h2>
           <p className="text-sm text-muted-foreground mb-4">Activity related only to the games won in the group</p>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div className="text-center">
@@ -371,7 +394,7 @@ export default function UserDetailPageClient({ user, allUsers, giveaways, gameDa
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold text-accent-blue">
-                {getTotalPlaytime() === 0 && getTotalAchievements() > 0
+                {getTotalPlaytime() === 0
                   ? 'Unavailable'
                   : formatPlaytime(getTotalPlaytime())}
               </div>
@@ -380,6 +403,9 @@ export default function UserDetailPageClient({ user, allUsers, giveaways, gameDa
             <div className="text-center">
               <div className="text-2xl font-bold text-accent-yellow">{getTotalAchievements()}</div>
               <div className="text-sm text-muted-foreground">Total Achievements</div>
+              <div className="text-xs text-muted-foreground">
+                ({user.stats.total_achievements_percentage ?? 0}% Total - {user.stats.average_achievements_percentage ?? 0}% Avg. per game)
+              </div>
             </div>
             <UnplayedGamesStats user={user} size="large" />
           </div>

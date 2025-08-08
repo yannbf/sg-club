@@ -50,6 +50,45 @@ const getGameInfo = (link: string) => {
   return gameData
 }
 
+function calculateAchievementPercentages(giveaways: User['giveaways_won']) {
+  const games = (giveaways || []).filter(
+    (g) =>
+      g.steam_play_data?.achievements_percentage !== undefined &&
+      g.steam_play_data?.achievements_percentage !== null &&
+      g.steam_play_data?.achievements_unlocked !== undefined &&
+      g.steam_play_data?.achievements_total !== undefined
+  )
+
+  if (games.length === 0) {
+    return { averagePercentage: 0, totalPercentage: 0 }
+  }
+
+  // Average percentage per game
+  const sumPercentages = games.reduce(
+    (acc, g) => acc + (g.steam_play_data?.achievements_percentage || 0),
+    0
+  )
+  const averagePercentage = sumPercentages / games.length
+
+  // True total percentage (weighted by achievements)
+  const { totalEarned, totalPossible } = games.reduce(
+    (acc, g) => {
+      acc.totalEarned += g.steam_play_data?.achievements_unlocked || 0
+      acc.totalPossible += g.steam_play_data?.achievements_total || 0
+      return acc
+    },
+    { totalEarned: 0, totalPossible: 0 }
+  )
+  const totalPercentage =
+    totalPossible > 0 ? (totalEarned / totalPossible) * 100 : 0
+
+  // Return both, rounded to 2 decimals
+  return {
+    averagePercentage: Number(averagePercentage.toFixed(2)),
+    totalPercentage: Number(totalPercentage.toFixed(2)),
+  }
+}
+
 export class SteamGiftsUserFetcher {
   private readonly baseUrl = 'https://www.steamgifts.com'
   private readonly startUrl = '/group/WlYTQ/thegiveawaysclub/users'
@@ -465,6 +504,48 @@ export class SteamGiftsUserFetcher {
         userStats.real_total_sent_count - userStats.real_total_received_count
       ).toFixed(2)
     )
+
+    // Calculate achievement percentages
+    const wonGiveawaysWithAchievements =
+      user.giveaways_won?.filter(
+        (g) =>
+          g.steam_play_data?.achievements_percentage !== undefined &&
+          g.steam_play_data?.achievements_percentage !== null
+      ) || []
+
+    if (wonGiveawaysWithAchievements.length > 0) {
+      const allAchievementsData = calculateAchievementPercentages(
+        wonGiveawaysWithAchievements
+      )
+      userStats.total_achievements_percentage = Math.round(
+        allAchievementsData.totalPercentage
+      )
+      userStats.average_achievements_percentage = Math.round(
+        allAchievementsData.averagePercentage
+      )
+
+      const realWonGiveawaysWithAchievements =
+        wonGiveawaysWithAchievements.filter(
+          (g) => !g.is_shared && g.cv_status === 'FULL_CV'
+        )
+
+      const realAchievementsData = calculateAchievementPercentages(
+        realWonGiveawaysWithAchievements
+      )
+
+      userStats.real_total_achievements_percentage = Math.round(
+        realAchievementsData.totalPercentage
+      )
+      userStats.real_average_achievements_percentage = Math.round(
+        realAchievementsData.averagePercentage
+      )
+
+      const hasMissingAchievementsData = wonGiveawaysWithAchievements.some(
+        (g) => g.steam_play_data?.has_no_available_stats
+      )
+
+      userStats.has_missing_achievements_data = hasMissingAchievementsData
+    }
 
     return userStats as UserGiveawaysStats
   }

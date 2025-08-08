@@ -9,6 +9,7 @@ import FormattedDate from '@/components/FormattedDate'
 import { LastUpdated } from '@/components/LastUpdated'
 import { getUnplayedGamesStats, UnplayedGamesStats } from '@/components/UnplayedGamesStats'
 import { getWarningsSeverity } from './[username]/UserDetailPageClient'
+import Tooltip from '@/components/Tooltip'
 
 interface Props {
   users: User[]
@@ -17,7 +18,7 @@ interface Props {
 
 export default function UsersClient({ users, lastUpdated }: Props) {
   const [searchTerm, setSearchTerm] = useState('')
-  const [sortBy, setSortBy] = useState<'username' | 'sent' | 'received' | 'difference' | 'value' | 'playtime' | 'ratio' | 'last_created' | 'last_won' | 'play_rate'>('difference')
+  const [sortBy, setSortBy] = useState<'username' | 'sent' | 'received' | 'difference' | 'value' | 'playtime' | 'ratio' | 'last_created' | 'last_won' | 'play_rate' | 'achievements'>('difference')
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc')
   const [filterTags, setFilterTags] = useState({
     warnings: false,
@@ -109,6 +110,10 @@ export default function UsersClient({ users, lastUpdated }: Props) {
           comparison = statsB.percentage - statsA.percentage
           break
         }
+        case 'achievements': {
+          comparison = (b.stats.real_total_achievements_percentage ?? 0) - (a.stats.real_total_achievements_percentage ?? 0)
+          break
+        }
       }
       return sortDirection === 'asc' ? -comparison : comparison
     })
@@ -176,7 +181,7 @@ export default function UsersClient({ users, lastUpdated }: Props) {
             <div className="flex gap-2">
               <select
                 value={sortBy}
-                onChange={(e) => setSortBy(e.target.value as 'username' | 'sent' | 'received' | 'difference' | 'value' | 'playtime' | 'ratio' | 'last_created' | 'last_won' | 'play_rate')}
+                onChange={(e) => setSortBy(e.target.value as 'username' | 'sent' | 'received' | 'difference' | 'value' | 'playtime' | 'ratio' | 'last_created' | 'last_won' | 'play_rate' | 'achievements')}
                 className="w-full px-3 py-2 border border-card-border rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-accent"
               >
                 <option value="ratio">Giveaway Ratio</option>
@@ -186,6 +191,7 @@ export default function UsersClient({ users, lastUpdated }: Props) {
                 <option value="sent">Gifts Sent</option>
                 <option value="received">Gifts Received</option>
                 <option value="playtime">Total Playtime</option>
+                <option value="achievements">Achievements rate</option>
                 <option value="username">Username</option>
                 <option value="last_created">Last GA Created</option>
                 <option value="last_won">Last GA Won</option>
@@ -368,9 +374,16 @@ export default function UsersClient({ users, lastUpdated }: Props) {
                         <div className="text-xs text-muted-foreground">Total Playtime</div>
                       </div>
                       <div className="text-center">
-                        <div className="text-sm font-medium text-accent-yellow">{getTotalAchievements(user)}</div>
-                        <div className="text-xs text-muted-foreground">Achievements</div>
+                        <div className="text-sm font-medium text-accent-yellow">{user.stats.real_total_achievements_percentage ?? 0}%
+                          {user.stats.has_missing_achievements_data && (
+                            <Tooltip content="Some or all games have no available achievement data so this might be innacurate">
+                              <span>⚠️</span>
+                            </Tooltip>
+                          )}
+                        </div>
+                        <div className="text-xs text-muted-foreground">Achievements rate</div>
                       </div>
+
                     </div>
 
                     <div className="mt-4 grid grid-cols-3 gap-4">

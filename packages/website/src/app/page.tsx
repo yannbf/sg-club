@@ -20,10 +20,10 @@ function UserRanking({ title, users }: UserRankingProps) {
       <div className="space-y-3">
         {users.map(({ user, value }, index) => (
           <div key={user.username} className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
+            <div className="flex flex-1 items-center gap-3 min-w-0">
               <span className="text-sm text-muted-foreground w-6 text-center">{index + 1}</span>
               <UserAvatar src={user.avatar_url} username={user.username} />
-              <Link href={`/users/${user.username}`} className="text-sm font-medium hover:underline">
+              <Link href={`/users/${user.username}`} className="truncate text-sm font-medium hover:underline">
                 {user.username}
               </Link>
             </div>
@@ -42,6 +42,7 @@ interface InsightSectionProps {
     topWinners: { user: User; value: number }[]
     topGamers: { user: User; value: string }[]
     topAchievementHunters: { user: User; value: number }[]
+    topAchievementHuntersByPercentage: { user: User; value: string }[]
     topGames: { game: GameData; count: number }[]
   }
   disclaimer?: string
@@ -74,7 +75,7 @@ function InsightSection({ title, data, disclaimer }: InsightSectionProps) {
             </div>
           ))}
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8">
           <div>
             <UserRanking title="🎁 Top creators" users={data.topCreators} />
           </div>
@@ -84,8 +85,11 @@ function InsightSection({ title, data, disclaimer }: InsightSectionProps) {
           <div className="lg:border-l lg:pl-4">
             <UserRanking title="🎮 Top gamers (playtime)" users={data.topGamers} />
           </div>
-          <div className="lg:border-l lg:pl-4">
-            <UserRanking title="🏆 Top achievement hunters" users={data.topAchievementHunters} />
+          <div className="md:border-l md:pl-4">
+            <UserRanking title="🏆 Top achievement hunters (by quantity)" users={data.topAchievementHunters} />
+          </div>
+          <div className="md:border-l md:pl-4">
+            <UserRanking title="🎯 Top achievement hunters (by %)" users={data.topAchievementHuntersByPercentage} />
           </div>
         </div>
       </div>
@@ -168,6 +172,31 @@ export default async function Home() {
       return { user, value: achievements || 0 }
     }).filter(u => u.value > 0).sort((a, b) => b.value - a.value)
 
+    const achievementHuntersByPercentage = userList.map(user => {
+      const winsInPeriod = user.giveaways_won?.filter(win =>
+        giveawayList.some(ga => ga.link === win.link)
+      ) || []
+
+      if (winsInPeriod.length === 0) {
+        return { user, value: 0 }
+      }
+
+      const stats = winsInPeriod.reduce(
+        (acc, g) => {
+          if (g.steam_play_data) {
+            acc.totalEarned += g.steam_play_data.achievements_unlocked || 0
+            acc.totalPossible += g.steam_play_data.achievements_total || 0
+          }
+          return acc
+        },
+        { totalEarned: 0, totalPossible: 0 }
+      )
+
+      const value = stats.totalPossible > 0 ? (stats.totalEarned / stats.totalPossible) * 100 : 0
+
+      return { user, value }
+    }).filter(u => u.value > 0).sort((a, b) => b.value - a.value)
+
     const mapAndSort = (map: Map<string, number>) => Array.from(map.entries())
       .map(([username, value]) => ({ user: userMap.get(username)!, value }))
       .filter(u => u.user)
@@ -187,6 +216,7 @@ export default async function Home() {
       topWinners: mapAndSort(winners),
       topGamers: gamers.slice(0, 10).map(g => ({ ...g, value: `${Math.floor(g.value / 60)}h` })),
       topAchievementHunters: achievementHunters.slice(0, 10),
+      topAchievementHuntersByPercentage: achievementHuntersByPercentage.slice(0, 10).map(g => ({ ...g, value: `${Math.round(g.value)}%` })),
       topGames: Array.from(gameGiveawayCounts.entries())
         .sort(([, a], [, b]) => b - a)
         .slice(0, 5)
