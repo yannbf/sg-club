@@ -11,16 +11,46 @@ export async function generateGiveawaysData(): Promise<void> {
   const filename = '../website/public/data/giveaways.json'
   const entriesFilename = '../website/public/data/user_entries.json'
   const investigationFilename = '../website/investigation/giveaway_leavers.json'
+  const groupUsersFilename = '../website/public/data/group_users.json'
 
   try {
     console.log('🚀 Starting giveaway scraping...')
     // turn this to true if you want to debug the postprocessing code
     const SKIP_FETCHING_GIVEAWAYS = false
+    // for debugging purposes if you want to use a smaller set of giveaways
+    // const allGiveaways = [
+    //   {
+    //     id: 'b3iNO',
+    //     name: 'Hogwarts Legacy',
+    //     points: 50,
+    //     copies: 1,
+    //     app_id: 990080,
+    //     package_id: null,
+    //     link: 'b3iNO/hogwarts-legacy',
+    //     created_timestamp: 1753996498,
+    //     start_timestamp: 1753996498,
+    //     end_timestamp: 1755291420,
+    //     region_restricted: true,
+    //     group: true,
+    //     comment_count: 0,
+    //     entry_count: 17,
+    //     creator: 'Shughes91',
+    //     event_type: 'rpg_august',
+    //     cv_status: 'FULL_CV',
+    //   },
+    // ]
     const allGiveaways = SKIP_FETCHING_GIVEAWAYS
       ? (JSON.parse(readFileSync(filename, 'utf-8')).giveaways as Giveaway[])
       : await groupGiveawaysScraper.scrapeGiveaways(filename)
 
     if (allGiveaways.length > 0) {
+      const groupUsersData = JSON.parse(
+        readFileSync(groupUsersFilename, 'utf-8')
+      )
+      const groupMemberUsernames = new Set(
+        Object.values(groupUsersData.users).map((user: any) => user.username)
+      )
+
       let existingEntries: Record<
         string,
         { username: string; joined_at: string }[]
@@ -30,6 +60,23 @@ export async function generateGiveawaysData(): Promise<void> {
       } else {
         console.log('📄 No existing entries file found, starting fresh')
       }
+
+      // Temporary code to filter out non-group members from existing entries
+      let nonMemberEntriesRemovedCount = 0
+      for (const gaLink in existingEntries) {
+        const originalCount = existingEntries[gaLink].length
+        existingEntries[gaLink] = existingEntries[gaLink].filter((entry) =>
+          groupMemberUsernames.has(entry.username)
+        )
+        nonMemberEntriesRemovedCount +=
+          originalCount - existingEntries[gaLink].length
+      }
+      if (nonMemberEntriesRemovedCount > 0) {
+        console.log(
+          `🧹 Removed ${nonMemberEntriesRemovedCount} non-group member entries from the existing entries list.`
+        )
+      }
+      // End of temporary code
 
       let giveawayLeavers: Record<
         string,
@@ -77,85 +124,110 @@ export async function generateGiveawaysData(): Promise<void> {
           const entries = await groupGiveawaysScraper.fetchDetailedEntries(
             giveaway.link
           )
+          const memberEntries = entries.filter((entry) =>
+            groupMemberUsernames.has(entry.username)
+          )
+
+          const currentUsernames = new Set(memberEntries.map((e) => e.username))
 
           const oldEntriesForGiveaway = existingEntries[giveaway.link] ?? []
-          if (oldEntriesForGiveaway.length > 0) {
-            const newEntryUsernames = new Set(entries.map((e) => e.username))
-            const oldEntryUsernames = new Set(
-              oldEntriesForGiveaway.map((e) => e.username)
+          const oldEntryUsernames = new Set(
+            oldEntriesForGiveaway.map((e) => e.username)
+          )
+
+          const previousLeaversForGiveaway = Object.keys(
+            giveawayLeavers
+          ).filter((username) =>
+            giveawayLeavers[username].some((l) => l.ga_link === giveaway.link)
+          )
+
+          // All users who were in the giveaway previously, either in the last successful fetch or as a detected leaver.
+          const allPreviousEntrants = new Set([
+            ...oldEntryUsernames,
+            ...previousLeaversForGiveaway,
+          ])
+
+          // --- Leaver Detection ---
+          const leavers = [...allPreviousEntrants].filter(
+            (username) => !currentUsernames.has(username)
+          )
+
+          if (leavers.length > 0) {
+            console.log(
+              `🏃‍♂️ Detected ${leavers.length} leavers for: ${
+                giveaway.link
+              }\n - ${leavers.join(', ')}`
+            )
+            const leave_detected_at = Math.floor(Date.now() / 1000)
+            const time_difference_hours = Math.round(
+              (giveaway.end_timestamp - leave_detected_at) / (60 * 60)
             )
 
-            const leavers = oldEntriesForGiveaway.filter(
-              (oldEntry) => !newEntryUsernames.has(oldEntry.username)
-            )
+            for (const leaverUsername of leavers) {
+              if (!giveawayLeavers[leaverUsername]) {
+                giveawayLeavers[leaverUsername] = []
+              }
 
-            if (leavers.length > 0) {
-              hasNewLeavers = true
-              console.log(
-                `🏃‍♂️ Detected ${leavers.length} leavers for: ${
-                  giveaway.link
-                }\n - ${leavers.map((l) => l.username).join(', ')}`
-              )
-              const leave_detected_at = Math.floor(Date.now() / 1000)
-              const time_difference_hours = Math.round(
-                (giveaway.end_timestamp - leave_detected_at) / (60 * 60)
-              )
-              for (const leaver of leavers) {
-                if (!giveawayLeavers[leaver.username]) {
-                  giveawayLeavers[leaver.username] = []
-                }
-                const alreadyExists = giveawayLeavers[leaver.username].some(
-                  (l) =>
-                    l.ga_link === giveaway.link &&
-                    l.joined_at_timestamp === leaver.joined_at
+              const leaverAlreadyRecorded = giveawayLeavers[
+                leaverUsername
+              ].some((l) => l.ga_link === giveaway.link)
+
+              if (!leaverAlreadyRecorded) {
+                // We need to find the original joined_at timestamp.
+                // It must have been in oldEntriesForGiveaway at some point.
+                const oldEntry = oldEntriesForGiveaway.find(
+                  (e) => e.username === leaverUsername
                 )
-                if (!alreadyExists) {
-                  giveawayLeavers[leaver.username].push({
-                    joined_at_timestamp: leaver.joined_at,
+
+                if (oldEntry) {
+                  hasNewLeavers = true
+                  giveawayLeavers[leaverUsername].push({
+                    joined_at_timestamp: oldEntry.joined_at,
                     ga_link: giveaway.link,
                     leave_detected_at,
                     time_difference_hours,
                   })
-                }
-              }
-            }
-
-            const reJoiners = entries.filter(
-              (newEntry) =>
-                !oldEntryUsernames.has(newEntry.username) &&
-                giveawayLeavers[newEntry.username]
-            )
-
-            if (reJoiners.length > 0) {
-              for (const reJoiner of reJoiners) {
-                const leaverRecords = giveawayLeavers[reJoiner.username]
-                if (leaverRecords) {
-                  const initialCount = leaverRecords.length
-                  giveawayLeavers[reJoiner.username] = leaverRecords.filter(
-                    (l) => l.ga_link !== giveaway.link
+                } else {
+                  // This case should ideally not be hit if logic is sound.
+                  // It means a user was a leaver before, but we don't have their original entry info.
+                  // We can't create a new leaver record without joined_at.
+                  console.log(
+                    `- Could not find old entry for leaver ${leaverUsername} in ${giveaway.name}, cannot add to leavers list.`
                   )
-
-                  if (
-                    giveawayLeavers[reJoiner.username].length < initialCount
-                  ) {
-                    hasNewLeavers = true
-                    console.log(
-                      `👍 Detected re-joiner ${reJoiner.username} for: ${giveaway.name}. Removing from leavers list.`
-                    )
-                  }
-
-                  if (giveawayLeavers[reJoiner.username].length === 0) {
-                    delete giveawayLeavers[reJoiner.username]
-                  }
                 }
               }
             }
           }
 
-          console.log(
-            `🔍 Fetched ${entries.length} entries for: ${giveaway.name}`
+          // --- Re-joiner Detection ---
+          const reJoiners = previousLeaversForGiveaway.filter((username) =>
+            currentUsernames.has(username)
           )
-          existingEntries[giveaway.link] = entries
+
+          if (reJoiners.length > 0) {
+            for (const reJoiner of reJoiners) {
+              const initialCount = giveawayLeavers[reJoiner].length
+              giveawayLeavers[reJoiner] = giveawayLeavers[reJoiner].filter(
+                (l) => l.ga_link !== giveaway.link
+              )
+
+              if (giveawayLeavers[reJoiner].length < initialCount) {
+                hasNewLeavers = true //
+                console.log(
+                  `👍 Detected re-joiner ${reJoiner} for: ${giveaway.name}. Removing from leavers list.`
+                )
+              }
+
+              if (giveawayLeavers[reJoiner].length === 0) {
+                delete giveawayLeavers[reJoiner]
+              }
+            }
+          }
+
+          console.log(
+            `🔍 Fetched ${memberEntries.length} entries for: ${giveaway.name}`
+          )
+          existingEntries[giveaway.link] = memberEntries
           giveawaysWithUpdatedEntries++
           await delay(1000)
         }
@@ -167,6 +239,22 @@ export async function generateGiveawaysData(): Promise<void> {
       }
 
       if (hasNewLeavers) {
+        // // Temporary code to filter out non-group members from the leavers list
+        // const allLeaverUsernames = Object.keys(giveawayLeavers)
+        // let nonMembersRemovedCount = 0
+        // for (const username of allLeaverUsernames) {
+        //   if (!groupMemberUsernames.has(username)) {
+        //     delete giveawayLeavers[username]
+        //     nonMembersRemovedCount++
+        //   }
+        // }
+        // if (nonMembersRemovedCount > 0) {
+        //   console.log(
+        //     `🧹 Removed ${nonMembersRemovedCount} non-group members from the leavers list.`
+        //   )
+        // }
+        // // End of temporary code
+
         mkdirSync(dirname(investigationFilename), { recursive: true })
         writeFileSync(
           investigationFilename,

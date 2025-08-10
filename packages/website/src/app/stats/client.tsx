@@ -101,19 +101,20 @@ export default function Client({ giveaways, lastUpdated }: Props) {
                           {user.username}
                         </Link>
                         <Tooltip
-                          content={`Detected at: ${getFullDate(
+                          content={`Detected at: ${leaver.time_difference_hours < 0 ? 'This was detected after the giveaway ended so there is no way to know when they left.' : getFullDate(
                             leaver.leave_detected_at
                           )}`}
                         >
                           <p
                             className={
+                              leaver.time_difference_hours < 0 ? 'text-muted font-bold' :
                               leaver.time_difference_hours < 24
                                 ? 'text-red-500 font-bold'
                                 : leaver.time_difference_hours < 48
                                   ? 'text-yellow-500 font-bold'
                                   : 'text-green-500 font-bold'
                             }>
-                            {leaver.time_difference_hours}h
+                            {leaver.time_difference_hours < 0 ? '?' : leaver.time_difference_hours}h
                           </p>
                         </Tooltip>
                       </div>

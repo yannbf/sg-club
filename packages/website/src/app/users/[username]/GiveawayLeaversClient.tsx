@@ -36,22 +36,22 @@ export default function GiveawayLeaversClient({ leavers }: Props) {
                       href={`https://steamgifts.com/giveaway/${leaver.ga_link}`}
                       className="text-blue-500 hover:underline"
                     >
-                      {leaver.giveaway.name} ({leaver.giveaway.points}) {(leaver.giveaway.is_shared || leaver.giveaway.whitelist || leaver.giveaway.cv_status !== 'FULL_CV') && <span className="text-sm text-red-500 font-medium">**</span> }
+                      {leaver.giveaway.name} ({leaver.giveaway.points}) {(leaver.giveaway.is_shared || leaver.giveaway.whitelist || leaver.giveaway.cv_status !== 'FULL_CV') && <span className="text-sm text-red-500 font-medium">**</span>}
                     </Link>
                   </h2>
                   <Tooltip
-                    content={`Detected at: ${getFullDate(
+                    content={`Detected at: ${leaver.time_difference_hours < 0 ? 'This was detected after the giveaway ended so there is no way to know when they left.' : getFullDate(
                       leaver.leave_detected_at
                     )}`}
                   >
                     <p className="text-sm">
-                      <span className={`mr-1 ${leaver.time_difference_hours < 24
+                      <span className={`mr-1 ${leaver.time_difference_hours < 0 ? 'text-muted-500 font-medium' : leaver.time_difference_hours < 24
                         ? 'text-red-500 font-medium'
                         : leaver.time_difference_hours < 48
                           ? 'text-yellow-500 font-medium'
                           : 'text-green-500 font-medium'
                         }`}>
-                        {leaver.time_difference_hours}h
+                        {leaver.time_difference_hours < 0 ? '?' : leaver.time_difference_hours}h
                       </span>
                       before end date
                     </p>
