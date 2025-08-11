@@ -143,7 +143,7 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData, 
               const hasPotentiallyCompletedMainStory = game.steam_play_data?.playtime_minutes && game.steam_play_data?.playtime_minutes >= (gameData?.hltb_main_story_hours || 0) * 0.9 * 60
               const hasOver15HoursPlaytime = game.steam_play_data?.playtime_minutes && game.steam_play_data?.playtime_minutes >= 15 * 60
 
-              const needsReview = game.required_play && !game.required_play_meta?.requirements_met && (hasHalfAchievements || hasPotentiallyCompletedMainStory || hasOver15HoursPlaytime)
+              const needsReview = !!(game.required_play && !game.required_play_meta?.requirements_met && (hasHalfAchievements || hasPotentiallyCompletedMainStory || hasOver15HoursPlaytime))
 
               return (
                 <div key={index} className="border border-card-border rounded-lg overflow-hidden">
