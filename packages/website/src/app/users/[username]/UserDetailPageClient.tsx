@@ -43,7 +43,7 @@ export const generateWarningMessage = (
 ) => {
   if (!user.warnings || user.warnings.length === 0) return ''
 
-  let messages = [`Hi ${user.username}, this is a notice from The Giveaways Club.`]
+  const messages = [`Hi ${user.username}, this is a notice from The Giveaways Club.`]
   const enteredGiveawaysWithData = enteredGiveawayData
     .map((g) => giveaways.find((ga) => ga.link === g.link))
     .filter((g): g is Giveaway => g !== undefined)
