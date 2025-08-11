@@ -13,8 +13,9 @@ import CountryFlag from '@/components/CountryFlag'
 import { LastUpdated } from '@/components/LastUpdated'
 import GiveawayLeaversClient from './GiveawayLeaversClient'
 import { GiveawayLeaver } from '@/types/stats'
-import { UnplayedGamesStats } from '@/components/UnplayedGamesStats'
+import { getUnplayedGamesStats, UnplayedGamesStats } from '@/components/UnplayedGamesStats'
 import Tooltip from '@/components/Tooltip'
+import { getDeadlineData } from '@/components/DeadlineStatus'
 
 interface Props {
   user: User
@@ -29,6 +30,105 @@ interface Props {
 type UserWarning = {
   description: string
   severity: 'problem' | 'warning' | 'info'
+}
+
+const getLink = (link: string) => {
+  return `https://www.steamgifts.com/giveaway/${link}`
+}
+
+export const generateWarningMessage = (
+  user: User,
+  enteredGiveawayData: UserEntry[string],
+  giveaways: Giveaway[],
+) => {
+  if (!user.warnings || user.warnings.length === 0) return ''
+
+  let messages = [`Hi ${user.username}, this is a notice from The Giveaways Club.`]
+  const enteredGiveawaysWithData = enteredGiveawayData
+    .map((g) => giveaways.find((ga) => ga.link === g.link))
+    .filter((g): g is Giveaway => g !== undefined)
+
+  if (user.warnings.includes('unplayed_required_play_giveaways')) {
+    messages.push(
+      'Please keep track of your PLAY REQUIRED giveaways. As per the rules, you are not allowed to enter any more play required giveaways if you have 2 unfulfilled wins:',
+    )
+    const unplayedRequired =
+      user.giveaways_won?.filter(
+        (g) => g.required_play && !g.required_play_meta?.requirements_met,
+      ) || []
+
+    unplayedRequired.sort((a, b) => a.end_timestamp - b.end_timestamp)
+
+
+    const unplayedText = unplayedRequired
+      .map((g) => {
+        const { daysRemaining, deadlineDate } = getDeadlineData(
+          g.end_timestamp,
+          g.required_play_meta?.deadline_in_months,
+        )
+
+        const formatter = new Intl.DateTimeFormat('en-US', { 
+          day: 'numeric',
+          month: 'long', 
+          year: 'numeric'
+        });
+        const formattedDate = formatter.format(deadlineDate);
+        return `${getLink(
+          g.link,
+        )} (${daysRemaining} days remaining for requirements: ${formattedDate})`
+      })
+      .join('\n')
+
+    messages.push(unplayedText)
+  }
+
+  if (user.warnings.includes('illegal_entered_required_play_giveaways')) {
+    const giveawaysToLeave = enteredGiveawaysWithData.filter(
+      (g) => g.required_play && g.end_timestamp > Date.now() / 1000,
+    )
+    const toLeaveText = giveawaysToLeave.map((g) => getLink(g.link)).join('\n')
+
+    messages.push(`Please leave the following giveaways:
+${toLeaveText}`)
+  } else if (user.warnings.includes('illegal_entered_any_giveaways')) {
+    const giveawaysToLeave = enteredGiveawaysWithData.filter(
+      (g) => g.end_timestamp > Date.now() / 1000,
+    )
+    const toLeaveText = giveawaysToLeave.map((g) => getLink(g.link)).join('\n')
+
+    messages.push(`Additionally, you are not allowed to enter **any** additional giveaways if you have 3 unfulfilled. Please leave the following giveaways:
+${toLeaveText}`)
+  }
+
+  const unplayedGamesStats = getUnplayedGamesStats(user)
+  const hasLowPlayRate = unplayedGamesStats.percentage < 33
+
+  if (hasLowPlayRate) {
+    messages.push(
+      `Also do note that you have relatively low play rate within this group (${unplayedGamesStats.percentage}% - ${unplayedGamesStats.played} out of ${unplayedGamesStats.total} wins). While we don't require a 1:1 in this group, we are more stringent on ratios for lower play rate members.`,
+    )
+  }
+
+  return messages.join('\n\n')
+}
+
+const CopyButton = ({ onClick }: { onClick: () => void }) => {
+  const [isCopied, setIsCopied] = useState(false)
+
+  const handleClick = async () => {
+    await onClick()
+    setIsCopied(true)
+    setTimeout(() => setIsCopied(false), 2000)
+  }
+
+  return (
+    <button
+      onClick={handleClick}
+      className="text-xs text-accent hover:text-accent-hover transition-colors"
+    >
+      {isCopied ? 'Copied!' : 'Copy Message'}
+    </button>
+  )
 }
 
 export const getWarningsSeverity = (warnings: string[]): 'problem' | 'warning' | 'info' => {
@@ -126,6 +226,17 @@ export default function UserDetailPageClient({ user, allUsers, giveaways, gameDa
   const createdGiveaways = user.giveaways_created ? Object.values(user.giveaways_created).length : 0
   const ongoingGiveaways = user.giveaways_created ? Object.values(user.giveaways_created).filter(ga => ga.end_timestamp > Date.now() / 1000).length : 0
 
+  const handleCopyWarningMessage = async () => {
+    const message = generateWarningMessage(user, userEntries?.[user.username] ?? [], giveaways);
+    if (message) {
+      try {
+        await navigator.clipboard.writeText(message);
+      } catch (err) {
+        alert(`Failed to copy message: ${String(err)}`);
+      }
+    }
+  };
+
   return (
     <div className="space-y-8">
       {lastUpdated && (
@@ -195,7 +306,10 @@ export default function UserDetailPageClient({ user, allUsers, giveaways, gameDa
 
       {user.warnings?.length && (
         <div className={`bg-card-background rounded-lg border-${getWarningsSeverity(user.warnings)} border p-4`}>
-          <h3 className="text-sm font-semibold mb-3">⚠️ Needs attention</h3>
+          <div className="flex justify-between items-center mb-3">
+            <h3 className="text-sm font-semibold">⚠️ Needs attention</h3>
+            {getWarningsSeverity(user.warnings) !== 'info' && <CopyButton onClick={handleCopyWarningMessage} />}
+          </div>
           <ul className="list-disc list-inside text-sm text-muted-foreground">
             {user.warnings.map((warning) => (
               <li key={warning}>{warningToMessageMap[warning].description ?? warning}</li>

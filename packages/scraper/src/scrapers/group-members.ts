@@ -562,7 +562,7 @@ export class SteamGiftsUserFetcher {
     let noStatsAvailableCount = 0
 
     // Calculate timestamp for 2 months ago (60 days)
-    const twoMonthsAgo = Date.now() / 1000 - 60 * 24 * 60 * 60
+    const twoMonthsAgo = Date.now() / 1000 - 2 * 30 * 24 * 60 * 60
 
     const usersToUpdate = Array.from(users.values()).filter((u) => u.steam_id)
     const totalUsers = usersToUpdate.length

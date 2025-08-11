@@ -13,12 +13,7 @@ export const DeadlineStatus: React.FC<DeadlineStatusProps> = ({
   deadlineInMonths = 2,
   tagLabel,
 }) => {
-  const deadlineDate = new Date(endTimestamp * 1000);
-  deadlineDate.setMonth(deadlineDate.getMonth() + (deadlineInMonths === 0 ? 2 : deadlineInMonths));
-
-  const now = Date.now();
-  const msRemaining = deadlineDate.getTime() - now;
-  const daysRemaining = Math.floor(msRemaining / (1000 * 60 * 60 * 24));
+  const { daysRemaining, deadlineDate } = getDeadlineData(endTimestamp, deadlineInMonths);
 
   const isExpired = daysRemaining < 0;
   const isCloseToExpiring = daysRemaining <= 15;
@@ -42,3 +37,13 @@ export const DeadlineStatus: React.FC<DeadlineStatusProps> = ({
     </Tooltip>
   );
 };
+
+export const getDeadlineData = (endTimestamp: number, deadlineInMonths = 2) => {
+  const deadlineDate = new Date(endTimestamp * 1000);
+  deadlineDate.setMonth(deadlineDate.getMonth() + (deadlineInMonths === 0 ? 2 : deadlineInMonths));
+
+  const now = Date.now();
+  const msRemaining = deadlineDate.getTime() - now;
+  const daysRemaining = Math.floor(msRemaining / (1000 * 60 * 60 * 24));
+  return { daysRemaining, deadlineDate };
+}

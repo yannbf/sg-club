@@ -11,7 +11,7 @@ export const getUnplayedGamesStats = (user: User) => {
   return {
     played,
     total,
-    percentage: total > 0 ? (played / total) * 100 : 0
+    percentage: Math.round(total > 0 ? (played / total) * 100 : 0)
   }
 }
 

@@ -386,7 +386,7 @@ export class SteamGiftsHTMLScraper {
       // Both timestamps exist, check if no_value_timestamp is earlier than compareTimestamp
       if (bundleGame.no_value_timestamp! < compareTimestamp) {
         console.log(
-          `❌ ${giveaway.name} -> NO_CV (no value timestamp earlier than ${
+          `0️⃣ ${giveaway.name} -> NO_CV (no value timestamp earlier than ${
             useEndTimestamp ? 'end' : 'creation'
           })`
         )
