@@ -126,7 +126,7 @@ describe('generateWarningMessage', () => {
     expect(generateWarningMessage(user, [], [])).toBe('')
   })
 
-  it('should generate a message for unplayed required play giveaways', () => {
+  it('should generate a message for unplayed_required_play_giveaways', () => {
     const user: User = {
       ...baseUser,
       warnings: ['unplayed_required_play_giveaways'],
@@ -138,10 +138,14 @@ describe('generateWarningMessage', () => {
     expect(generateWarningMessage(user, [], [])).toMatchInlineSnapshot(`
       "Hi JohnDoe, this is a notice from The Giveaways Club.
 
-      Please keep track of your PLAY REQUIRED giveaways. As per the rules, you are not allowed to enter any more play required giveaways if you have 2 unfulfilled wins:
+      Please keep track of your PLAY REQUIRED giveaways. As per the rules, you are not allowed to enter any more PLAY REQUIRED giveaways if you have 2 unfulfilled PLAY REQUIRED wins:
 
       https://www.steamgifts.com/giveaway/abcde/test-game (61 days remaining for requirements: October 11, 2025)
       https://www.steamgifts.com/giveaway/fghij/some-other-game (61 days remaining for requirements: October 11, 2025)
+
+      Please note the individual requirements for each giveaway won. If none are specified, then by default, we expect the game to be added into active rotation prior to the deadline.
+
+      Please fulfill the giveaway requirements prior to joining any additional PLAY REQUIRED giveaways.
 
       Also do note that you have relatively low play rate within this group (0% - 0 out of 2 wins). While we don't require a 1:1 in this group, we are more stringent on ratios for lower play rate members."
     `)
@@ -172,10 +176,12 @@ describe('generateWarningMessage', () => {
     }] as any)).toMatchInlineSnapshot(`
       "Hi JohnDoe, this is a notice from The Giveaways Club.
 
-      Please keep track of your PLAY REQUIRED giveaways. As per the rules, you are not allowed to enter any more play required giveaways if you have 2 unfulfilled wins:
+      Please keep track of your PLAY REQUIRED giveaways. As per the rules, you are not allowed to enter any more PLAY REQUIRED giveaways if you have 2 unfulfilled PLAY REQUIRED wins:
 
       https://www.steamgifts.com/giveaway/abcde/test-game (61 days remaining for requirements: October 11, 2025)
       https://www.steamgifts.com/giveaway/fghij/some-other-game (61 days remaining for requirements: October 11, 2025)
+
+      Please note the individual requirements for each giveaway won. If none are specified, then by default, we expect the game to be added into active rotation prior to the deadline.
 
       Please leave the following giveaways:
       https://www.steamgifts.com/giveaway/klmno/some-required-play-game
@@ -216,13 +222,17 @@ describe('generateWarningMessage', () => {
     }] as any)).toMatchInlineSnapshot(`
       "Hi JohnDoe, this is a notice from The Giveaways Club.
 
-      Please keep track of your PLAY REQUIRED giveaways. As per the rules, you are not allowed to enter any more play required giveaways if you have 2 unfulfilled wins:
+      Please keep track of your PLAY REQUIRED giveaways. As per the rules, you are not allowed to enter any more PLAY REQUIRED giveaways if you have 2 unfulfilled PLAY REQUIRED wins:
 
       https://www.steamgifts.com/giveaway/abcde/test-game (61 days remaining for requirements: October 11, 2025)
       https://www.steamgifts.com/giveaway/fghij/some-other-game (61 days remaining for requirements: October 11, 2025)
       https://www.steamgifts.com/giveaway/pqrst/yet-another-game (61 days remaining for requirements: October 11, 2025)
 
-      Additionally, you are not allowed to enter **any** additional giveaways if you have 3 unfulfilled. Please leave the following giveaways:
+      Please note the individual requirements for each giveaway won. If none are specified, then by default, we expect the game to be added into active rotation prior to the deadline.
+
+      As it seems that you have more than 2 unfulfilled PLAY REQUIRED wins, you are currently not allowed to enter **any** additional giveaways within the group. Once you are back down to 2 unfulfilled PLAY REQUIRED giveaways, you are allowed to join normal giveaways again but are still barred from joining PLAY REQUIRED until you only have 1 unfulfilled play required giveaway.
+
+      Please leave the following giveaways:
       https://www.steamgifts.com/giveaway/pqrst/some-not-required-play-game
 
       Also do note that you have relatively low play rate within this group (20% - 1 out of 5 wins). While we don't require a 1:1 in this group, we are more stringent on ratios for lower play rate members."

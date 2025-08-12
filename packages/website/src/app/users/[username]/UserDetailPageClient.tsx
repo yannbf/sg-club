@@ -50,7 +50,7 @@ export const generateWarningMessage = (
 
   if (user.warnings.includes('unplayed_required_play_giveaways')) {
     messages.push(
-      'Please keep track of your PLAY REQUIRED giveaways. As per the rules, you are not allowed to enter any more play required giveaways if you have 2 unfulfilled wins:',
+      'Please keep track of your PLAY REQUIRED giveaways. As per the rules, you are not allowed to enter any more PLAY REQUIRED giveaways if you have 2 unfulfilled PLAY REQUIRED wins:',
     )
     const unplayedRequired =
       user.giveaways_won?.filter(
@@ -67,9 +67,9 @@ export const generateWarningMessage = (
           g.required_play_meta?.deadline_in_months,
         )
 
-        const formatter = new Intl.DateTimeFormat('en-US', { 
+        const formatter = new Intl.DateTimeFormat('en-US', {
           day: 'numeric',
-          month: 'long', 
+          month: 'long',
           year: 'numeric'
         });
         const formattedDate = formatter.format(deadlineDate);
@@ -80,6 +80,11 @@ export const generateWarningMessage = (
       .join('\n')
 
     messages.push(unplayedText)
+    messages.push('Please note the individual requirements for each giveaway won. If none are specified, then by default, we expect the game to be added into active rotation prior to the deadline.')
+
+    if (!user.warnings.includes('illegal_entered_required_play_giveaways') && !user.warnings.includes('illegal_entered_any_giveaways')) {
+      messages.push('Please fulfill the giveaway requirements prior to joining any additional PLAY REQUIRED giveaways.')
+    }
   }
 
   if (user.warnings.includes('illegal_entered_required_play_giveaways')) {
@@ -96,8 +101,9 @@ ${toLeaveText}`)
     )
     const toLeaveText = giveawaysToLeave.map((g) => getLink(g.link)).join('\n')
 
-    messages.push(`Additionally, you are not allowed to enter **any** additional giveaways if you have 3 unfulfilled. Please leave the following giveaways:
-${toLeaveText}`)
+    messages.push('As it seems that you have more than 2 unfulfilled PLAY REQUIRED wins, you are currently not allowed to enter **any** additional giveaways within the group. Once you are back down to 2 unfulfilled PLAY REQUIRED giveaways, you are allowed to join normal giveaways again but are still barred from joining PLAY REQUIRED until you only have 1 unfulfilled play required giveaway.');
+
+    messages.push(`Please leave the following giveaways:\n${toLeaveText}`)
   }
 
   const unplayedGamesStats = getUnplayedGamesStats(user)
