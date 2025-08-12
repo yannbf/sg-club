@@ -420,10 +420,7 @@ export class SteamGiftsHTMLScraper {
 
     // Check if play is required by looking for text in the description
     const description = $('.page__description').text().trim()
-    const required_play =
-      description.includes('PLAY REQUIRED') ||
-      description.toLowerCase().includes('play within') ||
-      description.toLowerCase().includes('Playing is mandatory')
+    const required_play = description.includes('PLAY REQUIRED')
 
     let event_type = undefined
     if (description.includes('RPG AUGUST')) {
