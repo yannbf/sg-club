@@ -624,15 +624,15 @@ export class SteamGiftsUserFetcher {
         }
 
         try {
-          // Skip if the game has no stats available and was checked within the last 2 weeks
+          // Skip if the game has no stats available and was checked within the last 2 days
           if (
             wonGame.steam_play_data?.has_no_available_stats &&
             wonGame.steam_play_data?.last_checked &&
             Date.now() - wonGame.steam_play_data.last_checked <
-              14 * 24 * 60 * 60 * 1000
+              2 * 24 * 60 * 60 * 1000
           ) {
             console.log(
-              `⚠️  Skipping ${username}: ${wonGame.name} (no stats available and checked within the last 2 weeks)`
+              `⚠️  Skipping ${username}: ${wonGame.name} (no stats available and checked within the last 2 days)`
             )
             noStatsAvailableCount++
             continue
