@@ -193,6 +193,7 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData, 
                                 <DeadlineStatus
                                   endTimestamp={game.end_timestamp}
                                   deadlineInMonths={game.required_play_meta.deadline_in_months}
+                                  deadline={game.required_play_meta.deadline}
                                   tagLabel="PReq"
                                 />
                               )}

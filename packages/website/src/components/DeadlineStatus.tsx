@@ -1,19 +1,22 @@
 import React from "react";
 import Tooltip from "./Tooltip";
 import { getFullDate } from "./FormattedDate";
+import { addMonths, differenceInDays, fromUnixTime, parse } from "date-fns";
 
 type DeadlineStatusProps = {
   endTimestamp: number;           // Unix timestamp in seconds
   deadlineInMonths?: number;     // Defaults to 2 months if not provided
   tagLabel: string;              // e.g., 'PReq' or 'IpBro'
+  deadline?: string;             // e.g., '31.12.2025'
 };
 
 export const DeadlineStatus: React.FC<DeadlineStatusProps> = ({
   endTimestamp,
   deadlineInMonths = 2,
   tagLabel,
+  deadline,
 }) => {
-  const { daysRemaining, deadlineDate } = getDeadlineData(endTimestamp, deadlineInMonths);
+  const { daysRemaining, deadlineDate } = getDeadlineData(endTimestamp, deadlineInMonths, deadline);
 
   const isExpired = daysRemaining < 0;
   const isCloseToExpiring = daysRemaining <= 15;
@@ -38,12 +41,16 @@ export const DeadlineStatus: React.FC<DeadlineStatusProps> = ({
   );
 };
 
-export const getDeadlineData = (endTimestamp: number, deadlineInMonths = 2) => {
-  const deadlineDate = new Date(endTimestamp * 1000);
-  deadlineDate.setMonth(deadlineDate.getMonth() + (deadlineInMonths === 0 ? 2 : deadlineInMonths));
+export const getDeadlineData = (endTimestamp: number, deadlineInMonths = 2, deadline?: string) => {
+  if (deadline) {
+    const deadlineDate = parse(deadline, 'dd.MM.yyyy', new Date());
+    const now = new Date();
+    const daysRemaining = differenceInDays(deadlineDate, now);
+    return { daysRemaining, deadlineDate };
+  }
 
-  const now = Date.now();
-  const msRemaining = deadlineDate.getTime() - now;
-  const daysRemaining = Math.floor(msRemaining / (1000 * 60 * 60 * 24));
+  const deadlineDate = addMonths(fromUnixTime(endTimestamp), deadlineInMonths === 0 ? 2 : deadlineInMonths);
+  const now = new Date();
+  const daysRemaining = differenceInDays(deadlineDate, now);
   return { daysRemaining, deadlineDate };
 }
