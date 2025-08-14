@@ -61,23 +61,6 @@ export async function generateGiveawaysData(): Promise<void> {
         console.log('📄 No existing entries file found, starting fresh')
       }
 
-      // Temporary code to filter out non-group members from existing entries
-      let nonMemberEntriesRemovedCount = 0
-      for (const gaLink in existingEntries) {
-        const originalCount = existingEntries[gaLink].length
-        existingEntries[gaLink] = existingEntries[gaLink].filter((entry) =>
-          groupMemberUsernames.has(entry.username)
-        )
-        nonMemberEntriesRemovedCount +=
-          originalCount - existingEntries[gaLink].length
-      }
-      if (nonMemberEntriesRemovedCount > 0) {
-        console.log(
-          `🧹 Removed ${nonMemberEntriesRemovedCount} non-group member entries from the existing entries list.`
-        )
-      }
-      // End of temporary code
-
       let giveawayLeavers: Record<
         string,
         {

@@ -183,7 +183,7 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData, 
                             </span>
                             <span className="text-xs text-muted-foreground">
                               Won <FormattedDate timestamp={game.end_timestamp} />
-                              {!game.required_play && !game.i_played_bro && game.cv_status === 'FULL_CV' && (
+                              {!game.i_played_bro && game.cv_status === 'FULL_CV' && (
                                 <DeadlineStatus
                                   endTimestamp={game.end_timestamp}
                                   tagLabel="IpBro"
