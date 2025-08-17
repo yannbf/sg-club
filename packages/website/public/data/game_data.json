@@ -6505,8 +6505,8 @@
     "name": "OFF",
     "app_id": 3339880,
     "package_id": null,
-    "price_usd_full": 0,
-    "price_usd_reduced": 0,
+    "price_usd_full": 1499,
+    "price_usd_reduced": 225,
     "needs_manual_update": false,
     "hltb_main_story_hours": null
   },
@@ -7238,7 +7238,8 @@
     "price_usd_full": null,
     "price_usd_reduced": null,
     "needs_manual_update": true,
-    "hltb_main_story_hours": null
+    "hltb_main_story_hours": null,
+    "app_id_for_package_id": 585420
   },
   {
     "name": "Missile Command: Recharged",
@@ -7500,5 +7501,50 @@
     "price_usd_reduced": 300,
     "needs_manual_update": false,
     "hltb_main_story_hours": 5
+  },
+  {
+    "name": "Oberty",
+    "app_id": 2469570,
+    "package_id": null,
+    "price_usd_full": 299,
+    "price_usd_reduced": 45,
+    "needs_manual_update": false,
+    "hltb_main_story_hours": null
+  },
+  {
+    "name": "ENDER MAGNOLIA: Bloom in the Mist",
+    "app_id": 2725260,
+    "package_id": null,
+    "price_usd_full": 2499,
+    "price_usd_reduced": 375,
+    "needs_manual_update": false,
+    "hltb_main_story_hours": 16
+  },
+  {
+    "name": "Methods: The Canada Files",
+    "app_id": 2063530,
+    "package_id": null,
+    "price_usd_full": 1499,
+    "price_usd_reduced": 225,
+    "needs_manual_update": false,
+    "hltb_main_story_hours": null
+  },
+  {
+    "name": "Haven",
+    "app_id": 983970,
+    "package_id": null,
+    "price_usd_full": 2499,
+    "price_usd_reduced": 375,
+    "needs_manual_update": false,
+    "hltb_main_story_hours": 10.5
+  },
+  {
+    "name": "Bud Spencer & Terence Hill - Slaps And Beans",
+    "app_id": 564050,
+    "package_id": null,
+    "price_usd_full": 1499,
+    "price_usd_reduced": 225,
+    "needs_manual_update": false,
+    "hltb_main_story_hours": 3.5
   }
 ]
