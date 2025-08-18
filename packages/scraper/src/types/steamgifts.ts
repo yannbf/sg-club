@@ -65,6 +65,7 @@ export interface User {
   country_code?: string | null
   stats: UserGiveawaysStats
   warnings?: string[]
+  left_at_timestamp?: number
   giveaways_won?: Array<{
     name: string
     link: string
@@ -111,6 +112,11 @@ export interface User {
 export interface UserGroupData {
   lastUpdated: number
   users: Record<string, User>
+}
+
+export interface ExMemberData {
+  lastUpdated: number
+  users: User[]
 }
 
 export interface UserStats {

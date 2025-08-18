@@ -744,10 +744,12 @@ export class SteamGiftsUserFetcher {
               const giveawayId = giveaway.link.split('/')[0]
               const pointsDataEntries = pointsMap.get(giveawayId) || []
               // Find the specific entry for this winner
-              const pointsData = pointsDataEntries.find(
-                (entry) =>
-                  entry.winner?.toLowerCase() === username.toLowerCase()
-              )
+              const pointsData = pointsDataEntries.find((entry) => {
+                return (
+                  entry.winner?.toLowerCase().trim() ===
+                  username.toLowerCase().trim()
+                )
+              })
 
               // using this to debug, running via generate-members-data script
               if (process.env.DEBUG === 'true') {
@@ -1105,20 +1107,50 @@ export class SteamGiftsUserFetcher {
       }
 
       // Remove users who are no longer in the group
-      const removedUsers: string[] = []
-      for (const [username] of existingUsers) {
+      const removedUsers: User[] = []
+      for (const [username, user] of existingUsers) {
         if (!currentGroupUsers.has(username)) {
+          const userWithTimestamp = {
+            ...user,
+            left_at_timestamp: Date.now(),
+          }
           existingUsers.delete(username)
-          removedUsers.push(username)
+          removedUsers.push(userWithTimestamp)
         }
       }
 
       if (removedUsers.length > 0) {
         console.log(
-          `🗑️  Removed ${
+          `🗑️  Found ${
             removedUsers.length
-          } users no longer in group: ${removedUsers.join(', ')}`
+          } users no longer in group: ${removedUsers
+            .map((u) => u.username)
+            .join(', ')}`
         )
+        // Save ex-members to a separate file
+        const exMembersFilename = '../website/public/data/ex_members.json'
+        let exMembers: User[] = []
+        if (existsSync(exMembersFilename)) {
+          try {
+            const data = readFileSync(exMembersFilename, 'utf-8')
+            exMembers = JSON.parse(data).users || []
+          } catch (error) {
+            console.warn(`⚠️  Could not load ex-members file: ${error}`)
+          }
+        }
+        // Add new ex-members and remove duplicates
+        const exMembersMap = new Map(exMembers.map((u) => [u.username, u]))
+        removedUsers.forEach((user) => exMembersMap.set(user.username, user))
+        const updatedExMembers = Array.from(exMembersMap.values())
+
+        writeFileSync(
+          exMembersFilename,
+          JSON.stringify({
+            lastUpdated: Date.now(),
+            users: updatedExMembers,
+          })
+        )
+        console.log(`💾 Ex-members saved to ${exMembersFilename}`)
       }
 
       // Augment users with Steam info if they don't have it (skip if env flag is set)
