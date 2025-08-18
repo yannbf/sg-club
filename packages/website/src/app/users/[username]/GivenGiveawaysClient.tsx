@@ -20,7 +20,7 @@ interface Props {
 export default function GivenGiveawaysClient({ giveaways, userAvatars, gameData }: Props) {
   const { getGameData } = useGameData(gameData)
   const [sortBy, setSortBy] = useState<'date' | 'entries' | 'points'>('date')
-  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc')
+  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc')
   const [searchTerm, setSearchTerm] = useState('')
   const debouncedSearchTerm = useDebounce(searchTerm, 300)
   const [filterCV, setFilterCV] = useState<'all' | 'FULL_CV' | 'REDUCED_CV' | 'NO_CV' | 'RATIO_VALID'>('all')

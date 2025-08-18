@@ -4,6 +4,7 @@ import { LastUpdated } from '@/components/LastUpdated'
 import UserAvatar from '@/components/UserAvatar'
 import { GameData, Giveaway, User } from '@/types'
 import GameImage from '@/components/GameImage'
+import { getUserRatio } from './users/util'
 
 interface UserRankingProps {
   title: React.ReactNode
@@ -134,9 +135,9 @@ export default async function Home() {
   const totalValueSent = users.reduce((sum, user) => sum + user.stats.total_sent_value, 0)
   const totalValueReceived = users.reduce((sum, user) => sum + user.stats.total_received_value, 0)
 
-  const netContributors = users.filter(user => (user.stats.giveaway_ratio ?? 0) > 0).length
-  const neutralUsers = users.filter(user => (user.stats.giveaway_ratio ?? 0) <= 0 && (user.stats.giveaway_ratio ?? 0) >= -1).length
-  const netReceivers = users.filter(user => (user.stats.giveaway_ratio ?? 0) < -1).length
+  const netContributors = users.filter(user => getUserRatio(user.stats.giveaway_ratio) === 'contributor').length
+  const neutralUsers = users.filter(user => getUserRatio(user.stats.giveaway_ratio) === 'neutral').length
+  const netReceivers = users.filter(user => getUserRatio(user.stats.giveaway_ratio) === 'receiver').length
 
   const userMap = new Map(users.map(u => [u.username, u]))
 

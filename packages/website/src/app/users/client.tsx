@@ -10,6 +10,7 @@ import { LastUpdated } from '@/components/LastUpdated'
 import { getUnplayedGamesStats, UnplayedGamesStats } from '@/components/UnplayedGamesStats'
 import { getWarningsSeverity } from './[username]/UserDetailPageClient'
 import Tooltip from '@/components/Tooltip'
+import { getUserRatio } from './util'
 
 interface Props {
   users: User[]
@@ -58,9 +59,9 @@ export default function UsersClient({ users, lastUpdated }: Props) {
       const ratio = user.stats.giveaway_ratio ?? 0;
       const userFlags = {
         warnings: (user.warnings?.length ?? 0) > 0,
-        contributors: ratio > 0,
-        receivers: ratio < -1,
-        neutral: ratio <= 0 && ratio >= -1,
+        contributors: getUserRatio(ratio) === 'contributor',
+        receivers: getUserRatio(ratio) === 'receiver',
+        neutral: getUserRatio(ratio) === 'neutral',
       };
 
       const matchesTags = activeFilterKeys.some(key => userFlags[key]);
@@ -122,13 +123,13 @@ export default function UsersClient({ users, lastUpdated }: Props) {
   }, [users, searchTerm, sortBy, filterTags, showOnlySteam, sortDirection])
 
   const getUserTypeBadge = (user: User) => {
-    const ratio = user.stats.giveaway_ratio ?? 0
-    if (ratio > 0) {
-      return <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-success-light text-success-foreground">Net Contributor</span>
-    } else if (ratio < -1) {
-      return <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-error-light text-error-foreground">Net Receiver</span>
-    } else {
-      return <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-info-light text-info-foreground">Neutral</span>
+    switch(getUserRatio(user.stats.giveaway_ratio)) {
+      case 'contributor':
+        return <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-success-light text-success-foreground">Net Contributor</span>
+      case 'receiver':
+        return <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-error-light text-error-foreground">Net Receiver</span>
+      default:
+        return <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-info-light text-info-foreground">Neutral</span>
     }
   }
 
@@ -353,8 +354,8 @@ export default function UsersClient({ users, lastUpdated }: Props) {
                 </div>
 
                 <div className="text-center pt-3 border-t border-card-border">
-                  <div className={`text-lg font-medium ${(user.stats.giveaway_ratio ?? 0) > 0 ? 'text-success-foreground' :
-                    (user.stats.giveaway_ratio ?? 0) < -1 ? 'text-error-foreground' :
+                  <div className={`text-lg font-medium ${getUserRatio(user.stats.giveaway_ratio) === 'contributor' ? 'text-success-foreground' :
+                    getUserRatio(user.stats.giveaway_ratio) === 'receiver' ? 'text-error-foreground' :
                       'text-muted-foreground'
                     }`}>
                     {(user.stats.giveaway_ratio ?? 0).toFixed(2)}

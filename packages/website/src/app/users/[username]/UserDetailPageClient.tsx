@@ -16,6 +16,7 @@ import { GiveawayLeaver } from '@/types/stats'
 import { getUnplayedGamesStats, UnplayedGamesStats } from '@/components/UnplayedGamesStats'
 import Tooltip from '@/components/Tooltip'
 import { getDeadlineData } from '@/components/DeadlineStatus'
+import { getUserRatio } from '../util'
 
 interface Props {
   user: User
@@ -196,13 +197,13 @@ export default function UserDetailPageClient({ user, allUsers, giveaways, gameDa
   )
 
   const getUserTypeIcon = () => {
-    const ratio = user.stats.giveaway_ratio ?? 0
-    if (ratio > 0) {
-      return { icon: '📈', label: 'Net Contributor', color: 'text-success-foreground' }
-    } else if (ratio < -1) {
-      return { icon: '📉', label: 'Net Receiver', color: 'text-error-foreground' }
-    } else {
-      return { icon: '➖', label: 'Neutral', color: 'text-muted-foreground' }
+    switch(getUserRatio(user.stats.giveaway_ratio)) {
+      case 'contributor':
+        return { icon: '📈', label: 'Net Contributor', color: 'text-success-foreground' }
+      case 'receiver':
+        return { icon: '📉', label: 'Net Receiver', color: 'text-error-foreground' }
+      default:
+        return { icon: '➖', label: 'Neutral', color: 'text-muted-foreground' }
     }
   }
 
