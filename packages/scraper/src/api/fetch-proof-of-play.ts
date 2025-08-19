@@ -205,11 +205,13 @@ export class GiveawayPointsManager {
     row: PlayRequirementRow
   ): PlayRequirementData {
     let data: PlayRequirementData = {
-      id: row.ID,
-      game: row.GAME,
-      winner: row.WINNER,
-      playRequirementsMet: row['PLAY REQUIREMENTS MET'].toUpperCase() === 'YES',
-      ignoreRequirements: row['PLAY REQUIREMENTS MET'].toUpperCase() === 'NA',
+      id: row.ID.trim(),
+      game: row.GAME.trim(),
+      winner: row.WINNER.trim(),
+      playRequirementsMet:
+        row['PLAY REQUIREMENTS MET'].trim().toUpperCase() === 'YES',
+      ignoreRequirements:
+        row['PLAY REQUIREMENTS MET'].trim().toUpperCase() === 'NA',
       deadline: undefined,
       deadlineInMonths: 2,
       additionalNotes: undefined,
