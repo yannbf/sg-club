@@ -781,6 +781,7 @@ export class SteamGiftsUserFetcher {
                   pointsData.playRequirements &&
                   !pointsData.playRequirements.ignoreRequirements
                 ) {
+                  giveawayData.required_play = true
                   giveawayData.required_play_meta = {
                     requirements_met:
                       pointsData.playRequirements.playRequirementsMet ?? false,
@@ -1145,10 +1146,14 @@ export class SteamGiftsUserFetcher {
 
         writeFileSync(
           exMembersFilename,
-          JSON.stringify({
-            lastUpdated: Date.now(),
-            users: updatedExMembers,
-          })
+          JSON.stringify(
+            {
+              lastUpdated: Date.now(),
+              users: updatedExMembers,
+            },
+            null,
+            2
+          )
         )
         console.log(`💾 Ex-members saved to ${exMembersFilename}`)
       }
