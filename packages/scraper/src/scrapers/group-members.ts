@@ -613,7 +613,10 @@ export class SteamGiftsUserFetcher {
         if (!giveaway?.app_id && !giveaway?.package_id) continue
 
         // Only check Steam data for giveaways that ended within the last 2 months
-        if (wonGame.end_timestamp < twoMonthsAgo) {
+        if (
+          process.env.FETCH_ALL_STEAM_DATA === 'true' ||
+          wonGame.end_timestamp < twoMonthsAgo
+        ) {
           steamSkippedCount++
           console.log(
             `⏭️  Skipping ${username}: ${wonGame.name} (ended ${Math.floor(
