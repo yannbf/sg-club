@@ -84,7 +84,7 @@ export default async function UserDetailPage(
         }
         : undefined,
     };
-  });
+  }).filter(id => !!id.giveaway);
 
   // Convert gameData from object to array
   const gameData = Object.entries(gameDataObj).map(([, data]) => data)
