@@ -99,7 +99,7 @@ export class SteamGameChecker {
   }
 
   private async getOwnedGames(steamId: string): Promise<SteamGameInfo[]> {
-    const endpoint = `/IPlayerService/GetOwnedGames/v0001/?key=${this.apiKey}&steamid=${steamId}&format=json&include_appinfo=1&include_played_free_games=1`
+    const endpoint = `/IPlayerService/GetOwnedGames/v0001/?key=${this.apiKey}&steamid=${steamId}&format=json&include_appinfo=1&include_played_free_games=0`
 
     try {
       const data: OwnedGamesResponse = await this.fetchSteamAPI(endpoint)
