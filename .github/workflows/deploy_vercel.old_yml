@@ -1,0 +1,16 @@
+name: Update Website Data
+
+on:
+  schedule:
+    # Run every 8 hours at 00:00 and 12:00 UTC
+    - cron: '0 0,8 * * *'
+  workflow_dispatch: # Allow manual triggering
+
+jobs:
+  trigger-vercel-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Trigger Vercel Deploy Hook
+        run: |
+          curl -X POST "${{ secrets.VERCEL_DEPLOY_HOOK_URL }}"

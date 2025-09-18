@@ -7,10 +7,34 @@ on:
   workflow_dispatch: # Allow manual triggering
 
 jobs:
-  trigger-vercel-deploy:
+  update-data:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Trigger Vercel Deploy Hook
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Update data
+        run: pnpm run data
+
+      - name: Commit and push changes
         run: |
-          curl -X POST "${{ secrets.VERCEL_DEPLOY_HOOK_URL }}"
+          git config --global user.name 'GitHub Action'
+          git config --global user.email 'action@github.com'
+          git add .
+          timestamp=$(date -u +"%Y-%m-%d %H:%M:%S UTC")
+          git commit -m "update data ${timestamp}"
+          git push
