@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1756369729386,
+  "lastUpdated": 1758490931010,
   "users": [
     {
       "username": "thesodaer",
@@ -1090,6 +1090,337 @@
         "required_plays_need_review"
       ],
       "left_at_timestamp": 1756369729385
+    },
+    {
+      "username": "adam1224",
+      "profile_url": "/user/adam1224",
+      "avatar_url": "https://avatars.steamstatic.com/05ebd1c18d1482bff6f8e520c46131760d93d453_medium.jpg",
+      "stats": {
+        "total_sent_count": 2.3,
+        "total_sent_value": 77.98,
+        "total_received_count": 4,
+        "total_received_value": 86.96,
+        "total_gift_difference": -1.7,
+        "total_value_difference": -8.98,
+        "fcv_sent_count": 2,
+        "rcv_sent_count": 0,
+        "ncv_sent_count": 0,
+        "fcv_received_count": 4,
+        "rcv_received_count": 0,
+        "ncv_received_count": 0,
+        "fcv_gift_difference": -2,
+        "real_total_sent_value": 69.98,
+        "real_total_received_value": 86.96,
+        "real_total_value_difference": -16.98,
+        "real_total_sent_count": 2,
+        "real_total_received_count": 4,
+        "real_total_gift_difference": -2,
+        "giveaway_ratio": 1,
+        "shared_sent_count": 1,
+        "shared_received_count": 0,
+        "giveaways_created": 3,
+        "giveaways_with_no_entries": 0,
+        "last_giveaway_created_at": 1755892020,
+        "last_giveaway_won_at": 1754769420,
+        "total_achievements_percentage": 58,
+        "average_achievements_percentage": 48,
+        "real_total_achievements_percentage": 58,
+        "real_average_achievements_percentage": 48,
+        "has_missing_achievements_data": false
+      },
+      "steam_id": "76561198025823574",
+      "steam_profile_url": "https://steamcommunity.com/profiles/76561198025823574",
+      "steam_profile_is_private": false,
+      "country_code": null,
+      "giveaways_won": [
+        {
+          "name": "DAVE THE DIVER",
+          "link": "Ro40e/dave-the-diver",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1754769420,
+          "required_play": true,
+          "is_shared": false,
+          "steam_play_data": {
+            "owned": true,
+            "playtime_minutes": 4679,
+            "playtime_formatted": "77 hours 59 minutes",
+            "achievements_unlocked": 36,
+            "achievements_total": 43,
+            "achievements_percentage": 83.7,
+            "never_played": false,
+            "is_playtime_private": false,
+            "last_checked": 1756995671003
+          },
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2,
+            "deadline": "31.12.2025"
+          }
+        },
+        {
+          "name": "The Disney Afternoon Collection",
+          "link": "E6FHv/the-disney-afternoon-collection",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1754326800,
+          "required_play": false,
+          "is_shared": false,
+          "steam_play_data": {
+            "owned": true,
+            "playtime_minutes": 199,
+            "playtime_formatted": "3 hours 19 minutes",
+            "achievements_unlocked": 1,
+            "achievements_total": 20,
+            "achievements_percentage": 5,
+            "never_played": false,
+            "is_playtime_private": false,
+            "last_checked": 1756995672216
+          }
+        },
+        {
+          "name": "Vernal Edge",
+          "link": "a9wpl/vernal-edge",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1753898400,
+          "required_play": false,
+          "is_shared": false,
+          "steam_play_data": {
+            "owned": true,
+            "playtime_minutes": 853,
+            "playtime_formatted": "14 hours 13 minutes",
+            "achievements_unlocked": 3,
+            "achievements_total": 16,
+            "achievements_percentage": 18.8,
+            "never_played": false,
+            "is_playtime_private": false,
+            "last_checked": 1756995673417
+          }
+        },
+        {
+          "name": "Stray",
+          "link": "zwLez/stray",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1752762660,
+          "required_play": true,
+          "is_shared": false,
+          "steam_play_data": {
+            "owned": true,
+            "playtime_minutes": 1480,
+            "playtime_formatted": "24 hours 40 minutes",
+            "achievements_unlocked": 20,
+            "achievements_total": 24,
+            "achievements_percentage": 83.3,
+            "never_played": false,
+            "is_playtime_private": false,
+            "last_checked": 1756995674613
+          },
+          "i_played_bro": true,
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2,
+            "deadline": "31.12.2025"
+          }
+        }
+      ],
+      "giveaways_created": [
+        {
+          "name": "Farewell North",
+          "link": "xjofA/farewell-north",
+          "cv_status": "FULL_CV",
+          "entries": 85,
+          "copies": 1,
+          "created_timestamp": 1755892020,
+          "end_timestamp": 1755981840,
+          "required_play": true,
+          "is_shared": true,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline": "31.12.2025",
+            "deadline_in_months": 2
+          },
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "Arthur13",
+              "status": "received",
+              "activated": true
+            }
+          ]
+        },
+        {
+          "name": "Flintlock: The Siege of Dawn",
+          "link": "oIvPC/flintlock-the-siege-of-dawn",
+          "cv_status": "FULL_CV",
+          "entries": 5,
+          "copies": 1,
+          "created_timestamp": 1754282360,
+          "end_timestamp": 1754544840,
+          "required_play": true,
+          "is_shared": false,
+          "i_played_bro": true,
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline": "31.12.2025",
+            "deadline_in_months": 2
+          },
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "herbesdeprovence",
+              "status": "received",
+              "activated": true
+            }
+          ]
+        },
+        {
+          "name": "Stray",
+          "link": "cuDju/stray",
+          "cv_status": "FULL_CV",
+          "entries": 23,
+          "copies": 1,
+          "created_timestamp": 1752777310,
+          "end_timestamp": 1753092000,
+          "required_play": false,
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "mathisgreat",
+              "status": "received",
+              "activated": true
+            }
+          ]
+        }
+      ],
+      "left_at_timestamp": 1758490931010
+    },
+    {
+      "username": "CavWF",
+      "profile_url": "/user/CavWF",
+      "avatar_url": "https://avatars.steamstatic.com/39342ed8ab30cfaaaf31530e5c13ae74bbd8bced_medium.jpg",
+      "stats": {
+        "total_sent_count": 1,
+        "total_sent_value": 29.99,
+        "total_received_count": 0,
+        "total_received_value": 0,
+        "total_gift_difference": 1,
+        "total_value_difference": 29.99,
+        "fcv_sent_count": 1,
+        "rcv_sent_count": 0,
+        "ncv_sent_count": 0,
+        "fcv_received_count": 0,
+        "rcv_received_count": 0,
+        "ncv_received_count": 0,
+        "fcv_gift_difference": 1,
+        "real_total_sent_value": 29.99,
+        "real_total_received_value": 0,
+        "real_total_value_difference": 29.99,
+        "real_total_sent_count": 1,
+        "real_total_received_count": 0,
+        "real_total_gift_difference": 1,
+        "giveaway_ratio": 1,
+        "shared_sent_count": 0,
+        "shared_received_count": 0,
+        "giveaways_created": 1,
+        "giveaways_with_no_entries": 0,
+        "last_giveaway_created_at": 1754403373,
+        "last_giveaway_won_at": null
+      },
+      "steam_id": "76561198039810488",
+      "steam_profile_url": "https://steamcommunity.com/profiles/76561198039810488",
+      "country_code": null,
+      "giveaways_created": [
+        {
+          "name": "Spirit of the North 2",
+          "link": "w9Xn0/spirit-of-the-north-2",
+          "cv_status": "FULL_CV",
+          "entries": 16,
+          "copies": 1,
+          "created_timestamp": 1754403373,
+          "end_timestamp": 1754493240,
+          "required_play": false,
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "Ignition365",
+              "status": "received",
+              "activated": true
+            }
+          ]
+        }
+      ],
+      "left_at_timestamp": 1758490931010
+    },
+    {
+      "username": "TheMuzo",
+      "profile_url": "/user/TheMuzo",
+      "avatar_url": "https://avatars.steamstatic.com/84bc25240184668dd31115251befe4af1077ee80_medium.jpg",
+      "stats": {
+        "total_sent_count": 0,
+        "total_sent_value": 0,
+        "total_received_count": 1,
+        "total_received_value": 24.99,
+        "total_gift_difference": -1,
+        "total_value_difference": -24.99,
+        "fcv_sent_count": 0,
+        "rcv_sent_count": 0,
+        "ncv_sent_count": 0,
+        "fcv_received_count": 1,
+        "rcv_received_count": 0,
+        "ncv_received_count": 0,
+        "fcv_gift_difference": -1,
+        "real_total_sent_value": 0,
+        "real_total_received_value": 24.99,
+        "real_total_value_difference": -24.99,
+        "real_total_sent_count": 0,
+        "real_total_received_count": 1,
+        "real_total_gift_difference": -1,
+        "giveaway_ratio": 0,
+        "shared_sent_count": 0,
+        "shared_received_count": 0,
+        "giveaways_created": 0,
+        "giveaways_with_no_entries": 0,
+        "last_giveaway_created_at": null,
+        "last_giveaway_won_at": 1751801820,
+        "total_achievements_percentage": 54,
+        "average_achievements_percentage": 54,
+        "real_total_achievements_percentage": 54,
+        "real_average_achievements_percentage": 54,
+        "has_missing_achievements_data": false
+      },
+      "steam_id": "76561198037904660",
+      "steam_profile_url": "https://steamcommunity.com/profiles/76561198037904660",
+      "steam_profile_is_private": true,
+      "country_code": null,
+      "giveaways_won": [
+        {
+          "name": "Viewfinder",
+          "link": "cwscV/viewfinder",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1751801820,
+          "required_play": false,
+          "is_shared": false,
+          "steam_play_data": {
+            "owned": true,
+            "playtime_minutes": 294,
+            "playtime_formatted": "4 hours 54 minutes",
+            "achievements_unlocked": 25,
+            "achievements_total": 46,
+            "achievements_percentage": 54.3,
+            "never_played": false,
+            "is_playtime_private": false,
+            "last_checked": 1756567529027
+          },
+          "i_played_bro": true
+        }
+      ],
+      "left_at_timestamp": 1758490931010
     }
   ]
 }
