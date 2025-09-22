@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1758490931010,
+  "lastUpdated": 1758504991558,
   "users": [
     {
       "username": "thesodaer",
@@ -1421,6 +1421,95 @@
         }
       ],
       "left_at_timestamp": 1758490931010
+    },
+    {
+      "username": "Fyoll",
+      "profile_url": "/user/Fyoll",
+      "avatar_url": "https://avatars.steamstatic.com/3865318ce5217f12eb3fae31894eb36e66d1ae77_medium.jpg",
+      "stats": {
+        "total_sent_count": 0,
+        "total_sent_value": 0,
+        "total_received_count": 2,
+        "total_received_value": 30.98,
+        "total_gift_difference": -2,
+        "total_value_difference": -30.98,
+        "fcv_sent_count": 0,
+        "rcv_sent_count": 0,
+        "ncv_sent_count": 0,
+        "fcv_received_count": 2,
+        "rcv_received_count": 0,
+        "ncv_received_count": 0,
+        "fcv_gift_difference": -2,
+        "real_total_sent_value": 0,
+        "real_total_received_value": 30.979999999999997,
+        "real_total_value_difference": -30.98,
+        "real_total_sent_count": 0,
+        "real_total_received_count": 2,
+        "real_total_gift_difference": -2,
+        "giveaway_ratio": -0.6666666666666666,
+        "shared_sent_count": 0,
+        "shared_received_count": 0,
+        "giveaways_created": 0,
+        "giveaways_with_no_entries": 0,
+        "last_giveaway_created_at": null,
+        "last_giveaway_won_at": 1755041280,
+        "total_achievements_percentage": 0,
+        "average_achievements_percentage": 0,
+        "real_total_achievements_percentage": 0,
+        "real_average_achievements_percentage": 0,
+        "has_missing_achievements_data": false
+      },
+      "steam_id": "76561198065202929",
+      "steam_profile_url": "https://steamcommunity.com/profiles/76561198065202929",
+      "steam_profile_is_private": false,
+      "country_code": null,
+      "giveaways_won": [
+        {
+          "name": "Scheming Through The Zombie Apocalyps...",
+          "link": "TrSTv/scheming-through-the-zombie-apocalypse-ep2-caged",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1755041280,
+          "required_play": false,
+          "is_shared": false,
+          "steam_play_data": {
+            "owned": true,
+            "playtime_minutes": 0,
+            "playtime_formatted": "0 minutes",
+            "achievements_unlocked": 0,
+            "achievements_total": 14,
+            "achievements_percentage": 0,
+            "never_played": true,
+            "is_playtime_private": false,
+            "last_checked": 1758491106771
+          }
+        },
+        {
+          "name": "Cryptmaster",
+          "link": "XDifJ/cryptmaster",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1754837340,
+          "required_play": true,
+          "is_shared": false,
+          "steam_play_data": {
+            "owned": true,
+            "playtime_minutes": 0,
+            "playtime_formatted": "0 minutes",
+            "achievements_unlocked": 2,
+            "achievements_total": 28,
+            "achievements_percentage": 7.1,
+            "never_played": false,
+            "is_playtime_private": true,
+            "last_checked": 1758491107879
+          },
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
+          }
+        }
+      ],
+      "left_at_timestamp": 1758504991557
     }
   ]
 }
