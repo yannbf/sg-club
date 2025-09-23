@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1758504991558,
+  "lastUpdated": 1758590994974,
   "users": [
     {
       "username": "thesodaer",
@@ -1510,6 +1510,129 @@
         }
       ],
       "left_at_timestamp": 1758504991557
+    },
+    {
+      "username": "atti",
+      "profile_url": "/user/atti",
+      "avatar_url": "https://avatars.steamstatic.com/6f982210fe9a377fdb74d9a836e4d670f0fd68fc_medium.jpg",
+      "stats": {
+        "total_sent_count": 0,
+        "total_sent_value": 0,
+        "total_received_count": 0,
+        "total_received_value": 0,
+        "total_gift_difference": 0,
+        "total_value_difference": 0,
+        "fcv_sent_count": 0,
+        "rcv_sent_count": 0,
+        "ncv_sent_count": 0,
+        "fcv_received_count": 0,
+        "rcv_received_count": 0,
+        "ncv_received_count": 0,
+        "fcv_gift_difference": 0,
+        "real_total_sent_value": 0,
+        "real_total_received_value": 0,
+        "real_total_value_difference": 0,
+        "real_total_sent_count": 0,
+        "real_total_received_count": 0,
+        "real_total_gift_difference": 0,
+        "giveaway_ratio": 0,
+        "shared_sent_count": 0,
+        "shared_received_count": 0,
+        "giveaways_created": 0,
+        "giveaways_with_no_entries": 0,
+        "last_giveaway_created_at": null,
+        "last_giveaway_won_at": null
+      },
+      "steam_id": "76561198009116714",
+      "steam_profile_url": "https://steamcommunity.com/profiles/76561198009116714",
+      "steam_profile_is_private": false,
+      "country_code": null,
+      "left_at_timestamp": 1758590994973
+    },
+    {
+      "username": "olehsamoilenko",
+      "profile_url": "/user/olehsamoilenko",
+      "avatar_url": "https://avatars.steamstatic.com/cba46dfdf5d89a1ef0e78da7ecac1220fb39749e_medium.jpg",
+      "stats": {
+        "total_sent_count": 2,
+        "total_sent_value": 14.98,
+        "total_received_count": 0,
+        "total_received_value": 0,
+        "total_gift_difference": 2,
+        "total_value_difference": 14.98,
+        "fcv_sent_count": 1,
+        "rcv_sent_count": 1,
+        "ncv_sent_count": 0,
+        "fcv_received_count": 0,
+        "rcv_received_count": 0,
+        "ncv_received_count": 0,
+        "fcv_gift_difference": 1,
+        "real_total_sent_value": 6.49,
+        "real_total_received_value": 0,
+        "real_total_value_difference": 6.49,
+        "real_total_sent_count": 1,
+        "real_total_received_count": 0,
+        "real_total_gift_difference": 1,
+        "giveaway_ratio": 1,
+        "shared_sent_count": 0,
+        "shared_received_count": 0,
+        "giveaways_created": 2,
+        "giveaways_with_no_entries": 0,
+        "last_giveaway_created_at": 1755699966,
+        "last_giveaway_won_at": null
+      },
+      "steam_id": "76561198128560029",
+      "steam_profile_url": "https://steamcommunity.com/profiles/76561198128560029",
+      "steam_profile_is_private": false,
+      "country_code": "ua",
+      "giveaways_created": [
+        {
+          "name": "BROKEN LIFE",
+          "link": "CavwK/broken-life",
+          "cv_status": "FULL_CV",
+          "entries": 1,
+          "copies": 1,
+          "created_timestamp": 1755699966,
+          "end_timestamp": 1756069140,
+          "required_play": true,
+          "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2,
+            "additional_notes": "Game seems to be roughly 1hr long, no achievements, no HLTB"
+          },
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "SteamKeyGiveaway",
+              "status": "received",
+              "activated": true
+            }
+          ]
+        },
+        {
+          "name": "Piczle Cross Adventure",
+          "link": "19ilt/piczle-cross-adventure",
+          "cv_status": "REDUCED_CV",
+          "entries": 11,
+          "copies": 1,
+          "created_timestamp": 1749717922,
+          "end_timestamp": 1750193940,
+          "required_play": false,
+          "is_shared": false,
+          "i_played_bro": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "Yamaraus",
+              "status": "received",
+              "activated": true
+            }
+          ]
+        }
+      ],
+      "left_at_timestamp": 1758590994973
     }
   ]
 }
