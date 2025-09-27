@@ -1,26 +1,6 @@
 {
-  "last_updated": "2025-09-27T01:23:46.255Z",
+  "last_updated": "2025-09-27T08:27:04.275Z",
   "giveaways": [
-    {
-      "id": "gpZYb",
-      "name": "My Little Universe",
-      "points": 15,
-      "copies": 1,
-      "app_id": 2328750,
-      "package_id": null,
-      "link": "gpZYb/my-little-universe",
-      "created_timestamp": 1758325914,
-      "start_timestamp": 1758325914,
-      "end_timestamp": 1758945600,
-      "region_restricted": true,
-      "whitelist": true,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 39,
-      "creator": "lockcjwen",
-      "is_shared": true,
-      "cv_status": "REDUCED_CV"
-    },
     {
       "id": "PuUG6",
       "name": "Kingdom Come: Deliverance Royal Edition",
@@ -86,7 +66,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 101,
+      "entry_count": 103,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -121,7 +101,7 @@
       "end_timestamp": 1759052280,
       "group": true,
       "comment_count": 0,
-      "entry_count": 3,
+      "entry_count": 4,
       "creator": "BaconChizBurger",
       "cv_status": "FULL_CV"
     },
@@ -262,7 +242,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 107,
+      "entry_count": 109,
       "creator": "Thexder",
       "is_shared": true,
       "cv_status": "FULL_CV"
@@ -280,9 +260,28 @@
       "end_timestamp": 1759521600,
       "group": true,
       "comment_count": 0,
-      "entry_count": 0,
+      "entry_count": 3,
       "creator": "Shughes91",
       "cv_status": "FULL_CV"
+    },
+    {
+      "id": "JTZyL",
+      "name": "Rogue Heroes: Ruins of Tasos",
+      "points": 20,
+      "copies": 1,
+      "app_id": 787810,
+      "package_id": null,
+      "link": "JTZyL/rogue-heroes-ruins-of-tasos",
+      "created_timestamp": 1758951324,
+      "start_timestamp": 1758951324,
+      "end_timestamp": 1759550400,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 4,
+      "creator": "lockcjwen",
+      "is_shared": true,
+      "cv_status": "REDUCED_CV"
     },
     {
       "id": "jPa84",
@@ -404,6 +403,33 @@
       "cv_status": "FULL_CV"
     },
     {
+      "id": "gpZYb",
+      "name": "My Little Universe",
+      "points": 15,
+      "copies": 1,
+      "app_id": 2328750,
+      "package_id": null,
+      "link": "gpZYb/my-little-universe",
+      "created_timestamp": 1758325914,
+      "start_timestamp": 1758325914,
+      "end_timestamp": 1758945600,
+      "region_restricted": true,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 39,
+      "creator": "lockcjwen",
+      "is_shared": true,
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "REDUCED_CV"
+    },
+    {
       "id": "U4vtG",
       "name": "Slime Rancher",
       "points": 20,
@@ -486,15 +512,15 @@
       "start_timestamp": 1758333241,
       "end_timestamp": 1758905340,
       "group": true,
-      "comment_count": 2,
+      "comment_count": 3,
       "entry_count": 14,
       "creator": "Ivannes",
       "required_play": true,
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "rufioh",
+          "status": "received"
         }
       ],
       "cv_status": "FULL_CV"
