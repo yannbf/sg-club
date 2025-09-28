@@ -1,42 +1,6 @@
 {
-  "last_updated": "2025-09-28T01:33:17.703Z",
+  "last_updated": "2025-09-28T08:25:52.960Z",
   "giveaways": [
-    {
-      "id": "aKInp",
-      "name": "Snakebird",
-      "points": 7,
-      "copies": 1,
-      "app_id": 357300,
-      "package_id": null,
-      "link": "aKInp/snakebird",
-      "created_timestamp": 1758415621,
-      "start_timestamp": 1758415621,
-      "end_timestamp": 1759032000,
-      "whitelist": true,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 116,
-      "creator": "lockcjwen",
-      "is_shared": true,
-      "cv_status": "REDUCED_CV"
-    },
-    {
-      "id": "bN0Og",
-      "name": "The Knight Witch",
-      "points": 20,
-      "copies": 1,
-      "app_id": 1872680,
-      "package_id": null,
-      "link": "bN0Og/the-knight-witch",
-      "created_timestamp": 1758473857,
-      "start_timestamp": 1758473857,
-      "end_timestamp": 1759035240,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 0,
-      "creator": "Lakraj1209",
-      "cv_status": "FULL_CV"
-    },
     {
       "id": "ImBkG",
       "name": "Bramble: The Mountain King",
@@ -137,7 +101,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 85,
+      "entry_count": 84,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -191,7 +155,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 111,
+      "entry_count": 110,
       "creator": "Thexder",
       "is_shared": true,
       "cv_status": "FULL_CV"
@@ -227,7 +191,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 19,
+      "entry_count": 21,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -246,7 +210,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 3,
+      "entry_count": 10,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -371,6 +335,51 @@
       "cv_status": "FULL_CV"
     },
     {
+      "id": "bN0Og",
+      "name": "The Knight Witch",
+      "points": 20,
+      "copies": 1,
+      "app_id": 1872680,
+      "package_id": null,
+      "link": "bN0Og/the-knight-witch",
+      "created_timestamp": 1758473857,
+      "start_timestamp": 1758473857,
+      "end_timestamp": 1759035240,
+      "group": true,
+      "comment_count": 2,
+      "entry_count": 0,
+      "creator": "Lakraj1209",
+      "hasWinners": false,
+      "winners": [],
+      "cv_status": "FULL_CV"
+    },
+    {
+      "id": "aKInp",
+      "name": "Snakebird",
+      "points": 7,
+      "copies": 1,
+      "app_id": 357300,
+      "package_id": null,
+      "link": "aKInp/snakebird",
+      "created_timestamp": 1758415621,
+      "start_timestamp": 1758415621,
+      "end_timestamp": 1759032000,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 1,
+      "entry_count": 119,
+      "creator": "lockcjwen",
+      "is_shared": true,
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": "RalphChen",
+          "status": "received"
+        }
+      ],
+      "cv_status": "REDUCED_CV"
+    },
+    {
       "id": "m8qtg",
       "name": "No, I'm not a Human",
       "points": 15,
@@ -382,14 +391,14 @@
       "start_timestamp": 1758490944,
       "end_timestamp": 1758999600,
       "group": true,
-      "comment_count": 10,
+      "comment_count": 11,
       "entry_count": 21,
       "creator": "Rinocap",
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "Lakraj1209",
+          "status": "received"
         }
       ],
       "cv_status": "FULL_CV"
@@ -527,7 +536,7 @@
       "end_timestamp": 1758920400,
       "whitelist": true,
       "group": true,
-      "comment_count": 25,
+      "comment_count": 26,
       "entry_count": 90,
       "creator": "Dobke",
       "is_shared": true,
