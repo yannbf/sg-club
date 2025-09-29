@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import DatePicker from 'react-datepicker'
 import { startOfMonth, endOfMonth } from 'date-fns'
 import { getCVBadgeColor, getCVLabel } from '@/lib/data'
@@ -84,6 +84,26 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
     const maxTs = giveaways.reduce((max, g) => Math.max(max, g.end_timestamp), 0)
     return new Date(maxTs * 1000)
   }, [giveaways])
+
+  // Compact view
+  const [compactView, setCompactView] = useState<boolean>(false)
+
+  // Persist compact view preference
+  useEffect(() => {
+    try {
+      const saved = typeof window !== 'undefined' ? localStorage.getItem('giveawaysView') : null
+      if (saved === 'compact') {
+        setCompactView(true)
+      }
+    } catch {}
+  }, [])
+  useEffect(() => {
+    try {
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('giveawaysView', compactView ? 'compact' : 'expanded')
+      }
+    } catch {}
+  }, [compactView])
 
   const filteredAndSortedGiveaways = useMemo(() => {
     const filtered = giveaways.filter(giveaway => {
@@ -303,7 +323,7 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
 
         {/* Add new row for label filters */}
         <div className="lg:col-span-4 mt-4">
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-wrap gap-3 items-center">
             <button
               onClick={() => setFilterRegion(prev => !prev)}
               className={`px-3 py-2 text-sm rounded-full transition-colors ${filterRegion
@@ -349,6 +369,8 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
             >
               🩵 Whitelist
             </button>
+
+            {/* Compact view toggle moved to results summary */}
           </div>
         </div>
       </div>
@@ -356,8 +378,27 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
       {/* Giveaways List */}
 
       {/* Results Summary */}
-      <div className="text-sm text-muted-foreground">
-        Showing {filteredAndSortedGiveaways.length} of {giveaways.length} giveaways
+      <div className="text-sm text-muted-foreground flex items-center justify-between">
+        <div>
+          Showing {filteredAndSortedGiveaways.length} of {giveaways.length} giveaways
+        </div>
+        <div className="inline-flex items-center border border-card-border rounded-md overflow-hidden" title="Toggle view">
+          <button
+            aria-label="Compact view"
+            onClick={() => setCompactView(true)}
+            className={`px-2 py-1 ${compactView ? 'bg-accent text-accent-foreground' : 'hover:bg-accent/10'}`}
+          >
+            ▦
+          </button>
+          <div className="h-6 w-px bg-card-border" />
+          <button
+            aria-label="Expanded view"
+            onClick={() => setCompactView(false)}
+            className={`px-2 py-1 ${!compactView ? 'bg-accent text-accent-foreground' : 'hover:bg-accent/10'}`}
+          >
+            ▭
+          </button>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -368,9 +409,70 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
           const borderColor = isEnded ? 'border-card-border' : isFuture ? 'border-accent-purple' : 'border-success';
           const gameData = getGameData(giveaway.app_id ?? giveaway.package_id)
 
+          if (compactView) {
+            return (
+              <div key={giveaway.id} className={`bg-card-background rounded-lg border-2 ${borderColor} p-4 flex items-start gap-4`}>
+                <div className="flex-shrink-0">
+                  <a href={`https://store.steampowered.com/${giveaway.app_id ? `app/${giveaway.app_id}` : `sub/${giveaway.package_id}`}`} target="_blank" rel="noopener noreferrer">
+                    <Image
+                      src={imageUrl}
+                      alt={giveaway.name || 'Game giveaway image'}
+                      width={96}
+                      height={54}
+                      className="object-cover rounded"
+                      onError={() => {
+                        setFailedImages(prev => new Set([...prev, giveaway.id]))
+                      }}
+                    />
+                  </a>
+                </div>
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="min-w-0 flex items-center gap-2">
+                      <a
+                        href={`https://www.steamgifts.com/giveaway/${giveaway.link}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-accent hover:underline font-semibold line-clamp-1"
+                      >{giveaway.name} ({giveaway.points}P)</a>
+                      <CvStatusIndicator giveaway={giveaway} />
+                    </div>
+                    <div className="flex-shrink-0 ml-2">{getStatusBadge(giveaway)}</div>
+                  </div>
+                  <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-muted-foreground">
+                    <div className="flex items-center gap-2 min-w-0">
+                      <UserAvatar
+                        src={userAvatars.get(giveaway.creator) || 'https://cdn-icons-png.flaticon.com/512/9287/9287610.png'}
+                        username={giveaway.creator}
+                      />
+                      <Link href={`/users/${giveaway.creator}`} className="hover:underline text-foreground truncate">{giveaway.creator}</Link>
+                    </div>
+                    <div className="flex items-center justify-start gap-1 text-foreground"><FormattedDate timestamp={giveaway.end_timestamp} /></div>
+                  </div>
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    {giveaway.region_restricted && (
+                      <span className="text-[10px] font-medium px-2 py-0.5 bg-info-light text-info-foreground rounded-full">🌍 Restricted</span>
+                    )}
+                    {giveaway.required_play && (
+                      <span className="text-[10px] font-medium px-2 py-0.5 bg-warning-light text-warning-foreground rounded-full">🎮 Play Required</span>
+                    )}
+                    {giveaway.event_type && (
+                      <span className="text-[10px] font-medium px-2 py-0.5 bg-accent-purple text-white rounded-full">🔥 Group Event</span>
+                    )}
+                    {giveaway.is_shared && (
+                      <span className="text-[10px] font-medium px-2 py-0.5 bg-info-light text-info-foreground rounded-full">👥 Shared</span>
+                    )}
+                    {giveaway.whitelist && (
+                      <span className="text-[10px] font-medium px-2 py-0.5 bg-info-light text-info-foreground rounded-full">🩵 Whitelist</span>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )
+          }
+
           return (
             <div key={giveaway.id} className={`bg-card-background rounded-lg shadow-md hover:shadow-lg transition-shadow overflow-hidden border-2 ${borderColor}`}>
-              {/* Game Image */}
               <div className="w-full h-48 bg-muted overflow-hidden relative hover:shadow">
                 <a href={`https://store.steampowered.com/${giveaway.app_id ? `app/${giveaway.app_id}` : `sub/${giveaway.package_id}`}`} target="_blank" rel="noopener noreferrer">
                   <Image
@@ -406,8 +508,6 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
                         src={userAvatars.get(giveaway.creator) || 'https://cdn-icons-png.flaticon.com/512/9287/9287610.png'}
                         username={giveaway.creator}
                       />
-                      {/* todo: add country flag */}
-                      {/* <CountryFlag countryCode={giveaway.creator.country_code} /> */}
                       <Link href={`/users/${giveaway.creator}`} className="text-accent hover:underline mr-2 inline-flex items-center">
                         {giveaway.creator}
                       </Link>
