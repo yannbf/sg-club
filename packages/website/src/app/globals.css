@@ -1,6 +1,9 @@
+@import 'react-datepicker/dist/react-datepicker.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 
 @theme inline {
   --color-background: var(--background);

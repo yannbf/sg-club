@@ -1,6 +1,8 @@
 'use client'
 
 import { useState, useMemo } from 'react'
+import DatePicker from 'react-datepicker'
+import { startOfMonth, endOfMonth } from 'date-fns'
 import { getCVBadgeColor, getCVLabel } from '@/lib/data'
 import { Giveaway, GameData } from '@/types'
 import Link from 'next/link'
@@ -70,6 +72,19 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
   const [filterWhitelist, setFilterWhitelist] = useState<boolean>(false)
   const [filterEvent, setFilterEvent] = useState<boolean>(false)
 
+  // Date filter state
+  const [dateFilterMode, setDateFilterMode] = useState<'none' | 'range' | 'month'>('none')
+  const [dateRange, setDateRange] = useState<[Date | null, Date | null]>([null, null])
+  const [selectedMonth, setSelectedMonth] = useState<Date | null>(null)
+  const [startDate, endDate] = dateRange
+
+  // Latest giveaway end date to cap calendars
+  const maxEndDate = useMemo(() => {
+    if (!giveaways || giveaways.length === 0) return null
+    const maxTs = giveaways.reduce((max, g) => Math.max(max, g.end_timestamp), 0)
+    return new Date(maxTs * 1000)
+  }, [giveaways])
+
   const filteredAndSortedGiveaways = useMemo(() => {
     const filtered = giveaways.filter(giveaway => {
       const searchTermLower = debouncedSearchTerm.toLowerCase()
@@ -93,7 +108,27 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
         (!filterEvent || giveaway.event_type)
       )
 
-      return isExactIdMatch || (matchesSearch && matchesCV && matchesStatus && matchesLabels)
+      // Date filters: we filter by end date window
+      let matchesDate = true
+      const endTimestamp = giveaway.end_timestamp
+
+      if (dateFilterMode === 'range') {
+        const startSec = startDate ? Math.floor(startDate.getTime() / 1000) : null
+        const endSec = endDate ? Math.floor((endDate.getTime() + 24 * 60 * 60 * 1000 - 1) / 1000) : null
+        if (startSec !== null && endSec !== null) {
+          matchesDate = endTimestamp >= startSec && endTimestamp <= endSec
+        } else if (startSec !== null) {
+          matchesDate = endTimestamp >= startSec
+        } else if (endSec !== null) {
+          matchesDate = endTimestamp <= endSec
+        }
+      } else if (dateFilterMode === 'month' && selectedMonth) {
+        const start = Math.floor(startOfMonth(selectedMonth).getTime() / 1000)
+        const end = Math.floor(endOfMonth(selectedMonth).getTime() / 1000)
+        matchesDate = endTimestamp >= start && endTimestamp <= end
+      }
+
+      return isExactIdMatch || (matchesSearch && matchesCV && matchesStatus && matchesLabels && matchesDate)
     })
 
     filtered.sort((a, b) => {
@@ -136,7 +171,8 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
 
     return filtered
   }, [giveaways, debouncedSearchTerm, sortBy, sortDirection, filterCV, giveawayStatus,
-    filterRegion, filterPlayRequired, filterShared, filterWhitelist, filterEvent])
+    filterRegion, filterPlayRequired, filterShared, filterWhitelist, filterEvent,
+    dateFilterMode, startDate, endDate, selectedMonth])
 
   return (
     <div className="space-y-8">
@@ -185,6 +221,52 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
                 {sortDirection === 'asc' ? '↑' : '↓'}
               </button>
             </div>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-muted-foreground mb-2">
+              Date Filter
+            </label>
+            <div className="flex items-center gap-2">
+              <span role="img" aria-label="Calendar" title="Date Filter" className="text-muted-foreground">📅</span>
+              <select
+                value={dateFilterMode}
+                onChange={(e) => setDateFilterMode(e.target.value as 'none' | 'range' | 'month')}
+                className="flex-1 px-3 py-2 border border-card-border rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-accent"
+              >
+                <option value="none">All Dates</option>
+                <option value="range">Between Dates</option>
+                <option value="month">By Month</option>
+              </select>
+            </div>
+            {dateFilterMode === 'range' && (
+              <div className="mt-2">
+                <DatePicker
+                  selectsRange
+                  startDate={startDate}
+                  endDate={endDate}
+                  onChange={(update) => setDateRange(update as [Date | null, Date | null])}
+                  isClearable
+                  placeholderText="Select date range"
+                  maxDate={maxEndDate ?? undefined}
+                  className="w-full px-3 py-2 border border-card-border rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-accent"
+                />
+              </div>
+            )}
+            {dateFilterMode === 'month' && (
+              <div className="mt-2">
+                <DatePicker
+                  selected={selectedMonth}
+                  onChange={(date) => setSelectedMonth(date)}
+                  dateFormat="MMMM yyyy"
+                  showMonthYearPicker
+                  isClearable
+                  placeholderText="Select month"
+                  maxDate={maxEndDate ?? undefined}
+                  className="w-full px-3 py-2 border border-card-border rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-accent"
+                />
+              </div>
+            )}
           </div>
 
           <div>

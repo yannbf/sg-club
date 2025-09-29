@@ -427,8 +427,9 @@ export class SteamGiftsHTMLScraper {
       event_type = 'rpg_august'
     }
 
-    if (description.includes('EVENT')) {
+    if (description.includes('OCTOBER EVENT')) {
       // for future events, event_type will be set
+      event_type = 'october_event'
     }
 
     // Check if it's a whitelist giveaway
