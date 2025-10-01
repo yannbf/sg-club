@@ -194,6 +194,62 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
     filterRegion, filterPlayRequired, filterShared, filterWhitelist, filterEvent,
     dateFilterMode, startDate, endDate, selectedMonth])
 
+  // Unique users in the currently filtered giveaways
+  const uniqueUsersCount = useMemo(() => {
+    const creators = new Set<string>()
+    for (const g of filteredAndSortedGiveaways) {
+      creators.add(g.creator)
+    }
+    return creators.size
+  }, [filteredAndSortedGiveaways])
+
+  // Export filtered giveaways to CSV (username, giveaway name, giveaway link, event type)
+  const handleExport = () => {
+    try {
+      const rows = filteredAndSortedGiveaways
+        .map(g => ({
+          username: g.creator || '',
+          name: g.name || '',
+          link: `https://www.steamgifts.com/giveaway/${g.link}`,
+          eventType: (g.event_type as string) || ''
+        }))
+        .sort((a, b) => {
+          const byUser = a.username.localeCompare(b.username)
+          if (byUser !== 0) return byUser
+          return a.name.localeCompare(b.name)
+        })
+
+      const escapeCsv = (val: string) => {
+        if (val == null) return ''
+        const needsQuote = /[",\n]/.test(val)
+        const escaped = val.replace(/"/g, '""')
+        return needsQuote ? `"${escaped}"` : escaped
+      }
+
+      const header = ['username', 'giveaway name', 'giveaway link', 'event type']
+      const csvLines: string[] = []
+      csvLines.push(header.join(','))
+      for (const r of rows) {
+        csvLines.push([
+          escapeCsv(r.username),
+          escapeCsv(r.name),
+          escapeCsv(r.link),
+          escapeCsv(r.eventType)
+        ].join(','))
+      }
+
+      const csvContent = csvLines.join('\n')
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      const timestamp = new Date().toISOString().slice(0, 10)
+      a.download = `giveaways_export_${timestamp}.csv`
+      a.click()
+      URL.revokeObjectURL(url)
+    } catch {}
+  }
+
   return (
     <div className="space-y-8">
       <div className="mb-8">
@@ -380,9 +436,17 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
       {/* Results Summary */}
       <div className="text-sm text-muted-foreground flex items-center justify-between">
         <div>
-          Showing {filteredAndSortedGiveaways.length} of {giveaways.length} giveaways
+          Showing {filteredAndSortedGiveaways.length} of {giveaways.length} giveaways by {uniqueUsersCount} users
         </div>
-        <div className="inline-flex items-center border border-card-border rounded-md overflow-hidden" title="Toggle view">
+        <div className="flex items-center gap-2">
+          <button
+            onClick={handleExport}
+            className="px-2 py-1 border border-card-border rounded-md bg-transparent hover:bg-accent/10 focus:outline-none focus:ring-2 focus:ring-accent"
+            title="Export CSV"
+          >
+            ⬇️ Export
+          </button>
+          <div className="inline-flex items-center border border-card-border rounded-md overflow-hidden" title="Toggle view">
           <button
             aria-label="Compact view"
             onClick={() => setCompactView(true)}
@@ -398,6 +462,7 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
           >
             ▭
           </button>
+          </div>
         </div>
       </div>
 
