@@ -12,6 +12,11 @@ import { LastUpdated } from '@/components/LastUpdated'
 import { useGameData, useDebounce } from '@/lib/hooks'
 import FormattedDate, { TimeDifference } from '@/components/FormattedDate'
 import { CvStatusIndicator } from '@/components/CvStatusIndicator'
+import dynamic from 'next/dynamic'
+const Masonry = dynamic<import('masonic').MasonryProps<Giveaway>>(
+  () => import('masonic').then(m => m.Masonry),
+  { ssr: false }
+)
 
 interface Props {
   heading?: string
@@ -59,7 +64,7 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
   const { getGameData } = useGameData(gameData)
   const [searchTerm, setSearchTerm] = useState('')
   const debouncedSearchTerm = useDebounce(searchTerm, 300)
-  const [sortBy, setSortBy] = useState<'date' | 'entries' | 'points'>('date')
+  const [sortBy, setSortBy] = useState<'date' | 'author' | 'name' | 'cv' | 'points' | 'entries'>('date')
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc')
   const [filterCV, setFilterCV] = useState<'all' | 'FULL_CV' | 'REDUCED_CV' | 'NO_CV'>('all')
   const [giveawayStatus, setGiveawayStatus] = useState<'open' | 'ended' | 'all'>(defaultGiveawayStatus)
@@ -104,6 +109,26 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
       }
     } catch {}
   }, [compactView])
+
+  // Export modal state
+  type ExportFieldKey = 'creator' | 'name' | 'link' | 'event' | 'cv' | 'points' | 'required_play' | 'shared' | 'restricted' | 'entries' | 'winner'
+  const [isExportModalOpen, setIsExportModalOpen] = useState(false)
+  const DEFAULT_EXPORT_FIELDS: ExportFieldKey[] = ['creator', 'name', 'link', 'event']
+  const [selectedExportFields, setSelectedExportFields] = useState<ExportFieldKey[]>(DEFAULT_EXPORT_FIELDS)
+
+  const EXPORT_FIELDS = useMemo(() => ([
+    { key: 'creator' as const, label: 'Created by', get: (g: Giveaway) => g.creator || '' },
+    { key: 'name' as const, label: 'Giveaway', get: (g: Giveaway) => g.name || '' },
+    { key: 'link' as const, label: 'Link', get: (g: Giveaway) => `https://www.steamgifts.com/giveaway/${g.link}` },
+    { key: 'event' as const, label: 'Event', get: (g: Giveaway) => (g.event_type as string) || '' },
+    { key: 'cv' as const, label: 'CV type', get: (g: Giveaway) => getCVLabel(g.cv_status || 'FULL_CV') },
+    { key: 'points' as const, label: 'Points', get: (g: Giveaway) => String(g.points ?? '') },
+    { key: 'required_play' as const, label: 'Play required', get: (g: Giveaway) => (g.required_play ? 'Yes' : 'No') },
+    { key: 'shared' as const, label: 'Shared', get: (g: Giveaway) => (g.is_shared ? 'Yes' : 'No') },
+    { key: 'restricted' as const, label: 'Restricted', get: (g: Giveaway) => (g.region_restricted ? 'Yes' : 'No') },
+    { key: 'entries' as const, label: 'Entries', get: (g: Giveaway) => String(g.entry_count ?? '') },
+    { key: 'winner' as const, label: 'Winner', get: (g: Giveaway) => (g.winners && g.winners.length ? g.winners.map(w => w.name || '').filter(Boolean).join('; ') : '') },
+  ]), [])
 
   const filteredAndSortedGiveaways = useMemo(() => {
     const filtered = giveaways.filter(giveaway => {
@@ -157,33 +182,39 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
       const bIsEnded = b.end_timestamp < now
 
       // When showing all giveaways, group open first then ended
-      if (giveawayStatus === 'all' && aIsEnded !== bIsEnded) {
+      if (sortBy === 'date' && giveawayStatus === 'all' && aIsEnded !== bIsEnded) {
         return aIsEnded ? 1 : -1
       }
 
       let comparison = 0
       switch (sortBy) {
-        case 'date':
+        case 'date': {
           const aStartInFuture = a.start_timestamp > now
           const bStartInFuture = b.start_timestamp > now
-
-          // First compare if either start date is in the future
           if (sortDirection === 'asc' && aStartInFuture !== bStartInFuture) {
             return aStartInFuture ? -1 : 1
           }
-
-          // For ended giveaways, reverse the comparison to show most recently ended first
           if (giveawayStatus === 'all' && aIsEnded && bIsEnded) {
             comparison = b.end_timestamp - a.end_timestamp
           } else {
             comparison = a.end_timestamp - b.end_timestamp
           }
           break
-        case 'entries':
-          comparison = a.entry_count - b.entry_count
+        }
+        case 'author':
+          comparison = a.creator.localeCompare(b.creator)
+          break
+        case 'name':
+          comparison = a.name.localeCompare(b.name)
+          break
+        case 'cv':
+          comparison = getCVLabel(a.cv_status || 'FULL_CV').localeCompare(getCVLabel(b.cv_status || 'FULL_CV'))
           break
         case 'points':
           comparison = a.points - b.points
+          break
+        case 'entries':
+          comparison = a.entry_count - b.entry_count
           break
       }
       return sortDirection === 'asc' ? comparison : -comparison
@@ -203,22 +234,9 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
     return creators.size
   }, [filteredAndSortedGiveaways])
 
-  // Export filtered giveaways to CSV (username, giveaway name, giveaway link, event type)
-  const handleExport = () => {
+  // Build and download CSV from selected fields
+  const handleExportConfirm = () => {
     try {
-      const rows = filteredAndSortedGiveaways
-        .map(g => ({
-          username: g.creator || '',
-          name: g.name || '',
-          link: `https://www.steamgifts.com/giveaway/${g.link}`,
-          eventType: (g.event_type as string) || ''
-        }))
-        .sort((a, b) => {
-          const byUser = a.username.localeCompare(b.username)
-          if (byUser !== 0) return byUser
-          return a.name.localeCompare(b.name)
-        })
-
       const escapeCsv = (val: string) => {
         if (val == null) return ''
         const needsQuote = /[",\n]/.test(val)
@@ -226,16 +244,21 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
         return needsQuote ? `"${escaped}"` : escaped
       }
 
-      const header = ['username', 'giveaway name', 'giveaway link', 'event type']
+      // Map for quick lookup
+      const fieldMap = EXPORT_FIELDS.reduce<Record<ExportFieldKey, { label: string; get: (g: Giveaway) => string }>>((acc, f) => {
+        acc[f.key] = { label: f.label, get: f.get }
+        return acc
+      }, {} as Record<ExportFieldKey, { label: string; get: (g: Giveaway) => string }>)
+
+      // Use current on-screen order
+      const sorted = filteredAndSortedGiveaways
+
+      const headers = selectedExportFields.map(k => fieldMap[k].label)
       const csvLines: string[] = []
-      csvLines.push(header.join(','))
-      for (const r of rows) {
-        csvLines.push([
-          escapeCsv(r.username),
-          escapeCsv(r.name),
-          escapeCsv(r.link),
-          escapeCsv(r.eventType)
-        ].join(','))
+      csvLines.push(headers.join(','))
+      for (const g of sorted) {
+        const line = selectedExportFields.map(k => escapeCsv(fieldMap[k].get(g)))
+        csvLines.push(line.join(','))
       }
 
       const csvContent = csvLines.join('\n')
@@ -282,12 +305,15 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
             <div className="flex gap-2">
               <select
                 value={sortBy}
-                onChange={(e) => setSortBy(e.target.value as 'date' | 'entries' | 'points')}
+                onChange={(e) => setSortBy(e.target.value as 'date' | 'author' | 'name' | 'cv' | 'points' | 'entries')}
                 className="flex-1 px-3 py-2 border border-card-border rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-accent"
               >
                 <option value="date">End Date</option>
-                <option value="entries">Entry Count</option>
+                <option value="author">Author (A–Z)</option>
+                <option value="name">Giveaway (A–Z)</option>
+                <option value="cv">CV Type</option>
                 <option value="points">Points</option>
+                <option value="entries">Entries</option>
               </select>
               <button
                 onClick={() => setSortDirection(prev => prev === 'asc' ? 'desc' : 'asc')}
@@ -440,11 +466,11 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
         </div>
         <div className="flex items-center gap-2">
           <button
-            onClick={handleExport}
+            onClick={() => setIsExportModalOpen(true)}
             className="px-2 py-1 border border-card-border rounded-md bg-transparent hover:bg-accent/10 focus:outline-none focus:ring-2 focus:ring-accent"
             title="Export CSV"
           >
-            ⬇️ Export
+            📩 Export
           </button>
           <div className="inline-flex items-center border border-card-border rounded-md overflow-hidden" title="Toggle view">
           <button
@@ -466,8 +492,30 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredAndSortedGiveaways.map((giveaway) => {
+      <Masonry
+        key={[
+          filteredAndSortedGiveaways.length,
+          sortBy,
+          sortDirection,
+          giveawayStatus,
+          filterCV,
+          dateFilterMode,
+          startDate?.getTime() ?? 0,
+          endDate?.getTime() ?? 0,
+          selectedMonth?.getTime() ?? 0,
+          filterRegion ? 1 : 0,
+          filterPlayRequired ? 1 : 0,
+          filterShared ? 1 : 0,
+          filterWhitelist ? 1 : 0,
+          filterEvent ? 1 : 0,
+          compactView ? 1 : 0,
+        ].join('-')}
+        items={filteredAndSortedGiveaways}
+        columnGutter={24}
+        columnWidth={360}
+        overscanBy={3}
+        itemKey={(g, i) => (g && (g as Giveaway).id) || `item-${i}`}
+        render={({ data: giveaway }) => {
           const isEnded = giveaway.end_timestamp < Date.now() / 1000;
           const imageUrl = failedImages.has(giveaway.id) ? PLACEHOLDER_IMAGE : getGameImageUrl(giveaway);
           const isFuture = giveaway.start_timestamp > Date.now() / 1000;
@@ -476,7 +524,7 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
 
           if (compactView) {
             return (
-              <div key={giveaway.id} className={`bg-card-background rounded-lg border-2 ${borderColor} p-4 flex items-start gap-4`}>
+              <div className={`w-full bg-card-background rounded-lg border-2 ${borderColor} p-4 flex items-start gap-4`}>
                 <div className="flex-shrink-0">
                   <a href={`https://store.steampowered.com/${giveaway.app_id ? `app/${giveaway.app_id}` : `sub/${giveaway.package_id}`}`} target="_blank" rel="noopener noreferrer">
                     <Image
@@ -537,7 +585,7 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
           }
 
           return (
-            <div key={giveaway.id} className={`bg-card-background rounded-lg shadow-md hover:shadow-lg transition-shadow overflow-hidden border-2 ${borderColor}`}>
+            <div className={`w-full bg-card-background rounded-lg shadow-md hover:shadow-lg transition-shadow overflow-hidden border-2 ${borderColor}`}>
               <div className="w-full h-48 bg-muted overflow-hidden relative hover:shadow">
                 <a href={`https://store.steampowered.com/${giveaway.app_id ? `app/${giveaway.app_id}` : `sub/${giveaway.package_id}`}`} target="_blank" rel="noopener noreferrer">
                   <Image
@@ -693,8 +741,61 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
               </div>
             </div>
           )
-        })}
-      </div>
+        }}
+      />
+      {/* Export Modal */}
+      {isExportModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          <div className="absolute inset-0 bg-black/50" onClick={() => setIsExportModalOpen(false)} />
+          <div className="relative bg-card-background border border-card-border rounded-lg shadow-xl w-full max-w-lg mx-4 p-6">
+            <h2 className="text-lg font-semibold mb-4">What would you like to export?</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
+              {EXPORT_FIELDS.map((f) => (
+                <label key={f.key} className="flex items-center gap-2 text-sm">
+                  <input
+                    type="checkbox"
+                    checked={selectedExportFields.includes(f.key)}
+                    onChange={(e) => {
+                      setSelectedExportFields(prev => {
+                        if (e.target.checked) {
+                          return Array.from(new Set([...prev, f.key])) as ExportFieldKey[]
+                        }
+                          return prev.filter(k => k !== f.key)
+                      })
+                    }}
+                  />
+                  <span>{f.label}</span>
+                </label>
+              ))}
+            </div>
+            <div className="flex justify-end gap-2">
+              <button
+                className="px-3 py-2 border border-card-border rounded-md hover:bg-accent/10"
+                onClick={() => {
+                  setSelectedExportFields(DEFAULT_EXPORT_FIELDS)
+                }}
+              >
+                Reset to defaults
+              </button>
+              <button
+                className="px-3 py-2 border border-card-border rounded-md hover:bg-accent/10"
+                onClick={() => setIsExportModalOpen(false)}
+              >
+                Cancel
+              </button>
+              <button
+                className="px-3 py-2 bg-accent text-accent-foreground rounded-md"
+                onClick={() => {
+                  handleExportConfirm()
+                  setIsExportModalOpen(false)
+                }}
+              >
+                Export CSV
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       {
         filteredAndSortedGiveaways.length === 0 && (
           <div className="text-center py-12">
