@@ -25,7 +25,7 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData, 
   const [filterRegion, setFilterRegion] = useState<boolean>(false)
   const [filterPlayRequired, setFilterPlayRequired] = useState<boolean>(false)
   const [filterShared, setFilterShared] = useState<boolean>(false)
-  const [filterUnplayedRequired, setFilterUnplayedRequired] = useState<boolean>(false)
+  const [playFilter, setPlayFilter] = useState<'all' | 'played' | 'never_played' | 'unplayed_required'>('all')
   const [isCollapsed, setIsCollapsed] = useState(false)
 
   const getGiveawayInfo = useCallback((giveaway: NonNullable<User['giveaways_won']>[0]) => {
@@ -47,13 +47,15 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData, 
         (!filterPlayRequired || giveawayInfo?.required_play || giveawayInfo?.required_play_meta) &&
         (!filterShared || giveawayInfo?.is_shared)
 
-      const matchesUnplayedRequired =
-        !filterUnplayedRequired ||
-        ((giveawayInfo?.required_play || giveawayInfo?.required_play_meta) && game.steam_play_data?.never_played)
+      const matchesPlayFilter =
+        playFilter === 'all' ||
+        (playFilter === 'played' && game.steam_play_data && !game.steam_play_data.never_played) ||
+        (playFilter === 'never_played' && game.steam_play_data?.never_played) ||
+        (playFilter === 'unplayed_required' && (game.required_play || game.required_play_meta) && game.required_play_meta?.requirements_met === false)
 
-      return matchesSearch && matchesCV && matchesLabels && matchesUnplayedRequired
+      return matchesSearch && matchesCV && matchesLabels && matchesPlayFilter
     })
-  }, [wonGiveaways, debouncedSearchTerm, getGiveawayInfo, filterCV, filterRegion, filterPlayRequired, filterShared, filterUnplayedRequired])
+  }, [wonGiveaways, debouncedSearchTerm, getGiveawayInfo, filterCV, filterRegion, filterPlayRequired, filterShared, playFilter])
 
   return (
     <div className="bg-card-background rounded-lg border-card-border border p-6 mb-6">
@@ -100,6 +102,20 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData, 
                   <option value="NO_CV">No CV</option>
                 </select>
               </div>
+              <div className="flex items-center gap-2">
+                <label htmlFor="play-filter-won" className="text-sm font-medium">Play:</label>
+                <select
+                  id="play-filter-won"
+                  value={playFilter}
+                  onChange={(e) => setPlayFilter(e.target.value as 'all' | 'played' | 'never_played' | 'unplayed_required')}
+                  className="px-3 py-2 border border-card-border rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-accent text-sm"
+                >
+                  <option value="all">All</option>
+                  <option value="played">Played</option>
+                  <option value="never_played">Never Played</option>
+                  <option value="unplayed_required">Unplayed Required</option>
+                </select>
+              </div>
             </div>
             <div className="text-sm text-muted-foreground">
               Showing {filteredWonGiveaways.length} of {wonGiveaways.length}
@@ -123,12 +139,6 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData, 
               className={`px-3 py-1 text-sm rounded-full border transition-colors ${filterShared ? 'bg-purple-light text-purple-foreground border-purple' : 'bg-transparent border-card-border'}`}
             >
               👥 Shared
-            </button>
-            <button
-              onClick={() => setFilterUnplayedRequired(!filterUnplayedRequired)}
-              className={`px-3 py-1 text-sm rounded-full border transition-colors ${filterUnplayedRequired ? 'bg-error-light text-error-foreground border-error' : 'bg-transparent border-card-border'}`}
-            >
-              Unplayed Required
             </button>
           </div>
           <div className="space-y-4">

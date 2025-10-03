@@ -165,6 +165,10 @@ const warningToMessageMap: Record<string, UserWarning> = {
     description: 'Has not played two or more required play giveaways',
     severity: 'warning',
   },
+  required_play_deadline_within_15_days: {
+    description: 'Has required play games with less than 15 days remaining',
+    severity: 'warning',
+  },
   required_plays_need_review: {
     description: 'Has required play games which were played and need review',
     severity: 'info',

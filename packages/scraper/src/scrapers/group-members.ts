@@ -1348,6 +1348,56 @@ export class SteamGiftsUserFetcher {
           warnings.push('required_plays_need_review')
         }
 
+        // Add warning for play required wins with less than 15 days remaining
+        const oneDayMs = 24 * 60 * 60 * 1000
+        const getDeadlineDate = (
+          endTimestamp: number,
+          meta?: { deadline?: string; deadline_in_months?: number }
+        ): Date => {
+          if (meta?.deadline) {
+            // Expected format: dd.MM.yyyy
+            const parts = meta.deadline.split('.')
+            if (parts.length === 3) {
+              const day = parseInt(parts[0], 10)
+              const month = parseInt(parts[1], 10)
+              const year = parseInt(parts[2], 10)
+              if (
+                !Number.isNaN(day) &&
+                !Number.isNaN(month) &&
+                !Number.isNaN(year)
+              ) {
+                return new Date(year, month - 1, day, 23, 59, 59, 999)
+              }
+            }
+          }
+
+          const months = meta?.deadline_in_months ?? 2
+          const effectiveMonths = months === 0 ? 2 : months
+          const base = new Date(endTimestamp * 1000)
+          const deadline = new Date(base.getTime())
+          deadline.setMonth(deadline.getMonth() + effectiveMonths)
+          return deadline
+        }
+
+        const hasSoonExpiringRequiredPlays = (user.giveaways_won || []).some(
+          (g) => {
+            if (!g.required_play || g.required_play_meta?.requirements_met)
+              return false
+            const deadlineDate = getDeadlineDate(
+              g.end_timestamp,
+              g.required_play_meta
+            )
+            const daysRemaining = Math.floor(
+              (deadlineDate.getTime() - Date.now()) / oneDayMs
+            )
+            return daysRemaining >= 0 && daysRemaining < 15
+          }
+        )
+
+        if (hasSoonExpiringRequiredPlays) {
+          warnings.push('required_play_deadline_within_15_days')
+        }
+
         if (warnings.length > 0) {
           console.log(
             `🔍 ${user.username} has warnings: ${warnings.join(', ')}`
