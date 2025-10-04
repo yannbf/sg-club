@@ -1319,11 +1319,11 @@ export class SteamGiftsUserFetcher {
               g.steam_play_data?.playtime_minutes >=
                 (gameData?.hltb_main_story_hours || 0) * 0.9 * 60
 
-            console.log({
-              playData: g.steam_play_data,
-              gameData,
-              hltbCalculated: (gameData?.hltb_main_story_hours || 0) * 0.9 * 60,
-            })
+            // console.log({
+            //   playData: g.steam_play_data,
+            //   gameData,
+            //   hltbCalculated: (gameData?.hltb_main_story_hours || 0) * 0.9 * 60,
+            // })
             const hasOver15HoursPlaytime =
               g.steam_play_data?.playtime_minutes &&
               g.steam_play_data?.playtime_minutes >= 15 * 60
