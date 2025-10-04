@@ -51,7 +51,7 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData, 
         playFilter === 'all' ||
         (playFilter === 'played' && game.steam_play_data && !game.steam_play_data.never_played) ||
         (playFilter === 'never_played' && game.steam_play_data?.never_played) ||
-        (playFilter === 'unplayed_required' && (game.required_play || game.required_play_meta) && game.required_play_meta?.requirements_met === false)
+        (playFilter === 'unplayed_required' && (game.required_play || game.required_play_meta) && (!game.required_play_meta || game.required_play_meta?.requirements_met === false))
 
       return matchesSearch && matchesCV && matchesLabels && matchesPlayFilter
     })
