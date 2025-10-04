@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1759368605012,
+  "lastUpdated": 1759541251956,
   "users": [
     {
       "username": "thesodaer",
@@ -2274,6 +2274,118 @@
         }
       ],
       "left_at_timestamp": 1759368605011
+    },
+    {
+      "username": "ManowGamer",
+      "profile_url": "/user/ManowGamer",
+      "avatar_url": "https://avatars.steamstatic.com/f00e873994c4c44a11f491c7ec4a354aeeb766b8_medium.jpg",
+      "stats": {
+        "total_sent_count": 2,
+        "total_sent_value": 64.98,
+        "total_received_count": 2,
+        "total_received_value": 46.98,
+        "total_gift_difference": 0,
+        "total_value_difference": 18,
+        "fcv_sent_count": 2,
+        "rcv_sent_count": 0,
+        "ncv_sent_count": 0,
+        "fcv_received_count": 1,
+        "rcv_received_count": 0,
+        "ncv_received_count": 0,
+        "fcv_gift_difference": 1,
+        "real_total_sent_value": 64.98,
+        "real_total_received_value": 39.99,
+        "real_total_value_difference": 24.99,
+        "real_total_sent_count": 2,
+        "real_total_received_count": 1,
+        "real_total_gift_difference": 1,
+        "giveaway_ratio": 2,
+        "shared_sent_count": 0,
+        "shared_received_count": 0,
+        "giveaways_created": 2,
+        "giveaways_with_no_entries": 0,
+        "last_giveaway_created_at": 1752165590,
+        "last_giveaway_won_at": 1751576520,
+        "total_achievements_percentage": 58,
+        "average_achievements_percentage": 58,
+        "real_total_achievements_percentage": 58,
+        "real_average_achievements_percentage": 58,
+        "has_missing_achievements_data": false
+      },
+      "steam_id": "76561198152692937",
+      "steam_profile_url": "https://steamcommunity.com/profiles/76561198152692937",
+      "steam_profile_is_private": false,
+      "country_code": "br",
+      "giveaways_won": [
+        {
+          "name": "HELLDIVERS 2",
+          "link": "Uf02U/helldivers-2",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1751576520,
+          "required_play": true,
+          "is_shared": false,
+          "steam_play_data": {
+            "owned": true,
+            "playtime_minutes": 1054,
+            "playtime_formatted": "17 hours 34 minutes",
+            "achievements_unlocked": 22,
+            "achievements_total": 38,
+            "achievements_percentage": 57.9,
+            "never_played": false,
+            "is_playtime_private": false,
+            "last_checked": 1756567224698
+          },
+          "i_played_bro": true,
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2,
+            "additional_notes": "Level 25"
+          }
+        }
+      ],
+      "giveaways_created": [
+        {
+          "name": "Wolfenstein II: The New Colossus Digi...",
+          "link": "48iCb/wolfenstein-ii-the-new-colossus-digital-deluxe-edition",
+          "cv_status": "FULL_CV",
+          "entries": 9,
+          "copies": 1,
+          "created_timestamp": 1752165590,
+          "end_timestamp": 1752601080,
+          "required_play": false,
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "DancingVaquinha",
+              "status": "received",
+              "activated": true
+            }
+          ]
+        },
+        {
+          "name": "Hole io",
+          "link": "6nzck/hole-io",
+          "cv_status": "FULL_CV",
+          "entries": 2,
+          "copies": 1,
+          "created_timestamp": 1750630643,
+          "end_timestamp": 1751238960,
+          "required_play": false,
+          "is_shared": false,
+          "i_played_bro": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "legor2d2",
+              "status": "received",
+              "activated": true
+            }
+          ]
+        }
+      ],
+      "left_at_timestamp": 1759541251956
     }
   ]
 }
