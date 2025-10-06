@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1759654584905,
+  "lastUpdated": 1759715806799,
   "users": {
     "0ksID": {
       "username": "0ksID",
@@ -164,7 +164,7 @@
             "achievements_percentage": 90.7,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654070125
+            "last_checked": 1759715341431
           }
         },
         {
@@ -654,12 +654,12 @@
       "profile_url": "/user/akfas",
       "avatar_url": "https://avatars.steamstatic.com/c3a9bfb7cc92bec5c85a2d13699e08f259cf7346_medium.jpg",
       "stats": {
-        "total_sent_count": 9,
-        "total_sent_value": 416.91,
+        "total_sent_count": 10,
+        "total_sent_value": 424.4,
         "total_received_count": 3,
         "total_received_value": 96.97,
-        "total_gift_difference": 6,
-        "total_value_difference": 319.94,
+        "total_gift_difference": 7,
+        "total_value_difference": 327.43,
         "fcv_sent_count": 7,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
@@ -674,7 +674,7 @@
         "real_total_received_count": 3,
         "real_total_gift_difference": 4,
         "giveaway_ratio": 6.333333333333333,
-        "shared_sent_count": 2,
+        "shared_sent_count": 4,
         "shared_received_count": 0,
         "giveaways_created": 12,
         "giveaways_with_no_entries": 0,
@@ -760,6 +760,17 @@
       ],
       "giveaways_created": [
         {
+          "name": "Resident Evil Village",
+          "link": "PwHLJ/resident-evil-village",
+          "cv_status": "FULL_CV",
+          "entries": 10,
+          "copies": 1,
+          "created_timestamp": 1759148038,
+          "end_timestamp": 1759762800,
+          "required_play": false,
+          "is_shared": false
+        },
+        {
           "name": "Sophia the Traveler",
           "link": "oS5uZ/sophia-the-traveler",
           "cv_status": "FULL_CV",
@@ -768,7 +779,15 @@
           "created_timestamp": 1759265343,
           "end_timestamp": 1759669200,
           "required_play": false,
-          "is_shared": true
+          "is_shared": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "VernoWhitney",
+              "status": "received",
+              "activated": true
+            }
+          ]
         },
         {
           "name": "Scheming Through The Zombie Apocalyps...",
@@ -779,18 +798,15 @@
           "created_timestamp": 1759265295,
           "end_timestamp": 1759669200,
           "required_play": false,
-          "is_shared": true
-        },
-        {
-          "name": "Resident Evil Village",
-          "link": "PwHLJ/resident-evil-village",
-          "cv_status": "FULL_CV",
-          "entries": 10,
-          "copies": 1,
-          "created_timestamp": 1759148038,
-          "end_timestamp": 1759762800,
-          "required_play": false,
-          "is_shared": false
+          "is_shared": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "timmyfromspace",
+              "status": "received",
+              "activated": true
+            }
+          ]
         },
         {
           "name": "Hogwarts Legacy",
@@ -1131,10 +1147,10 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1753001075,
         "last_giveaway_won_at": 1759571940,
-        "total_achievements_percentage": 0,
-        "average_achievements_percentage": 0,
-        "real_total_achievements_percentage": 0,
-        "real_average_achievements_percentage": 0,
+        "total_achievements_percentage": 5,
+        "average_achievements_percentage": 5,
+        "real_total_achievements_percentage": 5,
+        "real_average_achievements_percentage": 5,
         "has_missing_achievements_data": false
       },
       "steam_id": "76561198075940587",
@@ -1152,14 +1168,14 @@
           "is_shared": false,
           "steam_play_data": {
             "owned": true,
-            "playtime_minutes": 151,
-            "playtime_formatted": "2 hours 31 minutes",
-            "achievements_unlocked": 4,
+            "playtime_minutes": 344,
+            "playtime_formatted": "5 hours 44 minutes",
+            "achievements_unlocked": 15,
             "achievements_total": 87,
-            "achievements_percentage": 4.6,
+            "achievements_percentage": 17.2,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654071847
+            "last_checked": 1759715342891
           }
         }
       ],
@@ -1860,26 +1876,26 @@
       "profile_url": "/user/axlnase",
       "avatar_url": "https://avatars.steamstatic.com/b3e4ac103bac318ccb6f7d1b0810adcc53e6fccd_medium.jpg",
       "stats": {
-        "total_sent_count": 4,
-        "total_sent_value": 89.96,
+        "total_sent_count": 5,
+        "total_sent_value": 114.95,
         "total_received_count": 1.3,
         "total_received_value": 49.99,
-        "total_gift_difference": 2.7,
-        "total_value_difference": 39.97,
-        "fcv_sent_count": 4,
+        "total_gift_difference": 3.7,
+        "total_value_difference": 64.96,
+        "fcv_sent_count": 5,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
         "fcv_received_count": 1,
         "rcv_received_count": 0,
         "ncv_received_count": 0,
-        "fcv_gift_difference": 3,
-        "real_total_sent_value": 89.96,
+        "fcv_gift_difference": 4,
+        "real_total_sent_value": 114.95,
         "real_total_received_value": 39.99,
-        "real_total_value_difference": 49.97,
-        "real_total_sent_count": 4,
+        "real_total_value_difference": 74.96,
+        "real_total_sent_count": 5,
         "real_total_received_count": 1,
-        "real_total_gift_difference": 3,
-        "giveaway_ratio": 3.6666666666666665,
+        "real_total_gift_difference": 4,
+        "giveaway_ratio": 4.666666666666667,
         "shared_sent_count": 0,
         "shared_received_count": 1,
         "giveaways_created": 6,
@@ -1943,12 +1959,20 @@
           "name": "Withering Rooms",
           "link": "gqF48/withering-rooms",
           "cv_status": "FULL_CV",
-          "entries": 7,
+          "entries": 8,
           "copies": 1,
           "created_timestamp": 1759502052,
           "end_timestamp": 1759676400,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "Rinocap",
+              "status": "received",
+              "activated": true
+            }
+          ]
         },
         {
           "name": "Wantless : Solace at World’s End",
@@ -2105,7 +2129,7 @@
             "achievements_percentage": 70,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654073800
+            "last_checked": 1759715344767
           },
           "i_played_bro": true,
           "required_play_meta": {
@@ -2790,12 +2814,20 @@
           "name": "REVEIL",
           "link": "ZGdZb/reveil",
           "cv_status": "FULL_CV",
-          "entries": 7,
+          "entries": 8,
           "copies": 1,
           "created_timestamp": 1759457034,
           "end_timestamp": 1759672800,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "INDIKA",
@@ -3867,7 +3899,7 @@
             "achievements_percentage": 3.2,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654075425
+            "last_checked": 1759715346374
           }
         },
         {
@@ -4328,7 +4360,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654077052
+            "last_checked": 1759715347875
           }
         },
         {
@@ -4799,7 +4831,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654078586
+            "last_checked": 1759715349458
           }
         },
         {
@@ -4819,7 +4851,7 @@
             "achievements_percentage": 50,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654079718
+            "last_checked": 1759715350543
           },
           "required_play_meta": {
             "requirements_met": true,
@@ -4843,7 +4875,7 @@
             "achievements_percentage": 68.8,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654080842
+            "last_checked": 1759715351628
           },
           "i_played_bro": true,
           "required_play_meta": {
@@ -4868,7 +4900,7 @@
             "achievements_percentage": 12.9,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654081975
+            "last_checked": 1759715352734
           }
         },
         {
@@ -4888,7 +4920,7 @@
             "achievements_percentage": 64.7,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654083086
+            "last_checked": 1759715353826
           },
           "i_played_bro": true,
           "required_play_meta": {
@@ -4914,7 +4946,7 @@
             "achievements_percentage": 3.4,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654084199
+            "last_checked": 1759715354907
           },
           "required_play_meta": {
             "requirements_met": true,
@@ -4938,7 +4970,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654085309
+            "last_checked": 1759715356000
           }
         },
         {
@@ -5898,7 +5930,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654086859
+            "last_checked": 1759715357398
           }
         },
         {
@@ -5911,14 +5943,14 @@
           "is_shared": false,
           "steam_play_data": {
             "owned": true,
-            "playtime_minutes": 676,
-            "playtime_formatted": "11 hours 16 minutes",
-            "achievements_unlocked": 6,
+            "playtime_minutes": 728,
+            "playtime_formatted": "12 hours 8 minutes",
+            "achievements_unlocked": 9,
             "achievements_total": 50,
-            "achievements_percentage": 12,
+            "achievements_percentage": 18,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654087981
+            "last_checked": 1759715358477
           }
         },
         {
@@ -5938,7 +5970,7 @@
             "achievements_percentage": 56.3,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654089082
+            "last_checked": 1759715359560
           },
           "i_played_bro": true
         },
@@ -5959,7 +5991,7 @@
             "achievements_percentage": 100,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654090192
+            "last_checked": 1759715360641
           },
           "i_played_bro": true
         },
@@ -5980,7 +6012,7 @@
             "achievements_percentage": 83.8,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654091298
+            "last_checked": 1759715361723
           },
           "i_played_bro": true,
           "required_play_meta": {
@@ -6006,7 +6038,7 @@
             "achievements_percentage": 16.7,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654092402
+            "last_checked": 1759715362804
           },
           "i_played_bro": true
         },
@@ -6112,7 +6144,7 @@
           "name": "PARANORMASIGHT: The Seven Mysteries o...",
           "link": "WvN3k/paranormasight-the-seven-mysteries-of-honjo",
           "cv_status": "FULL_CV",
-          "entries": 12,
+          "entries": 15,
           "copies": 1,
           "created_timestamp": 1759097506,
           "end_timestamp": 1759770000,
@@ -6563,7 +6595,7 @@
           "name": "DAVE THE DIVER",
           "link": "knnmc/dave-the-diver",
           "cv_status": "FULL_CV",
-          "entries": 22,
+          "entries": 23,
           "copies": 1,
           "created_timestamp": 1759520000,
           "end_timestamp": 1759869120,
@@ -6993,7 +7025,7 @@
             "achievements_percentage": 100,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654095489
+            "last_checked": 1759715364484
           }
         },
         {
@@ -7118,7 +7150,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654097128
+            "last_checked": 1759715365737
           }
         },
         {
@@ -7603,7 +7635,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654098715
+            "last_checked": 1759715367082
           }
         },
         {
@@ -7616,14 +7648,14 @@
           "is_shared": false,
           "steam_play_data": {
             "owned": true,
-            "playtime_minutes": 576,
-            "playtime_formatted": "9 hours 36 minutes",
-            "achievements_unlocked": 19,
+            "playtime_minutes": 632,
+            "playtime_formatted": "10 hours 32 minutes",
+            "achievements_unlocked": 20,
             "achievements_total": 90,
-            "achievements_percentage": 21.1,
+            "achievements_percentage": 22.2,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654099824
+            "last_checked": 1759715368168
           }
         },
         {
@@ -8072,7 +8104,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654102353
+            "last_checked": 1759715369440
           }
         },
         {
@@ -8092,7 +8124,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654103509
+            "last_checked": 1759715370515
           }
         },
         {
@@ -8112,7 +8144,7 @@
             "achievements_percentage": 79.5,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654104615
+            "last_checked": 1759715371601
           },
           "i_played_bro": true
         },
@@ -8133,7 +8165,7 @@
             "achievements_percentage": 15,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654105729
+            "last_checked": 1759715372706
           }
         },
         {
@@ -9172,7 +9204,7 @@
             "achievements_percentage": 100,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654108427
+            "last_checked": 1759715374134
           },
           "required_play_meta": {
             "requirements_met": true,
@@ -9196,7 +9228,7 @@
             "achievements_percentage": 30,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654109552
+            "last_checked": 1759715375212
           }
         },
         {
@@ -9216,7 +9248,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654110661
+            "last_checked": 1759715376301
           }
         },
         {
@@ -9236,7 +9268,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654111782
+            "last_checked": 1759715377380
           }
         },
         {
@@ -9256,7 +9288,7 @@
             "achievements_percentage": 100,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654112885
+            "last_checked": 1759715378459
           },
           "i_played_bro": true
         },
@@ -9277,7 +9309,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654114019
+            "last_checked": 1759715379540
           }
         },
         {
@@ -9297,7 +9329,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654115151
+            "last_checked": 1759715380619
           }
         },
         {
@@ -9317,7 +9349,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654116274
+            "last_checked": 1759715381700
           }
         },
         {
@@ -9337,7 +9369,7 @@
             "achievements_percentage": 8.9,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654117392
+            "last_checked": 1759715382790
           },
           "required_play_meta": {
             "requirements_met": false,
@@ -9363,7 +9395,7 @@
             "achievements_percentage": 37.9,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654118501
+            "last_checked": 1759715383879
           }
         },
         {
@@ -9383,7 +9415,7 @@
             "achievements_percentage": 100,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654119636
+            "last_checked": 1759715384965
           },
           "i_played_bro": true
         },
@@ -10249,10 +10281,10 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1759097995,
         "last_giveaway_won_at": 1759503600,
-        "total_achievements_percentage": 7,
-        "average_achievements_percentage": 12,
-        "real_total_achievements_percentage": 8,
-        "real_average_achievements_percentage": 12,
+        "total_achievements_percentage": 9,
+        "average_achievements_percentage": 13,
+        "real_total_achievements_percentage": 9,
+        "real_average_achievements_percentage": 13,
         "has_missing_achievements_data": true
       },
       "steam_id": "76561198113581790",
@@ -10270,14 +10302,14 @@
           "is_shared": false,
           "steam_play_data": {
             "owned": true,
-            "playtime_minutes": 0,
-            "playtime_formatted": "0 minutes",
+            "playtime_minutes": 117,
+            "playtime_formatted": "1 hour 57 minutes",
             "achievements_unlocked": 0,
             "achievements_total": 16,
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654121198
+            "last_checked": 1759715386414
           }
         },
         {
@@ -10297,7 +10329,7 @@
             "achievements_percentage": 100,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654122305
+            "last_checked": 1759715387497
           },
           "required_play_meta": {
             "requirements_met": true,
@@ -10322,7 +10354,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654123422
+            "last_checked": 1759715388580
           }
         },
         {
@@ -10342,7 +10374,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654124544
+            "last_checked": 1759715389670
           }
         },
         {
@@ -10362,7 +10394,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654125666
+            "last_checked": 1759715390754
           }
         },
         {
@@ -10382,7 +10414,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654126804
+            "last_checked": 1759715391888
           }
         },
         {
@@ -10402,7 +10434,7 @@
             "achievements_percentage": 35,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654127897
+            "last_checked": 1759715392969
           }
         },
         {
@@ -10422,7 +10454,7 @@
             "achievements_percentage": 27.4,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654129000
+            "last_checked": 1759715394045
           }
         },
         {
@@ -10442,7 +10474,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654130118
+            "last_checked": 1759715395124
           }
         },
         {
@@ -10462,7 +10494,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654131220
+            "last_checked": 1759715396206
           }
         },
         {
@@ -10482,7 +10514,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654132410
+            "last_checked": 1759715397283
           }
         },
         {
@@ -10502,7 +10534,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654133515
+            "last_checked": 1759715398364
           }
         },
         {
@@ -10522,7 +10554,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654134635
+            "last_checked": 1759715399471
           }
         },
         {
@@ -10564,7 +10596,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654136847
+            "last_checked": 1759715400557
           }
         },
         {
@@ -10584,7 +10616,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654137956
+            "last_checked": 1759715401639
           }
         },
         {
@@ -10604,7 +10636,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654139065
+            "last_checked": 1759715402723
           }
         },
         {
@@ -10624,7 +10656,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654140222
+            "last_checked": 1759715403805
           }
         },
         {
@@ -10644,7 +10676,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654141344
+            "last_checked": 1759715404885
           }
         },
         {
@@ -10664,7 +10696,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654142475
+            "last_checked": 1759715405965
           }
         },
         {
@@ -10684,7 +10716,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654143602
+            "last_checked": 1759715407044
           }
         },
         {
@@ -10704,7 +10736,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654144736
+            "last_checked": 1759715408122
           }
         },
         {
@@ -10724,7 +10756,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654145842
+            "last_checked": 1759715409218
           }
         },
         {
@@ -10744,7 +10776,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654146950
+            "last_checked": 1759715410303
           }
         },
         {
@@ -10764,7 +10796,7 @@
             "achievements_percentage": 10.9,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654148085
+            "last_checked": 1759715411384
           }
         },
         {
@@ -10784,7 +10816,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654149195
+            "last_checked": 1759715412481
           }
         },
         {
@@ -11544,7 +11576,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654150682
+            "last_checked": 1759715413886
           }
         },
         {
@@ -11564,7 +11596,7 @@
             "achievements_percentage": 14.3,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654151804
+            "last_checked": 1759715414966
           }
         },
         {
@@ -11584,7 +11616,7 @@
             "achievements_percentage": 23.5,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654152932
+            "last_checked": 1759715416058
           }
         },
         {
@@ -11604,7 +11636,7 @@
             "achievements_percentage": 17.8,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654154037
+            "last_checked": 1759715417181
           }
         },
         {
@@ -11794,7 +11826,7 @@
           "name": "Outer Wilds",
           "link": "bRRuf/outer-wilds",
           "cv_status": "FULL_CV",
-          "entries": 10,
+          "entries": 14,
           "copies": 1,
           "created_timestamp": 1759440450,
           "end_timestamp": 1760047860,
@@ -11988,7 +12020,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654155558
+            "last_checked": 1759715418539
           }
         },
         {
@@ -12008,7 +12040,7 @@
             "achievements_percentage": 10.2,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654156677
+            "last_checked": 1759715419619
           }
         },
         {
@@ -12028,7 +12060,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654157796
+            "last_checked": 1759715420726
           }
         },
         {
@@ -12621,14 +12653,14 @@
           "is_shared": true,
           "steam_play_data": {
             "owned": true,
-            "playtime_minutes": 644,
-            "playtime_formatted": "10 hours 44 minutes",
+            "playtime_minutes": 1032,
+            "playtime_formatted": "17 hours 12 minutes",
             "achievements_unlocked": 9,
             "achievements_total": 30,
             "achievements_percentage": 30,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654160360
+            "last_checked": 1759715422026
           }
         },
         {
@@ -12648,7 +12680,7 @@
             "achievements_percentage": 100,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654161467
+            "last_checked": 1759715423112
           },
           "i_played_bro": true
         },
@@ -12669,7 +12701,7 @@
             "achievements_percentage": 17.4,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654162606
+            "last_checked": 1759715424202
           }
         },
         {
@@ -12689,7 +12721,7 @@
             "achievements_percentage": 85.2,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654163725
+            "last_checked": 1759715425284
           },
           "i_played_bro": true
         }
@@ -13271,7 +13303,7 @@
     "Dobke": {
       "username": "Dobke",
       "profile_url": "/user/Dobke",
-      "avatar_url": "https://avatars.steamstatic.com/e1b119d5c77f45fa5e79018ec286ead8cd0d68c7_medium.jpg",
+      "avatar_url": "https://avatars.steamstatic.com/1638b74eee1860b03d2fd9253c92aa1b277e5e1e_medium.jpg",
       "stats": {
         "total_sent_count": 9,
         "total_sent_value": 439.91,
@@ -13309,7 +13341,7 @@
           "name": "SILENT HILL f",
           "link": "H939V/silent-hill-f",
           "cv_status": "FULL_CV",
-          "entries": 71,
+          "entries": 78,
           "copies": 1,
           "created_timestamp": 1759537550,
           "end_timestamp": 1760223600,
@@ -13320,7 +13352,7 @@
           "name": "Cronos: The New Dawn",
           "link": "00kHg/cronos-the-new-dawn",
           "cv_status": "FULL_CV",
-          "entries": 62,
+          "entries": 67,
           "copies": 1,
           "created_timestamp": 1759538017,
           "end_timestamp": 1760828400,
@@ -13563,7 +13595,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654165460
+            "last_checked": 1759715426859
           }
         },
         {
@@ -13604,7 +13636,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654167702
+            "last_checked": 1759715428000
           }
         },
         {
@@ -13624,7 +13656,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654168819
+            "last_checked": 1759715429090
           }
         },
         {
@@ -13644,7 +13676,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654169935
+            "last_checked": 1759715430191
           }
         },
         {
@@ -13664,7 +13696,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654171072
+            "last_checked": 1759715431270
           }
         },
         {
@@ -13684,7 +13716,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654172217
+            "last_checked": 1759715432355
           }
         },
         {
@@ -13704,7 +13736,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654173347
+            "last_checked": 1759715433437
           }
         },
         {
@@ -14871,7 +14903,7 @@
             "achievements_percentage": 85.7,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654174896
+            "last_checked": 1759715434908
           },
           "i_played_bro": true,
           "required_play_meta": {
@@ -14897,7 +14929,7 @@
             "achievements_percentage": 33.3,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654176012
+            "last_checked": 1759715436013
           }
         },
         {
@@ -14917,7 +14949,7 @@
             "achievements_percentage": 62.5,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654177130
+            "last_checked": 1759715437098
           },
           "i_played_bro": true,
           "required_play_meta": {
@@ -15310,7 +15342,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654178684
+            "last_checked": 1759715438647
           }
         },
         {
@@ -15330,7 +15362,7 @@
             "achievements_percentage": 65.4,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654179783
+            "last_checked": 1759715439730
           }
         },
         {
@@ -15350,7 +15382,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654180889
+            "last_checked": 1759715440813
           }
         },
         {
@@ -15370,7 +15402,7 @@
             "achievements_percentage": 75,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654182017
+            "last_checked": 1759715441893
           },
           "i_played_bro": true
         },
@@ -15391,7 +15423,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654183149
+            "last_checked": 1759715442968
           }
         },
         {
@@ -15411,7 +15443,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654184271
+            "last_checked": 1759715444070
           }
         },
         {
@@ -15431,7 +15463,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654185404
+            "last_checked": 1759715445245
           }
         },
         {
@@ -16178,7 +16210,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654187097
+            "last_checked": 1759715446861
           }
         },
         {
@@ -16198,7 +16230,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654188231
+            "last_checked": 1759715447951
           }
         },
         {
@@ -16218,7 +16250,7 @@
             "achievements_percentage": 19.2,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654189358
+            "last_checked": 1759715449033
           }
         },
         {
@@ -16238,7 +16270,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654191812
+            "last_checked": 1759715451415
           }
         },
         {
@@ -16258,7 +16290,7 @@
             "achievements_percentage": 20,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654192938
+            "last_checked": 1759715452497
           },
           "required_play_meta": {
             "requirements_met": true,
@@ -16282,7 +16314,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654194063
+            "last_checked": 1759715453577
           }
         },
         {
@@ -16302,7 +16334,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654195192
+            "last_checked": 1759715454656
           },
           "required_play_meta": {
             "requirements_met": false,
@@ -16327,7 +16359,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654196333
+            "last_checked": 1759715455738
           }
         },
         {
@@ -16347,7 +16379,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654197476
+            "last_checked": 1759715456831
           }
         },
         {
@@ -16367,7 +16399,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654200101
+            "last_checked": 1759715459088
           }
         },
         {
@@ -16387,7 +16419,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654201220
+            "last_checked": 1759715460169
           }
         },
         {
@@ -16995,7 +17027,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654203038
+            "last_checked": 1759715461867
           }
         },
         {
@@ -17696,7 +17728,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654205559
+            "last_checked": 1759715463237
           }
         },
         {
@@ -17716,7 +17748,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654206928
+            "last_checked": 1759715464318
           }
         },
         {
@@ -17736,7 +17768,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654208065
+            "last_checked": 1759715465394
           }
         },
         {
@@ -17756,7 +17788,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654209175
+            "last_checked": 1759715466577
           }
         },
         {
@@ -17776,7 +17808,7 @@
             "achievements_percentage": 4,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654210278
+            "last_checked": 1759715467665
           },
           "required_play_meta": {
             "requirements_met": true,
@@ -18379,7 +18411,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654212009
+            "last_checked": 1759715468936
           }
         },
         {
@@ -18399,7 +18431,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654213134
+            "last_checked": 1759715470035
           }
         },
         {
@@ -18536,7 +18568,7 @@
           "name": "The Exit 8",
           "link": "Z7pEM/the-exit-8",
           "cv_status": "FULL_CV",
-          "entries": 8,
+          "entries": 10,
           "copies": 1,
           "created_timestamp": 1759142915,
           "end_timestamp": 1759752000,
@@ -18753,7 +18785,7 @@
           "name": "Jupiter Hell",
           "link": "br3w5/jupiter-hell",
           "cv_status": "FULL_CV",
-          "entries": 17,
+          "entries": 18,
           "copies": 1,
           "created_timestamp": 1759425192,
           "end_timestamp": 1759946940,
@@ -19023,7 +19055,7 @@
             "achievements_percentage": 96,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654214851
+            "last_checked": 1759715471495
           }
         },
         {
@@ -19043,7 +19075,7 @@
             "achievements_percentage": 77.9,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654215980
+            "last_checked": 1759715472756
           },
           "required_play_meta": {
             "requirements_met": true,
@@ -19646,14 +19678,14 @@
           "is_shared": false,
           "steam_play_data": {
             "owned": true,
-            "playtime_minutes": 228,
-            "playtime_formatted": "3 hours 48 minutes",
-            "achievements_unlocked": 14,
+            "playtime_minutes": 485,
+            "playtime_formatted": "8 hours 5 minutes",
+            "achievements_unlocked": 19,
             "achievements_total": 21,
-            "achievements_percentage": 66.7,
+            "achievements_percentage": 90.5,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654217568
+            "last_checked": 1759715474119
           }
         },
         {
@@ -19673,7 +19705,7 @@
             "achievements_percentage": 17.5,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654218700
+            "last_checked": 1759715475199
           }
         },
         {
@@ -19693,7 +19725,7 @@
             "achievements_percentage": 3,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654219849
+            "last_checked": 1759715476375
           }
         },
         {
@@ -19713,7 +19745,7 @@
             "achievements_percentage": 22.2,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654221021
+            "last_checked": 1759715477452
           },
           "i_played_bro": true
         },
@@ -20966,7 +20998,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654222898
+            "last_checked": 1759715478988
           }
         },
         {
@@ -20986,7 +21018,7 @@
             "achievements_percentage": 70.4,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654224010
+            "last_checked": 1759715480069
           },
           "required_play_meta": {
             "requirements_met": true,
@@ -21012,7 +21044,7 @@
             "achievements_percentage": 50,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654225125
+            "last_checked": 1759715481155
           },
           "i_played_bro": true
         },
@@ -21033,7 +21065,7 @@
             "achievements_percentage": 46.7,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654226229
+            "last_checked": 1759715482232
           },
           "i_played_bro": true
         },
@@ -21054,7 +21086,7 @@
             "achievements_percentage": 39.3,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654227357
+            "last_checked": 1759715483310
           },
           "i_played_bro": true,
           "required_play_meta": {
@@ -21079,7 +21111,7 @@
             "achievements_percentage": 40,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654228488
+            "last_checked": 1759715484394
           }
         },
         {
@@ -21099,7 +21131,7 @@
             "achievements_percentage": 42.3,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654229627
+            "last_checked": 1759715485482
           }
         },
         {
@@ -21119,7 +21151,7 @@
             "achievements_percentage": 52.6,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654230742
+            "last_checked": 1759715486559
           },
           "i_played_bro": true,
           "required_play_meta": {
@@ -21816,7 +21848,7 @@
             "achievements_percentage": 3.4,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654232120
+            "last_checked": 1759715487806
           },
           "required_play_meta": {
             "requirements_met": true,
@@ -21840,7 +21872,7 @@
             "achievements_percentage": 7.1,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654234693
+            "last_checked": 1759715490249
           },
           "required_play_meta": {
             "requirements_met": true,
@@ -22066,14 +22098,14 @@
           "is_shared": false,
           "steam_play_data": {
             "owned": true,
-            "playtime_minutes": 276,
-            "playtime_formatted": "4 hours 36 minutes",
-            "achievements_unlocked": 17,
+            "playtime_minutes": 339,
+            "playtime_formatted": "5 hours 39 minutes",
+            "achievements_unlocked": 18,
             "achievements_total": 18,
-            "achievements_percentage": 94.4,
+            "achievements_percentage": 100,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654236042
+            "last_checked": 1759715491576
           }
         },
         {
@@ -22209,7 +22241,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654237467
+            "last_checked": 1759715493072
           }
         },
         {
@@ -22229,7 +22261,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654238578
+            "last_checked": 1759715494152
           },
           "required_play_meta": {
             "requirements_met": false,
@@ -22253,7 +22285,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654239699
+            "last_checked": 1759715495237
           }
         },
         {
@@ -22266,14 +22298,14 @@
           "is_shared": false,
           "steam_play_data": {
             "owned": true,
-            "playtime_minutes": 0,
-            "playtime_formatted": "0 minutes",
+            "playtime_minutes": 93,
+            "playtime_formatted": "1 hour 33 minutes",
             "achievements_unlocked": 0,
             "achievements_total": 27,
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654240838
+            "last_checked": 1759715496311
           }
         },
         {
@@ -22293,7 +22325,7 @@
             "achievements_percentage": 100,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654241949
+            "last_checked": 1759715497389
           },
           "i_played_bro": true,
           "required_play_meta": {
@@ -22318,7 +22350,7 @@
             "achievements_percentage": 79.3,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654243084
+            "last_checked": 1759715498466
           },
           "i_played_bro": true,
           "required_play_meta": {
@@ -22991,7 +23023,7 @@
           "name": "Cronos: The New Dawn",
           "link": "PDn2R/cronos-the-new-dawn",
           "cv_status": "FULL_CV",
-          "entries": 57,
+          "entries": 60,
           "copies": 1,
           "created_timestamp": 1759487337,
           "end_timestamp": 1761915600,
@@ -23430,26 +23462,26 @@
       "profile_url": "/user/insideAfireball",
       "avatar_url": "https://avatars.steamstatic.com/7362302a755462a8ba4b1dfeae01d43e9915b4dd_medium.jpg",
       "stats": {
-        "total_sent_count": 14,
-        "total_sent_value": 313.86,
+        "total_sent_count": 15,
+        "total_sent_value": 333.85,
         "total_received_count": 15,
         "total_received_value": 437.85,
-        "total_gift_difference": -1,
-        "total_value_difference": -123.99,
-        "fcv_sent_count": 14,
+        "total_gift_difference": 0,
+        "total_value_difference": -104,
+        "fcv_sent_count": 15,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
         "fcv_received_count": 14,
         "rcv_received_count": 1,
         "ncv_received_count": 0,
-        "fcv_gift_difference": 0,
-        "real_total_sent_value": 313.86000000000007,
+        "fcv_gift_difference": 1,
+        "real_total_sent_value": 333.8500000000001,
         "real_total_received_value": 395.36000000000007,
-        "real_total_value_difference": -81.5,
-        "real_total_sent_count": 14,
+        "real_total_value_difference": -61.51,
+        "real_total_sent_count": 15,
         "real_total_received_count": 14,
-        "real_total_gift_difference": 0,
-        "giveaway_ratio": 10,
+        "real_total_gift_difference": 1,
+        "giveaway_ratio": 11,
         "shared_sent_count": 0,
         "shared_received_count": 0,
         "giveaways_created": 15,
@@ -23484,7 +23516,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654245939
+            "last_checked": 1759715499942
           }
         },
         {
@@ -23504,7 +23536,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654248553
+            "last_checked": 1759715502227
           }
         },
         {
@@ -23545,7 +23577,7 @@
             "achievements_percentage": 45.5,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654250799
+            "last_checked": 1759715503304
           },
           "i_played_bro": true,
           "required_play_meta": {
@@ -23571,7 +23603,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654251921
+            "last_checked": 1759715504389
           }
         },
         {
@@ -23591,7 +23623,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654254429
+            "last_checked": 1759715506658
           }
         },
         {
@@ -23611,7 +23643,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654255549
+            "last_checked": 1759715507742
           }
         },
         {
@@ -23631,7 +23663,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654256649
+            "last_checked": 1759715508823
           }
         },
         {
@@ -23651,7 +23683,7 @@
             "achievements_percentage": 100,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654257782
+            "last_checked": 1759715509928
           }
         },
         {
@@ -23671,7 +23703,7 @@
             "achievements_percentage": 86.4,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654258911
+            "last_checked": 1759715511037
           },
           "i_played_bro": true
         },
@@ -23781,7 +23813,7 @@
           "name": "DEATHLOOP - Deluxe Edition",
           "link": "q9a5w/deathloop-deluxe-edition",
           "cv_status": "FULL_CV",
-          "entries": 2,
+          "entries": 5,
           "copies": 1,
           "created_timestamp": 1759588858,
           "end_timestamp": 1759888800,
@@ -23857,6 +23889,11 @@
             },
             {
               "name": "Metalhead8489",
+              "status": "received",
+              "activated": true
+            },
+            {
+              "name": "OndrejVasicek",
               "status": "received",
               "activated": true
             }
@@ -24124,7 +24161,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654260398
+            "last_checked": 1759715512356
           }
         },
         {
@@ -24144,7 +24181,7 @@
             "achievements_percentage": 2.9,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654261515
+            "last_checked": 1759715513438
           }
         },
         {
@@ -24164,7 +24201,7 @@
             "achievements_percentage": 7.7,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654262670
+            "last_checked": 1759715514522
           }
         },
         {
@@ -24205,7 +24242,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654264888
+            "last_checked": 1759715515613
           }
         },
         {
@@ -24635,26 +24672,26 @@
       "profile_url": "/user/Ivannes",
       "avatar_url": "https://avatars.steamstatic.com/f929925df26b86d3aaf9b504c42bc8a7f18a882b_medium.jpg",
       "stats": {
-        "total_sent_count": 15.7,
-        "total_sent_value": 359.98,
+        "total_sent_count": 16.7,
+        "total_sent_value": 419.97,
         "total_received_count": 2,
         "total_received_value": 41.98,
-        "total_gift_difference": 13.7,
-        "total_value_difference": 318,
-        "fcv_sent_count": 12,
+        "total_gift_difference": 14.7,
+        "total_value_difference": 377.99,
+        "fcv_sent_count": 13,
         "rcv_sent_count": 1,
         "ncv_sent_count": 0,
         "fcv_received_count": 2,
         "rcv_received_count": 0,
         "ncv_received_count": 0,
-        "fcv_gift_difference": 10,
-        "real_total_sent_value": 282.52000000000004,
+        "fcv_gift_difference": 11,
+        "real_total_sent_value": 342.51000000000005,
         "real_total_received_value": 41.98,
-        "real_total_value_difference": 240.54,
-        "real_total_sent_count": 12,
+        "real_total_value_difference": 300.53,
+        "real_total_sent_count": 13,
         "real_total_received_count": 2,
-        "real_total_gift_difference": 10,
-        "giveaway_ratio": 12,
+        "real_total_gift_difference": 11,
+        "giveaway_ratio": 13,
         "shared_sent_count": 11,
         "shared_received_count": 0,
         "giveaways_created": 24,
@@ -24730,9 +24767,9 @@
           "had_winners": true,
           "winners": [
             {
-              "name": null,
-              "status": "awaiting_feedback",
-              "activated": false
+              "name": "TwixClub",
+              "status": "received",
+              "activated": true
             }
           ]
         },
@@ -25332,7 +25369,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654266525
+            "last_checked": 1759715517022
           }
         },
         {
@@ -25381,7 +25418,7 @@
           "name": "Resident Evil 4",
           "link": "38ER9/resident-evil-4",
           "cv_status": "FULL_CV",
-          "entries": 15,
+          "entries": 18,
           "copies": 1,
           "created_timestamp": 1759540537,
           "end_timestamp": 1759749000,
@@ -25487,7 +25524,7 @@
             "achievements_percentage": 9.4,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654268146
+            "last_checked": 1759715518527
           }
         },
         {
@@ -25507,7 +25544,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654269275
+            "last_checked": 1759715519617
           }
         },
         {
@@ -25527,7 +25564,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654270392
+            "last_checked": 1759715520702
           }
         },
         {
@@ -25547,7 +25584,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654271496
+            "last_checked": 1759715521780
           }
         },
         {
@@ -25567,7 +25604,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654272612
+            "last_checked": 1759715523005
           }
         },
         {
@@ -25587,7 +25624,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654273728
+            "last_checked": 1759715524084
           }
         },
         {
@@ -25607,7 +25644,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654274832
+            "last_checked": 1759715525164
           }
         },
         {
@@ -25627,7 +25664,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654275958
+            "last_checked": 1759715526246
           }
         },
         {
@@ -26030,7 +26067,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654277470
+            "last_checked": 1759715527639
           }
         },
         {
@@ -26151,9 +26188,9 @@
         "last_giveaway_created_at": 1759174059,
         "last_giveaway_won_at": 1755000000,
         "total_achievements_percentage": 100,
-        "average_achievements_percentage": 50,
+        "average_achievements_percentage": 100,
         "real_total_achievements_percentage": 100,
-        "real_average_achievements_percentage": 50,
+        "real_average_achievements_percentage": 100,
         "has_missing_achievements_data": false
       },
       "steam_id": "76561198376004004",
@@ -26178,7 +26215,7 @@
             "achievements_percentage": 100,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654279948
+            "last_checked": 1759715528997
           }
         },
         {
@@ -26577,7 +26614,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654281430
+            "last_checked": 1759715530373
           }
         },
         {
@@ -26791,30 +26828,30 @@
       "stats": {
         "total_sent_count": 4,
         "total_sent_value": 234.96,
-        "total_received_count": 11,
-        "total_received_value": 290.89,
-        "total_gift_difference": -7,
-        "total_value_difference": -55.93,
+        "total_received_count": 12,
+        "total_received_value": 330.88,
+        "total_gift_difference": -8,
+        "total_value_difference": -95.92,
         "fcv_sent_count": 4,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
-        "fcv_received_count": 11,
+        "fcv_received_count": 12,
         "rcv_received_count": 0,
         "ncv_received_count": 0,
-        "fcv_gift_difference": -7,
+        "fcv_gift_difference": -8,
         "real_total_sent_value": 234.96,
-        "real_total_received_value": 290.89000000000004,
-        "real_total_value_difference": -55.93,
+        "real_total_received_value": 330.88000000000005,
+        "real_total_value_difference": -95.92,
         "real_total_sent_count": 4,
-        "real_total_received_count": 11,
-        "real_total_gift_difference": -7,
-        "giveaway_ratio": 0.3333333333333335,
+        "real_total_received_count": 12,
+        "real_total_gift_difference": -8,
+        "giveaway_ratio": 0,
         "shared_sent_count": 0,
         "shared_received_count": 0,
         "giveaways_created": 4,
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1754108952,
-        "last_giveaway_won_at": 1756647120,
+        "last_giveaway_won_at": 1759687200,
         "total_achievements_percentage": 16,
         "average_achievements_percentage": 8,
         "real_total_achievements_percentage": 16,
@@ -26826,6 +26863,26 @@
       "steam_profile_is_private": false,
       "country_code": null,
       "giveaways_won": [
+        {
+          "name": "The Outlast Trials",
+          "link": "in4vN/the-outlast-trials",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1759687200,
+          "required_play": false,
+          "is_shared": false,
+          "steam_play_data": {
+            "owned": true,
+            "playtime_minutes": 0,
+            "playtime_formatted": "0 minutes",
+            "achievements_unlocked": 0,
+            "achievements_total": 27,
+            "achievements_percentage": 0,
+            "never_played": true,
+            "is_playtime_private": false,
+            "last_checked": 1759715531918
+          }
+        },
         {
           "name": "Chasm: The Rift",
           "link": "u1eog/chasm-the-rift",
@@ -26843,7 +26900,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654284016
+            "last_checked": 1759715533036
           }
         },
         {
@@ -26863,7 +26920,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654285147
+            "last_checked": 1759715534127
           }
         },
         {
@@ -26883,7 +26940,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654286261
+            "last_checked": 1759715535227
           }
         },
         {
@@ -27145,26 +27202,26 @@
       "profile_url": "/user/Lakraj1209",
       "avatar_url": "https://avatars.steamstatic.com/e4ac30795f9e34d3970436ac5df9bde02308f3db_medium.jpg",
       "stats": {
-        "total_sent_count": 5,
-        "total_sent_value": 99.95,
+        "total_sent_count": 6,
+        "total_sent_value": 114.94,
         "total_received_count": 5,
         "total_received_value": 184.95,
-        "total_gift_difference": 0,
-        "total_value_difference": -85,
-        "fcv_sent_count": 5,
+        "total_gift_difference": 1,
+        "total_value_difference": -70.01,
+        "fcv_sent_count": 6,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
         "fcv_received_count": 5,
         "rcv_received_count": 0,
         "ncv_received_count": 0,
-        "fcv_gift_difference": 0,
-        "real_total_sent_value": 99.94999999999999,
+        "fcv_gift_difference": 1,
+        "real_total_sent_value": 114.93999999999998,
         "real_total_received_value": 184.95000000000002,
-        "real_total_value_difference": -85,
-        "real_total_sent_count": 5,
+        "real_total_value_difference": -70.01,
+        "real_total_sent_count": 6,
         "real_total_received_count": 5,
-        "real_total_gift_difference": 0,
-        "giveaway_ratio": 3.333333333333333,
+        "real_total_gift_difference": 1,
+        "giveaway_ratio": 4.333333333333333,
         "shared_sent_count": 0,
         "shared_received_count": 0,
         "giveaways_created": 10,
@@ -27198,7 +27255,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654287648
+            "last_checked": 1759715536542
           }
         },
         {
@@ -27218,7 +27275,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654288753
+            "last_checked": 1759715537633
           }
         },
         {
@@ -27238,7 +27295,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654289860
+            "last_checked": 1759715538765
           }
         },
         {
@@ -27258,7 +27315,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654290990
+            "last_checked": 1759715539848
           }
         },
         {
@@ -27278,7 +27335,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654293605
+            "last_checked": 1759715542271
           }
         }
       ],
@@ -27287,7 +27344,7 @@
           "name": "Shape of Dreams",
           "link": "YbZ1d/shape-of-dreams",
           "cv_status": "FULL_CV",
-          "entries": 13,
+          "entries": 15,
           "copies": 1,
           "created_timestamp": 1759489295,
           "end_timestamp": 1759820400,
@@ -27367,9 +27424,9 @@
           "had_winners": true,
           "winners": [
             {
-              "name": null,
-              "status": "awaiting_feedback",
-              "activated": false
+              "name": "LinustheBold",
+              "status": "received",
+              "activated": true
             }
           ]
         },
@@ -27973,7 +28030,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654295231
+            "last_checked": 1759715543707
           }
         },
         {
@@ -27993,7 +28050,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654296362
+            "last_checked": 1759715544841
           }
         },
         {
@@ -28013,7 +28070,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654297493
+            "last_checked": 1759715545927
           }
         },
         {
@@ -28033,7 +28090,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654298630
+            "last_checked": 1759715547015
           }
         },
         {
@@ -28053,7 +28110,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654299768
+            "last_checked": 1759715548106
           }
         },
         {
@@ -28073,7 +28130,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654300878
+            "last_checked": 1759715549204
           },
           "required_play_meta": {
             "requirements_met": false,
@@ -28097,7 +28154,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654301988
+            "last_checked": 1759715550288
           }
         },
         {
@@ -29268,7 +29325,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654303528
+            "last_checked": 1759715551685
           }
         },
         {
@@ -29288,7 +29345,7 @@
             "achievements_percentage": 10.3,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654304660
+            "last_checked": 1759715552767
           }
         },
         {
@@ -29727,32 +29784,32 @@
       "profile_url": "/user/LinustheBold",
       "avatar_url": "https://avatars.steamstatic.com/f9447e18cbe4e6668a628ddd3e226971e351521d_medium.jpg",
       "stats": {
-        "total_sent_count": 17.5,
-        "total_sent_value": 352.83,
-        "total_received_count": 17,
-        "total_received_value": 396.83,
+        "total_sent_count": 18.5,
+        "total_sent_value": 355.82,
+        "total_received_count": 18,
+        "total_received_value": 411.82,
         "total_gift_difference": 0.5,
-        "total_value_difference": -44.01,
-        "fcv_sent_count": 16,
+        "total_value_difference": -56.01,
+        "fcv_sent_count": 17,
         "rcv_sent_count": 1,
         "ncv_sent_count": 0,
-        "fcv_received_count": 17,
+        "fcv_received_count": 18,
         "rcv_received_count": 0,
         "ncv_received_count": 0,
         "fcv_gift_difference": -1,
-        "real_total_sent_value": 325.84000000000003,
-        "real_total_received_value": 371.8300000000001,
-        "real_total_value_difference": -45.99,
-        "real_total_sent_count": 16,
-        "real_total_received_count": 17,
+        "real_total_sent_value": 328.83000000000004,
+        "real_total_received_value": 386.8200000000001,
+        "real_total_value_difference": -57.99,
+        "real_total_sent_count": 17,
+        "real_total_received_count": 18,
         "real_total_gift_difference": -1,
-        "giveaway_ratio": 12,
+        "giveaway_ratio": 12.666666666666668,
         "shared_sent_count": 2,
         "shared_received_count": 0,
         "giveaways_created": 23,
         "giveaways_with_no_entries": 2,
         "last_giveaway_created_at": 1759600123,
-        "last_giveaway_won_at": 1758039300,
+        "last_giveaway_won_at": 1759646580,
         "total_achievements_percentage": 12,
         "average_achievements_percentage": 19,
         "real_total_achievements_percentage": 12,
@@ -29764,6 +29821,26 @@
       "steam_profile_is_private": false,
       "country_code": "us",
       "giveaways_won": [
+        {
+          "name": "The Rewinder",
+          "link": "KXEp3/the-rewinder",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1759646580,
+          "required_play": false,
+          "is_shared": false,
+          "steam_play_data": {
+            "owned": true,
+            "playtime_minutes": 0,
+            "playtime_formatted": "0 minutes",
+            "achievements_unlocked": 0,
+            "achievements_total": 29,
+            "achievements_percentage": 0,
+            "never_played": true,
+            "is_playtime_private": false,
+            "last_checked": 1759715554212
+          }
+        },
         {
           "name": "Pillars of Eternity II: Deadfire - Ob...",
           "link": "FdFlh/pillars-of-eternity-ii-deadfire-obsidian-edition",
@@ -29801,7 +29878,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654307755
+            "last_checked": 1759715555293
           }
         },
         {
@@ -29821,7 +29898,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654308893
+            "last_checked": 1759715556379
           }
         },
         {
@@ -29841,7 +29918,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654310043
+            "last_checked": 1759715557462
           }
         },
         {
@@ -29861,7 +29938,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654311171
+            "last_checked": 1759715558540
           }
         },
         {
@@ -29881,7 +29958,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654312285
+            "last_checked": 1759715559632
           }
         },
         {
@@ -30121,17 +30198,6 @@
       ],
       "giveaways_created": [
         {
-          "name": "Buckshot Roulette",
-          "link": "sdLKb/buckshot-roulette",
-          "cv_status": "FULL_CV",
-          "entries": 5,
-          "copies": 1,
-          "created_timestamp": 1759340087,
-          "end_timestamp": 1759691640,
-          "required_play": false,
-          "is_shared": false
-        },
-        {
           "name": "Planet of Lana",
           "link": "ulJlQ/planet-of-lana",
           "cv_status": "FULL_CV",
@@ -30141,6 +30207,25 @@
           "end_timestamp": 1759864440,
           "required_play": false,
           "is_shared": false
+        },
+        {
+          "name": "Buckshot Roulette",
+          "link": "sdLKb/buckshot-roulette",
+          "cv_status": "FULL_CV",
+          "entries": 5,
+          "copies": 1,
+          "created_timestamp": 1759340087,
+          "end_timestamp": 1759691640,
+          "required_play": false,
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "UnknownEAK",
+              "status": "received",
+              "activated": true
+            }
+          ]
         },
         {
           "name": "BrokenLore: LOW",
@@ -30623,7 +30708,7 @@
           "name": "The Forgotten City",
           "link": "hMg9i/the-forgotten-city",
           "cv_status": "REDUCED_CV",
-          "entries": 116,
+          "entries": 131,
           "copies": 1,
           "created_timestamp": 1759107776,
           "end_timestamp": 1759723200,
@@ -30645,7 +30730,7 @@
           "name": "Warpips",
           "link": "FY3Ht/warpips",
           "cv_status": "REDUCED_CV",
-          "entries": 29,
+          "entries": 33,
           "copies": 1,
           "created_timestamp": 1759538068,
           "end_timestamp": 1760155200,
@@ -30656,7 +30741,7 @@
           "name": "The Ouroboros King",
           "link": "G2MBW/the-ouroboros-king",
           "cv_status": "REDUCED_CV",
-          "entries": 55,
+          "entries": 83,
           "copies": 2,
           "created_timestamp": 1759615710,
           "end_timestamp": 1760241600,
@@ -31678,14 +31763,14 @@
           "is_shared": false,
           "steam_play_data": {
             "owned": true,
-            "playtime_minutes": 32,
-            "playtime_formatted": "32 minutes",
+            "playtime_minutes": 64,
+            "playtime_formatted": "1 hour 4 minutes",
             "achievements_unlocked": 0,
             "achievements_total": 47,
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654314007
+            "last_checked": 1759715561082
           }
         },
         {
@@ -31705,7 +31790,7 @@
             "achievements_percentage": 100,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654315133
+            "last_checked": 1759715562164
           }
         },
         {
@@ -31725,7 +31810,7 @@
             "achievements_percentage": 42.2,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654316246
+            "last_checked": 1759715563249
           },
           "required_play_meta": {
             "requirements_met": true,
@@ -31749,7 +31834,7 @@
             "achievements_percentage": 86.7,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654317359
+            "last_checked": 1759715564342
           }
         },
         {
@@ -32043,7 +32128,7 @@
           "name": "Hogwarts Legacy",
           "link": "aMhGI/hogwarts-legacy",
           "cv_status": "FULL_CV",
-          "entries": 5,
+          "entries": 9,
           "copies": 1,
           "created_timestamp": 1759608572,
           "end_timestamp": 1759781400,
@@ -32402,7 +32487,7 @@
             "achievements_percentage": 7.1,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654319929
+            "last_checked": 1759715565650
           }
         },
         {
@@ -32422,7 +32507,7 @@
             "achievements_percentage": 7.5,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654321059
+            "last_checked": 1759715566740
           }
         },
         {
@@ -32442,7 +32527,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654322191
+            "last_checked": 1759715567815
           }
         },
         {
@@ -32483,7 +32568,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654324419
+            "last_checked": 1759715568890
           }
         },
         {
@@ -32503,7 +32588,7 @@
             "achievements_percentage": 85.7,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654325547
+            "last_checked": 1759715569980
           }
         },
         {
@@ -33261,7 +33346,7 @@
             "achievements_percentage": 46.3,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654327003
+            "last_checked": 1759715571331
           },
           "required_play_meta": {
             "requirements_met": true,
@@ -33449,7 +33534,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654328711
+            "last_checked": 1759715572801
           }
         },
         {
@@ -33469,7 +33554,7 @@
             "achievements_percentage": 59.6,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654329930
+            "last_checked": 1759715573891
           },
           "required_play_meta": {
             "requirements_met": true,
@@ -33495,7 +33580,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654331057
+            "last_checked": 1759715574969
           }
         },
         {
@@ -34072,7 +34157,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654332517
+            "last_checked": 1759715576439
           }
         },
         {
@@ -34092,7 +34177,7 @@
             "achievements_percentage": 17.6,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654333655
+            "last_checked": 1759715577522
           }
         },
         {
@@ -34540,7 +34625,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654335219
+            "last_checked": 1759715578868
           }
         },
         {
@@ -34560,7 +34645,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654336322
+            "last_checked": 1759715579948
           }
         },
         {
@@ -34580,7 +34665,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654337446
+            "last_checked": 1759715581028
           }
         },
         {
@@ -34600,7 +34685,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654338549
+            "last_checked": 1759715582110
           }
         },
         {
@@ -34620,7 +34705,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654339656
+            "last_checked": 1759715583190
           }
         },
         {
@@ -34770,7 +34855,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654341217
+            "last_checked": 1759715584976
           }
         },
         {
@@ -34790,7 +34875,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654342366
+            "last_checked": 1759715586059
           }
         },
         {
@@ -34810,7 +34895,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654343478
+            "last_checked": 1759715587157
           }
         },
         {
@@ -34830,7 +34915,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654344611
+            "last_checked": 1759715588239
           }
         },
         {
@@ -34850,7 +34935,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654345722
+            "last_checked": 1759715589324
           }
         },
         {
@@ -34870,7 +34955,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654346845
+            "last_checked": 1759715590407
           }
         },
         {
@@ -34890,7 +34975,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654347952
+            "last_checked": 1759715591488
           }
         },
         {
@@ -34910,7 +34995,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654349071
+            "last_checked": 1759715592588
           }
         },
         {
@@ -34930,7 +35015,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654350176
+            "last_checked": 1759715593675
           }
         },
         {
@@ -34950,7 +35035,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654351293
+            "last_checked": 1759715594757
           }
         },
         {
@@ -34970,7 +35055,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654352400
+            "last_checked": 1759715595838
           }
         },
         {
@@ -34990,7 +35075,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654353507
+            "last_checked": 1759715596964
           }
         },
         {
@@ -35010,7 +35095,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654354628
+            "last_checked": 1759715598053
           }
         },
         {
@@ -35030,7 +35115,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654355732
+            "last_checked": 1759715599136
           }
         },
         {
@@ -35050,7 +35135,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654356847
+            "last_checked": 1759715600210
           }
         },
         {
@@ -35070,7 +35155,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654357987
+            "last_checked": 1759715601294
           }
         },
         {
@@ -35901,7 +35986,7 @@
           "name": "NieR:Automata",
           "link": "7KYLl/nierautomata",
           "cv_status": "FULL_CV",
-          "entries": 16,
+          "entries": 18,
           "copies": 1,
           "created_timestamp": 1759355610,
           "end_timestamp": 1759765500,
@@ -36452,7 +36537,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654359590
+            "last_checked": 1759715602781
           }
         },
         {
@@ -36714,14 +36799,14 @@
           "is_shared": false,
           "steam_play_data": {
             "owned": true,
-            "playtime_minutes": 89,
-            "playtime_formatted": "1 hour 29 minutes",
-            "achievements_unlocked": 1,
+            "playtime_minutes": 482,
+            "playtime_formatted": "8 hours 2 minutes",
+            "achievements_unlocked": 5,
             "achievements_total": 15,
-            "achievements_percentage": 6.7,
+            "achievements_percentage": 33.3,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654361041
+            "last_checked": 1759715604106
           }
         },
         {
@@ -36741,7 +36826,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654362168
+            "last_checked": 1759715605188
           }
         },
         {
@@ -36761,7 +36846,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654363294
+            "last_checked": 1759715606280
           }
         },
         {
@@ -36781,7 +36866,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654364396
+            "last_checked": 1759715607377
           }
         },
         {
@@ -36801,7 +36886,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654365515
+            "last_checked": 1759715608509
           }
         },
         {
@@ -36821,7 +36906,7 @@
             "achievements_percentage": 2.9,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654366651
+            "last_checked": 1759715609592
           }
         },
         {
@@ -36841,7 +36926,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654367778
+            "last_checked": 1759715610672
           }
         },
         {
@@ -36861,7 +36946,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654368906
+            "last_checked": 1759715611762
           }
         },
         {
@@ -37094,7 +37179,7 @@
           "name": "The Cosmic Wheel Sisterhood",
           "link": "FgpXp/the-cosmic-wheel-sisterhood",
           "cv_status": "FULL_CV",
-          "entries": 4,
+          "entries": 8,
           "copies": 1,
           "created_timestamp": 1759631976,
           "end_timestamp": 1760122200,
@@ -37970,7 +38055,8 @@
         }
       ],
       "warnings": [
-        "unplayed_required_play_giveaways"
+        "unplayed_required_play_giveaways",
+        "required_plays_need_review"
       ]
     },
     "olehsamoilenko": {
@@ -38115,7 +38201,7 @@
             "achievements_percentage": 20.4,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654371686
+            "last_checked": 1759715613163
           },
           "required_play_meta": {
             "requirements_met": true,
@@ -38693,33 +38779,33 @@
       "stats": {
         "total_sent_count": 6,
         "total_sent_value": 172.91,
-        "total_received_count": 4,
-        "total_received_value": 167.96,
-        "total_gift_difference": 2,
-        "total_value_difference": 4.95,
+        "total_received_count": 5,
+        "total_received_value": 187.95,
+        "total_gift_difference": 1,
+        "total_value_difference": -15.04,
         "fcv_sent_count": 6,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
-        "fcv_received_count": 4,
+        "fcv_received_count": 5,
         "rcv_received_count": 0,
         "ncv_received_count": 0,
-        "fcv_gift_difference": 2,
+        "fcv_gift_difference": 1,
         "real_total_sent_value": 147.91,
-        "real_total_received_value": 167.96,
-        "real_total_value_difference": -20.05,
+        "real_total_received_value": 187.95000000000002,
+        "real_total_value_difference": -40.04,
         "real_total_sent_count": 6,
-        "real_total_received_count": 4,
-        "real_total_gift_difference": 2,
-        "giveaway_ratio": 4.666666666666667,
+        "real_total_received_count": 5,
+        "real_total_gift_difference": 1,
+        "giveaway_ratio": 4.333333333333333,
         "shared_sent_count": 0,
         "shared_received_count": 0,
         "giveaways_created": 6,
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1759242422,
-        "last_giveaway_won_at": 1759431600,
-        "total_achievements_percentage": 100,
+        "last_giveaway_won_at": 1759554000,
+        "total_achievements_percentage": 8,
         "average_achievements_percentage": 25,
-        "real_total_achievements_percentage": 100,
+        "real_total_achievements_percentage": 8,
         "real_average_achievements_percentage": 25,
         "has_missing_achievements_data": false
       },
@@ -38727,6 +38813,26 @@
       "steam_profile_url": "https://steamcommunity.com/profiles/76561197970969216",
       "country_code": "cz",
       "giveaways_won": [
+        {
+          "name": "CARRION",
+          "link": "Bunwq/carrion",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1759554000,
+          "required_play": false,
+          "is_shared": false,
+          "steam_play_data": {
+            "owned": true,
+            "playtime_minutes": 27,
+            "playtime_formatted": "27 minutes",
+            "achievements_unlocked": 4,
+            "achievements_total": 21,
+            "achievements_percentage": 19,
+            "never_played": false,
+            "is_playtime_private": false,
+            "last_checked": 1759715614527
+          }
+        },
         {
           "name": "Red Dead Redemption 2: Ultimate Edition",
           "link": "MDD3r/red-dead-redemption-2-ultimate-edition",
@@ -38744,7 +38850,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654374671
+            "last_checked": 1759715616941
           }
         },
         {
@@ -38764,7 +38870,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654375785
+            "last_checked": 1759715618025
           }
         },
         {
@@ -38784,7 +38890,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654376914
+            "last_checked": 1759715619134
           }
         },
         {
@@ -38804,7 +38910,7 @@
             "achievements_percentage": 100,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654378023
+            "last_checked": 1759715620218
           }
         }
       ],
@@ -38984,7 +39090,7 @@
             "achievements_percentage": 7.7,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654379464
+            "last_checked": 1759715621612
           },
           "required_play_meta": {
             "requirements_met": false,
@@ -39497,7 +39603,7 @@
           "name": "RimWorld",
           "link": "Ol7ww/rimworld",
           "cv_status": "FULL_CV",
-          "entries": 17,
+          "entries": 18,
           "copies": 1,
           "created_timestamp": 1759119631,
           "end_timestamp": 1761711480,
@@ -40171,26 +40277,26 @@
       "profile_url": "/user/Patzl",
       "avatar_url": "https://avatars.steamstatic.com/76df5e07be5a7739d68a033489bfa1bc0cfa9598_medium.jpg",
       "stats": {
-        "total_sent_count": 7,
-        "total_sent_value": 200.43,
+        "total_sent_count": 9,
+        "total_sent_value": 232.41,
         "total_received_count": 3,
         "total_received_value": 79.97,
-        "total_gift_difference": 4,
-        "total_value_difference": 120.46,
-        "fcv_sent_count": 7,
+        "total_gift_difference": 6,
+        "total_value_difference": 152.44,
+        "fcv_sent_count": 9,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
         "fcv_received_count": 3,
         "rcv_received_count": 0,
         "ncv_received_count": 0,
-        "fcv_gift_difference": 4,
-        "real_total_sent_value": 200.43000000000004,
+        "fcv_gift_difference": 6,
+        "real_total_sent_value": 232.41000000000003,
         "real_total_received_value": 79.97,
-        "real_total_value_difference": 120.46,
-        "real_total_sent_count": 7,
+        "real_total_value_difference": 152.44,
+        "real_total_sent_count": 9,
         "real_total_received_count": 3,
-        "real_total_gift_difference": 4,
-        "giveaway_ratio": 6.666666666666667,
+        "real_total_gift_difference": 6,
+        "giveaway_ratio": 8.666666666666666,
         "shared_sent_count": 0,
         "shared_received_count": 0,
         "giveaways_created": 8,
@@ -40225,7 +40331,7 @@
             "achievements_percentage": 11.1,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654381808
+            "last_checked": 1759715623108
           }
         },
         {
@@ -40289,7 +40395,20 @@
           "created_timestamp": 1759098498,
           "end_timestamp": 1759658400,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "Waxlor",
+              "status": "received",
+              "activated": true
+            },
+            {
+              "name": "yugimax",
+              "status": "received",
+              "activated": true
+            }
+          ]
         },
         {
           "name": "Rogue Labyrinth",
@@ -40537,7 +40656,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654383506
+            "last_checked": 1759715624512
           }
         },
         {
@@ -40557,7 +40676,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654384618
+            "last_checked": 1759715625597
           }
         },
         {
@@ -40598,7 +40717,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654385749
+            "last_checked": 1759715626685
           }
         },
         {
@@ -40618,7 +40737,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654386862
+            "last_checked": 1759715627816
           }
         },
         {
@@ -40638,7 +40757,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654387970
+            "last_checked": 1759715628901
           }
         },
         {
@@ -41269,9 +41388,9 @@
         "last_giveaway_created_at": 1759335760,
         "last_giveaway_won_at": 1759345380,
         "total_achievements_percentage": 76,
-        "average_achievements_percentage": 66,
+        "average_achievements_percentage": 74,
         "real_total_achievements_percentage": 76,
-        "real_average_achievements_percentage": 66,
+        "real_average_achievements_percentage": 74,
         "has_missing_achievements_data": true
       },
       "steam_id": "76561198027595057",
@@ -41291,12 +41410,12 @@
             "owned": true,
             "playtime_minutes": 202,
             "playtime_formatted": "3 hours 22 minutes",
-            "achievements_unlocked": 18,
-            "achievements_total": 18,
-            "achievements_percentage": 100,
-            "never_played": false,
+            "achievements_unlocked": 0,
+            "achievements_total": 0,
+            "achievements_percentage": 0,
+            "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654389378
+            "last_checked": 1759715630407
           }
         },
         {
@@ -41332,12 +41451,12 @@
             "owned": true,
             "playtime_minutes": 719,
             "playtime_formatted": "11 hours 59 minutes",
-            "achievements_unlocked": 26,
-            "achievements_total": 28,
-            "achievements_percentage": 92.9,
-            "never_played": false,
+            "achievements_unlocked": 0,
+            "achievements_total": 0,
+            "achievements_percentage": 0,
+            "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654390508
+            "last_checked": 1759715631477
           },
           "i_played_bro": true
         },
@@ -41353,12 +41472,12 @@
             "owned": true,
             "playtime_minutes": 1198,
             "playtime_formatted": "19 hours 58 minutes",
-            "achievements_unlocked": 19,
-            "achievements_total": 27,
-            "achievements_percentage": 70.4,
-            "never_played": false,
+            "achievements_unlocked": 0,
+            "achievements_total": 0,
+            "achievements_percentage": 0,
+            "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654391639
+            "last_checked": 1759715632561
           },
           "i_played_bro": true
         },
@@ -41374,12 +41493,12 @@
             "owned": false,
             "playtime_minutes": 0,
             "playtime_formatted": "0 minutes",
-            "achievements_unlocked": 28,
-            "achievements_total": 29,
-            "achievements_percentage": 96.6,
-            "never_played": false,
+            "achievements_unlocked": 0,
+            "achievements_total": 0,
+            "achievements_percentage": 0,
+            "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654392741
+            "last_checked": 1759715633631
           },
           "i_played_bro": true
         },
@@ -41395,12 +41514,12 @@
             "owned": true,
             "playtime_minutes": 1524,
             "playtime_formatted": "25 hours 24 minutes",
-            "achievements_unlocked": 37,
-            "achievements_total": 47,
-            "achievements_percentage": 78.7,
-            "never_played": false,
+            "achievements_unlocked": 0,
+            "achievements_total": 0,
+            "achievements_percentage": 0,
+            "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654393846
+            "last_checked": 1759715634697
           },
           "i_played_bro": true,
           "required_play_meta": {
@@ -41420,12 +41539,12 @@
             "owned": true,
             "playtime_minutes": 1263,
             "playtime_formatted": "21 hours 3 minutes",
-            "achievements_unlocked": 61,
-            "achievements_total": 73,
-            "achievements_percentage": 83.6,
-            "never_played": false,
+            "achievements_unlocked": 0,
+            "achievements_total": 0,
+            "achievements_percentage": 0,
+            "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654395004
+            "last_checked": 1759715635765
           },
           "i_played_bro": true
         },
@@ -41441,12 +41560,12 @@
             "owned": true,
             "playtime_minutes": 858,
             "playtime_formatted": "14 hours 18 minutes",
-            "achievements_unlocked": 20,
-            "achievements_total": 22,
-            "achievements_percentage": 90.9,
-            "never_played": false,
+            "achievements_unlocked": 0,
+            "achievements_total": 0,
+            "achievements_percentage": 0,
+            "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654396114
+            "last_checked": 1759715636955
           },
           "i_played_bro": true
         },
@@ -41462,12 +41581,12 @@
             "owned": true,
             "playtime_minutes": 1528,
             "playtime_formatted": "25 hours 28 minutes",
-            "achievements_unlocked": 33,
-            "achievements_total": 42,
-            "achievements_percentage": 78.6,
-            "never_played": false,
+            "achievements_unlocked": 0,
+            "achievements_total": 0,
+            "achievements_percentage": 0,
+            "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654397289
+            "last_checked": 1759715638022
           },
           "i_played_bro": true
         },
@@ -42225,7 +42344,7 @@
             "achievements_percentage": 10,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654398807
+            "last_checked": 1759715640512
           }
         },
         {
@@ -42245,7 +42364,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654399936
+            "last_checked": 1759715641616
           }
         },
         {
@@ -42265,7 +42384,7 @@
             "achievements_percentage": 37.5,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654401049
+            "last_checked": 1759715642706
           }
         },
         {
@@ -42285,7 +42404,7 @@
             "achievements_percentage": 69,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654402182
+            "last_checked": 1759715643801
           },
           "i_played_bro": true
         },
@@ -42306,7 +42425,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654403314
+            "last_checked": 1759715644886
           }
         },
         {
@@ -42816,24 +42935,24 @@
       "stats": {
         "total_sent_count": 29,
         "total_sent_value": 790.71,
-        "total_received_count": 31,
-        "total_received_value": 885.69,
-        "total_gift_difference": -2,
-        "total_value_difference": -94.98,
+        "total_received_count": 32,
+        "total_received_value": 905.68,
+        "total_gift_difference": -3,
+        "total_value_difference": -114.97,
         "fcv_sent_count": 29,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
-        "fcv_received_count": 29,
+        "fcv_received_count": 30,
         "rcv_received_count": 1,
         "ncv_received_count": 0,
-        "fcv_gift_difference": 0,
+        "fcv_gift_difference": -1,
         "real_total_sent_value": 790.7100000000002,
-        "real_total_received_value": 852.9600000000002,
-        "real_total_value_difference": -62.25,
+        "real_total_received_value": 872.9500000000002,
+        "real_total_value_difference": -82.24,
         "real_total_sent_count": 29,
-        "real_total_received_count": 29,
-        "real_total_gift_difference": 0,
-        "giveaway_ratio": 20.666666666666664,
+        "real_total_received_count": 30,
+        "real_total_gift_difference": -1,
+        "giveaway_ratio": 20.333333333333336,
         "shared_sent_count": 0,
         "shared_received_count": 0,
         "giveaways_created": 28,
@@ -42868,7 +42987,27 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654404859
+            "last_checked": 1759715646651
+          }
+        },
+        {
+          "name": "Dead Space 3",
+          "link": "7KOw2/dead-space-3",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1759536000,
+          "required_play": false,
+          "is_shared": false,
+          "steam_play_data": {
+            "owned": true,
+            "playtime_minutes": 0,
+            "playtime_formatted": "0 minutes",
+            "achievements_unlocked": 0,
+            "achievements_total": 58,
+            "achievements_percentage": 0,
+            "never_played": true,
+            "is_playtime_private": false,
+            "last_checked": 1759715648491
           }
         },
         {
@@ -42888,7 +43027,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654405984
+            "last_checked": 1759715649988
           }
         },
         {
@@ -42908,7 +43047,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654407083
+            "last_checked": 1759715651278
           },
           "required_play_meta": {
             "requirements_met": false,
@@ -42953,7 +43092,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654409336
+            "last_checked": 1759715652437
           }
         },
         {
@@ -42973,7 +43112,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654410583
+            "last_checked": 1759715653662
           }
         },
         {
@@ -42993,7 +43132,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654411727
+            "last_checked": 1759715654774
           }
         },
         {
@@ -43013,7 +43152,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654414147
+            "last_checked": 1759715657095
           }
         },
         {
@@ -43033,7 +43172,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654415265
+            "last_checked": 1759715658232
           }
         },
         {
@@ -43222,7 +43361,7 @@
             "last_checked": 1756996397296
           },
           "required_play_meta": {
-            "requirements_met": false,
+            "requirements_met": true,
             "deadline_in_months": 3
           }
         },
@@ -44013,10 +44152,6 @@
             }
           ]
         }
-      ],
-      "warnings": [
-        "unplayed_required_play_giveaways",
-        "required_play_deadline_within_15_days"
       ]
     },
     "quinnix": {
@@ -44078,7 +44213,7 @@
             "achievements_percentage": 100,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654417814
+            "last_checked": 1759715659578
           }
         },
         {
@@ -44202,7 +44337,7 @@
             "achievements_percentage": 20,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654419185
+            "last_checked": 1759715660865
           }
         },
         {
@@ -44832,7 +44967,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654420847
+            "last_checked": 1759715662319
           }
         },
         {
@@ -44852,7 +44987,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654422005
+            "last_checked": 1759715663422
           },
           "required_play_meta": {
             "requirements_met": false,
@@ -45473,34 +45608,34 @@
       "stats": {
         "total_sent_count": 4,
         "total_sent_value": 64.96,
-        "total_received_count": 8,
-        "total_received_value": 209.92,
-        "total_gift_difference": -4,
-        "total_value_difference": -144.96,
+        "total_received_count": 9,
+        "total_received_value": 234.91,
+        "total_gift_difference": -5,
+        "total_value_difference": -169.95,
         "fcv_sent_count": 4,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
-        "fcv_received_count": 7,
+        "fcv_received_count": 8,
         "rcv_received_count": 1,
         "ncv_received_count": 0,
-        "fcv_gift_difference": -3,
+        "fcv_gift_difference": -4,
         "real_total_sent_value": 64.96,
-        "real_total_received_value": 167.43,
-        "real_total_value_difference": -102.47,
+        "real_total_received_value": 192.42,
+        "real_total_value_difference": -127.46,
         "real_total_sent_count": 4,
-        "real_total_received_count": 7,
-        "real_total_gift_difference": -3,
-        "giveaway_ratio": 2.333333333333333,
+        "real_total_received_count": 8,
+        "real_total_gift_difference": -4,
+        "giveaway_ratio": 2,
         "shared_sent_count": 0,
         "shared_received_count": 0,
         "giveaways_created": 4,
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1759104467,
-        "last_giveaway_won_at": 1759377600,
-        "total_achievements_percentage": 35,
-        "average_achievements_percentage": 40,
-        "real_total_achievements_percentage": 28,
-        "real_average_achievements_percentage": 32,
+        "last_giveaway_won_at": 1759676400,
+        "total_achievements_percentage": 36,
+        "average_achievements_percentage": 41,
+        "real_total_achievements_percentage": 29,
+        "real_average_achievements_percentage": 33,
         "has_missing_achievements_data": false
       },
       "steam_id": "76561198044604507",
@@ -45508,6 +45643,26 @@
       "steam_profile_is_private": false,
       "country_code": "ca",
       "giveaways_won": [
+        {
+          "name": "Withering Rooms",
+          "link": "gqF48/withering-rooms",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1759676400,
+          "required_play": false,
+          "is_shared": false,
+          "steam_play_data": {
+            "owned": true,
+            "playtime_minutes": 72,
+            "playtime_formatted": "1 hour 12 minutes",
+            "achievements_unlocked": 5,
+            "achievements_total": 54,
+            "achievements_percentage": 9.3,
+            "never_played": false,
+            "is_playtime_private": false,
+            "last_checked": 1759715664709
+          }
+        },
         {
           "name": "Still Wakes the Deep",
           "link": "AAiJF/still-wakes-the-deep",
@@ -45525,7 +45680,7 @@
             "achievements_percentage": 5.1,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654424535
+            "last_checked": 1759715665790
           },
           "required_play_meta": {
             "requirements_met": false,
@@ -45549,7 +45704,7 @@
             "achievements_percentage": 35.7,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654425655
+            "last_checked": 1759715666876
           }
         },
         {
@@ -45569,7 +45724,7 @@
             "achievements_percentage": 41.6,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654426751
+            "last_checked": 1759715667967
           }
         },
         {
@@ -45589,7 +45744,7 @@
             "achievements_percentage": 66.7,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654427868
+            "last_checked": 1759715669044
           },
           "i_played_bro": true
         },
@@ -45610,7 +45765,7 @@
             "achievements_percentage": 4,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654428978
+            "last_checked": 1759715670123
           }
         },
         {
@@ -46043,7 +46198,7 @@
             "achievements_percentage": 14.6,
             "never_played": false,
             "is_playtime_private": true,
-            "last_checked": 1759654430665
+            "last_checked": 1759715671774
           },
           "required_play_meta": {
             "requirements_met": false,
@@ -46067,7 +46222,7 @@
             "achievements_percentage": 21.6,
             "never_played": false,
             "is_playtime_private": true,
-            "last_checked": 1759654431805
+            "last_checked": 1759715672875
           }
         },
         {
@@ -46595,7 +46750,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654433170
+            "last_checked": 1759715674147
           }
         },
         {
@@ -46608,14 +46763,14 @@
           "is_shared": false,
           "steam_play_data": {
             "owned": true,
-            "playtime_minutes": 438,
-            "playtime_formatted": "7 hours 18 minutes",
+            "playtime_minutes": 499,
+            "playtime_formatted": "8 hours 19 minutes",
             "achievements_unlocked": 9,
             "achievements_total": 67,
             "achievements_percentage": 13.4,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654434289
+            "last_checked": 1759715675228
           },
           "required_play_meta": {
             "requirements_met": false,
@@ -46838,7 +46993,7 @@
             "achievements_percentage": 100,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654435911
+            "last_checked": 1759715676659
           },
           "i_played_bro": true
         },
@@ -46859,7 +47014,7 @@
             "achievements_percentage": 100,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654437040
+            "last_checked": 1759715677738
           },
           "required_play_meta": {
             "requirements_met": true,
@@ -46884,7 +47039,7 @@
             "achievements_percentage": 97.4,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654438160
+            "last_checked": 1759715678821
           },
           "i_played_bro": true,
           "required_play_meta": {
@@ -46910,7 +47065,7 @@
             "achievements_percentage": 30.2,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654439275
+            "last_checked": 1759715679918
           }
         },
         {
@@ -46930,7 +47085,7 @@
             "achievements_percentage": 93,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654440415
+            "last_checked": 1759715681009
           },
           "i_played_bro": true,
           "required_play_meta": {
@@ -47028,7 +47183,7 @@
           "name": "A Rose in the Twilight",
           "link": "AgeTx/a-rose-in-the-twilight",
           "cv_status": "FULL_CV",
-          "entries": 4,
+          "entries": 5,
           "copies": 1,
           "created_timestamp": 1759464169,
           "end_timestamp": 1759755600,
@@ -47039,11 +47194,11 @@
           "name": "Yomawari: Midnight Shadows",
           "link": "V2kZ1/yomawari-midnight-shadows",
           "cv_status": "FULL_CV",
-          "entries": 4,
+          "entries": 5,
           "copies": 1,
           "created_timestamp": 1759464100,
           "end_timestamp": 1759755600,
-          "required_play": true,
+          "required_play": false,
           "is_shared": false
         },
         {
@@ -47340,12 +47495,12 @@
             "owned": true,
             "playtime_minutes": 1075,
             "playtime_formatted": "17 hours 55 minutes",
-            "achievements_unlocked": 2,
-            "achievements_total": 16,
-            "achievements_percentage": 12.5,
-            "never_played": false,
+            "achievements_unlocked": 0,
+            "achievements_total": 0,
+            "achievements_percentage": 0,
+            "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654441764
+            "last_checked": 1759715682501
           },
           "i_played_bro": true,
           "required_play_meta": {
@@ -47365,12 +47520,12 @@
             "owned": true,
             "playtime_minutes": 1319,
             "playtime_formatted": "21 hours 59 minutes",
-            "achievements_unlocked": 30,
-            "achievements_total": 33,
-            "achievements_percentage": 90.9,
-            "never_played": false,
+            "achievements_unlocked": 0,
+            "achievements_total": 0,
+            "achievements_percentage": 0,
+            "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654442895
+            "last_checked": 1759715683571
           }
         },
         {
@@ -47385,12 +47540,12 @@
             "owned": true,
             "playtime_minutes": 542,
             "playtime_formatted": "9 hours 2 minutes",
-            "achievements_unlocked": 16,
-            "achievements_total": 24,
-            "achievements_percentage": 66.7,
-            "never_played": false,
+            "achievements_unlocked": 0,
+            "achievements_total": 0,
+            "achievements_percentage": 0,
+            "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654444009
+            "last_checked": 1759715684639
           },
           "i_played_bro": true
         },
@@ -47678,11 +47833,11 @@
             "playtime_minutes": 0,
             "playtime_formatted": "0 minutes",
             "achievements_unlocked": 0,
-            "achievements_total": 80,
+            "achievements_total": 0,
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654447008
+            "last_checked": 1759715686020
           }
         },
         {
@@ -48107,7 +48262,7 @@
           "name": "Mouthwashing",
           "link": "ujWUc/mouthwashing",
           "cv_status": "FULL_CV",
-          "entries": 20,
+          "entries": 21,
           "copies": 1,
           "created_timestamp": 1759414336,
           "end_timestamp": 1759770000,
@@ -48309,7 +48464,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654448485
+            "last_checked": 1759715687394
           }
         }
       ],
@@ -48391,11 +48546,11 @@
             "playtime_minutes": 0,
             "playtime_formatted": "0 minutes",
             "achievements_unlocked": 0,
-            "achievements_total": 16,
+            "achievements_total": 0,
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654449845
+            "last_checked": 1759715688632
           }
         },
         {
@@ -48410,12 +48565,12 @@
             "owned": true,
             "playtime_minutes": 533,
             "playtime_formatted": "8 hours 53 minutes",
-            "achievements_unlocked": 29,
-            "achievements_total": 92,
-            "achievements_percentage": 31.5,
-            "never_played": false,
+            "achievements_unlocked": 0,
+            "achievements_total": 0,
+            "achievements_percentage": 0,
+            "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654450955
+            "last_checked": 1759715689702
           },
           "required_play_meta": {
             "requirements_met": true,
@@ -49216,7 +49371,7 @@
             "achievements_percentage": 3.8,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654453697
+            "last_checked": 1759715691147
           }
         },
         {
@@ -49236,7 +49391,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654454804
+            "last_checked": 1759715692238
           }
         },
         {
@@ -49256,7 +49411,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654455933
+            "last_checked": 1759715693318
           }
         },
         {
@@ -49276,7 +49431,7 @@
             "achievements_percentage": 55.6,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654457044
+            "last_checked": 1759715694407
           }
         },
         {
@@ -49296,7 +49451,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654458170
+            "last_checked": 1759715695484
           }
         },
         {
@@ -49316,7 +49471,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654459272
+            "last_checked": 1759715696734
           }
         },
         {
@@ -49649,12 +49804,20 @@
           "name": "Sons Of The Forest",
           "link": "YBHOI/sons-of-the-forest",
           "cv_status": "FULL_CV",
-          "entries": 15,
+          "entries": 16,
           "copies": 1,
           "created_timestamp": 1759532780,
           "end_timestamp": 1759679700,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "Core Keeper",
@@ -49789,7 +49952,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654460782
+            "last_checked": 1759715698158
           }
         },
         {
@@ -50144,7 +50307,7 @@
             "achievements_percentage": 100,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654462602
+            "last_checked": 1759715699706
           },
           "i_played_bro": true,
           "required_play_meta": {
@@ -50170,7 +50333,7 @@
             "achievements_percentage": 15.7,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654463717
+            "last_checked": 1759715700794
           },
           "i_played_bro": true
         },
@@ -50308,7 +50471,7 @@
           "is_shared": false,
           "i_played_bro": false,
           "required_play_meta": {
-            "requirements_met": false,
+            "requirements_met": true,
             "deadline_in_months": 3
           },
           "had_winners": true,
@@ -50446,10 +50609,10 @@
         "shared_sent_count": 11,
         "shared_received_count": 4,
         "giveaways_created": 187,
-        "giveaways_with_no_entries": 68,
+        "giveaways_with_no_entries": 69,
         "last_giveaway_created_at": 1758682928,
         "last_giveaway_won_at": 1759646760,
-        "total_achievements_percentage": 8,
+        "total_achievements_percentage": 7,
         "average_achievements_percentage": 9,
         "real_total_achievements_percentage": 7,
         "real_average_achievements_percentage": 8,
@@ -50476,7 +50639,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654465200
+            "last_checked": 1759715702075
           }
         },
         {
@@ -50496,7 +50659,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654466330
+            "last_checked": 1759715703160
           }
         },
         {
@@ -50537,7 +50700,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654467433
+            "last_checked": 1759715704248
           }
         },
         {
@@ -50557,7 +50720,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654468550
+            "last_checked": 1759715705335
           },
           "required_play_meta": {
             "requirements_met": false,
@@ -50582,7 +50745,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654469655
+            "last_checked": 1759715706418
           }
         },
         {
@@ -50602,7 +50765,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654470794
+            "last_checked": 1759715707511
           }
         },
         {
@@ -50622,7 +50785,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654471915
+            "last_checked": 1759715708597
           }
         },
         {
@@ -50642,7 +50805,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654473022
+            "last_checked": 1759715709684
           }
         },
         {
@@ -50655,14 +50818,14 @@
           "is_shared": false,
           "steam_play_data": {
             "owned": true,
-            "playtime_minutes": 1570,
-            "playtime_formatted": "26 hours 10 minutes",
+            "playtime_minutes": 1598,
+            "playtime_formatted": "26 hours 38 minutes",
             "achievements_unlocked": 19,
             "achievements_total": 48,
             "achievements_percentage": 39.6,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654474165
+            "last_checked": 1759715710786
           },
           "required_play_meta": {
             "requirements_met": true,
@@ -50688,7 +50851,7 @@
             "achievements_percentage": 100,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654475269
+            "last_checked": 1759715711868
           },
           "required_play_meta": {
             "requirements_met": true,
@@ -50712,7 +50875,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654476387
+            "last_checked": 1759715712945
           }
         },
         {
@@ -50732,7 +50895,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654477511
+            "last_checked": 1759715714072
           }
         },
         {
@@ -50752,7 +50915,7 @@
             "achievements_percentage": 100,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654478610
+            "last_checked": 1759715715156
           },
           "required_play_meta": {
             "requirements_met": true,
@@ -50777,7 +50940,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654479720
+            "last_checked": 1759715716250
           }
         },
         {
@@ -50797,7 +50960,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654480841
+            "last_checked": 1759715717344
           }
         },
         {
@@ -50817,7 +50980,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654481940
+            "last_checked": 1759715718445
           }
         },
         {
@@ -50837,7 +51000,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654483047
+            "last_checked": 1759715719529
           }
         },
         {
@@ -50857,7 +51020,7 @@
             "achievements_percentage": 4,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654484153
+            "last_checked": 1759715720619
           }
         },
         {
@@ -50877,7 +51040,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654485275
+            "last_checked": 1759715721700
           }
         },
         {
@@ -50918,7 +51081,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654487515
+            "last_checked": 1759715722786
           }
         },
         {
@@ -50938,7 +51101,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654488647
+            "last_checked": 1759715723867
           }
         },
         {
@@ -50958,7 +51121,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654489747
+            "last_checked": 1759715724948
           }
         },
         {
@@ -50978,7 +51141,7 @@
             "achievements_percentage": 13.8,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654490868
+            "last_checked": 1759715726031
           }
         },
         {
@@ -50998,7 +51161,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654491972
+            "last_checked": 1759715727115
           }
         },
         {
@@ -51018,7 +51181,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654493175
+            "last_checked": 1759715728216
           }
         },
         {
@@ -51038,7 +51201,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654494276
+            "last_checked": 1759715729297
           }
         },
         {
@@ -51058,7 +51221,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654495429
+            "last_checked": 1759715730398
           }
         },
         {
@@ -51078,7 +51241,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654496550
+            "last_checked": 1759715731887
           }
         },
         {
@@ -51098,7 +51261,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654497655
+            "last_checked": 1759715732968
           }
         },
         {
@@ -51118,7 +51281,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654498758
+            "last_checked": 1759715734073
           }
         },
         {
@@ -51138,7 +51301,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654499901
+            "last_checked": 1759715735157
           }
         },
         {
@@ -51158,7 +51321,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654501017
+            "last_checked": 1759715736236
           }
         },
         {
@@ -51178,7 +51341,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654502404
+            "last_checked": 1759715737890
           }
         },
         {
@@ -51198,7 +51361,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654503541
+            "last_checked": 1759715738977
           }
         },
         {
@@ -51218,7 +51381,7 @@
             "achievements_percentage": 12.9,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654504700
+            "last_checked": 1759715740059
           },
           "required_play_meta": {
             "requirements_met": true,
@@ -51244,7 +51407,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654505836
+            "last_checked": 1759715741151
           }
         },
         {
@@ -51264,7 +51427,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654506969
+            "last_checked": 1759715742234
           }
         },
         {
@@ -51305,7 +51468,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654509629
+            "last_checked": 1759715743320
           },
           "required_play_meta": {
             "requirements_met": true,
@@ -51330,7 +51493,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654510781
+            "last_checked": 1759715744402
           }
         },
         {
@@ -51350,7 +51513,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654511927
+            "last_checked": 1759715745478
           }
         },
         {
@@ -51370,7 +51533,7 @@
             "achievements_percentage": 100,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654513034
+            "last_checked": 1759715746562
           },
           "required_play_meta": {
             "requirements_met": true,
@@ -51394,7 +51557,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654514173
+            "last_checked": 1759715747662
           }
         },
         {
@@ -51414,7 +51577,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654515292
+            "last_checked": 1759715748751
           }
         },
         {
@@ -51434,7 +51597,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654516420
+            "last_checked": 1759715749830
           }
         },
         {
@@ -51454,7 +51617,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654517527
+            "last_checked": 1759715750918
           }
         },
         {
@@ -51474,7 +51637,7 @@
             "achievements_percentage": 41.2,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654518671
+            "last_checked": 1759715752035
           }
         },
         {
@@ -51494,7 +51657,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654519782
+            "last_checked": 1759715753119
           }
         },
         {
@@ -51514,7 +51677,7 @@
             "achievements_percentage": 5.4,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654522362
+            "last_checked": 1759715755590
           }
         },
         {
@@ -51534,7 +51697,7 @@
             "achievements_percentage": 9.7,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654524942
+            "last_checked": 1759715757879
           }
         },
         {
@@ -51554,7 +51717,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654526053
+            "last_checked": 1759715758960
           }
         },
         {
@@ -51595,7 +51758,7 @@
             "achievements_percentage": 100,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654528332
+            "last_checked": 1759715760046
           }
         },
         {
@@ -51615,7 +51778,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654529490
+            "last_checked": 1759715761129
           }
         },
         {
@@ -51656,7 +51819,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654531923
+            "last_checked": 1759715762208
           }
         },
         {
@@ -51676,22 +51839,11 @@
             "achievements_percentage": 10,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654533085
+            "last_checked": 1759715763294
           }
         }
       ],
       "giveaways_created": [
-        {
-          "name": "How to Say Goodbye",
-          "link": "jPa84/how-to-say-goodbye",
-          "cv_status": "FULL_CV",
-          "entries": 0,
-          "copies": 1,
-          "created_timestamp": 1758492237,
-          "end_timestamp": 1759701720,
-          "required_play": false,
-          "is_shared": false
-        },
         {
           "name": "Crop Rotation",
           "link": "N7fyK/crop-rotation",
@@ -51746,6 +51898,18 @@
           "end_timestamp": 1761274800,
           "required_play": false,
           "is_shared": false
+        },
+        {
+          "name": "How to Say Goodbye",
+          "link": "jPa84/how-to-say-goodbye",
+          "cv_status": "FULL_CV",
+          "entries": 0,
+          "copies": 1,
+          "created_timestamp": 1758492237,
+          "end_timestamp": 1759701720,
+          "required_play": false,
+          "is_shared": false,
+          "had_winners": false
         },
         {
           "name": "YouRiding - Surfing and Bodyboarding ...",
@@ -54849,7 +55013,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654534556
+            "last_checked": 1759715764624
           }
         },
         {
@@ -54869,7 +55033,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654535719
+            "last_checked": 1759715765705
           }
         },
         {
@@ -54953,9 +55117,9 @@
         "giveaway_ratio": 28.333333333333332,
         "shared_sent_count": 1,
         "shared_received_count": 0,
-        "giveaways_created": 37,
+        "giveaways_created": 38,
         "giveaways_with_no_entries": 2,
-        "last_giveaway_created_at": 1759307123,
+        "last_giveaway_created_at": 1759666516,
         "last_giveaway_won_at": 1759600740,
         "total_achievements_percentage": 5,
         "average_achievements_percentage": 9,
@@ -54985,7 +55149,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654537593
+            "last_checked": 1759715767040
           }
         },
         {
@@ -55005,7 +55169,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654538719
+            "last_checked": 1759715768140
           }
         },
         {
@@ -55025,7 +55189,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654539936
+            "last_checked": 1759715769222
           }
         },
         {
@@ -55045,7 +55209,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654541053
+            "last_checked": 1759715770327
           }
         },
         {
@@ -55065,7 +55229,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654542167
+            "last_checked": 1759715771409
           }
         },
         {
@@ -55085,7 +55249,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654543287
+            "last_checked": 1759715772508
           }
         },
         {
@@ -55105,7 +55269,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654544394
+            "last_checked": 1759715773591
           }
         },
         {
@@ -55211,6 +55375,17 @@
         }
       ],
       "giveaways_created": [
+        {
+          "name": "The Last Soldier of the Ming Dynasty",
+          "link": "4ggqT/the-last-soldier-of-the-ming-dynasty",
+          "cv_status": "FULL_CV",
+          "entries": 0,
+          "copies": 1,
+          "created_timestamp": 1759666516,
+          "end_timestamp": 1760270400,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "The Fabulous Fear Machine",
           "link": "EMinH/the-fabulous-fear-machine",
@@ -55971,7 +56146,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654547569
+            "last_checked": 1759715776279
           }
         },
         {
@@ -55991,7 +56166,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654548681
+            "last_checked": 1759715777358
           }
         },
         {
@@ -56011,7 +56186,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654549794
+            "last_checked": 1759715778435
           }
         },
         {
@@ -56051,7 +56226,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654552467
+            "last_checked": 1759715779515
           }
         },
         {
@@ -56071,7 +56246,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654553582
+            "last_checked": 1759715780602
           }
         },
         {
@@ -56091,7 +56266,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654554715
+            "last_checked": 1759715781680
           }
         },
         {
@@ -58025,9 +58200,9 @@
         "giveaway_ratio": 17,
         "shared_sent_count": 0,
         "shared_received_count": 0,
-        "giveaways_created": 17,
+        "giveaways_created": 18,
         "giveaways_with_no_entries": 1,
-        "last_giveaway_created_at": 1759562158,
+        "last_giveaway_created_at": 1759658519,
         "last_giveaway_won_at": 1757334240,
         "total_achievements_percentage": 59,
         "average_achievements_percentage": 63,
@@ -58207,7 +58382,18 @@
           "copies": 1,
           "created_timestamp": 1759203816,
           "end_timestamp": 1759890600,
-          "required_play": true,
+          "required_play": false,
+          "is_shared": false
+        },
+        {
+          "name": "Mothmen 1966",
+          "link": "WOEjC/mothmen-1966",
+          "cv_status": "FULL_CV",
+          "entries": 1,
+          "copies": 1,
+          "created_timestamp": 1759658519,
+          "end_timestamp": 1759980600,
+          "required_play": false,
           "is_shared": false
         },
         {
@@ -58821,24 +59007,24 @@
       "stats": {
         "total_sent_count": 12,
         "total_sent_value": 424.88,
-        "total_received_count": 12,
-        "total_received_value": 417.88,
-        "total_gift_difference": 0,
-        "total_value_difference": 7,
+        "total_received_count": 13,
+        "total_received_value": 477.87,
+        "total_gift_difference": -1,
+        "total_value_difference": -52.99,
         "fcv_sent_count": 12,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
-        "fcv_received_count": 12,
+        "fcv_received_count": 13,
         "rcv_received_count": 0,
         "ncv_received_count": 0,
-        "fcv_gift_difference": 0,
+        "fcv_gift_difference": -1,
         "real_total_sent_value": 424.88000000000005,
-        "real_total_received_value": 417.88000000000005,
-        "real_total_value_difference": 7,
+        "real_total_received_value": 477.87000000000006,
+        "real_total_value_difference": -52.99,
         "real_total_sent_count": 12,
-        "real_total_received_count": 12,
-        "real_total_gift_difference": 0,
-        "giveaway_ratio": 10.333333333333334,
+        "real_total_received_count": 13,
+        "real_total_gift_difference": -1,
+        "giveaway_ratio": 10,
         "shared_sent_count": 0,
         "shared_received_count": 0,
         "giveaways_created": 12,
@@ -58871,6 +59057,15 @@
           "cv_status": "FULL_CV",
           "status": "received",
           "end_timestamp": 1759521600,
+          "required_play": false,
+          "is_shared": false
+        },
+        {
+          "name": "Dead Space",
+          "link": "Oy7Fx/dead-space",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1759510620,
           "required_play": false,
           "is_shared": false
         },
@@ -59366,7 +59561,7 @@
             "achievements_percentage": 6.7,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654558415
+            "last_checked": 1759715783690
           },
           "required_play_meta": {
             "requirements_met": false,
@@ -59510,30 +59705,30 @@
       "stats": {
         "total_sent_count": 5,
         "total_sent_value": 89.95,
-        "total_received_count": 4,
-        "total_received_value": 87.96,
-        "total_gift_difference": 1,
-        "total_value_difference": 1.99,
+        "total_received_count": 5,
+        "total_received_value": 90.95,
+        "total_gift_difference": 0,
+        "total_value_difference": -1,
         "fcv_sent_count": 3,
         "rcv_sent_count": 2,
         "ncv_sent_count": 0,
-        "fcv_received_count": 4,
+        "fcv_received_count": 5,
         "rcv_received_count": 0,
         "ncv_received_count": 0,
-        "fcv_gift_difference": -1,
+        "fcv_gift_difference": -2,
         "real_total_sent_value": 60.22,
-        "real_total_received_value": 87.96,
-        "real_total_value_difference": -27.74,
+        "real_total_received_value": 90.94999999999999,
+        "real_total_value_difference": -30.73,
         "real_total_sent_count": 3,
-        "real_total_received_count": 4,
-        "real_total_gift_difference": -1,
-        "giveaway_ratio": 1.6666666666666667,
+        "real_total_received_count": 5,
+        "real_total_gift_difference": -2,
+        "giveaway_ratio": 1.3333333333333333,
         "shared_sent_count": 0,
         "shared_received_count": 0,
         "giveaways_created": 5,
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1750026912,
-        "last_giveaway_won_at": 1759608000,
+        "last_giveaway_won_at": 1759691640,
         "total_achievements_percentage": 27,
         "average_achievements_percentage": 19,
         "real_total_achievements_percentage": 27,
@@ -59545,6 +59740,15 @@
       "steam_profile_is_private": true,
       "country_code": null,
       "giveaways_won": [
+        {
+          "name": "Buckshot Roulette",
+          "link": "sdLKb/buckshot-roulette",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1759691640,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "Tangle Tower",
           "link": "iqY11/tangle-tower",
@@ -60950,26 +61154,26 @@
       "profile_url": "/user/vlbastos",
       "avatar_url": "https://avatars.steamstatic.com/f24baa6657376c314e2985372b0d7580bbcde6f2_medium.jpg",
       "stats": {
-        "total_sent_count": 17,
-        "total_sent_value": 406.83,
+        "total_sent_count": 18,
+        "total_sent_value": 426.82,
         "total_received_count": 8,
         "total_received_value": 344.92,
-        "total_gift_difference": 9,
-        "total_value_difference": 61.91,
-        "fcv_sent_count": 17,
+        "total_gift_difference": 10,
+        "total_value_difference": 81.9,
+        "fcv_sent_count": 18,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
         "fcv_received_count": 8,
         "rcv_received_count": 0,
         "ncv_received_count": 0,
-        "fcv_gift_difference": 9,
-        "real_total_sent_value": 406.8300000000001,
+        "fcv_gift_difference": 10,
+        "real_total_sent_value": 426.8200000000001,
         "real_total_received_value": 344.92,
-        "real_total_value_difference": 61.91,
-        "real_total_sent_count": 17,
+        "real_total_value_difference": 81.9,
+        "real_total_sent_count": 18,
         "real_total_received_count": 8,
-        "real_total_gift_difference": 9,
-        "giveaway_ratio": 15.333333333333334,
+        "real_total_gift_difference": 10,
+        "giveaway_ratio": 16.333333333333332,
         "shared_sent_count": 0,
         "shared_received_count": 0,
         "giveaways_created": 17,
@@ -61170,9 +61374,9 @@
           "had_winners": true,
           "winners": [
             {
-              "name": null,
-              "status": "awaiting_feedback",
-              "activated": false
+              "name": "QuinlanLJ",
+              "status": "received",
+              "activated": true
             }
           ]
         },
@@ -61491,26 +61695,26 @@
       "profile_url": "/user/vot4ol",
       "avatar_url": "https://avatars.steamstatic.com/fbb7f96a3d40865edfd77243524543bf62214d7d_medium.jpg",
       "stats": {
-        "total_sent_count": 12,
-        "total_sent_value": 315.23,
+        "total_sent_count": 13,
+        "total_sent_value": 355.22,
         "total_received_count": 13,
         "total_received_value": 294.87,
-        "total_gift_difference": -1,
-        "total_value_difference": 20.36,
-        "fcv_sent_count": 12,
+        "total_gift_difference": 0,
+        "total_value_difference": 60.35,
+        "fcv_sent_count": 13,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
         "fcv_received_count": 13,
         "rcv_received_count": 0,
         "ncv_received_count": 0,
-        "fcv_gift_difference": -1,
-        "real_total_sent_value": 315.23,
+        "fcv_gift_difference": 0,
+        "real_total_sent_value": 355.22,
         "real_total_received_value": 294.87000000000006,
-        "real_total_value_difference": 20.36,
-        "real_total_sent_count": 12,
+        "real_total_value_difference": 60.35,
+        "real_total_sent_count": 13,
         "real_total_received_count": 13,
-        "real_total_gift_difference": -1,
-        "giveaway_ratio": 10.666666666666666,
+        "real_total_gift_difference": 0,
+        "giveaway_ratio": 11.666666666666666,
         "shared_sent_count": 0,
         "shared_received_count": 0,
         "giveaways_created": 13,
@@ -61785,12 +61989,20 @@
           "name": "The Outlast Trials",
           "link": "in4vN/the-outlast-trials",
           "cv_status": "FULL_CV",
-          "entries": 12,
+          "entries": 13,
           "copies": 1,
           "created_timestamp": 1759343489,
           "end_timestamp": 1759687200,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "kudomonster",
+              "status": "received",
+              "activated": true
+            }
+          ]
         },
         {
           "name": "The Last Faith",
@@ -62069,30 +62281,30 @@
       "stats": {
         "total_sent_count": 5.2,
         "total_sent_value": 119.62,
-        "total_received_count": 3,
-        "total_received_value": 74.97,
-        "total_gift_difference": 2.2,
-        "total_value_difference": 44.65,
+        "total_received_count": 4,
+        "total_received_value": 90.96,
+        "total_gift_difference": 1.2,
+        "total_value_difference": 28.66,
         "fcv_sent_count": 3,
         "rcv_sent_count": 1,
         "ncv_sent_count": 0,
-        "fcv_received_count": 3,
+        "fcv_received_count": 4,
         "rcv_received_count": 0,
         "ncv_received_count": 0,
-        "fcv_gift_difference": 0,
+        "fcv_gift_difference": -1,
         "real_total_sent_value": 45.47,
-        "real_total_received_value": 74.97,
-        "real_total_value_difference": -29.5,
+        "real_total_received_value": 90.96,
+        "real_total_value_difference": -45.49,
         "real_total_sent_count": 3,
-        "real_total_received_count": 3,
-        "real_total_gift_difference": 0,
-        "giveaway_ratio": 2,
+        "real_total_received_count": 4,
+        "real_total_gift_difference": -1,
+        "giveaway_ratio": 1.6666666666666667,
         "shared_sent_count": 3,
         "shared_received_count": 0,
-        "giveaways_created": 7,
+        "giveaways_created": 9,
         "giveaways_with_no_entries": 0,
-        "last_giveaway_created_at": 1759345022,
-        "last_giveaway_won_at": 1752756180,
+        "last_giveaway_created_at": 1759693897,
+        "last_giveaway_won_at": 1759658400,
         "total_achievements_percentage": 13,
         "average_achievements_percentage": 14,
         "real_total_achievements_percentage": 13,
@@ -62104,6 +62316,15 @@
       "steam_profile_is_private": true,
       "country_code": "nl",
       "giveaways_won": [
+        {
+          "name": "At Dead Of Night",
+          "link": "tDYEx/at-dead-of-night",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1759658400,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "Outer Wilds",
           "link": "jqyKb/outer-wilds",
@@ -62166,6 +62387,28 @@
         }
       ],
       "giveaways_created": [
+        {
+          "name": "Mortal Kombat XL",
+          "link": "WnIk4/mortal-kombat-xl",
+          "cv_status": "REDUCED_CV",
+          "entries": 13,
+          "copies": 1,
+          "created_timestamp": 1759693581,
+          "end_timestamp": 1759956180,
+          "required_play": false,
+          "is_shared": true
+        },
+        {
+          "name": "Mortal Kombat 11 Ultimate",
+          "link": "F4FPA/mortal-kombat-11-ultimate",
+          "cv_status": "REDUCED_CV",
+          "entries": 19,
+          "copies": 1,
+          "created_timestamp": 1759693897,
+          "end_timestamp": 1760043000,
+          "required_play": false,
+          "is_shared": true
+        },
         {
           "name": "THRESHOLD",
           "link": "zLBFZ/threshold",
@@ -62333,9 +62576,9 @@
         "giveaway_ratio": -0.6666666666666666,
         "shared_sent_count": 0,
         "shared_received_count": 0,
-        "giveaways_created": 0,
+        "giveaways_created": 1,
         "giveaways_with_no_entries": 0,
-        "last_giveaway_created_at": null,
+        "last_giveaway_created_at": 1759681826,
         "last_giveaway_won_at": 1757608560,
         "total_achievements_percentage": 0,
         "average_achievements_percentage": 0,
@@ -62365,7 +62608,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654560965
+            "last_checked": 1759715785573
           }
         },
         {
@@ -62392,6 +62635,19 @@
             "deadline_in_months": 2,
             "deadline": "13.12.2025"
           }
+        }
+      ],
+      "giveaways_created": [
+        {
+          "name": "Mouthwashing",
+          "link": "TIXBA/mouthwashing",
+          "cv_status": "FULL_CV",
+          "entries": 15,
+          "copies": 1,
+          "created_timestamp": 1759681826,
+          "end_timestamp": 1759915800,
+          "required_play": true,
+          "is_shared": false
         }
       ]
     },
@@ -62512,7 +62768,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654562694
+            "last_checked": 1759715787227
           }
         }
       ],
@@ -62785,10 +63041,10 @@
         "giveaways_with_no_entries": 1,
         "last_giveaway_created_at": 1759230701,
         "last_giveaway_won_at": 1758778740,
-        "total_achievements_percentage": 26,
-        "average_achievements_percentage": 28,
+        "total_achievements_percentage": 27,
+        "average_achievements_percentage": 30,
         "real_total_achievements_percentage": 25,
-        "real_average_achievements_percentage": 25,
+        "real_average_achievements_percentage": 27,
         "has_missing_achievements_data": false
       },
       "steam_id": "76561198049128535",
@@ -62813,7 +63069,7 @@
             "achievements_percentage": 30.8,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654564317
+            "last_checked": 1759715788702
           }
         },
         {
@@ -62833,7 +63089,7 @@
             "achievements_percentage": 18.8,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654565417
+            "last_checked": 1759715789786
           }
         },
         {
@@ -62853,7 +63109,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654567128
+            "last_checked": 1759715790908
           }
         },
         {
@@ -62873,7 +63129,7 @@
             "achievements_percentage": 4.2,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654568483
+            "last_checked": 1759715791994
           }
         },
         {
@@ -62893,7 +63149,7 @@
             "achievements_percentage": 2.2,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654569614
+            "last_checked": 1759715793091
           }
         },
         {
@@ -62913,7 +63169,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654570808
+            "last_checked": 1759715794175
           }
         },
         {
@@ -62933,7 +63189,7 @@
             "achievements_percentage": 16.3,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654572181
+            "last_checked": 1759715795267
           }
         },
         {
@@ -63444,30 +63700,30 @@
       "stats": {
         "total_sent_count": 20,
         "total_sent_value": 388.8,
-        "total_received_count": 9.5,
-        "total_received_value": 273.41,
-        "total_gift_difference": 10.5,
-        "total_value_difference": 115.4,
+        "total_received_count": 10.5,
+        "total_received_value": 289.4,
+        "total_gift_difference": 9.5,
+        "total_value_difference": 99.41,
         "fcv_sent_count": 14,
         "rcv_sent_count": 3,
         "ncv_sent_count": 0,
-        "fcv_received_count": 9,
+        "fcv_received_count": 10,
         "rcv_received_count": 0,
         "ncv_received_count": 0,
-        "fcv_gift_difference": 5,
+        "fcv_gift_difference": 4,
         "real_total_sent_value": 288.11,
-        "real_total_received_value": 265.91,
-        "real_total_value_difference": 22.2,
+        "real_total_received_value": 281.90000000000003,
+        "real_total_value_difference": 6.21,
         "real_total_sent_count": 14,
-        "real_total_received_count": 9,
-        "real_total_gift_difference": 5,
-        "giveaway_ratio": 12,
+        "real_total_received_count": 10,
+        "real_total_gift_difference": 4,
+        "giveaway_ratio": 11.666666666666666,
         "shared_sent_count": 4,
         "shared_received_count": 1,
         "giveaways_created": 19,
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1759239212,
-        "last_giveaway_won_at": 1758412800,
+        "last_giveaway_won_at": 1759658400,
         "total_achievements_percentage": 68,
         "average_achievements_percentage": 77,
         "real_total_achievements_percentage": 66,
@@ -63480,6 +63736,26 @@
       "country_code": "us",
       "giveaways_won": [
         {
+          "name": "At Dead Of Night",
+          "link": "tDYEx/at-dead-of-night",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1759658400,
+          "required_play": false,
+          "is_shared": false,
+          "steam_play_data": {
+            "owned": true,
+            "playtime_minutes": 0,
+            "playtime_formatted": "0 minutes",
+            "achievements_unlocked": 0,
+            "achievements_total": 13,
+            "achievements_percentage": 0,
+            "never_played": true,
+            "is_playtime_private": false,
+            "last_checked": 1759715796574
+          }
+        },
+        {
           "name": "Resident Evil 3",
           "link": "30Jxs/resident-evil-3",
           "cv_status": "FULL_CV",
@@ -63489,14 +63765,14 @@
           "is_shared": false,
           "steam_play_data": {
             "owned": true,
-            "playtime_minutes": 5248,
-            "playtime_formatted": "87 hours 28 minutes",
+            "playtime_minutes": 5468,
+            "playtime_formatted": "91 hours 8 minutes",
             "achievements_unlocked": 32,
             "achievements_total": 32,
             "achievements_percentage": 100,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654573673
+            "last_checked": 1759715797659
           }
         },
         {
@@ -63509,14 +63785,14 @@
           "is_shared": false,
           "steam_play_data": {
             "owned": true,
-            "playtime_minutes": 6100,
-            "playtime_formatted": "101 hours 40 minutes",
+            "playtime_minutes": 6320,
+            "playtime_formatted": "105 hours 20 minutes",
             "achievements_unlocked": 30,
             "achievements_total": 30,
             "achievements_percentage": 100,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654574811
+            "last_checked": 1759715798734
           },
           "required_play_meta": {
             "requirements_met": true,
@@ -63540,7 +63816,7 @@
             "achievements_percentage": 100,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654575999
+            "last_checked": 1759715799815
           }
         },
         {
@@ -63560,7 +63836,7 @@
             "achievements_percentage": 95.5,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654577114
+            "last_checked": 1759715800896
           }
         },
         {
@@ -64147,7 +64423,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654579691
+            "last_checked": 1759715802157
           }
         },
         {
@@ -64167,7 +64443,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654580964
+            "last_checked": 1759715803235
           }
         },
         {
@@ -64187,7 +64463,7 @@
             "achievements_percentage": 0,
             "never_played": true,
             "is_playtime_private": false,
-            "last_checked": 1759654582071
+            "last_checked": 1759715804313
           }
         },
         {
@@ -64416,7 +64692,7 @@
             "achievements_percentage": 30.3,
             "never_played": false,
             "is_playtime_private": false,
-            "last_checked": 1759654583866
+            "last_checked": 1759715805758
           },
           "required_play_meta": {
             "requirements_met": true,
