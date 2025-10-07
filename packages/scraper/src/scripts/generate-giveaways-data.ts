@@ -47,13 +47,16 @@ export async function generateGiveawaysData(): Promise<void> {
       const groupUsersData = JSON.parse(
         readFileSync(groupUsersFilename, 'utf-8')
       )
-      const groupMemberUsernames = new Set(
-        Object.values(groupUsersData.users).map((user: any) => user.username)
+      // Use steam_id for member identification (primary key), but fall back to username for compatibility
+      const groupMemberIds = new Set(
+        Object.values(groupUsersData.users).map(
+          (user: any) => user.steam_id || user.username
+        )
       )
 
       let existingEntries: Record<
         string,
-        { username: string; joined_at: string }[]
+        { username?: string; steam_id?: string; joined_at: string }[]
       > = {}
       if (existsSync(entriesFilename)) {
         existingEntries = JSON.parse(readFileSync(entriesFilename, 'utf-8'))
@@ -138,31 +141,33 @@ export async function generateGiveawaysData(): Promise<void> {
             giveaway.link
           )
           const memberEntries = entries.filter((entry) =>
-            groupMemberUsernames.has(entry.username)
+            groupMemberIds.has(entry.steam_id || entry.username)
           )
 
-          const currentUsernames = new Set(memberEntries.map((e) => e.username))
+          const currentUserIds = new Set(
+            memberEntries.map((e) => e.steam_id || e.username)
+          )
 
           const oldEntriesForGiveaway = existingEntries[giveaway.link] ?? []
-          const oldEntryUsernames = new Set(
-            oldEntriesForGiveaway.map((e) => e.username)
+          const oldEntryUserIds = new Set(
+            oldEntriesForGiveaway.map((e) => e.steam_id || e.username)
           )
 
           const previousLeaversForGiveaway = Object.keys(
             giveawayLeavers
-          ).filter((username) =>
-            giveawayLeavers[username].some((l) => l.ga_link === giveaway.link)
+          ).filter((userId) =>
+            giveawayLeavers[userId].some((l) => l.ga_link === giveaway.link)
           )
 
           // All users who were in the giveaway previously, either in the last successful fetch or as a detected leaver.
           const allPreviousEntrants = new Set([
-            ...oldEntryUsernames,
+            ...oldEntryUserIds,
             ...previousLeaversForGiveaway,
           ])
 
           // --- Leaver Detection ---
           const leavers = [...allPreviousEntrants].filter(
-            (username) => !currentUsernames.has(username)
+            (userId) => !currentUserIds.has(userId)
           )
 
           if (leavers.length > 0) {
@@ -176,25 +181,25 @@ export async function generateGiveawaysData(): Promise<void> {
               (giveaway.end_timestamp - leave_detected_at) / (60 * 60)
             )
 
-            for (const leaverUsername of leavers) {
-              if (!giveawayLeavers[leaverUsername]) {
-                giveawayLeavers[leaverUsername] = []
+            for (const leaverUserId of leavers) {
+              if (!giveawayLeavers[leaverUserId]) {
+                giveawayLeavers[leaverUserId] = []
               }
 
-              const leaverAlreadyRecorded = giveawayLeavers[
-                leaverUsername
-              ].some((l) => l.ga_link === giveaway.link)
+              const leaverAlreadyRecorded = giveawayLeavers[leaverUserId].some(
+                (l) => l.ga_link === giveaway.link
+              )
 
               if (!leaverAlreadyRecorded) {
                 // We need to find the original joined_at timestamp.
                 // It must have been in oldEntriesForGiveaway at some point.
                 const oldEntry = oldEntriesForGiveaway.find(
-                  (e) => e.username === leaverUsername
+                  (e) => (e.steam_id || e.username) === leaverUserId
                 )
 
                 if (oldEntry) {
                   hasNewLeavers = true
-                  giveawayLeavers[leaverUsername].push({
+                  giveawayLeavers[leaverUserId].push({
                     joined_at_timestamp: oldEntry.joined_at,
                     ga_link: giveaway.link,
                     leave_detected_at,
@@ -213,8 +218,8 @@ export async function generateGiveawaysData(): Promise<void> {
           }
 
           // --- Re-joiner Detection ---
-          const reJoiners = previousLeaversForGiveaway.filter((username) =>
-            currentUsernames.has(username)
+          const reJoiners = previousLeaversForGiveaway.filter((userId) =>
+            currentUserIds.has(userId)
           )
 
           if (reJoiners.length > 0) {

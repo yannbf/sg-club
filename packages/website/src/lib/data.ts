@@ -8,28 +8,68 @@ let buildTimeGameData: GameData[] | null = null
 
 // Helper to get base URL for data files
 function getBaseUrl() {
+  if (typeof window !== 'undefined') {
+    // Client-side - use relative URLs
+    return ''
+  }
   if (process.env.NODE_ENV === 'development') {
     return `http://localhost:${process.env.PORT || 3000}`
   }
+  // Production build - use relative URLs
   return ''
+}
+
+// Helper to build data URLs
+function buildDataUrl(filename: string): string {
+  const baseUrl = getBaseUrl()
+  if (baseUrl) {
+    return `${baseUrl}/data/${filename}`
+  }
+  return `data/${filename}` // Remove leading slash for relative URLs
 }
 
 // turns { "ga_id1": [{ user: "user1", joined_at: 1716796800 }, { user: "user2", joined_at: 1716796800 }] }
 // into { "user1": [{ link: "ga_id1", joined_at: 1716796800 }], "user2": [{ link: "ga_id1", joined_at: 1716796800 }] }
-type InputData = Record<string, { username: string; joined_at: number }[]>
+// Note: Now supports both username and steam_id based entries
+type InputData = Record<
+  string,
+  { username?: string; steam_id?: string; joined_at: number }[]
+>
 
 function processUserEntries(input: InputData): UserEntry {
   const output: UserEntry = {}
 
   for (const [link, userEntries] of Object.entries(input)) {
-    for (const entry of userEntries) {
-      const { username, joined_at } = entry
+    // Ensure userEntries is an array
+    if (!Array.isArray(userEntries)) {
+      console.warn(
+        `userEntries for link ${link} is not an array:`,
+        typeof userEntries,
+        userEntries
+      )
+      continue
+    }
 
-      if (!output[username]) {
-        output[username] = []
+    for (const entry of userEntries) {
+      // Ensure entry has the expected structure
+      if (!entry || typeof entry !== 'object') {
+        console.warn(`Invalid entry for link ${link}:`, entry)
+        continue
       }
 
-      output[username].push({ link, joined_at })
+      // Use steam_id if available, otherwise fall back to username
+      const userId = entry.steam_id || entry.username
+
+      if (!userId) {
+        console.warn(`Entry missing both username and steam_id:`, entry)
+        continue
+      }
+
+      if (!output[userId]) {
+        output[userId] = []
+      }
+
+      output[userId].push({ link, joined_at: entry.joined_at })
     }
   }
 
@@ -135,11 +175,21 @@ async function loadBuildTimeData() {
 // Client-side fetch functions
 async function fetchGiveaways(): Promise<Giveaway[]> {
   try {
-    const baseUrl = getBaseUrl()
-    const response = await fetch(`${baseUrl}/data/giveaways.json`)
+    const response = await fetch(buildDataUrl('giveaways.json'))
     if (!response.ok) throw new Error('Failed to fetch giveaways')
     const data = await response.json()
-    return data.giveaways || []
+
+    // Ensure data is an object and has giveaways array
+    if (
+      typeof data !== 'object' ||
+      data === null ||
+      !Array.isArray(data.giveaways)
+    ) {
+      console.warn('giveaways.json data is not valid:', typeof data, data)
+      return []
+    }
+
+    return data.giveaways
   } catch (error) {
     console.error('Error reading giveaways data:', error)
     return []
@@ -148,8 +198,7 @@ async function fetchGiveaways(): Promise<Giveaway[]> {
 
 async function fetchLastUpdated(): Promise<string | null> {
   try {
-    const baseUrl = getBaseUrl()
-    const response = await fetch(`${baseUrl}/data/giveaways.json`)
+    const response = await fetch(buildDataUrl('giveaways.json'))
     if (!response.ok) throw new Error('Failed to fetch giveaways')
     const data = await response.json()
     return data.last_updated || null
@@ -161,10 +210,17 @@ async function fetchLastUpdated(): Promise<string | null> {
 
 async function fetchUsers(): Promise<UserGroupData | null> {
   try {
-    const baseUrl = getBaseUrl()
-    const response = await fetch(`${baseUrl}/data/group_users.json`)
+    const response = await fetch(buildDataUrl('group_users.json'))
     if (!response.ok) throw new Error('Failed to fetch users')
-    return await response.json()
+    const data = await response.json()
+
+    // Ensure data is an object before returning
+    if (typeof data !== 'object' || data === null) {
+      console.warn('group_users.json data is not an object:', typeof data, data)
+      return null
+    }
+
+    return data as UserGroupData
   } catch (error) {
     console.error('Error reading users data:', error)
     return null
@@ -173,11 +229,21 @@ async function fetchUsers(): Promise<UserGroupData | null> {
 
 async function fetchUserEntries(): Promise<UserEntry | null> {
   try {
-    const baseUrl = getBaseUrl()
-    const response = await fetch(`${baseUrl}/data/user_entries.json`)
+    const response = await fetch(buildDataUrl('user_entries.json'))
     if (!response.ok) throw new Error('Failed to fetch users')
     const data = await response.json()
-    return processUserEntries(data)
+
+    // Ensure data is an object before processing
+    if (typeof data !== 'object' || data === null) {
+      console.warn(
+        'user_entries.json data is not an object:',
+        typeof data,
+        data
+      )
+      return null
+    }
+
+    return processUserEntries(data as InputData)
   } catch (error) {
     console.error('Error reading users data:', error)
     return null
@@ -186,10 +252,17 @@ async function fetchUserEntries(): Promise<UserEntry | null> {
 
 async function fetchGameData(): Promise<GameData[]> {
   try {
-    const baseUrl = getBaseUrl()
-    const response = await fetch(`${baseUrl}/data/game_data.json`)
+    const response = await fetch(buildDataUrl('game_data.json'))
     if (!response.ok) throw new Error('Failed to fetch game data')
-    return await response.json()
+    const data = await response.json()
+
+    // Ensure data is an array
+    if (!Array.isArray(data)) {
+      console.warn('game_data.json data is not an array:', typeof data, data)
+      return []
+    }
+
+    return data
   } catch (error) {
     console.error('Error reading game data:', error)
     return []
@@ -219,17 +292,23 @@ export async function getGameData(): Promise<GameData[]> {
   return data.gameData
 }
 
-export async function getUser(username: string): Promise<User | null> {
+export async function getUser(identifier: string): Promise<User | null> {
   const userData = await getAllUsers()
   if (!userData) return null
 
-  // Find the user case-insensitively by comparing lowercase usernames
-  const lowerUsername = username.toLowerCase()
-  const matchingUser = Object.entries(userData.users).find(
-    ([key]) => key.toLowerCase() === lowerUsername
-  )
+  // Check if identifier is a steam_id (numeric) or username (text)
+  const isSteamId = /^\d+$/.test(identifier)
 
-  return matchingUser ? matchingUser[1] : null
+  if (isSteamId) {
+    // Direct steam_id lookup
+    return userData.users[identifier] || null
+  } else {
+    // Username lookup - find by username field within user objects
+    const matchingUser = Object.values(userData.users).find(
+      (user) => user.username?.toLowerCase() === identifier.toLowerCase()
+    )
+    return matchingUser || null
+  }
 }
 
 export async function getUserEntries(): Promise<UserEntry | null> {

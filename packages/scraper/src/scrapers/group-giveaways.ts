@@ -732,7 +732,7 @@ export class SteamGiftsHTMLScraper {
           // contributor_level: 0, // bring this back if we ever need this info
           comment_count,
           entry_count,
-          creator,
+          creator_username: creator,
           ...(detailedInfo.required_play && {
             required_play: detailedInfo.required_play,
           }),

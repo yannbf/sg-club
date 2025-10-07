@@ -117,7 +117,7 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
   const [selectedExportFields, setSelectedExportFields] = useState<ExportFieldKey[]>(DEFAULT_EXPORT_FIELDS)
 
   const EXPORT_FIELDS = useMemo(() => ([
-    { key: 'creator' as const, label: 'Created by', get: (g: Giveaway) => g.creator || '' },
+    { key: 'creator' as const, label: 'Created by', get: (g: Giveaway) => g.creator_username || '' },
     { key: 'name' as const, label: 'Giveaway', get: (g: Giveaway) => g.name || '' },
     { key: 'link' as const, label: 'Link', get: (g: Giveaway) => `https://www.steamgifts.com/giveaway/${g.link}` },
     { key: 'event' as const, label: 'Event', get: (g: Giveaway) => (g.event_type as string) || '' },
@@ -135,7 +135,7 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
       const searchTermLower = debouncedSearchTerm.toLowerCase()
       const isExactIdMatch = (debouncedSearchTerm.length === 5 && giveaway.link.split('/')[0] === debouncedSearchTerm)
       const matchesSearch = giveaway.name.toLowerCase().includes(searchTermLower) ||
-        giveaway.creator.toLowerCase().includes(searchTermLower)
+        (giveaway.creator_username || '').toLowerCase().includes(searchTermLower)
 
       const matchesCV = filterCV === 'all' ||
         (filterCV === 'DECREASED_RATIO' ? !!giveaway.decreased_ratio_info : giveaway.cv_status === filterCV)
@@ -203,7 +203,7 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
           break
         }
         case 'author':
-          comparison = a.creator.localeCompare(b.creator)
+          comparison = (a.creator_username || '').localeCompare(b.creator_username || '')
           break
         case 'name':
           comparison = a.name.localeCompare(b.name)
@@ -235,7 +235,7 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
   const uniqueUsersCount = useMemo(() => {
     const creators = new Set<string>()
     for (const g of filteredAndSortedGiveaways) {
-      creators.add(g.creator)
+      creators.add(g.creator_username || '')
     }
     return creators.size
   }, [filteredAndSortedGiveaways])
@@ -562,10 +562,10 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
                   <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-muted-foreground">
                     <div className="flex items-center gap-2 min-w-0">
                       <UserAvatar
-                        src={userAvatars.get(giveaway.creator) || 'https://cdn-icons-png.flaticon.com/512/9287/9287610.png'}
-                        username={giveaway.creator}
+                        src={userAvatars.get(giveaway.creator_username) || 'https://cdn-icons-png.flaticon.com/512/9287/9287610.png'}
+                        username={giveaway.creator_username}
                       />
-                      <Link href={`/users/${giveaway.creator}`} className="hover:underline text-foreground truncate">{giveaway.creator}</Link>
+                      <Link href={`/users/${giveaway.creator_username}`} className="hover:underline text-foreground truncate">{giveaway.creator_username}</Link>
                     </div>
                     <div className="flex items-center justify-start gap-1 text-foreground"><FormattedDate timestamp={giveaway.end_timestamp} /></div>
                   </div>
@@ -625,11 +625,11 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
                     <span className="text-muted-foreground">Creator:</span>
                     <div className="flex items-center">
                       <UserAvatar
-                        src={userAvatars.get(giveaway.creator) || 'https://cdn-icons-png.flaticon.com/512/9287/9287610.png'}
-                        username={giveaway.creator}
+                        src={userAvatars.get(giveaway.creator_username) || 'https://cdn-icons-png.flaticon.com/512/9287/9287610.png'}
+                        username={giveaway.creator_username}
                       />
-                      <Link href={`/users/${giveaway.creator}`} className="text-accent hover:underline mr-2 inline-flex items-center">
-                        {giveaway.creator}
+                      <Link href={`/users/${giveaway.creator_username}`} className="text-accent hover:underline mr-2 inline-flex items-center">
+                        {giveaway.creator_username}
                       </Link>
                     </div>
                   </div>
