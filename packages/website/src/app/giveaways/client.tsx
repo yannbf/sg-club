@@ -66,7 +66,7 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
   const debouncedSearchTerm = useDebounce(searchTerm, 300)
   const [sortBy, setSortBy] = useState<'date' | 'author' | 'name' | 'cv' | 'points' | 'entries'>('date')
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc')
-  const [filterCV, setFilterCV] = useState<'all' | 'FULL_CV' | 'REDUCED_CV' | 'NO_CV'>('all')
+  const [filterCV, setFilterCV] = useState<'all' | 'FULL_CV' | 'REDUCED_CV' | 'NO_CV' | 'DECREASED_RATIO'>('all')
   const [giveawayStatus, setGiveawayStatus] = useState<'open' | 'ended' | 'all'>(defaultGiveawayStatus)
   const [failedImages, setFailedImages] = useState<Set<string>>(new Set())
 
@@ -121,7 +121,7 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
     { key: 'name' as const, label: 'Giveaway', get: (g: Giveaway) => g.name || '' },
     { key: 'link' as const, label: 'Link', get: (g: Giveaway) => `https://www.steamgifts.com/giveaway/${g.link}` },
     { key: 'event' as const, label: 'Event', get: (g: Giveaway) => (g.event_type as string) || '' },
-    { key: 'cv' as const, label: 'CV type', get: (g: Giveaway) => getCVLabel(g.cv_status || 'FULL_CV') },
+    { key: 'cv' as const, label: 'CV type', get: (g: Giveaway) => getCVLabel(g.cv_status || 'FULL_CV', !!g.decreased_ratio_info) },
     { key: 'points' as const, label: 'Points', get: (g: Giveaway) => String(g.points ?? '') },
     { key: 'required_play' as const, label: 'Play required', get: (g: Giveaway) => (g.required_play ? 'Yes' : 'No') },
     { key: 'shared' as const, label: 'Shared', get: (g: Giveaway) => (g.is_shared ? 'Yes' : 'No') },
@@ -137,7 +137,8 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
       const matchesSearch = giveaway.name.toLowerCase().includes(searchTermLower) ||
         giveaway.creator.toLowerCase().includes(searchTermLower)
 
-      const matchesCV = filterCV === 'all' || giveaway.cv_status === filterCV
+      const matchesCV = filterCV === 'all' ||
+        (filterCV === 'DECREASED_RATIO' ? !!giveaway.decreased_ratio_info : giveaway.cv_status === filterCV)
       const now = Date.now() / 1000
       const isEnded = giveaway.end_timestamp < now
       const matchesStatus = giveawayStatus === 'all' ||
@@ -207,9 +208,14 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
         case 'name':
           comparison = a.name.localeCompare(b.name)
           break
-        case 'cv':
-          comparison = getCVLabel(a.cv_status || 'FULL_CV').localeCompare(getCVLabel(b.cv_status || 'FULL_CV'))
+        case 'cv': {
+          const getCVSortLabel = (giveaway: Giveaway) => {
+            if (giveaway.decreased_ratio_info) return 'Decreased Ratio'
+            return getCVLabel(giveaway.cv_status || 'FULL_CV')
+          }
+          comparison = getCVSortLabel(a).localeCompare(getCVSortLabel(b))
           break
+        }
         case 'points':
           comparison = a.points - b.points
           break
@@ -377,13 +383,14 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
             </label>
             <select
               value={filterCV}
-              onChange={(e) => setFilterCV(e.target.value as 'all' | 'FULL_CV' | 'REDUCED_CV' | 'NO_CV')}
+              onChange={(e) => setFilterCV(e.target.value as 'all' | 'FULL_CV' | 'REDUCED_CV' | 'NO_CV' | 'DECREASED_RATIO')}
               className="w-full px-3 py-2 border border-card-border rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-accent"
             >
               <option value="all">All CV Types</option>
               <option value="FULL_CV">Full CV</option>
               <option value="REDUCED_CV">Reduced CV</option>
               <option value="NO_CV">No CV</option>
+              <option value="DECREASED_RATIO">Decreased Ratio</option>
             </select>
           </div>
 
@@ -695,9 +702,9 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
 
                 <div className="flex items-center justify-between">
                   <span
-                    className={`text-xs font-bold px-2 py-1 rounded-full ${getCVBadgeColor(giveaway.cv_status || 'FULL_CV')}`}
+                    className={`text-xs font-bold px-2 py-1 rounded-full ${getCVBadgeColor(giveaway.cv_status || 'FULL_CV', !!giveaway.decreased_ratio_info)}`}
                   >
-                    {getCVLabel(giveaway.cv_status || 'FULL_CV')}
+                    {getCVLabel(giveaway.cv_status || 'FULL_CV', !!giveaway.decreased_ratio_info)}
                   </span>
                 </div>
                 {giveaway.winners && giveaway.winners.length > 0 && (

@@ -28,6 +28,9 @@ export interface Giveaway {
   is_shared?: boolean
   is_whitelist?: boolean
   event_type?: string
+  decreased_ratio_info?: {
+    notes?: string
+  }
 }
 
 export interface Group {

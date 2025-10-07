@@ -20,6 +20,15 @@ interface PlayRequirementRow {
   REQUIREMENTS: string
 }
 
+interface DecreasedRatioRow {
+  ID: string
+  GAME: string
+  WINNER: string
+  NOTES: string
+  GIFT_WEIGHT: string
+  WIN_WEIGHT: string
+}
+
 interface PlayRequirementData {
   id: string
   game: string
@@ -38,6 +47,15 @@ export interface GiveawayData {
   completedIplayBro: boolean
   extraPoints: number
   playRequirements?: PlayRequirementData
+}
+
+export interface DecreasedRatioData {
+  id: string
+  game: string
+  winner: string
+  winWeight: number
+  giftWeight: number
+  notes?: string
 }
 
 interface GiveawayDataMap {
@@ -61,6 +79,7 @@ export class GiveawayPointsManager {
   private readonly GID = {
     GIVEAWAYS: '0', // proof of play tab
     PLAY_REQUIRED: '2065024481', // play required tab
+    INVALID_RATIO: '1029246486', // invalid ratio tab
   }
 
   private readonly CACHE_DURATION = 25 * 60 * 1000 // 25 min
@@ -72,6 +91,11 @@ export class GiveawayPointsManager {
   private playReqCache: PlayRequirementData[] | null = null
   private playReqLastFetch = 0
   private playReqFetchPromise: Promise<PlayRequirementData[]> | null = null
+
+  private decreasedRatioCache: DecreasedRatioData[] | null = null
+  private decreasedRatioLastFetch = 0
+  private decreasedRatioFetchPromise: Promise<DecreasedRatioData[]> | null =
+    null
 
   private constructor() {}
 
@@ -266,5 +290,58 @@ export class GiveawayPointsManager {
   ): Promise<PlayRequirementData | null> {
     const playReqs = await this.fetchPlayRequirements()
     return playReqs.find((p) => p.id === id) || null
+  }
+
+  // ─── Invalid Ratio Logic ────────────────────────────────────────────
+
+  private parseDecreasedRatioRow(row: DecreasedRatioRow): DecreasedRatioData {
+    const notes = (row.NOTES || '').trim()
+    return {
+      id: row.ID.trim(),
+      game: row.GAME.trim(),
+      winner: row.WINNER.trim(),
+      notes: notes === '' ? undefined : notes,
+      winWeight: parseFloat(row['WIN_WEIGHT'].trim()) || 1,
+      giftWeight: parseFloat(row['GIFT_WEIGHT'].trim()) || 1,
+    }
+  }
+
+  private async fetchDecreasedRatios(): Promise<DecreasedRatioData[]> {
+    if (this.decreasedRatioFetchPromise) return this.decreasedRatioFetchPromise
+
+    const now = Date.now()
+    if (
+      this.decreasedRatioCache &&
+      now - this.decreasedRatioLastFetch < this.CACHE_DURATION
+    ) {
+      return this.decreasedRatioCache
+    }
+
+    this.decreasedRatioFetchPromise = this.fetchCsvData<DecreasedRatioRow>(
+      this.GID.INVALID_RATIO
+    )
+      .then((rows) =>
+        rows
+          .filter((row) => row.ID && row.GAME)
+          .map((row) => this.parseDecreasedRatioRow(row))
+      )
+      .then((data) => {
+        this.decreasedRatioCache = data
+        this.decreasedRatioLastFetch = Date.now()
+        return data
+      })
+      .finally(() => {
+        this.decreasedRatioFetchPromise = null
+      })
+
+    return this.decreasedRatioFetchPromise
+  }
+
+  public async getDecreasedRatioById(
+    id: string
+  ): Promise<DecreasedRatioData[] | null> {
+    const rows = await this.fetchDecreasedRatios()
+    const matches = rows.filter((r) => r.id === id)
+    return matches.length > 0 ? matches : null
   }
 }

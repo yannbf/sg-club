@@ -254,7 +254,13 @@ export function formatPlaytime(minutes: number): string {
   return `${hours}h ${remainingMinutes}m`
 }
 
-export function getCVBadgeColor(cvStatus: string): string {
+export function getCVBadgeColor(
+  cvStatus: string,
+  hasDecreasedRatio?: boolean
+): string {
+  if (hasDecreasedRatio) {
+    return 'bg-accent-purple/20 text-accent-purple'
+  }
   switch (cvStatus) {
     case 'FULL_CV':
       return 'bg-accent-green/20 text-accent-green'
@@ -267,7 +273,13 @@ export function getCVBadgeColor(cvStatus: string): string {
   }
 }
 
-export function getCVLabel(cvStatus: string): string {
+export function getCVLabel(
+  cvStatus: string,
+  hasDecreasedRatio?: boolean
+): string {
+  if (hasDecreasedRatio) {
+    return 'Decreased Ratio'
+  }
   switch (cvStatus) {
     case 'FULL_CV':
       return 'Full CV'

@@ -228,8 +228,8 @@ export default function GivenGiveawaysClient({ giveaways, userAvatars, gameData 
                             </span>
                           </div>
                           <div className="flex items-center mt-1 space-x-4">
-                            <span className={`px-2 py-1 text-xs font-semibold rounded-full ${getCVBadgeColor(giveaway.cv_status || 'FULL_CV')}`}>
-                              {getCVLabel(giveaway.cv_status || 'FULL_CV')}
+                            <span className={`px-2 py-1 text-xs font-semibold rounded-full ${getCVBadgeColor(giveaway.cv_status || 'FULL_CV', !!giveaway.decreased_ratio_info)}`}>
+                              {getCVLabel(giveaway.cv_status || 'FULL_CV', !!giveaway.decreased_ratio_info)}
                             </span>
                             <span className="text-sm text-muted-foreground">
                               {giveaway.copies} {giveaway.copies === 1 ? 'copy' : 'copies'}

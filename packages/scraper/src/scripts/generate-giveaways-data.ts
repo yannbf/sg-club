@@ -85,6 +85,20 @@ export async function generateGiveawaysData(): Promise<void> {
       const allPointsData = await pointsManager.getAllGiveaways()
       const pointsMap = new Map(allPointsData.map((p) => [p.id, p]))
 
+      console.log('🔍 Fetching decreased ratio data...')
+      const decreasedRatioMap = new Map<
+        string,
+        import('../api/fetch-proof-of-play').DecreasedRatioData[]
+      >()
+      for (const giveaway of allGiveaways) {
+        const decreasedRatios = await pointsManager.getDecreasedRatioById(
+          giveaway.id
+        )
+        if (decreasedRatios && decreasedRatios.length > 0) {
+          decreasedRatioMap.set(giveaway.id, decreasedRatios)
+        }
+      }
+
       let giveawaysWithUpdatedEntries = 0
       let hasNewLeavers = false
       for (const giveaway of allGiveaways) {
@@ -92,6 +106,22 @@ export async function generateGiveawaysData(): Promise<void> {
         if (pointsData) {
           giveaway.required_play =
             giveaway.required_play || !!pointsData.playRequirements
+        }
+
+        // Add decreased ratio information
+        const decreasedRatios = decreasedRatioMap.get(giveaway.id)
+        if (decreasedRatios && decreasedRatios.length > 0) {
+          // Get all unique notes from the decreased ratio entries for this giveaway
+          const notes = [
+            ...new Set(decreasedRatios.map((r) => r.notes).filter(Boolean)),
+          ]
+          if (notes.length > 0) {
+            giveaway.decreased_ratio_info = {
+              notes: notes.join('; '),
+            }
+          } else {
+            giveaway.decreased_ratio_info = {}
+          }
         }
         // if giveaway has finished and is not in existingEntries or if it's currently ongoing
         const hasFinishedAndNotRegistered =

@@ -313,7 +313,10 @@ export class SteamGiftsUserFetcher {
     }
   }
 
-  public calculateStats(user: User, giveaways: Giveaway[]): UserGiveawaysStats {
+  public async calculateStats(
+    user: User,
+    giveaways: Giveaway[]
+  ): Promise<UserGiveawaysStats> {
     const userStats: Omit<
       UserGiveawaysStats,
       | 'total_sent_count'
@@ -367,6 +370,20 @@ export class SteamGiftsUserFetcher {
     }
     const giveawayMap = new Map(giveaways.map((g) => [g.link, g]))
 
+    const pointsManager = GiveawayPointsManager.getInstance()
+    const decreasedRatioCache = new Map<
+      string,
+      import('../api/fetch-proof-of-play').DecreasedRatioData[]
+    >()
+    const getDecreasedRatiosForGiveaway = async (
+      id: string
+    ): Promise<import('../api/fetch-proof-of-play').DecreasedRatioData[]> => {
+      if (decreasedRatioCache.has(id)) return decreasedRatioCache.get(id) || []
+      const rows = (await pointsManager.getDecreasedRatioById(id)) || []
+      decreasedRatioCache.set(id, rows)
+      return rows
+    }
+
     // Count sent giveaways by CV status and calculate real values
     if (user.giveaways_created) {
       const giveawaysWithNoEntriesCount = user.giveaways_created.filter(
@@ -393,6 +410,9 @@ export class SteamGiftsUserFetcher {
           continue
         }
 
+        const giveawayId = createdGiveaway.link.split('/')[0]
+        const decreasedRatios = await getDecreasedRatiosForGiveaway(giveawayId)
+
         createdGiveaway.winners?.forEach((winner) => {
           if (!winner.activated) return
 
@@ -403,12 +423,28 @@ export class SteamGiftsUserFetcher {
             gamePrice = gamePriceMap.get(`sub/${fullGiveaway.package_id}`)
           }
 
+          const decreasedRatioMatch = winner.name
+            ? decreasedRatios.find(
+                (r) =>
+                  r.winner.toLowerCase().trim() ===
+                  winner.name!.toLowerCase().trim()
+              )
+            : undefined
+
+          if (decreasedRatioMatch) {
+            console.log(
+              `⚠️  Freebie ratio match found for ${createdGiveaway.name} and winner ${winner.name}: giftWeight: ${decreasedRatioMatch.giftWeight} winWeight: ${decreasedRatioMatch.winWeight}`
+            )
+          }
+
+          const weight = Math.min(1, decreasedRatioMatch?.giftWeight || 1)
+
           switch (createdGiveaway.cv_status) {
             case 'FULL_CV':
-              userStats.fcv_sent_count++
-              userStats.real_total_sent_count++
+              userStats.fcv_sent_count += weight
+              userStats.real_total_sent_count += weight
               if (gamePrice) {
-                const finalValue = gamePrice.price_usd_full / 100
+                const finalValue = (gamePrice.price_usd_full / 100) * weight
                 debug(
                   `Adding Full CV value for ${createdGiveaway.name}: ${finalValue}`
                 )
@@ -416,15 +452,15 @@ export class SteamGiftsUserFetcher {
               }
               break
             case 'REDUCED_CV':
-              userStats.rcv_sent_count++
+              userStats.rcv_sent_count += weight
               if (gamePrice) {
                 userStats.real_total_sent_value += Number(
-                  (gamePrice.price_usd_reduced / 100).toFixed(2)
+                  ((gamePrice.price_usd_reduced / 100) * weight).toFixed(2)
                 ) // Convert cents to dollars and round to 2 decimals
               }
               break
             case 'NO_CV':
-              userStats.ncv_sent_count++
+              userStats.ncv_sent_count += weight
               // No value added for NO_CV games
               break
           }
@@ -436,6 +472,7 @@ export class SteamGiftsUserFetcher {
 
     // Count received giveaways by CV status and calculate real values
     if (user.giveaways_won) {
+      let fcvWonWithoutIPlayedBroWeighted = 0
       for (const wonGiveaway of user.giveaways_won) {
         // Track shared giveaways
         if (wonGiveaway.is_shared) {
@@ -455,43 +492,47 @@ export class SteamGiftsUserFetcher {
           gamePrice = gamePriceMap.get(`sub/${fullGiveaway.package_id}`)
         }
 
+        const giveawayId = wonGiveaway.link.split('/')[0]
+        const decreasedRatios = await getDecreasedRatiosForGiveaway(giveawayId)
+        const weightEntry = decreasedRatios.find(
+          (r) =>
+            r.winner.toLowerCase().trim() === user.username.toLowerCase().trim()
+        )
+        const weight = Math.min(1, weightEntry?.winWeight || 1)
+
         switch (wonGiveaway.cv_status) {
           case 'FULL_CV':
-            userStats.real_total_received_count++
-            userStats.fcv_received_count++
+            userStats.real_total_received_count += weight
+            userStats.fcv_received_count += weight
             if (gamePrice) {
               userStats.real_total_received_value += Number(
-                (gamePrice.price_usd_full / 100).toFixed(2)
+                ((gamePrice.price_usd_full / 100) * weight).toFixed(2)
               ) // Convert cents to dollars and round to 2 decimals
+            }
+            if (!wonGiveaway.i_played_bro) {
+              fcvWonWithoutIPlayedBroWeighted += weight
             }
             break
           case 'REDUCED_CV':
-            userStats.rcv_received_count++
+            userStats.rcv_received_count += weight
             if (gamePrice) {
               userStats.real_total_received_value += Number(
-                (gamePrice.price_usd_reduced / 100).toFixed(2)
+                ((gamePrice.price_usd_reduced / 100) * weight).toFixed(2)
               ) // Convert cents to dollars and round to 2 decimals
             }
             break
           case 'NO_CV':
-            userStats.ncv_received_count++
+            userStats.ncv_received_count += weight
             // No value added for NO_CV games
             break
         }
       }
+      userStats.fcv_gift_difference =
+        userStats.fcv_sent_count - userStats.fcv_received_count
+
+      userStats.giveaway_ratio =
+        userStats.fcv_sent_count - fcvWonWithoutIPlayedBroWeighted / 3
     }
-
-    // Calculate gift difference for full CV
-    userStats.fcv_gift_difference =
-      userStats.fcv_sent_count - userStats.fcv_received_count
-
-    const fcv_won_without_i_played_bro =
-      user.giveaways_won?.filter(
-        (g) => g.cv_status === 'FULL_CV' && !g.i_played_bro
-      ).length || 0
-
-    userStats.giveaway_ratio =
-      userStats.fcv_sent_count - fcv_won_without_i_played_bro / 3
 
     // Calculate real value differences
     userStats.real_total_value_difference = Number(
@@ -504,6 +545,31 @@ export class SteamGiftsUserFetcher {
         userStats.real_total_sent_count - userStats.real_total_received_count
       ).toFixed(2)
     )
+
+    // Round weighted stats to 2 decimals where applicable
+    const round2 = (n: number) => Number(n.toFixed(2))
+    userStats.fcv_sent_count = round2(userStats.fcv_sent_count)
+    userStats.rcv_sent_count = round2(userStats.rcv_sent_count)
+    userStats.ncv_sent_count = round2(userStats.ncv_sent_count)
+    userStats.fcv_received_count = round2(userStats.fcv_received_count)
+    userStats.rcv_received_count = round2(userStats.rcv_received_count)
+    userStats.ncv_received_count = round2(userStats.ncv_received_count)
+    userStats.real_total_sent_count = round2(userStats.real_total_sent_count)
+    userStats.real_total_received_count = round2(
+      userStats.real_total_received_count
+    )
+    userStats.fcv_gift_difference = round2(userStats.fcv_gift_difference)
+    userStats.real_total_sent_value = round2(userStats.real_total_sent_value)
+    userStats.real_total_received_value = round2(
+      userStats.real_total_received_value
+    )
+    userStats.real_total_value_difference = round2(
+      userStats.real_total_value_difference
+    )
+    userStats.real_total_gift_difference = round2(
+      userStats.real_total_gift_difference
+    )
+    userStats.giveaway_ratio = round2(userStats.giveaway_ratio ?? 0)
 
     // Calculate achievement percentages
     const wonGiveawaysWithAchievements =
@@ -890,7 +956,7 @@ export class SteamGiftsUserFetcher {
       }
 
       // Calculate user stats
-      const userStats = this.calculateStats(updatedUser, giveaways)
+      const userStats = await this.calculateStats(updatedUser, giveaways)
       updatedUser.stats = {
         ...updatedUser.stats,
         ...userStats,

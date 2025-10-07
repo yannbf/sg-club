@@ -121,6 +121,9 @@ export interface Giveaway {
     deadline_in_months?: number
     additional_notes?: string
   }
+  decreased_ratio_info?: {
+    notes?: string
+  }
 }
 
 export interface GiveawayGame {

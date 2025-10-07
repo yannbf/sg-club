@@ -174,7 +174,7 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData, 
                               target="_blank"
                               rel="noopener noreferrer"
                               className="text-accent hover:underline text-sm"
-                            >{game.name} ({matchingGiveaway?.points}P) <CvStatusIndicator giveaway={matchingGiveaway} /></a>
+                            >{game.name} ({matchingGiveaway?.points}P) {matchingGiveaway && <CvStatusIndicator giveaway={matchingGiveaway} />}</a>
 
                             {game.i_played_bro && (
                               <span className="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
@@ -188,8 +188,8 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData, 
                             )}
                           </h3>
                           <div className="flex items-center mt-1 space-x-4">
-                            <span className={`px-2 py-1 text-xs font-semibold rounded-full ${getCVBadgeColor(game.cv_status)}`}>
-                              {getCVLabel(game.cv_status)}
+                            <span className={`px-2 py-1 text-xs font-semibold rounded-full ${getCVBadgeColor(game.cv_status, false)}`}>
+                              {getCVLabel(game.cv_status, false)}
                             </span>
                             <span className="text-xs text-muted-foreground">
                               Won <FormattedDate timestamp={game.end_timestamp} />

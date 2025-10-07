@@ -1,41 +1,6 @@
 {
-  "last_updated": "2025-10-07T01:44:08.682Z",
+  "last_updated": "2025-10-07T07:32:48.924Z",
   "giveaways": [
-    {
-      "id": "XHwrQ",
-      "name": "Airborne Empire",
-      "points": 30,
-      "copies": 1,
-      "app_id": 2438680,
-      "package_id": null,
-      "link": "XHwrQ/airborne-empire",
-      "created_timestamp": 1759468610,
-      "start_timestamp": 1759468610,
-      "end_timestamp": 1759817520,
-      "group": true,
-      "comment_count": 1,
-      "entry_count": 2,
-      "creator": "VinroyIsViral",
-      "required_play": true,
-      "cv_status": "FULL_CV"
-    },
-    {
-      "id": "YbZ1d",
-      "name": "Shape of Dreams",
-      "points": 25,
-      "copies": 1,
-      "app_id": 2444750,
-      "package_id": null,
-      "link": "YbZ1d/shape-of-dreams",
-      "created_timestamp": 1759489295,
-      "start_timestamp": 1759489295,
-      "end_timestamp": 1759820400,
-      "group": true,
-      "comment_count": 6,
-      "entry_count": 18,
-      "creator": "Lakraj1209",
-      "cv_status": "FULL_CV"
-    },
     {
       "id": "CRTyZ",
       "name": "Resident Evil Village",
@@ -119,7 +84,7 @@
       "end_timestamp": 1759888800,
       "group": true,
       "comment_count": 0,
-      "entry_count": 6,
+      "entry_count": 8,
       "creator": "insideAfireball",
       "cv_status": "FULL_CV"
     },
@@ -173,7 +138,7 @@
       "end_timestamp": 1759915800,
       "group": true,
       "comment_count": 0,
-      "entry_count": 17,
+      "entry_count": 18,
       "creator": "webdak",
       "required_play": true,
       "event_type": "october_event",
@@ -193,7 +158,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 2,
-      "entry_count": 21,
+      "entry_count": 22,
       "creator": "GeekDoesStuff",
       "is_shared": true,
       "cv_status": "FULL_CV"
@@ -282,8 +247,8 @@
       "end_timestamp": 1760043000,
       "whitelist": true,
       "group": true,
-      "comment_count": 1,
-      "entry_count": 39,
+      "comment_count": 4,
+      "entry_count": 41,
       "creator": "Waxlor",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -428,7 +393,7 @@
       "end_timestamp": 1760122200,
       "group": true,
       "comment_count": 0,
-      "entry_count": 11,
+      "entry_count": 12,
       "creator": "oct4vius",
       "cv_status": "FULL_CV"
     },
@@ -446,7 +411,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 37,
+      "entry_count": 39,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -482,8 +447,8 @@
       "region_restricted": true,
       "whitelist": true,
       "group": true,
-      "comment_count": 9,
-      "entry_count": 85,
+      "comment_count": 11,
+      "entry_count": 88,
       "creator": "Dobke",
       "is_shared": true,
       "cv_status": "FULL_CV"
@@ -502,7 +467,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 99,
+      "entry_count": 101,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -557,7 +522,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 56,
+      "entry_count": 59,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -597,7 +562,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 10,
-      "entry_count": 75,
+      "entry_count": 76,
       "creator": "Dobke",
       "is_shared": true,
       "cv_status": "FULL_CV"
@@ -735,10 +700,62 @@
       "region_restricted": true,
       "group": true,
       "comment_count": 3,
-      "entry_count": 66,
+      "entry_count": 67,
       "creator": "ILoveMyAlice",
       "required_play": true,
       "is_shared": true,
+      "cv_status": "FULL_CV"
+    },
+    {
+      "id": "YbZ1d",
+      "name": "Shape of Dreams",
+      "points": 25,
+      "copies": 1,
+      "app_id": 2444750,
+      "package_id": null,
+      "link": "YbZ1d/shape-of-dreams",
+      "created_timestamp": 1759489295,
+      "start_timestamp": 1759489295,
+      "end_timestamp": 1759820400,
+      "group": true,
+      "comment_count": 6,
+      "entry_count": 18,
+      "creator": "Lakraj1209",
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "FULL_CV"
+    },
+    {
+      "id": "XHwrQ",
+      "name": "Airborne Empire",
+      "points": 30,
+      "copies": 1,
+      "app_id": 2438680,
+      "package_id": null,
+      "link": "XHwrQ/airborne-empire",
+      "created_timestamp": 1759468610,
+      "start_timestamp": 1759468610,
+      "end_timestamp": 1759817520,
+      "group": true,
+      "comment_count": 1,
+      "entry_count": 2,
+      "creator": "VinroyIsViral",
+      "required_play": true,
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "decreased_ratio_info": {
+        "notes": "Free curator copy"
+      },
       "cv_status": "FULL_CV"
     },
     {
@@ -878,7 +895,7 @@
       "start_timestamp": 1759464169,
       "end_timestamp": 1759755600,
       "group": true,
-      "comment_count": 4,
+      "comment_count": 5,
       "entry_count": 6,
       "creator": "Sakakino",
       "event_type": "october_event",
@@ -935,8 +952,8 @@
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "SteamKeyGiveaway",
+          "status": "received"
         }
       ],
       "cv_status": "FULL_CV"
@@ -1040,7 +1057,7 @@
       "start_timestamp": 1759340087,
       "end_timestamp": 1759691640,
       "group": true,
-      "comment_count": 2,
+      "comment_count": 4,
       "entry_count": 5,
       "creator": "LinustheBold",
       "event_type": "october_event",
@@ -2659,6 +2676,9 @@
           "status": "received"
         }
       ],
+      "decreased_ratio_info": {
+        "notes": "Free curator copy"
+      },
       "cv_status": "FULL_CV"
     },
     {
@@ -4156,6 +4176,9 @@
           "status": "received"
         }
       ],
+      "decreased_ratio_info": {
+        "notes": "~$1 on RU gray market"
+      },
       "cv_status": "FULL_CV"
     },
     {
@@ -4180,6 +4203,9 @@
           "status": "received"
         }
       ],
+      "decreased_ratio_info": {
+        "notes": "Free curator copy"
+      },
       "cv_status": "FULL_CV"
     },
     {
@@ -4754,6 +4780,9 @@
       "creator": "elysium1988",
       "hasWinners": false,
       "winners": [],
+      "decreased_ratio_info": {
+        "notes": "Free curator copy"
+      },
       "cv_status": "FULL_CV"
     },
     {
@@ -7865,6 +7894,9 @@
           "status": "received"
         }
       ],
+      "decreased_ratio_info": {
+        "notes": "Free curator copy"
+      },
       "cv_status": "FULL_CV"
     },
     {
@@ -8057,6 +8089,9 @@
           "status": "received"
         }
       ],
+      "decreased_ratio_info": {
+        "notes": "Free curator copy"
+      },
       "cv_status": "FULL_CV"
     },
     {
@@ -8590,6 +8625,9 @@
           "status": "received"
         }
       ],
+      "decreased_ratio_info": {
+        "notes": "Decent quality freebie from AWA"
+      },
       "cv_status": "FULL_CV"
     },
     {
@@ -9133,6 +9171,9 @@
           "status": "received"
         }
       ],
+      "decreased_ratio_info": {
+        "notes": "Potentially free curator copy?"
+      },
       "cv_status": "FULL_CV"
     },
     {
@@ -9392,6 +9433,9 @@
           "status": "received"
         }
       ],
+      "decreased_ratio_info": {
+        "notes": "Very high quality freebie from AWA"
+      },
       "cv_status": "FULL_CV"
     },
     {
@@ -11389,6 +11433,9 @@
           "status": "received"
         }
       ],
+      "decreased_ratio_info": {
+        "notes": "Potentially free curator copy?"
+      },
       "cv_status": "FULL_CV"
     },
     {
@@ -14248,6 +14295,9 @@
           "status": "received"
         }
       ],
+      "decreased_ratio_info": {
+        "notes": "Free curator copy"
+      },
       "cv_status": "FULL_CV"
     },
     {
@@ -15438,7 +15488,10 @@
           "status": "received"
         }
       ],
-      "cv_status": "FULL_CV"
+      "cv_status": "FULL_CV",
+      "decreased_ratio_info": {
+        "notes": "Potentially free curator copy?"
+      }
     },
     {
       "id": "XDifJ",
@@ -16663,7 +16716,10 @@
           "status": "received"
         }
       ],
-      "cv_status": "FULL_CV"
+      "cv_status": "FULL_CV",
+      "decreased_ratio_info": {
+        "notes": "Full CV creator, reduced CV winner"
+      }
     },
     {
       "id": "6RxdA",
@@ -17588,7 +17644,10 @@
           "status": "received"
         }
       ],
-      "cv_status": "FULL_CV"
+      "cv_status": "FULL_CV",
+      "decreased_ratio_info": {
+        "notes": "High quality freebie from AWA"
+      }
     },
     {
       "id": "E6FHv",
@@ -19175,7 +19234,10 @@
           "status": "received"
         }
       ],
-      "cv_status": "FULL_CV"
+      "cv_status": "FULL_CV",
+      "decreased_ratio_info": {
+        "notes": "Freebie from AWA"
+      }
     },
     {
       "id": "xIu1v",
@@ -20960,7 +21022,10 @@
         }
       ],
       "required_play": false,
-      "cv_status": "FULL_CV"
+      "cv_status": "FULL_CV",
+      "decreased_ratio_info": {
+        "notes": "Free curator copy"
+      }
     },
     {
       "id": "odwaT",
@@ -22239,7 +22304,10 @@
           "status": "received"
         }
       ],
-      "cv_status": "FULL_CV"
+      "cv_status": "FULL_CV",
+      "decreased_ratio_info": {
+        "notes": "Free curator copy"
+      }
     },
     {
       "id": "ACfxD",
@@ -22290,7 +22358,10 @@
         }
       ],
       "required_play": false,
-      "cv_status": "FULL_CV"
+      "cv_status": "FULL_CV",
+      "decreased_ratio_info": {
+        "notes": "Free curator copy"
+      }
     },
     {
       "id": "vkkSi",
@@ -23375,7 +23446,10 @@
           "status": "received"
         }
       ],
-      "cv_status": "FULL_CV"
+      "cv_status": "FULL_CV",
+      "decreased_ratio_info": {
+        "notes": "Free curator copy"
+      }
     },
     {
       "id": "GCWVg",
@@ -23399,7 +23473,10 @@
           "status": "received"
         }
       ],
-      "cv_status": "FULL_CV"
+      "cv_status": "FULL_CV",
+      "decreased_ratio_info": {
+        "notes": "Free curator copy"
+      }
     },
     {
       "id": "BmMY2",
@@ -23526,7 +23603,10 @@
           "status": "received"
         }
       ],
-      "cv_status": "FULL_CV"
+      "cv_status": "FULL_CV",
+      "decreased_ratio_info": {
+        "notes": "Free curator copy"
+      }
     },
     {
       "id": "nWn4q",
@@ -26285,7 +26365,10 @@
         }
       ],
       "required_play": false,
-      "cv_status": "FULL_CV"
+      "cv_status": "FULL_CV",
+      "decreased_ratio_info": {
+        "notes": "Freebie from indie.io"
+      }
     },
     {
       "id": "5JBDd",
@@ -26383,7 +26466,10 @@
           "status": "received"
         }
       ],
-      "cv_status": "FULL_CV"
+      "cv_status": "FULL_CV",
+      "decreased_ratio_info": {
+        "notes": "Decent quality freebie from AWA"
+      }
     },
     {
       "id": "yuMUy",
@@ -27508,7 +27594,10 @@
           "status": "received"
         }
       ],
-      "cv_status": "FULL_CV"
+      "cv_status": "FULL_CV",
+      "decreased_ratio_info": {
+        "notes": "Freebie from Dell.com"
+      }
     },
     {
       "id": "r2LGA",
@@ -27532,7 +27621,10 @@
           "status": "received"
         }
       ],
-      "cv_status": "FULL_CV"
+      "cv_status": "FULL_CV",
+      "decreased_ratio_info": {
+        "notes": "Freebie from Dell.com"
+      }
     },
     {
       "id": "e4bzO",
@@ -29955,7 +30047,10 @@
         }
       ],
       "required_play": false,
-      "cv_status": "FULL_CV"
+      "cv_status": "FULL_CV",
+      "decreased_ratio_info": {
+        "notes": "Free curator copy"
+      }
     },
     {
       "id": "7TZ0J",
@@ -35219,7 +35314,10 @@
         }
       ],
       "required_play": false,
-      "cv_status": "FULL_CV"
+      "cv_status": "FULL_CV",
+      "decreased_ratio_info": {
+        "notes": "Free curator copy"
+      }
     },
     {
       "id": "zpZe4",
@@ -36741,7 +36839,10 @@
         }
       ],
       "required_play": false,
-      "cv_status": "FULL_CV"
+      "cv_status": "FULL_CV",
+      "decreased_ratio_info": {
+        "notes": "Full CV creator, reduced CV winner"
+      }
     },
     {
       "id": "ATbGU",
@@ -37746,7 +37847,10 @@
           "status": "received"
         }
       ],
-      "cv_status": "FULL_CV"
+      "cv_status": "FULL_CV",
+      "decreased_ratio_info": {
+        "notes": "Freebie from Dell.com"
+      }
     },
     {
       "id": "VmhLC",
@@ -40837,7 +40941,10 @@
           "status": "received"
         }
       ],
-      "cv_status": "FULL_CV"
+      "cv_status": "FULL_CV",
+      "decreased_ratio_info": {
+        "notes": "Freebie from AWA"
+      }
     },
     {
       "id": "KngLn",
@@ -41534,7 +41641,10 @@
           "status": "received"
         }
       ],
-      "cv_status": "FULL_CV"
+      "cv_status": "FULL_CV",
+      "decreased_ratio_info": {
+        "notes": "95%+ off giveaway"
+      }
     },
     {
       "id": "YzAZD",
