@@ -34,7 +34,7 @@ export interface User {
     real_average_achievements_percentage?: number
     has_missing_achievements_data?: boolean
   }
-  steam_id?: string
+  steam_id: string
   steam_profile_url?: string
   steam_profile_is_private?: boolean
   country_code?: string | null
@@ -104,7 +104,8 @@ export interface Giveaway {
   contributor_level: number
   comment_count: number
   entry_count: number
-  creator: string
+  creator_username: string
+  creator_steam_id?: string
   cv_status?: 'FULL_CV' | 'REDUCED_CV' | 'NO_CV'
   winners?: {
     name: string

@@ -187,8 +187,10 @@ export default function UserDetailPageClient({ user, allUsers, giveaways, gameDa
   const [showDetailedStats, setShowDetailedStats] = useState(false)
 
   // Get giveaways created by this user from the main giveaways data
-  const userGiveaways = giveaways.filter(g => g.creator === user.username)
-  const enteredGiveawayData = userEntries?.[user.username] || []
+  const userGiveaways = giveaways.filter(g => g.creator_username === user.username)
+
+  const enteredGiveawayData = userEntries?.[user.steam_id] || []
+  
   const enteredGiveaways = enteredGiveawayData.map(g => giveaways.find(ga => ga.link === g.link)).filter(g => g !== undefined)
   const lastEnteredGiveaway = enteredGiveawayData.sort((a, b) => b.joined_at - a.joined_at)[0]
 

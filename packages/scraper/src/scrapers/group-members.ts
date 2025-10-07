@@ -627,8 +627,8 @@ export class SteamGiftsUserFetcher {
     let steamSkippedCount = 0
     let noStatsAvailableCount = 0
 
-    // Calculate timestamp for 2 months ago (60 days)
-    const twoMonthsAgo = Date.now() / 1000 - 2 * 30 * 24 * 60 * 60
+    // Calculate timestamp for 3 months ago (90 days)
+    const threeMonthsAgo = Date.now() / 1000 - 3 * 30 * 24 * 60 * 60
 
     const usersToUpdate = Array.from(users.values()).filter((u) => u.steam_id)
     const totalUsers = usersToUpdate.length
@@ -678,10 +678,10 @@ export class SteamGiftsUserFetcher {
         const giveaway = giveaways.find((g) => g.link === wonGame.link)
         if (!giveaway?.app_id && !giveaway?.package_id) continue
 
-        // Only check Steam data for giveaways that ended within the last 2 months
+        // Only check Steam data for giveaways that ended within the last 3 months
         if (
           process.env.FETCH_ALL_STEAM_DATA === 'true' ||
-          wonGame.end_timestamp < twoMonthsAgo
+          wonGame.end_timestamp < threeMonthsAgo
         ) {
           steamSkippedCount++
           console.log(
@@ -756,7 +756,7 @@ export class SteamGiftsUserFetcher {
 
     console.log(`🎮 Steam data update complete:`)
     console.log(`  • Checked: ${steamCheckedCount}`)
-    console.log(`  • Skipped (>2 months old): ${steamSkippedCount}`)
+    console.log(`  • Skipped (>3 months old): ${steamSkippedCount}`)
     console.log(`  • No stats available: ${noStatsAvailableCount}`)
     console.log(`  • Errors: ${steamErrorCount}`)
   }
@@ -783,9 +783,10 @@ export class SteamGiftsUserFetcher {
     // Create a map of giveaways by creator for faster lookup
     const giveawaysByCreator = new Map<string, Giveaway[]>()
     for (const giveaway of giveaways) {
-      const creatorGiveaways = giveawaysByCreator.get(giveaway.creator) || []
+      const creatorGiveaways =
+        giveawaysByCreator.get(giveaway.creator_username) || []
       creatorGiveaways.push(giveaway)
-      giveawaysByCreator.set(giveaway.creator, creatorGiveaways)
+      giveawaysByCreator.set(giveaway.creator_username, creatorGiveaways)
     }
 
     // Process each user
@@ -881,7 +882,7 @@ export class SteamGiftsUserFetcher {
 
       // Find giveaways created by this user
       for (const giveaway of giveaways) {
-        if (giveaway.creator === username) {
+        if (giveaway.creator_username === username) {
           const giveawayCreated: NonNullable<User['giveaways_created']>[0] = {
             name: giveaway.name,
             link: giveaway.link,
@@ -1473,7 +1474,7 @@ export class SteamGiftsUserFetcher {
           user.warnings = undefined
         }
 
-        usersRecord[user.username] = user
+        usersRecord[user.steam_id] = user
       }
 
       // Save to file with lastUpdated timestamp

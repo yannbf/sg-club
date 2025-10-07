@@ -15,7 +15,8 @@ export interface Giveaway {
   group: boolean
   comment_count?: number
   entry_count: number
-  creator: string
+  creator_username: string
+  creator_steam_id?: string
   cv_status?: CVStatus
   // HTML scraping specific fields
   hasWinners?: boolean
