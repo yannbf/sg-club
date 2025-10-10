@@ -1,42 +1,6 @@
 {
-  "last_updated": "2025-10-10T02:17:46.006Z",
+  "last_updated": "2025-10-10T08:57:59.191Z",
   "giveaways": [
-    {
-      "id": "loJYz",
-      "name": "Ys I & II Chronicles+",
-      "points": 15,
-      "copies": 1,
-      "app_id": 223810,
-      "package_id": null,
-      "link": "loJYz/ys-i-ii-chronicles",
-      "created_timestamp": 1759431537,
-      "start_timestamp": 1759431537,
-      "end_timestamp": 1760079420,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 5,
-      "creator_username": "Lakraj1209",
-      "cv_status": "FULL_CV"
-    },
-    {
-      "id": "VdFHc",
-      "name": "A Highland Song",
-      "points": 18,
-      "copies": 3,
-      "app_id": 1240060,
-      "package_id": null,
-      "link": "VdFHc/a-highland-song",
-      "created_timestamp": 1759747711,
-      "start_timestamp": 1759747711,
-      "end_timestamp": 1760083200,
-      "region_restricted": true,
-      "group": true,
-      "comment_count": 5,
-      "entry_count": 10,
-      "creator_username": "QuinlanLJ",
-      "required_play": true,
-      "cv_status": "FULL_CV"
-    },
     {
       "id": "CbjHb",
       "name": "Winion Virus",
@@ -139,7 +103,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 41,
+      "entry_count": 42,
       "creator_username": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -176,7 +140,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 11,
+      "entry_count": 12,
       "creator_username": "Eindirk",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -231,7 +195,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 11,
-      "entry_count": 91,
+      "entry_count": 93,
       "creator_username": "Dobke",
       "is_shared": true,
       "cv_status": "FULL_CV"
@@ -250,7 +214,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 105,
+      "entry_count": 106,
       "creator_username": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -285,7 +249,7 @@
       "end_timestamp": 1760278620,
       "group": true,
       "comment_count": 0,
-      "entry_count": 0,
+      "entry_count": 1,
       "creator_username": "OndrejVasicek",
       "cv_status": "FULL_CV"
     },
@@ -302,7 +266,7 @@
       "end_timestamp": 1760278620,
       "group": true,
       "comment_count": 0,
-      "entry_count": 0,
+      "entry_count": 1,
       "creator_username": "OndrejVasicek",
       "cv_status": "FULL_CV"
     },
@@ -321,7 +285,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 32,
+      "entry_count": 36,
       "creator_username": "NateSCC",
       "required_play": true,
       "is_shared": true,
@@ -340,7 +304,7 @@
       "end_timestamp": 1760292000,
       "group": true,
       "comment_count": 2,
-      "entry_count": 22,
+      "entry_count": 23,
       "creator_username": "Hawkingmeister",
       "cv_status": "FULL_CV"
     },
@@ -383,6 +347,43 @@
       "cv_status": "REDUCED_CV"
     },
     {
+      "id": "krh1L",
+      "name": "Fly'N",
+      "points": 10,
+      "copies": 1,
+      "app_id": 223730,
+      "package_id": null,
+      "link": "krh1L/flyn",
+      "created_timestamp": 1760073223,
+      "start_timestamp": 1760073223,
+      "end_timestamp": 1760332200,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 2,
+      "creator_username": "PoeticKatana",
+      "is_shared": true,
+      "cv_status": "REDUCED_CV"
+    },
+    {
+      "id": "9MEF4",
+      "name": "Botany Manor",
+      "points": 25,
+      "copies": 1,
+      "app_id": 1425350,
+      "package_id": null,
+      "link": "9MEF4/botany-manor",
+      "created_timestamp": 1760072449,
+      "start_timestamp": 1760072449,
+      "end_timestamp": 1760333700,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 1,
+      "creator_username": "PoeticKatana",
+      "required_play": true,
+      "cv_status": "FULL_CV"
+    },
+    {
       "id": "0oXp9",
       "name": "The MISSING: J.J. Macfield and the Is...",
       "points": 30,
@@ -395,8 +396,27 @@
       "end_timestamp": 1760401740,
       "group": true,
       "comment_count": 0,
-      "entry_count": 0,
+      "entry_count": 2,
       "creator_username": "Tsukurai",
+      "event_type": "october_event",
+      "cv_status": "FULL_CV"
+    },
+    {
+      "id": "Kdgxo",
+      "name": "Dying Light: Definitive 10th Annivers...",
+      "points": 50,
+      "copies": 1,
+      "app_id": null,
+      "package_id": 1265945,
+      "link": "Kdgxo/dying-light-definitive-10th-anniversary-edition",
+      "created_timestamp": 1760079106,
+      "start_timestamp": 1760079106,
+      "end_timestamp": 1760403600,
+      "region_restricted": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 0,
+      "creator_username": "Orionid",
       "event_type": "october_event",
       "cv_status": "FULL_CV"
     },
@@ -413,7 +433,7 @@
       "end_timestamp": 1760407200,
       "group": true,
       "comment_count": 0,
-      "entry_count": 0,
+      "entry_count": 1,
       "creator_username": "insideAfireball",
       "cv_status": "FULL_CV"
     },
@@ -465,7 +485,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 84,
+      "entry_count": 88,
       "creator_username": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -505,7 +525,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 11,
-      "entry_count": 78,
+      "entry_count": 79,
       "creator_username": "Dobke",
       "is_shared": true,
       "cv_status": "FULL_CV"
@@ -574,7 +594,7 @@
       "end_timestamp": 1761203220,
       "group": true,
       "comment_count": 0,
-      "entry_count": 4,
+      "entry_count": 3,
       "creator_username": "SteamKeyGiveaway",
       "cv_status": "FULL_CV"
     },
@@ -608,10 +628,27 @@
       "end_timestamp": 1761339720,
       "whitelist": true,
       "group": true,
-      "comment_count": 21,
-      "entry_count": 17,
+      "comment_count": 23,
+      "entry_count": 19,
       "creator_username": "Dobke",
       "is_shared": true,
+      "cv_status": "FULL_CV"
+    },
+    {
+      "id": "tFA8f",
+      "name": "Dark Fairy Tale: Dreamland Survivors",
+      "points": 5,
+      "copies": 1,
+      "app_id": 3288300,
+      "package_id": null,
+      "link": "tFA8f/dark-fairy-tale-dreamland-survivors",
+      "created_timestamp": 1760064390,
+      "start_timestamp": 1760064390,
+      "end_timestamp": 1761450300,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 1,
+      "creator_username": "elysium1988",
       "cv_status": "FULL_CV"
     },
     {
@@ -671,6 +708,64 @@
       "cv_status": "FULL_CV"
     },
     {
+      "id": "VdFHc",
+      "name": "A Highland Song",
+      "points": 18,
+      "copies": 3,
+      "app_id": 1240060,
+      "package_id": null,
+      "link": "VdFHc/a-highland-song",
+      "created_timestamp": 1759747711,
+      "start_timestamp": 1759747711,
+      "end_timestamp": 1760083200,
+      "region_restricted": true,
+      "group": true,
+      "comment_count": 5,
+      "entry_count": 10,
+      "creator_username": "QuinlanLJ",
+      "required_play": true,
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        },
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        },
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "FULL_CV"
+    },
+    {
+      "id": "loJYz",
+      "name": "Ys I & II Chronicles+",
+      "points": 15,
+      "copies": 1,
+      "app_id": 223810,
+      "package_id": null,
+      "link": "loJYz/ys-i-ii-chronicles",
+      "created_timestamp": 1759431537,
+      "start_timestamp": 1759431537,
+      "end_timestamp": 1760079420,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 5,
+      "creator_username": "Lakraj1209",
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "FULL_CV"
+    },
+    {
       "id": "bRRuf",
       "name": "Outer Wilds",
       "points": 25,
@@ -683,14 +778,14 @@
       "end_timestamp": 1760047860,
       "region_restricted": true,
       "group": true,
-      "comment_count": 0,
+      "comment_count": 1,
       "entry_count": 17,
       "creator_username": "DancingVaquinha",
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "CuteEnby",
+          "status": "received"
         }
       ],
       "cv_status": "FULL_CV"
@@ -707,7 +802,7 @@
       "start_timestamp": 1759349541,
       "end_timestamp": 1760043900,
       "group": true,
-      "comment_count": 2,
+      "comment_count": 3,
       "entry_count": 20,
       "creator_username": "CosmicDrink",
       "required_play": true,
@@ -734,15 +829,15 @@
       "end_timestamp": 1760043000,
       "whitelist": true,
       "group": true,
-      "comment_count": 6,
+      "comment_count": 7,
       "entry_count": 59,
       "creator_username": "Waxlor",
       "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "axlnase",
+          "status": "received"
         }
       ],
       "cv_status": "REDUCED_CV"
@@ -860,15 +955,15 @@
       "start_timestamp": 1759587248,
       "end_timestamp": 1759954200,
       "group": true,
-      "comment_count": 0,
+      "comment_count": 1,
       "entry_count": 7,
       "creator_username": "RePlayBe",
       "event_type": "october_event",
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "philipdick",
+          "status": "received"
         }
       ],
       "cv_status": "FULL_CV"
@@ -5512,7 +5607,7 @@
       "start_timestamp": 1757689740,
       "end_timestamp": 1758048600,
       "group": true,
-      "comment_count": 4,
+      "comment_count": 5,
       "entry_count": 8,
       "creator_username": "oct4vius",
       "hasWinners": true,
@@ -6511,7 +6606,7 @@
           "status": "received"
         }
       ],
-      "cv_status": "FULL_CV"
+      "cv_status": "REDUCED_CV"
     },
     {
       "id": "Y6c66",
