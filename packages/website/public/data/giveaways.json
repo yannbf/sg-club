@@ -1,25 +1,6 @@
 {
-  "last_updated": "2025-10-15T02:20:47.074Z",
+  "last_updated": "2025-10-15T08:59:48.124Z",
   "giveaways": [
-    {
-      "id": "tDJNi",
-      "name": "ATONE: Heart of the Elder Tree",
-      "points": 15,
-      "copies": 1,
-      "app_id": 894620,
-      "package_id": null,
-      "link": "tDJNi/atone-heart-of-the-elder-tree",
-      "created_timestamp": 1759890506,
-      "start_timestamp": 1759890506,
-      "end_timestamp": 1760500800,
-      "whitelist": true,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 156,
-      "creator_username": "lockcjwen",
-      "is_shared": true,
-      "cv_status": "REDUCED_CV"
-    },
     {
       "id": "LzB16",
       "name": "After Us",
@@ -71,7 +52,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 3,
-      "entry_count": 25,
+      "entry_count": 26,
       "creator_username": "BarbaricGenie",
       "required_play": true,
       "is_shared": true,
@@ -91,7 +72,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 24,
+      "entry_count": 23,
       "creator_username": "BarbaricGenie",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -182,7 +163,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 35,
+      "entry_count": 37,
       "creator_username": "NateSCC",
       "required_play": true,
       "is_shared": true,
@@ -259,7 +240,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 82,
+      "entry_count": 83,
       "creator_username": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -278,7 +259,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 67,
+      "entry_count": 68,
       "creator_username": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -314,7 +295,7 @@
       "end_timestamp": 1760795580,
       "group": true,
       "comment_count": 1,
-      "entry_count": 39,
+      "entry_count": 40,
       "creator_username": "Ivannes",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -332,7 +313,7 @@
       "end_timestamp": 1760797500,
       "group": true,
       "comment_count": 6,
-      "entry_count": 25,
+      "entry_count": 26,
       "creator_username": "Ivannes",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -350,8 +331,8 @@
       "end_timestamp": 1760797620,
       "region_restricted": true,
       "group": true,
-      "comment_count": 1,
-      "entry_count": 40,
+      "comment_count": 2,
+      "entry_count": 41,
       "creator_username": "Ivannes",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -373,6 +354,23 @@
       "entry_count": 3,
       "creator_username": "Eindirk",
       "event_type": "october_event",
+      "cv_status": "FULL_CV"
+    },
+    {
+      "id": "SiCMA",
+      "name": "Neon City Riders",
+      "points": 20,
+      "copies": 1,
+      "app_id": 1102650,
+      "package_id": null,
+      "link": "SiCMA/neon-city-riders",
+      "created_timestamp": 1760504044,
+      "start_timestamp": 1760504044,
+      "end_timestamp": 1760814840,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 0,
+      "creator_username": "LinustheBold",
       "cv_status": "FULL_CV"
     },
     {
@@ -427,7 +425,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 97,
+      "entry_count": 102,
       "creator_username": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -582,8 +580,8 @@
       "end_timestamp": 1761339720,
       "whitelist": true,
       "group": true,
-      "comment_count": 32,
-      "entry_count": 35,
+      "comment_count": 33,
+      "entry_count": 36,
       "creator_username": "Dobke",
       "is_shared": true,
       "cv_status": "FULL_CV"
@@ -660,6 +658,32 @@
       "required_play": true,
       "is_shared": true,
       "cv_status": "FULL_CV"
+    },
+    {
+      "id": "tDJNi",
+      "name": "ATONE: Heart of the Elder Tree",
+      "points": 15,
+      "copies": 1,
+      "app_id": 894620,
+      "package_id": null,
+      "link": "tDJNi/atone-heart-of-the-elder-tree",
+      "created_timestamp": 1759890506,
+      "start_timestamp": 1759890506,
+      "end_timestamp": 1760500800,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 2,
+      "entry_count": 157,
+      "creator_username": "lockcjwen",
+      "is_shared": true,
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": "CrabdaddyLonglegs",
+          "status": "received"
+        }
+      ],
+      "cv_status": "REDUCED_CV"
     },
     {
       "id": "vSkUk",
