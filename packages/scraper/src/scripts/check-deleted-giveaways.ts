@@ -33,6 +33,7 @@ function isGiveawayDeleted(html: string): DeletionInfo {
   const errorRows = $('.table__row-outer-wrap')
 
   let isDeleted = false
+  let reason = ''
 
   errorRows.each((_, row) => {
     const $row = $(row)
@@ -44,11 +45,14 @@ function isGiveawayDeleted(html: string): DeletionInfo {
       if (value.includes('Deleted')) {
         isDeleted = true
       }
+    } else if (label === 'Reason') {
+      reason = value
     }
   })
 
   return {
     deleted: isDeleted,
+    reason: reason || undefined,
   }
 }
 
@@ -125,6 +129,7 @@ async function checkDeletedGiveaways(): Promise<void> {
         giveaway.deleted = deletionInfo.deleted
         if (deletionInfo.deleted) {
           console.log(`🗑️  Found deleted giveaway: ${giveaway.name}`)
+          giveaway.deleted_reason = deletionInfo.reason
           deletedCount++
         }
       }

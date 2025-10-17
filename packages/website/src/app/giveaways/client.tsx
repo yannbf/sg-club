@@ -116,7 +116,7 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
   }, [compactView])
 
   // Export modal state
-  type ExportFieldKey = 'creator' | 'name' | 'link' | 'event' | 'cv' | 'points' | 'required_play' | 'shared' | 'restricted' | 'entries' | 'winner' | 'deleted'
+  type ExportFieldKey = 'creator' | 'name' | 'link' | 'event' | 'cv' | 'points' | 'required_play' | 'shared' | 'restricted' | 'entries' | 'winner' | 'deleted' | 'deleted_reason'
   const [isExportModalOpen, setIsExportModalOpen] = useState(false)
   const DEFAULT_EXPORT_FIELDS: ExportFieldKey[] = ['creator', 'name', 'link', 'event']
   const [selectedExportFields, setSelectedExportFields] = useState<ExportFieldKey[]>(DEFAULT_EXPORT_FIELDS)
@@ -134,6 +134,7 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
     { key: 'entries' as const, label: 'Entries', get: (g: Giveaway) => String(g.entry_count ?? '') },
     { key: 'winner' as const, label: 'Winner', get: (g: Giveaway) => (g.winners && g.winners.length ? g.winners.map(w => w.name || '').filter(Boolean).join('; ') : '') },
     { key: 'deleted' as const, label: 'Deleted', get: (g: Giveaway) => (g.deleted ? 'Yes' : 'No') },
+    { key: 'deleted_reason' as const, label: 'Deleted reason', get: (g: Giveaway) => g.deleted_reason || '' },
   ]), [])
 
   const filteredAndSortedGiveaways = useMemo(() => {

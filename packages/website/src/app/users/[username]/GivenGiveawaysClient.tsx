@@ -275,6 +275,13 @@ export default function GivenGiveawaysClient({ giveaways, userAvatars, gameData 
 
                           {/* New properties */}
                           <div className="flex items-center gap-2 mt-2">
+                            {giveaway.deleted && (
+                              <Tooltip content={giveaway.deleted_reason || 'Giveaway was deleted'}>
+                                <span className="text-xs font-medium px-2 py-1 bg-gray-500 text-white rounded-full">
+                                  🗑️ Deleted
+                                </span>
+                              </Tooltip>
+                            )}
                             {giveaway.region_restricted && (
                               <span className="text-xs font-medium px-2 py-1 bg-info-light text-info-foreground rounded-full">
                                 🌍 Restricted

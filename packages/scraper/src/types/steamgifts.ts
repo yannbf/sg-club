@@ -32,7 +32,9 @@ export interface Giveaway {
   decreased_ratio_info?: {
     notes?: string
   }
+  // Deletion tracking
   deleted?: boolean
+  deleted_reason?: string
 }
 
 export interface Group {

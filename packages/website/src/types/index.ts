@@ -127,6 +127,7 @@ export interface Giveaway {
   }
   // Deletion tracking
   deleted?: boolean
+  deleted_reason?: string
 }
 
 export interface GiveawayGame {
