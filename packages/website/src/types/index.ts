@@ -125,6 +125,8 @@ export interface Giveaway {
   decreased_ratio_info?: {
     notes?: string
   }
+  // Deletion tracking
+  deleted?: boolean
 }
 
 export interface GiveawayGame {

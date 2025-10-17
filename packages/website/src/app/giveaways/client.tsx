@@ -45,6 +45,10 @@ export function getStatusBadge(giveaway: Giveaway) {
   const isFuture = giveaway.start_timestamp > now
   const hasWinners = giveaway.winners && giveaway.winners.length > 0
 
+  if (giveaway.deleted) {
+    return <span className="px-2 py-1 text-xs font-semibold bg-error-foreground text-white rounded-full">Deleted</span>
+  }
+
   if (isFuture) {
     return <span className="px-2 py-1 text-xs font-semibold bg-accent-purple text-white rounded-full">Not started</span>
   }
@@ -76,6 +80,7 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
   const [filterShared, setFilterShared] = useState<boolean>(false)
   const [filterWhitelist, setFilterWhitelist] = useState<boolean>(false)
   const [filterEvent, setFilterEvent] = useState<boolean>(false)
+  const [filterDeleted, setFilterDeleted] = useState<boolean>(false)
 
   // Date filter state
   const [dateFilterMode, setDateFilterMode] = useState<'none' | 'range' | 'month'>('none')
@@ -111,7 +116,7 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
   }, [compactView])
 
   // Export modal state
-  type ExportFieldKey = 'creator' | 'name' | 'link' | 'event' | 'cv' | 'points' | 'required_play' | 'shared' | 'restricted' | 'entries' | 'winner'
+  type ExportFieldKey = 'creator' | 'name' | 'link' | 'event' | 'cv' | 'points' | 'required_play' | 'shared' | 'restricted' | 'entries' | 'winner' | 'deleted'
   const [isExportModalOpen, setIsExportModalOpen] = useState(false)
   const DEFAULT_EXPORT_FIELDS: ExportFieldKey[] = ['creator', 'name', 'link', 'event']
   const [selectedExportFields, setSelectedExportFields] = useState<ExportFieldKey[]>(DEFAULT_EXPORT_FIELDS)
@@ -128,6 +133,7 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
     { key: 'restricted' as const, label: 'Restricted', get: (g: Giveaway) => (g.region_restricted ? 'Yes' : 'No') },
     { key: 'entries' as const, label: 'Entries', get: (g: Giveaway) => String(g.entry_count ?? '') },
     { key: 'winner' as const, label: 'Winner', get: (g: Giveaway) => (g.winners && g.winners.length ? g.winners.map(w => w.name || '').filter(Boolean).join('; ') : '') },
+    { key: 'deleted' as const, label: 'Deleted', get: (g: Giveaway) => (g.deleted ? 'Yes' : 'No') },
   ]), [])
 
   const filteredAndSortedGiveaways = useMemo(() => {
@@ -141,9 +147,10 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
         (filterCV === 'DECREASED_RATIO' ? !!giveaway.decreased_ratio_info : giveaway.cv_status === filterCV)
       const now = Date.now() / 1000
       const isEnded = giveaway.end_timestamp < now
-      const matchesStatus = giveawayStatus === 'all' ||
-        (giveawayStatus === 'open' && !isEnded) ||
-        (giveawayStatus === 'ended' && isEnded)
+      const matchesStatus = filterDeleted ? true : // If deleted filter is on, ignore open/ended status
+        giveawayStatus === 'all' ||
+        (giveawayStatus === 'open' && !isEnded && !giveaway.deleted) ||
+        (giveawayStatus === 'ended' && (isEnded || giveaway.deleted))
 
       // Add new label filters
       const matchesLabels = (
@@ -151,7 +158,8 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
         (!filterPlayRequired || giveaway.required_play) &&
         (!filterShared || giveaway.is_shared) &&
         (!filterWhitelist || giveaway.whitelist) &&
-        (!filterEvent || giveaway.event_type)
+        (!filterEvent || giveaway.event_type) &&
+        (!filterDeleted || giveaway.deleted)
       )
 
       // Date filters: we filter by end date window
@@ -228,7 +236,7 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
 
     return filtered
   }, [giveaways, debouncedSearchTerm, sortBy, sortDirection, filterCV, giveawayStatus,
-    filterRegion, filterPlayRequired, filterShared, filterWhitelist, filterEvent,
+    filterRegion, filterPlayRequired, filterShared, filterWhitelist, filterEvent, filterDeleted,
     dateFilterMode, startDate, endDate, selectedMonth])
 
   // Unique users in the currently filtered giveaways
@@ -458,6 +466,15 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
             >
               🩵 Whitelist
             </button>
+            <button
+              onClick={() => setFilterDeleted(prev => !prev)}
+              className={`px-3 py-2 text-sm rounded-full transition-colors ${filterDeleted
+                ? 'bg-error-foreground text-white'
+                : 'bg-transparent border border-card-border hover:bg-accent/10'
+                }`}
+            >
+              🗑️ Deleted
+            </button>
 
             {/* Compact view toggle moved to results summary */}
           </div>
@@ -515,6 +532,7 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
           filterShared ? 1 : 0,
           filterWhitelist ? 1 : 0,
           filterEvent ? 1 : 0,
+          filterDeleted ? 1 : 0,
           compactView ? 1 : 0,
         ].join('-')}
         items={filteredAndSortedGiveaways}
@@ -531,7 +549,7 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
 
           if (compactView) {
             return (
-              <div className={`w-full bg-card-background rounded-lg border-2 ${borderColor} p-4 flex items-start gap-4`}>
+              <div className={`w-full bg-card-background rounded-lg border-2 ${borderColor} p-4 flex items-start gap-4 ${giveaway.deleted ? 'opacity-60' : ''}`}>
                 <div className="flex-shrink-0">
                   <a href={`https://store.steampowered.com/${giveaway.app_id ? `app/${giveaway.app_id}` : `sub/${giveaway.package_id}`}`} target="_blank" rel="noopener noreferrer">
                     <Image
@@ -570,6 +588,9 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
                     <div className="flex items-center justify-start gap-1 text-foreground"><FormattedDate timestamp={giveaway.end_timestamp} /></div>
                   </div>
                   <div className="mt-2 flex flex-wrap gap-2">
+                    {giveaway.deleted && (
+                      <span className="text-[10px] font-medium px-2 py-0.5 bg-gray-500 text-white rounded-full">🗑️ Deleted</span>
+                    )}
                     {giveaway.region_restricted && (
                       <span className="text-[10px] font-medium px-2 py-0.5 bg-info-light text-info-foreground rounded-full">🌍 Restricted</span>
                     )}
@@ -592,7 +613,7 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
           }
 
           return (
-            <div className={`w-full bg-card-background rounded-lg shadow-md hover:shadow-lg transition-shadow overflow-hidden border-2 ${borderColor}`}>
+            <div className={`w-full bg-card-background rounded-lg shadow-md hover:shadow-lg transition-shadow overflow-hidden border-2 ${borderColor} ${giveaway.deleted ? 'opacity-60' : ''}`}>
               <div className="w-full h-48 bg-muted overflow-hidden relative hover:shadow">
                 <a href={`https://store.steampowered.com/${giveaway.app_id ? `app/${giveaway.app_id}` : `sub/${giveaway.package_id}`}`} target="_blank" rel="noopener noreferrer">
                   <Image
@@ -672,6 +693,11 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
                   )}
 
                   <div className="flex items-center gap-2 mt-2">
+                    {giveaway.deleted && (
+                      <span className="text-xs font-medium px-2 py-1 bg-error-foreground text-white rounded-full">
+                        🗑️ Deleted
+                      </span>
+                    )}
                     {giveaway.region_restricted && (
                       <span className="text-xs font-medium px-2 py-1 bg-info-light text-info-foreground rounded-full">
                         🌍 Restricted

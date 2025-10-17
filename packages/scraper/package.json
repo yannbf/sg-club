@@ -11,6 +11,7 @@
     "test:watch": "vitest watch",
     "test:coverage": "vitest run --coverage",
     "generate-giveaways-data": "tsx src/scripts/generate-giveaways-data.ts",
+    "check-deleted-giveaways": "tsx src/scripts/check-deleted-giveaways.ts",
     "members": "tsx src/scripts/generate-members-data.ts",
     "generate-game-data": "tsx src/scripts/generate-game-data.ts",
     "get-proof-of-play-data": "tsx src/scripts/get-proof-of-play-data.ts",

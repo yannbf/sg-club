@@ -27,6 +27,7 @@ export default function GivenGiveawaysClient({ giveaways, userAvatars, gameData 
   const [filterRegion, setFilterRegion] = useState<boolean>(false)
   const [filterPlayRequired, setFilterPlayRequired] = useState<boolean>(false)
   const [filterShared, setFilterShared] = useState<boolean>(false)
+  const [filterDeleted, setFilterDeleted] = useState<boolean>(false)
   const [isCollapsed, setIsCollapsed] = useState(false)
 
   const getGiveawayStatus = (giveaway: Giveaway) => {
@@ -34,8 +35,21 @@ export default function GivenGiveawaysClient({ giveaways, userAvatars, gameData 
     const isActive = giveaway.end_timestamp > now
     const hasNoEntries = !isActive && giveaway.entry_count === 0
     const isAwaitingFeedback = !isActive && giveaway.winners?.some((winner) => !winner.name)
+    const isDeleted = giveaway.deleted
 
-    let borderColor = isActive ? 'border-success' : hasNoEntries ? 'border-error' : 'border-card-border'
+    if (isDeleted) {
+      return {
+        isActive: false,
+        statusIcon: '🗑️',
+        statusText: 'Deleted',
+        statusColor: 'text-error-foreground',
+        badgeColor: 'bg-error-foreground text-white',
+        borderColor: 'border-error',
+        backgroundColor: 'bg-error-light/30'
+      }
+    }
+
+    let borderColor = isActive ? 'border-success' : hasNoEntries ? 'border-gray-400' : 'border-card-border'
     if (isAwaitingFeedback) {
       borderColor = 'border-warning'
     }
@@ -45,8 +59,9 @@ export default function GivenGiveawaysClient({ giveaways, userAvatars, gameData 
       statusIcon: isActive ? '🟢' : hasNoEntries ? '‼️' : '🔴',
       statusText: isActive ? 'Open' : hasNoEntries ? 'Ended with no entries' : 'Ended',
       statusColor: isActive ? 'text-success-foreground' : 'text-error-foreground',
+      badgeColor: isActive ? 'bg-success-light text-success-foreground' : 'bg-muted text-white',
       borderColor,
-      backgroundColor: isActive ? 'bg-success-light/30' : hasNoEntries ? 'bg-error-light/30' : 'bg-card-background'
+      backgroundColor: isActive ? 'bg-success-light/30' : hasNoEntries ? 'bg-gray-100/50 dark:bg-gray-800/50' : 'bg-card-background'
     }
   }
 
@@ -61,13 +76,15 @@ export default function GivenGiveawaysClient({ giveaways, userAvatars, gameData 
         !giveaway.is_shared &&
         !giveaway.whitelist &&
         (!filterRegion || giveaway.region_restricted) &&
-        (!filterPlayRequired || (giveaway.required_play || giveaway.required_play_meta))
+        (!filterPlayRequired || (giveaway.required_play || giveaway.required_play_meta)) &&
+        (!filterDeleted || giveaway.deleted)
     } else {
       matchesCVAndLabels =
         (filterCV === 'all' || giveaway.cv_status === filterCV) &&
         (!filterRegion || giveaway.region_restricted) &&
         (!filterPlayRequired || (giveaway.required_play || giveaway.required_play_meta)) &&
-        (!filterShared || giveaway.is_shared)
+        (!filterShared || giveaway.is_shared) &&
+        (!filterDeleted || giveaway.deleted)
     }
 
     return matchesSearch && matchesCVAndLabels
@@ -75,7 +92,7 @@ export default function GivenGiveawaysClient({ giveaways, userAvatars, gameData 
     const now = Date.now() / 1000
     const aIsEnded = a.end_timestamp < now
     const bIsEnded = b.end_timestamp < now
-
+    
     // Group active giveaways first
     if (aIsEnded !== bIsEnded) {
       return aIsEnded ? 1 : -1
@@ -196,6 +213,12 @@ export default function GivenGiveawaysClient({ giveaways, userAvatars, gameData 
             >
               👥 Shared
             </button>
+            <button
+              onClick={() => setFilterDeleted(!filterDeleted)}
+              className={`px-3 py-1 text-sm rounded-full border transition-colors ${filterDeleted ? 'bg-gray-500 text-white border-gray-500' : 'bg-transparent border-card-border'}`}
+            >
+              🗑️ Deleted
+            </button>
           </div>
 
           <div className="space-y-4">
@@ -223,7 +246,7 @@ export default function GivenGiveawaysClient({ giveaways, userAvatars, gameData 
                                 rel="noopener noreferrer"
                                 className="text-accent hover:underline text-sm"
                               >{giveaway.name} ({giveaway.points}P) <CvStatusIndicator giveaway={giveaway} /></a></h3>
-                            <span className={`inline-flex items-center px-2 py-1 text-xs font-medium rounded-full ${status.isActive ? 'bg-success-light text-success-foreground' : 'bg-muted text-white'}`}>
+                            <span className={`inline-flex items-center px-2 py-1 text-xs font-medium rounded-full ${status.badgeColor}`}>
                               {status.statusIcon} {status.statusText}
                             </span>
                           </div>
@@ -280,7 +303,7 @@ export default function GivenGiveawaysClient({ giveaways, userAvatars, gameData 
                     </div>
                   </div>
 
-                  {giveaway.winners && giveaway.winners.length > 0 && (
+                  {!giveaway.deleted && giveaway.winners && giveaway.winners.length > 0 && (
                     <div className="px-4 pb-4">
                       <div className="pt-3 border-t border-card-border">
                         <div className="text-sm">
