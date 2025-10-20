@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1760000358017,
+  "lastUpdated": 1760927472933,
   "users": [
     {
       "username": "thesodaer",
@@ -2424,6 +2424,174 @@
       "steam_profile_is_private": false,
       "country_code": "ar",
       "left_at_timestamp": 1760000358016
+    },
+    {
+      "username": "thoughtfulhippo",
+      "profile_url": "/user/thoughtfulhippo",
+      "avatar_url": "https://avatars.steamstatic.com/9f74b2d14a81356d52ceb93274718939b659b9ba_medium.jpg",
+      "stats": {
+        "total_sent_count": 3,
+        "total_sent_value": 54.97,
+        "total_received_count": 3,
+        "total_received_value": 54.97,
+        "total_gift_difference": 0,
+        "total_value_difference": 0,
+        "fcv_sent_count": 2,
+        "rcv_sent_count": 1,
+        "ncv_sent_count": 0,
+        "fcv_received_count": 3,
+        "rcv_received_count": 0,
+        "ncv_received_count": 0,
+        "fcv_gift_difference": -1,
+        "real_total_sent_value": 42.23,
+        "real_total_received_value": 54.97,
+        "real_total_value_difference": -12.74,
+        "real_total_sent_count": 2,
+        "real_total_received_count": 3,
+        "real_total_gift_difference": -1,
+        "giveaway_ratio": 1,
+        "shared_sent_count": 0,
+        "shared_received_count": 0,
+        "giveaways_created": 3,
+        "giveaways_with_no_entries": 0,
+        "last_giveaway_created_at": 1752104876,
+        "last_giveaway_won_at": 1751763600,
+        "total_achievements_percentage": 13,
+        "average_achievements_percentage": 16,
+        "real_total_achievements_percentage": 13,
+        "real_average_achievements_percentage": 16,
+        "has_missing_achievements_data": false
+      },
+      "steam_id": "76561198140258141",
+      "steam_profile_url": "https://steamcommunity.com/profiles/76561198140258141",
+      "steam_profile_is_private": true,
+      "country_code": "gb",
+      "giveaways_won": [
+        {
+          "name": "Space Prison",
+          "link": "e4bzO/space-prison",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1751763600,
+          "required_play": false,
+          "is_shared": false,
+          "steam_play_data": {
+            "owned": true,
+            "playtime_minutes": 0,
+            "playtime_formatted": "0 minutes",
+            "achievements_unlocked": 0,
+            "achievements_total": 67,
+            "achievements_percentage": 0,
+            "never_played": true,
+            "is_playtime_private": false,
+            "last_checked": 1756567548137
+          }
+        },
+        {
+          "name": "Chants of Sennaar",
+          "link": "e5G4R/chants-of-sennaar",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1750471680,
+          "required_play": false,
+          "is_shared": false,
+          "steam_play_data": {
+            "owned": true,
+            "playtime_minutes": 0,
+            "playtime_formatted": "0 minutes",
+            "achievements_unlocked": 0,
+            "achievements_total": 25,
+            "achievements_percentage": 0,
+            "never_played": true,
+            "is_playtime_private": false,
+            "last_checked": 1755596202438
+          }
+        },
+        {
+          "name": "Shogun Showdown",
+          "link": "eaWSl/shogun-showdown",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1750242600,
+          "required_play": true,
+          "is_shared": false,
+          "steam_play_data": {
+            "owned": true,
+            "playtime_minutes": 1410,
+            "playtime_formatted": "23 hours 30 minutes",
+            "achievements_unlocked": 17,
+            "achievements_total": 36,
+            "achievements_percentage": 47.2,
+            "never_played": false,
+            "is_playtime_private": false,
+            "last_checked": 1755247733132
+          },
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2
+          }
+        }
+      ],
+      "giveaways_created": [
+        {
+          "name": "Fallout 4",
+          "link": "uTFRY/fallout-4",
+          "cv_status": "FULL_CV",
+          "entries": 2,
+          "copies": 1,
+          "created_timestamp": 1752104876,
+          "end_timestamp": 1752519600,
+          "required_play": false,
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "SkyForth",
+              "status": "received",
+              "activated": true
+            }
+          ]
+        },
+        {
+          "name": "Sven - Completely Screwed",
+          "link": "ZuPxt/sven-completely-screwed",
+          "cv_status": "REDUCED_CV",
+          "entries": 1,
+          "copies": 5,
+          "created_timestamp": 1752104763,
+          "end_timestamp": 1752519600,
+          "required_play": false,
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "QuinlanLJ",
+              "status": "received",
+              "activated": true
+            }
+          ]
+        },
+        {
+          "name": "CARRION",
+          "link": "DYRTS/carrion",
+          "cv_status": "FULL_CV",
+          "entries": 15,
+          "copies": 1,
+          "created_timestamp": 1750289009,
+          "end_timestamp": 1750460400,
+          "required_play": false,
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "Ellendyl",
+              "status": "received",
+              "activated": true
+            }
+          ]
+        }
+      ],
+      "left_at_timestamp": 1760927472932
     }
   ]
 }
