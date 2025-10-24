@@ -884,9 +884,9 @@ export class SteamGiftsHTMLScraper {
 
           existingGiveaways.set(giveaway.id, giveaway)
 
-          // In normal mode, check if this giveaway has ended more than 2 weeks ago
-          const twoWeeksAgo = currentTimestamp - 8 * 7 * 24 * 60 * 60 // 14 days in seconds
-          if (!unlimitedMode && giveaway.end_timestamp < twoWeeksAgo) {
+          // In normal mode, check if this giveaway has ended more than 8 weeks ago
+          const eightWeeksAgo = currentTimestamp - 8 * 7 * 24 * 60 * 60 // 56 days in seconds
+          if (!unlimitedMode && giveaway.end_timestamp < eightWeeksAgo) {
             console.log(
               `⏰ Reached cutoff point: giveaway "${
                 giveaway.name
