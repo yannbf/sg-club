@@ -110,7 +110,7 @@ class GroupInsightsGenerator {
     let giveawaysFromFormerMembers = 0
 
     for (const giveaway of allGiveaways) {
-      const creator = giveaway.creator_username
+      const creator = giveaway.creator
       giveawaysByCreator.set(
         creator,
         (giveawaysByCreator.get(creator) || 0) + 1

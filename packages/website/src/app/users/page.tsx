@@ -13,5 +13,5 @@ export default async function UsersPage() {
     )
   }
 
-  return <UsersClient users={Object.values(userData.users || userData)} lastUpdated={lastUpdated} />
+  return <UsersClient users={Object.values(userData.users)} lastUpdated={lastUpdated} />
 } 

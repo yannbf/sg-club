@@ -145,8 +145,7 @@ export default async function Home() {
   const calculateInsights = (giveawayList: Giveaway[], userList: User[]) => {
     const creators = new Map<string, number>()
     giveawayList.forEach(ga => {
-      const creatorName = ga.creator_username || ''
-      creators.set(creatorName, (creators.get(creatorName) || 0) + 1)
+      creators.set(ga.creator, (creators.get(ga.creator) || 0) + 1)
     })
 
     const winners = new Map<string, number>()

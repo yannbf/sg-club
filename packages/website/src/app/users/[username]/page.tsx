@@ -8,19 +8,12 @@ import { Giveaway } from '@/types';
 // import { Metadata } from 'next'
 
 export async function generateStaticParams() {
-  try {
-    const userData = await getAllUsers()
-    if (!userData || !userData.users) return []
+  const userData = await getAllUsers()
+  if (!userData) return []
 
-    // Handle both old structure (users object with username keys) and new structure (users object with steam_id keys)
-    const users = userData.users
-    return Object.values(users).map((user) => ({
-      username: user.username,
-    }))
-  } catch (error) {
-    console.error('Error in generateStaticParams:', error)
-    return []
-  }
+  return Object.values(userData.users).map((user) => ({
+    username: user.username,
+  }))
 }
 
 // export async function generateMetadata({ params }: { params: { username: string } }): Promise<Metadata> {
