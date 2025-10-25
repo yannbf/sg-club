@@ -627,8 +627,8 @@ export class SteamGiftsUserFetcher {
     let steamSkippedCount = 0
     let noStatsAvailableCount = 0
 
-    // Calculate timestamp for 2 months ago (60 days)
-    const twoMonthsAgo = Date.now() / 1000 - 2 * 30 * 24 * 60 * 60
+    // Calculate timestamp for 5 months ago (150 days)
+    const fiveMonthsAgo = Date.now() / 1000 - 5 * 30 * 24 * 60 * 60
 
     const usersToUpdate = Array.from(users.values()).filter((u) => u.steam_id)
     const totalUsers = usersToUpdate.length
@@ -681,7 +681,7 @@ export class SteamGiftsUserFetcher {
         // Only check Steam data for giveaways that ended within the last 2 months
         if (
           process.env.FETCH_ALL_STEAM_DATA === 'true' ||
-          wonGame.end_timestamp < twoMonthsAgo
+          wonGame.end_timestamp < fiveMonthsAgo
         ) {
           steamSkippedCount++
           console.log(
@@ -756,7 +756,7 @@ export class SteamGiftsUserFetcher {
 
     console.log(`🎮 Steam data update complete:`)
     console.log(`  • Checked: ${steamCheckedCount}`)
-    console.log(`  • Skipped (>2 months old): ${steamSkippedCount}`)
+    console.log(`  • Skipped (>5 months old): ${steamSkippedCount}`)
     console.log(`  • No stats available: ${noStatsAvailableCount}`)
     console.log(`  • Errors: ${steamErrorCount}`)
   }
