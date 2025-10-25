@@ -616,7 +616,7 @@ export class SteamGiftsUserFetcher {
     return userStats as UserGiveawaysStats
   }
 
-  private async updateSteamPlayData(
+  public async updateSteamPlayData(
     users: Map<string, User>,
     giveaways: Giveaway[]
   ): Promise<void> {
@@ -1323,8 +1323,13 @@ export class SteamGiftsUserFetcher {
 
         // Update Steam play data for won games (skip if env flag is set)
         const skipSteamApi = process.env.SKIP_STEAM_API === 'true'
+        const skipSteamPlaytime = process.env.SKIP_STEAM_PLAYTIME === 'true'
         if (skipSteamApi) {
           console.log('🚫 Skipping Steam API calls (SKIP_STEAM_API=true)')
+        } else if (skipSteamPlaytime) {
+          console.log(
+            '🚫 Skipping Steam playtime update (SKIP_STEAM_PLAYTIME=true)'
+          )
         } else {
           await this.updateSteamPlayData(existingUsers, giveaways)
         }

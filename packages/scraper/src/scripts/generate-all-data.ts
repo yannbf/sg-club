@@ -33,6 +33,11 @@ async function maybeCommitAndPush() {
 }
 
 async function generateAllData(): Promise<void> {
+  // Early exit on Vercel environments
+  if (process.env.VERCEL === '1' || process.env.VERCEL === 'true') {
+    console.log('✅ Vercel environment detected. Skipping data generation.')
+    return
+  }
   const giveawaysJsonPath = path.join(
     path.dirname(fileURLToPath(import.meta.url)),
     '../../../website/public/data/giveaways.json'
@@ -71,6 +76,8 @@ async function generateAllData(): Promise<void> {
   await generateGiveawaysData()
   await checkDeletedGiveaways()
   await generateGamePrices()
+  // Skip playtime enrichment during member data generation when splitting jobs
+  process.env.SKIP_STEAM_PLAYTIME = 'true'
   await generateMembersData()
   await generateInsights()
   const endTime = Date.now()

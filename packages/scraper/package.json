@@ -21,6 +21,7 @@
     "get-html-page": "tsx src/utils/get-html-page.ts",
     "generate-insights": "tsx src/utils/generate-insights.ts",
     "data": "tsx src/scripts/generate-all-data.ts",
+    "playtime": "tsx src/scripts/generate-playtime-data.ts",
     "generate-alltime-website-data": "FETCH_ALL_PAGES=true tsx src/scripts/generate-all-data.ts"
   },
   "dependencies": {

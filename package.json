@@ -6,6 +6,7 @@
   "scripts": {
     "run-all": "pnpm run --filter scraper run-all",
     "data": "pnpm run --filter scraper data",
+    "playtime": "pnpm run --filter scraper playtime",
     "generate-all-website-data": "pnpm run --filter scraper generate-all-website-data",
     "dev": "pnpm run --filter website dev",
     "website:build": "pnpm run --filter website build",
