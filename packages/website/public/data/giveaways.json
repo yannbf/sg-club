@@ -1,60 +1,6 @@
 {
-  "last_updated": "2025-10-25T08:51:31.535Z",
+  "last_updated": "2025-10-26T02:25:08.158Z",
   "giveaways": [
-    {
-      "id": "kMphr",
-      "name": "The Thaumaturge",
-      "points": 35,
-      "copies": 1,
-      "app_id": 1684350,
-      "package_id": null,
-      "link": "kMphr/the-thaumaturge",
-      "created_timestamp": 1761218014,
-      "start_timestamp": 1761218014,
-      "end_timestamp": 1761394020,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 28,
-      "creator": "Carrei",
-      "is_shared": true,
-      "cv_status": "REDUCED_CV"
-    },
-    {
-      "id": "u9Bqm",
-      "name": "Heads Will Roll: Reforged",
-      "points": 25,
-      "copies": 1,
-      "app_id": 687800,
-      "package_id": null,
-      "link": "u9Bqm/heads-will-roll-reforged",
-      "created_timestamp": 1761160019,
-      "start_timestamp": 1761160019,
-      "end_timestamp": 1761419640,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 5,
-      "creator": "LinustheBold",
-      "cv_status": "FULL_CV"
-    },
-    {
-      "id": "Q9uDu",
-      "name": "Easy Delivery Co.",
-      "points": 13,
-      "copies": 1,
-      "app_id": 3293010,
-      "package_id": null,
-      "link": "Q9uDu/easy-delivery-co",
-      "created_timestamp": 1760889972,
-      "start_timestamp": 1760889972,
-      "end_timestamp": 1761422400,
-      "whitelist": true,
-      "group": true,
-      "comment_count": 2,
-      "entry_count": 53,
-      "creator": "gus09",
-      "is_shared": true,
-      "cv_status": "FULL_CV"
-    },
     {
       "id": "tFA8f",
       "name": "Dark Fairy Tale: Dreamland Survivors",
@@ -70,6 +16,9 @@
       "comment_count": 0,
       "entry_count": 5,
       "creator": "elysium1988",
+      "decreased_ratio_info": {
+        "notes": "Free curator copy"
+      },
       "cv_status": "FULL_CV"
     },
     {
@@ -86,7 +35,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 1,
-      "entry_count": 107,
+      "entry_count": 119,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -104,7 +53,7 @@
       "end_timestamp": 1761453600,
       "group": true,
       "comment_count": 2,
-      "entry_count": 11,
+      "entry_count": 12,
       "creator": "PoeticKatana",
       "required_play": true,
       "cv_status": "FULL_CV"
@@ -158,7 +107,7 @@
       "end_timestamp": 1761509700,
       "group": true,
       "comment_count": 4,
-      "entry_count": 11,
+      "entry_count": 15,
       "creator": "RePlayBe",
       "required_play": true,
       "cv_status": "FULL_CV"
@@ -176,10 +125,27 @@
       "end_timestamp": 1761516600,
       "whitelist": true,
       "group": true,
-      "comment_count": 0,
-      "entry_count": 8,
+      "comment_count": 4,
+      "entry_count": 25,
       "creator": "Carrei",
       "is_shared": true,
+      "cv_status": "FULL_CV"
+    },
+    {
+      "id": "ESSNx",
+      "name": "Kulebra and the Souls of Limbo",
+      "points": 20,
+      "copies": 1,
+      "app_id": 2246470,
+      "package_id": null,
+      "link": "ESSNx/kulebra-and-the-souls-of-limbo",
+      "created_timestamp": 1761380994,
+      "start_timestamp": 1761380994,
+      "end_timestamp": 1761557160,
+      "group": true,
+      "comment_count": 2,
+      "entry_count": 3,
+      "creator": "CuteEnby",
       "cv_status": "FULL_CV"
     },
     {
@@ -212,7 +178,7 @@
       "end_timestamp": 1761584400,
       "group": true,
       "comment_count": 0,
-      "entry_count": 3,
+      "entry_count": 4,
       "creator": "ConanOLion",
       "cv_status": "FULL_CV"
     },
@@ -269,6 +235,60 @@
       "cv_status": "FULL_CV"
     },
     {
+      "id": "OPkXn",
+      "name": "SANABI",
+      "points": 15,
+      "copies": 1,
+      "app_id": 1562700,
+      "package_id": null,
+      "link": "OPkXn/sanabi",
+      "created_timestamp": 1761415721,
+      "start_timestamp": 1761415721,
+      "end_timestamp": 1761645600,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 8,
+      "creator": "CuteEnby",
+      "required_play": true,
+      "cv_status": "FULL_CV"
+    },
+    {
+      "id": "3iG25",
+      "name": "DOOM",
+      "points": 20,
+      "copies": 1,
+      "app_id": 379720,
+      "package_id": null,
+      "link": "3iG25/doom",
+      "created_timestamp": 1761385672,
+      "start_timestamp": 1761385672,
+      "end_timestamp": 1761648420,
+      "region_restricted": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 2,
+      "creator": "Jztr",
+      "cv_status": "FULL_CV"
+    },
+    {
+      "id": "7S2KI",
+      "name": "Wolfenstein II: The New Colossus",
+      "points": 40,
+      "copies": 1,
+      "app_id": 612880,
+      "package_id": null,
+      "link": "7S2KI/wolfenstein-ii-the-new-colossus",
+      "created_timestamp": 1761386123,
+      "start_timestamp": 1761386123,
+      "end_timestamp": 1761648720,
+      "region_restricted": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 1,
+      "creator": "Jztr",
+      "cv_status": "FULL_CV"
+    },
+    {
       "id": "Ol7ww",
       "name": "RimWorld",
       "points": 35,
@@ -281,8 +301,44 @@
       "end_timestamp": 1761711480,
       "group": true,
       "comment_count": 6,
-      "entry_count": 26,
+      "entry_count": 28,
       "creator": "Patxxv",
+      "cv_status": "FULL_CV"
+    },
+    {
+      "id": "lSzuz",
+      "name": "The Falconeer",
+      "points": 20,
+      "copies": 1,
+      "app_id": 1135260,
+      "package_id": null,
+      "link": "lSzuz/the-falconeer",
+      "created_timestamp": 1761409850,
+      "start_timestamp": 1761409850,
+      "end_timestamp": 1761751800,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 8,
+      "creator": "quinnix",
+      "is_shared": true,
+      "cv_status": "REDUCED_CV"
+    },
+    {
+      "id": "SdsZn",
+      "name": "Moonlight Pulse",
+      "points": 12,
+      "copies": 1,
+      "app_id": 2243250,
+      "package_id": null,
+      "link": "SdsZn/moonlight-pulse",
+      "created_timestamp": 1761413231,
+      "start_timestamp": 1761413231,
+      "end_timestamp": 1761753600,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 1,
+      "creator": "Foxmonster",
       "cv_status": "FULL_CV"
     },
     {
@@ -298,7 +354,7 @@
       "end_timestamp": 1761758100,
       "group": true,
       "comment_count": 2,
-      "entry_count": 5,
+      "entry_count": 6,
       "creator": "MrOuiOui",
       "cv_status": "FULL_CV"
     },
@@ -315,7 +371,7 @@
       "end_timestamp": 1761788220,
       "group": true,
       "comment_count": 3,
-      "entry_count": 7,
+      "entry_count": 8,
       "creator": "Jztr",
       "cv_status": "FULL_CV"
     },
@@ -332,7 +388,7 @@
       "end_timestamp": 1761854400,
       "group": true,
       "comment_count": 2,
-      "entry_count": 8,
+      "entry_count": 9,
       "creator": "gus09",
       "cv_status": "FULL_CV"
     },
@@ -350,7 +406,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 75,
+      "entry_count": 85,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -388,7 +444,7 @@
       "end_timestamp": 1761940800,
       "group": true,
       "comment_count": 1,
-      "entry_count": 10,
+      "entry_count": 12,
       "creator": "herbesdeprovence",
       "cv_status": "FULL_CV"
     },
@@ -406,9 +462,85 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 70,
+      "entry_count": 136,
       "creator": "lockcjwen",
       "is_shared": true,
+      "cv_status": "REDUCED_CV"
+    },
+    {
+      "id": "Q9uDu",
+      "name": "Easy Delivery Co.",
+      "points": 13,
+      "copies": 1,
+      "app_id": 3293010,
+      "package_id": null,
+      "link": "Q9uDu/easy-delivery-co",
+      "created_timestamp": 1760889972,
+      "start_timestamp": 1760889972,
+      "end_timestamp": 1761422400,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 3,
+      "entry_count": 59,
+      "creator": "gus09",
+      "is_shared": true,
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "FULL_CV",
+      "deleted": false
+    },
+    {
+      "id": "u9Bqm",
+      "name": "Heads Will Roll: Reforged",
+      "points": 25,
+      "copies": 1,
+      "app_id": 687800,
+      "package_id": null,
+      "link": "u9Bqm/heads-will-roll-reforged",
+      "created_timestamp": 1761160019,
+      "start_timestamp": 1761160019,
+      "end_timestamp": 1761419640,
+      "group": true,
+      "comment_count": 1,
+      "entry_count": 6,
+      "creator": "LinustheBold",
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": "SteamKeyGiveaway",
+          "status": "received"
+        }
+      ],
+      "cv_status": "FULL_CV"
+    },
+    {
+      "id": "kMphr",
+      "name": "The Thaumaturge",
+      "points": 35,
+      "copies": 1,
+      "app_id": 1684350,
+      "package_id": null,
+      "link": "kMphr/the-thaumaturge",
+      "created_timestamp": 1761218014,
+      "start_timestamp": 1761218014,
+      "end_timestamp": 1761394020,
+      "group": true,
+      "comment_count": 2,
+      "entry_count": 30,
+      "creator": "Carrei",
+      "is_shared": true,
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": "Bainsol",
+          "status": "received"
+        }
+      ],
       "cv_status": "REDUCED_CV"
     },
     {
@@ -423,18 +555,17 @@
       "start_timestamp": 1760907724,
       "end_timestamp": 1761379200,
       "group": true,
-      "comment_count": 0,
+      "comment_count": 1,
       "entry_count": 4,
       "creator": "QuinlanLJ",
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "Patxxv",
+          "status": "received"
         }
       ],
-      "cv_status": "FULL_CV",
-      "deleted": false
+      "cv_status": "FULL_CV"
     },
     {
       "id": "idVAF",
@@ -448,18 +579,17 @@
       "start_timestamp": 1760907341,
       "end_timestamp": 1761379200,
       "group": true,
-      "comment_count": 0,
+      "comment_count": 1,
       "entry_count": 1,
       "creator": "QuinlanLJ",
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "SteamKeyGiveaway",
+          "status": "received"
         }
       ],
-      "cv_status": "FULL_CV",
-      "deleted": false
+      "cv_status": "FULL_CV"
     },
     {
       "id": "uXkvs",
@@ -473,18 +603,17 @@
       "start_timestamp": 1760906991,
       "end_timestamp": 1761379200,
       "group": true,
-      "comment_count": 0,
+      "comment_count": 2,
       "entry_count": 2,
       "creator": "QuinlanLJ",
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "CuteEnby",
+          "status": "received"
         }
       ],
-      "cv_status": "FULL_CV",
-      "deleted": false
+      "cv_status": "FULL_CV"
     },
     {
       "id": "HDgJJ",
@@ -498,18 +627,17 @@
       "start_timestamp": 1760692101,
       "end_timestamp": 1761375600,
       "group": true,
-      "comment_count": 0,
+      "comment_count": 2,
       "entry_count": 10,
       "creator": "kecha",
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "karm2002",
+          "status": "received"
         }
       ],
-      "cv_status": "FULL_CV",
-      "deleted": false
+      "cv_status": "FULL_CV"
     },
     {
       "id": "BOPX2",
@@ -707,7 +835,7 @@
       "start_timestamp": 1760539707,
       "end_timestamp": 1761336000,
       "group": true,
-      "comment_count": 1,
+      "comment_count": 2,
       "entry_count": 6,
       "creator": "Shughes91",
       "hasWinners": true,
@@ -787,12 +915,11 @@
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "SteamKeyGiveaway",
+          "status": "received"
         }
       ],
-      "cv_status": "FULL_CV",
-      "deleted": false
+      "cv_status": "FULL_CV"
     },
     {
       "id": "XqRz0",
@@ -951,7 +1078,7 @@
       "start_timestamp": 1758610366,
       "end_timestamp": 1761201120,
       "group": true,
-      "comment_count": 1,
+      "comment_count": 2,
       "entry_count": 4,
       "creator": "SteamKeyGiveaway",
       "hasWinners": true,
