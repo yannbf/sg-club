@@ -432,6 +432,11 @@ export class SteamGiftsHTMLScraper {
       event_type = 'october_event'
     }
 
+    if (description.toLowerCase().includes('november event entry')) {
+      // for future events, event_type will be set
+      event_type = 'november_event'
+    }
+
     // Check if it's a whitelist giveaway
     const is_whitelist = $('.featured__column--whitelist').length > 0
 
