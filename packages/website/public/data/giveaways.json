@@ -1,40 +1,6 @@
 {
-  "last_updated": "2025-10-28T02:16:51.850Z",
+  "last_updated": "2025-10-28T08:56:07.903Z",
   "giveaways": [
-    {
-      "id": "qazc7",
-      "name": "Near Death",
-      "points": 8,
-      "copies": 1,
-      "app_id": 327560,
-      "package_id": null,
-      "link": "qazc7/near-death",
-      "created_timestamp": 1759562158,
-      "start_timestamp": 1759562158,
-      "end_timestamp": 1761621180,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 0,
-      "creator": "Tsukurai",
-      "cv_status": "FULL_CV"
-    },
-    {
-      "id": "Of8lV",
-      "name": "PATHOGEN X",
-      "points": 10,
-      "copies": 1,
-      "app_id": 2508980,
-      "package_id": null,
-      "link": "Of8lV/pathogen-x",
-      "created_timestamp": 1760907174,
-      "start_timestamp": 1760907174,
-      "end_timestamp": 1761638400,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 2,
-      "creator": "QuinlanLJ",
-      "cv_status": "FULL_CV"
-    },
     {
       "id": "OPkXn",
       "name": "SANABI",
@@ -48,7 +14,7 @@
       "end_timestamp": 1761645600,
       "group": true,
       "comment_count": 0,
-      "entry_count": 11,
+      "entry_count": 12,
       "creator": "CuteEnby",
       "required_play": true,
       "cv_status": "FULL_CV"
@@ -67,7 +33,7 @@
       "region_restricted": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 3,
+      "entry_count": 5,
       "creator": "Jztr",
       "cv_status": "FULL_CV"
     },
@@ -102,7 +68,7 @@
       "end_timestamp": 1761679740,
       "group": true,
       "comment_count": 0,
-      "entry_count": 3,
+      "entry_count": 4,
       "creator": "philipdick",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -138,7 +104,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 1,
-      "entry_count": 16,
+      "entry_count": 17,
       "creator": "Vini1",
       "is_shared": true,
       "cv_status": "FULL_CV"
@@ -157,7 +123,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 16,
+      "entry_count": 17,
       "creator": "quinnix",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -261,7 +227,7 @@
       "end_timestamp": 1761874560,
       "group": true,
       "comment_count": 0,
-      "entry_count": 0,
+      "entry_count": 3,
       "creator": "Patxxv",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -280,7 +246,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 109,
+      "entry_count": 113,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -299,7 +265,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 18,
+      "entry_count": 20,
       "creator": "zeus9860",
       "is_shared": true,
       "cv_status": "FULL_CV"
@@ -373,7 +339,7 @@
       "end_timestamp": 1761940800,
       "group": true,
       "comment_count": 0,
-      "entry_count": 26,
+      "entry_count": 27,
       "creator": "Shughes91",
       "required_play": true,
       "cv_status": "FULL_CV"
@@ -392,7 +358,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 164,
+      "entry_count": 166,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -414,6 +380,67 @@
       "creator": "NateSCC",
       "required_play": true,
       "cv_status": "FULL_CV"
+    },
+    {
+      "id": "BWV2X",
+      "name": "Party Animals",
+      "points": 20,
+      "copies": 1,
+      "app_id": 1260320,
+      "package_id": null,
+      "link": "BWV2X/party-animals",
+      "created_timestamp": 1761622173,
+      "start_timestamp": 1761622173,
+      "end_timestamp": 1762048860,
+      "group": true,
+      "comment_count": 3,
+      "entry_count": 5,
+      "creator": "Jztr",
+      "cv_status": "FULL_CV"
+    },
+    {
+      "id": "Of8lV",
+      "name": "PATHOGEN X",
+      "points": 10,
+      "copies": 1,
+      "app_id": 2508980,
+      "package_id": null,
+      "link": "Of8lV/pathogen-x",
+      "created_timestamp": 1760907174,
+      "start_timestamp": 1760907174,
+      "end_timestamp": 1761638400,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 3,
+      "creator": "QuinlanLJ",
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "FULL_CV",
+      "deleted": false
+    },
+    {
+      "id": "qazc7",
+      "name": "Near Death",
+      "points": 8,
+      "copies": 1,
+      "app_id": 327560,
+      "package_id": null,
+      "link": "qazc7/near-death",
+      "created_timestamp": 1759562158,
+      "start_timestamp": 1759562158,
+      "end_timestamp": 1761621180,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 0,
+      "creator": "Tsukurai",
+      "cv_status": "FULL_CV",
+      "deleted": true,
+      "deleted_reason": "Selected Incorrect Game or Information"
     },
     {
       "id": "KWtyc",
@@ -979,7 +1006,7 @@
       "end_timestamp": 1761339720,
       "whitelist": true,
       "group": true,
-      "comment_count": 52,
+      "comment_count": 54,
       "entry_count": 61,
       "creator": "Dobke",
       "is_shared": true,
