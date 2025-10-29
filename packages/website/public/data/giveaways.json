@@ -1,23 +1,6 @@
 {
-  "last_updated": "2025-10-29T02:24:45.796Z",
+  "last_updated": "2025-10-29T08:56:10.148Z",
   "giveaways": [
-    {
-      "id": "Ol7ww",
-      "name": "RimWorld",
-      "points": 35,
-      "copies": 1,
-      "app_id": 294100,
-      "package_id": null,
-      "link": "Ol7ww/rimworld",
-      "created_timestamp": 1759119631,
-      "start_timestamp": 1759119631,
-      "end_timestamp": 1761711480,
-      "group": true,
-      "comment_count": 6,
-      "entry_count": 30,
-      "creator": "Patxxv",
-      "cv_status": "FULL_CV"
-    },
     {
       "id": "n49y4",
       "name": "Forest Grove",
@@ -32,7 +15,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 1,
-      "entry_count": 20,
+      "entry_count": 22,
       "creator": "Vini1",
       "is_shared": true,
       "cv_status": "FULL_CV"
@@ -51,7 +34,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 19,
+      "entry_count": 21,
       "creator": "quinnix",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -103,7 +86,7 @@
       "end_timestamp": 1761788220,
       "group": true,
       "comment_count": 3,
-      "entry_count": 10,
+      "entry_count": 9,
       "creator": "Jztr",
       "cv_status": "FULL_CV"
     },
@@ -231,7 +214,7 @@
       "end_timestamp": 1761926400,
       "group": true,
       "comment_count": 0,
-      "entry_count": 11,
+      "entry_count": 13,
       "creator": "yugimax",
       "cv_status": "FULL_CV"
     },
@@ -338,8 +321,8 @@
       "start_timestamp": 1761701768,
       "end_timestamp": 1762047120,
       "group": true,
-      "comment_count": 0,
-      "entry_count": 0,
+      "comment_count": 6,
+      "entry_count": 1,
       "creator": "Jztr",
       "cv_status": "FULL_CV"
     },
@@ -426,9 +409,10 @@
       "start_timestamp": 1762012800,
       "end_timestamp": 1762293120,
       "group": true,
-      "comment_count": 0,
+      "comment_count": 2,
       "entry_count": 0,
       "creator": "Carrei",
+      "event_type": "november_event",
       "cv_status": "FULL_CV"
     },
     {
@@ -535,10 +519,28 @@
       "end_timestamp": 1762547820,
       "whitelist": true,
       "group": true,
-      "comment_count": 5,
-      "entry_count": 53,
+      "comment_count": 10,
+      "entry_count": 79,
       "creator": "Grogglz",
       "is_shared": true,
+      "cv_status": "FULL_CV"
+    },
+    {
+      "id": "MNTFz",
+      "name": "Return from Core",
+      "points": 17,
+      "copies": 1,
+      "app_id": 2171630,
+      "package_id": null,
+      "link": "MNTFz/return-from-core",
+      "created_timestamp": 1761704792,
+      "start_timestamp": 1762046580,
+      "end_timestamp": 1762568580,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 0,
+      "creator": "Jztr",
+      "event_type": "november_event",
       "cv_status": "FULL_CV"
     },
     {
@@ -644,7 +646,7 @@
       "end_timestamp": 1762632000,
       "group": true,
       "comment_count": 4,
-      "entry_count": 4,
+      "entry_count": 5,
       "creator": "gus09",
       "event_type": "november_event",
       "cv_status": "FULL_CV"
@@ -705,6 +707,48 @@
       "cv_status": "FULL_CV"
     },
     {
+      "id": "EjZnW",
+      "name": "WUCHANG: Fallen Feathers",
+      "points": 50,
+      "copies": 1,
+      "app_id": 2277560,
+      "package_id": null,
+      "link": "EjZnW/wuchang-fallen-feathers",
+      "created_timestamp": 1761723957,
+      "start_timestamp": 1761723957,
+      "end_timestamp": 1764146700,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 2,
+      "creator": "Patxxv",
+      "cv_status": "FULL_CV"
+    },
+    {
+      "id": "Ol7ww",
+      "name": "RimWorld",
+      "points": 35,
+      "copies": 1,
+      "app_id": 294100,
+      "package_id": null,
+      "link": "Ol7ww/rimworld",
+      "created_timestamp": 1759119631,
+      "start_timestamp": 1759119631,
+      "end_timestamp": 1761711480,
+      "group": true,
+      "comment_count": 6,
+      "entry_count": 30,
+      "creator": "Patxxv",
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "FULL_CV",
+      "deleted": false
+    },
+    {
       "id": "GfiYF",
       "name": "Pathfinder: Wrath of the Ri...",
       "points": 20,
@@ -716,12 +760,16 @@
       "start_timestamp": 1761521424,
       "end_timestamp": 1761679740,
       "group": true,
-      "comment_count": 1,
+      "comment_count": 2,
       "entry_count": 5,
       "creator": "philipdick",
       "is_shared": true,
       "hasWinners": true,
       "winners": [
+        {
+          "name": "Lakraj1209",
+          "status": "received"
+        },
         {
           "name": "pizzahut",
           "status": "received"

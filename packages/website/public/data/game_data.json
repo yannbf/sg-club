@@ -9538,9 +9538,9 @@
     "name": "Build a Bridge!",
     "app_id": 694110,
     "package_id": null,
-    "price_usd_full": null,
-    "price_usd_reduced": null,
-    "needs_manual_update": true,
+    "price_usd_full": 999,
+    "price_usd_reduced": 150,
+    "needs_manual_update": false,
     "hltb_main_story_hours": null
   },
   {
@@ -9704,5 +9704,14 @@
     "price_usd_reduced": 75,
     "needs_manual_update": false,
     "hltb_main_story_hours": 1
+  },
+  {
+    "name": "WUCHANG: Fallen Feathers",
+    "app_id": 2277560,
+    "package_id": null,
+    "price_usd_full": 4999,
+    "price_usd_reduced": 750,
+    "needs_manual_update": false,
+    "hltb_main_story_hours": 31.5
   }
 ]
