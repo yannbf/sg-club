@@ -1,24 +1,6 @@
 {
-  "last_updated": "2025-11-10T02:25:11.865Z",
+  "last_updated": "2025-11-10T08:55:36.271Z",
   "giveaways": [
-    {
-      "id": "lL10C",
-      "name": "AER Memories of Old",
-      "points": 15,
-      "copies": 1,
-      "app_id": 331870,
-      "package_id": null,
-      "link": "lL10C/aer-memories-of-old",
-      "created_timestamp": 1762670045,
-      "start_timestamp": 1762670045,
-      "end_timestamp": 1762759920,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 0,
-      "creator": "Patxxv",
-      "is_shared": true,
-      "cv_status": "REDUCED_CV"
-    },
     {
       "id": "FcdR3",
       "name": "Öoo",
@@ -50,7 +32,7 @@
       "end_timestamp": 1762802040,
       "group": true,
       "comment_count": 0,
-      "entry_count": 5,
+      "entry_count": 7,
       "creator": "LinustheBold",
       "event_type": "november_event",
       "cv_status": "FULL_CV"
@@ -87,7 +69,7 @@
       "region_restricted": true,
       "group": true,
       "comment_count": 2,
-      "entry_count": 15,
+      "entry_count": 16,
       "creator": "Metalhead8489",
       "event_type": "november_event",
       "cv_status": "FULL_CV"
@@ -122,7 +104,7 @@
       "end_timestamp": 1762819200,
       "group": true,
       "comment_count": 0,
-      "entry_count": 7,
+      "entry_count": 8,
       "creator": "Markox21",
       "event_type": "november_event",
       "cv_status": "FULL_CV"
@@ -230,8 +212,8 @@
       "start_timestamp": 1761729910,
       "end_timestamp": 1762952400,
       "group": true,
-      "comment_count": 2,
-      "entry_count": 15,
+      "comment_count": 3,
+      "entry_count": 17,
       "creator": "schmoan",
       "event_type": "november_event",
       "cv_status": "FULL_CV"
@@ -251,7 +233,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 2,
-      "entry_count": 41,
+      "entry_count": 42,
       "creator": "ShroudOfLethe",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -380,10 +362,28 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 81,
+      "entry_count": 86,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
+    },
+    {
+      "id": "XD6sb",
+      "name": "Night Book",
+      "points": 15,
+      "copies": 1,
+      "app_id": 1477920,
+      "package_id": null,
+      "link": "XD6sb/night-book",
+      "created_timestamp": 1762761128,
+      "start_timestamp": 1762761128,
+      "end_timestamp": 1763196660,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 1,
+      "creator": "Patxxv",
+      "is_shared": true,
+      "cv_status": "FULL_CV"
     },
     {
       "id": "hfkVq",
@@ -436,7 +436,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 54,
+      "entry_count": 61,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -587,6 +587,32 @@
       "cv_status": "FULL_CV"
     },
     {
+      "id": "lL10C",
+      "name": "AER Memories of Old",
+      "points": 15,
+      "copies": 1,
+      "app_id": 331870,
+      "package_id": null,
+      "link": "lL10C/aer-memories-of-old",
+      "created_timestamp": 1762670045,
+      "start_timestamp": 1762670045,
+      "end_timestamp": 1762759920,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 1,
+      "creator": "Patxxv",
+      "is_shared": true,
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "REDUCED_CV",
+      "deleted": false
+    },
+    {
       "id": "xlqUp",
       "name": "Phantom Brave PC",
       "points": 20,
@@ -599,9 +625,16 @@
       "end_timestamp": 1762740480,
       "region_restricted": true,
       "group": true,
-      "comment_count": 7,
+      "comment_count": 9,
       "entry_count": 5,
       "creator": "ithamore",
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": "Patxxv",
+          "status": "received"
+        }
+      ],
       "cv_status": "FULL_CV"
     },
     {
@@ -616,7 +649,7 @@
       "start_timestamp": 1762456863,
       "end_timestamp": 1762719240,
       "group": true,
-      "comment_count": 1,
+      "comment_count": 2,
       "entry_count": 7,
       "creator": "LinustheBold",
       "hasWinners": true,
