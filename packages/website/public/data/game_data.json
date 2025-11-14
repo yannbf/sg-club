@@ -10469,7 +10469,8 @@
     "price_usd_full": null,
     "price_usd_reduced": null,
     "needs_manual_update": true,
-    "hltb_main_story_hours": null
+    "hltb_main_story_hours": null,
+    "app_id_for_package_id": 239140
   },
   {
     "name": "Gorgon Shield",
@@ -10506,5 +10507,23 @@
     "price_usd_reduced": 150,
     "needs_manual_update": false,
     "hltb_main_story_hours": 6
+  },
+  {
+    "name": "Bloodshed",
+    "app_id": 2747550,
+    "package_id": null,
+    "price_usd_full": 1299,
+    "price_usd_reduced": 195,
+    "needs_manual_update": false,
+    "hltb_main_story_hours": 6.5
+  },
+  {
+    "name": "Rocket Rats",
+    "app_id": 3069810,
+    "package_id": null,
+    "price_usd_full": 599,
+    "price_usd_reduced": 90,
+    "needs_manual_update": false,
+    "hltb_main_story_hours": 3
   }
 ]
