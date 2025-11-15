@@ -1,25 +1,6 @@
 {
-  "last_updated": "2025-11-15T02:18:04.470Z",
+  "last_updated": "2025-11-15T08:49:22.765Z",
   "giveaways": [
-    {
-      "id": "HTVsV",
-      "name": "Welcome to Elk",
-      "points": 15,
-      "copies": 1,
-      "app_id": 1015940,
-      "package_id": null,
-      "link": "HTVsV/welcome-to-elk",
-      "created_timestamp": 1762580287,
-      "start_timestamp": 1762580287,
-      "end_timestamp": 1763179200,
-      "whitelist": true,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 156,
-      "creator": "lockcjwen",
-      "is_shared": true,
-      "cv_status": "REDUCED_CV"
-    },
     {
       "id": "XD6sb",
       "name": "Night Book",
@@ -50,8 +31,8 @@
       "start_timestamp": 1762939330,
       "end_timestamp": 1763204400,
       "group": true,
-      "comment_count": 1,
-      "entry_count": 5,
+      "comment_count": 2,
+      "entry_count": 6,
       "creator": "Swordoffury",
       "event_type": "november_event",
       "cv_status": "FULL_CV"
@@ -70,7 +51,7 @@
       "region_restricted": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 9,
+      "entry_count": 10,
       "creator": "QuinlanLJ",
       "event_type": "november_event",
       "cv_status": "FULL_CV"
@@ -88,7 +69,7 @@
       "end_timestamp": 1763218800,
       "group": true,
       "comment_count": 2,
-      "entry_count": 6,
+      "entry_count": 7,
       "creator": "quinnix",
       "event_type": "november_event",
       "cv_status": "FULL_CV"
@@ -144,7 +125,7 @@
       "region_restricted": true,
       "group": true,
       "comment_count": 3,
-      "entry_count": 6,
+      "entry_count": 7,
       "creator": "MikeWithAnI",
       "event_type": "november_event",
       "cv_status": "FULL_CV"
@@ -200,7 +181,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 131,
+      "entry_count": 139,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -255,7 +236,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 33,
+      "entry_count": 34,
       "creator": "oct4vius",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -293,7 +274,7 @@
       "region_restricted": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 13,
+      "entry_count": 14,
       "creator": "oct4vius",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -329,7 +310,7 @@
       "end_timestamp": 1763341200,
       "group": true,
       "comment_count": 0,
-      "entry_count": 28,
+      "entry_count": 29,
       "creator": "Orionid",
       "event_type": "november_event",
       "cv_status": "FULL_CV"
@@ -400,7 +381,7 @@
       "end_timestamp": 1763410680,
       "group": true,
       "comment_count": 0,
-      "entry_count": 8,
+      "entry_count": 12,
       "creator": "ConanOLion",
       "is_shared": true,
       "cv_status": "FULL_CV"
@@ -508,7 +489,7 @@
       "region_restricted": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 26,
+      "entry_count": 27,
       "creator": "Jztr",
       "required_play": true,
       "is_shared": true,
@@ -527,7 +508,7 @@
       "end_timestamp": 1763586840,
       "group": true,
       "comment_count": 0,
-      "entry_count": 44,
+      "entry_count": 45,
       "creator": "Jztr",
       "required_play": true,
       "is_shared": true,
@@ -570,6 +551,25 @@
       "creator": "akfas",
       "event_type": "november_event",
       "cv_status": "FULL_CV"
+    },
+    {
+      "id": "tkd6Q",
+      "name": "We should talk.",
+      "points": 7,
+      "copies": 1,
+      "app_id": 1255990,
+      "package_id": null,
+      "link": "tkd6Q/we-should-talk",
+      "created_timestamp": 1763180953,
+      "start_timestamp": 1763180953,
+      "end_timestamp": 1763784000,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 25,
+      "creator": "lockcjwen",
+      "is_shared": true,
+      "cv_status": "REDUCED_CV"
     },
     {
       "id": "Neds2",
@@ -706,7 +706,7 @@
       "end_timestamp": 1764450600,
       "group": true,
       "comment_count": 2,
-      "entry_count": 21,
+      "entry_count": 22,
       "creator": "Jztr",
       "required_play": true,
       "is_shared": true,
@@ -779,6 +779,32 @@
       "entry_count": 0,
       "creator": "Cloverleaf",
       "cv_status": "FULL_CV"
+    },
+    {
+      "id": "HTVsV",
+      "name": "Welcome to Elk",
+      "points": 15,
+      "copies": 1,
+      "app_id": 1015940,
+      "package_id": null,
+      "link": "HTVsV/welcome-to-elk",
+      "created_timestamp": 1762580287,
+      "start_timestamp": 1762580287,
+      "end_timestamp": 1763179200,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 2,
+      "entry_count": 160,
+      "creator": "lockcjwen",
+      "is_shared": true,
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": "titi59",
+          "status": "received"
+        }
+      ],
+      "cv_status": "REDUCED_CV"
     },
     {
       "id": "27X8c",
