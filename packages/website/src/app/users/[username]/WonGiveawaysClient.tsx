@@ -175,14 +175,15 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData, 
                 👥 Shared
               </button>
             )}
-            {user.warnings?.includes('potentially_idling_games') && availableFilters.hasPotentiallyIdling && (
+            {/* TODO: Maybe bring this back */}
+            {/* {user.warnings?.includes('potentially_idling_games') && availableFilters.hasPotentiallyIdling && (
               <button
                 onClick={() => setFilterPotentiallyIdling(!filterPotentiallyIdling)}
                 className={`px-3 py-1 text-sm rounded-full border transition-colors ${filterPotentiallyIdling ? 'bg-error-light text-error-foreground border-error' : 'bg-transparent border-card-border'}`}
               >
                 💤 Potentially Idling
               </button>
-            )}
+            )} */}
           </div>
           <div className="space-y-4">
             {filteredWonGiveaways.map((game, index) => {

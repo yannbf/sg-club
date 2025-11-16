@@ -1254,14 +1254,15 @@ export class SteamGiftsUserFetcher {
       warnings.push('required_play_deadline_within_15_days')
     }
 
-    const isPotentiallyIdlingGames = user.giveaways_won?.some(
-      (g) =>
-        g.steam_play_data?.is_potentially_idling &&
-        g.steam_play_data?.is_potentially_idling === true
-    )
-    if (isPotentiallyIdlingGames) {
-      warnings.push('potentially_idling_games')
-    }
+    // TODO: Maybe bring this back.
+    // const isPotentiallyIdlingGames = user.giveaways_won?.some(
+    //   (g) =>
+    //     g.steam_play_data?.is_potentially_idling &&
+    //     g.steam_play_data?.is_potentially_idling === true
+    // )
+    // if (isPotentiallyIdlingGames) {
+    //   warnings.push('potentially_idling_games')
+    // }
 
     return warnings
   }
