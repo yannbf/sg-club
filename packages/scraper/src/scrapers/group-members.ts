@@ -4,9 +4,7 @@ import type {
   User,
   UserStats,
   Giveaway,
-  CVStatus,
   UserGroupData,
-  SteamPlayData,
   GamePrice,
   UserGiveawaysStats,
 } from '../types/steamgifts.js'
@@ -37,6 +35,12 @@ try {
 const USER_ENTRIES = JSON.parse(
   readFileSync('../website/public/data/user_entries.json', 'utf-8')
 ) as { [key: string]: { link: string; joined_at: number }[] }
+
+const IDLE_GAMES_WHITELIST = [
+  251150, // The Legend of Heroes: Trails in the Sky
+  1174180, // Red Dead Redemption 2
+  1901370, // Ib
+]
 
 // getGameInfo receives a giveaway link, then finds the HLTB data for the game
 // and returns the game data
@@ -717,11 +721,50 @@ export class SteamGiftsUserFetcher {
 
           // Only update if we got valid data
           if (gamePlayData) {
+            let isPotentiallyIdling =
+              wonGame.steam_play_data?.is_potentially_idling
+
+            console.log({
+              name: giveaway.name,
+              gameStuff: wonGame.name,
+              id: giveaway.app_id ?? giveaway.package_id,
+            })
+            const isWhitelisted = IDLE_GAMES_WHITELIST.includes(
+              giveaway.app_id ?? giveaway.package_id!
+            )
+
+            // If previously marked idling but now whitelisted, remove idling flag
+            if (isPotentiallyIdling && isWhitelisted) {
+              isPotentiallyIdling = undefined
+            } else if (gamePlayData.achievements_total === 0) {
+              isPotentiallyIdling = undefined
+            } else if (
+              !isWhitelisted &&
+              !isPotentiallyIdling &&
+              gamePlayData.achievements_total > 0 &&
+              gamePlayData.achievements_unlocked === 0 &&
+              gamePlayData.playtime_minutes > 180
+            ) {
+              isPotentiallyIdling = true
+            }
+
+            // If previously marked as idling, but user unlocked achievements, remove idling flag
+            if (
+              isPotentiallyIdling &&
+              gamePlayData.achievements_total > 0 &&
+              gamePlayData.achievements_unlocked > 0
+            ) {
+              isPotentiallyIdling = false
+            }
+
             updatedGiveawaysWon[i] = {
               ...wonGame,
               steam_play_data: {
                 ...gamePlayData,
                 last_checked: Date.now(),
+                ...(isPotentiallyIdling !== undefined && {
+                  is_potentially_idling: isPotentiallyIdling,
+                }),
               },
             }
             userUpdated = true
@@ -1095,6 +1138,134 @@ export class SteamGiftsUserFetcher {
     return allScrapedUsers
   }
 
+  public calculateUserWarnings(user: User, giveaways: Giveaway[]): string[] {
+    let warnings: string[] = []
+    const unplayedRequiredPlayGiveaways =
+      user.giveaways_won?.filter(
+        (g) => g.required_play && !g.required_play_meta?.requirements_met
+      ) ?? []
+    if (unplayedRequiredPlayGiveaways.length >= 2) {
+      warnings.push('unplayed_required_play_giveaways')
+
+      const enteredGiveawayData = USER_ENTRIES?.[user.username] || []
+
+      if (unplayedRequiredPlayGiveaways.length === 2) {
+        const enteredGiveawaysWithPlayRequired = enteredGiveawayData
+          .map((g) => giveaways.find((ga) => ga.link === g.link))
+          .filter((g) => g !== undefined && g.required_play)
+
+        if (enteredGiveawaysWithPlayRequired.length > 0) {
+          warnings.push('illegal_entered_required_play_giveaways')
+        }
+      } else if (
+        unplayedRequiredPlayGiveaways.length >= 3 &&
+        enteredGiveawayData.length > 0
+      ) {
+        warnings.push('illegal_entered_any_giveaways')
+      }
+    }
+
+    const gamesThatNeedRequirePlayReview = user.giveaways_won?.filter((g) => {
+      const gameData = getGameInfo(g.link)
+
+      const hasHalfAchievements =
+        g.steam_play_data?.achievements_percentage &&
+        g.steam_play_data?.achievements_percentage >= 50
+      const hasPotentiallyCompletedMainStory =
+        g.steam_play_data?.playtime_minutes &&
+        g.steam_play_data?.playtime_minutes >=
+          (gameData?.hltb_main_story_hours || 0) * 0.9 * 60
+
+      // console.log({
+      //   playData: g.steam_play_data,
+      //   gameData,
+      //   hltbCalculated: (gameData?.hltb_main_story_hours || 0) * 0.9 * 60,
+      // })
+      const hasOver15HoursPlaytime =
+        g.steam_play_data?.playtime_minutes &&
+        g.steam_play_data?.playtime_minutes >= 15 * 60
+
+      const shouldReview =
+        hasHalfAchievements ||
+        hasPotentiallyCompletedMainStory ||
+        hasOver15HoursPlaytime
+
+      return (
+        g.required_play &&
+        !g.required_play_meta?.requirements_met &&
+        shouldReview
+      )
+    })
+
+    if (
+      gamesThatNeedRequirePlayReview?.length &&
+      gamesThatNeedRequirePlayReview.length > 0
+    ) {
+      warnings.push('required_plays_need_review')
+    }
+
+    // Add warning for play required wins with less than 15 days remaining
+    const oneDayMs = 24 * 60 * 60 * 1000
+    const getDeadlineDate = (
+      endTimestamp: number,
+      meta?: { deadline?: string; deadline_in_months?: number }
+    ): Date => {
+      if (meta?.deadline) {
+        // Expected format: dd.MM.yyyy
+        const parts = meta.deadline.split('.')
+        if (parts.length === 3) {
+          const day = parseInt(parts[0], 10)
+          const month = parseInt(parts[1], 10)
+          const year = parseInt(parts[2], 10)
+          if (
+            !Number.isNaN(day) &&
+            !Number.isNaN(month) &&
+            !Number.isNaN(year)
+          ) {
+            return new Date(year, month - 1, day, 23, 59, 59, 999)
+          }
+        }
+      }
+
+      const months = meta?.deadline_in_months ?? 2
+      const effectiveMonths = months === 0 ? 2 : months
+      const base = new Date(endTimestamp * 1000)
+      const deadline = new Date(base.getTime())
+      deadline.setMonth(deadline.getMonth() + effectiveMonths)
+      return deadline
+    }
+
+    const hasSoonExpiringRequiredPlays = (user.giveaways_won || []).some(
+      (g) => {
+        if (!g.required_play || g.required_play_meta?.requirements_met)
+          return false
+        const deadlineDate = getDeadlineDate(
+          g.end_timestamp,
+          g.required_play_meta
+        )
+        const daysRemaining = Math.floor(
+          (deadlineDate.getTime() - Date.now()) / oneDayMs
+        )
+        return daysRemaining >= 0 && daysRemaining < 15
+      }
+    )
+
+    if (hasSoonExpiringRequiredPlays) {
+      warnings.push('required_play_deadline_within_15_days')
+    }
+
+    const isPotentiallyIdlingGames = user.giveaways_won?.some(
+      (g) =>
+        g.steam_play_data?.is_potentially_idling &&
+        g.steam_play_data?.is_potentially_idling === true
+    )
+    if (isPotentiallyIdlingGames) {
+      warnings.push('potentially_idling_games')
+    }
+
+    return warnings
+  }
+
   public async fetchUsers(
     filename: string = '../website/public/data/group_users.json',
     usersList?: User[]
@@ -1352,122 +1523,7 @@ export class SteamGiftsUserFetcher {
       // Convert user array to a record for saving
       const usersRecord: Record<string, User> = {}
       for (const user of allUsers) {
-        let warnings: string[] = []
-        const unplayedRequiredPlayGiveaways =
-          user.giveaways_won?.filter(
-            (g) => g.required_play && !g.required_play_meta?.requirements_met
-          ) ?? []
-        if (unplayedRequiredPlayGiveaways.length >= 2) {
-          warnings.push('unplayed_required_play_giveaways')
-
-          const enteredGiveawayData = USER_ENTRIES?.[user.username] || []
-
-          if (unplayedRequiredPlayGiveaways.length === 2) {
-            const enteredGiveawaysWithPlayRequired = enteredGiveawayData
-              .map((g) => giveaways.find((ga) => ga.link === g.link))
-              .filter((g) => g !== undefined && g.required_play)
-
-            if (enteredGiveawaysWithPlayRequired.length > 0) {
-              warnings.push('illegal_entered_required_play_giveaways')
-            }
-          } else if (
-            unplayedRequiredPlayGiveaways.length >= 3 &&
-            enteredGiveawayData.length > 0
-          ) {
-            warnings.push('illegal_entered_any_giveaways')
-          }
-        }
-
-        const gamesThatNeedRequirePlayReview = user.giveaways_won?.filter(
-          (g) => {
-            const gameData = getGameInfo(g.link)
-
-            const hasHalfAchievements =
-              g.steam_play_data?.achievements_percentage &&
-              g.steam_play_data?.achievements_percentage >= 50
-            const hasPotentiallyCompletedMainStory =
-              g.steam_play_data?.playtime_minutes &&
-              g.steam_play_data?.playtime_minutes >=
-                (gameData?.hltb_main_story_hours || 0) * 0.9 * 60
-
-            // console.log({
-            //   playData: g.steam_play_data,
-            //   gameData,
-            //   hltbCalculated: (gameData?.hltb_main_story_hours || 0) * 0.9 * 60,
-            // })
-            const hasOver15HoursPlaytime =
-              g.steam_play_data?.playtime_minutes &&
-              g.steam_play_data?.playtime_minutes >= 15 * 60
-
-            const shouldReview =
-              hasHalfAchievements ||
-              hasPotentiallyCompletedMainStory ||
-              hasOver15HoursPlaytime
-
-            return (
-              g.required_play &&
-              !g.required_play_meta?.requirements_met &&
-              shouldReview
-            )
-          }
-        )
-
-        if (
-          gamesThatNeedRequirePlayReview?.length &&
-          gamesThatNeedRequirePlayReview.length > 0
-        ) {
-          warnings.push('required_plays_need_review')
-        }
-
-        // Add warning for play required wins with less than 15 days remaining
-        const oneDayMs = 24 * 60 * 60 * 1000
-        const getDeadlineDate = (
-          endTimestamp: number,
-          meta?: { deadline?: string; deadline_in_months?: number }
-        ): Date => {
-          if (meta?.deadline) {
-            // Expected format: dd.MM.yyyy
-            const parts = meta.deadline.split('.')
-            if (parts.length === 3) {
-              const day = parseInt(parts[0], 10)
-              const month = parseInt(parts[1], 10)
-              const year = parseInt(parts[2], 10)
-              if (
-                !Number.isNaN(day) &&
-                !Number.isNaN(month) &&
-                !Number.isNaN(year)
-              ) {
-                return new Date(year, month - 1, day, 23, 59, 59, 999)
-              }
-            }
-          }
-
-          const months = meta?.deadline_in_months ?? 2
-          const effectiveMonths = months === 0 ? 2 : months
-          const base = new Date(endTimestamp * 1000)
-          const deadline = new Date(base.getTime())
-          deadline.setMonth(deadline.getMonth() + effectiveMonths)
-          return deadline
-        }
-
-        const hasSoonExpiringRequiredPlays = (user.giveaways_won || []).some(
-          (g) => {
-            if (!g.required_play || g.required_play_meta?.requirements_met)
-              return false
-            const deadlineDate = getDeadlineDate(
-              g.end_timestamp,
-              g.required_play_meta
-            )
-            const daysRemaining = Math.floor(
-              (deadlineDate.getTime() - Date.now()) / oneDayMs
-            )
-            return daysRemaining >= 0 && daysRemaining < 15
-          }
-        )
-
-        if (hasSoonExpiringRequiredPlays) {
-          warnings.push('required_play_deadline_within_15_days')
-        }
+        const warnings = this.calculateUserWarnings(user, giveaways)
 
         if (warnings.length > 0) {
           console.log(

@@ -27,12 +27,40 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData, 
   const [filterShared, setFilterShared] = useState<boolean>(false)
   const [playFilter, setPlayFilter] = useState<'all' | 'played' | 'never_played' | 'unplayed_required'>('all')
   const [isCollapsed, setIsCollapsed] = useState(false)
-
+  const [filterPotentiallyIdling, setFilterPotentiallyIdling] = useState<boolean>(false)
   const getGiveawayInfo = useCallback((giveaway: NonNullable<User['giveaways_won']>[0]) => {
     const giveawayInfo = giveaways.find(g => g.link === giveaway.link)
     const extraGiveawayInfo = wonGiveaways.find(g => g.link === giveaway.link)
     return { ...giveawayInfo, ...extraGiveawayInfo }
   }, [giveaways, wonGiveaways])
+
+  const availableFilters = useMemo(() => {
+    const hasRegionRestricted = wonGiveaways.some(game => {
+      const giveawayInfo = getGiveawayInfo(game)
+      return giveawayInfo?.region_restricted
+    })
+
+    const hasPlayRequired = wonGiveaways.some(game => {
+      const giveawayInfo = getGiveawayInfo(game)
+      return giveawayInfo?.required_play || giveawayInfo?.required_play_meta
+    })
+
+    const hasShared = wonGiveaways.some(game => {
+      const giveawayInfo = getGiveawayInfo(game)
+      return giveawayInfo?.is_shared
+    })
+
+    const hasPotentiallyIdling = wonGiveaways.some(game =>
+      game.steam_play_data?.is_potentially_idling
+    )
+
+    return {
+      hasRegionRestricted,
+      hasPlayRequired,
+      hasShared,
+      hasPotentiallyIdling
+    }
+  }, [wonGiveaways, getGiveawayInfo])
 
   const filteredWonGiveaways = useMemo(() => {
     return wonGiveaways.filter(game => {
@@ -45,7 +73,8 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData, 
       const matchesLabels =
         (!filterRegion || giveawayInfo?.region_restricted) &&
         (!filterPlayRequired || giveawayInfo?.required_play || giveawayInfo?.required_play_meta) &&
-        (!filterShared || giveawayInfo?.is_shared)
+        (!filterShared || giveawayInfo?.is_shared) &&
+        (!filterPotentiallyIdling || game.steam_play_data?.is_potentially_idling)
 
       const matchesPlayFilter =
         playFilter === 'all' ||
@@ -55,13 +84,13 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData, 
 
       return matchesSearch && matchesCV && matchesLabels && matchesPlayFilter
     })
-  }, [wonGiveaways, debouncedSearchTerm, getGiveawayInfo, filterCV, filterRegion, filterPlayRequired, filterShared, playFilter])
+  }, [wonGiveaways, debouncedSearchTerm, getGiveawayInfo, filterCV, filterRegion, filterPlayRequired, filterShared, playFilter, filterPotentiallyIdling])
 
   return (
     <div className="bg-card-background rounded-lg border-card-border border p-6 mb-6">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-xl font-semibold">
-          🏆 Games Won ({filteredWonGiveaways.length})
+          🏆 Games Won <span className="text-xs text-muted-foreground">(Showing {filteredWonGiveaways.length} of {wonGiveaways.length})</span>
         </h2>
         <button
           onClick={() => setIsCollapsed(!isCollapsed)}
@@ -122,24 +151,38 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData, 
             </div>
           </div>
           <div className="flex flex-wrap items-center gap-2 mb-4">
-            <button
-              onClick={() => setFilterRegion(!filterRegion)}
-              className={`px-3 py-1 text-sm rounded-full border transition-colors ${filterRegion ? 'bg-info-light text-info-foreground border-info' : 'bg-transparent border-card-border'}`}
-            >
-              🌍 Restricted
-            </button>
-            <button
-              onClick={() => setFilterPlayRequired(!filterPlayRequired)}
-              className={`px-3 py-1 text-sm rounded-full border transition-colors ${filterPlayRequired ? 'bg-warning-light text-warning-foreground border-warning' : 'bg-transparent border-card-border'}`}
-            >
-              🎮 Play Required
-            </button>
-            <button
-              onClick={() => setFilterShared(!filterShared)}
-              className={`px-3 py-1 text-sm rounded-full border transition-colors ${filterShared ? 'bg-purple-light text-purple-foreground border-purple' : 'bg-transparent border-card-border'}`}
-            >
-              👥 Shared
-            </button>
+            {availableFilters.hasRegionRestricted && (
+              <button
+                onClick={() => setFilterRegion(!filterRegion)}
+                className={`px-3 py-1 text-sm rounded-full border transition-colors ${filterRegion ? 'bg-info-light text-info-foreground border-info' : 'bg-transparent border-card-border'}`}
+              >
+                🌍 Restricted
+              </button>
+            )}
+            {availableFilters.hasPlayRequired && (
+              <button
+                onClick={() => setFilterPlayRequired(!filterPlayRequired)}
+                className={`px-3 py-1 text-sm rounded-full border transition-colors ${filterPlayRequired ? 'bg-warning-light text-warning-foreground border-warning' : 'bg-transparent border-card-border'}`}
+              >
+                🎮 Play Required
+              </button>
+            )}
+            {availableFilters.hasShared && (
+              <button
+                onClick={() => setFilterShared(!filterShared)}
+                className={`px-3 py-1 text-sm rounded-full border transition-colors ${filterShared ? 'bg-purple-light text-purple-foreground border-purple' : 'bg-transparent border-card-border'}`}
+              >
+                👥 Shared
+              </button>
+            )}
+            {user.warnings?.includes('potentially_idling_games') && availableFilters.hasPotentiallyIdling && (
+              <button
+                onClick={() => setFilterPotentiallyIdling(!filterPotentiallyIdling)}
+                className={`px-3 py-1 text-sm rounded-full border transition-colors ${filterPotentiallyIdling ? 'bg-error-light text-error-foreground border-error' : 'bg-transparent border-card-border'}`}
+              >
+                💤 Potentially Idling
+              </button>
+            )}
           </div>
           <div className="space-y-4">
             {filteredWonGiveaways.map((game, index) => {
@@ -215,6 +258,11 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData, 
                                 {giveawayInfo.region_restricted && (
                                   <span className="text-xs font-medium px-2 py-1 bg-info-light text-info-foreground rounded-full">
                                     🌍 Restricted
+                                  </span>
+                                )}
+                                {game.steam_play_data?.is_potentially_idling && (
+                                  <span className="text-xs font-medium px-2 py-1 bg-error-light text-error-foreground rounded-full">
+                                    💤 Potentially Idling
                                   </span>
                                 )}
                                 {(giveawayInfo.required_play || giveawayInfo.required_play_meta) && (

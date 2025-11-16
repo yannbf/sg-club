@@ -59,6 +59,7 @@ export interface SteamPlayData {
   never_played: boolean
   last_checked?: number // Timestamp when this data was last fetched
   has_no_available_stats?: boolean
+  is_potentially_idling?: boolean
 }
 
 export interface User {

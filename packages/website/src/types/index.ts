@@ -63,6 +63,7 @@ export interface User {
       is_playtime_private: boolean
       has_no_available_stats: boolean
       last_checked: number
+      is_potentially_idling?: boolean
     }
   }[]
   giveaways_created?: {

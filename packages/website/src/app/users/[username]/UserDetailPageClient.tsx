@@ -181,6 +181,10 @@ const warningToMessageMap: Record<string, UserWarning> = {
     description: 'Has entered any giveaways while not having played 3 or more required play giveaways',
     severity: 'problem',
   },
+  potentially_idling_games: {
+    description: 'Is potentially idling games (no achievements unlocked with over 3h of playtime)',
+    severity: 'problem',
+  },
 }
 
 export default function UserDetailPageClient({ user, allUsers, giveaways, gameData, userEntries, lastUpdated, leavers }: Props) {

@@ -202,8 +202,22 @@ export async function getAllGiveaways(): Promise<Giveaway[]> {
 }
 
 export async function getAllUsers(): Promise<UserGroupData | null> {
+  // TODO: Undo this later
+  const disallowList = ['CupcakeDollykins']
   const data = await loadBuildTimeData()
-  return data.users
+  if (!data.users || !data.users.users) return data.users
+
+  // Create a shallow copy to not mutate original data
+  const filteredUsers = Object.fromEntries(
+    Object.entries(data.users.users).filter(
+      ([username]) => !disallowList.includes(username)
+    )
+  )
+
+  return {
+    ...data.users,
+    users: filteredUsers,
+  }
 }
 
 export async function getAllUsersAsArray(): Promise<User[]> {
