@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1763691697562,
+  "lastUpdated": 1763715457388,
   "users": [
     {
       "username": "thesodaer",
@@ -3391,6 +3391,171 @@
         "unplayed_required_play_giveaways"
       ],
       "left_at_timestamp": 1763542601842
+    },
+    {
+      "username": "puninup",
+      "profile_url": "/user/puninup",
+      "avatar_url": "https://avatars.steamstatic.com/4b6ec05a610dfba9ee2f24733af4cda25fc2b3cb_medium.jpg",
+      "stats": {
+        "total_sent_count": 4,
+        "total_sent_value": 94.96,
+        "total_received_count": 2,
+        "total_received_value": 79.98,
+        "total_gift_difference": 2,
+        "total_value_difference": 14.98,
+        "fcv_sent_count": 3,
+        "rcv_sent_count": 1,
+        "ncv_sent_count": 0,
+        "fcv_received_count": 2,
+        "rcv_received_count": 0,
+        "ncv_received_count": 0,
+        "fcv_gift_difference": 1,
+        "real_total_sent_value": 75.97,
+        "real_total_received_value": 79.98,
+        "real_total_value_difference": -4.01,
+        "real_total_sent_count": 3,
+        "real_total_received_count": 2,
+        "real_total_gift_difference": 1,
+        "giveaway_ratio": 2.33,
+        "shared_sent_count": 0,
+        "shared_received_count": 0,
+        "giveaways_created": 4,
+        "giveaways_with_no_entries": 0,
+        "last_giveaway_created_at": 1756372469,
+        "last_giveaway_won_at": 1753477200,
+        "total_achievements_percentage": 51,
+        "average_achievements_percentage": 50,
+        "real_total_achievements_percentage": 51,
+        "real_average_achievements_percentage": 50,
+        "has_missing_achievements_data": false
+      },
+      "steam_id": "76561198069567036",
+      "steam_profile_url": "https://steamcommunity.com/profiles/76561198069567036",
+      "steam_profile_is_private": false,
+      "country_code": "pl",
+      "giveaways_won": [
+        {
+          "name": "Life is Strange Remastered Collection",
+          "link": "T7Kmm/life-is-strange-remastered-collection",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1753477200,
+          "required_play": false,
+          "is_shared": false,
+          "steam_play_data": {
+            "owned": true,
+            "playtime_minutes": 983,
+            "playtime_formatted": "16 hours 23 minutes",
+            "achievements_unlocked": 60,
+            "achievements_total": 60,
+            "achievements_percentage": 100,
+            "never_played": false,
+            "is_playtime_private": false,
+            "last_checked": 1763692725844
+          }
+        },
+        {
+          "name": "Prey Digital Deluxe",
+          "link": "BMyQV/prey-digital-deluxe",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1752282000,
+          "required_play": false,
+          "is_shared": false,
+          "steam_play_data": {
+            "owned": true,
+            "playtime_minutes": 0,
+            "playtime_formatted": "0 minutes",
+            "achievements_unlocked": 0,
+            "achievements_total": 58,
+            "achievements_percentage": 0,
+            "never_played": true,
+            "is_playtime_private": false,
+            "last_checked": 1763692728220
+          }
+        }
+      ],
+      "giveaways_created": [
+        {
+          "name": "Die in the Dungeon",
+          "link": "KFsqK/die-in-the-dungeon",
+          "cv_status": "FULL_CV",
+          "entries": 19,
+          "copies": 1,
+          "created_timestamp": 1756372469,
+          "end_timestamp": 1756578600,
+          "required_play": false,
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "SteamKeyGiveaway",
+              "status": "received",
+              "activated": true
+            }
+          ]
+        },
+        {
+          "name": "Across the Obelisk",
+          "link": "wzYYN/across-the-obelisk",
+          "cv_status": "FULL_CV",
+          "entries": 7,
+          "copies": 1,
+          "created_timestamp": 1753817633,
+          "end_timestamp": 1754163900,
+          "required_play": false,
+          "is_shared": false,
+          "i_played_bro": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "GeekDoesStuff",
+              "status": "received",
+              "activated": true
+            }
+          ]
+        },
+        {
+          "name": "The Dark Pictures Anthology: The Devi...",
+          "link": "7WfGd/the-dark-pictures-anthology-the-devil-in-me",
+          "cv_status": "FULL_CV",
+          "entries": 11,
+          "copies": 1,
+          "created_timestamp": 1753525414,
+          "end_timestamp": 1753813800,
+          "required_play": false,
+          "is_shared": false,
+          "i_played_bro": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "LieEater",
+              "status": "received",
+              "activated": true
+            }
+          ]
+        },
+        {
+          "name": "Lost Ruins",
+          "link": "tNnhb/lost-ruins",
+          "cv_status": "REDUCED_CV",
+          "entries": 12,
+          "copies": 1,
+          "created_timestamp": 1752317389,
+          "end_timestamp": 1752862500,
+          "required_play": false,
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "Dandellion",
+              "status": "received",
+              "activated": true
+            }
+          ]
+        }
+      ],
+      "left_at_timestamp": 1763715457387
     }
   ]
 }
