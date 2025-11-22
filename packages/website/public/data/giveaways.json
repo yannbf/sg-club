@@ -1,43 +1,6 @@
 {
-  "last_updated": "2025-11-22T02:16:45.118Z",
+  "last_updated": "2025-11-22T08:50:45.665Z",
   "giveaways": [
-    {
-      "id": "EXlKv",
-      "name": "Another Crab's Treasure",
-      "points": 30,
-      "copies": 1,
-      "app_id": 1887840,
-      "package_id": null,
-      "link": "EXlKv/another-crabs-treasure",
-      "created_timestamp": 1763518117,
-      "start_timestamp": 1763518117,
-      "end_timestamp": 1763780820,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 35,
-      "creator": "Jztr",
-      "is_shared": true,
-      "cv_status": "REDUCED_CV"
-    },
-    {
-      "id": "tkd6Q",
-      "name": "We should talk.",
-      "points": 7,
-      "copies": 1,
-      "app_id": 1255990,
-      "package_id": null,
-      "link": "tkd6Q/we-should-talk",
-      "created_timestamp": 1763180953,
-      "start_timestamp": 1763180953,
-      "end_timestamp": 1763784000,
-      "whitelist": true,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 116,
-      "creator": "lockcjwen",
-      "is_shared": true,
-      "cv_status": "REDUCED_CV"
-    },
     {
       "id": "Neds2",
       "name": "Whisper of the House",
@@ -107,7 +70,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 24,
-      "entry_count": 120,
+      "entry_count": 122,
       "creator": "gus09",
       "is_shared": true,
       "cv_status": "FULL_CV"
@@ -126,8 +89,8 @@
       "region_restricted": true,
       "whitelist": true,
       "group": true,
-      "comment_count": 26,
-      "entry_count": 110,
+      "comment_count": 27,
+      "entry_count": 112,
       "creator": "Dobke",
       "is_shared": true,
       "cv_status": "FULL_CV"
@@ -251,7 +214,7 @@
       "end_timestamp": 1763946720,
       "group": true,
       "comment_count": 0,
-      "entry_count": 2,
+      "entry_count": 7,
       "creator": "Patxxv",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -322,7 +285,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 6,
+      "entry_count": 10,
       "creator": "PoeticKatana",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -391,7 +354,7 @@
       "end_timestamp": 1764174300,
       "group": true,
       "comment_count": 0,
-      "entry_count": 2,
+      "entry_count": 3,
       "creator": "NateSCC",
       "required_play": true,
       "cv_status": "FULL_CV"
@@ -463,7 +426,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 20,
-      "entry_count": 83,
+      "entry_count": 84,
       "creator": "Dobke",
       "is_shared": true,
       "cv_status": "FULL_CV"
@@ -482,7 +445,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 18,
-      "entry_count": 128,
+      "entry_count": 129,
       "creator": "Dobke",
       "is_shared": true,
       "cv_status": "FULL_CV"
@@ -590,6 +553,59 @@
       "entry_count": 0,
       "creator": "Cloverleaf",
       "cv_status": "FULL_CV"
+    },
+    {
+      "id": "tkd6Q",
+      "name": "We should talk.",
+      "points": 7,
+      "copies": 1,
+      "app_id": 1255990,
+      "package_id": null,
+      "link": "tkd6Q/we-should-talk",
+      "created_timestamp": 1763180953,
+      "start_timestamp": 1763180953,
+      "end_timestamp": 1763784000,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 118,
+      "creator": "lockcjwen",
+      "is_shared": true,
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "REDUCED_CV",
+      "deleted": false
+    },
+    {
+      "id": "EXlKv",
+      "name": "Another Crab's Treasure",
+      "points": 30,
+      "copies": 1,
+      "app_id": 1887840,
+      "package_id": null,
+      "link": "EXlKv/another-crabs-treasure",
+      "created_timestamp": 1763518117,
+      "start_timestamp": 1763518117,
+      "end_timestamp": 1763780820,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 35,
+      "creator": "Jztr",
+      "is_shared": true,
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "REDUCED_CV",
+      "deleted": false
     },
     {
       "id": "m3Gef",
@@ -775,22 +791,17 @@
       "start_timestamp": 1763365429,
       "end_timestamp": 1763762400,
       "group": true,
-      "comment_count": 0,
+      "comment_count": 2,
       "entry_count": 1,
       "creator": "mourinhos86",
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
-        },
-        {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "QuinlanLJ",
+          "status": "received"
         }
       ],
-      "cv_status": "FULL_CV",
-      "deleted": false
+      "cv_status": "FULL_CV"
     },
     {
       "id": "6jrJZ",
@@ -1083,7 +1094,7 @@
       "start_timestamp": 1762978735,
       "end_timestamp": 1763586840,
       "group": true,
-      "comment_count": 0,
+      "comment_count": 1,
       "entry_count": 69,
       "creator": "Jztr",
       "required_play": true,
@@ -1091,12 +1102,11 @@
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "droha",
+          "status": "received"
         }
       ],
-      "cv_status": "REDUCED_CV",
-      "deleted": false
+      "cv_status": "REDUCED_CV"
     },
     {
       "id": "muxNG",
@@ -8885,7 +8895,7 @@
     {
       "id": "CRTyZ",
       "name": "Resident Evil Village",
-      "points": 40,
+      "points": 50,
       "copies": 1,
       "app_id": 1196590,
       "package_id": null,
@@ -9063,7 +9073,7 @@
     {
       "id": "PwHLJ",
       "name": "Resident Evil Village",
-      "points": 40,
+      "points": 50,
       "copies": 1,
       "app_id": 1196590,
       "package_id": null,
