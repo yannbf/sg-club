@@ -1,24 +1,6 @@
 {
-  "last_updated": "2025-11-24T02:27:24.858Z",
+  "last_updated": "2025-11-24T08:55:21.437Z",
   "giveaways": [
-    {
-      "id": "H3cnY",
-      "name": "Spacelines from the Far Out",
-      "points": 15,
-      "copies": 1,
-      "app_id": 1412850,
-      "package_id": null,
-      "link": "H3cnY/spacelines-from-the-far-out",
-      "created_timestamp": 1763730076,
-      "start_timestamp": 1763730076,
-      "end_timestamp": 1763951400,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 1,
-      "creator": "Tsukurai",
-      "event_type": "november_event",
-      "cv_status": "FULL_CV"
-    },
     {
       "id": "ncfMh",
       "name": "QV",
@@ -67,7 +49,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 15,
+      "entry_count": 16,
       "creator": "PoeticKatana",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -205,7 +187,7 @@
       "end_timestamp": 1764270000,
       "group": true,
       "comment_count": 0,
-      "entry_count": 12,
+      "entry_count": 13,
       "creator": "Tucs",
       "cv_status": "FULL_CV"
     },
@@ -260,8 +242,8 @@
       "end_timestamp": 1764346860,
       "whitelist": true,
       "group": true,
-      "comment_count": 0,
-      "entry_count": 21,
+      "comment_count": 1,
+      "entry_count": 33,
       "creator": "NateSCC",
       "required_play": true,
       "is_shared": true,
@@ -337,7 +319,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 20,
+      "entry_count": 21,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -372,7 +354,7 @@
       "end_timestamp": 1764450000,
       "group": true,
       "comment_count": 0,
-      "entry_count": 0,
+      "entry_count": 1,
       "creator": "Shughes91",
       "is_shared": true,
       "cv_status": "FULL_CV"
@@ -463,7 +445,7 @@
       "region_restricted": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 2,
+      "entry_count": 3,
       "creator": "Shughes91",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -503,6 +485,31 @@
       "cv_status": "FULL_CV"
     },
     {
+      "id": "H3cnY",
+      "name": "Spacelines from the Far Out",
+      "points": 15,
+      "copies": 1,
+      "app_id": 1412850,
+      "package_id": null,
+      "link": "H3cnY/spacelines-from-the-far-out",
+      "created_timestamp": 1763730076,
+      "start_timestamp": 1763730076,
+      "end_timestamp": 1763951400,
+      "group": true,
+      "comment_count": 1,
+      "entry_count": 1,
+      "creator": "Tsukurai",
+      "event_type": "november_event",
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": "Patxxv",
+          "status": "received"
+        }
+      ],
+      "cv_status": "FULL_CV"
+    },
+    {
       "id": "91IRH",
       "name": "System Shock",
       "points": 40,
@@ -514,7 +521,7 @@
       "start_timestamp": 1763770382,
       "end_timestamp": 1763946720,
       "group": true,
-      "comment_count": 0,
+      "comment_count": 4,
       "entry_count": 14,
       "creator": "Patxxv",
       "is_shared": true,
@@ -6698,7 +6705,7 @@
           "status": "received"
         }
       ],
-      "cv_status": "FULL_CV"
+      "cv_status": "REDUCED_CV"
     },
     {
       "id": "yeNAJ",
