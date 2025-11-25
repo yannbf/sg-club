@@ -1,59 +1,6 @@
 {
-  "last_updated": "2025-11-24T08:55:21.437Z",
+  "last_updated": "2025-11-25T02:20:47.539Z",
   "giveaways": [
-    {
-      "id": "ncfMh",
-      "name": "QV",
-      "points": 15,
-      "copies": 1,
-      "app_id": 1494110,
-      "package_id": null,
-      "link": "ncfMh/qv",
-      "created_timestamp": 1763714039,
-      "start_timestamp": 1763714039,
-      "end_timestamp": 1763976780,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 3,
-      "creator": "karm2002",
-      "cv_status": "FULL_CV"
-    },
-    {
-      "id": "k5Jmo",
-      "name": "GUILTY GEAR",
-      "points": 10,
-      "copies": 1,
-      "app_id": 850980,
-      "package_id": null,
-      "link": "k5Jmo/guilty-gear",
-      "created_timestamp": 1763752073,
-      "start_timestamp": 1763752073,
-      "end_timestamp": 1764010740,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 1,
-      "creator": "rufioh",
-      "cv_status": "FULL_CV"
-    },
-    {
-      "id": "kl748",
-      "name": "Let's School",
-      "points": 20,
-      "copies": 1,
-      "app_id": 1937500,
-      "package_id": null,
-      "link": "kl748/lets-school",
-      "created_timestamp": 1763762461,
-      "start_timestamp": 1763762461,
-      "end_timestamp": 1764021660,
-      "whitelist": true,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 16,
-      "creator": "PoeticKatana",
-      "is_shared": true,
-      "cv_status": "REDUCED_CV"
-    },
     {
       "id": "kmqby",
       "name": "River City Girls 2",
@@ -67,7 +14,7 @@
       "end_timestamp": 1764100740,
       "group": true,
       "comment_count": 0,
-      "entry_count": 4,
+      "entry_count": 5,
       "creator": "rufioh",
       "cv_status": "FULL_CV"
     },
@@ -84,7 +31,7 @@
       "end_timestamp": 1764114600,
       "group": true,
       "comment_count": 1,
-      "entry_count": 12,
+      "entry_count": 11,
       "creator": "Markox21",
       "cv_status": "FULL_CV"
     },
@@ -152,9 +99,12 @@
       "start_timestamp": 1763801450,
       "end_timestamp": 1764266400,
       "group": true,
-      "comment_count": 0,
-      "entry_count": 1,
+      "comment_count": 1,
+      "entry_count": 2,
       "creator": "Tucs",
+      "decreased_ratio_info": {
+        "notes": "Freebie from AWA"
+      },
       "cv_status": "FULL_CV"
     },
     {
@@ -186,9 +136,12 @@
       "start_timestamp": 1763801811,
       "end_timestamp": 1764270000,
       "group": true,
-      "comment_count": 0,
-      "entry_count": 13,
+      "comment_count": 1,
+      "entry_count": 16,
       "creator": "Tucs",
+      "decreased_ratio_info": {
+        "notes": "Freebie from AWA"
+      },
       "cv_status": "FULL_CV"
     },
     {
@@ -205,7 +158,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 2,
-      "entry_count": 22,
+      "entry_count": 25,
       "creator": "Grogglz",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -224,7 +177,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 1,
-      "entry_count": 23,
+      "entry_count": 25,
       "creator": "Carenard",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -242,8 +195,8 @@
       "end_timestamp": 1764346860,
       "whitelist": true,
       "group": true,
-      "comment_count": 1,
-      "entry_count": 33,
+      "comment_count": 2,
+      "entry_count": 44,
       "creator": "NateSCC",
       "required_play": true,
       "is_shared": true,
@@ -263,7 +216,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 20,
-      "entry_count": 87,
+      "entry_count": 90,
       "creator": "Dobke",
       "is_shared": true,
       "cv_status": "FULL_CV"
@@ -281,8 +234,8 @@
       "end_timestamp": 1764370800,
       "whitelist": true,
       "group": true,
-      "comment_count": 18,
-      "entry_count": 138,
+      "comment_count": 19,
+      "entry_count": 142,
       "creator": "Dobke",
       "is_shared": true,
       "cv_status": "FULL_CV"
@@ -319,10 +272,29 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 21,
+      "entry_count": 26,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
+    },
+    {
+      "id": "usZTD",
+      "name": "UNCHARTED: Legacy of Thieves Collection",
+      "points": 50,
+      "copies": 1,
+      "app_id": 1659420,
+      "package_id": null,
+      "link": "usZTD/uncharted-legacy-of-thieves-collection",
+      "created_timestamp": 1764022660,
+      "start_timestamp": 1764022660,
+      "end_timestamp": 1764432840,
+      "region_restricted": true,
+      "group": true,
+      "comment_count": 1,
+      "entry_count": 11,
+      "creator": "NateSCC",
+      "required_play": true,
+      "cv_status": "FULL_CV"
     },
     {
       "id": "IUIh6",
@@ -342,6 +314,24 @@
       "cv_status": "FULL_CV"
     },
     {
+      "id": "MLaOF",
+      "name": "Flotsam",
+      "points": 25,
+      "copies": 1,
+      "app_id": 821250,
+      "package_id": null,
+      "link": "MLaOF/flotsam",
+      "created_timestamp": 1764011502,
+      "start_timestamp": 1764011502,
+      "end_timestamp": 1764446880,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 3,
+      "creator": "VinroyIsViral",
+      "required_play": true,
+      "cv_status": "FULL_CV"
+    },
+    {
       "id": "ENK7U",
       "name": "GRAPPIN",
       "points": 13,
@@ -354,7 +344,7 @@
       "end_timestamp": 1764450000,
       "group": true,
       "comment_count": 0,
-      "entry_count": 1,
+      "entry_count": 3,
       "creator": "Shughes91",
       "is_shared": true,
       "cv_status": "FULL_CV"
@@ -392,7 +382,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 29,
+      "entry_count": 38,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -445,7 +435,7 @@
       "region_restricted": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 3,
+      "entry_count": 4,
       "creator": "Shughes91",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -482,6 +472,82 @@
       "comment_count": 0,
       "entry_count": 0,
       "creator": "Cloverleaf",
+      "cv_status": "FULL_CV"
+    },
+    {
+      "id": "kl748",
+      "name": "Let's School",
+      "points": 20,
+      "copies": 1,
+      "app_id": 1937500,
+      "package_id": null,
+      "link": "kl748/lets-school",
+      "created_timestamp": 1763762461,
+      "start_timestamp": 1763762461,
+      "end_timestamp": 1764021660,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 19,
+      "creator": "PoeticKatana",
+      "is_shared": true,
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "REDUCED_CV",
+      "deleted": false
+    },
+    {
+      "id": "k5Jmo",
+      "name": "GUILTY GEAR",
+      "points": 10,
+      "copies": 1,
+      "app_id": 850980,
+      "package_id": null,
+      "link": "k5Jmo/guilty-gear",
+      "created_timestamp": 1763752073,
+      "start_timestamp": 1763752073,
+      "end_timestamp": 1764010740,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 1,
+      "creator": "rufioh",
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "FULL_CV",
+      "deleted": false
+    },
+    {
+      "id": "ncfMh",
+      "name": "QV",
+      "points": 15,
+      "copies": 1,
+      "app_id": 1494110,
+      "package_id": null,
+      "link": "ncfMh/qv",
+      "created_timestamp": 1763714039,
+      "start_timestamp": 1763714039,
+      "end_timestamp": 1763976780,
+      "group": true,
+      "comment_count": 1,
+      "entry_count": 3,
+      "creator": "karm2002",
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": "Patxxv",
+          "status": "received"
+        }
+      ],
       "cv_status": "FULL_CV"
     },
     {
@@ -533,7 +599,8 @@
         }
       ],
       "cv_status": "REDUCED_CV",
-      "deleted": false
+      "deleted": true,
+      "deleted_reason": "Region Restricted Gift"
     },
     {
       "id": "N8wY7",
@@ -705,7 +772,7 @@
       "end_timestamp": 1763834520,
       "whitelist": true,
       "group": true,
-      "comment_count": 33,
+      "comment_count": 34,
       "entry_count": 127,
       "creator": "gus09",
       "is_shared": true,
@@ -5409,7 +5476,7 @@
       "end_timestamp": 1761505200,
       "region_restricted": true,
       "group": true,
-      "comment_count": 7,
+      "comment_count": 9,
       "entry_count": 13,
       "creator": "jaaydee",
       "required_play": true,
@@ -17968,7 +18035,7 @@
         }
       ],
       "decreased_ratio_info": {
-        "notes": "Very high quality freebie from AWA"
+        "notes": "High quality freebie from AWA"
       },
       "cv_status": "FULL_CV"
     },
