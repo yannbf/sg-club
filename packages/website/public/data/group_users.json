@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1764038766963,
+  "lastUpdated": 1764061065232,
   "users": {
     "0ksID": {
       "username": "0ksID",
@@ -7060,7 +7060,7 @@
           "name": "Wavetale",
           "link": "lrqfE/wavetale",
           "cv_status": "REDUCED_CV",
-          "entries": 25,
+          "entries": 26,
           "copies": 1,
           "created_timestamp": 1763276474,
           "end_timestamp": 1764309540,
@@ -15175,7 +15175,7 @@
           "name": "Dispatch",
           "link": "Ps8hu/dispatch",
           "cv_status": "FULL_CV",
-          "entries": 142,
+          "entries": 141,
           "copies": 1,
           "created_timestamp": 1763482299,
           "end_timestamp": 1764370800,
@@ -15466,9 +15466,9 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1754507192,
         "last_giveaway_won_at": 1756660620,
-        "total_achievements_percentage": 15,
+        "total_achievements_percentage": 16,
         "average_achievements_percentage": 22,
-        "real_total_achievements_percentage": 15,
+        "real_total_achievements_percentage": 16,
         "real_average_achievements_percentage": 22,
         "has_missing_achievements_data": true
       },
@@ -29043,7 +29043,7 @@
     "Jztr": {
       "username": "Jztr",
       "profile_url": "/user/Jztr",
-      "avatar_url": "https://avatars.steamstatic.com/5ad9da4eea7585f73ae9be2f99bdd4de6ce56ad0_medium.jpg",
+      "avatar_url": "https://avatars.steamstatic.com/34adcd2a2c63e40ce323f872f4781ef5ee322413_medium.jpg",
       "stats": {
         "total_sent_count": 8,
         "total_sent_value": 185.67,
@@ -39261,10 +39261,10 @@
         "giveaways_with_no_entries": 8,
         "last_giveaway_created_at": 1762901658,
         "last_giveaway_won_at": 1763780820,
-        "total_achievements_percentage": 50,
-        "average_achievements_percentage": 53,
+        "total_achievements_percentage": 51,
+        "average_achievements_percentage": 54,
         "real_total_achievements_percentage": 56,
-        "real_average_achievements_percentage": 67,
+        "real_average_achievements_percentage": 68,
         "has_missing_achievements_data": true
       },
       "steam_id": "76561198069420656",
@@ -39995,6 +39995,9 @@
             }
           ]
         }
+      ],
+      "warnings": [
+        "required_plays_need_review"
       ]
     },
     "MikeWithAnI": {
@@ -42647,7 +42650,7 @@
           "name": "Selfloss",
           "link": "mYaNz/selfloss",
           "cv_status": "FULL_CV",
-          "entries": 44,
+          "entries": 45,
           "copies": 1,
           "created_timestamp": 1763933083,
           "end_timestamp": 1764346860,
@@ -42658,7 +42661,7 @@
           "name": "UNCHARTED: Legacy of Thieves Collection",
           "link": "usZTD/uncharted-legacy-of-thieves-collection",
           "cv_status": "FULL_CV",
-          "entries": 11,
+          "entries": 18,
           "copies": 1,
           "created_timestamp": 1764022660,
           "end_timestamp": 1764432840,
@@ -45058,6 +45061,89 @@
         "required_play_deadline_within_15_days"
       ]
     },
+    "olehsamoilenko": {
+      "username": "olehsamoilenko",
+      "profile_url": "/user/olehsamoilenko",
+      "avatar_url": "https://avatars.steamstatic.com/cba46dfdf5d89a1ef0e78da7ecac1220fb39749e_medium.jpg",
+      "stats": {
+        "total_sent_count": 2,
+        "total_sent_value": 14.98,
+        "total_received_count": 0,
+        "total_received_value": 0,
+        "total_gift_difference": 2,
+        "total_value_difference": 14.98,
+        "fcv_sent_count": 0.15,
+        "rcv_sent_count": 1,
+        "ncv_sent_count": 0,
+        "fcv_received_count": 0,
+        "rcv_received_count": 0,
+        "ncv_received_count": 0,
+        "fcv_gift_difference": 0,
+        "real_total_sent_value": 2.25,
+        "real_total_received_value": 0,
+        "real_total_value_difference": 2.25,
+        "real_total_sent_count": 0.15,
+        "real_total_received_count": 0,
+        "real_total_gift_difference": 0.15,
+        "giveaway_ratio": 0,
+        "shared_sent_count": 0,
+        "shared_received_count": 0,
+        "giveaways_created": 2,
+        "giveaways_with_no_entries": 0,
+        "last_giveaway_created_at": 1755699966,
+        "last_giveaway_won_at": null
+      },
+      "steam_id": "76561198128560029",
+      "steam_profile_url": "https://steamcommunity.com/profiles/76561198128560029",
+      "country_code": "ua",
+      "giveaways_created": [
+        {
+          "name": "BROKEN LIFE",
+          "link": "CavwK/broken-life",
+          "cv_status": "FULL_CV",
+          "entries": 1,
+          "copies": 1,
+          "created_timestamp": 1755699966,
+          "end_timestamp": 1756069140,
+          "required_play": true,
+          "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2,
+            "additional_notes": "Game seems to be roughly 1hr long, no achievements, no HLTB"
+          },
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "SteamKeyGiveaway",
+              "status": "received",
+              "activated": true
+            }
+          ]
+        },
+        {
+          "name": "Piczle Cross Adventure",
+          "link": "19ilt/piczle-cross-adventure",
+          "cv_status": "REDUCED_CV",
+          "entries": 11,
+          "copies": 1,
+          "created_timestamp": 1749717922,
+          "end_timestamp": 1750193940,
+          "required_play": false,
+          "is_shared": false,
+          "i_played_bro": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "Yamaraus",
+              "status": "received",
+              "activated": true
+            }
+          ]
+        }
+      ]
+    },
     "OlOAyCT": {
       "username": "OlOAyCT",
       "profile_url": "/user/OlOAyCT",
@@ -45089,9 +45175,9 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1759235576,
         "last_giveaway_won_at": 1754827200,
-        "total_achievements_percentage": 73,
+        "total_achievements_percentage": 74,
         "average_achievements_percentage": 67,
-        "real_total_achievements_percentage": 73,
+        "real_total_achievements_percentage": 74,
         "real_average_achievements_percentage": 67,
         "has_missing_achievements_data": false
       },
@@ -46409,9 +46495,9 @@
         "giveaways_with_no_entries": 1,
         "last_giveaway_created_at": 1763947569,
         "last_giveaway_won_at": 1763976780,
-        "total_achievements_percentage": 20,
-        "average_achievements_percentage": 15,
-        "real_total_achievements_percentage": 17,
+        "total_achievements_percentage": 18,
+        "average_achievements_percentage": 14,
+        "real_total_achievements_percentage": 15,
         "real_average_achievements_percentage": 10,
         "has_missing_achievements_data": true
       },
@@ -49316,12 +49402,12 @@
       "profile_url": "/user/PoeticKatana",
       "avatar_url": "https://avatars.steamstatic.com/804f83af0dffba09bd955d1079cb022bba969313_medium.jpg",
       "stats": {
-        "total_sent_count": 23.2,
-        "total_sent_value": 526.52,
+        "total_sent_count": 23.6,
+        "total_sent_value": 533.18,
         "total_received_count": 19,
         "total_received_value": 406.31,
-        "total_gift_difference": 4.2,
-        "total_value_difference": 120.21,
+        "total_gift_difference": 4.6,
+        "total_value_difference": 126.87,
         "fcv_sent_count": 20,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
@@ -49336,7 +49422,7 @@
         "real_total_received_count": 19,
         "real_total_gift_difference": 1,
         "giveaway_ratio": 19.33,
-        "shared_sent_count": 10,
+        "shared_sent_count": 11,
         "shared_received_count": 0,
         "giveaways_created": 31,
         "giveaways_with_no_entries": 0,
@@ -49775,9 +49861,9 @@
           "had_winners": true,
           "winners": [
             {
-              "name": null,
-              "status": "awaiting_feedback",
-              "activated": false
+              "name": "Huntress7",
+              "status": "received",
+              "activated": true
             }
           ]
         },
@@ -54514,9 +54600,9 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1761696461,
         "last_giveaway_won_at": 1763364600,
-        "total_achievements_percentage": 41,
+        "total_achievements_percentage": 42,
         "average_achievements_percentage": 49,
-        "real_total_achievements_percentage": 38,
+        "real_total_achievements_percentage": 39,
         "real_average_achievements_percentage": 45,
         "has_missing_achievements_data": false
       },
@@ -56592,8 +56678,8 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1762016132,
         "last_giveaway_won_at": 1763834520,
-        "total_achievements_percentage": 53,
-        "average_achievements_percentage": 56,
+        "total_achievements_percentage": 56,
+        "average_achievements_percentage": 58,
         "real_total_achievements_percentage": 69,
         "real_average_achievements_percentage": 67,
         "has_missing_achievements_data": false
