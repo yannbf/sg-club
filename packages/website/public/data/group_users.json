@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1764321464267,
+  "lastUpdated": 1764382709974,
   "users": {
     "0ksID": {
       "username": "0ksID",
@@ -1333,9 +1333,9 @@
         "giveaway_ratio": 2,
         "shared_sent_count": 0,
         "shared_received_count": 1,
-        "giveaways_created": 2,
+        "giveaways_created": 3,
         "giveaways_with_no_entries": 0,
-        "last_giveaway_created_at": 1762200704,
+        "last_giveaway_created_at": 1764327615,
         "last_giveaway_won_at": 1752969600,
         "total_achievements_percentage": 0,
         "average_achievements_percentage": 0,
@@ -1369,6 +1369,17 @@
         }
       ],
       "giveaways_created": [
+        {
+          "name": "Muse Dash",
+          "link": "plvQn/muse-dash",
+          "cv_status": "FULL_CV",
+          "entries": 0,
+          "copies": 1,
+          "created_timestamp": 1764327615,
+          "end_timestamp": 1765022040,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "蜀汉再临：源起 Restart ShuHan Dynasty:Origin",
           "link": "cYjyb/shu-han-zai-lin-yuan-qi-restart-shuhan-dynastyorigin",
@@ -2452,10 +2463,10 @@
         "giveaways_with_no_entries": 1,
         "last_giveaway_created_at": 1761701723,
         "last_giveaway_won_at": 1763223300,
-        "total_achievements_percentage": 46,
-        "average_achievements_percentage": 66,
-        "real_total_achievements_percentage": 46,
-        "real_average_achievements_percentage": 66,
+        "total_achievements_percentage": 47,
+        "average_achievements_percentage": 67,
+        "real_total_achievements_percentage": 47,
+        "real_average_achievements_percentage": 67,
         "has_missing_achievements_data": false
       },
       "steam_id": "76561199036747433",
@@ -3783,7 +3794,7 @@
           "name": "ORDER 13",
           "link": "Nk4AL/order-13",
           "cv_status": "FULL_CV",
-          "entries": 0,
+          "entries": 1,
           "copies": 1,
           "created_timestamp": 1764316112,
           "end_timestamp": 1764903600,
@@ -3794,7 +3805,7 @@
           "name": "Adios",
           "link": "HBx41/adios",
           "cv_status": "FULL_CV",
-          "entries": 0,
+          "entries": 1,
           "copies": 1,
           "created_timestamp": 1764316204,
           "end_timestamp": 1764906540,
@@ -3816,7 +3827,7 @@
           "name": "Mouthwashing",
           "link": "A46OL/mouthwashing",
           "cv_status": "FULL_CV",
-          "entries": 0,
+          "entries": 4,
           "copies": 1,
           "created_timestamp": 1764316347,
           "end_timestamp": 1764906660,
@@ -6829,12 +6840,12 @@
       "profile_url": "/user/Carenard",
       "avatar_url": "https://avatars.steamstatic.com/a2a84528e05d23bb5103c1c4684882e70603c39e_medium.jpg",
       "stats": {
-        "total_sent_count": 13.8,
-        "total_sent_value": 406.28,
+        "total_sent_count": 14.1,
+        "total_sent_value": 413.77,
         "total_received_count": 11,
         "total_received_value": 207.89,
-        "total_gift_difference": 2.8,
-        "total_value_difference": 198.39,
+        "total_gift_difference": 3.1,
+        "total_value_difference": 205.88,
         "fcv_sent_count": 11,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
@@ -6849,7 +6860,7 @@
         "real_total_received_count": 11,
         "real_total_gift_difference": 0,
         "giveaway_ratio": 10.33,
-        "shared_sent_count": 14,
+        "shared_sent_count": 15,
         "shared_received_count": 0,
         "giveaways_created": 24,
         "giveaways_with_no_entries": 0,
@@ -7127,9 +7138,9 @@
           "had_winners": true,
           "winners": [
             {
-              "name": null,
-              "status": "awaiting_feedback",
-              "activated": false
+              "name": "vot4ol",
+              "status": "received",
+              "activated": true
             }
           ]
         },
@@ -13023,7 +13034,7 @@
           "name": "Poly Bridge 3",
           "link": "XTxpb/poly-bridge-3",
           "cv_status": "FULL_CV",
-          "entries": 8,
+          "entries": 9,
           "copies": 1,
           "created_timestamp": 1764115492,
           "end_timestamp": 1764463380,
@@ -15242,23 +15253,39 @@
           "name": "BALL x PIT",
           "link": "tWNY2/ball-x-pit",
           "cv_status": "FULL_CV",
-          "entries": 97,
+          "entries": 102,
           "copies": 1,
           "created_timestamp": 1763482341,
           "end_timestamp": 1764370800,
           "required_play": false,
-          "is_shared": true
+          "is_shared": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "Dispatch",
           "link": "Ps8hu/dispatch",
           "cv_status": "FULL_CV",
-          "entries": 153,
+          "entries": 156,
           "copies": 1,
           "created_timestamp": 1763482299,
           "end_timestamp": 1764370800,
           "required_play": false,
-          "is_shared": true
+          "is_shared": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "Resident Evil Requiem",
@@ -19873,9 +19900,9 @@
         "last_giveaway_created_at": 1760064390,
         "last_giveaway_won_at": 1764266400,
         "total_achievements_percentage": 9,
-        "average_achievements_percentage": 10,
+        "average_achievements_percentage": 9,
         "real_total_achievements_percentage": 8,
-        "real_average_achievements_percentage": 9,
+        "real_average_achievements_percentage": 8,
         "has_missing_achievements_data": false
       },
       "steam_id": "76561198056789339",
@@ -21864,12 +21891,12 @@
       "profile_url": "/user/Grogglz",
       "avatar_url": "https://avatars.steamstatic.com/25360541b839787da2814461fbc7a3365e3e67a5_medium.jpg",
       "stats": {
-        "total_sent_count": 6.3,
-        "total_sent_value": 94.77,
+        "total_sent_count": 7.3,
+        "total_sent_value": 104.76,
         "total_received_count": 5,
         "total_received_value": 61.95,
-        "total_gift_difference": 1.3,
-        "total_value_difference": 32.82,
+        "total_gift_difference": 2.3,
+        "total_value_difference": 42.81,
         "fcv_sent_count": 4,
         "rcv_sent_count": 1,
         "ncv_sent_count": 0,
@@ -21884,7 +21911,7 @@
         "real_total_received_count": 4,
         "real_total_gift_difference": 0,
         "giveaway_ratio": 3,
-        "shared_sent_count": 5,
+        "shared_sent_count": 7,
         "shared_received_count": 0,
         "giveaways_created": 11,
         "giveaways_with_no_entries": 1,
@@ -22019,7 +22046,17 @@
           "had_winners": true,
           "winners": [
             {
+              "name": "Afterlife120",
+              "status": "received",
+              "activated": true
+            },
+            {
               "name": "Octorocket",
+              "status": "received",
+              "activated": true
+            },
+            {
+              "name": "pivotalHarry",
               "status": "received",
               "activated": true
             }
@@ -29173,9 +29210,9 @@
         "giveaway_ratio": 5.33,
         "shared_sent_count": 7,
         "shared_received_count": 0,
-        "giveaways_created": 17,
+        "giveaways_created": 19,
         "giveaways_with_no_entries": 2,
-        "last_giveaway_created_at": 1764318952,
+        "last_giveaway_created_at": 1764319313,
         "last_giveaway_won_at": 1762434000,
         "total_achievements_percentage": 40,
         "average_achievements_percentage": 41,
@@ -29244,10 +29281,32 @@
           "name": "Afterimage",
           "link": "LUVLh/afterimage",
           "cv_status": "REDUCED_CV",
-          "entries": 0,
+          "entries": 3,
           "copies": 1,
           "created_timestamp": 1764318952,
           "end_timestamp": 1764927240,
+          "required_play": false,
+          "is_shared": true
+        },
+        {
+          "name": "Onimusha: Warlords",
+          "link": "ucrAs/onimusha-warlords",
+          "cv_status": "FULL_CV",
+          "entries": 11,
+          "copies": 1,
+          "created_timestamp": 1764319313,
+          "end_timestamp": 1764927600,
+          "required_play": false,
+          "is_shared": false
+        },
+        {
+          "name": "Okami HD",
+          "link": "47of7/okami-hd",
+          "cv_status": "REDUCED_CV",
+          "entries": 18,
+          "copies": 1,
+          "created_timestamp": 1764319195,
+          "end_timestamp": 1765013940,
           "required_play": false,
           "is_shared": true
         },
@@ -34917,9 +34976,9 @@
         "giveaway_ratio": 17.67,
         "shared_sent_count": 3,
         "shared_received_count": 1,
-        "giveaways_created": 31,
+        "giveaways_created": 32,
         "giveaways_with_no_entries": 3,
-        "last_giveaway_created_at": 1764182941,
+        "last_giveaway_created_at": 1764344091,
         "last_giveaway_won_at": 1761638400,
         "total_achievements_percentage": 13,
         "average_achievements_percentage": 18,
@@ -35402,6 +35461,17 @@
           "end_timestamp": 1764447240,
           "required_play": false,
           "is_shared": false
+        },
+        {
+          "name": "Defend The Highlands",
+          "link": "vKtwp/defend-the-highlands",
+          "cv_status": "NO_CV",
+          "entries": 13,
+          "copies": 1,
+          "created_timestamp": 1764344091,
+          "end_timestamp": 1764620040,
+          "required_play": false,
+          "is_shared": true
         },
         {
           "name": "Dryft City Kyngs",
@@ -42780,26 +42850,34 @@
       ],
       "giveaways_created": [
         {
-          "name": "Selfloss",
-          "link": "mYaNz/selfloss",
-          "cv_status": "FULL_CV",
-          "entries": 67,
-          "copies": 1,
-          "created_timestamp": 1763933083,
-          "end_timestamp": 1764346860,
-          "required_play": true,
-          "is_shared": true
-        },
-        {
           "name": "UNCHARTED: Legacy of Thieves Collection",
           "link": "usZTD/uncharted-legacy-of-thieves-collection",
           "cv_status": "FULL_CV",
-          "entries": 27,
+          "entries": 29,
           "copies": 1,
           "created_timestamp": 1764022660,
           "end_timestamp": 1764432840,
           "required_play": true,
           "is_shared": false
+        },
+        {
+          "name": "Selfloss",
+          "link": "mYaNz/selfloss",
+          "cv_status": "FULL_CV",
+          "entries": 74,
+          "copies": 1,
+          "created_timestamp": 1763933083,
+          "end_timestamp": 1764346860,
+          "required_play": true,
+          "is_shared": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "Selfloss",
@@ -43397,6 +43475,9 @@
             }
           ]
         }
+      ],
+      "warnings": [
+        "required_play_deadline_within_15_days"
       ]
     },
     "Noodles91": {
@@ -47207,7 +47288,7 @@
           "name": "The Dark Eye: Chains of Satinav",
           "link": "bA2w5/the-dark-eye-chains-of-satinav",
           "cv_status": "REDUCED_CV",
-          "entries": 2,
+          "entries": 4,
           "copies": 1,
           "created_timestamp": 1763947569,
           "end_timestamp": 1764383100,
@@ -47218,7 +47299,7 @@
           "name": "METAL GEAR SOLID Δ: SNAKE EATER",
           "link": "S8w6N/metal-gear-solid-d-snake-eater",
           "cv_status": "FULL_CV",
-          "entries": 40,
+          "entries": 42,
           "copies": 1,
           "created_timestamp": 1764147948,
           "end_timestamp": 1765271040,
@@ -57051,7 +57132,7 @@
           "name": "Stray",
           "link": "cBe7N/stray",
           "cv_status": "FULL_CV",
-          "entries": 93,
+          "entries": 103,
           "copies": 1,
           "created_timestamp": 1764162852,
           "end_timestamp": 1764482400,
@@ -58644,7 +58725,7 @@
           "name": "GRAPPIN",
           "link": "ENK7U/grappin",
           "cv_status": "FULL_CV",
-          "entries": 3,
+          "entries": 7,
           "copies": 1,
           "created_timestamp": 1763919402,
           "end_timestamp": 1764450000,
@@ -60424,7 +60505,7 @@
           "name": "Hooked on You: A Dead by Daylight Dat...",
           "link": "K8KRd/hooked-on-you-a-dead-by-daylight-dating-sim",
           "cv_status": "FULL_CV",
-          "entries": 4,
+          "entries": 5,
           "copies": 1,
           "created_timestamp": 1764095971,
           "end_timestamp": 1764399600,
@@ -67805,7 +67886,7 @@
           "name": "Synergy",
           "link": "1ga1E/synergy",
           "cv_status": "REDUCED_CV",
-          "entries": 4,
+          "entries": 6,
           "copies": 1,
           "created_timestamp": 1764274802,
           "end_timestamp": 1764623940,
@@ -72940,10 +73021,10 @@
       "stats": {
         "total_sent_count": 16,
         "total_sent_value": 459.19,
-        "total_received_count": 15,
-        "total_received_value": 303.85,
-        "total_gift_difference": 1,
-        "total_value_difference": 155.34,
+        "total_received_count": 15.3,
+        "total_received_value": 311.35,
+        "total_gift_difference": 0.8,
+        "total_value_difference": 147.84,
         "fcv_sent_count": 16,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
@@ -72959,11 +73040,11 @@
         "real_total_gift_difference": 1,
         "giveaway_ratio": 14.33,
         "shared_sent_count": 0,
-        "shared_received_count": 0,
+        "shared_received_count": 1,
         "giveaways_created": 16,
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1761842610,
-        "last_giveaway_won_at": 1763762400,
+        "last_giveaway_won_at": 1764309540,
         "total_achievements_percentage": 55,
         "average_achievements_percentage": 57,
         "real_total_achievements_percentage": 55,
@@ -72975,6 +73056,15 @@
       "steam_profile_is_private": true,
       "country_code": null,
       "giveaways_won": [
+        {
+          "name": "Wavetale",
+          "link": "lrqfE/wavetale",
+          "cv_status": "REDUCED_CV",
+          "status": "received",
+          "end_timestamp": 1764309540,
+          "required_play": false,
+          "is_shared": true
+        },
         {
           "name": "Hidden Shapes - Cat Realm",
           "link": "0rhhl/hidden-shapes-cat-realm",
