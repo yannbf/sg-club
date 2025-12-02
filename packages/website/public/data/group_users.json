@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1764643448214,
+  "lastUpdated": 1764665783052,
   "users": {
     "0ksID": {
       "username": "0ksID",
@@ -724,10 +724,10 @@
         "giveaways_with_no_entries": 2,
         "last_giveaway_created_at": 1762203936,
         "last_giveaway_won_at": 1764432840,
-        "total_achievements_percentage": 6,
-        "average_achievements_percentage": 9,
-        "real_total_achievements_percentage": 6,
-        "real_average_achievements_percentage": 9,
+        "total_achievements_percentage": 7,
+        "average_achievements_percentage": 10,
+        "real_total_achievements_percentage": 7,
+        "real_average_achievements_percentage": 10,
         "has_missing_achievements_data": true
       },
       "steam_id": "76561198047330685",
@@ -2483,9 +2483,9 @@
         "giveaways_with_no_entries": 1,
         "last_giveaway_created_at": 1761701723,
         "last_giveaway_won_at": 1763223300,
-        "total_achievements_percentage": 49,
+        "total_achievements_percentage": 50,
         "average_achievements_percentage": 68,
-        "real_total_achievements_percentage": 49,
+        "real_total_achievements_percentage": 50,
         "real_average_achievements_percentage": 68,
         "has_missing_achievements_data": false
       },
@@ -5534,9 +5534,9 @@
         "giveaway_ratio": 16.33,
         "shared_sent_count": 1,
         "shared_received_count": 0,
-        "giveaways_created": 30,
+        "giveaways_created": 31,
         "giveaways_with_no_entries": 1,
-        "last_giveaway_created_at": 1762949273,
+        "last_giveaway_created_at": 1764661841,
         "last_giveaway_won_at": 1762572120,
         "total_achievements_percentage": 17,
         "average_achievements_percentage": 27,
@@ -6269,6 +6269,17 @@
         }
       ],
       "giveaways_created": [
+        {
+          "name": "Mouthwashing",
+          "link": "sjyX4/mouthwashing",
+          "cv_status": "FULL_CV",
+          "entries": 0,
+          "copies": 1,
+          "created_timestamp": 1764661841,
+          "end_timestamp": 1764865800,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "MotionRec",
           "link": "ybkdi/motionrec",
@@ -14470,7 +14481,7 @@
           "i_played_bro": false,
           "required_play_meta": {
             "requirements_met": false,
-            "deadline": "13.12.2025",
+            "deadline": "31.12.2025",
             "deadline_in_months": 2
           },
           "had_winners": true,
@@ -23673,9 +23684,9 @@
         "total_sent_count": 5,
         "total_sent_value": 151.95,
         "total_received_count": 7,
-        "total_received_value": 207.93,
+        "total_received_value": 227.93,
         "total_gift_difference": -2,
-        "total_value_difference": -55.98,
+        "total_value_difference": -75.98,
         "fcv_sent_count": 5,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
@@ -28147,11 +28158,11 @@
       "avatar_url": "https://avatars.steamstatic.com/f929925df26b86d3aaf9b504c42bc8a7f18a882b_medium.jpg",
       "stats": {
         "total_sent_count": 23,
-        "total_sent_value": 561.63,
+        "total_sent_value": 562.74,
         "total_received_count": 4,
         "total_received_value": 61.96,
         "total_gift_difference": 19,
-        "total_value_difference": 499.67,
+        "total_value_difference": 500.78,
         "fcv_sent_count": 16,
         "rcv_sent_count": 1,
         "ncv_sent_count": 0,
@@ -29423,7 +29434,7 @@
           "name": "Okami HD",
           "link": "47of7/okami-hd",
           "cv_status": "REDUCED_CV",
-          "entries": 29,
+          "entries": 30,
           "copies": 1,
           "created_timestamp": 1764319195,
           "end_timestamp": 1765013940,
@@ -31984,7 +31995,7 @@
           "i_played_bro": false,
           "required_play_meta": {
             "requirements_met": true,
-            "deadline": "13.12.2025",
+            "deadline": "31.12.2025",
             "deadline_in_months": 2
           },
           "had_winners": true,
@@ -36245,10 +36256,10 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1764622504,
         "last_giveaway_won_at": 1763903460,
-        "total_achievements_percentage": 10,
-        "average_achievements_percentage": 13,
-        "real_total_achievements_percentage": 10,
-        "real_average_achievements_percentage": 13,
+        "total_achievements_percentage": 21,
+        "average_achievements_percentage": 25,
+        "real_total_achievements_percentage": 21,
+        "real_average_achievements_percentage": 25,
         "has_missing_achievements_data": true
       },
       "steam_id": "76561198234142828",
@@ -36353,7 +36364,7 @@
           "name": "Tinytopia",
           "link": "IqiTA/tinytopia",
           "cv_status": "REDUCED_CV",
-          "entries": 21,
+          "entries": 22,
           "copies": 1,
           "created_timestamp": 1764486633,
           "end_timestamp": 1765080000,
@@ -36364,7 +36375,7 @@
           "name": "Instruments of Destruction",
           "link": "ZDwY0/instruments-of-destruction",
           "cv_status": "REDUCED_CV",
-          "entries": 17,
+          "entries": 24,
           "copies": 1,
           "created_timestamp": 1764622504,
           "end_timestamp": 1765598400,
@@ -43084,7 +43095,7 @@
           "required_play_meta": {
             "requirements_met": false,
             "deadline_in_months": 2,
-            "deadline": "13.12.2025"
+            "deadline": "31.12.2025"
           }
         },
         {
@@ -43743,9 +43754,6 @@
             }
           ]
         }
-      ],
-      "warnings": [
-        "required_play_deadline_within_15_days"
       ]
     },
     "Noodles91": {
@@ -45553,89 +45561,6 @@
       "warnings": [
         "required_plays_need_review",
         "required_play_deadline_within_15_days"
-      ]
-    },
-    "olehsamoilenko": {
-      "username": "olehsamoilenko",
-      "profile_url": "/user/olehsamoilenko",
-      "avatar_url": "https://avatars.steamstatic.com/cba46dfdf5d89a1ef0e78da7ecac1220fb39749e_medium.jpg",
-      "stats": {
-        "total_sent_count": 2,
-        "total_sent_value": 14.98,
-        "total_received_count": 0,
-        "total_received_value": 0,
-        "total_gift_difference": 2,
-        "total_value_difference": 14.98,
-        "fcv_sent_count": 0.15,
-        "rcv_sent_count": 1,
-        "ncv_sent_count": 0,
-        "fcv_received_count": 0,
-        "rcv_received_count": 0,
-        "ncv_received_count": 0,
-        "fcv_gift_difference": 0,
-        "real_total_sent_value": 2.25,
-        "real_total_received_value": 0,
-        "real_total_value_difference": 2.25,
-        "real_total_sent_count": 0.15,
-        "real_total_received_count": 0,
-        "real_total_gift_difference": 0.15,
-        "giveaway_ratio": 0,
-        "shared_sent_count": 0,
-        "shared_received_count": 0,
-        "giveaways_created": 2,
-        "giveaways_with_no_entries": 0,
-        "last_giveaway_created_at": 1755699966,
-        "last_giveaway_won_at": null
-      },
-      "steam_id": "76561198128560029",
-      "steam_profile_url": "https://steamcommunity.com/profiles/76561198128560029",
-      "country_code": "ua",
-      "giveaways_created": [
-        {
-          "name": "BROKEN LIFE",
-          "link": "CavwK/broken-life",
-          "cv_status": "FULL_CV",
-          "entries": 1,
-          "copies": 1,
-          "created_timestamp": 1755699966,
-          "end_timestamp": 1756069140,
-          "required_play": true,
-          "is_shared": false,
-          "i_played_bro": false,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 2,
-            "additional_notes": "Game seems to be roughly 1hr long, no achievements, no HLTB"
-          },
-          "had_winners": true,
-          "winners": [
-            {
-              "name": "SteamKeyGiveaway",
-              "status": "received",
-              "activated": true
-            }
-          ]
-        },
-        {
-          "name": "Piczle Cross Adventure",
-          "link": "19ilt/piczle-cross-adventure",
-          "cv_status": "REDUCED_CV",
-          "entries": 11,
-          "copies": 1,
-          "created_timestamp": 1749717922,
-          "end_timestamp": 1750193940,
-          "required_play": false,
-          "is_shared": false,
-          "i_played_bro": true,
-          "had_winners": true,
-          "winners": [
-            {
-              "name": "Yamaraus",
-              "status": "received",
-              "activated": true
-            }
-          ]
-        }
       ]
     },
     "OlOAyCT": {
@@ -58284,7 +58209,7 @@
           "name": "Judgment",
           "link": "6bVNI/judgment",
           "cv_status": "FULL_CV",
-          "entries": 15,
+          "entries": 16,
           "copies": 1,
           "created_timestamp": 1764611337,
           "end_timestamp": 1764954000,
@@ -72912,11 +72837,11 @@
       "avatar_url": "https://avatars.steamstatic.com/f24baa6657376c314e2985372b0d7580bbcde6f2_medium.jpg",
       "stats": {
         "total_sent_count": 18,
-        "total_sent_value": 426.82,
+        "total_sent_value": 446.82,
         "total_received_count": 10,
         "total_received_value": 429.9,
         "total_gift_difference": 8,
-        "total_value_difference": -3.08,
+        "total_value_difference": 16.92,
         "fcv_sent_count": 18,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
@@ -74518,7 +74443,7 @@
           "required_play_meta": {
             "requirements_met": true,
             "deadline_in_months": 2,
-            "deadline": "13.12.2025"
+            "deadline": "31.12.2025"
           }
         }
       ],
@@ -74664,11 +74589,11 @@
       "avatar_url": "https://avatars.steamstatic.com/2d4d805c41e77a2a460bf3666fe9cbeedd9c0c2a_medium.jpg",
       "stats": {
         "total_sent_count": 12,
-        "total_sent_value": 515.26,
+        "total_sent_value": 535.26,
         "total_received_count": 3,
         "total_received_value": 30.97,
         "total_gift_difference": 9,
-        "total_value_difference": 484.29,
+        "total_value_difference": 504.29,
         "fcv_sent_count": 12,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
@@ -75903,9 +75828,9 @@
         "total_sent_count": 23,
         "total_sent_value": 461.77,
         "total_received_count": 14.5,
-        "total_received_value": 409.36,
+        "total_received_value": 429.36,
         "total_gift_difference": 8.5,
-        "total_value_difference": 52.42,
+        "total_value_difference": 32.42,
         "fcv_sent_count": 17,
         "rcv_sent_count": 3,
         "ncv_sent_count": 0,
