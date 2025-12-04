@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1764816255301,
+  "lastUpdated": 1764838520409,
   "users": {
     "0ksID": {
       "username": "0ksID",
@@ -725,9 +725,9 @@
         "last_giveaway_created_at": 1762203936,
         "last_giveaway_won_at": 1764432840,
         "total_achievements_percentage": 7,
-        "average_achievements_percentage": 10,
+        "average_achievements_percentage": 11,
         "real_total_achievements_percentage": 7,
-        "real_average_achievements_percentage": 10,
+        "real_average_achievements_percentage": 11,
         "has_missing_achievements_data": true
       },
       "steam_id": "76561198047330685",
@@ -10180,9 +10180,9 @@
         "giveaway_ratio": 5,
         "shared_sent_count": 0,
         "shared_received_count": 0,
-        "giveaways_created": 8,
+        "giveaways_created": 9,
         "giveaways_with_no_entries": 0,
-        "last_giveaway_created_at": 1761889318,
+        "last_giveaway_created_at": 1764835094,
         "last_giveaway_won_at": 1764399600,
         "total_achievements_percentage": 30,
         "average_achievements_percentage": 31,
@@ -10551,6 +10551,17 @@
         }
       ],
       "giveaways_created": [
+        {
+          "name": "Wall World 2",
+          "link": "DkeIZ/wall-world-2",
+          "cv_status": "FULL_CV",
+          "entries": 0,
+          "copies": 1,
+          "created_timestamp": 1764835094,
+          "end_timestamp": 1765529820,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "Lakeside Bar",
           "link": "bDkgL/lakeside-bar",
@@ -29208,10 +29219,10 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1759540537,
         "last_giveaway_won_at": 1761854400,
-        "total_achievements_percentage": 7,
-        "average_achievements_percentage": 7,
-        "real_total_achievements_percentage": 8,
-        "real_average_achievements_percentage": 9,
+        "total_achievements_percentage": 13,
+        "average_achievements_percentage": 13,
+        "real_total_achievements_percentage": 16,
+        "real_average_achievements_percentage": 17,
         "has_missing_achievements_data": false
       },
       "steam_id": "76561199574536589",
@@ -36333,8 +36344,8 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1764622504,
         "last_giveaway_won_at": 1764735120,
-        "total_achievements_percentage": 21,
-        "average_achievements_percentage": 25,
+        "total_achievements_percentage": 20,
+        "average_achievements_percentage": 20,
         "real_total_achievements_percentage": 21,
         "real_average_achievements_percentage": 25,
         "has_missing_achievements_data": true
@@ -36472,7 +36483,7 @@
           "name": "Instruments of Destruction",
           "link": "ZDwY0/instruments-of-destruction",
           "cv_status": "REDUCED_CV",
-          "entries": 34,
+          "entries": 36,
           "copies": 1,
           "created_timestamp": 1764622504,
           "end_timestamp": 1765598400,
@@ -42815,7 +42826,7 @@
           "name": "Crystalline",
           "link": "7JkJ8/crystalline",
           "cv_status": "FULL_CV",
-          "entries": 13,
+          "entries": 14,
           "copies": 1,
           "created_timestamp": 1764771373,
           "end_timestamp": 1766239500,
@@ -43253,7 +43264,7 @@
           "name": "I Am Future: Cozy Apocalypse Survival",
           "link": "1nElU/i-am-future-cozy-apocalypse-survival",
           "cv_status": "FULL_CV",
-          "entries": 13,
+          "entries": 18,
           "copies": 1,
           "created_timestamp": 1764789280,
           "end_timestamp": 1765210200,
@@ -45713,6 +45724,89 @@
         "required_play_deadline_within_15_days"
       ]
     },
+    "olehsamoilenko": {
+      "username": "olehsamoilenko",
+      "profile_url": "/user/olehsamoilenko",
+      "avatar_url": "https://avatars.steamstatic.com/cba46dfdf5d89a1ef0e78da7ecac1220fb39749e_medium.jpg",
+      "stats": {
+        "total_sent_count": 2,
+        "total_sent_value": 14.98,
+        "total_received_count": 0,
+        "total_received_value": 0,
+        "total_gift_difference": 2,
+        "total_value_difference": 14.98,
+        "fcv_sent_count": 0.15,
+        "rcv_sent_count": 1,
+        "ncv_sent_count": 0,
+        "fcv_received_count": 0,
+        "rcv_received_count": 0,
+        "ncv_received_count": 0,
+        "fcv_gift_difference": 0,
+        "real_total_sent_value": 2.25,
+        "real_total_received_value": 0,
+        "real_total_value_difference": 2.25,
+        "real_total_sent_count": 0.15,
+        "real_total_received_count": 0,
+        "real_total_gift_difference": 0.15,
+        "giveaway_ratio": 0,
+        "shared_sent_count": 0,
+        "shared_received_count": 0,
+        "giveaways_created": 2,
+        "giveaways_with_no_entries": 0,
+        "last_giveaway_created_at": 1755699966,
+        "last_giveaway_won_at": null
+      },
+      "steam_id": "76561198128560029",
+      "steam_profile_url": "https://steamcommunity.com/profiles/76561198128560029",
+      "country_code": "ua",
+      "giveaways_created": [
+        {
+          "name": "BROKEN LIFE",
+          "link": "CavwK/broken-life",
+          "cv_status": "FULL_CV",
+          "entries": 1,
+          "copies": 1,
+          "created_timestamp": 1755699966,
+          "end_timestamp": 1756069140,
+          "required_play": true,
+          "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2,
+            "additional_notes": "Game seems to be roughly 1hr long, no achievements, no HLTB"
+          },
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "SteamKeyGiveaway",
+              "status": "received",
+              "activated": true
+            }
+          ]
+        },
+        {
+          "name": "Piczle Cross Adventure",
+          "link": "19ilt/piczle-cross-adventure",
+          "cv_status": "REDUCED_CV",
+          "entries": 11,
+          "copies": 1,
+          "created_timestamp": 1749717922,
+          "end_timestamp": 1750193940,
+          "required_play": false,
+          "is_shared": false,
+          "i_played_bro": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "Yamaraus",
+              "status": "received",
+              "activated": true
+            }
+          ]
+        }
+      ]
+    },
     "OlOAyCT": {
       "username": "OlOAyCT",
       "profile_url": "/user/OlOAyCT",
@@ -47064,10 +47158,10 @@
         "giveaways_with_no_entries": 1,
         "last_giveaway_created_at": 1764811922,
         "last_giveaway_won_at": 1764764160,
-        "total_achievements_percentage": 17,
-        "average_achievements_percentage": 13,
-        "real_total_achievements_percentage": 14,
-        "real_average_achievements_percentage": 9,
+        "total_achievements_percentage": 16,
+        "average_achievements_percentage": 12,
+        "real_total_achievements_percentage": 13,
+        "real_average_achievements_percentage": 8,
         "has_missing_achievements_data": true
       },
       "steam_id": "76561198315443582",
@@ -51928,7 +52022,12 @@
         "giveaways_created": 4,
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1756372469,
-        "last_giveaway_won_at": 1753477200
+        "last_giveaway_won_at": 1753477200,
+        "total_achievements_percentage": 51,
+        "average_achievements_percentage": 50,
+        "real_total_achievements_percentage": 51,
+        "real_average_achievements_percentage": 50,
+        "has_missing_achievements_data": false
       },
       "steam_id": "76561198069567036",
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198069567036",
@@ -66598,9 +66697,9 @@
         "giveaways_with_no_entries": 3,
         "last_giveaway_created_at": 1762939330,
         "last_giveaway_won_at": 1759600740,
-        "total_achievements_percentage": 45,
+        "total_achievements_percentage": 46,
         "average_achievements_percentage": 46,
-        "real_total_achievements_percentage": 45,
+        "real_total_achievements_percentage": 46,
         "real_average_achievements_percentage": 46,
         "has_missing_achievements_data": true
       },
@@ -71052,7 +71151,7 @@
           "name": "SCARLET NEXUS Ultimate Edition",
           "link": "mh2al/scarlet-nexus-ultimate-edition",
           "cv_status": "FULL_CV",
-          "entries": 9,
+          "entries": 10,
           "copies": 1,
           "created_timestamp": 1764720087,
           "end_timestamp": 1765105200,
@@ -71074,7 +71173,7 @@
           "name": "Ni no Kuni Wrath of the White Witch R...",
           "link": "maPgv/ni-no-kuni-wrath-of-the-white-witch-remastered",
           "cv_status": "FULL_CV",
-          "entries": 5,
+          "entries": 6,
           "copies": 1,
           "created_timestamp": 1764721618,
           "end_timestamp": 1765106760,
@@ -71096,7 +71195,7 @@
           "name": "FINAL FANTASY XV WINDOWS EDITION",
           "link": "CnJst/final-fantasy-xv-windows-edition",
           "cv_status": "FULL_CV",
-          "entries": 13,
+          "entries": 14,
           "copies": 1,
           "created_timestamp": 1764716469,
           "end_timestamp": 1765111800,
