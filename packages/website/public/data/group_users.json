@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1764902775098,
+  "lastUpdated": 1764924985954,
   "users": {
     "0ksID": {
       "username": "0ksID",
@@ -3816,35 +3816,13 @@
       ],
       "giveaways_created": [
         {
-          "name": "ORDER 13",
-          "link": "Nk4AL/order-13",
+          "name": "Pilo and the Holobook",
+          "link": "sreFi/pilo-and-the-holobook",
           "cv_status": "FULL_CV",
           "entries": 4,
           "copies": 1,
-          "created_timestamp": 1764316112,
-          "end_timestamp": 1764903600,
-          "required_play": false,
-          "is_shared": false
-        },
-        {
-          "name": "Adios",
-          "link": "HBx41/adios",
-          "cv_status": "REDUCED_CV",
-          "entries": 5,
-          "copies": 1,
-          "created_timestamp": 1764316204,
-          "end_timestamp": 1764906540,
-          "required_play": false,
-          "is_shared": false
-        },
-        {
-          "name": "Buckshot Roulette",
-          "link": "aTu4Y/buckshot-roulette",
-          "cv_status": "FULL_CV",
-          "entries": 1,
-          "copies": 1,
-          "created_timestamp": 1764316280,
-          "end_timestamp": 1764906600,
+          "created_timestamp": 1764316827,
+          "end_timestamp": 1764993420,
           "required_play": false,
           "is_shared": false
         },
@@ -3857,18 +3835,72 @@
           "created_timestamp": 1764316347,
           "end_timestamp": 1764906660,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
-          "name": "Pilo and the Holobook",
-          "link": "sreFi/pilo-and-the-holobook",
+          "name": "Buckshot Roulette",
+          "link": "aTu4Y/buckshot-roulette",
+          "cv_status": "FULL_CV",
+          "entries": 1,
+          "copies": 1,
+          "created_timestamp": 1764316280,
+          "end_timestamp": 1764906600,
+          "required_play": false,
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
+        },
+        {
+          "name": "Adios",
+          "link": "HBx41/adios",
+          "cv_status": "REDUCED_CV",
+          "entries": 5,
+          "copies": 1,
+          "created_timestamp": 1764316204,
+          "end_timestamp": 1764906540,
+          "required_play": false,
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
+        },
+        {
+          "name": "ORDER 13",
+          "link": "Nk4AL/order-13",
           "cv_status": "FULL_CV",
           "entries": 4,
           "copies": 1,
-          "created_timestamp": 1764316827,
-          "end_timestamp": 1764993420,
+          "created_timestamp": 1764316112,
+          "end_timestamp": 1764903600,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "Trash Goblin",
@@ -5546,9 +5578,9 @@
         "giveaways_with_no_entries": 1,
         "last_giveaway_created_at": 1764661841,
         "last_giveaway_won_at": 1762572120,
-        "total_achievements_percentage": 17,
+        "total_achievements_percentage": 18,
         "average_achievements_percentage": 27,
-        "real_total_achievements_percentage": 17,
+        "real_total_achievements_percentage": 18,
         "real_average_achievements_percentage": 27,
         "has_missing_achievements_data": true
       },
@@ -6906,9 +6938,9 @@
         "giveaway_ratio": 10.33,
         "shared_sent_count": 15,
         "shared_received_count": 0,
-        "giveaways_created": 24,
+        "giveaways_created": 25,
         "giveaways_with_no_entries": 0,
-        "last_giveaway_created_at": 1763276474,
+        "last_giveaway_created_at": 1764904309,
         "last_giveaway_won_at": 1763204400,
         "total_achievements_percentage": 47,
         "average_achievements_percentage": 58,
@@ -7169,6 +7201,17 @@
         }
       ],
       "giveaways_created": [
+        {
+          "name": "Tandem: A Tale of Shadows",
+          "link": "qHP5B/tandem-a-tale-of-shadows",
+          "cv_status": "FULL_CV",
+          "entries": 4,
+          "copies": 1,
+          "created_timestamp": 1764904309,
+          "end_timestamp": 1767204000,
+          "required_play": false,
+          "is_shared": true
+        },
         {
           "name": "Wavetale",
           "link": "lrqfE/wavetale",
@@ -10192,10 +10235,10 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1764835094,
         "last_giveaway_won_at": 1764399600,
-        "total_achievements_percentage": 30,
-        "average_achievements_percentage": 31,
+        "total_achievements_percentage": 31,
+        "average_achievements_percentage": 32,
         "real_total_achievements_percentage": 29,
-        "real_average_achievements_percentage": 29,
+        "real_average_achievements_percentage": 30,
         "has_missing_achievements_data": true
       },
       "steam_id": "76561197990462722",
@@ -10563,7 +10606,7 @@
           "name": "Wall World 2",
           "link": "DkeIZ/wall-world-2",
           "cv_status": "FULL_CV",
-          "entries": 8,
+          "entries": 9,
           "copies": 1,
           "created_timestamp": 1764835094,
           "end_timestamp": 1765529820,
@@ -18994,7 +19037,7 @@
         {
           "name": "Atomic Heart",
           "link": "Gi9iT/atomic-heart",
-          "cv_status": "REDUCED_CV",
+          "cv_status": "FULL_CV",
           "entries": 26,
           "copies": 1,
           "created_timestamp": 1759952829,
@@ -20084,7 +20127,7 @@
         "giveaways_with_no_entries": 2,
         "last_giveaway_created_at": 1760064390,
         "last_giveaway_won_at": 1764865800,
-        "total_achievements_percentage": 9,
+        "total_achievements_percentage": 8,
         "average_achievements_percentage": 9,
         "real_total_achievements_percentage": 8,
         "real_average_achievements_percentage": 8,
@@ -23054,7 +23097,7 @@
           "name": "Retrace the Light",
           "link": "5E0qc/retrace-the-light",
           "cv_status": "FULL_CV",
-          "entries": 34,
+          "entries": 37,
           "copies": 1,
           "created_timestamp": 1764508083,
           "end_timestamp": 1764957600,
@@ -25021,9 +25064,9 @@
         "last_giveaway_created_at": 1754720903,
         "last_giveaway_won_at": 1760749200,
         "total_achievements_percentage": 4,
-        "average_achievements_percentage": 9,
-        "real_total_achievements_percentage": 9,
-        "real_average_achievements_percentage": 11,
+        "average_achievements_percentage": 10,
+        "real_total_achievements_percentage": 10,
+        "real_average_achievements_percentage": 12,
         "has_missing_achievements_data": false
       },
       "steam_id": "76561198303576866",
@@ -29498,7 +29541,7 @@
           "name": "Onimusha: Warlords",
           "link": "ucrAs/onimusha-warlords",
           "cv_status": "FULL_CV",
-          "entries": 12,
+          "entries": 14,
           "copies": 1,
           "created_timestamp": 1764319313,
           "end_timestamp": 1764927600,
@@ -36522,7 +36565,7 @@
           "name": "Instruments of Destruction",
           "link": "ZDwY0/instruments-of-destruction",
           "cv_status": "REDUCED_CV",
-          "entries": 35,
+          "entries": 36,
           "copies": 1,
           "created_timestamp": 1764622504,
           "end_timestamp": 1765598400,
@@ -38350,7 +38393,7 @@
           "name": "UNCHARTED: Legacy of Thieves Collection",
           "link": "4ldHt/uncharted-legacy-of-thieves-collection",
           "cv_status": "FULL_CV",
-          "entries": 17,
+          "entries": 20,
           "copies": 1,
           "created_timestamp": 1764863371,
           "end_timestamp": 1765036200,
@@ -39889,7 +39932,7 @@
         "giveaways_with_no_entries": 8,
         "last_giveaway_created_at": 1764871959,
         "last_giveaway_won_at": 1763780820,
-        "total_achievements_percentage": 51,
+        "total_achievements_percentage": 52,
         "average_achievements_percentage": 54,
         "real_total_achievements_percentage": 57,
         "real_average_achievements_percentage": 68,
@@ -40221,7 +40264,7 @@
           "name": "West of Dead",
           "link": "NDO0p/west-of-dead",
           "cv_status": "REDUCED_CV",
-          "entries": 2,
+          "entries": 3,
           "copies": 1,
           "created_timestamp": 1764871959,
           "end_timestamp": 1766613540,
@@ -40232,7 +40275,7 @@
           "name": "Tiny Terry's Turbo Trip",
           "link": "vn03o/tiny-terrys-turbo-trip",
           "cv_status": "REDUCED_CV",
-          "entries": 4,
+          "entries": 5,
           "copies": 1,
           "created_timestamp": 1764871526,
           "end_timestamp": 1766613540,
@@ -40265,7 +40308,7 @@
           "name": "The Invincible",
           "link": "HprHp/the-invincible",
           "cv_status": "REDUCED_CV",
-          "entries": 12,
+          "entries": 14,
           "copies": 1,
           "created_timestamp": 1764867196,
           "end_timestamp": 1766613540,
@@ -42931,7 +42974,7 @@
           "name": "Crystalline",
           "link": "7JkJ8/crystalline",
           "cv_status": "FULL_CV",
-          "entries": 17,
+          "entries": 19,
           "copies": 1,
           "created_timestamp": 1764771373,
           "end_timestamp": 1766239500,
@@ -43369,7 +43412,7 @@
           "name": "I Am Future: Cozy Apocalypse Survival",
           "link": "1nElU/i-am-future-cozy-apocalypse-survival",
           "cv_status": "FULL_CV",
-          "entries": 27,
+          "entries": 29,
           "copies": 1,
           "created_timestamp": 1764789280,
           "end_timestamp": 1765210200,
@@ -44419,7 +44462,8 @@
           },
           "required_play_meta": {
             "requirements_met": false,
-            "deadline_in_months": 2
+            "deadline_in_months": 4,
+            "additional_notes": "2 months extension given by host"
           }
         },
         {
@@ -47259,7 +47303,7 @@
         "shared_sent_count": 34,
         "shared_received_count": 0,
         "giveaways_created": 55,
-        "giveaways_with_no_entries": 1,
+        "giveaways_with_no_entries": 2,
         "last_giveaway_created_at": 1764811922,
         "last_giveaway_won_at": 1764764160,
         "total_achievements_percentage": 16,
@@ -47886,17 +47930,6 @@
       ],
       "giveaways_created": [
         {
-          "name": "The Last Tinker: City of Colors",
-          "link": "3LU8o/the-last-tinker-city-of-colors",
-          "cv_status": "REDUCED_CV",
-          "entries": 0,
-          "copies": 1,
-          "created_timestamp": 1764811922,
-          "end_timestamp": 1764901860,
-          "required_play": false,
-          "is_shared": true
-        },
-        {
           "name": "METAL GEAR SOLID Δ: SNAKE EATER",
           "link": "S8w6N/metal-gear-solid-d-snake-eater",
           "cv_status": "FULL_CV",
@@ -47906,6 +47939,18 @@
           "end_timestamp": 1765271040,
           "required_play": false,
           "is_shared": false
+        },
+        {
+          "name": "The Last Tinker: City of Colors",
+          "link": "3LU8o/the-last-tinker-city-of-colors",
+          "cv_status": "REDUCED_CV",
+          "entries": 0,
+          "copies": 1,
+          "created_timestamp": 1764811922,
+          "end_timestamp": 1764901860,
+          "required_play": false,
+          "is_shared": true,
+          "had_winners": false
         },
         {
           "name": "Floor 9",
@@ -49062,7 +49107,7 @@
           "name": "The Lord of the Rings: Return to Moria",
           "link": "z4HGV/the-lord-of-the-rings-return-to-moria",
           "cv_status": "FULL_CV",
-          "entries": 10,
+          "entries": 11,
           "copies": 1,
           "created_timestamp": 1764499630,
           "end_timestamp": 1766559600,
@@ -52293,7 +52338,7 @@
         "total_achievements_percentage": 13,
         "average_achievements_percentage": 22,
         "real_total_achievements_percentage": 12,
-        "real_average_achievements_percentage": 21,
+        "real_average_achievements_percentage": 22,
         "has_missing_achievements_data": true
       },
       "steam_id": "76561198048462370",
@@ -58616,7 +58661,7 @@
           "name": "Judgment",
           "link": "6bVNI/judgment",
           "cv_status": "FULL_CV",
-          "entries": 24,
+          "entries": 26,
           "copies": 1,
           "created_timestamp": 1764611337,
           "end_timestamp": 1764954000,
@@ -61252,7 +61297,7 @@
           "name": "Mouthwashing",
           "link": "YT9jG/mouthwashing",
           "cv_status": "FULL_CV",
-          "entries": 25,
+          "entries": 26,
           "copies": 1,
           "created_timestamp": 1764703094,
           "end_timestamp": 1765346400,
@@ -61285,7 +61330,7 @@
           "name": "Rusty's Retirement",
           "link": "d68SJ/rustys-retirement",
           "cv_status": "FULL_CV",
-          "entries": 22,
+          "entries": 23,
           "copies": 1,
           "created_timestamp": 1764702661,
           "end_timestamp": 1765346400,
@@ -66578,9 +66623,9 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1760819435,
         "last_giveaway_won_at": 1760407200,
-        "total_achievements_percentage": 4,
+        "total_achievements_percentage": 5,
         "average_achievements_percentage": 6,
-        "real_total_achievements_percentage": 4,
+        "real_total_achievements_percentage": 5,
         "real_average_achievements_percentage": 6,
         "has_missing_achievements_data": false
       },
@@ -67099,7 +67144,8 @@
           "i_played_bro": false,
           "required_play_meta": {
             "requirements_met": false,
-            "deadline_in_months": 2
+            "deadline_in_months": 4,
+            "additional_notes": "2 months extension given by host"
           },
           "had_winners": true,
           "winners": [
@@ -71255,7 +71301,7 @@
           "name": "SCARLET NEXUS Ultimate Edition",
           "link": "mh2al/scarlet-nexus-ultimate-edition",
           "cv_status": "FULL_CV",
-          "entries": 11,
+          "entries": 12,
           "copies": 1,
           "created_timestamp": 1764720087,
           "end_timestamp": 1765105200,
@@ -71299,7 +71345,7 @@
           "name": "FINAL FANTASY XV WINDOWS EDITION",
           "link": "CnJst/final-fantasy-xv-windows-edition",
           "cv_status": "FULL_CV",
-          "entries": 14,
+          "entries": 16,
           "copies": 1,
           "created_timestamp": 1764716469,
           "end_timestamp": 1765111800,
@@ -72461,7 +72507,7 @@
           "name": "Dead Space",
           "link": "5ioBf/dead-space",
           "cv_status": "FULL_CV",
-          "entries": 6,
+          "entries": 9,
           "copies": 1,
           "created_timestamp": 1764873330,
           "end_timestamp": 1765334700,
@@ -72472,7 +72518,7 @@
           "name": "Viewfinder",
           "link": "y9sw6/viewfinder",
           "cv_status": "FULL_CV",
-          "entries": 11,
+          "entries": 15,
           "copies": 1,
           "created_timestamp": 1764873326,
           "end_timestamp": 1765334700,
@@ -72483,7 +72529,7 @@
           "name": "ENDER MAGNOLIA: Bloom in the Mist",
           "link": "eroz4/ender-magnolia-bloom-in-the-mist",
           "cv_status": "FULL_CV",
-          "entries": 17,
+          "entries": 20,
           "copies": 1,
           "created_timestamp": 1764873322,
           "end_timestamp": 1765334700,
@@ -74811,7 +74857,7 @@
           "name": "Kamikaze Lassplanes",
           "link": "x88hF/kamikaze-lassplanes",
           "cv_status": "REDUCED_CV",
-          "entries": 3,
+          "entries": 5,
           "copies": 1,
           "created_timestamp": 1764872986,
           "end_timestamp": 1765135680,
@@ -76094,7 +76140,7 @@
           "name": "Botany Manor",
           "link": "ze83n/botany-manor",
           "cv_status": "FULL_CV",
-          "entries": 30,
+          "entries": 32,
           "copies": 1,
           "created_timestamp": 1764415532,
           "end_timestamp": 1764944580,
