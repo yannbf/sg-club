@@ -1,94 +1,6 @@
 {
-  "last_updated": "2025-12-14T08:48:48.432Z",
+  "last_updated": "2025-12-15T02:34:33.766Z",
   "giveaways": [
-    {
-      "id": "JH3gx",
-      "name": "Detroit: Become Human",
-      "points": 40,
-      "copies": 1,
-      "app_id": 1222140,
-      "package_id": null,
-      "link": "JH3gx/detroit-become-human",
-      "created_timestamp": 1765532679,
-      "start_timestamp": 1765532679,
-      "end_timestamp": 1765706400,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 13,
-      "creator": "makki",
-      "cv_status": "FULL_CV"
-    },
-    {
-      "id": "0z63i",
-      "name": "Marvel’s Spider-Man: Miles Morales",
-      "points": 50,
-      "copies": 1,
-      "app_id": 1817190,
-      "package_id": null,
-      "link": "0z63i/marvels-spider-man-miles-morales",
-      "created_timestamp": 1764961658,
-      "start_timestamp": 1764961658,
-      "end_timestamp": 1765735200,
-      "group": true,
-      "comment_count": 5,
-      "entry_count": 50,
-      "creator": "gus09",
-      "cv_status": "FULL_CV"
-    },
-    {
-      "id": "f26dI",
-      "name": "Journey",
-      "points": 15,
-      "copies": 1,
-      "app_id": 638230,
-      "package_id": null,
-      "link": "f26dI/journey",
-      "created_timestamp": 1765084162,
-      "start_timestamp": 1765084162,
-      "end_timestamp": 1765738800,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 12,
-      "creator": "HUMoonlight",
-      "cv_status": "FULL_CV"
-    },
-    {
-      "id": "0ezU5",
-      "name": "Rocket Rats",
-      "points": 6,
-      "copies": 1,
-      "app_id": 3069810,
-      "package_id": null,
-      "link": "0ezU5/rocket-rats",
-      "created_timestamp": 1765304199,
-      "start_timestamp": 1765304199,
-      "end_timestamp": 1765739700,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 1,
-      "creator": "BanjoBearLV",
-      "cv_status": "FULL_CV"
-    },
-    {
-      "id": "hIMpK",
-      "name": "Cyberpunk 2077",
-      "points": 50,
-      "copies": 1,
-      "app_id": 1091500,
-      "package_id": null,
-      "link": "hIMpK/cyberpunk-2077",
-      "created_timestamp": 1765307196,
-      "start_timestamp": 1765307196,
-      "end_timestamp": 1765753200,
-      "region_restricted": true,
-      "whitelist": true,
-      "group": true,
-      "comment_count": 18,
-      "entry_count": 85,
-      "creator": "Dobke",
-      "is_shared": true,
-      "cv_status": "FULL_CV"
-    },
     {
       "id": "idWTx",
       "name": "Daemonologie",
@@ -101,7 +13,7 @@
       "start_timestamp": 1765576165,
       "end_timestamp": 1765792080,
       "group": true,
-      "comment_count": 0,
+      "comment_count": 1,
       "entry_count": 1,
       "creator": "philipdick",
       "cv_status": "FULL_CV"
@@ -120,7 +32,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 16,
+      "entry_count": 21,
       "creator": "PoeticKatana",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -143,6 +55,26 @@
       "cv_status": "FULL_CV"
     },
     {
+      "id": "SyAMr",
+      "name": "Persona 5 Strikers",
+      "points": 50,
+      "copies": 1,
+      "app_id": 1382330,
+      "package_id": null,
+      "link": "SyAMr/persona-5-strikers",
+      "created_timestamp": 1765756624,
+      "start_timestamp": 1765756624,
+      "end_timestamp": 1765918440,
+      "region_restricted": true,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 1,
+      "creator": "Waxlor",
+      "is_shared": true,
+      "cv_status": "REDUCED_CV"
+    },
+    {
       "id": "7MwQS",
       "name": "Crime Boss: Rockay City",
       "points": 20,
@@ -156,7 +88,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 13,
+      "entry_count": 16,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -216,6 +148,43 @@
       "cv_status": "REDUCED_CV"
     },
     {
+      "id": "GbaZI",
+      "name": "ASTRONEER",
+      "points": 30,
+      "copies": 1,
+      "app_id": 361420,
+      "package_id": null,
+      "link": "GbaZI/astroneer",
+      "created_timestamp": 1765740359,
+      "start_timestamp": 1765740359,
+      "end_timestamp": 1766161320,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 19,
+      "creator": "NateSCC",
+      "required_play": true,
+      "is_shared": true,
+      "cv_status": "FULL_CV"
+    },
+    {
+      "id": "SiiXu",
+      "name": "Detroit: Become Human",
+      "points": 40,
+      "copies": 1,
+      "app_id": 1222140,
+      "package_id": null,
+      "link": "SiiXu/detroit-become-human",
+      "created_timestamp": 1765758218,
+      "start_timestamp": 1765758218,
+      "end_timestamp": 1766178900,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 3,
+      "creator": "ralierou",
+      "cv_status": "FULL_CV"
+    },
+    {
       "id": "27P1D",
       "name": "Townsmen - A Kingdom Rebuilt",
       "points": 20,
@@ -229,7 +198,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 7,
+      "entry_count": 8,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -254,6 +223,24 @@
       "cv_status": "FULL_CV"
     },
     {
+      "id": "h8IGL",
+      "name": "Cardpocalypse",
+      "points": 25,
+      "copies": 1,
+      "app_id": 904400,
+      "package_id": null,
+      "link": "h8IGL/cardpocalypse",
+      "created_timestamp": 1765743049,
+      "start_timestamp": 1765743049,
+      "end_timestamp": 1766264820,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 3,
+      "creator": "OndrejVasicek",
+      "is_shared": true,
+      "cv_status": "REDUCED_CV"
+    },
+    {
       "id": "kRweN",
       "name": "Due Process",
       "points": 10,
@@ -267,7 +254,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 8,
+      "entry_count": 9,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -285,7 +272,7 @@
       "end_timestamp": 1766341320,
       "group": true,
       "comment_count": 0,
-      "entry_count": 33,
+      "entry_count": 34,
       "creator": "akfas",
       "cv_status": "FULL_CV"
     },
@@ -319,7 +306,7 @@
       "end_timestamp": 1766469600,
       "group": true,
       "comment_count": 1,
-      "entry_count": 3,
+      "entry_count": 6,
       "creator": "schmoan",
       "cv_status": "FULL_CV"
     },
@@ -353,7 +340,7 @@
       "end_timestamp": 1766559600,
       "group": true,
       "comment_count": 0,
-      "entry_count": 11,
+      "entry_count": 12,
       "creator": "Patzl",
       "cv_status": "FULL_CV"
     },
@@ -371,7 +358,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 33,
+      "entry_count": 35,
       "creator": "MrOuiOui",
       "is_shared": true,
       "cv_status": "FULL_CV"
@@ -390,7 +377,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 1,
-      "entry_count": 3,
+      "entry_count": 4,
       "creator": "Metalhead8489",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -467,7 +454,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 23,
+      "entry_count": 24,
       "creator": "Metalhead8489",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -503,7 +490,7 @@
       "end_timestamp": 1766660400,
       "group": true,
       "comment_count": 1,
-      "entry_count": 1,
+      "entry_count": 0,
       "creator": "ShroudOfLethe",
       "cv_status": "REDUCED_CV"
     },
@@ -536,9 +523,26 @@
       "start_timestamp": 1765057051,
       "end_timestamp": 1766768400,
       "group": true,
-      "comment_count": 1,
+      "comment_count": 2,
       "entry_count": 23,
       "creator": "DrTenma",
+      "cv_status": "FULL_CV"
+    },
+    {
+      "id": "QD8mF",
+      "name": "Refate: Echoes of Desire",
+      "points": 18,
+      "copies": 2,
+      "app_id": 3838290,
+      "package_id": null,
+      "link": "QD8mF/refate-echoes-of-desire",
+      "created_timestamp": 1765753265,
+      "start_timestamp": 1765753265,
+      "end_timestamp": 1766786400,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 2,
+      "creator": "mourinhos86",
       "cv_status": "FULL_CV"
     },
     {
@@ -575,6 +579,129 @@
       "comment_count": 0,
       "entry_count": 0,
       "creator": "Cloverleaf",
+      "cv_status": "FULL_CV"
+    },
+    {
+      "id": "hIMpK",
+      "name": "Cyberpunk 2077",
+      "points": 50,
+      "copies": 1,
+      "app_id": 1091500,
+      "package_id": null,
+      "link": "hIMpK/cyberpunk-2077",
+      "created_timestamp": 1765307196,
+      "start_timestamp": 1765307196,
+      "end_timestamp": 1765753200,
+      "region_restricted": true,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 21,
+      "entry_count": 92,
+      "creator": "Dobke",
+      "is_shared": true,
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": "Casino0",
+          "status": "received"
+        }
+      ],
+      "cv_status": "FULL_CV"
+    },
+    {
+      "id": "0ezU5",
+      "name": "Rocket Rats",
+      "points": 6,
+      "copies": 1,
+      "app_id": 3069810,
+      "package_id": null,
+      "link": "0ezU5/rocket-rats",
+      "created_timestamp": 1765304199,
+      "start_timestamp": 1765304199,
+      "end_timestamp": 1765739700,
+      "group": true,
+      "comment_count": 1,
+      "entry_count": 1,
+      "creator": "BanjoBearLV",
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": "SkyForth",
+          "status": "received"
+        }
+      ],
+      "cv_status": "FULL_CV"
+    },
+    {
+      "id": "f26dI",
+      "name": "Journey",
+      "points": 15,
+      "copies": 1,
+      "app_id": 638230,
+      "package_id": null,
+      "link": "f26dI/journey",
+      "created_timestamp": 1765084162,
+      "start_timestamp": 1765084162,
+      "end_timestamp": 1765738800,
+      "group": true,
+      "comment_count": 1,
+      "entry_count": 13,
+      "creator": "HUMoonlight",
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": "SteamKeyGiveaway",
+          "status": "received"
+        }
+      ],
+      "cv_status": "FULL_CV"
+    },
+    {
+      "id": "0z63i",
+      "name": "Marvel’s Spider-Man: Miles Morales",
+      "points": 50,
+      "copies": 1,
+      "app_id": 1817190,
+      "package_id": null,
+      "link": "0z63i/marvels-spider-man-miles-morales",
+      "created_timestamp": 1764961658,
+      "start_timestamp": 1764961658,
+      "end_timestamp": 1765735200,
+      "group": true,
+      "comment_count": 9,
+      "entry_count": 53,
+      "creator": "gus09",
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": "SteamKeyGiveaway",
+          "status": "received"
+        }
+      ],
+      "cv_status": "FULL_CV"
+    },
+    {
+      "id": "JH3gx",
+      "name": "Detroit: Become Human",
+      "points": 40,
+      "copies": 1,
+      "app_id": 1222140,
+      "package_id": null,
+      "link": "JH3gx/detroit-become-human",
+      "created_timestamp": 1765532679,
+      "start_timestamp": 1765532679,
+      "end_timestamp": 1765706400,
+      "group": true,
+      "comment_count": 1,
+      "entry_count": 13,
+      "creator": "makki",
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": "LinustheBold",
+          "status": "received"
+        }
+      ],
       "cv_status": "FULL_CV"
     },
     {
@@ -741,7 +868,7 @@
       "start_timestamp": 1765312676,
       "end_timestamp": 1765575000,
       "group": true,
-      "comment_count": 5,
+      "comment_count": 6,
       "entry_count": 36,
       "creator": "ralierou",
       "is_shared": true,
@@ -1266,7 +1393,7 @@
       "end_timestamp": 1765334700,
       "region_restricted": true,
       "group": true,
-      "comment_count": 8,
+      "comment_count": 10,
       "entry_count": 39,
       "creator": "Vin3",
       "hasWinners": true,
