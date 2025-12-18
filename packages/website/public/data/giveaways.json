@@ -1,24 +1,6 @@
 {
-  "last_updated": "2025-12-18T02:20:31.337Z",
+  "last_updated": "2025-12-18T08:53:31.249Z",
   "giveaways": [
-    {
-      "id": "NHBTs",
-      "name": "Gori: Cuddly Carnage",
-      "points": 22,
-      "copies": 1,
-      "app_id": 1299690,
-      "package_id": null,
-      "link": "NHBTs/gori-cuddly-carnage",
-      "created_timestamp": 1765007601,
-      "start_timestamp": 1765007601,
-      "end_timestamp": 1766047380,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 22,
-      "creator": "Jztr",
-      "is_shared": true,
-      "cv_status": "REDUCED_CV"
-    },
     {
       "id": "xqsjH",
       "name": "Druidwalker",
@@ -86,7 +68,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 58,
+      "entry_count": 62,
       "creator": "NateSCC",
       "required_play": true,
       "is_shared": true,
@@ -159,7 +141,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 1,
-      "entry_count": 38,
+      "entry_count": 40,
       "creator": "MrOuiOui",
       "is_shared": true,
       "cv_status": "FULL_CV"
@@ -214,7 +196,7 @@
       "end_timestamp": 1766341320,
       "group": true,
       "comment_count": 0,
-      "entry_count": 35,
+      "entry_count": 36,
       "creator": "akfas",
       "cv_status": "FULL_CV"
     },
@@ -319,7 +301,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 40,
+      "entry_count": 42,
       "creator": "MrOuiOui",
       "is_shared": true,
       "cv_status": "FULL_CV"
@@ -357,7 +339,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 8,
+      "entry_count": 9,
       "creator": "Metalhead8489",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -470,7 +452,7 @@
       "region_restricted": true,
       "group": true,
       "comment_count": 2,
-      "entry_count": 6,
+      "entry_count": 5,
       "creator": "QuinlanLJ",
       "cv_status": "FULL_CV"
     },
@@ -540,7 +522,7 @@
       "end_timestamp": 1766653200,
       "group": true,
       "comment_count": 0,
-      "entry_count": 0,
+      "entry_count": 1,
       "creator": "QuinlanLJ",
       "cv_status": "FULL_CV"
     },
@@ -557,7 +539,7 @@
       "end_timestamp": 1766660400,
       "group": true,
       "comment_count": 1,
-      "entry_count": 0,
+      "entry_count": 1,
       "creator": "ShroudOfLethe",
       "cv_status": "REDUCED_CV"
     },
@@ -608,7 +590,7 @@
       "end_timestamp": 1766786400,
       "group": true,
       "comment_count": 2,
-      "entry_count": 7,
+      "entry_count": 8,
       "creator": "mourinhos86",
       "cv_status": "FULL_CV"
     },
@@ -625,8 +607,8 @@
       "end_timestamp": 1766815200,
       "whitelist": true,
       "group": true,
-      "comment_count": 0,
-      "entry_count": 3,
+      "comment_count": 1,
+      "entry_count": 4,
       "creator": "SoullessSoup",
       "is_shared": true,
       "cv_status": "FULL_CV"
@@ -702,7 +684,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 9,
+      "entry_count": 10,
       "creator": "SoullessSoup",
       "is_shared": true,
       "cv_status": "FULL_CV"
@@ -742,6 +724,24 @@
       "entry_count": 0,
       "creator": "Cloverleaf",
       "cv_status": "FULL_CV"
+    },
+    {
+      "id": "NHBTs",
+      "name": "Gori: Cuddly Carnage",
+      "points": 22,
+      "copies": 1,
+      "app_id": 1299690,
+      "package_id": null,
+      "link": "NHBTs/gori-cuddly-carnage",
+      "created_timestamp": 1765007601,
+      "start_timestamp": 1765007601,
+      "end_timestamp": 1766047380,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 22,
+      "creator": "Jztr",
+      "is_shared": true,
+      "cv_status": "REDUCED_CV"
     },
     {
       "id": "j2Agq",
@@ -838,19 +838,18 @@
       "region_restricted": true,
       "whitelist": true,
       "group": true,
-      "comment_count": 0,
+      "comment_count": 1,
       "entry_count": 19,
       "creator": "Waxlor",
       "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "ShakalATT",
+          "status": "received"
         }
       ],
-      "cv_status": "REDUCED_CV",
-      "deleted": false
+      "cv_status": "REDUCED_CV"
     },
     {
       "id": "B4Rmu",
