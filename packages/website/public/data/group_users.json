@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1766198265898,
+  "lastUpdated": 1766220640611,
   "users": {
     "0ksID": {
       "username": "0ksID",
@@ -8173,11 +8173,11 @@
         "giveaways_with_no_entries": 1,
         "last_giveaway_created_at": 1759520000,
         "last_giveaway_won_at": 1765753200,
-        "total_achievements_percentage": 0,
-        "average_achievements_percentage": 0,
+        "total_achievements_percentage": 2,
+        "average_achievements_percentage": 2,
         "real_total_achievements_percentage": 0,
         "real_average_achievements_percentage": 0,
-        "has_missing_achievements_data": true
+        "has_missing_achievements_data": false
       },
       "steam_id": "76561197982025537",
       "steam_profile_url": "https://steamcommunity.com/profiles/76561197982025537",
@@ -10505,8 +10505,8 @@
         "last_giveaway_won_at": 1764399600,
         "total_achievements_percentage": 32,
         "average_achievements_percentage": 33,
-        "real_total_achievements_percentage": 30,
-        "real_average_achievements_percentage": 31,
+        "real_total_achievements_percentage": 31,
+        "real_average_achievements_percentage": 32,
         "has_missing_achievements_data": true
       },
       "steam_id": "76561197990462722",
@@ -11102,9 +11102,9 @@
         "last_giveaway_created_at": 1764525501,
         "last_giveaway_won_at": 1762810560,
         "total_achievements_percentage": 18,
-        "average_achievements_percentage": 21,
+        "average_achievements_percentage": 22,
         "real_total_achievements_percentage": 18,
-        "real_average_achievements_percentage": 20,
+        "real_average_achievements_percentage": 21,
         "has_missing_achievements_data": true
       },
       "steam_id": "76561198055569704",
@@ -17347,7 +17347,7 @@
           "name": "Dispatch",
           "link": "zLxvA/dispatch",
           "cv_status": "FULL_CV",
-          "entries": 46,
+          "entries": 48,
           "copies": 1,
           "created_timestamp": 1766146702,
           "end_timestamp": 1767200400,
@@ -20280,7 +20280,7 @@
         "last_giveaway_created_at": 1760064390,
         "last_giveaway_won_at": 1766161320,
         "total_achievements_percentage": 8,
-        "average_achievements_percentage": 9,
+        "average_achievements_percentage": 8,
         "real_total_achievements_percentage": 8,
         "real_average_achievements_percentage": 8,
         "has_missing_achievements_data": false
@@ -30278,9 +30278,9 @@
         "last_giveaway_created_at": 1763714039,
         "last_giveaway_won_at": 1766178900,
         "total_achievements_percentage": 16,
-        "average_achievements_percentage": 24,
+        "average_achievements_percentage": 23,
         "real_total_achievements_percentage": 16,
-        "real_average_achievements_percentage": 22,
+        "real_average_achievements_percentage": 21,
         "has_missing_achievements_data": false
       },
       "steam_id": "76561198148268245",
@@ -30981,10 +30981,10 @@
         "giveaways_with_no_entries": 1,
         "last_giveaway_created_at": 1763015942,
         "last_giveaway_won_at": 1765684800,
-        "total_achievements_percentage": 0,
-        "average_achievements_percentage": 0,
-        "real_total_achievements_percentage": 0,
-        "real_average_achievements_percentage": 0,
+        "total_achievements_percentage": 11,
+        "average_achievements_percentage": 11,
+        "real_total_achievements_percentage": 11,
+        "real_average_achievements_percentage": 11,
         "has_missing_achievements_data": false
       },
       "steam_id": "76561197965128191",
@@ -37148,17 +37148,6 @@
       ],
       "giveaways_created": [
         {
-          "name": "Townsmen - A Kingdom Rebuilt",
-          "link": "27P1D/townsmen-a-kingdom-rebuilt",
-          "cv_status": "REDUCED_CV",
-          "entries": 16,
-          "copies": 1,
-          "created_timestamp": 1765583655,
-          "end_timestamp": 1766203200,
-          "required_play": false,
-          "is_shared": true
-        },
-        {
           "name": "Due Process",
           "link": "kRweN/due-process",
           "cv_status": "REDUCED_CV",
@@ -37173,7 +37162,7 @@
           "name": "Leisure Suit Larry - Wet Dreams Don't...",
           "link": "Mcz72/leisure-suit-larry-wet-dreams-dont-dry",
           "cv_status": "REDUCED_CV",
-          "entries": 14,
+          "entries": 15,
           "copies": 1,
           "created_timestamp": 1766012350,
           "end_timestamp": 1766548800,
@@ -37184,12 +37173,31 @@
           "name": "A Juggler's Tale",
           "link": "p9dhK/a-jugglers-tale",
           "cv_status": "REDUCED_CV",
-          "entries": 0,
+          "entries": 1,
           "copies": 1,
           "created_timestamp": 1766191080,
           "end_timestamp": 1766808000,
           "required_play": false,
           "is_shared": true
+        },
+        {
+          "name": "Townsmen - A Kingdom Rebuilt",
+          "link": "27P1D/townsmen-a-kingdom-rebuilt",
+          "cv_status": "REDUCED_CV",
+          "entries": 18,
+          "copies": 1,
+          "created_timestamp": 1765583655,
+          "end_timestamp": 1766203200,
+          "required_play": false,
+          "is_shared": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "Crime Boss: Rockay City",
@@ -43926,7 +43934,7 @@
           "name": "Crystalline",
           "link": "7JkJ8/crystalline",
           "cv_status": "FULL_CV",
-          "entries": 56,
+          "entries": 59,
           "copies": 1,
           "created_timestamp": 1764771373,
           "end_timestamp": 1766239500,
@@ -44394,7 +44402,7 @@
           "name": "Sayonara Wild Hearts",
           "link": "iZQBz/sayonara-wild-hearts",
           "cv_status": "FULL_CV",
-          "entries": 0,
+          "entries": 2,
           "copies": 1,
           "created_timestamp": 1766187818,
           "end_timestamp": 1766680620,
@@ -46279,7 +46287,7 @@
           "name": "Cardpocalypse",
           "link": "h8IGL/cardpocalypse",
           "cv_status": "REDUCED_CV",
-          "entries": 34,
+          "entries": 35,
           "copies": 1,
           "created_timestamp": 1765743049,
           "end_timestamp": 1766264820,
@@ -46788,12 +46796,12 @@
       "profile_url": "/user/Patxxv",
       "avatar_url": "https://avatars.steamstatic.com/de5336abf88361496020d3a7c0fb0fcb7ef67aae_medium.jpg",
       "stats": {
-        "total_sent_count": 45,
-        "total_sent_value": 1042.8,
+        "total_sent_count": 45.5,
+        "total_sent_value": 1051.3,
         "total_received_count": 35.5,
         "total_received_value": 660.4,
-        "total_gift_difference": 9.6,
-        "total_value_difference": 382.4,
+        "total_gift_difference": 10.1,
+        "total_value_difference": 390.9,
         "fcv_sent_count": 18,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
@@ -46808,7 +46816,7 @@
         "real_total_received_count": 32,
         "real_total_gift_difference": -14,
         "giveaway_ratio": 7.33,
-        "shared_sent_count": 35,
+        "shared_sent_count": 36,
         "shared_received_count": 2,
         "giveaways_created": 58,
         "giveaways_with_no_entries": 2,
@@ -47602,9 +47610,9 @@
           "had_winners": true,
           "winners": [
             {
-              "name": null,
-              "status": "awaiting_feedback",
-              "activated": false
+              "name": "quinnix",
+              "status": "received",
+              "activated": true
             }
           ]
         },
@@ -48816,7 +48824,7 @@
           "name": "The Lord of the Rings: Return to Moria",
           "link": "z4HGV/the-lord-of-the-rings-return-to-moria",
           "cv_status": "FULL_CV",
-          "entries": 12,
+          "entries": 13,
           "copies": 1,
           "created_timestamp": 1764499630,
           "end_timestamp": 1766559600,
@@ -53840,10 +53848,10 @@
       "stats": {
         "total_sent_count": 4.3,
         "total_sent_value": 99.62,
-        "total_received_count": 5,
-        "total_received_value": 85.95,
-        "total_gift_difference": -0.7,
-        "total_value_difference": 13.67,
+        "total_received_count": 5.5,
+        "total_received_value": 94.45,
+        "total_gift_difference": -1.2,
+        "total_value_difference": 5.18,
         "fcv_sent_count": 4,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
@@ -53859,11 +53867,11 @@
         "real_total_gift_difference": 0,
         "giveaway_ratio": 2.67,
         "shared_sent_count": 1,
-        "shared_received_count": 0,
+        "shared_received_count": 1,
         "giveaways_created": 6,
         "giveaways_with_no_entries": 1,
         "last_giveaway_created_at": 1765814786,
-        "last_giveaway_won_at": 1761940800,
+        "last_giveaway_won_at": 1766099700,
         "total_achievements_percentage": 25,
         "average_achievements_percentage": 25,
         "real_total_achievements_percentage": 28,
@@ -53875,6 +53883,15 @@
       "steam_profile_is_private": false,
       "country_code": "ar",
       "giveaways_won": [
+        {
+          "name": "Alba: A Wildlife Adventure",
+          "link": "XqD5F/alba-a-wildlife-adventure",
+          "cv_status": "REDUCED_CV",
+          "status": "received",
+          "end_timestamp": 1766099700,
+          "required_play": false,
+          "is_shared": true
+        },
         {
           "name": "Tangle Tower",
           "link": "pmrFq/tangle-tower",
@@ -57468,7 +57485,7 @@
           "name": "Urban Myth Dissolution Center",
           "link": "5MnPe/urban-myth-dissolution-center",
           "cv_status": "FULL_CV",
-          "entries": 2,
+          "entries": 9,
           "copies": 1,
           "created_timestamp": 1766194281,
           "end_timestamp": 1766703600,
@@ -61531,7 +61548,7 @@
           "name": "Inua - A Story in Ice and Time",
           "link": "kV5yF/inua-a-story-in-ice-and-time",
           "cv_status": "REDUCED_CV",
-          "entries": 12,
+          "entries": 13,
           "copies": 1,
           "created_timestamp": 1765965199,
           "end_timestamp": 1766815200,
@@ -71674,7 +71691,7 @@
           "name": "The Cave",
           "link": "3gFmn/the-cave",
           "cv_status": "FULL_CV",
-          "entries": 3,
+          "entries": 5,
           "copies": 1,
           "created_timestamp": 1766156335,
           "end_timestamp": 1766332560,
@@ -71685,7 +71702,7 @@
           "name": "Assassin's Creed Origins - Gold Edition",
           "link": "jHlus/assassins-creed-origins-gold-edition",
           "cv_status": "FULL_CV",
-          "entries": 3,
+          "entries": 6,
           "copies": 1,
           "created_timestamp": 1766156736,
           "end_timestamp": 1766332740,
@@ -71696,7 +71713,7 @@
           "name": "Tom Clancy's Ghost Recon Breakpoint",
           "link": "Nh2ik/tom-clancys-ghost-recon-breakpoint",
           "cv_status": "FULL_CV",
-          "entries": 1,
+          "entries": 3,
           "copies": 1,
           "created_timestamp": 1766157895,
           "end_timestamp": 1766420340,
@@ -71707,7 +71724,7 @@
           "name": "Marvel’s Spider-Man: Miles Morales",
           "link": "M1uMX/marvels-spider-man-miles-morales",
           "cv_status": "FULL_CV",
-          "entries": 25,
+          "entries": 28,
           "copies": 1,
           "created_timestamp": 1766158990,
           "end_timestamp": 1766507100,
@@ -72607,8 +72624,8 @@
       },
       "steam_id": "76561198185630581",
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198185630581",
-      "country_code": null,
-      "steam_profile_is_private": true
+      "steam_profile_is_private": true,
+      "country_code": null
     },
     "Vin3": {
       "username": "Vin3",
@@ -73473,7 +73490,7 @@
         "shared_sent_count": 0,
         "shared_received_count": 0,
         "giveaways_created": 13,
-        "giveaways_with_no_entries": 1,
+        "giveaways_with_no_entries": 2,
         "last_giveaway_created_at": 1765781275,
         "last_giveaway_won_at": 1762610400,
         "total_achievements_percentage": 11,
@@ -73830,7 +73847,8 @@
           "created_timestamp": 1765781275,
           "end_timestamp": 1766216700,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": false
         },
         {
           "name": "Flotsam",
