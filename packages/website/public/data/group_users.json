@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1766803174512,
+  "lastUpdated": 1766825539384,
   "users": {
     "0ksID": {
       "username": "0ksID",
@@ -3460,7 +3460,7 @@
           "name": "Resident Evil 4",
           "link": "2sPGm/resident-evil-4",
           "cv_status": "FULL_CV",
-          "entries": 5,
+          "entries": 12,
           "copies": 1,
           "created_timestamp": 1766788947,
           "end_timestamp": 1766934000,
@@ -3818,12 +3818,12 @@
       "profile_url": "/user/BanjoBearLV",
       "avatar_url": "https://avatars.steamstatic.com/2679dda82e5aec96953f7456b999f84714b1a4a5_medium.jpg",
       "stats": {
-        "total_sent_count": 37,
-        "total_sent_value": 689.63,
+        "total_sent_count": 37.7,
+        "total_sent_value": 706.29,
         "total_received_count": 10.5,
         "total_received_value": 226.9,
-        "total_gift_difference": 26.5,
-        "total_value_difference": 462.74,
+        "total_gift_difference": 27.2,
+        "total_value_difference": 479.4,
         "fcv_sent_count": 35,
         "rcv_sent_count": 2,
         "ncv_sent_count": 0,
@@ -3838,7 +3838,7 @@
         "real_total_received_count": 10,
         "real_total_gift_difference": 25,
         "giveaway_ratio": 31.67,
-        "shared_sent_count": 0,
+        "shared_sent_count": 2,
         "shared_received_count": 1,
         "giveaways_created": 40,
         "giveaways_with_no_entries": 1,
@@ -4097,7 +4097,15 @@
           "created_timestamp": 1766473948,
           "end_timestamp": 1766804400,
           "required_play": false,
-          "is_shared": true
+          "is_shared": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "SkyForth",
+              "status": "received",
+              "activated": true
+            }
+          ]
         },
         {
           "name": "The Royal Writ",
@@ -4108,7 +4116,15 @@
           "created_timestamp": 1766473823,
           "end_timestamp": 1766804400,
           "required_play": false,
-          "is_shared": true
+          "is_shared": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "yannbz",
+              "status": "received",
+              "activated": true
+            }
+          ]
         },
         {
           "name": "Rocket Rats",
@@ -15864,7 +15880,7 @@
           "name": "REANIMAL",
           "link": "GsMKZ/reanimal",
           "cv_status": "FULL_CV",
-          "entries": 60,
+          "entries": 62,
           "copies": 1,
           "created_timestamp": 1766500184,
           "end_timestamp": 1767135720,
@@ -19542,7 +19558,7 @@
           "name": "Senua’s Saga: Hellblade II",
           "link": "cXK9L/senuas-saga-hellblade-ii",
           "cv_status": "FULL_CV",
-          "entries": 33,
+          "entries": 35,
           "copies": 2,
           "created_timestamp": 1766436956,
           "end_timestamp": 1766865600,
@@ -22428,7 +22444,7 @@
           "name": "Hades II",
           "link": "Ubb3e/hades-ii",
           "cv_status": "FULL_CV",
-          "entries": 26,
+          "entries": 30,
           "copies": 1,
           "created_timestamp": 1766776178,
           "end_timestamp": 1767081600,
@@ -25231,7 +25247,7 @@
           "name": "Clair Obscur: Expedition 33",
           "link": "004CN/clair-obscur-expedition-33",
           "cv_status": "FULL_CV",
-          "entries": 35,
+          "entries": 36,
           "copies": 1,
           "created_timestamp": 1766427527,
           "end_timestamp": 1767214800,
@@ -26273,7 +26289,7 @@
         "last_giveaway_created_at": 1761762269,
         "last_giveaway_won_at": 1760223600,
         "total_achievements_percentage": 69,
-        "average_achievements_percentage": 59,
+        "average_achievements_percentage": 60,
         "real_total_achievements_percentage": 71,
         "real_average_achievements_percentage": 60,
         "has_missing_achievements_data": true
@@ -30305,10 +30321,10 @@
         "giveaways_with_no_entries": 3,
         "last_giveaway_created_at": 1766538611,
         "last_giveaway_won_at": 1765507500,
-        "total_achievements_percentage": 33,
-        "average_achievements_percentage": 32,
-        "real_total_achievements_percentage": 33,
-        "real_average_achievements_percentage": 32,
+        "total_achievements_percentage": 34,
+        "average_achievements_percentage": 34,
+        "real_total_achievements_percentage": 34,
+        "real_average_achievements_percentage": 34,
         "has_missing_achievements_data": false
       },
       "steam_id": "76561198347852739",
@@ -37795,9 +37811,9 @@
         "giveaway_ratio": 0.67,
         "shared_sent_count": 83,
         "shared_received_count": 2,
-        "giveaways_created": 84,
+        "giveaways_created": 85,
         "giveaways_with_no_entries": 0,
-        "last_giveaway_created_at": 1766565009,
+        "last_giveaway_created_at": 1766808535,
         "last_giveaway_won_at": 1764944580,
         "total_achievements_percentage": 44,
         "average_achievements_percentage": 33,
@@ -37933,21 +37949,10 @@
       ],
       "giveaways_created": [
         {
-          "name": "A Juggler's Tale",
-          "link": "p9dhK/a-jugglers-tale",
-          "cv_status": "REDUCED_CV",
-          "entries": 13,
-          "copies": 1,
-          "created_timestamp": 1766191080,
-          "end_timestamp": 1766808000,
-          "required_play": false,
-          "is_shared": true
-        },
-        {
           "name": "Hammerwatch II",
           "link": "ezCTk/hammerwatch-ii",
           "cv_status": "REDUCED_CV",
-          "entries": 52,
+          "entries": 56,
           "copies": 1,
           "created_timestamp": 1766282678,
           "end_timestamp": 1766894400,
@@ -37958,7 +37963,7 @@
           "name": "Onde",
           "link": "FlPdx/onde",
           "cv_status": "REDUCED_CV",
-          "entries": 21,
+          "entries": 22,
           "copies": 2,
           "created_timestamp": 1766564771,
           "end_timestamp": 1767153600,
@@ -37975,6 +37980,36 @@
           "end_timestamp": 1767240000,
           "required_play": false,
           "is_shared": true
+        },
+        {
+          "name": "Minute of Islands",
+          "link": "S1YUq/minute-of-islands",
+          "cv_status": "REDUCED_CV",
+          "entries": 2,
+          "copies": 1,
+          "created_timestamp": 1766808535,
+          "end_timestamp": 1767412800,
+          "required_play": false,
+          "is_shared": true
+        },
+        {
+          "name": "A Juggler's Tale",
+          "link": "p9dhK/a-jugglers-tale",
+          "cv_status": "REDUCED_CV",
+          "entries": 15,
+          "copies": 1,
+          "created_timestamp": 1766191080,
+          "end_timestamp": 1766808000,
+          "required_play": false,
+          "is_shared": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "Leisure Suit Larry - Wet Dreams Don't...",
@@ -41630,7 +41665,7 @@
         "total_achievements_percentage": 48,
         "average_achievements_percentage": 50,
         "real_total_achievements_percentage": 52,
-        "real_average_achievements_percentage": 60,
+        "real_average_achievements_percentage": 61,
         "has_missing_achievements_data": true
       },
       "steam_id": "76561198069420656",
@@ -48115,8 +48150,8 @@
         "giveaways_with_no_entries": 2,
         "last_giveaway_created_at": 1766714254,
         "last_giveaway_won_at": 1766717160,
-        "total_achievements_percentage": 11,
-        "average_achievements_percentage": 10,
+        "total_achievements_percentage": 10,
+        "average_achievements_percentage": 9,
         "real_total_achievements_percentage": 10,
         "real_average_achievements_percentage": 7,
         "has_missing_achievements_data": true
@@ -55809,7 +55844,7 @@
           "name": "Assassin's Creed Valhalla",
           "link": "DbSEz/assassins-creed-valhalla",
           "cv_status": "FULL_CV",
-          "entries": 15,
+          "entries": 16,
           "copies": 1,
           "created_timestamp": 1766586463,
           "end_timestamp": 1766867400,
@@ -56451,8 +56486,8 @@
         "giveaways_with_no_entries": 3,
         "last_giveaway_created_at": 1759111542,
         "last_giveaway_won_at": 1764370800,
-        "total_achievements_percentage": 17,
-        "average_achievements_percentage": 27,
+        "total_achievements_percentage": 21,
+        "average_achievements_percentage": 30,
         "real_total_achievements_percentage": 17,
         "real_average_achievements_percentage": 28,
         "has_missing_achievements_data": false
@@ -61355,7 +61390,7 @@
           "name": "Dead Cells",
           "link": "Ilfpm/dead-cells",
           "cv_status": "FULL_CV",
-          "entries": 16,
+          "entries": 17,
           "copies": 1,
           "created_timestamp": 1766444881,
           "end_timestamp": 1766959200,
@@ -61867,10 +61902,10 @@
       "stats": {
         "total_sent_count": 5,
         "total_sent_value": 96.95,
-        "total_received_count": 32,
-        "total_received_value": 498.65,
-        "total_gift_difference": -27,
-        "total_value_difference": -401.7,
+        "total_received_count": 32.3,
+        "total_received_value": 510.31,
+        "total_gift_difference": -27.3,
+        "total_value_difference": -413.36,
         "fcv_sent_count": 5,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
@@ -61886,11 +61921,11 @@
         "real_total_gift_difference": -26,
         "giveaway_ratio": -5.33,
         "shared_sent_count": 0,
-        "shared_received_count": 1,
+        "shared_received_count": 2,
         "giveaways_created": 7,
         "giveaways_with_no_entries": 1,
         "last_giveaway_created_at": 1760429165,
-        "last_giveaway_won_at": 1766332560,
+        "last_giveaway_won_at": 1766804400,
         "total_achievements_percentage": 6,
         "average_achievements_percentage": 8,
         "real_total_achievements_percentage": 6,
@@ -61902,6 +61937,15 @@
       "steam_profile_is_private": false,
       "country_code": "ca",
       "giveaways_won": [
+        {
+          "name": "Wild Bastards",
+          "link": "eoPaq/wild-bastards",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1766804400,
+          "required_play": false,
+          "is_shared": true
+        },
         {
           "name": "The Cave",
           "link": "3gFmn/the-cave",
@@ -63275,56 +63319,96 @@
           "name": "Fresh Start Cleaning Simulator",
           "link": "Lh7IB/fresh-start-cleaning-simulator",
           "cv_status": "FULL_CV",
-          "entries": 18,
+          "entries": 21,
           "copies": 1,
           "created_timestamp": 1765965349,
           "end_timestamp": 1766815200,
           "required_play": false,
-          "is_shared": true
+          "is_shared": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "Overboard!",
           "link": "3iVAJ/overboard",
           "cv_status": "REDUCED_CV",
-          "entries": 38,
+          "entries": 42,
           "copies": 1,
           "created_timestamp": 1765965323,
           "end_timestamp": 1766815200,
           "required_play": false,
-          "is_shared": true
+          "is_shared": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "The Last Campfire",
           "link": "fuUyE/the-last-campfire",
           "cv_status": "REDUCED_CV",
-          "entries": 9,
+          "entries": 10,
           "copies": 1,
           "created_timestamp": 1765965297,
           "end_timestamp": 1766815200,
           "required_play": false,
-          "is_shared": true
+          "is_shared": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "Inua - A Story in Ice and Time",
           "link": "kV5yF/inua-a-story-in-ice-and-time",
           "cv_status": "REDUCED_CV",
-          "entries": 26,
+          "entries": 28,
           "copies": 1,
           "created_timestamp": 1765965199,
           "end_timestamp": 1766815200,
           "required_play": false,
-          "is_shared": true
+          "is_shared": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "Astrologaster",
           "link": "D7EeA/astrologaster",
           "cv_status": "FULL_CV",
-          "entries": 35,
+          "entries": 36,
           "copies": 1,
           "created_timestamp": 1765965162,
           "end_timestamp": 1766815200,
           "required_play": false,
-          "is_shared": true
+          "is_shared": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "Mouthwashing",
@@ -69111,10 +69195,10 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1760554517,
         "last_giveaway_won_at": 1766741400,
-        "total_achievements_percentage": 30,
-        "average_achievements_percentage": 34,
-        "real_total_achievements_percentage": 30,
-        "real_average_achievements_percentage": 34,
+        "total_achievements_percentage": 20,
+        "average_achievements_percentage": 29,
+        "real_total_achievements_percentage": 20,
+        "real_average_achievements_percentage": 29,
         "has_missing_achievements_data": false
       },
       "steam_id": "76561197996608804",
@@ -72411,12 +72495,12 @@
       "profile_url": "/user/Waxlor",
       "avatar_url": "https://avatars.steamstatic.com/26869b703faa3876e0c8b45286148f1a60ae2971_medium.jpg",
       "stats": {
-        "total_sent_count": 9,
-        "total_sent_value": 289.58,
+        "total_sent_count": 10,
+        "total_sent_value": 309.57,
         "total_received_count": 5,
         "total_received_value": 110.95,
-        "total_gift_difference": 4,
-        "total_value_difference": 178.63,
+        "total_gift_difference": 5,
+        "total_value_difference": 198.62,
         "fcv_sent_count": 3,
         "rcv_sent_count": 1,
         "ncv_sent_count": 0,
@@ -73355,10 +73439,10 @@
       "stats": {
         "total_sent_count": 15.8,
         "total_sent_value": 420.18,
-        "total_received_count": 23.1,
-        "total_received_value": 727.6,
-        "total_gift_difference": -7.3,
-        "total_value_difference": -307.43,
+        "total_received_count": 23.4,
+        "total_received_value": 732.6,
+        "total_gift_difference": -7.6,
+        "total_value_difference": -312.42,
         "fcv_sent_count": 13,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
@@ -73374,11 +73458,11 @@
         "real_total_gift_difference": -7,
         "giveaway_ratio": 8.33,
         "shared_sent_count": 5,
-        "shared_received_count": 4,
+        "shared_received_count": 5,
         "giveaways_created": 21,
         "giveaways_with_no_entries": 1,
         "last_giveaway_created_at": 1766507595,
-        "last_giveaway_won_at": 1765969500,
+        "last_giveaway_won_at": 1766804400,
         "total_achievements_percentage": 23,
         "average_achievements_percentage": 26,
         "real_total_achievements_percentage": 25,
@@ -73390,6 +73474,15 @@
       "steam_profile_is_private": false,
       "country_code": "nl",
       "giveaways_won": [
+        {
+          "name": "The Royal Writ",
+          "link": "wEJCs/the-royal-writ",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1766804400,
+          "required_play": false,
+          "is_shared": true
+        },
         {
           "name": "Detroit: Become Human",
           "link": "YAl6F/detroit-become-human",
@@ -73924,7 +74017,7 @@
           "name": "Little Noah: Scion of Paradise",
           "link": "kWMvG/little-noah-scion-of-paradise",
           "cv_status": "FULL_CV",
-          "entries": 15,
+          "entries": 18,
           "copies": 1,
           "created_timestamp": 1766507595,
           "end_timestamp": 1766950200,
