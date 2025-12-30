@@ -70493,31 +70493,242 @@
         "total_received_value": 279.95,
         "total_gift_difference": 0,
         "total_value_difference": -105,
-        "fcv_sent_count": 0,
+        "fcv_sent_count": 5,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
-        "fcv_received_count": 0,
+        "fcv_received_count": 5,
         "rcv_received_count": 0,
         "ncv_received_count": 0,
         "fcv_gift_difference": 0,
-        "real_total_sent_value": 0,
-        "real_total_received_value": 0,
-        "real_total_value_difference": 0,
-        "real_total_sent_count": 0,
-        "real_total_received_count": 0,
+        "real_total_sent_value": 174.95,
+        "real_total_received_value": 279.95,
+        "real_total_value_difference": -105,
+        "real_total_sent_count": 5,
+        "real_total_received_count": 5,
         "real_total_gift_difference": 0,
-        "giveaway_ratio": 0,
+        "giveaway_ratio": 3.33,
         "shared_sent_count": 0,
         "shared_received_count": 0,
-        "giveaways_created": 0,
+        "giveaways_created": 5,
         "giveaways_with_no_entries": 0,
-        "last_giveaway_created_at": null,
-        "last_giveaway_won_at": null
+        "last_giveaway_created_at": 1758429632,
+        "last_giveaway_won_at": 1752076800,
+        "total_achievements_percentage": 4,
+        "average_achievements_percentage": 5,
+        "real_total_achievements_percentage": 4,
+        "real_average_achievements_percentage": 5,
+        "has_missing_achievements_data": false
       },
       "steam_id": "76561198185630581",
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198185630581",
       "steam_profile_is_private": true,
-      "country_code": null
+      "country_code": null,
+      "giveaways_won": [
+        {
+          "name": "Red Dead Redemption 2: Ultimate Edition",
+          "link": "BJfsd/red-dead-redemption-2-ultimate-edition",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1752076800,
+          "required_play": false,
+          "is_shared": false,
+          "steam_play_data": {
+            "owned": true,
+            "playtime_minutes": 0,
+            "playtime_formatted": "0 minutes",
+            "achievements_unlocked": 0,
+            "achievements_total": 51,
+            "achievements_percentage": 0,
+            "never_played": true,
+            "is_playtime_private": false,
+            "last_checked": 1765011319008
+          }
+        },
+        {
+          "name": "Tempest Rising",
+          "link": "1YeRG/tempest-rising",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1751994000,
+          "required_play": false,
+          "is_shared": false,
+          "steam_play_data": {
+            "owned": true,
+            "playtime_minutes": 280,
+            "playtime_formatted": "4 hours 40 minutes",
+            "achievements_unlocked": 0,
+            "achievements_total": 98,
+            "achievements_percentage": 0,
+            "never_played": true,
+            "is_playtime_private": false,
+            "last_checked": 1764901818987,
+            "is_potentially_idling": true
+          }
+        },
+        {
+          "name": "Dead Space",
+          "link": "Mvvh7/dead-space",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1751569200,
+          "required_play": false,
+          "is_shared": false,
+          "steam_play_data": {
+            "owned": true,
+            "playtime_minutes": 250,
+            "playtime_formatted": "4 hours 10 minutes",
+            "achievements_unlocked": 0,
+            "achievements_total": 47,
+            "achievements_percentage": 0,
+            "never_played": true,
+            "is_playtime_private": false,
+            "last_checked": 1764492872394,
+            "is_potentially_idling": true
+          }
+        },
+        {
+          "name": "Lies of P",
+          "link": "1zRET/lies-of-p",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1751513400,
+          "required_play": true,
+          "is_shared": false,
+          "steam_play_data": {
+            "owned": true,
+            "playtime_minutes": 1234,
+            "playtime_formatted": "20 hours 34 minutes",
+            "achievements_unlocked": 9,
+            "achievements_total": 53,
+            "achievements_percentage": 17,
+            "never_played": false,
+            "is_playtime_private": false,
+            "last_checked": 1764470632254
+          },
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 3
+          }
+        },
+        {
+          "name": "Bear and Breakfast",
+          "link": "hTqSp/bear-and-breakfast",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1750018380,
+          "required_play": false,
+          "is_shared": false,
+          "steam_play_data": {
+            "owned": true,
+            "playtime_minutes": 167,
+            "playtime_formatted": "2 hours 47 minutes",
+            "achievements_unlocked": 4,
+            "achievements_total": 43,
+            "achievements_percentage": 9.3,
+            "never_played": false,
+            "is_playtime_private": false,
+            "last_checked": 1762938292671
+          }
+        }
+      ],
+      "giveaways_created": [
+        {
+          "name": "Kingdom Come: Deliverance Royal Edition",
+          "link": "PuUG6/kingdom-come-deliverance-royal-edition",
+          "cv_status": "FULL_CV",
+          "entries": 6,
+          "copies": 1,
+          "created_timestamp": 1758429632,
+          "end_timestamp": 1758983700,
+          "required_play": false,
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "Lakraj1209",
+              "status": "received",
+              "activated": true
+            }
+          ]
+        },
+        {
+          "name": "DARK SOULS: REMASTERED",
+          "link": "2Kynd/dark-souls-remastered",
+          "cv_status": "FULL_CV",
+          "entries": 22,
+          "copies": 1,
+          "created_timestamp": 1752083394,
+          "end_timestamp": 1752410100,
+          "required_play": false,
+          "is_shared": false,
+          "i_played_bro": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "Kirouse",
+              "status": "received",
+              "activated": true
+            }
+          ]
+        },
+        {
+          "name": "The Medium",
+          "link": "A1GpI/the-medium",
+          "cv_status": "FULL_CV",
+          "entries": 5,
+          "copies": 1,
+          "created_timestamp": 1751591828,
+          "end_timestamp": 1751846700,
+          "required_play": false,
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "vlbastos",
+              "status": "received",
+              "activated": true
+            }
+          ]
+        },
+        {
+          "name": "Thymesia",
+          "link": "DlX4v/thymesia",
+          "cv_status": "FULL_CV",
+          "entries": 2,
+          "copies": 1,
+          "created_timestamp": 1751122274,
+          "end_timestamp": 1751375400,
+          "required_play": false,
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "doubleomurfy",
+              "status": "received",
+              "activated": true
+            }
+          ]
+        },
+        {
+          "name": "Potion Craft: Alchemist Simulator",
+          "link": "7jYdT/potion-craft-alchemist-simulator",
+          "cv_status": "FULL_CV",
+          "entries": 17,
+          "copies": 1,
+          "created_timestamp": 1749737497,
+          "end_timestamp": 1749910500,
+          "required_play": false,
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "FateOfOne",
+              "status": "received",
+              "activated": true
+            }
+          ]
+        }
+      ]
     },
     "Vin3": {
       "username": "Vin3",
