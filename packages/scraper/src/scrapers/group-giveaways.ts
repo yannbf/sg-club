@@ -428,13 +428,15 @@ export class SteamGiftsHTMLScraper {
     }
 
     if (description.includes('OCTOBER EVENT')) {
-      // for future events, event_type will be set
       event_type = 'october_event'
     }
 
     if (description.toLowerCase().includes('november event entry')) {
-      // for future events, event_type will be set
       event_type = 'november_event'
+    }
+
+    if (description.toLowerCase().includes('january event entry')) {
+      event_type = 'january_event_2026'
     }
 
     // Check if it's a whitelist giveaway
@@ -448,6 +450,18 @@ export class SteamGiftsHTMLScraper {
       (groupText !== 'The Giveaways Club' && groupText.length > 0)
 
     const metadata = this.extractDataFromDetailedGiveawayPage(html)
+
+    if (!event_type && description.toLowerCase().includes('event entry')) {
+      if (metadata?.endDate) {
+        const endDateObj = new Date(metadata.endDate * 1000)
+        // get month as lowercased month name
+        let month = endDateObj
+          .toLocaleString('en-US', { month: 'long' })
+          .toLowerCase()
+        let year = endDateObj.getUTCFullYear()
+        event_type = `${month}_event_${year}`
+      }
+    }
 
     return {
       required_play,
