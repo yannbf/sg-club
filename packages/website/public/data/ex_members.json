@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1767666660660,
+  "lastUpdated": 1767689901982,
   "users": [
     {
       "username": "thesodaer",
@@ -12232,6 +12232,332 @@
         }
       ],
       "left_at_timestamp": 1767666660658
+    },
+    {
+      "username": "AndyFrost",
+      "profile_url": "/user/AndyFrost",
+      "avatar_url": "https://avatars.steamstatic.com/952cd01425105131a507f8de21c1027cde87f030_medium.jpg",
+      "stats": {
+        "total_sent_count": 9.4,
+        "total_sent_value": 150.16,
+        "total_received_count": 2,
+        "total_received_value": 34.98,
+        "total_gift_difference": 7.4,
+        "total_value_difference": 115.18,
+        "fcv_sent_count": 6,
+        "rcv_sent_count": 1,
+        "ncv_sent_count": 0,
+        "fcv_received_count": 2,
+        "rcv_received_count": 0,
+        "ncv_received_count": 0,
+        "fcv_gift_difference": 4,
+        "real_total_sent_value": 82.94,
+        "real_total_received_value": 34.98,
+        "real_total_value_difference": 47.96,
+        "real_total_sent_count": 6,
+        "real_total_received_count": 2,
+        "real_total_gift_difference": 4,
+        "giveaway_ratio": 6,
+        "shared_sent_count": 6,
+        "shared_received_count": 0,
+        "giveaways_created": 10,
+        "giveaways_with_no_entries": 0,
+        "last_giveaway_created_at": 1755513809,
+        "last_giveaway_won_at": 1752896700,
+        "total_achievements_percentage": 80,
+        "average_achievements_percentage": 87,
+        "real_total_achievements_percentage": 80,
+        "real_average_achievements_percentage": 87,
+        "has_missing_achievements_data": false
+      },
+      "steam_id": "76561197987167534",
+      "steam_profile_url": "https://steamcommunity.com/profiles/76561197987167534",
+      "steam_profile_is_private": false,
+      "country_code": null,
+      "giveaways_won": [
+        {
+          "name": "Drop Duchy",
+          "link": "MPc9g/drop-duchy",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1752896700,
+          "required_play": false,
+          "is_shared": false,
+          "steam_play_data": {
+            "owned": true,
+            "playtime_minutes": 1707,
+            "playtime_formatted": "28 hours 27 minutes",
+            "achievements_unlocked": 135,
+            "achievements_total": 181,
+            "achievements_percentage": 74.6,
+            "never_played": false,
+            "is_playtime_private": false,
+            "last_checked": 1765852055070
+          },
+          "i_played_bro": true
+        },
+        {
+          "name": "Islets",
+          "link": "tQTsl/islets",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1751072400,
+          "required_play": false,
+          "is_shared": false,
+          "steam_play_data": {
+            "owned": true,
+            "playtime_minutes": 683,
+            "playtime_formatted": "11 hours 23 minutes",
+            "achievements_unlocked": 44,
+            "achievements_total": 44,
+            "achievements_percentage": 100,
+            "never_played": false,
+            "is_playtime_private": false,
+            "last_checked": 1763974727535
+          },
+          "i_played_bro": true
+        }
+      ],
+      "giveaways_created": [
+        {
+          "name": "The King is Watching",
+          "link": "iqDt4/the-king-is-watching",
+          "cv_status": "FULL_CV",
+          "entries": 21,
+          "copies": 1,
+          "created_timestamp": 1755513809,
+          "end_timestamp": 1755928800,
+          "required_play": false,
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "LieEater",
+              "status": "received",
+              "activated": true
+            }
+          ]
+        },
+        {
+          "name": "Daydream: Forgotten Sorrow",
+          "link": "CHQbl/daydream-forgotten-sorrow",
+          "cv_status": "FULL_CV",
+          "entries": 47,
+          "copies": 1,
+          "created_timestamp": 1754893413,
+          "end_timestamp": 1755496800,
+          "required_play": true,
+          "is_shared": true,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
+          },
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "Mayanaise",
+              "status": "received",
+              "activated": true
+            }
+          ]
+        },
+        {
+          "name": "Withering Rooms",
+          "link": "sPe7p/withering-rooms",
+          "cv_status": "FULL_CV",
+          "entries": 14,
+          "copies": 1,
+          "created_timestamp": 1753035622,
+          "end_timestamp": 1754629200,
+          "required_play": false,
+          "is_shared": false,
+          "i_played_bro": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "DanielStoSve",
+              "status": "received",
+              "activated": true
+            }
+          ]
+        },
+        {
+          "name": "Nuclear Blaze",
+          "link": "PGv0K/nuclear-blaze",
+          "cv_status": "FULL_CV",
+          "entries": 64,
+          "copies": 1,
+          "created_timestamp": 1752560906,
+          "end_timestamp": 1753160400,
+          "required_play": true,
+          "is_shared": true,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
+          },
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "GodFeelling",
+              "status": "received",
+              "activated": true
+            }
+          ]
+        },
+        {
+          "name": "Lost Ruins",
+          "link": "OegVa/lost-ruins",
+          "cv_status": "REDUCED_CV",
+          "entries": 12,
+          "copies": 1,
+          "created_timestamp": 1751749334,
+          "end_timestamp": 1752552000,
+          "required_play": false,
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "winfryd",
+              "status": "received",
+              "activated": true
+            }
+          ]
+        },
+        {
+          "name": "Tobla - Divine Path",
+          "link": "CDxrc/tobla-divine-path",
+          "cv_status": "FULL_CV",
+          "entries": 88,
+          "copies": 1,
+          "created_timestamp": 1751689937,
+          "end_timestamp": 1752303600,
+          "required_play": true,
+          "is_shared": true,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
+          },
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "Rysanlos",
+              "status": "received",
+              "activated": true
+            }
+          ]
+        },
+        {
+          "name": "Torn Away",
+          "link": "Sz8Ql/torn-away",
+          "cv_status": "FULL_CV",
+          "entries": 11,
+          "copies": 1,
+          "created_timestamp": 1751005682,
+          "end_timestamp": 1751299260,
+          "required_play": true,
+          "is_shared": false,
+          "i_played_bro": true,
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2
+          },
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "Carenard",
+              "status": "received",
+              "activated": true
+            }
+          ]
+        },
+        {
+          "name": "A Game About Digging A Hole",
+          "link": "2Ojyr/a-game-about-digging-a-hole",
+          "cv_status": "FULL_CV",
+          "entries": 17,
+          "copies": 2,
+          "created_timestamp": 1750235206,
+          "end_timestamp": 1751173200,
+          "required_play": true,
+          "is_shared": false,
+          "i_played_bro": true,
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2
+          },
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "Ellendyl",
+              "status": "received",
+              "activated": true
+            },
+            {
+              "name": "RGVS",
+              "status": "received",
+              "activated": true
+            }
+          ]
+        },
+        {
+          "name": "Tchia",
+          "link": "2pufw/tchia",
+          "cv_status": "NO_CV",
+          "entries": 87,
+          "copies": 5,
+          "created_timestamp": 1750155419,
+          "end_timestamp": 1750834800,
+          "required_play": true,
+          "is_shared": true,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
+          },
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "Acierate",
+              "status": "received",
+              "activated": true
+            },
+            {
+              "name": "hunterants",
+              "status": "received",
+              "activated": true
+            },
+            {
+              "name": "MrZergus",
+              "status": "received",
+              "activated": true
+            }
+          ]
+        },
+        {
+          "name": "Rain on Your Parade",
+          "link": "vGFWb/rain-on-your-parade",
+          "cv_status": "FULL_CV",
+          "entries": 18,
+          "copies": 1,
+          "created_timestamp": 1749717596,
+          "end_timestamp": 1750412100,
+          "required_play": false,
+          "is_shared": false,
+          "i_played_bro": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "rufioh",
+              "status": "received",
+              "activated": true
+            }
+          ]
+        }
+      ],
+      "left_at_timestamp": 1767689901980
     }
   ]
 }
