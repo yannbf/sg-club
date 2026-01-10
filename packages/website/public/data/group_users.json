@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1767949804982,
+  "lastUpdated": 1768012133008,
   "users": {
     "a10i": {
       "username": "a10i",
@@ -1506,26 +1506,26 @@
       "profile_url": "/user/Alpha2749",
       "avatar_url": "https://avatars.steamstatic.com/f2a519a1e32fccb4a7596a7badd3e366e344aedb_medium.jpg",
       "stats": {
-        "total_sent_count": 1,
-        "total_sent_value": 19.99,
+        "total_sent_count": 2,
+        "total_sent_value": 49.98,
         "total_received_count": 2,
         "total_received_value": 59.98,
-        "total_gift_difference": -1,
-        "total_value_difference": -39.99,
-        "fcv_sent_count": 1,
+        "total_gift_difference": 0,
+        "total_value_difference": -10,
+        "fcv_sent_count": 2,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
         "fcv_received_count": 2,
         "rcv_received_count": 0,
         "ncv_received_count": 0,
-        "fcv_gift_difference": -1,
-        "real_total_sent_value": 19.99,
+        "fcv_gift_difference": 0,
+        "real_total_sent_value": 49.98,
         "real_total_received_value": 59.98,
-        "real_total_value_difference": -39.99,
-        "real_total_sent_count": 1,
+        "real_total_value_difference": -10,
+        "real_total_sent_count": 2,
         "real_total_received_count": 2,
-        "real_total_gift_difference": -1,
-        "giveaway_ratio": 0.67,
+        "real_total_gift_difference": 0,
+        "giveaway_ratio": 1.67,
         "shared_sent_count": 0,
         "shared_received_count": 0,
         "giveaways_created": 2,
@@ -1591,12 +1591,20 @@
           "name": "Slime Rancher 2",
           "link": "BlLN1/slime-rancher-2",
           "cv_status": "FULL_CV",
-          "entries": 14,
+          "entries": 16,
           "copies": 1,
           "created_timestamp": 1767789576,
           "end_timestamp": 1767987000,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "yugimax",
+              "status": "received",
+              "activated": true
+            }
+          ]
         },
         {
           "name": "Bear and Breakfast",
@@ -2094,7 +2102,7 @@
           "name": "Mini Cozy Room: Lo-Fi",
           "link": "cNIqU/mini-cozy-room-lo-fi",
           "cv_status": "FULL_CV",
-          "entries": 4,
+          "entries": 5,
           "copies": 1,
           "created_timestamp": 1767797656,
           "end_timestamp": 1768132800,
@@ -2285,9 +2293,9 @@
         "giveaways_with_no_entries": 1,
         "last_giveaway_created_at": 1767058155,
         "last_giveaway_won_at": 1766786400,
-        "total_achievements_percentage": 51,
+        "total_achievements_percentage": 52,
         "average_achievements_percentage": 69,
-        "real_total_achievements_percentage": 51,
+        "real_total_achievements_percentage": 52,
         "real_average_achievements_percentage": 69,
         "has_missing_achievements_data": false
       },
@@ -2646,7 +2654,7 @@
           "name": "Disgaea PC",
           "link": "o3mXZ/disgaea-pc",
           "cv_status": "FULL_CV",
-          "entries": 4,
+          "entries": 5,
           "copies": 1,
           "created_timestamp": 1767016328,
           "end_timestamp": 1768016400,
@@ -5732,34 +5740,34 @@
       "stats": {
         "total_sent_count": 32.5,
         "total_sent_value": 722.18,
-        "total_received_count": 38,
-        "total_received_value": 665.62,
-        "total_gift_difference": -5.5,
-        "total_value_difference": 56.56,
+        "total_received_count": 39,
+        "total_received_value": 680.61,
+        "total_gift_difference": -6.5,
+        "total_value_difference": 41.57,
         "fcv_sent_count": 29,
         "rcv_sent_count": 3,
         "ncv_sent_count": 0,
-        "fcv_received_count": 38,
+        "fcv_received_count": 39,
         "rcv_received_count": 0,
         "ncv_received_count": 0,
-        "fcv_gift_difference": -9,
+        "fcv_gift_difference": -10,
         "real_total_sent_value": 672.96,
-        "real_total_received_value": 665.62,
-        "real_total_value_difference": 7.34,
+        "real_total_received_value": 678.61,
+        "real_total_value_difference": -5.65,
         "real_total_sent_count": 29,
-        "real_total_received_count": 38,
-        "real_total_gift_difference": -9,
-        "giveaway_ratio": 19,
+        "real_total_received_count": 39,
+        "real_total_gift_difference": -10,
+        "giveaway_ratio": 18.67,
         "shared_sent_count": 1,
         "shared_received_count": 0,
-        "giveaways_created": 35,
+        "giveaways_created": 36,
         "giveaways_with_no_entries": 2,
-        "last_giveaway_created_at": 1767052182,
-        "last_giveaway_won_at": 1767844440,
-        "total_achievements_percentage": 20,
-        "average_achievements_percentage": 29,
-        "real_total_achievements_percentage": 20,
-        "real_average_achievements_percentage": 29,
+        "last_giveaway_created_at": 1767964307,
+        "last_giveaway_won_at": 1767949200,
+        "total_achievements_percentage": 21,
+        "average_achievements_percentage": 31,
+        "real_total_achievements_percentage": 21,
+        "real_average_achievements_percentage": 31,
         "has_missing_achievements_data": true
       },
       "steam_id": "76561198024970451",
@@ -5767,6 +5775,15 @@
       "steam_profile_is_private": false,
       "country_code": "es",
       "giveaways_won": [
+        {
+          "name": "Die in the Dungeon",
+          "link": "2Nw2o/die-in-the-dungeon",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1767949200,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "Catto's Post Office",
           "link": "48bo9/cattos-post-office",
@@ -6568,6 +6585,17 @@
       ],
       "giveaways_created": [
         {
+          "name": "Wanderstop",
+          "link": "Bp5QE/wanderstop",
+          "cv_status": "FULL_CV",
+          "entries": 13,
+          "copies": 1,
+          "created_timestamp": 1767964307,
+          "end_timestamp": 1768239000,
+          "required_play": false,
+          "is_shared": false
+        },
+        {
           "name": "Spilled!",
           "link": "rqtcz/spilled",
           "cv_status": "FULL_CV",
@@ -7320,7 +7348,7 @@
             "last_checked": 1767949149380
           },
           "required_play_meta": {
-            "requirements_met": false,
+            "requirements_met": true,
             "deadline_in_months": 2,
             "additional_notes": "\"Charted! - Moderate\" achievement, beating the game on normal"
           }
@@ -7577,7 +7605,7 @@
           "name": "Backpack Hero",
           "link": "xJFna/backpack-hero",
           "cv_status": "FULL_CV",
-          "entries": 43,
+          "entries": 46,
           "copies": 1,
           "created_timestamp": 1767854656,
           "end_timestamp": 1769796000,
@@ -8117,7 +8145,7 @@
           "is_shared": false,
           "i_played_bro": false,
           "required_play_meta": {
-            "requirements_met": false,
+            "requirements_met": true,
             "deadline": "31.12.2025",
             "deadline_in_months": 2
           },
@@ -8154,9 +8182,6 @@
             }
           ]
         }
-      ],
-      "warnings": [
-        "required_plays_need_review"
       ]
     },
     "Carrei": {
@@ -8619,7 +8644,7 @@
             "last_checked": 1767926364533
           },
           "required_play_meta": {
-            "requirements_met": false,
+            "requirements_met": true,
             "deadline_in_months": 3
           }
         },
@@ -9392,7 +9417,7 @@
             "last_checked": 1767949165326
           },
           "required_play_meta": {
-            "requirements_met": false,
+            "requirements_met": true,
             "deadline_in_months": 5
           }
         },
@@ -9554,9 +9579,6 @@
             }
           ]
         }
-      ],
-      "warnings": [
-        "required_plays_need_review"
       ]
     },
     "CharlesNonsens": {
@@ -10018,7 +10040,7 @@
           "name": "Druidwalker",
           "link": "ht1vs/druidwalker",
           "cv_status": "FULL_CV",
-          "entries": 0,
+          "entries": 1,
           "copies": 1,
           "created_timestamp": 1765567786,
           "end_timestamp": 1768158000,
@@ -15398,6 +15420,11 @@
           "end_timestamp": 1767308340,
           "required_play": true,
           "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -15481,7 +15508,7 @@
           "is_shared": false,
           "i_played_bro": false,
           "required_play_meta": {
-            "requirements_met": false,
+            "requirements_met": true,
             "deadline": "31.12.2025",
             "deadline_in_months": 2
           },
@@ -16011,7 +16038,7 @@
           "name": "Neva",
           "link": "qb4aN/neva",
           "cv_status": "FULL_CV",
-          "entries": 26,
+          "entries": 28,
           "copies": 1,
           "created_timestamp": 1767565234,
           "end_timestamp": 1768604520,
@@ -16022,7 +16049,7 @@
           "name": "Rain on Your Parade",
           "link": "CUOLo/rain-on-your-parade",
           "cv_status": "FULL_CV",
-          "entries": 3,
+          "entries": 4,
           "copies": 1,
           "created_timestamp": 1767565604,
           "end_timestamp": 1768605720,
@@ -16033,7 +16060,7 @@
           "name": "Nine Sols",
           "link": "GtSUw/nine-sols",
           "cv_status": "REDUCED_CV",
-          "entries": 151,
+          "entries": 154,
           "copies": 1,
           "created_timestamp": 1767568656,
           "end_timestamp": 1768608300,
@@ -16044,7 +16071,7 @@
           "name": "Ori and the Will of the Wisps",
           "link": "QfQM7/ori-and-the-will-of-the-wisps",
           "cv_status": "REDUCED_CV",
-          "entries": 127,
+          "entries": 130,
           "copies": 1,
           "created_timestamp": 1767568743,
           "end_timestamp": 1768609080,
@@ -16077,7 +16104,7 @@
           "name": "The Case of the Golden Idol",
           "link": "1c4AL/the-case-of-the-golden-idol",
           "cv_status": "FULL_CV",
-          "entries": 12,
+          "entries": 13,
           "copies": 1,
           "created_timestamp": 1767562783,
           "end_timestamp": 1768689540,
@@ -16658,6 +16685,10 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1767949265066
+          },
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
           }
         },
         {
@@ -17915,6 +17946,10 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1767949274311
+          },
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 3
           }
         },
         {
@@ -18027,9 +18062,6 @@
             }
           ]
         }
-      ],
-      "warnings": [
-        "required_plays_need_review"
       ]
     },
     "DrTenma": {
@@ -18112,6 +18144,10 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1767949276909
+          },
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2
           }
         },
         {
@@ -18586,9 +18622,6 @@
             }
           ]
         }
-      ],
-      "warnings": [
-        "required_plays_need_review"
       ]
     },
     "eeev": {
@@ -20171,7 +20204,7 @@
           "name": "ISLANDERS: New Shores",
           "link": "4lb3J/islanders-new-shores",
           "cv_status": "FULL_CV",
-          "entries": 6,
+          "entries": 8,
           "copies": 2,
           "created_timestamp": 1767893264,
           "end_timestamp": 1768154400,
@@ -22596,7 +22629,7 @@
           "name": "Little Friends: Puppy Island",
           "link": "jBU0o/little-friends-puppy-island",
           "cv_status": "REDUCED_CV",
-          "entries": 1,
+          "entries": 2,
           "copies": 1,
           "created_timestamp": 1767840553,
           "end_timestamp": 1768147200,
@@ -23170,7 +23203,7 @@
           "name": "Doloc Town",
           "link": "H8Mq0/doloc-town",
           "cv_status": "FULL_CV",
-          "entries": 12,
+          "entries": 11,
           "copies": 1,
           "created_timestamp": 1767111358,
           "end_timestamp": 1768500000,
@@ -24137,9 +24170,9 @@
         "total_sent_count": 44,
         "total_sent_value": 905.56,
         "total_received_count": 26,
-        "total_received_value": 677.74,
+        "total_received_value": 697.74,
         "total_gift_difference": 18,
-        "total_value_difference": 227.82,
+        "total_value_difference": 207.82,
         "fcv_sent_count": 31,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
@@ -29098,6 +29131,11 @@
           "end_timestamp": 1767499200,
           "required_play": true,
           "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 3
+          },
           "had_winners": true,
           "winners": [
             {
@@ -29129,6 +29167,11 @@
           "end_timestamp": 1767229200,
           "required_play": true,
           "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -29570,6 +29613,9 @@
             }
           ]
         }
+      ],
+      "warnings": [
+        "required_play_deadline_within_15_days"
       ]
     },
     "ithamore": {
@@ -30183,11 +30229,11 @@
       "avatar_url": "https://avatars.steamstatic.com/f929925df26b86d3aaf9b504c42bc8a7f18a882b_medium.jpg",
       "stats": {
         "total_sent_count": 26,
-        "total_sent_value": 681.07,
+        "total_sent_value": 682.18,
         "total_received_count": 4,
         "total_received_value": 61.96,
         "total_gift_difference": 22,
-        "total_value_difference": 619.11,
+        "total_value_difference": 620.22,
         "fcv_sent_count": 19,
         "rcv_sent_count": 1,
         "ncv_sent_count": 0,
@@ -30317,7 +30363,7 @@
           "is_shared": false,
           "i_played_bro": false,
           "required_play_meta": {
-            "requirements_met": false,
+            "requirements_met": true,
             "deadline_in_months": 12
           },
           "had_winners": true,
@@ -31165,7 +31211,7 @@
           "is_shared": false,
           "i_played_bro": false,
           "required_play_meta": {
-            "requirements_met": false,
+            "requirements_met": true,
             "deadline": "01.06.2026",
             "deadline_in_months": 2,
             "additional_notes": "1hr + \"Cleared The Way of the Ninja\" (Chapter 1) achievement"
@@ -31415,10 +31461,10 @@
         "giveaways_with_no_entries": 3,
         "last_giveaway_created_at": 1767793070,
         "last_giveaway_won_at": 1767945600,
-        "total_achievements_percentage": 35,
-        "average_achievements_percentage": 33,
-        "real_total_achievements_percentage": 35,
-        "real_average_achievements_percentage": 33,
+        "total_achievements_percentage": 28,
+        "average_achievements_percentage": 27,
+        "real_total_achievements_percentage": 28,
+        "real_average_achievements_percentage": 27,
         "has_missing_achievements_data": false
       },
       "steam_id": "76561198347852739",
@@ -31463,6 +31509,11 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1767949402792
+          },
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 4,
+            "additional_notes": "\"Trust Only In The Force\" achievement"
           }
         },
         {
@@ -31566,7 +31617,7 @@
           "name": "Tomb Raider IV-VI Remastered",
           "link": "bA0EG/tomb-raider-iv-vi-remastered",
           "cv_status": "REDUCED_CV",
-          "entries": 6,
+          "entries": 7,
           "copies": 1,
           "created_timestamp": 1767793070,
           "end_timestamp": 1768055580,
@@ -32612,17 +32663,6 @@
       ],
       "giveaways_created": [
         {
-          "name": "Olija",
-          "link": "7hAA4/olija",
-          "cv_status": "FULL_CV",
-          "entries": 3,
-          "copies": 1,
-          "created_timestamp": 1767724273,
-          "end_timestamp": 1767987000,
-          "required_play": false,
-          "is_shared": false
-        },
-        {
           "name": "Loop Hero",
           "link": "uDF5U/loop-hero",
           "cv_status": "FULL_CV",
@@ -32631,7 +32671,34 @@
           "created_timestamp": 1767724357,
           "end_timestamp": 1767987060,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
+        },
+        {
+          "name": "Olija",
+          "link": "7hAA4/olija",
+          "cv_status": "FULL_CV",
+          "entries": 3,
+          "copies": 1,
+          "created_timestamp": 1767724273,
+          "end_timestamp": 1767987000,
+          "required_play": false,
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "QV",
@@ -38499,7 +38566,7 @@
           "name": "Leisure Suit Larry - Wet Dreams Dry T...",
           "link": "Oq0LL/leisure-suit-larry-wet-dreams-dry-twice",
           "cv_status": "REDUCED_CV",
-          "entries": 27,
+          "entries": 29,
           "copies": 1,
           "created_timestamp": 1767403674,
           "end_timestamp": 1768017600,
@@ -38510,7 +38577,7 @@
           "name": "Heal",
           "link": "CUnPD/heal",
           "cv_status": "REDUCED_CV",
-          "entries": 32,
+          "entries": 35,
           "copies": 1,
           "created_timestamp": 1767748060,
           "end_timestamp": 1768363200,
@@ -40349,8 +40416,13 @@
           "copies": 1,
           "created_timestamp": 1767075482,
           "end_timestamp": 1767351600,
-          "required_play": false,
+          "required_play": true,
           "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -40827,6 +40899,12 @@
           "end_timestamp": 1767538800,
           "required_play": true,
           "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 4,
+            "additional_notes": "\"Trust Only In The Force\" achievement"
+          },
           "had_winners": true,
           "winners": [
             {
@@ -40939,7 +41017,7 @@
           "is_shared": false,
           "i_played_bro": false,
           "required_play_meta": {
-            "requirements_met": false,
+            "requirements_met": true,
             "deadline_in_months": 2,
             "additional_notes": "\"Charted! - Moderate\" achievement, beating the game on normal"
           },
@@ -42394,6 +42472,12 @@
           "end_timestamp": 1766793600,
           "required_play": true,
           "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2,
+            "additional_notes": "Beat Azra with any character"
+          },
           "had_winners": true,
           "winners": [
             {
@@ -43605,6 +43689,10 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1767949495069
+          },
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 3
           }
         },
         {
@@ -44109,9 +44197,6 @@
             }
           ]
         }
-      ],
-      "warnings": [
-        "required_plays_need_review"
       ]
     },
     "molu13": {
@@ -44588,7 +44673,7 @@
             "last_checked": 1767949516288
           },
           "required_play_meta": {
-            "requirements_met": false,
+            "requirements_met": true,
             "deadline_in_months": 6
           }
         },
@@ -45480,6 +45565,12 @@
           "end_timestamp": 1766613600,
           "required_play": true,
           "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline": "05.04.2026",
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -46087,8 +46178,12 @@
           "cv_status": "FULL_CV",
           "status": "received",
           "end_timestamp": 1767351600,
-          "required_play": false,
-          "is_shared": false
+          "required_play": true,
+          "is_shared": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
+          }
         },
         {
           "name": "UNCHARTED: Legacy of Thieves Collection",
@@ -46180,17 +46275,6 @@
       ],
       "giveaways_created": [
         {
-          "name": "Doloc Town",
-          "link": "FO2PN/doloc-town",
-          "cv_status": "FULL_CV",
-          "entries": 15,
-          "copies": 1,
-          "created_timestamp": 1767054205,
-          "end_timestamp": 1767956400,
-          "required_play": false,
-          "is_shared": false
-        },
-        {
           "name": "The Axis Unseen",
           "link": "znZey/the-axis-unseen",
           "cv_status": "FULL_CV",
@@ -46200,6 +46284,25 @@
           "end_timestamp": 1768059180,
           "required_play": false,
           "is_shared": false
+        },
+        {
+          "name": "Doloc Town",
+          "link": "FO2PN/doloc-town",
+          "cv_status": "FULL_CV",
+          "entries": 15,
+          "copies": 1,
+          "created_timestamp": 1767054205,
+          "end_timestamp": 1767956400,
+          "required_play": false,
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "Endless Monday: Dreams and Deadlines",
@@ -46677,7 +46780,7 @@
             "is_potentially_idling": true
           },
           "required_play_meta": {
-            "requirements_met": false,
+            "requirements_met": true,
             "deadline_in_months": 2,
             "deadline": "31.12.2025"
           }
@@ -46714,6 +46817,11 @@
           "end_timestamp": 1767371460,
           "required_play": true,
           "is_shared": true,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -46733,6 +46841,11 @@
           "end_timestamp": 1766767200,
           "required_play": true,
           "is_shared": true,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -46850,7 +46963,7 @@
           "is_shared": true,
           "i_played_bro": false,
           "required_play_meta": {
-            "requirements_met": false,
+            "requirements_met": true,
             "deadline_in_months": 3
           },
           "had_winners": true,
@@ -46958,7 +47071,7 @@
           "is_shared": false,
           "i_played_bro": false,
           "required_play_meta": {
-            "requirements_met": false,
+            "requirements_met": true,
             "deadline_in_months": 3
           },
           "had_winners": true,
@@ -49651,6 +49764,11 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1767949571601
+          },
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2,
+            "deadline": "05.04.2026"
           }
         },
         {
@@ -52039,7 +52157,7 @@
           "name": "BALL x PIT",
           "link": "XAv0b/ball-x-pit",
           "cv_status": "FULL_CV",
-          "entries": 22,
+          "entries": 27,
           "copies": 1,
           "created_timestamp": 1767873316,
           "end_timestamp": 1768481580,
@@ -53759,6 +53877,11 @@
           "end_timestamp": 1767441600,
           "required_play": true,
           "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -53778,6 +53901,11 @@
           "end_timestamp": 1766589900,
           "required_play": true,
           "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 3
+          },
           "had_winners": true,
           "winners": [
             {
@@ -54562,6 +54690,11 @@
             "never_played": true,
             "is_playtime_private": false,
             "last_checked": 1767949623162
+          },
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 4,
+            "additional_notes": "\"Trust Only In The Force\" achievement"
           }
         },
         {
@@ -55250,7 +55383,7 @@
             "last_checked": 1767949637507
           },
           "required_play_meta": {
-            "requirements_met": false,
+            "requirements_met": true,
             "deadline_in_months": 12
           }
         },
@@ -55363,9 +55496,6 @@
             }
           ]
         }
-      ],
-      "warnings": [
-        "required_plays_need_review"
       ]
     },
     "QuinlanLJ": {
@@ -55373,26 +55503,26 @@
       "profile_url": "/user/QuinlanLJ",
       "avatar_url": "https://avatars.steamstatic.com/bfc022d5e8a36287dcb4b546340c32baf3a13ff5_medium.jpg",
       "stats": {
-        "total_sent_count": 46,
-        "total_sent_value": 1115.54,
+        "total_sent_count": 47,
+        "total_sent_value": 1130.53,
         "total_received_count": 43.5,
         "total_received_value": 1124.07,
-        "total_gift_difference": 2.5,
-        "total_value_difference": -8.53,
-        "fcv_sent_count": 46,
+        "total_gift_difference": 3.5,
+        "total_value_difference": 6.47,
+        "fcv_sent_count": 47,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
         "fcv_received_count": 40,
         "rcv_received_count": 2,
         "ncv_received_count": 0,
-        "fcv_gift_difference": 6,
-        "real_total_sent_value": 1115.54,
+        "fcv_gift_difference": 7,
+        "real_total_sent_value": 1128.53,
         "real_total_received_value": 1064.55,
-        "real_total_value_difference": 50.99,
-        "real_total_sent_count": 46,
+        "real_total_value_difference": 63.98,
+        "real_total_sent_count": 47,
         "real_total_received_count": 40,
-        "real_total_gift_difference": 6,
-        "giveaway_ratio": 34,
+        "real_total_gift_difference": 7,
+        "giveaway_ratio": 35,
         "shared_sent_count": 0,
         "shared_received_count": 1,
         "giveaways_created": 45,
@@ -55651,7 +55781,7 @@
             "last_checked": 1767949649766
           },
           "required_play_meta": {
-            "requirements_met": false,
+            "requirements_met": true,
             "deadline_in_months": 3
           }
         },
@@ -56297,17 +56427,6 @@
       ],
       "giveaways_created": [
         {
-          "name": "Die in the Dungeon",
-          "link": "2Nw2o/die-in-the-dungeon",
-          "cv_status": "FULL_CV",
-          "entries": 15,
-          "copies": 1,
-          "created_timestamp": 1767649166,
-          "end_timestamp": 1767949200,
-          "required_play": false,
-          "is_shared": false
-        },
-        {
           "name": "Lilac 0",
           "link": "QnsFF/lilac-0",
           "cv_status": "FULL_CV",
@@ -56317,6 +56436,25 @@
           "end_timestamp": 1768467600,
           "required_play": false,
           "is_shared": true
+        },
+        {
+          "name": "Die in the Dungeon",
+          "link": "2Nw2o/die-in-the-dungeon",
+          "cv_status": "FULL_CV",
+          "entries": 15,
+          "copies": 1,
+          "created_timestamp": 1767649166,
+          "end_timestamp": 1767949200,
+          "required_play": false,
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "BorjaGRouco",
+              "status": "received",
+              "activated": true
+            }
+          ]
         },
         {
           "name": "Still Wakes the Deep",
@@ -57162,9 +57300,6 @@
             }
           ]
         }
-      ],
-      "warnings": [
-        "required_plays_need_review"
       ]
     },
     "quinnix": {
@@ -57340,7 +57475,7 @@
           "name": "Mini Cozy Room: Lo-Fi",
           "link": "aRohV/mini-cozy-room-lo-fi",
           "cv_status": "FULL_CV",
-          "entries": 6,
+          "entries": 7,
           "copies": 1,
           "created_timestamp": 1767142068,
           "end_timestamp": 1768050000,
@@ -57837,7 +57972,7 @@
           "name": "I Am Future: Cozy Apocalypse Survival",
           "link": "TP4uk/i-am-future-cozy-apocalypse-survival",
           "cv_status": "FULL_CV",
-          "entries": 2,
+          "entries": 4,
           "copies": 1,
           "created_timestamp": 1767893163,
           "end_timestamp": 1768166100,
@@ -58147,7 +58282,7 @@
           "is_shared": false,
           "i_played_bro": false,
           "required_play_meta": {
-            "requirements_met": false,
+            "requirements_met": true,
             "deadline_in_months": 6
           },
           "had_winners": true,
@@ -58259,6 +58394,11 @@
             "never_played": true,
             "is_playtime_private": false,
             "last_checked": 1767949663583
+          },
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 4,
+            "additional_notes": "\"Trust Only In The Force\" achievement"
           }
         },
         {
@@ -60774,6 +60914,11 @@
             "never_played": true,
             "is_playtime_private": false,
             "last_checked": 1767949697727
+          },
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2,
+            "additional_notes": "Beat Azra with any character"
           }
         },
         {
@@ -63811,7 +63956,7 @@
             "last_checked": 1764234834042
           },
           "required_play_meta": {
-            "requirements_met": false,
+            "requirements_met": true,
             "deadline_in_months": 6
           }
         }
@@ -65094,7 +65239,7 @@
           "name": "Grimshire",
           "link": "AwYeu/grimshire",
           "cv_status": "FULL_CV",
-          "entries": 12,
+          "entries": 13,
           "copies": 1,
           "created_timestamp": 1767704731,
           "end_timestamp": 1768053480,
@@ -65328,7 +65473,7 @@
           "is_shared": false,
           "i_played_bro": false,
           "required_play_meta": {
-            "requirements_met": false,
+            "requirements_met": true,
             "deadline_in_months": 5
           },
           "had_winners": true,
@@ -65397,8 +65542,8 @@
         "giveaways_with_no_entries": 3,
         "last_giveaway_created_at": 1767294251,
         "last_giveaway_won_at": 1767877200,
-        "total_achievements_percentage": 49,
-        "average_achievements_percentage": 50,
+        "total_achievements_percentage": 46,
+        "average_achievements_percentage": 47,
         "real_total_achievements_percentage": 49,
         "real_average_achievements_percentage": 50,
         "has_missing_achievements_data": true
@@ -66571,7 +66716,7 @@
             "last_checked": 1767949750462
           },
           "required_play_meta": {
-            "requirements_met": false,
+            "requirements_met": true,
             "deadline_in_months": 6,
             "additional_notes": "2+ hours"
           }
@@ -66858,7 +67003,7 @@
             "last_checked": 1764148585645
           },
           "required_play_meta": {
-            "requirements_met": false,
+            "requirements_met": true,
             "deadline_in_months": 2,
             "deadline": "31.12.2025"
           }
@@ -67199,9 +67344,6 @@
             }
           ]
         }
-      ],
-      "warnings": [
-        "unplayed_required_play_giveaways"
       ]
     },
     "TexWilleri": {
@@ -69876,7 +70018,7 @@
           "required_play": true,
           "is_shared": false,
           "required_play_meta": {
-            "requirements_met": false,
+            "requirements_met": true,
             "deadline_in_months": 2,
             "deadline": "01.06.2026",
             "additional_notes": "1hr + \"Cleared The Way of the Ninja\" (Chapter 1) achievement"
@@ -72554,7 +72696,7 @@
           "is_shared": false,
           "i_played_bro": false,
           "required_play_meta": {
-            "requirements_met": false,
+            "requirements_met": true,
             "deadline_in_months": 6
           },
           "had_winners": true,
@@ -72578,7 +72720,7 @@
           "is_shared": false,
           "i_played_bro": false,
           "required_play_meta": {
-            "requirements_met": false,
+            "requirements_met": true,
             "deadline_in_months": 6,
             "additional_notes": "2+ hours"
           },
@@ -74819,11 +74961,11 @@
       "avatar_url": "https://avatars.steamstatic.com/2d4d805c41e77a2a460bf3666fe9cbeedd9c0c2a_medium.jpg",
       "stats": {
         "total_sent_count": 13,
-        "total_sent_value": 511.85,
+        "total_sent_value": 531.85,
         "total_received_count": 3,
         "total_received_value": 30.97,
         "total_gift_difference": 10,
-        "total_value_difference": 480.88,
+        "total_value_difference": 500.88,
         "fcv_sent_count": 13,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
@@ -75790,7 +75932,7 @@
           "name": "The Artful Escape",
           "link": "60pLK/the-artful-escape",
           "cv_status": "FULL_CV",
-          "entries": 13,
+          "entries": 15,
           "copies": 1,
           "created_timestamp": 1767732020,
           "end_timestamp": 1768073580,
@@ -76209,30 +76351,30 @@
       "stats": {
         "total_sent_count": 24,
         "total_sent_value": 471.76,
-        "total_received_count": 15.5,
-        "total_received_value": 443.35,
-        "total_gift_difference": 8.5,
-        "total_value_difference": 28.42,
+        "total_received_count": 16.5,
+        "total_received_value": 473.34,
+        "total_gift_difference": 7.5,
+        "total_value_difference": -1.58,
         "fcv_sent_count": 18,
         "rcv_sent_count": 3,
         "ncv_sent_count": 0,
-        "fcv_received_count": 15,
+        "fcv_received_count": 16,
         "rcv_received_count": 0,
         "ncv_received_count": 0,
-        "fcv_gift_difference": 3,
+        "fcv_gift_difference": 2,
         "real_total_sent_value": 371.07,
-        "real_total_received_value": 411.85,
-        "real_total_value_difference": -40.78,
+        "real_total_received_value": 441.84,
+        "real_total_value_difference": -70.77,
         "real_total_sent_count": 18,
-        "real_total_received_count": 15,
-        "real_total_gift_difference": 3,
-        "giveaway_ratio": 14,
+        "real_total_received_count": 16,
+        "real_total_gift_difference": 2,
+        "giveaway_ratio": 13.67,
         "shared_sent_count": 4,
         "shared_received_count": 1,
         "giveaways_created": 23,
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1767043534,
-        "last_giveaway_won_at": 1767823200,
+        "last_giveaway_won_at": 1767987000,
         "total_achievements_percentage": 75,
         "average_achievements_percentage": 77,
         "real_total_achievements_percentage": 74,
@@ -76244,6 +76386,15 @@
       "steam_profile_is_private": false,
       "country_code": "us",
       "giveaways_won": [
+        {
+          "name": "Slime Rancher 2",
+          "link": "BlLN1/slime-rancher-2",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1767987000,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "CONSCRIPT: Director’s Cut",
           "link": "91EK0/conscript-directors-cut",
