@@ -1,60 +1,6 @@
 {
-  "last_updated": "2026-01-16T02:35:50.027Z",
+  "last_updated": "2026-01-16T08:53:58.216Z",
   "giveaways": [
-    {
-      "id": "0k6iY",
-      "name": "Cosmic Coop",
-      "points": 9,
-      "copies": 1,
-      "app_id": 2497070,
-      "package_id": null,
-      "link": "0k6iY/cosmic-coop",
-      "created_timestamp": 1767058695,
-      "start_timestamp": 1767058695,
-      "end_timestamp": 1768550400,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 5,
-      "creator": "Gooberdragon",
-      "event_type": "january_event_2026",
-      "cv_status": "FULL_CV"
-    },
-    {
-      "id": "cEMqr",
-      "name": "Duck Detective: The Ghost of Glamping",
-      "points": 10,
-      "copies": 1,
-      "app_id": 2714620,
-      "package_id": null,
-      "link": "cEMqr/duck-detective-the-ghost-of-glamping",
-      "created_timestamp": 1768332053,
-      "start_timestamp": 1768332053,
-      "end_timestamp": 1768550400,
-      "group": true,
-      "comment_count": 1,
-      "entry_count": 24,
-      "creator": "schmoan",
-      "event_type": "january_event_2026",
-      "cv_status": "FULL_CV"
-    },
-    {
-      "id": "ghuhH",
-      "name": "Duck Detective: The Secret Salami",
-      "points": 10,
-      "copies": 1,
-      "app_id": 2637990,
-      "package_id": null,
-      "link": "ghuhH/duck-detective-the-secret-salami",
-      "created_timestamp": 1768299345,
-      "start_timestamp": 1768299345,
-      "end_timestamp": 1768550400,
-      "group": true,
-      "comment_count": 2,
-      "entry_count": 25,
-      "creator": "schmoan",
-      "event_type": "january_event_2026",
-      "cv_status": "FULL_CV"
-    },
     {
       "id": "qb4aN",
       "name": "Neva",
@@ -103,7 +49,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 1,
-      "entry_count": 194,
+      "entry_count": 196,
       "creator": "decipherer",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -122,7 +68,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 2,
-      "entry_count": 169,
+      "entry_count": 170,
       "creator": "decipherer",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -140,7 +86,7 @@
       "end_timestamp": 1768620600,
       "group": true,
       "comment_count": 0,
-      "entry_count": 2,
+      "entry_count": 3,
       "creator": "Tsukurai",
       "cv_status": "FULL_CV"
     },
@@ -157,7 +103,7 @@
       "end_timestamp": 1768621560,
       "group": true,
       "comment_count": 0,
-      "entry_count": 100,
+      "entry_count": 103,
       "creator": "BaconChizBurger",
       "is_shared": true,
       "cv_status": "FULL_CV"
@@ -175,7 +121,7 @@
       "end_timestamp": 1768621620,
       "group": true,
       "comment_count": 0,
-      "entry_count": 18,
+      "entry_count": 19,
       "creator": "BaconChizBurger",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -357,7 +303,7 @@
       "end_timestamp": 1768672800,
       "group": true,
       "comment_count": 4,
-      "entry_count": 47,
+      "entry_count": 48,
       "creator": "gus09",
       "cv_status": "FULL_CV"
     },
@@ -374,7 +320,7 @@
       "end_timestamp": 1768687200,
       "group": true,
       "comment_count": 0,
-      "entry_count": 1,
+      "entry_count": 2,
       "creator": "mourinhos86",
       "cv_status": "FULL_CV"
     },
@@ -479,7 +425,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 38,
+      "entry_count": 37,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -535,7 +481,7 @@
       "end_timestamp": 1768767240,
       "group": true,
       "comment_count": 1,
-      "entry_count": 2,
+      "entry_count": 3,
       "creator": "LinustheBold",
       "cv_status": "FULL_CV"
     },
@@ -606,7 +552,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 42,
+      "entry_count": 45,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -661,7 +607,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 18,
+      "entry_count": 22,
       "creator": "Jztr",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -680,10 +626,88 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 75,
+      "entry_count": 74,
       "creator": "Carenard",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
+    },
+    {
+      "id": "0k6iY",
+      "name": "Cosmic Coop",
+      "points": 9,
+      "copies": 1,
+      "app_id": 2497070,
+      "package_id": null,
+      "link": "0k6iY/cosmic-coop",
+      "created_timestamp": 1767058695,
+      "start_timestamp": 1767058695,
+      "end_timestamp": 1768550400,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 5,
+      "creator": "Gooberdragon",
+      "event_type": "january_event_2026",
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "FULL_CV",
+      "deleted": false
+    },
+    {
+      "id": "cEMqr",
+      "name": "Duck Detective: The Ghost of Glamping",
+      "points": 10,
+      "copies": 1,
+      "app_id": 2714620,
+      "package_id": null,
+      "link": "cEMqr/duck-detective-the-ghost-of-glamping",
+      "created_timestamp": 1768332053,
+      "start_timestamp": 1768332053,
+      "end_timestamp": 1768550400,
+      "group": true,
+      "comment_count": 1,
+      "entry_count": 25,
+      "creator": "schmoan",
+      "event_type": "january_event_2026",
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "FULL_CV",
+      "deleted": false
+    },
+    {
+      "id": "ghuhH",
+      "name": "Duck Detective: The Secret Salami",
+      "points": 10,
+      "copies": 1,
+      "app_id": 2637990,
+      "package_id": null,
+      "link": "ghuhH/duck-detective-the-secret-salami",
+      "created_timestamp": 1768299345,
+      "start_timestamp": 1768299345,
+      "end_timestamp": 1768550400,
+      "group": true,
+      "comment_count": 2,
+      "entry_count": 26,
+      "creator": "schmoan",
+      "event_type": "january_event_2026",
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "FULL_CV",
+      "deleted": false
     },
     {
       "id": "RafhR",
@@ -697,19 +721,18 @@
       "start_timestamp": 1767086527,
       "end_timestamp": 1768523400,
       "group": true,
-      "comment_count": 0,
+      "comment_count": 1,
       "entry_count": 4,
       "creator": "Tsukurai",
       "event_type": "january_event_2026",
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "mourinhos86",
+          "status": "received"
         }
       ],
-      "cv_status": "FULL_CV",
-      "deleted": false
+      "cv_status": "FULL_CV"
     },
     {
       "id": "H8Mq0",
@@ -723,19 +746,18 @@
       "start_timestamp": 1767111358,
       "end_timestamp": 1768500000,
       "group": true,
-      "comment_count": 1,
+      "comment_count": 2,
       "entry_count": 13,
       "creator": "Golwar",
       "event_type": "january_event_2026",
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "DrTenma",
+          "status": "received"
         }
       ],
-      "cv_status": "FULL_CV",
-      "deleted": false
+      "cv_status": "FULL_CV"
     },
     {
       "id": "IShCB",
@@ -750,19 +772,18 @@
       "end_timestamp": 1768494840,
       "region_restricted": true,
       "group": true,
-      "comment_count": 1,
+      "comment_count": 2,
       "entry_count": 13,
       "creator": "ShroudOfLethe",
       "event_type": "january_event_2026",
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "Patxxv",
+          "status": "received"
         }
       ],
-      "cv_status": "FULL_CV",
-      "deleted": false
+      "cv_status": "FULL_CV"
     },
     {
       "id": "lfRFO",
@@ -874,19 +895,18 @@
       "start_timestamp": 1768019647,
       "end_timestamp": 1768455120,
       "group": true,
-      "comment_count": 0,
+      "comment_count": 1,
       "entry_count": 6,
       "creator": "Patxxv",
       "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "GateroTD",
+          "status": "received"
         }
       ],
-      "cv_status": "REDUCED_CV",
-      "deleted": false
+      "cv_status": "REDUCED_CV"
     },
     {
       "id": "SSwWh",
