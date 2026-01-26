@@ -1,24 +1,6 @@
 {
-  "last_updated": "2026-01-26T02:46:44.179Z",
+  "last_updated": "2026-01-26T08:58:41.365Z",
   "giveaways": [
-    {
-      "id": "cT7Sk",
-      "name": "Drill Bird",
-      "points": 3,
-      "copies": 1,
-      "app_id": 3809940,
-      "package_id": null,
-      "link": "cT7Sk/drill-bird",
-      "created_timestamp": 1769144042,
-      "start_timestamp": 1769144042,
-      "end_timestamp": 1769405580,
-      "group": true,
-      "comment_count": 3,
-      "entry_count": 7,
-      "creator": "ithamore",
-      "event_type": "january_event_2026",
-      "cv_status": "FULL_CV"
-    },
     {
       "id": "2PJM0",
       "name": "Pine Hearts",
@@ -70,7 +52,7 @@
       "end_timestamp": 1769540580,
       "group": true,
       "comment_count": 4,
-      "entry_count": 44,
+      "entry_count": 45,
       "creator": "damianea103",
       "cv_status": "FULL_CV"
     },
@@ -142,7 +124,7 @@
       "end_timestamp": 1769709600,
       "group": true,
       "comment_count": 0,
-      "entry_count": 6,
+      "entry_count": 7,
       "creator": "quinnix",
       "cv_status": "FULL_CV"
     },
@@ -179,7 +161,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 2,
-      "entry_count": 101,
+      "entry_count": 102,
       "creator": "Carenard",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -234,7 +216,7 @@
       "end_timestamp": 1769829900,
       "group": true,
       "comment_count": 0,
-      "entry_count": 4,
+      "entry_count": 5,
       "creator": "BaconChizBurger",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -253,7 +235,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 55,
+      "entry_count": 57,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -306,7 +288,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 58,
+      "entry_count": 60,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -342,7 +324,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 56,
+      "entry_count": 57,
       "creator": "MrOuiOui",
       "is_shared": true,
       "cv_status": "FULL_CV"
@@ -399,6 +381,32 @@
       "cv_status": "FULL_CV"
     },
     {
+      "id": "cT7Sk",
+      "name": "Drill Bird",
+      "points": 3,
+      "copies": 1,
+      "app_id": 3809940,
+      "package_id": null,
+      "link": "cT7Sk/drill-bird",
+      "created_timestamp": 1769144042,
+      "start_timestamp": 1769144042,
+      "end_timestamp": 1769405580,
+      "group": true,
+      "comment_count": 3,
+      "entry_count": 7,
+      "creator": "ithamore",
+      "event_type": "january_event_2026",
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "FULL_CV",
+      "deleted": false
+    },
+    {
       "id": "NAhmb",
       "name": "Internet Cafe Simulator 2",
       "points": 20,
@@ -436,7 +444,7 @@
       "start_timestamp": 1769072434,
       "end_timestamp": 1769378400,
       "group": true,
-      "comment_count": 1,
+      "comment_count": 2,
       "entry_count": 3,
       "creator": "mourinhos86",
       "hasWinners": true,
