@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1769568854965,
+  "lastUpdated": 1769590799801,
   "users": {
     "a10i": {
       "username": "a10i",
@@ -1380,7 +1380,7 @@
         "last_giveaway_won_at": 1766955600,
         "total_achievements_percentage": 18,
         "average_achievements_percentage": 37,
-        "real_total_achievements_percentage": 19,
+        "real_total_achievements_percentage": 20,
         "real_average_achievements_percentage": 55,
         "has_missing_achievements_data": false
       },
@@ -7993,7 +7993,7 @@
           "name": "Backpack Hero",
           "link": "xJFna/backpack-hero",
           "cv_status": "REDUCED_CV",
-          "entries": 109,
+          "entries": 110,
           "copies": 1,
           "created_timestamp": 1767854656,
           "end_timestamp": 1769796000,
@@ -19272,7 +19272,7 @@
         "last_giveaway_won_at": 1768605720,
         "total_achievements_percentage": 14,
         "average_achievements_percentage": 23,
-        "real_total_achievements_percentage": 14,
+        "real_total_achievements_percentage": 15,
         "real_average_achievements_percentage": 24,
         "has_missing_achievements_data": false
       },
@@ -24043,10 +24043,10 @@
       "stats": {
         "total_sent_count": 6.5,
         "total_sent_value": 218.94,
-        "total_received_count": 12,
-        "total_received_value": 179.88,
-        "total_gift_difference": -5.5,
-        "total_value_difference": 39.06,
+        "total_received_count": 12.3,
+        "total_received_value": 182.13,
+        "total_gift_difference": -5.8,
+        "total_value_difference": 36.81,
         "fcv_sent_count": 6,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
@@ -24062,11 +24062,11 @@
         "real_total_gift_difference": -6,
         "giveaway_ratio": 2,
         "shared_sent_count": 1,
-        "shared_received_count": 0,
+        "shared_received_count": 1,
         "giveaways_created": 8,
         "giveaways_with_no_entries": 1,
         "last_giveaway_created_at": 1768757305,
-        "last_giveaway_won_at": 1769378400,
+        "last_giveaway_won_at": 1769512740,
         "total_achievements_percentage": 4,
         "average_achievements_percentage": 11,
         "real_total_achievements_percentage": 4,
@@ -24077,6 +24077,15 @@
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198066957402",
       "country_code": "us",
       "giveaways_won": [
+        {
+          "name": "Gorgon Shield",
+          "link": "imcms/gorgon-shield",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1769512740,
+          "required_play": false,
+          "is_shared": true
+        },
         {
           "name": "Defense Grid: Containment Bundle",
           "link": "aAQuV/defense-grid-containment-bundle",
@@ -32630,7 +32639,7 @@
           "name": "Senua’s Saga: Hellblade II",
           "link": "nziDb/senuas-saga-hellblade-ii",
           "cv_status": "FULL_CV",
-          "entries": 22,
+          "entries": 25,
           "copies": 1,
           "created_timestamp": 1769497694,
           "end_timestamp": 1769695200,
@@ -40096,17 +40105,6 @@
       ],
       "giveaways_created": [
         {
-          "name": "Terror At Oakheart",
-          "link": "6XXNV/terror-at-oakheart",
-          "cv_status": "REDUCED_CV",
-          "entries": 55,
-          "copies": 1,
-          "created_timestamp": 1768961782,
-          "end_timestamp": 1769572800,
-          "required_play": false,
-          "is_shared": true
-        },
-        {
           "name": "Operation Wolf Returns: First Mission",
           "link": "JQr44/operation-wolf-returns-first-mission",
           "cv_status": "REDUCED_CV",
@@ -40132,12 +40130,31 @@
           "name": "SEUM: Speedrunners from Hell",
           "link": "hT5NX/seum-speedrunners-from-hell",
           "cv_status": "REDUCED_CV",
-          "entries": 0,
+          "entries": 7,
           "copies": 1,
           "created_timestamp": 1769564235,
           "end_timestamp": 1770177600,
           "required_play": false,
           "is_shared": true
+        },
+        {
+          "name": "Terror At Oakheart",
+          "link": "6XXNV/terror-at-oakheart",
+          "cv_status": "REDUCED_CV",
+          "entries": 55,
+          "copies": 1,
+          "created_timestamp": 1768961782,
+          "end_timestamp": 1769572800,
+          "required_play": false,
+          "is_shared": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "To The Rescue!",
@@ -42431,10 +42448,10 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1767365967,
         "last_giveaway_won_at": 1769424900,
-        "total_achievements_percentage": 72,
-        "average_achievements_percentage": 75,
-        "real_total_achievements_percentage": 72,
-        "real_average_achievements_percentage": 75,
+        "total_achievements_percentage": 77,
+        "average_achievements_percentage": 79,
+        "real_total_achievements_percentage": 77,
+        "real_average_achievements_percentage": 79,
         "has_missing_achievements_data": false
       },
       "steam_id": "76561198035801987",
@@ -43410,6 +43427,9 @@
             }
           ]
         }
+      ],
+      "warnings": [
+        "required_plays_need_review"
       ]
     },
     "Markox21": {
@@ -48607,12 +48627,12 @@
       "profile_url": "/user/MrOuiOui",
       "avatar_url": "https://avatars.steamstatic.com/37b47a80ba41781c0e4b6a6eef8e699d22d4a1cc_medium.jpg",
       "stats": {
-        "total_sent_count": 20.7,
-        "total_sent_value": 374.13,
+        "total_sent_count": 20.9,
+        "total_sent_value": 376.37,
         "total_received_count": 8,
         "total_received_value": 240.92,
-        "total_gift_difference": 12.7,
-        "total_value_difference": 133.21,
+        "total_gift_difference": 12.9,
+        "total_value_difference": 135.45,
         "fcv_sent_count": 17,
         "rcv_sent_count": 3,
         "ncv_sent_count": 0,
@@ -48627,7 +48647,7 @@
         "real_total_received_count": 8,
         "real_total_gift_difference": 9,
         "giveaway_ratio": 15.33,
-        "shared_sent_count": 2,
+        "shared_sent_count": 3,
         "shared_received_count": 0,
         "giveaways_created": 30,
         "giveaways_with_no_entries": 2,
@@ -48781,7 +48801,7 @@
           "name": "AtmaSphere 2",
           "link": "evKJN/atmasphere-2",
           "cv_status": "FULL_CV",
-          "entries": 41,
+          "entries": 42,
           "copies": 1,
           "created_timestamp": 1769047196,
           "end_timestamp": 1769828040,
@@ -48823,9 +48843,9 @@
           "had_winners": true,
           "winners": [
             {
-              "name": null,
-              "status": "awaiting_feedback",
-              "activated": false
+              "name": "Gooberdragon",
+              "status": "received",
+              "activated": true
             }
           ]
         },
@@ -60472,7 +60492,7 @@
           "name": "Closer the Distance",
           "link": "53XNt/closer-the-distance",
           "cv_status": "FULL_CV",
-          "entries": 9,
+          "entries": 10,
           "copies": 1,
           "created_timestamp": 1769274775,
           "end_timestamp": 1769709600,
@@ -60638,10 +60658,10 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1766586463,
         "last_giveaway_won_at": 1768604520,
-        "total_achievements_percentage": 67,
-        "average_achievements_percentage": 65,
-        "real_total_achievements_percentage": 67,
-        "real_average_achievements_percentage": 65,
+        "total_achievements_percentage": 77,
+        "average_achievements_percentage": 78,
+        "real_total_achievements_percentage": 77,
+        "real_average_achievements_percentage": 78,
         "has_missing_achievements_data": false
       },
       "steam_id": "76561198868418890",
@@ -66238,7 +66258,7 @@
           "name": "Fallout 4",
           "link": "pzlKS/fallout-4",
           "cv_status": "FULL_CV",
-          "entries": 25,
+          "entries": 27,
           "copies": 1,
           "created_timestamp": 1769461046,
           "end_timestamp": 1770134400,
@@ -80085,7 +80105,8 @@
         }
       ],
       "warnings": [
-        "required_plays_need_review"
+        "required_plays_need_review",
+        "required_play_deadline_within_15_days"
       ]
     },
     "yugimax": {

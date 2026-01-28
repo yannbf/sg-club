@@ -1,25 +1,6 @@
 {
-  "last_updated": "2026-01-28T02:38:28.440Z",
+  "last_updated": "2026-01-28T08:56:56.896Z",
   "giveaways": [
-    {
-      "id": "6XXNV",
-      "name": "Terror At Oakheart",
-      "points": 8,
-      "copies": 1,
-      "app_id": 2530430,
-      "package_id": null,
-      "link": "6XXNV/terror-at-oakheart",
-      "created_timestamp": 1768961782,
-      "start_timestamp": 1768961782,
-      "end_timestamp": 1769572800,
-      "whitelist": true,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 55,
-      "creator": "lockcjwen",
-      "is_shared": true,
-      "cv_status": "REDUCED_CV"
-    },
     {
       "id": "iJ2gl",
       "name": "Rana Card",
@@ -70,7 +51,7 @@
       "region_restricted": true,
       "group": true,
       "comment_count": 2,
-      "entry_count": 22,
+      "entry_count": 25,
       "creator": "Jhonnyve",
       "cv_status": "FULL_CV"
     },
@@ -87,7 +68,7 @@
       "end_timestamp": 1769709600,
       "group": true,
       "comment_count": 0,
-      "entry_count": 9,
+      "entry_count": 10,
       "creator": "quinnix",
       "cv_status": "FULL_CV"
     },
@@ -124,7 +105,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 2,
-      "entry_count": 109,
+      "entry_count": 110,
       "creator": "Carenard",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -143,7 +124,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 41,
+      "entry_count": 42,
       "creator": "MrOuiOui",
       "is_shared": true,
       "cv_status": "FULL_CV"
@@ -287,7 +268,7 @@
       "region_restricted": true,
       "group": true,
       "comment_count": 2,
-      "entry_count": 25,
+      "entry_count": 27,
       "creator": "ShroudOfLethe",
       "is_shared": true,
       "cv_status": "FULL_CV"
@@ -306,7 +287,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 0,
+      "entry_count": 7,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -382,6 +363,33 @@
       "cv_status": "FULL_CV"
     },
     {
+      "id": "6XXNV",
+      "name": "Terror At Oakheart",
+      "points": 8,
+      "copies": 1,
+      "app_id": 2530430,
+      "package_id": null,
+      "link": "6XXNV/terror-at-oakheart",
+      "created_timestamp": 1768961782,
+      "start_timestamp": 1768961782,
+      "end_timestamp": 1769572800,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 55,
+      "creator": "lockcjwen",
+      "is_shared": true,
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "REDUCED_CV",
+      "deleted": false
+    },
+    {
       "id": "AUEp8",
       "name": "Marvel’s Spider-Man Remastered",
       "points": 50,
@@ -418,19 +426,18 @@
       "end_timestamp": 1769512740,
       "whitelist": true,
       "group": true,
-      "comment_count": 0,
+      "comment_count": 1,
       "entry_count": 90,
       "creator": "MrOuiOui",
       "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "Gooberdragon",
+          "status": "received"
         }
       ],
-      "cv_status": "FULL_CV",
-      "deleted": false
+      "cv_status": "FULL_CV"
     },
     {
       "id": "2PJM0",
