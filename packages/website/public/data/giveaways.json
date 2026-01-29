@@ -1,23 +1,6 @@
 {
-  "last_updated": "2026-01-28T08:56:56.896Z",
+  "last_updated": "2026-01-29T02:55:30.466Z",
   "giveaways": [
-    {
-      "id": "iJ2gl",
-      "name": "Rana Card",
-      "points": 13,
-      "copies": 1,
-      "app_id": 3177890,
-      "package_id": null,
-      "link": "iJ2gl/rana-card",
-      "created_timestamp": 1769259216,
-      "start_timestamp": 1769259216,
-      "end_timestamp": 1769623200,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 5,
-      "creator": "Tucs",
-      "cv_status": "FULL_CV"
-    },
     {
       "id": "OhBzA",
       "name": "Bloodshore",
@@ -32,7 +15,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 73,
+      "entry_count": 75,
       "creator": "MrOuiOui",
       "is_shared": true,
       "cv_status": "FULL_CV"
@@ -51,7 +34,7 @@
       "region_restricted": true,
       "group": true,
       "comment_count": 2,
-      "entry_count": 25,
+      "entry_count": 28,
       "creator": "Jhonnyve",
       "cv_status": "FULL_CV"
     },
@@ -68,7 +51,7 @@
       "end_timestamp": 1769709600,
       "group": true,
       "comment_count": 0,
-      "entry_count": 10,
+      "entry_count": 12,
       "creator": "quinnix",
       "cv_status": "FULL_CV"
     },
@@ -86,7 +69,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 72,
+      "entry_count": 75,
       "creator": "MrOuiOui",
       "is_shared": true,
       "cv_status": "FULL_CV"
@@ -124,7 +107,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 42,
+      "entry_count": 44,
       "creator": "MrOuiOui",
       "is_shared": true,
       "cv_status": "FULL_CV"
@@ -142,7 +125,7 @@
       "end_timestamp": 1769829720,
       "group": true,
       "comment_count": 0,
-      "entry_count": 11,
+      "entry_count": 12,
       "creator": "BaconChizBurger",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -160,7 +143,7 @@
       "end_timestamp": 1769829900,
       "group": true,
       "comment_count": 0,
-      "entry_count": 7,
+      "entry_count": 8,
       "creator": "BaconChizBurger",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -179,10 +162,27 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 69,
+      "entry_count": 72,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
+    },
+    {
+      "id": "Psopq",
+      "name": "Love is...",
+      "points": 10,
+      "copies": 1,
+      "app_id": 3034130,
+      "package_id": null,
+      "link": "Psopq/love-is",
+      "created_timestamp": 1769633108,
+      "start_timestamp": 1769633108,
+      "end_timestamp": 1769850000,
+      "group": true,
+      "comment_count": 1,
+      "entry_count": 2,
+      "creator": "CuteEnby",
+      "cv_status": "FULL_CV"
     },
     {
       "id": "5PiV5",
@@ -232,7 +232,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 75,
+      "entry_count": 81,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -268,7 +268,7 @@
       "region_restricted": true,
       "group": true,
       "comment_count": 2,
-      "entry_count": 27,
+      "entry_count": 31,
       "creator": "ShroudOfLethe",
       "is_shared": true,
       "cv_status": "FULL_CV"
@@ -287,7 +287,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 7,
+      "entry_count": 12,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -324,7 +324,7 @@
       "end_timestamp": 1770865020,
       "group": true,
       "comment_count": 4,
-      "entry_count": 16,
+      "entry_count": 17,
       "creator": "Patxxv",
       "cv_status": "FULL_CV"
     },
@@ -363,6 +363,30 @@
       "cv_status": "FULL_CV"
     },
     {
+      "id": "iJ2gl",
+      "name": "Rana Card",
+      "points": 13,
+      "copies": 1,
+      "app_id": 3177890,
+      "package_id": null,
+      "link": "iJ2gl/rana-card",
+      "created_timestamp": 1769259216,
+      "start_timestamp": 1769259216,
+      "end_timestamp": 1769623200,
+      "group": true,
+      "comment_count": 1,
+      "entry_count": 5,
+      "creator": "Tucs",
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": "zolof",
+          "status": "received"
+        }
+      ],
+      "cv_status": "FULL_CV"
+    },
+    {
       "id": "6XXNV",
       "name": "Terror At Oakheart",
       "points": 8,
@@ -375,19 +399,18 @@
       "end_timestamp": 1769572800,
       "whitelist": true,
       "group": true,
-      "comment_count": 0,
+      "comment_count": 2,
       "entry_count": 55,
       "creator": "lockcjwen",
       "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "casueasar",
+          "status": "received"
         }
       ],
-      "cv_status": "REDUCED_CV",
-      "deleted": false
+      "cv_status": "REDUCED_CV"
     },
     {
       "id": "AUEp8",
@@ -675,22 +698,22 @@
       "end_timestamp": 1769313600,
       "whitelist": true,
       "group": true,
-      "comment_count": 6,
+      "comment_count": 8,
       "entry_count": 69,
       "creator": "lockcjwen",
       "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
+          "name": "Cowares",
+          "status": "received"
+        },
+        {
           "name": "Feelside",
           "status": "received"
         },
         {
           "name": "jatyhow",
-          "status": "received"
-        },
-        {
-          "name": "KadetSG",
           "status": "received"
         }
       ],
@@ -4456,7 +4479,7 @@
       "start_timestamp": 1767294251,
       "end_timestamp": 1767524400,
       "group": true,
-      "comment_count": 7,
+      "comment_count": 8,
       "entry_count": 10,
       "creator": "Swordoffury",
       "event_type": "january_event_2026",
@@ -5133,7 +5156,6 @@
           "status": "received"
         }
       ],
-      "required_play": true,
       "cv_status": "FULL_CV"
     },
     {
@@ -7964,7 +7986,6 @@
           "status": "received"
         }
       ],
-      "required_play": true,
       "cv_status": "FULL_CV"
     },
     {
@@ -8653,7 +8674,6 @@
           "status": "received"
         }
       ],
-      "required_play": true,
       "cv_status": "FULL_CV"
     },
     {

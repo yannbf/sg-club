@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1768099709175,
+  "lastUpdated": 1769655456157,
   "users": [
     {
       "username": "thesodaer",
@@ -12664,6 +12664,64 @@
         }
       ],
       "left_at_timestamp": 1768099709172
+    },
+    {
+      "username": "vampiresska",
+      "profile_url": "/user/vampiresska",
+      "avatar_url": "https://avatars.steamstatic.com/d16eeec7bb6bf326137eb393accdafbb51feb901_medium.jpg",
+      "stats": {
+        "total_sent_count": 1,
+        "total_sent_value": 59.99,
+        "total_received_count": 0,
+        "total_received_value": 0,
+        "total_gift_difference": 1,
+        "total_value_difference": 59.99,
+        "fcv_sent_count": 1,
+        "rcv_sent_count": 0,
+        "ncv_sent_count": 0,
+        "fcv_received_count": 0,
+        "rcv_received_count": 0,
+        "ncv_received_count": 0,
+        "fcv_gift_difference": 0,
+        "real_total_sent_value": 59.99,
+        "real_total_received_value": 0,
+        "real_total_value_difference": 59.99,
+        "real_total_sent_count": 1,
+        "real_total_received_count": 0,
+        "real_total_gift_difference": 1,
+        "giveaway_ratio": 0,
+        "shared_sent_count": 0,
+        "shared_received_count": 0,
+        "giveaways_created": 1,
+        "giveaways_with_no_entries": 0,
+        "last_giveaway_created_at": 1766564833,
+        "last_giveaway_won_at": null
+      },
+      "steam_id": "76561198129984336",
+      "steam_profile_url": "https://steamcommunity.com/profiles/76561198129984336",
+      "country_code": "ua",
+      "giveaways_created": [
+        {
+          "name": "Assassin's Creed Valhalla",
+          "link": "8wHHa/assassins-creed-valhalla",
+          "cv_status": "FULL_CV",
+          "entries": 17,
+          "copies": 1,
+          "created_timestamp": 1766564833,
+          "end_timestamp": 1766741400,
+          "required_play": false,
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "Tyln",
+              "status": "received",
+              "activated": true
+            }
+          ]
+        }
+      ],
+      "left_at_timestamp": 1769655456155
     }
   ]
 }
