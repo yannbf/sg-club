@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1769678534463,
+  "lastUpdated": 1769741934254,
   "users": {
     "a10i": {
       "username": "a10i",
@@ -1123,8 +1123,7 @@
       ],
       "warnings": [
         "unplayed_required_play_giveaways",
-        "required_plays_need_review",
-        "required_play_deadline_within_15_days"
+        "required_plays_need_review"
       ]
     },
     "AllTracTurbo": {
@@ -2578,7 +2577,7 @@
           "name": "God's Trigger",
           "link": "oCgTO/gods-trigger",
           "cv_status": "REDUCED_CV",
-          "entries": 12,
+          "entries": 13,
           "copies": 1,
           "created_timestamp": 1769264688,
           "end_timestamp": 1769829720,
@@ -7719,7 +7718,7 @@
           "name": "Backpack Hero",
           "link": "xJFna/backpack-hero",
           "cv_status": "REDUCED_CV",
-          "entries": 111,
+          "entries": 113,
           "copies": 1,
           "created_timestamp": 1767854656,
           "end_timestamp": 1769796000,
@@ -11508,30 +11507,30 @@
       "stats": {
         "total_sent_count": 28,
         "total_sent_value": 439.72,
-        "total_received_count": 39,
-        "total_received_value": 647.61,
-        "total_gift_difference": -11,
-        "total_value_difference": -207.89,
+        "total_received_count": 40,
+        "total_received_value": 650.6,
+        "total_gift_difference": -12,
+        "total_value_difference": -210.88,
         "fcv_sent_count": 26,
         "rcv_sent_count": 2,
         "ncv_sent_count": 0,
-        "fcv_received_count": 36,
+        "fcv_received_count": 37,
         "rcv_received_count": 1,
         "ncv_received_count": 0,
-        "fcv_gift_difference": -10,
+        "fcv_gift_difference": -11,
         "real_total_sent_value": 405.74,
-        "real_total_received_value": 604.09,
-        "real_total_value_difference": -198.35,
+        "real_total_received_value": 607.08,
+        "real_total_value_difference": -201.34,
         "real_total_sent_count": 26,
-        "real_total_received_count": 36,
-        "real_total_gift_difference": -10,
-        "giveaway_ratio": 17.33,
+        "real_total_received_count": 37,
+        "real_total_gift_difference": -11,
+        "giveaway_ratio": 17,
         "shared_sent_count": 0,
         "shared_received_count": 2,
         "giveaways_created": 28,
         "giveaways_with_no_entries": 2,
         "last_giveaway_created_at": 1769633108,
-        "last_giveaway_won_at": 1767448320,
+        "last_giveaway_won_at": 1769405580,
         "total_achievements_percentage": 27,
         "average_achievements_percentage": 24,
         "real_total_achievements_percentage": 27,
@@ -11543,6 +11542,15 @@
       "steam_profile_is_private": false,
       "country_code": "pl",
       "giveaways_won": [
+        {
+          "name": "Drill Bird",
+          "link": "cT7Sk/drill-bird",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1769405580,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "Cozy Time",
           "link": "cRpUj/cozy-time",
@@ -12342,7 +12350,7 @@
           "name": "Love is...",
           "link": "Psopq/love-is",
           "cv_status": "FULL_CV",
-          "entries": 3,
+          "entries": 8,
           "copies": 1,
           "created_timestamp": 1769633108,
           "end_timestamp": 1769850000,
@@ -29976,26 +29984,26 @@
       "profile_url": "/user/ithamore",
       "avatar_url": "https://avatars.steamstatic.com/3347e0dec116bd9ebdf08c7c2a8a2c2551848fe5_medium.jpg",
       "stats": {
-        "total_sent_count": 8.9,
-        "total_sent_value": 157.74,
+        "total_sent_count": 9.9,
+        "total_sent_value": 160.73,
         "total_received_count": 14.3,
         "total_received_value": 194.76,
-        "total_gift_difference": -5.4,
-        "total_value_difference": -37.01,
-        "fcv_sent_count": 3.45,
+        "total_gift_difference": -4.4,
+        "total_value_difference": -34.02,
+        "fcv_sent_count": 4.45,
         "rcv_sent_count": 1,
         "ncv_sent_count": 0,
         "fcv_received_count": 12,
         "rcv_received_count": 1,
         "ncv_received_count": 0,
-        "fcv_gift_difference": -8.55,
-        "real_total_sent_value": 49.72,
+        "fcv_gift_difference": -7.55,
+        "real_total_sent_value": 52.71,
         "real_total_received_value": 156.53,
-        "real_total_value_difference": -106.81,
-        "real_total_sent_count": 3.45,
+        "real_total_value_difference": -103.82,
+        "real_total_sent_count": 4.45,
         "real_total_received_count": 12,
-        "real_total_gift_difference": -8.55,
-        "giveaway_ratio": 1.12,
+        "real_total_gift_difference": -7.55,
+        "giveaway_ratio": 2.12,
         "shared_sent_count": 5,
         "shared_received_count": 3,
         "giveaways_created": 13,
@@ -30354,9 +30362,9 @@
           "had_winners": true,
           "winners": [
             {
-              "name": null,
-              "status": "awaiting_feedback",
-              "activated": false
+              "name": "CuteEnby",
+              "status": "received",
+              "activated": true
             }
           ]
         },
@@ -31727,12 +31735,20 @@
           "name": "Senua’s Saga: Hellblade II",
           "link": "nziDb/senuas-saga-hellblade-ii",
           "cv_status": "FULL_CV",
-          "entries": 30,
+          "entries": 31,
           "copies": 1,
           "created_timestamp": 1769497694,
           "end_timestamp": 1769695200,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "Hidden Through Time",
@@ -39021,7 +39037,7 @@
           "name": "Operation Wolf Returns: First Mission",
           "link": "JQr44/operation-wolf-returns-first-mission",
           "cv_status": "REDUCED_CV",
-          "entries": 72,
+          "entries": 71,
           "copies": 1,
           "created_timestamp": 1769215150,
           "end_timestamp": 1769832000,
@@ -39032,7 +39048,7 @@
           "name": "Everwarder",
           "link": "Y2z4Z/everwarder",
           "cv_status": "REDUCED_CV",
-          "entries": 80,
+          "entries": 83,
           "copies": 1,
           "created_timestamp": 1769297939,
           "end_timestamp": 1769918400,
@@ -39043,7 +39059,7 @@
           "name": "SEUM: Speedrunners from Hell",
           "link": "hT5NX/seum-speedrunners-from-hell",
           "cv_status": "REDUCED_CV",
-          "entries": 14,
+          "entries": 17,
           "copies": 1,
           "created_timestamp": 1769564235,
           "end_timestamp": 1770177600,
@@ -47356,12 +47372,12 @@
       "profile_url": "/user/MrOuiOui",
       "avatar_url": "https://avatars.steamstatic.com/37b47a80ba41781c0e4b6a6eef8e699d22d4a1cc_medium.jpg",
       "stats": {
-        "total_sent_count": 20.9,
-        "total_sent_value": 376.37,
+        "total_sent_count": 21.2,
+        "total_sent_value": 380.12,
         "total_received_count": 8,
         "total_received_value": 240.92,
-        "total_gift_difference": 12.9,
-        "total_value_difference": 135.45,
+        "total_gift_difference": 13.2,
+        "total_value_difference": 139.2,
         "fcv_sent_count": 17,
         "rcv_sent_count": 3,
         "ncv_sent_count": 0,
@@ -47376,7 +47392,7 @@
         "real_total_received_count": 8,
         "real_total_gift_difference": 9,
         "giveaway_ratio": 15.33,
-        "shared_sent_count": 3,
+        "shared_sent_count": 4,
         "shared_received_count": 0,
         "giveaways_created": 30,
         "giveaways_with_no_entries": 2,
@@ -47493,21 +47509,10 @@
       ],
       "giveaways_created": [
         {
-          "name": "Bloodshore",
-          "link": "OhBzA/bloodshore",
-          "cv_status": "FULL_CV",
-          "entries": 81,
-          "copies": 1,
-          "created_timestamp": 1769077005,
-          "end_timestamp": 1769685180,
-          "required_play": false,
-          "is_shared": true
-        },
-        {
           "name": "Ynglet",
           "link": "zx7pq/ynglet",
           "cv_status": "FULL_CV",
-          "entries": 77,
+          "entries": 81,
           "copies": 1,
           "created_timestamp": 1769076158,
           "end_timestamp": 1769770500,
@@ -47518,7 +47523,7 @@
           "name": "AtmaSphere 2",
           "link": "evKJN/atmasphere-2",
           "cv_status": "FULL_CV",
-          "entries": 44,
+          "entries": 46,
           "copies": 1,
           "created_timestamp": 1769047196,
           "end_timestamp": 1769828040,
@@ -47540,12 +47545,31 @@
           "name": "My Big Sister: Remastered",
           "link": "kNGWn/my-big-sister-remastered",
           "cv_status": "FULL_CV",
-          "entries": 64,
+          "entries": 68,
           "copies": 1,
           "created_timestamp": 1769047702,
           "end_timestamp": 1770257160,
           "required_play": false,
           "is_shared": true
+        },
+        {
+          "name": "Bloodshore",
+          "link": "OhBzA/bloodshore",
+          "cv_status": "FULL_CV",
+          "entries": 85,
+          "copies": 1,
+          "created_timestamp": 1769077005,
+          "end_timestamp": 1769685180,
+          "required_play": false,
+          "is_shared": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "Carlo",
+              "status": "received",
+              "activated": true
+            }
+          ]
         },
         {
           "name": "Gorgon Shield",
@@ -51758,7 +51782,7 @@
           "name": "Touhou Luna Nights",
           "link": "cat0C/touhou-luna-nights",
           "cv_status": "FULL_CV",
-          "entries": 17,
+          "entries": 19,
           "copies": 1,
           "created_timestamp": 1768877936,
           "end_timestamp": 1770865020,
@@ -58818,7 +58842,15 @@
           "created_timestamp": 1769274775,
           "end_timestamp": 1769709600,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "Mini Cozy Room: Lo-Fi",
@@ -64443,7 +64475,7 @@
           "name": "Fallout 4",
           "link": "pzlKS/fallout-4",
           "cv_status": "FULL_CV",
-          "entries": 32,
+          "entries": 34,
           "copies": 1,
           "created_timestamp": 1769461046,
           "end_timestamp": 1770134400,
@@ -68744,8 +68776,7 @@
         }
       ],
       "warnings": [
-        "unplayed_required_play_giveaways",
-        "required_play_deadline_within_15_days"
+        "unplayed_required_play_giveaways"
       ]
     },
     "TexWilleri": {
