@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1769764835818,
+  "lastUpdated": 1769828057894,
   "users": {
     "a10i": {
       "username": "a10i",
@@ -2577,7 +2577,7 @@
           "name": "God's Trigger",
           "link": "oCgTO/gods-trigger",
           "cv_status": "REDUCED_CV",
-          "entries": 13,
+          "entries": 14,
           "copies": 1,
           "created_timestamp": 1769264688,
           "end_timestamp": 1769829720,
@@ -7406,12 +7406,12 @@
       "profile_url": "/user/Carenard",
       "avatar_url": "https://avatars.steamstatic.com/a2a84528e05d23bb5103c1c4684882e70603c39e_medium.jpg",
       "stats": {
-        "total_sent_count": 15.4,
-        "total_sent_value": 447.09,
+        "total_sent_count": 15.6,
+        "total_sent_value": 451.09,
         "total_received_count": 13,
         "total_received_value": 287.87,
-        "total_gift_difference": 2.4,
-        "total_value_difference": 159.22,
+        "total_gift_difference": 2.6,
+        "total_value_difference": 163.22,
         "fcv_sent_count": 12,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
@@ -7426,7 +7426,7 @@
         "real_total_received_count": 13,
         "real_total_gift_difference": -1,
         "giveaway_ratio": 10.67,
-        "shared_sent_count": 16,
+        "shared_sent_count": 17,
         "shared_received_count": 0,
         "giveaways_created": 27,
         "giveaways_with_no_entries": 0,
@@ -7718,12 +7718,20 @@
           "name": "Backpack Hero",
           "link": "xJFna/backpack-hero",
           "cv_status": "REDUCED_CV",
-          "entries": 115,
+          "entries": 118,
           "copies": 1,
           "created_timestamp": 1767854656,
           "end_timestamp": 1769796000,
           "required_play": false,
-          "is_shared": true
+          "is_shared": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "Wolveruno",
+              "status": "received",
+              "activated": true
+            }
+          ]
         },
         {
           "name": "Tandem: A Tale of Shadows",
@@ -12361,7 +12369,7 @@
           "name": "Love is...",
           "link": "Psopq/love-is",
           "cv_status": "FULL_CV",
-          "entries": 8,
+          "entries": 10,
           "copies": 1,
           "created_timestamp": 1769633108,
           "end_timestamp": 1769850000,
@@ -30755,7 +30763,7 @@
           "name": "ULTRAKILL",
           "link": "jioRv/ultrakill",
           "cv_status": "FULL_CV",
-          "entries": 3,
+          "entries": 4,
           "copies": 1,
           "created_timestamp": 1768603494,
           "end_timestamp": 1769881260,
@@ -37598,63 +37606,6 @@
         "required_plays_need_review"
       ]
     },
-    "Lilyhia": {
-      "username": "Lilyhia",
-      "profile_url": "/user/Lilyhia",
-      "avatar_url": "https://avatars.steamstatic.com/d1bec9e5b8c06754120e389495263082103345cd_medium.jpg",
-      "stats": {
-        "total_sent_count": 1,
-        "total_sent_value": 59.99,
-        "total_received_count": 0,
-        "total_received_value": 0,
-        "total_gift_difference": 1,
-        "total_value_difference": 59.99,
-        "fcv_sent_count": 1,
-        "rcv_sent_count": 0,
-        "ncv_sent_count": 0,
-        "fcv_received_count": 0,
-        "rcv_received_count": 0,
-        "ncv_received_count": 0,
-        "fcv_gift_difference": 0,
-        "real_total_sent_value": 84.99,
-        "real_total_received_value": 0,
-        "real_total_value_difference": 84.99,
-        "real_total_sent_count": 1,
-        "real_total_received_count": 0,
-        "real_total_gift_difference": 1,
-        "giveaway_ratio": 0,
-        "shared_sent_count": 0,
-        "shared_received_count": 0,
-        "giveaways_created": 1,
-        "giveaways_with_no_entries": 0,
-        "last_giveaway_created_at": 1766085927,
-        "last_giveaway_won_at": null
-      },
-      "steam_id": "76561199028503777",
-      "steam_profile_url": "https://steamcommunity.com/profiles/76561199028503777",
-      "country_code": null,
-      "giveaways_created": [
-        {
-          "name": "BLEACH Rebirth of Souls",
-          "link": "oX77I/bleach-rebirth-of-souls",
-          "cv_status": "FULL_CV",
-          "entries": 16,
-          "copies": 1,
-          "created_timestamp": 1766085927,
-          "end_timestamp": 1766577600,
-          "required_play": false,
-          "is_shared": false,
-          "had_winners": true,
-          "winners": [
-            {
-              "name": "ShroudOfLethe",
-              "status": "received",
-              "activated": true
-            }
-          ]
-        }
-      ]
-    },
     "LinustheBold": {
       "username": "LinustheBold",
       "profile_url": "/user/LinustheBold",
@@ -38907,9 +38858,9 @@
         "giveaway_ratio": 0.67,
         "shared_sent_count": 107,
         "shared_received_count": 2,
-        "giveaways_created": 102,
+        "giveaways_created": 103,
         "giveaways_with_no_entries": 0,
-        "last_giveaway_created_at": 1769564235,
+        "last_giveaway_created_at": 1769823744,
         "last_giveaway_won_at": 1764944580,
         "total_achievements_percentage": 44,
         "average_achievements_percentage": 33,
@@ -39048,7 +38999,7 @@
           "name": "Operation Wolf Returns: First Mission",
           "link": "JQr44/operation-wolf-returns-first-mission",
           "cv_status": "REDUCED_CV",
-          "entries": 70,
+          "entries": 72,
           "copies": 1,
           "created_timestamp": 1769215150,
           "end_timestamp": 1769832000,
@@ -39059,7 +39010,7 @@
           "name": "Everwarder",
           "link": "Y2z4Z/everwarder",
           "cv_status": "REDUCED_CV",
-          "entries": 83,
+          "entries": 85,
           "copies": 1,
           "created_timestamp": 1769297939,
           "end_timestamp": 1769918400,
@@ -39070,10 +39021,21 @@
           "name": "SEUM: Speedrunners from Hell",
           "link": "hT5NX/seum-speedrunners-from-hell",
           "cv_status": "REDUCED_CV",
-          "entries": 18,
+          "entries": 19,
           "copies": 1,
           "created_timestamp": 1769564235,
           "end_timestamp": 1770177600,
+          "required_play": false,
+          "is_shared": true
+        },
+        {
+          "name": "FEAR 2: Project Origin",
+          "link": "Cv42v/fear-2-project-origin",
+          "cv_status": "REDUCED_CV",
+          "entries": 2,
+          "copies": 1,
+          "created_timestamp": 1769823744,
+          "end_timestamp": 1770436800,
           "required_play": false,
           "is_shared": true
         },
@@ -47383,12 +47345,12 @@
       "profile_url": "/user/MrOuiOui",
       "avatar_url": "https://avatars.steamstatic.com/37b47a80ba41781c0e4b6a6eef8e699d22d4a1cc_medium.jpg",
       "stats": {
-        "total_sent_count": 21.2,
-        "total_sent_value": 380.12,
+        "total_sent_count": 21.4,
+        "total_sent_value": 382.12,
         "total_received_count": 8,
         "total_received_value": 240.92,
-        "total_gift_difference": 13.2,
-        "total_value_difference": 139.2,
+        "total_gift_difference": 13.4,
+        "total_value_difference": 141.2,
         "fcv_sent_count": 17,
         "rcv_sent_count": 3,
         "ncv_sent_count": 0,
@@ -47403,10 +47365,10 @@
         "real_total_received_count": 8,
         "real_total_gift_difference": 9,
         "giveaway_ratio": 15.33,
-        "shared_sent_count": 4,
+        "shared_sent_count": 5,
         "shared_received_count": 0,
         "giveaways_created": 30,
-        "giveaways_with_no_entries": 2,
+        "giveaways_with_no_entries": 3,
         "last_giveaway_created_at": 1769163503,
         "last_giveaway_won_at": 1769097660,
         "total_achievements_percentage": 73,
@@ -47520,26 +47482,16 @@
       ],
       "giveaways_created": [
         {
-          "name": "Ynglet",
-          "link": "zx7pq/ynglet",
-          "cv_status": "FULL_CV",
-          "entries": 87,
-          "copies": 1,
-          "created_timestamp": 1769076158,
-          "end_timestamp": 1769770500,
-          "required_play": false,
-          "is_shared": true
-        },
-        {
           "name": "AtmaSphere 2",
           "link": "evKJN/atmasphere-2",
           "cv_status": "FULL_CV",
-          "entries": 48,
+          "entries": 54,
           "copies": 1,
           "created_timestamp": 1769047196,
           "end_timestamp": 1769828040,
           "required_play": false,
-          "is_shared": true
+          "is_shared": true,
+          "had_winners": false
         },
         {
           "name": "The Mildew Children",
@@ -47556,12 +47508,31 @@
           "name": "My Big Sister: Remastered",
           "link": "kNGWn/my-big-sister-remastered",
           "cv_status": "FULL_CV",
-          "entries": 68,
+          "entries": 70,
           "copies": 1,
           "created_timestamp": 1769047702,
           "end_timestamp": 1770257160,
           "required_play": false,
           "is_shared": true
+        },
+        {
+          "name": "Ynglet",
+          "link": "zx7pq/ynglet",
+          "cv_status": "FULL_CV",
+          "entries": 88,
+          "copies": 1,
+          "created_timestamp": 1769076158,
+          "end_timestamp": 1769770500,
+          "required_play": false,
+          "is_shared": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "TheRevenantKnight",
+              "status": "received",
+              "activated": true
+            }
+          ]
         },
         {
           "name": "Bloodshore",
@@ -64486,7 +64457,7 @@
           "name": "Fallout 4",
           "link": "pzlKS/fallout-4",
           "cv_status": "FULL_CV",
-          "entries": 34,
+          "entries": 36,
           "copies": 1,
           "created_timestamp": 1769461046,
           "end_timestamp": 1770134400,
@@ -72763,6 +72734,63 @@
         }
       ]
     },
+    "vampiresska": {
+      "username": "vampiresska",
+      "profile_url": "/user/vampiresska",
+      "avatar_url": "https://avatars.steamstatic.com/d16eeec7bb6bf326137eb393accdafbb51feb901_medium.jpg",
+      "stats": {
+        "total_sent_count": 1,
+        "total_sent_value": 59.99,
+        "total_received_count": 0,
+        "total_received_value": 0,
+        "total_gift_difference": 1,
+        "total_value_difference": 59.99,
+        "fcv_sent_count": 1,
+        "rcv_sent_count": 0,
+        "ncv_sent_count": 0,
+        "fcv_received_count": 0,
+        "rcv_received_count": 0,
+        "ncv_received_count": 0,
+        "fcv_gift_difference": 0,
+        "real_total_sent_value": 59.99,
+        "real_total_received_value": 0,
+        "real_total_value_difference": 59.99,
+        "real_total_sent_count": 1,
+        "real_total_received_count": 0,
+        "real_total_gift_difference": 1,
+        "giveaway_ratio": 0,
+        "shared_sent_count": 0,
+        "shared_received_count": 0,
+        "giveaways_created": 1,
+        "giveaways_with_no_entries": 0,
+        "last_giveaway_created_at": 1766564833,
+        "last_giveaway_won_at": null
+      },
+      "steam_id": "76561198129984336",
+      "steam_profile_url": "https://steamcommunity.com/profiles/76561198129984336",
+      "country_code": "ua",
+      "giveaways_created": [
+        {
+          "name": "Assassin's Creed Valhalla",
+          "link": "8wHHa/assassins-creed-valhalla",
+          "cv_status": "FULL_CV",
+          "entries": 17,
+          "copies": 1,
+          "created_timestamp": 1766564833,
+          "end_timestamp": 1766741400,
+          "required_play": false,
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "Tyln",
+              "status": "received",
+              "activated": true
+            }
+          ]
+        }
+      ]
+    },
     "VenomousNyx": {
       "username": "VenomousNyx",
       "profile_url": "/user/VenomousNyx",
@@ -74521,9 +74549,9 @@
         "giveaway_ratio": 16,
         "shared_sent_count": 0,
         "shared_received_count": 0,
-        "giveaways_created": 17,
+        "giveaways_created": 18,
         "giveaways_with_no_entries": 3,
-        "last_giveaway_created_at": 1759286588,
+        "last_giveaway_created_at": 1769772192,
         "last_giveaway_won_at": 1764114600,
         "total_achievements_percentage": 21,
         "average_achievements_percentage": 22,
@@ -74719,6 +74747,17 @@
         }
       ],
       "giveaways_created": [
+        {
+          "name": "The Medium",
+          "link": "1iy2V/the-medium",
+          "cv_status": "FULL_CV",
+          "entries": 5,
+          "copies": 1,
+          "created_timestamp": 1769772192,
+          "end_timestamp": 1770422400,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "Dead Space 3",
           "link": "7KOw2/dead-space-3",

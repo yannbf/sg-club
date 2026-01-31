@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1769764111550,
+  "lastUpdated": 1769828056011,
   "users": [
     {
       "username": "thesodaer",
@@ -12722,6 +12722,64 @@
         }
       ],
       "left_at_timestamp": 1769764111548
+    },
+    {
+      "username": "Lilyhia",
+      "profile_url": "/user/Lilyhia",
+      "avatar_url": "https://avatars.steamstatic.com/d1bec9e5b8c06754120e389495263082103345cd_medium.jpg",
+      "stats": {
+        "total_sent_count": 1,
+        "total_sent_value": 59.99,
+        "total_received_count": 0,
+        "total_received_value": 0,
+        "total_gift_difference": 1,
+        "total_value_difference": 59.99,
+        "fcv_sent_count": 1,
+        "rcv_sent_count": 0,
+        "ncv_sent_count": 0,
+        "fcv_received_count": 0,
+        "rcv_received_count": 0,
+        "ncv_received_count": 0,
+        "fcv_gift_difference": 0,
+        "real_total_sent_value": 84.99,
+        "real_total_received_value": 0,
+        "real_total_value_difference": 84.99,
+        "real_total_sent_count": 1,
+        "real_total_received_count": 0,
+        "real_total_gift_difference": 1,
+        "giveaway_ratio": 0,
+        "shared_sent_count": 0,
+        "shared_received_count": 0,
+        "giveaways_created": 1,
+        "giveaways_with_no_entries": 0,
+        "last_giveaway_created_at": 1766085927,
+        "last_giveaway_won_at": null
+      },
+      "steam_id": "76561199028503777",
+      "steam_profile_url": "https://steamcommunity.com/profiles/76561199028503777",
+      "country_code": null,
+      "giveaways_created": [
+        {
+          "name": "BLEACH Rebirth of Souls",
+          "link": "oX77I/bleach-rebirth-of-souls",
+          "cv_status": "FULL_CV",
+          "entries": 16,
+          "copies": 1,
+          "created_timestamp": 1766085927,
+          "end_timestamp": 1766577600,
+          "required_play": false,
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "ShroudOfLethe",
+              "status": "received",
+              "activated": true
+            }
+          ]
+        }
+      ],
+      "left_at_timestamp": 1769828056009
     }
   ]
 }
