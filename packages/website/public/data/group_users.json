@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1769850579472,
+  "lastUpdated": 1769916948839,
   "users": {
     "a10i": {
       "username": "a10i",
@@ -1308,9 +1308,9 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1767151655,
         "last_giveaway_won_at": 1766955600,
-        "total_achievements_percentage": 24,
-        "average_achievements_percentage": 39,
-        "real_total_achievements_percentage": 26,
+        "total_achievements_percentage": 25,
+        "average_achievements_percentage": 40,
+        "real_total_achievements_percentage": 27,
         "real_average_achievements_percentage": 59,
         "has_missing_achievements_data": false
       },
@@ -2223,12 +2223,12 @@
       "profile_url": "/user/BaconChizBurger",
       "avatar_url": "https://avatars.steamstatic.com/8c99fa0a8cfc437c6f8a84b3ab6fb291c1c53d35_medium.jpg",
       "stats": {
-        "total_sent_count": 20.8,
-        "total_sent_value": 451.04,
+        "total_sent_count": 21.3,
+        "total_sent_value": 466.45,
         "total_received_count": 15,
         "total_received_value": 483.85,
-        "total_gift_difference": 5.8,
-        "total_value_difference": -32.81,
+        "total_gift_difference": 6.3,
+        "total_value_difference": -17.4,
         "fcv_sent_count": 18.3,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
@@ -2243,7 +2243,7 @@
         "real_total_received_count": 15,
         "real_total_gift_difference": 3.3,
         "giveaway_ratio": 16.63,
-        "shared_sent_count": 7,
+        "shared_sent_count": 9,
         "shared_received_count": 0,
         "giveaways_created": 29,
         "giveaways_with_no_entries": 1,
@@ -2586,9 +2586,9 @@
           "had_winners": true,
           "winners": [
             {
-              "name": null,
-              "status": "awaiting_feedback",
-              "activated": false
+              "name": "Mazila06",
+              "status": "received",
+              "activated": true
             }
           ]
         },
@@ -2605,9 +2605,9 @@
           "had_winners": true,
           "winners": [
             {
-              "name": null,
-              "status": "awaiting_feedback",
-              "activated": false
+              "name": "vaalita",
+              "status": "received",
+              "activated": true
             }
           ]
         },
@@ -5911,9 +5911,9 @@
         "giveaway_ratio": 19.33,
         "shared_sent_count": 1,
         "shared_received_count": 0,
-        "giveaways_created": 36,
+        "giveaways_created": 37,
         "giveaways_with_no_entries": 2,
-        "last_giveaway_created_at": 1767964307,
+        "last_giveaway_created_at": 1769850876,
         "last_giveaway_won_at": 1769364000,
         "total_achievements_percentage": 20,
         "average_achievements_percentage": 31,
@@ -6737,6 +6737,17 @@
         }
       ],
       "giveaways_created": [
+        {
+          "name": "Love is...",
+          "link": "lPBwH/love-is",
+          "cv_status": "FULL_CV",
+          "entries": 6,
+          "copies": 1,
+          "created_timestamp": 1769850876,
+          "end_timestamp": 1770058800,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "Wanderstop",
           "link": "Bp5QE/wanderstop",
@@ -11529,26 +11540,26 @@
       "profile_url": "/user/CuteEnby",
       "avatar_url": "https://avatars.steamstatic.com/0b80d92164620d302def3fd9a5f6458d56b932f6_medium.jpg",
       "stats": {
-        "total_sent_count": 28,
-        "total_sent_value": 439.72,
+        "total_sent_count": 29,
+        "total_sent_value": 449.71,
         "total_received_count": 40,
         "total_received_value": 650.6,
-        "total_gift_difference": -12,
-        "total_value_difference": -210.88,
-        "fcv_sent_count": 26,
+        "total_gift_difference": -11,
+        "total_value_difference": -200.89,
+        "fcv_sent_count": 27,
         "rcv_sent_count": 2,
         "ncv_sent_count": 0,
         "fcv_received_count": 37,
         "rcv_received_count": 1,
         "ncv_received_count": 0,
-        "fcv_gift_difference": -11,
-        "real_total_sent_value": 405.74,
+        "fcv_gift_difference": -10,
+        "real_total_sent_value": 415.73,
         "real_total_received_value": 607.08,
-        "real_total_value_difference": -201.34,
-        "real_total_sent_count": 26,
+        "real_total_value_difference": -191.35,
+        "real_total_sent_count": 27,
         "real_total_received_count": 37,
-        "real_total_gift_difference": -11,
-        "giveaway_ratio": 17,
+        "real_total_gift_difference": -10,
+        "giveaway_ratio": 18,
         "shared_sent_count": 0,
         "shared_received_count": 2,
         "giveaways_created": 28,
@@ -12390,7 +12401,15 @@
           "created_timestamp": 1769633108,
           "end_timestamp": 1769850000,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "Gooberdragon",
+              "status": "received",
+              "activated": true
+            }
+          ]
         },
         {
           "name": "SANABI",
@@ -16387,7 +16406,7 @@
     "Dobke": {
       "username": "Dobke",
       "profile_url": "/user/Dobke",
-      "avatar_url": "https://avatars.steamstatic.com/d56a28439725e84f5e5f3386817d862aa274ecdd_medium.jpg",
+      "avatar_url": "https://avatars.steamstatic.com/fc445c7b5693c1300c98b3660d8ea1d3a10ff32d_medium.jpg",
       "stats": {
         "total_sent_count": 17,
         "total_sent_value": 854.83,
@@ -18177,9 +18196,9 @@
         "giveaway_ratio": 15.67,
         "shared_sent_count": 0,
         "shared_received_count": 0,
-        "giveaways_created": 17,
+        "giveaways_created": 19,
         "giveaways_with_no_entries": 0,
-        "last_giveaway_created_at": 1767041435,
+        "last_giveaway_created_at": 1769877790,
         "last_giveaway_won_at": 1768500000,
         "total_achievements_percentage": 58,
         "average_achievements_percentage": 58,
@@ -18379,6 +18398,28 @@
         }
       ],
       "giveaways_created": [
+        {
+          "name": "Zefyr: A Thief's Melody",
+          "link": "qezOW/zefyr-a-thiefs-melody",
+          "cv_status": "FULL_CV",
+          "entries": 8,
+          "copies": 1,
+          "created_timestamp": 1769877790,
+          "end_timestamp": 1770397200,
+          "required_play": false,
+          "is_shared": false
+        },
+        {
+          "name": "The Precinct",
+          "link": "tHu9m/the-precinct",
+          "cv_status": "FULL_CV",
+          "entries": 15,
+          "copies": 1,
+          "created_timestamp": 1769877140,
+          "end_timestamp": 1770397200,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "Cast n Chill",
           "link": "9evJs/cast-n-chill",
@@ -18716,7 +18757,7 @@
     "eeev": {
       "username": "eeev",
       "profile_url": "/user/eeev",
-      "avatar_url": "https://avatars.steamstatic.com/b4daffd7df6aaa25d542ee60aa19e71d2f8abe1b_medium.jpg",
+      "avatar_url": "https://avatars.steamstatic.com/3141c7da561a92edcd83b615241e905ddddf71f4_medium.jpg",
       "stats": {
         "total_sent_count": 17,
         "total_sent_value": 331.83,
@@ -23423,30 +23464,30 @@
       "stats": {
         "total_sent_count": 6.5,
         "total_sent_value": 218.94,
-        "total_received_count": 12.3,
-        "total_received_value": 182.13,
-        "total_gift_difference": -5.8,
-        "total_value_difference": 36.81,
+        "total_received_count": 13.3,
+        "total_received_value": 192.12,
+        "total_gift_difference": -6.8,
+        "total_value_difference": 26.82,
         "fcv_sent_count": 6,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
-        "fcv_received_count": 12,
+        "fcv_received_count": 13,
         "rcv_received_count": 0,
         "ncv_received_count": 0,
-        "fcv_gift_difference": -6,
+        "fcv_gift_difference": -7,
         "real_total_sent_value": 183.94,
-        "real_total_received_value": 179.88,
-        "real_total_value_difference": 4.06,
+        "real_total_received_value": 189.87,
+        "real_total_value_difference": -5.93,
         "real_total_sent_count": 6,
-        "real_total_received_count": 12,
-        "real_total_gift_difference": -6,
-        "giveaway_ratio": 2,
+        "real_total_received_count": 13,
+        "real_total_gift_difference": -7,
+        "giveaway_ratio": 1.67,
         "shared_sent_count": 1,
         "shared_received_count": 1,
         "giveaways_created": 8,
         "giveaways_with_no_entries": 1,
         "last_giveaway_created_at": 1768757305,
-        "last_giveaway_won_at": 1769512740,
+        "last_giveaway_won_at": 1769850000,
         "total_achievements_percentage": 4,
         "average_achievements_percentage": 10,
         "real_total_achievements_percentage": 4,
@@ -23457,6 +23498,15 @@
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198066957402",
       "country_code": "us",
       "giveaways_won": [
+        {
+          "name": "Love is...",
+          "link": "Psopq/love-is",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1769850000,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "Gorgon Shield",
           "link": "imcms/gorgon-shield",
@@ -24265,30 +24315,30 @@
       "stats": {
         "total_sent_count": 7.7,
         "total_sent_value": 108.09,
-        "total_received_count": 6,
-        "total_received_value": 71.94,
-        "total_gift_difference": 1.7,
-        "total_value_difference": 36.15,
+        "total_received_count": 8,
+        "total_received_value": 104.92,
+        "total_gift_difference": -0.3,
+        "total_value_difference": 3.17,
         "fcv_sent_count": 4,
         "rcv_sent_count": 1,
         "ncv_sent_count": 0,
-        "fcv_received_count": 5,
+        "fcv_received_count": 7,
         "rcv_received_count": 1,
         "ncv_received_count": 0,
-        "fcv_gift_difference": -1,
+        "fcv_gift_difference": -3,
         "real_total_sent_value": 42.71,
-        "real_total_received_value": 63.45,
-        "real_total_value_difference": -20.74,
+        "real_total_received_value": 96.43,
+        "real_total_value_difference": -53.72,
         "real_total_sent_count": 4,
-        "real_total_received_count": 5,
-        "real_total_gift_difference": -1,
-        "giveaway_ratio": 2.67,
+        "real_total_received_count": 7,
+        "real_total_gift_difference": -3,
+        "giveaway_ratio": 2,
         "shared_sent_count": 7,
         "shared_received_count": 0,
-        "giveaways_created": 11,
+        "giveaways_created": 13,
         "giveaways_with_no_entries": 1,
-        "last_giveaway_created_at": 1763848508,
-        "last_giveaway_won_at": 1768915320,
+        "last_giveaway_created_at": 1769900121,
+        "last_giveaway_won_at": 1769881260,
         "total_achievements_percentage": 15,
         "average_achievements_percentage": 13,
         "real_total_achievements_percentage": 15,
@@ -24300,6 +24350,24 @@
       "steam_profile_is_private": false,
       "country_code": null,
       "giveaways_won": [
+        {
+          "name": "ULTRAKILL",
+          "link": "jioRv/ultrakill",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1769881260,
+          "required_play": false,
+          "is_shared": false
+        },
+        {
+          "name": "Tobla - Divine Path",
+          "link": "5PiV5/tobla-divine-path",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1769874360,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "Tall Trails",
           "link": "Rtkl2/tall-trails",
@@ -24425,6 +24493,28 @@
         }
       ],
       "giveaways_created": [
+        {
+          "name": "Full Metal Furies",
+          "link": "mF0nM/full-metal-furies",
+          "cv_status": "REDUCED_CV",
+          "entries": 2,
+          "copies": 1,
+          "created_timestamp": 1769899508,
+          "end_timestamp": 1770507540,
+          "required_play": false,
+          "is_shared": false
+        },
+        {
+          "name": "POSTAL 4: No Regerts",
+          "link": "0nQpR/postal-4-no-regerts",
+          "cv_status": "REDUCED_CV",
+          "entries": 2,
+          "copies": 1,
+          "created_timestamp": 1769900121,
+          "end_timestamp": 1770508440,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "Arkanoid - Eternal Battle",
           "link": "caWXr/arkanoid-eternal-battle",
@@ -30641,31 +30731,31 @@
       "profile_url": "/user/Ivannes",
       "avatar_url": "https://avatars.steamstatic.com/f929925df26b86d3aaf9b504c42bc8a7f18a882b_medium.jpg",
       "stats": {
-        "total_sent_count": 26,
-        "total_sent_value": 681.82,
+        "total_sent_count": 28,
+        "total_sent_value": 714.8,
         "total_received_count": 4,
         "total_received_value": 61.96,
-        "total_gift_difference": 22,
-        "total_value_difference": 619.86,
-        "fcv_sent_count": 19,
+        "total_gift_difference": 24,
+        "total_value_difference": 652.84,
+        "fcv_sent_count": 21,
         "rcv_sent_count": 1,
         "ncv_sent_count": 0,
         "fcv_received_count": 4,
         "rcv_received_count": 0,
         "ncv_received_count": 0,
-        "fcv_gift_difference": 15,
-        "real_total_sent_value": 525.45,
+        "fcv_gift_difference": 17,
+        "real_total_sent_value": 558.43,
         "real_total_received_value": 61.96,
-        "real_total_value_difference": 463.49,
-        "real_total_sent_count": 19,
+        "real_total_value_difference": 496.47,
+        "real_total_sent_count": 21,
         "real_total_received_count": 4,
-        "real_total_gift_difference": 15,
-        "giveaway_ratio": 18.33,
+        "real_total_gift_difference": 17,
+        "giveaway_ratio": 20.33,
         "shared_sent_count": 22,
         "shared_received_count": 0,
-        "giveaways_created": 40,
+        "giveaways_created": 41,
         "giveaways_with_no_entries": 0,
-        "last_giveaway_created_at": 1768603721,
+        "last_giveaway_created_at": 1769875885,
         "last_giveaway_won_at": 1762658580,
         "total_achievements_percentage": 67,
         "average_achievements_percentage": 37,
@@ -30765,13 +30855,13 @@
       ],
       "giveaways_created": [
         {
-          "name": "Tobla - Divine Path",
-          "link": "5PiV5/tobla-divine-path",
+          "name": "SCARLET NEXUS Deluxe Edition",
+          "link": "aT5QZ/scarlet-nexus-deluxe-edition",
           "cv_status": "FULL_CV",
-          "entries": 2,
+          "entries": 0,
           "copies": 1,
-          "created_timestamp": 1768603721,
-          "end_timestamp": 1769874360,
+          "created_timestamp": 1769875885,
+          "end_timestamp": 1771000680,
           "required_play": false,
           "is_shared": false
         },
@@ -30779,12 +30869,39 @@
           "name": "ULTRAKILL",
           "link": "jioRv/ultrakill",
           "cv_status": "FULL_CV",
-          "entries": 4,
+          "entries": 5,
           "copies": 1,
           "created_timestamp": 1768603494,
           "end_timestamp": 1769881260,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "Grogglz",
+              "status": "received",
+              "activated": true
+            }
+          ]
+        },
+        {
+          "name": "Tobla - Divine Path",
+          "link": "5PiV5/tobla-divine-path",
+          "cv_status": "FULL_CV",
+          "entries": 3,
+          "copies": 1,
+          "created_timestamp": 1768603721,
+          "end_timestamp": 1769874360,
+          "required_play": false,
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "Grogglz",
+              "status": "received",
+              "activated": true
+            }
+          ]
         },
         {
           "name": "Detroit: Become Human",
@@ -37622,6 +37739,63 @@
         "required_plays_need_review"
       ]
     },
+    "Lilyhia": {
+      "username": "Lilyhia",
+      "profile_url": "/user/Lilyhia",
+      "avatar_url": "https://avatars.steamstatic.com/d1bec9e5b8c06754120e389495263082103345cd_medium.jpg",
+      "stats": {
+        "total_sent_count": 1,
+        "total_sent_value": 59.99,
+        "total_received_count": 0,
+        "total_received_value": 0,
+        "total_gift_difference": 1,
+        "total_value_difference": 59.99,
+        "fcv_sent_count": 1,
+        "rcv_sent_count": 0,
+        "ncv_sent_count": 0,
+        "fcv_received_count": 0,
+        "rcv_received_count": 0,
+        "ncv_received_count": 0,
+        "fcv_gift_difference": 0,
+        "real_total_sent_value": 84.99,
+        "real_total_received_value": 0,
+        "real_total_value_difference": 84.99,
+        "real_total_sent_count": 1,
+        "real_total_received_count": 0,
+        "real_total_gift_difference": 1,
+        "giveaway_ratio": 0,
+        "shared_sent_count": 0,
+        "shared_received_count": 0,
+        "giveaways_created": 1,
+        "giveaways_with_no_entries": 0,
+        "last_giveaway_created_at": 1766085927,
+        "last_giveaway_won_at": null
+      },
+      "steam_id": "76561199028503777",
+      "steam_profile_url": "https://steamcommunity.com/profiles/76561199028503777",
+      "country_code": null,
+      "giveaways_created": [
+        {
+          "name": "BLEACH Rebirth of Souls",
+          "link": "oX77I/bleach-rebirth-of-souls",
+          "cv_status": "FULL_CV",
+          "entries": 16,
+          "copies": 1,
+          "created_timestamp": 1766085927,
+          "end_timestamp": 1766577600,
+          "required_play": false,
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "ShroudOfLethe",
+              "status": "received",
+              "activated": true
+            }
+          ]
+        }
+      ]
+    },
     "LinustheBold": {
       "username": "LinustheBold",
       "profile_url": "/user/LinustheBold",
@@ -38874,9 +39048,9 @@
         "giveaway_ratio": 0.67,
         "shared_sent_count": 108,
         "shared_received_count": 2,
-        "giveaways_created": 103,
+        "giveaways_created": 104,
         "giveaways_with_no_entries": 0,
-        "last_giveaway_created_at": 1769823744,
+        "last_giveaway_created_at": 1769905044,
         "last_giveaway_won_at": 1764944580,
         "total_achievements_percentage": 44,
         "average_achievements_percentage": 33,
@@ -39015,7 +39189,7 @@
           "name": "Everwarder",
           "link": "Y2z4Z/everwarder",
           "cv_status": "REDUCED_CV",
-          "entries": 88,
+          "entries": 93,
           "copies": 1,
           "created_timestamp": 1769297939,
           "end_timestamp": 1769918400,
@@ -39026,7 +39200,7 @@
           "name": "SEUM: Speedrunners from Hell",
           "link": "hT5NX/seum-speedrunners-from-hell",
           "cv_status": "REDUCED_CV",
-          "entries": 19,
+          "entries": 20,
           "copies": 1,
           "created_timestamp": 1769564235,
           "end_timestamp": 1770177600,
@@ -39037,10 +39211,21 @@
           "name": "FEAR 2: Project Origin",
           "link": "Cv42v/fear-2-project-origin",
           "cv_status": "REDUCED_CV",
-          "entries": 9,
+          "entries": 24,
           "copies": 1,
           "created_timestamp": 1769823744,
           "end_timestamp": 1770436800,
+          "required_play": false,
+          "is_shared": true
+        },
+        {
+          "name": "Interrogation: You will be ...",
+          "link": "3Q0yi/interrogation-you-will-be-deceived",
+          "cv_status": "REDUCED_CV",
+          "entries": 10,
+          "copies": 2,
+          "created_timestamp": 1769905044,
+          "end_timestamp": 1770523200,
           "required_play": false,
           "is_shared": true
         },
@@ -41355,9 +41540,9 @@
         "giveaway_ratio": 24,
         "shared_sent_count": 0,
         "shared_received_count": 0,
-        "giveaways_created": 23,
+        "giveaways_created": 24,
         "giveaways_with_no_entries": 0,
-        "last_giveaway_created_at": 1767365967,
+        "last_giveaway_created_at": 1769887869,
         "last_giveaway_won_at": 1769424900,
         "total_achievements_percentage": 83,
         "average_achievements_percentage": 84,
@@ -41825,6 +42010,17 @@
         }
       ],
       "giveaways_created": [
+        {
+          "name": "STAR WARS Jedi: Survivor",
+          "link": "gQcEd/star-wars-jedi-survivor",
+          "cv_status": "FULL_CV",
+          "entries": 13,
+          "copies": 1,
+          "created_timestamp": 1769887869,
+          "end_timestamp": 1770062400,
+          "required_play": true,
+          "is_shared": false
+        },
         {
           "name": "STAR WARS Jedi: Fallen Order",
           "link": "eb8XB/star-wars-jedi-fallen-order",
@@ -47369,12 +47565,12 @@
       "profile_url": "/user/MrOuiOui",
       "avatar_url": "https://avatars.steamstatic.com/37b47a80ba41781c0e4b6a6eef8e699d22d4a1cc_medium.jpg",
       "stats": {
-        "total_sent_count": 21.4,
-        "total_sent_value": 382.12,
+        "total_sent_count": 21.7,
+        "total_sent_value": 383.78,
         "total_received_count": 8,
         "total_received_value": 240.92,
-        "total_gift_difference": 13.4,
-        "total_value_difference": 141.2,
+        "total_gift_difference": 13.7,
+        "total_value_difference": 142.86,
         "fcv_sent_count": 17,
         "rcv_sent_count": 3,
         "ncv_sent_count": 0,
@@ -47389,11 +47585,11 @@
         "real_total_received_count": 8,
         "real_total_gift_difference": 9,
         "giveaway_ratio": 15.33,
-        "shared_sent_count": 5,
+        "shared_sent_count": 6,
         "shared_received_count": 0,
-        "giveaways_created": 30,
+        "giveaways_created": 31,
         "giveaways_with_no_entries": 2,
-        "last_giveaway_created_at": 1769163503,
+        "last_giveaway_created_at": 1769872428,
         "last_giveaway_won_at": 1769097660,
         "total_achievements_percentage": 73,
         "average_achievements_percentage": 74,
@@ -47509,7 +47705,7 @@
           "name": "The Mildew Children",
           "link": "qxb2C/the-mildew-children",
           "cv_status": "FULL_CV",
-          "entries": 8,
+          "entries": 10,
           "copies": 1,
           "created_timestamp": 1769163503,
           "end_timestamp": 1769940960,
@@ -47520,12 +47716,23 @@
           "name": "My Big Sister: Remastered",
           "link": "kNGWn/my-big-sister-remastered",
           "cv_status": "FULL_CV",
-          "entries": 70,
+          "entries": 73,
           "copies": 1,
           "created_timestamp": 1769047702,
           "end_timestamp": 1770257160,
           "required_play": false,
           "is_shared": true
+        },
+        {
+          "name": "Hadean Tactics",
+          "link": "sxMUQ/hadean-tactics",
+          "cv_status": "FULL_CV",
+          "entries": 4,
+          "copies": 1,
+          "created_timestamp": 1769872428,
+          "end_timestamp": 1770910140,
+          "required_play": false,
+          "is_shared": false
         },
         {
           "name": "AtmaSphere 2",
@@ -47540,9 +47747,9 @@
           "had_winners": true,
           "winners": [
             {
-              "name": null,
-              "status": "awaiting_feedback",
-              "activated": false
+              "name": "skycycle",
+              "status": "received",
+              "activated": true
             }
           ]
         },
@@ -51806,7 +52013,7 @@
           "name": "Touhou Luna Nights",
           "link": "cat0C/touhou-luna-nights",
           "cv_status": "FULL_CV",
-          "entries": 20,
+          "entries": 21,
           "copies": 1,
           "created_timestamp": 1768877936,
           "end_timestamp": 1770865020,
@@ -64749,9 +64956,9 @@
         "giveaway_ratio": 12.67,
         "shared_sent_count": 3,
         "shared_received_count": 0,
-        "giveaways_created": 19,
+        "giveaways_created": 20,
         "giveaways_with_no_entries": 0,
-        "last_giveaway_created_at": 1766444881,
+        "last_giveaway_created_at": 1769890337,
         "last_giveaway_won_at": 1769065140,
         "total_achievements_percentage": 9,
         "average_achievements_percentage": 14,
@@ -64918,6 +65125,17 @@
         }
       ],
       "giveaways_created": [
+        {
+          "name": "Solasta: Crown of the Magister",
+          "link": "EOehN/solasta-crown-of-the-magister",
+          "cv_status": "FULL_CV",
+          "entries": 1,
+          "copies": 1,
+          "created_timestamp": 1769890337,
+          "end_timestamp": 1770584400,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "Dead Cells",
           "link": "Ilfpm/dead-cells",
