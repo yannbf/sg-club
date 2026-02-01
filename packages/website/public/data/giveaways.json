@@ -1,25 +1,6 @@
 {
-  "last_updated": "2026-02-01T03:32:11.074Z",
+  "last_updated": "2026-02-01T08:57:10.791Z",
   "giveaways": [
-    {
-      "id": "Y2z4Z",
-      "name": "Everwarder",
-      "points": 9,
-      "copies": 1,
-      "app_id": 2307170,
-      "package_id": null,
-      "link": "Y2z4Z/everwarder",
-      "created_timestamp": 1769297939,
-      "start_timestamp": 1769297939,
-      "end_timestamp": 1769918400,
-      "whitelist": true,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 93,
-      "creator": "lockcjwen",
-      "is_shared": true,
-      "cv_status": "REDUCED_CV"
-    },
     {
       "id": "qxb2C",
       "name": "The Mildew Children",
@@ -50,7 +31,7 @@
       "end_timestamp": 1770007560,
       "group": true,
       "comment_count": 0,
-      "entry_count": 3,
+      "entry_count": 4,
       "creator": "Patxxv",
       "is_shared": true,
       "cv_status": "FULL_CV"
@@ -85,7 +66,7 @@
       "end_timestamp": 1770062400,
       "group": true,
       "comment_count": 0,
-      "entry_count": 13,
+      "entry_count": 16,
       "creator": "makki",
       "required_play": true,
       "cv_status": "FULL_CV"
@@ -104,7 +85,7 @@
       "region_restricted": true,
       "group": true,
       "comment_count": 2,
-      "entry_count": 36,
+      "entry_count": 38,
       "creator": "ShroudOfLethe",
       "is_shared": true,
       "cv_status": "FULL_CV"
@@ -142,9 +123,27 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 73,
+      "entry_count": 74,
       "creator": "MrOuiOui",
       "is_shared": true,
+      "cv_status": "FULL_CV"
+    },
+    {
+      "id": "puQWt",
+      "name": "Turnbound",
+      "points": 15,
+      "copies": 1,
+      "app_id": 3802470,
+      "package_id": null,
+      "link": "puQWt/turnbound",
+      "created_timestamp": 1769923686,
+      "start_timestamp": 1769923686,
+      "end_timestamp": 1770384600,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 1,
+      "creator": "Tsukurai",
+      "required_play": true,
       "cv_status": "FULL_CV"
     },
     {
@@ -177,7 +176,7 @@
       "end_timestamp": 1770397200,
       "group": true,
       "comment_count": 0,
-      "entry_count": 15,
+      "entry_count": 17,
       "creator": "DrTenma",
       "cv_status": "FULL_CV"
     },
@@ -265,7 +264,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 10,
+      "entry_count": 19,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -284,7 +283,7 @@
       "region_restricted": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 1,
+      "entry_count": 2,
       "creator": "Shughes91",
       "cv_status": "FULL_CV"
     },
@@ -391,6 +390,33 @@
       "entry_count": 5,
       "creator": "TheLastShepard",
       "cv_status": "FULL_CV"
+    },
+    {
+      "id": "Y2z4Z",
+      "name": "Everwarder",
+      "points": 9,
+      "copies": 1,
+      "app_id": 2307170,
+      "package_id": null,
+      "link": "Y2z4Z/everwarder",
+      "created_timestamp": 1769297939,
+      "start_timestamp": 1769297939,
+      "end_timestamp": 1769918400,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 95,
+      "creator": "lockcjwen",
+      "is_shared": true,
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "REDUCED_CV",
+      "deleted": false
     },
     {
       "id": "jioRv",

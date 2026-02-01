@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1769917657768,
+  "lastUpdated": 1769936592331,
   "users": {
     "a10i": {
       "username": "a10i",
@@ -1308,10 +1308,10 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1767151655,
         "last_giveaway_won_at": 1766955600,
-        "total_achievements_percentage": 25,
-        "average_achievements_percentage": 40,
-        "real_total_achievements_percentage": 27,
-        "real_average_achievements_percentage": 59,
+        "total_achievements_percentage": 28,
+        "average_achievements_percentage": 41,
+        "real_total_achievements_percentage": 31,
+        "real_average_achievements_percentage": 61,
         "has_missing_achievements_data": false
       },
       "steam_id": "76561198453663783",
@@ -18413,7 +18413,7 @@
           "name": "The Precinct",
           "link": "tHu9m/the-precinct",
           "cv_status": "FULL_CV",
-          "entries": 15,
+          "entries": 17,
           "copies": 1,
           "created_timestamp": 1769877140,
           "end_timestamp": 1770397200,
@@ -23489,9 +23489,9 @@
         "last_giveaway_created_at": 1768757305,
         "last_giveaway_won_at": 1769850000,
         "total_achievements_percentage": 4,
-        "average_achievements_percentage": 10,
+        "average_achievements_percentage": 9,
         "real_total_achievements_percentage": 4,
-        "real_average_achievements_percentage": 11,
+        "real_average_achievements_percentage": 10,
         "has_missing_achievements_data": false
       },
       "steam_id": "76561198066957402",
@@ -24350,10 +24350,10 @@
         "giveaways_with_no_entries": 1,
         "last_giveaway_created_at": 1769900121,
         "last_giveaway_won_at": 1769881260,
-        "total_achievements_percentage": 15,
-        "average_achievements_percentage": 13,
-        "real_total_achievements_percentage": 15,
-        "real_average_achievements_percentage": 15,
+        "total_achievements_percentage": 14,
+        "average_achievements_percentage": 10,
+        "real_total_achievements_percentage": 14,
+        "real_average_achievements_percentage": 11,
         "has_missing_achievements_data": true
       },
       "steam_id": "76561199644864244",
@@ -37772,63 +37772,6 @@
         "required_plays_need_review"
       ]
     },
-    "Lilyhia": {
-      "username": "Lilyhia",
-      "profile_url": "/user/Lilyhia",
-      "avatar_url": "https://avatars.steamstatic.com/d1bec9e5b8c06754120e389495263082103345cd_medium.jpg",
-      "stats": {
-        "total_sent_count": 1,
-        "total_sent_value": 59.99,
-        "total_received_count": 0,
-        "total_received_value": 0,
-        "total_gift_difference": 1,
-        "total_value_difference": 59.99,
-        "fcv_sent_count": 1,
-        "rcv_sent_count": 0,
-        "ncv_sent_count": 0,
-        "fcv_received_count": 0,
-        "rcv_received_count": 0,
-        "ncv_received_count": 0,
-        "fcv_gift_difference": 0,
-        "real_total_sent_value": 84.99,
-        "real_total_received_value": 0,
-        "real_total_value_difference": 84.99,
-        "real_total_sent_count": 1,
-        "real_total_received_count": 0,
-        "real_total_gift_difference": 1,
-        "giveaway_ratio": 0,
-        "shared_sent_count": 0,
-        "shared_received_count": 0,
-        "giveaways_created": 1,
-        "giveaways_with_no_entries": 0,
-        "last_giveaway_created_at": 1766085927,
-        "last_giveaway_won_at": null
-      },
-      "steam_id": "76561199028503777",
-      "steam_profile_url": "https://steamcommunity.com/profiles/76561199028503777",
-      "country_code": null,
-      "giveaways_created": [
-        {
-          "name": "BLEACH Rebirth of Souls",
-          "link": "oX77I/bleach-rebirth-of-souls",
-          "cv_status": "FULL_CV",
-          "entries": 16,
-          "copies": 1,
-          "created_timestamp": 1766085927,
-          "end_timestamp": 1766577600,
-          "required_play": false,
-          "is_shared": false,
-          "had_winners": true,
-          "winners": [
-            {
-              "name": "ShroudOfLethe",
-              "status": "received",
-              "activated": true
-            }
-          ]
-        }
-      ]
-    },
     "LinustheBold": {
       "username": "LinustheBold",
       "profile_url": "/user/LinustheBold",
@@ -39219,17 +39162,6 @@
       ],
       "giveaways_created": [
         {
-          "name": "Everwarder",
-          "link": "Y2z4Z/everwarder",
-          "cv_status": "REDUCED_CV",
-          "entries": 93,
-          "copies": 1,
-          "created_timestamp": 1769297939,
-          "end_timestamp": 1769918400,
-          "required_play": false,
-          "is_shared": true
-        },
-        {
           "name": "SEUM: Speedrunners from Hell",
           "link": "hT5NX/seum-speedrunners-from-hell",
           "cv_status": "REDUCED_CV",
@@ -39255,12 +39187,31 @@
           "name": "Interrogation: You will be ...",
           "link": "3Q0yi/interrogation-you-will-be-deceived",
           "cv_status": "REDUCED_CV",
-          "entries": 10,
+          "entries": 19,
           "copies": 2,
           "created_timestamp": 1769905044,
           "end_timestamp": 1770523200,
           "required_play": false,
           "is_shared": true
+        },
+        {
+          "name": "Everwarder",
+          "link": "Y2z4Z/everwarder",
+          "cv_status": "REDUCED_CV",
+          "entries": 95,
+          "copies": 1,
+          "created_timestamp": 1769297939,
+          "end_timestamp": 1769918400,
+          "required_play": false,
+          "is_shared": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "Operation Wolf Returns: First Mission",
@@ -42047,7 +41998,7 @@
           "name": "STAR WARS Jedi: Survivor",
           "link": "gQcEd/star-wars-jedi-survivor",
           "cv_status": "FULL_CV",
-          "entries": 13,
+          "entries": 16,
           "copies": 1,
           "created_timestamp": 1769887869,
           "end_timestamp": 1770062400,
@@ -47749,7 +47700,7 @@
           "name": "My Big Sister: Remastered",
           "link": "kNGWn/my-big-sister-remastered",
           "cv_status": "FULL_CV",
-          "entries": 73,
+          "entries": 74,
           "copies": 1,
           "created_timestamp": 1769047702,
           "end_timestamp": 1770257160,
@@ -52035,7 +51986,7 @@
           "name": "My Big Sister: Remastered",
           "link": "3FzB5/my-big-sister-remastered",
           "cv_status": "FULL_CV",
-          "entries": 3,
+          "entries": 4,
           "copies": 1,
           "created_timestamp": 1769831239,
           "end_timestamp": 1770007560,
@@ -54981,9 +54932,9 @@
         "last_giveaway_created_at": 1767743658,
         "last_giveaway_won_at": 1768766400,
         "total_achievements_percentage": 75,
-        "average_achievements_percentage": 74,
+        "average_achievements_percentage": 75,
         "real_total_achievements_percentage": 75,
-        "real_average_achievements_percentage": 74,
+        "real_average_achievements_percentage": 75,
         "has_missing_achievements_data": true
       },
       "steam_id": "76561198027595057",
@@ -56201,7 +56152,7 @@
         "last_giveaway_created_at": 1767549280,
         "last_giveaway_won_at": 1768481700,
         "total_achievements_percentage": 21,
-        "average_achievements_percentage": 43,
+        "average_achievements_percentage": 44,
         "real_total_achievements_percentage": 50,
         "real_average_achievements_percentage": 53,
         "has_missing_achievements_data": false
@@ -64739,7 +64690,7 @@
           "name": "Fallout 4",
           "link": "pzlKS/fallout-4",
           "cv_status": "FULL_CV",
-          "entries": 36,
+          "entries": 38,
           "copies": 1,
           "created_timestamp": 1769461046,
           "end_timestamp": 1770134400,
@@ -65162,7 +65113,7 @@
           "name": "Solasta: Crown of the Magister",
           "link": "EOehN/solasta-crown-of-the-magister",
           "cv_status": "FULL_CV",
-          "entries": 1,
+          "entries": 2,
           "copies": 1,
           "created_timestamp": 1769890337,
           "end_timestamp": 1770584400,
@@ -70691,9 +70642,9 @@
         "giveaway_ratio": 24.33,
         "shared_sent_count": 0,
         "shared_received_count": 0,
-        "giveaways_created": 24,
+        "giveaways_created": 25,
         "giveaways_with_no_entries": 2,
-        "last_giveaway_created_at": 1768364024,
+        "last_giveaway_created_at": 1769923686,
         "last_giveaway_won_at": 1763308800,
         "total_achievements_percentage": 59,
         "average_achievements_percentage": 63,
@@ -70883,6 +70834,17 @@
         }
       ],
       "giveaways_created": [
+        {
+          "name": "Turnbound",
+          "link": "puQWt/turnbound",
+          "cv_status": "FULL_CV",
+          "entries": 1,
+          "copies": 1,
+          "created_timestamp": 1769923686,
+          "end_timestamp": 1770384600,
+          "required_play": true,
+          "is_shared": false
+        },
         {
           "name": "Click Painter",
           "link": "wT8kt/click-painter",
@@ -79202,8 +79164,8 @@
         "giveaways_with_no_entries": 1,
         "last_giveaway_created_at": 1768222709,
         "last_giveaway_won_at": 1758495600,
-        "total_achievements_percentage": 10,
-        "average_achievements_percentage": 11,
+        "total_achievements_percentage": 11,
+        "average_achievements_percentage": 12,
         "real_total_achievements_percentage": 0,
         "real_average_achievements_percentage": 0,
         "has_missing_achievements_data": false
