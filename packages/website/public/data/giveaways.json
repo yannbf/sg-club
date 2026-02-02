@@ -1,24 +1,6 @@
 {
-  "last_updated": "2026-02-02T03:04:48.346Z",
+  "last_updated": "2026-02-02T09:09:51.425Z",
   "giveaways": [
-    {
-      "id": "3FzB5",
-      "name": "My Big Sister: Remastered",
-      "points": 8,
-      "copies": 1,
-      "app_id": 2118540,
-      "package_id": null,
-      "link": "3FzB5/my-big-sister-remastered",
-      "created_timestamp": 1769831239,
-      "start_timestamp": 1769831239,
-      "end_timestamp": 1770007560,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 7,
-      "creator": "Patxxv",
-      "is_shared": true,
-      "cv_status": "FULL_CV"
-    },
     {
       "id": "lPBwH",
       "name": "Love is...",
@@ -32,7 +14,7 @@
       "end_timestamp": 1770058800,
       "group": true,
       "comment_count": 1,
-      "entry_count": 8,
+      "entry_count": 9,
       "creator": "BorjaGRouco",
       "cv_status": "FULL_CV"
     },
@@ -68,7 +50,7 @@
       "region_restricted": true,
       "group": true,
       "comment_count": 2,
-      "entry_count": 39,
+      "entry_count": 41,
       "creator": "ShroudOfLethe",
       "is_shared": true,
       "cv_status": "FULL_CV"
@@ -105,7 +87,7 @@
       "end_timestamp": 1770236040,
       "group": true,
       "comment_count": 0,
-      "entry_count": 3,
+      "entry_count": 4,
       "creator": "LinustheBold",
       "cv_status": "FULL_CV"
     },
@@ -123,7 +105,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 74,
+      "entry_count": 72,
       "creator": "MrOuiOui",
       "is_shared": true,
       "cv_status": "FULL_CV"
@@ -264,7 +246,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 39,
+      "entry_count": 41,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -300,7 +282,7 @@
       "end_timestamp": 1770760740,
       "group": true,
       "comment_count": 0,
-      "entry_count": 1,
+      "entry_count": 2,
       "creator": "Metalhead8489",
       "cv_status": "FULL_CV"
     },
@@ -370,7 +352,7 @@
       "region_restricted": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 1,
+      "entry_count": 2,
       "creator": "VenomousNyx",
       "cv_status": "FULL_CV"
     },
@@ -407,6 +389,32 @@
       "entry_count": 5,
       "creator": "TheLastShepard",
       "cv_status": "FULL_CV"
+    },
+    {
+      "id": "3FzB5",
+      "name": "My Big Sister: Remastered",
+      "points": 8,
+      "copies": 1,
+      "app_id": 2118540,
+      "package_id": null,
+      "link": "3FzB5/my-big-sister-remastered",
+      "created_timestamp": 1769831239,
+      "start_timestamp": 1769831239,
+      "end_timestamp": 1770007560,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 8,
+      "creator": "Patxxv",
+      "is_shared": true,
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "FULL_CV",
+      "deleted": false
     },
     {
       "id": "qxb2C",
