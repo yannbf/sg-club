@@ -1,25 +1,6 @@
 {
-  "last_updated": "2026-02-04T02:56:17.312Z",
+  "last_updated": "2026-02-04T09:08:24.212Z",
   "giveaways": [
-    {
-      "id": "hT5NX",
-      "name": "SEUM: Speedrunners from Hell",
-      "points": 15,
-      "copies": 1,
-      "app_id": 457210,
-      "package_id": null,
-      "link": "hT5NX/seum-speedrunners-from-hell",
-      "created_timestamp": 1769564235,
-      "start_timestamp": 1769564235,
-      "end_timestamp": 1770177600,
-      "whitelist": true,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 25,
-      "creator": "lockcjwen",
-      "is_shared": true,
-      "cv_status": "REDUCED_CV"
-    },
     {
       "id": "bLQst",
       "name": "Lil' Guardsman",
@@ -33,7 +14,7 @@
       "end_timestamp": 1770236040,
       "group": true,
       "comment_count": 0,
-      "entry_count": 12,
+      "entry_count": 13,
       "creator": "LinustheBold",
       "cv_status": "FULL_CV"
     },
@@ -178,6 +159,23 @@
       "cv_status": "FULL_CV"
     },
     {
+      "id": "QcgQB",
+      "name": "Humble Indie Bundle #1",
+      "points": 10,
+      "copies": 1,
+      "app_id": null,
+      "package_id": null,
+      "link": "QcgQB/humble-indie-bundle-1",
+      "created_timestamp": 1770177151,
+      "start_timestamp": 1770177151,
+      "end_timestamp": 1770429900,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 1,
+      "creator": "ithamore",
+      "cv_status": "FULL_CV"
+    },
+    {
       "id": "CZKL5",
       "name": "The Council - Complete Season",
       "points": 15,
@@ -280,7 +278,7 @@
       "region_restricted": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 4,
+      "entry_count": 5,
       "creator": "Shughes91",
       "cv_status": "FULL_CV"
     },
@@ -406,6 +404,33 @@
       "cv_status": "FULL_CV"
     },
     {
+      "id": "hT5NX",
+      "name": "SEUM: Speedrunners from Hell",
+      "points": 15,
+      "copies": 1,
+      "app_id": 457210,
+      "package_id": null,
+      "link": "hT5NX/seum-speedrunners-from-hell",
+      "created_timestamp": 1769564235,
+      "start_timestamp": 1769564235,
+      "end_timestamp": 1770177600,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 25,
+      "creator": "lockcjwen",
+      "is_shared": true,
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "REDUCED_CV",
+      "deleted": false
+    },
+    {
       "id": "YAi4w",
       "name": "Quake",
       "points": 10,
@@ -443,19 +468,18 @@
       "end_timestamp": 1770134400,
       "region_restricted": true,
       "group": true,
-      "comment_count": 2,
+      "comment_count": 3,
       "entry_count": 44,
       "creator": "ShroudOfLethe",
       "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "ManlyMeatMan",
+          "status": "received"
         }
       ],
-      "cv_status": "FULL_CV",
-      "deleted": false
+      "cv_status": "FULL_CV"
     },
     {
       "id": "gQcEd",
