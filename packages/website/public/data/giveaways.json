@@ -1,43 +1,6 @@
 {
-  "last_updated": "2026-02-03T09:05:18.624Z",
+  "last_updated": "2026-02-04T02:56:17.312Z",
   "giveaways": [
-    {
-      "id": "pzlKS",
-      "name": "Fallout 4",
-      "points": 20,
-      "copies": 1,
-      "app_id": 377160,
-      "package_id": null,
-      "link": "pzlKS/fallout-4",
-      "created_timestamp": 1769461046,
-      "start_timestamp": 1769461046,
-      "end_timestamp": 1770134400,
-      "region_restricted": true,
-      "group": true,
-      "comment_count": 2,
-      "entry_count": 43,
-      "creator": "ShroudOfLethe",
-      "is_shared": true,
-      "cv_status": "FULL_CV"
-    },
-    {
-      "id": "YAi4w",
-      "name": "Quake",
-      "points": 10,
-      "copies": 1,
-      "app_id": 2310,
-      "package_id": null,
-      "link": "YAi4w/quake",
-      "created_timestamp": 1770057049,
-      "start_timestamp": 1770057049,
-      "end_timestamp": 1770146940,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 12,
-      "creator": "Patxxv",
-      "is_shared": true,
-      "cv_status": "REDUCED_CV"
-    },
     {
       "id": "hT5NX",
       "name": "SEUM: Speedrunners from Hell",
@@ -52,7 +15,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 24,
+      "entry_count": 25,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -70,7 +33,7 @@
       "end_timestamp": 1770236040,
       "group": true,
       "comment_count": 0,
-      "entry_count": 11,
+      "entry_count": 12,
       "creator": "LinustheBold",
       "cv_status": "FULL_CV"
     },
@@ -88,8 +51,26 @@
       "whitelist": true,
       "group": true,
       "comment_count": 1,
-      "entry_count": 73,
+      "entry_count": 74,
       "creator": "MrOuiOui",
+      "is_shared": true,
+      "cv_status": "FULL_CV"
+    },
+    {
+      "id": "NxgUK",
+      "name": "GRIP: Combat Racing",
+      "points": 30,
+      "copies": 1,
+      "app_id": 396900,
+      "package_id": null,
+      "link": "NxgUK/grip-combat-racing",
+      "created_timestamp": 1770147802,
+      "start_timestamp": 1770147802,
+      "end_timestamp": 1770324120,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 0,
+      "creator": "Patxxv",
       "is_shared": true,
       "cv_status": "FULL_CV"
     },
@@ -106,7 +87,7 @@
       "end_timestamp": 1770384600,
       "group": true,
       "comment_count": 0,
-      "entry_count": 6,
+      "entry_count": 7,
       "creator": "Tsukurai",
       "required_play": true,
       "cv_status": "FULL_CV"
@@ -124,7 +105,7 @@
       "end_timestamp": 1770395700,
       "group": true,
       "comment_count": 0,
-      "entry_count": 4,
+      "entry_count": 5,
       "creator": "vampiresska",
       "cv_status": "FULL_CV"
     },
@@ -141,7 +122,7 @@
       "end_timestamp": 1770397200,
       "group": true,
       "comment_count": 1,
-      "entry_count": 11,
+      "entry_count": 12,
       "creator": "DrTenma",
       "cv_status": "FULL_CV"
     },
@@ -227,7 +208,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 31,
+      "entry_count": 32,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -245,7 +226,7 @@
       "end_timestamp": 1770507540,
       "group": true,
       "comment_count": 0,
-      "entry_count": 4,
+      "entry_count": 6,
       "creator": "Grogglz",
       "cv_status": "REDUCED_CV"
     },
@@ -423,6 +404,58 @@
       "entry_count": 5,
       "creator": "TheLastShepard",
       "cv_status": "FULL_CV"
+    },
+    {
+      "id": "YAi4w",
+      "name": "Quake",
+      "points": 10,
+      "copies": 1,
+      "app_id": 2310,
+      "package_id": null,
+      "link": "YAi4w/quake",
+      "created_timestamp": 1770057049,
+      "start_timestamp": 1770057049,
+      "end_timestamp": 1770146940,
+      "group": true,
+      "comment_count": 1,
+      "entry_count": 15,
+      "creator": "Patxxv",
+      "is_shared": true,
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": "GateroTD",
+          "status": "received"
+        }
+      ],
+      "cv_status": "REDUCED_CV"
+    },
+    {
+      "id": "pzlKS",
+      "name": "Fallout 4",
+      "points": 20,
+      "copies": 1,
+      "app_id": 377160,
+      "package_id": null,
+      "link": "pzlKS/fallout-4",
+      "created_timestamp": 1769461046,
+      "start_timestamp": 1769461046,
+      "end_timestamp": 1770134400,
+      "region_restricted": true,
+      "group": true,
+      "comment_count": 2,
+      "entry_count": 44,
+      "creator": "ShroudOfLethe",
+      "is_shared": true,
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "FULL_CV",
+      "deleted": false
     },
     {
       "id": "gQcEd",
@@ -2298,7 +2331,7 @@
       "start_timestamp": 1768252739,
       "end_timestamp": 1768806000,
       "group": true,
-      "comment_count": 7,
+      "comment_count": 8,
       "entry_count": 28,
       "creator": "a10i",
       "event_type": "january_event_2026",
