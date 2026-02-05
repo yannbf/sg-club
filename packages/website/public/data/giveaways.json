@@ -1,42 +1,6 @@
 {
-  "last_updated": "2026-02-04T09:08:24.212Z",
+  "last_updated": "2026-02-05T02:57:57.506Z",
   "giveaways": [
-    {
-      "id": "bLQst",
-      "name": "Lil' Guardsman",
-      "points": 20,
-      "copies": 1,
-      "app_id": 1924360,
-      "package_id": null,
-      "link": "bLQst/lil-guardsman",
-      "created_timestamp": 1769974154,
-      "start_timestamp": 1769974154,
-      "end_timestamp": 1770236040,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 13,
-      "creator": "LinustheBold",
-      "cv_status": "FULL_CV"
-    },
-    {
-      "id": "kNGWn",
-      "name": "My Big Sister: Remastered",
-      "points": 8,
-      "copies": 1,
-      "app_id": 2118540,
-      "package_id": null,
-      "link": "kNGWn/my-big-sister-remastered",
-      "created_timestamp": 1769047702,
-      "start_timestamp": 1769047702,
-      "end_timestamp": 1770257160,
-      "whitelist": true,
-      "group": true,
-      "comment_count": 1,
-      "entry_count": 74,
-      "creator": "MrOuiOui",
-      "is_shared": true,
-      "cv_status": "FULL_CV"
-    },
     {
       "id": "NxgUK",
       "name": "GRIP: Combat Racing",
@@ -50,7 +14,7 @@
       "end_timestamp": 1770324120,
       "group": true,
       "comment_count": 0,
-      "entry_count": 0,
+      "entry_count": 1,
       "creator": "Patxxv",
       "is_shared": true,
       "cv_status": "FULL_CV"
@@ -70,6 +34,24 @@
       "comment_count": 0,
       "entry_count": 7,
       "creator": "Tsukurai",
+      "required_play": true,
+      "cv_status": "FULL_CV"
+    },
+    {
+      "id": "b0H8c",
+      "name": "STAR WARS Jedi: Survivor",
+      "points": 50,
+      "copies": 1,
+      "app_id": 1774580,
+      "package_id": null,
+      "link": "b0H8c/star-wars-jedi-survivor",
+      "created_timestamp": 1770217099,
+      "start_timestamp": 1770217099,
+      "end_timestamp": 1770390000,
+      "group": true,
+      "comment_count": 1,
+      "entry_count": 12,
+      "creator": "makki",
       "required_play": true,
       "cv_status": "FULL_CV"
     },
@@ -176,6 +158,25 @@
       "cv_status": "FULL_CV"
     },
     {
+      "id": "ORCbY",
+      "name": "Humble Indie Bundle #1",
+      "points": 10,
+      "copies": 1,
+      "app_id": null,
+      "package_id": null,
+      "link": "ORCbY/humble-indie-bundle-1",
+      "created_timestamp": 1770230753,
+      "start_timestamp": 1770230753,
+      "end_timestamp": 1770430140,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 10,
+      "creator": "ithamore",
+      "is_shared": true,
+      "cv_status": "FULL_CV"
+    },
+    {
       "id": "CZKL5",
       "name": "The Council - Complete Season",
       "points": 15,
@@ -206,7 +207,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 32,
+      "entry_count": 33,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -259,7 +260,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 45,
+      "entry_count": 46,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -297,6 +298,23 @@
       "comment_count": 0,
       "entry_count": 2,
       "creator": "Metalhead8489",
+      "cv_status": "FULL_CV"
+    },
+    {
+      "id": "6DbxJ",
+      "name": "Remnant II - Ultimate Edition",
+      "points": 50,
+      "copies": 1,
+      "app_id": null,
+      "package_id": 855024,
+      "link": "6DbxJ/remnant-ii-ultimate-edition",
+      "created_timestamp": 1770230979,
+      "start_timestamp": 1770230979,
+      "end_timestamp": 1770829200,
+      "group": true,
+      "comment_count": 2,
+      "entry_count": 4,
+      "creator": "Serpentus",
       "cv_status": "FULL_CV"
     },
     {
@@ -342,14 +360,33 @@
       "package_id": 554550,
       "link": "aT5QZ/scarlet-nexus-deluxe-edition",
       "created_timestamp": 1769875885,
-      "start_timestamp": 1770220740,
+      "start_timestamp": 1769875885,
       "end_timestamp": 1771000680,
       "region_restricted": true,
       "group": true,
-      "comment_count": 0,
-      "entry_count": 0,
+      "comment_count": 2,
+      "entry_count": 7,
       "creator": "Ivannes",
       "cv_status": "FULL_CV"
+    },
+    {
+      "id": "WKjvk",
+      "name": "Tormented Souls",
+      "points": 20,
+      "copies": 1,
+      "app_id": 1367590,
+      "package_id": null,
+      "link": "WKjvk/tormented-souls",
+      "created_timestamp": 1770225337,
+      "start_timestamp": 1770225337,
+      "end_timestamp": 1771092840,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 5,
+      "creator": "MrOuiOui",
+      "is_shared": true,
+      "cv_status": "REDUCED_CV"
     },
     {
       "id": "21gND",
@@ -365,7 +402,7 @@
       "region_restricted": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 4,
+      "entry_count": 5,
       "creator": "VenomousNyx",
       "cv_status": "FULL_CV"
     },
@@ -404,6 +441,58 @@
       "cv_status": "FULL_CV"
     },
     {
+      "id": "kNGWn",
+      "name": "My Big Sister: Remastered",
+      "points": 8,
+      "copies": 1,
+      "app_id": 2118540,
+      "package_id": null,
+      "link": "kNGWn/my-big-sister-remastered",
+      "created_timestamp": 1769047702,
+      "start_timestamp": 1769047702,
+      "end_timestamp": 1770257160,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 1,
+      "entry_count": 81,
+      "creator": "MrOuiOui",
+      "is_shared": true,
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "FULL_CV",
+      "deleted": false
+    },
+    {
+      "id": "bLQst",
+      "name": "Lil' Guardsman",
+      "points": 20,
+      "copies": 1,
+      "app_id": 1924360,
+      "package_id": null,
+      "link": "bLQst/lil-guardsman",
+      "created_timestamp": 1769974154,
+      "start_timestamp": 1769974154,
+      "end_timestamp": 1770236040,
+      "group": true,
+      "comment_count": 1,
+      "entry_count": 14,
+      "creator": "LinustheBold",
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "FULL_CV",
+      "deleted": false
+    },
+    {
       "id": "hT5NX",
       "name": "SEUM: Speedrunners from Hell",
       "points": 15,
@@ -423,12 +512,11 @@
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "EROsiscon",
+          "status": "received"
         }
       ],
-      "cv_status": "REDUCED_CV",
-      "deleted": false
+      "cv_status": "REDUCED_CV"
     },
     {
       "id": "YAi4w",

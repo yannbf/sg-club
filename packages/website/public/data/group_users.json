@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1770197007219,
+  "lastUpdated": 1770260470443,
   "users": {
     "a10i": {
       "username": "a10i",
@@ -22499,7 +22499,8 @@
       ],
       "warnings": [
         "unplayed_required_play_giveaways",
-        "required_plays_need_review"
+        "required_plays_need_review",
+        "required_play_deadline_within_15_days"
       ]
     },
     "Foxmonster": {
@@ -30203,9 +30204,9 @@
         "giveaway_ratio": 2.12,
         "shared_sent_count": 5,
         "shared_received_count": 3,
-        "giveaways_created": 14,
+        "giveaways_created": 15,
         "giveaways_with_no_entries": 0,
-        "last_giveaway_created_at": 1770177151,
+        "last_giveaway_created_at": 1770230753,
         "last_giveaway_won_at": 1760557680,
         "total_achievements_percentage": 29,
         "average_achievements_percentage": 25,
@@ -30556,6 +30557,17 @@
           "end_timestamp": 1770429900,
           "required_play": false,
           "is_shared": false
+        },
+        {
+          "name": "Humble Indie Bundle #1",
+          "link": "ORCbY/humble-indie-bundle-1",
+          "cv_status": "FULL_CV",
+          "entries": 10,
+          "copies": 1,
+          "created_timestamp": 1770230753,
+          "end_timestamp": 1770430140,
+          "required_play": false,
+          "is_shared": true
         },
         {
           "name": "Drill Bird",
@@ -30941,7 +30953,7 @@
           "name": "SCARLET NEXUS Deluxe Edition",
           "link": "aT5QZ/scarlet-nexus-deluxe-edition",
           "cv_status": "FULL_CV",
-          "entries": 0,
+          "entries": 7,
           "copies": 1,
           "created_timestamp": 1769875885,
           "end_timestamp": 1771000680,
@@ -38412,12 +38424,20 @@
           "name": "Lil' Guardsman",
           "link": "bLQst/lil-guardsman",
           "cv_status": "FULL_CV",
-          "entries": 13,
+          "entries": 14,
           "copies": 1,
           "created_timestamp": 1769974154,
           "end_timestamp": 1770236040,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "Next Space Rebels",
@@ -39140,12 +39160,12 @@
       "profile_url": "/user/lockcjwen",
       "avatar_url": "https://avatars.steamstatic.com/8d53cbce9f9a1893ea00e1025b014d7abba576cd_medium.jpg",
       "stats": {
-        "total_sent_count": 21.4,
-        "total_sent_value": 423.2,
+        "total_sent_count": 21.5,
+        "total_sent_value": 425.7,
         "total_received_count": 4.8,
         "total_received_value": 54.29,
-        "total_gift_difference": 16.5,
-        "total_value_difference": 368.92,
+        "total_gift_difference": 16.7,
+        "total_value_difference": 371.42,
         "fcv_sent_count": 2,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
@@ -39160,7 +39180,7 @@
         "real_total_received_count": 4,
         "real_total_gift_difference": -2,
         "giveaway_ratio": 0.67,
-        "shared_sent_count": 109,
+        "shared_sent_count": 110,
         "shared_received_count": 2,
         "giveaways_created": 104,
         "giveaways_with_no_entries": 0,
@@ -39303,7 +39323,7 @@
           "name": "FEAR 2: Project Origin",
           "link": "Cv42v/fear-2-project-origin",
           "cv_status": "REDUCED_CV",
-          "entries": 32,
+          "entries": 33,
           "copies": 1,
           "created_timestamp": 1769823744,
           "end_timestamp": 1770436800,
@@ -39314,7 +39334,7 @@
           "name": "Interrogation: You will be ...",
           "link": "3Q0yi/interrogation-you-will-be-deceived",
           "cv_status": "REDUCED_CV",
-          "entries": 45,
+          "entries": 46,
           "copies": 2,
           "created_timestamp": 1769905044,
           "end_timestamp": 1770523200,
@@ -39334,9 +39354,9 @@
           "had_winners": true,
           "winners": [
             {
-              "name": null,
-              "status": "awaiting_feedback",
-              "activated": false
+              "name": "EROsiscon",
+              "status": "received",
+              "activated": true
             }
           ]
         },
@@ -41670,9 +41690,9 @@
         "giveaway_ratio": 25,
         "shared_sent_count": 0,
         "shared_received_count": 0,
-        "giveaways_created": 24,
+        "giveaways_created": 25,
         "giveaways_with_no_entries": 0,
-        "last_giveaway_created_at": 1769887869,
+        "last_giveaway_created_at": 1770217099,
         "last_giveaway_won_at": 1769424900,
         "total_achievements_percentage": 83,
         "average_achievements_percentage": 84,
@@ -42140,6 +42160,17 @@
         }
       ],
       "giveaways_created": [
+        {
+          "name": "STAR WARS Jedi: Survivor",
+          "link": "b0H8c/star-wars-jedi-survivor",
+          "cv_status": "FULL_CV",
+          "entries": 12,
+          "copies": 1,
+          "created_timestamp": 1770217099,
+          "end_timestamp": 1770390000,
+          "required_play": true,
+          "is_shared": false
+        },
         {
           "name": "STAR WARS Jedi: Survivor",
           "link": "gQcEd/star-wars-jedi-survivor",
@@ -47736,9 +47767,9 @@
         "giveaway_ratio": 16.33,
         "shared_sent_count": 6,
         "shared_received_count": 0,
-        "giveaways_created": 31,
+        "giveaways_created": 32,
         "giveaways_with_no_entries": 2,
-        "last_giveaway_created_at": 1769872428,
+        "last_giveaway_created_at": 1770225337,
         "last_giveaway_won_at": 1769097660,
         "total_achievements_percentage": 73,
         "average_achievements_percentage": 74,
@@ -47851,17 +47882,6 @@
       ],
       "giveaways_created": [
         {
-          "name": "My Big Sister: Remastered",
-          "link": "kNGWn/my-big-sister-remastered",
-          "cv_status": "FULL_CV",
-          "entries": 74,
-          "copies": 1,
-          "created_timestamp": 1769047702,
-          "end_timestamp": 1770257160,
-          "required_play": false,
-          "is_shared": true
-        },
-        {
           "name": "Hadean Tactics",
           "link": "sxMUQ/hadean-tactics",
           "cv_status": "FULL_CV",
@@ -47871,6 +47891,36 @@
           "end_timestamp": 1770910140,
           "required_play": false,
           "is_shared": false
+        },
+        {
+          "name": "Tormented Souls",
+          "link": "WKjvk/tormented-souls",
+          "cv_status": "REDUCED_CV",
+          "entries": 5,
+          "copies": 1,
+          "created_timestamp": 1770225337,
+          "end_timestamp": 1771092840,
+          "required_play": false,
+          "is_shared": true
+        },
+        {
+          "name": "My Big Sister: Remastered",
+          "link": "kNGWn/my-big-sister-remastered",
+          "cv_status": "FULL_CV",
+          "entries": 81,
+          "copies": 1,
+          "created_timestamp": 1769047702,
+          "end_timestamp": 1770257160,
+          "required_play": false,
+          "is_shared": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "The Mildew Children",
@@ -50319,9 +50369,9 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1765743049,
         "last_giveaway_won_at": 1768622400,
-        "total_achievements_percentage": 25,
+        "total_achievements_percentage": 35,
         "average_achievements_percentage": 31,
-        "real_total_achievements_percentage": 27,
+        "real_total_achievements_percentage": 39,
         "real_average_achievements_percentage": 36,
         "has_missing_achievements_data": true
       },
@@ -51099,7 +51149,7 @@
         "last_giveaway_won_at": 1770058800,
         "total_achievements_percentage": 10,
         "average_achievements_percentage": 8,
-        "real_total_achievements_percentage": 9,
+        "real_total_achievements_percentage": 10,
         "real_average_achievements_percentage": 6,
         "has_missing_achievements_data": true
       },
@@ -52179,7 +52229,7 @@
           "name": "GRIP: Combat Racing",
           "link": "NxgUK/grip-combat-racing",
           "cv_status": "FULL_CV",
-          "entries": 0,
+          "entries": 1,
           "copies": 1,
           "created_timestamp": 1770147802,
           "end_timestamp": 1770324120,
@@ -64415,9 +64465,9 @@
         "giveaway_ratio": 8.33,
         "shared_sent_count": 0,
         "shared_received_count": 0,
-        "giveaways_created": 10,
+        "giveaways_created": 11,
         "giveaways_with_no_entries": 0,
-        "last_giveaway_created_at": 1764611337,
+        "last_giveaway_created_at": 1770230979,
         "last_giveaway_won_at": 1753012800,
         "total_achievements_percentage": 0,
         "average_achievements_percentage": 0,
@@ -64472,6 +64522,17 @@
         }
       ],
       "giveaways_created": [
+        {
+          "name": "Remnant II - Ultimate Edition",
+          "link": "6DbxJ/remnant-ii-ultimate-edition",
+          "cv_status": "FULL_CV",
+          "entries": 4,
+          "copies": 1,
+          "created_timestamp": 1770230979,
+          "end_timestamp": 1770829200,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "Judgment",
           "link": "6bVNI/judgment",
@@ -73494,7 +73555,7 @@
           "name": "Solasta: Crown of the Magister",
           "link": "21gND/solasta-crown-of-the-magister",
           "cv_status": "FULL_CV",
-          "entries": 4,
+          "entries": 5,
           "copies": 1,
           "created_timestamp": 1769754085,
           "end_timestamp": 1771221600,
