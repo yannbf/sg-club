@@ -1,21 +1,23 @@
 {
-  "last_updated": "2026-02-05T09:09:37.451Z",
+  "last_updated": "2026-02-06T02:57:58.514Z",
   "giveaways": [
     {
-      "id": "NxgUK",
-      "name": "GRIP: Combat Racing",
-      "points": 30,
+      "id": "2XUf1",
+      "name": "PEAK",
+      "points": 8,
       "copies": 1,
-      "app_id": 396900,
+      "app_id": 3527290,
       "package_id": null,
-      "link": "NxgUK/grip-combat-racing",
-      "created_timestamp": 1770147802,
-      "start_timestamp": 1770147802,
-      "end_timestamp": 1770324120,
+      "link": "2XUf1/peak",
+      "created_timestamp": 1770313901,
+      "start_timestamp": 1770313901,
+      "end_timestamp": 1770384120,
+      "region_restricted": true,
+      "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 1,
-      "creator": "Patxxv",
+      "entry_count": 10,
+      "creator": "Ignition365",
       "is_shared": true,
       "cv_status": "FULL_CV"
     },
@@ -50,7 +52,7 @@
       "end_timestamp": 1770390000,
       "group": true,
       "comment_count": 1,
-      "entry_count": 15,
+      "entry_count": 17,
       "creator": "makki",
       "required_play": true,
       "cv_status": "FULL_CV"
@@ -85,7 +87,7 @@
       "end_timestamp": 1770397200,
       "group": true,
       "comment_count": 1,
-      "entry_count": 12,
+      "entry_count": 14,
       "creator": "DrTenma",
       "cv_status": "FULL_CV"
     },
@@ -102,7 +104,7 @@
       "end_timestamp": 1770397200,
       "group": true,
       "comment_count": 0,
-      "entry_count": 23,
+      "entry_count": 22,
       "creator": "DrTenma",
       "cv_status": "FULL_CV"
     },
@@ -171,7 +173,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 12,
+      "entry_count": 13,
       "creator": "ithamore",
       "is_shared": true,
       "cv_status": "FULL_CV"
@@ -207,7 +209,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 33,
+      "entry_count": 34,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -247,6 +249,23 @@
       "cv_status": "REDUCED_CV"
     },
     {
+      "id": "Grbf6",
+      "name": "Lil' Guardsman",
+      "points": 20,
+      "copies": 1,
+      "app_id": 1924360,
+      "package_id": null,
+      "link": "Grbf6/lil-guardsman",
+      "created_timestamp": 1770297575,
+      "start_timestamp": 1770297575,
+      "end_timestamp": 1770516720,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 8,
+      "creator": "ithamore",
+      "cv_status": "FULL_CV"
+    },
+    {
       "id": "3Q0yi",
       "name": "Interrogation: You will be ...",
       "points": 13,
@@ -260,7 +279,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 45,
+      "entry_count": 48,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -347,7 +366,7 @@
       "end_timestamp": 1770910140,
       "group": true,
       "comment_count": 0,
-      "entry_count": 3,
+      "entry_count": 4,
       "creator": "MrOuiOui",
       "cv_status": "FULL_CV"
     },
@@ -365,7 +384,7 @@
       "region_restricted": true,
       "group": true,
       "comment_count": 2,
-      "entry_count": 9,
+      "entry_count": 10,
       "creator": "Ivannes",
       "cv_status": "FULL_CV"
     },
@@ -383,7 +402,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 6,
+      "entry_count": 9,
       "creator": "MrOuiOui",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -441,6 +460,32 @@
       "cv_status": "FULL_CV"
     },
     {
+      "id": "NxgUK",
+      "name": "GRIP: Combat Racing",
+      "points": 30,
+      "copies": 1,
+      "app_id": 396900,
+      "package_id": null,
+      "link": "NxgUK/grip-combat-racing",
+      "created_timestamp": 1770147802,
+      "start_timestamp": 1770147802,
+      "end_timestamp": 1770324120,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 1,
+      "creator": "Patxxv",
+      "is_shared": true,
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "FULL_CV",
+      "deleted": false
+    },
+    {
       "id": "kNGWn",
       "name": "My Big Sister: Remastered",
       "points": 8,
@@ -453,19 +498,18 @@
       "end_timestamp": 1770257160,
       "whitelist": true,
       "group": true,
-      "comment_count": 1,
+      "comment_count": 2,
       "entry_count": 81,
       "creator": "MrOuiOui",
       "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "GuiPendragon",
+          "status": "received"
         }
       ],
-      "cv_status": "FULL_CV",
-      "deleted": false
+      "cv_status": "FULL_CV"
     },
     {
       "id": "bLQst",
@@ -479,18 +523,17 @@
       "start_timestamp": 1769974154,
       "end_timestamp": 1770236040,
       "group": true,
-      "comment_count": 1,
+      "comment_count": 2,
       "entry_count": 14,
       "creator": "LinustheBold",
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "doubleomurfy",
+          "status": "received"
         }
       ],
-      "cv_status": "FULL_CV",
-      "deleted": false
+      "cv_status": "FULL_CV"
     },
     {
       "id": "hT5NX",
@@ -3606,7 +3649,7 @@
     {
       "id": "e0HH7",
       "name": "Distant Bloom",
-      "points": 20,
+      "points": 5,
       "copies": 1,
       "app_id": 1450250,
       "package_id": null,
