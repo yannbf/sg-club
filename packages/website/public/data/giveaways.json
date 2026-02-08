@@ -1,43 +1,6 @@
 {
-  "last_updated": "2026-02-08T03:36:57.635Z",
+  "last_updated": "2026-02-08T08:55:59.961Z",
   "giveaways": [
-    {
-      "id": "3Q0yi",
-      "name": "Interrogation: You will be ...",
-      "points": 13,
-      "copies": 2,
-      "app_id": 1016770,
-      "package_id": null,
-      "link": "3Q0yi/interrogation-you-will-be-deceived",
-      "created_timestamp": 1769905044,
-      "start_timestamp": 1769905044,
-      "end_timestamp": 1770523200,
-      "whitelist": true,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 52,
-      "creator": "lockcjwen",
-      "is_shared": true,
-      "cv_status": "REDUCED_CV"
-    },
-    {
-      "id": "FKg0p",
-      "name": "Isles of Sea and Sky",
-      "points": 20,
-      "copies": 1,
-      "app_id": 1233070,
-      "package_id": null,
-      "link": "FKg0p/isles-of-sea-and-sky",
-      "created_timestamp": 1770364526,
-      "start_timestamp": 1770364526,
-      "end_timestamp": 1770537720,
-      "group": true,
-      "comment_count": 2,
-      "entry_count": 8,
-      "creator": "PoeticKatana",
-      "required_play": true,
-      "cv_status": "FULL_CV"
-    },
     {
       "id": "EOehN",
       "name": "Solasta: Crown of the Magister",
@@ -70,7 +33,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 11,
-      "entry_count": 91,
+      "entry_count": 93,
       "creator": "Dobke",
       "is_shared": true,
       "cv_status": "FULL_CV"
@@ -125,7 +88,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 1,
-      "entry_count": 32,
+      "entry_count": 34,
       "creator": "ithamore",
       "is_shared": true,
       "cv_status": "FULL_CV"
@@ -179,7 +142,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 12,
+      "entry_count": 13,
       "creator": "TexWilleri",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -323,7 +286,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 7,
+      "entry_count": 8,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -344,6 +307,44 @@
       "comment_count": 0,
       "entry_count": 11,
       "creator": "MrOuiOui",
+      "is_shared": true,
+      "cv_status": "REDUCED_CV"
+    },
+    {
+      "id": "lY0EH",
+      "name": "If My Heart Had Wings",
+      "points": 15,
+      "copies": 1,
+      "app_id": 326480,
+      "package_id": null,
+      "link": "lY0EH/if-my-heart-had-wings",
+      "created_timestamp": 1770529948,
+      "start_timestamp": 1770529948,
+      "end_timestamp": 1771128000,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 6,
+      "creator": "lockcjwen",
+      "is_shared": true,
+      "cv_status": "REDUCED_CV"
+    },
+    {
+      "id": "r6iXe",
+      "name": "If My Heart Had Wings -Flight Diary- ...",
+      "points": 5,
+      "copies": 1,
+      "app_id": 1038710,
+      "package_id": null,
+      "link": "r6iXe/if-my-heart-had-wings-flight-diary-new-wings-akari",
+      "created_timestamp": 1770529833,
+      "start_timestamp": 1770529833,
+      "end_timestamp": 1771128000,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 0,
+      "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
     },
@@ -400,6 +401,63 @@
       "cv_status": "FULL_CV"
     },
     {
+      "id": "FKg0p",
+      "name": "Isles of Sea and Sky",
+      "points": 20,
+      "copies": 1,
+      "app_id": 1233070,
+      "package_id": null,
+      "link": "FKg0p/isles-of-sea-and-sky",
+      "created_timestamp": 1770364526,
+      "start_timestamp": 1770364526,
+      "end_timestamp": 1770537720,
+      "group": true,
+      "comment_count": 2,
+      "entry_count": 8,
+      "creator": "PoeticKatana",
+      "required_play": true,
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "FULL_CV",
+      "deleted": false
+    },
+    {
+      "id": "3Q0yi",
+      "name": "Interrogation: You will be ...",
+      "points": 13,
+      "copies": 2,
+      "app_id": 1016770,
+      "package_id": null,
+      "link": "3Q0yi/interrogation-you-will-be-deceived",
+      "created_timestamp": 1769905044,
+      "start_timestamp": 1769905044,
+      "end_timestamp": 1770523200,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 52,
+      "creator": "lockcjwen",
+      "is_shared": true,
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        },
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "REDUCED_CV",
+      "deleted": false
+    },
+    {
       "id": "Grbf6",
       "name": "Lil' Guardsman",
       "points": 20,
@@ -411,18 +469,17 @@
       "start_timestamp": 1770297575,
       "end_timestamp": 1770516720,
       "group": true,
-      "comment_count": 0,
+      "comment_count": 1,
       "entry_count": 13,
       "creator": "ithamore",
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "LightningCount",
+          "status": "received"
         }
       ],
-      "cv_status": "FULL_CV",
-      "deleted": false
+      "cv_status": "FULL_CV"
     },
     {
       "id": "0nQpR",
