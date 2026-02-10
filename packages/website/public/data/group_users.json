@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1770629496206,
+  "lastUpdated": 1770694421768,
   "users": {
     "a10i": {
       "username": "a10i",
@@ -629,9 +629,9 @@
         "giveaway_ratio": 9,
         "shared_sent_count": 5,
         "shared_received_count": 0,
-        "giveaways_created": 18,
+        "giveaways_created": 19,
         "giveaways_with_no_entries": 2,
-        "last_giveaway_created_at": 1767791733,
+        "last_giveaway_created_at": 1770632477,
         "last_giveaway_won_at": 1764432840,
         "total_achievements_percentage": 9,
         "average_achievements_percentage": 12,
@@ -788,6 +788,17 @@
         }
       ],
       "giveaways_created": [
+        {
+          "name": "The Medium",
+          "link": "XS7xZ/the-medium",
+          "cv_status": "FULL_CV",
+          "entries": 5,
+          "copies": 1,
+          "created_timestamp": 1770632477,
+          "end_timestamp": 1770981660,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "Doloc Town",
           "link": "DJb3s/doloc-town",
@@ -4123,7 +4134,7 @@
           "name": "Gourdlets",
           "link": "oHKTC/gourdlets",
           "cv_status": "FULL_CV",
-          "entries": 5,
+          "entries": 13,
           "copies": 1,
           "created_timestamp": 1770620444,
           "end_timestamp": 1770951600,
@@ -7860,7 +7871,7 @@
           "name": "Shadow Gambit: The Cursed Crew",
           "link": "ruH0Z/shadow-gambit-the-cursed-crew",
           "cv_status": "REDUCED_CV",
-          "entries": 12,
+          "entries": 16,
           "copies": 1,
           "created_timestamp": 1770586879,
           "end_timestamp": 1772301600,
@@ -16571,7 +16582,7 @@
     "Dobke": {
       "username": "Dobke",
       "profile_url": "/user/Dobke",
-      "avatar_url": "https://avatars.steamstatic.com/03484a9ea8c238de13764557a1f0fd1e5239382b_medium.jpg",
+      "avatar_url": "https://avatars.steamstatic.com/1820152bb96388dfdd2685c3c409f9bbbc4a7fb0_medium.jpg",
       "stats": {
         "total_sent_count": 17.5,
         "total_sent_value": 859.83,
@@ -16609,7 +16620,7 @@
           "name": "Forza Horizon 6",
           "link": "r7T8i/forza-horizon-6",
           "cv_status": "FULL_CV",
-          "entries": 32,
+          "entries": 63,
           "copies": 1,
           "created_timestamp": 1770598163,
           "end_timestamp": 1771110000,
@@ -28167,10 +28178,10 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1770313901,
         "last_giveaway_won_at": 1768410000,
-        "total_achievements_percentage": 67,
-        "average_achievements_percentage": 57,
-        "real_total_achievements_percentage": 69,
-        "real_average_achievements_percentage": 58,
+        "total_achievements_percentage": 70,
+        "average_achievements_percentage": 58,
+        "real_total_achievements_percentage": 72,
+        "real_average_achievements_percentage": 59,
         "has_missing_achievements_data": true
       },
       "steam_id": "76561197984532155",
@@ -29490,9 +29501,9 @@
         "giveaways_with_no_entries": 3,
         "last_giveaway_created_at": 1770395698,
         "last_giveaway_won_at": 1769338800,
-        "total_achievements_percentage": 19,
+        "total_achievements_percentage": 20,
         "average_achievements_percentage": 29,
-        "real_total_achievements_percentage": 20,
+        "real_total_achievements_percentage": 22,
         "real_average_achievements_percentage": 33,
         "has_missing_achievements_data": true
       },
@@ -29972,7 +29983,7 @@
           "name": "Chants of Sennaar",
           "link": "n0GAy/chants-of-sennaar",
           "cv_status": "FULL_CV",
-          "entries": 27,
+          "entries": 28,
           "copies": 1,
           "created_timestamp": 1770395698,
           "end_timestamp": 1770742800,
@@ -30826,26 +30837,42 @@
       ],
       "giveaways_created": [
         {
-          "name": "Humble Indie Bundle #2",
-          "link": "38xr0/humble-indie-bundle-2",
-          "cv_status": "FULL_CV",
-          "entries": 15,
-          "copies": 1,
-          "created_timestamp": 1770453419,
-          "end_timestamp": 1770689220,
-          "required_play": false,
-          "is_shared": true
-        },
-        {
           "name": "FINAL FANTASY VII",
           "link": "HSz8X/final-fantasy-vii",
           "cv_status": "FULL_CV",
-          "entries": 43,
+          "entries": 48,
           "copies": 1,
           "created_timestamp": 1770449607,
           "end_timestamp": 1770690000,
           "required_play": false,
-          "is_shared": true
+          "is_shared": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
+        },
+        {
+          "name": "Humble Indie Bundle #2",
+          "link": "38xr0/humble-indie-bundle-2",
+          "cv_status": "FULL_CV",
+          "entries": 22,
+          "copies": 1,
+          "created_timestamp": 1770453419,
+          "end_timestamp": 1770689220,
+          "required_play": false,
+          "is_shared": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "Lil' Guardsman",
@@ -32105,9 +32132,9 @@
         "giveaway_ratio": 1.67,
         "shared_sent_count": 0,
         "shared_received_count": 0,
-        "giveaways_created": 2,
+        "giveaways_created": 3,
         "giveaways_with_no_entries": 0,
-        "last_giveaway_created_at": 1760985540,
+        "last_giveaway_created_at": 1770646158,
         "last_giveaway_won_at": 1761203220,
         "total_achievements_percentage": 18,
         "average_achievements_percentage": 18,
@@ -32142,6 +32169,17 @@
         }
       ],
       "giveaways_created": [
+        {
+          "name": "Monster Hunter Wilds",
+          "link": "ohGWH/monster-hunter-wilds",
+          "cv_status": "FULL_CV",
+          "entries": 4,
+          "copies": 1,
+          "created_timestamp": 1770646158,
+          "end_timestamp": 1771252200,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "NINJA GAIDEN: Master Collection",
           "link": "rXJes/ninja-gaiden-master-collection",
@@ -35561,11 +35599,11 @@
       "avatar_url": "https://avatars.steamstatic.com/c78954658abf5f58fc3a0a830ba7d01a0308c8d0_medium.jpg",
       "stats": {
         "total_sent_count": 15,
-        "total_sent_value": 201.85,
+        "total_sent_value": 191.85,
         "total_received_count": 6.3,
         "total_received_value": 181.19,
         "total_gift_difference": 8.8,
-        "total_value_difference": 20.66,
+        "total_value_difference": 10.66,
         "fcv_sent_count": 14,
         "rcv_sent_count": 1,
         "ncv_sent_count": 0,
@@ -39488,7 +39526,7 @@
           "name": "Go! Go! Nippon! ~My First Trip to Japan~",
           "link": "4y4Mh/go-go-nippon-my-first-trip-to-japan",
           "cv_status": "REDUCED_CV",
-          "entries": 8,
+          "entries": 9,
           "copies": 1,
           "created_timestamp": 1770426787,
           "end_timestamp": 1771041600,
@@ -39499,7 +39537,7 @@
           "name": "If My Heart Had Wings",
           "link": "lY0EH/if-my-heart-had-wings",
           "cv_status": "REDUCED_CV",
-          "entries": 25,
+          "entries": 29,
           "copies": 1,
           "created_timestamp": 1770529948,
           "end_timestamp": 1771128000,
@@ -39510,7 +39548,7 @@
           "name": "If My Heart Had Wings -Flight Diary- ...",
           "link": "r6iXe/if-my-heart-had-wings-flight-diary-new-wings-akari",
           "cv_status": "REDUCED_CV",
-          "entries": 3,
+          "entries": 2,
           "copies": 1,
           "created_timestamp": 1770529833,
           "end_timestamp": 1771128000,
@@ -41618,7 +41656,7 @@
           "name": "Core Keeper",
           "link": "Nf8On/core-keeper",
           "cv_status": "FULL_CV",
-          "entries": 71,
+          "entries": 87,
           "copies": 1,
           "created_timestamp": 1770552518,
           "end_timestamp": 1770980400,
@@ -41629,7 +41667,7 @@
           "name": "Resident Evil Village",
           "link": "LHgLI/resident-evil-village",
           "cv_status": "REDUCED_CV",
-          "entries": 100,
+          "entries": 121,
           "copies": 1,
           "created_timestamp": 1770552034,
           "end_timestamp": 1770980400,
@@ -45838,7 +45876,8 @@
       ],
       "warnings": [
         "unplayed_required_play_giveaways",
-        "required_plays_need_review"
+        "required_plays_need_review",
+        "required_play_deadline_within_15_days"
       ]
     },
     "molu13": {
@@ -48173,7 +48212,7 @@
           "name": "Hadean Tactics",
           "link": "sxMUQ/hadean-tactics",
           "cv_status": "FULL_CV",
-          "entries": 4,
+          "entries": 3,
           "copies": 1,
           "created_timestamp": 1769872428,
           "end_timestamp": 1770910140,
@@ -51418,27 +51457,27 @@
         "fcv_sent_count": 20,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
-        "fcv_received_count": 49,
+        "fcv_received_count": 50,
         "rcv_received_count": 3,
         "ncv_received_count": 0,
-        "fcv_gift_difference": -29,
+        "fcv_gift_difference": -30,
         "real_total_sent_value": 637.81,
-        "real_total_received_value": 900.71,
-        "real_total_value_difference": -262.9,
+        "real_total_received_value": 913.7,
+        "real_total_value_difference": -275.89,
         "real_total_sent_count": 20,
-        "real_total_received_count": 49,
-        "real_total_gift_difference": -29,
-        "giveaway_ratio": 3.67,
+        "real_total_received_count": 50,
+        "real_total_gift_difference": -30,
+        "giveaway_ratio": 3.33,
         "shared_sent_count": 43,
         "shared_received_count": 3,
         "giveaways_created": 67,
         "giveaways_with_no_entries": 2,
         "last_giveaway_created_at": 1770147802,
-        "last_giveaway_won_at": 1770584400,
-        "total_achievements_percentage": 10,
-        "average_achievements_percentage": 8,
+        "last_giveaway_won_at": 1770627600,
+        "total_achievements_percentage": 9,
+        "average_achievements_percentage": 7,
         "real_total_achievements_percentage": 9,
-        "real_average_achievements_percentage": 6,
+        "real_average_achievements_percentage": 5,
         "has_missing_achievements_data": true
       },
       "steam_id": "76561198315443582",
@@ -51446,6 +51485,15 @@
       "steam_profile_is_private": false,
       "country_code": "ca",
       "giveaways_won": [
+        {
+          "name": "STUFFED",
+          "link": "lI5sh/stuffed",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1770627600,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "Solasta: Crown of the Magister",
           "link": "EOehN/solasta-crown-of-the-magister",
@@ -53810,7 +53858,8 @@
       ],
       "warnings": [
         "unplayed_required_play_giveaways",
-        "required_plays_need_review"
+        "required_plays_need_review",
+        "required_play_deadline_within_15_days"
       ]
     },
     "Patzl": {
@@ -57677,20 +57726,20 @@
         "total_received_value": 1164.53,
         "total_gift_difference": 2.7,
         "total_value_difference": 2.81,
-        "fcv_sent_count": 48,
+        "fcv_sent_count": 49,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
         "fcv_received_count": 43,
         "rcv_received_count": 2,
         "ncv_received_count": 0,
-        "fcv_gift_difference": 5,
-        "real_total_sent_value": 1138.52,
+        "fcv_gift_difference": 6,
+        "real_total_sent_value": 1151.51,
         "real_total_received_value": 1097.52,
-        "real_total_value_difference": 41,
-        "real_total_sent_count": 48,
+        "real_total_value_difference": 53.99,
+        "real_total_sent_count": 49,
         "real_total_received_count": 43,
-        "real_total_gift_difference": 5,
-        "giveaway_ratio": 35,
+        "real_total_gift_difference": 6,
+        "giveaway_ratio": 36,
         "shared_sent_count": 1,
         "shared_received_count": 2,
         "giveaways_created": 47,
@@ -58670,9 +58719,9 @@
           "had_winners": true,
           "winners": [
             {
-              "name": null,
-              "status": "awaiting_feedback",
-              "activated": false
+              "name": "Patxxv",
+              "status": "received",
+              "activated": true
             }
           ]
         },
@@ -63127,7 +63176,7 @@
           "name": "Life is Strange Remastered Collection",
           "link": "uYAm5/life-is-strange-remastered-collection",
           "cv_status": "FULL_CV",
-          "entries": 10,
+          "entries": 11,
           "copies": 1,
           "created_timestamp": 1770412117,
           "end_timestamp": 1770922800,
@@ -67923,9 +67972,9 @@
         "giveaway_ratio": 30.33,
         "shared_sent_count": 1,
         "shared_received_count": 0,
-        "giveaways_created": 40,
+        "giveaways_created": 41,
         "giveaways_with_no_entries": 3,
-        "last_giveaway_created_at": 1767294251,
+        "last_giveaway_created_at": 1770658547,
         "last_giveaway_won_at": 1767877200,
         "total_achievements_percentage": 49,
         "average_achievements_percentage": 50,
@@ -68201,6 +68250,17 @@
         }
       ],
       "giveaways_created": [
+        {
+          "name": "Exogate Initiative",
+          "link": "3VAxy/exogate-initiative",
+          "cv_status": "FULL_CV",
+          "entries": 2,
+          "copies": 1,
+          "created_timestamp": 1770658547,
+          "end_timestamp": 1771066800,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "Teddy's Haven - A Fantasy Inspired Sh...",
           "link": "5tG8F/teddys-haven-a-fantasy-inspired-shop-simulator",
@@ -69894,7 +69954,7 @@
           "name": "Hotel Renovator",
           "link": "zlWWx/hotel-renovator",
           "cv_status": "REDUCED_CV",
-          "entries": 18,
+          "entries": 22,
           "copies": 1,
           "created_timestamp": 1770437887,
           "end_timestamp": 1770811200,
@@ -73876,10 +73936,10 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1770543979,
         "last_giveaway_won_at": 1770537720,
-        "total_achievements_percentage": 1,
-        "average_achievements_percentage": 0,
-        "real_total_achievements_percentage": 0,
-        "real_average_achievements_percentage": 0,
+        "total_achievements_percentage": 4,
+        "average_achievements_percentage": 7,
+        "real_total_achievements_percentage": 12,
+        "real_average_achievements_percentage": 17,
         "has_missing_achievements_data": false
       },
       "steam_id": "76561198080362358",
@@ -74003,7 +74063,7 @@
           "name": "Re:Fresh",
           "link": "O0Cjq/refresh",
           "cv_status": "REDUCED_CV",
-          "entries": 22,
+          "entries": 30,
           "copies": 1,
           "created_timestamp": 1770440929,
           "end_timestamp": 1770879540,
@@ -74014,7 +74074,7 @@
           "name": "Minami Lane",
           "link": "tOMrD/minami-lane",
           "cv_status": "FULL_CV",
-          "entries": 30,
+          "entries": 34,
           "copies": 1,
           "created_timestamp": 1770440766,
           "end_timestamp": 1770879540,
@@ -74036,7 +74096,7 @@
           "name": "Still Wakes the Deep",
           "link": "RTfAk/still-wakes-the-deep",
           "cv_status": "FULL_CV",
-          "entries": 7,
+          "entries": 8,
           "copies": 1,
           "created_timestamp": 1770543979,
           "end_timestamp": 1771225140,
