@@ -1,44 +1,6 @@
 {
-  "last_updated": "2026-02-12T03:09:19.343Z",
+  "last_updated": "2026-02-12T09:12:46.623Z",
   "giveaways": [
-    {
-      "id": "O0Cjq",
-      "name": "Re:Fresh",
-      "points": 5,
-      "copies": 1,
-      "app_id": 2297650,
-      "package_id": null,
-      "link": "O0Cjq/refresh",
-      "created_timestamp": 1770440929,
-      "start_timestamp": 1770440929,
-      "end_timestamp": 1770879540,
-      "whitelist": true,
-      "group": true,
-      "comment_count": 1,
-      "entry_count": 56,
-      "creator": "VenomousNyx",
-      "is_shared": true,
-      "cv_status": "REDUCED_CV"
-    },
-    {
-      "id": "tOMrD",
-      "name": "Minami Lane",
-      "points": 5,
-      "copies": 1,
-      "app_id": 2678990,
-      "package_id": null,
-      "link": "tOMrD/minami-lane",
-      "created_timestamp": 1770440766,
-      "start_timestamp": 1770440766,
-      "end_timestamp": 1770879540,
-      "whitelist": true,
-      "group": true,
-      "comment_count": 3,
-      "entry_count": 58,
-      "creator": "VenomousNyx",
-      "is_shared": true,
-      "cv_status": "FULL_CV"
-    },
     {
       "id": "sxMUQ",
       "name": "Hadean Tactics",
@@ -124,7 +86,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 114,
+      "entry_count": 117,
       "creator": "Lontaz",
       "is_shared": true,
       "cv_status": "FULL_CV"
@@ -144,7 +106,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 164,
+      "entry_count": 167,
       "creator": "Lontaz",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -251,7 +213,7 @@
       "end_timestamp": 1771064460,
       "group": true,
       "comment_count": 0,
-      "entry_count": 209,
+      "entry_count": 214,
       "creator": "ithamore",
       "is_shared": true,
       "cv_status": "FULL_CV"
@@ -269,7 +231,7 @@
       "end_timestamp": 1771064820,
       "group": true,
       "comment_count": 0,
-      "entry_count": 194,
+      "entry_count": 200,
       "creator": "ithamore",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -305,7 +267,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 207,
+      "entry_count": 212,
       "creator": "ithamore",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -343,8 +305,8 @@
       "region_restricted": true,
       "whitelist": true,
       "group": true,
-      "comment_count": 22,
-      "entry_count": 88,
+      "comment_count": 23,
+      "entry_count": 90,
       "creator": "Dobke",
       "is_shared": true,
       "cv_status": "FULL_CV"
@@ -363,7 +325,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 229,
+      "entry_count": 232,
       "creator": "ithamore",
       "is_shared": true,
       "cv_status": "FULL_CV"
@@ -382,7 +344,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 35,
+      "entry_count": 37,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -543,11 +505,81 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 23,
+      "entry_count": 24,
       "creator": "Carenard",
       "required_play": true,
       "is_shared": true,
       "cv_status": "REDUCED_CV"
+    },
+    {
+      "id": "1UQSz",
+      "name": "Ib",
+      "points": 13,
+      "copies": 1,
+      "app_id": 1901370,
+      "package_id": null,
+      "link": "1UQSz/ib",
+      "created_timestamp": 1770867950,
+      "start_timestamp": 1770867950,
+      "end_timestamp": 1772772300,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 2,
+      "creator": "Patxxv",
+      "cv_status": "FULL_CV"
+    },
+    {
+      "id": "O0Cjq",
+      "name": "Re:Fresh",
+      "points": 5,
+      "copies": 1,
+      "app_id": 2297650,
+      "package_id": null,
+      "link": "O0Cjq/refresh",
+      "created_timestamp": 1770440929,
+      "start_timestamp": 1770440929,
+      "end_timestamp": 1770879540,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 4,
+      "entry_count": 56,
+      "creator": "VenomousNyx",
+      "is_shared": true,
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": "iRush",
+          "status": "received"
+        }
+      ],
+      "cv_status": "REDUCED_CV"
+    },
+    {
+      "id": "tOMrD",
+      "name": "Minami Lane",
+      "points": 5,
+      "copies": 1,
+      "app_id": 2678990,
+      "package_id": null,
+      "link": "tOMrD/minami-lane",
+      "created_timestamp": 1770440766,
+      "start_timestamp": 1770440766,
+      "end_timestamp": 1770879540,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 3,
+      "entry_count": 61,
+      "creator": "VenomousNyx",
+      "is_shared": true,
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "FULL_CV",
+      "deleted": false
     },
     {
       "id": "cat0C",
@@ -561,9 +593,16 @@
       "start_timestamp": 1768877936,
       "end_timestamp": 1770865020,
       "group": true,
-      "comment_count": 5,
+      "comment_count": 6,
       "entry_count": 24,
       "creator": "Patxxv",
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": "Carrei",
+          "status": "received"
+        }
+      ],
       "cv_status": "FULL_CV"
     },
     {
