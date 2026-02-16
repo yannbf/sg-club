@@ -1,42 +1,6 @@
 {
-  "last_updated": "2026-02-16T03:07:11.108Z",
+  "last_updated": "2026-02-16T09:16:12.198Z",
   "giveaways": [
-    {
-      "id": "21gND",
-      "name": "Solasta: Crown of the Magister",
-      "points": 30,
-      "copies": 1,
-      "app_id": 1096530,
-      "package_id": null,
-      "link": "21gND/solasta-crown-of-the-magister",
-      "created_timestamp": 1769754085,
-      "start_timestamp": 1769754085,
-      "end_timestamp": 1771221600,
-      "region_restricted": true,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 7,
-      "creator": "VenomousNyx",
-      "cv_status": "FULL_CV"
-    },
-    {
-      "id": "RTfAk",
-      "name": "Still Wakes the Deep",
-      "points": 35,
-      "copies": 1,
-      "app_id": 1622910,
-      "package_id": null,
-      "link": "RTfAk/still-wakes-the-deep",
-      "created_timestamp": 1770543979,
-      "start_timestamp": 1770543979,
-      "end_timestamp": 1771225140,
-      "region_restricted": true,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 9,
-      "creator": "VenomousNyx",
-      "cv_status": "FULL_CV"
-    },
     {
       "id": "ohGWH",
       "name": "Monster Hunter Wilds",
@@ -68,7 +32,7 @@
       "end_timestamp": 1771315740,
       "group": true,
       "comment_count": 0,
-      "entry_count": 11,
+      "entry_count": 12,
       "creator": "philipdick",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -86,7 +50,7 @@
       "end_timestamp": 1771323000,
       "group": true,
       "comment_count": 0,
-      "entry_count": 10,
+      "entry_count": 11,
       "creator": "philipdick",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -122,7 +86,7 @@
       "end_timestamp": 1771354800,
       "group": true,
       "comment_count": 0,
-      "entry_count": 6,
+      "entry_count": 5,
       "creator": "BorjaGRouco",
       "cv_status": "FULL_CV"
     },
@@ -139,7 +103,7 @@
       "end_timestamp": 1771355700,
       "group": true,
       "comment_count": 0,
-      "entry_count": 9,
+      "entry_count": 10,
       "creator": "philipdick",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -230,7 +194,7 @@
       "region_restricted": true,
       "group": true,
       "comment_count": 1,
-      "entry_count": 21,
+      "entry_count": 23,
       "creator": "Rinocap",
       "cv_status": "FULL_CV"
     },
@@ -284,7 +248,7 @@
       "region_restricted": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 7,
+      "entry_count": 6,
       "creator": "Shughes91",
       "is_shared": true,
       "cv_status": "FULL_CV"
@@ -489,7 +453,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 10,
+      "entry_count": 11,
       "creator": "Metalhead8489",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -564,7 +528,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 18,
+      "entry_count": 16,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -583,7 +547,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 10,
+      "entry_count": 12,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -637,7 +601,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 3,
+      "entry_count": 15,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -656,7 +620,7 @@
       "region_restricted": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 13,
+      "entry_count": 15,
       "creator": "Gooberdragon",
       "cv_status": "FULL_CV"
     },
@@ -731,6 +695,58 @@
       "entry_count": 12,
       "creator": "Patxxv",
       "cv_status": "FULL_CV"
+    },
+    {
+      "id": "RTfAk",
+      "name": "Still Wakes the Deep",
+      "points": 35,
+      "copies": 1,
+      "app_id": 1622910,
+      "package_id": null,
+      "link": "RTfAk/still-wakes-the-deep",
+      "created_timestamp": 1770543979,
+      "start_timestamp": 1770543979,
+      "end_timestamp": 1771225140,
+      "region_restricted": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 9,
+      "creator": "VenomousNyx",
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "FULL_CV",
+      "deleted": false
+    },
+    {
+      "id": "21gND",
+      "name": "Solasta: Crown of the Magister",
+      "points": 30,
+      "copies": 1,
+      "app_id": 1096530,
+      "package_id": null,
+      "link": "21gND/solasta-crown-of-the-magister",
+      "created_timestamp": 1769754085,
+      "start_timestamp": 1769754085,
+      "end_timestamp": 1771221600,
+      "region_restricted": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 6,
+      "creator": "VenomousNyx",
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "FULL_CV",
+      "deleted": false
     },
     {
       "id": "taEQw",
@@ -2149,7 +2165,7 @@
           "status": "received"
         }
       ],
-      "cv_status": "REDUCED_CV"
+      "cv_status": "FULL_CV"
     },
     {
       "id": "YAi4w",
