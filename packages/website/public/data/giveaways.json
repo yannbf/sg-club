@@ -1,24 +1,6 @@
 {
-  "last_updated": "2026-02-17T03:01:49.323Z",
+  "last_updated": "2026-02-17T09:12:52.121Z",
   "giveaways": [
-    {
-      "id": "VTg10",
-      "name": "Technotopia",
-      "points": 5,
-      "copies": 1,
-      "app_id": 2825110,
-      "package_id": null,
-      "link": "VTg10/technotopia",
-      "created_timestamp": 1771107016,
-      "start_timestamp": 1771107016,
-      "end_timestamp": 1771315740,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 14,
-      "creator": "philipdick",
-      "is_shared": true,
-      "cv_status": "REDUCED_CV"
-    },
     {
       "id": "7ULPF",
       "name": "Afterplace",
@@ -32,7 +14,7 @@
       "end_timestamp": 1771323000,
       "group": true,
       "comment_count": 0,
-      "entry_count": 11,
+      "entry_count": 12,
       "creator": "philipdick",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -51,7 +33,7 @@
       "region_restricted": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 9,
+      "entry_count": 11,
       "creator": "MikeWithAnI",
       "cv_status": "FULL_CV"
     },
@@ -68,7 +50,7 @@
       "end_timestamp": 1771354800,
       "group": true,
       "comment_count": 0,
-      "entry_count": 6,
+      "entry_count": 7,
       "creator": "BorjaGRouco",
       "cv_status": "FULL_CV"
     },
@@ -140,7 +122,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 25,
+      "entry_count": 24,
       "creator": "ithamore",
       "is_shared": true,
       "cv_status": "FULL_CV"
@@ -230,7 +212,7 @@
       "region_restricted": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 7,
+      "entry_count": 8,
       "creator": "Shughes91",
       "is_shared": true,
       "cv_status": "FULL_CV"
@@ -249,7 +231,7 @@
       "region_restricted": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 15,
+      "entry_count": 16,
       "creator": "Shughes91",
       "is_shared": true,
       "cv_status": "FULL_CV"
@@ -302,7 +284,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 27,
+      "entry_count": 28,
       "creator": "Carenard",
       "required_play": true,
       "is_shared": true,
@@ -322,7 +304,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 26,
+      "entry_count": 27,
       "creator": "Carenard",
       "required_play": true,
       "is_shared": true,
@@ -342,7 +324,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 15,
+      "entry_count": 16,
       "creator": "Carenard",
       "required_play": true,
       "is_shared": true,
@@ -362,7 +344,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 25,
+      "entry_count": 26,
       "creator": "Carenard",
       "required_play": true,
       "is_shared": true,
@@ -529,7 +511,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 18,
+      "entry_count": 21,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -583,7 +565,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 37,
+      "entry_count": 41,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -602,7 +584,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 13,
+      "entry_count": 25,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -621,7 +603,7 @@
       "region_restricted": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 17,
+      "entry_count": 18,
       "creator": "Gooberdragon",
       "cv_status": "FULL_CV"
     },
@@ -715,6 +697,32 @@
       "entry_count": 12,
       "creator": "Patxxv",
       "cv_status": "FULL_CV"
+    },
+    {
+      "id": "VTg10",
+      "name": "Technotopia",
+      "points": 5,
+      "copies": 1,
+      "app_id": 2825110,
+      "package_id": null,
+      "link": "VTg10/technotopia",
+      "created_timestamp": 1771107016,
+      "start_timestamp": 1771107016,
+      "end_timestamp": 1771315740,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 15,
+      "creator": "philipdick",
+      "is_shared": true,
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "REDUCED_CV",
+      "deleted": false
     },
     {
       "id": "ohGWH",
@@ -1698,7 +1706,7 @@
       "start_timestamp": 1770364526,
       "end_timestamp": 1770537720,
       "group": true,
-      "comment_count": 5,
+      "comment_count": 6,
       "entry_count": 8,
       "creator": "PoeticKatana",
       "required_play": true,
