@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1771406685442,
+  "lastUpdated": 1771470389177,
   "users": {
     "a10i": {
       "username": "a10i",
@@ -3797,12 +3797,12 @@
       "profile_url": "/user/BanjoBearLV",
       "avatar_url": "https://avatars.steamstatic.com/2679dda82e5aec96953f7456b999f84714b1a4a5_medium.jpg",
       "stats": {
-        "total_sent_count": 42,
-        "total_sent_value": 789.58,
+        "total_sent_count": 42.3,
+        "total_sent_value": 796.24,
         "total_received_count": 15.5,
         "total_received_value": 335.85,
-        "total_gift_difference": 26.5,
-        "total_value_difference": 453.73,
+        "total_gift_difference": 26.8,
+        "total_value_difference": 460.4,
         "fcv_sent_count": 38,
         "rcv_sent_count": 2,
         "ncv_sent_count": 0,
@@ -3817,7 +3817,7 @@
         "real_total_received_count": 15,
         "real_total_gift_difference": 23,
         "giveaway_ratio": 33,
-        "shared_sent_count": 5,
+        "shared_sent_count": 7,
         "shared_received_count": 1,
         "giveaways_created": 49,
         "giveaways_with_no_entries": 2,
@@ -4182,9 +4182,9 @@
           "had_winners": true,
           "winners": [
             {
-              "name": null,
-              "status": "awaiting_feedback",
-              "activated": false
+              "name": "Horseflesh",
+              "status": "received",
+              "activated": true
             }
           ]
         },
@@ -4201,9 +4201,9 @@
           "had_winners": true,
           "winners": [
             {
-              "name": null,
-              "status": "awaiting_feedback",
-              "activated": false
+              "name": "SergeD",
+              "status": "received",
+              "activated": true
             }
           ]
         },
@@ -8024,7 +8024,7 @@
           "name": "The Language of Love",
           "link": "Oasfm/the-language-of-love",
           "cv_status": "FULL_CV",
-          "entries": 34,
+          "entries": 35,
           "copies": 1,
           "created_timestamp": 1770926357,
           "end_timestamp": 1771610400,
@@ -8057,7 +8057,7 @@
           "name": "A Little Lily Princess",
           "link": "VU9Cd/a-little-lily-princess",
           "cv_status": "FULL_CV",
-          "entries": 30,
+          "entries": 31,
           "copies": 1,
           "created_timestamp": 1770926173,
           "end_timestamp": 1771610400,
@@ -8068,7 +8068,7 @@
           "name": "Shadow Gambit: The Cursed Crew",
           "link": "ruH0Z/shadow-gambit-the-cursed-crew",
           "cv_status": "REDUCED_CV",
-          "entries": 34,
+          "entries": 37,
           "copies": 1,
           "created_timestamp": 1770586879,
           "end_timestamp": 1772301600,
@@ -33427,10 +33427,10 @@
       "stats": {
         "total_sent_count": 11,
         "total_sent_value": 259.89,
-        "total_received_count": 27.7,
-        "total_received_value": 736.77,
-        "total_gift_difference": -16.7,
-        "total_value_difference": -476.88,
+        "total_received_count": 28.2,
+        "total_received_value": 761.77,
+        "total_gift_difference": -17.2,
+        "total_value_difference": -501.88,
         "fcv_sent_count": 9.15,
         "rcv_sent_count": 1,
         "ncv_sent_count": 0,
@@ -33446,11 +33446,11 @@
         "real_total_gift_difference": -15.85,
         "giveaway_ratio": 2.15,
         "shared_sent_count": 0,
-        "shared_received_count": 5,
+        "shared_received_count": 6,
         "giveaways_created": 10,
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1767724357,
-        "last_giveaway_won_at": 1771333200,
+        "last_giveaway_won_at": 1771448400,
         "total_achievements_percentage": 17,
         "average_achievements_percentage": 22,
         "real_total_achievements_percentage": 16,
@@ -33462,6 +33462,15 @@
       "steam_profile_is_private": false,
       "country_code": "jp",
       "giveaways_won": [
+        {
+          "name": "The Medium",
+          "link": "Fv9Ki/the-medium",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1771448400,
+          "required_play": false,
+          "is_shared": true
+        },
         {
           "name": "Atelier Sophie: The Alchemist of the ...",
           "link": "Mt8es/atelier-sophie-the-alchemist-of-the-mysterious-book-dx",
@@ -35096,7 +35105,15 @@
           "created_timestamp": 1770927609,
           "end_timestamp": 1771448400,
           "required_play": true,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "Sea of Stars",
@@ -35418,9 +35435,9 @@
         "giveaway_ratio": 7.33,
         "shared_sent_count": 0,
         "shared_received_count": 0,
-        "giveaways_created": 15,
+        "giveaways_created": 16,
         "giveaways_with_no_entries": 0,
-        "last_giveaway_created_at": 1762330897,
+        "last_giveaway_created_at": 1771432886,
         "last_giveaway_won_at": 1770742800,
         "total_achievements_percentage": 17,
         "average_achievements_percentage": 10,
@@ -35836,6 +35853,17 @@
         }
       ],
       "giveaways_created": [
+        {
+          "name": "Bingus: My Beloved",
+          "link": "q51tz/bingus-my-beloved",
+          "cv_status": "FULL_CV",
+          "entries": 1,
+          "copies": 1,
+          "created_timestamp": 1771432886,
+          "end_timestamp": 1771695540,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "MISERY",
           "link": "8EDE4/misery",
@@ -39969,9 +39997,9 @@
         "giveaway_ratio": 0.67,
         "shared_sent_count": 116,
         "shared_received_count": 2,
-        "giveaways_created": 112,
+        "giveaways_created": 113,
         "giveaways_with_no_entries": 0,
-        "last_giveaway_created_at": 1771376438,
+        "last_giveaway_created_at": 1771460104,
         "last_giveaway_won_at": 1764944580,
         "total_achievements_percentage": 44,
         "average_achievements_percentage": 33,
@@ -40121,7 +40149,7 @@
           "name": "Hell Pie",
           "link": "P4nAD/hell-pie",
           "cv_status": "REDUCED_CV",
-          "entries": 24,
+          "entries": 27,
           "copies": 1,
           "created_timestamp": 1771150933,
           "end_timestamp": 1771732800,
@@ -40132,7 +40160,7 @@
           "name": "A Sky Full of Stars 仰望夜空的星辰",
           "link": "bEUQr/a-sky-full-of-stars-yang-wang-ye-kong-de-xing-chen",
           "cv_status": "REDUCED_CV",
-          "entries": 51,
+          "entries": 56,
           "copies": 1,
           "created_timestamp": 1771208421,
           "end_timestamp": 1771819200,
@@ -40143,7 +40171,7 @@
           "name": "Golf Club Nostalgia",
           "link": "lO2AI/golf-club-nostalgia",
           "cv_status": "REDUCED_CV",
-          "entries": 41,
+          "entries": 48,
           "copies": 1,
           "created_timestamp": 1771285955,
           "end_timestamp": 1771905600,
@@ -40154,10 +40182,21 @@
           "name": "Dungeon Tycoon",
           "link": "Olg30/dungeon-tycoon",
           "cv_status": "REDUCED_CV",
-          "entries": 5,
+          "entries": 26,
           "copies": 1,
           "created_timestamp": 1771376438,
           "end_timestamp": 1771992000,
+          "required_play": false,
+          "is_shared": true
+        },
+        {
+          "name": "TOEM: A Photo Adventure",
+          "link": "Qkq8X/toem-a-photo-adventure",
+          "cv_status": "REDUCED_CV",
+          "entries": 6,
+          "copies": 1,
+          "created_timestamp": 1771460104,
+          "end_timestamp": 1772078400,
           "required_play": false,
           "is_shared": true
         },
@@ -45477,7 +45516,7 @@
           "name": "FRAMED Collection",
           "link": "Y757v/framed-collection",
           "cv_status": "REDUCED_CV",
-          "entries": 14,
+          "entries": 15,
           "copies": 1,
           "created_timestamp": 1771073024,
           "end_timestamp": 1771624740,
@@ -45488,7 +45527,7 @@
           "name": "Heaven's Vault",
           "link": "fNQkt/heavens-vault",
           "cv_status": "REDUCED_CV",
-          "entries": 14,
+          "entries": 16,
           "copies": 1,
           "created_timestamp": 1771072684,
           "end_timestamp": 1771624740,
@@ -49034,7 +49073,7 @@
           "name": "Midnight Ramen",
           "link": "GYrMh/midnight-ramen",
           "cv_status": "FULL_CV",
-          "entries": 26,
+          "entries": 28,
           "copies": 1,
           "created_timestamp": 1771247625,
           "end_timestamp": 1772115120,
@@ -50860,83 +50899,6 @@
         "required_plays_need_review"
       ]
     },
-    "olehsamoilenko": {
-      "username": "olehsamoilenko",
-      "profile_url": "/user/olehsamoilenko",
-      "avatar_url": "https://avatars.steamstatic.com/cba46dfdf5d89a1ef0e78da7ecac1220fb39749e_medium.jpg",
-      "stats": {
-        "total_sent_count": 2,
-        "total_sent_value": 14.98,
-        "total_received_count": 0,
-        "total_received_value": 0,
-        "total_gift_difference": 2,
-        "total_value_difference": 14.98,
-        "fcv_sent_count": 0.15,
-        "rcv_sent_count": 1,
-        "ncv_sent_count": 0,
-        "fcv_received_count": 0,
-        "rcv_received_count": 0,
-        "ncv_received_count": 0,
-        "fcv_gift_difference": 0,
-        "real_total_sent_value": 2.25,
-        "real_total_received_value": 0,
-        "real_total_value_difference": 2.25,
-        "real_total_sent_count": 0.15,
-        "real_total_received_count": 0,
-        "real_total_gift_difference": 0.15,
-        "giveaway_ratio": 0,
-        "shared_sent_count": 0,
-        "shared_received_count": 0,
-        "giveaways_created": 2,
-        "giveaways_with_no_entries": 0,
-        "last_giveaway_created_at": 1755699966,
-        "last_giveaway_won_at": null
-      },
-      "steam_id": "76561198128560029",
-      "steam_profile_url": "https://steamcommunity.com/profiles/76561198128560029",
-      "country_code": "ua",
-      "giveaways_created": [
-        {
-          "name": "BROKEN LIFE",
-          "link": "CavwK/broken-life",
-          "cv_status": "FULL_CV",
-          "entries": 1,
-          "copies": 1,
-          "created_timestamp": 1755699966,
-          "end_timestamp": 1756069140,
-          "required_play": true,
-          "is_shared": false,
-          "had_winners": true,
-          "winners": [
-            {
-              "name": "SteamKeyGiveaway",
-              "status": "received",
-              "activated": true
-            }
-          ]
-        },
-        {
-          "name": "Piczle Cross Adventure",
-          "link": "19ilt/piczle-cross-adventure",
-          "cv_status": "REDUCED_CV",
-          "entries": 11,
-          "copies": 1,
-          "created_timestamp": 1749717922,
-          "end_timestamp": 1750193940,
-          "required_play": false,
-          "is_shared": false,
-          "i_played_bro": true,
-          "had_winners": true,
-          "winners": [
-            {
-              "name": "Yamaraus",
-              "status": "received",
-              "activated": true
-            }
-          ]
-        }
-      ]
-    },
     "OlOAyCT": {
       "username": "OlOAyCT",
       "profile_url": "/user/OlOAyCT",
@@ -52331,9 +52293,9 @@
         "giveaway_ratio": 3.67,
         "shared_sent_count": 43,
         "shared_received_count": 4,
-        "giveaways_created": 69,
+        "giveaways_created": 70,
         "giveaways_with_no_entries": 2,
-        "last_giveaway_created_at": 1771007299,
+        "last_giveaway_created_at": 1771445519,
         "last_giveaway_won_at": 1771354800,
         "total_achievements_percentage": 9,
         "average_achievements_percentage": 7,
@@ -53523,13 +53485,13 @@
       ],
       "giveaways_created": [
         {
-          "name": "Tropico Reloaded",
-          "link": "r5Od7/tropico-reloaded",
-          "cv_status": "REDUCED_CV",
-          "entries": 5,
+          "name": "Joggernauts",
+          "link": "U8NSU/joggernauts",
+          "cv_status": "NO_CV",
+          "entries": 0,
           "copies": 1,
-          "created_timestamp": 1771007299,
-          "end_timestamp": 1771442820,
+          "created_timestamp": 1771445519,
+          "end_timestamp": 1771881060,
           "required_play": false,
           "is_shared": true
         },
@@ -53543,6 +53505,25 @@
           "end_timestamp": 1772772300,
           "required_play": false,
           "is_shared": false
+        },
+        {
+          "name": "Tropico Reloaded",
+          "link": "r5Od7/tropico-reloaded",
+          "cv_status": "REDUCED_CV",
+          "entries": 5,
+          "copies": 1,
+          "created_timestamp": 1771007299,
+          "end_timestamp": 1771442820,
+          "required_play": false,
+          "is_shared": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "Touhou Luna Nights",
@@ -62607,26 +62588,26 @@
       "profile_url": "/user/Rinocap",
       "avatar_url": "https://avatars.steamstatic.com/853f5c10aad7160873bb228b543e1fafea5c35fa_medium.jpg",
       "stats": {
-        "total_sent_count": 7,
-        "total_sent_value": 185.43,
+        "total_sent_count": 8,
+        "total_sent_value": 215.42,
         "total_received_count": 19,
         "total_received_value": 531.81,
-        "total_gift_difference": -12,
-        "total_value_difference": -346.38,
-        "fcv_sent_count": 7,
+        "total_gift_difference": -11,
+        "total_value_difference": -316.39,
+        "fcv_sent_count": 8,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
         "fcv_received_count": 18,
         "rcv_received_count": 1,
         "ncv_received_count": 0,
-        "fcv_gift_difference": -11,
-        "real_total_sent_value": 185.43,
+        "fcv_gift_difference": -10,
+        "real_total_sent_value": 215.42,
         "real_total_received_value": 499.32,
-        "real_total_value_difference": -313.89,
-        "real_total_sent_count": 7,
+        "real_total_value_difference": -283.9,
+        "real_total_sent_count": 8,
         "real_total_received_count": 18,
-        "real_total_gift_difference": -11,
-        "giveaway_ratio": 2,
+        "real_total_gift_difference": -10,
+        "giveaway_ratio": 3,
         "shared_sent_count": 0,
         "shared_received_count": 0,
         "giveaways_created": 8,
@@ -63034,12 +63015,20 @@
           "name": "Cairn",
           "link": "8MMI6/cairn",
           "cv_status": "FULL_CV",
-          "entries": 30,
+          "entries": 32,
           "copies": 1,
           "created_timestamp": 1771151254,
           "end_timestamp": 1771434000,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "Shughes91",
+              "status": "received",
+              "activated": true
+            }
+          ]
         },
         {
           "name": "ACE COMBAT7: SKIES UNKNOWN - TOP GUN:...",
@@ -65451,11 +65440,11 @@
         "real_total_gift_difference": -2,
         "giveaway_ratio": 2.67,
         "shared_sent_count": 7,
-        "shared_received_count": 6,
+        "shared_received_count": 7,
         "giveaways_created": 12,
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1767118311,
-        "last_giveaway_won_at": 1769224260,
+        "last_giveaway_won_at": 1771375680,
         "total_achievements_percentage": 0,
         "average_achievements_percentage": 0,
         "real_total_achievements_percentage": 0,
@@ -65467,6 +65456,15 @@
       "steam_profile_is_private": false,
       "country_code": "ru",
       "giveaways_won": [
+        {
+          "name": "Mercury Fallen",
+          "link": "k3fY7/mercury-fallen",
+          "cv_status": "REDUCED_CV",
+          "status": "received",
+          "end_timestamp": 1771375680,
+          "required_play": false,
+          "is_shared": true
+        },
         {
           "name": "Patch Quest",
           "link": "ZCEs7/patch-quest",
@@ -66828,32 +66826,32 @@
       "profile_url": "/user/Shughes91",
       "avatar_url": "https://avatars.steamstatic.com/d49e8f55b62f71d27b6603e4d728aedc2e09dfd5_medium.jpg",
       "stats": {
-        "total_sent_count": 18.5,
-        "total_sent_value": 676.32,
-        "total_received_count": 14,
-        "total_received_value": 420.86,
-        "total_gift_difference": 4.5,
-        "total_value_difference": 255.46,
+        "total_sent_count": 19,
+        "total_sent_value": 701.31,
+        "total_received_count": 15,
+        "total_received_value": 450.85,
+        "total_gift_difference": 4,
+        "total_value_difference": 250.46,
         "fcv_sent_count": 17,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
-        "fcv_received_count": 13,
+        "fcv_received_count": 14,
         "rcv_received_count": 1,
         "ncv_received_count": 0,
-        "fcv_gift_difference": 4,
+        "fcv_gift_difference": 3,
         "real_total_sent_value": 649.83,
-        "real_total_received_value": 403.87,
-        "real_total_value_difference": 245.96,
+        "real_total_received_value": 433.86,
+        "real_total_value_difference": 215.97,
         "real_total_sent_count": 17,
-        "real_total_received_count": 13,
-        "real_total_gift_difference": 4,
-        "giveaway_ratio": 13.33,
-        "shared_sent_count": 3,
+        "real_total_received_count": 14,
+        "real_total_gift_difference": 3,
+        "giveaway_ratio": 13,
+        "shared_sent_count": 4,
         "shared_received_count": 0,
         "giveaways_created": 24,
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1771010062,
-        "last_giveaway_won_at": 1770397200,
+        "last_giveaway_won_at": 1771434000,
         "total_achievements_percentage": 9,
         "average_achievements_percentage": 14,
         "real_total_achievements_percentage": 9,
@@ -66865,6 +66863,15 @@
       "steam_profile_is_private": true,
       "country_code": "ie",
       "giveaways_won": [
+        {
+          "name": "Cairn",
+          "link": "8MMI6/cairn",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1771434000,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "The Precinct",
           "link": "tHu9m/the-precinct",
@@ -67029,32 +67036,10 @@
       ],
       "giveaways_created": [
         {
-          "name": "Detroit: Become Human",
-          "link": "K2I9Q/detroit-become-human",
-          "cv_status": "FULL_CV",
-          "entries": 9,
-          "copies": 1,
-          "created_timestamp": 1771009011,
-          "end_timestamp": 1771448400,
-          "required_play": false,
-          "is_shared": true
-        },
-        {
-          "name": "The Medium",
-          "link": "Fv9Ki/the-medium",
-          "cv_status": "FULL_CV",
-          "entries": 20,
-          "copies": 1,
-          "created_timestamp": 1771008129,
-          "end_timestamp": 1771448400,
-          "required_play": false,
-          "is_shared": true
-        },
-        {
           "name": "Days Gone",
           "link": "K7og7/days-gone",
           "cv_status": "FULL_CV",
-          "entries": 13,
+          "entries": 12,
           "copies": 1,
           "created_timestamp": 1771010062,
           "end_timestamp": 1771617600,
@@ -67071,6 +67056,44 @@
           "end_timestamp": 1771617600,
           "required_play": false,
           "is_shared": false
+        },
+        {
+          "name": "Detroit: Become Human",
+          "link": "K2I9Q/detroit-become-human",
+          "cv_status": "FULL_CV",
+          "entries": 10,
+          "copies": 1,
+          "created_timestamp": 1771009011,
+          "end_timestamp": 1771448400,
+          "required_play": false,
+          "is_shared": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
+        },
+        {
+          "name": "The Medium",
+          "link": "Fv9Ki/the-medium",
+          "cv_status": "FULL_CV",
+          "entries": 21,
+          "copies": 1,
+          "created_timestamp": 1771008129,
+          "end_timestamp": 1771448400,
+          "required_play": false,
+          "is_shared": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "karm2002",
+              "status": "received",
+              "activated": true
+            }
+          ]
         },
         {
           "name": "Solasta: Crown of the Magister",
@@ -70383,7 +70406,7 @@
           "name": "DAVE THE DIVER",
           "link": "tixxK/dave-the-diver",
           "cv_status": "FULL_CV",
-          "entries": 20,
+          "entries": 21,
           "copies": 1,
           "created_timestamp": 1770720426,
           "end_timestamp": 1772277420,
@@ -71811,7 +71834,15 @@
           "created_timestamp": 1770914215,
           "end_timestamp": 1771468500,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "Footgun: Underground",
@@ -72981,7 +73012,7 @@
           "name": "Dragon's Dogma 2",
           "link": "lHH6C/dragons-dogma-2",
           "cv_status": "FULL_CV",
-          "entries": 13,
+          "entries": 14,
           "copies": 1,
           "created_timestamp": 1770932199,
           "end_timestamp": 1771755060,
@@ -79456,9 +79487,9 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1768078911,
         "last_giveaway_won_at": 1769378400,
-        "total_achievements_percentage": 71,
+        "total_achievements_percentage": 72,
         "average_achievements_percentage": 76,
-        "real_total_achievements_percentage": 70,
+        "real_total_achievements_percentage": 71,
         "real_average_achievements_percentage": 74,
         "has_missing_achievements_data": false
       },
