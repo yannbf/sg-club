@@ -1,23 +1,6 @@
 {
-  "last_updated": "2026-02-21T08:53:57.769Z",
+  "last_updated": "2026-02-22T03:03:55.224Z",
   "giveaways": [
-    {
-      "id": "q51tz",
-      "name": "Bingus: My Beloved",
-      "points": 5,
-      "copies": 1,
-      "app_id": 1708990,
-      "package_id": null,
-      "link": "q51tz/bingus-my-beloved",
-      "created_timestamp": 1771432886,
-      "start_timestamp": 1771432886,
-      "end_timestamp": 1771695540,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 1,
-      "creator": "kudomonster",
-      "cv_status": "FULL_CV"
-    },
     {
       "id": "P4nAD",
       "name": "Hell Pie",
@@ -32,7 +15,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 29,
+      "entry_count": 28,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -51,7 +34,7 @@
       "region_restricted": true,
       "group": true,
       "comment_count": 1,
-      "entry_count": 14,
+      "entry_count": 15,
       "creator": "TwixClub",
       "cv_status": "FULL_CV"
     },
@@ -68,7 +51,7 @@
       "end_timestamp": 1771783200,
       "group": true,
       "comment_count": 0,
-      "entry_count": 15,
+      "entry_count": 17,
       "creator": "vot4ol",
       "cv_status": "FULL_CV"
     },
@@ -86,7 +69,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 0,
+      "entry_count": 4,
       "creator": "mourinhos86",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -105,7 +88,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 69,
+      "entry_count": 75,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -139,7 +122,7 @@
       "start_timestamp": 1771616597,
       "end_timestamp": 1771876740,
       "group": true,
-      "comment_count": 0,
+      "comment_count": 2,
       "entry_count": 1,
       "creator": "rufioh",
       "cv_status": "FULL_CV"
@@ -176,7 +159,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 57,
+      "entry_count": 60,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -195,7 +178,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 33,
+      "entry_count": 32,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -268,7 +251,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 42,
+      "entry_count": 44,
       "creator": "MrOuiOui",
       "is_shared": true,
       "cv_status": "FULL_CV"
@@ -287,7 +270,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 30,
+      "entry_count": 36,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -322,7 +305,7 @@
       "end_timestamp": 1772244000,
       "group": true,
       "comment_count": 0,
-      "entry_count": 7,
+      "entry_count": 8,
       "creator": "drbeckett",
       "cv_status": "FULL_CV"
     },
@@ -340,7 +323,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 18,
+      "entry_count": 72,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -394,9 +377,28 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 42,
+      "entry_count": 43,
       "creator": "Carenard",
       "required_play": true,
+      "is_shared": true,
+      "cv_status": "REDUCED_CV"
+    },
+    {
+      "id": "8Gz4J",
+      "name": "Teacup",
+      "points": 10,
+      "copies": 1,
+      "app_id": 1444300,
+      "package_id": null,
+      "link": "8Gz4J/teacup",
+      "created_timestamp": 1771726131,
+      "start_timestamp": 1771726131,
+      "end_timestamp": 1772337600,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 4,
+      "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
     },
@@ -415,6 +417,30 @@
       "comment_count": 0,
       "entry_count": 12,
       "creator": "Patxxv",
+      "cv_status": "FULL_CV"
+    },
+    {
+      "id": "q51tz",
+      "name": "Bingus: My Beloved",
+      "points": 5,
+      "copies": 1,
+      "app_id": 1708990,
+      "package_id": null,
+      "link": "q51tz/bingus-my-beloved",
+      "created_timestamp": 1771432886,
+      "start_timestamp": 1771432886,
+      "end_timestamp": 1771695540,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 1,
+      "creator": "kudomonster",
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": "Patxxv",
+          "status": "received"
+        }
+      ],
       "cv_status": "FULL_CV"
     },
     {
@@ -501,19 +527,18 @@
       "end_timestamp": 1771624740,
       "whitelist": true,
       "group": true,
-      "comment_count": 0,
+      "comment_count": 1,
       "entry_count": 15,
       "creator": "Metalhead8489",
       "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "irste",
+          "status": "received"
         }
       ],
-      "cv_status": "REDUCED_CV",
-      "deleted": false
+      "cv_status": "REDUCED_CV"
     },
     {
       "id": "fNQkt",
@@ -528,7 +553,7 @@
       "end_timestamp": 1771624740,
       "whitelist": true,
       "group": true,
-      "comment_count": 2,
+      "comment_count": 3,
       "entry_count": 21,
       "creator": "Metalhead8489",
       "is_shared": true,
@@ -556,19 +581,18 @@
       "region_restricted": true,
       "whitelist": true,
       "group": true,
-      "comment_count": 0,
+      "comment_count": 1,
       "entry_count": 3,
       "creator": "Metalhead8489",
       "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "irste",
+          "status": "received"
         }
       ],
-      "cv_status": "REDUCED_CV",
-      "deleted": false
+      "cv_status": "REDUCED_CV"
     },
     {
       "id": "dvd74",
@@ -625,18 +649,17 @@
       "end_timestamp": 1771617600,
       "region_restricted": true,
       "group": true,
-      "comment_count": 0,
+      "comment_count": 1,
       "entry_count": 5,
       "creator": "Shughes91",
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "Jztr",
+          "status": "received"
         }
       ],
-      "cv_status": "FULL_CV",
-      "deleted": false
+      "cv_status": "FULL_CV"
     },
     {
       "id": "Oasfm",
@@ -678,7 +701,7 @@
       "end_timestamp": 1771610400,
       "whitelist": true,
       "group": true,
-      "comment_count": 0,
+      "comment_count": 1,
       "entry_count": 38,
       "creator": "Carenard",
       "required_play": true,
@@ -686,12 +709,11 @@
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "ahar010",
+          "status": "received"
         }
       ],
-      "cv_status": "FULL_CV",
-      "deleted": false
+      "cv_status": "FULL_CV"
     },
     {
       "id": "S6lvr",
