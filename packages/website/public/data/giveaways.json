@@ -1,25 +1,6 @@
 {
-  "last_updated": "2026-02-22T03:03:55.224Z",
+  "last_updated": "2026-02-22T08:54:56.845Z",
   "giveaways": [
-    {
-      "id": "P4nAD",
-      "name": "Hell Pie",
-      "points": 25,
-      "copies": 1,
-      "app_id": 889910,
-      "package_id": null,
-      "link": "P4nAD/hell-pie",
-      "created_timestamp": 1771150933,
-      "start_timestamp": 1771150933,
-      "end_timestamp": 1771732800,
-      "whitelist": true,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 28,
-      "creator": "lockcjwen",
-      "is_shared": true,
-      "cv_status": "REDUCED_CV"
-    },
     {
       "id": "lHH6C",
       "name": "Dragon's Dogma 2",
@@ -69,7 +50,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 4,
+      "entry_count": 5,
       "creator": "mourinhos86",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -88,7 +69,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 75,
+      "entry_count": 77,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -146,6 +127,26 @@
       "cv_status": "NO_CV"
     },
     {
+      "id": "FqYeC",
+      "name": "Icewind Dale: Enhanced Edition",
+      "points": 20,
+      "copies": 1,
+      "app_id": 321800,
+      "package_id": null,
+      "link": "FqYeC/icewind-dale-enhanced-edition",
+      "created_timestamp": 1771728671,
+      "start_timestamp": 1771728671,
+      "end_timestamp": 1771884000,
+      "region_restricted": true,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 5,
+      "creator": "mourinhos86",
+      "is_shared": true,
+      "cv_status": "REDUCED_CV"
+    },
+    {
       "id": "lO2AI",
       "name": "Golf Club Nostalgia",
       "points": 10,
@@ -178,7 +179,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 32,
+      "entry_count": 33,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -251,7 +252,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 44,
+      "entry_count": 45,
       "creator": "MrOuiOui",
       "is_shared": true,
       "cv_status": "FULL_CV"
@@ -270,7 +271,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 36,
+      "entry_count": 37,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -323,7 +324,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 72,
+      "entry_count": 75,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -397,7 +398,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 4,
+      "entry_count": 22,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -420,6 +421,33 @@
       "cv_status": "FULL_CV"
     },
     {
+      "id": "P4nAD",
+      "name": "Hell Pie",
+      "points": 25,
+      "copies": 1,
+      "app_id": 889910,
+      "package_id": null,
+      "link": "P4nAD/hell-pie",
+      "created_timestamp": 1771150933,
+      "start_timestamp": 1771150933,
+      "end_timestamp": 1771732800,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 28,
+      "creator": "lockcjwen",
+      "is_shared": true,
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "REDUCED_CV",
+      "deleted": false
+    },
+    {
       "id": "q51tz",
       "name": "Bingus: My Beloved",
       "points": 5,
@@ -431,7 +459,7 @@
       "start_timestamp": 1771432886,
       "end_timestamp": 1771695540,
       "group": true,
-      "comment_count": 0,
+      "comment_count": 2,
       "entry_count": 1,
       "creator": "kudomonster",
       "hasWinners": true,
@@ -553,7 +581,7 @@
       "end_timestamp": 1771624740,
       "whitelist": true,
       "group": true,
-      "comment_count": 3,
+      "comment_count": 4,
       "entry_count": 21,
       "creator": "Metalhead8489",
       "is_shared": true,
@@ -781,7 +809,7 @@
       "start_timestamp": 1769095998,
       "end_timestamp": 1771512780,
       "group": true,
-      "comment_count": 19,
+      "comment_count": 20,
       "entry_count": 5,
       "creator": "TheLastShepard",
       "hasWinners": true,
