@@ -1,25 +1,6 @@
 {
-  "last_updated": "2026-02-24T03:00:52.175Z",
+  "last_updated": "2026-02-24T09:12:43.117Z",
   "giveaways": [
-    {
-      "id": "lO2AI",
-      "name": "Golf Club Nostalgia",
-      "points": 10,
-      "copies": 1,
-      "app_id": 1556870,
-      "package_id": null,
-      "link": "lO2AI/golf-club-nostalgia",
-      "created_timestamp": 1771285955,
-      "start_timestamp": 1771285955,
-      "end_timestamp": 1771905600,
-      "whitelist": true,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 68,
-      "creator": "lockcjwen",
-      "is_shared": true,
-      "cv_status": "REDUCED_CV"
-    },
     {
       "id": "Olg30",
       "name": "Dungeon Tycoon",
@@ -125,7 +106,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 49,
+      "entry_count": 51,
       "creator": "MrOuiOui",
       "is_shared": true,
       "cv_status": "FULL_CV"
@@ -144,7 +125,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 57,
+      "entry_count": 69,
       "creator": "LinustheBold",
       "is_shared": true,
       "cv_status": "FULL_CV"
@@ -250,7 +231,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 84,
+      "entry_count": 85,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -304,7 +285,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 44,
+      "entry_count": 45,
       "creator": "Carenard",
       "required_play": true,
       "is_shared": true,
@@ -328,6 +309,40 @@
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
+    },
+    {
+      "id": "yXEsk",
+      "name": "Medieval Crafter: Blacksmith",
+      "points": 12,
+      "copies": 1,
+      "app_id": 2331280,
+      "package_id": null,
+      "link": "yXEsk/medieval-crafter-blacksmith",
+      "created_timestamp": 1771921440,
+      "start_timestamp": 1771921440,
+      "end_timestamp": 1772370000,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 1,
+      "creator": "doubleomurfy",
+      "cv_status": "FULL_CV"
+    },
+    {
+      "id": "iZYSF",
+      "name": "Smalland: Survive the Wilds",
+      "points": 35,
+      "copies": 1,
+      "app_id": 768200,
+      "package_id": null,
+      "link": "iZYSF/smalland-survive-the-wilds",
+      "created_timestamp": 1771921361,
+      "start_timestamp": 1771921361,
+      "end_timestamp": 1772370000,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 0,
+      "creator": "doubleomurfy",
+      "cv_status": "FULL_CV"
     },
     {
       "id": "2osK6",
@@ -359,7 +374,7 @@
       "end_timestamp": 1772403420,
       "group": true,
       "comment_count": 0,
-      "entry_count": 0,
+      "entry_count": 1,
       "creator": "Patxxv",
       "is_shared": true,
       "cv_status": "NO_CV"
@@ -382,6 +397,33 @@
       "cv_status": "FULL_CV"
     },
     {
+      "id": "lO2AI",
+      "name": "Golf Club Nostalgia",
+      "points": 10,
+      "copies": 1,
+      "app_id": 1556870,
+      "package_id": null,
+      "link": "lO2AI/golf-club-nostalgia",
+      "created_timestamp": 1771285955,
+      "start_timestamp": 1771285955,
+      "end_timestamp": 1771905600,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 68,
+      "creator": "lockcjwen",
+      "is_shared": true,
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "REDUCED_CV",
+      "deleted": false
+    },
+    {
       "id": "FqYeC",
       "name": "Icewind Dale: Enhanced Edition",
       "points": 20,
@@ -395,7 +437,7 @@
       "region_restricted": true,
       "whitelist": true,
       "group": true,
-      "comment_count": 1,
+      "comment_count": 2,
       "entry_count": 18,
       "creator": "mourinhos86",
       "is_shared": true,
@@ -420,19 +462,18 @@
       "start_timestamp": 1771445519,
       "end_timestamp": 1771881060,
       "group": true,
-      "comment_count": 0,
+      "comment_count": 1,
       "entry_count": 3,
       "creator": "Patxxv",
       "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "GateroTD",
+          "status": "received"
         }
       ],
-      "cv_status": "NO_CV",
-      "deleted": false
+      "cv_status": "NO_CV"
     },
     {
       "id": "FiAIF",
