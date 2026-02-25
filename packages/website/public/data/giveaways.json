@@ -1,43 +1,6 @@
 {
-  "last_updated": "2026-02-25T03:03:08.285Z",
+  "last_updated": "2026-02-25T09:12:44.669Z",
   "giveaways": [
-    {
-      "id": "Olg30",
-      "name": "Dungeon Tycoon",
-      "points": 15,
-      "copies": 1,
-      "app_id": 2400770,
-      "package_id": null,
-      "link": "Olg30/dungeon-tycoon",
-      "created_timestamp": 1771376438,
-      "start_timestamp": 1771376438,
-      "end_timestamp": 1771992000,
-      "whitelist": true,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 41,
-      "creator": "lockcjwen",
-      "is_shared": true,
-      "cv_status": "REDUCED_CV"
-    },
-    {
-      "id": "syQU2",
-      "name": "Rogue Legacy 2",
-      "points": 25,
-      "copies": 1,
-      "app_id": 1253920,
-      "package_id": null,
-      "link": "syQU2/rogue-legacy-2",
-      "created_timestamp": 1771154942,
-      "start_timestamp": 1771154942,
-      "end_timestamp": 1772006400,
-      "region_restricted": true,
-      "group": true,
-      "comment_count": 1,
-      "entry_count": 21,
-      "creator": "Gooberdragon",
-      "cv_status": "FULL_CV"
-    },
     {
       "id": "3KIdG",
       "name": "SIGNALIS",
@@ -70,7 +33,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 30,
+      "entry_count": 32,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -106,7 +69,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 53,
+      "entry_count": 54,
       "creator": "MrOuiOui",
       "is_shared": true,
       "cv_status": "FULL_CV"
@@ -125,7 +88,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 96,
+      "entry_count": 100,
       "creator": "LinustheBold",
       "is_shared": true,
       "cv_status": "FULL_CV"
@@ -248,7 +211,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 88,
+      "entry_count": 89,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -322,7 +285,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 51,
+      "entry_count": 52,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -412,6 +375,59 @@
       "entry_count": 13,
       "creator": "Patxxv",
       "cv_status": "FULL_CV"
+    },
+    {
+      "id": "syQU2",
+      "name": "Rogue Legacy 2",
+      "points": 25,
+      "copies": 1,
+      "app_id": 1253920,
+      "package_id": null,
+      "link": "syQU2/rogue-legacy-2",
+      "created_timestamp": 1771154942,
+      "start_timestamp": 1771154942,
+      "end_timestamp": 1772006400,
+      "region_restricted": true,
+      "group": true,
+      "comment_count": 1,
+      "entry_count": 21,
+      "creator": "Gooberdragon",
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "FULL_CV",
+      "deleted": false
+    },
+    {
+      "id": "Olg30",
+      "name": "Dungeon Tycoon",
+      "points": 15,
+      "copies": 1,
+      "app_id": 2400770,
+      "package_id": null,
+      "link": "Olg30/dungeon-tycoon",
+      "created_timestamp": 1771376438,
+      "start_timestamp": 1771376438,
+      "end_timestamp": 1771992000,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 42,
+      "creator": "lockcjwen",
+      "is_shared": true,
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "REDUCED_CV",
+      "deleted": false
     },
     {
       "id": "lO2AI",
@@ -2649,7 +2665,7 @@
       "start_timestamp": 1769772192,
       "end_timestamp": 1770422400,
       "group": true,
-      "comment_count": 4,
+      "comment_count": 5,
       "entry_count": 8,
       "creator": "vlbastos",
       "hasWinners": true,

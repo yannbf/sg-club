@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1771989457947,
+  "lastUpdated": 1772010912561,
   "users": {
     "a10i": {
       "username": "a10i",
@@ -17359,10 +17359,10 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1771921440,
         "last_giveaway_won_at": 1771448400,
-        "total_achievements_percentage": 20,
-        "average_achievements_percentage": 28,
-        "real_total_achievements_percentage": 20,
-        "real_average_achievements_percentage": 28,
+        "total_achievements_percentage": 19,
+        "average_achievements_percentage": 27,
+        "real_total_achievements_percentage": 19,
+        "real_average_achievements_percentage": 27,
         "has_missing_achievements_data": true
       },
       "steam_id": "76561198041749780",
@@ -24551,7 +24551,15 @@
           "created_timestamp": 1771154942,
           "end_timestamp": 1772006400,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "Sea of Stars",
@@ -39455,7 +39463,7 @@
           "name": "Mech Armada",
           "link": "Tu6WT/mech-armada",
           "cv_status": "FULL_CV",
-          "entries": 96,
+          "entries": 100,
           "copies": 1,
           "created_timestamp": 1771874144,
           "end_timestamp": 1772136840,
@@ -40404,21 +40412,10 @@
       ],
       "giveaways_created": [
         {
-          "name": "Dungeon Tycoon",
-          "link": "Olg30/dungeon-tycoon",
-          "cv_status": "REDUCED_CV",
-          "entries": 41,
-          "copies": 1,
-          "created_timestamp": 1771376438,
-          "end_timestamp": 1771992000,
-          "required_play": false,
-          "is_shared": true
-        },
-        {
           "name": "TOEM: A Photo Adventure",
           "link": "Qkq8X/toem-a-photo-adventure",
           "cv_status": "REDUCED_CV",
-          "entries": 30,
+          "entries": 32,
           "copies": 1,
           "created_timestamp": 1771460104,
           "end_timestamp": 1772078400,
@@ -40440,7 +40437,7 @@
           "name": "If My Heart Had Wings -Flight Diary-",
           "link": "vxrkB/if-my-heart-had-wings-flight-diary",
           "cv_status": "REDUCED_CV",
-          "entries": 88,
+          "entries": 89,
           "copies": 1,
           "created_timestamp": 1771654755,
           "end_timestamp": 1772251200,
@@ -40451,12 +40448,31 @@
           "name": "Teacup",
           "link": "8Gz4J/teacup",
           "cv_status": "REDUCED_CV",
-          "entries": 51,
+          "entries": 52,
           "copies": 1,
           "created_timestamp": 1771726131,
           "end_timestamp": 1772337600,
           "required_play": false,
           "is_shared": true
+        },
+        {
+          "name": "Dungeon Tycoon",
+          "link": "Olg30/dungeon-tycoon",
+          "cv_status": "REDUCED_CV",
+          "entries": 42,
+          "copies": 1,
+          "created_timestamp": 1771376438,
+          "end_timestamp": 1771992000,
+          "required_play": false,
+          "is_shared": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "Golf Club Nostalgia",
@@ -49488,7 +49504,7 @@
           "name": "Midnight Ramen",
           "link": "GYrMh/midnight-ramen",
           "cv_status": "FULL_CV",
-          "entries": 53,
+          "entries": 54,
           "copies": 1,
           "created_timestamp": 1771247625,
           "end_timestamp": 1772115120,
@@ -80219,7 +80235,7 @@
         "total_achievements_percentage": 73,
         "average_achievements_percentage": 77,
         "real_total_achievements_percentage": 72,
-        "real_average_achievements_percentage": 75,
+        "real_average_achievements_percentage": 76,
         "has_missing_achievements_data": false
       },
       "steam_id": "76561198352113526",
