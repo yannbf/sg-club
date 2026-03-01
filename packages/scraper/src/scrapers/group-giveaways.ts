@@ -49,7 +49,7 @@ export class SteamGiftsHTMLScraper {
   private readonly baseUrl = 'https://www.steamgifts.com'
   private readonly startUrl = '/group/WlYTQ/thegiveawaysclub'
   private readonly cookie =
-    'PHPSESSID=91ic94969ca1030jaons7142nq852vmq9mfvis7lbqi35i7i'
+    'PHPSESSID=1u7dac9qmd8l88ei5mbsfboogrdg5991pklmivugp1hjupjt'
   private readonly bundleGamesUrl =
     'https://www.steamgifts.com/bundle-games/search' as const
   // Change this for debugging purposes whenever needed
@@ -386,8 +386,7 @@ export class SteamGiftsHTMLScraper {
       // Both timestamps exist, check if no_value_timestamp is earlier than compareTimestamp
       if (bundleGame.no_value_timestamp! < compareTimestamp) {
         console.log(
-          `0️⃣ ${giveaway.name} -> NO_CV (no value timestamp earlier than ${
-            useEndTimestamp ? 'end' : 'creation'
+          `0️⃣ ${giveaway.name} -> NO_CV (no value timestamp earlier than ${useEndTimestamp ? 'end' : 'creation'
           })`
         )
         return 'NO_CV'
@@ -398,10 +397,8 @@ export class SteamGiftsHTMLScraper {
       // Only reduced timestamp exists, check if it's earlier than compareTimestamp
       if (bundleGame.reduced_value_timestamp! < compareTimestamp) {
         console.log(
-          `⚠️  ${
-            giveaway.name
-          } -> REDUCED_CV (reduced value timestamp earlier than ${
-            useEndTimestamp ? 'end' : 'creation'
+          `⚠️  ${giveaway.name
+          } -> REDUCED_CV (reduced value timestamp earlier than ${useEndTimestamp ? 'end' : 'creation'
           })`
         )
         return 'REDUCED_CV'
@@ -763,9 +760,9 @@ export class SteamGiftsHTMLScraper {
           }),
           ...(timeText.startsWith('Ended')
             ? {
-                hasWinners,
-                winners,
-              }
+              hasWinners,
+              winners,
+            }
             : {}),
         }
 
@@ -907,8 +904,7 @@ export class SteamGiftsHTMLScraper {
           const eightWeeksAgo = currentTimestamp - 8 * 7 * 24 * 60 * 60 // 56 days in seconds
           if (!unlimitedMode && giveaway.end_timestamp < eightWeeksAgo) {
             console.log(
-              `⏰ Reached cutoff point: giveaway "${
-                giveaway.name
+              `⏰ Reached cutoff point: giveaway "${giveaway.name
               }" ended over 2 weeks ago at ${new Date(
                 giveaway.end_timestamp * 1000
               ).toLocaleString()}`
@@ -970,8 +966,7 @@ export class SteamGiftsHTMLScraper {
       // Log the update summary
       console.log(`\n📊 Update Summary:`)
       console.log(
-        `  • Total giveaways updated: ${
-          newGiveawaysCount + updatedGiveawaysCount
+        `  • Total giveaways updated: ${newGiveawaysCount + updatedGiveawaysCount
         } out of ${sortedGiveaways.length}`
       )
       console.log(`  • New giveaways added: ${newGiveawaysCount}`)
@@ -991,8 +986,7 @@ export class SteamGiftsHTMLScraper {
     isWonGiveaways: boolean = false
   ): Promise<Giveaway[]> {
     console.log(
-      `\n🎯 Starting CV status update for ${giveaways.length} ${
-        isWonGiveaways ? 'won ' : ''
+      `\n🎯 Starting CV status update for ${giveaways.length} ${isWonGiveaways ? 'won ' : ''
       }giveaways...`
     )
 
@@ -1036,8 +1030,7 @@ export class SteamGiftsHTMLScraper {
     console.log(`  • Processed: ${processedCount}`)
     console.log(`  • Cache hits: ${cacheHits}`)
     console.log(
-      `  • Skipped (already had CV status): ${
-        giveaways.length - processedCount - cacheHits
+      `  • Skipped (already had CV status): ${giveaways.length - processedCount - cacheHits
       }`
     )
     console.log(`  • Total cached bundle games: ${this.bundleGameCache.size}`)
