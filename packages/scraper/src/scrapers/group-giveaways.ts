@@ -475,6 +475,12 @@ export class SteamGiftsHTMLScraper {
   private extractDataFromDetailedGiveawayPage(
     html: string,
   ): Partial<SchemaOrgEvent> | null {
+    if (html.includes('You do not have permission to view this giveaway')) {
+      throw new Error(
+        'Access denied to giveaway details page. This may be due to rate limiting or expired cookie.',
+      )
+    }
+
     const $ = load(html)
     const scriptTags = $('script[type="application/ld+json"]')
 
