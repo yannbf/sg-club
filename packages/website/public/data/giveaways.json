@@ -1,43 +1,6 @@
 {
-  "last_updated": "2026-03-05T09:49:49.017Z",
+  "last_updated": "2026-03-05T15:27:43.362Z",
   "giveaways": [
-    {
-      "id": "aj0hb",
-      "name": "Storyteller",
-      "points": 15,
-      "copies": 1,
-      "app_id": 1624540,
-      "package_id": null,
-      "link": "aj0hb/storyteller",
-      "created_timestamp": 1772364715,
-      "start_timestamp": 1772364715,
-      "end_timestamp": 1772713500,
-      "region_restricted": true,
-      "group": true,
-      "comment_count": 1,
-      "entry_count": 17,
-      "creator": "damianea103",
-      "event_type": "march_event_2026",
-      "cv_status": "FULL_CV"
-    },
-    {
-      "id": "xEKmx",
-      "name": "Mindcop",
-      "points": 15,
-      "copies": 1,
-      "app_id": 1517180,
-      "package_id": null,
-      "link": "xEKmx/mindcop",
-      "created_timestamp": 1772375130,
-      "start_timestamp": 1772375130,
-      "end_timestamp": 1772722800,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 6,
-      "creator": "MrOuiOui",
-      "event_type": "march_event_2026",
-      "cv_status": "FULL_CV"
-    },
     {
       "id": "yRluR",
       "name": "Lorelei and the Laser Eyes",
@@ -51,7 +14,7 @@
       "end_timestamp": 1772737200,
       "group": true,
       "comment_count": 1,
-      "entry_count": 25,
+      "entry_count": 28,
       "creator": "BorjaGRouco",
       "event_type": "march_event_2026",
       "cv_status": "FULL_CV"
@@ -70,7 +33,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 18,
+      "entry_count": 17,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -123,7 +86,7 @@
       "end_timestamp": 1772787600,
       "group": true,
       "comment_count": 0,
-      "entry_count": 6,
+      "entry_count": 7,
       "creator": "CuteEnby",
       "event_type": "march_event_2026",
       "cv_status": "FULL_CV"
@@ -142,7 +105,7 @@
       "region_restricted": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 18,
+      "entry_count": 19,
       "creator": "Lontaz",
       "event_type": "march_event_2026",
       "cv_status": "FULL_CV"
@@ -161,7 +124,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 83,
+      "entry_count": 84,
       "creator": "Lontaz",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -180,7 +143,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 31,
+      "entry_count": 32,
       "creator": "Lontaz",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -199,7 +162,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 86,
+      "entry_count": 87,
       "creator": "Lontaz",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -509,10 +472,29 @@
       "end_timestamp": 1773018000,
       "group": true,
       "comment_count": 0,
-      "entry_count": 5,
+      "entry_count": 4,
       "creator": "RGVS",
       "event_type": "march_event_2026",
       "cv_status": "FULL_CV"
+    },
+    {
+      "id": "SJLRj",
+      "name": "Space Crew: Legendary Edition",
+      "points": 16,
+      "copies": 1,
+      "app_id": 1176710,
+      "package_id": null,
+      "link": "SJLRj/space-crew-legendary-edition",
+      "created_timestamp": 1772710411,
+      "start_timestamp": 1772710411,
+      "end_timestamp": 1773057600,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 1,
+      "creator": "TexWilleri",
+      "is_shared": true,
+      "cv_status": "REDUCED_CV"
     },
     {
       "id": "tVIMH",
@@ -676,7 +658,7 @@
       "end_timestamp": 1773475200,
       "region_restricted": true,
       "group": true,
-      "comment_count": 0,
+      "comment_count": 2,
       "entry_count": 15,
       "creator": "Gooberdragon",
       "cv_status": "FULL_CV"
@@ -714,6 +696,58 @@
       "comment_count": 0,
       "entry_count": 16,
       "creator": "DrTenma",
+      "cv_status": "FULL_CV"
+    },
+    {
+      "id": "xEKmx",
+      "name": "Mindcop",
+      "points": 15,
+      "copies": 1,
+      "app_id": 1517180,
+      "package_id": null,
+      "link": "xEKmx/mindcop",
+      "created_timestamp": 1772375130,
+      "start_timestamp": 1772375130,
+      "end_timestamp": 1772722800,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 6,
+      "creator": "MrOuiOui",
+      "event_type": "march_event_2026",
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "FULL_CV",
+      "deleted": false
+    },
+    {
+      "id": "aj0hb",
+      "name": "Storyteller",
+      "points": 15,
+      "copies": 1,
+      "app_id": 1624540,
+      "package_id": null,
+      "link": "aj0hb/storyteller",
+      "created_timestamp": 1772364715,
+      "start_timestamp": 1772364715,
+      "end_timestamp": 1772713500,
+      "region_restricted": true,
+      "group": true,
+      "comment_count": 2,
+      "entry_count": 18,
+      "creator": "damianea103",
+      "event_type": "march_event_2026",
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": "PoeticKatana",
+          "status": "received"
+        }
+      ],
       "cv_status": "FULL_CV"
     },
     {
@@ -1148,7 +1182,7 @@
       "end_timestamp": 1772481960,
       "region_restricted": true,
       "group": true,
-      "comment_count": 3,
+      "comment_count": 4,
       "entry_count": 26,
       "creator": "snbac",
       "hasWinners": true,
@@ -1530,7 +1564,7 @@
       "region_restricted": true,
       "whitelist": true,
       "group": true,
-      "comment_count": 0,
+      "comment_count": 1,
       "entry_count": 44,
       "creator": "Carenard",
       "required_play": true,
@@ -1538,12 +1572,11 @@
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "Strzmn",
+          "status": "received"
         }
       ],
-      "cv_status": "REDUCED_CV",
-      "deleted": false
+      "cv_status": "REDUCED_CV"
     },
     {
       "id": "tixxK",
@@ -9697,7 +9730,8 @@
           "status": "received"
         }
       ],
-      "cv_status": "FULL_CV"
+      "cv_status": "FULL_CV",
+      "required_play": true
     },
     {
       "id": "vQE7E",
@@ -12527,7 +12561,8 @@
           "status": "received"
         }
       ],
-      "cv_status": "FULL_CV"
+      "cv_status": "FULL_CV",
+      "required_play": true
     },
     {
       "id": "aGeHO",
@@ -13215,7 +13250,8 @@
           "status": "received"
         }
       ],
-      "cv_status": "FULL_CV"
+      "cv_status": "FULL_CV",
+      "required_play": true
     },
     {
       "id": "MnxFb",
