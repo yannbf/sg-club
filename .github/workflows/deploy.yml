@@ -14,6 +14,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       STEAM_API_KEY: ${{ secrets.STEAM_API_KEY }}
+      SG_TOKEN: ${{ secrets.SG_TOKEN }}
+      SG_COOKIE: ${{ secrets.SG_COOKIE }}
 
     steps:
       - name: Checkout repository
@@ -52,6 +54,8 @@ jobs:
     needs: website-data
     env:
       STEAM_API_KEY: ${{ secrets.STEAM_API_KEY }}
+      SG_TOKEN: ${{ secrets.SG_TOKEN }}
+      SG_COOKIE: ${{ secrets.SG_COOKIE }}
 
     steps:
       - name: Checkout repository

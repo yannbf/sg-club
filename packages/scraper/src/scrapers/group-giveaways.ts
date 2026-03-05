@@ -48,8 +48,6 @@ interface GiveawayDetailedInfo {
 export class SteamGiftsHTMLScraper {
   private readonly baseUrl = 'https://www.steamgifts.com'
   private readonly startUrl = '/group/WlYTQ/thegiveawaysclub'
-  private readonly cookie =
-    'PHPSESSID=1u7dac9qmd8l88ei5mbsfboogrdg5991pklmivugp1hjupjt'
   private readonly bundleGamesUrl =
     'https://www.steamgifts.com/bundle-games/search' as const
   // Change this for debugging purposes whenever needed
@@ -63,21 +61,31 @@ export class SteamGiftsHTMLScraper {
     this.pageLimit = pageLimit
   }
 
+  private buildSteamGiftsHeaders(
+    useCookie: boolean = false,
+  ): Record<string, string> {
+    const cookie = process.env.SG_COOKIE
+    const accessToken = process.env.SG_TOKEN
+
+    return {
+      ...(useCookie && cookie ? { Cookie: cookie } : {}),
+      ...(accessToken ? { 'X-Access-Token': accessToken } : {}),
+      'User-Agent':
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
+    }
+  }
+
   public async fetchPage(
     path: string,
     useCookie: boolean = false,
-    retryCount: number = 0
+    retryCount: number = 0,
   ): Promise<string> {
     const url = this.baseUrl + path
     console.log(`📄 Fetching: ${url}`)
 
     const response = await fetch(url, {
       method: 'GET',
-      headers: {
-        Cookie: useCookie ? this.cookie : '',
-        'User-Agent':
-          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
-      },
+      headers: this.buildSteamGiftsHeaders(useCookie),
     })
 
     if (!response.ok) {
@@ -142,7 +150,7 @@ export class SteamGiftsHTMLScraper {
   }
 
   async fetchDetailedEntries(
-    giveawayPath: string
+    giveawayPath: string,
   ): Promise<Array<{ username: string; joined_at: string }>> {
     const entriesPath = `/giveaway/${giveawayPath}/entries`
     // username
@@ -228,7 +236,7 @@ export class SteamGiftsHTMLScraper {
   }
 
   private parseEntriesPage(
-    html: string
+    html: string,
   ): Array<{ username: string; joined_at: string }> {
     const $ = load(html)
     const entries: Array<{ username: string; joined_at: string }> = []
@@ -253,11 +261,7 @@ export class SteamGiftsHTMLScraper {
 
     const response = await fetch(url, {
       method: 'GET',
-      headers: {
-        Cookie: this.cookie,
-        'User-Agent':
-          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
-      },
+      headers: this.buildSteamGiftsHeaders(true),
     })
 
     if (!response.ok) {
@@ -271,7 +275,7 @@ export class SteamGiftsHTMLScraper {
   }
 
   private async fetchBundleGamesByName(
-    gameName: string
+    gameName: string,
   ): Promise<BundleGamesResponse> {
     const url = new URL(this.bundleGamesUrl)
     url.searchParams.set('q', gameName)
@@ -279,11 +283,7 @@ export class SteamGiftsHTMLScraper {
 
     const response = await fetch(url, {
       method: 'GET',
-      headers: {
-        Cookie: this.cookie,
-        'User-Agent':
-          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
-      },
+      headers: this.buildSteamGiftsHeaders(true),
     })
 
     if (!response.ok) {
@@ -298,7 +298,7 @@ export class SteamGiftsHTMLScraper {
 
   private async getCVStatus(
     giveaway: Giveaway,
-    useEndTimestamp: boolean = false
+    useEndTimestamp: boolean = false,
   ): Promise<CVStatus> {
     // Determine cache key - use app_id if available, otherwise use game name
     const cacheKey = giveaway.app_id || giveaway.name
@@ -308,14 +308,14 @@ export class SteamGiftsHTMLScraper {
     if (this.bundleGameCache.has(cacheKey)) {
       const bundleGame = this.bundleGameCache.get(cacheKey)!
       console.log(
-        `💾 Cache hit for ${giveaway.name} (${searchBy}: ${cacheKey})`
+        `💾 Cache hit for ${giveaway.name} (${searchBy}: ${cacheKey})`,
       )
       return this.calculateCVStatus(giveaway, bundleGame, useEndTimestamp)
     }
 
     try {
       console.log(
-        `🔍 Fetching CV data for: ${giveaway.name} (${searchBy}: ${cacheKey})`
+        `🔍 Fetching CV data for: ${giveaway.name} (${searchBy}: ${cacheKey})`,
       )
 
       // Fetch bundle game data
@@ -337,13 +337,13 @@ export class SteamGiftsHTMLScraper {
       const bundleGame = bundleData.results.find((game: BundleGame) =>
         giveaway.app_id
           ? game.app_id === giveaway.app_id
-          : game.name.toLowerCase() === giveaway.name.toLowerCase()
+          : game.name.toLowerCase() === giveaway.name.toLowerCase(),
       )
 
       if (!bundleGame) {
         // Game not found in bundle games = FULL_CV
         console.log(
-          `✅ ${giveaway.name} -> FULL_CV (${searchBy} not found in bundle games)`
+          `✅ ${giveaway.name} -> FULL_CV (${searchBy} not found in bundle games)`,
         )
         this.bundleGameCache.set(cacheKey, null)
         return 'FULL_CV'
@@ -367,7 +367,7 @@ export class SteamGiftsHTMLScraper {
   private calculateCVStatus(
     giveaway: Giveaway,
     bundleGame: BundleGame | null,
-    useEndTimestamp: boolean = false
+    useEndTimestamp: boolean = false,
   ): CVStatus {
     if (!bundleGame) {
       return 'FULL_CV'
@@ -386,8 +386,9 @@ export class SteamGiftsHTMLScraper {
       // Both timestamps exist, check if no_value_timestamp is earlier than compareTimestamp
       if (bundleGame.no_value_timestamp! < compareTimestamp) {
         console.log(
-          `0️⃣ ${giveaway.name} -> NO_CV (no value timestamp earlier than ${useEndTimestamp ? 'end' : 'creation'
-          })`
+          `0️⃣ ${giveaway.name} -> NO_CV (no value timestamp earlier than ${
+            useEndTimestamp ? 'end' : 'creation'
+          })`,
         )
         return 'NO_CV'
       }
@@ -397,9 +398,11 @@ export class SteamGiftsHTMLScraper {
       // Only reduced timestamp exists, check if it's earlier than compareTimestamp
       if (bundleGame.reduced_value_timestamp! < compareTimestamp) {
         console.log(
-          `⚠️  ${giveaway.name
-          } -> REDUCED_CV (reduced value timestamp earlier than ${useEndTimestamp ? 'end' : 'creation'
-          })`
+          `⚠️  ${
+            giveaway.name
+          } -> REDUCED_CV (reduced value timestamp earlier than ${
+            useEndTimestamp ? 'end' : 'creation'
+          })`,
         )
         return 'REDUCED_CV'
       }
@@ -411,7 +414,7 @@ export class SteamGiftsHTMLScraper {
   }
 
   private async parseGiveawayDetails(
-    html: string
+    html: string,
   ): Promise<GiveawayDetailedInfo> {
     const $ = load(html)
 
@@ -470,7 +473,7 @@ export class SteamGiftsHTMLScraper {
   }
 
   private extractDataFromDetailedGiveawayPage(
-    html: string
+    html: string,
   ): Partial<SchemaOrgEvent> | null {
     const $ = load(html)
     const scriptTags = $('script[type="application/ld+json"]')
@@ -508,7 +511,7 @@ export class SteamGiftsHTMLScraper {
 
     // Get existing giveaways map for quick lookup
     const existingGiveaways = this.loadExistingGiveaways(
-      '../website/public/data/giveaways.json'
+      '../website/public/data/giveaways.json',
     )
 
     for (let i = 0; i < giveawayElements.length; i++) {
@@ -562,7 +565,7 @@ export class SteamGiftsHTMLScraper {
         const $createdSpan = $columns.find('.giveaway__column--width-fill span')
         const created_timestamp = parseInt(
           $createdSpan.attr('data-timestamp') || '0',
-          10
+          10,
         )
 
         let end_timestamp, start_timestamp
@@ -572,7 +575,7 @@ export class SteamGiftsHTMLScraper {
         if (timeText.includes('Begins in')) {
           start_timestamp = parseInt(
             $startOrEndSpan.attr('data-timestamp')!,
-            10
+            10,
           )
         } else {
           end_timestamp = parseInt($startOrEndSpan.attr('data-timestamp')!, 10)
@@ -583,7 +586,7 @@ export class SteamGiftsHTMLScraper {
         const creator = $columns.find('.giveaway__username').text().trim()
 
         const region_restricted = !!$columns.find(
-          '.giveaway__column--region-restricted'
+          '.giveaway__column--region-restricted',
         ).length
         const whitelist = !!$columns.find('.giveaway__column--whitelist').length
         const invite_only = !!$columns.find('.giveaway__column--invite-only')
@@ -617,14 +620,14 @@ export class SteamGiftsHTMLScraper {
           if (needsDetailedWinners && link) {
             try {
               console.log(
-                `🔍 Fetching detailed winners for: ${name} (${copies} copies)`
+                `🔍 Fetching detailed winners for: ${name} (${copies} copies)`,
               )
               winners = await this.fetchDetailedWinners(link)
               hasWinners = winners.length > 0
             } catch (error) {
               console.warn(
                 `⚠️  Failed to fetch detailed winners for ${name}:`,
-                error
+                error,
               )
               // Fall back to basic parsing
             }
@@ -760,9 +763,9 @@ export class SteamGiftsHTMLScraper {
           }),
           ...(timeText.startsWith('Ended')
             ? {
-              hasWinners,
-              winners,
-            }
+                hasWinners,
+                winners,
+              }
             : {}),
         }
 
@@ -828,7 +831,7 @@ export class SteamGiftsHTMLScraper {
   }
 
   public async scrapeGiveaways(
-    filename: string = '../website/public/data/giveaways.json'
+    filename: string = '../website/public/data/giveaways.json',
   ): Promise<Giveaway[]> {
     try {
       // Load existing giveaways
@@ -841,7 +844,7 @@ export class SteamGiftsHTMLScraper {
       console.log(
         unlimitedMode
           ? `🚀 Scraping ALL giveaways (unlimited mode - until last page)...`
-          : `🚀 Scraping new giveaways (stopping when we reach ended giveaways)...`
+          : `🚀 Scraping new giveaways (stopping when we reach ended giveaways)...`,
       )
 
       // Log page limit if set
@@ -872,7 +875,7 @@ export class SteamGiftsHTMLScraper {
           const contentHash = this.hashContent(html)
           if (seenPageContent.has(contentHash)) {
             console.log(
-              `🔄 Detected duplicate page content - reached last page`
+              `🔄 Detected duplicate page content - reached last page`,
             )
             break
           }
@@ -904,10 +907,11 @@ export class SteamGiftsHTMLScraper {
           const eightWeeksAgo = currentTimestamp - 8 * 7 * 24 * 60 * 60 // 56 days in seconds
           if (!unlimitedMode && giveaway.end_timestamp < eightWeeksAgo) {
             console.log(
-              `⏰ Reached cutoff point: giveaway "${giveaway.name
+              `⏰ Reached cutoff point: giveaway "${
+                giveaway.name
               }" ended over 2 weeks ago at ${new Date(
-                giveaway.end_timestamp * 1000
-              ).toLocaleString()}`
+                giveaway.end_timestamp * 1000,
+              ).toLocaleString()}`,
             )
             shouldContinue = false
             break
@@ -951,7 +955,7 @@ export class SteamGiftsHTMLScraper {
         updatedGiveaways: updatedGiveawaysCount,
         pagesFetched,
         oldestDate: new Date(
-          sortedGiveaways[sortedGiveaways.length - 1]?.created_timestamp * 1000
+          sortedGiveaways[sortedGiveaways.length - 1]?.created_timestamp * 1000,
         ),
         newestDate: new Date(sortedGiveaways[0]?.created_timestamp * 1000),
       }
@@ -960,14 +964,15 @@ export class SteamGiftsHTMLScraper {
         stats,
         unlimitedMode,
         activeGiveaways.length,
-        endedGiveaways.length
+        endedGiveaways.length,
       )
 
       // Log the update summary
       console.log(`\n📊 Update Summary:`)
       console.log(
-        `  • Total giveaways updated: ${newGiveawaysCount + updatedGiveawaysCount
-        } out of ${sortedGiveaways.length}`
+        `  • Total giveaways updated: ${
+          newGiveawaysCount + updatedGiveawaysCount
+        } out of ${sortedGiveaways.length}`,
       )
       console.log(`  • New giveaways added: ${newGiveawaysCount}`)
       console.log(`  • Existing giveaways updated: ${updatedGiveawaysCount}`)
@@ -983,11 +988,12 @@ export class SteamGiftsHTMLScraper {
 
   public async updateCVStatus(
     giveaways: Giveaway[],
-    isWonGiveaways: boolean = false
+    isWonGiveaways: boolean = false,
   ): Promise<Giveaway[]> {
     console.log(
-      `\n🎯 Starting CV status update for ${giveaways.length} ${isWonGiveaways ? 'won ' : ''
-      }giveaways...`
+      `\n🎯 Starting CV status update for ${giveaways.length} ${
+        isWonGiveaways ? 'won ' : ''
+      }giveaways...`,
     )
 
     let processedCount = 0
@@ -1006,11 +1012,11 @@ export class SteamGiftsHTMLScraper {
         giveaway.cv_status = this.calculateCVStatus(
           giveaway,
           bundleGame,
-          isWonGiveaways
+          isWonGiveaways,
         )
         cacheHits++
         console.log(
-          `💾 Cache hit for ${giveaway.name} -> ${giveaway.cv_status}`
+          `💾 Cache hit for ${giveaway.name} -> ${giveaway.cv_status}`,
         )
         continue
       }
@@ -1030,8 +1036,9 @@ export class SteamGiftsHTMLScraper {
     console.log(`  • Processed: ${processedCount}`)
     console.log(`  • Cache hits: ${cacheHits}`)
     console.log(
-      `  • Skipped (already had CV status): ${giveaways.length - processedCount - cacheHits
-      }`
+      `  • Skipped (already had CV status): ${
+        giveaways.length - processedCount - cacheHits
+      }`,
     )
     console.log(`  • Total cached bundle games: ${this.bundleGameCache.size}`)
 
@@ -1064,7 +1071,7 @@ export class SteamGiftsHTMLScraper {
     stats: ScrapingStats,
     unlimitedMode: boolean,
     activeCount: number = 0,
-    endedCount: number = 0
+    endedCount: number = 0,
   ): void {
     console.log(`\n📊 Scraping Summary:`)
     console.log(`  • Total giveaways: ${stats.totalGiveaways}`)
@@ -1074,7 +1081,7 @@ export class SteamGiftsHTMLScraper {
     console.log(`  • Updated giveaways: ${stats.updatedGiveaways}`)
     console.log(`  • Pages fetched: ${stats.pagesFetched}`)
     console.log(
-      `  • Date range: ${stats.oldestDate.toLocaleString()} to ${stats.newestDate.toLocaleString()}`
+      `  • Date range: ${stats.oldestDate.toLocaleString()} to ${stats.newestDate.toLocaleString()}`,
     )
 
     if (unlimitedMode) {

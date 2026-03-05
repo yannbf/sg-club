@@ -21,19 +21,19 @@ const debug = (...args: any[]) => {
 }
 
 const GAME_DATA = JSON.parse(
-  readFileSync('../website/public/data/game_data.json', 'utf-8')
+  readFileSync('../website/public/data/game_data.json', 'utf-8'),
 ) as GamePrice[]
 let GIVEAWAY_DATA: Giveaway[] = []
 try {
   GIVEAWAY_DATA = JSON.parse(
-    readFileSync('../website/public/data/giveaways.json', 'utf-8')
+    readFileSync('../website/public/data/giveaways.json', 'utf-8'),
   ).giveaways as Giveaway[]
 } catch (error) {
   console.warn(`⚠️  Could not load giveaway file: ${error}`)
 }
 
 const USER_ENTRIES = JSON.parse(
-  readFileSync('../website/public/data/user_entries.json', 'utf-8')
+  readFileSync('../website/public/data/user_entries.json', 'utf-8'),
 ) as { [key: string]: { link: string; joined_at: number }[] }
 
 const IDLE_GAMES_WHITELIST = [
@@ -49,7 +49,7 @@ const getGameInfo = (link: string) => {
   const gameData = GAME_DATA.find(
     (g) =>
       (g.app_id && g.app_id === giveawayData?.app_id) ||
-      (g.package_id && g.package_id === giveawayData?.package_id)
+      (g.package_id && g.package_id === giveawayData?.package_id),
   )
   return gameData
 }
@@ -60,7 +60,7 @@ function calculateAchievementPercentages(giveaways: User['giveaways_won']) {
       g.steam_play_data?.achievements_percentage !== undefined &&
       g.steam_play_data?.achievements_percentage !== null &&
       g.steam_play_data?.achievements_unlocked !== undefined &&
-      g.steam_play_data?.achievements_total !== undefined
+      g.steam_play_data?.achievements_total !== undefined,
   )
 
   if (games.length === 0) {
@@ -70,7 +70,7 @@ function calculateAchievementPercentages(giveaways: User['giveaways_won']) {
   // Average percentage per game
   const sumPercentages = games.reduce(
     (acc, g) => acc + (g.steam_play_data?.achievements_percentage || 0),
-    0
+    0,
   )
   const averagePercentage = sumPercentages / games.length
 
@@ -81,7 +81,7 @@ function calculateAchievementPercentages(giveaways: User['giveaways_won']) {
       acc.totalPossible += g.steam_play_data?.achievements_total || 0
       return acc
     },
-    { totalEarned: 0, totalPossible: 0 }
+    { totalEarned: 0, totalPossible: 0 },
   )
   const totalPercentage =
     totalPossible > 0 ? (totalEarned / totalPossible) * 100 : 0
@@ -96,23 +96,29 @@ function calculateAchievementPercentages(giveaways: User['giveaways_won']) {
 export class SteamGiftsUserFetcher {
   private readonly baseUrl = 'https://www.steamgifts.com'
   private readonly startUrl = '/group/WlYTQ/thegiveawaysclub/users'
-  private readonly cookie =
-    'PHPSESSID=91ic94969ca1030jaons7142nq852vmq9mfvis7lbqi35i7i'
+
+  private buildSteamGiftsHeaders(): Record<string, string> {
+    const cookie = process.env.SG_COOKIE
+    const accessToken = process.env.SG_TOKEN
+
+    return {
+      ...(cookie ? { Cookie: cookie } : {}),
+      ...(accessToken ? { 'X-Access-Token': accessToken } : {}),
+      'User-Agent':
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
+    }
+  }
 
   private async fetchPage(
     path: string,
-    retryCount: number = 0
+    retryCount: number = 0,
   ): Promise<string> {
     const url = this.baseUrl + path
     console.log(`📄 Fetching: ${url}`)
 
     const response = await fetch(url, {
       method: 'GET',
-      headers: {
-        // Cookie: this.cookie,
-        'User-Agent':
-          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
-      },
+      headers: this.buildSteamGiftsHeaders(),
     })
 
     if (!response.ok) {
@@ -172,7 +178,7 @@ export class SteamGiftsUserFetcher {
           // Parse received data (e.g., "0.0 ($0.00)")
           const receivedText = $columns.eq(1).text().trim()
           const receivedMatch = receivedText.match(
-            /([0-9.]+)\s*\(\$([0-9.,]+)\)/
+            /([0-9.]+)\s*\(\$([0-9.,]+)\)/,
           )
           const total_received_count = receivedMatch
             ? parseFloat(receivedMatch[1])
@@ -254,7 +260,7 @@ export class SteamGiftsUserFetcher {
   }
 
   private async fetchUserSteamInfo(
-    user: User
+    user: User,
   ): Promise<{ steam_id: string | null; steam_profile_url: string | null }> {
     try {
       // const userProfileUrl = this.baseUrl + user.profile_url
@@ -301,7 +307,7 @@ export class SteamGiftsUserFetcher {
 
     if (!existsSync(giveawayFilename)) {
       console.log(
-        `⚠️  Giveaway file ${giveawayFilename} not found, skipping giveaway enrichment`
+        `⚠️  Giveaway file ${giveawayFilename} not found, skipping giveaway enrichment`,
       )
       return []
     }
@@ -319,7 +325,7 @@ export class SteamGiftsUserFetcher {
 
   public async calculateStats(
     user: User,
-    giveaways: Giveaway[]
+    giveaways: Giveaway[],
   ): Promise<UserGiveawaysStats> {
     const userStats: Omit<
       UserGiveawaysStats,
@@ -361,7 +367,7 @@ export class SteamGiftsUserFetcher {
 
     // Load game prices
     const gamePrices = JSON.parse(
-      readFileSync('../website/public/data/game_data.json', 'utf-8')
+      readFileSync('../website/public/data/game_data.json', 'utf-8'),
     ) as GamePrice[]
     const gamePriceMap = new Map<string, GamePrice>()
     for (const game of gamePrices) {
@@ -380,7 +386,7 @@ export class SteamGiftsUserFetcher {
       import('../api/fetch-proof-of-play').DecreasedRatioData[]
     >()
     const getDecreasedRatiosForGiveaway = async (
-      id: string
+      id: string,
     ): Promise<import('../api/fetch-proof-of-play').DecreasedRatioData[]> => {
       if (decreasedRatioCache.has(id)) return decreasedRatioCache.get(id) || []
       const rows = (await pointsManager.getDecreasedRatioById(id)) || []
@@ -391,7 +397,7 @@ export class SteamGiftsUserFetcher {
     // Count sent giveaways by CV status and calculate real values
     if (user.giveaways_created) {
       const giveawaysWithNoEntriesCount = user.giveaways_created.filter(
-        (giveaway) => 'had_winners' in giveaway && !giveaway.had_winners
+        (giveaway) => 'had_winners' in giveaway && !giveaway.had_winners,
       ).length
 
       userStats.giveaways_created = user.giveaways_created.length ?? 0
@@ -431,13 +437,13 @@ export class SteamGiftsUserFetcher {
             ? decreasedRatios.find(
                 (r) =>
                   r.winner.toLowerCase().trim() ===
-                  winner.name!.toLowerCase().trim()
+                  winner.name!.toLowerCase().trim(),
               )
             : undefined
 
           if (decreasedRatioMatch) {
             console.log(
-              `⚠️  Freebie ratio match found for ${createdGiveaway.name} and winner ${winner.name}: giftWeight: ${decreasedRatioMatch.giftWeight} winWeight: ${decreasedRatioMatch.winWeight}`
+              `⚠️  Freebie ratio match found for ${createdGiveaway.name} and winner ${winner.name}: giftWeight: ${decreasedRatioMatch.giftWeight} winWeight: ${decreasedRatioMatch.winWeight}`,
             )
           }
 
@@ -450,7 +456,7 @@ export class SteamGiftsUserFetcher {
               if (gamePrice) {
                 const finalValue = (gamePrice.price_usd_full / 100) * weight
                 debug(
-                  `Adding Full CV value for ${createdGiveaway.name}: ${finalValue}`
+                  `Adding Full CV value for ${createdGiveaway.name}: ${finalValue}`,
                 )
                 userStats.real_total_sent_value += Number(finalValue.toFixed(2))
               }
@@ -459,7 +465,7 @@ export class SteamGiftsUserFetcher {
               userStats.rcv_sent_count += weight
               if (gamePrice) {
                 userStats.real_total_sent_value += Number(
-                  ((gamePrice.price_usd_reduced / 100) * weight).toFixed(2)
+                  ((gamePrice.price_usd_reduced / 100) * weight).toFixed(2),
                 ) // Convert cents to dollars and round to 2 decimals
               }
               break
@@ -500,7 +506,8 @@ export class SteamGiftsUserFetcher {
         const decreasedRatios = await getDecreasedRatiosForGiveaway(giveawayId)
         const weightEntry = decreasedRatios.find(
           (r) =>
-            r.winner.toLowerCase().trim() === user.username.toLowerCase().trim()
+            r.winner.toLowerCase().trim() ===
+            user.username.toLowerCase().trim(),
         )
         const weight = Math.min(1, weightEntry?.winWeight || 1)
 
@@ -510,7 +517,7 @@ export class SteamGiftsUserFetcher {
             userStats.fcv_received_count += weight
             if (gamePrice) {
               userStats.real_total_received_value += Number(
-                ((gamePrice.price_usd_full / 100) * weight).toFixed(2)
+                ((gamePrice.price_usd_full / 100) * weight).toFixed(2),
               ) // Convert cents to dollars and round to 2 decimals
             }
             if (!wonGiveaway.i_played_bro) {
@@ -521,7 +528,7 @@ export class SteamGiftsUserFetcher {
             userStats.rcv_received_count += weight
             if (gamePrice) {
               userStats.real_total_received_value += Number(
-                ((gamePrice.price_usd_reduced / 100) * weight).toFixed(2)
+                ((gamePrice.price_usd_reduced / 100) * weight).toFixed(2),
               ) // Convert cents to dollars and round to 2 decimals
             }
             break
@@ -542,12 +549,12 @@ export class SteamGiftsUserFetcher {
     userStats.real_total_value_difference = Number(
       (
         userStats.real_total_sent_value - userStats.real_total_received_value
-      ).toFixed(2)
+      ).toFixed(2),
     )
     userStats.real_total_gift_difference = Number(
       (
         userStats.real_total_sent_count - userStats.real_total_received_count
-      ).toFixed(2)
+      ).toFixed(2),
     )
 
     // Round weighted stats to 2 decimals where applicable
@@ -560,18 +567,18 @@ export class SteamGiftsUserFetcher {
     userStats.ncv_received_count = round2(userStats.ncv_received_count)
     userStats.real_total_sent_count = round2(userStats.real_total_sent_count)
     userStats.real_total_received_count = round2(
-      userStats.real_total_received_count
+      userStats.real_total_received_count,
     )
     userStats.fcv_gift_difference = round2(userStats.fcv_gift_difference)
     userStats.real_total_sent_value = round2(userStats.real_total_sent_value)
     userStats.real_total_received_value = round2(
-      userStats.real_total_received_value
+      userStats.real_total_received_value,
     )
     userStats.real_total_value_difference = round2(
-      userStats.real_total_value_difference
+      userStats.real_total_value_difference,
     )
     userStats.real_total_gift_difference = round2(
-      userStats.real_total_gift_difference
+      userStats.real_total_gift_difference,
     )
     userStats.giveaway_ratio = round2(userStats.giveaway_ratio ?? 0)
 
@@ -580,38 +587,38 @@ export class SteamGiftsUserFetcher {
       user.giveaways_won?.filter(
         (g) =>
           g.steam_play_data?.achievements_percentage !== undefined &&
-          g.steam_play_data?.achievements_percentage !== null
+          g.steam_play_data?.achievements_percentage !== null,
       ) || []
 
     if (wonGiveawaysWithAchievements.length > 0) {
       const allAchievementsData = calculateAchievementPercentages(
-        wonGiveawaysWithAchievements
+        wonGiveawaysWithAchievements,
       )
       userStats.total_achievements_percentage = Math.round(
-        allAchievementsData.totalPercentage
+        allAchievementsData.totalPercentage,
       )
       userStats.average_achievements_percentage = Math.round(
-        allAchievementsData.averagePercentage
+        allAchievementsData.averagePercentage,
       )
 
       const realWonGiveawaysWithAchievements =
         wonGiveawaysWithAchievements.filter(
-          (g) => !g.is_shared && g.cv_status === 'FULL_CV'
+          (g) => !g.is_shared && g.cv_status === 'FULL_CV',
         )
 
       const realAchievementsData = calculateAchievementPercentages(
-        realWonGiveawaysWithAchievements
+        realWonGiveawaysWithAchievements,
       )
 
       userStats.real_total_achievements_percentage = Math.round(
-        realAchievementsData.totalPercentage
+        realAchievementsData.totalPercentage,
       )
       userStats.real_average_achievements_percentage = Math.round(
-        realAchievementsData.averagePercentage
+        realAchievementsData.averagePercentage,
       )
 
       const hasMissingAchievementsData = wonGiveawaysWithAchievements.some(
-        (g) => g.steam_play_data?.has_no_available_stats
+        (g) => g.steam_play_data?.has_no_available_stats,
       )
 
       userStats.has_missing_achievements_data = hasMissingAchievementsData
@@ -622,7 +629,7 @@ export class SteamGiftsUserFetcher {
 
   public async updateSteamPlayData(
     users: Map<string, User>,
-    giveaways: Giveaway[]
+    giveaways: Giveaway[],
   ): Promise<void> {
     console.log(`🎮 Updating Steam play data for won games...`)
 
@@ -642,7 +649,7 @@ export class SteamGiftsUserFetcher {
       processedUsers++
       const username = user.username
       console.log(
-        `[${processedUsers}/${totalUsers}] 🎮 Checking Steam data for ${username}`
+        `[${processedUsers}/${totalUsers}] 🎮 Checking Steam data for ${username}`,
       )
 
       if (!user.steam_id) continue
@@ -650,7 +657,7 @@ export class SteamGiftsUserFetcher {
       // Check Steam profile visibility first
       try {
         const visibility = await steamChecker.checkProfileVisibility(
-          user.steam_id
+          user.steam_id,
         )
         if (!visibility.is_public) {
           user.steam_profile_is_private = !visibility.is_public
@@ -664,7 +671,7 @@ export class SteamGiftsUserFetcher {
 
       if (user.steam_profile_is_private) {
         console.log(
-          `🙈 Skipping Steam data for ${username} (profile is private)`
+          `🙈 Skipping Steam data for ${username} (profile is private)`,
         )
         users.set(username, user) // Make sure to save the updated private flag
         continue
@@ -690,8 +697,8 @@ export class SteamGiftsUserFetcher {
           steamSkippedCount++
           console.log(
             `⏭️  Skipping ${username}: ${wonGame.name} (ended ${Math.floor(
-              (Date.now() / 1000 - wonGame.end_timestamp) / (24 * 60 * 60)
-            )} days ago)`
+              (Date.now() / 1000 - wonGame.end_timestamp) / (24 * 60 * 60),
+            )} days ago)`,
           )
           continue
         }
@@ -705,7 +712,7 @@ export class SteamGiftsUserFetcher {
               2 * 24 * 60 * 60 * 1000
           ) {
             console.log(
-              `⚠️  Skipping ${username}: ${wonGame.name} (no stats available and checked within the last 2 days)`
+              `⚠️  Skipping ${username}: ${wonGame.name} (no stats available and checked within the last 2 days)`,
             )
             noStatsAvailableCount++
             continue
@@ -715,7 +722,7 @@ export class SteamGiftsUserFetcher {
           const gamePlayData = await steamChecker.getGamePlayData(
             user.steam_id,
             giveaway.app_id ?? giveaway.package_id!,
-            giveaway.package_id ? 'sub' : 'app'
+            giveaway.package_id ? 'sub' : 'app',
           )
           debug(`Got Steam data: ${JSON.stringify(gamePlayData)}`)
 
@@ -730,7 +737,7 @@ export class SteamGiftsUserFetcher {
               id: giveaway.app_id ?? giveaway.package_id,
             })
             const isWhitelisted = IDLE_GAMES_WHITELIST.includes(
-              giveaway.app_id ?? giveaway.package_id!
+              giveaway.app_id ?? giveaway.package_id!,
             )
 
             // If previously marked idling but now whitelisted, remove idling flag
@@ -771,7 +778,7 @@ export class SteamGiftsUserFetcher {
             steamCheckedCount++
           } else {
             console.log(
-              `⚠️  No valid Steam data returned for ${username}: ${wonGame.name}`
+              `⚠️  No valid Steam data returned for ${username}: ${wonGame.name}`,
             )
             steamErrorCount++
           }
@@ -806,7 +813,7 @@ export class SteamGiftsUserFetcher {
 
   public async enrichUsersWithGiveaways(
     existingUsers: Map<string, User>,
-    giveaways: Giveaway[]
+    giveaways: Giveaway[],
   ): Promise<void> {
     console.log(`\n🎁 Enriching users with giveaway data...`)
 
@@ -842,7 +849,7 @@ export class SteamGiftsUserFetcher {
 
       // Create a map of existing won games to preserve Steam data
       const existingWonGames = new Map(
-        user.giveaways_won?.map((game) => [game.link, game]) || []
+        user.giveaways_won?.map((game) => [game.link, game]) || [],
       )
 
       // Find giveaways won by this user
@@ -942,10 +949,10 @@ export class SteamGiftsUserFetcher {
 
           // For created giveaways, check if any winner has completed the requirements
           const anyWinnerCompletedIPlayBro = pointsDataEntries.some(
-            (entry) => entry.completedIplayBro
+            (entry) => entry.completedIplayBro,
           )
           const anyWinnerMetRequirements = pointsDataEntries.some(
-            (entry) => entry.playRequirements?.playRequirementsMet
+            (entry) => entry.playRequirements?.playRequirementsMet,
           )
 
           if (pointsDataEntries.length > 0) {
@@ -1010,7 +1017,7 @@ export class SteamGiftsUserFetcher {
       const wonCount = giveawaysWon.length
       const createdCount = giveawaysCreated.length
       console.log(
-        `[${enrichedCount}/${totalUsers}] ✅ ${username}: ${wonCount} won, ${createdCount} created`
+        `[${enrichedCount}/${totalUsers}] ✅ ${username}: ${wonCount} won, ${createdCount} created`,
       )
     }
 
@@ -1035,8 +1042,8 @@ export class SteamGiftsUserFetcher {
         if (existingData.lastUpdated) {
           console.log(
             `📅 Last updated: ${new Date(
-              existingData.lastUpdated
-            ).toLocaleString()}`
+              existingData.lastUpdated,
+            ).toLocaleString()}`,
           )
         }
       } catch (error) {
@@ -1108,7 +1115,7 @@ export class SteamGiftsUserFetcher {
       } catch (error) {
         console.warn(
           `⚠️  Failed to fetch page: ${this.baseUrl}${currentPath}:`,
-          error
+          error,
         )
         break
       }
@@ -1121,7 +1128,7 @@ export class SteamGiftsUserFetcher {
 
       allScrapedUsers.push(...usersOnPage)
       console.log(
-        `   ... found ${usersOnPage.length} users on page ${pagesFetched}. Total: ${allScrapedUsers.length}`
+        `   ... found ${usersOnPage.length} users on page ${pagesFetched}. Total: ${allScrapedUsers.length}`,
       )
 
       // Get next page
@@ -1133,7 +1140,7 @@ export class SteamGiftsUserFetcher {
       }
     }
     console.log(
-      `✅ Fetched a total of ${allScrapedUsers.length} users from ${pagesFetched} pages this run.`
+      `✅ Fetched a total of ${allScrapedUsers.length} users from ${pagesFetched} pages this run.`,
     )
     return allScrapedUsers
   }
@@ -1142,7 +1149,7 @@ export class SteamGiftsUserFetcher {
     let warnings: string[] = []
     const unplayedRequiredPlayGiveaways =
       user.giveaways_won?.filter(
-        (g) => g.required_play && !g.required_play_meta?.requirements_met
+        (g) => g.required_play && !g.required_play_meta?.requirements_met,
       ) ?? []
     if (unplayedRequiredPlayGiveaways.length >= 2) {
       warnings.push('unplayed_required_play_giveaways')
@@ -1208,7 +1215,7 @@ export class SteamGiftsUserFetcher {
     const oneDayMs = 24 * 60 * 60 * 1000
     const getDeadlineDate = (
       endTimestamp: number,
-      meta?: { deadline?: string; deadline_in_months?: number }
+      meta?: { deadline?: string; deadline_in_months?: number },
     ): Date => {
       if (meta?.deadline) {
         // Expected format: dd.MM.yyyy
@@ -1241,13 +1248,13 @@ export class SteamGiftsUserFetcher {
           return false
         const deadlineDate = getDeadlineDate(
           g.end_timestamp,
-          g.required_play_meta
+          g.required_play_meta,
         )
         const daysRemaining = Math.floor(
-          (deadlineDate.getTime() - Date.now()) / oneDayMs
+          (deadlineDate.getTime() - Date.now()) / oneDayMs,
         )
         return daysRemaining >= 0 && daysRemaining < 15
-      }
+      },
     )
 
     if (hasSoonExpiringRequiredPlays) {
@@ -1269,7 +1276,7 @@ export class SteamGiftsUserFetcher {
 
   public async fetchUsers(
     filename: string = '../website/public/data/group_users.json',
-    usersList?: User[]
+    usersList?: User[],
   ): Promise<User[]> {
     try {
       // Load existing users
@@ -1283,7 +1290,7 @@ export class SteamGiftsUserFetcher {
         let bestAttempt: User[] = []
         for (let i = 0; i < attempts; i++) {
           console.log(
-            `\n🚀 Attempt ${i + 1} of ${attempts} to fetch user list...`
+            `\n🚀 Attempt ${i + 1} of ${attempts} to fetch user list...`,
           )
           const currentAttemptUsers = await this._fetchAllUsersFromPages()
           if (currentAttemptUsers.length > bestAttempt.length) {
@@ -1294,7 +1301,7 @@ export class SteamGiftsUserFetcher {
           }
         }
         console.log(
-          `\n✅ Selected the best result with ${bestAttempt.length} users.`
+          `\n✅ Selected the best result with ${bestAttempt.length} users.`,
         )
         allScrapedUsers = bestAttempt
       }
@@ -1367,7 +1374,7 @@ export class SteamGiftsUserFetcher {
             removedUsers.length
           } users no longer in group: ${removedUsers
             .map((u) => u.username)
-            .join(', ')}`
+            .join(', ')}`,
         )
         // Save ex-members to a separate file
         const exMembersFilename = '../website/public/data/ex_members.json'
@@ -1393,8 +1400,8 @@ export class SteamGiftsUserFetcher {
               users: updatedExMembers,
             },
             null,
-            2
-          )
+            2,
+          ),
         )
         console.log(`💾 Ex-members saved to ${exMembersFilename}`)
       }
@@ -1404,17 +1411,17 @@ export class SteamGiftsUserFetcher {
 
       if (skipSteamApi) {
         console.log(
-          `\n🚫 Skipping Steam profile fetching (SKIP_STEAM_API=true)`
+          `\n🚫 Skipping Steam profile fetching (SKIP_STEAM_API=true)`,
         )
       } else {
         console.log(`\n🔍 Checking for missing Steam information...`)
         const usersNeedingSteamInfo = Array.from(existingUsers.values()).filter(
-          (user) => !user.steam_id && !user.steam_profile_url
+          (user) => !user.steam_id && !user.steam_profile_url,
         )
 
         if (usersNeedingSteamInfo.length > 0) {
           console.log(
-            `📋 Found ${usersNeedingSteamInfo.length} users without Steam info`
+            `📋 Found ${usersNeedingSteamInfo.length} users without Steam info`,
           )
 
           let steamInfoCounter = 0
@@ -1422,7 +1429,7 @@ export class SteamGiftsUserFetcher {
             steamInfoCounter++
             try {
               console.log(
-                `[${steamInfoCounter}/${usersNeedingSteamInfo.length}] 🔍 Fetching Steam info for: ${user.username}`
+                `[${steamInfoCounter}/${usersNeedingSteamInfo.length}] 🔍 Fetching Steam info for: ${user.username}`,
               )
               const steamInfo = await this.fetchUserSteamInfo(user)
 
@@ -1456,22 +1463,22 @@ export class SteamGiftsUserFetcher {
           }
         } else {
           console.log(
-            `✅ All users already have Steam info or no Steam profiles`
+            `✅ All users already have Steam info or no Steam profiles`,
           )
         }
 
         const usersNeedingCountryCodeInfo = Array.from(
-          existingUsers.values()
+          existingUsers.values(),
         ).filter((user) => user.country_code === undefined)
 
         if (usersNeedingCountryCodeInfo.length > 0) {
           console.log(
-            `📋 Found ${usersNeedingCountryCodeInfo.length} users without country code info`
+            `📋 Found ${usersNeedingCountryCodeInfo.length} users without country code info`,
           )
           for (const user of usersNeedingCountryCodeInfo) {
             if (user.steam_id) {
               const countryCode = await steamChecker.getPlayerCountryCode(
-                user.steam_id
+                user.steam_id,
               )
               existingUsers.set(user.username, {
                 ...user,
@@ -1481,7 +1488,7 @@ export class SteamGiftsUserFetcher {
               await delay(400)
             } else {
               console.log(
-                `❌ ${user.username} -> No Steam ID. Skipping fetching country code`
+                `❌ ${user.username} -> No Steam ID. Skipping fetching country code`,
               )
             }
           }
@@ -1500,7 +1507,7 @@ export class SteamGiftsUserFetcher {
           console.log('🚫 Skipping Steam API calls (SKIP_STEAM_API=true)')
         } else if (skipSteamPlaytime) {
           console.log(
-            '🚫 Skipping Steam playtime update (SKIP_STEAM_PLAYTIME=true)'
+            '🚫 Skipping Steam playtime update (SKIP_STEAM_PLAYTIME=true)',
           )
         } else {
           await this.updateSteamPlayData(existingUsers, giveaways)
@@ -1528,7 +1535,7 @@ export class SteamGiftsUserFetcher {
 
         if (warnings.length > 0) {
           console.log(
-            `🔍 ${user.username} has warnings: ${warnings.join(', ')}`
+            `🔍 ${user.username} has warnings: ${warnings.join(', ')}`,
           )
           user.warnings = warnings
         } else if (user.warnings) {
@@ -1556,7 +1563,7 @@ export class SteamGiftsUserFetcher {
   private displayStats(
     stats: UserStats,
     steamInfoFetched: number = 0,
-    removedUsers: number = 0
+    removedUsers: number = 0,
   ): void {
     console.log(`\n📊 User Fetching Summary:`)
     console.log(`  • Total users: ${stats.totalUsers}`)

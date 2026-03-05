@@ -1,4 +1,7 @@
-import 'dotenv/config'
+import { existsSync } from 'node:fs'
+import { dirname, resolve } from 'node:path'
+import { fileURLToPath } from 'node:url'
+import { config as loadEnv } from 'dotenv'
 import type {
   SteamGameInfo,
   SteamAchievement,
@@ -16,6 +19,15 @@ import {
   getRequiredEnvVar,
 } from '../utils/common.js'
 import { logError } from '../utils/log-error.js'
+
+const currentDir = dirname(fileURLToPath(import.meta.url))
+const rootEnvPath = resolve(currentDir, '../../../../.env')
+
+if (existsSync(rootEnvPath)) {
+  loadEnv({ path: rootEnvPath })
+} else {
+  loadEnv()
+}
 
 export interface GamePlayData {
   owned: boolean
@@ -39,7 +51,7 @@ if (!API_KEY) {
   console.error(`❌ Steam API key not found`)
   console.error(`   Set STEAM_API_KEY environment variable`)
   console.error(
-    `   Get your API key from: https://steamcommunity.com/dev/apikey`
+    `   Get your API key from: https://steamcommunity.com/dev/apikey`,
   )
   process.exit(1)
 }
@@ -84,7 +96,7 @@ export class SteamGameChecker {
           throw new Error(
             `Steam API request failed: ${response.status} ${
               response.statusText
-            } ${error instanceof Error ? error.message : String(error)}`
+            } ${error instanceof Error ? error.message : String(error)}`,
           )
         }
       }
@@ -118,7 +130,7 @@ export class SteamGameChecker {
       if (!packageResponse.ok) {
         logError(
           new Error(`HTTP error! status: ${packageResponse.status}`),
-          `Failed to fetch package details for subId ${subId}`
+          `Failed to fetch package details for subId ${subId}`,
         )
         return null
       }
@@ -145,7 +157,7 @@ export class SteamGameChecker {
           if (!appResponse.ok) {
             logError(
               new Error(`HTTP error! status: ${appResponse.status}`),
-              `Failed to fetch app details for appId ${app.id} (from subId ${subId})`
+              `Failed to fetch app details for appId ${app.id} (from subId ${subId})`,
             )
             continue // Try next app
           }
@@ -159,14 +171,14 @@ export class SteamGameChecker {
             appDetails.data.type === 'game'
           ) {
             console.log(
-              `[INFO] Found game appID ${appDetails.data.steam_appid} for subID ${subId}`
+              `[INFO] Found game appID ${appDetails.data.steam_appid} for subID ${subId}`,
             )
             return appDetails.data.steam_appid
           }
         } catch (error) {
           logError(
             error,
-            `Error processing app details for appId ${app.id} (from subId ${subId})`
+            `Error processing app details for appId ${app.id} (from subId ${subId})`,
           )
         }
       }
@@ -181,28 +193,27 @@ export class SteamGameChecker {
 
   private async getPlayerAchievements(
     steamId: string,
-    appId: number
+    appId: number,
   ): Promise<SteamAchievement[] | null> {
     const endpoint = `/ISteamUserStats/GetPlayerAchievements/v0001/?appid=${appId}&key=${this.apiKey}&steamid=${steamId}&format=json`
 
     try {
-      const data: PlayerAchievementsResponse = await this.fetchSteamAPI(
-        endpoint
-      )
+      const data: PlayerAchievementsResponse =
+        await this.fetchSteamAPI(endpoint)
 
       if (data.playerstats.success) {
         return data.playerstats.achievements || []
       } else {
         logError(
           data.playerstats,
-          `Failed to get player achievements for Steam ID ${steamId}`
+          `Failed to get player achievements for Steam ID ${steamId}`,
         )
         return []
       }
     } catch (error) {
       logError(
         error,
-        `Failed to get player achievements for Steam ID ${steamId}`
+        `Failed to get player achievements for Steam ID ${steamId}`,
       )
       if (
         error instanceof Error &&
@@ -231,7 +242,7 @@ export class SteamGameChecker {
 
   public async getPlayerCountryCode(steamID: string): Promise<string | null> {
     const response = await fetch(
-      `https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=${this.apiKey}&steamids=${steamID}`
+      `https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=${this.apiKey}&steamids=${steamID}`,
     )
     const data = (await response.json()) as {
       response: { players: { loccountrycode: string }[] }
@@ -245,7 +256,7 @@ export class SteamGameChecker {
   }
 
   public async checkProfileVisibility(
-    steamId: string
+    steamId: string,
   ): Promise<SteamProfileVisibility> {
     const endpoint = `/ISteamUser/GetPlayerSummaries/v0002/?key=${this.apiKey}&steamids=${steamId}`
     try {
@@ -271,13 +282,13 @@ export class SteamGameChecker {
   public async getGamePlayData(
     steamId: string,
     appOrSubId: number,
-    type: 'app' | 'sub' = 'app'
+    type: 'app' | 'sub' = 'app',
   ): Promise<GamePlayData> {
     // Check cache first
     const lastChecked = this.noStatsCache.get(appOrSubId)
     if (lastChecked && Date.now() - lastChecked < this.TWO_WEEKS_IN_MS) {
       console.log(
-        `[INFO] Game with appId ${appOrSubId} is in the 'no stats' cache. Skipping.`
+        `[INFO] Game with appId ${appOrSubId} is in the 'no stats' cache. Skipping.`,
       )
       return {
         owned: false,
@@ -297,7 +308,7 @@ export class SteamGameChecker {
       const appIdFromSub = await this.getAppIdForSubId(appOrSubId)
       if (appIdFromSub) {
         console.log(
-          `[INFO] Found appId ${appIdFromSub} from subId ${appOrSubId}`
+          `[INFO] Found appId ${appIdFromSub} from subId ${appOrSubId}`,
         )
         appOrSubId = appIdFromSub
       }
@@ -326,8 +337,8 @@ export class SteamGameChecker {
         totalAchievements > 0
           ? Number(
               ((unlockedAchievements.length / totalAchievements) * 100).toFixed(
-                1
-              )
+                1,
+              ),
             )
           : 0
 
@@ -410,7 +421,7 @@ export class SteamGameChecker {
     if (ownedGames.length === 0) {
       console.log(`❌ Could not access user's game library`)
       console.log(
-        `   This usually means the user's profile is private or the Steam ID is invalid`
+        `   This usually means the user's profile is private or the Steam ID is invalid`,
       )
       return
     }
@@ -427,14 +438,14 @@ export class SteamGameChecker {
     // Display game info
     console.log(`✅ Game found: ${gameInfo.name}`)
     console.log(
-      `⏱️  Total playtime: ${formatPlaytime(gameInfo.playtime_forever)}`
+      `⏱️  Total playtime: ${formatPlaytime(gameInfo.playtime_forever)}`,
     )
 
     if (gameInfo.playtime_2weeks) {
       console.log(
         `📅 Playtime (last 2 weeks): ${formatPlaytime(
-          gameInfo.playtime_2weeks
-        )}`
+          gameInfo.playtime_2weeks,
+        )}`,
       )
     }
 
@@ -461,7 +472,7 @@ export class SteamGameChecker {
         : '0'
 
     console.log(
-      `   📊 Achievement Progress: ${unlockedAchievements.length}/${totalAchievements} (${completionPercentage}%)`
+      `   📊 Achievement Progress: ${unlockedAchievements.length}/${totalAchievements} (${completionPercentage}%)`,
     )
 
     if (unlockedAchievements.length > 0) {
@@ -475,7 +486,7 @@ export class SteamGameChecker {
       for (const achievement of recentAchievements) {
         const schemaAchievement =
           gameSchema?.availableGameStats?.achievements?.find(
-            (a) => a.name === achievement.apiname
+            (a) => a.name === achievement.apiname,
           )
 
         const displayName =
@@ -501,7 +512,7 @@ export class SteamGameChecker {
     console.log(`   • Owned: Yes`)
     console.log(`   • Playtime: ${formatPlaytime(gameInfo.playtime_forever)}`)
     console.log(
-      `   • Achievements: ${unlockedAchievements.length}/${totalAchievements} (${completionPercentage}%)`
+      `   • Achievements: ${unlockedAchievements.length}/${totalAchievements} (${completionPercentage}%)`,
     )
 
     if (gameInfo.playtime_forever === 0) {
@@ -520,7 +531,7 @@ export class SteamGameChecker {
   public async setHasNoAvailableStats(appId: number): Promise<void> {
     this.noStatsCache.set(appId, Date.now())
     console.log(
-      `[INFO] Game with appId ${appId} has been flagged as having no available stats.`
+      `[INFO] Game with appId ${appId} has been flagged as having no available stats.`,
     )
   }
 }
@@ -533,7 +544,7 @@ async function main(): Promise<void> {
     console.log(`Example: npm run check-steam-game 76561198054649894 570`)
     console.log(``)
     console.log(
-      `You need to set your Steam API key in STEAM_API_KEY environment variable`
+      `You need to set your Steam API key in STEAM_API_KEY environment variable`,
     )
     console.log(`Get your API key from: https://steamcommunity.com/dev/apikey`)
     process.exit(1)
