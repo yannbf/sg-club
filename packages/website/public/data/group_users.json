@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1772766611480,
+  "lastUpdated": 1772788094824,
   "users": {
     "a10i": {
       "username": "a10i",
@@ -2846,7 +2846,7 @@
           "name": "The Tartarus Key",
           "link": "OJZe0/the-tartarus-key",
           "cv_status": "FULL_CV",
-          "entries": 5,
+          "entries": 6,
           "copies": 1,
           "created_timestamp": 1772368149,
           "end_timestamp": 1772853240,
@@ -12711,7 +12711,7 @@
         "shared_sent_count": 0,
         "shared_received_count": 2,
         "giveaways_created": 29,
-        "giveaways_with_no_entries": 2,
+        "giveaways_with_no_entries": 3,
         "last_giveaway_created_at": 1772365130,
         "last_giveaway_won_at": 1769405580,
         "total_achievements_percentage": 27,
@@ -13563,12 +13563,13 @@
           "name": "Gorogoa",
           "link": "t1xqy/gorogoa",
           "cv_status": "FULL_CV",
-          "entries": 10,
+          "entries": 12,
           "copies": 2,
           "created_timestamp": 1772365130,
           "end_timestamp": 1772787600,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": false
         },
         {
           "name": "Love is...",
@@ -17214,7 +17215,7 @@
           "name": "Platform 8",
           "link": "gPmgX/platform-8",
           "cv_status": "FULL_CV",
-          "entries": 11,
+          "entries": 12,
           "copies": 1,
           "created_timestamp": 1772369383,
           "end_timestamp": 1772877600,
@@ -20040,7 +20041,7 @@
           "name": "Age of Mythology: Retold",
           "link": "1jwzr/age-of-mythology-retold",
           "cv_status": "FULL_CV",
-          "entries": 19,
+          "entries": 20,
           "copies": 1,
           "created_timestamp": 1772367098,
           "end_timestamp": 1774803600,
@@ -27515,7 +27516,7 @@
           "name": "The Last Case of John Morley",
           "link": "T305K/the-last-case-of-john-morley",
           "cv_status": "FULL_CV",
-          "entries": 13,
+          "entries": 14,
           "copies": 1,
           "created_timestamp": 1772364684,
           "end_timestamp": 1772886060,
@@ -32970,7 +32971,7 @@
           "name": "Wattam",
           "link": "tVIMH/wattam",
           "cv_status": "FULL_CV",
-          "entries": 6,
+          "entries": 7,
           "copies": 1,
           "created_timestamp": 1772452257,
           "end_timestamp": 1773108420,
@@ -42353,21 +42354,10 @@
       ],
       "giveaways_created": [
         {
-          "name": "Evoland Legendary Edition",
-          "link": "YjgNU/evoland-legendary-edition",
-          "cv_status": "REDUCED_CV",
-          "entries": 18,
-          "copies": 1,
-          "created_timestamp": 1772176704,
-          "end_timestamp": 1772769600,
-          "required_play": false,
-          "is_shared": true
-        },
-        {
           "name": "TT Isle of Man: Ride on the Edge 2",
           "link": "2sxXp/tt-isle-of-man-ride-on-the-edge-2",
           "cv_status": "REDUCED_CV",
-          "entries": 67,
+          "entries": 68,
           "copies": 1,
           "created_timestamp": 1772241179,
           "end_timestamp": 1772856000,
@@ -42378,7 +42368,7 @@
           "name": "Godlike Burger",
           "link": "hSuNc/godlike-burger",
           "cv_status": "REDUCED_CV",
-          "entries": 30,
+          "entries": 32,
           "copies": 1,
           "created_timestamp": 1772325860,
           "end_timestamp": 1772942400,
@@ -42389,12 +42379,31 @@
           "name": "Stars in Shadow",
           "link": "bS6Ll/stars-in-shadow",
           "cv_status": "REDUCED_CV",
-          "entries": 29,
+          "entries": 30,
           "copies": 1,
           "created_timestamp": 1772624263,
           "end_timestamp": 1773201600,
           "required_play": false,
           "is_shared": true
+        },
+        {
+          "name": "Evoland Legendary Edition",
+          "link": "YjgNU/evoland-legendary-edition",
+          "cv_status": "REDUCED_CV",
+          "entries": 18,
+          "copies": 1,
+          "created_timestamp": 1772176704,
+          "end_timestamp": 1772769600,
+          "required_play": false,
+          "is_shared": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "Teacup",
@@ -44755,7 +44764,7 @@
           "name": "The Precinct",
           "link": "gPW57/the-precinct",
           "cv_status": "FULL_CV",
-          "entries": 20,
+          "entries": 22,
           "copies": 1,
           "created_timestamp": 1772372317,
           "end_timestamp": 1772794800,
@@ -44766,7 +44775,7 @@
           "name": "Golf It!",
           "link": "BUA1D/golf-it",
           "cv_status": "REDUCED_CV",
-          "entries": 86,
+          "entries": 94,
           "copies": 1,
           "created_timestamp": 1772285750,
           "end_timestamp": 1772794800,
@@ -44777,7 +44786,7 @@
           "name": "Frog Detective 1: The Haunted Island",
           "link": "fNhjm/frog-detective-1-the-haunted-island",
           "cv_status": "REDUCED_CV",
-          "entries": 35,
+          "entries": 38,
           "copies": 1,
           "created_timestamp": 1772285539,
           "end_timestamp": 1772794800,
@@ -44788,7 +44797,7 @@
           "name": "Pumpkin Jack",
           "link": "uz46c/pumpkin-jack",
           "cv_status": "REDUCED_CV",
-          "entries": 93,
+          "entries": 101,
           "copies": 1,
           "created_timestamp": 1772284946,
           "end_timestamp": 1772794800,
@@ -51904,7 +51913,7 @@
           "name": "Staffer Case: A Supernatural Mystery ...",
           "link": "2rPxb/staffer-case-a-supernatural-mystery-adventure",
           "cv_status": "FULL_CV",
-          "entries": 5,
+          "entries": 4,
           "copies": 1,
           "created_timestamp": 1772208191,
           "end_timestamp": 1773334620,
@@ -51915,7 +51924,7 @@
           "name": "Dust & Neon",
           "link": "UHwrB/dust-neon",
           "cv_status": "FULL_CV",
-          "entries": 19,
+          "entries": 20,
           "copies": 1,
           "created_timestamp": 1772723823,
           "end_timestamp": 1773763500,
@@ -56786,17 +56795,6 @@
       ],
       "giveaways_created": [
         {
-          "name": "Super Panda Adventures",
-          "link": "YB73Y/super-panda-adventures",
-          "cv_status": "NO_CV",
-          "entries": 1,
-          "copies": 1,
-          "created_timestamp": 1772420670,
-          "end_timestamp": 1772769780,
-          "required_play": false,
-          "is_shared": true
-        },
-        {
           "name": "Ib",
           "link": "1UQSz/ib",
           "cv_status": "FULL_CV",
@@ -56805,7 +56803,34 @@
           "created_timestamp": 1770867950,
           "end_timestamp": 1772772300,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
+        },
+        {
+          "name": "Super Panda Adventures",
+          "link": "YB73Y/super-panda-adventures",
+          "cv_status": "NO_CV",
+          "entries": 1,
+          "copies": 1,
+          "created_timestamp": 1772420670,
+          "end_timestamp": 1772769780,
+          "required_play": false,
+          "is_shared": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "Arcade Spirits",
@@ -69943,7 +69968,7 @@
           "name": "Star Fire: Eternal Cycle",
           "link": "1jT5c/star-fire-eternal-cycle",
           "cv_status": "FULL_CV",
-          "entries": 3,
+          "entries": 4,
           "copies": 1,
           "created_timestamp": 1772743700,
           "end_timestamp": 1773162000,
@@ -78773,7 +78798,7 @@
           "name": "BURIED STARS",
           "link": "gTaix/buried-stars",
           "cv_status": "FULL_CV",
-          "entries": 5,
+          "entries": 6,
           "copies": 1,
           "created_timestamp": 1772591338,
           "end_timestamp": 1772852400,
@@ -80239,7 +80264,7 @@
           "name": "Goblin Sushi",
           "link": "dz9cF/goblin-sushi",
           "cv_status": "FULL_CV",
-          "entries": 0,
+          "entries": 2,
           "copies": 1,
           "created_timestamp": 1772755782,
           "end_timestamp": 1773104700,
@@ -84651,7 +84676,7 @@
           "name": "Duck Detective: The Secret Salami",
           "link": "L12sg/duck-detective-the-secret-salami",
           "cv_status": "FULL_CV",
-          "entries": 26,
+          "entries": 29,
           "copies": 1,
           "created_timestamp": 1772416563,
           "end_timestamp": 1772816400,
