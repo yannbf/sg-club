@@ -1,25 +1,6 @@
 {
-  "last_updated": "2026-03-08T03:00:40.340Z",
+  "last_updated": "2026-03-08T08:53:45.620Z",
   "giveaways": [
-    {
-      "id": "hSuNc",
-      "name": "Godlike Burger",
-      "points": 20,
-      "copies": 1,
-      "app_id": 1432910,
-      "package_id": null,
-      "link": "hSuNc/godlike-burger",
-      "created_timestamp": 1772325860,
-      "start_timestamp": 1772325860,
-      "end_timestamp": 1772942400,
-      "whitelist": true,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 29,
-      "creator": "lockcjwen",
-      "is_shared": true,
-      "cv_status": "REDUCED_CV"
-    },
     {
       "id": "nLOBe",
       "name": "Mindcop",
@@ -273,7 +254,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 31,
+      "entry_count": 33,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -310,7 +291,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 8,
+      "entry_count": 16,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -329,7 +310,7 @@
       "region_restricted": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 0,
+      "entry_count": 3,
       "creator": "LumpyCreature",
       "cv_status": "FULL_CV"
     },
@@ -400,9 +381,36 @@
       "end_timestamp": 1774844640,
       "group": true,
       "comment_count": 1,
-      "entry_count": 20,
+      "entry_count": 22,
       "creator": "Patxxv",
       "cv_status": "FULL_CV"
+    },
+    {
+      "id": "hSuNc",
+      "name": "Godlike Burger",
+      "points": 20,
+      "copies": 1,
+      "app_id": 1432910,
+      "package_id": null,
+      "link": "hSuNc/godlike-burger",
+      "created_timestamp": 1772325860,
+      "start_timestamp": 1772325860,
+      "end_timestamp": 1772942400,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 29,
+      "creator": "lockcjwen",
+      "is_shared": true,
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "REDUCED_CV",
+      "deleted": false
     },
     {
       "id": "vlVj2",
