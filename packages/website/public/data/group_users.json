@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1773221045416,
+  "lastUpdated": 1773284497207,
   "users": {
     "a10i": {
       "username": "a10i",
@@ -4043,30 +4043,30 @@
       "stats": {
         "total_sent_count": 43.3,
         "total_sent_value": 802.23,
-        "total_received_count": 15.5,
-        "total_received_value": 335.85,
-        "total_gift_difference": 27.8,
-        "total_value_difference": 466.39,
+        "total_received_count": 16.5,
+        "total_received_value": 349.84,
+        "total_gift_difference": 26.8,
+        "total_value_difference": 452.4,
         "fcv_sent_count": 39,
         "rcv_sent_count": 2,
         "ncv_sent_count": 0,
-        "fcv_received_count": 15,
+        "fcv_received_count": 16,
         "rcv_received_count": 0,
         "ncv_received_count": 0,
-        "fcv_gift_difference": 24,
+        "fcv_gift_difference": 23,
         "real_total_sent_value": 717.81,
-        "real_total_received_value": 320.85,
-        "real_total_value_difference": 396.96,
+        "real_total_received_value": 334.84,
+        "real_total_value_difference": 382.97,
         "real_total_sent_count": 39,
-        "real_total_received_count": 15,
-        "real_total_gift_difference": 24,
-        "giveaway_ratio": 34,
+        "real_total_received_count": 16,
+        "real_total_gift_difference": 23,
+        "giveaway_ratio": 33.67,
         "shared_sent_count": 7,
         "shared_received_count": 1,
         "giveaways_created": 50,
         "giveaways_with_no_entries": 3,
         "last_giveaway_created_at": 1771610499,
-        "last_giveaway_won_at": 1771066800,
+        "last_giveaway_won_at": 1773255600,
         "total_achievements_percentage": 17,
         "average_achievements_percentage": 12,
         "real_total_achievements_percentage": 18,
@@ -4078,6 +4078,15 @@
       "steam_profile_is_private": false,
       "country_code": "us",
       "giveaways_won": [
+        {
+          "name": "The Operator",
+          "link": "LFsrX/the-operator",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1773255600,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "Exogate Initiative",
           "link": "3VAxy/exogate-initiative",
@@ -6415,30 +6424,30 @@
       "stats": {
         "total_sent_count": 37.5,
         "total_sent_value": 818.13,
-        "total_received_count": 42,
-        "total_received_value": 760.58,
-        "total_gift_difference": -4.5,
-        "total_value_difference": 57.55,
+        "total_received_count": 43,
+        "total_received_value": 800.57,
+        "total_gift_difference": -5.5,
+        "total_value_difference": 17.56,
         "fcv_sent_count": 34,
         "rcv_sent_count": 3,
         "ncv_sent_count": 0,
-        "fcv_received_count": 42,
+        "fcv_received_count": 43,
         "rcv_received_count": 0,
         "ncv_received_count": 0,
-        "fcv_gift_difference": -8,
+        "fcv_gift_difference": -9,
         "real_total_sent_value": 772.91,
-        "real_total_received_value": 758.58,
-        "real_total_value_difference": 14.33,
+        "real_total_received_value": 798.57,
+        "real_total_value_difference": -25.66,
         "real_total_sent_count": 34,
-        "real_total_received_count": 42,
-        "real_total_gift_difference": -8,
-        "giveaway_ratio": 22.67,
+        "real_total_received_count": 43,
+        "real_total_gift_difference": -9,
+        "giveaway_ratio": 22.33,
         "shared_sent_count": 1,
         "shared_received_count": 0,
         "giveaways_created": 39,
         "giveaways_with_no_entries": 2,
         "last_giveaway_created_at": 1772449364,
-        "last_giveaway_won_at": 1772787600,
+        "last_giveaway_won_at": 1773252000,
         "total_achievements_percentage": 20,
         "average_achievements_percentage": 31,
         "real_total_achievements_percentage": 20,
@@ -6450,6 +6459,15 @@
       "steam_profile_is_private": false,
       "country_code": "es",
       "giveaways_won": [
+        {
+          "name": "Life is Strange Remastered Collection",
+          "link": "654Pa/life-is-strange-remastered-collection",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1773252000,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "Gorogoa",
           "link": "t1xqy/gorogoa",
@@ -8461,7 +8479,7 @@
           "name": "The Inheritance of Crimson Manor",
           "link": "lNvsr/the-inheritance-of-crimson-manor",
           "cv_status": "FULL_CV",
-          "entries": 10,
+          "entries": 13,
           "copies": 1,
           "created_timestamp": 1773116065,
           "end_timestamp": 1773442800,
@@ -9552,9 +9570,9 @@
         "last_giveaway_created_at": 1771804557,
         "last_giveaway_won_at": 1770390000,
         "total_achievements_percentage": 45,
-        "average_achievements_percentage": 46,
-        "real_total_achievements_percentage": 77,
-        "real_average_achievements_percentage": 77,
+        "average_achievements_percentage": 47,
+        "real_total_achievements_percentage": 79,
+        "real_average_achievements_percentage": 79,
         "has_missing_achievements_data": false
       },
       "steam_id": "76561197982025537",
@@ -23755,7 +23773,7 @@
             "last_checked": 1773220456606
           },
           "required_play_meta": {
-            "requirements_met": false,
+            "requirements_met": true,
             "deadline_in_months": 3
           }
         },
@@ -24556,10 +24574,6 @@
             }
           ]
         }
-      ],
-      "warnings": [
-        "required_plays_need_review",
-        "required_play_deadline_within_15_days"
       ]
     },
     "Foxmonster": {
@@ -25280,7 +25294,7 @@
           "name": "The Darkside Detective",
           "link": "mMZRP/the-darkside-detective",
           "cv_status": "REDUCED_CV",
-          "entries": 20,
+          "entries": 24,
           "copies": 1,
           "created_timestamp": 1773061725,
           "end_timestamp": 1773842040,
@@ -25291,7 +25305,7 @@
           "name": "The Darkside Detective: A Fumble in t...",
           "link": "AU2uY/the-darkside-detective-a-fumble-in-the-dark",
           "cv_status": "REDUCED_CV",
-          "entries": 26,
+          "entries": 28,
           "copies": 1,
           "created_timestamp": 1773061876,
           "end_timestamp": 1773842880,
@@ -25302,7 +25316,7 @@
           "name": "Picayune Dreams",
           "link": "hKHYk/picayune-dreams",
           "cv_status": "FULL_CV",
-          "entries": 17,
+          "entries": 18,
           "copies": 1,
           "created_timestamp": 1773062065,
           "end_timestamp": 1774447920,
@@ -26022,7 +26036,7 @@
           "name": "The Case of the Golden Idol",
           "link": "8OnYg/the-case-of-the-golden-idol",
           "cv_status": "FULL_CV",
-          "entries": 16,
+          "entries": 17,
           "copies": 1,
           "created_timestamp": 1772372085,
           "end_timestamp": 1773475200,
@@ -30849,7 +30863,7 @@
           "name": "The Mildew Children",
           "link": "qvNtY/the-mildew-children",
           "cv_status": "FULL_CV",
-          "entries": 5,
+          "entries": 6,
           "copies": 1,
           "created_timestamp": 1773150092,
           "end_timestamp": 1773404520,
@@ -30860,7 +30874,7 @@
           "name": "Zero Escape: The Nonary Games",
           "link": "SlW9l/zero-escape-the-nonary-games",
           "cv_status": "FULL_CV",
-          "entries": 3,
+          "entries": 5,
           "copies": 1,
           "created_timestamp": 1773148658,
           "end_timestamp": 1773404520,
@@ -31960,7 +31974,7 @@
           },
           "required_play_meta": {
             "requirements_met": false,
-            "deadline_in_months": 2
+            "deadline_in_months": 3
           }
         },
         {
@@ -32945,9 +32959,6 @@
             }
           ]
         }
-      ],
-      "warnings": [
-        "required_play_deadline_within_15_days"
       ]
     },
     "ithamore": {
@@ -37135,7 +37146,7 @@
           "name": "Re:ZERO -Starting Life in Another Wor...",
           "link": "SA5V1/rezero-starting-life-in-another-world-the-prophecy-of-the-throne",
           "cv_status": "FULL_CV",
-          "entries": 7,
+          "entries": 8,
           "copies": 1,
           "created_timestamp": 1773131593,
           "end_timestamp": 1773408960,
@@ -38306,7 +38317,7 @@
           "name": "Staffer Case: A Supernatural Mystery ...",
           "link": "BvcTM/staffer-case-a-supernatural-mystery-adventure",
           "cv_status": "REDUCED_CV",
-          "entries": 4,
+          "entries": 5,
           "copies": 1,
           "created_timestamp": 1773094522,
           "end_timestamp": 1773362580,
@@ -38317,7 +38328,7 @@
           "name": "Radiolight",
           "link": "klFCr/radiolight",
           "cv_status": "FULL_CV",
-          "entries": 10,
+          "entries": 12,
           "copies": 1,
           "created_timestamp": 1773121878,
           "end_timestamp": 1773535380,
@@ -42863,7 +42874,7 @@
           "name": "WRC 8 FIA World Rally Championship",
           "link": "ImqXQ/wrc-8-fia-world-rally-championship",
           "cv_status": "REDUCED_CV",
-          "entries": 66,
+          "entries": 70,
           "copies": 1,
           "created_timestamp": 1772835650,
           "end_timestamp": 1773460800,
@@ -42874,7 +42885,7 @@
           "name": "WRC 9 FIA World Rally Championship",
           "link": "h8UnO/wrc-9-fia-world-rally-championship",
           "cv_status": "REDUCED_CV",
-          "entries": 59,
+          "entries": 67,
           "copies": 1,
           "created_timestamp": 1772923513,
           "end_timestamp": 1773547200,
@@ -45439,7 +45450,7 @@
           "i_played_bro": false,
           "required_play_meta": {
             "requirements_met": false,
-            "deadline_in_months": 2
+            "deadline_in_months": 3
           },
           "had_winners": true,
           "winners": [
@@ -45734,7 +45745,7 @@
           "name": "StarRupture",
           "link": "bYII0/starrupture",
           "cv_status": "FULL_CV",
-          "entries": 7,
+          "entries": 9,
           "copies": 1,
           "created_timestamp": 1772933473,
           "end_timestamp": 1773612000,
@@ -45809,7 +45820,7 @@
         "shared_sent_count": 0,
         "shared_received_count": 0,
         "giveaways_created": 27,
-        "giveaways_with_no_entries": 0,
+        "giveaways_with_no_entries": 1,
         "last_giveaway_created_at": 1773071738,
         "last_giveaway_won_at": 1772886060,
         "total_achievements_percentage": 83,
@@ -46329,7 +46340,8 @@
           "created_timestamp": 1773071738,
           "end_timestamp": 1773244500,
           "required_play": true,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": false
         },
         {
           "name": "Tangle Tower",
@@ -52668,7 +52680,7 @@
           "name": "Dust & Neon",
           "link": "UHwrB/dust-neon",
           "cv_status": "FULL_CV",
-          "entries": 39,
+          "entries": 41,
           "copies": 1,
           "created_timestamp": 1772723823,
           "end_timestamp": 1773763500,
@@ -52679,7 +52691,7 @@
           "name": "Arranger: A Role-Puzzling Adventure",
           "link": "0SDAh/arranger-a-role-puzzling-adventure",
           "cv_status": "FULL_CV",
-          "entries": 69,
+          "entries": 72,
           "copies": 1,
           "created_timestamp": 1772992019,
           "end_timestamp": 1774204560,
@@ -53549,7 +53561,7 @@
           "is_shared": true,
           "i_played_bro": false,
           "required_play_meta": {
-            "requirements_met": false,
+            "requirements_met": true,
             "deadline_in_months": 3
           },
           "had_winners": true,
@@ -59163,7 +59175,7 @@
           "name": "Sunken Engine",
           "link": "FCXz7/sunken-engine",
           "cv_status": "FULL_CV",
-          "entries": 11,
+          "entries": 12,
           "copies": 1,
           "created_timestamp": 1772368690,
           "end_timestamp": 1773327600,
@@ -67168,26 +67180,26 @@
       "profile_url": "/user/Rinocap",
       "avatar_url": "https://avatars.steamstatic.com/853f5c10aad7160873bb228b543e1fafea5c35fa_medium.jpg",
       "stats": {
-        "total_sent_count": 8,
-        "total_sent_value": 215.42,
+        "total_sent_count": 9,
+        "total_sent_value": 229.41,
         "total_received_count": 19,
         "total_received_value": 531.81,
-        "total_gift_difference": -11,
-        "total_value_difference": -316.39,
-        "fcv_sent_count": 8,
+        "total_gift_difference": -10,
+        "total_value_difference": -302.4,
+        "fcv_sent_count": 9,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
         "fcv_received_count": 18,
         "rcv_received_count": 1,
         "ncv_received_count": 0,
-        "fcv_gift_difference": -10,
-        "real_total_sent_value": 215.42,
+        "fcv_gift_difference": -9,
+        "real_total_sent_value": 229.41,
         "real_total_received_value": 499.32,
-        "real_total_value_difference": -283.9,
-        "real_total_sent_count": 8,
+        "real_total_value_difference": -269.91,
+        "real_total_sent_count": 9,
         "real_total_received_count": 18,
-        "real_total_gift_difference": -10,
-        "giveaway_ratio": 3,
+        "real_total_gift_difference": -9,
+        "giveaway_ratio": 4,
         "shared_sent_count": 0,
         "shared_received_count": 0,
         "giveaways_created": 9,
@@ -67607,12 +67619,20 @@
           "name": "The Operator",
           "link": "LFsrX/the-operator",
           "cv_status": "FULL_CV",
-          "entries": 9,
+          "entries": 11,
           "copies": 1,
           "created_timestamp": 1772738313,
           "end_timestamp": 1773255600,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "BanjoBearLV",
+              "status": "received",
+              "activated": true
+            }
+          ]
         },
         {
           "name": "Cairn",
@@ -82170,26 +82190,26 @@
       "profile_url": "/user/vot4ol",
       "avatar_url": "https://avatars.steamstatic.com/fbb7f96a3d40865edfd77243524543bf62214d7d_medium.jpg",
       "stats": {
-        "total_sent_count": 21,
-        "total_sent_value": 572.14,
+        "total_sent_count": 22,
+        "total_sent_value": 612.13,
         "total_received_count": 17.3,
         "total_received_value": 366.33,
-        "total_gift_difference": 3.8,
-        "total_value_difference": 205.81,
-        "fcv_sent_count": 21,
+        "total_gift_difference": 4.8,
+        "total_value_difference": 245.8,
+        "fcv_sent_count": 22,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
         "fcv_received_count": 17,
         "rcv_received_count": 0,
         "ncv_received_count": 0,
-        "fcv_gift_difference": 4,
-        "real_total_sent_value": 587.14,
+        "fcv_gift_difference": 5,
+        "real_total_sent_value": 627.13,
         "real_total_received_value": 358.83,
-        "real_total_value_difference": 228.31,
-        "real_total_sent_count": 21,
+        "real_total_value_difference": 268.3,
+        "real_total_sent_count": 22,
         "real_total_received_count": 17,
-        "real_total_gift_difference": 4,
-        "giveaway_ratio": 18.67,
+        "real_total_gift_difference": 5,
+        "giveaway_ratio": 19.67,
         "shared_sent_count": 0,
         "shared_received_count": 1,
         "giveaways_created": 22,
@@ -82515,12 +82535,20 @@
           "name": "Life is Strange Remastered Collection",
           "link": "654Pa/life-is-strange-remastered-collection",
           "cv_status": "FULL_CV",
-          "entries": 19,
+          "entries": 20,
           "copies": 1,
           "created_timestamp": 1772386075,
           "end_timestamp": 1773252000,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "BorjaGRouco",
+              "status": "received",
+              "activated": true
+            }
+          ]
         },
         {
           "name": "Escape from Ever After",
