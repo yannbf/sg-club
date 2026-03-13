@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1773371225111,
+  "lastUpdated": 1773392932076,
   "users": {
     "a10i": {
       "username": "a10i",
@@ -2472,20 +2472,20 @@
       "stats": {
         "total_sent_count": 23.3,
         "total_sent_value": 501.43,
-        "total_received_count": 15,
-        "total_received_value": 483.85,
-        "total_gift_difference": 8.3,
-        "total_value_difference": 17.58,
+        "total_received_count": 16,
+        "total_received_value": 500.84,
+        "total_gift_difference": 7.3,
+        "total_value_difference": 0.59,
         "fcv_sent_count": 20.3,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
         "fcv_received_count": 15,
-        "rcv_received_count": 0,
+        "rcv_received_count": 1,
         "ncv_received_count": 0,
         "fcv_gift_difference": 5.3,
         "real_total_sent_value": 425.8,
-        "real_total_received_value": 483.85,
-        "real_total_value_difference": -58.05,
+        "real_total_received_value": 486.4,
+        "real_total_value_difference": -60.6,
         "real_total_sent_count": 20.3,
         "real_total_received_count": 15,
         "real_total_gift_difference": 5.3,
@@ -2495,7 +2495,7 @@
         "giveaways_created": 31,
         "giveaways_with_no_entries": 1,
         "last_giveaway_created_at": 1772368149,
-        "last_giveaway_won_at": 1766786400,
+        "last_giveaway_won_at": 1773362580,
         "total_achievements_percentage": 53,
         "average_achievements_percentage": 70,
         "real_total_achievements_percentage": 53,
@@ -2507,6 +2507,15 @@
       "steam_profile_is_private": false,
       "country_code": null,
       "giveaways_won": [
+        {
+          "name": "Staffer Case: A Supernatural Mystery ...",
+          "link": "BvcTM/staffer-case-a-supernatural-mystery-adventure",
+          "cv_status": "REDUCED_CV",
+          "status": "received",
+          "end_timestamp": 1773362580,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "Refate: Echoes of Desire",
           "link": "QD8mF/refate-echoes-of-desire",
@@ -4068,8 +4077,8 @@
         "last_giveaway_created_at": 1771610499,
         "last_giveaway_won_at": 1773334620,
         "total_achievements_percentage": 17,
-        "average_achievements_percentage": 11,
-        "real_total_achievements_percentage": 18,
+        "average_achievements_percentage": 10,
+        "real_total_achievements_percentage": 17,
         "real_average_achievements_percentage": 11,
         "has_missing_achievements_data": true
       },
@@ -10919,9 +10928,9 @@
         "last_giveaway_created_at": 1770979938,
         "last_giveaway_won_at": 1770384120,
         "total_achievements_percentage": 3,
-        "average_achievements_percentage": 4,
-        "real_total_achievements_percentage": 3,
-        "real_average_achievements_percentage": 5,
+        "average_achievements_percentage": 5,
+        "real_total_achievements_percentage": 4,
+        "real_average_achievements_percentage": 6,
         "has_missing_achievements_data": true
       },
       "steam_id": "76561198424411734",
@@ -19818,6 +19827,9 @@
             }
           ]
         }
+      ],
+      "warnings": [
+        "required_plays_need_review"
       ]
     },
     "drbeckett": {
@@ -21761,9 +21773,9 @@
         "last_giveaway_created_at": 1767893264,
         "last_giveaway_won_at": 1773327600,
         "total_achievements_percentage": 6,
-        "average_achievements_percentage": 11,
+        "average_achievements_percentage": 10,
         "real_total_achievements_percentage": 6,
-        "real_average_achievements_percentage": 11,
+        "real_average_achievements_percentage": 10,
         "has_missing_achievements_data": false
       },
       "steam_id": "76561198051248084",
@@ -25378,7 +25390,7 @@
           "name": "Picayune Dreams",
           "link": "hKHYk/picayune-dreams",
           "cv_status": "FULL_CV",
-          "entries": 20,
+          "entries": 21,
           "copies": 1,
           "created_timestamp": 1773062065,
           "end_timestamp": 1774447920,
@@ -25700,7 +25712,7 @@
         "total_achievements_percentage": 3,
         "average_achievements_percentage": 7,
         "real_total_achievements_percentage": 4,
-        "real_average_achievements_percentage": 8,
+        "real_average_achievements_percentage": 7,
         "has_missing_achievements_data": true
       },
       "steam_id": "76561198066957402",
@@ -26118,7 +26130,7 @@
           "name": "The Case of the Golden Idol",
           "link": "8OnYg/the-case-of-the-golden-idol",
           "cv_status": "FULL_CV",
-          "entries": 17,
+          "entries": 16,
           "copies": 1,
           "created_timestamp": 1772372085,
           "end_timestamp": 1773475200,
@@ -33936,9 +33948,9 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1769875885,
         "last_giveaway_won_at": 1772100960,
-        "total_achievements_percentage": 69,
+        "total_achievements_percentage": 68,
         "average_achievements_percentage": 50,
-        "real_total_achievements_percentage": 69,
+        "real_total_achievements_percentage": 68,
         "real_average_achievements_percentage": 50,
         "has_missing_achievements_data": true
       },
@@ -37934,22 +37946,22 @@
       "profile_url": "/user/kudomonster",
       "avatar_url": "https://avatars.steamstatic.com/e21e33178a69e45a9b1ceb5df413e046a12ee6ce_medium.jpg",
       "stats": {
-        "total_sent_count": 16,
-        "total_sent_value": 453.84,
+        "total_sent_count": 17,
+        "total_sent_value": 470.83,
         "total_received_count": 20,
         "total_received_value": 459.8,
-        "total_gift_difference": -4,
-        "total_value_difference": -5.96,
+        "total_gift_difference": -3,
+        "total_value_difference": 11.03,
         "fcv_sent_count": 15,
-        "rcv_sent_count": 1,
+        "rcv_sent_count": 2,
         "ncv_sent_count": 0,
         "fcv_received_count": 20,
         "rcv_received_count": 0,
         "ncv_received_count": 0,
         "fcv_gift_difference": -5,
-        "real_total_sent_value": 397.85,
+        "real_total_sent_value": 400.4,
         "real_total_received_value": 451.88,
-        "real_total_value_difference": -54.03,
+        "real_total_value_difference": -51.48,
         "real_total_sent_count": 15,
         "real_total_received_count": 20,
         "real_total_gift_difference": -5,
@@ -38415,9 +38427,9 @@
           "had_winners": true,
           "winners": [
             {
-              "name": null,
-              "status": "awaiting_feedback",
-              "activated": false
+              "name": "BaconChizBurger",
+              "status": "received",
+              "activated": true
             }
           ]
         },
@@ -42968,7 +42980,7 @@
           "name": "WRC 8 FIA World Rally Championship",
           "link": "ImqXQ/wrc-8-fia-world-rally-championship",
           "cv_status": "REDUCED_CV",
-          "entries": 72,
+          "entries": 73,
           "copies": 1,
           "created_timestamp": 1772835650,
           "end_timestamp": 1773460800,
@@ -42979,7 +42991,7 @@
           "name": "WRC 9 FIA World Rally Championship",
           "link": "h8UnO/wrc-9-fia-world-rally-championship",
           "cv_status": "REDUCED_CV",
-          "entries": 69,
+          "entries": 71,
           "copies": 1,
           "created_timestamp": 1772923513,
           "end_timestamp": 1773547200,
@@ -51634,7 +51646,7 @@
           "name": "Radiolight",
           "link": "FfVKN/radiolight",
           "cv_status": "FULL_CV",
-          "entries": 12,
+          "entries": 13,
           "copies": 1,
           "created_timestamp": 1772968397,
           "end_timestamp": 1773439200,
@@ -52760,7 +52772,7 @@
           "name": "Dust & Neon",
           "link": "UHwrB/dust-neon",
           "cv_status": "FULL_CV",
-          "entries": 44,
+          "entries": 45,
           "copies": 1,
           "created_timestamp": 1772723823,
           "end_timestamp": 1773763500,
@@ -52771,7 +52783,7 @@
           "name": "Arranger: A Role-Puzzling Adventure",
           "link": "0SDAh/arranger-a-role-puzzling-adventure",
           "cv_status": "FULL_CV",
-          "entries": 78,
+          "entries": 81,
           "copies": 1,
           "created_timestamp": 1772992019,
           "end_timestamp": 1774204560,
