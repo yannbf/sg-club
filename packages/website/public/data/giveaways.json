@@ -1,43 +1,6 @@
 {
-  "last_updated": "2026-03-14T02:53:17.682Z",
+  "last_updated": "2026-03-14T08:58:52.624Z",
   "giveaways": [
-    {
-      "id": "ImqXQ",
-      "name": "WRC 8 FIA World Rally Championship",
-      "points": 30,
-      "copies": 1,
-      "app_id": 1004750,
-      "package_id": null,
-      "link": "ImqXQ/wrc-8-fia-world-rally-championship",
-      "created_timestamp": 1772835650,
-      "start_timestamp": 1772835650,
-      "end_timestamp": 1773460800,
-      "whitelist": true,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 82,
-      "creator": "lockcjwen",
-      "is_shared": true,
-      "cv_status": "REDUCED_CV"
-    },
-    {
-      "id": "8OnYg",
-      "name": "The Case of the Golden Idol",
-      "points": 18,
-      "copies": 1,
-      "app_id": 1677770,
-      "package_id": null,
-      "link": "8OnYg/the-case-of-the-golden-idol",
-      "created_timestamp": 1772372085,
-      "start_timestamp": 1772372085,
-      "end_timestamp": 1773475200,
-      "region_restricted": true,
-      "group": true,
-      "comment_count": 3,
-      "entry_count": 16,
-      "creator": "Gooberdragon",
-      "cv_status": "FULL_CV"
-    },
     {
       "id": "klFCr",
       "name": "Radiolight",
@@ -106,7 +69,7 @@
       "end_timestamp": 1773694740,
       "group": true,
       "comment_count": 0,
-      "entry_count": 0,
+      "entry_count": 1,
       "creator": "Patxxv",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -125,7 +88,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 46,
+      "entry_count": 47,
       "creator": "MrOuiOui",
       "is_shared": true,
       "cv_status": "FULL_CV"
@@ -182,7 +145,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 33,
+      "entry_count": 34,
       "creator": "GeekDoesStuff",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -201,7 +164,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 7,
+      "entry_count": 15,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -280,6 +243,96 @@
       "cv_status": "FULL_CV"
     },
     {
+      "id": "gOJcL",
+      "name": "Godlike Burger",
+      "points": 20,
+      "copies": 1,
+      "app_id": 1432910,
+      "package_id": null,
+      "link": "gOJcL/godlike-burger",
+      "created_timestamp": 1773464120,
+      "start_timestamp": 1773464120,
+      "end_timestamp": 1774936500,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 13,
+      "creator": "Jztr",
+      "is_shared": true,
+      "cv_status": "REDUCED_CV"
+    },
+    {
+      "id": "nPp9b",
+      "name": "Metal Slug Tactics",
+      "points": 25,
+      "copies": 1,
+      "app_id": 1590760,
+      "package_id": null,
+      "link": "nPp9b/metal-slug-tactics",
+      "created_timestamp": 1773464204,
+      "start_timestamp": 1773464204,
+      "end_timestamp": 1774936620,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 27,
+      "creator": "Jztr",
+      "is_shared": true,
+      "cv_status": "REDUCED_CV"
+    },
+    {
+      "id": "8OnYg",
+      "name": "The Case of the Golden Idol",
+      "points": 18,
+      "copies": 1,
+      "app_id": 1677770,
+      "package_id": null,
+      "link": "8OnYg/the-case-of-the-golden-idol",
+      "created_timestamp": 1772372085,
+      "start_timestamp": 1772372085,
+      "end_timestamp": 1773475200,
+      "region_restricted": true,
+      "group": true,
+      "comment_count": 3,
+      "entry_count": 17,
+      "creator": "Gooberdragon",
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "FULL_CV",
+      "deleted": false
+    },
+    {
+      "id": "ImqXQ",
+      "name": "WRC 8 FIA World Rally Championship",
+      "points": 30,
+      "copies": 1,
+      "app_id": 1004750,
+      "package_id": null,
+      "link": "ImqXQ/wrc-8-fia-world-rally-championship",
+      "created_timestamp": 1772835650,
+      "start_timestamp": 1772835650,
+      "end_timestamp": 1773460800,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 1,
+      "entry_count": 82,
+      "creator": "lockcjwen",
+      "is_shared": true,
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": "Geralt28",
+          "status": "received"
+        }
+      ],
+      "cv_status": "REDUCED_CV"
+    },
+    {
       "id": "lNvsr",
       "name": "The Inheritance of Crimson Manor",
       "points": 20,
@@ -292,19 +345,18 @@
       "end_timestamp": 1773442800,
       "region_restricted": true,
       "group": true,
-      "comment_count": 1,
+      "comment_count": 2,
       "entry_count": 14,
       "creator": "Carenard",
       "event_type": "march_event_2026",
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "QuinlanLJ",
+          "status": "received"
         }
       ],
-      "cv_status": "FULL_CV",
-      "deleted": false
+      "cv_status": "FULL_CV"
     },
     {
       "id": "FfVKN",
@@ -965,7 +1017,7 @@
       "end_timestamp": 1772892000,
       "region_restricted": true,
       "group": true,
-      "comment_count": 1,
+      "comment_count": 3,
       "entry_count": 16,
       "creator": "Gooberdragon",
       "hasWinners": true,
