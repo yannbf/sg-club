@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1773546379616,
+  "lastUpdated": 1773565459827,
   "users": {
     "a10i": {
       "username": "a10i",
@@ -25725,26 +25725,26 @@
       "profile_url": "/user/Gooberdragon",
       "avatar_url": "https://avatars.steamstatic.com/24fee0a044c5af4b05851707f8badf77dbdc128e_medium.jpg",
       "stats": {
-        "total_sent_count": 11.5,
-        "total_sent_value": 323.89,
+        "total_sent_count": 12.5,
+        "total_sent_value": 341.88,
         "total_received_count": 19.3,
         "total_received_value": 296.06,
-        "total_gift_difference": -7.8,
-        "total_value_difference": 27.83,
-        "fcv_sent_count": 11,
+        "total_gift_difference": -6.8,
+        "total_value_difference": 45.82,
+        "fcv_sent_count": 12,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
         "fcv_received_count": 19,
         "rcv_received_count": 0,
         "ncv_received_count": 0,
-        "fcv_gift_difference": -8,
-        "real_total_sent_value": 288.89,
+        "fcv_gift_difference": -7,
+        "real_total_sent_value": 306.88,
         "real_total_received_value": 293.81,
-        "real_total_value_difference": -4.92,
-        "real_total_sent_count": 11,
+        "real_total_value_difference": 13.07,
+        "real_total_sent_count": 12,
         "real_total_received_count": 19,
-        "real_total_gift_difference": -8,
-        "giveaway_ratio": 4.67,
+        "real_total_gift_difference": -7,
+        "giveaway_ratio": 5.67,
         "shared_sent_count": 1,
         "shared_received_count": 1,
         "giveaways_created": 15,
@@ -26181,9 +26181,9 @@
           "had_winners": true,
           "winners": [
             {
-              "name": null,
-              "status": "awaiting_feedback",
-              "activated": false
+              "name": "RGVS",
+              "status": "received",
+              "activated": true
             }
           ]
         },
@@ -27359,10 +27359,10 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1772364684,
         "last_giveaway_won_at": 1773439200,
-        "total_achievements_percentage": 32,
-        "average_achievements_percentage": 38,
-        "real_total_achievements_percentage": 29,
-        "real_average_achievements_percentage": 33,
+        "total_achievements_percentage": 31,
+        "average_achievements_percentage": 36,
+        "real_total_achievements_percentage": 28,
+        "real_average_achievements_percentage": 32,
         "has_missing_achievements_data": true
       },
       "steam_id": "76561198013734355",
@@ -35417,7 +35417,7 @@
           "name": "Godlike Burger",
           "link": "gOJcL/godlike-burger",
           "cv_status": "REDUCED_CV",
-          "entries": 26,
+          "entries": 27,
           "copies": 1,
           "created_timestamp": 1773464120,
           "end_timestamp": 1774936500,
@@ -35428,7 +35428,7 @@
           "name": "Metal Slug Tactics",
           "link": "nPp9b/metal-slug-tactics",
           "cv_status": "REDUCED_CV",
-          "entries": 60,
+          "entries": 63,
           "copies": 1,
           "created_timestamp": 1773464204,
           "end_timestamp": 1774936620,
@@ -43112,21 +43112,10 @@
       ],
       "giveaways_created": [
         {
-          "name": "WRC 9 FIA World Rally Championship",
-          "link": "h8UnO/wrc-9-fia-world-rally-championship",
-          "cv_status": "REDUCED_CV",
-          "entries": 78,
-          "copies": 1,
-          "created_timestamp": 1772923513,
-          "end_timestamp": 1773547200,
-          "required_play": false,
-          "is_shared": true
-        },
-        {
           "name": "JUMANJI: The Video Game",
           "link": "M7USt/jumanji-the-video-game",
           "cv_status": "REDUCED_CV",
-          "entries": 23,
+          "entries": 24,
           "copies": 1,
           "created_timestamp": 1773441561,
           "end_timestamp": 1774065600,
@@ -43137,12 +43126,31 @@
           "name": "Lugaru HD",
           "link": "lHeqF/lugaru-hd",
           "cv_status": "REDUCED_CV",
-          "entries": 9,
+          "entries": 18,
           "copies": 1,
           "created_timestamp": 1773533023,
           "end_timestamp": 1774152000,
           "required_play": false,
           "is_shared": true
+        },
+        {
+          "name": "WRC 9 FIA World Rally Championship",
+          "link": "h8UnO/wrc-9-fia-world-rally-championship",
+          "cv_status": "REDUCED_CV",
+          "entries": 78,
+          "copies": 1,
+          "created_timestamp": 1772923513,
+          "end_timestamp": 1773547200,
+          "required_play": false,
+          "is_shared": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "WRC 8 FIA World Rally Championship",
@@ -59342,10 +59350,10 @@
         "giveaways_with_no_entries": 1,
         "last_giveaway_created_at": 1772368690,
         "last_giveaway_won_at": 1767715200,
-        "total_achievements_percentage": 54,
-        "average_achievements_percentage": 71,
-        "real_total_achievements_percentage": 54,
-        "real_average_achievements_percentage": 71,
+        "total_achievements_percentage": 55,
+        "average_achievements_percentage": 72,
+        "real_total_achievements_percentage": 55,
+        "real_average_achievements_percentage": 72,
         "has_missing_achievements_data": false
       },
       "steam_id": "76561198079289651",
@@ -66688,30 +66696,30 @@
       "stats": {
         "total_sent_count": 19,
         "total_sent_value": 357.31,
-        "total_received_count": 14,
-        "total_received_value": 286.86,
-        "total_gift_difference": 5,
-        "total_value_difference": 70.45,
+        "total_received_count": 15,
+        "total_received_value": 304.85,
+        "total_gift_difference": 4,
+        "total_value_difference": 52.46,
         "fcv_sent_count": 10,
         "rcv_sent_count": 2,
         "ncv_sent_count": 0,
-        "fcv_received_count": 13,
+        "fcv_received_count": 14,
         "rcv_received_count": 0,
         "ncv_received_count": 0,
-        "fcv_gift_difference": -3,
+        "fcv_gift_difference": -4,
         "real_total_sent_value": 163.65,
-        "real_total_received_value": 254.87,
-        "real_total_value_difference": -91.22,
+        "real_total_received_value": 272.86,
+        "real_total_value_difference": -109.21,
         "real_total_sent_count": 10,
-        "real_total_received_count": 13,
-        "real_total_gift_difference": -3,
-        "giveaway_ratio": 7,
+        "real_total_received_count": 14,
+        "real_total_gift_difference": -4,
+        "giveaway_ratio": 6.67,
         "shared_sent_count": 12,
         "shared_received_count": 1,
         "giveaways_created": 27,
         "giveaways_with_no_entries": 3,
         "last_giveaway_created_at": 1772386888,
-        "last_giveaway_won_at": 1767538800,
+        "last_giveaway_won_at": 1773475200,
         "total_achievements_percentage": 25,
         "average_achievements_percentage": 33,
         "real_total_achievements_percentage": 22,
@@ -66723,6 +66731,15 @@
       "steam_profile_is_private": false,
       "country_code": null,
       "giveaways_won": [
+        {
+          "name": "The Case of the Golden Idol",
+          "link": "8OnYg/the-case-of-the-golden-idol",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1773475200,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "STAR WARS Jedi: Fallen Order",
           "link": "eb8XB/star-wars-jedi-fallen-order",
@@ -72733,7 +72750,7 @@
         "last_giveaway_created_at": 1765156560,
         "last_giveaway_won_at": 1771610400,
         "total_achievements_percentage": 3,
-        "average_achievements_percentage": 10,
+        "average_achievements_percentage": 13,
         "real_total_achievements_percentage": 26,
         "real_average_achievements_percentage": 33,
         "has_missing_achievements_data": false
@@ -72964,6 +72981,9 @@
             }
           ]
         }
+      ],
+      "warnings": [
+        "required_plays_need_review"
       ]
     },
     "snbac": {
@@ -85663,7 +85683,7 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1772416563,
         "last_giveaway_won_at": 1772892000,
-        "total_achievements_percentage": 71,
+        "total_achievements_percentage": 72,
         "average_achievements_percentage": 77,
         "real_total_achievements_percentage": 71,
         "real_average_achievements_percentage": 76,

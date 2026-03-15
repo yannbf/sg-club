@@ -1,25 +1,6 @@
 {
-  "last_updated": "2026-03-15T03:31:38.694Z",
+  "last_updated": "2026-03-15T09:01:16.960Z",
   "giveaways": [
-    {
-      "id": "h8UnO",
-      "name": "WRC 9 FIA World Rally Championship",
-      "points": 30,
-      "copies": 1,
-      "app_id": 1267540,
-      "package_id": null,
-      "link": "h8UnO/wrc-9-fia-world-rally-championship",
-      "created_timestamp": 1772923513,
-      "start_timestamp": 1772923513,
-      "end_timestamp": 1773547200,
-      "whitelist": true,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 78,
-      "creator": "lockcjwen",
-      "is_shared": true,
-      "cv_status": "REDUCED_CV"
-    },
     {
       "id": "bYII0",
       "name": "StarRupture",
@@ -184,7 +165,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 23,
+      "entry_count": 24,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -220,7 +201,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 9,
+      "entry_count": 18,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -312,7 +293,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 26,
+      "entry_count": 27,
       "creator": "Jztr",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -331,10 +312,37 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 60,
+      "entry_count": 63,
       "creator": "Jztr",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
+    },
+    {
+      "id": "h8UnO",
+      "name": "WRC 9 FIA World Rally Championship",
+      "points": 30,
+      "copies": 1,
+      "app_id": 1267540,
+      "package_id": null,
+      "link": "h8UnO/wrc-9-fia-world-rally-championship",
+      "created_timestamp": 1772923513,
+      "start_timestamp": 1772923513,
+      "end_timestamp": 1773547200,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 78,
+      "creator": "lockcjwen",
+      "is_shared": true,
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "REDUCED_CV",
+      "deleted": false
     },
     {
       "id": "klFCr",
@@ -375,18 +383,17 @@
       "end_timestamp": 1773475200,
       "region_restricted": true,
       "group": true,
-      "comment_count": 3,
+      "comment_count": 4,
       "entry_count": 17,
       "creator": "Gooberdragon",
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "RGVS",
+          "status": "received"
         }
       ],
-      "cv_status": "FULL_CV",
-      "deleted": false
+      "cv_status": "FULL_CV"
     },
     {
       "id": "ImqXQ",
