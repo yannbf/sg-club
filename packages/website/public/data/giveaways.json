@@ -1,43 +1,6 @@
 {
-  "last_updated": "2026-03-18T03:03:48.294Z",
+  "last_updated": "2026-03-18T09:12:38.438Z",
   "giveaways": [
-    {
-      "id": "xdrlN",
-      "name": "The Room",
-      "points": 5,
-      "copies": 1,
-      "app_id": 288160,
-      "package_id": null,
-      "link": "xdrlN/the-room",
-      "created_timestamp": 1772503558,
-      "start_timestamp": 1772503558,
-      "end_timestamp": 1773802920,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 4,
-      "creator": "Almostn33t",
-      "event_type": "march_event_2026",
-      "cv_status": "FULL_CV"
-    },
-    {
-      "id": "RdwzQ",
-      "name": "Teslagrad 2",
-      "points": 20,
-      "copies": 1,
-      "app_id": 1698220,
-      "package_id": null,
-      "link": "RdwzQ/teslagrad-2",
-      "created_timestamp": 1773707905,
-      "start_timestamp": 1773707905,
-      "end_timestamp": 1773813540,
-      "whitelist": true,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 42,
-      "creator": "VenomousNyx",
-      "is_shared": true,
-      "cv_status": "REDUCED_CV"
-    },
     {
       "id": "mMZRP",
       "name": "The Darkside Detective",
@@ -52,7 +15,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 1,
-      "entry_count": 29,
+      "entry_count": 30,
       "creator": "GeekDoesStuff",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -72,7 +35,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 37,
+      "entry_count": 38,
       "creator": "GeekDoesStuff",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -127,7 +90,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 33,
+      "entry_count": 34,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -163,7 +126,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 56,
+      "entry_count": 59,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -182,7 +145,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 1,
-      "entry_count": 95,
+      "entry_count": 96,
       "creator": "MrOuiOui",
       "is_shared": true,
       "cv_status": "FULL_CV"
@@ -206,6 +169,25 @@
       "creator": "GeekDoesStuff",
       "is_shared": true,
       "cv_status": "FULL_CV"
+    },
+    {
+      "id": "frM7u",
+      "name": "Telepath Tactics Liberated",
+      "points": 20,
+      "copies": 1,
+      "app_id": 1849820,
+      "package_id": null,
+      "link": "frM7u/telepath-tactics-liberated",
+      "created_timestamp": 1773814114,
+      "start_timestamp": 1773814114,
+      "end_timestamp": 1774670400,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 6,
+      "creator": "lockcjwen",
+      "is_shared": true,
+      "cv_status": "REDUCED_CV"
     },
     {
       "id": "1jwzr",
@@ -274,10 +256,63 @@
       "whitelist": true,
       "group": true,
       "comment_count": 1,
-      "entry_count": 91,
+      "entry_count": 93,
       "creator": "Jztr",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
+    },
+    {
+      "id": "RdwzQ",
+      "name": "Teslagrad 2",
+      "points": 20,
+      "copies": 1,
+      "app_id": 1698220,
+      "package_id": null,
+      "link": "RdwzQ/teslagrad-2",
+      "created_timestamp": 1773707905,
+      "start_timestamp": 1773707905,
+      "end_timestamp": 1773813540,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 43,
+      "creator": "VenomousNyx",
+      "is_shared": true,
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "REDUCED_CV",
+      "deleted": false
+    },
+    {
+      "id": "xdrlN",
+      "name": "The Room",
+      "points": 5,
+      "copies": 1,
+      "app_id": 288160,
+      "package_id": null,
+      "link": "xdrlN/the-room",
+      "created_timestamp": 1772503558,
+      "start_timestamp": 1772503558,
+      "end_timestamp": 1773802920,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 4,
+      "creator": "Almostn33t",
+      "event_type": "march_event_2026",
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "FULL_CV",
+      "deleted": false
     },
     {
       "id": "UHwrB",

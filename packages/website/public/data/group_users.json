@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1773803899386,
+  "lastUpdated": 1773825328056,
   "users": {
     "a10i": {
       "username": "a10i",
@@ -1419,7 +1419,7 @@
         "shared_sent_count": 0,
         "shared_received_count": 1,
         "giveaways_created": 6,
-        "giveaways_with_no_entries": 1,
+        "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1772503558,
         "last_giveaway_won_at": 1773680280,
         "total_achievements_percentage": 32,
@@ -1524,7 +1524,14 @@
           "end_timestamp": 1773802920,
           "required_play": false,
           "is_shared": false,
-          "had_winners": false
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "Critter Café",
@@ -9660,10 +9667,10 @@
         "giveaways_with_no_entries": 2,
         "last_giveaway_created_at": 1771804557,
         "last_giveaway_won_at": 1770390000,
-        "total_achievements_percentage": 45,
-        "average_achievements_percentage": 47,
-        "real_total_achievements_percentage": 79,
-        "real_average_achievements_percentage": 79,
+        "total_achievements_percentage": 47,
+        "average_achievements_percentage": 49,
+        "real_total_achievements_percentage": 83,
+        "real_average_achievements_percentage": 83,
         "has_missing_achievements_data": false
       },
       "steam_id": "76561197982025537",
@@ -25431,7 +25438,7 @@
           "name": "The Darkside Detective",
           "link": "mMZRP/the-darkside-detective",
           "cv_status": "REDUCED_CV",
-          "entries": 29,
+          "entries": 30,
           "copies": 1,
           "created_timestamp": 1773061725,
           "end_timestamp": 1773842040,
@@ -25442,7 +25449,7 @@
           "name": "The Darkside Detective: A Fumble in t...",
           "link": "AU2uY/the-darkside-detective-a-fumble-in-the-dark",
           "cv_status": "REDUCED_CV",
-          "entries": 37,
+          "entries": 38,
           "copies": 1,
           "created_timestamp": 1773061876,
           "end_timestamp": 1773842880,
@@ -35449,7 +35456,7 @@
           "name": "Metal Slug Tactics",
           "link": "nPp9b/metal-slug-tactics",
           "cv_status": "REDUCED_CV",
-          "entries": 91,
+          "entries": 93,
           "copies": 1,
           "created_timestamp": 1773464204,
           "end_timestamp": 1774936620,
@@ -43024,9 +43031,9 @@
         "giveaway_ratio": 0.67,
         "shared_sent_count": 131,
         "shared_received_count": 2,
-        "giveaways_created": 124,
+        "giveaways_created": 125,
         "giveaways_with_no_entries": 0,
-        "last_giveaway_created_at": 1773533023,
+        "last_giveaway_created_at": 1773814114,
         "last_giveaway_won_at": 1764944580,
         "total_achievements_percentage": 44,
         "average_achievements_percentage": 33,
@@ -43165,7 +43172,7 @@
           "name": "JUMANJI: The Video Game",
           "link": "M7USt/jumanji-the-video-game",
           "cv_status": "REDUCED_CV",
-          "entries": 33,
+          "entries": 34,
           "copies": 1,
           "created_timestamp": 1773441561,
           "end_timestamp": 1774065600,
@@ -43176,10 +43183,21 @@
           "name": "Lugaru HD",
           "link": "lHeqF/lugaru-hd",
           "cv_status": "REDUCED_CV",
-          "entries": 56,
+          "entries": 59,
           "copies": 1,
           "created_timestamp": 1773533023,
           "end_timestamp": 1774152000,
+          "required_play": false,
+          "is_shared": true
+        },
+        {
+          "name": "Telepath Tactics Liberated",
+          "link": "frM7u/telepath-tactics-liberated",
+          "cv_status": "REDUCED_CV",
+          "entries": 6,
+          "copies": 1,
+          "created_timestamp": 1773814114,
+          "end_timestamp": 1774670400,
           "required_play": false,
           "is_shared": true
         },
@@ -53031,7 +53049,7 @@
           "name": "Arranger: A Role-Puzzling Adventure",
           "link": "0SDAh/arranger-a-role-puzzling-adventure",
           "cv_status": "FULL_CV",
-          "entries": 95,
+          "entries": 96,
           "copies": 1,
           "created_timestamp": 1772992019,
           "end_timestamp": 1774204560,
@@ -63485,10 +63503,10 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1756372469,
         "last_giveaway_won_at": 1770062400,
-        "total_achievements_percentage": 71,
-        "average_achievements_percentage": 71,
-        "real_total_achievements_percentage": 71,
-        "real_average_achievements_percentage": 71,
+        "total_achievements_percentage": 73,
+        "average_achievements_percentage": 73,
+        "real_total_achievements_percentage": 73,
+        "real_average_achievements_percentage": 73,
         "has_missing_achievements_data": false
       },
       "steam_id": "76561198069567036",
@@ -80318,12 +80336,20 @@
           "name": "Teslagrad 2",
           "link": "RdwzQ/teslagrad-2",
           "cv_status": "REDUCED_CV",
-          "entries": 42,
+          "entries": 43,
           "copies": 1,
           "created_timestamp": 1773707905,
           "end_timestamp": 1773813540,
           "required_play": false,
-          "is_shared": true
+          "is_shared": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "BURIED STARS",
