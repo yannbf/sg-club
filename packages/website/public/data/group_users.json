@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1773826003531,
+  "lastUpdated": 1773889629009,
   "users": {
     "a10i": {
       "username": "a10i",
@@ -25435,13 +25435,13 @@
       ],
       "giveaways_created": [
         {
-          "name": "The Darkside Detective",
-          "link": "mMZRP/the-darkside-detective",
-          "cv_status": "REDUCED_CV",
-          "entries": 30,
+          "name": "Picayune Dreams",
+          "link": "hKHYk/picayune-dreams",
+          "cv_status": "FULL_CV",
+          "entries": 24,
           "copies": 1,
-          "created_timestamp": 1773061725,
-          "end_timestamp": 1773842040,
+          "created_timestamp": 1773062065,
+          "end_timestamp": 1774447920,
           "required_play": false,
           "is_shared": true
         },
@@ -25454,18 +25454,34 @@
           "created_timestamp": 1773061876,
           "end_timestamp": 1773842880,
           "required_play": false,
-          "is_shared": true
+          "is_shared": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
-          "name": "Picayune Dreams",
-          "link": "hKHYk/picayune-dreams",
-          "cv_status": "FULL_CV",
-          "entries": 24,
+          "name": "The Darkside Detective",
+          "link": "mMZRP/the-darkside-detective",
+          "cv_status": "REDUCED_CV",
+          "entries": 30,
           "copies": 1,
-          "created_timestamp": 1773062065,
-          "end_timestamp": 1774447920,
+          "created_timestamp": 1773061725,
+          "end_timestamp": 1773842040,
           "required_play": false,
-          "is_shared": true
+          "is_shared": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "Manic Mechanics",
@@ -35445,7 +35461,7 @@
           "name": "Godlike Burger",
           "link": "gOJcL/godlike-burger",
           "cv_status": "REDUCED_CV",
-          "entries": 36,
+          "entries": 37,
           "copies": 1,
           "created_timestamp": 1773464120,
           "end_timestamp": 1774936500,
@@ -43172,7 +43188,7 @@
           "name": "JUMANJI: The Video Game",
           "link": "M7USt/jumanji-the-video-game",
           "cv_status": "REDUCED_CV",
-          "entries": 34,
+          "entries": 35,
           "copies": 1,
           "created_timestamp": 1773441561,
           "end_timestamp": 1774065600,
@@ -43194,7 +43210,7 @@
           "name": "Telepath Tactics Liberated",
           "link": "frM7u/telepath-tactics-liberated",
           "cv_status": "REDUCED_CV",
-          "entries": 6,
+          "entries": 24,
           "copies": 1,
           "created_timestamp": 1773814114,
           "end_timestamp": 1774670400,
@@ -46036,10 +46052,10 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1772933473,
         "last_giveaway_won_at": 1773108420,
-        "total_achievements_percentage": 22,
-        "average_achievements_percentage": 50,
-        "real_total_achievements_percentage": 22,
-        "real_average_achievements_percentage": 50,
+        "total_achievements_percentage": 48,
+        "average_achievements_percentage": 67,
+        "real_total_achievements_percentage": 48,
+        "real_average_achievements_percentage": 67,
         "has_missing_achievements_data": false
       },
       "steam_id": "76561198143588240",
@@ -49250,7 +49266,7 @@
         {
           "name": "FRAMED Collection",
           "link": "Y757v/framed-collection",
-          "cv_status": "REDUCED_CV",
+          "cv_status": "FULL_CV",
           "entries": 15,
           "copies": 1,
           "created_timestamp": 1771073024,
@@ -53774,9 +53790,9 @@
         "giveaway_ratio": 12.33,
         "shared_sent_count": 19,
         "shared_received_count": 0,
-        "giveaways_created": 36,
+        "giveaways_created": 37,
         "giveaways_with_no_entries": 4,
-        "last_giveaway_created_at": 1772124135,
+        "last_giveaway_created_at": 1773888166,
         "last_giveaway_won_at": 1753617600,
         "total_achievements_percentage": 47,
         "average_achievements_percentage": 40,
@@ -53837,6 +53853,17 @@
         }
       ],
       "giveaways_created": [
+        {
+          "name": "ASTRONEER",
+          "link": "n7VZa/astroneer",
+          "cv_status": "FULL_CV",
+          "entries": 2,
+          "copies": 1,
+          "created_timestamp": 1773888166,
+          "end_timestamp": 1774370280,
+          "required_play": true,
+          "is_shared": true
+        },
         {
           "name": "Kona II: Brume",
           "link": "vNpt9/kona-ii-brume",
@@ -58057,7 +58084,7 @@
           "name": "DRAGON QUEST XI S: Echoes of an Elusi...",
           "link": "RV5pA/dragon-quest-xi-s-echoes-of-an-elusive-age-definitive-edition",
           "cv_status": "FULL_CV",
-          "entries": 27,
+          "entries": 28,
           "copies": 1,
           "created_timestamp": 1772854252,
           "end_timestamp": 1774844640,
@@ -80097,12 +80124,12 @@
       "profile_url": "/user/VenomousNyx",
       "avatar_url": "https://avatars.steamstatic.com/b81c8aaec7e567b2bf50d9ff53e82ca8aa67676d_medium.jpg",
       "stats": {
-        "total_sent_count": 5.6,
-        "total_sent_value": 164.94,
+        "total_sent_count": 5.7,
+        "total_sent_value": 167.8,
         "total_received_count": 7.8,
         "total_received_value": 170.59,
-        "total_gift_difference": -2.2,
-        "total_value_difference": -5.64,
+        "total_gift_difference": -2.1,
+        "total_value_difference": -2.79,
         "fcv_sent_count": 5,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
@@ -80117,16 +80144,16 @@
         "real_total_received_count": 6,
         "real_total_gift_difference": -1,
         "giveaway_ratio": 3,
-        "shared_sent_count": 3,
+        "shared_sent_count": 4,
         "shared_received_count": 4,
         "giveaways_created": 9,
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1773707905,
         "last_giveaway_won_at": 1772892000,
-        "total_achievements_percentage": 26,
-        "average_achievements_percentage": 33,
-        "real_total_achievements_percentage": 44,
-        "real_average_achievements_percentage": 50,
+        "total_achievements_percentage": 31,
+        "average_achievements_percentage": 35,
+        "real_total_achievements_percentage": 52,
+        "real_average_achievements_percentage": 53,
         "has_missing_achievements_data": false
       },
       "steam_id": "76561198080362358",
@@ -80345,9 +80372,9 @@
           "had_winners": true,
           "winners": [
             {
-              "name": null,
-              "status": "awaiting_feedback",
-              "activated": false
+              "name": "Aerctaure",
+              "status": "received",
+              "activated": true
             }
           ]
         },
@@ -81182,9 +81209,9 @@
         "giveaway_ratio": 5.67,
         "shared_sent_count": 3,
         "shared_received_count": 0,
-        "giveaways_created": 9,
+        "giveaways_created": 10,
         "giveaways_with_no_entries": 0,
-        "last_giveaway_created_at": 1767297175,
+        "last_giveaway_created_at": 1773844475,
         "last_giveaway_won_at": 1767213240,
         "total_achievements_percentage": 0,
         "average_achievements_percentage": 0,
@@ -81230,6 +81257,17 @@
         }
       ],
       "giveaways_created": [
+        {
+          "name": "Öoo",
+          "link": "cRFrA/ooo",
+          "cv_status": "FULL_CV",
+          "entries": 11,
+          "copies": 1,
+          "created_timestamp": 1773844475,
+          "end_timestamp": 1774081500,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "Mouthwashing",
           "link": "9or4O/mouthwashing",
@@ -85836,10 +85874,10 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1772416563,
         "last_giveaway_won_at": 1772892000,
-        "total_achievements_percentage": 72,
-        "average_achievements_percentage": 77,
-        "real_total_achievements_percentage": 71,
-        "real_average_achievements_percentage": 76,
+        "total_achievements_percentage": 74,
+        "average_achievements_percentage": 79,
+        "real_total_achievements_percentage": 73,
+        "real_average_achievements_percentage": 78,
         "has_missing_achievements_data": false
       },
       "steam_id": "76561198352113526",
