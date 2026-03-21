@@ -1,43 +1,6 @@
 {
-  "last_updated": "2026-03-21T02:48:25.002Z",
+  "last_updated": "2026-03-21T08:53:00.402Z",
   "giveaways": [
-    {
-      "id": "M7USt",
-      "name": "JUMANJI: The Video Game",
-      "points": 30,
-      "copies": 1,
-      "app_id": 896950,
-      "package_id": null,
-      "link": "M7USt/jumanji-the-video-game",
-      "created_timestamp": 1773441561,
-      "start_timestamp": 1773441561,
-      "end_timestamp": 1774065600,
-      "whitelist": true,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 34,
-      "creator": "lockcjwen",
-      "is_shared": true,
-      "cv_status": "REDUCED_CV"
-    },
-    {
-      "id": "cRFrA",
-      "name": "Öoo",
-      "points": 10,
-      "copies": 1,
-      "app_id": 2721890,
-      "package_id": null,
-      "link": "cRFrA/ooo",
-      "created_timestamp": 1773844475,
-      "start_timestamp": 1773844475,
-      "end_timestamp": 1774081500,
-      "group": true,
-      "comment_count": 3,
-      "entry_count": 18,
-      "creator": "Vini1",
-      "event_type": "march_event_2026",
-      "cv_status": "FULL_CV"
-    },
     {
       "id": "HwC74",
       "name": "Worshippers of Cthulhu",
@@ -157,7 +120,7 @@
       "end_timestamp": 1774293240,
       "group": true,
       "comment_count": 0,
-      "entry_count": 1,
+      "entry_count": 2,
       "creator": "LinustheBold",
       "cv_status": "FULL_CV"
     },
@@ -233,7 +196,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 33,
+      "entry_count": 34,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -309,6 +272,59 @@
       "creator": "Jztr",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
+    },
+    {
+      "id": "cRFrA",
+      "name": "Öoo",
+      "points": 10,
+      "copies": 1,
+      "app_id": 2721890,
+      "package_id": null,
+      "link": "cRFrA/ooo",
+      "created_timestamp": 1773844475,
+      "start_timestamp": 1773844475,
+      "end_timestamp": 1774081500,
+      "group": true,
+      "comment_count": 3,
+      "entry_count": 18,
+      "creator": "Vini1",
+      "event_type": "march_event_2026",
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "FULL_CV",
+      "deleted": false
+    },
+    {
+      "id": "M7USt",
+      "name": "JUMANJI: The Video Game",
+      "points": 30,
+      "copies": 1,
+      "app_id": 896950,
+      "package_id": null,
+      "link": "M7USt/jumanji-the-video-game",
+      "created_timestamp": 1773441561,
+      "start_timestamp": 1773441561,
+      "end_timestamp": 1774065600,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 34,
+      "creator": "lockcjwen",
+      "is_shared": true,
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "REDUCED_CV",
+      "deleted": false
     },
     {
       "id": "LAwxy",
@@ -400,19 +416,18 @@
       "end_timestamp": 1773842040,
       "whitelist": true,
       "group": true,
-      "comment_count": 1,
+      "comment_count": 2,
       "entry_count": 30,
       "creator": "GeekDoesStuff",
       "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "weissnicht01",
+          "status": "received"
         }
       ],
-      "cv_status": "REDUCED_CV",
-      "deleted": false
+      "cv_status": "REDUCED_CV"
     },
     {
       "id": "RdwzQ",
@@ -1389,7 +1404,7 @@
           "status": "received"
         }
       ],
-      "cv_status": "FULL_CV"
+      "cv_status": "REDUCED_CV"
     },
     {
       "id": "T305K",
@@ -3715,7 +3730,7 @@
           "status": "received"
         }
       ],
-      "cv_status": "FULL_CV"
+      "cv_status": "REDUCED_CV"
     },
     {
       "id": "EEZDu",
