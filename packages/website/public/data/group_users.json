@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1774258342027,
+  "lastUpdated": 1774321188118,
   "users": {
     "a10i": {
       "username": "a10i",
@@ -2325,7 +2325,7 @@
           "name": "Gorogoa",
           "link": "YEk8i/gorogoa",
           "cv_status": "FULL_CV",
-          "entries": 4,
+          "entries": 5,
           "copies": 1,
           "created_timestamp": 1774088603,
           "end_timestamp": 1774355400,
@@ -6513,26 +6513,26 @@
       "profile_url": "/user/BorjaGRouco",
       "avatar_url": "https://avatars.steamstatic.com/16a6669bdb539a7df9bde590993329c7d830f0e0_medium.jpg",
       "stats": {
-        "total_sent_count": 38.5,
-        "total_sent_value": 878.12,
+        "total_sent_count": 39.5,
+        "total_sent_value": 885.11,
         "total_received_count": 43,
         "total_received_value": 800.57,
-        "total_gift_difference": -4.5,
-        "total_value_difference": 77.55,
-        "fcv_sent_count": 35,
+        "total_gift_difference": -3.5,
+        "total_value_difference": 84.54,
+        "fcv_sent_count": 36,
         "rcv_sent_count": 3,
         "ncv_sent_count": 0,
         "fcv_received_count": 43,
         "rcv_received_count": 0,
         "ncv_received_count": 0,
-        "fcv_gift_difference": -8,
-        "real_total_sent_value": 832.9,
+        "fcv_gift_difference": -7,
+        "real_total_sent_value": 839.89,
         "real_total_received_value": 798.57,
-        "real_total_value_difference": 34.33,
-        "real_total_sent_count": 35,
+        "real_total_value_difference": 41.32,
+        "real_total_sent_count": 36,
         "real_total_received_count": 43,
-        "real_total_gift_difference": -8,
-        "giveaway_ratio": 23.33,
+        "real_total_gift_difference": -7,
+        "giveaway_ratio": 24.33,
         "shared_sent_count": 1,
         "shared_received_count": 0,
         "giveaways_created": 41,
@@ -7459,7 +7459,15 @@
           "created_timestamp": 1773917828,
           "end_timestamp": 1774266900,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "Patxxv",
+              "status": "received",
+              "activated": true
+            }
+          ]
         },
         {
           "name": "Call of Duty: Modern Warfare",
@@ -8662,7 +8670,7 @@
           "is_shared": true,
           "i_played_bro": false,
           "required_play_meta": {
-            "requirements_met": false,
+            "requirements_met": true,
             "deadline_in_months": 2
           },
           "had_winners": true,
@@ -9739,7 +9747,7 @@
             "last_checked": 1774257801250
           },
           "required_play_meta": {
-            "requirements_met": false,
+            "requirements_met": true,
             "deadline_in_months": 3,
             "additional_notes": "\"A Place You Could Call Home\" achievement"
           }
@@ -9809,9 +9817,6 @@
           "is_shared": false,
           "had_winners": false
         }
-      ],
-      "warnings": [
-        "required_plays_need_review"
       ]
     },
     "CatzZz": {
@@ -23823,9 +23828,9 @@
         "giveaway_ratio": 2.23,
         "shared_sent_count": 3,
         "shared_received_count": 3,
-        "giveaways_created": 23,
+        "giveaways_created": 24,
         "giveaways_with_no_entries": 2,
-        "last_giveaway_created_at": 1774133779,
+        "last_giveaway_created_at": 1774301663,
         "last_giveaway_won_at": 1772370000,
         "total_achievements_percentage": 8,
         "average_achievements_percentage": 7,
@@ -24389,15 +24394,26 @@
       ],
       "giveaways_created": [
         {
-          "name": "Trinity Fusion",
-          "link": "YvqrZ/trinity-fusion",
-          "cv_status": "REDUCED_CV",
-          "entries": 15,
+          "name": "FROGGONIT",
+          "link": "domjo/froggonit",
+          "cv_status": "FULL_CV",
+          "entries": 30,
           "copies": 1,
-          "created_timestamp": 1774133693,
-          "end_timestamp": 1774309920,
+          "created_timestamp": 1774133335,
+          "end_timestamp": 1774396020,
           "required_play": false,
           "is_shared": true
+        },
+        {
+          "name": "Detective Dotson",
+          "link": "qctH4/detective-dotson",
+          "cv_status": "FULL_CV",
+          "entries": 5,
+          "copies": 1,
+          "created_timestamp": 1774301663,
+          "end_timestamp": 1774477680,
+          "required_play": false,
+          "is_shared": false
         },
         {
           "name": "Quilts and Cats of Calico",
@@ -24408,18 +24424,34 @@
           "created_timestamp": 1774133779,
           "end_timestamp": 1774310100,
           "required_play": false,
-          "is_shared": true
+          "is_shared": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
-          "name": "FROGGONIT",
-          "link": "domjo/froggonit",
-          "cv_status": "FULL_CV",
-          "entries": 28,
+          "name": "Trinity Fusion",
+          "link": "YvqrZ/trinity-fusion",
+          "cv_status": "REDUCED_CV",
+          "entries": 17,
           "copies": 1,
-          "created_timestamp": 1774133335,
-          "end_timestamp": 1774396020,
+          "created_timestamp": 1774133693,
+          "end_timestamp": 1774309920,
           "required_play": false,
-          "is_shared": true
+          "is_shared": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "The 18th Attic - Paranormal Anomaly H...",
@@ -35586,7 +35618,7 @@
           "name": "Godlike Burger",
           "link": "gOJcL/godlike-burger",
           "cv_status": "REDUCED_CV",
-          "entries": 41,
+          "entries": 42,
           "copies": 1,
           "created_timestamp": 1773464120,
           "end_timestamp": 1774936500,
@@ -35597,7 +35629,7 @@
           "name": "Metal Slug Tactics",
           "link": "nPp9b/metal-slug-tactics",
           "cv_status": "REDUCED_CV",
-          "entries": 106,
+          "entries": 109,
           "copies": 1,
           "created_timestamp": 1773464204,
           "end_timestamp": 1774936620,
@@ -41666,26 +41698,26 @@
       "profile_url": "/user/LinustheBold",
       "avatar_url": "https://avatars.steamstatic.com/f9447e18cbe4e6668a628ddd3e226971e351521d_medium.jpg",
       "stats": {
-        "total_sent_count": 36.2,
-        "total_sent_value": 698.97,
+        "total_sent_count": 37.2,
+        "total_sent_value": 708.96,
         "total_received_count": 27,
         "total_received_value": 583.73,
-        "total_gift_difference": 9.2,
-        "total_value_difference": 115.24,
-        "fcv_sent_count": 33,
+        "total_gift_difference": 10.2,
+        "total_value_difference": 125.23,
+        "fcv_sent_count": 34,
         "rcv_sent_count": 2,
         "ncv_sent_count": 0,
         "fcv_received_count": 26,
         "rcv_received_count": 0,
         "ncv_received_count": 0,
-        "fcv_gift_difference": 7,
-        "real_total_sent_value": 655.67,
+        "fcv_gift_difference": 8,
+        "real_total_sent_value": 665.66,
         "real_total_received_value": 549.74,
-        "real_total_value_difference": 105.93,
-        "real_total_sent_count": 33,
+        "real_total_value_difference": 115.92,
+        "real_total_sent_count": 34,
         "real_total_received_count": 26,
-        "real_total_gift_difference": 7,
-        "giveaway_ratio": 26,
+        "real_total_gift_difference": 8,
+        "giveaway_ratio": 27,
         "shared_sent_count": 6,
         "shared_received_count": 2,
         "giveaways_created": 48,
@@ -42292,7 +42324,15 @@
           "created_timestamp": 1774026206,
           "end_timestamp": 1774293240,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "Patxxv",
+              "status": "received",
+              "activated": true
+            }
+          ]
         },
         {
           "name": "Murderous Muses",
@@ -43324,7 +43364,7 @@
           "name": "Telepath Tactics Liberated",
           "link": "frM7u/telepath-tactics-liberated",
           "cv_status": "REDUCED_CV",
-          "entries": 39,
+          "entries": 40,
           "copies": 1,
           "created_timestamp": 1773814114,
           "end_timestamp": 1774670400,
@@ -43335,7 +43375,7 @@
           "name": "FORECLOSED",
           "link": "nGpNF/foreclosed",
           "cv_status": "REDUCED_CV",
-          "entries": 52,
+          "entries": 60,
           "copies": 1,
           "created_timestamp": 1774137009,
           "end_timestamp": 1774756800,
@@ -46948,7 +46988,7 @@
           "is_shared": false,
           "i_played_bro": false,
           "required_play_meta": {
-            "requirements_met": false,
+            "requirements_met": true,
             "deadline_in_months": 3,
             "additional_notes": "\"A Place You Could Call Home\" achievement"
           },
@@ -51006,26 +51046,26 @@
       "profile_url": "/user/mourinhos86",
       "avatar_url": "https://avatars.steamstatic.com/c9fca0ebe7f2673251c93ab055a69b4ce410f523_medium.jpg",
       "stats": {
-        "total_sent_count": 44.2,
-        "total_sent_value": 827.71,
+        "total_sent_count": 45.2,
+        "total_sent_value": 857.7,
         "total_received_count": 53.5,
         "total_received_value": 823.57,
-        "total_gift_difference": -9.4,
-        "total_value_difference": 4.14,
-        "fcv_sent_count": 41,
+        "total_gift_difference": -8.4,
+        "total_value_difference": 34.13,
+        "fcv_sent_count": 42,
         "rcv_sent_count": 1,
         "ncv_sent_count": 0,
         "fcv_received_count": 50,
         "rcv_received_count": 1,
         "ncv_received_count": 0,
-        "fcv_gift_difference": -9,
-        "real_total_sent_value": 792.34,
+        "fcv_gift_difference": -8,
+        "real_total_sent_value": 822.33,
         "real_total_received_value": 743.6,
-        "real_total_value_difference": 48.74,
-        "real_total_sent_count": 41,
+        "real_total_value_difference": 78.73,
+        "real_total_sent_count": 42,
         "real_total_received_count": 50,
-        "real_total_gift_difference": -9,
-        "giveaway_ratio": 24.33,
+        "real_total_gift_difference": -8,
+        "giveaway_ratio": 25.33,
         "shared_sent_count": 6,
         "shared_received_count": 3,
         "giveaways_created": 54,
@@ -52163,9 +52203,9 @@
           "had_winners": true,
           "winners": [
             {
-              "name": null,
-              "status": "awaiting_feedback",
-              "activated": false
+              "name": "tuvshadow",
+              "status": "received",
+              "activated": true
             }
           ]
         },
@@ -54107,7 +54147,7 @@
           "name": "ASTRONEER",
           "link": "n7VZa/astroneer",
           "cv_status": "FULL_CV",
-          "entries": 87,
+          "entries": 90,
           "copies": 1,
           "created_timestamp": 1773888166,
           "end_timestamp": 1774370280,
@@ -56890,30 +56930,30 @@
       "stats": {
         "total_sent_count": 56,
         "total_sent_value": 1232.2,
-        "total_received_count": 66.8,
-        "total_received_value": 1293.59,
-        "total_gift_difference": -10.8,
-        "total_value_difference": -61.39,
+        "total_received_count": 68.8,
+        "total_received_value": 1310.57,
+        "total_gift_difference": -12.8,
+        "total_value_difference": -78.37,
         "fcv_sent_count": 22,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
-        "fcv_received_count": 62,
+        "fcv_received_count": 64,
         "rcv_received_count": 3,
         "ncv_received_count": 0,
-        "fcv_gift_difference": -40,
+        "fcv_gift_difference": -42,
         "real_total_sent_value": 668.79,
-        "real_total_received_value": 1203.58,
-        "real_total_value_difference": -534.79,
+        "real_total_received_value": 1220.56,
+        "real_total_value_difference": -551.77,
         "real_total_sent_count": 22,
-        "real_total_received_count": 62,
-        "real_total_gift_difference": -40,
-        "giveaway_ratio": 1.33,
+        "real_total_received_count": 64,
+        "real_total_gift_difference": -42,
+        "giveaway_ratio": 0.67,
         "shared_sent_count": 49,
         "shared_received_count": 4,
         "giveaways_created": 76,
         "giveaways_with_no_entries": 2,
         "last_giveaway_created_at": 1773978593,
-        "last_giveaway_won_at": 1773404520,
+        "last_giveaway_won_at": 1774293240,
         "total_achievements_percentage": 9,
         "average_achievements_percentage": 6,
         "real_total_achievements_percentage": 8,
@@ -56925,6 +56965,24 @@
       "steam_profile_is_private": false,
       "country_code": "ca",
       "giveaways_won": [
+        {
+          "name": "Maze Mice",
+          "link": "yv5U7/maze-mice",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1774293240,
+          "required_play": false,
+          "is_shared": false
+        },
+        {
+          "name": "Scritchy Scratchy",
+          "link": "XLFj8/scritchy-scratchy",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1774266900,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "Zero Escape: The Nonary Games",
           "link": "SlW9l/zero-escape-the-nonary-games",
@@ -65064,7 +65122,7 @@
           "name": "Teenage Mutant Ninja Turtles: Splinte...",
           "link": "IzHVI/teenage-mutant-ninja-turtles-splintered-fate",
           "cv_status": "FULL_CV",
-          "entries": 5,
+          "entries": 6,
           "copies": 1,
           "created_timestamp": 1774092299,
           "end_timestamp": 1774378800,
@@ -65086,7 +65144,7 @@
           "name": "Call of Duty: Modern Warfare",
           "link": "YPTWv/call-of-duty-modern-warfare",
           "cv_status": "FULL_CV",
-          "entries": 9,
+          "entries": 8,
           "copies": 1,
           "created_timestamp": 1774091854,
           "end_timestamp": 1774378800,
@@ -73263,7 +73321,7 @@
             "last_checked": 1774258272557
           },
           "required_play_meta": {
-            "requirements_met": false,
+            "requirements_met": true,
             "deadline_in_months": 2
           }
         },
@@ -73464,9 +73522,6 @@
             }
           ]
         }
-      ],
-      "warnings": [
-        "required_plays_need_review"
       ]
     },
     "snbac": {
@@ -74131,7 +74186,7 @@
           "name": "Before Your Eyes",
           "link": "4ajwR/before-your-eyes",
           "cv_status": "FULL_CV",
-          "entries": 4,
+          "entries": 5,
           "copies": 1,
           "created_timestamp": 1774161990,
           "end_timestamp": 1774332000,
@@ -78607,7 +78662,7 @@
           "name": "The Riftbreaker",
           "link": "LzzDB/the-riftbreaker",
           "cv_status": "FULL_CV",
-          "entries": 7,
+          "entries": 9,
           "copies": 1,
           "created_timestamp": 1774114485,
           "end_timestamp": 1775066400,
@@ -78807,30 +78862,30 @@
       "stats": {
         "total_sent_count": 1,
         "total_sent_value": 19.99,
-        "total_received_count": 4.2,
-        "total_received_value": 48.79,
-        "total_gift_difference": -3.2,
-        "total_value_difference": -28.8,
+        "total_received_count": 5.2,
+        "total_received_value": 78.78,
+        "total_gift_difference": -4.2,
+        "total_value_difference": -58.79,
         "fcv_sent_count": 1,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
-        "fcv_received_count": 4,
+        "fcv_received_count": 5,
         "rcv_received_count": 0,
         "ncv_received_count": 0,
-        "fcv_gift_difference": -3,
+        "fcv_gift_difference": -4,
         "real_total_sent_value": 19.99,
-        "real_total_received_value": 47.96,
-        "real_total_value_difference": -27.97,
+        "real_total_received_value": 77.95,
+        "real_total_value_difference": -57.96,
         "real_total_sent_count": 1,
-        "real_total_received_count": 4,
-        "real_total_gift_difference": -3,
-        "giveaway_ratio": -0.33,
+        "real_total_received_count": 5,
+        "real_total_gift_difference": -4,
+        "giveaway_ratio": -0.67,
         "shared_sent_count": 0,
         "shared_received_count": 1,
         "giveaways_created": 1,
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1771777344,
-        "last_giveaway_won_at": 1773404520,
+        "last_giveaway_won_at": 1774216800,
         "total_achievements_percentage": 0,
         "average_achievements_percentage": 0,
         "real_total_achievements_percentage": 0,
@@ -78841,6 +78896,15 @@
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198043319008",
       "country_code": "us",
       "giveaways_won": [
+        {
+          "name": "Teenage Mutant Ninja Turtles: Splinte...",
+          "link": "IXo5y/teenage-mutant-ninja-turtles-splintered-fate",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1774216800,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "The Mildew Children",
           "link": "qvNtY/the-mildew-children",
@@ -80516,10 +80580,10 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1774125843,
         "last_giveaway_won_at": 1772892000,
-        "total_achievements_percentage": 40,
-        "average_achievements_percentage": 39,
-        "real_total_achievements_percentage": 66,
-        "real_average_achievements_percentage": 58,
+        "total_achievements_percentage": 41,
+        "average_achievements_percentage": 40,
+        "real_total_achievements_percentage": 69,
+        "real_average_achievements_percentage": 59,
         "has_missing_achievements_data": false
       },
       "steam_id": "76561198080362358",
@@ -80729,7 +80793,7 @@
           "name": "For the People",
           "link": "ulPhU/for-the-people",
           "cv_status": "FULL_CV",
-          "entries": 19,
+          "entries": 20,
           "copies": 1,
           "created_timestamp": 1774125843,
           "end_timestamp": 1774504740,
