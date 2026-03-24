@@ -1,60 +1,6 @@
 {
-  "last_updated": "2026-03-24T02:56:36.489Z",
+  "last_updated": "2026-03-24T09:12:18.322Z",
   "giveaways": [
-    {
-      "id": "zJPVR",
-      "name": "Zero Escape: The Nonary Games",
-      "points": 30,
-      "copies": 1,
-      "app_id": 477740,
-      "package_id": null,
-      "link": "zJPVR/zero-escape-the-nonary-games",
-      "created_timestamp": 1774162144,
-      "start_timestamp": 1774162144,
-      "end_timestamp": 1774332000,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 3,
-      "creator": "SoullessSoup",
-      "event_type": "march_event_2026",
-      "cv_status": "FULL_CV"
-    },
-    {
-      "id": "RjTyP",
-      "name": "Unheard - Voices of Crime",
-      "points": 7,
-      "copies": 1,
-      "app_id": 942970,
-      "package_id": null,
-      "link": "RjTyP/unheard-voices-of-crime",
-      "created_timestamp": 1774162034,
-      "start_timestamp": 1774162034,
-      "end_timestamp": 1774332000,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 2,
-      "creator": "SoullessSoup",
-      "event_type": "march_event_2026",
-      "cv_status": "FULL_CV"
-    },
-    {
-      "id": "4ajwR",
-      "name": "Before Your Eyes",
-      "points": 10,
-      "copies": 1,
-      "app_id": 1082430,
-      "package_id": null,
-      "link": "4ajwR/before-your-eyes",
-      "created_timestamp": 1774161990,
-      "start_timestamp": 1774161990,
-      "end_timestamp": 1774332000,
-      "group": true,
-      "comment_count": 1,
-      "entry_count": 5,
-      "creator": "SoullessSoup",
-      "event_type": "march_event_2026",
-      "cv_status": "FULL_CV"
-    },
     {
       "id": "YEk8i",
       "name": "Gorogoa",
@@ -68,7 +14,7 @@
       "end_timestamp": 1774355400,
       "group": true,
       "comment_count": 0,
-      "entry_count": 5,
+      "entry_count": 6,
       "creator": "axlnase",
       "event_type": "march_event_2026",
       "cv_status": "FULL_CV"
@@ -87,7 +33,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 90,
+      "entry_count": 88,
       "creator": "NateSCC",
       "required_play": true,
       "is_shared": true,
@@ -161,7 +107,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 1,
-      "entry_count": 30,
+      "entry_count": 32,
       "creator": "elysium1988",
       "is_shared": true,
       "cv_status": "FULL_CV"
@@ -199,7 +145,7 @@
       "end_timestamp": 1774477680,
       "group": true,
       "comment_count": 0,
-      "entry_count": 5,
+      "entry_count": 7,
       "creator": "elysium1988",
       "event_type": "march_event_2026",
       "cv_status": "FULL_CV"
@@ -363,7 +309,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 1,
-      "entry_count": 109,
+      "entry_count": 111,
       "creator": "Jztr",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -383,6 +329,81 @@
       "comment_count": 0,
       "entry_count": 9,
       "creator": "Tucs",
+      "cv_status": "FULL_CV"
+    },
+    {
+      "id": "zJPVR",
+      "name": "Zero Escape: The Nonary Games",
+      "points": 30,
+      "copies": 1,
+      "app_id": 477740,
+      "package_id": null,
+      "link": "zJPVR/zero-escape-the-nonary-games",
+      "created_timestamp": 1774162144,
+      "start_timestamp": 1774162144,
+      "end_timestamp": 1774332000,
+      "group": true,
+      "comment_count": 2,
+      "entry_count": 3,
+      "creator": "SoullessSoup",
+      "event_type": "march_event_2026",
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": "Gooberdragon",
+          "status": "received"
+        }
+      ],
+      "cv_status": "FULL_CV"
+    },
+    {
+      "id": "RjTyP",
+      "name": "Unheard - Voices of Crime",
+      "points": 7,
+      "copies": 1,
+      "app_id": 942970,
+      "package_id": null,
+      "link": "RjTyP/unheard-voices-of-crime",
+      "created_timestamp": 1774162034,
+      "start_timestamp": 1774162034,
+      "end_timestamp": 1774332000,
+      "group": true,
+      "comment_count": 3,
+      "entry_count": 4,
+      "creator": "SoullessSoup",
+      "event_type": "march_event_2026",
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": "Almostn33t",
+          "status": "received"
+        }
+      ],
+      "cv_status": "FULL_CV"
+    },
+    {
+      "id": "4ajwR",
+      "name": "Before Your Eyes",
+      "points": 10,
+      "copies": 1,
+      "app_id": 1082430,
+      "package_id": null,
+      "link": "4ajwR/before-your-eyes",
+      "created_timestamp": 1774161990,
+      "start_timestamp": 1774161990,
+      "end_timestamp": 1774332000,
+      "group": true,
+      "comment_count": 1,
+      "entry_count": 5,
+      "creator": "SoullessSoup",
+      "event_type": "march_event_2026",
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": "Gooberdragon",
+          "status": "received"
+        }
+      ],
       "cv_status": "FULL_CV"
     },
     {
