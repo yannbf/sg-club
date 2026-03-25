@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-03-25T03:01:12.729Z",
+  "last_updated": "2026-03-25T09:11:08.995Z",
   "giveaways": [
     {
       "id": "hKHYk",
@@ -16,9 +16,26 @@
       "whitelist": true,
       "group": true,
       "comment_count": 1,
-      "entry_count": 27,
+      "entry_count": 26,
       "creator": "GeekDoesStuff",
       "is_shared": true,
+      "cv_status": "FULL_CV"
+    },
+    {
+      "id": "FSzK7",
+      "name": "Resident Evil 3",
+      "points": 40,
+      "copies": 1,
+      "app_id": 952060,
+      "package_id": null,
+      "link": "FSzK7/resident-evil-3",
+      "created_timestamp": 1774423038,
+      "start_timestamp": 1774423038,
+      "end_timestamp": 1774465200,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 1,
+      "creator": "UnknownEAK",
       "cv_status": "FULL_CV"
     },
     {
@@ -53,7 +70,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 19,
+      "entry_count": 20,
       "creator": "VenomousNyx",
       "is_shared": true,
       "cv_status": "FULL_CV"
@@ -72,7 +89,7 @@
       "region_restricted": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 9,
+      "entry_count": 10,
       "creator": "philipdick",
       "cv_status": "FULL_CV"
     },
@@ -125,7 +142,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 43,
+      "entry_count": 45,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -144,7 +161,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 62,
+      "entry_count": 63,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -179,7 +196,7 @@
       "end_timestamp": 1774844640,
       "group": true,
       "comment_count": 1,
-      "entry_count": 30,
+      "entry_count": 31,
       "creator": "Patxxv",
       "cv_status": "FULL_CV"
     },
@@ -196,8 +213,8 @@
       "end_timestamp": 1774850400,
       "whitelist": true,
       "group": true,
-      "comment_count": 6,
-      "entry_count": 36,
+      "comment_count": 7,
+      "entry_count": 47,
       "creator": "SoullessSoup",
       "is_shared": true,
       "cv_status": "FULL_CV"
@@ -239,6 +256,24 @@
       "creator": "Jztr",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
+    },
+    {
+      "id": "CuVeI",
+      "name": "RACCOON CITY EDITION",
+      "points": 50,
+      "copies": 1,
+      "app_id": null,
+      "package_id": 597332,
+      "link": "CuVeI/raccoon-city-edition",
+      "created_timestamp": 1774410897,
+      "start_timestamp": 1774410897,
+      "end_timestamp": 1775026800,
+      "region_restricted": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 1,
+      "creator": "Gooberdragon",
+      "cv_status": "FULL_CV"
     },
     {
       "id": "LzzDB",
@@ -398,19 +433,18 @@
       "start_timestamp": 1774088603,
       "end_timestamp": 1774355400,
       "group": true,
-      "comment_count": 1,
+      "comment_count": 3,
       "entry_count": 6,
       "creator": "axlnase",
       "event_type": "march_event_2026",
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "VenomousNyx",
+          "status": "received"
         }
       ],
-      "cv_status": "FULL_CV",
-      "deleted": false
+      "cv_status": "FULL_CV"
     },
     {
       "id": "zJPVR",
