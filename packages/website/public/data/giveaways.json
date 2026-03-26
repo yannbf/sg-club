@@ -1,25 +1,6 @@
 {
-  "last_updated": "2026-03-26T03:07:42.699Z",
+  "last_updated": "2026-03-26T09:18:48.443Z",
   "giveaways": [
-    {
-      "id": "ulPhU",
-      "name": "For the People",
-      "points": 17,
-      "copies": 1,
-      "app_id": 1146600,
-      "package_id": null,
-      "link": "ulPhU/for-the-people",
-      "created_timestamp": 1774125843,
-      "start_timestamp": 1774125843,
-      "end_timestamp": 1774504740,
-      "whitelist": true,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 21,
-      "creator": "VenomousNyx",
-      "is_shared": true,
-      "cv_status": "FULL_CV"
-    },
     {
       "id": "5R0VY",
       "name": "Cabernet",
@@ -87,7 +68,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 47,
+      "entry_count": 48,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -124,7 +105,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 64,
+      "entry_count": 65,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -194,7 +175,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 9,
-      "entry_count": 74,
+      "entry_count": 75,
       "creator": "SoullessSoup",
       "is_shared": true,
       "cv_status": "FULL_CV"
@@ -213,7 +194,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 43,
+      "entry_count": 42,
       "creator": "Jztr",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -271,6 +252,33 @@
       "entry_count": 8,
       "creator": "Tucs",
       "cv_status": "FULL_CV"
+    },
+    {
+      "id": "ulPhU",
+      "name": "For the People",
+      "points": 17,
+      "copies": 1,
+      "app_id": 1146600,
+      "package_id": null,
+      "link": "ulPhU/for-the-people",
+      "created_timestamp": 1774125843,
+      "start_timestamp": 1774125843,
+      "end_timestamp": 1774504740,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 22,
+      "creator": "VenomousNyx",
+      "is_shared": true,
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "FULL_CV",
+      "deleted": false
     },
     {
       "id": "qctH4",
