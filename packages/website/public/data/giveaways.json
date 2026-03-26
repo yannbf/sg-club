@@ -1,61 +1,6 @@
 {
-  "last_updated": "2026-03-25T09:11:08.995Z",
+  "last_updated": "2026-03-26T03:07:42.699Z",
   "giveaways": [
-    {
-      "id": "hKHYk",
-      "name": "Picayune Dreams",
-      "points": 5,
-      "copies": 1,
-      "app_id": 2088840,
-      "package_id": null,
-      "link": "hKHYk/picayune-dreams",
-      "created_timestamp": 1773062065,
-      "start_timestamp": 1773062065,
-      "end_timestamp": 1774447920,
-      "region_restricted": true,
-      "whitelist": true,
-      "group": true,
-      "comment_count": 1,
-      "entry_count": 26,
-      "creator": "GeekDoesStuff",
-      "is_shared": true,
-      "cv_status": "FULL_CV"
-    },
-    {
-      "id": "FSzK7",
-      "name": "Resident Evil 3",
-      "points": 40,
-      "copies": 1,
-      "app_id": 952060,
-      "package_id": null,
-      "link": "FSzK7/resident-evil-3",
-      "created_timestamp": 1774423038,
-      "start_timestamp": 1774423038,
-      "end_timestamp": 1774465200,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 1,
-      "creator": "UnknownEAK",
-      "cv_status": "FULL_CV"
-    },
-    {
-      "id": "qctH4",
-      "name": "Detective Dotson",
-      "points": 15,
-      "copies": 1,
-      "app_id": 2450840,
-      "package_id": null,
-      "link": "qctH4/detective-dotson",
-      "created_timestamp": 1774301663,
-      "start_timestamp": 1774301663,
-      "end_timestamp": 1774477680,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 8,
-      "creator": "elysium1988",
-      "event_type": "march_event_2026",
-      "cv_status": "FULL_CV"
-    },
     {
       "id": "ulPhU",
       "name": "For the People",
@@ -70,7 +15,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 20,
+      "entry_count": 21,
       "creator": "VenomousNyx",
       "is_shared": true,
       "cv_status": "FULL_CV"
@@ -89,7 +34,7 @@
       "region_restricted": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 10,
+      "entry_count": 13,
       "creator": "philipdick",
       "cv_status": "FULL_CV"
     },
@@ -142,10 +87,28 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 45,
+      "entry_count": 47,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
+    },
+    {
+      "id": "hdQtb",
+      "name": "METAL EDEN",
+      "points": 20,
+      "copies": 1,
+      "app_id": 990380,
+      "package_id": null,
+      "link": "hdQtb/metal-eden",
+      "created_timestamp": 1774470934,
+      "start_timestamp": 1774470934,
+      "end_timestamp": 1774733580,
+      "region_restricted": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 4,
+      "creator": "Gooberdragon",
+      "cv_status": "FULL_CV"
     },
     {
       "id": "nGpNF",
@@ -161,7 +124,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 63,
+      "entry_count": 64,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -181,6 +144,23 @@
       "comment_count": 0,
       "entry_count": 24,
       "creator": "DrTenma",
+      "cv_status": "FULL_CV"
+    },
+    {
+      "id": "JYg5G",
+      "name": "Boneraiser Minions",
+      "points": 5,
+      "copies": 1,
+      "app_id": 1944570,
+      "package_id": null,
+      "link": "JYg5G/boneraiser-minions",
+      "created_timestamp": 1774459316,
+      "start_timestamp": 1774459316,
+      "end_timestamp": 1774807200,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 4,
+      "creator": "rufioh",
       "cv_status": "FULL_CV"
     },
     {
@@ -213,8 +193,8 @@
       "end_timestamp": 1774850400,
       "whitelist": true,
       "group": true,
-      "comment_count": 7,
-      "entry_count": 47,
+      "comment_count": 9,
+      "entry_count": 74,
       "creator": "SoullessSoup",
       "is_shared": true,
       "cv_status": "FULL_CV"
@@ -233,7 +213,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 42,
+      "entry_count": 43,
       "creator": "Jztr",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -252,7 +232,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 1,
-      "entry_count": 111,
+      "entry_count": 115,
       "creator": "Jztr",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -271,7 +251,7 @@
       "region_restricted": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 1,
+      "entry_count": 8,
       "creator": "Gooberdragon",
       "cv_status": "FULL_CV"
     },
@@ -293,6 +273,76 @@
       "cv_status": "FULL_CV"
     },
     {
+      "id": "qctH4",
+      "name": "Detective Dotson",
+      "points": 15,
+      "copies": 1,
+      "app_id": 2450840,
+      "package_id": null,
+      "link": "qctH4/detective-dotson",
+      "created_timestamp": 1774301663,
+      "start_timestamp": 1774301663,
+      "end_timestamp": 1774477680,
+      "group": true,
+      "comment_count": 2,
+      "entry_count": 10,
+      "creator": "elysium1988",
+      "event_type": "march_event_2026",
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": "Ignition365",
+          "status": "received"
+        }
+      ],
+      "cv_status": "FULL_CV"
+    },
+    {
+      "id": "FSzK7",
+      "name": "Resident Evil 3",
+      "points": 40,
+      "copies": 1,
+      "app_id": 952060,
+      "package_id": null,
+      "link": "FSzK7/resident-evil-3",
+      "created_timestamp": 1774423038,
+      "start_timestamp": 1774423038,
+      "end_timestamp": 1774465200,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 1,
+      "creator": "UnknownEAK",
+      "cv_status": "FULL_CV"
+    },
+    {
+      "id": "hKHYk",
+      "name": "Picayune Dreams",
+      "points": 5,
+      "copies": 1,
+      "app_id": 2088840,
+      "package_id": null,
+      "link": "hKHYk/picayune-dreams",
+      "created_timestamp": 1773062065,
+      "start_timestamp": 1773062065,
+      "end_timestamp": 1774447920,
+      "region_restricted": true,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 1,
+      "entry_count": 26,
+      "creator": "GeekDoesStuff",
+      "is_shared": true,
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "FULL_CV",
+      "deleted": false
+    },
+    {
       "id": "domjo",
       "name": "FROGGONIT",
       "points": 10,
@@ -305,19 +355,18 @@
       "end_timestamp": 1774396020,
       "whitelist": true,
       "group": true,
-      "comment_count": 1,
+      "comment_count": 2,
       "entry_count": 39,
       "creator": "elysium1988",
       "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "krichfal",
+          "status": "received"
         }
       ],
-      "cv_status": "FULL_CV",
-      "deleted": false
+      "cv_status": "FULL_CV"
     },
     {
       "id": "IzHVI",
@@ -533,19 +582,18 @@
       "start_timestamp": 1774133779,
       "end_timestamp": 1774310100,
       "group": true,
-      "comment_count": 0,
+      "comment_count": 1,
       "entry_count": 8,
       "creator": "elysium1988",
       "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "PsychoApeMan",
+          "status": "received"
         }
       ],
-      "cv_status": "REDUCED_CV",
-      "deleted": false
+      "cv_status": "REDUCED_CV"
     },
     {
       "id": "YvqrZ",
@@ -560,19 +608,18 @@
       "end_timestamp": 1774309920,
       "whitelist": true,
       "group": true,
-      "comment_count": 0,
+      "comment_count": 1,
       "entry_count": 17,
       "creator": "elysium1988",
       "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "RoadtoBfly",
+          "status": "received"
         }
       ],
-      "cv_status": "REDUCED_CV",
-      "deleted": false
+      "cv_status": "REDUCED_CV"
     },
     {
       "id": "yv5U7",
