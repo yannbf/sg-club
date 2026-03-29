@@ -1,25 +1,6 @@
 {
-  "last_updated": "2026-03-29T03:33:31.966Z",
+  "last_updated": "2026-03-29T09:03:38.928Z",
   "giveaways": [
-    {
-      "id": "nGpNF",
-      "name": "FORECLOSED",
-      "points": 17,
-      "copies": 1,
-      "app_id": 1308880,
-      "package_id": null,
-      "link": "nGpNF/foreclosed",
-      "created_timestamp": 1774137009,
-      "start_timestamp": 1774137009,
-      "end_timestamp": 1774756800,
-      "whitelist": true,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 68,
-      "creator": "lockcjwen",
-      "is_shared": true,
-      "cv_status": "REDUCED_CV"
-    },
     {
       "id": "1jwzr",
       "name": "Age of Mythology: Retold",
@@ -33,7 +14,7 @@
       "end_timestamp": 1774803600,
       "group": true,
       "comment_count": 0,
-      "entry_count": 24,
+      "entry_count": 25,
       "creator": "DrTenma",
       "cv_status": "FULL_CV"
     },
@@ -68,7 +49,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 19,
+      "entry_count": 20,
       "creator": "ithamore",
       "is_shared": true,
       "cv_status": "FULL_CV"
@@ -179,7 +160,7 @@
       "end_timestamp": 1775005680,
       "group": true,
       "comment_count": 0,
-      "entry_count": 2,
+      "entry_count": 5,
       "creator": "ithamore",
       "cv_status": "FULL_CV"
     },
@@ -197,7 +178,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 0,
+      "entry_count": 6,
       "creator": "ithamore",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -251,7 +232,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 18,
+      "entry_count": 26,
       "creator": "NateSCC",
       "required_play": true,
       "is_shared": true,
@@ -289,7 +270,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 42,
+      "entry_count": 43,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -327,7 +308,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 12,
+      "entry_count": 17,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -348,6 +329,33 @@
       "entry_count": 7,
       "creator": "DrTenma",
       "cv_status": "FULL_CV"
+    },
+    {
+      "id": "nGpNF",
+      "name": "FORECLOSED",
+      "points": 17,
+      "copies": 1,
+      "app_id": 1308880,
+      "package_id": null,
+      "link": "nGpNF/foreclosed",
+      "created_timestamp": 1774137009,
+      "start_timestamp": 1774137009,
+      "end_timestamp": 1774756800,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 68,
+      "creator": "lockcjwen",
+      "is_shared": true,
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "REDUCED_CV",
+      "deleted": false
     },
     {
       "id": "hdQtb",
