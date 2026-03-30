@@ -1,42 +1,6 @@
 {
-  "last_updated": "2026-03-30T03:37:21.207Z",
+  "last_updated": "2026-03-30T09:33:37.826Z",
   "giveaways": [
-    {
-      "id": "RV5pA",
-      "name": "DRAGON QUEST XI S: Echoes of an Elusi...",
-      "points": 40,
-      "copies": 1,
-      "app_id": 1295510,
-      "package_id": null,
-      "link": "RV5pA/dragon-quest-xi-s-echoes-of-an-elusive-age-definitive-edition",
-      "created_timestamp": 1772854252,
-      "start_timestamp": 1772854252,
-      "end_timestamp": 1774844640,
-      "group": true,
-      "comment_count": 1,
-      "entry_count": 34,
-      "creator": "Patxxv",
-      "cv_status": "FULL_CV"
-    },
-    {
-      "id": "UPegU",
-      "name": "The Talos Principle 2",
-      "points": 30,
-      "copies": 1,
-      "app_id": 835960,
-      "package_id": null,
-      "link": "UPegU/the-talos-principle-2",
-      "created_timestamp": 1774377469,
-      "start_timestamp": 1774377469,
-      "end_timestamp": 1774850400,
-      "whitelist": true,
-      "group": true,
-      "comment_count": 9,
-      "entry_count": 87,
-      "creator": "SoullessSoup",
-      "is_shared": true,
-      "cv_status": "FULL_CV"
-    },
     {
       "id": "LZeQM",
       "name": "Rock of Ages 3: Make & Break",
@@ -51,7 +15,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 13,
+      "entry_count": 14,
       "creator": "elysium1988",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -125,7 +89,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 1,
-      "entry_count": 23,
+      "entry_count": 25,
       "creator": "ithamore",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -179,7 +143,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 38,
+      "entry_count": 40,
       "creator": "NateSCC",
       "required_play": true,
       "is_shared": true,
@@ -217,7 +181,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 44,
+      "entry_count": 47,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -255,7 +219,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 31,
+      "entry_count": 38,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -278,6 +242,57 @@
       "cv_status": "FULL_CV"
     },
     {
+      "id": "UPegU",
+      "name": "The Talos Principle 2",
+      "points": 30,
+      "copies": 1,
+      "app_id": 835960,
+      "package_id": null,
+      "link": "UPegU/the-talos-principle-2",
+      "created_timestamp": 1774377469,
+      "start_timestamp": 1774377469,
+      "end_timestamp": 1774850400,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 10,
+      "entry_count": 88,
+      "creator": "SoullessSoup",
+      "is_shared": true,
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": "gus09",
+          "status": "received"
+        }
+      ],
+      "cv_status": "FULL_CV"
+    },
+    {
+      "id": "RV5pA",
+      "name": "DRAGON QUEST XI S: Echoes of an Elusi...",
+      "points": 40,
+      "copies": 1,
+      "app_id": 1295510,
+      "package_id": null,
+      "link": "RV5pA/dragon-quest-xi-s-echoes-of-an-elusive-age-definitive-edition",
+      "created_timestamp": 1772854252,
+      "start_timestamp": 1772854252,
+      "end_timestamp": 1774844640,
+      "group": true,
+      "comment_count": 2,
+      "entry_count": 34,
+      "creator": "Patxxv",
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "FULL_CV",
+      "deleted": false
+    },
+    {
       "id": "HxAoV",
       "name": "Bibots",
       "points": 13,
@@ -290,19 +305,18 @@
       "end_timestamp": 1774832880,
       "whitelist": true,
       "group": true,
-      "comment_count": 0,
+      "comment_count": 3,
       "entry_count": 28,
       "creator": "ithamore",
       "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "Lugum",
+          "status": "received"
         }
       ],
-      "cv_status": "FULL_CV",
-      "deleted": false
+      "cv_status": "FULL_CV"
     },
     {
       "id": "JYg5G",
@@ -734,7 +748,7 @@
       "start_timestamp": 1774088603,
       "end_timestamp": 1774355400,
       "group": true,
-      "comment_count": 3,
+      "comment_count": 4,
       "entry_count": 6,
       "creator": "axlnase",
       "event_type": "march_event_2026",
