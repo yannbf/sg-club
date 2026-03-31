@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1774928535034,
+  "lastUpdated": 1774949100532,
   "users": {
     "a10i": {
       "username": "a10i",
@@ -7482,7 +7482,7 @@
           "name": "BALL x PIT",
           "link": "JJxC6/ball-x-pit",
           "cv_status": "FULL_CV",
-          "entries": 19,
+          "entries": 20,
           "copies": 1,
           "created_timestamp": 1774899103,
           "end_timestamp": 1775671200,
@@ -20515,7 +20515,7 @@
           "name": "Greedland",
           "link": "U4A0n/greedland",
           "cv_status": "FULL_CV",
-          "entries": 7,
+          "entries": 6,
           "copies": 1,
           "created_timestamp": 1774634939,
           "end_timestamp": 1775404800,
@@ -34028,7 +34028,7 @@
           "name": "The Devil Within: Satgat",
           "link": "LOoZ6/the-devil-within-satgat",
           "cv_status": "REDUCED_CV",
-          "entries": 31,
+          "entries": 34,
           "copies": 1,
           "created_timestamp": 1774751404,
           "end_timestamp": 1775005920,
@@ -35935,26 +35935,42 @@
       ],
       "giveaways_created": [
         {
-          "name": "Godlike Burger",
-          "link": "gOJcL/godlike-burger",
-          "cv_status": "REDUCED_CV",
-          "entries": 28,
-          "copies": 1,
-          "created_timestamp": 1773464120,
-          "end_timestamp": 1774936500,
-          "required_play": false,
-          "is_shared": true
-        },
-        {
           "name": "Metal Slug Tactics",
           "link": "nPp9b/metal-slug-tactics",
           "cv_status": "FULL_CV",
-          "entries": 113,
+          "entries": 115,
           "copies": 1,
           "created_timestamp": 1773464204,
           "end_timestamp": 1774936620,
           "required_play": false,
-          "is_shared": true
+          "is_shared": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
+        },
+        {
+          "name": "Godlike Burger",
+          "link": "gOJcL/godlike-burger",
+          "cv_status": "REDUCED_CV",
+          "entries": 29,
+          "copies": 1,
+          "created_timestamp": 1773464120,
+          "end_timestamp": 1774936500,
+          "required_play": false,
+          "is_shared": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "ASKA",
@@ -43726,7 +43742,7 @@
           "name": "Mercury Fallen",
           "link": "gU8vd/mercury-fallen",
           "cv_status": "REDUCED_CV",
-          "entries": 43,
+          "entries": 45,
           "copies": 1,
           "created_timestamp": 1774742365,
           "end_timestamp": 1775361600,
@@ -54556,7 +54572,7 @@
           "name": "I Am Future: Cozy Apocalypse Survival",
           "link": "MOkGc/i-am-future-cozy-apocalypse-survival",
           "cv_status": "FULL_CV",
-          "entries": 47,
+          "entries": 49,
           "copies": 1,
           "created_timestamp": 1774723533,
           "end_timestamp": 1775148180,
@@ -54567,7 +54583,7 @@
           "name": "METAL EDEN",
           "link": "hTWzK/metal-eden",
           "cv_status": "FULL_CV",
-          "entries": 17,
+          "entries": 23,
           "copies": 1,
           "created_timestamp": 1774903751,
           "end_timestamp": 1775317380,
@@ -64397,10 +64413,10 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1756372469,
         "last_giveaway_won_at": 1770062400,
-        "total_achievements_percentage": 80,
-        "average_achievements_percentage": 80,
-        "real_total_achievements_percentage": 80,
-        "real_average_achievements_percentage": 80,
+        "total_achievements_percentage": 81,
+        "average_achievements_percentage": 81,
+        "real_total_achievements_percentage": 81,
+        "real_average_achievements_percentage": 81,
         "has_missing_achievements_data": false
       },
       "steam_id": "76561198069567036",
