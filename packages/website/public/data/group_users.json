@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1775015631775,
+  "lastUpdated": 1775035846484,
   "users": {
     "a10i": {
       "username": "a10i",
@@ -20272,10 +20272,10 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1774634939,
         "last_giveaway_won_at": 1774844640,
-        "total_achievements_percentage": 49,
-        "average_achievements_percentage": 56,
-        "real_total_achievements_percentage": 49,
-        "real_average_achievements_percentage": 56,
+        "total_achievements_percentage": 44,
+        "average_achievements_percentage": 51,
+        "real_total_achievements_percentage": 44,
+        "real_average_achievements_percentage": 51,
         "has_missing_achievements_data": false
       },
       "steam_id": "76561198054649894",
@@ -26588,7 +26588,15 @@
           "created_timestamp": 1774410897,
           "end_timestamp": 1775026800,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "METAL EDEN",
@@ -33643,12 +33651,12 @@
       "profile_url": "/user/ithamore",
       "avatar_url": "https://avatars.steamstatic.com/3347e0dec116bd9ebdf08c7c2a8a2c2551848fe5_medium.jpg",
       "stats": {
-        "total_sent_count": 19.9,
-        "total_sent_value": 296.91,
+        "total_sent_count": 20.9,
+        "total_sent_value": 321.9,
         "total_received_count": 15.3,
         "total_received_value": 204.75,
-        "total_gift_difference": 4.6,
-        "total_value_difference": 92.17,
+        "total_gift_difference": 5.6,
+        "total_value_difference": 117.16,
         "fcv_sent_count": 8.45,
         "rcv_sent_count": 1,
         "ncv_sent_count": 0,
@@ -33663,7 +33671,7 @@
         "real_total_received_count": 13,
         "real_total_gift_difference": -4.55,
         "giveaway_ratio": 5.78,
-        "shared_sent_count": 14,
+        "shared_sent_count": 15,
         "shared_received_count": 3,
         "giveaways_created": 28,
         "giveaways_with_no_entries": 1,
@@ -34046,9 +34054,9 @@
           "had_winners": true,
           "winners": [
             {
-              "name": null,
-              "status": "awaiting_feedback",
-              "activated": false
+              "name": "EloyOn",
+              "status": "received",
+              "activated": true
             }
           ]
         },
@@ -43756,7 +43764,7 @@
           "name": "City of Beats",
           "link": "uQHLd/city-of-beats",
           "cv_status": "REDUCED_CV",
-          "entries": 59,
+          "entries": 61,
           "copies": 1,
           "created_timestamp": 1774651187,
           "end_timestamp": 1775275200,
@@ -43778,7 +43786,7 @@
           "name": "Mercury Fallen",
           "link": "gU8vd/mercury-fallen",
           "cv_status": "REDUCED_CV",
-          "entries": 47,
+          "entries": 49,
           "copies": 1,
           "created_timestamp": 1774742365,
           "end_timestamp": 1775361600,
@@ -54608,7 +54616,7 @@
           "name": "I Am Future: Cozy Apocalypse Survival",
           "link": "MOkGc/i-am-future-cozy-apocalypse-survival",
           "cv_status": "FULL_CV",
-          "entries": 53,
+          "entries": 55,
           "copies": 1,
           "created_timestamp": 1774723533,
           "end_timestamp": 1775148180,
@@ -54619,7 +54627,7 @@
           "name": "METAL EDEN",
           "link": "hTWzK/metal-eden",
           "cv_status": "FULL_CV",
-          "entries": 31,
+          "entries": 32,
           "copies": 1,
           "created_timestamp": 1774903751,
           "end_timestamp": 1775317380,
@@ -57447,7 +57455,7 @@
         "last_giveaway_won_at": 1775005680,
         "total_achievements_percentage": 8,
         "average_achievements_percentage": 6,
-        "real_total_achievements_percentage": 8,
+        "real_total_achievements_percentage": 7,
         "real_average_achievements_percentage": 5,
         "has_missing_achievements_data": true
       },
@@ -58945,7 +58953,7 @@
           "name": "Ready or Not",
           "link": "2iqOw/ready-or-not",
           "cv_status": "FULL_CV",
-          "entries": 8,
+          "entries": 10,
           "copies": 1,
           "created_timestamp": 1774975312,
           "end_timestamp": 1776616860,
@@ -62838,7 +62846,7 @@
           "name": "Nova Lands",
           "link": "NGtJN/nova-lands",
           "cv_status": "NO_CV",
-          "entries": 4,
+          "entries": 9,
           "copies": 1,
           "created_timestamp": 1775005088,
           "end_timestamp": 1775264280,
@@ -87106,7 +87114,7 @@
         "total_achievements_percentage": 65,
         "average_achievements_percentage": 75,
         "real_total_achievements_percentage": 66,
-        "real_average_achievements_percentage": 76,
+        "real_average_achievements_percentage": 77,
         "has_missing_achievements_data": false
       },
       "steam_id": "76561198352113526",

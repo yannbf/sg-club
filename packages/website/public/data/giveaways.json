@@ -1,24 +1,6 @@
 {
-  "last_updated": "2026-04-01T03:40:36.398Z",
+  "last_updated": "2026-04-01T09:27:35.057Z",
   "giveaways": [
-    {
-      "id": "CuVeI",
-      "name": "RACCOON CITY EDITION",
-      "points": 50,
-      "copies": 1,
-      "app_id": null,
-      "package_id": 597332,
-      "link": "CuVeI/raccoon-city-edition",
-      "created_timestamp": 1774410897,
-      "start_timestamp": 1774410897,
-      "end_timestamp": 1775026800,
-      "region_restricted": true,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 11,
-      "creator": "Gooberdragon",
-      "cv_status": "FULL_CV"
-    },
     {
       "id": "LzzDB",
       "name": "The Riftbreaker",
@@ -50,7 +32,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 53,
+      "entry_count": 55,
       "creator": "NateSCC",
       "required_play": true,
       "is_shared": true,
@@ -88,7 +70,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 4,
+      "entry_count": 9,
       "creator": "PoeticKatana",
       "is_shared": true,
       "cv_status": "NO_CV"
@@ -107,7 +89,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 59,
+      "entry_count": 61,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -146,7 +128,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 31,
+      "entry_count": 32,
       "creator": "NateSCC",
       "required_play": true,
       "is_shared": true,
@@ -166,7 +148,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 47,
+      "entry_count": 49,
       "creator": "lockcjwen",
       "is_shared": true,
       "cv_status": "REDUCED_CV"
@@ -218,9 +200,35 @@
       "end_timestamp": 1776616860,
       "group": true,
       "comment_count": 3,
-      "entry_count": 8,
+      "entry_count": 10,
       "creator": "Patxxv",
       "cv_status": "FULL_CV"
+    },
+    {
+      "id": "CuVeI",
+      "name": "RACCOON CITY EDITION",
+      "points": 50,
+      "copies": 1,
+      "app_id": null,
+      "package_id": 597332,
+      "link": "CuVeI/raccoon-city-edition",
+      "created_timestamp": 1774410897,
+      "start_timestamp": 1774410897,
+      "end_timestamp": 1775026800,
+      "region_restricted": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 11,
+      "creator": "Gooberdragon",
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "FULL_CV",
+      "deleted": false
     },
     {
       "id": "LOoZ6",
@@ -235,19 +243,18 @@
       "end_timestamp": 1775005920,
       "whitelist": true,
       "group": true,
-      "comment_count": 1,
+      "comment_count": 2,
       "entry_count": 38,
       "creator": "ithamore",
       "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "EloyOn",
+          "status": "received"
         }
       ],
-      "cv_status": "REDUCED_CV",
-      "deleted": false
+      "cv_status": "REDUCED_CV"
     },
     {
       "id": "xKTph",
