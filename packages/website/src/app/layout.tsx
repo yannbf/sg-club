@@ -56,6 +56,12 @@ export default function RootLayout({
                 Users
               </Link>
               <Link
+                href="/ex-members"
+                className="transition-colors hover:text-foreground"
+              >
+                Ex Members
+              </Link>
+              <Link
                 href="/stats"
                 className="transition-colors hover:text-foreground"
               >

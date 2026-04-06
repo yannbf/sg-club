@@ -451,6 +451,14 @@ export class SteamGiftsHTMLScraper {
 
     const metadata = this.extractDataFromDetailedGiveawayPage(html)
 
+    if (metadata?.endDate) {
+      // if it's within april 2026 it's april_event_2026, we didn't do the tag
+      const endDate = new Date(metadata.endDate * 1000)
+      if (endDate.getUTCFullYear() === 2026 && endDate.getUTCMonth() === 3) {
+        event_type = 'april_event_2026'
+      }
+    }
+
     if (!event_type && description.toLowerCase().includes('event entry')) {
       if (metadata?.endDate) {
         const endDateObj = new Date(metadata.endDate * 1000)

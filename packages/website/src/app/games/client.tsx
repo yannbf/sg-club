@@ -11,6 +11,7 @@ interface Props {
   giveaways: Giveaway[]
   gameData: GameData[]
   userAvatars: Map<string, string>
+  userNames: Map<string, string>
   lastUpdated: number | null
 }
 
@@ -26,30 +27,42 @@ function getGameImageUrl(game: GameData): string {
   return src
 } 
 
-export default function GamesClient({ giveaways, gameData, userAvatars, lastUpdated }: Props) {
+export default function GamesClient({ giveaways, gameData, userAvatars, userNames, lastUpdated }: Props) {
   const [searchTerm, setSearchTerm] = useState('')
   const [sortBy, setSortBy] = useState<'name' | 'giveaways' | 'copies'>('giveaways')
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc')
 
   const gamesWithGiveawayData = useMemo(() => {
-    const gameMap = new Map<number, {
+    const gameMap = new Map<string | number, {
       game: GameData;
       giveawaysCount: number;
       endedGiveawaysCount: number;
       openGiveawaysCount: number;
       zeroEntriesGiveawaysCount: number;
       copiesCount: number;
-      winners: { name: string }[]
+      winners: { name: string; winner_username?: string }[]
     }>()
 
     giveaways.forEach(giveaway => {
       const game_id = giveaway.app_id ?? giveaway.package_id
-      const game = gameData.find(g => g.app_id === game_id || g.package_id === game_id)
+      let game: GameData | null | undefined = null
+      let mapKey: string | number
+
+      if (game_id != null) {
+        game = gameData.find(g => g.app_id === game_id || g.package_id === game_id)
+        mapKey = game_id
+      } else {
+        // Giveaways without a Steam app/package ID (e.g. Humble Bundles)
+        // Group by name, use name as map key
+        mapKey = `name:${giveaway.name}`
+        game = { name: giveaway.name, app_id: null, package_id: null } as GameData
+      }
+
       if (game) {
-        if (!gameMap.has(game_id)) {
-          gameMap.set(game_id, { game, giveawaysCount: 0, endedGiveawaysCount: 0, openGiveawaysCount: 0, zeroEntriesGiveawaysCount: 0, copiesCount: 0, winners: [] })
+        if (!gameMap.has(mapKey)) {
+          gameMap.set(mapKey, { game, giveawaysCount: 0, endedGiveawaysCount: 0, openGiveawaysCount: 0, zeroEntriesGiveawaysCount: 0, copiesCount: 0, winners: [] })
         }
-        const gameEntry = gameMap.get(game_id)!
+        const gameEntry = gameMap.get(mapKey)!
         gameEntry.giveawaysCount++
 
         if (giveaway.hasWinners && giveaway.end_timestamp <= Date.now() / 1000) {
@@ -72,7 +85,7 @@ export default function GamesClient({ giveaways, gameData, userAvatars, lastUpda
       }
     })
 
-    let processedGames = Array.from(gameMap.values())
+    let processedGames = Array.from(gameMap.entries()).map(([key, value]) => ({ ...value, key }))
 
     processedGames = processedGames.filter(game =>
       game.game.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -149,14 +162,14 @@ export default function GamesClient({ giveaways, gameData, userAvatars, lastUpda
 
       {/* Games List */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {gamesWithGiveawayData.map(({ game, giveawaysCount, copiesCount, endedGiveawaysCount, openGiveawaysCount, winners }) => {
+        {gamesWithGiveawayData.map(({ key, game, giveawaysCount, copiesCount, endedGiveawaysCount, openGiveawaysCount, winners }) => {
           const hasOpenGiveaways = openGiveawaysCount > 0
           const hasEndedGiveaways = endedGiveawaysCount > 0
           const endedWithNoEntries = hasEndedGiveaways && copiesCount === 0
 
           const hasGiveaways = giveawaysCount > 0
           return (
-            <div key={game.app_id ?? game.package_id} className={`bg-card-background rounded-lg border-card-border border overflow-hidden ${endedWithNoEntries ? 'opacity-60 border-red-500' : ''}`}>
+            <div key={key} className={`bg-card-background rounded-lg border-card-border border overflow-hidden ${endedWithNoEntries ? 'opacity-60 border-red-500' : ''}`}>
               <Link href={`https://store.steampowered.com/${game.app_id ? 'app' : 'sub'}/${game.app_id || game.package_id}`} target="_blank">
                 <Image
                   src={getGameImageUrl(game)}
@@ -177,39 +190,35 @@ export default function GamesClient({ giveaways, gameData, userAvatars, lastUpda
                     {hasGiveaways && <p className="text-sm text-muted-foreground">{giveawaysCount} {giveawaysCount === 1 ? 'Giveaway' : 'Giveaways'} created {hasOpenGiveaways ? `(${openGiveawaysCount} open)` : ''}</p>}
                     {winners.length > 0 && <div className="mt-2">
                       <h3 className="text-sm font-semibold">{winners.length} {winners.length === 1 ? 'Winner' : 'Winners'}:</h3>
-                      <div className="flex flex-wrap gap-1 mt-1">
-                        {winners.slice(0, 5).map((winner, index) => (
-                          userAvatars.get(winner.name) ? (
+                      <div className="flex flex-wrap gap-1 mt-1 max-h-28 overflow-y-auto">
+                        {winners.map((winner, index) => {
+                          const steamId = winner.name
+                          const displayName = winner.winner_username || userNames.get(steamId) || steamId
+                          const avatarUrl = userAvatars.get(steamId) || 'https://cdn-icons-png.flaticon.com/512/9287/9287610.png'
+                          const isActiveMember = userNames.has(steamId)
+
+                          return isActiveMember ? (
                             <Link
                               key={index}
-                              href={`/users/${winner.name}`}
-                              className="text-xs bg-accent/20 text-accent-foreground px-2 py-1 rounded-full flex"
+                              href={`/users/${displayName}`}
+                              className="text-xs bg-accent/20 text-accent-foreground px-2 py-1 rounded-full flex items-center"
                             >
-                              <UserAvatar
-                                src={userAvatars.get(winner.name) || 'https://cdn-icons-png.flaticon.com/512/9287/9287610.png'}
-                                username={winner.name}
-                              />
-                              {winner.name}
+                              <UserAvatar src={avatarUrl} username={displayName} />
+                              {displayName}
                             </Link>
                           ) : (
                             <a
                               key={index}
-                              href={`http://steamgifts.com/user/${winner.name}`}
+                              href={`https://steamgifts.com/user/${displayName}`}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="text-xs bg-accent/20 text-accent-foreground px-2 py-1 rounded-full flex"
+                              className="text-xs bg-accent/20 text-accent-foreground px-2 py-1 rounded-full flex items-center"
                             >
-                              <UserAvatar
-                                src={'https://cdn-icons-png.flaticon.com/512/9287/9287610.png'}
-                                username={winner.name}
-                              />
-                              {winner.name} (ex member)
+                              <UserAvatar src={avatarUrl} username={displayName} />
+                              {displayName} (ex member)
                             </a>
                           )
-                        ))}
-                        {winners.length > 5 && (
-                          <span className="text-xs text-muted-foreground">+ {winners.length - 5} more</span>
-                        )}
+                        })}
                       </div>
                     </div>}
                   </>}

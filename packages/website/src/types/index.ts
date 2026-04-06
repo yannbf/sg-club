@@ -34,7 +34,7 @@ export interface User {
     real_average_achievements_percentage?: number
     has_missing_achievements_data?: boolean
   }
-  steam_id?: string
+  steam_id: string
   steam_profile_url?: string
   steam_profile_is_private?: boolean
   country_code?: string | null
@@ -76,6 +76,7 @@ export interface User {
     had_winners?: boolean
     winners?: {
       name: string
+      winner_username?: string
       status: string
       activated: boolean
     }[]
@@ -84,6 +85,7 @@ export interface User {
 
 export interface UserGroupData {
   lastUpdated: number
+  /** Users keyed by steam_id */
   users: Record<string, User>
 }
 
@@ -105,10 +107,16 @@ export interface Giveaway {
   contributor_level: number
   comment_count: number
   entry_count: number
+  /** steam_id of the creator */
   creator: string
+  /** Original username of the creator (for display) */
+  creator_username?: string
   cv_status?: 'FULL_CV' | 'REDUCED_CV' | 'NO_CV'
   winners?: {
+    /** steam_id of the winner */
     name: string
+    /** Original username of the winner (for display) */
+    winner_username?: string
     status: string
   }[]
   hasWinners?: boolean
@@ -170,3 +178,10 @@ export type UserEntry = Record<
   string,
   Array<{ link: string; joined_at: number }>
 >
+
+export interface SteamIdMapEntry {
+  current: string
+  previous: Array<{ username: string; changed_at: string }>
+}
+
+export type SteamIdMap = Record<string, SteamIdMapEntry>

@@ -1,10 +1,12 @@
-import { Giveaway, UserGroupData, User, GameData, UserEntry } from '@/types'
+import { Giveaway, UserGroupData, User, GameData, UserEntry, SteamIdMap } from '@/types'
 
 // For build time - import data directly
 let buildTimeGiveaways: Giveaway[] | null = null
 let buildTimeUsers: UserGroupData | null = null
 let buildTimeUserEntries: UserEntry | null = null
 let buildTimeGameData: GameData[] | null = null
+let buildTimeSteamIdMap: SteamIdMap | null = null
+let buildTimeExMembers: UserGroupData | null = null
 
 // Helper to get base URL for data files
 function getBaseUrl() {
@@ -14,22 +16,22 @@ function getBaseUrl() {
   return ''
 }
 
-// turns { "ga_id1": [{ user: "user1", joined_at: 1716796800 }, { user: "user2", joined_at: 1716796800 }] }
-// into { "user1": [{ link: "ga_id1", joined_at: 1716796800 }], "user2": [{ link: "ga_id1", joined_at: 1716796800 }] }
-type InputData = Record<string, { username: string; joined_at: number }[]>
+// turns { "ga_link": [{ steam_id: "765...", joined_at: 1716796800 }] }
+// into { "765...": [{ link: "ga_link", joined_at: 1716796800 }] } (pivoted by steam_id)
+type InputData = Record<string, { steam_id: string; joined_at: number }[]>
 
 function processUserEntries(input: InputData): UserEntry {
   const output: UserEntry = {}
 
   for (const [link, userEntries] of Object.entries(input)) {
     for (const entry of userEntries) {
-      const { username, joined_at } = entry
+      const { steam_id, joined_at } = entry
 
-      if (!output[username]) {
-        output[username] = []
+      if (!output[steam_id]) {
+        output[steam_id] = []
       }
 
-      output[username].push({ link, joined_at })
+      output[steam_id].push({ link, joined_at })
     }
   }
 
@@ -196,6 +198,50 @@ async function fetchGameData(): Promise<GameData[]> {
   }
 }
 
+async function fetchExMembers(): Promise<UserGroupData | null> {
+  try {
+    const baseUrl = getBaseUrl()
+    const response = await fetch(`${baseUrl}/data/ex_members.json`)
+    if (!response.ok) throw new Error('Failed to fetch ex members')
+    return await response.json()
+  } catch (error) {
+    console.error('Error reading ex members data:', error)
+    return null
+  }
+}
+
+async function fetchSteamIdMap(): Promise<SteamIdMap> {
+  try {
+    const baseUrl = getBaseUrl()
+    const response = await fetch(`${baseUrl}/data/steam_id_map.json`)
+    if (!response.ok) throw new Error('Failed to fetch steam ID map')
+    return await response.json()
+  } catch (error) {
+    console.error('Error reading steam ID map:', error)
+    return {}
+  }
+}
+
+/** Returns a map of steam_id → username history entry */
+export async function getSteamIdMap(): Promise<SteamIdMap> {
+  if (typeof window !== 'undefined' || process.env.NODE_ENV === 'development') {
+    return await fetchSteamIdMap()
+  }
+
+  try {
+    if (!buildTimeSteamIdMap) {
+      const { readFileSync } = await import('fs')
+      const { join } = await import('path')
+      const mapPath = join(process.cwd(), 'public', 'data', 'steam_id_map.json')
+      buildTimeSteamIdMap = JSON.parse(readFileSync(mapPath, 'utf8'))
+    }
+    return buildTimeSteamIdMap || {}
+  } catch (error) {
+    console.error('Error loading steam ID map:', error)
+    return {}
+  }
+}
+
 export async function getAllGiveaways(): Promise<Giveaway[]> {
   const data = await loadBuildTimeData()
   return data.giveaways
@@ -207,10 +253,10 @@ export async function getAllUsers(): Promise<UserGroupData | null> {
   const data = await loadBuildTimeData()
   if (!data.users || !data.users.users) return data.users
 
-  // Create a shallow copy to not mutate original data
+  // Create a shallow copy to not mutate original data (keys are steam_ids)
   const filteredUsers = Object.fromEntries(
     Object.entries(data.users.users).filter(
-      ([username]) => !disallowList.includes(username)
+      ([, user]) => !disallowList.includes(user.username)
     )
   )
 
@@ -218,6 +264,25 @@ export async function getAllUsers(): Promise<UserGroupData | null> {
     ...data.users,
     users: filteredUsers,
   }
+}
+
+export async function getExMembers(): Promise<UserGroupData | null> {
+  if (typeof window !== 'undefined' || process.env.NODE_ENV === 'development') {
+    return fetchExMembers()
+  }
+
+  if (!buildTimeExMembers) {
+    try {
+      const { readFileSync } = await import('fs')
+      const { join } = await import('path')
+      const filePath = join(process.cwd(), 'public', 'data', 'ex_members.json')
+      buildTimeExMembers = JSON.parse(readFileSync(filePath, 'utf8'))
+    } catch (error) {
+      console.error('Error loading ex members:', error)
+      return null
+    }
+  }
+  return buildTimeExMembers
 }
 
 export async function getAllUsersAsArray(): Promise<User[]> {
@@ -233,17 +298,47 @@ export async function getGameData(): Promise<GameData[]> {
   return data.gameData
 }
 
-export async function getUser(username: string): Promise<User | null> {
-  const userData = await getAllUsers()
-  if (!userData) return null
-
-  // Find the user case-insensitively by comparing lowercase usernames
+export async function getUser(username: string): Promise<{ user: User; isExMember: boolean } | null> {
   const lowerUsername = username.toLowerCase()
-  const matchingUser = Object.entries(userData.users).find(
-    ([key]) => key.toLowerCase() === lowerUsername
-  )
 
-  return matchingUser ? matchingUser[1] : null
+  // Search active members first
+  const userData = await getAllUsers()
+  if (userData) {
+    const matchingUser = Object.values(userData.users).find(
+      (user) => user.username.toLowerCase() === lowerUsername
+    )
+    if (matchingUser) return { user: matchingUser, isExMember: false }
+  }
+
+  // Then search ex-members
+  const exData = await getExMembers()
+  if (exData) {
+    const matchingExMember = Object.values(exData.users).find(
+      (user) => user.username.toLowerCase() === lowerUsername
+    )
+    if (matchingExMember) return { user: matchingExMember, isExMember: true }
+  }
+
+  // Finally, check if this is a previous username via steam_id_map
+  const steamIdMap = await getSteamIdMap()
+  for (const [steamId, entry] of Object.entries(steamIdMap)) {
+    const isPreviousName = entry.previous.some(
+      (p) => p.username.toLowerCase() === lowerUsername
+    )
+    if (isPreviousName) {
+      // Find the user by steam_id in active or ex-members
+      if (userData) {
+        const user = userData.users[steamId]
+        if (user) return { user, isExMember: false }
+      }
+      if (exData) {
+        const user = exData.users[steamId]
+        if (user) return { user, isExMember: true }
+      }
+    }
+  }
+
+  return null
 }
 
 export async function getUserEntries(): Promise<UserEntry | null> {

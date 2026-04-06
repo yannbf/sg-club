@@ -1,8 +1,9 @@
-import { getAllUsers } from '@/lib/data'
+import { getAllUsers, getExMembers } from '@/lib/data'
 import UsersClient from './client'
 
 export default async function UsersPage() {
   const userData = await getAllUsers()
+  const exData = await getExMembers()
   const lastUpdated = userData?.lastUpdated
 
   if (!userData) {
@@ -13,5 +14,7 @@ export default async function UsersPage() {
     )
   }
 
-  return <UsersClient users={Object.values(userData.users)} lastUpdated={lastUpdated} />
+  const exMembers = exData ? Object.values(exData.users) : []
+
+  return <UsersClient users={Object.values(userData.users)} exMembers={exMembers} lastUpdated={lastUpdated} />
 } 

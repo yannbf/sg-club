@@ -6,6 +6,7 @@ interface HltbSearchOptions {
   size: number
   searchOptions: Record<string, any>
   useCache: boolean
+  [key: string]: unknown
 }
 
 interface HltbGameData {
@@ -18,9 +19,15 @@ interface HltbSearchResponse {
   data: HltbGameData[]
 }
 
+interface HltbAuthData {
+  token: string
+  hpKey: string
+  hpVal: string
+}
+
 class HltbFetcher {
-  private fetchUrl = 'https://umadb.ro/hltb/fetch.php'
   private hltbBaseUrl = 'https://howlongtobeat.com'
+  private authData: HltbAuthData | null = null
 
   private getUserAgent(): string {
     return (
@@ -30,17 +37,29 @@ class HltbFetcher {
     )
   }
 
-  private async getKeyPath(): Promise<string> {
-    const res = await fetch(this.fetchUrl, {
-      headers: {
-        'User-Agent': this.getUserAgent(),
+  private async initAuth(): Promise<HltbAuthData> {
+    if (this.authData) return this.authData
+
+    const res = await fetch(
+      `${this.hltbBaseUrl}/api/find/init?t=${Date.now()}`,
+      {
+        headers: {
+          'User-Agent': this.getUserAgent(),
+          origin: this.hltbBaseUrl,
+          referer: this.hltbBaseUrl,
+        },
       },
-    })
+    )
     if (!res.ok) {
-      throw new Error(`Failed to fetch key path: ${res.status}`)
+      throw new Error(`Failed to init HLTB auth: ${res.status}`)
     }
-    const key = await res.text()
-    return this.hltbBaseUrl + key.trim()
+    this.authData = (await res.json()) as HltbAuthData
+    return this.authData
+  }
+
+  /** Clear cached auth so the next request fetches a fresh token */
+  public resetAuth(): void {
+    this.authData = null
   }
 
   private normalizeName(name: string): string[] {
@@ -59,7 +78,7 @@ class HltbFetcher {
     mainStoryHours: number | null
   }> {
     const terms = this.normalizeName(gameName)
-    const url = await this.getKeyPath()
+    const auth = await this.initAuth()
 
     const query: HltbSearchOptions = {
       searchType: 'games',
@@ -84,25 +103,63 @@ class HltbFetcher {
         randomizer: 0,
       },
       useCache: true,
+      [auth.hpKey]: auth.hpVal,
     }
 
-    const res = await fetch(url, {
+    const res = await fetch(`${this.hltbBaseUrl}/api/find`, {
       method: 'POST',
       headers: {
         'User-Agent': this.getUserAgent(),
         'Content-Type': 'application/json',
         origin: this.hltbBaseUrl,
         referer: this.hltbBaseUrl,
+        'x-auth-token': auth.token,
+        'x-hp-key': auth.hpKey,
+        'x-hp-val': auth.hpVal,
       },
       body: JSON.stringify(query),
     })
+
+    if (res.status === 403) {
+      // Token expired — refresh and retry once
+      this.resetAuth()
+      const freshAuth = await this.initAuth()
+      query[freshAuth.hpKey] = freshAuth.hpVal
+
+      const retryRes = await fetch(`${this.hltbBaseUrl}/api/find`, {
+        method: 'POST',
+        headers: {
+          'User-Agent': this.getUserAgent(),
+          'Content-Type': 'application/json',
+          origin: this.hltbBaseUrl,
+          referer: this.hltbBaseUrl,
+          'x-auth-token': freshAuth.token,
+          'x-hp-key': freshAuth.hpKey,
+          'x-hp-val': freshAuth.hpVal,
+        },
+        body: JSON.stringify(query),
+      })
+
+      if (!retryRes.ok) {
+        throw new Error(`HLTB request failed after token refresh: ${retryRes.status}`)
+      }
+
+      const data: HltbSearchResponse = (await retryRes.json()) as HltbSearchResponse
+      return this.pickBestMatch(data, gameName)
+    }
 
     if (!res.ok) {
       throw new Error(`HLTB request failed: ${res.status}`)
     }
 
     const data: HltbSearchResponse = (await res.json()) as HltbSearchResponse
+    return this.pickBestMatch(data, gameName)
+  }
 
+  private pickBestMatch(
+    data: HltbSearchResponse,
+    gameName: string,
+  ): { name: string; mainStoryHours: number | null } {
     if (data.count === 0) {
       return { name: gameName, mainStoryHours: null }
     }

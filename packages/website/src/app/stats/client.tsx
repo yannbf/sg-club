@@ -13,7 +13,7 @@ import { LastUpdated } from '@/components/LastUpdated';
 
 type GiveawayWithLeavers = Giveaway & {
   leavers: {
-    user: { username: string; avatar_url: string };
+    user: { username: string; avatar_url: string; isExMember?: boolean };
     leaver: Omit<GiveawayLeaver, 'giveaway'>;
   }[];
 };
@@ -25,18 +25,28 @@ type Props = {
 
 export default function Client({ giveaways, lastUpdated }: Props) {
   const [search, setSearch] = useState('');
+  const [includeExMembers, setIncludeExMembers] = useState(false);
 
-  const filteredGiveaways = giveaways.filter((ga) => {
-    const searchTerm = search.toLowerCase();
-    const hasLeaver = ga.leavers.some((l) =>
-      l.user.username.toLowerCase().includes(searchTerm)
-    );
-    return (
-      ga.name.toLowerCase().includes(searchTerm) ||
-      ga.id === search ||
-      hasLeaver
-    );
-  });
+  const filteredGiveaways = giveaways
+    .map((ga) => {
+      // Filter out ex-member leavers if toggle is off
+      const filteredLeavers = includeExMembers
+        ? ga.leavers
+        : ga.leavers.filter((l) => !l.user.isExMember);
+      return { ...ga, leavers: filteredLeavers };
+    })
+    .filter((ga) => {
+      if (ga.leavers.length === 0) return false;
+      const searchTerm = search.toLowerCase();
+      const hasLeaver = ga.leavers.some((l) =>
+        l.user.username.toLowerCase().includes(searchTerm)
+      );
+      return (
+        ga.name.toLowerCase().includes(searchTerm) ||
+        ga.id === search ||
+        hasLeaver
+      );
+    });
 
   // sort giveaways by end date (ending soon first, then ended by end date)
   const sortedGiveaways = filteredGiveaways.sort((a, b) => {
@@ -54,13 +64,24 @@ export default function Client({ giveaways, lastUpdated }: Props) {
         <LastUpdated lastUpdatedDate={lastUpdated} />
       )}
       </div>
-      <input
-        type="text"
-        placeholder="Search for a giveaway name, id or username"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        className="mb-4 p-2 border rounded w-full"
-      />
+      <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
+        <input
+          type="text"
+          placeholder="Search for a giveaway name, id or username"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="p-2 border rounded w-full sm:flex-1"
+        />
+        <label className="flex items-center gap-2 text-sm text-muted-foreground whitespace-nowrap cursor-pointer">
+          <input
+            type="checkbox"
+            checked={includeExMembers}
+            onChange={(e) => setIncludeExMembers(e.target.checked)}
+            className="rounded border-card-border"
+          />
+          Include ex-members
+        </label>
+      </div>
       <div>
         {sortedGiveaways.map((ga) => (
           <div key={ga.id} className="mb-4 p-4 border rounded">

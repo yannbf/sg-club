@@ -7,6 +7,8 @@ import type {
   UserGroupData,
   GamePrice,
   UserGiveawaysStats,
+  SteamIdMap,
+  SteamIdMapEntry,
 } from '../types/steamgifts.js'
 import { steamChecker, type GamePlayData } from '../api/fetch-steam-data.js'
 import { delay } from '../utils/common.js'
@@ -32,9 +34,19 @@ try {
   console.warn(`⚠️  Could not load giveaway file: ${error}`)
 }
 
-const USER_ENTRIES = JSON.parse(
+// Raw format: { "ga_link": [{ steam_id, joined_at }] }
+// Pivoted to: { "steam_id": [{ link, joined_at }] }
+const RAW_USER_ENTRIES = JSON.parse(
   readFileSync('../website/public/data/user_entries.json', 'utf-8'),
-) as { [key: string]: { link: string; joined_at: number }[] }
+) as Record<string, { steam_id: string; joined_at: string }[]>
+
+const USER_ENTRIES: Record<string, { link: string; joined_at: number }[]> = {}
+for (const [gaLink, entries] of Object.entries(RAW_USER_ENTRIES)) {
+  for (const entry of entries) {
+    if (!USER_ENTRIES[entry.steam_id]) USER_ENTRIES[entry.steam_id] = []
+    USER_ENTRIES[entry.steam_id].push({ link: gaLink, joined_at: Number(entry.joined_at) })
+  }
+}
 
 const IDLE_GAMES_WHITELIST = [
   251150, // The Legend of Heroes: Trails in the Sky
@@ -201,6 +213,7 @@ export class SteamGiftsUserFetcher {
             username,
             profile_url,
             avatar_url,
+            steam_id: '', // Populated later by fetchUserSteamInfo or synthetic key
             stats: {
               total_sent_count,
               total_sent_value,
@@ -641,9 +654,14 @@ export class SteamGiftsUserFetcher {
     // Calculate timestamp for 5 months ago (150 days)
     const fiveMonthsAgo = Date.now() / 1000 - 5 * 30 * 24 * 60 * 60
 
-    const usersToUpdate = Array.from(users.values()).filter((u) => u.steam_id)
+    const usersToUpdate = Array.from(users.values()).filter(
+      (u) => u.steam_id && !u.steam_id.startsWith('username:'),
+    )
     const totalUsers = usersToUpdate.length
     let processedUsers = 0
+
+    // Build a giveaway lookup map for O(1) access instead of .find() per game
+    const giveawayByLink = new Map(giveaways.map((g) => [g.link, g]))
 
     for (const user of usersToUpdate) {
       processedUsers++
@@ -652,16 +670,12 @@ export class SteamGiftsUserFetcher {
         `[${processedUsers}/${totalUsers}] 🎮 Checking Steam data for ${username}`,
       )
 
-      if (!user.steam_id) continue
-
       // Check Steam profile visibility first
       try {
         const visibility = await steamChecker.checkProfileVisibility(
           user.steam_id,
         )
-        if (!visibility.is_public) {
-          user.steam_profile_is_private = !visibility.is_public
-        }
+        user.steam_profile_is_private = !visibility.is_public
       } catch (error) {
         const errorMessage = `Error checking profile visibility for ${user.username} (${user.steam_id})`
         console.warn(`⚠️  ${errorMessage}:`, error)
@@ -686,12 +700,12 @@ export class SteamGiftsUserFetcher {
       for (let i = 0; i < updatedGiveawaysWon.length; i++) {
         const wonGame = updatedGiveawaysWon[i]
         // Find the giveaway to get the app_id
-        const giveaway = giveaways.find((g) => g.link === wonGame.link)
+        const giveaway = giveawayByLink.get(wonGame.link)
         if (!giveaway?.app_id && !giveaway?.package_id) continue
 
-        // Only check Steam data for giveaways that ended within the last 2 months
+        // Skip old giveaways unless FETCH_ALL_STEAM_DATA is set
         if (
-          process.env.FETCH_ALL_STEAM_DATA === 'true' ||
+          process.env.FETCH_ALL_STEAM_DATA !== 'true' &&
           wonGame.end_timestamp < fiveMonthsAgo
         ) {
           steamSkippedCount++
@@ -731,11 +745,6 @@ export class SteamGiftsUserFetcher {
             let isPotentiallyIdling =
               wonGame.steam_play_data?.is_potentially_idling
 
-            console.log({
-              name: giveaway.name,
-              gameStuff: wonGame.name,
-              id: giveaway.app_id ?? giveaway.package_id,
-            })
             const isWhitelisted = IDLE_GAMES_WHITELIST.includes(
               giveaway.app_id ?? giveaway.package_id!,
             )
@@ -827,10 +836,16 @@ export class SteamGiftsUserFetcher {
       pointsMap.set(pointData.id, entries)
     })
 
+    // Load steam_id_map for previous username lookups (points data uses usernames)
+    const steamIdMapPath = '../website/public/data/steam_id_map.json'
+    const steamIdMapForEnrich: SteamIdMap = existsSync(steamIdMapPath)
+      ? JSON.parse(readFileSync(steamIdMapPath, 'utf-8'))
+      : {}
+
     let enrichedCount = 0
     const now = Date.now() / 1000 // Current timestamp in seconds
     const totalUsers = existingUsers.size
-    // Create a map of giveaways by creator for faster lookup
+    // Create a map of giveaways by creator (steam_id) for faster lookup
     const giveawaysByCreator = new Map<string, Giveaway[]>()
     for (const giveaway of giveaways) {
       const creatorGiveaways = giveawaysByCreator.get(giveaway.creator) || []
@@ -841,8 +856,8 @@ export class SteamGiftsUserFetcher {
     // Process each user
     for (const [username, user] of existingUsers) {
       enrichedCount++
-      // Get all giveaways created by this user
-      const userGiveaways = giveawaysByCreator.get(username) || []
+      // Get all giveaways created by this user (creator is now steam_id)
+      const userGiveaways = giveawaysByCreator.get(user.steam_id) || []
 
       const giveawaysWon: NonNullable<User['giveaways_won']> = []
       const giveawaysCreated: NonNullable<User['giveaways_created']> = []
@@ -852,22 +867,28 @@ export class SteamGiftsUserFetcher {
         user.giveaways_won?.map((game) => [game.link, game]) || [],
       )
 
-      // Find giveaways won by this user
+      // Find giveaways won by this user (winner.name is now steam_id)
       for (const giveaway of giveaways) {
         if (giveaway.winners) {
           for (const winner of giveaway.winners) {
             if (
-              winner.name?.toLowerCase() === username.toLowerCase() &&
+              winner.name === user.steam_id &&
               winner.status === 'received'
             ) {
               const giveawayId = giveaway.link.split('/')[0]
               const pointsDataEntries = pointsMap.get(giveawayId) || []
-              // Find the specific entry for this winner
+              // Find the specific entry for this winner (points data uses usernames)
+              // Try current username first, then previous usernames
+              const usernames = [username]
+              const mapEntry = steamIdMapForEnrich[user.steam_id]
+              if (mapEntry) {
+                for (const prev of mapEntry.previous) {
+                  usernames.push(prev.username)
+                }
+              }
               const pointsData = pointsDataEntries.find((entry) => {
-                return (
-                  entry.winner?.toLowerCase().trim() ===
-                  username.toLowerCase().trim()
-                )
+                const entryWinner = entry.winner?.toLowerCase().trim()
+                return usernames.some((n) => n.toLowerCase().trim() === entryWinner)
               })
 
               // using this to debug, running via generate-members-data script
@@ -929,9 +950,9 @@ export class SteamGiftsUserFetcher {
         }
       }
 
-      // Find giveaways created by this user
+      // Find giveaways created by this user (creator is now steam_id)
       for (const giveaway of giveaways) {
-        if (giveaway.creator === username) {
+        if (giveaway.creator === user.steam_id) {
           const giveawayCreated: NonNullable<User['giveaways_created']>[0] = {
             name: giveaway.name,
             link: giveaway.link,
@@ -983,6 +1004,7 @@ export class SteamGiftsUserFetcher {
           if (giveaway.winners && giveaway.winners.length > 0) {
             giveawayCreated.winners = giveaway.winners.map((winner) => ({
               name: winner.name,
+              winner_username: winner.winner_username,
               status: winner.status,
               activated: winner.name !== null && winner.status === 'received',
             }))
@@ -1024,6 +1046,10 @@ export class SteamGiftsUserFetcher {
     console.log(`📊 Enriched ${enrichedCount} users with giveaway data`)
   }
 
+  /**
+   * Loads existing users from file (keyed by steam_id) and returns a Map keyed by username
+   * for internal processing (matching against HTML-scraped data which uses usernames).
+   */
   private loadExistingUsers(filename: string): Map<string, User> {
     const userMap = new Map<string, User>()
 
@@ -1032,6 +1058,7 @@ export class SteamGiftsUserFetcher {
         const data = readFileSync(filename, 'utf-8')
         const existingData: UserGroupData = JSON.parse(data)
 
+        // File is keyed by steam_id, but we build Map by username for merging
         const userList = Object.values(existingData.users)
 
         for (const user of userList) {
@@ -1154,7 +1181,7 @@ export class SteamGiftsUserFetcher {
     if (unplayedRequiredPlayGiveaways.length >= 2) {
       warnings.push('unplayed_required_play_giveaways')
 
-      const enteredGiveawayData = USER_ENTRIES?.[user.username] || []
+      const enteredGiveawayData = USER_ENTRIES?.[user.steam_id] || []
 
       if (unplayedRequiredPlayGiveaways.length === 2) {
         const enteredGiveawaysWithPlayRequired = enteredGiveawayData
@@ -1286,79 +1313,117 @@ export class SteamGiftsUserFetcher {
 
       let allScrapedUsers: User[] = usersList ?? []
       if (!usersList) {
-        const attempts = 2
-        let bestAttempt: User[] = []
-        for (let i = 0; i < attempts; i++) {
-          console.log(
-            `\n🚀 Attempt ${i + 1} of ${attempts} to fetch user list...`,
-          )
-          const currentAttemptUsers = await this._fetchAllUsersFromPages()
-          if (currentAttemptUsers.length > bestAttempt.length) {
-            bestAttempt = currentAttemptUsers
-          }
-          if (i < attempts - 1) {
-            await delay(3000) // wait between attempts
-          }
-        }
-        console.log(
-          `\n✅ Selected the best result with ${bestAttempt.length} users.`,
-        )
-        allScrapedUsers = bestAttempt
+        allScrapedUsers = await this._fetchAllUsersFromPages()
       }
 
       let newUsersCount = 0
       let updatedUsersCount = 0
       let steamInfoFetched = 0
 
-      // Track current group members to identify removed users
-      const currentGroupUsers = new Set<string>()
-      allScrapedUsers.forEach((u) => currentGroupUsers.add(u.username))
+      // Build a lookup from username → steam_id using existing data AND
+      // the steam_id_map (which tracks previous usernames) so we can match
+      // scraped users even if they changed their name
+      const usernameToSteamId = new Map<string, string>()
+      for (const [, user] of existingUsers) {
+        usernameToSteamId.set(user.username, user.steam_id)
+      }
+      // Also load previous usernames from steam_id_map so renamed users can be matched
+      const steamIdMapPath = '../website/public/data/steam_id_map.json'
+      if (existsSync(steamIdMapPath)) {
+        try {
+          const steamIdMap: SteamIdMap = JSON.parse(readFileSync(steamIdMapPath, 'utf-8'))
+          for (const [steamId, entry] of Object.entries(steamIdMap)) {
+            // Map the current name (in case existing data is stale)
+            if (!usernameToSteamId.has(entry.current)) {
+              usernameToSteamId.set(entry.current, steamId)
+            }
+            // Map all previous names
+            for (const prev of entry.previous) {
+              if (!usernameToSteamId.has(prev.username)) {
+                usernameToSteamId.set(prev.username, steamId)
+              }
+            }
+          }
+        } catch {}
+      }
+
+      // Track current group members by steam_id to identify removed users
+      const currentGroupSteamIds = new Set<string>()
+
+      // Build a reverse lookup: steam_id → old username in existingUsers
+      const steamIdToOldUsername = new Map<string, string>()
+      for (const [username, user] of existingUsers) {
+        steamIdToOldUsername.set(user.steam_id, username)
+      }
+
+      // Helper to merge scraped user with existing data
+      const mergeWithExisting = (user: User, existingUser: User): User => ({
+        ...user,
+        steam_id: existingUser.steam_id,
+        steam_profile_url: existingUser.steam_profile_url,
+        steam_profile_is_private: existingUser.steam_profile_is_private,
+        country_code: existingUser.country_code,
+        giveaways_won: existingUser.giveaways_won?.map((game) => ({
+          ...game,
+          steam_play_data: game.steam_play_data,
+        })),
+        giveaways_created: existingUser.giveaways_created,
+        stats: {
+          ...user.stats,
+          fcv_sent_count: existingUser.stats?.fcv_sent_count || 0,
+          rcv_sent_count: existingUser.stats?.rcv_sent_count || 0,
+          ncv_sent_count: existingUser.stats?.ncv_sent_count || 0,
+          fcv_received_count: existingUser.stats?.fcv_received_count || 0,
+          rcv_received_count: existingUser.stats?.rcv_received_count || 0,
+          ncv_received_count: existingUser.stats?.ncv_received_count || 0,
+          fcv_gift_difference: existingUser.stats?.fcv_gift_difference || 0,
+          giveaway_ratio: existingUser.stats?.giveaway_ratio || 0,
+        },
+      })
 
       for (const user of allScrapedUsers) {
-        // Check if user exists and merge data
-        if (!existingUsers.has(user.username)) {
-          newUsersCount++
-          console.log(`➕ New: ${user.username}`)
-          existingUsers.set(user.username, user)
-        } else {
+        // Look up existing steam_id for this username, or generate a synthetic one
+        const steamId = usernameToSteamId.get(user.username) || `username:${user.username}`
+        if (!user.steam_id) {
+          (user as any).steam_id = steamId
+        }
+        currentGroupSteamIds.add(steamId)
+
+        if (existingUsers.has(user.username)) {
+          // Known user — same username as before
           updatedUsersCount++
           console.log(`🔄 Updated: ${user.username}`)
-
-          // Merge existing Steam info and giveaway data with new data
           const existingUser = existingUsers.get(user.username)!
-          const updatedUser = {
-            ...user,
-            // Preserve all Steam-related data
-            steam_id: existingUser.steam_id,
-            steam_profile_url: existingUser.steam_profile_url,
-            steam_profile_is_private: existingUser.steam_profile_is_private,
-            country_code: existingUser.country_code,
-            giveaways_won: existingUser.giveaways_won?.map((game) => ({
-              ...game,
-              steam_play_data: game.steam_play_data, // Preserve steam_play_data
-            })),
-            giveaways_created: existingUser.giveaways_created,
-            stats: {
-              ...user.stats,
-              // Preserve existing CV stats if they exist
-              fcv_sent_count: existingUser.stats?.fcv_sent_count || 0,
-              rcv_sent_count: existingUser.stats?.rcv_sent_count || 0,
-              ncv_sent_count: existingUser.stats?.ncv_sent_count || 0,
-              fcv_received_count: existingUser.stats?.fcv_received_count || 0,
-              rcv_received_count: existingUser.stats?.rcv_received_count || 0,
-              ncv_received_count: existingUser.stats?.ncv_received_count || 0,
-              fcv_gift_difference: existingUser.stats?.fcv_gift_difference || 0,
-              giveaway_ratio: existingUser.stats?.giveaway_ratio || 0,
-            },
+          existingUsers.set(user.username, mergeWithExisting(user, existingUser))
+        } else {
+          // Username not found — check if this is a renamed user by steam_id
+          const oldUsername = steamId.startsWith('username:')
+            ? undefined
+            : steamIdToOldUsername.get(steamId)
+
+          if (oldUsername && existingUsers.has(oldUsername)) {
+            // Renamed user — transfer all data from old entry
+            const existingUser = existingUsers.get(oldUsername)!
+            console.log(`🔀 Renamed: ${oldUsername} → ${user.username}`)
+            existingUsers.delete(oldUsername)
+            existingUsers.set(user.username, mergeWithExisting(user, existingUser))
+            // Also update the currentGroupSteamIds with the real steam_id
+            currentGroupSteamIds.add(existingUser.steam_id)
+            updatedUsersCount++
+          } else {
+            // Genuinely new user
+            newUsersCount++
+            console.log(`➕ New: ${user.username}`)
+            existingUsers.set(user.username, user)
           }
-          existingUsers.set(user.username, updatedUser)
         }
       }
 
-      // Remove users who are no longer in the group
-      const removedUsers: User[] = []
+      // Temporarily track removed users — we'll reconcile after Steam info fetch
+      // in case any "removed" user is actually a rename we couldn't detect yet
+      let removedUsers: User[] = []
       for (const [username, user] of existingUsers) {
-        if (!currentGroupUsers.has(username)) {
+        if (!currentGroupSteamIds.has(user.steam_id)) {
           const userWithTimestamp = {
             ...user,
             left_at_timestamp: Date.now(),
@@ -1370,40 +1435,10 @@ export class SteamGiftsUserFetcher {
 
       if (removedUsers.length > 0) {
         console.log(
-          `🗑️  Found ${
-            removedUsers.length
-          } users no longer in group: ${removedUsers
+          `🗑️  Tentatively removed ${removedUsers.length} users: ${removedUsers
             .map((u) => u.username)
             .join(', ')}`,
         )
-        // Save ex-members to a separate file
-        const exMembersFilename = '../website/public/data/ex_members.json'
-        let exMembers: User[] = []
-        if (existsSync(exMembersFilename)) {
-          try {
-            const data = readFileSync(exMembersFilename, 'utf-8')
-            exMembers = JSON.parse(data).users || []
-          } catch (error) {
-            console.warn(`⚠️  Could not load ex-members file: ${error}`)
-          }
-        }
-        // Add new ex-members and remove duplicates
-        const exMembersMap = new Map(exMembers.map((u) => [u.username, u]))
-        removedUsers.forEach((user) => exMembersMap.set(user.username, user))
-        const updatedExMembers = Array.from(exMembersMap.values())
-
-        writeFileSync(
-          exMembersFilename,
-          JSON.stringify(
-            {
-              lastUpdated: Date.now(),
-              users: updatedExMembers,
-            },
-            null,
-            2,
-          ),
-        )
-        console.log(`💾 Ex-members saved to ${exMembersFilename}`)
       }
 
       // Augment users with Steam info if they don't have it (skip if env flag is set)
@@ -1416,7 +1451,9 @@ export class SteamGiftsUserFetcher {
       } else {
         console.log(`\n🔍 Checking for missing Steam information...`)
         const usersNeedingSteamInfo = Array.from(existingUsers.values()).filter(
-          (user) => !user.steam_id && !user.steam_profile_url,
+          (user) =>
+            (!user.steam_id || user.steam_id.startsWith('username:')) &&
+            !user.steam_profile_url,
         )
 
         if (usersNeedingSteamInfo.length > 0) {
@@ -1436,7 +1473,7 @@ export class SteamGiftsUserFetcher {
               if (steamInfo.steam_id || steamInfo.steam_profile_url) {
                 const updatedUser = {
                   ...user,
-                  steam_id: steamInfo.steam_id,
+                  steam_id: steamInfo.steam_id || user.steam_id,
                   steam_profile_url: steamInfo.steam_profile_url,
                 }
                 existingUsers.set(user.username, updatedUser)
@@ -1495,6 +1532,107 @@ export class SteamGiftsUserFetcher {
         }
       }
 
+      // After Steam info fetch, reconcile: check if any "removed" user is
+      // actually a renamed user whose steam_id now matches a current member
+      if (removedUsers.length > 0) {
+        const currentSteamIds = new Map<string, string>()
+        for (const [username, user] of existingUsers) {
+          if (user.steam_id && !user.steam_id.startsWith('username:')) {
+            currentSteamIds.set(user.steam_id, username)
+          }
+        }
+
+        const reconciledUsers: User[] = []
+        const stillRemoved: User[] = []
+
+        for (const removed of removedUsers) {
+          const matchingCurrentUsername = currentSteamIds.get(removed.steam_id)
+          if (matchingCurrentUsername) {
+            // This "removed" user is actually a rename — merge their data
+            const currentUser = existingUsers.get(matchingCurrentUsername)!
+            console.log(`🔀 Late rename detected: ${removed.username} → ${matchingCurrentUsername}`)
+            existingUsers.set(matchingCurrentUsername, mergeWithExisting(currentUser, removed))
+            reconciledUsers.push(removed)
+          } else {
+            stillRemoved.push(removed)
+          }
+        }
+
+        if (reconciledUsers.length > 0) {
+          console.log(`✅ Reconciled ${reconciledUsers.length} renamed user(s)`)
+        }
+        removedUsers = stillRemoved
+      }
+
+      // Now save ex-members with final accurate removed list
+      const exMembersFilename = '../website/public/data/ex_members.json'
+      let exMembersRecord: Record<string, User> = {}
+      if (existsSync(exMembersFilename)) {
+        try {
+          const data = readFileSync(exMembersFilename, 'utf-8')
+          exMembersRecord = JSON.parse(data).users || {}
+        } catch (error) {
+          console.warn(`⚠️  Could not load ex-members file: ${error}`)
+        }
+      }
+
+      // Remove any ex-members who have rejoined (by real steam_id or username for synthetic IDs)
+      let rejoinedCount = 0
+      const allCurrentSteamIds = new Set(
+        Array.from(existingUsers.values()).map((u) => u.steam_id),
+      )
+      const allCurrentUsernames = new Set(
+        Array.from(existingUsers.values()).map((u) => u.username.toLowerCase()),
+      )
+      for (const steamId of Object.keys(exMembersRecord)) {
+        const isRejoinedBySteamId = allCurrentSteamIds.has(steamId)
+        const isRejoinedByUsername =
+          steamId.startsWith('username:') &&
+          allCurrentUsernames.has(exMembersRecord[steamId].username.toLowerCase())
+        if (isRejoinedBySteamId || isRejoinedByUsername) {
+          console.log(`🔄 Rejoined: ${exMembersRecord[steamId].username}`)
+          delete exMembersRecord[steamId]
+          rejoinedCount++
+        }
+      }
+      if (rejoinedCount > 0) {
+        console.log(`✅ Removed ${rejoinedCount} rejoined users from ex-members`)
+      }
+
+      const reliableRemoved = removedUsers.filter((u) => {
+        if (u.steam_id.startsWith('username:')) {
+          console.log(`⚠️  Skipping ex-member with synthetic ID: ${u.username} (no real steam_id)`)
+          return false
+        }
+        return true
+      })
+
+      if (reliableRemoved.length > 0) {
+        console.log(
+          `🗑️  Confirmed ${reliableRemoved.length} users left the group: ${reliableRemoved
+            .map((u) => u.username)
+            .join(', ')}`,
+        )
+        for (const user of reliableRemoved) {
+          exMembersRecord[user.steam_id] = user
+        }
+      }
+
+      if (reliableRemoved.length > 0 || rejoinedCount > 0) {
+        writeFileSync(
+          exMembersFilename,
+          JSON.stringify(
+            {
+              lastUpdated: Date.now(),
+              users: exMembersRecord,
+            },
+            null,
+            2,
+          ),
+        )
+        console.log(`💾 Ex-members saved to ${exMembersFilename}`)
+      }
+
       // Load giveaway data and enrich users
       const giveaways = this.loadGiveawayData()
       if (giveaways.length > 0) {
@@ -1528,7 +1666,7 @@ export class SteamGiftsUserFetcher {
 
       this.displayStats(stats, steamInfoFetched, removedUsers.length)
 
-      // Convert user array to a record for saving
+      // Convert user array to a record keyed by steam_id for saving
       const usersRecord: Record<string, User> = {}
       for (const user of allUsers) {
         const warnings = this.calculateUserWarnings(user, giveaways)
@@ -1542,7 +1680,7 @@ export class SteamGiftsUserFetcher {
           user.warnings = undefined
         }
 
-        usersRecord[user.username] = user
+        usersRecord[user.steam_id] = user
       }
 
       // Save to file with lastUpdated timestamp
@@ -1552,6 +1690,44 @@ export class SteamGiftsUserFetcher {
       }
       writeFileSync(filename, JSON.stringify(userGroupData, null, 2))
       console.log(`\n💾 Users saved to ${filename}`)
+
+      // Generate steam_id → username history lookup map (includes ex-members)
+      const steamIdMapFilename = '../website/public/data/steam_id_map.json'
+      let steamIdMap: SteamIdMap = {}
+      if (existsSync(steamIdMapFilename)) {
+        try {
+          steamIdMap = JSON.parse(readFileSync(steamIdMapFilename, 'utf-8'))
+        } catch {}
+      }
+
+      const updateSteamIdMap = (map: SteamIdMap, steamId: string, username: string) => {
+        if (!map[steamId]) {
+          map[steamId] = { current: username, previous: [] }
+        } else if (map[steamId].current !== username) {
+          map[steamId].previous.push({ username: map[steamId].current, changed_at: new Date().toISOString() })
+          map[steamId].current = username
+        }
+      }
+
+      for (const user of allUsers) {
+        updateSteamIdMap(steamIdMap, user.steam_id, user.username)
+      }
+      // For ex-members, only add them if they don't already exist in the map.
+      // Never update `current` from ex-member data — active members are the
+      // source of truth for the current username.
+      const exMembersPath = '../website/public/data/ex_members.json'
+      if (existsSync(exMembersPath)) {
+        try {
+          const exData = JSON.parse(readFileSync(exMembersPath, 'utf-8'))
+          for (const user of Object.values(exData.users || {}) as User[]) {
+            if (user.steam_id && !steamIdMap[user.steam_id]) {
+              steamIdMap[user.steam_id] = { current: user.username, previous: [] }
+            }
+          }
+        } catch {}
+      }
+      writeFileSync(steamIdMapFilename, JSON.stringify(steamIdMap, null, 2))
+      console.log(`💾 Steam ID map saved to ${steamIdMapFilename}`)
 
       return allUsers
     } catch (error) {

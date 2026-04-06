@@ -1,6 +1,6 @@
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
-import { readFileSync } from 'node:fs'
+import { readFileSync, writeFileSync } from 'node:fs'
 import { groupMemberScraper } from '../scrapers/group-members'
 
 async function generatePlaytimeData(): Promise<void> {
@@ -17,6 +17,7 @@ async function generatePlaytimeData(): Promise<void> {
   console.log('🎮 Generating playtime data only...')
 
   const usersJson = JSON.parse(readFileSync(usersPath, 'utf-8'))
+  // Internal Map keyed by username for processing (updateSteamPlayData expects username keys)
   const allUsersMap = new Map<string, any>(
     Object.values(usersJson.users).map((u: any) => [u.username, u])
   )
@@ -52,10 +53,10 @@ async function generatePlaytimeData(): Promise<void> {
     allUsersMap.set(username, user)
   }
 
-  // Persist back to file in the same format expected by the site
+  // Persist back to file keyed by steam_id
   const updatedUsersRecord: Record<string, any> = {}
   for (const user of Array.from(allUsersMap.values())) {
-    updatedUsersRecord[user.username] = user
+    updatedUsersRecord[user.steam_id] = user
   }
 
   // Reuse the same save logic path by writing the full object
@@ -65,9 +66,7 @@ async function generatePlaytimeData(): Promise<void> {
     users: updatedUsersRecord,
   }
 
-  await import('node:fs').then(({ writeFileSync }) => {
-    writeFileSync(usersPath, JSON.stringify(updated, null, 2))
-  })
+  writeFileSync(usersPath, JSON.stringify(updated, null, 2))
 
   console.log('✅ Playtime data updated')
 }

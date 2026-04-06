@@ -22,7 +22,10 @@
     "generate-insights": "tsx src/utils/generate-insights.ts",
     "data": "tsx src/scripts/generate-all-data.ts",
     "playtime": "tsx src/scripts/generate-playtime-data.ts",
-    "generate-alltime-website-data": "FETCH_ALL_PAGES=true tsx src/scripts/generate-all-data.ts"
+    "generate-alltime-website-data": "FETCH_ALL_PAGES=true tsx src/scripts/generate-all-data.ts",
+    "backup-data": "tsx src/scripts/backup-data.ts",
+    "migrate-to-steam-id": "tsx src/scripts/migrate-to-steam-id.ts",
+    "validate-migration": "tsx src/scripts/validate-migration.ts"
   },
   "dependencies": {
     "@types/cheerio": "^0.22.35",

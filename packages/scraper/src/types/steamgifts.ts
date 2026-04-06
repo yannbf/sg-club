@@ -15,12 +15,18 @@ export interface Giveaway {
   group: boolean
   comment_count?: number
   entry_count: number
+  /** steam_id of the creator (resolved from username at scrape time) */
   creator: string
+  /** Original username of the creator (for display purposes) */
+  creator_username?: string
   cv_status?: CVStatus
   // HTML scraping specific fields
   hasWinners?: boolean
   winners?: Array<{
+    /** steam_id of the winner (resolved from username at scrape time), or null */
     name: string | null
+    /** Original username of the winner (for display purposes) */
+    winner_username?: string
     status: 'received' | 'not_received' | 'awaiting_feedback'
   }>
   // New properties
@@ -66,7 +72,7 @@ export interface User {
   username: string
   profile_url: string
   avatar_url: string
-  steam_id?: string | null
+  steam_id: string
   steam_profile_url?: string | null
   steam_profile_is_private?: boolean
   country_code?: string | null
@@ -110,6 +116,7 @@ export interface User {
     }
     winners?: Array<{
       name: string | null
+      winner_username?: string
       status: 'received' | 'not_received' | 'awaiting_feedback'
       activated: boolean // true if name is not null and status is received
     }>
@@ -118,12 +125,14 @@ export interface User {
 
 export interface UserGroupData {
   lastUpdated: number
+  /** Users keyed by steam_id */
   users: Record<string, User>
 }
 
 export interface ExMemberData {
   lastUpdated: number
-  users: User[]
+  /** Ex-members keyed by steam_id */
+  users: Record<string, User>
 }
 
 export interface UserStats {
@@ -187,6 +196,13 @@ export interface BundleGamesResponse {
 }
 
 export type CVStatus = 'FULL_CV' | 'REDUCED_CV' | 'NO_CV'
+
+export interface SteamIdMapEntry {
+  current: string
+  previous: Array<{ username: string; changed_at: string }>
+}
+
+export type SteamIdMap = Record<string, SteamIdMapEntry>
 
 export interface GamePrice {
   name: string

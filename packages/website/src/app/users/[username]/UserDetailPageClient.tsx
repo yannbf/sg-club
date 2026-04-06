@@ -5,7 +5,7 @@ import Image from 'next/image'
 import GivenGiveawaysClient from './GivenGiveawaysClient'
 import WonGiveawaysClient from './WonGiveawaysClient'
 import { useState } from 'react'
-import type { User, UserGroupData, UserEntry } from '@/types'
+import type { User, UserGroupData, UserEntry, SteamIdMap } from '@/types'
 import type { Giveaway, GameData } from '@/types'
 import FormattedDate from '@/components/FormattedDate'
 import GiveawaysClient from '@/app/giveaways/client'
@@ -26,6 +26,8 @@ interface Props {
   userEntries: UserEntry | null
   lastUpdated: number | null
   leavers: GiveawayLeaver[];
+  steamIdMap: SteamIdMap
+  isExMember?: boolean
 }
 
 type UserWarning = {
@@ -188,21 +190,25 @@ const warningToMessageMap: Record<string, UserWarning> = {
   // },
 }
 
-export default function UserDetailPageClient({ user, allUsers, giveaways, gameData, userEntries, lastUpdated, leavers }: Props) {
+export default function UserDetailPageClient({ user, allUsers, giveaways, gameData, userEntries, lastUpdated, leavers, steamIdMap, isExMember }: Props) {
   const [showDetailedStats, setShowDetailedStats] = useState(false)
 
   // Get giveaways created by this user from the main giveaways data
-  const userGiveaways = giveaways.filter(g => g.creator === user.username)
-  const enteredGiveawayData = userEntries?.[user.username] || []
+  // creator is now steam_id, entries are keyed by steam_id
+  const userGiveaways = giveaways.filter(g => g.creator === user.steam_id)
+  const enteredGiveawayData = userEntries?.[user.steam_id] || []
   const enteredGiveaways = enteredGiveawayData.map(g => giveaways.find(ga => ga.link === g.link)).filter(g => g !== undefined)
   const lastEnteredGiveaway = enteredGiveawayData.sort((a, b) => b.joined_at - a.joined_at)[0]
 
-  // Create a map of usernames to avatar URLs
+  // Create maps keyed by steam_id for the GiveawaysClient
   const userAvatars = new Map(
     Object.values(allUsers?.users || {}).map((user) => [
-      user.username,
+      user.steam_id,
       user.avatar_url,
     ])
+  )
+  const userNames = new Map(
+    Object.entries(steamIdMap).map(([steamId, entry]) => [steamId, entry.current])
   )
 
   const getUserTypeIcon = () => {
@@ -243,7 +249,7 @@ export default function UserDetailPageClient({ user, allUsers, giveaways, gameDa
   const ongoingGiveaways = user.giveaways_created ? Object.values(user.giveaways_created).filter(ga => ga.end_timestamp > Date.now() / 1000).length : 0
 
   const handleCopyWarningMessage = async () => {
-    const message = generateWarningMessage(user, userEntries?.[user.username] ?? [], giveaways);
+    const message = generateWarningMessage(user, userEntries?.[user.steam_id] ?? [], giveaways);
     if (message) {
       try {
         await navigator.clipboard.writeText(message);
@@ -285,7 +291,23 @@ export default function UserDetailPageClient({ user, allUsers, giveaways, gameDa
                 </h1>
               </a>
               <CountryFlag countryCode={user.country_code} />
+              {isExMember && (
+                <span className="ml-2 px-2 py-0.5 text-xs font-medium rounded bg-accent-red/20 text-accent-red">
+                  Ex Member
+                </span>
+              )}
             </div>
+            {(() => {
+              const prev = steamIdMap[user.steam_id]?.previous
+              if (!prev?.length) return null
+              const uniqueNames = [...new Set(prev.map(p => p.username))].filter(name => name !== user.username)
+              if (uniqueNames.length === 0) return null
+              return (
+                <p className="text-sm text-muted-foreground">
+                  Previously known as: {uniqueNames.join(', ')}
+                </p>
+              )
+            })()}
             <p className={`text-lg font-medium ${userType.color}`}>
               {userType.label} ({user.stats.giveaway_ratio ? user.stats.giveaway_ratio.toFixed(2) : 0} ratio)
             </p>
@@ -556,6 +578,7 @@ export default function UserDetailPageClient({ user, allUsers, giveaways, gameDa
       <GivenGiveawaysClient
         giveaways={userGiveaways}
         userAvatars={userAvatars}
+        userNames={userNames}
         gameData={gameData}
       />
 
@@ -563,6 +586,7 @@ export default function UserDetailPageClient({ user, allUsers, giveaways, gameDa
         heading="🎟️ Giveaways Entered"
         giveaways={enteredGiveaways}
         userAvatars={userAvatars}
+        userNames={userNames}
         gameData={gameData}
         lastUpdated={null}
         defaultGiveawayStatus="open"

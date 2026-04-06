@@ -1,5 +1,5 @@
 // page.tsx
-import { getUser, getAllGiveaways, getAllUsers, getGameData, getUserEntries } from '@/lib/data'
+import { getUser, getAllGiveaways, getAllUsers, getExMembers, getGameData, getUserEntries, getSteamIdMap } from '@/lib/data'
 import { notFound } from 'next/navigation'
 import UserDetailPageClient from './UserDetailPageClient'
 import leaversData from '@/../investigation/giveaway_leavers.json';
@@ -8,12 +8,31 @@ import { Giveaway } from '@/types';
 // import { Metadata } from 'next'
 
 export async function generateStaticParams() {
-  const userData = await getAllUsers()
-  if (!userData) return []
+  const [userData, exData, steamIdMap] = await Promise.all([
+    getAllUsers(),
+    getExMembers(),
+    getSteamIdMap(),
+  ])
+  const usernames = new Set<string>()
 
-  return Object.values(userData.users).map((user) => ({
-    username: user.username,
-  }))
+  if (userData) {
+    for (const user of Object.values(userData.users)) {
+      usernames.add(user.username)
+    }
+  }
+  if (exData) {
+    for (const user of Object.values(exData.users)) {
+      usernames.add(user.username)
+    }
+  }
+  // Also generate pages for previous usernames so old links still work
+  for (const entry of Object.values(steamIdMap)) {
+    for (const prev of entry.previous) {
+      usernames.add(prev.username)
+    }
+  }
+
+  return Array.from(usernames).map((username) => ({ username }))
 }
 
 // export async function generateMetadata({ params }: { params: { username: string } }): Promise<Metadata> {
@@ -56,18 +75,24 @@ export default async function UserDetailPage(
 ) {
   const params = await props.params;
   const { username } = params
-  const user = await getUser(decodeURIComponent(username))
-  const allUsers = await getAllUsers()
-  const giveaways = await getAllGiveaways()
-  const userEntries = await getUserEntries()
-  const gameDataObj = await getGameData()
+  const [userResult, allUsers, giveaways, userEntries, gameDataObj, steamIdMap] = await Promise.all([
+    getUser(decodeURIComponent(username)),
+    getAllUsers(),
+    getAllGiveaways(),
+    getUserEntries(),
+    getGameData(),
+    getSteamIdMap(),
+  ])
   const lastUpdated = allUsers?.lastUpdated ?? null
 
-  if (!user) {
+  if (!userResult) {
     notFound()
   }
 
-  const userLeavers = leavers[params.username] || [];
+  const { user, isExMember } = userResult
+
+  // Leavers are keyed by steam_id
+  const userLeavers = leavers[user.steam_id] || [];
   const userLeaversWithGaData: GiveawayLeaver[] = userLeavers.map((leaver) => {
     const gaId = leaver.ga_link.split('/')[0];
     const giveaway = giveaways.find((ga) => ga.id === gaId);
@@ -98,6 +123,8 @@ export default async function UserDetailPage(
       userEntries={userEntries}
       lastUpdated={lastUpdated}
       leavers={userLeaversWithGaData}
+      steamIdMap={steamIdMap}
+      isExMember={isExMember}
     />
   )
 } 

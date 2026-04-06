@@ -14,10 +14,13 @@ import { CvStatusIndicator } from '@/components/CvStatusIndicator'
 interface Props {
   giveaways: Giveaway[]
   userAvatars: Map<string, string>
+  userNames?: Map<string, string>
   gameData: GameData[]
 }
 
-export default function GivenGiveawaysClient({ giveaways, userAvatars, gameData }: Props) {
+export default function GivenGiveawaysClient({ giveaways, userAvatars, userNames, gameData }: Props) {
+  const getDisplayName = (steamIdOrUsername: string) =>
+    userNames?.get(steamIdOrUsername) || steamIdOrUsername
   const { getGameData } = useGameData(gameData)
   const [sortBy, setSortBy] = useState<'date' | 'entries' | 'points'>('date')
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc')
@@ -316,35 +319,37 @@ export default function GivenGiveawaysClient({ giveaways, userAvatars, gameData 
                         <div className="text-sm">
                           <span className="text-muted-foreground">Winners:</span>
                           <div className="mt-1">
-                            {giveaway.winners.map((winner, index) => (
+                            {giveaway.winners.map((winner, index) => {
+                              const displayName = winner.name ? getDisplayName(winner.name) : null
+                              return (
                               !winner.name ? <p key={index}>Awaiting feedback</p> : userAvatars.get(winner.name) ? (
                                 <Link
                                   key={index}
-                                  href={`/users/${winner.name}`}
+                                  href={`/users/${displayName}`}
                                   className="text-accent hover:underline mr-2 inline-flex items-center"
                                 >
                                   <UserAvatar
                                     src={userAvatars.get(winner.name) || 'https://cdn-icons-png.flaticon.com/512/9287/9287610.png'}
-                                    username={winner.name}
+                                    username={displayName!}
                                   />
-                                  {winner.name}
+                                  {displayName}
                                 </Link>
                               ) : (
                                 <a
                                   key={index}
-                                  href={`http://steamgifts.com/user/${winner.name}`}
+                                  href={`http://steamgifts.com/user/${displayName}`}
                                   target="_blank"
                                   rel="noopener noreferrer"
                                   className="text-muted-foreground hover:text-foreground mr-2 inline-flex items-center"
                                 >
                                   <UserAvatar
                                     src={'https://cdn-icons-png.flaticon.com/512/9287/9287610.png'}
-                                    username={winner.name}
+                                    username={displayName!}
                                   />
-                                  {winner.name} (ex member)
+                                  {displayName} (ex member)
                                 </a>
-                              )
-                            ))}
+                              ))
+                            })}
                           </div>
                         </div>
                       </div>

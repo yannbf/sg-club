@@ -23,6 +23,8 @@ interface Props {
   giveaways: Giveaway[]
   lastUpdated: string | null
   userAvatars: Map<string, string>
+  /** Map of steam_id to username for display */
+  userNames?: Map<string, string>
   gameData: GameData[]
   defaultGiveawayStatus?: 'open' | 'ended' | 'all'
 }
@@ -64,7 +66,10 @@ export function getStatusBadge(giveaway: Giveaway) {
   return <span className="px-2 py-1 text-xs font-semibold bg-error-light text-error-foreground rounded-full">No Winners</span>
 }
 
-export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, lastUpdated, userAvatars, gameData, defaultGiveawayStatus = 'open' }: Props) {
+export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, lastUpdated, userAvatars, userNames, gameData, defaultGiveawayStatus = 'open' }: Props) {
+  // Helper to resolve steam_id to display username
+  const getDisplayName = (steamIdOrUsername: string) =>
+    userNames?.get(steamIdOrUsername) || steamIdOrUsername
   const { getGameData } = useGameData(gameData)
   const [searchTerm, setSearchTerm] = useState('')
   const debouncedSearchTerm = useDebounce(searchTerm, 300)
@@ -122,7 +127,7 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
   const [selectedExportFields, setSelectedExportFields] = useState<ExportFieldKey[]>(DEFAULT_EXPORT_FIELDS)
 
   const EXPORT_FIELDS = useMemo(() => ([
-    { key: 'creator' as const, label: 'Created by', get: (g: Giveaway) => g.creator || '' },
+    { key: 'creator' as const, label: 'Created by', get: (g: Giveaway) => getDisplayName(g.creator) || '' },
     { key: 'name' as const, label: 'Giveaway', get: (g: Giveaway) => g.name || '' },
     { key: 'link' as const, label: 'Link', get: (g: Giveaway) => `https://www.steamgifts.com/giveaway/${g.link}` },
     { key: 'event' as const, label: 'Event', get: (g: Giveaway) => (g.event_type as string) || '' },
@@ -142,7 +147,7 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
       const searchTermLower = debouncedSearchTerm.toLowerCase()
       const isExactIdMatch = (debouncedSearchTerm.length === 5 && giveaway.link.split('/')[0] === debouncedSearchTerm)
       const matchesSearch = giveaway.name.toLowerCase().includes(searchTermLower) ||
-        giveaway.creator.toLowerCase().includes(searchTermLower)
+        getDisplayName(giveaway.creator).toLowerCase().includes(searchTermLower)
 
       const matchesCV = filterCV === 'all' ||
         (filterCV === 'DECREASED_RATIO' ? !!giveaway.decreased_ratio_info : giveaway.cv_status === filterCV)
@@ -212,7 +217,7 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
           break
         }
         case 'author':
-          comparison = a.creator.localeCompare(b.creator)
+          comparison = getDisplayName(a.creator).localeCompare(getDisplayName(b.creator))
           break
         case 'name':
           comparison = a.name.localeCompare(b.name)
@@ -582,9 +587,9 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
                     <div className="flex items-center gap-2 min-w-0">
                       <UserAvatar
                         src={userAvatars.get(giveaway.creator) || 'https://cdn-icons-png.flaticon.com/512/9287/9287610.png'}
-                        username={giveaway.creator}
+                        username={getDisplayName(giveaway.creator)}
                       />
-                      <Link href={`/users/${giveaway.creator}`} className="hover:underline text-foreground truncate">{giveaway.creator}</Link>
+                      <Link href={`/users/${getDisplayName(giveaway.creator)}`} className="hover:underline text-foreground truncate">{getDisplayName(giveaway.creator)}</Link>
                     </div>
                     <div className="flex items-center justify-start gap-1 text-foreground"><FormattedDate timestamp={giveaway.end_timestamp} /></div>
                   </div>
@@ -648,10 +653,10 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
                     <div className="flex items-center">
                       <UserAvatar
                         src={userAvatars.get(giveaway.creator) || 'https://cdn-icons-png.flaticon.com/512/9287/9287610.png'}
-                        username={giveaway.creator}
+                        username={getDisplayName(giveaway.creator)}
                       />
-                      <Link href={`/users/${giveaway.creator}`} className="text-accent hover:underline mr-2 inline-flex items-center">
-                        {giveaway.creator}
+                      <Link href={`/users/${getDisplayName(giveaway.creator)}`} className="text-accent hover:underline mr-2 inline-flex items-center">
+                        {getDisplayName(giveaway.creator)}
                       </Link>
                     </div>
                   </div>
@@ -739,35 +744,37 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
                     <div className="text-sm mt-2">
                       <span className="text-muted-foreground">Winners:</span>
                       <div className="mt-1">
-                        {giveaway.winners.map((winner, index) => (
+                        {giveaway.winners.map((winner, index) => {
+                          const winnerDisplayName = winner.name ? getDisplayName(winner.name) : null
+                          return (
                           !winner.name ? <p key={index}>Awaiting feedback</p> : userAvatars.get(winner.name) ? (
                             <Link
                               key={index}
-                              href={`/users/${winner.name}`}
+                              href={`/users/${winnerDisplayName}`}
                               className="text-accent hover:underline mr-2 inline-flex items-center"
                             >
                               <UserAvatar
                                 src={userAvatars.get(winner.name) || 'https://cdn-icons-png.flaticon.com/512/9287/9287610.png'}
-                                username={winner.name}
+                                username={winnerDisplayName!}
                               />
-                              {winner.name}
+                              {winnerDisplayName}
                             </Link>
                           ) : (
                             <a
                               key={index}
-                              href={`http://steamgifts.com/user/${winner.name}`}
+                              href={`http://steamgifts.com/user/${winnerDisplayName}`}
                               target="_blank"
                               rel="noopener noreferrer"
                               className="text-muted-foreground hover:text-foreground mr-2 inline-flex items-center"
                             >
                               <UserAvatar
                                 src={'https://cdn-icons-png.flaticon.com/512/9287/9287610.png'}
-                                username={winner.name}
+                                username={winnerDisplayName!}
                               />
-                              {winner.name} (ex member)
+                              {winnerDisplayName} (ex member)
                             </a>
                           )
-                        ))}
+                        )})}
                       </div>
                     </div>
                   </div>

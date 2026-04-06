@@ -14,10 +14,12 @@ import { getUserRatio } from './util'
 
 interface Props {
   users: User[]
+  exMembers?: User[]
   lastUpdated?: number | null
 }
 
-export default function UsersClient({ users, lastUpdated }: Props) {
+export default function UsersClient({ users, exMembers, lastUpdated }: Props) {
+  const [includeExMembers, setIncludeExMembers] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
   const [sortBy, setSortBy] = useState<'username' | 'sent' | 'received' | 'difference' | 'value' | 'playtime' | 'ratio' | 'last_created' | 'last_won' | 'play_rate' | 'achievements'>('difference')
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc')
@@ -43,8 +45,15 @@ export default function UsersClient({ users, lastUpdated }: Props) {
     }, 0)
   }
 
+  const allUsers = useMemo(() => {
+    if (includeExMembers && exMembers?.length) {
+      return [...users, ...exMembers]
+    }
+    return users
+  }, [users, exMembers, includeExMembers])
+
   const filteredAndSortedUsers = useMemo(() => {
-    const filtered = users.filter(user => {
+    const filtered = allUsers.filter(user => {
       const matchesSearch = user.username.toLowerCase().includes(searchTerm.toLowerCase())
       const matchesSteam = !showOnlySteam || user.steam_id
 
@@ -120,7 +129,7 @@ export default function UsersClient({ users, lastUpdated }: Props) {
     })
 
     return filtered
-  }, [users, searchTerm, sortBy, filterTags, showOnlySteam, sortDirection])
+  }, [allUsers, searchTerm, sortBy, filterTags, showOnlySteam, sortDirection])
 
   const getUserTypeBadge = (user: User) => {
     switch(getUserRatio(user.stats.giveaway_ratio)) {
@@ -154,10 +163,25 @@ export default function UsersClient({ users, lastUpdated }: Props) {
   return (
     <div className="space-y-6">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold">Users</h1>
-        {lastUpdated && (
-          <LastUpdated lastUpdatedDate={lastUpdated} />
-        )}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div>
+            <h1 className="text-3xl font-bold">Users</h1>
+            {lastUpdated && (
+              <LastUpdated lastUpdatedDate={lastUpdated} />
+            )}
+          </div>
+          {exMembers && exMembers.length > 0 && (
+            <label className="flex items-center gap-2 text-sm text-muted-foreground whitespace-nowrap cursor-pointer">
+              <input
+                type="checkbox"
+                checked={includeExMembers}
+                onChange={(e) => setIncludeExMembers(e.target.checked)}
+                className="rounded border-card-border"
+              />
+              Include ex-members
+            </label>
+          )}
+        </div>
       </div>
       {/* Filter Controls */}
       <div className="bg-card-background rounded-lg border-card-border border p-6">
@@ -252,7 +276,7 @@ export default function UsersClient({ users, lastUpdated }: Props) {
 
       {/* Results Summary */}
       <div className="text-sm text-muted-foreground">
-        Showing {filteredAndSortedUsers.length} of {users.length} members
+        Showing {filteredAndSortedUsers.length} of {allUsers.length} members
       </div>
       <div className="text-sm text-muted-foreground italic">
         * The user ratio is based on full CV 1:3 without counting games that had proof of play.
@@ -263,7 +287,7 @@ export default function UsersClient({ users, lastUpdated }: Props) {
         {filteredAndSortedUsers.map((user) => {
           const borderColor = user.warnings?.length ? `border-${getWarningsSeverity(user.warnings)}` : 'border-card-border'
           return (
-            <div key={user.username} className={`bg-card-background rounded-lg border hover:shadow-lg transition-all duration-200 p-6 ${borderColor}`}>
+            <div key={user.steam_id} className={`bg-card-background rounded-lg border hover:shadow-lg transition-all duration-200 p-6 ${borderColor}`}>
               <div className="flex items-center mb-4">
                 {user.avatar_url ? (
                   <Image

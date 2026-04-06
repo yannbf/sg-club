@@ -8,13 +8,10 @@ export default async function GamesPage() {
   const allUsers = await getAllUsers()
   const lastUpdated = allUsers?.lastUpdated ?? null
 
-  // Create a map of usernames to avatar URLs
-  const userAvatars = new Map(
-    Object.values(allUsers?.users || {}).map((user) => [
-      user.username,
-      user.avatar_url,
-    ])
-  )
+  // Create maps for looking up user data by steam_id
+  const users = Object.values(allUsers?.users || {})
+  const userAvatars = new Map(users.map((user) => [user.steam_id, user.avatar_url]))
+  const userNames = new Map(users.map((user) => [user.steam_id, user.username]))
 
-  return <GamesClient giveaways={giveaways} gameData={gameData} userAvatars={userAvatars} lastUpdated={lastUpdated} />
+  return <GamesClient giveaways={giveaways} gameData={gameData} userAvatars={userAvatars} userNames={userNames} lastUpdated={lastUpdated} />
 }

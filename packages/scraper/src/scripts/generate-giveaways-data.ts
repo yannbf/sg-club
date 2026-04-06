@@ -2,7 +2,7 @@ import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'node:fs'
 import { dirname } from 'node:path'
 import { groupGiveawaysScraper } from '../scrapers/group-giveaways'
 import { delay } from '../utils/common'
-import type { Giveaway } from '../types/steamgifts'
+import type { Giveaway, SteamIdMap } from '../types/steamgifts'
 import { logError } from '../utils/log-error'
 import { GiveawayPointsManager } from '../api/fetch-proof-of-play'
 import { fileURLToPath } from 'node:url'
@@ -51,9 +51,23 @@ export async function generateGiveawaysData(): Promise<void> {
         Object.values(groupUsersData.users).map((user: any) => user.username)
       )
 
+      // Load steam_id → username history lookup map
+      const steamIdMapFilename = '../website/public/data/steam_id_map.json'
+      const steamIdMapData: SteamIdMap = existsSync(steamIdMapFilename)
+        ? JSON.parse(readFileSync(steamIdMapFilename, 'utf-8'))
+        : {}
+      // Build username → steam_id from the map (all known usernames resolve to steam_id)
+      const usernameToSteamId = new Map<string, string>()
+      for (const [steamId, entry] of Object.entries(steamIdMapData)) {
+        usernameToSteamId.set(entry.current, steamId)
+        for (const prev of entry.previous) {
+          usernameToSteamId.set(prev.username, steamId)
+        }
+      }
+
       let existingEntries: Record<
         string,
-        { username: string; joined_at: string }[]
+        { steam_id: string; joined_at: string }[]
       > = {}
       if (existsSync(entriesFilename)) {
         existingEntries = JSON.parse(readFileSync(entriesFilename, 'utf-8'))
@@ -141,71 +155,86 @@ export async function generateGiveawaysData(): Promise<void> {
             groupMemberUsernames.has(entry.username)
           )
 
-          const currentUsernames = new Set(memberEntries.map((e) => e.username))
+          // Resolve current scraped entries to steam_ids
+          const currentSteamIds = new Set(
+            memberEntries.map((e) => {
+              const steamId = usernameToSteamId.get(e.username)
+              if (!steamId) {
+                console.warn(`⚠️  No steam_id mapping for entry username: ${e.username}`)
+              }
+              return steamId || e.username
+            })
+          )
 
+          // Build steam_id → username map for display in logs
+          const steamIdToUsername = new Map<string, string>(
+            Object.entries(steamIdMapData).map(([steamId, entry]) => [steamId, entry.current])
+          )
+
+          // Old entries are already keyed by steam_id
           const oldEntriesForGiveaway = existingEntries[giveaway.link] ?? []
-          const oldEntryUsernames = new Set(
-            oldEntriesForGiveaway.map((e) => e.username)
+          const oldEntrySteamIds = new Set(
+            oldEntriesForGiveaway.map((e) => e.steam_id)
           )
 
-          const previousLeaversForGiveaway = Object.keys(
+          // Find previous leavers for this giveaway (keyed by steam_id)
+          const previousLeaverSteamIds = Object.keys(
             giveawayLeavers
-          ).filter((username) =>
-            giveawayLeavers[username].some((l) => l.ga_link === giveaway.link)
+          ).filter((steamId) =>
+            giveawayLeavers[steamId].some((l) => l.ga_link === giveaway.link)
           )
 
-          // All users who were in the giveaway previously, either in the last successful fetch or as a detected leaver.
+          // All users who were in the giveaway previously (all steam_ids)
           const allPreviousEntrants = new Set([
-            ...oldEntryUsernames,
-            ...previousLeaversForGiveaway,
+            ...oldEntrySteamIds,
+            ...previousLeaverSteamIds,
           ])
 
           // --- Leaver Detection ---
-          const leavers = [...allPreviousEntrants].filter(
-            (username) => !currentUsernames.has(username)
+          const leaverSteamIds = [...allPreviousEntrants].filter(
+            (steamId) => !currentSteamIds.has(steamId)
           )
 
-          if (leavers.length > 0) {
+          if (leaverSteamIds.length > 0) {
+            const leaverNames = leaverSteamIds.map(
+              (id) => steamIdToUsername.get(id) || id
+            )
             console.log(
-              `🏃‍♂️ Detected ${leavers.length} leavers for: ${
+              `🏃‍♂️ Detected ${leaverSteamIds.length} leavers for: ${
                 giveaway.link
-              }\n - ${leavers.join(', ')}`
+              }\n - ${leaverNames.join(', ')}`
             )
             const leave_detected_at = Math.floor(Date.now() / 1000)
             const time_difference_hours = Math.round(
               (giveaway.end_timestamp - leave_detected_at) / (60 * 60)
             )
 
-            for (const leaverUsername of leavers) {
-              if (!giveawayLeavers[leaverUsername]) {
-                giveawayLeavers[leaverUsername] = []
+            for (const leaverSteamId of leaverSteamIds) {
+              if (!giveawayLeavers[leaverSteamId]) {
+                giveawayLeavers[leaverSteamId] = []
               }
 
               const leaverAlreadyRecorded = giveawayLeavers[
-                leaverUsername
+                leaverSteamId
               ].some((l) => l.ga_link === giveaway.link)
 
               if (!leaverAlreadyRecorded) {
-                // We need to find the original joined_at timestamp.
-                // It must have been in oldEntriesForGiveaway at some point.
                 const oldEntry = oldEntriesForGiveaway.find(
-                  (e) => e.username === leaverUsername
+                  (e) => e.steam_id === leaverSteamId
                 )
 
                 if (oldEntry) {
                   hasNewLeavers = true
-                  giveawayLeavers[leaverUsername].push({
+                  giveawayLeavers[leaverSteamId].push({
                     joined_at_timestamp: oldEntry.joined_at,
                     ga_link: giveaway.link,
                     leave_detected_at,
                     time_difference_hours,
                   })
                 } else {
-                  // This case should ideally not be hit if logic is sound.
-                  // It means a user was a leaver before, but we don't have their original entry info.
-                  // We can't create a new leaver record without joined_at.
+                  const displayName = steamIdToUsername.get(leaverSteamId) || leaverSteamId
                   console.log(
-                    `- Could not find old entry for leaver ${leaverUsername} in ${giveaway.name}, cannot add to leavers list.`
+                    `- Could not find old entry for leaver ${displayName} in ${giveaway.name}, cannot add to leavers list.`
                   )
                 }
               }
@@ -213,34 +242,47 @@ export async function generateGiveawaysData(): Promise<void> {
           }
 
           // --- Re-joiner Detection ---
-          const reJoiners = previousLeaversForGiveaway.filter((username) =>
-            currentUsernames.has(username)
+          const reJoinerSteamIds = previousLeaverSteamIds.filter((steamId) =>
+            currentSteamIds.has(steamId)
           )
 
-          if (reJoiners.length > 0) {
-            for (const reJoiner of reJoiners) {
-              const initialCount = giveawayLeavers[reJoiner].length
-              giveawayLeavers[reJoiner] = giveawayLeavers[reJoiner].filter(
+          if (reJoinerSteamIds.length > 0) {
+            for (const reJoinerSteamId of reJoinerSteamIds) {
+              const initialCount = giveawayLeavers[reJoinerSteamId].length
+              giveawayLeavers[reJoinerSteamId] = giveawayLeavers[reJoinerSteamId].filter(
                 (l) => l.ga_link !== giveaway.link
               )
 
-              if (giveawayLeavers[reJoiner].length < initialCount) {
-                hasNewLeavers = true //
+              if (giveawayLeavers[reJoinerSteamId].length < initialCount) {
+                hasNewLeavers = true
+                const displayName = steamIdToUsername.get(reJoinerSteamId) || reJoinerSteamId
                 console.log(
-                  `👍 Detected re-joiner ${reJoiner} for: ${giveaway.name}. Removing from leavers list.`
+                  `👍 Detected re-joiner ${displayName} for: ${giveaway.name}. Removing from leavers list.`
                 )
               }
 
-              if (giveawayLeavers[reJoiner].length === 0) {
-                delete giveawayLeavers[reJoiner]
+              if (giveawayLeavers[reJoinerSteamId].length === 0) {
+                delete giveawayLeavers[reJoinerSteamId]
               }
             }
           }
 
+          // Save entries with steam_id only (no username — use steam_id_map for display)
+          const entriesWithSteamId = memberEntries
+            .map((e: any) => {
+              const steamId = usernameToSteamId.get(e.username)
+              if (!steamId) {
+                console.warn(`⚠️  Skipping entry for ${e.username}: no steam_id mapping`)
+                return null
+              }
+              return { steam_id: steamId, joined_at: e.joined_at }
+            })
+            .filter((e): e is { steam_id: string; joined_at: string } => e !== null)
+
           console.log(
             `🔍 Fetched ${memberEntries.length} entries for: ${giveaway.name}`
           )
-          existingEntries[giveaway.link] = memberEntries
+          existingEntries[giveaway.link] = entriesWithSteamId
           giveawaysWithUpdatedEntries++
           await delay(1000)
         }
@@ -370,6 +412,40 @@ export async function generateGiveawaysData(): Promise<void> {
             10
           )} active and ${endedShown} ended giveaways`
         )
+      }
+
+      // Resolve creator/winner usernames to steam_ids
+      // Guard: only resolve if the value looks like a username (not already a steam_id)
+      const looksLikeSteamId = (val: string) => /^\d{17}$/.test(val) || val.startsWith('username:')
+      console.log('🔄 Resolving creator/winner usernames to steam_ids...')
+      for (const giveaway of updatedGiveaways) {
+        // Resolve creator: store original username, replace with steam_id
+        if (!giveaway.creator_username && !looksLikeSteamId(giveaway.creator)) {
+          giveaway.creator_username = giveaway.creator
+        }
+        if (giveaway.creator_username) {
+          const creatorSteamId = usernameToSteamId.get(giveaway.creator_username)
+          if (creatorSteamId) {
+            giveaway.creator = creatorSteamId
+          }
+        }
+
+        // Resolve winners
+        if (giveaway.winners) {
+          for (const winner of giveaway.winners) {
+            if (winner.name) {
+              if (!winner.winner_username && !looksLikeSteamId(winner.name)) {
+                winner.winner_username = winner.name
+              }
+              if (winner.winner_username) {
+                const winnerSteamId = usernameToSteamId.get(winner.winner_username)
+                if (winnerSteamId) {
+                  winner.name = winnerSteamId
+                }
+              }
+            }
+          }
+        }
       }
 
       // Save to file with timestamp

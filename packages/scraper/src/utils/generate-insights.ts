@@ -1,5 +1,5 @@
 import { readFileSync, writeFileSync, existsSync } from 'node:fs'
-import type { UserGroupData, User, Giveaway } from '../types/steamgifts.js'
+import type { UserGroupData, User, Giveaway, SteamIdMap } from '../types/steamgifts.js'
 import { formatPlaytime } from './common.js'
 
 interface InsightData {
@@ -102,9 +102,17 @@ class GroupInsightsGenerator {
 
     // Load and analyze all giveaways to get historical data
     const allGiveaways = this.loadAllGiveaways()
-    const currentUsernames = new Set(users.map((user) => user.username))
+    const currentSteamIds = new Set(users.map((user) => user.steam_id))
+    // Load steam_id → username history map from lookup file (use current username)
+    const steamIdMapPath = '../website/public/data/steam_id_map.json'
+    const steamIdMapData: SteamIdMap = existsSync(steamIdMapPath)
+      ? JSON.parse(readFileSync(steamIdMapPath, 'utf-8'))
+      : {}
+    const steamIdToUsername = new Map(
+      Object.entries(steamIdMapData).map(([steamId, entry]) => [steamId, entry.current])
+    )
 
-    // Count giveaways by creator status
+    // Count giveaways by creator (steam_id)
     const giveawaysByCreator = new Map<string, number>()
     let giveawaysFromActiveMembers = 0
     let giveawaysFromFormerMembers = 0
@@ -116,7 +124,7 @@ class GroupInsightsGenerator {
         (giveawaysByCreator.get(creator) || 0) + 1
       )
 
-      if (currentUsernames.has(creator)) {
+      if (currentSteamIds.has(creator)) {
         giveawaysFromActiveMembers++
       } else {
         giveawaysFromFormerMembers++
@@ -125,8 +133,11 @@ class GroupInsightsGenerator {
 
     // Get list of former members with their giveaway counts
     const formerMembersList = Array.from(giveawaysByCreator.entries())
-      .filter(([username]) => !currentUsernames.has(username))
-      .map(([username, giveawayCount]) => ({ username, giveawayCount }))
+      .filter(([steamId]) => !currentSteamIds.has(steamId))
+      .map(([steamId, giveawayCount]) => ({
+        username: steamIdToUsername.get(steamId) || steamId,
+        giveawayCount,
+      }))
       .sort((a, b) => b.giveawayCount - a.giveawayCount)
 
     const historicalGiveawayData = {

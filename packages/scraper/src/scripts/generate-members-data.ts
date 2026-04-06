@@ -249,7 +249,7 @@ if (DEBUG === true) {
     'utf8'
   )
   const users = JSON.parse(userData)
-  const user = users.users['Patxxv']
+  const user = Object.values(users.users).find((u: any) => u.username === 'Patxxv') as User
 
   // DEBUGGING FOR REQUIRED PLAY DATA
   // const stats = await fetcher.enrichUsersWithGiveaways(
