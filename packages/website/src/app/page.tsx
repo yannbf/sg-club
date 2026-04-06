@@ -174,11 +174,11 @@ export default async function Home() {
   const exMembers = exMembersData ? Object.values(exMembersData.users) : []
   const allUsers = [...activeUsers, ...exMembers]
 
-  // User map includes all users so insight lookups work for both modes
-  const userMap = new Map(allUsers.map(u => [u.steam_id, u]))
+  const activeUserMap = new Map(activeUsers.map(u => [u.steam_id, u]))
+  const allUserMap = new Map(allUsers.map(u => [u.steam_id, u]))
 
-  const activeStats = computeStats(activeUsers, allGiveaways, giveaways, userMap, allGameData, 'Active Members')
-  const allStats = computeStats(allUsers, allGiveaways, giveaways, userMap, allGameData, 'Total Members')
+  const activeStats = computeStats(activeUsers, allGiveaways, giveaways, activeUserMap, allGameData, 'Active Members')
+  const allStats = computeStats(allUsers, allGiveaways, giveaways, allUserMap, allGameData, 'Total Members')
 
   const lastUpdated = userData.lastUpdated ? new Date(userData.lastUpdated).toISOString() : null
 

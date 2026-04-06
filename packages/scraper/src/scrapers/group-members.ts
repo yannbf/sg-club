@@ -315,27 +315,6 @@ export class SteamGiftsUserFetcher {
     }
   }
 
-  public loadGiveawayData(): Giveaway[] {
-    const giveawayFilename = '../website/public/data/giveaways.json'
-
-    if (!existsSync(giveawayFilename)) {
-      console.log(
-        `⚠️  Giveaway file ${giveawayFilename} not found, skipping giveaway enrichment`,
-      )
-      return []
-    }
-
-    try {
-      const data = readFileSync(giveawayFilename, 'utf-8')
-      const giveaways: Giveaway[] = JSON.parse(data).giveaways
-      console.log(`📁 Loaded ${giveaways.length} giveaways for user enrichment`)
-      return giveaways
-    } catch (error) {
-      console.warn(`⚠️  Could not load giveaway file: ${error}`)
-      return []
-    }
-  }
-
   public async calculateStats(
     user: User,
     giveaways: Giveaway[],
@@ -378,12 +357,9 @@ export class SteamGiftsUserFetcher {
         : null,
     }
 
-    // Load game prices
-    const gamePrices = JSON.parse(
-      readFileSync('../website/public/data/game_data.json', 'utf-8'),
-    ) as GamePrice[]
+    // Build game price lookup from module-level GAME_DATA (loaded once at startup)
     const gamePriceMap = new Map<string, GamePrice>()
-    for (const game of gamePrices) {
+    for (const game of GAME_DATA) {
       if (game.app_id) {
         gamePriceMap.set(`app/${game.app_id}`, game)
       }
@@ -845,12 +821,26 @@ export class SteamGiftsUserFetcher {
     let enrichedCount = 0
     const now = Date.now() / 1000 // Current timestamp in seconds
     const totalUsers = existingUsers.size
-    // Create a map of giveaways by creator (steam_id) for faster lookup
+
+    // Pre-build lookup maps for O(1) access instead of O(giveaways) per user
     const giveawaysByCreator = new Map<string, Giveaway[]>()
+    const giveawaysByWinner = new Map<string, Giveaway[]>()
     for (const giveaway of giveaways) {
+      // Creator map
       const creatorGiveaways = giveawaysByCreator.get(giveaway.creator) || []
       creatorGiveaways.push(giveaway)
       giveawaysByCreator.set(giveaway.creator, creatorGiveaways)
+
+      // Winner map (keyed by winner steam_id)
+      if (giveaway.winners) {
+        for (const winner of giveaway.winners) {
+          if (winner.name && winner.status === 'received') {
+            const winnerGiveaways = giveawaysByWinner.get(winner.name) || []
+            winnerGiveaways.push(giveaway)
+            giveawaysByWinner.set(winner.name, winnerGiveaways)
+          }
+        }
+      }
     }
 
     // Process each user
@@ -867,14 +857,11 @@ export class SteamGiftsUserFetcher {
         user.giveaways_won?.map((game) => [game.link, game]) || [],
       )
 
-      // Find giveaways won by this user (winner.name is now steam_id)
-      for (const giveaway of giveaways) {
-        if (giveaway.winners) {
-          for (const winner of giveaway.winners) {
-            if (
-              winner.name === user.steam_id &&
-              winner.status === 'received'
-            ) {
+      // Find giveaways won by this user via pre-built winner map (O(1) lookup)
+      const wonGiveawaysList = giveawaysByWinner.get(user.steam_id) || []
+      for (const giveaway of wonGiveawaysList) {
+        const winner = giveaway.winners!.find(w => w.name === user.steam_id && w.status === 'received')
+        if (winner) {
               const giveawayId = giveaway.link.split('/')[0]
               const pointsDataEntries = pointsMap.get(giveawayId) || []
               // Find the specific entry for this winner (points data uses usernames)
@@ -945,14 +932,11 @@ export class SteamGiftsUserFetcher {
               }
 
               giveawaysWon.push(giveawayData)
-            }
-          }
         }
       }
 
-      // Find giveaways created by this user (creator is now steam_id)
-      for (const giveaway of giveaways) {
-        if (giveaway.creator === user.steam_id) {
+      // Find giveaways created by this user via pre-built creator map (O(1) lookup)
+      for (const giveaway of userGiveaways) {
           const giveawayCreated: NonNullable<User['giveaways_created']>[0] = {
             name: giveaway.name,
             link: giveaway.link,
@@ -1011,7 +995,6 @@ export class SteamGiftsUserFetcher {
           }
 
           giveawaysCreated.push(giveawayCreated)
-        }
       }
 
       // Update user with giveaway information
@@ -1081,51 +1064,6 @@ export class SteamGiftsUserFetcher {
     }
 
     return userMap
-  }
-
-  private mergeUsers(existingUsers: User[], newUsers: User[]): User[] {
-    const userMap = new Map<string, User>()
-
-    // Add existing users to map
-    existingUsers.forEach((user) => {
-      userMap.set(user.username, user)
-    })
-
-    // Merge new users
-    newUsers.forEach((newUser) => {
-      const existingUser = userMap.get(newUser.username)
-      if (existingUser) {
-        // Update existing user with new stats and preserve Steam info
-        userMap.set(newUser.username, {
-          ...existingUser,
-          ...newUser,
-          stats: {
-            ...newUser.stats, // Use new stats from current scrape
-            // Preserve CV-specific stats if they exist
-            fcv_sent_count: existingUser.stats.fcv_sent_count || 0,
-            rcv_sent_count: existingUser.stats.rcv_sent_count || 0,
-            ncv_sent_count: existingUser.stats.ncv_sent_count || 0,
-            fcv_received_count: existingUser.stats.fcv_received_count || 0,
-            rcv_received_count: existingUser.stats.rcv_received_count || 0,
-            ncv_received_count: existingUser.stats.ncv_received_count || 0,
-            fcv_gift_difference: existingUser.stats.fcv_gift_difference || 0,
-            giveaway_ratio: existingUser.stats.giveaway_ratio || 0,
-          },
-          // Preserve Steam info
-          steam_id: existingUser.steam_id || newUser.steam_id,
-          steam_profile_url:
-            existingUser.steam_profile_url || newUser.steam_profile_url,
-          // Preserve giveaway data
-          giveaways_won: existingUser.giveaways_won,
-          giveaways_created: existingUser.giveaways_created,
-        })
-      } else {
-        // New user
-        userMap.set(newUser.username, newUser)
-      }
-    })
-
-    return Array.from(userMap.values())
   }
 
   private async _fetchAllUsersFromPages(): Promise<User[]> {
@@ -1633,8 +1571,17 @@ export class SteamGiftsUserFetcher {
         console.log(`💾 Ex-members saved to ${exMembersFilename}`)
       }
 
-      // Load giveaway data and enrich users
-      const giveaways = this.loadGiveawayData()
+      // Reload giveaway data in case it was updated by an earlier pipeline step
+      try {
+        GIVEAWAY_DATA = JSON.parse(
+          readFileSync('../website/public/data/giveaways.json', 'utf-8'),
+        ).giveaways as Giveaway[]
+        console.log(`📁 Loaded ${GIVEAWAY_DATA.length} giveaways for user enrichment`)
+      } catch (error) {
+        console.warn(`⚠️  Could not reload giveaway file: ${error}`)
+      }
+
+      const giveaways = GIVEAWAY_DATA
       if (giveaways.length > 0) {
         await this.enrichUsersWithGiveaways(existingUsers, giveaways)
 

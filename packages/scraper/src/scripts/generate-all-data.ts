@@ -74,8 +74,8 @@ async function generateAllData(): Promise<void> {
   console.log('🚀 Generating all the data...')
   const startTime = Date.now()
   await generateGiveawaysData()
-  await checkDeletedGiveaways()
-  await generateGamePrices()
+  // These two are independent (read giveaways.json, write to different files)
+  await Promise.all([checkDeletedGiveaways(), generateGamePrices()])
   // Skip playtime enrichment during member data generation when splitting jobs
   process.env.SKIP_STEAM_PLAYTIME = 'true'
   await generateMembersData()
