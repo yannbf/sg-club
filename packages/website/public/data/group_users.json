@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1775871864554,
+  "lastUpdated": 1775897258742,
   "users": {
     "76561198359284432": {
       "username": "a10i",
@@ -1458,7 +1458,7 @@
         "shared_sent_count": 0,
         "shared_received_count": 1,
         "giveaways_created": 8,
-        "giveaways_with_no_entries": 1,
+        "giveaways_with_no_entries": 2,
         "last_giveaway_created_at": 1775244222,
         "last_giveaway_won_at": 1775577600,
         "total_achievements_percentage": 31,
@@ -1607,7 +1607,8 @@
           "created_timestamp": 1775126823,
           "end_timestamp": 1775897100,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": false
         },
         {
           "name": "Lazy Galaxy 2",
@@ -2784,26 +2785,26 @@
       "avatar_url": "https://avatars.steamstatic.com/84eaa721b247b2e002f4cce1e2385666c780ba66_medium.jpg",
       "steam_id": "76561199036747433",
       "stats": {
-        "total_sent_count": 23.3,
-        "total_sent_value": 501.43,
+        "total_sent_count": 24.3,
+        "total_sent_value": 507.42,
         "total_received_count": 16,
         "total_received_value": 500.84,
-        "total_gift_difference": 7.3,
-        "total_value_difference": 0.59,
-        "fcv_sent_count": 21,
+        "total_gift_difference": 8.3,
+        "total_value_difference": 6.58,
+        "fcv_sent_count": 22,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
         "fcv_received_count": 16,
         "rcv_received_count": 0,
         "ncv_received_count": 0,
-        "fcv_gift_difference": 5,
-        "real_total_sent_value": 460.79,
+        "fcv_gift_difference": 6,
+        "real_total_sent_value": 466.78,
         "real_total_received_value": 500.84,
-        "real_total_value_difference": -40.05,
-        "real_total_sent_count": 21,
+        "real_total_value_difference": -34.06,
+        "real_total_sent_count": 22,
         "real_total_received_count": 16,
-        "real_total_gift_difference": 5,
-        "giveaway_ratio": 19,
+        "real_total_gift_difference": 6,
+        "giveaway_ratio": 20,
         "shared_sent_count": 9,
         "shared_received_count": 0,
         "giveaways_created": 32,
@@ -3185,7 +3186,16 @@
           "created_timestamp": 1775109507,
           "end_timestamp": 1775877000,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "76561198444468770",
+              "winner_username": "mourinhos86",
+              "status": "received",
+              "activated": true
+            }
+          ]
         },
         {
           "name": "The Tartarus Key",
@@ -6007,7 +6017,7 @@
           "name": "UNCHARTED: Legacy of Thieves Collection",
           "link": "XQpNt/uncharted-legacy-of-thieves-collection",
           "cv_status": "FULL_CV",
-          "entries": 26,
+          "entries": 27,
           "copies": 1,
           "created_timestamp": 1775425835,
           "end_timestamp": 1776032760,
@@ -10434,7 +10444,7 @@
         "giveaways_with_no_entries": 2,
         "last_giveaway_created_at": 1775637114,
         "last_giveaway_won_at": 1770390000,
-        "total_achievements_percentage": 59,
+        "total_achievements_percentage": 60,
         "average_achievements_percentage": 61,
         "real_total_achievements_percentage": 100,
         "real_average_achievements_percentage": 100,
@@ -28955,10 +28965,10 @@
         "giveaways_with_no_entries": 1,
         "last_giveaway_created_at": 1775221061,
         "last_giveaway_won_at": 1775791560,
-        "total_achievements_percentage": 16,
-        "average_achievements_percentage": 15,
-        "real_total_achievements_percentage": 16,
-        "real_average_achievements_percentage": 17,
+        "total_achievements_percentage": 15,
+        "average_achievements_percentage": 14,
+        "real_total_achievements_percentage": 15,
+        "real_average_achievements_percentage": 15,
         "has_missing_achievements_data": true
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561199644864244",
@@ -30174,7 +30184,7 @@
           "name": "Darwin's Paradox!",
           "link": "HgnJa/darwins-paradox",
           "cv_status": "FULL_CV",
-          "entries": 38,
+          "entries": 39,
           "copies": 1,
           "created_timestamp": 1775127661,
           "end_timestamp": 1776013200,
@@ -45928,9 +45938,9 @@
         "giveaway_ratio": 0.67,
         "shared_sent_count": 140,
         "shared_received_count": 2,
-        "giveaways_created": 133,
+        "giveaways_created": 134,
         "giveaways_with_no_entries": 0,
-        "last_giveaway_created_at": 1775432407,
+        "last_giveaway_created_at": 1775871933,
         "last_giveaway_won_at": 1764944580,
         "total_achievements_percentage": 44,
         "average_achievements_percentage": 33,
@@ -46065,21 +46075,10 @@
       ],
       "giveaways_created": [
         {
-          "name": "Blue Fire",
-          "link": "9Q1rd/blue-fire",
-          "cv_status": "REDUCED_CV",
-          "entries": 26,
-          "copies": 1,
-          "created_timestamp": 1775264811,
-          "end_timestamp": 1775880000,
-          "required_play": false,
-          "is_shared": true
-        },
-        {
           "name": "Bogos Binted?",
           "link": "u5qY6/bogos-binted",
           "cv_status": "FULL_CV",
-          "entries": 56,
+          "entries": 58,
           "copies": 1,
           "created_timestamp": 1775346760,
           "end_timestamp": 1775966400,
@@ -46090,12 +46089,42 @@
           "name": "Samorost 2",
           "link": "O5bju/samorost-2",
           "cv_status": "REDUCED_CV",
-          "entries": 43,
+          "entries": 45,
           "copies": 1,
           "created_timestamp": 1775432407,
           "end_timestamp": 1776052800,
           "required_play": false,
           "is_shared": true
+        },
+        {
+          "name": "Semblance",
+          "link": "6It36/semblance",
+          "cv_status": "REDUCED_CV",
+          "entries": 12,
+          "copies": 1,
+          "created_timestamp": 1775871933,
+          "end_timestamp": 1776484800,
+          "required_play": false,
+          "is_shared": true
+        },
+        {
+          "name": "Blue Fire",
+          "link": "9Q1rd/blue-fire",
+          "cv_status": "REDUCED_CV",
+          "entries": 26,
+          "copies": 1,
+          "created_timestamp": 1775264811,
+          "end_timestamp": 1775880000,
+          "required_play": false,
+          "is_shared": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "Party Club",
@@ -51829,7 +51858,15 @@
           "created_timestamp": 1775596913,
           "end_timestamp": 1775887200,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "Absolum",
@@ -54226,30 +54263,30 @@
       "stats": {
         "total_sent_count": 54.2,
         "total_sent_value": 933.42,
-        "total_received_count": 56.7,
-        "total_received_value": 896.2,
-        "total_gift_difference": -2.5,
-        "total_value_difference": 37.22,
+        "total_received_count": 57.7,
+        "total_received_value": 902.19,
+        "total_gift_difference": -3.5,
+        "total_value_difference": 31.23,
         "fcv_sent_count": 51,
         "rcv_sent_count": 1,
         "ncv_sent_count": 0,
-        "fcv_received_count": 53,
+        "fcv_received_count": 54,
         "rcv_received_count": 1,
         "ncv_received_count": 0,
-        "fcv_gift_difference": -2,
+        "fcv_gift_difference": -3,
         "real_total_sent_value": 898.05,
-        "real_total_received_value": 816.07,
-        "real_total_value_difference": 81.98,
+        "real_total_received_value": 822.06,
+        "real_total_value_difference": 75.99,
         "real_total_sent_count": 51,
-        "real_total_received_count": 53,
-        "real_total_gift_difference": -2,
-        "giveaway_ratio": 33.33,
+        "real_total_received_count": 54,
+        "real_total_gift_difference": -3,
+        "giveaway_ratio": 33,
         "shared_sent_count": 6,
         "shared_received_count": 4,
         "giveaways_created": 66,
         "giveaways_with_no_entries": 12,
         "last_giveaway_created_at": 1775702302,
-        "last_giveaway_won_at": 1775839620,
+        "last_giveaway_won_at": 1775877000,
         "total_achievements_percentage": 2,
         "average_achievements_percentage": 2,
         "real_total_achievements_percentage": 2,
@@ -54260,6 +54297,15 @@
       "steam_profile_is_private": false,
       "country_code": "de",
       "giveaways_won": [
+        {
+          "name": "Desktop Heroes",
+          "link": "qbPhA/desktop-heroes",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1775877000,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "Insomnia: Theater in the Head",
           "link": "9I09n/insomnia-theater-in-the-head",
@@ -57776,7 +57822,7 @@
           "name": "Planet of Lana",
           "link": "MUoY3/planet-of-lana",
           "cv_status": "REDUCED_CV",
-          "entries": 68,
+          "entries": 67,
           "copies": 1,
           "created_timestamp": 1775589440,
           "end_timestamp": 1776006780,
@@ -74600,10 +74646,10 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1775228542,
         "last_giveaway_won_at": 1775635200,
-        "total_achievements_percentage": 83,
-        "average_achievements_percentage": 83,
-        "real_total_achievements_percentage": 83,
-        "real_average_achievements_percentage": 83,
+        "total_achievements_percentage": 84,
+        "average_achievements_percentage": 84,
+        "real_total_achievements_percentage": 84,
+        "real_average_achievements_percentage": 84,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198054324521",
@@ -81612,9 +81658,9 @@
         "last_giveaway_created_at": 1766458940,
         "last_giveaway_won_at": 1775750400,
         "total_achievements_percentage": 40,
-        "average_achievements_percentage": 41,
+        "average_achievements_percentage": 42,
         "real_total_achievements_percentage": 39,
-        "real_average_achievements_percentage": 38,
+        "real_average_achievements_percentage": 39,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561197989280149",
@@ -83168,7 +83214,15 @@
           "created_timestamp": 1775269707,
           "end_timestamp": 1775878020,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "Telebbit",
@@ -84196,8 +84250,8 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1771777344,
         "last_giveaway_won_at": 1775848440,
-        "total_achievements_percentage": 12,
-        "average_achievements_percentage": 11,
+        "total_achievements_percentage": 9,
+        "average_achievements_percentage": 8,
         "real_total_achievements_percentage": 0,
         "real_average_achievements_percentage": 0,
         "has_missing_achievements_data": false
@@ -86467,17 +86521,6 @@
       ],
       "giveaways_created": [
         {
-          "name": "Inscryption",
-          "link": "TlLQZ/inscryption",
-          "cv_status": "FULL_CV",
-          "entries": 9,
-          "copies": 1,
-          "created_timestamp": 1775101089,
-          "end_timestamp": 1775887140,
-          "required_play": false,
-          "is_shared": false
-        },
-        {
           "name": "Wolfenstein: Cyberpilot",
           "link": "0XtP0/wolfenstein-cyberpilot",
           "cv_status": "REDUCED_CV",
@@ -86492,7 +86535,7 @@
           "name": "MARSUPILAMI - HOOBADVENTURE",
           "link": "9TLt5/marsupilami-hoobadventure",
           "cv_status": "REDUCED_CV",
-          "entries": 31,
+          "entries": 32,
           "copies": 1,
           "created_timestamp": 1775760063,
           "end_timestamp": 1776146340,
@@ -86520,6 +86563,25 @@
           "end_timestamp": 1776319140,
           "required_play": false,
           "is_shared": false
+        },
+        {
+          "name": "Inscryption",
+          "link": "TlLQZ/inscryption",
+          "cv_status": "FULL_CV",
+          "entries": 10,
+          "copies": 1,
+          "created_timestamp": 1775101089,
+          "end_timestamp": 1775887140,
+          "required_play": false,
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "Dogpile",
@@ -93826,10 +93888,10 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1767484625,
         "last_giveaway_won_at": 1775834820,
-        "total_achievements_percentage": 87,
-        "average_achievements_percentage": 87,
-        "real_total_achievements_percentage": 87,
-        "real_average_achievements_percentage": 87,
+        "total_achievements_percentage": 57,
+        "average_achievements_percentage": 58,
+        "real_total_achievements_percentage": 57,
+        "real_average_achievements_percentage": 58,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198313415063",
