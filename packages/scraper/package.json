@@ -25,7 +25,8 @@
     "generate-alltime-website-data": "FETCH_ALL_PAGES=true tsx src/scripts/generate-all-data.ts",
     "backup-data": "tsx src/scripts/backup-data.ts",
     "migrate-to-steam-id": "tsx src/scripts/migrate-to-steam-id.ts",
-    "validate-migration": "tsx src/scripts/validate-migration.ts"
+    "validate-migration": "tsx src/scripts/validate-migration.ts",
+    "get-entries": "tsx src/scripts/get-entries.ts"
   },
   "dependencies": {
     "@types/cheerio": "^0.22.35",
