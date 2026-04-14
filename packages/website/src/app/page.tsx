@@ -1,7 +1,7 @@
-import { getAllGiveaways, getAllUsers, getExMembers, getGameData } from '@/lib/data'
-import { GameData, Giveaway, User } from '@/types'
+import { getAllGiveaways, getAllUsers, getExMembers, getGameData, getUserEntries } from '@/lib/data'
+import { GameData, Giveaway, User, UserEntry } from '@/types'
 import { getUserRatio } from './users/util'
-import DashboardClient, { DashboardStats, InsightData } from './dashboard-client'
+import DashboardClient, { DashboardStats, InsightData, UserLuckData } from './dashboard-client'
 
 function calculateInsights(
   giveawayList: Giveaway[],
@@ -96,13 +96,80 @@ function calculateInsights(
   }
 }
 
+function calculateLuckRankings(
+  users: User[],
+  allGiveaways: Giveaway[],
+  userEntries: UserEntry
+): UserLuckData[] {
+  const now = Date.now()
+  const giveawayMap = new Map(allGiveaways.map(ga => [ga.link, ga]))
+  const activeGiveawayLinks = new Set(
+    allGiveaways.filter(ga => ga.end_timestamp * 1000 > now && ga.entry_count > 0).map(ga => ga.link)
+  )
+
+  const result: UserLuckData[] = []
+
+  for (const user of users) {
+    const entries = userEntries[user.steam_id] || []
+    if (entries.length === 0) continue
+
+    let expectedWins = 0
+    let validEntries = 0
+    let chanceToLose = 1
+    let activeEntriesCount = 0
+
+    for (const entry of entries) {
+      const ga = giveawayMap.get(entry.link)
+      if (!ga || !ga.entry_count || ga.entry_count === 0) continue
+      const probability = Math.min(ga.copies / ga.entry_count, 1)
+      expectedWins += probability
+      validEntries++
+
+      if (activeGiveawayLinks.has(entry.link)) {
+        chanceToLose *= (1 - probability)
+        activeEntriesCount++
+      }
+    }
+
+    if (validEntries === 0) continue
+
+    const wonLinks = new Set(
+      (user.giveaways_won || [])
+        .filter(w => w.status === 'received')
+        .map(w => w.link)
+    )
+
+    const actualWins = entries.filter(e => wonLinks.has(e.link) && giveawayMap.has(e.link)).length
+
+    const luckScore = expectedWins > 0 ? actualWins / expectedWins : 0
+    const avgWinProbability = (expectedWins / validEntries) * 100
+    const chanceToWin = activeEntriesCount > 0 ? (1 - chanceToLose) * 100 : 0
+
+    result.push({
+      steam_id: user.steam_id,
+      username: user.username,
+      avatar_url: user.avatar_url,
+      entries: validEntries,
+      wins: actualWins,
+      expectedWins,
+      luckScore,
+      avgWinProbability,
+      activeEntriesCount,
+      chanceToWin,
+    })
+  }
+
+  return result.sort((a, b) => b.luckScore - a.luckScore)
+}
+
 function computeStats(
   users: User[],
   allGiveaways: Giveaway[],
   giveaways: Giveaway[],
   userMap: Map<string, User>,
   allGameData: GameData[],
-  memberLabel: string
+  memberLabel: string,
+  userEntries: UserEntry
 ): DashboardStats {
   const memberCount = users.length
   const totalGiveawaysCount = allGiveaways.length
@@ -152,6 +219,7 @@ function computeStats(
     allTimeInsights: calculateInsights(giveaways, users, userMap, allGameData),
     last30DaysInsights: calculateInsights(recentGiveaways, users, userMap, allGameData),
     last7DaysInsights: calculateInsights(last7DaysGiveaways, users, userMap, allGameData),
+    luckRankings: calculateLuckRankings(users, allGiveaways, userEntries),
   }
 }
 
@@ -161,6 +229,7 @@ export default async function Home() {
   const userData = await getAllUsers()
   const exMembersData = await getExMembers()
   const allGameData = await getGameData()
+  const userEntries = await getUserEntries()
 
   if (!userData) {
     return (
@@ -177,8 +246,10 @@ export default async function Home() {
   const activeUserMap = new Map(activeUsers.map(u => [u.steam_id, u]))
   const allUserMap = new Map(allUsers.map(u => [u.steam_id, u]))
 
-  const activeStats = computeStats(activeUsers, allGiveaways, giveaways, activeUserMap, allGameData, 'Active Members')
-  const allStats = computeStats(allUsers, allGiveaways, giveaways, allUserMap, allGameData, 'Total Members')
+  const entries = userEntries || {}
+
+  const activeStats = computeStats(activeUsers, allGiveaways, giveaways, activeUserMap, allGameData, 'Active Members', entries)
+  const allStats = computeStats(allUsers, allGiveaways, giveaways, allUserMap, allGameData, 'Total Members', entries)
 
   const lastUpdated = userData.lastUpdated ? new Date(userData.lastUpdated).toISOString() : null
 
