@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1776503069240,
+  "lastUpdated": 1776563082212,
   "users": {
     "76561198359284432": {
       "username": "a10i",
@@ -6594,12 +6594,12 @@
       "avatar_url": "https://avatars.steamstatic.com/cc36a50b34f50277bb456cabe72a25afac5887ed_medium.jpg",
       "steam_id": "76561198133956119",
       "stats": {
-        "total_sent_count": 14.3,
-        "total_sent_value": 379.36,
+        "total_sent_count": 14.8,
+        "total_sent_value": 383.35,
         "total_received_count": 7.5,
         "total_received_value": 367.42,
-        "total_gift_difference": 6.8,
-        "total_value_difference": 11.94,
+        "total_gift_difference": 7.3,
+        "total_value_difference": 15.94,
         "fcv_sent_count": 7,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
@@ -6614,7 +6614,7 @@
         "real_total_received_count": 6,
         "real_total_gift_difference": 1,
         "giveaway_ratio": 5,
-        "shared_sent_count": 15,
+        "shared_sent_count": 16,
         "shared_received_count": 2,
         "giveaways_created": 23,
         "giveaways_with_no_entries": 0,
@@ -6909,9 +6909,10 @@
           "had_winners": true,
           "winners": [
             {
-              "name": null,
-              "status": "awaiting_feedback",
-              "activated": false
+              "name": "AssistBot",
+              "winner_username": "AssistBot",
+              "status": "received",
+              "activated": true
             }
           ]
         },
@@ -25657,10 +25658,10 @@
         "giveaways_with_no_entries": 2,
         "last_giveaway_created_at": 1774575068,
         "last_giveaway_won_at": 1776483540,
-        "total_achievements_percentage": 8,
+        "total_achievements_percentage": 7,
         "average_achievements_percentage": 7,
         "real_total_achievements_percentage": 6,
-        "real_average_achievements_percentage": 6,
+        "real_average_achievements_percentage": 5,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198056789339",
@@ -27498,7 +27499,7 @@
           "name": "Children of Morta: Ancient Spirits",
           "link": "urHjo/children-of-morta-ancient-spirits",
           "cv_status": "REDUCED_CV",
-          "entries": 34,
+          "entries": 36,
           "copies": 1,
           "created_timestamp": 1775479879,
           "end_timestamp": 1777556640,
@@ -28623,7 +28624,7 @@
           "name": "Slay the Spire 2",
           "link": "1E6cs/slay-the-spire-2",
           "cv_status": "FULL_CV",
-          "entries": 36,
+          "entries": 37,
           "copies": 1,
           "created_timestamp": 1776101210,
           "end_timestamp": 1777186800,
@@ -28634,7 +28635,7 @@
           "name": "Esoteric Ebb",
           "link": "PACMX/esoteric-ebb",
           "cv_status": "FULL_CV",
-          "entries": 17,
+          "entries": 30,
           "copies": 1,
           "created_timestamp": 1776481672,
           "end_timestamp": 1777273200,
@@ -33274,7 +33275,7 @@
     "76561198236260938": {
       "username": "HUMoonlight",
       "profile_url": "/user/HUMoonlight",
-      "avatar_url": "https://avatars.steamstatic.com/38f471c29c24cf67f7026c537115f49febea4825_medium.jpg",
+      "avatar_url": "https://avatars.steamstatic.com/e36d4925acc1c5b52209c6f642c8e46f873c2f8f_medium.jpg",
       "steam_id": "76561198236260938",
       "stats": {
         "total_sent_count": 3,
@@ -37235,7 +37236,15 @@
           "created_timestamp": 1775687803,
           "end_timestamp": 1776537300,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "Downward: Enhanced Edition",
@@ -42243,7 +42252,7 @@
     "76561199174167338": {
       "username": "legor2d2",
       "profile_url": "/user/legor2d2",
-      "avatar_url": "https://avatars.steamstatic.com/c78954658abf5f58fc3a0a830ba7d01a0308c8d0_medium.jpg",
+      "avatar_url": "https://avatars.steamstatic.com/c0ac1ed576291d837a1b2e5ec3052ffed6355268_medium.jpg",
       "steam_id": "76561199174167338",
       "stats": {
         "total_sent_count": 15,
@@ -46766,7 +46775,7 @@
           "name": "Hellbreach: Vegas",
           "link": "2EpMk/hellbreach-vegas",
           "cv_status": "REDUCED_CV",
-          "entries": 63,
+          "entries": 67,
           "copies": 1,
           "created_timestamp": 1776213605,
           "end_timestamp": 1776830400,
@@ -46777,7 +46786,7 @@
           "name": "WORLD END ECONOMiCA episode.01",
           "link": "ZUr3a/world-end-economica-episode01",
           "cv_status": "REDUCED_CV",
-          "entries": 20,
+          "entries": 34,
           "copies": 1,
           "created_timestamp": 1776465547,
           "end_timestamp": 1777089600,
@@ -46788,7 +46797,7 @@
           "name": "WORLD END ECONOMiCA episode.02",
           "link": "9uWrC/world-end-economica-episode02",
           "cv_status": "REDUCED_CV",
-          "entries": 26,
+          "entries": 39,
           "copies": 1,
           "created_timestamp": 1776465576,
           "end_timestamp": 1777176000,
@@ -50841,7 +50850,7 @@
           "name": "The Talos Principle 2",
           "link": "hvvAM/the-talos-principle-2",
           "cv_status": "FULL_CV",
-          "entries": 15,
+          "entries": 16,
           "copies": 1,
           "created_timestamp": 1776440545,
           "end_timestamp": 1776694800,
@@ -50852,7 +50861,7 @@
           "name": "Still Wakes the Deep",
           "link": "dTO7K/still-wakes-the-deep",
           "cv_status": "FULL_CV",
-          "entries": 10,
+          "entries": 11,
           "copies": 1,
           "created_timestamp": 1776440483,
           "end_timestamp": 1776694800,
@@ -50863,7 +50872,7 @@
           "name": "Blue Prince",
           "link": "SZJLh/blue-prince",
           "cv_status": "FULL_CV",
-          "entries": 21,
+          "entries": 24,
           "copies": 1,
           "created_timestamp": 1776440455,
           "end_timestamp": 1776694800,
@@ -55143,30 +55152,30 @@
       "stats": {
         "total_sent_count": 56.2,
         "total_sent_value": 976.4,
-        "total_received_count": 60.7,
-        "total_received_value": 962.16,
-        "total_gift_difference": -4.5,
-        "total_value_difference": 14.24,
+        "total_received_count": 61.7,
+        "total_received_value": 980.15,
+        "total_gift_difference": -5.5,
+        "total_value_difference": -3.75,
         "fcv_sent_count": 53,
         "rcv_sent_count": 1,
         "ncv_sent_count": 0,
-        "fcv_received_count": 56,
+        "fcv_received_count": 57,
         "rcv_received_count": 1,
         "ncv_received_count": 0,
-        "fcv_gift_difference": -3,
+        "fcv_gift_difference": -4,
         "real_total_sent_value": 941.03,
-        "real_total_received_value": 832.04,
-        "real_total_value_difference": 108.99,
+        "real_total_received_value": 850.03,
+        "real_total_value_difference": 91,
         "real_total_sent_count": 53,
-        "real_total_received_count": 56,
-        "real_total_gift_difference": -3,
-        "giveaway_ratio": 34.33,
+        "real_total_received_count": 57,
+        "real_total_gift_difference": -4,
+        "giveaway_ratio": 34,
         "shared_sent_count": 6,
         "shared_received_count": 5,
         "giveaways_created": 66,
         "giveaways_with_no_entries": 13,
         "last_giveaway_created_at": 1775702302,
-        "last_giveaway_won_at": 1776351600,
+        "last_giveaway_won_at": 1776531600,
         "total_achievements_percentage": 2,
         "average_achievements_percentage": 2,
         "real_total_achievements_percentage": 2,
@@ -55177,6 +55186,15 @@
       "steam_profile_is_private": false,
       "country_code": "de",
       "giveaways_won": [
+        {
+          "name": "Strange Antiquities",
+          "link": "VuifY/strange-antiquities",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1776531600,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "A Game About Digging A Hole",
           "link": "k6seI/a-game-about-digging-a-hole",
@@ -67186,12 +67204,12 @@
       "avatar_url": "https://avatars.steamstatic.com/804f83af0dffba09bd955d1079cb022bba969313_medium.jpg",
       "steam_id": "76561198027595057",
       "stats": {
-        "total_sent_count": 31.2,
-        "total_sent_value": 663.27,
+        "total_sent_count": 32.2,
+        "total_sent_value": 680.93,
         "total_received_count": 22,
         "total_received_value": 456.28,
-        "total_gift_difference": 9.2,
-        "total_value_difference": 206.99,
+        "total_gift_difference": 10.2,
+        "total_value_difference": 224.65,
         "fcv_sent_count": 25,
         "rcv_sent_count": 1,
         "ncv_sent_count": 0,
@@ -67206,7 +67224,7 @@
         "real_total_received_count": 22,
         "real_total_gift_difference": 3,
         "giveaway_ratio": 23.33,
-        "shared_sent_count": 16,
+        "shared_sent_count": 19,
         "shared_received_count": 0,
         "giveaways_created": 45,
         "giveaways_with_no_entries": 0,
@@ -67697,28 +67715,6 @@
       ],
       "giveaways_created": [
         {
-          "name": "Ken Follett's The Pillars of the Earth",
-          "link": "RjuTw/ken-folletts-the-pillars-of-the-earth",
-          "cv_status": "REDUCED_CV",
-          "entries": 14,
-          "copies": 1,
-          "created_timestamp": 1776254686,
-          "end_timestamp": 1776513780,
-          "required_play": false,
-          "is_shared": true
-        },
-        {
-          "name": "Behind the Frame: The Finest Scenery",
-          "link": "dsLpl/behind-the-frame-the-finest-scenery",
-          "cv_status": "REDUCED_CV",
-          "entries": 20,
-          "copies": 1,
-          "created_timestamp": 1776254727,
-          "end_timestamp": 1776513960,
-          "required_play": false,
-          "is_shared": true
-        },
-        {
           "name": "Evoland Legendary Edition",
           "link": "xX1pr/evoland-legendary-edition",
           "cv_status": "REDUCED_CV",
@@ -67727,7 +67723,56 @@
           "created_timestamp": 1776254791,
           "end_timestamp": 1776514020,
           "required_play": false,
-          "is_shared": true
+          "is_shared": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "pawelt",
+              "winner_username": "pawelt",
+              "status": "received",
+              "activated": true
+            }
+          ]
+        },
+        {
+          "name": "Behind the Frame: The Finest Scenery",
+          "link": "dsLpl/behind-the-frame-the-finest-scenery",
+          "cv_status": "REDUCED_CV",
+          "entries": 19,
+          "copies": 1,
+          "created_timestamp": 1776254727,
+          "end_timestamp": 1776513960,
+          "required_play": false,
+          "is_shared": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "JennDjinn",
+              "winner_username": "JennDjinn",
+              "status": "received",
+              "activated": true
+            }
+          ]
+        },
+        {
+          "name": "Ken Follett's The Pillars of the Earth",
+          "link": "RjuTw/ken-folletts-the-pillars-of-the-earth",
+          "cv_status": "REDUCED_CV",
+          "entries": 15,
+          "copies": 1,
+          "created_timestamp": 1776254686,
+          "end_timestamp": 1776513780,
+          "required_play": false,
+          "is_shared": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "CaspianRoach",
+              "winner_username": "CaspianRoach",
+              "status": "received",
+              "activated": true
+            }
+          ]
         },
         {
           "name": "Luctus",
@@ -85224,26 +85269,26 @@
       "avatar_url": "https://avatars.steamstatic.com/bfbab45618dc427e44b8d5aa7e9939bcd023fcdd_medium.jpg",
       "steam_id": "76561198070041813",
       "stats": {
-        "total_sent_count": 11,
-        "total_sent_value": 305.89,
+        "total_sent_count": 12,
+        "total_sent_value": 323.88,
         "total_received_count": 6,
         "total_received_value": 244.94,
-        "total_gift_difference": 5,
-        "total_value_difference": 60.95,
-        "fcv_sent_count": 10.15,
+        "total_gift_difference": 6,
+        "total_value_difference": 78.94,
+        "fcv_sent_count": 11.15,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
         "fcv_received_count": 6,
         "rcv_received_count": 0,
         "ncv_received_count": 0,
-        "fcv_gift_difference": 4.15,
-        "real_total_sent_value": 284.65,
+        "fcv_gift_difference": 5.15,
+        "real_total_sent_value": 302.64,
         "real_total_received_value": 244.94,
-        "real_total_value_difference": 39.71,
-        "real_total_sent_count": 10.15,
+        "real_total_value_difference": 57.7,
+        "real_total_sent_count": 11.15,
         "real_total_received_count": 6,
-        "real_total_gift_difference": 4.15,
-        "giveaway_ratio": 10.15,
+        "real_total_gift_difference": 5.15,
+        "giveaway_ratio": 11.15,
         "shared_sent_count": 0,
         "shared_received_count": 0,
         "giveaways_created": 13,
@@ -85389,12 +85434,21 @@
           "name": "Strange Antiquities",
           "link": "VuifY/strange-antiquities",
           "cv_status": "FULL_CV",
-          "entries": 19,
+          "entries": 21,
           "copies": 1,
           "created_timestamp": 1776114227,
           "end_timestamp": 1776531600,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "76561198444468770",
+              "winner_username": "mourinhos86",
+              "status": "received",
+              "activated": true
+            }
+          ]
         },
         {
           "name": "Escape From Duckov",
@@ -87363,14 +87417,14 @@
         "giveaway_ratio": 4.67,
         "shared_sent_count": 9,
         "shared_received_count": 4,
-        "giveaways_created": 18,
+        "giveaways_created": 19,
         "giveaways_with_no_entries": 0,
-        "last_giveaway_created_at": 1776224066,
+        "last_giveaway_created_at": 1776542477,
         "last_giveaway_won_at": 1775664000,
-        "total_achievements_percentage": 56,
-        "average_achievements_percentage": 63,
-        "real_total_achievements_percentage": 77,
-        "real_average_achievements_percentage": 82,
+        "total_achievements_percentage": 59,
+        "average_achievements_percentage": 65,
+        "real_total_achievements_percentage": 81,
+        "real_average_achievements_percentage": 85,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198080362358",
@@ -87660,7 +87714,7 @@
           "name": "Bridge Constructor Portal",
           "link": "6Xmfp/bridge-constructor-portal",
           "cv_status": "REDUCED_CV",
-          "entries": 38,
+          "entries": 39,
           "copies": 1,
           "created_timestamp": 1776224066,
           "end_timestamp": 1776661200,
@@ -87671,12 +87725,23 @@
           "name": "Soulslinger: Envoy of Death",
           "link": "kDU5R/soulslinger-envoy-of-death",
           "cv_status": "REDUCED_CV",
-          "entries": 68,
+          "entries": 76,
           "copies": 1,
           "created_timestamp": 1776223682,
           "end_timestamp": 1776661200,
           "required_play": false,
           "is_shared": true
+        },
+        {
+          "name": "The Alters",
+          "link": "cpA40/the-alters",
+          "cv_status": "FULL_CV",
+          "entries": 12,
+          "copies": 1,
+          "created_timestamp": 1776542477,
+          "end_timestamp": 1777010340,
+          "required_play": false,
+          "is_shared": false
         },
         {
           "name": "You Will Die Here Tonight",
@@ -91003,7 +91068,7 @@
           "name": "The Hungry Lamb: Traveling in the Lat...",
           "link": "uUCli/the-hungry-lamb-traveling-in-the-late-ming-dynasty",
           "cv_status": "FULL_CV",
-          "entries": 10,
+          "entries": 11,
           "copies": 1,
           "created_timestamp": 1775660279,
           "end_timestamp": 1776621600,
@@ -92134,7 +92199,7 @@
           "name": "Behind the Frame: The Finest Scenery",
           "link": "Oa2hh/behind-the-frame-the-finest-scenery",
           "cv_status": "REDUCED_CV",
-          "entries": 100,
+          "entries": 106,
           "copies": 1,
           "created_timestamp": 1775986454,
           "end_timestamp": 1776765600,
