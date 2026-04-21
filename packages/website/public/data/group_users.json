@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1776680092063,
+  "lastUpdated": 1776735654192,
   "users": {
     "76561198359284432": {
       "username": "a10i",
@@ -4560,30 +4560,30 @@
       "stats": {
         "total_sent_count": 44.3,
         "total_sent_value": 827.22,
-        "total_received_count": 17.5,
-        "total_received_value": 366.83,
-        "total_gift_difference": 26.8,
-        "total_value_difference": 460.4,
+        "total_received_count": 18.5,
+        "total_received_value": 396.82,
+        "total_gift_difference": 25.8,
+        "total_value_difference": 430.41,
         "fcv_sent_count": 40,
         "rcv_sent_count": 2,
         "ncv_sent_count": 0,
-        "fcv_received_count": 17,
+        "fcv_received_count": 18,
         "rcv_received_count": 0,
         "ncv_received_count": 0,
-        "fcv_gift_difference": 23,
+        "fcv_gift_difference": 22,
         "real_total_sent_value": 737.8,
-        "real_total_received_value": 351.83,
-        "real_total_value_difference": 385.97,
+        "real_total_received_value": 381.82,
+        "real_total_value_difference": 355.98,
         "real_total_sent_count": 40,
-        "real_total_received_count": 17,
-        "real_total_gift_difference": 23,
-        "giveaway_ratio": 34.33,
+        "real_total_received_count": 18,
+        "real_total_gift_difference": 22,
+        "giveaway_ratio": 34,
         "shared_sent_count": 7,
         "shared_received_count": 1,
         "giveaways_created": 51,
         "giveaways_with_no_entries": 3,
         "last_giveaway_created_at": 1775782012,
-        "last_giveaway_won_at": 1773334620,
+        "last_giveaway_won_at": 1776694800,
         "total_achievements_percentage": 17,
         "average_achievements_percentage": 10,
         "real_total_achievements_percentage": 17,
@@ -4594,6 +4594,15 @@
       "steam_profile_is_private": false,
       "country_code": "us",
       "giveaways_won": [
+        {
+          "name": "Blue Prince",
+          "link": "SZJLh/blue-prince",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1776694800,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "Staffer Case: A Supernatural Mystery ...",
           "link": "2rPxb/staffer-case-a-supernatural-mystery-adventure",
@@ -22575,7 +22584,7 @@
     "76561198020386807": {
       "username": "eeev",
       "profile_url": "/user/eeev",
-      "avatar_url": "https://avatars.steamstatic.com/3141c7da561a92edcd83b615241e905ddddf71f4_medium.jpg",
+      "avatar_url": "https://avatars.steamstatic.com/da9d39f1641475eee1842deab32940f6442858a4_medium.jpg",
       "steam_id": "76561198020386807",
       "stats": {
         "total_sent_count": 17,
@@ -27474,13 +27483,13 @@
       ],
       "giveaways_created": [
         {
-          "name": "Cloud Cats` Land",
-          "link": "sxtAt/cloud-cats-land",
-          "cv_status": "FULL_CV",
-          "entries": 52,
+          "name": "Children of Morta: Ancient Spirits",
+          "link": "urHjo/children-of-morta-ancient-spirits",
+          "cv_status": "REDUCED_CV",
+          "entries": 36,
           "copies": 1,
-          "created_timestamp": 1775479417,
-          "end_timestamp": 1776692100,
+          "created_timestamp": 1775479879,
+          "end_timestamp": 1777556640,
           "required_play": false,
           "is_shared": true
         },
@@ -27488,23 +27497,39 @@
           "name": "Paddle Paddle Paddle",
           "link": "Pn9zB/paddle-paddle-paddle",
           "cv_status": "FULL_CV",
-          "entries": 2,
+          "entries": 3,
           "copies": 1,
           "created_timestamp": 1775143469,
           "end_timestamp": 1776702180,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
-          "name": "Children of Morta: Ancient Spirits",
-          "link": "urHjo/children-of-morta-ancient-spirits",
-          "cv_status": "REDUCED_CV",
-          "entries": 35,
+          "name": "Cloud Cats` Land",
+          "link": "sxtAt/cloud-cats-land",
+          "cv_status": "FULL_CV",
+          "entries": 53,
           "copies": 1,
-          "created_timestamp": 1775479879,
-          "end_timestamp": 1777556640,
+          "created_timestamp": 1775479417,
+          "end_timestamp": 1776692100,
           "required_play": false,
-          "is_shared": true
+          "is_shared": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "Sodaman",
@@ -28635,7 +28660,7 @@
           "name": "Esoteric Ebb",
           "link": "PACMX/esoteric-ebb",
           "cv_status": "FULL_CV",
-          "entries": 33,
+          "entries": 34,
           "copies": 1,
           "created_timestamp": 1776481672,
           "end_timestamp": 1777273200,
@@ -38285,7 +38310,7 @@
           "name": "Hades II",
           "link": "OJLZj/hades-ii",
           "cv_status": "FULL_CV",
-          "entries": 23,
+          "entries": 28,
           "copies": 1,
           "created_timestamp": 1776626515,
           "end_timestamp": 1777219200,
@@ -46816,7 +46841,7 @@
           "name": "Hellbreach: Vegas",
           "link": "2EpMk/hellbreach-vegas",
           "cv_status": "REDUCED_CV",
-          "entries": 72,
+          "entries": 77,
           "copies": 1,
           "created_timestamp": 1776213605,
           "end_timestamp": 1776830400,
@@ -46827,7 +46852,7 @@
           "name": "WORLD END ECONOMiCA episode.01",
           "link": "ZUr3a/world-end-economica-episode01",
           "cv_status": "REDUCED_CV",
-          "entries": 40,
+          "entries": 42,
           "copies": 1,
           "created_timestamp": 1776465547,
           "end_timestamp": 1777089600,
@@ -46838,7 +46863,7 @@
           "name": "WORLD END ECONOMiCA episode.02",
           "link": "9uWrC/world-end-economica-episode02",
           "cv_status": "REDUCED_CV",
-          "entries": 48,
+          "entries": 49,
           "copies": 1,
           "created_timestamp": 1776465576,
           "end_timestamp": 1777176000,
@@ -50297,26 +50322,26 @@
       "avatar_url": "https://avatars.steamstatic.com/314b29ebfc6c0f37c198646aa8534cd2b3b36220_medium.jpg",
       "steam_id": "76561198035801987",
       "stats": {
-        "total_sent_count": 30,
-        "total_sent_value": 1168.7,
+        "total_sent_count": 32,
+        "total_sent_value": 1233.68,
         "total_received_count": 27,
         "total_received_value": 673.73,
-        "total_gift_difference": 3,
-        "total_value_difference": 494.97,
-        "fcv_sent_count": 30,
+        "total_gift_difference": 5,
+        "total_value_difference": 559.95,
+        "fcv_sent_count": 32,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
         "fcv_received_count": 27,
         "rcv_received_count": 0,
         "ncv_received_count": 0,
-        "fcv_gift_difference": 3,
-        "real_total_sent_value": 1168.7,
+        "fcv_gift_difference": 5,
+        "real_total_sent_value": 1233.68,
         "real_total_received_value": 687.73,
-        "real_total_value_difference": 480.97,
-        "real_total_sent_count": 30,
+        "real_total_value_difference": 545.95,
+        "real_total_sent_count": 32,
         "real_total_received_count": 27,
-        "real_total_gift_difference": 3,
-        "giveaway_ratio": 25.33,
+        "real_total_gift_difference": 5,
+        "giveaway_ratio": 27.33,
         "shared_sent_count": 0,
         "shared_received_count": 0,
         "giveaways_created": 31,
@@ -50919,7 +50944,15 @@
           "created_timestamp": 1776440545,
           "end_timestamp": 1776694800,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "Still Wakes the Deep",
@@ -50930,18 +50963,36 @@
           "created_timestamp": 1776440483,
           "end_timestamp": 1776694800,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "76561199141726712",
+              "winner_username": "vot4ol",
+              "status": "received",
+              "activated": true
+            }
+          ]
         },
         {
           "name": "Blue Prince",
           "link": "SZJLh/blue-prince",
           "cv_status": "FULL_CV",
-          "entries": 27,
+          "entries": 28,
           "copies": 1,
           "created_timestamp": 1776440455,
           "end_timestamp": 1776694800,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "76561198351673664",
+              "winner_username": "BanjoBearLV",
+              "status": "received",
+              "activated": true
+            }
+          ]
         },
         {
           "name": "Resident Evil 3",
@@ -55236,9 +55287,9 @@
         "giveaway_ratio": 34,
         "shared_sent_count": 6,
         "shared_received_count": 5,
-        "giveaways_created": 66,
+        "giveaways_created": 67,
         "giveaways_with_no_entries": 13,
-        "last_giveaway_created_at": 1775702302,
+        "last_giveaway_created_at": 1776678510,
         "last_giveaway_won_at": 1776531600,
         "total_achievements_percentage": 2,
         "average_achievements_percentage": 2,
@@ -56542,6 +56593,17 @@
         }
       ],
       "giveaways_created": [
+        {
+          "name": "Ashina: The Red Witch",
+          "link": "gi1hX/ashina-the-red-witch",
+          "cv_status": "REDUCED_CV",
+          "entries": 26,
+          "copies": 1,
+          "created_timestamp": 1776678510,
+          "end_timestamp": 1776891600,
+          "required_play": false,
+          "is_shared": true
+        },
         {
           "name": "Heads Will Roll: Reforged",
           "link": "HbhLN/heads-will-roll-reforged",
@@ -63669,7 +63731,7 @@
           "name": "Crypt Custodian",
           "link": "P4HUe/crypt-custodian",
           "cv_status": "FULL_CV",
-          "entries": 18,
+          "entries": 21,
           "copies": 1,
           "created_timestamp": 1776620125,
           "end_timestamp": 1777574040,
@@ -87550,12 +87612,12 @@
       "avatar_url": "https://avatars.steamstatic.com/b81c8aaec7e567b2bf50d9ff53e82ca8aa67676d_medium.jpg",
       "steam_id": "76561198080362358",
       "stats": {
-        "total_sent_count": 10.7,
-        "total_sent_value": 255.25,
+        "total_sent_count": 11.2,
+        "total_sent_value": 262.75,
         "total_received_count": 11.8,
         "total_received_value": 230.55,
-        "total_gift_difference": -1.1,
-        "total_value_difference": 24.7,
+        "total_gift_difference": -0.6,
+        "total_value_difference": 32.2,
         "fcv_sent_count": 8,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
@@ -87570,7 +87632,7 @@
         "real_total_received_count": 10,
         "real_total_gift_difference": -2,
         "giveaway_ratio": 4.67,
-        "shared_sent_count": 9,
+        "shared_sent_count": 11,
         "shared_received_count": 4,
         "giveaways_created": 19,
         "giveaways_with_no_entries": 0,
@@ -87869,7 +87931,7 @@
           "name": "The Alters",
           "link": "cpA40/the-alters",
           "cv_status": "FULL_CV",
-          "entries": 26,
+          "entries": 27,
           "copies": 1,
           "created_timestamp": 1776542477,
           "end_timestamp": 1777010340,
@@ -87889,9 +87951,10 @@
           "had_winners": true,
           "winners": [
             {
-              "name": null,
-              "status": "awaiting_feedback",
-              "activated": false
+              "name": "GuiKpel",
+              "winner_username": "GuiKpel",
+              "status": "received",
+              "activated": true
             }
           ]
         },
@@ -87908,9 +87971,10 @@
           "had_winners": true,
           "winners": [
             {
-              "name": null,
-              "status": "awaiting_feedback",
-              "activated": false
+              "name": "GabbyGabe",
+              "winner_username": "GabbyGabe",
+              "status": "received",
+              "activated": true
             }
           ]
         },
@@ -90820,30 +90884,30 @@
       "stats": {
         "total_sent_count": 26,
         "total_sent_value": 677.09,
-        "total_received_count": 17.3,
-        "total_received_value": 376.33,
-        "total_gift_difference": 8.8,
-        "total_value_difference": 300.76,
+        "total_received_count": 18.3,
+        "total_received_value": 411.32,
+        "total_gift_difference": 7.8,
+        "total_value_difference": 265.77,
         "fcv_sent_count": 26,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
-        "fcv_received_count": 17,
+        "fcv_received_count": 18,
         "rcv_received_count": 0,
         "ncv_received_count": 0,
-        "fcv_gift_difference": 9,
+        "fcv_gift_difference": 8,
         "real_total_sent_value": 692.09,
-        "real_total_received_value": 358.83,
-        "real_total_value_difference": 333.26,
+        "real_total_received_value": 393.82,
+        "real_total_value_difference": 298.27,
         "real_total_sent_count": 26,
-        "real_total_received_count": 17,
-        "real_total_gift_difference": 9,
-        "giveaway_ratio": 23.67,
+        "real_total_received_count": 18,
+        "real_total_gift_difference": 8,
+        "giveaway_ratio": 23.33,
         "shared_sent_count": 0,
         "shared_received_count": 1,
         "giveaways_created": 26,
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1775660528,
-        "last_giveaway_won_at": 1767438000,
+        "last_giveaway_won_at": 1776694800,
         "total_achievements_percentage": 63,
         "average_achievements_percentage": 64,
         "real_total_achievements_percentage": 62,
@@ -90854,6 +90918,15 @@
       "steam_profile_is_private": false,
       "country_code": null,
       "giveaways_won": [
+        {
+          "name": "Still Wakes the Deep",
+          "link": "dTO7K/still-wakes-the-deep",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1776694800,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "Cast n Chill",
           "link": "9evJs/cast-n-chill",
@@ -92406,7 +92479,7 @@
           "name": "Behind the Frame: The Finest Scenery",
           "link": "Oa2hh/behind-the-frame-the-finest-scenery",
           "cv_status": "REDUCED_CV",
-          "entries": 116,
+          "entries": 136,
           "copies": 1,
           "created_timestamp": 1775986454,
           "end_timestamp": 1776765600,
