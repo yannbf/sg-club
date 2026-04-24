@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1776937492347,
+  "lastUpdated": 1776995042542,
   "users": {
     "76561198359284432": {
       "username": "a10i",
@@ -21087,7 +21087,7 @@
           "name": "Outbreak Island",
           "link": "YWTRv/outbreak-island",
           "cv_status": "FULL_CV",
-          "entries": 7,
+          "entries": 8,
           "copies": 1,
           "created_timestamp": 1776856488,
           "end_timestamp": 1777039200,
@@ -21098,7 +21098,7 @@
           "name": "Gloomy Eyes",
           "link": "IffkT/gloomy-eyes",
           "cv_status": "FULL_CV",
-          "entries": 7,
+          "entries": 8,
           "copies": 1,
           "created_timestamp": 1776856270,
           "end_timestamp": 1777039200,
@@ -46929,7 +46929,7 @@
           "name": "WORLD END ECONOMiCA episode.01",
           "link": "ZUr3a/world-end-economica-episode01",
           "cv_status": "REDUCED_CV",
-          "entries": 48,
+          "entries": 47,
           "copies": 1,
           "created_timestamp": 1776465547,
           "end_timestamp": 1777089600,
@@ -55363,12 +55363,12 @@
       "avatar_url": "https://avatars.steamstatic.com/c9fca0ebe7f2673251c93ab055a69b4ce410f523_medium.jpg",
       "steam_id": "76561198444468770",
       "stats": {
-        "total_sent_count": 56.2,
-        "total_sent_value": 976.4,
+        "total_sent_count": 56.4,
+        "total_sent_value": 978.9,
         "total_received_count": 61.7,
         "total_received_value": 980.15,
-        "total_gift_difference": -5.5,
-        "total_value_difference": -3.75,
+        "total_gift_difference": -5.3,
+        "total_value_difference": -1.25,
         "fcv_sent_count": 53,
         "rcv_sent_count": 1,
         "ncv_sent_count": 0,
@@ -55383,11 +55383,11 @@
         "real_total_received_count": 57,
         "real_total_gift_difference": -4,
         "giveaway_ratio": 34,
-        "shared_sent_count": 6,
+        "shared_sent_count": 7,
         "shared_received_count": 5,
-        "giveaways_created": 68,
+        "giveaways_created": 69,
         "giveaways_with_no_entries": 13,
-        "last_giveaway_created_at": 1776913376,
+        "last_giveaway_created_at": 1776965923,
         "last_giveaway_won_at": 1776531600,
         "total_achievements_percentage": 2,
         "average_achievements_percentage": 2,
@@ -56703,6 +56703,17 @@
           "is_shared": true
         },
         {
+          "name": "Fae Farm - Official Soundtrack",
+          "link": "9HA0C/fae-farm-official-soundtrack",
+          "cv_status": "FULL_CV",
+          "entries": 1,
+          "copies": 1,
+          "created_timestamp": 1776965923,
+          "end_timestamp": 1777150800,
+          "required_play": false,
+          "is_shared": true
+        },
+        {
           "name": "Ashina: The Red Witch",
           "link": "gi1hX/ashina-the-red-witch",
           "cv_status": "REDUCED_CV",
@@ -56715,9 +56726,10 @@
           "had_winners": true,
           "winners": [
             {
-              "name": null,
-              "status": "awaiting_feedback",
-              "activated": false
+              "name": "NeStric",
+              "winner_username": "NeStric",
+              "status": "received",
+              "activated": true
             }
           ]
         },
@@ -63854,6 +63866,17 @@
       ],
       "giveaways_created": [
         {
+          "name": "Crypt Custodian",
+          "link": "P4HUe/crypt-custodian",
+          "cv_status": "FULL_CV",
+          "entries": 24,
+          "copies": 1,
+          "created_timestamp": 1776620125,
+          "end_timestamp": 1777574040,
+          "required_play": false,
+          "is_shared": false
+        },
+        {
           "name": "You Suck at Parking - Complete Edition",
           "link": "9ly0b/you-suck-at-parking-complete-edition",
           "cv_status": "NO_CV",
@@ -63862,18 +63885,15 @@
           "created_timestamp": 1776376511,
           "end_timestamp": 1776984840,
           "required_play": false,
-          "is_shared": true
-        },
-        {
-          "name": "Crypt Custodian",
-          "link": "P4HUe/crypt-custodian",
-          "cv_status": "FULL_CV",
-          "entries": 23,
-          "copies": 1,
-          "created_timestamp": 1776620125,
-          "end_timestamp": 1777574040,
-          "required_play": false,
-          "is_shared": false
+          "is_shared": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "Ready or Not",
@@ -67564,10 +67584,10 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1776254791,
         "last_giveaway_won_at": 1776621600,
-        "total_achievements_percentage": 76,
-        "average_achievements_percentage": 76,
-        "real_total_achievements_percentage": 76,
-        "real_average_achievements_percentage": 76,
+        "total_achievements_percentage": 77,
+        "average_achievements_percentage": 77,
+        "real_total_achievements_percentage": 77,
+        "real_average_achievements_percentage": 77,
         "has_missing_achievements_data": true
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198027595057",
@@ -74434,9 +74454,9 @@
         "total_sent_count": 10,
         "total_sent_value": 244.4,
         "total_received_count": 20,
-        "total_received_value": 561.8,
+        "total_received_value": 566.8,
         "total_gift_difference": -10,
-        "total_value_difference": -317.4,
+        "total_value_difference": -322.4,
         "fcv_sent_count": 10,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
@@ -85624,11 +85644,11 @@
       "steam_id": "76561198070041813",
       "stats": {
         "total_sent_count": 12,
-        "total_sent_value": 323.88,
+        "total_sent_value": 328.88,
         "total_received_count": 6,
         "total_received_value": 244.94,
         "total_gift_difference": 6,
-        "total_value_difference": 78.94,
+        "total_value_difference": 83.94,
         "fcv_sent_count": 11.15,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
@@ -86488,7 +86508,7 @@
           "name": "Koira",
           "link": "MSlqc/koira",
           "cv_status": "FULL_CV",
-          "entries": 12,
+          "entries": 13,
           "copies": 1,
           "created_timestamp": 1776778386,
           "end_timestamp": 1777025700,
@@ -88106,7 +88126,7 @@
           "name": "The Alters",
           "link": "cpA40/the-alters",
           "cv_status": "FULL_CV",
-          "entries": 33,
+          "entries": 34,
           "copies": 1,
           "created_timestamp": 1776542477,
           "end_timestamp": 1777010340,
@@ -89613,9 +89633,9 @@
         "giveaway_ratio": 7.67,
         "shared_sent_count": 0,
         "shared_received_count": 0,
-        "giveaways_created": 18,
+        "giveaways_created": 19,
         "giveaways_with_no_entries": 4,
-        "last_giveaway_created_at": 1772755782,
+        "last_giveaway_created_at": 1776984073,
         "last_giveaway_won_at": 1770422400,
         "total_achievements_percentage": 23,
         "average_achievements_percentage": 26,
@@ -90057,6 +90077,17 @@
         }
       ],
       "giveaways_created": [
+        {
+          "name": "Dungeon Clawler",
+          "link": "AkdcD/dungeon-clawler",
+          "cv_status": "FULL_CV",
+          "entries": 0,
+          "copies": 1,
+          "created_timestamp": 1776984073,
+          "end_timestamp": 1777246440,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "Goblin Sushi",
           "link": "dz9cF/goblin-sushi",
@@ -94897,7 +94928,7 @@
           "name": "Until Then",
           "link": "CUhp7/until-then",
           "cv_status": "REDUCED_CV",
-          "entries": 15,
+          "entries": 16,
           "copies": 1,
           "created_timestamp": 1776819167,
           "end_timestamp": 1777910400,
