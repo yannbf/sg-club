@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1777256044116,
+  "lastUpdated": 1777285236425,
   "users": {
     "76561198359284432": {
       "username": "a10i",
@@ -9163,9 +9163,9 @@
         "last_giveaway_created_at": 1775260554,
         "last_giveaway_won_at": 1773162000,
         "total_achievements_percentage": 46,
-        "average_achievements_percentage": 57,
+        "average_achievements_percentage": 58,
         "real_total_achievements_percentage": 46,
-        "real_average_achievements_percentage": 57,
+        "real_average_achievements_percentage": 58,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198025173613",
@@ -10725,8 +10725,8 @@
         "giveaways_with_no_entries": 2,
         "last_giveaway_created_at": 1775637114,
         "last_giveaway_won_at": 1770390000,
-        "total_achievements_percentage": 71,
-        "average_achievements_percentage": 72,
+        "total_achievements_percentage": 72,
+        "average_achievements_percentage": 73,
         "real_total_achievements_percentage": 100,
         "real_average_achievements_percentage": 100,
         "has_missing_achievements_data": false
@@ -26302,12 +26302,25 @@
           "name": "Midnight Ramen",
           "link": "CVzum/midnight-ramen",
           "cv_status": "REDUCED_CV",
-          "entries": 25,
+          "entries": 26,
           "copies": 2,
           "created_timestamp": 1776750243,
           "end_timestamp": 1777272060,
           "required_play": false,
-          "is_shared": true
+          "is_shared": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            },
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "Bahnsen Knights",
@@ -28758,7 +28771,15 @@
           "created_timestamp": 1776481672,
           "end_timestamp": 1777273200,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "Slay the Spire 2",
@@ -32498,7 +32519,7 @@
           "name": "Crimson Desert",
           "link": "PvPiW/crimson-desert",
           "cv_status": "FULL_CV",
-          "entries": 30,
+          "entries": 31,
           "copies": 1,
           "created_timestamp": 1777043314,
           "end_timestamp": 1777320000,
@@ -38482,9 +38503,9 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1776626515,
         "last_giveaway_won_at": 1776616860,
-        "total_achievements_percentage": 11,
+        "total_achievements_percentage": 12,
         "average_achievements_percentage": 10,
-        "real_total_achievements_percentage": 11,
+        "real_total_achievements_percentage": 12,
         "real_average_achievements_percentage": 10,
         "has_missing_achievements_data": false
       },
@@ -42611,7 +42632,7 @@
         "shared_sent_count": 0,
         "shared_received_count": 1,
         "giveaways_created": 24,
-        "giveaways_with_no_entries": 2,
+        "giveaways_with_no_entries": 3,
         "last_giveaway_created_at": 1777128259,
         "last_giveaway_won_at": 1760720400,
         "total_achievements_percentage": 16,
@@ -42778,28 +42799,6 @@
       ],
       "giveaways_created": [
         {
-          "name": "CARNAGE OFFERING",
-          "link": "BRqB7/carnage-offering",
-          "cv_status": "FULL_CV",
-          "entries": 0,
-          "copies": 1,
-          "created_timestamp": 1777099414,
-          "end_timestamp": 1777275780,
-          "required_play": false,
-          "is_shared": false
-        },
-        {
-          "name": "For the People",
-          "link": "SwOce/for-the-people",
-          "cv_status": "FULL_CV",
-          "entries": 1,
-          "copies": 1,
-          "created_timestamp": 1777099528,
-          "end_timestamp": 1777275900,
-          "required_play": false,
-          "is_shared": false
-        },
-        {
           "name": "March of Shrooms",
           "link": "iJ983/march-of-shrooms",
           "cv_status": "FULL_CV",
@@ -42853,6 +42852,37 @@
           "end_timestamp": 1777362960,
           "required_play": false,
           "is_shared": false
+        },
+        {
+          "name": "For the People",
+          "link": "SwOce/for-the-people",
+          "cv_status": "FULL_CV",
+          "entries": 1,
+          "copies": 1,
+          "created_timestamp": 1777099528,
+          "end_timestamp": 1777275900,
+          "required_play": false,
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
+        },
+        {
+          "name": "CARNAGE OFFERING",
+          "link": "BRqB7/carnage-offering",
+          "cv_status": "FULL_CV",
+          "entries": 0,
+          "copies": 1,
+          "created_timestamp": 1777099414,
+          "end_timestamp": 1777275780,
+          "required_play": false,
+          "is_shared": false,
+          "had_winners": false
         },
         {
           "name": "Time to Morp",
@@ -47194,7 +47224,7 @@
           "name": "KARAKARA",
           "link": "8ojtB/karakara",
           "cv_status": "REDUCED_CV",
-          "entries": 24,
+          "entries": 25,
           "copies": 1,
           "created_timestamp": 1777079341,
           "end_timestamp": 1777694400,
@@ -58607,7 +58637,7 @@
           "name": "Axon TD: Uprising - Tower Defense",
           "link": "hyuph/axon-td-uprising-tower-defense",
           "cv_status": "FULL_CV",
-          "entries": 24,
+          "entries": 27,
           "copies": 1,
           "created_timestamp": 1777193625,
           "end_timestamp": 1777625460,
@@ -58618,7 +58648,7 @@
           "name": "ION Shift",
           "link": "bj31I/ion-shift",
           "cv_status": "FULL_CV",
-          "entries": 40,
+          "entries": 46,
           "copies": 1,
           "created_timestamp": 1777193836,
           "end_timestamp": 1777712040,
@@ -64270,7 +64300,7 @@
           "name": "Crypt Custodian",
           "link": "P4HUe/crypt-custodian",
           "cv_status": "FULL_CV",
-          "entries": 25,
+          "entries": 26,
           "copies": 1,
           "created_timestamp": 1776620125,
           "end_timestamp": 1777574040,
@@ -65889,10 +65919,10 @@
         "giveaways_with_no_entries": 1,
         "last_giveaway_created_at": 1775664373,
         "last_giveaway_won_at": 1777039200,
-        "total_achievements_percentage": 51,
-        "average_achievements_percentage": 60,
-        "real_total_achievements_percentage": 51,
-        "real_average_achievements_percentage": 60,
+        "total_achievements_percentage": 52,
+        "average_achievements_percentage": 62,
+        "real_total_achievements_percentage": 52,
+        "real_average_achievements_percentage": 62,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198079289651",
@@ -67146,7 +67176,7 @@
           "name": "Elemental Survivors",
           "link": "Eghy9/elemental-survivors",
           "cv_status": "FULL_CV",
-          "entries": 1,
+          "entries": 2,
           "copies": 1,
           "created_timestamp": 1777236695,
           "end_timestamp": 1777467000,
@@ -70563,30 +70593,30 @@
       "stats": {
         "total_sent_count": 55.3,
         "total_sent_value": 1320.28,
-        "total_received_count": 53.7,
-        "total_received_value": 1389.46,
-        "total_gift_difference": 1.7,
-        "total_value_difference": -69.18,
+        "total_received_count": 54.7,
+        "total_received_value": 1404.45,
+        "total_gift_difference": 0.7,
+        "total_value_difference": -84.17,
         "fcv_sent_count": 54,
         "rcv_sent_count": 1,
         "ncv_sent_count": 0,
-        "fcv_received_count": 50,
+        "fcv_received_count": 51,
         "rcv_received_count": 2,
         "ncv_received_count": 0,
-        "fcv_gift_difference": 4,
+        "fcv_gift_difference": 3,
         "real_total_sent_value": 1293.41,
-        "real_total_received_value": 1272.46,
-        "real_total_value_difference": 20.95,
+        "real_total_received_value": 1287.45,
+        "real_total_value_difference": 5.96,
         "real_total_sent_count": 54,
-        "real_total_received_count": 50,
-        "real_total_gift_difference": 4,
-        "giveaway_ratio": 38.67,
+        "real_total_received_count": 51,
+        "real_total_gift_difference": 3,
+        "giveaway_ratio": 38.33,
         "shared_sent_count": 1,
         "shared_received_count": 2,
         "giveaways_created": 53,
         "giveaways_with_no_entries": 1,
         "last_giveaway_created_at": 1775154744,
-        "last_giveaway_won_at": 1776150000,
+        "last_giveaway_won_at": 1777246440,
         "total_achievements_percentage": 14,
         "average_achievements_percentage": 23,
         "real_total_achievements_percentage": 13,
@@ -70597,6 +70627,15 @@
       "steam_profile_is_private": false,
       "country_code": "si",
       "giveaways_won": [
+        {
+          "name": "Dungeon Clawler",
+          "link": "AkdcD/dungeon-clawler",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1777246440,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "COCOON",
           "link": "ly6yL/cocoon",
@@ -77628,9 +77667,9 @@
         "giveaway_ratio": 14.33,
         "shared_sent_count": 1,
         "shared_received_count": 1,
-        "giveaways_created": 17,
+        "giveaways_created": 18,
         "giveaways_with_no_entries": 0,
-        "last_giveaway_created_at": 1775207551,
+        "last_giveaway_created_at": 1777277275,
         "last_giveaway_won_at": 1775635200,
         "total_achievements_percentage": 45,
         "average_achievements_percentage": 62,
@@ -77792,6 +77831,17 @@
         }
       ],
       "giveaways_created": [
+        {
+          "name": "Blue Prince",
+          "link": "rFqw4/blue-prince",
+          "cv_status": "FULL_CV",
+          "entries": 0,
+          "copies": 1,
+          "created_timestamp": 1777277275,
+          "end_timestamp": 1778479200,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "COCOON",
           "link": "ly6yL/cocoon",
@@ -90122,26 +90172,26 @@
       "avatar_url": "https://avatars.steamstatic.com/8467f07aa7374a8cb2b2775bee955ec4ed609b8b_medium.jpg",
       "steam_id": "76561198089693705",
       "stats": {
-        "total_sent_count": 14,
-        "total_sent_value": 327.86,
+        "total_sent_count": 15,
+        "total_sent_value": 342.85,
         "total_received_count": 23,
         "total_received_value": 554.27,
-        "total_gift_difference": -9,
-        "total_value_difference": -226.41,
-        "fcv_sent_count": 14,
+        "total_gift_difference": -8,
+        "total_value_difference": -211.42,
+        "fcv_sent_count": 15,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
         "fcv_received_count": 20,
         "rcv_received_count": 2,
         "ncv_received_count": 0,
-        "fcv_gift_difference": -6,
-        "real_total_sent_value": 317.86,
+        "fcv_gift_difference": -5,
+        "real_total_sent_value": 332.85,
         "real_total_received_value": 494.75,
-        "real_total_value_difference": -176.89,
-        "real_total_sent_count": 14,
+        "real_total_value_difference": -161.9,
+        "real_total_sent_count": 15,
         "real_total_received_count": 20,
-        "real_total_gift_difference": -6,
-        "giveaway_ratio": 7.67,
+        "real_total_gift_difference": -5,
+        "giveaway_ratio": 8.67,
         "shared_sent_count": 0,
         "shared_received_count": 0,
         "giveaways_created": 19,
@@ -90601,9 +90651,10 @@
           "had_winners": true,
           "winners": [
             {
-              "name": null,
-              "status": "awaiting_feedback",
-              "activated": false
+              "name": "76561198048462370",
+              "winner_username": "QuinlanLJ",
+              "status": "received",
+              "activated": true
             }
           ]
         },
