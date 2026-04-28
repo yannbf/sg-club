@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1777342831564,
+  "lastUpdated": 1777371641715,
   "users": {
     "76561198359284432": {
       "username": "a10i",
@@ -6038,10 +6038,10 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1775426006,
         "last_giveaway_won_at": 1777219200,
-        "total_achievements_percentage": 21,
-        "average_achievements_percentage": 16,
-        "real_total_achievements_percentage": 21,
-        "real_average_achievements_percentage": 16,
+        "total_achievements_percentage": 14,
+        "average_achievements_percentage": 12,
+        "real_total_achievements_percentage": 14,
+        "real_average_achievements_percentage": 12,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198250732560",
@@ -15888,7 +15888,7 @@
         "total_achievements_percentage": 9,
         "average_achievements_percentage": 12,
         "real_total_achievements_percentage": 11,
-        "real_average_achievements_percentage": 14,
+        "real_average_achievements_percentage": 13,
         "has_missing_achievements_data": true
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198113581790",
@@ -25732,12 +25732,12 @@
       "avatar_url": "https://avatars.steamstatic.com/c11b85c4b0e3fffaad1ad2ac52ec667307779247_medium.jpg",
       "steam_id": "76561198056789339",
       "stats": {
-        "total_sent_count": 19.9,
-        "total_sent_value": 358.47,
+        "total_sent_count": 20.9,
+        "total_sent_value": 370.46,
         "total_received_count": 24.9,
         "total_received_value": 671.92,
-        "total_gift_difference": -5,
-        "total_value_difference": -313.45,
+        "total_gift_difference": -4,
+        "total_value_difference": -301.46,
         "fcv_sent_count": 16,
         "rcv_sent_count": 1,
         "ncv_sent_count": 0,
@@ -25752,7 +25752,7 @@
         "real_total_received_count": 24,
         "real_total_gift_difference": -8,
         "giveaway_ratio": 9,
-        "shared_sent_count": 7,
+        "shared_sent_count": 9,
         "shared_received_count": 3,
         "giveaways_created": 27,
         "giveaways_with_no_entries": 2,
@@ -26351,14 +26351,16 @@
           "had_winners": true,
           "winners": [
             {
-              "name": null,
-              "status": "awaiting_feedback",
-              "activated": false
+              "name": "DeliberateTaco",
+              "winner_username": "DeliberateTaco",
+              "status": "received",
+              "activated": true
             },
             {
-              "name": null,
-              "status": "awaiting_feedback",
-              "activated": false
+              "name": "76561198069420656",
+              "winner_username": "Metalhead8489",
+              "status": "received",
+              "activated": true
             }
           ]
         },
@@ -27621,7 +27623,7 @@
           "name": "Children of Morta: Ancient Spirits",
           "link": "urHjo/children-of-morta-ancient-spirits",
           "cv_status": "REDUCED_CV",
-          "entries": 37,
+          "entries": 39,
           "copies": 1,
           "created_timestamp": 1775479879,
           "end_timestamp": 1777556640,
@@ -36423,30 +36425,30 @@
       "stats": {
         "total_sent_count": 23.9,
         "total_sent_value": 356.87,
-        "total_received_count": 15.3,
-        "total_received_value": 204.75,
-        "total_gift_difference": 8.6,
-        "total_value_difference": 152.13,
+        "total_received_count": 16.3,
+        "total_received_value": 219.74,
+        "total_gift_difference": 7.6,
+        "total_value_difference": 137.14,
         "fcv_sent_count": 13,
         "rcv_sent_count": 1,
         "ncv_sent_count": 0,
-        "fcv_received_count": 13,
+        "fcv_received_count": 14,
         "rcv_received_count": 1,
         "ncv_received_count": 0,
-        "fcv_gift_difference": 0,
+        "fcv_gift_difference": -1,
         "real_total_sent_value": 196.62,
-        "real_total_received_value": 166.52,
-        "real_total_value_difference": 30.1,
+        "real_total_received_value": 181.51,
+        "real_total_value_difference": 15.11,
         "real_total_sent_count": 13,
-        "real_total_received_count": 13,
-        "real_total_gift_difference": 0,
-        "giveaway_ratio": 10.33,
+        "real_total_received_count": 14,
+        "real_total_gift_difference": -1,
+        "giveaway_ratio": 10,
         "shared_sent_count": 16,
         "shared_received_count": 3,
         "giveaways_created": 31,
         "giveaways_with_no_entries": 1,
         "last_giveaway_created_at": 1775708071,
-        "last_giveaway_won_at": 1772488800,
+        "last_giveaway_won_at": 1777362420,
         "total_achievements_percentage": 28,
         "average_achievements_percentage": 24,
         "real_total_achievements_percentage": 37,
@@ -36457,6 +36459,15 @@
       "steam_profile_is_private": false,
       "country_code": null,
       "giveaways_won": [
+        {
+          "name": "Mail Mole + 'Xpress Deliveries",
+          "link": "JgfHz/mail-mole-xpress-deliveries",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1777362420,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "Lichtspeer: Double Speer Edition",
           "link": "yX7Hi/lichtspeer-double-speer-edition",
@@ -42660,30 +42671,30 @@
       "avatar_url": "https://avatars.steamstatic.com/c0ac1ed576291d837a1b2e5ec3052ffed6355268_medium.jpg",
       "steam_id": "76561199174167338",
       "stats": {
-        "total_sent_count": 16,
-        "total_sent_value": 209.84,
+        "total_sent_count": 17,
+        "total_sent_value": 224.83,
         "total_received_count": 6.3,
         "total_received_value": 181.19,
-        "total_gift_difference": 9.8,
-        "total_value_difference": 28.65,
-        "fcv_sent_count": 15,
+        "total_gift_difference": 10.8,
+        "total_value_difference": 43.64,
+        "fcv_sent_count": 16,
         "rcv_sent_count": 1,
         "ncv_sent_count": 0,
         "fcv_received_count": 6,
         "rcv_received_count": 0,
         "ncv_received_count": 0,
-        "fcv_gift_difference": 9,
-        "real_total_sent_value": 201.85,
+        "fcv_gift_difference": 10,
+        "real_total_sent_value": 216.84,
         "real_total_received_value": 179.94,
-        "real_total_value_difference": 21.91,
-        "real_total_sent_count": 15,
+        "real_total_value_difference": 36.9,
+        "real_total_sent_count": 16,
         "real_total_received_count": 6,
-        "real_total_gift_difference": 9,
-        "giveaway_ratio": 13.33,
+        "real_total_gift_difference": 10,
+        "giveaway_ratio": 14.33,
         "shared_sent_count": 0,
         "shared_received_count": 1,
         "giveaways_created": 24,
-        "giveaways_with_no_entries": 4,
+        "giveaways_with_no_entries": 7,
         "last_giveaway_created_at": 1777128259,
         "last_giveaway_won_at": 1760720400,
         "total_achievements_percentage": 16,
@@ -42850,26 +42861,16 @@
       ],
       "giveaways_created": [
         {
-          "name": "GRAPPIN",
-          "link": "KQf06/grappin",
+          "name": "My Big Sister: Remastered",
+          "link": "w6XYq/my-big-sister-remastered",
           "cv_status": "FULL_CV",
           "entries": 0,
           "copies": 1,
-          "created_timestamp": 1777099437,
-          "end_timestamp": 1777362180,
+          "created_timestamp": 1777100228,
+          "end_timestamp": 1777362960,
           "required_play": false,
-          "is_shared": false
-        },
-        {
-          "name": "Mail Mole + 'Xpress Deliveries",
-          "link": "JgfHz/mail-mole-xpress-deliveries",
-          "cv_status": "FULL_CV",
-          "entries": 1,
-          "copies": 1,
-          "created_timestamp": 1777099718,
-          "end_timestamp": 1777362420,
-          "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": false
         },
         {
           "name": "Isle of Jura",
@@ -42880,18 +42881,40 @@
           "created_timestamp": 1777099976,
           "end_timestamp": 1777362720,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": false
         },
         {
-          "name": "My Big Sister: Remastered",
-          "link": "w6XYq/my-big-sister-remastered",
+          "name": "Mail Mole + 'Xpress Deliveries",
+          "link": "JgfHz/mail-mole-xpress-deliveries",
+          "cv_status": "FULL_CV",
+          "entries": 1,
+          "copies": 1,
+          "created_timestamp": 1777099718,
+          "end_timestamp": 1777362420,
+          "required_play": false,
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "76561197981107149",
+              "winner_username": "ithamore",
+              "status": "received",
+              "activated": true
+            }
+          ]
+        },
+        {
+          "name": "GRAPPIN",
+          "link": "KQf06/grappin",
           "cv_status": "FULL_CV",
           "entries": 0,
           "copies": 1,
-          "created_timestamp": 1777100228,
-          "end_timestamp": 1777362960,
+          "created_timestamp": 1777099437,
+          "end_timestamp": 1777362180,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": false
         },
         {
           "name": "March of Shrooms",
@@ -45477,9 +45500,9 @@
         "last_giveaway_created_at": 1776871112,
         "last_giveaway_won_at": 1777186800,
         "total_achievements_percentage": 9,
-        "average_achievements_percentage": 14,
+        "average_achievements_percentage": 13,
         "real_total_achievements_percentage": 9,
-        "real_average_achievements_percentage": 15,
+        "real_average_achievements_percentage": 14,
         "has_missing_achievements_data": true
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198000608288",
@@ -53640,10 +53663,10 @@
       "stats": {
         "total_sent_count": 15.8,
         "total_sent_value": 336.34,
-        "total_received_count": 19.7,
-        "total_received_value": 595.47,
-        "total_gift_difference": -3.8,
-        "total_value_difference": -259.13,
+        "total_received_count": 20.2,
+        "total_received_value": 601.47,
+        "total_gift_difference": -4.3,
+        "total_value_difference": -265.12,
         "fcv_sent_count": 12,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
@@ -53659,15 +53682,15 @@
         "real_total_gift_difference": -4,
         "giveaway_ratio": 8.33,
         "shared_sent_count": 13,
-        "shared_received_count": 4,
+        "shared_received_count": 5,
         "giveaways_created": 39,
         "giveaways_with_no_entries": 12,
         "last_giveaway_created_at": 1772371399,
         "last_giveaway_won_at": 1777320000,
-        "total_achievements_percentage": 63,
-        "average_achievements_percentage": 65,
-        "real_total_achievements_percentage": 68,
-        "real_average_achievements_percentage": 79,
+        "total_achievements_percentage": 60,
+        "average_achievements_percentage": 62,
+        "real_total_achievements_percentage": 65,
+        "real_average_achievements_percentage": 74,
         "has_missing_achievements_data": true
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198069420656",
@@ -53693,6 +53716,15 @@
             "is_playtime_private": false,
             "last_checked": 1777342529964
           }
+        },
+        {
+          "name": "Midnight Ramen",
+          "link": "CVzum/midnight-ramen",
+          "cv_status": "REDUCED_CV",
+          "status": "received",
+          "end_timestamp": 1777272060,
+          "required_play": false,
+          "is_shared": true
         },
         {
           "name": "Tangle Tower",
@@ -58749,7 +58781,7 @@
           "name": "Axon TD: Uprising - Tower Defense",
           "link": "hyuph/axon-td-uprising-tower-defense",
           "cv_status": "FULL_CV",
-          "entries": 32,
+          "entries": 34,
           "copies": 1,
           "created_timestamp": 1777193625,
           "end_timestamp": 1777625460,
@@ -58760,7 +58792,7 @@
           "name": "ION Shift",
           "link": "bj31I/ion-shift",
           "cv_status": "FULL_CV",
-          "entries": 61,
+          "entries": 64,
           "copies": 1,
           "created_timestamp": 1777193836,
           "end_timestamp": 1777712040,
@@ -64398,17 +64430,6 @@
       ],
       "giveaways_created": [
         {
-          "name": "Snow Moto Racing Freedom",
-          "link": "gvpFA/snow-moto-racing-freedom",
-          "cv_status": "REDUCED_CV",
-          "entries": 2,
-          "copies": 1,
-          "created_timestamp": 1777001879,
-          "end_timestamp": 1777351020,
-          "required_play": false,
-          "is_shared": true
-        },
-        {
           "name": "Crypt Custodian",
           "link": "P4HUe/crypt-custodian",
           "cv_status": "FULL_CV",
@@ -64418,6 +64439,25 @@
           "end_timestamp": 1777574040,
           "required_play": false,
           "is_shared": false
+        },
+        {
+          "name": "Snow Moto Racing Freedom",
+          "link": "gvpFA/snow-moto-racing-freedom",
+          "cv_status": "REDUCED_CV",
+          "entries": 2,
+          "copies": 1,
+          "created_timestamp": 1777001879,
+          "end_timestamp": 1777351020,
+          "required_play": false,
+          "is_shared": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "You Suck at Parking - Complete Edition",
@@ -67319,7 +67359,7 @@
           "name": "Raptor Boyfriend: A High School Romance",
           "link": "4wlpU/raptor-boyfriend-a-high-school-romance",
           "cv_status": "REDUCED_CV",
-          "entries": 2,
+          "entries": 6,
           "copies": 1,
           "created_timestamp": 1777331055,
           "end_timestamp": 1777546980,
