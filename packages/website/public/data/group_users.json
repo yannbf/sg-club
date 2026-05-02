@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1777687898561,
+  "lastUpdated": 1777713050495,
   "users": {
     "76561198359284432": {
       "username": "a10i",
@@ -913,7 +913,7 @@
           "name": "Ghostwire: Tokyo Deluxe",
           "link": "bXoLt/ghostwire-tokyo-deluxe",
           "cv_status": "FULL_CV",
-          "entries": 1,
+          "entries": 3,
           "copies": 1,
           "created_timestamp": 1777674289,
           "end_timestamp": 1778065200,
@@ -6172,7 +6172,15 @@
           "created_timestamp": 1777597678,
           "end_timestamp": 1777687260,
           "required_play": false,
-          "is_shared": true
+          "is_shared": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "Ni no Kuni II: Revenant Kingdom - The...",
@@ -10789,7 +10797,7 @@
         "giveaways_with_no_entries": 2,
         "last_giveaway_created_at": 1775637114,
         "last_giveaway_won_at": 1770390000,
-        "total_achievements_percentage": 74,
+        "total_achievements_percentage": 75,
         "average_achievements_percentage": 75,
         "real_total_achievements_percentage": 100,
         "real_average_achievements_percentage": 100,
@@ -22243,7 +22251,7 @@
           "name": "Dispatch",
           "link": "SSpeu/dispatch",
           "cv_status": "FULL_CV",
-          "entries": 35,
+          "entries": 37,
           "copies": 1,
           "created_timestamp": 1777623287,
           "end_timestamp": 1777996800,
@@ -25281,7 +25289,7 @@
           "name": "Planet of Lana II",
           "link": "Ya6rS/planet-of-lana-ii",
           "cv_status": "FULL_CV",
-          "entries": 13,
+          "entries": 15,
           "copies": 1,
           "created_timestamp": 1777642297,
           "end_timestamp": 1777894080,
@@ -25831,9 +25839,9 @@
         "total_sent_count": 20.9,
         "total_sent_value": 370.46,
         "total_received_count": 24.9,
-        "total_received_value": 671.92,
+        "total_received_value": 661.92,
         "total_gift_difference": -4,
-        "total_value_difference": -301.46,
+        "total_value_difference": -291.46,
         "fcv_sent_count": 16,
         "rcv_sent_count": 1,
         "ncv_sent_count": 0,
@@ -27601,10 +27609,10 @@
         "giveaways_with_no_entries": 2,
         "last_giveaway_created_at": 1775479879,
         "last_giveaway_won_at": 1772244000,
-        "total_achievements_percentage": 42,
-        "average_achievements_percentage": 33,
-        "real_total_achievements_percentage": 44,
-        "real_average_achievements_percentage": 42,
+        "total_achievements_percentage": 47,
+        "average_achievements_percentage": 37,
+        "real_total_achievements_percentage": 49,
+        "real_average_achievements_percentage": 47,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198036424003",
@@ -29776,8 +29784,8 @@
         "giveaways_with_no_entries": 1,
         "last_giveaway_created_at": 1775221061,
         "last_giveaway_won_at": 1777625460,
-        "total_achievements_percentage": 13,
-        "average_achievements_percentage": 15,
+        "total_achievements_percentage": 11,
+        "average_achievements_percentage": 14,
         "real_total_achievements_percentage": 13,
         "real_average_achievements_percentage": 16,
         "has_missing_achievements_data": true
@@ -31063,7 +31071,7 @@
           "name": "Senua’s Saga: Hellblade II",
           "link": "2ME2V/senuas-saga-hellblade-ii",
           "cv_status": "FULL_CV",
-          "entries": 15,
+          "entries": 16,
           "copies": 1,
           "created_timestamp": 1777577519,
           "end_timestamp": 1778356740,
@@ -39846,9 +39854,9 @@
         "last_giveaway_created_at": 1767724357,
         "last_giveaway_won_at": 1777162920,
         "total_achievements_percentage": 21,
-        "average_achievements_percentage": 26,
+        "average_achievements_percentage": 27,
         "real_total_achievements_percentage": 19,
-        "real_average_achievements_percentage": 23,
+        "real_average_achievements_percentage": 24,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198148268245",
@@ -45407,7 +45415,7 @@
           "name": "FINAL FANTASY XII THE ZODIAC AGE",
           "link": "YHg86/final-fantasy-xii-the-zodiac-age",
           "cv_status": "FULL_CV",
-          "entries": 8,
+          "entries": 9,
           "copies": 1,
           "created_timestamp": 1777632770,
           "end_timestamp": 1777806000,
@@ -47606,17 +47614,6 @@
       ],
       "giveaways_created": [
         {
-          "name": "KARAKARA",
-          "link": "8ojtB/karakara",
-          "cv_status": "REDUCED_CV",
-          "entries": 22,
-          "copies": 1,
-          "created_timestamp": 1777079341,
-          "end_timestamp": 1777694400,
-          "required_play": false,
-          "is_shared": true
-        },
-        {
           "name": "Old Man's Journey",
           "link": "6gzgR/old-mans-journey",
           "cv_status": "REDUCED_CV",
@@ -47631,7 +47628,7 @@
           "name": "Symphony of War: The Nephilim Saga",
           "link": "6AlDn/symphony-of-war-the-nephilim-saga",
           "cv_status": "REDUCED_CV",
-          "entries": 14,
+          "entries": 16,
           "copies": 1,
           "created_timestamp": 1777593399,
           "end_timestamp": 1778212800,
@@ -47642,12 +47639,31 @@
           "name": "Plan B from Outer Space: A Bavarian O...",
           "link": "SZG32/plan-b-from-outer-space-a-bavarian-odyssey",
           "cv_status": "REDUCED_CV",
-          "entries": 6,
+          "entries": 14,
           "copies": 1,
           "created_timestamp": 1777679774,
           "end_timestamp": 1778299200,
           "required_play": false,
           "is_shared": true
+        },
+        {
+          "name": "KARAKARA",
+          "link": "8ojtB/karakara",
+          "cv_status": "REDUCED_CV",
+          "entries": 22,
+          "copies": 1,
+          "created_timestamp": 1777079341,
+          "end_timestamp": 1777694400,
+          "required_play": false,
+          "is_shared": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "WORLD END ECONOMiCA episode.02",
@@ -51187,9 +51203,9 @@
         "giveaways_with_no_entries": 2,
         "last_giveaway_created_at": 1776440545,
         "last_giveaway_won_at": 1776420000,
-        "total_achievements_percentage": 68,
+        "total_achievements_percentage": 69,
         "average_achievements_percentage": 73,
-        "real_total_achievements_percentage": 68,
+        "real_total_achievements_percentage": 69,
         "real_average_achievements_percentage": 73,
         "has_missing_achievements_data": false
       },
@@ -59101,17 +59117,6 @@
       ],
       "giveaways_created": [
         {
-          "name": "ION Shift",
-          "link": "bj31I/ion-shift",
-          "cv_status": "FULL_CV",
-          "entries": 80,
-          "copies": 1,
-          "created_timestamp": 1777193836,
-          "end_timestamp": 1777712040,
-          "required_play": false,
-          "is_shared": true
-        },
-        {
           "name": "Nightmare: The Lunatic",
           "link": "3MurW/nightmare-the-lunatic",
           "cv_status": "FULL_CV",
@@ -59121,6 +59126,25 @@
           "end_timestamp": 1778005920,
           "required_play": false,
           "is_shared": false
+        },
+        {
+          "name": "ION Shift",
+          "link": "bj31I/ion-shift",
+          "cv_status": "FULL_CV",
+          "entries": 85,
+          "copies": 1,
+          "created_timestamp": 1777193836,
+          "end_timestamp": 1777712040,
+          "required_play": false,
+          "is_shared": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "Axon TD: Uprising - Tower Defense",
@@ -62589,9 +62613,9 @@
         "giveaway_ratio": 8.67,
         "shared_sent_count": 0,
         "shared_received_count": 0,
-        "giveaways_created": 11,
+        "giveaways_created": 12,
         "giveaways_with_no_entries": 0,
-        "last_giveaway_created_at": 1775471677,
+        "last_giveaway_created_at": 1777708540,
         "last_giveaway_won_at": 1776013200,
         "total_achievements_percentage": 51,
         "average_achievements_percentage": 60,
@@ -62771,6 +62795,17 @@
         }
       ],
       "giveaways_created": [
+        {
+          "name": "MOUSE: P.I. For Hire",
+          "link": "W1sv2/mouse-pi-for-hire",
+          "cv_status": "FULL_CV",
+          "entries": 7,
+          "copies": 1,
+          "created_timestamp": 1777708540,
+          "end_timestamp": 1778461200,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "GRIME II",
           "link": "z5Bxv/grime-ii",
@@ -66422,10 +66457,10 @@
         "giveaways_with_no_entries": 1,
         "last_giveaway_created_at": 1777645962,
         "last_giveaway_won_at": 1777039200,
-        "total_achievements_percentage": 53,
-        "average_achievements_percentage": 63,
-        "real_total_achievements_percentage": 53,
-        "real_average_achievements_percentage": 63,
+        "total_achievements_percentage": 55,
+        "average_achievements_percentage": 66,
+        "real_total_achievements_percentage": 55,
+        "real_average_achievements_percentage": 66,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198079289651",
@@ -66620,7 +66655,7 @@
           "name": "Terra Nil",
           "link": "lSb7h/terra-nil",
           "cv_status": "FULL_CV",
-          "entries": 3,
+          "entries": 6,
           "copies": 1,
           "created_timestamp": 1777645933,
           "end_timestamp": 1778173200,
@@ -66631,7 +66666,7 @@
           "name": "Inscryption",
           "link": "xr7fT/inscryption",
           "cv_status": "FULL_CV",
-          "entries": 3,
+          "entries": 4,
           "copies": 1,
           "created_timestamp": 1777645859,
           "end_timestamp": 1778173200,
@@ -71225,7 +71260,7 @@
         "last_giveaway_created_at": 1777596196,
         "last_giveaway_won_at": 1777246440,
         "total_achievements_percentage": 14,
-        "average_achievements_percentage": 22,
+        "average_achievements_percentage": 23,
         "real_total_achievements_percentage": 13,
         "real_average_achievements_percentage": 21,
         "has_missing_achievements_data": true
@@ -78495,7 +78530,7 @@
           "name": "Blue Prince",
           "link": "rFqw4/blue-prince",
           "cv_status": "FULL_CV",
-          "entries": 0,
+          "entries": 10,
           "copies": 1,
           "created_timestamp": 1777277275,
           "end_timestamp": 1778479200,
@@ -79552,7 +79587,7 @@
           "name": "Tales of Graces f Remastered",
           "link": "w3Xy8/tales-of-graces-f-remastered",
           "cv_status": "FULL_CV",
-          "entries": 3,
+          "entries": 4,
           "copies": 1,
           "created_timestamp": 1777604656,
           "end_timestamp": 1778346000,
@@ -86858,11 +86893,11 @@
       "steam_id": "76561198070041813",
       "stats": {
         "total_sent_count": 12,
-        "total_sent_value": 328.88,
+        "total_sent_value": 318.88,
         "total_received_count": 6,
         "total_received_value": 244.94,
         "total_gift_difference": 6,
-        "total_value_difference": 83.94,
+        "total_value_difference": 73.94,
         "fcv_sent_count": 11.15,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
@@ -87022,7 +87057,7 @@
           "name": "Dungeon Clawler",
           "link": "cK3jE/dungeon-clawler",
           "cv_status": "FULL_CV",
-          "entries": 6,
+          "entries": 7,
           "copies": 1,
           "created_timestamp": 1777616359,
           "end_timestamp": 1778256000,
@@ -88968,7 +89003,7 @@
           "name": "ISLANDERS: New Shores",
           "link": "5iTzS/islanders-new-shores",
           "cv_status": "FULL_CV",
-          "entries": 4,
+          "entries": 5,
           "copies": 1,
           "created_timestamp": 1777649074,
           "end_timestamp": 1778859000,
@@ -96235,7 +96270,7 @@
           "name": "DAVE THE DIVER",
           "link": "OLM88/dave-the-diver",
           "cv_status": "FULL_CV",
-          "entries": 7,
+          "entries": 9,
           "copies": 1,
           "created_timestamp": 1777668060,
           "end_timestamp": 1778256000,
