@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1777860952557,
+  "lastUpdated": 1777889913751,
   "users": {
     "76561198359284432": {
       "username": "a10i",
@@ -1492,10 +1492,10 @@
         "giveaways_with_no_entries": 1,
         "last_giveaway_created_at": 1777573889,
         "last_giveaway_won_at": 1777813200,
-        "total_achievements_percentage": 31,
-        "average_achievements_percentage": 40,
-        "real_total_achievements_percentage": 33,
-        "real_average_achievements_percentage": 48,
+        "total_achievements_percentage": 27,
+        "average_achievements_percentage": 34,
+        "real_total_achievements_percentage": 29,
+        "real_average_achievements_percentage": 40,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198453663783",
@@ -2577,10 +2577,10 @@
         "giveaways_with_no_entries": 1,
         "last_giveaway_created_at": 1774088603,
         "last_giveaway_won_at": 1777806000,
-        "total_achievements_percentage": 7,
-        "average_achievements_percentage": 7,
-        "real_total_achievements_percentage": 8,
-        "real_average_achievements_percentage": 10,
+        "total_achievements_percentage": 6,
+        "average_achievements_percentage": 5,
+        "real_total_achievements_percentage": 6,
+        "real_average_achievements_percentage": 7,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198025798123",
@@ -9280,9 +9280,9 @@
         "giveaway_ratio": 11.67,
         "shared_sent_count": 22,
         "shared_received_count": 0,
-        "giveaways_created": 35,
+        "giveaways_created": 36,
         "giveaways_with_no_entries": 1,
-        "last_giveaway_created_at": 1775260554,
+        "last_giveaway_created_at": 1777870873,
         "last_giveaway_won_at": 1773162000,
         "total_achievements_percentage": 48,
         "average_achievements_percentage": 61,
@@ -9647,6 +9647,17 @@
         }
       ],
       "giveaways_created": [
+        {
+          "name": "MULLET MADJACK",
+          "link": "nINQM/mullet-madjack",
+          "cv_status": "FULL_CV",
+          "entries": 1,
+          "copies": 1,
+          "created_timestamp": 1777870873,
+          "end_timestamp": 1778864400,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "Lords of Exile",
           "link": "grAZz/lords-of-exile",
@@ -10612,7 +10623,7 @@
           "name": "TR-49",
           "link": "bjRQA/tr-49",
           "cv_status": "FULL_CV",
-          "entries": 11,
+          "entries": 12,
           "copies": 1,
           "created_timestamp": 1777760030,
           "end_timestamp": 1777914000,
@@ -12224,8 +12235,14 @@
         "giveaways_created": 25,
         "giveaways_with_no_entries": 8,
         "last_giveaway_created_at": 1776097228,
-        "last_giveaway_won_at": 1775498400
+        "last_giveaway_won_at": 1775498400,
+        "total_achievements_percentage": 9,
+        "average_achievements_percentage": 11,
+        "real_total_achievements_percentage": 12,
+        "real_average_achievements_percentage": 13,
+        "has_missing_achievements_data": true
       },
+      "steam_profile_is_private": false,
       "country_code": "us",
       "giveaways_won": [
         {
@@ -12936,8 +12953,7 @@
             }
           ]
         }
-      ],
-      "steam_profile_is_private": false
+      ]
     },
     "76561199481088028": {
       "username": "ConanOLion",
@@ -13546,8 +13562,14 @@
         "giveaways_created": 10,
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1771756185,
-        "last_giveaway_won_at": 1771755060
+        "last_giveaway_won_at": 1771755060,
+        "total_achievements_percentage": 0,
+        "average_achievements_percentage": 0,
+        "real_total_achievements_percentage": 0,
+        "real_average_achievements_percentage": 0,
+        "has_missing_achievements_data": false
       },
+      "steam_profile_is_private": false,
       "country_code": "us",
       "giveaways_won": [
         {
@@ -13985,8 +14007,7 @@
             }
           ]
         }
-      ],
-      "steam_profile_is_private": false
+      ]
     },
     "76561198055569704": {
       "username": "CuteEnby",
@@ -15706,8 +15727,14 @@
         "giveaways_created": 22,
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1775402339,
-        "last_giveaway_won_at": 1777275900
+        "last_giveaway_won_at": 1777275900,
+        "total_achievements_percentage": 10,
+        "average_achievements_percentage": 11,
+        "real_total_achievements_percentage": 16,
+        "real_average_achievements_percentage": 14,
+        "has_missing_achievements_data": true
       },
+      "steam_profile_is_private": false,
       "country_code": "pl",
       "giveaways_won": [
         {
@@ -15758,10 +15785,6 @@
           "end_timestamp": 1774447920,
           "required_play": true,
           "is_shared": true,
-          "required_play_meta": {
-            "requirements_met": false,
-            "deadline_in_months": 2
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 0,
@@ -15772,6 +15795,10 @@
             "never_played": true,
             "is_playtime_private": false,
             "last_checked": 1777860373915
+          },
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
           }
         },
         {
@@ -16892,8 +16919,7 @@
             }
           ]
         }
-      ],
-      "steam_profile_is_private": false
+      ]
     },
     "76561198066598689": {
       "username": "DancingVaquinha",
@@ -16926,8 +16952,14 @@
         "giveaways_created": 10,
         "giveaways_with_no_entries": 1,
         "last_giveaway_created_at": 1775121894,
-        "last_giveaway_won_at": 1766649600
+        "last_giveaway_won_at": 1766649600,
+        "total_achievements_percentage": 7,
+        "average_achievements_percentage": 7,
+        "real_total_achievements_percentage": 7,
+        "real_average_achievements_percentage": 7,
+        "has_missing_achievements_data": false
       },
+      "steam_profile_is_private": false,
       "country_code": "pt",
       "giveaways_won": [
         {
@@ -17271,8 +17303,7 @@
             }
           ]
         }
-      ],
-      "steam_profile_is_private": false
+      ]
     },
     "76561198053885117": {
       "username": "Dandellion",
@@ -17305,8 +17336,14 @@
         "giveaways_created": 10,
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1766882753,
-        "last_giveaway_won_at": 1767987060
+        "last_giveaway_won_at": 1767987060,
+        "total_achievements_percentage": 8,
+        "average_achievements_percentage": 11,
+        "real_total_achievements_percentage": 8,
+        "real_average_achievements_percentage": 11,
+        "has_missing_achievements_data": false
       },
+      "steam_profile_is_private": false,
       "country_code": "no",
       "giveaways_won": [
         {
@@ -17769,8 +17806,7 @@
             }
           ]
         }
-      ],
-      "steam_profile_is_private": false
+      ]
     },
     "76561198159198291": {
       "username": "DanielStoSve",
@@ -18969,8 +19005,14 @@
         "giveaways_created": 26,
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1776856488,
-        "last_giveaway_won_at": 1776319140
+        "last_giveaway_won_at": 1776319140,
+        "total_achievements_percentage": 33,
+        "average_achievements_percentage": 43,
+        "real_total_achievements_percentage": 33,
+        "real_average_achievements_percentage": 43,
+        "has_missing_achievements_data": false
       },
+      "steam_profile_is_private": false,
       "country_code": null,
       "giveaways_won": [
         {
@@ -19081,11 +19123,6 @@
           "end_timestamp": 1771448400,
           "required_play": true,
           "is_shared": false,
-          "required_play_meta": {
-            "requirements_met": false,
-            "deadline_in_months": 2,
-            "deadline": "30.6.2026"
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 2151,
@@ -19096,6 +19133,11 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1777860399073
+          },
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2,
+            "deadline": "30.6.2026"
           }
         },
         {
@@ -19166,10 +19208,6 @@
           "end_timestamp": 1767441600,
           "required_play": true,
           "is_shared": false,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 2
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 539,
@@ -19180,6 +19218,10 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1777860403572
+          },
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2
           }
         },
         {
@@ -20126,7 +20168,9 @@
           ]
         }
       ],
-      "steam_profile_is_private": false
+      "warnings": [
+        "required_plays_need_review"
+      ]
     },
     "76561198013676011": {
       "username": "drbeckett",
@@ -20622,7 +20666,7 @@
           "name": "Dispatch",
           "link": "SSpeu/dispatch",
           "cv_status": "FULL_CV",
-          "entries": 46,
+          "entries": 47,
           "copies": 1,
           "created_timestamp": 1777623287,
           "end_timestamp": 1777996800,
@@ -21167,8 +21211,14 @@
         "giveaways_created": 18,
         "giveaways_with_no_entries": 1,
         "last_giveaway_created_at": 1772284746,
-        "last_giveaway_won_at": 1775887140
+        "last_giveaway_won_at": 1775887140,
+        "total_achievements_percentage": 10,
+        "average_achievements_percentage": 8,
+        "real_total_achievements_percentage": 10,
+        "real_average_achievements_percentage": 8,
+        "has_missing_achievements_data": false
       },
+      "steam_profile_is_private": false,
       "country_code": "de",
       "giveaways_won": [
         {
@@ -21899,8 +21949,7 @@
             }
           ]
         }
-      ],
-      "steam_profile_is_private": false
+      ]
     },
     "76561198051248084": {
       "username": "Eindirk",
@@ -23345,7 +23394,7 @@
           "name": "Planet of Lana II",
           "link": "Ya6rS/planet-of-lana-ii",
           "cv_status": "FULL_CV",
-          "entries": 23,
+          "entries": 27,
           "copies": 1,
           "created_timestamp": 1777642297,
           "end_timestamp": 1777894080,
@@ -23917,8 +23966,14 @@
         "giveaways_created": 27,
         "giveaways_with_no_entries": 2,
         "last_giveaway_created_at": 1776750243,
-        "last_giveaway_won_at": 1776483540
+        "last_giveaway_won_at": 1776483540,
+        "total_achievements_percentage": 5,
+        "average_achievements_percentage": 4,
+        "real_total_achievements_percentage": 0,
+        "real_average_achievements_percentage": 0,
+        "has_missing_achievements_data": false
       },
+      "steam_profile_is_private": false,
       "country_code": null,
       "giveaways_won": [
         {
@@ -24069,10 +24124,6 @@
           "end_timestamp": 1766161320,
           "required_play": true,
           "is_shared": true,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 3
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 1075,
@@ -24083,6 +24134,10 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1777860440462
+          },
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 3
           }
         },
         {
@@ -24837,8 +24892,7 @@
             }
           ]
         }
-      ],
-      "steam_profile_is_private": false
+      ]
     },
     "76561198047981011": {
       "username": "Foxmonster",
@@ -27183,8 +27237,14 @@
         "giveaways_created": 5,
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1768695083,
-        "last_giveaway_won_at": 1775026800
+        "last_giveaway_won_at": 1775026800,
+        "total_achievements_percentage": 13,
+        "average_achievements_percentage": 12,
+        "real_total_achievements_percentage": 13,
+        "real_average_achievements_percentage": 12,
+        "has_missing_achievements_data": false
       },
+      "steam_profile_is_private": false,
       "country_code": "lt",
       "giveaways_won": [
         {
@@ -27451,8 +27511,7 @@
             }
           ]
         }
-      ],
-      "steam_profile_is_private": false
+      ]
     },
     "76561199644864244": {
       "username": "Grogglz",
@@ -28773,7 +28832,7 @@
           "name": "Senua’s Saga: Hellblade II",
           "link": "2ME2V/senuas-saga-hellblade-ii",
           "cv_status": "FULL_CV",
-          "entries": 17,
+          "entries": 18,
           "copies": 1,
           "created_timestamp": 1777577519,
           "end_timestamp": 1778356740,
@@ -29920,7 +29979,7 @@
           "name": "Fear the Spotlight",
           "link": "qL2sS/fear-the-spotlight",
           "cv_status": "FULL_CV",
-          "entries": 5,
+          "entries": 7,
           "copies": 1,
           "created_timestamp": 1777810987,
           "end_timestamp": 1778176800,
@@ -31127,6 +31186,7 @@
         "last_giveaway_created_at": 1754720903,
         "last_giveaway_won_at": 1760749200
       },
+      "steam_profile_is_private": false,
       "country_code": "de",
       "giveaways_won": [
         {
@@ -31281,8 +31341,7 @@
             }
           ]
         }
-      ],
-      "steam_profile_is_private": false
+      ]
     },
     "76561198236260938": {
       "username": "HUMoonlight",
@@ -32583,12 +32642,12 @@
       "avatar_url": "https://avatars.steamstatic.com/60fb100e211ce1b9ee7170a290e08f5c0f1a2914_medium.jpg",
       "steam_id": "76561198015261565",
       "stats": {
-        "total_sent_count": 10.5,
-        "total_sent_value": 208.4,
+        "total_sent_count": 11,
+        "total_sent_value": 228.39,
         "total_received_count": 15,
         "total_received_value": 223.35,
-        "total_gift_difference": -4.5,
-        "total_value_difference": -14.96,
+        "total_gift_difference": -4,
+        "total_value_difference": 5.04,
         "fcv_sent_count": 10,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
@@ -32603,7 +32662,7 @@
         "real_total_received_count": 14,
         "real_total_gift_difference": -4,
         "giveaway_ratio": 5.33,
-        "shared_sent_count": 1,
+        "shared_sent_count": 2,
         "shared_received_count": 0,
         "giveaways_created": 9,
         "giveaways_with_no_entries": 0,
@@ -32934,9 +32993,10 @@
           "had_winners": true,
           "winners": [
             {
-              "name": null,
-              "status": "awaiting_feedback",
-              "activated": false
+              "name": "puffpuffpass",
+              "winner_username": "puffpuffpass",
+              "status": "received",
+              "activated": true
             }
           ]
         },
@@ -37470,8 +37530,14 @@
         "giveaways_created": 10,
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1767724357,
-        "last_giveaway_won_at": 1777162920
+        "last_giveaway_won_at": 1777162920,
+        "total_achievements_percentage": 38,
+        "average_achievements_percentage": 33,
+        "real_total_achievements_percentage": 31,
+        "real_average_achievements_percentage": 26,
+        "has_missing_achievements_data": false
       },
+      "steam_profile_is_private": false,
       "country_code": "jp",
       "giveaways_won": [
         {
@@ -38108,8 +38174,7 @@
             }
           ]
         }
-      ],
-      "steam_profile_is_private": false
+      ]
     },
     "76561197965128191": {
       "username": "kecha",
@@ -43042,10 +43107,10 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1777644382,
         "last_giveaway_won_at": 1775937600,
-        "total_achievements_percentage": 11,
-        "average_achievements_percentage": 11,
-        "real_total_achievements_percentage": 11,
-        "real_average_achievements_percentage": 11,
+        "total_achievements_percentage": 21,
+        "average_achievements_percentage": 21,
+        "real_total_achievements_percentage": 21,
+        "real_average_achievements_percentage": 21,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561199028503777",
@@ -44980,7 +45045,7 @@
           "name": "Symphony of War: The Nephilim Saga",
           "link": "6AlDn/symphony-of-war-the-nephilim-saga",
           "cv_status": "REDUCED_CV",
-          "entries": 17,
+          "entries": 16,
           "copies": 1,
           "created_timestamp": 1777593399,
           "end_timestamp": 1778212800,
@@ -44991,7 +45056,7 @@
           "name": "Plan B from Outer Space: A Bavarian O...",
           "link": "SZG32/plan-b-from-outer-space-a-bavarian-odyssey",
           "cv_status": "REDUCED_CV",
-          "entries": 23,
+          "entries": 24,
           "copies": 1,
           "created_timestamp": 1777679774,
           "end_timestamp": 1778299200,
@@ -48420,10 +48485,10 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1772933473,
         "last_giveaway_won_at": 1773802920,
-        "total_achievements_percentage": 90,
-        "average_achievements_percentage": 67,
-        "real_total_achievements_percentage": 90,
-        "real_average_achievements_percentage": 67,
+        "total_achievements_percentage": 92,
+        "average_achievements_percentage": 73,
+        "real_total_achievements_percentage": 92,
+        "real_average_achievements_percentage": 73,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198143588240",
@@ -48586,10 +48651,10 @@
         "giveaways_with_no_entries": 2,
         "last_giveaway_created_at": 1776440545,
         "last_giveaway_won_at": 1776420000,
-        "total_achievements_percentage": 70,
-        "average_achievements_percentage": 75,
-        "real_total_achievements_percentage": 70,
-        "real_average_achievements_percentage": 75,
+        "total_achievements_percentage": 72,
+        "average_achievements_percentage": 77,
+        "real_total_achievements_percentage": 72,
+        "real_average_achievements_percentage": 77,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198035801987",
@@ -51396,8 +51461,14 @@
         "giveaways_created": 39,
         "giveaways_with_no_entries": 12,
         "last_giveaway_created_at": 1772371399,
-        "last_giveaway_won_at": 1777320000
+        "last_giveaway_won_at": 1777320000,
+        "total_achievements_percentage": 52,
+        "average_achievements_percentage": 51,
+        "real_total_achievements_percentage": 73,
+        "real_average_achievements_percentage": 77,
+        "has_missing_achievements_data": false
       },
+      "steam_profile_is_private": false,
       "country_code": "gr",
       "giveaways_won": [
         {
@@ -51508,10 +51579,6 @@
           "end_timestamp": 1769151600,
           "required_play": true,
           "is_shared": false,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 4
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 3323,
@@ -51522,6 +51589,10 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1777860642255
+          },
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 4
           }
         },
         {
@@ -51532,10 +51603,6 @@
           "end_timestamp": 1768073580,
           "required_play": true,
           "is_shared": false,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 2
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 307,
@@ -51546,6 +51613,10 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1777860643424
+          },
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2
           }
         },
         {
@@ -52463,8 +52534,7 @@
             }
           ]
         }
-      ],
-      "steam_profile_is_private": false
+      ]
     },
     "76561198452519450": {
       "username": "MikeWithAnI",
@@ -60044,7 +60114,7 @@
           "name": "MOUSE: P.I. For Hire",
           "link": "W1sv2/mouse-pi-for-hire",
           "cv_status": "FULL_CV",
-          "entries": 22,
+          "entries": 23,
           "copies": 1,
           "created_timestamp": 1777708540,
           "end_timestamp": 1778461200,
@@ -60385,8 +60455,14 @@
         "giveaways_created": 82,
         "giveaways_with_no_entries": 3,
         "last_giveaway_created_at": 1777001879,
-        "last_giveaway_won_at": 1776765600
+        "last_giveaway_won_at": 1776765600,
+        "total_achievements_percentage": 4,
+        "average_achievements_percentage": 1,
+        "real_total_achievements_percentage": 5,
+        "real_average_achievements_percentage": 2,
+        "has_missing_achievements_data": true
       },
+      "steam_profile_is_private": false,
       "country_code": "ca",
       "giveaways_won": [
         {
@@ -61269,11 +61345,6 @@
           "end_timestamp": 1766613600,
           "required_play": true,
           "is_shared": false,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 2,
-            "deadline": "05.04.2026"
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 7050,
@@ -61284,6 +61355,11 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1777860749171
+          },
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2,
+            "deadline": "05.04.2026"
           }
         },
         {
@@ -61395,11 +61471,6 @@
           "end_timestamp": 1765209600,
           "required_play": true,
           "is_shared": false,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 2,
-            "deadline": "01.03.2026"
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 873,
@@ -61410,6 +61481,11 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1777860755878
+          },
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2,
+            "deadline": "01.03.2026"
           }
         },
         {
@@ -63328,8 +63404,7 @@
             }
           ]
         }
-      ],
-      "steam_profile_is_private": false
+      ]
     },
     "76561198079289651": {
       "username": "Patzl",
@@ -63364,9 +63439,9 @@
         "last_giveaway_created_at": 1777645962,
         "last_giveaway_won_at": 1777039200,
         "total_achievements_percentage": 56,
-        "average_achievements_percentage": 68,
+        "average_achievements_percentage": 69,
         "real_total_achievements_percentage": 56,
-        "real_average_achievements_percentage": 68,
+        "real_average_achievements_percentage": 69,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198079289651",
@@ -63550,7 +63625,7 @@
           "name": "SANABI",
           "link": "RGfgK/sanabi",
           "cv_status": "FULL_CV",
-          "entries": 4,
+          "entries": 5,
           "copies": 1,
           "created_timestamp": 1777645962,
           "end_timestamp": 1778173200,
@@ -63561,7 +63636,7 @@
           "name": "Terra Nil",
           "link": "lSb7h/terra-nil",
           "cv_status": "FULL_CV",
-          "entries": 11,
+          "entries": 12,
           "copies": 1,
           "created_timestamp": 1777645933,
           "end_timestamp": 1778173200,
@@ -63594,7 +63669,7 @@
           "name": "Neva",
           "link": "yVohx/neva",
           "cv_status": "FULL_CV",
-          "entries": 17,
+          "entries": 18,
           "copies": 1,
           "created_timestamp": 1777645799,
           "end_timestamp": 1778173200,
@@ -67154,8 +67229,14 @@
         "giveaways_created": 10,
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1775490776,
-        "last_giveaway_won_at": 1774310100
+        "last_giveaway_won_at": 1774310100,
+        "total_achievements_percentage": 6,
+        "average_achievements_percentage": 40,
+        "real_total_achievements_percentage": 59,
+        "real_average_achievements_percentage": 59,
+        "has_missing_achievements_data": false
       },
+      "steam_profile_is_private": false,
       "country_code": null,
       "giveaways_won": [
         {
@@ -67206,11 +67287,6 @@
           "end_timestamp": 1767538800,
           "required_play": true,
           "is_shared": false,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 4,
-            "additional_notes": "\"Trust Only In The Force\" achievement"
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 1691,
@@ -67221,6 +67297,11 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1777860782748
+          },
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 4,
+            "additional_notes": "\"Trust Only In The Force\" achievement"
           }
         },
         {
@@ -67676,8 +67757,7 @@
             }
           ]
         }
-      ],
-      "steam_profile_is_private": false
+      ]
     },
     "76561198069567036": {
       "username": "puninup",
@@ -67925,8 +68005,8 @@
         "ncv_received_count": 0,
         "fcv_gift_difference": 4,
         "real_total_sent_value": 1323.4,
-        "real_total_received_value": 1287.45,
-        "real_total_value_difference": 35.95,
+        "real_total_received_value": 1357.44,
+        "real_total_value_difference": -34.04,
         "real_total_sent_count": 55,
         "real_total_received_count": 51,
         "real_total_gift_difference": 4,
@@ -70571,10 +70651,10 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1766586463,
         "last_giveaway_won_at": 1772481960,
-        "total_achievements_percentage": 71,
-        "average_achievements_percentage": 69,
-        "real_total_achievements_percentage": 71,
-        "real_average_achievements_percentage": 69,
+        "total_achievements_percentage": 73,
+        "average_achievements_percentage": 71,
+        "real_total_achievements_percentage": 73,
+        "real_average_achievements_percentage": 71,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198868418890",
@@ -72370,8 +72450,14 @@
         "giveaways_created": 10,
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1775498337,
-        "last_giveaway_won_at": 1775494800
+        "last_giveaway_won_at": 1775494800,
+        "total_achievements_percentage": 23,
+        "average_achievements_percentage": 29,
+        "real_total_achievements_percentage": 23,
+        "real_average_achievements_percentage": 29,
+        "has_missing_achievements_data": false
       },
+      "steam_profile_is_private": false,
       "country_code": "ca",
       "giveaways_won": [
         {
@@ -72442,10 +72528,6 @@
           "end_timestamp": 1766343780,
           "required_play": true,
           "is_shared": false,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 12
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 783,
@@ -72456,6 +72538,10 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1777860821008
+          },
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 12
           }
         },
         {
@@ -72828,8 +72914,7 @@
             }
           ]
         }
-      ],
-      "steam_profile_is_private": false
+      ]
     },
     "76561199575408695": {
       "username": "Rosayde",
@@ -75450,8 +75535,14 @@
         "giveaways_created": 12,
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1767118311,
-        "last_giveaway_won_at": 1772403420
+        "last_giveaway_won_at": 1772403420,
+        "total_achievements_percentage": 0,
+        "average_achievements_percentage": 0,
+        "real_total_achievements_percentage": 0,
+        "real_average_achievements_percentage": 0,
+        "has_missing_achievements_data": false
       },
+      "steam_profile_is_private": false,
       "country_code": "ru",
       "giveaways_won": [
         {
@@ -75907,8 +75998,7 @@
             }
           ]
         }
-      ],
-      "steam_profile_is_private": false
+      ]
     },
     "76561198061837588": {
       "username": "Serpentus",
@@ -75929,9 +76019,9 @@
         "rcv_received_count": 0,
         "ncv_received_count": 0,
         "fcv_gift_difference": 9,
-        "real_total_sent_value": 320.9,
+        "real_total_sent_value": 390.89,
         "real_total_received_value": 19.98,
-        "real_total_value_difference": 300.92,
+        "real_total_value_difference": 370.91,
         "real_total_sent_count": 11,
         "real_total_received_count": 2,
         "real_total_gift_difference": 9,
@@ -75998,7 +76088,7 @@
           "name": "Tales of Graces f Remastered",
           "link": "w3Xy8/tales-of-graces-f-remastered",
           "cv_status": "FULL_CV",
-          "entries": 5,
+          "entries": 7,
           "copies": 1,
           "created_timestamp": 1777604656,
           "end_timestamp": 1778346000,
@@ -77675,7 +77765,7 @@
         "last_giveaway_created_at": 1765156560,
         "last_giveaway_won_at": 1777694400,
         "total_achievements_percentage": 5,
-        "average_achievements_percentage": 21,
+        "average_achievements_percentage": 19,
         "real_total_achievements_percentage": 26,
         "real_average_achievements_percentage": 33,
         "has_missing_achievements_data": false
@@ -79410,8 +79500,14 @@
         "giveaways_created": 3,
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1760819435,
-        "last_giveaway_won_at": 1766865600
+        "last_giveaway_won_at": 1766865600,
+        "total_achievements_percentage": 0,
+        "average_achievements_percentage": 0,
+        "real_total_achievements_percentage": 0,
+        "real_average_achievements_percentage": 0,
+        "has_missing_achievements_data": false
       },
+      "steam_profile_is_private": false,
       "country_code": "in",
       "giveaways_won": [
         {
@@ -79562,8 +79658,7 @@
             }
           ]
         }
-      ],
-      "steam_profile_is_private": false
+      ]
     },
     "76561198017660760": {
       "username": "TempR",
@@ -79596,8 +79691,14 @@
         "giveaways_created": 11,
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1767496398,
-        "last_giveaway_won_at": 1777025700
+        "last_giveaway_won_at": 1777025700,
+        "total_achievements_percentage": 14,
+        "average_achievements_percentage": 15,
+        "real_total_achievements_percentage": 23,
+        "real_average_achievements_percentage": 22,
+        "has_missing_achievements_data": false
       },
+      "steam_profile_is_private": false,
       "country_code": "us",
       "giveaways_won": [
         {
@@ -80300,8 +80401,7 @@
             }
           ]
         }
-      ],
-      "steam_profile_is_private": false
+      ]
     },
     "76561198010836552": {
       "username": "TexWilleri",
@@ -80868,8 +80968,14 @@
         "giveaways_created": 7,
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1766458940,
-        "last_giveaway_won_at": 1775750400
+        "last_giveaway_won_at": 1775750400,
+        "total_achievements_percentage": 54,
+        "average_achievements_percentage": 51,
+        "real_total_achievements_percentage": 48,
+        "real_average_achievements_percentage": 38,
+        "has_missing_achievements_data": false
       },
+      "steam_profile_is_private": false,
       "country_code": "br",
       "giveaways_won": [
         {
@@ -80920,10 +81026,6 @@
           "end_timestamp": 1773179940,
           "required_play": true,
           "is_shared": false,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 2
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 1204,
@@ -80934,6 +81036,10 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1777860887368
+          },
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2
           }
         },
         {
@@ -81386,8 +81492,7 @@
             }
           ]
         }
-      ],
-      "steam_profile_is_private": false
+      ]
     },
     "76561198140258141": {
       "username": "thoughtfulhippo",
@@ -84514,7 +84619,7 @@
           "name": "Windy Meadow - A Roadwarden Tale",
           "link": "Rijon/windy-meadow-a-roadwarden-tale",
           "cv_status": "REDUCED_CV",
-          "entries": 52,
+          "entries": 54,
           "copies": 1,
           "created_timestamp": 1777513234,
           "end_timestamp": 1777957200,
@@ -84525,7 +84630,7 @@
           "name": "Fall of Porcupine",
           "link": "bw8tQ/fall-of-porcupine",
           "cv_status": "REDUCED_CV",
-          "entries": 54,
+          "entries": 55,
           "copies": 1,
           "created_timestamp": 1777512863,
           "end_timestamp": 1777957200,
@@ -86066,8 +86171,14 @@
         "giveaways_created": 19,
         "giveaways_with_no_entries": 4,
         "last_giveaway_created_at": 1776984073,
-        "last_giveaway_won_at": 1770422400
+        "last_giveaway_won_at": 1770422400,
+        "total_achievements_percentage": 48,
+        "average_achievements_percentage": 48,
+        "real_total_achievements_percentage": 48,
+        "real_average_achievements_percentage": 48,
+        "has_missing_achievements_data": false
       },
+      "steam_profile_is_private": false,
       "country_code": "us",
       "giveaways_won": [
         {
@@ -86098,11 +86209,6 @@
           "end_timestamp": 1768707000,
           "required_play": true,
           "is_shared": false,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 2,
-            "deadline": "18.02.2026"
-          },
           "steam_play_data": {
             "owned": false,
             "playtime_minutes": 0,
@@ -86113,6 +86219,11 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1777860921689
+          },
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2,
+            "deadline": "18.02.2026"
           }
         },
         {
@@ -86719,8 +86830,7 @@
             }
           ]
         }
-      ],
-      "steam_profile_is_private": false
+      ]
     },
     "76561198982150416": {
       "username": "vlbastos",
@@ -88986,7 +89096,7 @@
           "name": "The LEGO Movie - Videogame",
           "link": "O1FRw/the-lego-movie-videogame",
           "cv_status": "REDUCED_CV",
-          "entries": 60,
+          "entries": 65,
           "copies": 1,
           "created_timestamp": 1777745604,
           "end_timestamp": 1778313600,
@@ -89608,8 +89718,14 @@
         "giveaways_created": 24,
         "giveaways_with_no_entries": 1,
         "last_giveaway_created_at": 1775224308,
-        "last_giveaway_won_at": 1771617600
+        "last_giveaway_won_at": 1771617600,
+        "total_achievements_percentage": 21,
+        "average_achievements_percentage": 27,
+        "real_total_achievements_percentage": 23,
+        "real_average_achievements_percentage": 31,
+        "has_missing_achievements_data": false
       },
+      "steam_profile_is_private": false,
       "country_code": "nl",
       "giveaways_won": [
         {
@@ -89720,10 +89836,6 @@
           "end_timestamp": 1765512000,
           "required_play": true,
           "is_shared": false,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 2
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 4851,
@@ -89734,6 +89846,10 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1777860939889
+          },
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2
           }
         },
         {
@@ -90458,8 +90574,7 @@
             }
           ]
         }
-      ],
-      "steam_profile_is_private": false
+      ]
     },
     "76561198352113526": {
       "username": "yugimax",
@@ -90970,7 +91085,7 @@
           "name": "Until Then",
           "link": "CUhp7/until-then",
           "cv_status": "REDUCED_CV",
-          "entries": 15,
+          "entries": 18,
           "copies": 1,
           "created_timestamp": 1776819167,
           "end_timestamp": 1777910400,
