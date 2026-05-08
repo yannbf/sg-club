@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1778207122336,
+  "lastUpdated": 1778231943922,
   "users": {
     "76561198359284432": {
       "username": "a10i",
@@ -1541,10 +1541,10 @@
         "giveaways_with_no_entries": 1,
         "last_giveaway_created_at": 1777573889,
         "last_giveaway_won_at": 1778173200,
-        "total_achievements_percentage": 27,
-        "average_achievements_percentage": 34,
-        "real_total_achievements_percentage": 29,
-        "real_average_achievements_percentage": 40,
+        "total_achievements_percentage": 23,
+        "average_achievements_percentage": 30,
+        "real_total_achievements_percentage": 24,
+        "real_average_achievements_percentage": 34,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198453663783",
@@ -6163,12 +6163,12 @@
       "avatar_url": "https://avatars.steamstatic.com/3017f64da039e05834f718537fc1fba48efe92e6_medium.jpg",
       "steam_id": "76561198250732560",
       "stats": {
-        "total_sent_count": 18.5,
-        "total_sent_value": 756.31,
+        "total_sent_count": 19,
+        "total_sent_value": 768.8,
         "total_received_count": 4,
         "total_received_value": 139.96,
-        "total_gift_difference": 14.5,
-        "total_value_difference": 616.35,
+        "total_gift_difference": 15,
+        "total_value_difference": 628.84,
         "fcv_sent_count": 7,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
@@ -6183,7 +6183,7 @@
         "real_total_received_count": 4,
         "real_total_gift_difference": 3,
         "giveaway_ratio": 5.67,
-        "shared_sent_count": 20,
+        "shared_sent_count": 21,
         "shared_received_count": 0,
         "giveaways_created": 24,
         "giveaways_with_no_entries": 0,
@@ -6294,9 +6294,10 @@
           "had_winners": true,
           "winners": [
             {
-              "name": null,
-              "status": "awaiting_feedback",
-              "activated": false
+              "name": "desereth",
+              "winner_username": "desereth",
+              "status": "received",
+              "activated": true
             }
           ]
         },
@@ -19158,10 +19159,10 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1776856488,
         "last_giveaway_won_at": 1778173200,
-        "total_achievements_percentage": 37,
-        "average_achievements_percentage": 47,
-        "real_total_achievements_percentage": 37,
-        "real_average_achievements_percentage": 47,
+        "total_achievements_percentage": 38,
+        "average_achievements_percentage": 45,
+        "real_total_achievements_percentage": 38,
+        "real_average_achievements_percentage": 45,
         "has_missing_achievements_data": false
       },
       "steam_profile_is_private": false,
@@ -27057,7 +27058,7 @@
           "name": "Tainted Grail: The Fall of Avalon",
           "link": "Yl2od/tainted-grail-the-fall-of-avalon",
           "cv_status": "FULL_CV",
-          "entries": 19,
+          "entries": 20,
           "copies": 1,
           "created_timestamp": 1778086989,
           "end_timestamp": 1779559200,
@@ -31786,10 +31787,10 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1777126561,
         "last_giveaway_won_at": 1778173200,
-        "total_achievements_percentage": 72,
-        "average_achievements_percentage": 59,
-        "real_total_achievements_percentage": 74,
-        "real_average_achievements_percentage": 60,
+        "total_achievements_percentage": 70,
+        "average_achievements_percentage": 56,
+        "real_total_achievements_percentage": 72,
+        "real_average_achievements_percentage": 57,
         "has_missing_achievements_data": true
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561197984532155",
@@ -33488,9 +33489,9 @@
         "last_giveaway_created_at": 1778184739,
         "last_giveaway_won_at": 1778173200,
         "total_achievements_percentage": 17,
-        "average_achievements_percentage": 27,
+        "average_achievements_percentage": 26,
         "real_total_achievements_percentage": 19,
-        "real_average_achievements_percentage": 30,
+        "real_average_achievements_percentage": 29,
         "has_missing_achievements_data": true
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198054575805",
@@ -45365,21 +45366,10 @@
       ],
       "giveaways_created": [
         {
-          "name": "Symphony of War: The Nephilim Saga",
-          "link": "6AlDn/symphony-of-war-the-nephilim-saga",
-          "cv_status": "REDUCED_CV",
-          "entries": 23,
-          "copies": 1,
-          "created_timestamp": 1777593399,
-          "end_timestamp": 1778212800,
-          "required_play": false,
-          "is_shared": true
-        },
-        {
           "name": "Plan B from Outer Space: A Bavarian O...",
           "link": "SZG32/plan-b-from-outer-space-a-bavarian-odyssey",
           "cv_status": "REDUCED_CV",
-          "entries": 41,
+          "entries": 42,
           "copies": 1,
           "created_timestamp": 1777679774,
           "end_timestamp": 1778299200,
@@ -45390,12 +45380,31 @@
           "name": "Warhammer 40,000: Speed Freeks",
           "link": "tBeVY/warhammer-40000-speed-freeks",
           "cv_status": "REDUCED_CV",
-          "entries": 16,
+          "entries": 19,
           "copies": 1,
           "created_timestamp": 1777765824,
           "end_timestamp": 1778385600,
           "required_play": false,
           "is_shared": true
+        },
+        {
+          "name": "Symphony of War: The Nephilim Saga",
+          "link": "6AlDn/symphony-of-war-the-nephilim-saga",
+          "cv_status": "REDUCED_CV",
+          "entries": 23,
+          "copies": 1,
+          "created_timestamp": 1777593399,
+          "end_timestamp": 1778212800,
+          "required_play": false,
+          "is_shared": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "Old Man's Journey",
@@ -48975,10 +48984,10 @@
         "giveaways_with_no_entries": 2,
         "last_giveaway_created_at": 1776440545,
         "last_giveaway_won_at": 1777894080,
-        "total_achievements_percentage": 76,
-        "average_achievements_percentage": 78,
-        "real_total_achievements_percentage": 76,
-        "real_average_achievements_percentage": 78,
+        "total_achievements_percentage": 77,
+        "average_achievements_percentage": 79,
+        "real_total_achievements_percentage": 77,
+        "real_average_achievements_percentage": 79,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198035801987",
@@ -51680,10 +51689,10 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1772626752,
         "last_giveaway_won_at": 1778173200,
-        "total_achievements_percentage": 100,
-        "average_achievements_percentage": 100,
-        "real_total_achievements_percentage": 100,
-        "real_average_achievements_percentage": 100,
+        "total_achievements_percentage": 62,
+        "average_achievements_percentage": 50,
+        "real_total_achievements_percentage": 62,
+        "real_average_achievements_percentage": 50,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198010863049",
@@ -56820,7 +56829,7 @@
           "name": "Nomad Idle",
           "link": "5S29u/nomad-idle",
           "cv_status": "FULL_CV",
-          "entries": 19,
+          "entries": 21,
           "copies": 1,
           "created_timestamp": 1778022827,
           "end_timestamp": 1778926140,
@@ -62218,8 +62227,9 @@
           "had_winners": true,
           "winners": [
             {
-              "name": null,
-              "status": "awaiting_feedback",
+              "name": "76561198351673664",
+              "winner_username": "BanjoBearLV",
+              "status": "not_received",
               "activated": false
             }
           ]
@@ -66660,7 +66670,7 @@
           "name": "Ctrl Alt Ego",
           "link": "SSy3X/ctrl-alt-ego",
           "cv_status": "FULL_CV",
-          "entries": 32,
+          "entries": 34,
           "copies": 1,
           "created_timestamp": 1777982922,
           "end_timestamp": 1778242200,
@@ -70834,8 +70844,8 @@
         "giveaways_with_no_entries": 1,
         "last_giveaway_created_at": 1778168549,
         "last_giveaway_won_at": 1778065200,
-        "total_achievements_percentage": 33,
-        "average_achievements_percentage": 49,
+        "total_achievements_percentage": 36,
+        "average_achievements_percentage": 56,
         "real_total_achievements_percentage": 34,
         "real_average_achievements_percentage": 58,
         "has_missing_achievements_data": false
@@ -71015,7 +71025,7 @@
           "name": "The Last Gas Station",
           "link": "HxJcQ/the-last-gas-station",
           "cv_status": "FULL_CV",
-          "entries": 7,
+          "entries": 9,
           "copies": 1,
           "created_timestamp": 1778168549,
           "end_timestamp": 1778947200,
@@ -71026,7 +71036,7 @@
           "name": "SoulQuest",
           "link": "iazfF/soulquest",
           "cv_status": "FULL_CV",
-          "entries": 3,
+          "entries": 4,
           "copies": 1,
           "created_timestamp": 1778168482,
           "end_timestamp": 1778947200,
@@ -71037,7 +71047,7 @@
           "name": "Planet of Lana II",
           "link": "wL5Oq/planet-of-lana-ii",
           "cv_status": "FULL_CV",
-          "entries": 16,
+          "entries": 18,
           "copies": 1,
           "created_timestamp": 1778168380,
           "end_timestamp": 1778947200,
@@ -75136,7 +75146,7 @@
           "name": "OCTOPATH TRAVELER",
           "link": "Mkyvc/octopath-traveler",
           "cv_status": "FULL_CV",
-          "entries": 17,
+          "entries": 18,
           "copies": 1,
           "created_timestamp": 1777775249,
           "end_timestamp": 1778507940,
@@ -77274,7 +77284,7 @@
           "name": "Pocket Mirror ~ GoldenerTraum",
           "link": "7rYdh/pocket-mirror-goldenertraum",
           "cv_status": "FULL_CV",
-          "entries": 5,
+          "entries": 6,
           "copies": 1,
           "created_timestamp": 1778181017,
           "end_timestamp": 1778817600,
@@ -84944,14 +84954,14 @@
         "giveaway_ratio": 5.33,
         "shared_sent_count": 13,
         "shared_received_count": 4,
-        "giveaways_created": 22,
-        "giveaways_with_no_entries": 0,
-        "last_giveaway_created_at": 1777771139,
+        "giveaways_created": 23,
+        "giveaways_with_no_entries": 1,
+        "last_giveaway_created_at": 1778210953,
         "last_giveaway_won_at": 1778176800,
-        "total_achievements_percentage": 60,
-        "average_achievements_percentage": 66,
-        "real_total_achievements_percentage": 83,
-        "real_average_achievements_percentage": 86,
+        "total_achievements_percentage": 54,
+        "average_achievements_percentage": 62,
+        "real_total_achievements_percentage": 71,
+        "real_average_achievements_percentage": 78,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198080362358",
@@ -85258,6 +85268,17 @@
       ],
       "giveaways_created": [
         {
+          "name": "FINAL FANTASY VII REMAKE INTERGRADE",
+          "link": "k3HQF/final-fantasy-vii-remake-intergrade",
+          "cv_status": "FULL_CV",
+          "entries": 8,
+          "copies": 1,
+          "created_timestamp": 1778210953,
+          "end_timestamp": 1778565540,
+          "required_play": false,
+          "is_shared": false
+        },
+        {
           "name": "Journey",
           "link": "Ds3V3/journey",
           "cv_status": "FULL_CV",
@@ -85266,7 +85287,8 @@
           "created_timestamp": 1777771139,
           "end_timestamp": 1778219940,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": false
         },
         {
           "name": "Windy Meadow - A Roadwarden Tale",
@@ -89767,7 +89789,7 @@
           "name": "The LEGO Movie - Videogame",
           "link": "O1FRw/the-lego-movie-videogame",
           "cv_status": "REDUCED_CV",
-          "entries": 102,
+          "entries": 106,
           "copies": 1,
           "created_timestamp": 1777745604,
           "end_timestamp": 1778313600,
