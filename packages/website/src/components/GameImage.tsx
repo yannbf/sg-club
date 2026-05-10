@@ -79,7 +79,7 @@ export default function GameImage({
           imageClassName,
         )}
         unoptimized
-        onLoadingComplete={() => setLoaded(true)}
+        onLoad={() => setLoaded(true)}
         onError={() => {
           if (src !== fallbackUrl && fallbackUrl) {
             setSrc(fallbackUrl)
