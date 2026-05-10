@@ -1,21 +1,53 @@
 'use client'
 
-import { useState, useMemo, useEffect } from 'react'
-import DatePicker from 'react-datepicker'
-import { startOfMonth, endOfMonth } from 'date-fns'
-import { getCVBadgeColor, getCVLabel } from '@/lib/data'
-import { Giveaway, GameData } from '@/types'
+import { useEffect, useMemo, useState } from 'react'
+import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import Image from 'next/image'
+import DatePicker from 'react-datepicker'
+import { startOfMonth, endOfMonth } from 'date-fns'
+import {
+  ArrowDown,
+  ArrowUp,
+  Calendar,
+  Download,
+  Filter,
+  Gamepad2,
+  Globe2,
+  LayoutGrid,
+  List,
+  Search,
+  Sparkles,
+  Trash2,
+  UserCheck,
+  Users as UsersIcon,
+  X,
+} from 'lucide-react'
+import { getCVBadgeColor, getCVLabel } from '@/lib/data'
+import { Giveaway, GameData } from '@/types'
 import UserAvatar from '@/components/UserAvatar'
 import { LastUpdated } from '@/components/LastUpdated'
 import { useGameData, useDebounce } from '@/lib/hooks'
 import FormattedDate, { TimeDifference } from '@/components/FormattedDate'
 import { CvStatusIndicator } from '@/components/CvStatusIndicator'
-import dynamic from 'next/dynamic'
+import { Card } from '@/components/ui/Card'
+import { Badge } from '@/components/ui/Badge'
+import { Button } from '@/components/ui/Button'
+import { Input } from '@/components/ui/Input'
+import { Toolbar } from '@/components/ui/Toolbar'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/Select'
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/ToggleGroup'
+import { cn } from '@/lib/cn'
+
 const Masonry = dynamic<import('masonic').MasonryProps<Giveaway>>(
-  () => import('masonic').then(m => m.Masonry),
-  { ssr: false }
+  () => import('masonic').then((m) => m.Masonry),
+  { ssr: false },
 )
 
 interface Props {
@@ -29,7 +61,8 @@ interface Props {
   defaultGiveawayStatus?: 'open' | 'ended' | 'all'
 }
 
-const PLACEHOLDER_IMAGE = 'https://steamplayercount.com/theme/img/placeholder.svg'
+const PLACEHOLDER_IMAGE =
+  'https://steamplayercount.com/theme/img/placeholder.svg'
 
 export function getGameImageUrl(giveaway: Giveaway): string {
   if (giveaway.app_id) {
@@ -48,133 +81,264 @@ export function getStatusBadge(giveaway: Giveaway) {
   const hasWinners = giveaway.winners && giveaway.winners.length > 0
 
   if (giveaway.deleted) {
-    return <span className="px-2 py-1 text-xs font-semibold bg-error-foreground text-white rounded-full">Deleted</span>
+    return (
+      <Badge variant="error" size="sm">
+        Deleted
+      </Badge>
+    )
   }
-
   if (isFuture) {
-    return <span className="px-2 py-1 text-xs font-semibold bg-accent-purple text-white rounded-full">Not started</span>
+    return (
+      <Badge variant="purple" size="sm">
+        Not started
+      </Badge>
+    )
   }
-
   if (!isEnded) {
-    return <span className="px-2 py-1 text-xs font-semibold bg-info-light text-info-foreground rounded-full">Open</span>
+    return (
+      <Badge variant="info" size="sm">
+        Open
+      </Badge>
+    )
   }
-
   if (hasWinners) {
-    return <span className="px-2 py-1 text-xs font-semibold bg-success-light text-success-foreground rounded-full">Ended</span>
+    return (
+      <Badge variant="success" size="sm">
+        Ended
+      </Badge>
+    )
   }
-
-  return <span className="px-2 py-1 text-xs font-semibold bg-error-light text-error-foreground rounded-full">No Winners</span>
+  return (
+    <Badge variant="warning" size="sm">
+      No winners
+    </Badge>
+  )
 }
 
-export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, lastUpdated, userAvatars, userNames, gameData, defaultGiveawayStatus = 'open' }: Props) {
-  // Helper to resolve steam_id to display username
+function getCardAccent(g: Giveaway): string {
+  const now = Date.now() / 1000
+  const isEnded = g.end_timestamp < now
+  const isFuture = g.start_timestamp > now
+  const hasWinners = g.winners && g.winners.length > 0
+  if (g.deleted) return 'before:bg-[var(--error)]'
+  if (isFuture) return 'before:bg-[var(--accent-purple)]'
+  if (!isEnded) return 'before:bg-[var(--info)]'
+  if (hasWinners) return 'before:bg-[var(--success)]'
+  return 'before:bg-[var(--warning)]'
+}
+
+export default function GiveawaysClient({
+  heading = 'All Giveaways',
+  giveaways,
+  lastUpdated,
+  userAvatars,
+  userNames,
+  gameData,
+  defaultGiveawayStatus = 'open',
+}: Props) {
   const getDisplayName = (steamIdOrUsername: string) =>
     userNames?.get(steamIdOrUsername) || steamIdOrUsername
   const { getGameData } = useGameData(gameData)
+
   const [searchTerm, setSearchTerm] = useState('')
   const debouncedSearchTerm = useDebounce(searchTerm, 300)
-  const [sortBy, setSortBy] = useState<'date' | 'author' | 'name' | 'cv' | 'points' | 'entries'>('date')
+  const [sortBy, setSortBy] = useState<
+    'date' | 'author' | 'name' | 'cv' | 'points' | 'entries'
+  >('date')
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc')
-  const [filterCV, setFilterCV] = useState<'all' | 'FULL_CV' | 'REDUCED_CV' | 'NO_CV' | 'DECREASED_RATIO'>('all')
-  const [giveawayStatus, setGiveawayStatus] = useState<'open' | 'ended' | 'all'>(defaultGiveawayStatus)
+  const [filterCV, setFilterCV] = useState<
+    'all' | 'FULL_CV' | 'REDUCED_CV' | 'NO_CV' | 'DECREASED_RATIO'
+  >('all')
+  const [giveawayStatus, setGiveawayStatus] = useState<
+    'open' | 'ended' | 'all'
+  >(defaultGiveawayStatus)
   const [failedImages, setFailedImages] = useState<Set<string>>(new Set())
 
-  // Add new state variables for label filters
-  const [filterRegion, setFilterRegion] = useState<boolean>(false)
-  const [filterPlayRequired, setFilterPlayRequired] = useState<boolean>(false)
-  const [filterShared, setFilterShared] = useState<boolean>(false)
-  const [filterWhitelist, setFilterWhitelist] = useState<boolean>(false)
-  const [filterEvent, setFilterEvent] = useState<boolean>(false)
-  const [filterDeleted, setFilterDeleted] = useState<boolean>(false)
+  // Chip filters via ToggleGroup multiple
+  const [chipFilters, setChipFilters] = useState<string[]>([])
+  const has = (k: string) => chipFilters.includes(k)
 
-  // Date filter state
-  const [dateFilterMode, setDateFilterMode] = useState<'none' | 'range' | 'month'>('none')
-  const [dateRange, setDateRange] = useState<[Date | null, Date | null]>([null, null])
+  // Date filter
+  const [dateFilterMode, setDateFilterMode] = useState<
+    'none' | 'range' | 'month'
+  >('none')
+  const [dateRange, setDateRange] = useState<[Date | null, Date | null]>([
+    null,
+    null,
+  ])
   const [selectedMonth, setSelectedMonth] = useState<Date | null>(null)
   const [startDate, endDate] = dateRange
 
-  // Latest giveaway end date to cap calendars
   const maxEndDate = useMemo(() => {
     if (!giveaways || giveaways.length === 0) return null
     const maxTs = giveaways.reduce((max, g) => Math.max(max, g.end_timestamp), 0)
     return new Date(maxTs * 1000)
   }, [giveaways])
 
-  // Compact view
   const [compactView, setCompactView] = useState<boolean>(false)
-
-  // Persist compact view preference
   useEffect(() => {
     try {
-      const saved = typeof window !== 'undefined' ? localStorage.getItem('giveawaysView') : null
-      if (saved === 'compact') {
-        setCompactView(true)
-      }
+      const saved =
+        typeof window !== 'undefined'
+          ? localStorage.getItem('giveawaysView')
+          : null
+      if (saved === 'compact') setCompactView(true)
     } catch {}
   }, [])
   useEffect(() => {
     try {
       if (typeof window !== 'undefined') {
-        localStorage.setItem('giveawaysView', compactView ? 'compact' : 'expanded')
+        localStorage.setItem(
+          'giveawaysView',
+          compactView ? 'compact' : 'expanded',
+        )
       }
     } catch {}
   }, [compactView])
 
   // Export modal state
-  type ExportFieldKey = 'creator' | 'name' | 'link' | 'event' | 'cv' | 'points' | 'required_play' | 'shared' | 'restricted' | 'entries' | 'winner' | 'deleted' | 'deleted_reason'
+  type ExportFieldKey =
+    | 'creator'
+    | 'name'
+    | 'link'
+    | 'event'
+    | 'cv'
+    | 'points'
+    | 'required_play'
+    | 'shared'
+    | 'restricted'
+    | 'entries'
+    | 'winner'
+    | 'deleted'
+    | 'deleted_reason'
   const [isExportModalOpen, setIsExportModalOpen] = useState(false)
-  const DEFAULT_EXPORT_FIELDS: ExportFieldKey[] = ['creator', 'name', 'link', 'event']
-  const [selectedExportFields, setSelectedExportFields] = useState<ExportFieldKey[]>(DEFAULT_EXPORT_FIELDS)
+  const DEFAULT_EXPORT_FIELDS: ExportFieldKey[] = [
+    'creator',
+    'name',
+    'link',
+    'event',
+  ]
+  const [selectedExportFields, setSelectedExportFields] =
+    useState<ExportFieldKey[]>(DEFAULT_EXPORT_FIELDS)
 
-  const EXPORT_FIELDS = useMemo(() => ([
-    { key: 'creator' as const, label: 'Created by', get: (g: Giveaway) => getDisplayName(g.creator) || '' },
-    { key: 'name' as const, label: 'Giveaway', get: (g: Giveaway) => g.name || '' },
-    { key: 'link' as const, label: 'Link', get: (g: Giveaway) => `https://www.steamgifts.com/giveaway/${g.link}` },
-    { key: 'event' as const, label: 'Event', get: (g: Giveaway) => (g.event_type as string) || '' },
-    { key: 'cv' as const, label: 'CV type', get: (g: Giveaway) => getCVLabel(g.cv_status || 'FULL_CV', !!g.decreased_ratio_info) },
-    { key: 'points' as const, label: 'Points', get: (g: Giveaway) => String(g.points ?? '') },
-    { key: 'required_play' as const, label: 'Play required', get: (g: Giveaway) => (g.required_play ? 'Yes' : 'No') },
-    { key: 'shared' as const, label: 'Shared', get: (g: Giveaway) => (g.is_shared ? 'Yes' : 'No') },
-    { key: 'restricted' as const, label: 'Restricted', get: (g: Giveaway) => (g.region_restricted ? 'Yes' : 'No') },
-    { key: 'entries' as const, label: 'Entries', get: (g: Giveaway) => String(g.entry_count ?? '') },
-    { key: 'winner' as const, label: 'Winner', get: (g: Giveaway) => (g.winners && g.winners.length ? g.winners.map(w => w.name || '').filter(Boolean).join('; ') : '') },
-    { key: 'deleted' as const, label: 'Deleted', get: (g: Giveaway) => (g.deleted ? 'Yes' : 'No') },
-    { key: 'deleted_reason' as const, label: 'Deleted reason', get: (g: Giveaway) => g.deleted_reason || '' },
-  ]), [])
+  const EXPORT_FIELDS = useMemo(
+    () => [
+      {
+        key: 'creator' as const,
+        label: 'Created by',
+        get: (g: Giveaway) => getDisplayName(g.creator) || '',
+      },
+      {
+        key: 'name' as const,
+        label: 'Giveaway',
+        get: (g: Giveaway) => g.name || '',
+      },
+      {
+        key: 'link' as const,
+        label: 'Link',
+        get: (g: Giveaway) => `https://www.steamgifts.com/giveaway/${g.link}`,
+      },
+      {
+        key: 'event' as const,
+        label: 'Event',
+        get: (g: Giveaway) => (g.event_type as string) || '',
+      },
+      {
+        key: 'cv' as const,
+        label: 'CV type',
+        get: (g: Giveaway) =>
+          getCVLabel(g.cv_status || 'FULL_CV', !!g.decreased_ratio_info),
+      },
+      {
+        key: 'points' as const,
+        label: 'Points',
+        get: (g: Giveaway) => String(g.points ?? ''),
+      },
+      {
+        key: 'required_play' as const,
+        label: 'Play required',
+        get: (g: Giveaway) => (g.required_play ? 'Yes' : 'No'),
+      },
+      {
+        key: 'shared' as const,
+        label: 'Shared',
+        get: (g: Giveaway) => (g.is_shared ? 'Yes' : 'No'),
+      },
+      {
+        key: 'restricted' as const,
+        label: 'Restricted',
+        get: (g: Giveaway) => (g.region_restricted ? 'Yes' : 'No'),
+      },
+      {
+        key: 'entries' as const,
+        label: 'Entries',
+        get: (g: Giveaway) => String(g.entry_count ?? ''),
+      },
+      {
+        key: 'winner' as const,
+        label: 'Winner',
+        get: (g: Giveaway) =>
+          g.winners && g.winners.length
+            ? g.winners
+                .map((w) => w.name || '')
+                .filter(Boolean)
+                .join('; ')
+            : '',
+      },
+      {
+        key: 'deleted' as const,
+        label: 'Deleted',
+        get: (g: Giveaway) => (g.deleted ? 'Yes' : 'No'),
+      },
+      {
+        key: 'deleted_reason' as const,
+        label: 'Deleted reason',
+        get: (g: Giveaway) => g.deleted_reason || '',
+      },
+    ],
+    [getDisplayName],
+  )
 
   const filteredAndSortedGiveaways = useMemo(() => {
-    const filtered = giveaways.filter(giveaway => {
+    const filtered = giveaways.filter((giveaway) => {
       const searchTermLower = debouncedSearchTerm.toLowerCase()
-      const isExactIdMatch = (debouncedSearchTerm.length === 5 && giveaway.link.split('/')[0] === debouncedSearchTerm)
-      const matchesSearch = giveaway.name.toLowerCase().includes(searchTermLower) ||
+      const isExactIdMatch =
+        debouncedSearchTerm.length === 5 &&
+        giveaway.link.split('/')[0] === debouncedSearchTerm
+      const matchesSearch =
+        giveaway.name.toLowerCase().includes(searchTermLower) ||
         getDisplayName(giveaway.creator).toLowerCase().includes(searchTermLower)
 
-      const matchesCV = filterCV === 'all' ||
-        (filterCV === 'DECREASED_RATIO' ? !!giveaway.decreased_ratio_info : giveaway.cv_status === filterCV)
+      const matchesCV =
+        filterCV === 'all' ||
+        (filterCV === 'DECREASED_RATIO'
+          ? !!giveaway.decreased_ratio_info
+          : giveaway.cv_status === filterCV)
       const now = Date.now() / 1000
       const isEnded = giveaway.end_timestamp < now
-      const matchesStatus = filterDeleted ? true : // If deleted filter is on, ignore open/ended status
-        giveawayStatus === 'all' ||
-        (giveawayStatus === 'open' && !isEnded && !giveaway.deleted) ||
-        (giveawayStatus === 'ended' && (isEnded || giveaway.deleted))
+      const matchesStatus = has('deleted')
+        ? true
+        : giveawayStatus === 'all' ||
+          (giveawayStatus === 'open' && !isEnded && !giveaway.deleted) ||
+          (giveawayStatus === 'ended' && (isEnded || giveaway.deleted))
 
-      // Add new label filters
-      const matchesLabels = (
-        (!filterRegion || giveaway.region_restricted) &&
-        (!filterPlayRequired || giveaway.required_play) &&
-        (!filterShared || giveaway.is_shared) &&
-        (!filterWhitelist || giveaway.whitelist) &&
-        (!filterEvent || giveaway.event_type) &&
-        (!filterDeleted || giveaway.deleted)
-      )
+      const matchesLabels =
+        (!has('region') || giveaway.region_restricted) &&
+        (!has('play') || giveaway.required_play) &&
+        (!has('shared') || giveaway.is_shared) &&
+        (!has('whitelist') || giveaway.whitelist) &&
+        (!has('event') || giveaway.event_type) &&
+        (!has('deleted') || giveaway.deleted)
 
-      // Date filters: we filter by end date window
       let matchesDate = true
       const endTimestamp = giveaway.end_timestamp
-
       if (dateFilterMode === 'range') {
-        const startSec = startDate ? Math.floor(startDate.getTime() / 1000) : null
-        const endSec = endDate ? Math.floor((endDate.getTime() + 24 * 60 * 60 * 1000 - 1) / 1000) : null
+        const startSec = startDate
+          ? Math.floor(startDate.getTime() / 1000)
+          : null
+        const endSec = endDate
+          ? Math.floor((endDate.getTime() + 24 * 60 * 60 * 1000 - 1) / 1000)
+          : null
         if (startSec !== null && endSec !== null) {
           matchesDate = endTimestamp >= startSec && endTimestamp <= endSec
         } else if (startSec !== null) {
@@ -188,7 +352,10 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
         matchesDate = endTimestamp >= start && endTimestamp <= end
       }
 
-      return isExactIdMatch || (matchesSearch && matchesCV && matchesStatus && matchesLabels && matchesDate)
+      return (
+        isExactIdMatch ||
+        (matchesSearch && matchesCV && matchesStatus && matchesLabels && matchesDate)
+      )
     })
 
     filtered.sort((a, b) => {
@@ -196,7 +363,6 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
       const aIsEnded = a.end_timestamp < now
       const bIsEnded = b.end_timestamp < now
 
-      // When showing all giveaways, group open first then ended
       if (sortBy === 'date' && giveawayStatus === 'all' && aIsEnded !== bIsEnded) {
         return aIsEnded ? 1 : -1
       }
@@ -217,17 +383,19 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
           break
         }
         case 'author':
-          comparison = getDisplayName(a.creator).localeCompare(getDisplayName(b.creator))
+          comparison = getDisplayName(a.creator).localeCompare(
+            getDisplayName(b.creator),
+          )
           break
         case 'name':
           comparison = a.name.localeCompare(b.name)
           break
         case 'cv': {
-          const getCVSortLabel = (giveaway: Giveaway) => {
-            if (giveaway.decreased_ratio_info) return 'Decreased Ratio'
-            return getCVLabel(giveaway.cv_status || 'FULL_CV')
-          }
-          comparison = getCVSortLabel(a).localeCompare(getCVSortLabel(b))
+          const lab = (g: Giveaway) =>
+            g.decreased_ratio_info
+              ? 'Decreased Ratio'
+              : getCVLabel(g.cv_status || 'FULL_CV')
+          comparison = lab(a).localeCompare(lab(b))
           break
         }
         case 'points':
@@ -241,11 +409,21 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
     })
 
     return filtered
-  }, [giveaways, debouncedSearchTerm, sortBy, sortDirection, filterCV, giveawayStatus,
-    filterRegion, filterPlayRequired, filterShared, filterWhitelist, filterEvent, filterDeleted,
-    dateFilterMode, startDate, endDate, selectedMonth])
+  }, [
+    giveaways,
+    debouncedSearchTerm,
+    sortBy,
+    sortDirection,
+    filterCV,
+    giveawayStatus,
+    chipFilters,
+    dateFilterMode,
+    startDate,
+    endDate,
+    selectedMonth,
+    getDisplayName,
+  ])
 
-  // Unique users in the currently filtered giveaways
   const uniqueUsersCount = useMemo(() => {
     const creators = new Set<string>()
     for (const g of filteredAndSortedGiveaways) {
@@ -254,7 +432,6 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
     return creators.size
   }, [filteredAndSortedGiveaways])
 
-  // Build and download CSV from selected fields
   const handleExportConfirm = () => {
     try {
       const escapeCsv = (val: string) => {
@@ -263,24 +440,27 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
         const escaped = val.replace(/"/g, '""')
         return needsQuote ? `"${escaped}"` : escaped
       }
+      const fieldMap = EXPORT_FIELDS.reduce<
+        Record<ExportFieldKey, { label: string; get: (g: Giveaway) => string }>
+      >(
+        (acc, f) => {
+          acc[f.key] = { label: f.label, get: f.get }
+          return acc
+        },
+        {} as Record<
+          ExportFieldKey,
+          { label: string; get: (g: Giveaway) => string }
+        >,
+      )
 
-      // Map for quick lookup
-      const fieldMap = EXPORT_FIELDS.reduce<Record<ExportFieldKey, { label: string; get: (g: Giveaway) => string }>>((acc, f) => {
-        acc[f.key] = { label: f.label, get: f.get }
-        return acc
-      }, {} as Record<ExportFieldKey, { label: string; get: (g: Giveaway) => string }>)
-
-      // Use current on-screen order
       const sorted = filteredAndSortedGiveaways
-
-      const headers = selectedExportFields.map(k => fieldMap[k].label)
+      const headers = selectedExportFields.map((k) => fieldMap[k].label)
       const csvLines: string[] = []
       csvLines.push(headers.join(','))
       for (const g of sorted) {
-        const line = selectedExportFields.map(k => escapeCsv(fieldMap[k].get(g)))
+        const line = selectedExportFields.map((k) => escapeCsv(fieldMap[k].get(g)))
         csvLines.push(line.join(','))
       }
-
       const csvContent = csvLines.join('\n')
       const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
       const url = URL.createObjectURL(blob)
@@ -294,231 +474,214 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
   }
 
   return (
-    <div className="space-y-8">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold">{heading}</h1>
-        {lastUpdated && (
-          <LastUpdated lastUpdatedDate={lastUpdated} />
-        )}
-      </div>
-
-      {/* Filters */}
-      <div className="bg-card-background rounded-lg border-card-border border p-6 mb-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div>
-            <label className="block text-sm font-medium text-muted-foreground mb-2">
-              Search
-            </label>
-            <input
-              type="text"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Search games or creators..."
-              className="w-full px-3 py-2 border border-card-border rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-accent"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-muted-foreground mb-2">
-              Sort by
-            </label>
-            <div className="flex gap-2">
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value as 'date' | 'author' | 'name' | 'cv' | 'points' | 'entries')}
-                className="flex-1 px-3 py-2 border border-card-border rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-accent"
-              >
-                <option value="date">End Date</option>
-                <option value="author">Author (A–Z)</option>
-                <option value="name">Giveaway (A–Z)</option>
-                <option value="cv">CV Type</option>
-                <option value="points">Points</option>
-                <option value="entries">Entries</option>
-              </select>
-              <button
-                onClick={() => setSortDirection(prev => prev === 'asc' ? 'desc' : 'asc')}
-                className="px-3 py-2 border border-card-border rounded-md bg-transparent hover:bg-accent/10 focus:outline-none focus:ring-2 focus:ring-accent"
-                title={`Sort ${sortDirection === 'asc' ? 'Ascending' : 'Descending'}`}
-              >
-                {sortDirection === 'asc' ? '↑' : '↓'}
-              </button>
-            </div>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-muted-foreground mb-2">
-              Date Filter
-            </label>
-            <div className="flex items-center gap-2">
-              <span role="img" aria-label="Calendar" title="Date Filter" className="text-muted-foreground">📅</span>
-              <select
-                value={dateFilterMode}
-                onChange={(e) => setDateFilterMode(e.target.value as 'none' | 'range' | 'month')}
-                className="flex-1 px-3 py-2 border border-card-border rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-accent"
-              >
-                <option value="none">All Dates</option>
-                <option value="range">Between Dates</option>
-                <option value="month">By Month</option>
-              </select>
-            </div>
-            {dateFilterMode === 'range' && (
-              <div className="mt-2">
-                <DatePicker
-                  selectsRange
-                  startDate={startDate}
-                  endDate={endDate}
-                  onChange={(update) => setDateRange(update as [Date | null, Date | null])}
-                  isClearable
-                  placeholderText="Select date range"
-                  maxDate={maxEndDate ?? undefined}
-                  className="w-full px-3 py-2 border border-card-border rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-accent"
-                />
-              </div>
-            )}
-            {dateFilterMode === 'month' && (
-              <div className="mt-2">
-                <DatePicker
-                  selected={selectedMonth}
-                  onChange={(date) => setSelectedMonth(date)}
-                  dateFormat="MMMM yyyy"
-                  showMonthYearPicker
-                  isClearable
-                  placeholderText="Select month"
-                  maxDate={maxEndDate ?? undefined}
-                  className="w-full px-3 py-2 border border-card-border rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-accent"
-                />
-              </div>
-            )}
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-muted-foreground mb-2">
-              CV Status
-            </label>
-            <select
-              value={filterCV}
-              onChange={(e) => setFilterCV(e.target.value as 'all' | 'FULL_CV' | 'REDUCED_CV' | 'NO_CV' | 'DECREASED_RATIO')}
-              className="w-full px-3 py-2 border border-card-border rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-accent"
-            >
-              <option value="all">All CV Types</option>
-              <option value="FULL_CV">Full CV</option>
-              <option value="REDUCED_CV">Reduced CV</option>
-              <option value="NO_CV">No CV</option>
-              <option value="DECREASED_RATIO">Decreased Ratio</option>
-            </select>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-muted-foreground mb-2">
-              Filter
-            </label>
-            <select
-              value={giveawayStatus}
-              onChange={(e) => setGiveawayStatus(e.target.value as 'open' | 'ended' | 'all')}
-              className="w-full px-3 py-2 border border-card-border rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-accent"
-            >
-              <option value="all">All Giveaways</option>
-              <option value="open">Open Giveaways</option>
-              <option value="ended">Ended Giveaways</option>
-            </select>
-          </div>
-        </div>
-
-        {/* Add new row for label filters */}
-        <div className="lg:col-span-4 mt-4">
-          <div className="flex flex-wrap gap-3 items-center">
-            <button
-              onClick={() => setFilterRegion(prev => !prev)}
-              className={`px-3 py-2 text-sm rounded-full transition-colors ${filterRegion
-                ? 'bg-info-light text-info-foreground'
-                : 'bg-transparent border border-card-border hover:bg-accent/10'
-                }`}
-            >
-              🌍 Restricted
-            </button>
-            <button
-              onClick={() => setFilterPlayRequired(prev => !prev)}
-              className={`px-3 py-2 text-sm rounded-full transition-colors ${filterPlayRequired
-                ? 'bg-warning-light text-warning-foreground'
-                : 'bg-transparent border border-card-border hover:bg-accent/10'
-                }`}
-            >
-              🎮 Play Required
-            </button>
-            <button
-              onClick={() => setFilterEvent(prev => !prev)}
-              className={`px-3 py-2 text-sm rounded-full transition-colors ${filterEvent
-                ? 'bg-warning-light text-warning-foreground'
-                : 'bg-transparent border border-card-border hover:bg-accent/10'
-                }`}
-            >
-              🔥 Group Event
-            </button>
-            <button
-              onClick={() => setFilterShared(prev => !prev)}
-              className={`px-3 py-2 text-sm rounded-full transition-colors ${filterShared
-                ? 'bg-info-light text-info-foreground'
-                : 'bg-transparent border border-card-border hover:bg-accent/10'
-                }`}
-            >
-              👥 Shared
-            </button>
-            <button
-              onClick={() => setFilterWhitelist(prev => !prev)}
-              className={`px-3 py-2 text-sm rounded-full transition-colors ${filterWhitelist
-                ? 'bg-info-light text-info-foreground'
-                : 'bg-transparent border border-card-border hover:bg-accent/10'
-                }`}
-            >
-              🩵 Whitelist
-            </button>
-            <button
-              onClick={() => setFilterDeleted(prev => !prev)}
-              className={`px-3 py-2 text-sm rounded-full transition-colors ${filterDeleted
-                ? 'bg-error-foreground text-white'
-                : 'bg-transparent border border-card-border hover:bg-accent/10'
-                }`}
-            >
-              🗑️ Deleted
-            </button>
-
-            {/* Compact view toggle moved to results summary */}
-          </div>
-        </div>
-      </div>
-
-      {/* Giveaways List */}
-
-      {/* Results Summary */}
-      <div className="text-sm text-muted-foreground flex items-center justify-between">
+    <div className="space-y-6">
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          Showing {filteredAndSortedGiveaways.length} of {giveaways.length} giveaways by {uniqueUsersCount} users
+          <h1 className="font-display text-3xl font-bold tracking-tight">
+            {heading}
+          </h1>
+          {lastUpdated && (
+            <div className="mt-1 text-sm text-muted-foreground">
+              <LastUpdated lastUpdatedDate={lastUpdated} />
+            </div>
+          )}
         </div>
+      </div>
+
+      <Toolbar>
+        <div className="relative flex-1 min-w-0">
+          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-subtle" />
+          <Input
+            type="search"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="Search games or creators..."
+            className="pl-9"
+          />
+        </div>
+        <div className="flex flex-wrap items-center gap-2">
+          <Select
+            value={sortBy}
+            onValueChange={(v) =>
+              setSortBy(v as 'date' | 'author' | 'name' | 'cv' | 'points' | 'entries')
+            }
+          >
+            <SelectTrigger className="w-[160px]">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="date">End date</SelectItem>
+              <SelectItem value="author">Author (A–Z)</SelectItem>
+              <SelectItem value="name">Name (A–Z)</SelectItem>
+              <SelectItem value="cv">CV type</SelectItem>
+              <SelectItem value="points">Points</SelectItem>
+              <SelectItem value="entries">Entries</SelectItem>
+            </SelectContent>
+          </Select>
+          <Button
+            variant="outline"
+            size="icon"
+            aria-label={`Sort ${sortDirection === 'asc' ? 'ascending' : 'descending'}`}
+            onClick={() =>
+              setSortDirection((d) => (d === 'asc' ? 'desc' : 'asc'))
+            }
+          >
+            {sortDirection === 'asc' ? (
+              <ArrowUp className="h-4 w-4" />
+            ) : (
+              <ArrowDown className="h-4 w-4" />
+            )}
+          </Button>
+          <Select value={filterCV} onValueChange={(v) => setFilterCV(v as typeof filterCV)}>
+            <SelectTrigger className="w-[150px]">
+              <SelectValue placeholder="CV status" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All CV types</SelectItem>
+              <SelectItem value="FULL_CV">Full CV</SelectItem>
+              <SelectItem value="REDUCED_CV">Reduced CV</SelectItem>
+              <SelectItem value="NO_CV">No CV</SelectItem>
+              <SelectItem value="DECREASED_RATIO">Decreased Ratio</SelectItem>
+            </SelectContent>
+          </Select>
+          <Select
+            value={giveawayStatus}
+            onValueChange={(v) =>
+              setGiveawayStatus(v as 'open' | 'ended' | 'all')
+            }
+          >
+            <SelectTrigger className="w-[140px]">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All giveaways</SelectItem>
+              <SelectItem value="open">Open</SelectItem>
+              <SelectItem value="ended">Ended</SelectItem>
+            </SelectContent>
+          </Select>
+
+          <Select
+            value={dateFilterMode}
+            onValueChange={(v) =>
+              setDateFilterMode(v as 'none' | 'range' | 'month')
+            }
+          >
+            <SelectTrigger className="w-[140px]">
+              <Calendar className="h-3.5 w-3.5 text-subtle mr-1" />
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="none">Any date</SelectItem>
+              <SelectItem value="range">Between dates</SelectItem>
+              <SelectItem value="month">By month</SelectItem>
+            </SelectContent>
+          </Select>
+          {dateFilterMode === 'range' && (
+            <DatePicker
+              selectsRange
+              startDate={startDate}
+              endDate={endDate}
+              onChange={(update) =>
+                setDateRange(update as [Date | null, Date | null])
+              }
+              isClearable
+              placeholderText="Pick a range"
+              maxDate={maxEndDate ?? undefined}
+              className="h-9 rounded-md border border-card-border bg-background-elevated px-3 text-sm"
+            />
+          )}
+          {dateFilterMode === 'month' && (
+            <DatePicker
+              selected={selectedMonth}
+              onChange={(date) => setSelectedMonth(date)}
+              dateFormat="MMMM yyyy"
+              showMonthYearPicker
+              isClearable
+              placeholderText="Pick a month"
+              maxDate={maxEndDate ?? undefined}
+              className="h-9 rounded-md border border-card-border bg-background-elevated px-3 text-sm"
+            />
+          )}
+        </div>
+      </Toolbar>
+
+      <ToggleGroup
+        type="multiple"
+        value={chipFilters}
+        onValueChange={(v) => setChipFilters(v ?? [])}
+        size="sm"
+        className="flex-wrap"
+      >
+        <ToggleGroupItem value="region" aria-label="Region restricted">
+          <Globe2 className="h-3.5 w-3.5" /> Restricted
+        </ToggleGroupItem>
+        <ToggleGroupItem value="play" aria-label="Play required">
+          <Gamepad2 className="h-3.5 w-3.5" /> Play required
+        </ToggleGroupItem>
+        <ToggleGroupItem value="event" aria-label="Group event">
+          <Sparkles className="h-3.5 w-3.5" /> Group event
+        </ToggleGroupItem>
+        <ToggleGroupItem value="shared" aria-label="Shared">
+          <UsersIcon className="h-3.5 w-3.5" /> Shared
+        </ToggleGroupItem>
+        <ToggleGroupItem value="whitelist" aria-label="Whitelist">
+          <UserCheck className="h-3.5 w-3.5" /> Whitelist
+        </ToggleGroupItem>
+        <ToggleGroupItem value="deleted" aria-label="Deleted">
+          <Trash2 className="h-3.5 w-3.5" /> Deleted
+        </ToggleGroupItem>
+        {chipFilters.length > 0 && (
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setChipFilters([])}
+          >
+            <X className="h-3.5 w-3.5" />
+            Clear
+          </Button>
+        )}
+      </ToggleGroup>
+
+      <div className="flex flex-wrap items-center justify-between gap-2 text-sm">
+        <p className="text-muted-foreground">
+          Showing{' '}
+          <span className="font-medium text-foreground tabular-nums-strict">
+            {filteredAndSortedGiveaways.length.toLocaleString()}
+          </span>{' '}
+          of{' '}
+          <span className="font-medium text-foreground tabular-nums-strict">
+            {giveaways.length.toLocaleString()}
+          </span>{' '}
+          giveaways by{' '}
+          <span className="font-medium text-foreground tabular-nums-strict">
+            {uniqueUsersCount}
+          </span>{' '}
+          users
+        </p>
         <div className="flex items-center gap-2">
-          <button
+          <Button
+            variant="outline"
+            size="sm"
             onClick={() => setIsExportModalOpen(true)}
-            className="px-2 py-1 border border-card-border rounded-md bg-transparent hover:bg-accent/10 focus:outline-none focus:ring-2 focus:ring-accent"
-            title="Export CSV"
           >
-            📩 Export
-          </button>
-          <div className="inline-flex items-center border border-card-border rounded-md overflow-hidden" title="Toggle view">
-          <button
-            aria-label="Compact view"
-            onClick={() => setCompactView(true)}
-            className={`px-2 py-1 ${compactView ? 'bg-accent text-accent-foreground' : 'hover:bg-accent/10'}`}
+            <Download className="h-4 w-4" />
+            Export
+          </Button>
+          <ToggleGroup
+            type="single"
+            value={compactView ? 'compact' : 'expanded'}
+            onValueChange={(v) =>
+              v && setCompactView(v === 'compact')
+            }
+            size="sm"
           >
-            ▦
-          </button>
-          <div className="h-6 w-px bg-card-border" />
-          <button
-            aria-label="Expanded view"
-            onClick={() => setCompactView(false)}
-            className={`px-2 py-1 ${!compactView ? 'bg-accent text-accent-foreground' : 'hover:bg-accent/10'}`}
-          >
-            ▭
-          </button>
-          </div>
+            <ToggleGroupItem value="expanded" aria-label="Expanded view">
+              <LayoutGrid className="h-4 w-4" />
+            </ToggleGroupItem>
+            <ToggleGroupItem value="compact" aria-label="Compact view">
+              <List className="h-4 w-4" />
+            </ToggleGroupItem>
+          </ToggleGroup>
         </div>
       </div>
 
@@ -533,317 +696,429 @@ export default function GiveawaysClient({ heading = 'All Giveaways', giveaways, 
           startDate?.getTime() ?? 0,
           endDate?.getTime() ?? 0,
           selectedMonth?.getTime() ?? 0,
-          filterRegion ? 1 : 0,
-          filterPlayRequired ? 1 : 0,
-          filterShared ? 1 : 0,
-          filterWhitelist ? 1 : 0,
-          filterEvent ? 1 : 0,
-          filterDeleted ? 1 : 0,
+          chipFilters.join(','),
           compactView ? 1 : 0,
         ].join('-')}
         items={filteredAndSortedGiveaways}
-        columnGutter={24}
-        columnWidth={360}
+        columnGutter={20}
+        columnWidth={compactView ? 480 : 360}
         overscanBy={3}
         itemKey={(g, i) => (g && (g as Giveaway).id) || `item-${i}`}
         render={({ data: giveaway }) => {
-          const isEnded = giveaway.end_timestamp < Date.now() / 1000;
-          const imageUrl = failedImages.has(giveaway.id) ? PLACEHOLDER_IMAGE : getGameImageUrl(giveaway);
-          const isFuture = giveaway.start_timestamp > Date.now() / 1000;
-          const borderColor = isEnded ? 'border-card-border' : isFuture ? 'border-accent-purple' : 'border-success';
-          const gameData = getGameData(giveaway.app_id ?? giveaway.package_id)
+          const isEnded = giveaway.end_timestamp < Date.now() / 1000
+          const isFuture = giveaway.start_timestamp > Date.now() / 1000
+          const imageUrl = failedImages.has(giveaway.id)
+            ? PLACEHOLDER_IMAGE
+            : getGameImageUrl(giveaway)
+          const accent = getCardAccent(giveaway)
+          const game = getGameData(giveaway.app_id ?? giveaway.package_id)
 
           if (compactView) {
             return (
-              <div className={`w-full bg-card-background rounded-lg border-2 ${borderColor} p-4 flex items-start gap-4 ${giveaway.deleted ? 'opacity-60' : ''}`}>
-                <div className="flex-shrink-0">
-                  <a href={`https://store.steampowered.com/${giveaway.app_id ? `app/${giveaway.app_id}` : `sub/${giveaway.package_id}`}`} target="_blank" rel="noopener noreferrer">
+              <Card
+                className={cn(
+                  'relative w-full overflow-hidden p-4',
+                  'before:absolute before:left-0 before:top-0 before:h-full before:w-1 before:z-10',
+                  accent,
+                  giveaway.deleted && 'opacity-60',
+                )}
+              >
+                <div className="flex items-start gap-4">
+                  <a
+                    href={`https://store.steampowered.com/${giveaway.app_id ? `app/${giveaway.app_id}` : `sub/${giveaway.package_id}`}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="relative aspect-[460/215] w-32 flex-shrink-0 overflow-hidden rounded-md bg-card-background-hover"
+                  >
                     <Image
                       src={imageUrl}
-                      alt={giveaway.name || 'Game giveaway image'}
-                      width={96}
-                      height={54}
-                      className="object-cover rounded"
-                      onError={() => {
-                        setFailedImages(prev => new Set([...prev, giveaway.id]))
-                      }}
+                      alt={giveaway.name || 'Game'}
+                      width={460}
+                      height={215}
+                      className="h-full w-full object-cover"
+                      unoptimized
+                      onError={() =>
+                        setFailedImages((prev) => new Set([...prev, giveaway.id]))
+                      }
                     />
                   </a>
-                </div>
-                <div className="min-w-0 flex-1">
-                  <div className="flex items-start justify-between gap-2">
-                    <div className="min-w-0 flex items-center gap-2">
-                      <a
-                        href={`https://www.steamgifts.com/giveaway/${giveaway.link}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-accent hover:underline font-semibold line-clamp-1"
-                      >{giveaway.name} ({giveaway.points}P)</a>
-                      <CvStatusIndicator giveaway={giveaway} />
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="min-w-0 flex items-center gap-2">
+                        <a
+                          href={`https://www.steamgifts.com/giveaway/${giveaway.link}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="line-clamp-1 text-sm font-semibold text-foreground hover:text-accent hover:underline"
+                        >
+                          {giveaway.name}{' '}
+                          <span className="font-mono text-xs text-muted-foreground">
+                            ({giveaway.points}P)
+                          </span>
+                        </a>
+                        <CvStatusIndicator giveaway={giveaway} />
+                      </div>
+                      <div className="flex-shrink-0">
+                        {getStatusBadge(giveaway)}
+                      </div>
                     </div>
-                    <div className="flex-shrink-0 ml-2">{getStatusBadge(giveaway)}</div>
-                  </div>
-                  <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-muted-foreground">
-                    <div className="flex items-center gap-2 min-w-0">
-                      <UserAvatar
-                        src={userAvatars.get(giveaway.creator) || 'https://cdn-icons-png.flaticon.com/512/9287/9287610.png'}
-                        username={getDisplayName(giveaway.creator)}
-                      />
-                      <Link href={`/users/${getDisplayName(giveaway.creator)}`} className="hover:underline text-foreground truncate">{getDisplayName(giveaway.creator)}</Link>
+                    <div className="mt-2 grid grid-cols-1 gap-2 text-xs sm:grid-cols-2">
+                      <div className="flex items-center gap-2 min-w-0">
+                        <UserAvatar
+                          src={
+                            userAvatars.get(giveaway.creator) ||
+                            'https://cdn-icons-png.flaticon.com/512/9287/9287610.png'
+                          }
+                          username={getDisplayName(giveaway.creator)}
+                        />
+                        <Link
+                          href={`/users/${getDisplayName(giveaway.creator)}`}
+                          className="truncate text-foreground hover:text-accent hover:underline"
+                        >
+                          {getDisplayName(giveaway.creator)}
+                        </Link>
+                      </div>
+                      <div className="text-muted-foreground">
+                        <FormattedDate timestamp={giveaway.end_timestamp} />
+                      </div>
                     </div>
-                    <div className="flex items-center justify-start gap-1 text-foreground"><FormattedDate timestamp={giveaway.end_timestamp} /></div>
-                  </div>
-                  <div className="mt-2 flex flex-wrap gap-2">
-                    {giveaway.deleted && (
-                      <span className="text-[10px] font-medium px-2 py-0.5 bg-gray-500 text-white rounded-full">🗑️ Deleted</span>
-                    )}
-                    {giveaway.region_restricted && (
-                      <span className="text-[10px] font-medium px-2 py-0.5 bg-info-light text-info-foreground rounded-full">🌍 Restricted</span>
-                    )}
-                    {giveaway.required_play && (
-                      <span className="text-[10px] font-medium px-2 py-0.5 bg-warning-light text-warning-foreground rounded-full">🎮 Play Required</span>
-                    )}
-                    {giveaway.event_type && (
-                      <span className="text-[10px] font-medium px-2 py-0.5 bg-accent-purple text-white rounded-full">🔥 Group Event</span>
-                    )}
-                    {giveaway.is_shared && (
-                      <span className="text-[10px] font-medium px-2 py-0.5 bg-info-light text-info-foreground rounded-full">👥 Shared</span>
-                    )}
-                    {giveaway.whitelist && (
-                      <span className="text-[10px] font-medium px-2 py-0.5 bg-info-light text-info-foreground rounded-full">🩵 Whitelist</span>
-                    )}
+                    <div className="mt-2 flex flex-wrap gap-1.5">
+                      {giveaway.deleted && (
+                        <Badge variant="error" size="sm">
+                          <Trash2 className="h-3 w-3" /> Deleted
+                        </Badge>
+                      )}
+                      {giveaway.region_restricted && (
+                        <Badge variant="info" size="sm">
+                          <Globe2 className="h-3 w-3" /> Restricted
+                        </Badge>
+                      )}
+                      {giveaway.required_play && (
+                        <Badge variant="warning" size="sm">
+                          <Gamepad2 className="h-3 w-3" /> Play required
+                        </Badge>
+                      )}
+                      {giveaway.event_type && (
+                        <Badge variant="purple" size="sm">
+                          <Sparkles className="h-3 w-3" /> Event
+                        </Badge>
+                      )}
+                      {giveaway.is_shared && (
+                        <Badge variant="info" size="sm">
+                          <UsersIcon className="h-3 w-3" /> Shared
+                        </Badge>
+                      )}
+                      {giveaway.whitelist && (
+                        <Badge variant="info" size="sm">
+                          <UserCheck className="h-3 w-3" /> Whitelist
+                        </Badge>
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
+              </Card>
             )
           }
 
           return (
-            <div className={`w-full bg-card-background rounded-lg shadow-md hover:shadow-lg transition-shadow overflow-hidden border-2 ${borderColor} ${giveaway.deleted ? 'opacity-60' : ''}`}>
-              <div className="w-full h-48 bg-muted overflow-hidden relative hover:shadow">
-                <a href={`https://store.steampowered.com/${giveaway.app_id ? `app/${giveaway.app_id}` : `sub/${giveaway.package_id}`}`} target="_blank" rel="noopener noreferrer">
-                  <Image
-                    src={imageUrl}
-                    alt={giveaway.name || 'Game giveaway image'}
-                    fill
-                    className="object-cover cursor-pointer"
-                    onError={() => {
-                      setFailedImages(prev => new Set([...prev, giveaway.id]))
-                    }}
-                  />
-                </a>
-              </div>
+            <Card
+              className={cn(
+                'group relative w-full overflow-hidden p-0 transition-all hover:border-card-border-strong hover:shadow-md',
+                'before:absolute before:left-0 before:top-0 before:h-full before:w-1 before:z-20 before:rounded-r-full',
+                accent,
+                giveaway.deleted && 'opacity-60',
+              )}
+            >
+              <a
+                href={`https://store.steampowered.com/${giveaway.app_id ? `app/${giveaway.app_id}` : `sub/${giveaway.package_id}`}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="relative block aspect-[460/215] bg-card-background-hover"
+              >
+                <Image
+                  src={imageUrl}
+                  alt={giveaway.name || 'Game'}
+                  fill
+                  unoptimized
+                  className="object-cover"
+                  onError={() =>
+                    setFailedImages((prev) => new Set([...prev, giveaway.id]))
+                  }
+                />
+                <div className="absolute top-2 right-2">
+                  {getStatusBadge(giveaway)}
+                </div>
+              </a>
 
-              <div className="p-6">
-                <div className="flex items-start justify-between mb-3">
+              <div className="space-y-3 p-5">
+                <div className="flex items-start justify-between gap-2">
                   <a
                     href={`https://www.steamgifts.com/giveaway/${giveaway.link}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-accent hover:underline text-lg font-semibold line-clamp-2 flex-1"
-                  >{giveaway.name} ({giveaway.points}P) <CvStatusIndicator giveaway={giveaway} /></a>
-                  <div className="ml-2 flex-shrink-0">
-                    {getStatusBadge(giveaway)}
-                  </div>
+                    className="line-clamp-2 text-base font-semibold text-foreground hover:text-accent hover:underline"
+                  >
+                    {giveaway.name}{' '}
+                    <span className="font-mono text-sm text-muted-foreground">
+                      ({giveaway.points}P)
+                    </span>
+                    <span className="ml-1.5 inline-flex">
+                      <CvStatusIndicator giveaway={giveaway} />
+                    </span>
+                  </a>
                 </div>
 
-                <div className="space-y-2 mb-4">
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-muted-foreground">Creator:</span>
-                    <div className="flex items-center">
-                      <UserAvatar
-                        src={userAvatars.get(giveaway.creator) || 'https://cdn-icons-png.flaticon.com/512/9287/9287610.png'}
-                        username={getDisplayName(giveaway.creator)}
-                      />
-                      <Link href={`/users/${getDisplayName(giveaway.creator)}`} className="text-accent hover:underline mr-2 inline-flex items-center">
-                        {getDisplayName(giveaway.creator)}
-                      </Link>
-                    </div>
-                  </div>
+                <dl className="grid grid-cols-2 gap-x-4 gap-y-1.5 text-sm">
+                  <dt className="text-muted-foreground">Creator</dt>
+                  <dd className="flex items-center gap-1.5 justify-end">
+                    <UserAvatar
+                      src={
+                        userAvatars.get(giveaway.creator) ||
+                        'https://cdn-icons-png.flaticon.com/512/9287/9287610.png'
+                      }
+                      username={getDisplayName(giveaway.creator)}
+                    />
+                    <Link
+                      href={`/users/${getDisplayName(giveaway.creator)}`}
+                      className="truncate text-foreground hover:text-accent hover:underline"
+                    >
+                      {getDisplayName(giveaway.creator)}
+                    </Link>
+                  </dd>
 
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-muted-foreground">Points:</span>
-                    <span className="font-medium">{giveaway.points}</span>
-                  </div>
+                  <dt className="text-muted-foreground">Copies</dt>
+                  <dd className="text-right tabular-nums-strict">
+                    {giveaway.copies}
+                  </dd>
 
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-muted-foreground">Copies:</span>
-                    <span className="font-medium">{giveaway.copies}</span>
-                  </div>
+                  <dt className="text-muted-foreground">Entries</dt>
+                  <dd className="text-right tabular-nums-strict">
+                    {giveaway.entry_count}
+                  </dd>
 
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-muted-foreground">Entries:</span>
-                    <span className="font-medium">{giveaway.entry_count}</span>
-                  </div>
+                  <dt className="text-muted-foreground">
+                    {isFuture ? 'Starts' : 'Started'}
+                  </dt>
+                  <dd className="text-right text-muted-foreground">
+                    <FormattedDate timestamp={giveaway.start_timestamp} />
+                  </dd>
 
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-muted-foreground">Start date:</span>
-                    <FormattedDate timestamp={giveaway.start_timestamp} className="font-medium" />
-                  </div>
+                  <dt className="text-muted-foreground">
+                    {isEnded ? 'Ended' : 'Ends'}
+                  </dt>
+                  <dd className="text-right text-foreground font-medium">
+                    <FormattedDate timestamp={giveaway.end_timestamp} />
+                  </dd>
 
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-muted-foreground">End date:</span>
-                    <FormattedDate timestamp={giveaway.end_timestamp} className="font-medium" />
-                  </div>
+                  <dt className="text-muted-foreground">Duration</dt>
+                  <dd className="text-right text-muted-foreground">
+                    <TimeDifference
+                      startTimestamp={giveaway.start_timestamp}
+                      endTimestamp={giveaway.end_timestamp}
+                    />
+                  </dd>
 
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-muted-foreground">GA duration:</span>
-                    <TimeDifference startTimestamp={giveaway.start_timestamp} endTimestamp={giveaway.end_timestamp} className="font-medium" />
-                  </div>
-
-                  {gameData && 'hltb_main_story_hours' in gameData && (
-                    <div className="flex items-center justify-between text-sm">
-                      <span className="text-muted-foreground">How long to beat:</span>
-                      <span className="font-medium">{gameData?.hltb_main_story_hours === null ? 'N/A' : `${gameData?.hltb_main_story_hours} hours`}</span>
-                    </div>
+                  {game && 'hltb_main_story_hours' in game && (
+                    <>
+                      <dt className="text-muted-foreground">How long to beat</dt>
+                      <dd className="text-right text-muted-foreground">
+                        {game?.hltb_main_story_hours == null
+                          ? 'N/A'
+                          : `${game?.hltb_main_story_hours}h`}
+                      </dd>
+                    </>
                   )}
+                </dl>
 
-                  <div className="flex items-center gap-2 mt-2">
+                {(giveaway.deleted ||
+                  giveaway.region_restricted ||
+                  giveaway.required_play ||
+                  giveaway.event_type ||
+                  giveaway.is_shared ||
+                  giveaway.whitelist) && (
+                  <div className="flex flex-wrap gap-1.5 pt-2">
                     {giveaway.deleted && (
-                      <span className="text-xs font-medium px-2 py-1 bg-error-foreground text-white rounded-full">
-                        🗑️ Deleted
-                      </span>
+                      <Badge variant="error" size="sm">
+                        <Trash2 className="h-3 w-3" /> Deleted
+                      </Badge>
                     )}
                     {giveaway.region_restricted && (
-                      <span className="text-xs font-medium px-2 py-1 bg-info-light text-info-foreground rounded-full">
-                        🌍 Restricted
-                      </span>
+                      <Badge variant="info" size="sm">
+                        <Globe2 className="h-3 w-3" /> Restricted
+                      </Badge>
                     )}
                     {giveaway.required_play && (
-                      <span className="text-xs font-medium px-2 py-1 bg-warning-light text-warning-foreground rounded-full">
-                        🎮 Play Required
-                      </span>
+                      <Badge variant="warning" size="sm">
+                        <Gamepad2 className="h-3 w-3" /> Play required
+                      </Badge>
                     )}
                     {giveaway.event_type && (
-                      <span className="text-xs font-medium px-2 py-1 bg-accent-purple text-white rounded-full">
-                        🔥 Group Event
-                      </span>
+                      <Badge variant="purple" size="sm">
+                        <Sparkles className="h-3 w-3" /> Event
+                      </Badge>
                     )}
                     {giveaway.is_shared && (
-                      <span className="text-xs font-medium px-2 py-1 bg-info-light text-info-foreground rounded-full">
-                        👥 Shared
-                      </span>
+                      <Badge variant="info" size="sm">
+                        <UsersIcon className="h-3 w-3" /> Shared
+                      </Badge>
                     )}
                     {giveaway.whitelist && (
-                      <span className="text-xs font-medium px-2 py-1 bg-info-light text-info-foreground rounded-full">
-                        🩵 Whitelist
-                      </span>
+                      <Badge variant="info" size="sm">
+                        <UserCheck className="h-3 w-3" /> Whitelist
+                      </Badge>
                     )}
                   </div>
-                </div>
+                )}
 
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between pt-1">
                   <span
-                    className={`text-xs font-bold px-2 py-1 rounded-full ${getCVBadgeColor(giveaway.cv_status || 'FULL_CV', !!giveaway.decreased_ratio_info)}`}
+                    className={cn(
+                      'text-xs font-bold px-2 py-1 rounded-full',
+                      getCVBadgeColor(
+                        giveaway.cv_status || 'FULL_CV',
+                        !!giveaway.decreased_ratio_info,
+                      ),
+                    )}
                   >
-                    {getCVLabel(giveaway.cv_status || 'FULL_CV', !!giveaway.decreased_ratio_info)}
+                    {getCVLabel(
+                      giveaway.cv_status || 'FULL_CV',
+                      !!giveaway.decreased_ratio_info,
+                    )}
                   </span>
                 </div>
+
                 {giveaway.winners && giveaway.winners.length > 0 && (
-                  <div className="mt-2 border-t border-card-border">
-                    <div className="text-sm mt-2">
-                      <span className="text-muted-foreground">Winners:</span>
-                      <div className="mt-1">
-                        {giveaway.winners.map((winner, index) => {
-                          const winnerDisplayName = winner.name ? getDisplayName(winner.name) : null
+                  <div className="border-t border-card-border pt-3">
+                    <p className="text-xs uppercase tracking-wide text-muted-foreground mb-2">
+                      Winners
+                    </p>
+                    <div className="flex flex-wrap gap-1.5">
+                      {giveaway.winners.map((winner, index) => {
+                        const winnerDisplayName = winner.name
+                          ? getDisplayName(winner.name)
+                          : null
+                        if (!winner.name) {
                           return (
-                          !winner.name ? <p key={index}>Awaiting feedback</p> : userAvatars.get(winner.name) ? (
-                            <Link
-                              key={index}
-                              href={`/users/${winnerDisplayName}`}
-                              className="text-accent hover:underline mr-2 inline-flex items-center"
-                            >
-                              <UserAvatar
-                                src={userAvatars.get(winner.name) || 'https://cdn-icons-png.flaticon.com/512/9287/9287610.png'}
-                                username={winnerDisplayName!}
-                              />
-                              {winnerDisplayName}
-                            </Link>
-                          ) : (
-                            <a
-                              key={index}
-                              href={`http://steamgifts.com/user/${winnerDisplayName}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-muted-foreground hover:text-foreground mr-2 inline-flex items-center"
-                            >
-                              <UserAvatar
-                                src={'https://cdn-icons-png.flaticon.com/512/9287/9287610.png'}
-                                username={winnerDisplayName!}
-                              />
-                              {winnerDisplayName} (ex member)
-                            </a>
+                            <Badge key={index} variant="warning" size="sm">
+                              Awaiting feedback
+                            </Badge>
                           )
-                        )})}
-                      </div>
+                        }
+                        return userAvatars.get(winner.name) ? (
+                          <Link
+                            key={index}
+                            href={`/users/${winnerDisplayName}`}
+                            className="inline-flex items-center gap-1.5 rounded-full border border-card-border bg-card-background-hover px-2 py-0.5 text-xs hover:border-card-border-strong"
+                          >
+                            <UserAvatar
+                              src={
+                                userAvatars.get(winner.name) ||
+                                'https://cdn-icons-png.flaticon.com/512/9287/9287610.png'
+                              }
+                              username={winnerDisplayName!}
+                            />
+                            <span>{winnerDisplayName}</span>
+                          </Link>
+                        ) : (
+                          <a
+                            key={index}
+                            href={`http://steamgifts.com/user/${winnerDisplayName}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1.5 rounded-full border border-card-border bg-card-background-hover px-2 py-0.5 text-xs text-muted-foreground hover:text-foreground hover:border-card-border-strong"
+                          >
+                            <UserAvatar
+                              src={
+                                'https://cdn-icons-png.flaticon.com/512/9287/9287610.png'
+                              }
+                              username={winnerDisplayName!}
+                            />
+                            <span>{winnerDisplayName}</span>
+                            <span className="text-subtle">(ex)</span>
+                          </a>
+                        )
+                      })}
                     </div>
                   </div>
                 )}
               </div>
-            </div>
+            </Card>
           )
         }}
       />
-      {/* Export Modal */}
+
+      {filteredAndSortedGiveaways.length === 0 && (
+        <Card className="flex flex-col items-center gap-3 p-12 text-center">
+          <Filter className="h-8 w-8 text-subtle" />
+          <p className="text-sm text-muted-foreground">
+            No giveaways match the current filters.
+          </p>
+        </Card>
+      )}
+
       {isExportModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
-          <div className="absolute inset-0 bg-black/50" onClick={() => setIsExportModalOpen(false)} />
-          <div className="relative bg-card-background border border-card-border rounded-lg shadow-xl w-full max-w-lg mx-4 p-6">
-            <h2 className="text-lg font-semibold mb-4">What would you like to export?</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
+          <div
+            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            onClick={() => setIsExportModalOpen(false)}
+          />
+          <Card className="relative mx-4 w-full max-w-lg p-6 shadow-2xl">
+            <h2 className="text-lg font-semibold">Export to CSV</h2>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Pick the columns to include in the export.
+            </p>
+            <div className="mt-5 grid grid-cols-1 gap-2 sm:grid-cols-2">
               {EXPORT_FIELDS.map((f) => (
-                <label key={f.key} className="flex items-center gap-2 text-sm">
+                <label
+                  key={f.key}
+                  className="flex items-center gap-2 rounded-md border border-card-border bg-background-elevated px-3 py-2 text-sm cursor-pointer hover:bg-card-background-hover"
+                >
                   <input
                     type="checkbox"
                     checked={selectedExportFields.includes(f.key)}
                     onChange={(e) => {
-                      setSelectedExportFields(prev => {
+                      setSelectedExportFields((prev) => {
                         if (e.target.checked) {
-                          return Array.from(new Set([...prev, f.key])) as ExportFieldKey[]
+                          return Array.from(
+                            new Set([...prev, f.key]),
+                          ) as ExportFieldKey[]
                         }
-                          return prev.filter(k => k !== f.key)
+                        return prev.filter((k) => k !== f.key)
                       })
                     }}
+                    className="rounded border-card-border accent-primary"
                   />
                   <span>{f.label}</span>
                 </label>
               ))}
             </div>
-            <div className="flex justify-end gap-2">
-              <button
-                className="px-3 py-2 border border-card-border rounded-md hover:bg-accent/10"
-                onClick={() => {
-                  setSelectedExportFields(DEFAULT_EXPORT_FIELDS)
-                }}
+            <div className="mt-6 flex flex-wrap justify-end gap-2">
+              <Button
+                variant="ghost"
+                onClick={() => setSelectedExportFields(DEFAULT_EXPORT_FIELDS)}
               >
                 Reset to defaults
-              </button>
-              <button
-                className="px-3 py-2 border border-card-border rounded-md hover:bg-accent/10"
+              </Button>
+              <Button
+                variant="outline"
                 onClick={() => setIsExportModalOpen(false)}
               >
                 Cancel
-              </button>
-              <button
-                className="px-3 py-2 bg-accent text-accent-foreground rounded-md"
+              </Button>
+              <Button
+                variant="primary"
                 onClick={() => {
                   handleExportConfirm()
                   setIsExportModalOpen(false)
                 }}
               >
+                <Download className="h-4 w-4" />
                 Export CSV
-              </button>
+              </Button>
             </div>
-          </div>
+          </Card>
         </div>
       )}
-      {
-        filteredAndSortedGiveaways.length === 0 && (
-          <div className="text-center py-12">
-            <p className="text-gray-500 text-lg">No giveaways found matching your filters.</p>
-          </div>
-        )
-      }
-    </div >
+    </div>
   )
 }
