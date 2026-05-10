@@ -101,11 +101,8 @@ function calculateLuckRankings(
   allGiveaways: Giveaway[],
   userEntries: UserEntry
 ): UserLuckData[] {
-  const now = Date.now()
+  const nowSec = Date.now() / 1000
   const giveawayMap = new Map(allGiveaways.map(ga => [ga.link, ga]))
-  const activeGiveawayLinks = new Set(
-    allGiveaways.filter(ga => ga.end_timestamp * 1000 > now && ga.entry_count > 0).map(ga => ga.link)
-  )
 
   const result: UserLuckData[] = []
 
@@ -113,49 +110,88 @@ function calculateLuckRankings(
     const entries = userEntries[user.steam_id] || []
     if (entries.length === 0) continue
 
+    // ENDED entries — used for both expected and actual wins so the
+    // numerator and denominator share the same sample space.
     let expectedWins = 0
-    let validEntries = 0
+    let endedEntriesCount = 0
+    let actualWins = 0
+    const countedWonLinks = new Set<string>()
+
+    // ACTIVE entries — only feed the "chance to win at least one" stat.
     let chanceToLose = 1
     let activeEntriesCount = 0
 
+    // A win is genuine regardless of whether the gift was eventually
+    // received/marked. We strip the previous `status === 'received'`
+    // filter so unsent / awaiting wins still count as luck.
+    const wonLinks = new Set(
+      (user.giveaways_won || []).map(w => w.link),
+    )
+
     for (const entry of entries) {
       const ga = giveawayMap.get(entry.link)
-      if (!ga || !ga.entry_count || ga.entry_count === 0) continue
+      if (!ga || !ga.entry_count || ga.entry_count <= 0) continue
       const probability = Math.min(ga.copies / ga.entry_count, 1)
-      expectedWins += probability
-      validEntries++
+      const isEnded = ga.end_timestamp <= nowSec
 
-      if (activeGiveawayLinks.has(entry.link)) {
-        chanceToLose *= (1 - probability)
+      if (isEnded) {
+        expectedWins += probability
+        endedEntriesCount++
+        if (wonLinks.has(entry.link)) {
+          actualWins++
+          countedWonLinks.add(entry.link)
+        }
+      } else {
+        chanceToLose *= 1 - probability
         activeEntriesCount++
       }
     }
 
-    if (validEntries === 0) continue
+    // Wins recorded for ended GAs we know about but where the user's
+    // entry list missed the entry (data gap in the scraper). Without
+    // this catch, a known win is dropped purely because we can't
+    // attribute the entry, biasing luckScore down.
+    if (user.giveaways_won) {
+      for (const w of user.giveaways_won) {
+        if (countedWonLinks.has(w.link)) continue
+        const ga = giveawayMap.get(w.link)
+        if (!ga) continue
+        if (ga.end_timestamp > nowSec) continue
+        actualWins++
+      }
+    }
 
-    const wonLinks = new Set(
-      (user.giveaways_won || [])
-        .filter(w => w.status === 'received')
-        .map(w => w.link)
-    )
-
-    const actualWins = entries.filter(e => wonLinks.has(e.link) && giveawayMap.has(e.link)).length
+    if (endedEntriesCount === 0 && activeEntriesCount === 0) continue
 
     const luckScore = expectedWins > 0 ? actualWins / expectedWins : 0
-    const avgWinProbability = (expectedWins / validEntries) * 100
-    const chanceToWin = activeEntriesCount > 0 ? (1 - chanceToLose) * 100 : 0
+    const avgWinProbability =
+      endedEntriesCount > 0 ? (expectedWins / endedEntriesCount) * 100 : 0
+    const chanceToWin =
+      activeEntriesCount > 0 ? (1 - chanceToLose) * 100 : 0
+
+    // Last GA won timestamp — prefer the per-user stat (covers wins
+    // that may not be in giveawayMap), fall back to giveaways_won.
+    let lastWonAt: number | null = user.stats.last_giveaway_won_at ?? null
+    if (lastWonAt == null && user.giveaways_won?.length) {
+      lastWonAt = user.giveaways_won.reduce(
+        (max, w) => Math.max(max, w.end_timestamp),
+        0,
+      )
+      if (!lastWonAt) lastWonAt = null
+    }
 
     result.push({
       steam_id: user.steam_id,
       username: user.username,
       avatar_url: user.avatar_url,
-      entries: validEntries,
+      entries: endedEntriesCount,
       wins: actualWins,
       expectedWins,
       luckScore,
       avgWinProbability,
       activeEntriesCount,
       chanceToWin,
+      lastWonAt,
     })
   }
 

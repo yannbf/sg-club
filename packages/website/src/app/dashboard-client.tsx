@@ -1,9 +1,11 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import Link from 'next/link'
 import {
   Award,
+  ChevronLeft,
+  ChevronRight,
   Coins,
   Gamepad2,
   Gift,
@@ -21,6 +23,7 @@ import GameImage from '@/components/GameImage'
 import { StatCard } from '@/components/StatCard'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
+import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import {
   Tabs,
@@ -42,6 +45,7 @@ export interface UserLuckData {
   steam_id: string
   username: string
   avatar_url: string
+  /** Number of entries in giveaways that have ended */
   entries: number
   wins: number
   expectedWins: number
@@ -49,6 +53,8 @@ export interface UserLuckData {
   avgWinProbability: number
   activeEntriesCount: number
   chanceToWin: number
+  /** Unix seconds; null if the user has never won. */
+  lastWonAt: number | null
 }
 
 interface UserRankingProps {
@@ -235,6 +241,20 @@ type LuckSortKey =
   | 'entries'
   | 'avgWinProbability'
   | 'chanceToWin'
+  | 'lastWonAt'
+
+const PAGE_SIZE = 15
+
+function formatRelative(ts: number | null): string {
+  if (!ts) return 'Never'
+  const days = Math.floor((Date.now() / 1000 - ts) / 86400)
+  if (days < 0) return 'Just now'
+  if (days === 0) return 'Today'
+  if (days === 1) return 'Yesterday'
+  if (days < 30) return `${days}d ago`
+  if (days < 365) return `${Math.floor(days / 30)}mo ago`
+  return `${Math.floor(days / 365)}y ago`
+}
 
 function getLuckLabel(score: number): {
   label: string
@@ -310,6 +330,7 @@ function LuckRankingSection({ rankings }: { rankings: UserLuckData[] }) {
   const [minEntries, setMinEntries] = useState('10')
   const [sortBy, setSortBy] = useState<LuckSortKey>('luckScore')
   const [sortDir, setSortDir] = useState<'asc' | 'desc'>('desc')
+  const [page, setPage] = useState(1)
 
   const handleSort = (key: LuckSortKey) => {
     if (sortBy === key) {
@@ -318,6 +339,7 @@ function LuckRankingSection({ rankings }: { rankings: UserLuckData[] }) {
       setSortBy(key)
       setSortDir('desc')
     }
+    setPage(1)
   }
 
   const filtered = useMemo(() => {
@@ -329,10 +351,28 @@ function LuckRankingSection({ rankings }: { rankings: UserLuckData[] }) {
           r.username.toLowerCase().includes(search.toLowerCase()),
       )
       .sort((a, b) => {
-        const diff = a[sortBy] - b[sortBy]
+        const aVal =
+          sortBy === 'lastWonAt'
+            ? (a.lastWonAt ?? 0)
+            : (a[sortBy] as number)
+        const bVal =
+          sortBy === 'lastWonAt'
+            ? (b.lastWonAt ?? 0)
+            : (b[sortBy] as number)
+        const diff = aVal - bVal
         return sortDir === 'desc' ? -diff : diff
       })
   }, [rankings, minEntries, search, sortBy, sortDir])
+
+  // Reset page when filters change
+  useEffect(() => {
+    setPage(1)
+  }, [search, minEntries])
+
+  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE))
+  const safePage = Math.min(page, totalPages)
+  const pageStart = (safePage - 1) * PAGE_SIZE
+  const pageRows = filtered.slice(pageStart, pageStart + PAGE_SIZE)
 
   return (
     <Card>
@@ -344,9 +384,13 @@ function LuckRankingSection({ rankings }: { rankings: UserLuckData[] }) {
               Luck ranking
             </CardTitle>
             <p className="mt-1 text-xs text-muted-foreground max-w-prose">
-              Compares actual wins against statistically expected wins.{' '}
-              <span className="font-medium text-foreground">1.0x</span> is
-              expected, &gt;1.0 is luckier, &lt;1.0 is unluckier.
+              Wins vs. statistically expected wins, computed only over{' '}
+              <span className="font-medium text-foreground">
+                ended giveaways
+              </span>{' '}
+              the user entered.{' '}
+              <span className="font-medium text-foreground">1.0×</span> is
+              expected, &gt;1.0 luckier, &lt;1.0 unluckier.
             </p>
           </div>
           <Badge variant="outline">
@@ -354,7 +398,7 @@ function LuckRankingSection({ rankings }: { rankings: UserLuckData[] }) {
           </Badge>
         </div>
       </CardHeader>
-      <CardContent className="space-y-4">
+      <CardContent className="space-y-3">
         <div className="flex flex-col gap-2 sm:flex-row">
           <Input
             placeholder="Search username..."
@@ -363,7 +407,7 @@ function LuckRankingSection({ rankings }: { rankings: UserLuckData[] }) {
             className="sm:flex-1"
           />
           <div className="flex items-center gap-2">
-            <span className="text-sm text-muted-foreground whitespace-nowrap">
+            <span className="text-xs text-muted-foreground whitespace-nowrap">
               Min entries
             </span>
             <Select value={minEntries} onValueChange={setMinEntries}>
@@ -383,16 +427,16 @@ function LuckRankingSection({ rankings }: { rankings: UserLuckData[] }) {
         </div>
 
         <div className="overflow-x-auto rounded-lg border border-card-border">
-          <table className="w-full text-sm">
+          <table className="w-full text-xs">
             <thead>
               <tr className="border-b border-card-border bg-card-background-hover/50">
-                <th className="w-10 py-2 pl-3 pr-2 text-right text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                <th className="w-8 py-1.5 pl-3 pr-1 text-right text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">
                   #
                 </th>
-                <th className="py-2 pl-2 pr-4 text-left text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                <th className="py-1.5 pl-1 pr-3 text-left text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">
                   User
                 </th>
-                <th className="px-3 py-2 text-right">
+                <th className="px-2 py-1.5 text-right">
                   <SortableHeader
                     label="Entries"
                     sortKey="entries"
@@ -401,7 +445,7 @@ function LuckRankingSection({ rankings }: { rankings: UserLuckData[] }) {
                     onSort={handleSort}
                   />
                 </th>
-                <th className="px-3 py-2 text-right">
+                <th className="px-2 py-1.5 text-right">
                   <SortableHeader
                     label="Wins"
                     sortKey="wins"
@@ -410,7 +454,7 @@ function LuckRankingSection({ rankings }: { rankings: UserLuckData[] }) {
                     onSort={handleSort}
                   />
                 </th>
-                <th className="px-3 py-2 text-right">
+                <th className="px-2 py-1.5 text-right">
                   <SortableHeader
                     label="Expected"
                     sortKey="expectedWins"
@@ -419,25 +463,25 @@ function LuckRankingSection({ rankings }: { rankings: UserLuckData[] }) {
                     onSort={handleSort}
                   />
                 </th>
-                <th className="px-3 py-2 text-right">
+                <th className="px-2 py-1.5 text-right">
                   <SortableHeader
-                    label="Avg Win Prob"
-                    sortKey="avgWinProbability"
+                    label="Last won"
+                    sortKey="lastWonAt"
                     currentSort={sortBy}
                     direction={sortDir}
                     onSort={handleSort}
                   />
                 </th>
-                <th className="px-3 py-2 text-right">
+                <th className="px-2 py-1.5 text-right">
                   <SortableHeader
-                    label="Chance to Win"
+                    label="To win"
                     sortKey="chanceToWin"
                     currentSort={sortBy}
                     direction={sortDir}
                     onSort={handleSort}
                   />
                 </th>
-                <th className="pl-3 pr-4 py-2 text-right">
+                <th className="pl-2 pr-3 py-1.5 text-right">
                   <SortableHeader
                     label="Luck"
                     sortKey="luckScore"
@@ -449,17 +493,17 @@ function LuckRankingSection({ rankings }: { rankings: UserLuckData[] }) {
               </tr>
             </thead>
             <tbody>
-              {filtered.map((row, index) => {
+              {pageRows.map((row, index) => {
                 const luck = getLuckLabel(row.luckScore)
                 return (
                   <tr
                     key={row.steam_id}
                     className="border-b border-card-border/50 last:border-0 transition-colors hover:bg-card-background-hover"
                   >
-                    <td className="py-2 pl-3 pr-2 text-right text-muted-foreground tabular-nums-strict">
-                      {index + 1}
+                    <td className="py-1.5 pl-3 pr-1 text-right text-muted-foreground tabular-nums-strict">
+                      {pageStart + index + 1}
                     </td>
-                    <td className="py-2 pl-2 pr-4">
+                    <td className="py-1.5 pl-1 pr-3">
                       <div className="flex items-center gap-2 min-w-0">
                         <UserAvatar
                           src={row.avatar_url}
@@ -473,41 +517,36 @@ function LuckRankingSection({ rankings }: { rankings: UserLuckData[] }) {
                         </Link>
                       </div>
                     </td>
-                    <td className="px-3 py-2 text-right text-muted-foreground tabular-nums-strict">
+                    <td className="px-2 py-1.5 text-right text-muted-foreground tabular-nums-strict">
                       {row.entries}
                     </td>
-                    <td className="px-3 py-2 text-right font-medium tabular-nums-strict">
+                    <td className="px-2 py-1.5 text-right font-medium tabular-nums-strict">
                       {row.wins}
                     </td>
-                    <td className="px-3 py-2 text-right text-muted-foreground tabular-nums-strict">
+                    <td className="px-2 py-1.5 text-right text-muted-foreground tabular-nums-strict">
                       {row.expectedWins.toFixed(2)}
                     </td>
-                    <td className="px-3 py-2 text-right text-muted-foreground tabular-nums-strict">
-                      {row.avgWinProbability.toFixed(2)}%
+                    <td className="px-2 py-1.5 text-right text-muted-foreground whitespace-nowrap">
+                      {formatRelative(row.lastWonAt)}
                     </td>
-                    <td className="px-3 py-2 text-right">
+                    <td className="px-2 py-1.5 text-right">
                       {row.activeEntriesCount > 0 ? (
-                        <div className="flex flex-col items-end">
-                          <span className="font-medium text-accent tabular-nums-strict">
-                            {row.chanceToWin.toFixed(1)}%
-                          </span>
-                          <span className="text-xs text-muted-foreground">
-                            {row.activeEntriesCount} active
-                          </span>
-                        </div>
+                        <span className="font-medium text-accent tabular-nums-strict">
+                          {row.chanceToWin.toFixed(0)}%
+                        </span>
                       ) : (
-                        <span className="text-muted-foreground">—</span>
+                        <span className="text-subtle">—</span>
                       )}
                     </td>
-                    <td className="pl-3 pr-4 py-2 text-right">
-                      <div className="flex flex-col items-end gap-0.5">
+                    <td className="pl-2 pr-3 py-1.5 text-right">
+                      <div className="flex items-center justify-end gap-1.5">
                         <span
                           className={cn(
                             'font-bold tabular-nums-strict',
                             luck.className,
                           )}
                         >
-                          {row.luckScore.toFixed(2)}x
+                          {row.luckScore.toFixed(2)}×
                         </span>
                         <Badge variant={luck.variant} size="sm">
                           {luck.label}
@@ -530,6 +569,42 @@ function LuckRankingSection({ rankings }: { rankings: UserLuckData[] }) {
             </tbody>
           </table>
         </div>
+
+        {filtered.length > PAGE_SIZE && (
+          <div className="flex items-center justify-between gap-3">
+            <p className="text-xs text-muted-foreground tabular-nums-strict">
+              Showing{' '}
+              <span className="font-medium text-foreground">
+                {pageStart + 1}–
+                {Math.min(pageStart + PAGE_SIZE, filtered.length)}
+              </span>{' '}
+              of {filtered.length}
+            </p>
+            <div className="flex items-center gap-1">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setPage((p) => Math.max(1, p - 1))}
+                disabled={safePage <= 1}
+              >
+                <ChevronLeft className="h-4 w-4" />
+                Prev
+              </Button>
+              <span className="px-2 text-xs text-muted-foreground tabular-nums-strict">
+                Page {safePage} / {totalPages}
+              </span>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+                disabled={safePage >= totalPages}
+              >
+                Next
+                <ChevronRight className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
+        )}
       </CardContent>
     </Card>
   )
