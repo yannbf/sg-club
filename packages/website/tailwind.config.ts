@@ -1,6 +1,7 @@
 import type { Config } from 'tailwindcss'
 
 const config: Config = {
+  darkMode: ['class', '[data-theme="dark"]'],
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
@@ -8,25 +9,47 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['var(--font-sans)', 'Inter', 'system-ui', 'sans-serif'],
+        display: [
+          'var(--font-display)',
+          'var(--font-sans)',
+          'Inter',
+          'system-ui',
+          'sans-serif',
+        ],
+        mono: [
+          'var(--font-mono)',
+          'JetBrains Mono',
+          'ui-monospace',
+          'SFMono-Regular',
+          'monospace',
+        ],
+      },
       colors: {
         accent: 'var(--accent)',
+        'accent-foreground': 'var(--accent-foreground)',
         'accent-hover': 'var(--accent-hover)',
         'accent-green': 'var(--accent-green)',
-        'accent-green-foreground': 'var(--accent-green-foreground)',
         'accent-yellow': 'var(--accent-yellow)',
-        'accent-yellow-foreground': 'var(--accent-yellow-foreground)',
         'accent-orange': 'var(--accent-orange)',
-        'accent-orange-foreground': 'var(--accent-orange-foreground)',
         'accent-blue': 'var(--accent-blue)',
-        'accent-blue-foreground': 'var(--accent-blue-foreground)',
         'accent-purple': 'var(--accent-purple)',
-        'accent-purple-foreground': 'var(--accent-purple-foreground)',
+        'accent-red': 'var(--accent-red)',
+        'accent-rose': 'var(--accent-rose)',
+        primary: 'var(--primary)',
+        'primary-foreground': 'var(--primary-foreground)',
+        'primary-hi': 'var(--primary-hi)',
         background: 'var(--background)',
+        'background-elevated': 'var(--background-elevated)',
         foreground: 'var(--foreground)',
         'card-background': 'var(--card-background)',
+        'card-background-hover': 'var(--card-background-hover)',
         'card-border': 'var(--card-border)',
+        'card-border-strong': 'var(--card-border-strong)',
         muted: 'var(--muted)',
         'muted-foreground': 'var(--muted-foreground)',
+        subtle: 'var(--subtle)',
         success: 'var(--success)',
         'success-foreground': 'var(--success-foreground)',
         'success-light': 'var(--success-light)',
@@ -54,10 +77,15 @@ const config: Config = {
           '0%': { transform: 'scale(0.95)' },
           '100%': { transform: 'scale(1)' },
         },
+        shimmer: {
+          '0%': { backgroundPosition: '-200% 0' },
+          '100%': { backgroundPosition: '200% 0' },
+        },
       },
       animation: {
         'fade-in': 'fade-in 0.2s ease-in-out',
         'zoom-in': 'zoom-in 0.2s ease-in-out',
+        shimmer: 'shimmer 1.4s linear infinite',
       },
     },
   },

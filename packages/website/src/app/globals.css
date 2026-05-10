@@ -4,91 +4,199 @@
 @tailwind components;
 @tailwind utilities;
 
-
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
 }
 
 @layer base {
-  :root {
-    --background: #ffffff;
-    --foreground: #171717;
+  /* Light theme (default) */
+  :root,
+  [data-theme='light'] {
+    color-scheme: light;
+    --background: #f8f9fc;
+    --background-elevated: #ffffff;
+    --foreground: #0f172a;
+
     --card-background: #ffffff;
+    --card-background-hover: #f8fafc;
     --card-border: #e5e7eb;
+    --card-border-strong: #cbd5e1;
     --card-border-problem: #ef4444;
     --card-border-warning: #f59e0b;
     --card-border-info: #3b82f6;
+
     --muted: #6b7280;
-    --muted-foreground: #4b5563;
-    
-    /* Accent Colors */
-    --accent: #3b82f6;
+    --muted-foreground: #475569;
+    --subtle: #94a3b8;
+
+    --primary: #7c3aed;
+    --primary-foreground: #ffffff;
+    --primary-hi: #a78bfa;
+
+    --accent: #7c3aed;
     --accent-foreground: #ffffff;
+    --accent-hover: #6d28d9;
     --accent-blue: #3b82f6;
     --accent-purple: #8b5cf6;
-    --accent-green: #22c55e;
-    --accent-yellow: #eab308;
-    --accent-red: #ef4444;
-    --accent-orange: #f97316;
-    
-    /* Status Colors */
-    --success: #22c55e;
+    --accent-green: #16a34a;
+    --accent-yellow: #ca8a04;
+    --accent-red: #dc2626;
+    --accent-orange: #ea580c;
+    --accent-rose: #f43f5e;
+
+    --success: #16a34a;
     --success-foreground: #166534;
     --success-light: #dcfce7;
-    --warning: #f59e0b;
+    --warning: #d97706;
     --warning-foreground: #854d0e;
     --warning-light: #fef3c7;
-    --error: #ef4444;
+    --error: #dc2626;
     --error-foreground: #991b1b;
     --error-light: #fee2e2;
-    --info: #3b82f6;
+    --info: #2563eb;
     --info-foreground: #1e3a8a;
     --info-light: #dbeafe;
   }
 
+  /* Dark theme — gaming/OLED-leaning */
+  [data-theme='dark'] {
+    color-scheme: dark;
+    --background: #0b0b14;
+    --background-elevated: #14141f;
+    --foreground: #e8e8f0;
+
+    --card-background: #14141f;
+    --card-background-hover: #1c1c2b;
+    --card-border: #232336;
+    --card-border-strong: #2e2e45;
+    --card-border-problem: #ef4444;
+    --card-border-warning: #f59e0b;
+    --card-border-info: #38bdf8;
+
+    --muted: #9ca0b5;
+    --muted-foreground: #b8bccd;
+    --subtle: #6b7088;
+
+    --primary: #a78bfa;
+    --primary-foreground: #1a0f2e;
+    --primary-hi: #c4b5fd;
+
+    --accent: #a78bfa;
+    --accent-foreground: #14141f;
+    --accent-hover: #c4b5fd;
+    --accent-blue: #60a5fa;
+    --accent-purple: #a78bfa;
+    --accent-green: #34d399;
+    --accent-yellow: #fbbf24;
+    --accent-red: #f87171;
+    --accent-orange: #fb923c;
+    --accent-rose: #fb7185;
+
+    --success: #34d399;
+    --success-foreground: #6ee7b7;
+    --success-light: rgba(52, 211, 153, 0.16);
+    --warning: #fbbf24;
+    --warning-foreground: #fcd34d;
+    --warning-light: rgba(251, 191, 36, 0.16);
+    --error: #f87171;
+    --error-foreground: #fca5a5;
+    --error-light: rgba(248, 113, 113, 0.16);
+    --info: #60a5fa;
+    --info-foreground: #93c5fd;
+    --info-light: rgba(96, 165, 250, 0.16);
+  }
+
+  /* System preference fallback when [data-theme] not set */
   @media (prefers-color-scheme: dark) {
-    :root {
-      --background: #111827;
-      --foreground: #f3f4f6;
-      --card-background: #1f2937;
-      --card-border: #374151;
-      --card-border-problem: #ef4444;
-      --card-border-warning: #f59e0b;
-      --card-border-info: #3b82f6;
-      --muted: #9ca3af;
-      --muted-foreground: #d1d5db;
-      
-      /* Accent Colors - Adjusted for dark mode */
-      --accent: #60a5fa;
-      --accent-foreground: #1e3a8a;
+    :root:not([data-theme]) {
+      color-scheme: dark;
+      --background: #0b0b14;
+      --background-elevated: #14141f;
+      --foreground: #e8e8f0;
+      --card-background: #14141f;
+      --card-background-hover: #1c1c2b;
+      --card-border: #232336;
+      --card-border-strong: #2e2e45;
+      --muted: #9ca0b5;
+      --muted-foreground: #b8bccd;
+      --subtle: #6b7088;
+      --primary: #a78bfa;
+      --primary-foreground: #1a0f2e;
+      --primary-hi: #c4b5fd;
+      --accent: #a78bfa;
+      --accent-foreground: #14141f;
+      --accent-hover: #c4b5fd;
       --accent-blue: #60a5fa;
       --accent-purple: #a78bfa;
       --accent-green: #34d399;
       --accent-yellow: #fbbf24;
       --accent-red: #f87171;
       --accent-orange: #fb923c;
-      
-      /* Status Colors - Adjusted for dark mode */
+      --accent-rose: #fb7185;
       --success: #34d399;
-      --success-foreground: #34d399;
-      --success-light: rgba(52, 211, 153, 0.2);
+      --success-foreground: #6ee7b7;
+      --success-light: rgba(52, 211, 153, 0.16);
       --warning: #fbbf24;
-      --warning-foreground: #de9161;
-      --warning-light: rgba(251, 191, 36, 0.2);
+      --warning-foreground: #fcd34d;
+      --warning-light: rgba(251, 191, 36, 0.16);
       --error: #f87171;
-      --error-foreground: #b91c1c;
-      --error-light: rgba(248, 113, 113, 0.2);
+      --error-foreground: #fca5a5;
+      --error-light: rgba(248, 113, 113, 0.16);
       --info: #60a5fa;
-      --info-foreground: #60a5fa;
-      --info-light: rgba(96, 165, 250, 0.2);
+      --info-foreground: #93c5fd;
+      --info-light: rgba(96, 165, 250, 0.16);
     }
+  }
+
+  html {
+    background: var(--background);
   }
 
   body {
     @apply bg-background text-foreground;
-    font-family: Arial, Helvetica, sans-serif;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .tabular-nums-strict {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Subtle scrollbars in dark mode */
+  [data-theme='dark'] ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  [data-theme='dark'] ::-webkit-scrollbar-track {
+    background: var(--background);
+  }
+  [data-theme='dark'] ::-webkit-scrollbar-thumb {
+    background: var(--card-border);
+    border-radius: 8px;
+  }
+  [data-theme='dark'] ::-webkit-scrollbar-thumb:hover {
+    background: var(--card-border-strong);
+  }
+
+  *:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
+
+@layer utilities {
+  .glass {
+    background: color-mix(in oklab, var(--card-background) 80%, transparent);
+    backdrop-filter: saturate(140%) blur(8px);
+  }
+
+  .bg-grid-faint {
+    background-image:
+      linear-gradient(to right, color-mix(in oklab, var(--card-border) 50%, transparent) 1px, transparent 1px),
+      linear-gradient(to bottom, color-mix(in oklab, var(--card-border) 50%, transparent) 1px, transparent 1px);
+    background-size: 32px 32px;
   }
 }
