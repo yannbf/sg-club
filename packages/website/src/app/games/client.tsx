@@ -1,11 +1,35 @@
 'use client'
 
 import { useState, useMemo } from 'react'
+import {
+  ArrowDown,
+  ArrowUp,
+  ExternalLink,
+  Filter,
+  Gift,
+  Search,
+  TrendingDown,
+} from 'lucide-react'
 import { Giveaway, GameData } from '@/types'
 import Link from 'next/link'
-import Image from 'next/image'
 import UserAvatar from '@/components/UserAvatar'
+import GameImage from '@/components/GameImage'
 import { LastUpdated } from '@/components/LastUpdated'
+import { useDebounce } from '@/lib/hooks'
+import { Card } from '@/components/ui/Card'
+import { Badge } from '@/components/ui/Badge'
+import { Button } from '@/components/ui/Button'
+import { Input } from '@/components/ui/Input'
+import { Toolbar } from '@/components/ui/Toolbar'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/Select'
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/ToggleGroup'
+import { cn } from '@/lib/cn'
 
 interface Props {
   giveaways: Giveaway[]
@@ -15,218 +39,391 @@ interface Props {
   lastUpdated: number | null
 }
 
-const PLACEHOLDER_IMAGE = 'https://steamplayercount.com/theme/img/placeholder.svg'
+type GameSummary = {
+  game: GameData
+  key: string | number
+  giveawaysCount: number
+  endedGiveawaysCount: number
+  openGiveawaysCount: number
+  zeroEntriesGiveawaysCount: number
+  copiesCount: number
+  uniqueWinnerCount: number
+  winners: { name: string; winner_username?: string }[]
+}
 
-function getGameImageUrl(game: GameData): string {
-  const src = game.app_id
-    ? `https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/${game.app_id}/header.jpg`
-    : game.package_id
-      ? `https://shared.akamai.steamstatic.com/store_item_assets/steam/subs/${game.package_id}/header.jpg`
-      : PLACEHOLDER_IMAGE
+type SortKey = 'name' | 'giveaways' | 'copies' | 'winners'
+type SortDir = 'asc' | 'desc'
+type StateFilter = 'all' | 'has_open' | 'all_ended' | 'no_entries'
 
-  return src
-} 
-
-export default function GamesClient({ giveaways, gameData, userAvatars, userNames, lastUpdated }: Props) {
+export default function GamesClient({
+  giveaways,
+  gameData,
+  userAvatars,
+  userNames,
+  lastUpdated,
+}: Props) {
   const [searchTerm, setSearchTerm] = useState('')
-  const [sortBy, setSortBy] = useState<'name' | 'giveaways' | 'copies'>('giveaways')
-  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc')
+  const debouncedSearch = useDebounce(searchTerm, 200)
+  const [sortBy, setSortBy] = useState<SortKey>('giveaways')
+  const [sortDirection, setSortDirection] = useState<SortDir>('desc')
+  const [stateFilter, setStateFilter] = useState<StateFilter>('all')
 
-  const gamesWithGiveawayData = useMemo(() => {
-    const gameMap = new Map<string | number, {
-      game: GameData;
-      giveawaysCount: number;
-      endedGiveawaysCount: number;
-      openGiveawaysCount: number;
-      zeroEntriesGiveawaysCount: number;
-      copiesCount: number;
-      winners: { name: string; winner_username?: string }[]
-    }>()
+  const summaries = useMemo<GameSummary[]>(() => {
+    const gameMap = new Map<string | number, GameSummary>()
+    const now = Date.now() / 1000
 
-    giveaways.forEach(giveaway => {
-      const game_id = giveaway.app_id ?? giveaway.package_id
+    giveaways.forEach((giveaway) => {
+      const gameId = giveaway.app_id ?? giveaway.package_id
       let game: GameData | null | undefined = null
       let mapKey: string | number
 
-      if (game_id != null) {
-        game = gameData.find(g => g.app_id === game_id || g.package_id === game_id)
-        mapKey = game_id
+      if (gameId != null) {
+        game = gameData.find(
+          (g) => g.app_id === gameId || g.package_id === gameId,
+        )
+        mapKey = gameId
       } else {
-        // Giveaways without a Steam app/package ID (e.g. Humble Bundles)
-        // Group by name, use name as map key
         mapKey = `name:${giveaway.name}`
-        game = { name: giveaway.name, app_id: null, package_id: null } as GameData
+        game = {
+          name: giveaway.name,
+          app_id: null,
+          package_id: null,
+        } as GameData
       }
 
-      if (game) {
-        if (!gameMap.has(mapKey)) {
-          gameMap.set(mapKey, { game, giveawaysCount: 0, endedGiveawaysCount: 0, openGiveawaysCount: 0, zeroEntriesGiveawaysCount: 0, copiesCount: 0, winners: [] })
-        }
-        const gameEntry = gameMap.get(mapKey)!
-        gameEntry.giveawaysCount++
+      if (!game) return
+      if (!gameMap.has(mapKey)) {
+        gameMap.set(mapKey, {
+          game,
+          key: mapKey,
+          giveawaysCount: 0,
+          endedGiveawaysCount: 0,
+          openGiveawaysCount: 0,
+          zeroEntriesGiveawaysCount: 0,
+          copiesCount: 0,
+          uniqueWinnerCount: 0,
+          winners: [],
+        })
+      }
+      const entry = gameMap.get(mapKey)!
+      entry.giveawaysCount++
 
-        if (giveaway.hasWinners && giveaway.end_timestamp <= Date.now() / 1000) {
-          gameEntry.copiesCount += giveaway.copies
-        }
+      const isEnded = giveaway.end_timestamp <= now
 
-        if (!giveaway.hasWinners && giveaway.end_timestamp <= Date.now() / 1000) {
-          gameEntry.zeroEntriesGiveawaysCount++
-        }
-
-        if (giveaway.end_timestamp > Date.now() / 1000) {
-          gameEntry.openGiveawaysCount++
-        } else {
-          gameEntry.endedGiveawaysCount++
-        }
-
-        if (giveaway.winners) {
-          gameEntry.winners.push(...giveaway.winners)
-        }
+      if (giveaway.hasWinners && isEnded) {
+        entry.copiesCount += giveaway.copies
+      }
+      if (!giveaway.hasWinners && isEnded) {
+        entry.zeroEntriesGiveawaysCount++
+      }
+      if (!isEnded) {
+        entry.openGiveawaysCount++
+      } else {
+        entry.endedGiveawaysCount++
+      }
+      if (giveaway.winners) {
+        entry.winners.push(...giveaway.winners)
       }
     })
 
-    let processedGames = Array.from(gameMap.entries()).map(([key, value]) => ({ ...value, key }))
+    for (const entry of gameMap.values()) {
+      entry.uniqueWinnerCount = new Set(entry.winners.map((w) => w.name)).size
+    }
 
-    processedGames = processedGames.filter(game =>
-      game.game.name.toLowerCase().includes(searchTerm.toLowerCase())
+    return Array.from(gameMap.values())
+  }, [giveaways, gameData])
+
+  const filtered = useMemo(() => {
+    const term = debouncedSearch.toLowerCase()
+    let list = summaries.filter((g) =>
+      g.game.name.toLowerCase().includes(term),
     )
 
-    processedGames.sort((a, b) => {
-      let comparison = 0
+    if (stateFilter === 'has_open') {
+      list = list.filter((g) => g.openGiveawaysCount > 0)
+    } else if (stateFilter === 'all_ended') {
+      list = list.filter((g) => g.openGiveawaysCount === 0)
+    } else if (stateFilter === 'no_entries') {
+      list = list.filter(
+        (g) =>
+          g.endedGiveawaysCount > 0 &&
+          g.copiesCount === 0 &&
+          g.zeroEntriesGiveawaysCount > 0,
+      )
+    }
+
+    list.sort((a, b) => {
+      let cmp = 0
       switch (sortBy) {
         case 'name':
-          comparison = a.game.name.localeCompare(b.game.name)
+          cmp = a.game.name.localeCompare(b.game.name)
           break
         case 'giveaways':
-          comparison = a.giveawaysCount - b.giveawaysCount
+          cmp = a.giveawaysCount - b.giveawaysCount
           break
         case 'copies':
-          comparison = a.copiesCount - b.copiesCount
+          cmp = a.copiesCount - b.copiesCount
+          break
+        case 'winners':
+          cmp = a.uniqueWinnerCount - b.uniqueWinnerCount
           break
       }
-      return sortDirection === 'asc' ? comparison : -comparison
+      return sortDirection === 'asc' ? cmp : -cmp
     })
 
-    return processedGames
-  }, [giveaways, gameData, searchTerm, sortBy, sortDirection])
+    return list
+  }, [summaries, debouncedSearch, stateFilter, sortBy, sortDirection])
+
+  const resetFilters = () => {
+    setSearchTerm('')
+    setSortBy('giveaways')
+    setSortDirection('desc')
+    setStateFilter('all')
+  }
+
+  const activeFilters =
+    (debouncedSearch ? 1 : 0) + (stateFilter !== 'all' ? 1 : 0)
 
   return (
-    <div className="space-y-8">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold">Games given</h1>
+    <div className="space-y-6">
+      <div>
+        <h1 className="font-display text-3xl font-bold tracking-tight">
+          Games given
+        </h1>
         {lastUpdated && (
-          <LastUpdated lastUpdatedDate={lastUpdated} />
+          <div className="mt-1 text-sm text-muted-foreground">
+            <LastUpdated lastUpdatedDate={lastUpdated} />
+          </div>
         )}
       </div>
-      {/* Filters */}
-      <div className="bg-card-background rounded-lg border-card-border border p-6 mb-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <div>
-            <label className="block text-sm font-medium text-muted-foreground mb-2">
-              Search
-            </label>
-            <input
-              type="text"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Type a game name..."
-              className="w-full px-3 py-2 border border-card-border rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-accent"
-            />
-          </div>
 
-          <div>
-            <label className="block text-sm font-medium text-muted-foreground mb-2">
-              Sort by
-            </label>
-            <div className="flex gap-2">
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value as 'name' | 'giveaways' | 'copies')}
-                className="flex-1 px-3 py-2 border border-card-border rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-accent"
-              >
-                <option value="name">Name</option>
-                <option value="giveaways">Giveaways</option>
-                <option value="copies">Copies</option>
-              </select>
-              <button
-                onClick={() => setSortDirection(prev => prev === 'asc' ? 'desc' : 'asc')}
-                className="px-3 py-2 border border-card-border rounded-md bg-transparent hover:bg-accent/10 focus:outline-none focus:ring-2 focus:ring-accent"
-                title={`Sort ${sortDirection === 'asc' ? 'Ascending' : 'Descending'}`}
-              >
-                {sortDirection === 'asc' ? '↑' : '↓'}
-              </button>
-            </div>
-          </div>
+      <Toolbar>
+        <div className="relative flex-1 min-w-0">
+          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-subtle" />
+          <Input
+            type="search"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="Search a game..."
+            className="pl-9"
+          />
         </div>
-      </div>
+        <div className="flex flex-wrap items-center gap-2">
+          <Select
+            value={sortBy}
+            onValueChange={(v) => setSortBy(v as SortKey)}
+          >
+            <SelectTrigger className="w-[170px]">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="giveaways">Giveaways</SelectItem>
+              <SelectItem value="copies">Copies given</SelectItem>
+              <SelectItem value="winners">Unique winners</SelectItem>
+              <SelectItem value="name">Name</SelectItem>
+            </SelectContent>
+          </Select>
+          <Button
+            variant="outline"
+            size="icon"
+            aria-label="Toggle sort direction"
+            onClick={() => setSortDirection((d) => (d === 'asc' ? 'desc' : 'asc'))}
+          >
+            {sortDirection === 'asc' ? (
+              <ArrowUp className="h-4 w-4" />
+            ) : (
+              <ArrowDown className="h-4 w-4" />
+            )}
+          </Button>
+          <ToggleGroup
+            type="single"
+            value={stateFilter}
+            onValueChange={(v) => v && setStateFilter(v as StateFilter)}
+            size="sm"
+          >
+            <ToggleGroupItem value="all">All</ToggleGroupItem>
+            <ToggleGroupItem value="has_open">Open giveaway</ToggleGroupItem>
+            <ToggleGroupItem value="all_ended">All ended</ToggleGroupItem>
+            <ToggleGroupItem value="no_entries">No entries</ToggleGroupItem>
+          </ToggleGroup>
+          {activeFilters > 0 && (
+            <Button variant="ghost" size="sm" onClick={resetFilters}>
+              Reset
+            </Button>
+          )}
+        </div>
+      </Toolbar>
 
-      {/* Games List */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {gamesWithGiveawayData.map(({ key, game, giveawaysCount, copiesCount, endedGiveawaysCount, openGiveawaysCount, winners }) => {
-          const hasOpenGiveaways = openGiveawaysCount > 0
-          const hasEndedGiveaways = endedGiveawaysCount > 0
-          const endedWithNoEntries = hasEndedGiveaways && copiesCount === 0
+      <p className="text-sm text-muted-foreground">
+        Showing{' '}
+        <span className="font-medium text-foreground tabular-nums-strict">
+          {filtered.length.toLocaleString()}
+        </span>{' '}
+        of{' '}
+        <span className="font-medium text-foreground tabular-nums-strict">
+          {summaries.length.toLocaleString()}
+        </span>{' '}
+        games
+      </p>
 
-          const hasGiveaways = giveawaysCount > 0
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        {filtered.map((row) => {
+          const {
+            key,
+            game,
+            giveawaysCount,
+            copiesCount,
+            endedGiveawaysCount,
+            openGiveawaysCount,
+            uniqueWinnerCount,
+            winners,
+          } = row
+          const hasOpen = openGiveawaysCount > 0
+          const hasEnded = endedGiveawaysCount > 0
+          const endedWithNoEntries = hasEnded && copiesCount === 0
+          const accentClass = endedWithNoEntries
+            ? 'before:bg-[var(--error)]'
+            : hasOpen
+              ? 'before:bg-[var(--success)]'
+              : 'before:bg-[var(--card-border-strong)]'
+
           return (
-            <div key={key} className={`bg-card-background rounded-lg border-card-border border overflow-hidden ${endedWithNoEntries ? 'opacity-60 border-red-500' : ''}`}>
-              <Link href={`https://store.steampowered.com/${game.app_id ? 'app' : 'sub'}/${game.app_id || game.package_id}`} target="_blank">
-                <Image
-                  src={getGameImageUrl(game)}
-                  alt={game.name}
-                  width={600}
-                  height={900}
-                  className="w-full h-48 object-cover"
-                />
-              </Link>
-              <div className="p-4">
-                <a href={`https://www.steamgifts.com/group/WlYTQ/thegiveawaysclub/search?q=${encodeURIComponent(game.name)}`} target="_blank" className="text-accent hover:underline text-lg font-bold truncate">
+            <Card
+              key={key}
+              className={cn(
+                'relative flex flex-col overflow-hidden p-0 transition-all hover:border-card-border-strong hover:shadow-md',
+                'before:absolute before:left-0 before:top-0 before:h-full before:w-1 before:z-20',
+                accentClass,
+                endedWithNoEntries && 'opacity-80',
+              )}
+            >
+              <GameImage
+                appId={game.app_id ?? undefined}
+                packageId={game.package_id ?? undefined}
+                name={game.name}
+                fillWidth
+              />
+              <div className="flex flex-1 flex-col gap-2 p-4">
+                <a
+                  href={`https://www.steamgifts.com/group/WlYTQ/thegiveawaysclub/search?q=${encodeURIComponent(game.name)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="line-clamp-2 text-sm font-semibold text-foreground hover:text-accent hover:underline"
+                  title={game.name}
+                >
                   {game.name}
                 </a>
-                {endedWithNoEntries ? (
-                  <p className="text-sm text-muted-foreground">All giveaways ended with no entries.</p>
-                ) :
-                  <>
-                    {hasGiveaways && <p className="text-sm text-muted-foreground">{giveawaysCount} {giveawaysCount === 1 ? 'Giveaway' : 'Giveaways'} created {hasOpenGiveaways ? `(${openGiveawaysCount} open)` : ''}</p>}
-                    {winners.length > 0 && <div className="mt-2">
-                      <h3 className="text-sm font-semibold">{winners.length} {winners.length === 1 ? 'Winner' : 'Winners'}:</h3>
-                      <div className="flex flex-wrap gap-1 mt-1 max-h-28 overflow-y-auto">
-                        {winners.map((winner, index) => {
-                          const steamId = winner.name
-                          const displayName = winner.winner_username || userNames.get(steamId) || steamId
-                          const avatarUrl = userAvatars.get(steamId) || 'https://cdn-icons-png.flaticon.com/512/9287/9287610.png'
-                          const isActiveMember = userNames.has(steamId)
 
-                          return isActiveMember ? (
-                            <Link
-                              key={index}
-                              href={`/users/${displayName}`}
-                              className="text-xs bg-accent/20 text-accent-foreground px-2 py-1 rounded-full flex items-center"
-                            >
-                              <UserAvatar src={avatarUrl} username={displayName} />
+                <div className="flex flex-wrap items-center gap-1.5 text-xs">
+                  <Badge variant="primary" size="sm">
+                    <Gift className="h-3 w-3" />
+                    {giveawaysCount} {giveawaysCount === 1 ? 'GA' : 'GAs'}
+                  </Badge>
+                  {hasOpen && (
+                    <Badge variant="info" size="sm">
+                      {openGiveawaysCount} open
+                    </Badge>
+                  )}
+                  {endedWithNoEntries && (
+                    <Badge variant="error" size="sm">
+                      <TrendingDown className="h-3 w-3" />
+                      No entries
+                    </Badge>
+                  )}
+                  {copiesCount > 0 && (
+                    <Badge variant="outline" size="sm">
+                      {copiesCount} {copiesCount === 1 ? 'copy' : 'copies'} given
+                    </Badge>
+                  )}
+                </div>
+
+                {winners.length > 0 && (
+                  <div className="border-t border-card-border pt-2">
+                    <p className="text-[10px] uppercase tracking-wide text-muted-foreground mb-1.5">
+                      {uniqueWinnerCount}{' '}
+                      {uniqueWinnerCount === 1 ? 'winner' : 'winners'}
+                    </p>
+                    <div className="flex max-h-24 flex-wrap gap-1 overflow-y-auto">
+                      {winners.slice(0, 12).map((winner, index) => {
+                        const steamId = winner.name
+                        const displayName =
+                          winner.winner_username ||
+                          userNames.get(steamId) ||
+                          steamId
+                        const avatarUrl =
+                          userAvatars.get(steamId) ||
+                          'https://cdn-icons-png.flaticon.com/512/9287/9287610.png'
+                        const isActive = userNames.has(steamId)
+                        return isActive ? (
+                          <Link
+                            key={index}
+                            href={`/users/${displayName}`}
+                            className="inline-flex items-center gap-1 rounded-full border border-card-border bg-card-background-hover px-1.5 py-0.5 text-[10px] hover:border-card-border-strong"
+                          >
+                            <UserAvatar
+                              src={avatarUrl}
+                              username={displayName}
+                            />
+                            <span className="truncate max-w-[80px]">
                               {displayName}
-                            </Link>
-                          ) : (
-                            <a
-                              key={index}
-                              href={`https://steamgifts.com/user/${displayName}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-xs bg-accent/20 text-accent-foreground px-2 py-1 rounded-full flex items-center"
-                            >
-                              <UserAvatar src={avatarUrl} username={displayName} />
-                              {displayName} (ex member)
-                            </a>
-                          )
-                        })}
-                      </div>
-                    </div>}
-                  </>}
+                            </span>
+                          </Link>
+                        ) : (
+                          <a
+                            key={index}
+                            href={`https://steamgifts.com/user/${displayName}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1 rounded-full border border-card-border bg-card-background-hover px-1.5 py-0.5 text-[10px] text-muted-foreground hover:text-foreground"
+                          >
+                            <UserAvatar
+                              src={avatarUrl}
+                              username={displayName}
+                            />
+                            <span className="truncate max-w-[80px]">
+                              {displayName}
+                            </span>
+                            <span className="text-subtle">(ex)</span>
+                          </a>
+                        )
+                      })}
+                      {winners.length > 12 && (
+                        <span className="text-[10px] text-muted-foreground self-center">
+                          +{winners.length - 12} more
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                {(game.app_id || game.package_id) && (
+                  <a
+                    href={`https://store.steampowered.com/${game.app_id ? 'app' : 'sub'}/${game.app_id || game.package_id}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-auto inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground self-start"
+                  >
+                    Open on Steam
+                    <ExternalLink className="h-3 w-3" />
+                  </a>
+                )}
               </div>
-            </div>
+            </Card>
           )
         })}
       </div>
+
+      {filtered.length === 0 && (
+        <Card className="flex flex-col items-center gap-3 p-12 text-center">
+          <Filter className="h-8 w-8 text-subtle" />
+          <p className="text-sm text-muted-foreground">
+            No games match the current filters.
+          </p>
+          <Button variant="primary" size="sm" onClick={resetFilters}>
+            Clear filters
+          </Button>
+        </Card>
+      )}
     </div>
   )
 }
