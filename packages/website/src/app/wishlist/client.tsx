@@ -343,15 +343,15 @@ export default function WishlistClient({
                 </a>
 
                 <div className="absolute top-2 right-2 flex items-center gap-1">
-                  <span className="inline-flex items-center justify-center rounded-md bg-background/90 px-2 py-1 font-mono text-xs font-bold text-foreground shadow-sm backdrop-blur tabular-nums-strict">
+                  <span className="inline-flex items-center justify-center rounded-md bg-[#0b0b14] px-2 py-1 font-mono text-xs font-bold text-white ring-1 ring-white/20 shadow-md tabular-nums-strict">
                     #{rank}
                   </span>
                 </div>
                 {neverGiven && (
                   <div className="absolute top-2 left-2">
-                    <Badge variant="rose" size="sm">
+                    <span className="inline-flex items-center gap-1 rounded-full bg-[var(--accent-rose)] px-2 py-0.5 text-[10px] font-semibold text-white shadow-md ring-1 ring-white/20">
                       Never given
-                    </Badge>
+                    </span>
                   </div>
                 )}
                 <div
