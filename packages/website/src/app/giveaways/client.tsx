@@ -17,9 +17,9 @@ import {
   LayoutGrid,
   List,
   Search,
-  Sparkles,
+  Flame,
+  Heart,
   Trash2,
-  UserCheck,
   Users as UsersIcon,
   X,
 } from 'lucide-react'
@@ -622,13 +622,13 @@ export default function GiveawaysClient({
           <Gamepad2 className="h-3.5 w-3.5" /> Play required
         </ToggleGroupItem>
         <ToggleGroupItem value="event" aria-label="Group event">
-          <Sparkles className="h-3.5 w-3.5" /> Group event
+          <Flame className="h-3.5 w-3.5" /> Group event
         </ToggleGroupItem>
         <ToggleGroupItem value="shared" aria-label="Shared">
           <UsersIcon className="h-3.5 w-3.5" /> Shared
         </ToggleGroupItem>
         <ToggleGroupItem value="whitelist" aria-label="Whitelist">
-          <UserCheck className="h-3.5 w-3.5" /> Whitelist
+          <Heart className="h-3.5 w-3.5" /> Whitelist
         </ToggleGroupItem>
         <ToggleGroupItem value="deleted" aria-label="Deleted">
           <Trash2 className="h-3.5 w-3.5" /> Deleted
@@ -703,8 +703,8 @@ export default function GiveawaysClient({
           compactView ? 1 : 0,
         ].join('-')}
         items={filteredAndSortedGiveaways}
-        columnGutter={20}
-        columnWidth={compactView ? 480 : 360}
+        columnGutter={16}
+        columnWidth={compactView ? 480 : 280}
         overscanBy={3}
         itemKey={(g, i) => (g && (g as Giveaway).id) || `item-${i}`}
         render={({ data: giveaway }) => {
@@ -803,7 +803,7 @@ export default function GiveawaysClient({
                       )}
                       {giveaway.event_type && (
                         <Badge variant="purple" size="sm">
-                          <Sparkles className="h-3 w-3" /> Event
+                          <Flame className="h-3 w-3" /> Event
                         </Badge>
                       )}
                       {giveaway.is_shared && (
@@ -813,7 +813,7 @@ export default function GiveawaysClient({
                       )}
                       {giveaway.whitelist && (
                         <Badge variant="info" size="sm">
-                          <UserCheck className="h-3 w-3" /> Whitelist
+                          <Heart className="h-3 w-3" /> Whitelist
                         </Badge>
                       )}
                     </div>
@@ -853,27 +853,27 @@ export default function GiveawaysClient({
                 </div>
               </a>
 
-              <div className="space-y-3 p-5">
-                <div className="flex items-start justify-between gap-2">
-                  <a
-                    href={`https://www.steamgifts.com/giveaway/${giveaway.link}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="line-clamp-2 text-base font-semibold text-foreground hover:text-accent hover:underline"
-                  >
-                    {giveaway.name}{' '}
-                    <span className="font-mono text-sm text-muted-foreground">
-                      ({giveaway.points}P)
-                    </span>
-                    <span className="ml-1.5 inline-flex">
-                      <CvStatusIndicator giveaway={giveaway} />
-                    </span>
-                  </a>
-                </div>
+              <div className="space-y-2.5 p-3.5">
+                <a
+                  href={`https://www.steamgifts.com/giveaway/${giveaway.link}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="line-clamp-2 text-sm font-semibold leading-snug text-foreground hover:text-accent hover:underline"
+                >
+                  {giveaway.name}{' '}
+                  <span className="font-mono text-xs text-muted-foreground">
+                    ({giveaway.points}P)
+                  </span>
+                  <span className="ml-1 inline-flex align-middle">
+                    <CvStatusIndicator giveaway={giveaway} />
+                  </span>
+                </a>
 
-                <dl className="grid grid-cols-2 gap-x-4 gap-y-1.5 text-sm">
-                  <dt className="text-muted-foreground">Creator</dt>
-                  <dd className="flex items-center gap-1.5 justify-end">
+                <div className="flex items-center justify-between gap-2 text-xs">
+                  <Link
+                    href={`/users/${getDisplayName(giveaway.creator)}`}
+                    className="flex min-w-0 items-center gap-1.5 text-muted-foreground hover:text-foreground"
+                  >
                     <UserAvatar
                       src={
                         userAvatars.get(giveaway.creator) ||
@@ -881,57 +881,51 @@ export default function GiveawaysClient({
                       }
                       username={getDisplayName(giveaway.creator)}
                     />
-                    <Link
-                      href={`/users/${getDisplayName(giveaway.creator)}`}
-                      className="truncate text-foreground hover:text-accent hover:underline"
-                    >
+                    <span className="truncate">
                       {getDisplayName(giveaway.creator)}
-                    </Link>
-                  </dd>
-
-                  <dt className="text-muted-foreground">Copies</dt>
-                  <dd className="text-right tabular-nums-strict">
-                    {giveaway.copies}
-                  </dd>
-
-                  <dt className="text-muted-foreground">Entries</dt>
-                  <dd className="text-right tabular-nums-strict">
-                    {giveaway.entry_count}
-                  </dd>
-
-                  <dt className="text-muted-foreground">
-                    {isFuture ? 'Starts' : 'Started'}
-                  </dt>
-                  <dd className="text-right text-muted-foreground">
-                    <FormattedDate timestamp={giveaway.start_timestamp} />
-                  </dd>
-
-                  <dt className="text-muted-foreground">
-                    {isEnded ? 'Ended' : 'Ends'}
-                  </dt>
-                  <dd className="text-right text-foreground font-medium">
+                    </span>
+                  </Link>
+                  <span
+                    className={cn(
+                      'flex-shrink-0 text-right',
+                      isFuture
+                        ? 'text-accent-purple'
+                        : isEnded
+                          ? 'text-muted-foreground'
+                          : 'text-foreground font-medium',
+                    )}
+                  >
+                    {isFuture ? 'Starts ' : isEnded ? 'Ended ' : 'Ends '}
                     <FormattedDate timestamp={giveaway.end_timestamp} />
-                  </dd>
+                  </span>
+                </div>
 
-                  <dt className="text-muted-foreground">Duration</dt>
-                  <dd className="text-right text-muted-foreground">
-                    <TimeDifference
-                      startTimestamp={giveaway.start_timestamp}
-                      endTimestamp={giveaway.end_timestamp}
-                    />
-                  </dd>
-
-                  {game && 'hltb_main_story_hours' in game && (
+                <div className="flex items-center justify-between gap-2 text-xs text-muted-foreground tabular-nums-strict">
+                  <span>
+                    <span className="font-medium text-foreground">
+                      {giveaway.entry_count}
+                    </span>{' '}
+                    entries
+                  </span>
+                  <span>·</span>
+                  <span>
+                    <span className="font-medium text-foreground">
+                      {giveaway.copies}
+                    </span>{' '}
+                    {giveaway.copies === 1 ? 'copy' : 'copies'}
+                  </span>
+                  {game && 'hltb_main_story_hours' in game && game?.hltb_main_story_hours != null && (
                     <>
-                      <dt className="text-muted-foreground">How long to beat</dt>
-                      <dd className="text-right text-muted-foreground">
-                        {game?.hltb_main_story_hours == null
-                          ? 'N/A'
-                          : `${game?.hltb_main_story_hours}h`}
-                      </dd>
+                      <span>·</span>
+                      <span>
+                        <span className="font-medium text-foreground">
+                          {game.hltb_main_story_hours}h
+                        </span>{' '}
+                        HLTB
+                      </span>
                     </>
                   )}
-                </dl>
+                </div>
 
                 {(giveaway.deleted ||
                   giveaway.region_restricted ||
@@ -939,7 +933,7 @@ export default function GiveawaysClient({
                   giveaway.event_type ||
                   giveaway.is_shared ||
                   giveaway.whitelist) && (
-                  <div className="flex flex-wrap gap-1.5 pt-2">
+                  <div className="flex flex-wrap gap-1">
                     {giveaway.deleted && (
                       <Badge variant="error" size="sm">
                         <Trash2 className="h-3 w-3" /> Deleted
@@ -957,7 +951,7 @@ export default function GiveawaysClient({
                     )}
                     {giveaway.event_type && (
                       <Badge variant="purple" size="sm">
-                        <Sparkles className="h-3 w-3" /> Event
+                        <Flame className="h-3 w-3" /> Event
                       </Badge>
                     )}
                     {giveaway.is_shared && (
@@ -967,13 +961,13 @@ export default function GiveawaysClient({
                     )}
                     {giveaway.whitelist && (
                       <Badge variant="info" size="sm">
-                        <UserCheck className="h-3 w-3" /> Whitelist
+                        <Heart className="h-3 w-3" /> Whitelist
                       </Badge>
                     )}
                   </div>
                 )}
 
-                <div className="flex items-center justify-between pt-1">
+                <div className="hidden">
                   <span
                     className={cn(
                       'text-xs font-bold px-2 py-1 rounded-full',
@@ -991,11 +985,11 @@ export default function GiveawaysClient({
                 </div>
 
                 {giveaway.winners && giveaway.winners.length > 0 && (
-                  <div className="border-t border-card-border pt-3">
-                    <p className="text-xs uppercase tracking-wide text-muted-foreground mb-2">
+                  <div className="border-t border-card-border pt-2">
+                    <p className="text-[10px] uppercase tracking-wide text-muted-foreground mb-1.5">
                       Winners
                     </p>
-                    <div className="flex flex-wrap gap-1.5">
+                    <div className="flex flex-wrap gap-1">
                       {giveaway.winners.map((winner, index) => {
                         const winnerDisplayName = winner.name
                           ? getDisplayName(winner.name)
