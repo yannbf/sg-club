@@ -121,7 +121,7 @@ export default function UsersClient({
   users,
   exMembers,
   lastUpdated,
-  heading = 'Members',
+  heading = 'Users',
   description,
 }: Props) {
   const [includeExMembers, setIncludeExMembers] = useState(false)
@@ -341,7 +341,7 @@ export default function UsersClient({
           <span className="font-medium text-foreground tabular-nums-strict">
             {allUsers.length.toLocaleString()}
           </span>{' '}
-          members
+          users
         </p>
         <p className="text-xs text-muted-foreground italic">
           Ratio is full CV 1:3 without proof-of-play games.
@@ -358,7 +358,7 @@ export default function UsersClient({
         <Card className="flex flex-col items-center gap-3 p-12 text-center">
           <Filter className="h-8 w-8 text-subtle" />
           <p className="text-sm text-muted-foreground">
-            No members match the current filters.
+            No users match the current filters.
           </p>
           <Button variant="primary" size="sm" onClick={resetFilters}>
             Clear filters
@@ -450,32 +450,30 @@ function UserCard({ user }: { user: User }) {
                 Needs attention
               </Badge>
             )}
-            <Badge variant="outline" size="sm">
-              <Scale className="h-3 w-3" />
-              <span className="tabular-nums-strict">{ratio.toFixed(2)}</span>
-            </Badge>
           </div>
         </div>
       </div>
 
-      {/* Headline metric */}
-      <div className="rounded-lg border border-card-border bg-card-background-hover/40 p-4">
-        <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-          Gift difference
-        </p>
-        <div className="mt-1 flex items-baseline justify-between gap-3">
-          <span
+      {/* Headline metrics: gift difference + giveaway ratio side by side */}
+      <div className="grid grid-cols-2 gap-3">
+        <div className="rounded-lg border border-card-border bg-card-background-hover/40 p-4">
+          <p className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">
+            Gift difference
+          </p>
+          <div className="mt-1 flex items-baseline gap-2">
+            <span
+              className={cn(
+                'font-display text-3xl font-bold leading-none tabular-nums-strict',
+                headlineColor,
+              )}
+            >
+              {diff > 0 ? '+' : ''}
+              {diff}
+            </span>
+          </div>
+          <p
             className={cn(
-              'font-display text-3xl font-bold tabular-nums-strict',
-              headlineColor,
-            )}
-          >
-            {diff > 0 ? '+' : ''}
-            {diff}
-          </span>
-          <span
-            className={cn(
-              'text-sm font-medium tabular-nums-strict',
+              'mt-1 text-xs font-medium tabular-nums-strict',
               valueDiff > 0
                 ? 'text-success-foreground'
                 : valueDiff < 0
@@ -484,7 +482,33 @@ function UserCard({ user }: { user: User }) {
             )}
           >
             {valueDiff > 0 ? '+' : ''}${valueDiff.toFixed(2)}
-          </span>
+          </p>
+        </div>
+        <div className="rounded-lg border border-card-border bg-card-background-hover/40 p-4">
+          <p className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">
+            Giveaway ratio
+          </p>
+          <div className="mt-1 flex items-baseline gap-2">
+            <span
+              className={cn(
+                'font-display text-3xl font-bold leading-none tabular-nums-strict',
+                ratioCategory === 'contributor'
+                  ? 'text-success-foreground'
+                  : ratioCategory === 'receiver'
+                    ? 'text-error-foreground'
+                    : 'text-muted-foreground',
+              )}
+            >
+              {ratio.toFixed(2)}
+            </span>
+          </div>
+          <p className="mt-1 text-xs text-muted-foreground">
+            {ratioCategory === 'contributor'
+              ? 'Sends ≥3× the value received'
+              : ratioCategory === 'receiver'
+                ? 'Receives more than 3× the value sent'
+                : 'Within balanced range'}
+          </p>
         </div>
       </div>
 
