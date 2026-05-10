@@ -50,6 +50,12 @@ export default function RootLayout({
                 Giveaways
               </Link>
               <Link
+                href="/wishlist"
+                className="transition-colors hover:text-foreground"
+              >
+                Wishlist
+              </Link>
+              <Link
                 href="/users"
                 className="transition-colors hover:text-foreground"
               >

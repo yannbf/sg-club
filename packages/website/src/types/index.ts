@@ -185,3 +185,17 @@ export interface SteamIdMapEntry {
 }
 
 export type SteamIdMap = Record<string, SteamIdMapEntry>
+
+export interface WishlistEntry {
+  name: string
+  app_id: number | null
+  package_id: number | null
+  steam_url: string
+  image_url: string | null
+  wishlist_count: number
+}
+
+export interface WishlistData {
+  last_updated: string
+  entries: WishlistEntry[]
+}

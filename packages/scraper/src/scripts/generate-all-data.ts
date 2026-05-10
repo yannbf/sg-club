@@ -7,6 +7,7 @@ import { execSync } from 'node:child_process'
 import { existsSync, readFileSync } from 'node:fs'
 import path from 'node:path'
 import { checkDeletedGiveaways } from './check-deleted-giveaways'
+import { generateWishlistData } from './generate-wishlist-data'
 
 // perhaps we will use this later.
 async function maybeCommitAndPush() {
@@ -75,7 +76,11 @@ async function generateAllData(): Promise<void> {
   const startTime = Date.now()
   await generateGiveawaysData()
   // These two are independent (read giveaways.json, write to different files)
-  await Promise.all([checkDeletedGiveaways(), generateGamePrices()])
+  await Promise.all([
+    checkDeletedGiveaways(),
+    generateGamePrices(),
+    generateWishlistData(),
+  ])
   // Skip playtime enrichment during member data generation when splitting jobs
   process.env.SKIP_STEAM_PLAYTIME = 'true'
   await generateMembersData()

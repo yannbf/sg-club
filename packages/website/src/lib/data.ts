@@ -1,4 +1,4 @@
-import { Giveaway, UserGroupData, User, GameData, UserEntry, SteamIdMap } from '@/types'
+import { Giveaway, UserGroupData, User, GameData, UserEntry, SteamIdMap, WishlistData } from '@/types'
 
 // For build time - import data directly
 let buildTimeGiveaways: Giveaway[] | null = null
@@ -398,6 +398,30 @@ export function getCVLabel(
       return 'No CV'
     default:
       return 'Unknown'
+  }
+}
+
+export async function getWishlist(): Promise<WishlistData | null> {
+  if (typeof window !== 'undefined' || process.env.NODE_ENV === 'development') {
+    try {
+      const baseUrl = getBaseUrl()
+      const response = await fetch(`${baseUrl}/data/wishlist.json`)
+      if (!response.ok) throw new Error('Failed to fetch wishlist')
+      return await response.json()
+    } catch (error) {
+      console.error('Error reading wishlist data:', error)
+      return null
+    }
+  }
+
+  try {
+    const { readFileSync } = await import('fs')
+    const { join } = await import('path')
+    const filePath = join(process.cwd(), 'public', 'data', 'wishlist.json')
+    return JSON.parse(readFileSync(filePath, 'utf8'))
+  } catch (error) {
+    console.error('Error loading wishlist:', error)
+    return null
   }
 }
 
