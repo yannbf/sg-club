@@ -419,9 +419,9 @@ export default function UserDetailPageClient({
                 <Gamepad2 className="h-3.5 w-3.5" /> View Steam profile
               </a>
             )}
-            <dl className="mt-4 grid grid-cols-1 gap-x-6 gap-y-1 text-sm sm:grid-cols-2 lg:grid-cols-3">
+            <dl className="mt-4 space-y-1 text-sm">
               {user.stats.last_giveaway_created_at && (
-                <div className="flex justify-between gap-3">
+                <div className="flex items-baseline justify-between gap-3">
                   <dt className="text-muted-foreground">Last GA created</dt>
                   <dd className="text-foreground">
                     <FormattedDate
@@ -431,7 +431,7 @@ export default function UserDetailPageClient({
                 </div>
               )}
               {user.stats.last_giveaway_won_at && (
-                <div className="flex justify-between gap-3">
+                <div className="flex items-baseline justify-between gap-3">
                   <dt className="text-muted-foreground">Last GA won</dt>
                   <dd className="text-foreground">
                     <FormattedDate
@@ -441,9 +441,12 @@ export default function UserDetailPageClient({
                 </div>
               )}
               {lastEnteredGiveaway && (
-                <div className="flex justify-between gap-3">
-                  <dt className="text-muted-foreground">Last entered</dt>
-                  <dd className="text-foreground truncate" title={lastEnteredGameName}>
+                <div className="flex items-baseline justify-between gap-3">
+                  <dt className="text-muted-foreground">Last GA entered</dt>
+                  <dd
+                    className="text-foreground truncate min-w-0 text-right"
+                    title={lastEnteredGameName}
+                  >
                     <span className="font-semibold">{lastEnteredGameName}</span>{' '}
                     <span className="text-muted-foreground">
                       <FormattedDate timestamp={lastEnteredGiveaway.joined_at} />
