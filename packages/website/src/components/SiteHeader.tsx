@@ -28,7 +28,7 @@ const NAV: NavItem[] = [
   { href: '/games', label: 'Games', icon: Gamepad2 },
   { href: '/giveaways', label: 'Giveaways', icon: Gift },
   { href: '/wishlist', label: 'Wishlist', icon: Heart },
-  { href: '/users', label: 'Members', icon: Users },
+  { href: '/users', label: 'Users', icon: Users },
   { href: '/ex-members', label: 'Ex members', icon: LogOut },
   { href: '/stats', label: 'Leavers', icon: BarChart3 },
 ]

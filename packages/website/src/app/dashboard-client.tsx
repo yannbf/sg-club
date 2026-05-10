@@ -170,48 +170,61 @@ function InsightPanel({
         ))}
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-base">Member rankings</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Tabs defaultValue="creators" className="w-full">
-            <TabsList className="flex w-full flex-wrap gap-1 sm:w-auto">
-              <TabsTrigger value="creators" className="gap-1.5">
-                <Gift className="h-3.5 w-3.5" /> Creators
-              </TabsTrigger>
-              <TabsTrigger value="winners" className="gap-1.5">
-                <Trophy className="h-3.5 w-3.5" /> Winners
-              </TabsTrigger>
-              <TabsTrigger value="playtime" className="gap-1.5">
-                <Gamepad2 className="h-3.5 w-3.5" /> Playtime
-              </TabsTrigger>
-              <TabsTrigger value="achievements" className="gap-1.5">
-                <Award className="h-3.5 w-3.5" /> Achievements
-              </TabsTrigger>
-              <TabsTrigger value="achievementsPct" className="gap-1.5">
-                <Target className="h-3.5 w-3.5" /> Ach. %
-              </TabsTrigger>
-            </TabsList>
-            <TabsContent value="creators" className="mt-4">
-              <UserRanking users={data.topCreators} />
-            </TabsContent>
-            <TabsContent value="winners" className="mt-4">
-              <UserRanking users={data.topWinners} />
-            </TabsContent>
-            <TabsContent value="playtime" className="mt-4">
-              <UserRanking users={data.topGamers} />
-            </TabsContent>
-            <TabsContent value="achievements" className="mt-4">
-              <UserRanking users={data.topAchievementHunters} />
-            </TabsContent>
-            <TabsContent value="achievementsPct" className="mt-4">
-              <UserRanking users={data.topAchievementHuntersByPercentage} />
-            </TabsContent>
-          </Tabs>
-        </CardContent>
-      </Card>
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-5">
+        <RankingCard
+          icon={Gift}
+          accent="text-primary-hi"
+          title="Top creators"
+          users={data.topCreators}
+        />
+        <RankingCard
+          icon={Trophy}
+          accent="text-accent-yellow"
+          title="Top winners"
+          users={data.topWinners}
+        />
+        <RankingCard
+          icon={Gamepad2}
+          accent="text-accent-blue"
+          title="Top playtime"
+          users={data.topGamers}
+        />
+        <RankingCard
+          icon={Award}
+          accent="text-accent-green"
+          title="Top achievements"
+          users={data.topAchievementHunters}
+        />
+        <RankingCard
+          icon={Target}
+          accent="text-accent-rose"
+          title="Top achievement %"
+          users={data.topAchievementHuntersByPercentage}
+        />
+      </div>
     </div>
+  )
+}
+
+function RankingCard({
+  icon: Icon,
+  accent,
+  title,
+  users,
+}: {
+  icon: React.ComponentType<{ className?: string }>
+  accent: string
+  title: string
+  users: { user: User; value: string | number }[]
+}) {
+  return (
+    <Card className="p-4">
+      <div className="mb-3 flex items-center gap-2 text-sm font-semibold">
+        <Icon className={cn('h-4 w-4', accent)} />
+        {title}
+      </div>
+      <UserRanking users={users} />
+    </Card>
   )
 }
 
