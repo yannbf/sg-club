@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -136,8 +136,11 @@ export default function GiveawaysClient({
   gameData,
   defaultGiveawayStatus = 'open',
 }: Props) {
-  const getDisplayName = (steamIdOrUsername: string) =>
-    userNames?.get(steamIdOrUsername) || steamIdOrUsername
+  const getDisplayName = useCallback(
+    (steamIdOrUsername: string) =>
+      userNames?.get(steamIdOrUsername) || steamIdOrUsername,
+    [userNames],
+  )
   const { getGameData } = useGameData(gameData)
 
   const [searchTerm, setSearchTerm] = useState('')
@@ -156,7 +159,6 @@ export default function GiveawaysClient({
 
   // Chip filters via ToggleGroup multiple
   const [chipFilters, setChipFilters] = useState<string[]>([])
-  const has = (k: string) => chipFilters.includes(k)
 
   // Date filter
   const [dateFilterMode, setDateFilterMode] = useState<
@@ -300,6 +302,7 @@ export default function GiveawaysClient({
   )
 
   const filteredAndSortedGiveaways = useMemo(() => {
+    const has = (k: string) => chipFilters.includes(k)
     const filtered = giveaways.filter((giveaway) => {
       const searchTermLower = debouncedSearchTerm.toLowerCase()
       const isExactIdMatch =

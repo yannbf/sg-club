@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
-import Link from 'next/link'
 import {
   AlertTriangle,
   Award,
@@ -13,10 +12,8 @@ import {
   Heart,
   Info,
   Scale,
-  Sparkles,
   Trophy,
   Users as UsersIcon,
-  Wallet,
 } from 'lucide-react'
 import { formatPlaytime } from '@/lib/data'
 import GivenGiveawaysClient from './GivenGiveawaysClient'

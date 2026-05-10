@@ -13,7 +13,6 @@ import {
   Scale,
   Search,
   TrendingDown,
-  TrendingUp,
   Trophy,
   X,
 } from 'lucide-react'
