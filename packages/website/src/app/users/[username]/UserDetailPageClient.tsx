@@ -1,10 +1,26 @@
 'use client'
 
-import { formatPlaytime } from '@/lib/data'
+import { useState } from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
+import {
+  AlertTriangle,
+  Award,
+  Coins,
+  Copy,
+  Gamepad2,
+  Gift,
+  Heart,
+  Info,
+  Scale,
+  Sparkles,
+  Trophy,
+  Users as UsersIcon,
+  Wallet,
+} from 'lucide-react'
+import { formatPlaytime } from '@/lib/data'
 import GivenGiveawaysClient from './GivenGiveawaysClient'
 import WonGiveawaysClient from './WonGiveawaysClient'
-import { useState } from 'react'
 import type { User, UserGroupData, UserEntry, SteamIdMap } from '@/types'
 import type { Giveaway, GameData } from '@/types'
 import FormattedDate from '@/components/FormattedDate'
@@ -13,10 +29,18 @@ import CountryFlag from '@/components/CountryFlag'
 import { LastUpdated } from '@/components/LastUpdated'
 import GiveawayLeaversClient from './GiveawayLeaversClient'
 import { GiveawayLeaver } from '@/types/stats'
-import { getUnplayedGamesStats, UnplayedGamesStats } from '@/components/UnplayedGamesStats'
+import {
+  getUnplayedGamesStats,
+  UnplayedGamesStats,
+} from '@/components/UnplayedGamesStats'
 import Tooltip from '@/components/Tooltip'
 import { getDeadlineData } from '@/components/DeadlineStatus'
 import { getUserRatio } from '../util'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
+import { Badge } from '@/components/ui/Badge'
+import { Button } from '@/components/ui/Button'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
+import { cn } from '@/lib/cn'
 
 interface Props {
   user: User
@@ -25,7 +49,7 @@ interface Props {
   gameData: GameData[]
   userEntries: UserEntry | null
   lastUpdated: number | null
-  leavers: GiveawayLeaver[];
+  leavers: GiveawayLeaver[]
   steamIdMap: SteamIdMap
   isExMember?: boolean
 }
@@ -62,31 +86,34 @@ export const generateWarningMessage = (
 
     unplayedRequired.sort((a, b) => a.end_timestamp - b.end_timestamp)
 
-
     const unplayedText = unplayedRequired
       .map((g) => {
         const { daysRemaining, deadlineDate } = getDeadlineData(
           g.end_timestamp,
           g.required_play_meta?.deadline_in_months,
         )
-
         const formatter = new Intl.DateTimeFormat('en-US', {
           day: 'numeric',
           month: 'long',
-          year: 'numeric'
-        });
-        const formattedDate = formatter.format(deadlineDate);
-        return `${getLink(
-          g.link,
-        )} (${daysRemaining} days remaining for requirements: ${formattedDate})`
+          year: 'numeric',
+        })
+        const formattedDate = formatter.format(deadlineDate)
+        return `${getLink(g.link)} (${daysRemaining} days remaining for requirements: ${formattedDate})`
       })
       .join('\n')
 
     messages.push(unplayedText)
-    messages.push('Please note the individual requirements for each giveaway won. If none are specified, then by default, we expect the game to be added into active rotation prior to the deadline.')
+    messages.push(
+      'Please note the individual requirements for each giveaway won. If none are specified, then by default, we expect the game to be added into active rotation prior to the deadline.',
+    )
 
-    if (!user.warnings.includes('illegal_entered_required_play_giveaways') && !user.warnings.includes('illegal_entered_any_giveaways')) {
-      messages.push('Please fulfill the giveaway requirements prior to joining any additional PLAY REQUIRED giveaways.')
+    if (
+      !user.warnings.includes('illegal_entered_required_play_giveaways') &&
+      !user.warnings.includes('illegal_entered_any_giveaways')
+    ) {
+      messages.push(
+        'Please fulfill the giveaway requirements prior to joining any additional PLAY REQUIRED giveaways.',
+      )
     }
   }
 
@@ -95,7 +122,6 @@ export const generateWarningMessage = (
       (g) => g.required_play && g.end_timestamp > Date.now() / 1000,
     )
     const toLeaveText = giveawaysToLeave.map((g) => getLink(g.link)).join('\n')
-
     messages.push(`Please leave the following giveaways:
 ${toLeaveText}`)
   } else if (user.warnings.includes('illegal_entered_any_giveaways')) {
@@ -103,9 +129,9 @@ ${toLeaveText}`)
       (g) => g.end_timestamp > Date.now() / 1000,
     )
     const toLeaveText = giveawaysToLeave.map((g) => getLink(g.link)).join('\n')
-
-    messages.push('As it seems that you have more than 2 unfulfilled PLAY REQUIRED wins, you are currently not allowed to enter **any** additional giveaways within the group. Once you are back down to 2 unfulfilled PLAY REQUIRED giveaways, you are allowed to join normal giveaways again but are still barred from joining PLAY REQUIRED until you only have 1 unfulfilled play required giveaway.');
-
+    messages.push(
+      'As it seems that you have more than 2 unfulfilled PLAY REQUIRED wins, you are currently not allowed to enter **any** additional giveaways within the group. Once you are back down to 2 unfulfilled PLAY REQUIRED giveaways, you are allowed to join normal giveaways again but are still barred from joining PLAY REQUIRED until you only have 1 unfulfilled play required giveaway.',
+    )
     messages.push(`Please leave the following giveaways:\n${toLeaveText}`)
   }
 
@@ -121,46 +147,39 @@ ${toLeaveText}`)
   return messages.join('\n\n')
 }
 
-const CopyButton = ({ onClick }: { onClick: () => void }) => {
+function CopyButton({ onClick }: { onClick: () => void }) {
   const [isCopied, setIsCopied] = useState(false)
-
   const handleClick = async () => {
     await onClick()
     setIsCopied(true)
     setTimeout(() => setIsCopied(false), 2000)
   }
-
   return (
-    <button
-      onClick={handleClick}
-      className="text-xs text-accent hover:text-accent-hover transition-colors"
-    >
-      {isCopied ? 'Copied!' : 'Copy Message'}
-    </button>
+    <Button variant="outline" size="sm" onClick={handleClick}>
+      <Copy className="h-3.5 w-3.5" />
+      {isCopied ? 'Copied!' : 'Copy chase-up message'}
+    </Button>
   )
 }
 
-export const getWarningsSeverity = (warnings: string[]): 'problem' | 'warning' | 'info' => {
-  // return the highest severity of the warnings
+export const getWarningsSeverity = (
+  warnings: string[],
+): 'problem' | 'warning' | 'info' => {
   let hasWarning = false
   for (const warning of warnings) {
-    const warningSeverity = warningToMessageMap[warning].severity
+    const warningSeverity = warningToMessageMap[warning]?.severity
     if (warningSeverity === 'problem') {
       return 'problem'
     }
-
     if (warningSeverity === 'warning') {
       hasWarning = true
     }
   }
-
   if (hasWarning) {
     return 'warning'
   }
-
   return 'info'
 }
-
 
 const warningToMessageMap: Record<string, UserWarning> = {
   unplayed_required_play_giveaways: {
@@ -176,423 +195,664 @@ const warningToMessageMap: Record<string, UserWarning> = {
     severity: 'info',
   },
   illegal_entered_required_play_giveaways: {
-    description: 'Has entered required play giveaways while not having played 2 required play giveaways',
+    description:
+      'Has entered required play giveaways while not having played 2 required play giveaways',
     severity: 'problem',
   },
   illegal_entered_any_giveaways: {
-    description: 'Has entered any giveaways while not having played 3 or more required play giveaways',
+    description:
+      'Has entered any giveaways while not having played 3 or more required play giveaways',
     severity: 'problem',
   },
-  // TODO: Maybe bring this back
-  // potentially_idling_games: {
-  //   description: 'Is potentially idling games (no achievements unlocked with over 3h of playtime)',
-  //   severity: 'problem',
-  // },
 }
 
-export default function UserDetailPageClient({ user, allUsers, giveaways, gameData, userEntries, lastUpdated, leavers, steamIdMap, isExMember }: Props) {
-  const [showDetailedStats, setShowDetailedStats] = useState(false)
+function ratioInfo(user: User) {
+  const ratio = getUserRatio(user.stats.giveaway_ratio)
+  switch (ratio) {
+    case 'contributor':
+      return {
+        label: 'Net contributor',
+        variant: 'success' as const,
+        accent: 'before:bg-[var(--success)]',
+      }
+    case 'receiver':
+      return {
+        label: 'Net receiver',
+        variant: 'error' as const,
+        accent: 'before:bg-[var(--error)]',
+      }
+    default:
+      return {
+        label: 'Neutral',
+        variant: 'info' as const,
+        accent: 'before:bg-[var(--card-border-strong)]',
+      }
+  }
+}
 
-  // Get giveaways created by this user from the main giveaways data
-  // creator is now steam_id, entries are keyed by steam_id
-  const userGiveaways = giveaways.filter(g => g.creator === user.steam_id)
+export default function UserDetailPageClient({
+  user,
+  allUsers,
+  giveaways,
+  gameData,
+  userEntries,
+  lastUpdated,
+  leavers,
+  steamIdMap,
+  isExMember,
+}: Props) {
+  const [showOriginalStats, setShowOriginalStats] = useState(false)
+
+  const userGiveaways = giveaways.filter((g) => g.creator === user.steam_id)
   const enteredGiveawayData = userEntries?.[user.steam_id] || []
-  const enteredGiveaways = enteredGiveawayData.map(g => giveaways.find(ga => ga.link === g.link)).filter(g => g !== undefined)
-  const lastEnteredGiveaway = enteredGiveawayData.sort((a, b) => b.joined_at - a.joined_at)[0]
+  const enteredGiveaways = enteredGiveawayData
+    .map((g) => giveaways.find((ga) => ga.link === g.link))
+    .filter((g) => g !== undefined)
+  const lastEnteredGiveaway = enteredGiveawayData.sort(
+    (a, b) => b.joined_at - a.joined_at,
+  )[0]
 
-  // Create maps keyed by steam_id for the GiveawaysClient
   const userAvatars = new Map(
-    Object.values(allUsers?.users || {}).map((user) => [
-      user.steam_id,
-      user.avatar_url,
-    ])
+    Object.values(allUsers?.users || {}).map((u) => [
+      u.steam_id,
+      u.avatar_url,
+    ]),
   )
   const userNames = new Map(
-    Object.entries(steamIdMap).map(([steamId, entry]) => [steamId, entry.current])
+    Object.entries(steamIdMap).map(([steamId, entry]) => [
+      steamId,
+      entry.current,
+    ]),
   )
 
-  const getUserTypeIcon = () => {
-    switch(getUserRatio(user.stats.giveaway_ratio)) {
-      case 'contributor':
-        return { icon: '📈', label: 'Net Contributor', color: 'text-success-foreground' }
-      case 'receiver':
-        return { icon: '📉', label: 'Net Receiver', color: 'text-error-foreground' }
-      default:
-        return { icon: '➖', label: 'Neutral', color: 'text-muted-foreground' }
-    }
-  }
+  const ratio = ratioInfo(user)
 
-  const userType = getUserTypeIcon()
+  const getTotalPlaytime = () =>
+    (user.giveaways_won || []).reduce(
+      (total, game) => total + (game.steam_play_data?.playtime_minutes || 0),
+      0,
+    )
+  const getTotalAchievements = () =>
+    (user.giveaways_won || []).reduce(
+      (total, game) => total + (game.steam_play_data?.achievements_unlocked || 0),
+      0,
+    )
+  const getOwnedGames = () => (user.giveaways_won || []).length
 
-  const getTotalPlaytime = () => {
-    if (!user.giveaways_won) return 0
-    return user.giveaways_won.reduce((total, game) => {
-      return total + (game.steam_play_data?.playtime_minutes || 0)
-    }, 0)
-  }
+  const realCvRatio =
+    user.stats.real_total_received_value === 0
+      ? 0
+      : Number(
+          (
+            user.stats.real_total_sent_value /
+            user.stats.real_total_received_value
+          ).toFixed(2),
+        )
 
-  const getTotalAchievements = () => {
-    if (!user.giveaways_won) return 0
-    return user.giveaways_won.reduce((total, game) => {
-      return total + (game.steam_play_data?.achievements_unlocked || 0)
-    }, 0)
-  }
-
-  const getOwnedGames = () => {
-    if (!user.giveaways_won) return 0
-    return user.giveaways_won.length
-  }
-
-  const realCvRatio = user.stats.real_total_received_value === 0 ? 0 : Number((user.stats.real_total_sent_value / user.stats.real_total_received_value).toFixed(2))
-
-  const createdGiveaways = user.giveaways_created ? Object.values(user.giveaways_created).length : 0
-  const ongoingGiveaways = user.giveaways_created ? Object.values(user.giveaways_created).filter(ga => ga.end_timestamp > Date.now() / 1000).length : 0
+  const createdGiveaways = user.giveaways_created
+    ? Object.values(user.giveaways_created).length
+    : 0
+  const ongoingGiveaways = user.giveaways_created
+    ? Object.values(user.giveaways_created).filter(
+        (ga) => ga.end_timestamp > Date.now() / 1000,
+      ).length
+    : 0
 
   const handleCopyWarningMessage = async () => {
-    const message = generateWarningMessage(user, userEntries?.[user.steam_id] ?? [], giveaways);
+    const message = generateWarningMessage(
+      user,
+      userEntries?.[user.steam_id] ?? [],
+      giveaways,
+    )
     if (message) {
       try {
-        await navigator.clipboard.writeText(message);
+        await navigator.clipboard.writeText(message)
       } catch (err) {
-        alert(`Failed to copy message: ${String(err)}`);
+        alert(`Failed to copy message: ${String(err)}`)
       }
     }
-  };
+  }
+
+  const previousNames = (() => {
+    const prev = steamIdMap[user.steam_id]?.previous
+    if (!prev?.length) return [] as string[]
+    return [...new Set(prev.map((p) => p.username))].filter(
+      (name) => name !== user.username,
+    )
+  })()
+
+  const lastEnteredGameName = lastEnteredGiveaway
+    ? giveaways.find((g) => g.link === lastEnteredGiveaway.link)?.name
+    : undefined
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       {lastUpdated && (
-        <LastUpdated lastUpdatedDate={lastUpdated} />
+        <div className="text-sm text-muted-foreground">
+          <LastUpdated lastUpdatedDate={lastUpdated} />
+        </div>
       )}
-      {/* User Header */}
-      <div className="bg-card-background rounded-lg border-card-border border p-6 mb-6">
-        <div className="flex items-center">
-          {user.avatar_url && (
-            <a href={`https://www.steamgifts.com/user/${user.username}`} target="_blank" rel="noopener noreferrer">
-              <Image
-                src={user.avatar_url}
-                alt={user.username}
-                width={64}
-                height={64}
-                className="rounded-full mr-4 border-2 border-card-border"
-              />
-            </a>
-          )}
-          <div className="flex-1">
-            <div className="flex items-center">
+
+      {/* User header */}
+      <Card
+        className={cn(
+          'relative overflow-hidden p-6',
+          'before:absolute before:left-0 before:top-0 before:h-full before:w-1 before:z-10',
+          ratio.accent,
+        )}
+      >
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
+          <div className="flex-shrink-0">
+            {user.avatar_url ? (
               <a
                 href={`https://www.steamgifts.com/user/${user.username}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-3xl font-bold text-accent hover:underline text-sm"
+                className="block"
               >
-                <h1 className="text-3xl font-bold">
-                  {user.username}
-                </h1>
+                <Image
+                  src={user.avatar_url}
+                  alt={user.username}
+                  width={80}
+                  height={80}
+                  className="h-20 w-20 rounded-full ring-2 ring-card-border-strong"
+                />
+              </a>
+            ) : (
+              <div className="flex h-20 w-20 items-center justify-center rounded-full bg-card-background-hover ring-2 ring-card-border-strong text-2xl font-bold text-muted-foreground">
+                {user.username[0]?.toUpperCase()}
+              </div>
+            )}
+          </div>
+          <div className="flex-1 min-w-0">
+            <div className="flex flex-wrap items-center gap-2">
+              <a
+                href={`https://www.steamgifts.com/user/${user.username}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-display text-3xl font-bold tracking-tight text-foreground hover:text-accent hover:underline"
+              >
+                {user.username}
               </a>
               <CountryFlag countryCode={user.country_code} />
               {isExMember && (
-                <span className="ml-2 px-2 py-0.5 text-xs font-medium rounded bg-accent-red/20 text-accent-red">
-                  Ex Member
-                </span>
+                <Badge variant="error" size="md">
+                  Ex member
+                </Badge>
+              )}
+              <Badge variant={ratio.variant} size="md">
+                {ratio.label}
+              </Badge>
+              <Badge variant="outline" size="md">
+                <Scale className="h-3 w-3" />
+                <span className="tabular-nums-strict">
+                  {(user.stats.giveaway_ratio ?? 0).toFixed(2)}
+                </span>{' '}
+                ratio
+              </Badge>
+              {user.warnings && user.warnings.length > 0 && (
+                <Badge
+                  variant={
+                    getWarningsSeverity(user.warnings) === 'problem'
+                      ? 'error'
+                      : 'warning'
+                  }
+                  size="md"
+                >
+                  <AlertTriangle className="h-3 w-3" />
+                  Needs attention
+                </Badge>
               )}
             </div>
-            {(() => {
-              const prev = steamIdMap[user.steam_id]?.previous
-              if (!prev?.length) return null
-              const uniqueNames = [...new Set(prev.map(p => p.username))].filter(name => name !== user.username)
-              if (uniqueNames.length === 0) return null
-              return (
-                <p className="text-sm text-muted-foreground">
-                  Previously known as: {uniqueNames.join(', ')}
-                </p>
-              )
-            })()}
-            <p className={`text-lg font-medium ${userType.color}`}>
-              {userType.label} ({user.stats.giveaway_ratio ? user.stats.giveaway_ratio.toFixed(2) : 0} ratio)
-            </p>
+            {previousNames.length > 0 && (
+              <p className="mt-2 text-sm text-muted-foreground">
+                Previously known as:{' '}
+                <span className="text-foreground">
+                  {previousNames.join(', ')}
+                </span>
+              </p>
+            )}
             {user.steam_profile_url && (
               <a
                 href={user.steam_profile_url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-accent hover:underline text-sm"
+                className="mt-2 inline-flex items-center gap-1 text-sm text-accent hover:underline"
               >
-                View Steam Profile →
+                <Gamepad2 className="h-3.5 w-3.5" /> View Steam profile
               </a>
             )}
-            <div className="mt-4 text-sm text-muted-foreground space-y-1">
+            <dl className="mt-4 grid grid-cols-1 gap-x-6 gap-y-1 text-sm sm:grid-cols-2 lg:grid-cols-3">
               {user.stats.last_giveaway_created_at && (
-                <div>Last giveaway created: <span className="text-foreground">
-                  <FormattedDate timestamp={user.stats.last_giveaway_created_at} />
-                </span></div>
+                <div className="flex justify-between gap-3">
+                  <dt className="text-muted-foreground">Last GA created</dt>
+                  <dd className="text-foreground">
+                    <FormattedDate
+                      timestamp={user.stats.last_giveaway_created_at}
+                    />
+                  </dd>
+                </div>
               )}
               {user.stats.last_giveaway_won_at && (
-                <div>Last giveaway won: <span className="text-foreground">
-                  <FormattedDate timestamp={user.stats.last_giveaway_won_at} />
-                </span></div>
+                <div className="flex justify-between gap-3">
+                  <dt className="text-muted-foreground">Last GA won</dt>
+                  <dd className="text-foreground">
+                    <FormattedDate
+                      timestamp={user.stats.last_giveaway_won_at}
+                    />
+                  </dd>
+                </div>
               )}
               {lastEnteredGiveaway && (
-                <div>Last giveaway entered: <span className="text-foreground">
-                  <span className="font-bold">{giveaways.find(g => g.link === lastEnteredGiveaway.link)?.name}</span> <FormattedDate timestamp={lastEnteredGiveaway.joined_at} />
-                </span></div>
+                <div className="flex justify-between gap-3">
+                  <dt className="text-muted-foreground">Last entered</dt>
+                  <dd className="text-foreground truncate" title={lastEnteredGameName}>
+                    <span className="font-semibold">{lastEnteredGameName}</span>{' '}
+                    <span className="text-muted-foreground">
+                      <FormattedDate timestamp={lastEnteredGiveaway.joined_at} />
+                    </span>
+                  </dd>
+                </div>
+              )}
+            </dl>
+          </div>
+        </div>
+      </Card>
+
+      {/* Warnings */}
+      {user.warnings && user.warnings.length > 0 && (
+        <Card
+          className={cn(
+            'border-l-4',
+            getWarningsSeverity(user.warnings) === 'problem'
+              ? 'border-l-[var(--error)]'
+              : 'border-l-[var(--warning)]',
+          )}
+        >
+          <CardHeader>
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <CardTitle className="flex items-center gap-2 text-base">
+                <AlertTriangle
+                  className={cn(
+                    'h-4 w-4',
+                    getWarningsSeverity(user.warnings) === 'problem'
+                      ? 'text-error-foreground'
+                      : 'text-warning-foreground',
+                  )}
+                />
+                Needs attention
+              </CardTitle>
+              {getWarningsSeverity(user.warnings) !== 'info' && (
+                <CopyButton onClick={handleCopyWarningMessage} />
               )}
             </div>
-          </div>
-        </div>
-      </div>
-
-      {user.warnings?.length && (
-        <div className={`bg-card-background rounded-lg border-${getWarningsSeverity(user.warnings)} border p-4`}>
-          <div className="flex justify-between items-center mb-3">
-            <h3 className="text-sm font-semibold">⚠️ Needs attention</h3>
-            {getWarningsSeverity(user.warnings) !== 'info' && <CopyButton onClick={handleCopyWarningMessage} />}
-          </div>
-          <ul className="list-disc list-inside text-sm text-muted-foreground">
-            {user.warnings.map((warning) => (
-              <li key={warning}>{warningToMessageMap[warning].description ?? warning}</li>
-            ))}
-          </ul>
-        </div>
+          </CardHeader>
+          <CardContent>
+            <ul className="list-inside list-disc space-y-1 text-sm text-muted-foreground">
+              {user.warnings.map((warning) => (
+                <li key={warning}>
+                  {warningToMessageMap[warning]?.description ?? warning}
+                </li>
+              ))}
+            </ul>
+          </CardContent>
+        </Card>
       )}
 
-      {/* Statistics Grid */}
-      <div className="space-y-4 mb-6">
-        {/* Real Totals */}
-        <div className="bg-card-background rounded-lg border-card-border border p-4">
-          <div className="flex justify-between items-center mb-3">
-            <h3 className="text-sm font-semibold">Real Totals</h3>
-            <button
-              onClick={() => setShowDetailedStats(!showDetailedStats)}
-              className="text-xs text-accent hover:text-accent-hover transition-colors"
+      {/* Real Totals */}
+      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+        <SimpleStat
+          label="Sent"
+          value={user.stats.real_total_sent_count}
+          hint={`$${user.stats.real_total_sent_value.toFixed(2)}`}
+          icon={Gift}
+          accent="text-info-foreground"
+        />
+        <SimpleStat
+          label="Received"
+          value={user.stats.real_total_received_count}
+          hint={`$${user.stats.real_total_received_value.toFixed(2)}`}
+          icon={Trophy}
+          accent="text-success-foreground"
+        />
+        <SimpleStat
+          label="Difference"
+          value={
+            <span
+              className={
+                user.stats.real_total_gift_difference > 0
+                  ? 'text-success-foreground'
+                  : user.stats.real_total_gift_difference < 0
+                    ? 'text-error-foreground'
+                    : 'text-muted-foreground'
+              }
             >
-              {showDetailedStats ? 'Show Less' : 'Show Breakdown'} {showDetailedStats ? '↑' : '↓'}
-            </button>
+              {user.stats.real_total_gift_difference > 0 ? '+' : ''}
+              {user.stats.real_total_gift_difference}
+            </span>
+          }
+          hint={`${user.stats.real_total_value_difference > 0 ? '+' : ''}$${user.stats.real_total_value_difference.toFixed(2)}`}
+          icon={Coins}
+        />
+        <SimpleStat
+          label="CV ratio"
+          value={
+            <Tooltip
+              content={`Sent / Received ($${user.stats.real_total_sent_value} / $${user.stats.real_total_received_value}) = ${realCvRatio}`}
+            >
+              <span className="cursor-help">{realCvRatio}</span>
+            </Tooltip>
+          }
+          icon={Scale}
+        />
+      </div>
+
+      {/* Original stats toggle */}
+      <Card>
+        <CardHeader>
+          <div className="flex items-center justify-between gap-3">
+            <CardTitle className="flex items-center gap-2 text-base">
+              <Info className="h-4 w-4 text-muted-foreground" />
+              Original SteamGifts stats
+              <span className="text-xs font-normal text-muted-foreground">
+                (incl. reduced, shared, etc.)
+              </span>
+            </CardTitle>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setShowOriginalStats((v) => !v)}
+            >
+              {showOriginalStats ? 'Hide' : 'Show breakdown'}
+            </Button>
           </div>
-          <div className="grid grid-cols-4 gap-2">
-            <div className="text-center">
-              <div className="text-xl font-bold text-info-foreground">{user.stats.real_total_sent_count}</div>
-              <div className="text-xs text-muted-foreground">Sent</div>
-              <div className="text-xs text-muted-foreground">${user.stats.real_total_sent_value.toFixed(2)}</div>
-            </div>
-
-            <div className="text-center">
-              <div className="text-xl font-bold text-success-foreground">{user.stats.real_total_received_count}</div>
-              <div className="text-xs text-muted-foreground">Received</div>
-              <div className="text-xs text-muted-foreground">${user.stats.real_total_received_value.toFixed(2)}</div>
-            </div>
-
-            <div className="text-center">
-              <div className={`text-xl font-bold ${user.stats.real_total_gift_difference > 0 ? 'text-success-foreground' : 'text-error-foreground'}`}>
-                {user.stats.real_total_gift_difference > 0 ? '+' : ''}{user.stats.real_total_gift_difference}
-              </div>
-              <div className="text-xs text-muted-foreground">Difference</div>
-              <div className={`text-xs ${user.stats.real_total_value_difference > 0 ? 'text-success-foreground' : 'text-error-foreground'}`}>
-                {user.stats.real_total_value_difference > 0 ? '+' : ''}${user.stats.real_total_value_difference.toFixed(2)}
-              </div>
-            </div>
-
-            <div className="text-center">
-              <div className={`text-xl font-bold text-muted-foreground}`}>
-                <Tooltip content={`Sent divided by Received ($${user.stats.real_total_sent_value}/$${user.stats.real_total_received_value}) = ${realCvRatio}`}>
-                  <span>{realCvRatio}
+        </CardHeader>
+        {showOriginalStats && (
+          <CardContent className="space-y-4">
+            <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+              <SimpleStat
+                label="Created GAs"
+                value={createdGiveaways}
+                hint={`${ongoingGiveaways} ongoing`}
+                icon={Gift}
+                accent="text-accent-blue"
+              />
+              <SimpleStat
+                label="Sent"
+                value={user.stats.total_sent_count}
+                hint={`$${user.stats.total_sent_value.toFixed(2)}`}
+                icon={Gift}
+                accent="text-info-foreground"
+              />
+              <SimpleStat
+                label="Received"
+                value={user.stats.total_received_count}
+                hint={`$${user.stats.total_received_value.toFixed(2)}`}
+                icon={Trophy}
+                accent="text-success-foreground"
+              />
+              <SimpleStat
+                label="Difference"
+                value={
+                  <span
+                    className={
+                      user.stats.total_gift_difference > 0
+                        ? 'text-success-foreground'
+                        : user.stats.total_gift_difference < 0
+                          ? 'text-error-foreground'
+                          : 'text-muted-foreground'
+                    }
+                  >
+                    {user.stats.total_gift_difference > 0 ? '+' : ''}
+                    {user.stats.total_gift_difference}
                   </span>
-                </Tooltip>
-              </div>
-              <div className="text-xs text-muted-foreground">CV Ratio</div>
+                }
+                hint={`${user.stats.total_value_difference > 0 ? '+' : ''}$${user.stats.total_value_difference.toFixed(2)}`}
+                icon={Coins}
+              />
             </div>
-          </div>
-          {showDetailedStats && (
-            <div className="mt-4 pt-4 border-t border-card-border/50 grid grid-cols-4 gap-2">
-              <div className="text-center col-span-2">
-                <div className={`text-xl font-bold text-muted-foreground`}>
-                  {user.stats.real_total_achievements_percentage ?? 0}%
-                </div>
-                <div className="text-xs text-muted-foreground">Total Achievements</div>
-              </div>
-              <div className="text-center col-span-2">
-                <div className={`text-xl font-bold text-muted-foreground`}>
-                  {user.stats.real_average_achievements_percentage ?? 0}%
-                </div>
-                <div className="text-xs text-muted-foreground">Avg. Achievements</div>
-              </div>
+
+            <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+              <CvBreakdown
+                label="Full CV"
+                accent="text-accent-green"
+                sent={user.stats.fcv_sent_count}
+                received={user.stats.fcv_received_count}
+              />
+              <CvBreakdown
+                label="Reduced CV"
+                accent="text-accent-yellow"
+                sent={user.stats.rcv_sent_count}
+                received={user.stats.rcv_received_count}
+              />
+              <CvBreakdown
+                label="No CV"
+                accent="text-accent-orange"
+                sent={user.stats.ncv_sent_count}
+                received={user.stats.ncv_received_count}
+              />
+              <CvBreakdown
+                label="Shared"
+                accent="text-accent-purple"
+                sent={user.stats.shared_sent_count}
+                received={user.stats.shared_received_count}
+                sentLabel="Created"
+                receivedLabel="Won"
+              />
             </div>
+          </CardContent>
+        )}
+      </Card>
+
+      {/* Steam activity */}
+      {user.steam_id &&
+        !user.steam_profile_is_private &&
+        user.giveaways_won &&
+        user.giveaways_won.some((g) => g.steam_play_data) && (
+          <Card>
+            <CardHeader>
+              <div className="flex items-center justify-between gap-3">
+                <CardTitle className="flex items-center gap-2 text-base">
+                  <Gamepad2 className="h-4 w-4 text-accent-purple" />
+                  Steam activity
+                  {user.stats.has_missing_achievements_data && (
+                    <Tooltip content="Some games won by this user don't have achievement data available, so percentages might be inaccurate.">
+                      <AlertTriangle className="h-4 w-4 text-warning-foreground" />
+                    </Tooltip>
+                  )}
+                </CardTitle>
+                <p className="text-xs text-muted-foreground">
+                  Activity related only to games won in the group.
+                </p>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+                <SimpleStat
+                  label="Activated games"
+                  value={getOwnedGames()}
+                  icon={Gift}
+                  accent="text-accent-orange"
+                />
+                <SimpleStat
+                  label="Total playtime"
+                  value={
+                    getTotalPlaytime() === 0 ? 'Unavailable' : formatPlaytime(getTotalPlaytime())
+                  }
+                  icon={Gamepad2}
+                  accent="text-accent-blue"
+                />
+                <SimpleStat
+                  label="Total achievements"
+                  value={getTotalAchievements()}
+                  hint={`${user.stats.total_achievements_percentage ?? 0}% total · ${user.stats.average_achievements_percentage ?? 0}% avg`}
+                  icon={Award}
+                  accent="text-accent-yellow"
+                />
+                <div className="rounded-lg border border-card-border bg-card-background-hover/40 p-4 text-center">
+                  <UnplayedGamesStats user={user} size="large" />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
+      {/* Tabs: Created / Won / Entered / Leavers */}
+      <Tabs defaultValue="created">
+        <TabsList className="flex flex-wrap">
+          <TabsTrigger value="created" className="gap-1.5">
+            <Gift className="h-3.5 w-3.5" /> Created
+            {createdGiveaways > 0 && (
+              <span className="text-xs text-muted-foreground tabular-nums-strict">
+                {createdGiveaways}
+              </span>
+            )}
+          </TabsTrigger>
+          {user.giveaways_won && user.giveaways_won.length > 0 && (
+            <TabsTrigger value="won" className="gap-1.5">
+              <Trophy className="h-3.5 w-3.5" /> Won
+              <span className="text-xs text-muted-foreground tabular-nums-strict">
+                {user.giveaways_won.length}
+              </span>
+            </TabsTrigger>
+          )}
+          <TabsTrigger value="entered" className="gap-1.5">
+            <Heart className="h-3.5 w-3.5" /> Entered
+            {enteredGiveaways.length > 0 && (
+              <span className="text-xs text-muted-foreground tabular-nums-strict">
+                {enteredGiveaways.length}
+              </span>
+            )}
+          </TabsTrigger>
+          {leavers.length > 0 && (
+            <TabsTrigger value="leavers" className="gap-1.5">
+              <UsersIcon className="h-3.5 w-3.5" /> Leavers
+              <span className="text-xs text-muted-foreground tabular-nums-strict">
+                {leavers.length}
+              </span>
+            </TabsTrigger>
+          )}
+        </TabsList>
+
+        <TabsContent value="created" className="mt-6">
+          <GivenGiveawaysClient
+            giveaways={userGiveaways}
+            userAvatars={userAvatars}
+            userNames={userNames}
+            gameData={gameData}
+          />
+        </TabsContent>
+
+        {user.giveaways_won && user.giveaways_won.length > 0 && (
+          <TabsContent value="won" className="mt-6">
+            <WonGiveawaysClient
+              giveaways={giveaways}
+              wonGiveaways={user.giveaways_won}
+              gameData={gameData}
+              user={user}
+            />
+          </TabsContent>
+        )}
+
+        <TabsContent value="entered" className="mt-6">
+          <GiveawaysClient
+            heading="Entered giveaways"
+            giveaways={enteredGiveaways}
+            userAvatars={userAvatars}
+            userNames={userNames}
+            gameData={gameData}
+            lastUpdated={null}
+            defaultGiveawayStatus="open"
+          />
+        </TabsContent>
+
+        {leavers.length > 0 && (
+          <TabsContent value="leavers" className="mt-6">
+            <GiveawayLeaversClient leavers={leavers} />
+          </TabsContent>
+        )}
+      </Tabs>
+    </div>
+  )
+}
+
+function SimpleStat({
+  label,
+  value,
+  hint,
+  icon: Icon,
+  accent,
+}: {
+  label: string
+  value: React.ReactNode
+  hint?: React.ReactNode
+  icon?: React.ComponentType<{ className?: string }>
+  accent?: string
+}) {
+  return (
+    <Card className="p-4">
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0">
+          <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+            {label}
+          </p>
+          <p
+            className={cn(
+              'mt-1 text-2xl font-semibold tabular-nums-strict',
+              accent,
+            )}
+          >
+            {value}
+          </p>
+          {hint && (
+            <p className="mt-1 text-xs text-muted-foreground tabular-nums-strict">
+              {hint}
+            </p>
           )}
         </div>
-
-        {/* Detailed Stats (conditionally rendered) */}
-        {showDetailedStats && (
-          <>
-            {/* Original SteamGifts Stats */}
-            <div className="bg-card-background rounded-lg border-card-border border p-4">
-              <h3 className="text-sm font-semibold mb-3 flex items-center">
-                <span>Original Stats</span>
-                <span className="text-xs text-muted-foreground ml-2">(including  reduced, shared, etc.)</span>
-              </h3>
-              <div className="grid grid-cols-4 gap-2">
-                <div className="text-center col-span-1">
-                  <div className="text-xl font-bold text-accent-blue">
-                    {createdGiveaways}
-                  </div>
-                  <div className="text-xs text-muted-foreground">Created GAs</div>
-                  <div className="text-xs text-muted-foreground">{ongoingGiveaways} ongoing</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-xl font-bold text-info-foreground">{user.stats.total_sent_count}</div>
-                  <div className="text-xs text-muted-foreground">Sent</div>
-                  <div className="text-xs text-muted-foreground">${user.stats.total_sent_value.toFixed(2)}</div>
-                </div>
-
-                <div className="text-center">
-                  <div className="text-xl font-bold text-success-foreground">{user.stats.total_received_count}</div>
-                  <div className="text-xs text-muted-foreground">Received</div>
-                  <div className="text-xs text-muted-foreground">${user.stats.total_received_value.toFixed(2)}</div>
-                </div>
-
-                <div className="text-center">
-                  <div className={`text-xl font-bold ${userType.color}`}>
-                    {user.stats.total_gift_difference > 0 ? '+' : ''}{user.stats.total_gift_difference}
-                  </div>
-                  <div className="text-xs text-muted-foreground">Difference</div>
-                  <div className={`text-xs ${userType.color}`}>
-                    {user.stats.total_value_difference > 0 ? '+' : ''}${user.stats.total_value_difference.toFixed(2)}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* CV Breakdown and Shared Stats */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              {/* Full CV */}
-              <div className="bg-card-background rounded-lg border-card-border border p-4">
-                <h3 className="text-sm font-semibold mb-3 text-accent-green">Full CV</h3>
-                <div className="space-y-2">
-                  <div className="flex justify-between">
-                    <span className="text-xs text-muted-foreground">Sent:</span>
-                    <span className="text-sm font-medium">{user.stats.fcv_sent_count}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-xs text-muted-foreground">Received:</span>
-                    <span className="text-sm font-medium">{user.stats.fcv_received_count}</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Reduced CV */}
-              <div className="bg-card-background rounded-lg border-card-border border p-4">
-                <h3 className="text-sm font-semibold mb-3 text-accent-yellow">Reduced CV</h3>
-                <div className="space-y-2">
-                  <div className="flex justify-between">
-                    <span className="text-xs text-muted-foreground">Sent:</span>
-                    <span className="text-sm font-medium">{user.stats.rcv_sent_count}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-xs text-muted-foreground">Received:</span>
-                    <span className="text-sm font-medium">{user.stats.rcv_received_count}</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* No CV */}
-              <div className="bg-card-background rounded-lg border-card-border border p-4">
-                <h3 className="text-sm font-semibold mb-3 text-accent-orange">No CV</h3>
-                <div className="space-y-2">
-                  <div className="flex justify-between">
-                    <span className="text-xs text-muted-foreground">Sent:</span>
-                    <span className="text-sm font-medium">{user.stats.ncv_sent_count}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-xs text-muted-foreground">Received:</span>
-                    <span className="text-sm font-medium">{user.stats.ncv_received_count}</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Shared */}
-              <div className="bg-card-background rounded-lg border-card-border border p-4">
-                <h3 className="text-sm font-semibold mb-3 text-accent-purple">Shared</h3>
-                <div className="space-y-2">
-                  <div className="flex justify-between">
-                    <span className="text-xs text-muted-foreground">Created:</span>
-                    <span className="text-sm font-medium">{user.stats.shared_sent_count}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-xs text-muted-foreground">Won:</span>
-                    <span className="text-sm font-medium">{user.stats.shared_received_count}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </>
+        {Icon && (
+          <div
+            className={cn(
+              'flex h-9 w-9 items-center justify-center rounded-md bg-card-background-hover',
+              accent || 'text-muted-foreground',
+            )}
+          >
+            <Icon className="h-4 w-4" />
+          </div>
         )}
       </div>
+    </Card>
+  )
+}
 
-      {/* Steam Statistics */}
-      {user.steam_id && !user.steam_profile_is_private && user.giveaways_won && user.giveaways_won.some(g => g.steam_play_data) && (
-        <div className="bg-card-background rounded-lg border-card-border border p-6 mb-6">
-          <h2 className="text-xl font-semibold mb-4 flex items-center">
-            🎮 Steam Activity
-            {user.stats.has_missing_achievements_data && (
-              <Tooltip content="Some games won by this user don't have achievement data available on Steam, so the percentages might not be accurate.">
-                <span className="ml-2 text-lg">⚠️</span>
-              </Tooltip>
-            )}
-          </h2>
-          <p className="text-sm text-muted-foreground mb-4">Activity related only to the games won in the group</p>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <div className="text-center">
-              <div className="text-2xl font-bold text-accent-orange">{getOwnedGames()}</div>
-              <div className="text-sm text-muted-foreground">Activated Games</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-accent-blue">
-                {getTotalPlaytime() === 0
-                  ? 'Unavailable'
-                  : formatPlaytime(getTotalPlaytime())}
-              </div>
-              <div className="text-sm text-muted-foreground">Total Playtime</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-accent-yellow">{getTotalAchievements()}</div>
-              <div className="text-sm text-muted-foreground">Total Achievements</div>
-              <div className="text-xs text-muted-foreground">
-                ({user.stats.total_achievements_percentage ?? 0}% Total - {user.stats.average_achievements_percentage ?? 0}% Avg. per game)
-              </div>
-            </div>
-            <UnplayedGamesStats user={user} size="large" />
-          </div>
+function CvBreakdown({
+  label,
+  accent,
+  sent,
+  received,
+  sentLabel = 'Sent',
+  receivedLabel = 'Received',
+}: {
+  label: string
+  accent: string
+  sent: number
+  received: number
+  sentLabel?: string
+  receivedLabel?: string
+}) {
+  return (
+    <Card className="p-4">
+      <p className={cn('text-sm font-semibold', accent)}>{label}</p>
+      <dl className="mt-3 space-y-1.5 text-sm">
+        <div className="flex justify-between">
+          <dt className="text-muted-foreground">{sentLabel}</dt>
+          <dd className="font-medium tabular-nums-strict">{sent}</dd>
         </div>
-      )}
-
-      {/* Games Won */}
-      {user.giveaways_won && user.giveaways_won.length > 0 && (
-        <WonGiveawaysClient
-          giveaways={giveaways}
-          wonGiveaways={user.giveaways_won}
-          gameData={gameData}
-          user={user}
-        />
-      )}
-
-      {/* Giveaways Created */}
-      <GivenGiveawaysClient
-        giveaways={userGiveaways}
-        userAvatars={userAvatars}
-        userNames={userNames}
-        gameData={gameData}
-      />
-
-      <GiveawaysClient
-        heading="🎟️ Giveaways Entered"
-        giveaways={enteredGiveaways}
-        userAvatars={userAvatars}
-        userNames={userNames}
-        gameData={gameData}
-        lastUpdated={null}
-        defaultGiveawayStatus="open"
-      />
-
-      {leavers.length > 0 && <GiveawayLeaversClient leavers={leavers} />}
-    </div>
+        <div className="flex justify-between">
+          <dt className="text-muted-foreground">{receivedLabel}</dt>
+          <dd className="font-medium tabular-nums-strict">{received}</dd>
+        </div>
+      </dl>
+    </Card>
   )
 }
