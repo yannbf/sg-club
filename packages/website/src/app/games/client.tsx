@@ -13,6 +13,7 @@ import {
 import { Giveaway, GameData } from '@/types'
 import Link from 'next/link'
 import UserAvatar from '@/components/UserAvatar'
+import { UserLink } from '@/components/UserLink'
 import GameImage from '@/components/GameImage'
 import { LastUpdated } from '@/components/LastUpdated'
 import { useDebounce } from '@/lib/hooks'
@@ -355,9 +356,9 @@ export default function GamesClient({
                           'https://cdn-icons-png.flaticon.com/512/9287/9287610.png'
                         const isActive = userNames.has(steamId)
                         return isActive ? (
-                          <Link
+                          <UserLink
                             key={index}
-                            href={`/users/${displayName}`}
+                            username={displayName}
                             className="inline-flex items-center gap-1 rounded-full border border-card-border bg-card-background-hover px-1.5 py-0.5 text-[10px] hover:border-card-border-strong"
                           >
                             <UserAvatar
@@ -367,7 +368,7 @@ export default function GamesClient({
                             <span className="truncate max-w-[80px]">
                               {displayName}
                             </span>
-                          </Link>
+                          </UserLink>
                         ) : (
                           <a
                             key={index}

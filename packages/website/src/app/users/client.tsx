@@ -1,7 +1,6 @@
 'use client'
 
 import { useMemo, useState } from 'react'
-import Link from 'next/link'
 import Image from 'next/image'
 import {
   AlertTriangle,
@@ -27,6 +26,8 @@ import {
 import { getWarningsSeverity } from './[username]/UserDetailPageClient'
 import Tooltip from '@/components/Tooltip'
 import { getUserRatio } from './util'
+import { useIsAdmin } from '@/lib/auth'
+import { UserLink, steamGiftsProfile } from '@/components/UserLink'
 import { Card } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
@@ -124,6 +125,7 @@ export default function UsersClient({
   heading = 'Users',
   description,
 }: Props) {
+  const isAdmin = useIsAdmin()
   const [includeExMembers, setIncludeExMembers] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
   const [sortBy, setSortBy] = useState<SortKey>('difference')
@@ -311,15 +313,19 @@ export default function UsersClient({
           size="sm"
           className="flex-wrap"
         >
-          <ToggleGroupItem value="warnings">
-            <AlertTriangle className="h-3.5 w-3.5" /> Needs attention
-          </ToggleGroupItem>
+          {isAdmin && (
+            <ToggleGroupItem value="warnings">
+              <AlertTriangle className="h-3.5 w-3.5" /> Needs attention
+            </ToggleGroupItem>
+          )}
           <ToggleGroupItem value="contributors">
             <Coins className="h-3.5 w-3.5" /> Net contributor
           </ToggleGroupItem>
-          <ToggleGroupItem value="receivers">
-            <TrendingDown className="h-3.5 w-3.5" /> Net receiver
-          </ToggleGroupItem>
+          {isAdmin && (
+            <ToggleGroupItem value="receivers">
+              <TrendingDown className="h-3.5 w-3.5" /> Net receiver
+            </ToggleGroupItem>
+          )}
           <ToggleGroupItem value="neutral">
             <Scale className="h-3.5 w-3.5" /> Neutral
           </ToggleGroupItem>
@@ -350,7 +356,7 @@ export default function UsersClient({
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
         {filteredAndSortedUsers.map((user) => (
-          <UserCard key={user.steam_id} user={user} />
+          <UserCard key={user.steam_id} user={user} isAdmin={isAdmin} />
         ))}
       </div>
 
@@ -369,7 +375,7 @@ export default function UsersClient({
   )
 }
 
-function UserCard({ user }: { user: User }) {
+function UserCard({ user, isAdmin }: { user: User; isAdmin: boolean }) {
   const ratio = user.stats.giveaway_ratio ?? 0
   const ratioCategory = getUserRatio(ratio)
   const diff = user.stats.real_total_gift_difference
@@ -382,14 +388,16 @@ function UserCard({ user }: { user: User }) {
       : formatPlaytime(totalPlaytime)
   const recentWins = getRecentWins(user)
   const noEntryGAs = getNoEntryGiveaways(user)
-  const accentClass =
-    ratioCategory === 'contributor'
+  const accentClass = !isAdmin
+    ? 'before:bg-[var(--card-border-strong)]'
+    : ratioCategory === 'contributor'
       ? 'before:bg-[var(--success)]'
       : ratioCategory === 'receiver'
         ? 'before:bg-[var(--error)]'
         : 'before:bg-[var(--card-border-strong)]'
-  const headlineColor =
-    diff > 0
+  const headlineColor = !isAdmin
+    ? 'text-foreground'
+    : diff > 0
       ? 'text-success-foreground'
       : diff < 0
         ? 'text-error-foreground'
@@ -404,29 +412,37 @@ function UserCard({ user }: { user: User }) {
       )}
     >
       <div className="flex items-start gap-3">
-        {user.avatar_url ? (
-          <Image
-            src={user.avatar_url}
-            alt={user.username}
-            width={48}
-            height={48}
-            className="h-12 w-12 flex-shrink-0 rounded-full ring-1 ring-card-border"
-          />
-        ) : (
-          <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-card-background-hover ring-1 ring-card-border text-muted-foreground">
-            <span className="text-sm font-bold">
-              {user.username[0]?.toUpperCase()}
-            </span>
-          </div>
-        )}
+        <a
+          href={steamGiftsProfile(user.username)}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={`Open ${user.username} on SteamGifts`}
+          className="flex-shrink-0 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+        >
+          {user.avatar_url ? (
+            <Image
+              src={user.avatar_url}
+              alt={user.username}
+              width={48}
+              height={48}
+              className="h-12 w-12 rounded-full ring-1 ring-card-border transition-transform hover:scale-105"
+            />
+          ) : (
+            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-card-background-hover ring-1 ring-card-border text-muted-foreground transition-transform hover:scale-105">
+              <span className="text-sm font-bold">
+                {user.username[0]?.toUpperCase()}
+              </span>
+            </div>
+          )}
+        </a>
         <div className="flex-1 min-w-0">
           <div className="flex items-start justify-between gap-2">
-            <Link
-              href={`/users/${user.username}`}
+            <UserLink
+              username={user.username}
               className="truncate text-base font-semibold text-foreground hover:text-accent hover:underline"
             >
               {user.username}
-            </Link>
+            </UserLink>
             <div className="flex items-center gap-1 text-muted-foreground">
               {user.steam_id && !user.steam_profile_is_private && (
                 <Tooltip content="Steam account connected">
@@ -436,8 +452,8 @@ function UserCard({ user }: { user: User }) {
             </div>
           </div>
           <div className="mt-1 flex flex-wrap items-center gap-1.5">
-            {userTypeBadge(user)}
-            {user.warnings && user.warnings.length > 0 && (
+            {isAdmin && userTypeBadge(user)}
+            {isAdmin && user.warnings && user.warnings.length > 0 && (
               <Badge
                 variant={
                   getWarningsSeverity(user.warnings) === 'problem'
@@ -492,23 +508,27 @@ function UserCard({ user }: { user: User }) {
             <span
               className={cn(
                 'font-display text-3xl font-bold leading-none tabular-nums-strict',
-                ratioCategory === 'contributor'
-                  ? 'text-success-foreground'
-                  : ratioCategory === 'receiver'
-                    ? 'text-error-foreground'
-                    : 'text-muted-foreground',
+                !isAdmin
+                  ? 'text-foreground'
+                  : ratioCategory === 'contributor'
+                    ? 'text-success-foreground'
+                    : ratioCategory === 'receiver'
+                      ? 'text-error-foreground'
+                      : 'text-muted-foreground',
               )}
             >
               {ratio.toFixed(2)}
             </span>
           </div>
-          <p className="mt-1 text-xs text-muted-foreground">
-            {ratioCategory === 'contributor'
-              ? 'Sends ≥3× the value received'
-              : ratioCategory === 'receiver'
-                ? 'Receives more than 3× the value sent'
-                : 'Within balanced range'}
-          </p>
+          {isAdmin && (
+            <p className="mt-1 text-xs text-muted-foreground">
+              {ratioCategory === 'contributor'
+                ? 'Sends ≥3× the value received'
+                : ratioCategory === 'receiver'
+                  ? 'Receives more than 3× the value sent'
+                  : 'Within balanced range'}
+            </p>
+          )}
         </div>
       </div>
 

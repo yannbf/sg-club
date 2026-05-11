@@ -8,19 +8,23 @@ import {
   Gamepad2,
   Gift,
   Heart,
+  LogIn,
   LogOut,
   Menu,
+  Shield,
   Users,
   X,
 } from 'lucide-react'
 import * as React from 'react'
 import { ThemeToggle } from '@/components/ThemeToggle'
+import { useAuth } from '@/lib/auth'
 import { cn } from '@/lib/cn'
 
 interface NavItem {
   href: string
   label: string
   icon: React.ComponentType<{ className?: string }>
+  adminOnly?: boolean
 }
 
 const NAV: NavItem[] = [
@@ -28,9 +32,9 @@ const NAV: NavItem[] = [
   { href: '/games', label: 'Games', icon: Gamepad2 },
   { href: '/giveaways', label: 'Giveaways', icon: Gift },
   { href: '/wishlist', label: 'Wishlist', icon: Heart },
-  { href: '/users', label: 'Users', icon: Users },
-  { href: '/ex-members', label: 'Ex members', icon: LogOut },
-  { href: '/stats', label: 'Leavers', icon: BarChart3 },
+  { href: '/users', label: 'Users', icon: Users, adminOnly: true },
+  { href: '/ex-members', label: 'Ex members', icon: LogOut, adminOnly: true },
+  { href: '/stats', label: 'Leavers', icon: BarChart3, adminOnly: true },
 ]
 
 function isActive(pathname: string, href: string) {
@@ -41,6 +45,9 @@ function isActive(pathname: string, href: string) {
 export function SiteHeader() {
   const pathname = usePathname() ?? '/'
   const [open, setOpen] = React.useState(false)
+  const { isAdmin, isReady, logout } = useAuth()
+
+  const visibleNav = NAV.filter((item) => !item.adminOnly || isAdmin)
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-card-border bg-background/85 backdrop-blur supports-[backdrop-filter]:bg-background/65">
@@ -73,7 +80,7 @@ export function SiteHeader() {
         </Link>
 
         <nav className="ml-auto hidden items-center gap-1 lg:flex">
-          {NAV.map((item) => {
+          {visibleNav.map((item) => {
             const active = isActive(pathname, item.href)
             const Icon = item.icon
             return (
@@ -100,6 +107,27 @@ export function SiteHeader() {
         </nav>
 
         <div className="ml-auto flex items-center gap-2 lg:ml-0">
+          {isReady &&
+            (isAdmin ? (
+              <button
+                type="button"
+                onClick={logout}
+                title="Sign out of admin"
+                className="hidden h-9 items-center gap-1.5 rounded-md border border-card-border bg-card-background px-2.5 text-xs font-medium text-muted-foreground transition-colors hover:bg-card-background-hover hover:text-foreground sm:inline-flex"
+              >
+                <Shield className="h-3.5 w-3.5 text-primary-hi" />
+                Admin
+                <LogOut className="h-3.5 w-3.5" />
+              </button>
+            ) : (
+              <Link
+                href="/login"
+                className="hidden h-9 items-center gap-1.5 rounded-md border border-card-border bg-card-background px-2.5 text-xs font-medium text-muted-foreground transition-colors hover:bg-card-background-hover hover:text-foreground sm:inline-flex"
+              >
+                <LogIn className="h-3.5 w-3.5" />
+                Sign in
+              </Link>
+            ))}
           <ThemeToggle />
           <button
             type="button"
@@ -116,12 +144,12 @@ export function SiteHeader() {
       <div
         className={cn(
           'overflow-hidden border-t border-card-border bg-card-background lg:hidden',
-          open ? 'max-h-96' : 'max-h-0',
+          open ? 'max-h-[28rem]' : 'max-h-0',
           'transition-[max-height] duration-200 ease-out',
         )}
       >
         <nav className="mx-auto flex max-w-screen-2xl flex-col gap-1 p-3">
-          {NAV.map((item) => {
+          {visibleNav.map((item) => {
             const active = isActive(pathname, item.href)
             const Icon = item.icon
             return (
@@ -141,6 +169,32 @@ export function SiteHeader() {
               </Link>
             )
           })}
+          {isReady && (
+            <div className="mt-2 border-t border-card-border pt-2">
+              {isAdmin ? (
+                <button
+                  type="button"
+                  onClick={() => {
+                    logout()
+                    setOpen(false)
+                  }}
+                  className="inline-flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-card-background-hover hover:text-foreground"
+                >
+                  <LogOut className="h-4 w-4" />
+                  Sign out of admin
+                </button>
+              ) : (
+                <Link
+                  href="/login"
+                  onClick={() => setOpen(false)}
+                  className="inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-card-background-hover hover:text-foreground"
+                >
+                  <LogIn className="h-4 w-4" />
+                  Admin sign in
+                </Link>
+              )}
+            </div>
+          )}
         </nav>
       </div>
     </header>

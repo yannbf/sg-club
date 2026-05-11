@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import Image from 'next/image'
+import { UserLink } from '@/components/UserLink'
 import DatePicker from 'react-datepicker'
 import { startOfMonth, endOfMonth } from 'date-fns'
 import {
@@ -774,12 +775,12 @@ export default function GiveawaysClient({
                           }
                           username={getDisplayName(giveaway.creator)}
                         />
-                        <Link
-                          href={`/users/${getDisplayName(giveaway.creator)}`}
+                        <UserLink
+                          username={getDisplayName(giveaway.creator)}
                           className="truncate text-foreground hover:text-accent hover:underline"
                         >
                           {getDisplayName(giveaway.creator)}
-                        </Link>
+                        </UserLink>
                       </div>
                       <div className="text-muted-foreground">
                         <FormattedDate timestamp={giveaway.end_timestamp} />
@@ -870,8 +871,8 @@ export default function GiveawaysClient({
                 </a>
 
                 <div className="flex items-center justify-between gap-2 text-xs">
-                  <Link
-                    href={`/users/${getDisplayName(giveaway.creator)}`}
+                  <UserLink
+                    username={getDisplayName(giveaway.creator)}
                     className="flex min-w-0 items-center gap-1.5 text-muted-foreground hover:text-foreground"
                   >
                     <UserAvatar
@@ -884,7 +885,7 @@ export default function GiveawaysClient({
                     <span className="truncate">
                       {getDisplayName(giveaway.creator)}
                     </span>
-                  </Link>
+                  </UserLink>
                   <span
                     className={cn(
                       'flex-shrink-0 text-right',
@@ -1002,9 +1003,9 @@ export default function GiveawaysClient({
                           )
                         }
                         return userAvatars.get(winner.name) ? (
-                          <Link
+                          <UserLink
                             key={index}
-                            href={`/users/${winnerDisplayName}`}
+                            username={winnerDisplayName!}
                             className="inline-flex items-center gap-1.5 rounded-full border border-card-border bg-card-background-hover px-2 py-0.5 text-xs hover:border-card-border-strong"
                           >
                             <UserAvatar
@@ -1015,7 +1016,7 @@ export default function GiveawaysClient({
                               username={winnerDisplayName!}
                             />
                             <span>{winnerDisplayName}</span>
-                          </Link>
+                          </UserLink>
                         ) : (
                           <a
                             key={index}

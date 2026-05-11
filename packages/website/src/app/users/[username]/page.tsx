@@ -2,6 +2,7 @@
 import { getUser, getAllGiveaways, getAllUsers, getExMembers, getGameData, getUserEntries, getSteamIdMap } from '@/lib/data'
 import { notFound } from 'next/navigation'
 import UserDetailPageClient from './UserDetailPageClient'
+import { AdminGate } from '@/components/AdminGate'
 import leaversData from '@/../investigation/giveaway_leavers.json';
 import { GiveawayLeaver } from '@/types/stats';
 import { Giveaway } from '@/types';
@@ -115,16 +116,18 @@ export default async function UserDetailPage(
   const gameData = Object.entries(gameDataObj).map(([, data]) => data)
 
   return (
-    <UserDetailPageClient
-      user={user}
-      allUsers={allUsers}
-      giveaways={giveaways}
-      gameData={gameData}
-      userEntries={userEntries}
-      lastUpdated={lastUpdated}
-      leavers={userLeaversWithGaData}
-      steamIdMap={steamIdMap}
-      isExMember={isExMember}
-    />
+    <AdminGate>
+      <UserDetailPageClient
+        user={user}
+        allUsers={allUsers}
+        giveaways={giveaways}
+        gameData={gameData}
+        userEntries={userEntries}
+        lastUpdated={lastUpdated}
+        leavers={userLeaversWithGaData}
+        steamIdMap={steamIdMap}
+        isExMember={isExMember}
+      />
+    </AdminGate>
   )
 } 

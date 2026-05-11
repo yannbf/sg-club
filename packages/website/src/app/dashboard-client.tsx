@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useMemo } from 'react'
 import Link from 'next/link'
+import { UserLink } from '@/components/UserLink'
 import {
   Award,
   ChevronLeft,
@@ -32,6 +33,7 @@ import {
   TabsTrigger,
 } from '@/components/ui/Tabs'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/ToggleGroup'
+import { useIsAdmin } from '@/lib/auth'
 import {
   Select,
   SelectContent,
@@ -96,12 +98,12 @@ function UserRanking({ users, emptyLabel = 'No data yet.' }: UserRankingProps) {
               {index + 1}
             </span>
             <UserAvatar src={user.avatar_url} username={user.username} />
-            <Link
-              href={`/users/${user.username}`}
+            <UserLink
+              username={user.username}
               className="truncate text-sm font-medium hover:text-accent hover:underline"
             >
               {user.username}
-            </Link>
+            </UserLink>
           </div>
           <span className="text-sm font-semibold tabular-nums-strict">
             {value}
@@ -509,12 +511,12 @@ function LuckRankingSection({ rankings }: { rankings: UserLuckData[] }) {
                           src={row.avatar_url}
                           username={row.username}
                         />
-                        <Link
-                          href={`/users/${row.username}`}
+                        <UserLink
+                          username={row.username}
                           className="truncate font-medium hover:text-accent hover:underline"
                         >
                           {row.username}
-                        </Link>
+                        </UserLink>
                       </div>
                     </td>
                     <td className="px-2 py-1.5 text-right text-muted-foreground tabular-nums-strict">
@@ -646,6 +648,7 @@ export default function DashboardClient({
   allStats,
   lastUpdated,
 }: Props) {
+  const isAdmin = useIsAdmin()
   const [scope, setScope] = useState<'active' | 'all'>('active')
   const stats = scope === 'all' ? allStats : activeStats
 
@@ -752,17 +755,19 @@ export default function DashboardClient({
                 </span>
               }
             />
-            <Row
-              label="Members with warnings"
-              value={
-                <span className="text-error-foreground">
-                  {stats.usersWithWarningsCount}{' '}
-                  <span className="text-muted-foreground font-normal">
-                    ({stats.usersWithWarningsPercentage.toFixed(1)}%)
+            {isAdmin && (
+              <Row
+                label="Members with warnings"
+                value={
+                  <span className="text-error-foreground">
+                    {stats.usersWithWarningsCount}{' '}
+                    <span className="text-muted-foreground font-normal">
+                      ({stats.usersWithWarningsPercentage.toFixed(1)}%)
+                    </span>
                   </span>
-                </span>
-              }
-            />
+                }
+              />
+            )}
           </CardContent>
         </Card>
 

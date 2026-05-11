@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from 'react'
 import Link from 'next/link'
+import { UserLink } from '@/components/UserLink'
 import {
   Clock,
   Filter,
@@ -26,6 +27,7 @@ import { Input } from '@/components/ui/Input'
 import { Toolbar } from '@/components/ui/Toolbar'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/ToggleGroup'
 import { StatCard } from '@/components/StatCard'
+import { AdminGate } from '@/components/AdminGate'
 import { cn } from '@/lib/cn'
 
 type GiveawayWithLeavers = Giveaway & {
@@ -103,6 +105,7 @@ export default function Client({ giveaways, lastUpdated }: Props) {
         )}
       </div>
 
+      <AdminGate>
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         <StatCard
           icon={LogOut}
@@ -217,8 +220,8 @@ export default function Client({ giveaways, lastUpdated }: Props) {
                             : getFullDate(leaver.leave_detected_at)
                         }`}
                       >
-                        <Link
-                          href={`/users/${user.username}`}
+                        <UserLink
+                          username={user.username}
                           className={cn(
                             'inline-flex items-center gap-1.5 rounded-full border border-card-border bg-card-background-hover px-2 py-0.5 text-xs transition-colors hover:border-card-border-strong hover:bg-card-background',
                             user.isExMember && 'opacity-70',
@@ -242,7 +245,7 @@ export default function Client({ giveaways, lastUpdated }: Props) {
                           {user.isExMember && (
                             <span className="text-subtle">(ex)</span>
                           )}
-                        </Link>
+                        </UserLink>
                       </Tooltip>
                     ))}
                   </div>
@@ -271,6 +274,7 @@ export default function Client({ giveaways, lastUpdated }: Props) {
           </Button>
         </Card>
       )}
+      </AdminGate>
     </div>
   )
 }

@@ -37,6 +37,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
+import { useIsAdmin } from '@/lib/auth'
 import { cn } from '@/lib/cn'
 
 interface Props {
@@ -238,6 +239,7 @@ export default function UserDetailPageClient({
   steamIdMap,
   isExMember,
 }: Props) {
+  const isAdmin = useIsAdmin()
   const [showOriginalStats, setShowOriginalStats] = useState(false)
 
   const userGiveaways = giveaways.filter((g) => g.creator === user.steam_id)
@@ -335,7 +337,9 @@ export default function UserDetailPageClient({
         className={cn(
           'relative overflow-hidden p-6',
           'before:absolute before:left-0 before:top-0 before:h-full before:w-1 before:z-10',
-          ratio.accent,
+          isAdmin
+            ? ratio.accent
+            : 'before:bg-[var(--card-border-strong)]',
         )}
       >
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
@@ -372,14 +376,16 @@ export default function UserDetailPageClient({
                 {user.username}
               </a>
               <CountryFlag countryCode={user.country_code} />
-              {isExMember && (
+              {isExMember && isAdmin && (
                 <Badge variant="error" size="md">
                   Ex member
                 </Badge>
               )}
-              <Badge variant={ratio.variant} size="md">
-                {ratio.label}
-              </Badge>
+              {isAdmin && (
+                <Badge variant={ratio.variant} size="md">
+                  {ratio.label}
+                </Badge>
+              )}
               <Badge variant="outline" size="md">
                 <Scale className="h-3 w-3" />
                 <span className="tabular-nums-strict">
@@ -387,7 +393,7 @@ export default function UserDetailPageClient({
                 </span>{' '}
                 ratio
               </Badge>
-              {user.warnings && user.warnings.length > 0 && (
+              {isAdmin && user.warnings && user.warnings.length > 0 && (
                 <Badge
                   variant={
                     getWarningsSeverity(user.warnings) === 'problem'
@@ -460,7 +466,7 @@ export default function UserDetailPageClient({
       </Card>
 
       {/* Warnings */}
-      {user.warnings && user.warnings.length > 0 && (
+      {isAdmin && user.warnings && user.warnings.length > 0 && (
         <Card
           className={cn(
             'border-l-4',
@@ -724,7 +730,7 @@ export default function UserDetailPageClient({
               </span>
             )}
           </TabsTrigger>
-          {leavers.length > 0 && (
+          {isAdmin && leavers.length > 0 && (
             <TabsTrigger value="leavers" className="gap-1.5">
               <UsersIcon className="h-3.5 w-3.5" /> Leavers
               <span className="text-xs text-muted-foreground tabular-nums-strict">
@@ -766,7 +772,7 @@ export default function UserDetailPageClient({
           />
         </TabsContent>
 
-        {leavers.length > 0 && (
+        {isAdmin && leavers.length > 0 && (
           <TabsContent value="leavers" className="mt-6">
             <GiveawayLeaversClient leavers={leavers} />
           </TabsContent>

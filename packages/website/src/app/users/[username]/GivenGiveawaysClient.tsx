@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import { UserLink } from '@/components/UserLink'
 import { Giveaway, GameData } from '@/types'
 import { getCVBadgeColor, getCVLabel } from '@/lib/data'
 import GameImage from '@/components/GameImage'
@@ -323,9 +324,9 @@ export default function GivenGiveawaysClient({ giveaways, userAvatars, userNames
                               const displayName = winner.name ? getDisplayName(winner.name) : null
                               return (
                               !winner.name ? <p key={index}>Awaiting feedback</p> : userAvatars.get(winner.name) ? (
-                                <Link
+                                <UserLink
                                   key={index}
-                                  href={`/users/${displayName}`}
+                                  username={displayName!}
                                   className="text-accent hover:underline mr-2 inline-flex items-center"
                                 >
                                   <UserAvatar
@@ -333,7 +334,7 @@ export default function GivenGiveawaysClient({ giveaways, userAvatars, userNames
                                     username={displayName!}
                                   />
                                   {displayName}
-                                </Link>
+                                </UserLink>
                               ) : (
                                 <a
                                   key={index}
