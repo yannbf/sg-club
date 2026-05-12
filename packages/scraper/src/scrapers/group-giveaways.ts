@@ -1000,6 +1000,65 @@ export class SteamGiftsHTMLScraper {
     }
   }
 
+  /** True if the giveaway's end timestamp falls within the given
+   *  UTC month. `monthIndex` is 0-based (0 = January, 4 = May). */
+  private endedInUtcMonth(
+    end_timestamp: number,
+    year: number,
+    monthIndex: number,
+  ): boolean {
+    const d = new Date(end_timestamp * 1000)
+    return d.getUTCFullYear() === year && d.getUTCMonth() === monthIndex
+  }
+
+  /**
+   * May 2026 community event: any FULL_CV non-shared giveaway that
+   * ended in May 2026 with at least 5 entries is implicitly an event
+   * entry, even if its description carries no marker. Description-
+   * based tags (handled in parseGiveawayDetails) always take precedence.
+   *
+   * Runs after CV status has been resolved so we can gate on
+   * cv_status === 'FULL_CV'. Self-correcting: if a previously-tagged
+   * giveaway no longer meets the rule (entries dropped, CV recomputed,
+   * shared flag flipped, etc.) the tag is removed. Legacy
+   * 'may_2026_event' (older tag name used during initial backfill) is
+   * also re-evaluated.
+   *
+   * Mutates the giveaways in place and returns them for chaining.
+   */
+  public applyMay2026EventTag(giveaways: Giveaway[]): Giveaway[] {
+    const OWNED_TAGS = new Set(['may_event_2026', 'may_2026_event'])
+    let tagged = 0
+    let untagged = 0
+    for (const g of giveaways) {
+      // Skip giveaways whose tag we don't own (description-based
+      // events like rpg_august, april_event_2026, etc.).
+      if (g.event_type && !OWNED_TAGS.has(g.event_type)) continue
+
+      const eligible =
+        g.cv_status === 'FULL_CV' &&
+        !g.is_shared &&
+        g.entry_count >= 5 &&
+        this.endedInUtcMonth(g.end_timestamp, 2026, 4 /* May */)
+
+      if (eligible) {
+        if (g.event_type !== 'may_event_2026') {
+          g.event_type = 'may_event_2026'
+          tagged++
+        }
+      } else if (g.event_type && OWNED_TAGS.has(g.event_type)) {
+        delete g.event_type
+        untagged++
+      }
+    }
+    if (tagged > 0 || untagged > 0) {
+      console.log(
+        `🌸 may_event_2026 — tagged ${tagged}, untagged ${untagged}`,
+      )
+    }
+    return giveaways
+  }
+
   public async updateCVStatus(
     giveaways: Giveaway[],
     isWonGiveaways: boolean = false,

@@ -325,6 +325,9 @@ export async function generateGiveawaysData(): Promise<void> {
       const updatedGiveaways = await groupGiveawaysScraper.updateCVStatus(
         allGiveaways
       )
+      // Tag entry-count-based events (e.g. may_event_2026) now that
+      // cv_status is known — these only apply to FULL_CV giveaways.
+      groupGiveawaysScraper.applyMay2026EventTag(updatedGiveaways)
       const now = Date.now() / 1000
       const activeCount = updatedGiveaways.filter(
         (g) => g.end_timestamp > now
