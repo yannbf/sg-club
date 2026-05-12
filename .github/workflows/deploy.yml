@@ -1,16 +1,44 @@
 name: Update Website and Playtime Data
 
+# Tiered schedule: split the Steam playtime scrape across three runs so
+# we don't try to refresh everyone's entire win history in one shot
+# (the previous behaviour was getting rate-limited and silently
+# dropping older wins, which is how users like yannbz ended up with
+# big chunks of missing playtime/achievement data).
+#
+#   • Every 8h: refresh website data (no playtime).
+#   • Daily 01:00 UTC: playtime mode=fresh   — wins ended in the last 30 days.
+#   • Mon/Wed/Fri 03:00 UTC: mode=medium     — wins 30–180 days old.
+#   • Sunday 05:00 UTC: mode=backfill        — wins >180 days, fills missing data.
 on:
   schedule:
-    # Run every 8 hours at 00:00 and 12:00 UTC
-    - cron: '0 0,8 * * *'
-  workflow_dispatch: # Allow manual triggering
+    - cron: '0 0,8,16 * * *'   # website data, every 8 hours
+    - cron: '0 1 * * *'        # playtime: fresh, daily
+    - cron: '0 3 * * 1,3,5'    # playtime: medium, Mon/Wed/Fri
+    - cron: '0 5 * * 0'        # playtime: backfill, Sunday
+  workflow_dispatch:
+    inputs:
+      job:
+        description: 'Which job to run (website / fresh / medium / backfill / all-playtime)'
+        required: false
+        default: 'website'
+        type: choice
+        options:
+          - website
+          - fresh
+          - medium
+          - backfill
+          - all-playtime
 
 permissions:
   contents: write
 
 jobs:
   website-data:
+    if: |
+      github.event.schedule == '0 0,8,16 * * *' ||
+      (github.event_name == 'workflow_dispatch' && github.event.inputs.job == 'website') ||
+      github.event_name == 'push'
     runs-on: ubuntu-latest
     env:
       STEAM_API_KEY: ${{ secrets.STEAM_API_KEY }}
@@ -49,13 +77,40 @@ jobs:
             git push origin ${{ github.ref_name }}
           fi
 
-  playtime-data:
+  playtime:
+    if: |
+      contains(fromJson('["0 1 * * *","0 3 * * 1,3,5","0 5 * * 0"]'), github.event.schedule) ||
+      (github.event_name == 'workflow_dispatch' &&
+        contains(fromJson('["fresh","medium","backfill","all-playtime"]'), github.event.inputs.job))
     runs-on: ubuntu-latest
-    needs: website-data
     env:
       STEAM_API_KEY: ${{ secrets.STEAM_API_KEY }}
       SG_TOKEN: ${{ secrets.SG_TOKEN }}
       SG_COOKIE: ${{ secrets.SG_COOKIE }}
+      # Cap each run so a stalled API call can't burn the whole CI hour.
+      # Fresh is tiny; medium and backfill get longer windows.
+      PLAYTIME_BUDGET_MINUTES: >-
+        ${{
+          (github.event.schedule == '0 1 * * *' && '20') ||
+          (github.event.schedule == '0 3 * * 1,3,5' && '45') ||
+          (github.event.schedule == '0 5 * * 0' && '60') ||
+          (github.event.inputs.job == 'fresh' && '20') ||
+          (github.event.inputs.job == 'medium' && '45') ||
+          (github.event.inputs.job == 'backfill' && '60') ||
+          (github.event.inputs.job == 'all-playtime' && '120') ||
+          '30'
+        }}
+      PLAYTIME_MODE: >-
+        ${{
+          (github.event.schedule == '0 1 * * *' && 'fresh') ||
+          (github.event.schedule == '0 3 * * 1,3,5' && 'medium') ||
+          (github.event.schedule == '0 5 * * 0' && 'backfill') ||
+          (github.event.inputs.job == 'fresh' && 'fresh') ||
+          (github.event.inputs.job == 'medium' && 'medium') ||
+          (github.event.inputs.job == 'backfill' && 'backfill') ||
+          (github.event.inputs.job == 'all-playtime' && 'all') ||
+          'fresh'
+        }}
 
     steps:
       - name: Checkout repository
@@ -79,8 +134,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Generate playtime data
-        run: pnpm run playtime
+      - name: Generate playtime data (${{ env.PLAYTIME_MODE }})
+        run: pnpm --filter scraper run playtime
 
       - name: Commit and push playtime changes
         run: |
@@ -90,6 +145,6 @@ jobs:
           if git diff --staged --quiet; then
             echo "No changes to commit"
           else
-            git commit -m "🎮 Update playtime data - $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
+            git commit -m "🎮 Update playtime data (${{ env.PLAYTIME_MODE }}) - $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
             git push origin ${{ github.ref_name }}
           fi

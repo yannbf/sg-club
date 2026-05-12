@@ -54,6 +54,112 @@ const IDLE_GAMES_WHITELIST = [
   1901370, // Ib
 ]
 
+// ---------- Steam play-data fetching policy ----------
+
+export type PlaytimeMode = 'fresh' | 'medium' | 'backfill' | 'all'
+
+export interface UpdatePlayDataOptions {
+  /** Which slice of the win history this run is responsible for. */
+  mode?: PlaytimeMode
+  /** Hard wall-clock cap for the run (minutes). null = no cap. */
+  budgetMinutes?: number | null
+}
+
+interface PlaytimePolicy {
+  /** Only consider wins where the giveaway ended within this many days.
+   *  null = no upper bound on age. */
+  maxAgeDays: number | null
+  /** Only consider wins where the giveaway ended at least this many days ago. */
+  minAgeDays: number
+  /** A fetched win is re-fetched if its `last_checked` is older than this. */
+  refreshAfterDays: number
+}
+
+const DAY_MS = 24 * 60 * 60 * 1000
+
+/**
+ * Three rotating tiers + an all-in fallback:
+ *
+ *   • fresh    — wins ended in the last 30 days; refresh daily.
+ *   • medium   — wins ended 30–180 days ago; refresh weekly.
+ *   • backfill — wins older than 180 days; refresh monthly + always
+ *                catches `steam_play_data == null` regardless of age.
+ *   • all      — same as backfill but with no refresh skipping.
+ *
+ * The previous behaviour silently dropped any win older than ~150 days
+ * unless FETCH_ALL_STEAM_DATA was set, which is why users like yannbz
+ * had a wall of older wins with no playtime data.
+ */
+export const PLAYTIME_POLICIES: Record<PlaytimeMode, PlaytimePolicy> = {
+  fresh:    { maxAgeDays: 30,   minAgeDays: 0,   refreshAfterDays: 1 },
+  medium:   { maxAgeDays: 180,  minAgeDays: 30,  refreshAfterDays: 7 },
+  backfill: { maxAgeDays: null, minAgeDays: 180, refreshAfterDays: 30 },
+  all:      { maxAgeDays: null, minAgeDays: 0,   refreshAfterDays: 0 },
+}
+
+export function resolvePlaytimeMode(): PlaytimeMode {
+  const raw = process.env.PLAYTIME_MODE?.toLowerCase()
+  if (raw === 'fresh' || raw === 'medium' || raw === 'backfill' || raw === 'all') {
+    return raw
+  }
+  // FETCH_ALL_STEAM_DATA preserved for backwards compatibility.
+  if (process.env.FETCH_ALL_STEAM_DATA === 'true') return 'all'
+  return 'fresh'
+}
+
+function resolveBudgetMinutes(): number | null {
+  const raw = process.env.PLAYTIME_BUDGET_MINUTES
+  if (!raw) return null
+  const n = parseInt(raw, 10)
+  return Number.isFinite(n) && n > 0 ? n : null
+}
+
+type WonGame = NonNullable<User['giveaways_won']>[number]
+
+/**
+ * Decide whether a single win should be (re-)fetched under the given
+ * policy. Missing data always wins, regardless of mode — there is no
+ * scenario where it's correct to know a win exists and never try to
+ * enrich it. Age windows only gate *re-fetches* of existing data.
+ */
+export function shouldFetchWin(won: WonGame, policy: PlaytimePolicy): boolean {
+  const ageDays = (Date.now() / 1000 - won.end_timestamp) / 86400
+
+  // Wins with no play data at all: always try, gated by mode age window
+  // so 'fresh' doesn't try to backfill ancient gaps every day.
+  if (won.steam_play_data == null) {
+    if (policy.maxAgeDays !== null && ageDays > policy.maxAgeDays) return false
+    if (ageDays < policy.minAgeDays) return false
+    return true
+  }
+
+  // Wins that already have data: only re-fetch within this mode's
+  // age window AND if the cached value is older than refreshAfterDays.
+  if (policy.maxAgeDays !== null && ageDays > policy.maxAgeDays) return false
+  if (ageDays < policy.minAgeDays) return false
+
+  const lastChecked = won.steam_play_data?.last_checked ?? 0
+  const staleDays = (Date.now() - lastChecked) / DAY_MS
+  return staleDays >= policy.refreshAfterDays
+}
+
+function countPendingWins(
+  user: User,
+  giveawayByLink: Map<string, Giveaway>,
+  policy: PlaytimePolicy,
+): number {
+  if (!user.giveaways_won?.length) return 0
+  let n = 0
+  for (const w of user.giveaways_won) {
+    const ga = giveawayByLink.get(w.link)
+    if (!ga?.app_id && !ga?.package_id) continue
+    if (shouldFetchWin(w, policy)) n++
+  }
+  return n
+}
+
+// ---------------------------------------------------
+
 // getGameInfo receives a giveaway link, then finds the HLTB data for the game
 // and returns the game data
 const getGameInfo = (link: string) => {
@@ -619,34 +725,57 @@ export class SteamGiftsUserFetcher {
   public async updateSteamPlayData(
     users: Map<string, User>,
     giveaways: Giveaway[],
+    options: UpdatePlayDataOptions = {},
   ): Promise<void> {
-    console.log(`🎮 Updating Steam play data for won games...`)
+    const mode = options.mode ?? resolvePlaytimeMode()
+    const budgetMinutes = options.budgetMinutes ?? resolveBudgetMinutes()
+    const policy = PLAYTIME_POLICIES[mode]
+    const startTime = Date.now()
+    const budgetMs =
+      budgetMinutes != null ? budgetMinutes * 60_000 : Number.POSITIVE_INFINITY
+
+    console.log(
+      `🎮 Updating Steam play data — mode=${mode}` +
+        (budgetMinutes != null ? `, budget=${budgetMinutes}min` : ''),
+    )
 
     let steamCheckedCount = 0
     let steamErrorCount = 0
     let steamSkippedCount = 0
     let noStatsAvailableCount = 0
 
-    // Calculate timestamp for 5 months ago (150 days)
-    const fiveMonthsAgo = Date.now() / 1000 - 5 * 30 * 24 * 60 * 60
-
-    const usersToUpdate = Array.from(users.values()).filter(
-      (u) => u.steam_id && !u.steam_id.startsWith('username:'),
-    )
-    const totalUsers = usersToUpdate.length
-    let processedUsers = 0
-
-    // Build a giveaway lookup map for O(1) access instead of .find() per game
     const giveawayByLink = new Map(giveaways.map((g) => [g.link, g]))
 
-    for (const user of usersToUpdate) {
+    // Score every candidate user by how many of their wins need attention
+    // under this mode's policy. Users with the biggest backlog are
+    // processed first so each run dents the queue, no matter where we
+    // run out of API budget.
+    type ScoredUser = { user: User; pendingCount: number }
+    const scoredUsers: ScoredUser[] = []
+    for (const user of users.values()) {
+      if (!user.steam_id || user.steam_id.startsWith('username:')) continue
+      if (!user.giveaways_won?.length) continue
+      const pendingCount = countPendingWins(user, giveawayByLink, policy)
+      if (pendingCount === 0) continue
+      scoredUsers.push({ user, pendingCount })
+    }
+    scoredUsers.sort((a, b) => b.pendingCount - a.pendingCount)
+
+    const totalUsers = scoredUsers.length
+    let processedUsers = 0
+    let budgetHit = false
+
+    for (const { user, pendingCount } of scoredUsers) {
+      if (Date.now() - startTime > budgetMs) {
+        budgetHit = true
+        break
+      }
       processedUsers++
       const username = user.username
       console.log(
-        `[${processedUsers}/${totalUsers}] 🎮 Checking Steam data for ${username}`,
+        `[${processedUsers}/${totalUsers}] 🎮 ${username} (${pendingCount} pending)`,
       )
 
-      // Check Steam profile visibility first
       try {
         const visibility = await steamChecker.checkProfileVisibility(
           user.steam_id,
@@ -656,67 +785,60 @@ export class SteamGiftsUserFetcher {
         const errorMessage = `Error checking profile visibility for ${user.username} (${user.steam_id})`
         console.warn(`⚠️  ${errorMessage}:`, error)
         logError(error, errorMessage)
-        continue // skip user
-      }
-
-      if (user.steam_profile_is_private) {
-        console.log(
-          `🙈 Skipping Steam data for ${username} (profile is private)`,
-        )
-        users.set(username, user) // Make sure to save the updated private flag
         continue
       }
 
-      if (!user.giveaways_won) continue
+      if (user.steam_profile_is_private) {
+        console.log(`🙈 Skipping ${username} (profile is private)`)
+        users.set(username, user)
+        continue
+      }
 
       let userUpdated = false
-      // Create a copy of the user's won games to preserve existing data
-      const updatedGiveawaysWon = [...user.giveaways_won]
+      const updatedGiveawaysWon = [...user.giveaways_won!]
 
-      for (let i = 0; i < updatedGiveawaysWon.length; i++) {
-        const wonGame = updatedGiveawaysWon[i]
-        // Find the giveaway to get the app_id
-        const giveaway = giveawayByLink.get(wonGame.link)
-        if (!giveaway?.app_id && !giveaway?.package_id) continue
+      // Within a user: missing-data wins first, then by most-recent end
+      // timestamp. Same idea — squeeze the most valuable work first.
+      const targets = updatedGiveawaysWon
+        .map((w, idx) => ({ w, idx }))
+        .filter(({ w }) => {
+          const ga = giveawayByLink.get(w.link)
+          if (!ga?.app_id && !ga?.package_id) return false
+          return shouldFetchWin(w, policy)
+        })
+        .sort((a, b) => {
+          const aMissing = a.w.steam_play_data == null ? 1 : 0
+          const bMissing = b.w.steam_play_data == null ? 1 : 0
+          if (aMissing !== bMissing) return bMissing - aMissing
+          return b.w.end_timestamp - a.w.end_timestamp
+        })
 
-        // Skip old giveaways unless FETCH_ALL_STEAM_DATA is set
+      for (const { idx } of targets) {
+        if (Date.now() - startTime > budgetMs) {
+          budgetHit = true
+          break
+        }
+        const wonGame = updatedGiveawaysWon[idx]
+        const giveaway = giveawayByLink.get(wonGame.link)!
+
         if (
-          process.env.FETCH_ALL_STEAM_DATA !== 'true' &&
-          wonGame.end_timestamp < fiveMonthsAgo
+          wonGame.steam_play_data?.has_no_available_stats &&
+          wonGame.steam_play_data?.last_checked &&
+          Date.now() - wonGame.steam_play_data.last_checked <
+            2 * 24 * 60 * 60 * 1000
         ) {
-          steamSkippedCount++
-          console.log(
-            `⏭️  Skipping ${username}: ${wonGame.name} (ended ${Math.floor(
-              (Date.now() / 1000 - wonGame.end_timestamp) / (24 * 60 * 60),
-            )} days ago)`,
-          )
+          noStatsAvailableCount++
           continue
         }
 
         try {
-          // Skip if the game has no stats available and was checked within the last 2 days
-          if (
-            wonGame.steam_play_data?.has_no_available_stats &&
-            wonGame.steam_play_data?.last_checked &&
-            Date.now() - wonGame.steam_play_data.last_checked <
-              2 * 24 * 60 * 60 * 1000
-          ) {
-            console.log(
-              `⚠️  Skipping ${username}: ${wonGame.name} (no stats available and checked within the last 2 days)`,
-            )
-            noStatsAvailableCount++
-            continue
-          }
-
           debug(`Checking Steam data for ${username}: ${wonGame.name}`)
           const gamePlayData = await steamChecker.getGamePlayData(
             user.steam_id,
             giveaway.app_id ?? giveaway.package_id!,
             giveaway.package_id ? 'sub' : 'app',
           )
-          debug(`Got Steam data: ${JSON.stringify(gamePlayData)}`)
 
-          // Only update if we got valid data
           if (gamePlayData) {
             let isPotentiallyIdling =
               wonGame.steam_play_data?.is_potentially_idling
@@ -725,7 +847,6 @@ export class SteamGiftsUserFetcher {
               giveaway.app_id ?? giveaway.package_id!,
             )
 
-            // If previously marked idling but now whitelisted, remove idling flag
             if (isPotentiallyIdling && isWhitelisted) {
               isPotentiallyIdling = undefined
             } else if (gamePlayData.achievements_total === 0) {
@@ -740,7 +861,6 @@ export class SteamGiftsUserFetcher {
               isPotentiallyIdling = true
             }
 
-            // If previously marked as idling, but user unlocked achievements, remove idling flag
             if (
               isPotentiallyIdling &&
               gamePlayData.achievements_total > 0 &&
@@ -749,7 +869,7 @@ export class SteamGiftsUserFetcher {
               isPotentiallyIdling = false
             }
 
-            updatedGiveawaysWon[i] = {
+            updatedGiveawaysWon[idx] = {
               ...wonGame,
               steam_play_data: {
                 ...gamePlayData,
@@ -768,15 +888,12 @@ export class SteamGiftsUserFetcher {
             steamErrorCount++
           }
 
-          // Rate limiting - 1000ms between Steam API calls
           await delay(1000)
         } catch (error) {
           const errorMessage = `Error checking Steam data for ${username}/${wonGame.name}`
           console.warn(`⚠️  ${errorMessage}:`, error)
           logError(error, errorMessage)
           steamErrorCount++
-
-          // Rate limiting even on errors
           await delay(1000)
         }
       }
@@ -787,13 +904,27 @@ export class SteamGiftsUserFetcher {
           giveaways_won: updatedGiveawaysWon,
         })
       }
+
+      if (budgetHit) break
     }
 
-    console.log(`🎮 Steam data update complete:`)
-    console.log(`  • Checked: ${steamCheckedCount}`)
-    console.log(`  • Skipped (>5 months old): ${steamSkippedCount}`)
+    // Tally anything still pending across the rest of the queue so the
+    // run summary makes the leftover work obvious.
+    if (budgetHit) {
+      for (let i = processedUsers; i < scoredUsers.length; i++) {
+        steamSkippedCount += scoredUsers[i].pendingCount
+      }
+      console.log(
+        `⏲️  Budget exhausted after ${processedUsers}/${totalUsers} users — ${steamSkippedCount} wins deferred to next run`,
+      )
+    }
+
+    console.log(`🎮 Steam data update complete (mode=${mode}):`)
+    console.log(`  • Users processed:    ${processedUsers}/${totalUsers}`)
+    console.log(`  • Wins checked:       ${steamCheckedCount}`)
+    console.log(`  • Wins deferred:      ${steamSkippedCount}`)
     console.log(`  • No stats available: ${noStatsAvailableCount}`)
-    console.log(`  • Errors: ${steamErrorCount}`)
+    console.log(`  • Errors:             ${steamErrorCount}`)
   }
 
   public async enrichUsersWithGiveaways(
