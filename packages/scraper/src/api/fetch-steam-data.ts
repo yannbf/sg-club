@@ -72,40 +72,53 @@ export class SteamGameChecker {
       const response = await fetch(requestUrl)
 
       if (!response.ok) {
+        // Parse the body if it's a typed Steam error; some endpoints
+        // return JSON like { playerstats: { error: "..." } } on 400.
+        let payload: any = null
         try {
-          const data = (await response.json()) as any
-          if (data.playerstats.error) {
-            const errorType = String(data.playerstats.error)
-            const error = new Error('Steam API request failed: ' + errorType)
-
-            if (errorType.includes('Requested app has no stats')) {
-              error.name = 'NoStatsError'
-            }
-
-            if (errorType.includes('Profile is not public')) {
-              error.name = 'ProfileNotPublicError'
-            }
-
-            logError(error, `Error fetching Steam API (${requestUrl})`)
-            throw error
-          } else {
-            throw data
-          }
-        } catch (error: unknown) {
-          logError(error, `Error fetching Steam API (${requestUrl})`)
-          throw new Error(
-            `Steam API request failed: ${response.status} ${
-              response.statusText
-            } ${error instanceof Error ? error.message : String(error)}`,
-          )
+          payload = await response.json()
+        } catch {
+          /* not JSON */
         }
+
+        if (payload?.playerstats?.error) {
+          const errorType = String(payload.playerstats.error)
+          const err = new Error('Steam API request failed: ' + errorType)
+
+          if (errorType.includes('Requested app has no stats')) {
+            err.name = 'NoStatsError'
+          } else if (errorType.includes('Profile is not public')) {
+            err.name = 'ProfileNotPublicError'
+          }
+          // Named errors are *expected* states (game has no
+          // achievements, profile is private, etc.) — caller maps them
+          // to `has_no_available_stats`. Don't log them to stderr;
+          // they're not failures.
+          throw err
+        }
+
+        throw new Error(
+          `Steam API request failed: ${response.status} ${response.statusText}`,
+        )
       }
 
       return await response.json()
     } catch (error) {
-      const appId = endpoint.split('appid=')[1]
-      console.error(`❌ Error fetching Steam API: ${requestUrl}`)
-      logError(error, `Error fetching Steam API (${appId} - ${requestUrl})`)
+      // Only surface UNEXPECTED errors to the log. Known stat-less /
+      // private-profile responses are routine and would otherwise drown
+      // out anything actually wrong.
+      const name = error instanceof Error ? error.name : ''
+      if (name !== 'NoStatsError' && name !== 'ProfileNotPublicError') {
+        // Extract just the appid digits — endpoint.split('appid=')[1]
+        // captures everything after it, including the key. Don't leak.
+        const appIdMatch = endpoint.match(/appid=(\d+)/)
+        const appId = appIdMatch ? appIdMatch[1] : 'unknown'
+        const safeUrl = requestUrl.replace(/key=[^&]+/, 'key=***')
+        const message =
+          error instanceof Error ? error.message : String(error)
+        console.error(`❌ Steam API error (appid=${appId}): ${message}`)
+        logError(error, `Error fetching Steam API (${appId} - ${safeUrl})`)
+      }
       throw error
     }
   }
@@ -311,6 +324,27 @@ export class SteamGameChecker {
           `[INFO] Found appId ${appIdFromSub} from subId ${appOrSubId}`,
         )
         appOrSubId = appIdFromSub
+      } else {
+        // No game in the package (delisted / region-only / partial
+        // package). The achievements endpoint would 400 with "no stats"
+        // and we'd burn an extra API call. Cache the negative result so
+        // future runs skip this sub for the standard 2-week no-stats
+        // window.
+        console.log(
+          `[INFO] No app found for subId ${appOrSubId}; marking as no-stats`,
+        )
+        this.noStatsCache.set(appOrSubId, Date.now())
+        return {
+          owned: false,
+          playtime_minutes: 0,
+          playtime_formatted: '0 minutes',
+          achievements_unlocked: 0,
+          achievements_total: 0,
+          achievements_percentage: 0,
+          never_played: true,
+          is_playtime_private: false,
+          has_no_available_stats: true,
+        }
       }
     }
 
