@@ -3,7 +3,6 @@ import path from 'node:path'
 import { readFileSync, writeFileSync } from 'node:fs'
 import {
   groupMemberScraper,
-  PLAYTIME_POLICIES,
   resolvePlaytimeMode,
   type PlaytimeMode,
 } from '../scrapers/group-members'
@@ -31,7 +30,6 @@ function parseCliFlags(): void {
 async function generatePlaytimeData(): Promise<void> {
   parseCliFlags()
   const mode: PlaytimeMode = resolvePlaytimeMode()
-  const policy = PLAYTIME_POLICIES[mode]
   const budgetRaw = process.env.PLAYTIME_BUDGET_MINUTES
   const budgetMinutes = budgetRaw ? parseInt(budgetRaw, 10) : null
 
@@ -48,8 +46,9 @@ async function generatePlaytimeData(): Promise<void> {
   console.log(
     `🎮 Generating playtime data — mode=${mode}` +
       (budgetMinutes ? `, budget=${budgetMinutes}min` : '') +
-      ` (age window: ${policy.minAgeDays}–${policy.maxAgeDays ?? '∞'}d,` +
-      ` refresh after ${policy.refreshAfterDays}d)`
+      (mode === 'daily'
+        ? ' (age-aware refresh: ≤30d→1d, ≤180d→7d, >180d→30d; missing always fetched)'
+        : ' (refresh every win regardless of staleness)')
   )
 
   const usersJson = JSON.parse(readFileSync(usersPath, 'utf-8'))

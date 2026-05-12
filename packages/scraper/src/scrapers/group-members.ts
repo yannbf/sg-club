@@ -56,7 +56,7 @@ const IDLE_GAMES_WHITELIST = [
 
 // ---------- Steam play-data fetching policy ----------
 
-export type PlaytimeMode = 'fresh' | 'medium' | 'backfill' | 'all'
+export type PlaytimeMode = 'daily' | 'all'
 
 export interface UpdatePlayDataOptions {
   /** Which slice of the win history this run is responsible for. */
@@ -65,46 +65,40 @@ export interface UpdatePlayDataOptions {
   budgetMinutes?: number | null
 }
 
-interface PlaytimePolicy {
-  /** Only consider wins where the giveaway ended within this many days.
-   *  null = no upper bound on age. */
-  maxAgeDays: number | null
-  /** Only consider wins where the giveaway ended at least this many days ago. */
-  minAgeDays: number
-  /** A fetched win is re-fetched if its `last_checked` is older than this. */
-  refreshAfterDays: number
-}
-
 const DAY_MS = 24 * 60 * 60 * 1000
 
 /**
- * Three rotating tiers + an all-in fallback:
+ * Per-win age-aware staleness. Recent wins can still gain
+ * playtime/achievements every day; ancient wins barely move. So we
+ * refresh recent more often than old.
  *
- *   • fresh    — wins ended in the last 30 days; refresh daily.
- *   • medium   — wins ended 30–180 days ago; refresh weekly.
- *   • backfill — wins older than 180 days; refresh monthly + always
- *                catches `steam_play_data == null` regardless of age.
- *   • all      — same as backfill but with no refresh skipping.
+ *   age ≤ 30 days   → refresh after 1 day
+ *   age 30–180 days → refresh after 7 days
+ *   age > 180 days  → refresh after 30 days
+ *   any age, no data yet → always
+ *
+ * Projection against today's data (146 users × ~1875 wins, 1 req/sec):
+ *   • Day 1 backlog flush: ~1791 calls, ≈ 30 min, then everything is fresh
+ *   • Steady state:         ~229 calls/day, ≈ 4 min
+ *   • Steam quota:          ≤ 0.5 % of the 100 k/day per-key limit
  *
  * The previous behaviour silently dropped any win older than ~150 days
- * unless FETCH_ALL_STEAM_DATA was set, which is why users like yannbz
- * had a wall of older wins with no playtime data.
+ * unless FETCH_ALL_STEAM_DATA was set, which is how users like yannbz
+ * ended up with whole chunks of wins lacking playtime data.
  */
-export const PLAYTIME_POLICIES: Record<PlaytimeMode, PlaytimePolicy> = {
-  fresh:    { maxAgeDays: 30,   minAgeDays: 0,   refreshAfterDays: 1 },
-  medium:   { maxAgeDays: 180,  minAgeDays: 30,  refreshAfterDays: 7 },
-  backfill: { maxAgeDays: null, minAgeDays: 180, refreshAfterDays: 30 },
-  all:      { maxAgeDays: null, minAgeDays: 0,   refreshAfterDays: 0 },
+function refreshAfterDaysFor(ageDays: number): number {
+  if (ageDays <= 30) return 1
+  if (ageDays <= 180) return 7
+  return 30
 }
 
 export function resolvePlaytimeMode(): PlaytimeMode {
   const raw = process.env.PLAYTIME_MODE?.toLowerCase()
-  if (raw === 'fresh' || raw === 'medium' || raw === 'backfill' || raw === 'all') {
-    return raw
-  }
-  // FETCH_ALL_STEAM_DATA preserved for backwards compatibility.
+  if (raw === 'daily' || raw === 'all') return raw
+  // Legacy values map to the closest current mode so old workflows still work.
+  if (raw === 'fresh' || raw === 'medium' || raw === 'backfill') return 'daily'
   if (process.env.FETCH_ALL_STEAM_DATA === 'true') return 'all'
-  return 'fresh'
+  return 'daily'
 }
 
 function resolveBudgetMinutes(): number | null {
@@ -117,43 +111,32 @@ function resolveBudgetMinutes(): number | null {
 type WonGame = NonNullable<User['giveaways_won']>[number]
 
 /**
- * Decide whether a single win should be (re-)fetched under the given
- * policy. Missing data always wins, regardless of mode — there is no
- * scenario where it's correct to know a win exists and never try to
- * enrich it. Age windows only gate *re-fetches* of existing data.
+ * Decide whether a single win should be (re-)fetched.
+ *
+ *   `all`   → always
+ *   `daily` → missing data, or last_checked older than the win's age tier
+ *             allows.
  */
-export function shouldFetchWin(won: WonGame, policy: PlaytimePolicy): boolean {
+export function shouldFetchWin(won: WonGame, mode: PlaytimeMode): boolean {
+  if (mode === 'all') return true
+  if (won.steam_play_data == null) return true
   const ageDays = (Date.now() / 1000 - won.end_timestamp) / 86400
-
-  // Wins with no play data at all: always try, gated by mode age window
-  // so 'fresh' doesn't try to backfill ancient gaps every day.
-  if (won.steam_play_data == null) {
-    if (policy.maxAgeDays !== null && ageDays > policy.maxAgeDays) return false
-    if (ageDays < policy.minAgeDays) return false
-    return true
-  }
-
-  // Wins that already have data: only re-fetch within this mode's
-  // age window AND if the cached value is older than refreshAfterDays.
-  if (policy.maxAgeDays !== null && ageDays > policy.maxAgeDays) return false
-  if (ageDays < policy.minAgeDays) return false
-
-  const lastChecked = won.steam_play_data?.last_checked ?? 0
-  const staleDays = (Date.now() - lastChecked) / DAY_MS
-  return staleDays >= policy.refreshAfterDays
+  const lastChecked = won.steam_play_data.last_checked ?? 0
+  const stalenessDays = (Date.now() - lastChecked) / DAY_MS
+  return stalenessDays >= refreshAfterDaysFor(ageDays)
 }
 
 function countPendingWins(
   user: User,
   giveawayByLink: Map<string, Giveaway>,
-  policy: PlaytimePolicy,
+  mode: PlaytimeMode,
 ): number {
   if (!user.giveaways_won?.length) return 0
   let n = 0
   for (const w of user.giveaways_won) {
     const ga = giveawayByLink.get(w.link)
     if (!ga?.app_id && !ga?.package_id) continue
-    if (shouldFetchWin(w, policy)) n++
+    if (shouldFetchWin(w, mode)) n++
   }
   return n
 }
@@ -729,7 +712,6 @@ export class SteamGiftsUserFetcher {
   ): Promise<void> {
     const mode = options.mode ?? resolvePlaytimeMode()
     const budgetMinutes = options.budgetMinutes ?? resolveBudgetMinutes()
-    const policy = PLAYTIME_POLICIES[mode]
     const startTime = Date.now()
     const budgetMs =
       budgetMinutes != null ? budgetMinutes * 60_000 : Number.POSITIVE_INFINITY
@@ -755,7 +737,7 @@ export class SteamGiftsUserFetcher {
     for (const user of users.values()) {
       if (!user.steam_id || user.steam_id.startsWith('username:')) continue
       if (!user.giveaways_won?.length) continue
-      const pendingCount = countPendingWins(user, giveawayByLink, policy)
+      const pendingCount = countPendingWins(user, giveawayByLink, mode)
       if (pendingCount === 0) continue
       scoredUsers.push({ user, pendingCount })
     }
@@ -804,7 +786,7 @@ export class SteamGiftsUserFetcher {
         .filter(({ w }) => {
           const ga = giveawayByLink.get(w.link)
           if (!ga?.app_id && !ga?.package_id) return false
-          return shouldFetchWin(w, policy)
+          return shouldFetchWin(w, mode)
         })
         .sort((a, b) => {
           const aMissing = a.w.steam_play_data == null ? 1 : 0

@@ -1,34 +1,35 @@
 name: Update Website and Playtime Data
 
-# Tiered schedule: split the Steam playtime scrape across three runs so
-# we don't try to refresh everyone's entire win history in one shot
-# (the previous behaviour was getting rate-limited and silently
-# dropping older wins, which is how users like yannbz ended up with
-# big chunks of missing playtime/achievement data).
+# Two scheduled jobs:
 #
-#   • Every 8h: refresh website data (no playtime).
-#   • Daily 01:00 UTC: playtime mode=fresh   — wins ended in the last 30 days.
-#   • Mon/Wed/Fri 03:00 UTC: mode=medium     — wins 30–180 days old.
-#   • Sunday 05:00 UTC: mode=backfill        — wins >180 days, fills missing data.
+#   • Every 8h  → website data (giveaways, members metadata, wishlist, etc.)
+#   • Daily 01:00 UTC → playtime data, single "daily" mode with per-win
+#                       staleness (≤30d→refresh after 1d, ≤180d→7d,
+#                       >180d→30d; missing data always fetched).
+#
+# Projection (146 users × ~1875 wins, 1 req/sec, Steam quota 100k/day):
+#   • Day-1 backlog flush: ~30 min, ~1800 API calls
+#   • Steady state:        ~4 min/day, ~230 API calls (<0.5% of quota)
+#
+# The 45-min PLAYTIME_BUDGET_MINUTES cap acts as a safety net so a
+# stalled API call can't blow up the CI job; remaining wins roll over
+# to the next day automatically because the priority queue surfaces
+# missing/stale items first.
 on:
   schedule:
     - cron: '0 0,8,16 * * *'   # website data, every 8 hours
-    - cron: '0 1 * * *'        # playtime: fresh, daily
-    - cron: '0 3 * * 1,3,5'    # playtime: medium, Mon/Wed/Fri
-    - cron: '0 5 * * 0'        # playtime: backfill, Sunday
+    - cron: '0 1 * * *'        # playtime data, daily
   workflow_dispatch:
     inputs:
       job:
-        description: 'Which job to run (website / fresh / medium / backfill / all-playtime)'
+        description: 'Which job to run'
         required: false
         default: 'website'
         type: choice
         options:
           - website
-          - fresh
-          - medium
-          - backfill
-          - all-playtime
+          - playtime
+          - playtime-all
 
 permissions:
   contents: write
@@ -79,37 +80,22 @@ jobs:
 
   playtime:
     if: |
-      contains(fromJson('["0 1 * * *","0 3 * * 1,3,5","0 5 * * 0"]'), github.event.schedule) ||
+      github.event.schedule == '0 1 * * *' ||
       (github.event_name == 'workflow_dispatch' &&
-        contains(fromJson('["fresh","medium","backfill","all-playtime"]'), github.event.inputs.job))
+        (github.event.inputs.job == 'playtime' || github.event.inputs.job == 'playtime-all'))
     runs-on: ubuntu-latest
     env:
       STEAM_API_KEY: ${{ secrets.STEAM_API_KEY }}
       SG_TOKEN: ${{ secrets.SG_TOKEN }}
       SG_COOKIE: ${{ secrets.SG_COOKIE }}
-      # Cap each run so a stalled API call can't burn the whole CI hour.
-      # Fresh is tiny; medium and backfill get longer windows.
-      PLAYTIME_BUDGET_MINUTES: >-
-        ${{
-          (github.event.schedule == '0 1 * * *' && '20') ||
-          (github.event.schedule == '0 3 * * 1,3,5' && '45') ||
-          (github.event.schedule == '0 5 * * 0' && '60') ||
-          (github.event.inputs.job == 'fresh' && '20') ||
-          (github.event.inputs.job == 'medium' && '45') ||
-          (github.event.inputs.job == 'backfill' && '60') ||
-          (github.event.inputs.job == 'all-playtime' && '120') ||
-          '30'
-        }}
+      # Safety net: cap a single run so a stalled call can't burn the
+      # whole CI hour. Anything still pending rolls into tomorrow's run
+      # automatically (priority queue surfaces missing/stale wins first).
+      PLAYTIME_BUDGET_MINUTES: '45'
       PLAYTIME_MODE: >-
         ${{
-          (github.event.schedule == '0 1 * * *' && 'fresh') ||
-          (github.event.schedule == '0 3 * * 1,3,5' && 'medium') ||
-          (github.event.schedule == '0 5 * * 0' && 'backfill') ||
-          (github.event.inputs.job == 'fresh' && 'fresh') ||
-          (github.event.inputs.job == 'medium' && 'medium') ||
-          (github.event.inputs.job == 'backfill' && 'backfill') ||
-          (github.event.inputs.job == 'all-playtime' && 'all') ||
-          'fresh'
+          (github.event.inputs.job == 'playtime-all' && 'all') ||
+          'daily'
         }}
 
     steps:
