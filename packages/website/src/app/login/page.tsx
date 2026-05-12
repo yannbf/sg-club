@@ -47,9 +47,9 @@ export default function LoginPage() {
             <Lock className="h-5 w-5 text-muted-foreground" />
           </div>
           <div>
-            <h1 className="font-display text-xl font-semibold">Admin sign in</h1>
+            <h1 className="font-display text-xl font-semibold">Log in</h1>
             <p className="mt-1 text-sm text-muted-foreground">
-              Required to view member-sensitive sections.
+              For TGC admins only :)
             </p>
           </div>
         </div>
