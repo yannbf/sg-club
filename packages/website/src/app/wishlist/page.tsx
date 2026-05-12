@@ -47,7 +47,16 @@ export default async function WishlistPage() {
     getAllGiveaways(),
   ])
 
-  const giveawayStats = buildGiveawayStats(giveaways)
+  // Two views: "group-exclusive" (default) hides shared + whitelist GAs
+  // since they're not really representative of how the group itself has
+  // distributed a game; "all" includes everything.
+  const exclusiveGiveaways = giveaways.filter(
+    (g) => !g.is_shared && !g.whitelist,
+  )
+  const giveawayStats = {
+    exclusive: buildGiveawayStats(exclusiveGiveaways),
+    all: buildGiveawayStats(giveaways),
+  }
 
   return (
     <WishlistClient

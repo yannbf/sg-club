@@ -9,6 +9,7 @@ import {
   Heart,
   Search,
   Sparkles,
+  Users as UsersIcon,
   X,
 } from 'lucide-react'
 import { WishlistEntry } from '@/types'
@@ -38,7 +39,16 @@ export interface GiveawayStats {
 interface Props {
   entries: WishlistEntry[]
   lastUpdated: string | null
-  giveawayStats: Record<string, GiveawayStats>
+  /** Two views of giveaway stats:
+   *  - exclusive: only group-exclusive giveaways (no shared, no whitelist)
+   *  - all: every giveaway including shared/whitelist
+   *  The UI toggle defaults to `exclusive` because shared/whitelist
+   *  giveaways aren't really representative of how *this* group has
+   *  distributed a game. */
+  giveawayStats: {
+    exclusive: Record<string, GiveawayStats>
+    all: Record<string, GiveawayStats>
+  }
 }
 
 type SortKey = 'wishes' | 'name' | 'giveaways' | 'avg_entries'
@@ -89,18 +99,25 @@ export default function WishlistClient({
   const [sortKey, setSortKey] = useState<SortKey>('wishes')
   const [sortDir, setSortDir] = useState<SortDir>('desc')
   const [givenFilter, setGivenFilter] = useState<GivenFilter>('all')
+  /** Default ON: hide shared/whitelist giveaways from the per-game
+   *  stats (count + avg entries). Click the toggle to include them. */
+  const [excludeShared, setExcludeShared] = useState(true)
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE)
 
   useEffect(() => {
     setVisibleCount(PAGE_SIZE)
-  }, [debouncedSearch, minCount, sortKey, sortDir, givenFilter])
+  }, [debouncedSearch, minCount, sortKey, sortDir, givenFilter, excludeShared])
+
+  const activeStats = excludeShared
+    ? giveawayStats.exclusive
+    : giveawayStats.all
 
   const ranked = useMemo<RowData[]>(() => {
     const sortedByWishes = [...uniqueEntries].sort(
       (a, b) => b.wishlist_count - a.wishlist_count,
     )
     return sortedByWishes.map((entry, i) => {
-      const stats = giveawayStats[getStatsKey(entry)]
+      const stats = activeStats[getStatsKey(entry)]
       return {
         entry,
         rank: i + 1,
@@ -108,7 +125,7 @@ export default function WishlistClient({
         averageEntries: stats?.averageEntries ?? null,
       }
     })
-  }, [uniqueEntries, giveawayStats])
+  }, [uniqueEntries, activeStats])
 
   const filteredSorted = useMemo<RowData[]>(() => {
     const term = debouncedSearch.toLowerCase().trim()
@@ -287,7 +304,7 @@ export default function WishlistClient({
         </div>
       </Toolbar>
 
-      <div className="flex items-center justify-between text-sm">
+      <div className="flex flex-wrap items-center justify-between gap-2 text-sm">
         <p className="text-muted-foreground">
           Showing{' '}
           <span className="font-medium text-foreground tabular-nums-strict">
@@ -305,12 +322,27 @@ export default function WishlistClient({
             </>
           )}
         </p>
-        {activeFilters > 0 && (
-          <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
-            <Filter className="h-3 w-3" />
-            {activeFilters} active filter{activeFilters > 1 ? 's' : ''}
-          </span>
-        )}
+        <div className="inline-flex items-center gap-3 text-xs">
+          <label
+            className="inline-flex cursor-pointer select-none items-center gap-1.5 text-muted-foreground transition-colors hover:text-foreground"
+            title="When on, shared and whitelist giveaways are ignored when counting how often each game has been given in the group."
+          >
+            <input
+              type="checkbox"
+              checked={excludeShared}
+              onChange={(e) => setExcludeShared(e.target.checked)}
+              className="h-3.5 w-3.5 cursor-pointer rounded border-card-border-strong bg-background accent-primary"
+            />
+            <UsersIcon className="h-3 w-3" />
+            <span>Group-exclusive only</span>
+          </label>
+          {activeFilters > 0 && (
+            <span className="inline-flex items-center gap-1.5 text-muted-foreground">
+              <Filter className="h-3 w-3" />
+              {activeFilters} active filter{activeFilters > 1 ? 's' : ''}
+            </span>
+          )}
+        </div>
       </div>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
