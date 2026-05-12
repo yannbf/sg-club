@@ -27,6 +27,8 @@ function buildHeaders(): Record<string, string> {
   }
 }
 
+const MAX_RETRIES = 5
+
 async function fetchPage(path: string, retryCount = 0): Promise<string> {
   const url = BASE_URL + path
   console.log(`📄 Fetching: ${url}`)
@@ -34,9 +36,22 @@ async function fetchPage(path: string, retryCount = 0): Promise<string> {
   const response = await fetch(url, { method: 'GET', headers: buildHeaders() })
 
   if (!response.ok) {
-    if (response.status === 429 && retryCount < 3) {
-      console.log(`⚠️  Rate limited, retrying ${url}`)
-      await delay(10000)
+    // Honor Retry-After if SG provides it; otherwise back off exponentially:
+    // 30s, 60s, 120s, 240s, 480s. SG's group-wishlist endpoint will 429
+    // aggressively when running alongside other scrapes — give it room.
+    if (response.status === 429 && retryCount < MAX_RETRIES) {
+      const retryAfterHeader = response.headers.get('retry-after')
+      const retryAfterSec = retryAfterHeader ? parseInt(retryAfterHeader, 10) : null
+      const fallbackMs = 30_000 * Math.pow(2, retryCount)
+      const waitMs =
+        retryAfterSec && Number.isFinite(retryAfterSec)
+          ? Math.max(retryAfterSec * 1000, fallbackMs)
+          : fallbackMs
+      console.log(
+        `⚠️  Rate limited on ${url} — backing off ${Math.round(waitMs / 1000)}s ` +
+          `(retry ${retryCount + 1}/${MAX_RETRIES})`,
+      )
+      await delay(waitMs)
       return fetchPage(path, retryCount + 1)
     }
     const error = new Error(`Failed to fetch ${url}: ${response.statusText}`)
@@ -141,7 +156,9 @@ export async function scrapeGroupWishlist(): Promise<WishlistEntry[]> {
     }
 
     currentPath = getNextPage(html)
-    if (currentPath) await delay(1500)
+    // Slightly longer per-page delay than 1.5s; SG 429s easily under
+    // burst load, especially when the wishlist runs near other scrapes.
+    if (currentPath) await delay(2500)
   }
 
   // Dedupe by app_id / package_id / name (SG occasionally returns the same

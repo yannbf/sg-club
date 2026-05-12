@@ -1,24 +1,29 @@
 name: Update Website and Playtime Data
 
-# Two scheduled jobs:
+# Three scheduled jobs, intentionally staggered so they don't fight
+# over SteamGifts' rate limit at the same time:
 #
-#   • Every 8h  → website data (giveaways, members metadata, wishlist, etc.)
-#   • Daily 01:00 UTC → playtime data, single "daily" mode with per-win
-#                       staleness (≤30d→refresh after 1d, ≤180d→7d,
-#                       >180d→30d; missing data always fetched).
+#   • Every 8h (00 / 08 / 16 UTC)  → website data (giveaways, members
+#                                    metadata, game prices, HLTB).
+#   • Daily 01:00 UTC               → playtime data (Steam Web API),
+#                                    mode=daily, 45-min budget cap.
+#   • Twice daily 06:00 + 18:00 UTC → group wishlist scrape, isolated
+#                                    so it doesn't run alongside the
+#                                    giveaway scraper which is the
+#                                    other heavy SG endpoint.
 #
-# Projection (146 users × ~1875 wins, 1 req/sec, Steam quota 100k/day):
-#   • Day-1 backlog flush: ~30 min, ~1800 API calls
-#   • Steady state:        ~4 min/day, ~230 API calls (<0.5% of quota)
+# Projections (146 users × ~1875 wins, 1 req/sec, Steam quota 100k/day):
+#   • Playtime day-1 backlog flush: ~30 min, ~1800 API calls
+#   • Playtime steady state:        ~4 min/day, ~230 API calls (<0.5%)
 #
-# The 45-min PLAYTIME_BUDGET_MINUTES cap acts as a safety net so a
-# stalled API call can't blow up the CI job; remaining wins roll over
-# to the next day automatically because the priority queue surfaces
-# missing/stale items first.
+# The 45-min PLAYTIME_BUDGET_MINUTES cap is a safety net only; if the
+# run is interrupted, the priority queue picks up missing/stale items
+# first on the next run.
 on:
   schedule:
     - cron: '0 0,8,16 * * *'   # website data, every 8 hours
     - cron: '0 1 * * *'        # playtime data, daily
+    - cron: '0 6,18 * * *'     # wishlist, twice daily, off-peak
   workflow_dispatch:
     inputs:
       job:
@@ -28,6 +33,7 @@ on:
         type: choice
         options:
           - website
+          - wishlist
           - playtime
           - playtime-all
 
@@ -63,7 +69,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Generate website data (no playtime)
+      - name: Generate website data (no playtime, no wishlist)
         run: pnpm run data
 
       - name: Commit and push website data changes
@@ -75,6 +81,51 @@ jobs:
             echo "No changes to commit"
           else
             git commit -m "🤖 Update website data - $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
+            git push origin ${{ github.ref_name }}
+          fi
+
+  wishlist:
+    if: |
+      github.event.schedule == '0 6,18 * * *' ||
+      (github.event_name == 'workflow_dispatch' && github.event.inputs.job == 'wishlist')
+    runs-on: ubuntu-latest
+    env:
+      SG_TOKEN: ${{ secrets.SG_TOKEN }}
+      SG_COOKIE: ${{ secrets.SG_COOKIE }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Sync branch with latest changes
+        run: git pull --rebase origin ${{ github.ref_name }} || true
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Scrape group wishlist
+        run: pnpm --filter scraper run wishlist
+
+      - name: Commit and push wishlist changes
+        run: |
+          git config --global user.name 'GitHub Action'
+          git config --global user.email 'action@github.com'
+          git add packages/website/public/data/wishlist.json
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "💝 Update wishlist - $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
             git push origin ${{ github.ref_name }}
           fi
 
@@ -106,8 +157,7 @@ jobs:
           fetch-depth: 0
 
       - name: Sync branch with latest changes
-        run: |
-          git pull --rebase origin ${{ github.ref_name }} || true
+        run: git pull --rebase origin ${{ github.ref_name }} || true
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
