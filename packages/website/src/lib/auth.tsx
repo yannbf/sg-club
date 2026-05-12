@@ -9,9 +9,9 @@ import {
 } from 'react'
 
 const ADMIN_USERNAME_HASH =
-  'f4c68ba2e61f090da58340b7ff657a533138351d448c99f0c1c4a0502fa3a546'
+  '27b98bbff3b5691b6b9624ddf4d36721c5e9e26c630bb0e6f79c714b2c309990'
 const ADMIN_PASSWORD_HASH =
-  '6b837c7727e37dba3422039d85bef22205135c954844410f9b3ad6e7cc7c93b4'
+  'a3c0df4870927ec0a94a01dcc9f3734db646cee09f9342ad5839dd8d8e2fe2cd'
 const STORAGE_KEY = 'sg-club-admin'
 
 async function sha256(value: string): Promise<string> {
