@@ -47,6 +47,9 @@ jobs:
       (github.event_name == 'workflow_dispatch' && github.event.inputs.job == 'website') ||
       github.event_name == 'push'
     runs-on: ubuntu-latest
+    # Typical run is ~13 min; cap at 30 so a stuck HLTB/SG fetch can't burn
+    # the default 6h runner allowance.
+    timeout-minutes: 30
     env:
       STEAM_API_KEY: ${{ secrets.STEAM_API_KEY }}
       SG_TOKEN: ${{ secrets.SG_TOKEN }}
@@ -89,6 +92,9 @@ jobs:
       github.event.schedule == '0 6,18 * * *' ||
       (github.event_name == 'workflow_dispatch' && github.event.inputs.job == 'wishlist')
     runs-on: ubuntu-latest
+    # ~40 pages × 2.5s + room for 5 retries × up to 480s back-off ≈ 25 min
+    # worst-case; cap at 30.
+    timeout-minutes: 30
     env:
       SG_TOKEN: ${{ secrets.SG_TOKEN }}
       SG_COOKIE: ${{ secrets.SG_COOKIE }}
@@ -135,6 +141,11 @@ jobs:
       (github.event_name == 'workflow_dispatch' &&
         (github.event.inputs.job == 'playtime' || github.event.inputs.job == 'playtime-all'))
     runs-on: ubuntu-latest
+    # PLAYTIME_BUDGET_MINUTES=45 is the soft cap (exits cleanly, commits
+    # partial progress, defers leftover wins to tomorrow). This 60-min
+    # runner timeout is the hard backstop if a fetch() gets stuck and the
+    # budget check never gets a chance to run.
+    timeout-minutes: 60
     env:
       STEAM_API_KEY: ${{ secrets.STEAM_API_KEY }}
       SG_TOKEN: ${{ secrets.SG_TOKEN }}
