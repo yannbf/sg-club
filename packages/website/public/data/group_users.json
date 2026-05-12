@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1778588251984,
+  "lastUpdated": 1778609773211,
   "users": {
     "76561198359284432": {
       "username": "a10i",
@@ -707,10 +707,10 @@
         "giveaways_with_no_entries": 2,
         "last_giveaway_created_at": 1778271995,
         "last_giveaway_won_at": 1778461200,
-        "total_achievements_percentage": 12,
-        "average_achievements_percentage": 10,
-        "real_total_achievements_percentage": 15,
-        "real_average_achievements_percentage": 14,
+        "total_achievements_percentage": 10,
+        "average_achievements_percentage": 8,
+        "real_total_achievements_percentage": 14,
+        "real_average_achievements_percentage": 12,
         "has_missing_achievements_data": true
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198047330685",
@@ -993,7 +993,7 @@
           "name": "The Alters",
           "link": "L4jqn/the-alters",
           "cv_status": "FULL_CV",
-          "entries": 21,
+          "entries": 22,
           "copies": 1,
           "created_timestamp": 1778271995,
           "end_timestamp": 1778670000,
@@ -1592,10 +1592,10 @@
         "giveaways_with_no_entries": 1,
         "last_giveaway_created_at": 1777573889,
         "last_giveaway_won_at": 1778173200,
-        "total_achievements_percentage": 23,
-        "average_achievements_percentage": 30,
-        "real_total_achievements_percentage": 24,
-        "real_average_achievements_percentage": 34,
+        "total_achievements_percentage": 30,
+        "average_achievements_percentage": 44,
+        "real_total_achievements_percentage": 27,
+        "real_average_achievements_percentage": 37,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198453663783",
@@ -2198,7 +2198,12 @@
         "giveaways_created": 5,
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1769497694,
-        "last_giveaway_won_at": 1761854400
+        "last_giveaway_won_at": 1761854400,
+        "total_achievements_percentage": 27,
+        "average_achievements_percentage": 25,
+        "real_total_achievements_percentage": 31,
+        "real_average_achievements_percentage": 33,
+        "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561199574536589",
       "steam_profile_is_private": false,
@@ -2483,7 +2488,6 @@
           "end_timestamp": 1759448220,
           "required_play": false,
           "is_shared": false,
-          "i_played_bro": true,
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 2304,
@@ -2494,7 +2498,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778587894843
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "Hollow Knight: Silksong",
@@ -2504,12 +2509,6 @@
           "end_timestamp": 1758524460,
           "required_play": true,
           "is_shared": false,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 2,
-            "deadline": "01.01.2026",
-            "additional_notes": "30% completion (herbes opinion: The Last Judge achievement)"
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 6221,
@@ -2520,6 +2519,12 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778587896043
+          },
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2,
+            "deadline": "01.01.2026",
+            "additional_notes": "30% completion (herbes opinion: The Last Judge achievement)"
           }
         },
         {
@@ -2763,8 +2768,8 @@
         "giveaways_with_no_entries": 1,
         "last_giveaway_created_at": 1774088603,
         "last_giveaway_won_at": 1777806000,
-        "total_achievements_percentage": 6,
-        "average_achievements_percentage": 5,
+        "total_achievements_percentage": 4,
+        "average_achievements_percentage": 4,
         "real_total_achievements_percentage": 6,
         "real_average_achievements_percentage": 7,
         "has_missing_achievements_data": false
@@ -3488,7 +3493,7 @@
           "name": "ENDER MAGNOLIA: Bloom in the Mist",
           "link": "CPSae/ender-magnolia-bloom-in-the-mist",
           "cv_status": "FULL_CV",
-          "entries": 14,
+          "entries": 15,
           "copies": 1,
           "created_timestamp": 1778404004,
           "end_timestamp": 1778902200,
@@ -4215,10 +4220,10 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1767154427,
         "last_giveaway_won_at": 1778263200,
-        "total_achievements_percentage": 27,
-        "average_achievements_percentage": 23,
-        "real_total_achievements_percentage": 27,
-        "real_average_achievements_percentage": 26,
+        "total_achievements_percentage": 37,
+        "average_achievements_percentage": 32,
+        "real_total_achievements_percentage": 41,
+        "real_average_achievements_percentage": 36,
         "has_missing_achievements_data": true
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198055181554",
@@ -4395,12 +4400,6 @@
           "end_timestamp": 1760083200,
           "required_play": true,
           "is_shared": false,
-          "i_played_bro": true,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 2,
-            "deadline": "31.12.2025"
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 389,
@@ -4411,6 +4410,12 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778587391746
+          },
+          "i_played_bro": true,
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2,
+            "deadline": "31.12.2025"
           }
         },
         {
@@ -4441,10 +4446,6 @@
           "end_timestamp": 1758902400,
           "required_play": true,
           "is_shared": false,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 2
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 1030,
@@ -4455,6 +4456,10 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778587394157
+          },
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2
           }
         },
         {
@@ -7768,10 +7773,10 @@
         "giveaways_with_no_entries": 2,
         "last_giveaway_created_at": 1778059397,
         "last_giveaway_won_at": 1778270400,
-        "total_achievements_percentage": 18,
-        "average_achievements_percentage": 29,
-        "real_total_achievements_percentage": 18,
-        "real_average_achievements_percentage": 29,
+        "total_achievements_percentage": 20,
+        "average_achievements_percentage": 30,
+        "real_total_achievements_percentage": 20,
+        "real_average_achievements_percentage": 30,
         "has_missing_achievements_data": true
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198024970451",
@@ -10047,7 +10052,7 @@
           "name": "The Bunny Graveyard",
           "link": "HSfO8/the-bunny-graveyard",
           "cv_status": "REDUCED_CV",
-          "entries": 51,
+          "entries": 52,
           "copies": 1,
           "created_timestamp": 1778011755,
           "end_timestamp": 1778691600,
@@ -10069,7 +10074,7 @@
           "name": "Baki Hanma: Blood Arena",
           "link": "MN9uJ/baki-hanma-blood-arena",
           "cv_status": "FULL_CV",
-          "entries": 32,
+          "entries": 34,
           "copies": 1,
           "created_timestamp": 1777956813,
           "end_timestamp": 1778864400,
@@ -10080,7 +10085,7 @@
           "name": "Heart of the Woods",
           "link": "jcMfO/heart-of-the-woods",
           "cv_status": "FULL_CV",
-          "entries": 23,
+          "entries": 24,
           "copies": 1,
           "created_timestamp": 1778009121,
           "end_timestamp": 1780074000,
@@ -12674,10 +12679,10 @@
         "giveaways_with_no_entries": 8,
         "last_giveaway_created_at": 1776097228,
         "last_giveaway_won_at": 1778407200,
-        "total_achievements_percentage": 9,
-        "average_achievements_percentage": 11,
-        "real_total_achievements_percentage": 12,
-        "real_average_achievements_percentage": 13,
+        "total_achievements_percentage": 3,
+        "average_achievements_percentage": 5,
+        "real_total_achievements_percentage": 3,
+        "real_average_achievements_percentage": 5,
         "has_missing_achievements_data": true
       },
       "steam_profile_is_private": false,
@@ -12952,12 +12957,6 @@
           "end_timestamp": 1751947200,
           "required_play": true,
           "is_shared": false,
-          "required_play_meta": {
-            "requirements_met": false,
-            "deadline_in_months": 2,
-            "deadline": "01.01.2026",
-            "additional_notes": "Obtain \"Smoke me a kipper, I'll be back for breakfast\" achievement"
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 72,
@@ -12968,6 +12967,12 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778587047563
+          },
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2,
+            "deadline": "01.01.2026",
+            "additional_notes": "Obtain \"Smoke me a kipper, I'll be back for breakfast\" achievement"
           }
         },
         {
@@ -13096,7 +13101,7 @@
           "name": "Hot Lap Racing",
           "link": "3pKY1/hot-lap-racing",
           "cv_status": "FULL_CV",
-          "entries": 0,
+          "entries": 1,
           "copies": 1,
           "created_timestamp": 1776097228,
           "end_timestamp": 1778688000,
@@ -14142,11 +14147,11 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1771756185,
         "last_giveaway_won_at": 1771755060,
-        "total_achievements_percentage": 0,
-        "average_achievements_percentage": 0,
-        "real_total_achievements_percentage": 0,
-        "real_average_achievements_percentage": 0,
-        "has_missing_achievements_data": false
+        "total_achievements_percentage": 32,
+        "average_achievements_percentage": 36,
+        "real_total_achievements_percentage": 31,
+        "real_average_achievements_percentage": 35,
+        "has_missing_achievements_data": true
       },
       "steam_profile_is_private": false,
       "country_code": "us",
@@ -14319,7 +14324,6 @@
           "end_timestamp": 1755383580,
           "required_play": false,
           "is_shared": false,
-          "i_played_bro": true,
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 658,
@@ -14330,7 +14334,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778587124293
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "DROS",
@@ -14340,7 +14345,6 @@
           "end_timestamp": 1755026040,
           "required_play": false,
           "is_shared": false,
-          "i_played_bro": true,
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 524,
@@ -14351,7 +14355,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778587125490
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "Into the Emberlands",
@@ -14381,7 +14386,6 @@
           "end_timestamp": 1752868800,
           "required_play": false,
           "is_shared": false,
-          "i_played_bro": true,
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 356,
@@ -14392,7 +14396,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778587127945
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "Loop Hero",
@@ -14402,7 +14407,6 @@
           "end_timestamp": 1752238800,
           "required_play": false,
           "is_shared": false,
-          "i_played_bro": true,
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 923,
@@ -14413,7 +14417,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778587129142
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "Atomic Heart",
@@ -14423,7 +14428,6 @@
           "end_timestamp": 1751845020,
           "required_play": false,
           "is_shared": false,
-          "i_played_bro": true,
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 949,
@@ -14434,7 +14438,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778587130340
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "Nioh: Complete Edition",
@@ -14464,12 +14469,6 @@
           "end_timestamp": 1751607300,
           "required_play": true,
           "is_shared": false,
-          "i_played_bro": true,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 2,
-            "additional_notes": "Room 46 (~15 hours)"
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 904,
@@ -14480,6 +14479,12 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778587132801
+          },
+          "i_played_bro": true,
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2,
+            "additional_notes": "Room 46 (~15 hours)"
           }
         },
         {
@@ -14490,7 +14495,6 @@
           "end_timestamp": 1751299200,
           "required_play": false,
           "is_shared": false,
-          "i_played_bro": true,
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 1199,
@@ -14501,7 +14505,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778587135488
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "Liar's Bar",
@@ -14532,7 +14537,6 @@
           "end_timestamp": 1751169540,
           "required_play": false,
           "is_shared": false,
-          "i_played_bro": true,
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 251,
@@ -14543,7 +14547,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778587138013
-          }
+          },
+          "i_played_bro": true
         }
       ],
       "giveaways_created": [
@@ -14808,10 +14813,10 @@
         "giveaways_with_no_entries": 2,
         "last_giveaway_created_at": 1777645448,
         "last_giveaway_won_at": 1773104700,
-        "total_achievements_percentage": 28,
-        "average_achievements_percentage": 25,
-        "real_total_achievements_percentage": 29,
-        "real_average_achievements_percentage": 24,
+        "total_achievements_percentage": 29,
+        "average_achievements_percentage": 26,
+        "real_total_achievements_percentage": 30,
+        "real_average_achievements_percentage": 25,
         "has_missing_achievements_data": true
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198055569704",
@@ -16495,10 +16500,10 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1778360801,
         "last_giveaway_won_at": 1778407200,
-        "total_achievements_percentage": 10,
-        "average_achievements_percentage": 11,
-        "real_total_achievements_percentage": 16,
-        "real_average_achievements_percentage": 14,
+        "total_achievements_percentage": 11,
+        "average_achievements_percentage": 14,
+        "real_total_achievements_percentage": 13,
+        "real_average_achievements_percentage": 16,
         "has_missing_achievements_data": true
       },
       "steam_profile_is_private": false,
@@ -16943,12 +16948,6 @@
           "end_timestamp": 1759407720,
           "required_play": true,
           "is_shared": false,
-          "i_played_bro": true,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 2,
-            "additional_notes": "20 min"
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 260,
@@ -16959,6 +16958,12 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778585952812
+          },
+          "i_played_bro": true,
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2,
+            "additional_notes": "20 min"
           }
         },
         {
@@ -17050,7 +17055,6 @@
           "end_timestamp": 1757788260,
           "required_play": false,
           "is_shared": false,
-          "i_played_bro": true,
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 376,
@@ -17061,7 +17065,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778585958929
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "Mokoko X",
@@ -17192,7 +17197,6 @@
           "end_timestamp": 1756715280,
           "required_play": false,
           "is_shared": false,
-          "i_played_bro": true,
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 62,
@@ -17204,7 +17208,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778585967563
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "The Witch's Cauldron",
@@ -17461,11 +17466,6 @@
           "end_timestamp": 1754420340,
           "required_play": true,
           "is_shared": false,
-          "i_played_bro": true,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 2
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 171,
@@ -17476,6 +17476,11 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778585983206
+          },
+          "i_played_bro": true,
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2
           }
         },
         {
@@ -17546,7 +17551,6 @@
           "end_timestamp": 1752670800,
           "required_play": false,
           "is_shared": false,
-          "i_played_bro": true,
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 98,
@@ -17557,7 +17561,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778585988068
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "Weird West: Definitive Edition",
@@ -17649,7 +17654,6 @@
           "end_timestamp": 1751418000,
           "required_play": false,
           "is_shared": false,
-          "i_played_bro": true,
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 197,
@@ -17660,7 +17664,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778585994103
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "POSTAL: Brain Damaged",
@@ -17773,11 +17778,6 @@
           "end_timestamp": 1750281660,
           "required_play": true,
           "is_shared": false,
-          "i_played_bro": true,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 2
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 352,
@@ -17788,6 +17788,11 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586001423
+          },
+          "i_played_bro": true,
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2
           }
         },
         {
@@ -17798,11 +17803,6 @@
           "end_timestamp": 1750139280,
           "required_play": true,
           "is_shared": false,
-          "i_played_bro": true,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 2
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 193,
@@ -17813,6 +17813,11 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586002673
+          },
+          "i_played_bro": true,
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2
           }
         },
         {
@@ -18345,10 +18350,10 @@
         "giveaways_with_no_entries": 1,
         "last_giveaway_created_at": 1775121894,
         "last_giveaway_won_at": 1766649600,
-        "total_achievements_percentage": 7,
-        "average_achievements_percentage": 7,
-        "real_total_achievements_percentage": 7,
-        "real_average_achievements_percentage": 7,
+        "total_achievements_percentage": 9,
+        "average_achievements_percentage": 11,
+        "real_total_achievements_percentage": 9,
+        "real_average_achievements_percentage": 11,
         "has_missing_achievements_data": false
       },
       "steam_profile_is_private": false,
@@ -18542,7 +18547,6 @@
           "end_timestamp": 1751558400,
           "required_play": false,
           "is_shared": false,
-          "i_played_bro": true,
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 64,
@@ -18553,7 +18557,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778587420384
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "Spells & Secrets",
@@ -18883,11 +18888,11 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1766882753,
         "last_giveaway_won_at": 1767987060,
-        "total_achievements_percentage": 8,
-        "average_achievements_percentage": 11,
-        "real_total_achievements_percentage": 8,
-        "real_average_achievements_percentage": 11,
-        "has_missing_achievements_data": false
+        "total_achievements_percentage": 13,
+        "average_achievements_percentage": 17,
+        "real_total_achievements_percentage": 14,
+        "real_average_achievements_percentage": 18,
+        "has_missing_achievements_data": true
       },
       "steam_profile_is_private": false,
       "country_code": "no",
@@ -19141,7 +19146,6 @@
           "end_timestamp": 1751991840,
           "required_play": false,
           "is_shared": false,
-          "i_played_bro": true,
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 109,
@@ -19152,7 +19156,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586975018
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "We Love Katamari REROLL+ Royal Reverie",
@@ -19222,7 +19227,6 @@
           "end_timestamp": 1751106420,
           "required_play": false,
           "is_shared": false,
-          "i_played_bro": true,
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 153,
@@ -19233,7 +19237,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586979836
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "Rabi-Ribi",
@@ -19283,12 +19288,6 @@
           "end_timestamp": 1750745220,
           "required_play": true,
           "is_shared": false,
-          "i_played_bro": true,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 2,
-            "additional_notes": "Complete the singleplayer campaign"
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 390,
@@ -19299,6 +19298,12 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586983421
+          },
+          "i_played_bro": true,
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2,
+            "additional_notes": "Complete the singleplayer campaign"
           }
         },
         {
@@ -19309,7 +19314,6 @@
           "end_timestamp": 1750540440,
           "required_play": false,
           "is_shared": false,
-          "i_played_bro": true,
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 761,
@@ -19320,7 +19324,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586984628
-          }
+          },
+          "i_played_bro": true
         }
       ],
       "giveaways_created": [
@@ -19596,8 +19601,8 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1772369383,
         "last_giveaway_won_at": 1758920400,
-        "total_achievements_percentage": 44,
-        "average_achievements_percentage": 65,
+        "total_achievements_percentage": 43,
+        "average_achievements_percentage": 63,
         "real_total_achievements_percentage": 42,
         "real_average_achievements_percentage": 68,
         "has_missing_achievements_data": false
@@ -20762,11 +20767,11 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1778308914,
         "last_giveaway_won_at": 1778532600,
-        "total_achievements_percentage": 38,
-        "average_achievements_percentage": 45,
-        "real_total_achievements_percentage": 38,
-        "real_average_achievements_percentage": 45,
-        "has_missing_achievements_data": false
+        "total_achievements_percentage": 24,
+        "average_achievements_percentage": 31,
+        "real_total_achievements_percentage": 24,
+        "real_average_achievements_percentage": 31,
+        "has_missing_achievements_data": true
       },
       "steam_profile_is_private": false,
       "country_code": null,
@@ -21249,11 +21254,6 @@
           "end_timestamp": 1754121420,
           "required_play": true,
           "is_shared": false,
-          "i_played_bro": true,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 2
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 980,
@@ -21264,6 +21264,11 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586105209
+          },
+          "i_played_bro": true,
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2
           }
         },
         {
@@ -21274,7 +21279,6 @@
           "end_timestamp": 1753661400,
           "required_play": false,
           "is_shared": false,
-          "i_played_bro": true,
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 1200,
@@ -21285,7 +21289,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586106425
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "LEGO Bricktales",
@@ -21295,7 +21300,6 @@
           "end_timestamp": 1753557240,
           "required_play": false,
           "is_shared": false,
-          "i_played_bro": true,
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 875,
@@ -21306,7 +21310,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586107624
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "Project Zomboid",
@@ -21337,7 +21342,6 @@
           "end_timestamp": 1752857820,
           "required_play": false,
           "is_shared": false,
-          "i_played_bro": true,
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 3592,
@@ -21348,7 +21352,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586110030
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "Olija",
@@ -21418,11 +21423,6 @@
           "end_timestamp": 1752145200,
           "required_play": true,
           "is_shared": false,
-          "i_played_bro": true,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 2
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 518,
@@ -21433,6 +21433,11 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586114905
+          },
+          "i_played_bro": true,
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2
           }
         },
         {
@@ -21443,7 +21448,6 @@
           "end_timestamp": 1752141600,
           "required_play": false,
           "is_shared": false,
-          "i_played_bro": true,
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 392,
@@ -21454,7 +21458,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586116129
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "Suikoden I&II HD Remaster Gate Rune a...",
@@ -21464,7 +21469,6 @@
           "end_timestamp": 1751828340,
           "required_play": false,
           "is_shared": false,
-          "i_played_bro": true,
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 1096,
@@ -21475,7 +21479,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586117317
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "Ynglet",
@@ -21525,11 +21530,6 @@
           "end_timestamp": 1751648400,
           "required_play": true,
           "is_shared": false,
-          "i_played_bro": true,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 2
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 1606,
@@ -21540,6 +21540,11 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586120942
+          },
+          "i_played_bro": true,
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2
           }
         },
         {
@@ -21590,7 +21595,6 @@
           "end_timestamp": 1751162400,
           "required_play": false,
           "is_shared": false,
-          "i_played_bro": true,
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 126,
@@ -21601,7 +21605,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586124621
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "Oxygen Not Included",
@@ -21611,11 +21616,6 @@
           "end_timestamp": 1751054400,
           "required_play": true,
           "is_shared": false,
-          "i_played_bro": true,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 2
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 961,
@@ -21626,6 +21626,11 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586125829
+          },
+          "i_played_bro": true,
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2
           }
         },
         {
@@ -21636,11 +21641,6 @@
           "end_timestamp": 1750935600,
           "required_play": true,
           "is_shared": false,
-          "i_played_bro": true,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 4
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 2329,
@@ -21651,6 +21651,11 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586128492
+          },
+          "i_played_bro": true,
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 4
           }
         },
         {
@@ -21661,7 +21666,6 @@
           "end_timestamp": 1750788000,
           "required_play": false,
           "is_shared": false,
-          "i_played_bro": true,
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 1000,
@@ -21672,7 +21676,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586129688
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "Ni no Kuni Wrath of the White Witch R...",
@@ -21682,7 +21687,6 @@
           "end_timestamp": 1750618740,
           "required_play": false,
           "is_shared": false,
-          "i_played_bro": true,
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 1216,
@@ -21693,7 +21697,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586130901
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "Axiom Verge 2",
@@ -21743,7 +21748,6 @@
           "end_timestamp": 1750439760,
           "required_play": false,
           "is_shared": false,
-          "i_played_bro": true,
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 349,
@@ -21754,7 +21758,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586134577
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "Turbo Overkill",
@@ -21784,11 +21789,6 @@
           "end_timestamp": 1750173600,
           "required_play": true,
           "is_shared": false,
-          "i_played_bro": true,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 2
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 448,
@@ -21799,6 +21799,11 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586137056
+          },
+          "i_played_bro": true,
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2
           }
         }
       ],
@@ -21807,7 +21812,7 @@
           "name": "Once Upon A Puppet",
           "link": "ZaJwk/once-upon-a-puppet",
           "cv_status": "FULL_CV",
-          "entries": 7,
+          "entries": 8,
           "copies": 1,
           "created_timestamp": 1778308914,
           "end_timestamp": 1778648400,
@@ -22398,10 +22403,10 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1771481808,
         "last_giveaway_won_at": 1778554860,
-        "total_achievements_percentage": 71,
-        "average_achievements_percentage": 72,
-        "real_total_achievements_percentage": 71,
-        "real_average_achievements_percentage": 72,
+        "total_achievements_percentage": 59,
+        "average_achievements_percentage": 60,
+        "real_total_achievements_percentage": 59,
+        "real_average_achievements_percentage": 60,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198013676011",
@@ -23435,10 +23440,10 @@
         "giveaways_with_no_entries": 1,
         "last_giveaway_created_at": 1772284746,
         "last_giveaway_won_at": 1775887140,
-        "total_achievements_percentage": 11,
-        "average_achievements_percentage": 9,
-        "real_total_achievements_percentage": 11,
-        "real_average_achievements_percentage": 9,
+        "total_achievements_percentage": 14,
+        "average_achievements_percentage": 23,
+        "real_total_achievements_percentage": 15,
+        "real_average_achievements_percentage": 24,
         "has_missing_achievements_data": false
       },
       "steam_profile_is_private": false,
@@ -23552,11 +23557,6 @@
           "end_timestamp": 1760083200,
           "required_play": true,
           "is_shared": false,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 2,
-            "deadline": "31.12.2025"
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 89,
@@ -23567,6 +23567,11 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586446292
+          },
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2,
+            "deadline": "31.12.2025"
           }
         },
         {
@@ -23597,7 +23602,6 @@
           "end_timestamp": 1758332760,
           "required_play": false,
           "is_shared": false,
-          "i_played_bro": true,
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 961,
@@ -23608,7 +23612,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586448718
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "Seers Isle",
@@ -23639,7 +23644,6 @@
           "end_timestamp": 1755306180,
           "required_play": false,
           "is_shared": false,
-          "i_played_bro": true,
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 131,
@@ -23650,7 +23654,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586451132
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "Hogwarts Legacy",
@@ -23720,7 +23725,6 @@
           "end_timestamp": 1753659840,
           "required_play": false,
           "is_shared": false,
-          "i_played_bro": true,
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 525,
@@ -23731,7 +23735,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586455915
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "The Medium",
@@ -23741,10 +23746,6 @@
           "end_timestamp": 1752118080,
           "required_play": true,
           "is_shared": false,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 6
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 306,
@@ -23755,6 +23756,10 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586457153
+          },
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 6
           }
         },
         {
@@ -23765,11 +23770,6 @@
           "end_timestamp": 1752084000,
           "required_play": true,
           "is_shared": false,
-          "i_played_bro": true,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 2
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 587,
@@ -23780,6 +23780,11 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586458356
+          },
+          "i_played_bro": true,
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2
           }
         },
         {
@@ -23870,7 +23875,6 @@
           "end_timestamp": 1751324400,
           "required_play": false,
           "is_shared": false,
-          "i_played_bro": true,
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 272,
@@ -23881,7 +23885,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586464368
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "Dead Cells",
@@ -24011,10 +24016,6 @@
           "end_timestamp": 1750490040,
           "required_play": true,
           "is_shared": false,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 2
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 118,
@@ -24025,6 +24026,10 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586472822
+          },
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2
           }
         },
         {
@@ -24075,7 +24080,6 @@
           "end_timestamp": 1749992400,
           "required_play": false,
           "is_shared": false,
-          "i_played_bro": true,
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 87,
@@ -24086,7 +24090,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586476429
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "Homebody",
@@ -24515,10 +24520,10 @@
         "giveaways_with_no_entries": 2,
         "last_giveaway_created_at": 1767893264,
         "last_giveaway_won_at": 1773327600,
-        "total_achievements_percentage": 6,
-        "average_achievements_percentage": 10,
-        "real_total_achievements_percentage": 6,
-        "real_average_achievements_percentage": 10,
+        "total_achievements_percentage": 9,
+        "average_achievements_percentage": 13,
+        "real_total_achievements_percentage": 9,
+        "real_average_achievements_percentage": 13,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198051248084",
@@ -25633,9 +25638,9 @@
         "giveaway_ratio": 22.33,
         "shared_sent_count": 0,
         "shared_received_count": 0,
-        "giveaways_created": 28,
+        "giveaways_created": 29,
         "giveaways_with_no_entries": 2,
-        "last_giveaway_created_at": 1777642297,
+        "last_giveaway_created_at": 1778591134,
         "last_giveaway_won_at": 1766653200,
         "total_achievements_percentage": 8,
         "average_achievements_percentage": 10,
@@ -25922,6 +25927,17 @@
         }
       ],
       "giveaways_created": [
+        {
+          "name": "CATO: Buttered Cat",
+          "link": "T0bzb/cato-buttered-cat",
+          "cv_status": "FULL_CV",
+          "entries": 1,
+          "copies": 1,
+          "created_timestamp": 1778591134,
+          "end_timestamp": 1778932800,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "Planet of Lana II",
           "link": "Ya6rS/planet-of-lana-ii",
@@ -26508,10 +26524,10 @@
         "giveaways_with_no_entries": 2,
         "last_giveaway_created_at": 1778545965,
         "last_giveaway_won_at": 1776483540,
-        "total_achievements_percentage": 5,
-        "average_achievements_percentage": 4,
-        "real_total_achievements_percentage": 0,
-        "real_average_achievements_percentage": 0,
+        "total_achievements_percentage": 8,
+        "average_achievements_percentage": 7,
+        "real_total_achievements_percentage": 6,
+        "real_average_achievements_percentage": 6,
         "has_missing_achievements_data": false
       },
       "steam_profile_is_private": false,
@@ -26869,10 +26885,6 @@
           "end_timestamp": 1755003600,
           "required_play": true,
           "is_shared": true,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 3
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 113,
@@ -26883,6 +26895,10 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586653529
+          },
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 3
           }
         },
         {
@@ -26953,10 +26969,6 @@
           "end_timestamp": 1753026300,
           "required_play": true,
           "is_shared": true,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 2
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 1500,
@@ -26967,6 +26979,10 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586658317
+          },
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2
           }
         },
         {
@@ -26997,11 +27013,6 @@
           "end_timestamp": 1751998860,
           "required_play": true,
           "is_shared": false,
-          "i_played_bro": true,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 3
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 1734,
@@ -27012,6 +27023,11 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586660752
+          },
+          "i_played_bro": true,
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 3
           }
         },
         {
@@ -27042,12 +27058,6 @@
           "end_timestamp": 1751576520,
           "required_play": true,
           "is_shared": false,
-          "i_played_bro": true,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 2,
-            "additional_notes": "Level 25"
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 2467,
@@ -27058,6 +27068,12 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586663144
+          },
+          "i_played_bro": true,
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2,
+            "additional_notes": "Level 25"
           }
         },
         {
@@ -27068,11 +27084,6 @@
           "end_timestamp": 1751390400,
           "required_play": true,
           "is_shared": false,
-          "i_played_bro": true,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 3
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 2270,
@@ -27083,6 +27094,11 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586665766
+          },
+          "i_played_bro": true,
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 3
           }
         }
       ],
@@ -27687,9 +27703,9 @@
         "giveaways_with_no_entries": 2,
         "last_giveaway_created_at": 1767840553,
         "last_giveaway_won_at": 1768212000,
-        "total_achievements_percentage": 17,
+        "total_achievements_percentage": 16,
         "average_achievements_percentage": 38,
-        "real_total_achievements_percentage": 18,
+        "real_total_achievements_percentage": 17,
         "real_average_achievements_percentage": 41,
         "has_missing_achievements_data": false
       },
@@ -28265,10 +28281,10 @@
         "giveaways_with_no_entries": 2,
         "last_giveaway_created_at": 1777980029,
         "last_giveaway_won_at": 1772244000,
-        "total_achievements_percentage": 52,
-        "average_achievements_percentage": 41,
-        "real_total_achievements_percentage": 54,
-        "real_average_achievements_percentage": 52,
+        "total_achievements_percentage": 53,
+        "average_achievements_percentage": 42,
+        "real_total_achievements_percentage": 55,
+        "real_average_achievements_percentage": 53,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198036424003",
@@ -28383,7 +28399,7 @@
           "name": "Gorgon Shield",
           "link": "APdHY/gorgon-shield",
           "cv_status": "FULL_CV",
-          "entries": 9,
+          "entries": 10,
           "copies": 1,
           "created_timestamp": 1777980029,
           "end_timestamp": 1779279360,
@@ -28904,7 +28920,7 @@
         "last_giveaway_created_at": 1778556373,
         "last_giveaway_won_at": 1778532900,
         "total_achievements_percentage": 2,
-        "average_achievements_percentage": 5,
+        "average_achievements_percentage": 4,
         "real_total_achievements_percentage": 2,
         "real_average_achievements_percentage": 5,
         "has_missing_achievements_data": true
@@ -29659,7 +29675,7 @@
           "name": "FINAL FANTASY XVI",
           "link": "aYrKp/final-fantasy-xvi",
           "cv_status": "FULL_CV",
-          "entries": 15,
+          "entries": 19,
           "copies": 1,
           "created_timestamp": 1778556373,
           "end_timestamp": 1779606000,
@@ -30072,11 +30088,11 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1768695083,
         "last_giveaway_won_at": 1775026800,
-        "total_achievements_percentage": 13,
-        "average_achievements_percentage": 12,
-        "real_total_achievements_percentage": 13,
-        "real_average_achievements_percentage": 12,
-        "has_missing_achievements_data": false
+        "total_achievements_percentage": 50,
+        "average_achievements_percentage": 41,
+        "real_total_achievements_percentage": 58,
+        "real_average_achievements_percentage": 46,
+        "has_missing_achievements_data": true
       },
       "steam_profile_is_private": false,
       "country_code": "lt",
@@ -30169,7 +30185,6 @@
           "end_timestamp": 1758126420,
           "required_play": false,
           "is_shared": false,
-          "i_played_bro": true,
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 286,
@@ -30180,7 +30195,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778587537316
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "Sniper Elite 3",
@@ -30190,10 +30206,6 @@
           "end_timestamp": 1755013800,
           "required_play": true,
           "is_shared": true,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 2
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 1457,
@@ -30204,6 +30216,10 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778587538503
+          },
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2
           }
         },
         {
@@ -30234,11 +30250,6 @@
           "end_timestamp": 1753092240,
           "required_play": true,
           "is_shared": false,
-          "i_played_bro": true,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 2
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 9010,
@@ -30249,6 +30260,11 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778587542404
+          },
+          "i_played_bro": true,
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2
           }
         },
         {
@@ -30279,7 +30295,6 @@
           "end_timestamp": 1752433200,
           "required_play": false,
           "is_shared": false,
-          "i_played_bro": true,
           "steam_play_data": {
             "owned": false,
             "playtime_minutes": 0,
@@ -30291,7 +30306,8 @@
             "is_playtime_private": false,
             "has_no_available_stats": true,
             "last_checked": 1778587544829
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "Resident Evil Village",
@@ -30341,7 +30357,6 @@
           "end_timestamp": 1751299200,
           "required_play": false,
           "is_shared": false,
-          "i_played_bro": true,
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 3412,
@@ -30352,7 +30367,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778587550786
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "Liar's Bar",
@@ -31130,10 +31146,10 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1777577519,
         "last_giveaway_won_at": 1778507940,
-        "total_achievements_percentage": 29,
-        "average_achievements_percentage": 35,
-        "real_total_achievements_percentage": 28,
-        "real_average_achievements_percentage": 32,
+        "total_achievements_percentage": 27,
+        "average_achievements_percentage": 34,
+        "real_total_achievements_percentage": 26,
+        "real_average_achievements_percentage": 31,
         "has_missing_achievements_data": true
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198013734355",
@@ -33146,10 +33162,10 @@
         "giveaways_with_no_entries": 1,
         "last_giveaway_created_at": 1778019248,
         "last_giveaway_won_at": 1759448220,
-        "total_achievements_percentage": 54,
-        "average_achievements_percentage": 58,
-        "real_total_achievements_percentage": 54,
-        "real_average_achievements_percentage": 58,
+        "total_achievements_percentage": 58,
+        "average_achievements_percentage": 60,
+        "real_total_achievements_percentage": 58,
+        "real_average_achievements_percentage": 60,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198082023389",
@@ -34210,7 +34226,12 @@
         "giveaways_created": 3,
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1754720903,
-        "last_giveaway_won_at": 1760749200
+        "last_giveaway_won_at": 1760749200,
+        "total_achievements_percentage": 4,
+        "average_achievements_percentage": 10,
+        "real_total_achievements_percentage": 10,
+        "real_average_achievements_percentage": 12,
+        "has_missing_achievements_data": false
       },
       "steam_profile_is_private": false,
       "country_code": "de",
@@ -34223,10 +34244,6 @@
           "end_timestamp": 1760749200,
           "required_play": true,
           "is_shared": false,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 2
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 652,
@@ -34237,6 +34254,10 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778587816114
+          },
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2
           }
         },
         {
@@ -34247,10 +34268,6 @@
           "end_timestamp": 1754710380,
           "required_play": true,
           "is_shared": false,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 2
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 88,
@@ -34261,6 +34278,10 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778587817308
+          },
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2
           }
         },
         {
@@ -34271,10 +34292,6 @@
           "end_timestamp": 1754667060,
           "required_play": true,
           "is_shared": false,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 2
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 130,
@@ -34285,6 +34302,10 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778587820070
+          },
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2
           }
         },
         {
@@ -34355,10 +34376,6 @@
           "end_timestamp": 1750327200,
           "required_play": true,
           "is_shared": false,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 2
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 296,
@@ -34369,6 +34386,10 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778587824924
+          },
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2
           }
         },
         {
@@ -34489,10 +34510,10 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1765084162,
         "last_giveaway_won_at": 1759598760,
-        "total_achievements_percentage": 26,
-        "average_achievements_percentage": 39,
-        "real_total_achievements_percentage": 26,
-        "real_average_achievements_percentage": 39,
+        "total_achievements_percentage": 39,
+        "average_achievements_percentage": 48,
+        "real_total_achievements_percentage": 39,
+        "real_average_achievements_percentage": 48,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198236260938",
@@ -35803,8 +35824,8 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1777449072,
         "last_giveaway_won_at": 1777568400,
-        "total_achievements_percentage": 3,
-        "average_achievements_percentage": 4,
+        "total_achievements_percentage": 4,
+        "average_achievements_percentage": 6,
         "real_total_achievements_percentage": 0,
         "real_average_achievements_percentage": 0,
         "has_missing_achievements_data": false
@@ -39653,10 +39674,10 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1776626515,
         "last_giveaway_won_at": 1776616860,
-        "total_achievements_percentage": 13,
-        "average_achievements_percentage": 12,
-        "real_total_achievements_percentage": 13,
-        "real_average_achievements_percentage": 12,
+        "total_achievements_percentage": 14,
+        "average_achievements_percentage": 13,
+        "real_total_achievements_percentage": 14,
+        "real_average_achievements_percentage": 13,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198019838591",
@@ -40727,10 +40748,10 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1767724357,
         "last_giveaway_won_at": 1777162920,
-        "total_achievements_percentage": 38,
-        "average_achievements_percentage": 33,
-        "real_total_achievements_percentage": 31,
-        "real_average_achievements_percentage": 26,
+        "total_achievements_percentage": 21,
+        "average_achievements_percentage": 27,
+        "real_total_achievements_percentage": 19,
+        "real_average_achievements_percentage": 24,
         "has_missing_achievements_data": false
       },
       "steam_profile_is_private": false,
@@ -41045,11 +41066,6 @@
           "end_timestamp": 1759915800,
           "required_play": true,
           "is_shared": false,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 2,
-            "deadline": "31.12.2025"
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 289,
@@ -41060,6 +41076,11 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586368060
+          },
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2,
+            "deadline": "31.12.2025"
           }
         },
         {
@@ -41292,11 +41313,6 @@
           "end_timestamp": 1753121460,
           "required_play": true,
           "is_shared": false,
-          "i_played_bro": true,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 2
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 277,
@@ -41307,6 +41323,11 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586382543
+          },
+          "i_played_bro": true,
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2
           }
         },
         {
@@ -41317,7 +41338,6 @@
           "end_timestamp": 1751810400,
           "required_play": false,
           "is_shared": false,
-          "i_played_bro": true,
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 2511,
@@ -41328,7 +41348,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586384112
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "Dead Space",
@@ -41338,7 +41359,6 @@
           "end_timestamp": 1751800200,
           "required_play": false,
           "is_shared": false,
-          "i_played_bro": true,
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 2866,
@@ -41349,7 +41369,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586385312
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "Glass Masquerade 3: Honeylines",
@@ -41359,10 +41380,6 @@
           "end_timestamp": 1750681320,
           "required_play": true,
           "is_shared": true,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 2
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 686,
@@ -41373,6 +41390,10 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586386502
+          },
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2
           }
         },
         {
@@ -41403,7 +41424,6 @@
           "end_timestamp": 1750352460,
           "required_play": false,
           "is_shared": false,
-          "i_played_bro": true,
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 5804,
@@ -41414,7 +41434,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586389010
-          }
+          },
+          "i_played_bro": true
         }
       ],
       "giveaways_created": [
@@ -42636,10 +42657,10 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1773486913,
         "last_giveaway_won_at": 1759572000,
-        "total_achievements_percentage": 45,
-        "average_achievements_percentage": 51,
-        "real_total_achievements_percentage": 45,
-        "real_average_achievements_percentage": 51,
+        "total_achievements_percentage": 46,
+        "average_achievements_percentage": 52,
+        "real_total_achievements_percentage": 46,
+        "real_average_achievements_percentage": 52,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198164999453",
@@ -42963,10 +42984,10 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1773121878,
         "last_giveaway_won_at": 1775451600,
-        "total_achievements_percentage": 18,
-        "average_achievements_percentage": 15,
-        "real_total_achievements_percentage": 18,
-        "real_average_achievements_percentage": 15,
+        "total_achievements_percentage": 29,
+        "average_achievements_percentage": 18,
+        "real_total_achievements_percentage": 29,
+        "real_average_achievements_percentage": 18,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561197961485346",
@@ -44456,9 +44477,9 @@
         "last_giveaway_created_at": 1760117710,
         "last_giveaway_won_at": 1777273200,
         "total_achievements_percentage": 8,
-        "average_achievements_percentage": 12,
+        "average_achievements_percentage": 11,
         "real_total_achievements_percentage": 8,
-        "real_average_achievements_percentage": 12,
+        "real_average_achievements_percentage": 11,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561197968806363",
@@ -45834,10 +45855,10 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1772374596,
         "last_giveaway_won_at": 1762581600,
-        "total_achievements_percentage": 49,
-        "average_achievements_percentage": 45,
-        "real_total_achievements_percentage": 49,
-        "real_average_achievements_percentage": 45,
+        "total_achievements_percentage": 47,
+        "average_achievements_percentage": 44,
+        "real_total_achievements_percentage": 47,
+        "real_average_achievements_percentage": 44,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198067727574",
@@ -46148,10 +46169,10 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1777632770,
         "last_giveaway_won_at": 1770516720,
-        "total_achievements_percentage": 50,
-        "average_achievements_percentage": 54,
-        "real_total_achievements_percentage": 50,
-        "real_average_achievements_percentage": 54,
+        "total_achievements_percentage": 49,
+        "average_achievements_percentage": 52,
+        "real_total_achievements_percentage": 49,
+        "real_average_achievements_percentage": 52,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198002504847",
@@ -47441,7 +47462,7 @@
           "name": "Gloomy Eyes",
           "link": "I5o2w/gloomy-eyes",
           "cv_status": "FULL_CV",
-          "entries": 6,
+          "entries": 7,
           "copies": 1,
           "created_timestamp": 1778296857,
           "end_timestamp": 1778613240,
@@ -48580,7 +48601,7 @@
           "name": "Creepy Tale 2",
           "link": "mG6Kp/creepy-tale-2",
           "cv_status": "REDUCED_CV",
-          "entries": 26,
+          "entries": 28,
           "copies": 1,
           "created_timestamp": 1778284507,
           "end_timestamp": 1778904000,
@@ -48591,7 +48612,7 @@
           "name": "Swarm Queen",
           "link": "ZUqgX/swarm-queen",
           "cv_status": "REDUCED_CV",
-          "entries": 38,
+          "entries": 42,
           "copies": 2,
           "created_timestamp": 1778361955,
           "end_timestamp": 1778990400,
@@ -51551,30 +51572,30 @@
       "stats": {
         "total_sent_count": 7.2,
         "total_sent_value": 155.39,
-        "total_received_count": 3,
-        "total_received_value": 109.97,
-        "total_gift_difference": 4.2,
-        "total_value_difference": 45.42,
+        "total_received_count": 4,
+        "total_received_value": 124.96,
+        "total_gift_difference": 3.2,
+        "total_value_difference": 30.43,
         "fcv_sent_count": 4,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
-        "fcv_received_count": 3,
+        "fcv_received_count": 4,
         "rcv_received_count": 0,
         "ncv_received_count": 0,
-        "fcv_gift_difference": 1,
+        "fcv_gift_difference": 0,
         "real_total_sent_value": 85.96,
-        "real_total_received_value": 109.97,
-        "real_total_value_difference": -24.01,
+        "real_total_received_value": 124.96,
+        "real_total_value_difference": -39,
         "real_total_sent_count": 4,
-        "real_total_received_count": 3,
-        "real_total_gift_difference": 1,
-        "giveaway_ratio": 3,
+        "real_total_received_count": 4,
+        "real_total_gift_difference": 0,
+        "giveaway_ratio": 2.67,
         "shared_sent_count": 15,
         "shared_received_count": 0,
-        "giveaways_created": 20,
+        "giveaways_created": 23,
         "giveaways_with_no_entries": 0,
-        "last_giveaway_created_at": 1775903633,
-        "last_giveaway_won_at": 1778263200,
+        "last_giveaway_created_at": 1778593091,
+        "last_giveaway_won_at": 1778580000,
         "total_achievements_percentage": 6,
         "average_achievements_percentage": 7,
         "real_total_achievements_percentage": 6,
@@ -51585,6 +51606,15 @@
       "steam_profile_is_private": false,
       "country_code": "se",
       "giveaways_won": [
+        {
+          "name": "Rue Valley",
+          "link": "Mea0O/rue-valley",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1778580000,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "BALL x PIT",
           "link": "yhW8X/ball-x-pit",
@@ -51647,6 +51677,39 @@
         }
       ],
       "giveaways_created": [
+        {
+          "name": "Heroes of Hammerwatch II",
+          "link": "9VUb4/heroes-of-hammerwatch-ii",
+          "cv_status": "REDUCED_CV",
+          "entries": 46,
+          "copies": 1,
+          "created_timestamp": 1778593091,
+          "end_timestamp": 1779444000,
+          "required_play": false,
+          "is_shared": true
+        },
+        {
+          "name": "Bright Memory: Infinite",
+          "link": "34m4K/bright-memory-infinite",
+          "cv_status": "REDUCED_CV",
+          "entries": 49,
+          "copies": 1,
+          "created_timestamp": 1778592337,
+          "end_timestamp": 1779444000,
+          "required_play": false,
+          "is_shared": true
+        },
+        {
+          "name": "Astebreed: Definitive Edition",
+          "link": "wxL9H/astebreed-definitive-edition",
+          "cv_status": "REDUCED_CV",
+          "entries": 27,
+          "copies": 1,
+          "created_timestamp": 1778591718,
+          "end_timestamp": 1779444000,
+          "required_play": false,
+          "is_shared": true
+        },
         {
           "name": "The Lord of the Rings: Return to Moria",
           "link": "UM7g6/the-lord-of-the-rings-return-to-moria",
@@ -52086,9 +52149,9 @@
         "giveaway_ratio": 1,
         "shared_sent_count": 0,
         "shared_received_count": 0,
-        "giveaways_created": 3,
+        "giveaways_created": 4,
         "giveaways_with_no_entries": 0,
-        "last_giveaway_created_at": 1772933473,
+        "last_giveaway_created_at": 1778590206,
         "last_giveaway_won_at": 1773802920,
         "total_achievements_percentage": 100,
         "average_achievements_percentage": 100,
@@ -52162,6 +52225,17 @@
         }
       ],
       "giveaways_created": [
+        {
+          "name": "BALL x PIT",
+          "link": "FfVR0/ball-x-pit",
+          "cv_status": "FULL_CV",
+          "entries": 11,
+          "copies": 1,
+          "created_timestamp": 1778590206,
+          "end_timestamp": 1779508800,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "StarRupture",
           "link": "bYII0/starrupture",
@@ -53575,7 +53649,7 @@
         "giveaways_with_no_entries": 1,
         "last_giveaway_created_at": 1768928734,
         "last_giveaway_won_at": 1772794800,
-        "total_achievements_percentage": 19,
+        "total_achievements_percentage": 20,
         "average_achievements_percentage": 19,
         "real_total_achievements_percentage": 21,
         "real_average_achievements_percentage": 22,
@@ -55108,11 +55182,11 @@
         "giveaways_with_no_entries": 12,
         "last_giveaway_created_at": 1772371399,
         "last_giveaway_won_at": 1777320000,
-        "total_achievements_percentage": 52,
-        "average_achievements_percentage": 51,
-        "real_total_achievements_percentage": 73,
-        "real_average_achievements_percentage": 77,
-        "has_missing_achievements_data": false
+        "total_achievements_percentage": 58,
+        "average_achievements_percentage": 59,
+        "real_total_achievements_percentage": 64,
+        "real_average_achievements_percentage": 73,
+        "has_missing_achievements_data": true
       },
       "steam_profile_is_private": false,
       "country_code": "gr",
@@ -55353,11 +55427,6 @@
           "end_timestamp": 1761940800,
           "required_play": true,
           "is_shared": false,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 3,
-            "additional_notes": "15+ hours"
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 1397,
@@ -55368,6 +55437,11 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586849224
+          },
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 3,
+            "additional_notes": "15+ hours"
           }
         },
         {
@@ -55438,13 +55512,6 @@
           "end_timestamp": 1757732400,
           "required_play": true,
           "is_shared": false,
-          "i_played_bro": true,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 2,
-            "deadline": "01.01.2026",
-            "additional_notes": "10+ hours"
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 4365,
@@ -55455,6 +55522,13 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586854047
+          },
+          "i_played_bro": true,
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2,
+            "deadline": "01.01.2026",
+            "additional_notes": "10+ hours"
           }
         },
         {
@@ -55485,10 +55559,6 @@
           "end_timestamp": 1753905600,
           "required_play": true,
           "is_shared": true,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 2
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 1275,
@@ -55499,6 +55569,10 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586856437
+          },
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2
           }
         },
         {
@@ -55529,7 +55603,6 @@
           "end_timestamp": 1752057000,
           "required_play": false,
           "is_shared": false,
-          "i_played_bro": true,
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 1230,
@@ -55540,7 +55613,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586858836
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "Cult of the Lamb",
@@ -55550,11 +55624,6 @@
           "end_timestamp": 1751576400,
           "required_play": true,
           "is_shared": false,
-          "i_played_bro": true,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 2
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 3606,
@@ -55565,6 +55634,11 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586860023
+          },
+          "i_played_bro": true,
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2
           }
         },
         {
@@ -55575,7 +55649,6 @@
           "end_timestamp": 1750586400,
           "required_play": false,
           "is_shared": false,
-          "i_played_bro": true,
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 2876,
@@ -55586,7 +55659,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586861211
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "The Wardrobe - Even Better Edition",
@@ -55596,7 +55670,6 @@
           "end_timestamp": 1750399200,
           "required_play": false,
           "is_shared": false,
-          "i_played_bro": true,
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 386,
@@ -55607,7 +55680,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586862398
-          }
+          },
+          "i_played_bro": true
         }
       ],
       "giveaways_created": [
@@ -57027,10 +57101,10 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1755333079,
         "last_giveaway_won_at": 1760281200,
-        "total_achievements_percentage": 6,
-        "average_achievements_percentage": 6,
-        "real_total_achievements_percentage": 7,
-        "real_average_achievements_percentage": 7,
+        "total_achievements_percentage": 12,
+        "average_achievements_percentage": 11,
+        "real_total_achievements_percentage": 13,
+        "real_average_achievements_percentage": 13,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198054373921",
@@ -58670,7 +58744,7 @@
           "name": "Refate: Echoes of Desire",
           "link": "3K9Jm/refate-echoes-of-desire",
           "cv_status": "FULL_CV",
-          "entries": 4,
+          "entries": 7,
           "copies": 1,
           "created_timestamp": 1778531572,
           "end_timestamp": 1778965200,
@@ -58681,7 +58755,7 @@
           "name": "Metaphor: ReFantazio",
           "link": "uOFjs/metaphor-refantazio",
           "cv_status": "FULL_CV",
-          "entries": 23,
+          "entries": 27,
           "copies": 1,
           "created_timestamp": 1778531476,
           "end_timestamp": 1778965200,
@@ -60132,10 +60206,10 @@
         "giveaways_with_no_entries": 3,
         "last_giveaway_created_at": 1778499707,
         "last_giveaway_won_at": 1775923740,
-        "total_achievements_percentage": 60,
-        "average_achievements_percentage": 66,
-        "real_total_achievements_percentage": 60,
-        "real_average_achievements_percentage": 66,
+        "total_achievements_percentage": 61,
+        "average_achievements_percentage": 68,
+        "real_total_achievements_percentage": 61,
+        "real_average_achievements_percentage": 68,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561197975099685",
@@ -60302,7 +60376,6 @@
           "end_timestamp": 1759389060,
           "required_play": false,
           "is_shared": false,
-          "i_played_bro": true,
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 149,
@@ -60313,7 +60386,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778587676657
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "Sherlock Holmes The Awakened",
@@ -60393,7 +60467,7 @@
           "name": "Blackthorn Arena: Reforged",
           "link": "Fbc7s/blackthorn-arena-reforged",
           "cv_status": "FULL_CV",
-          "entries": 22,
+          "entries": 25,
           "copies": 1,
           "created_timestamp": 1778499707,
           "end_timestamp": 1779107940,
@@ -60404,7 +60478,7 @@
           "name": "Dropsy: Warm Damp Hug Edition",
           "link": "uXvbp/dropsy-warm-damp-hug-edition",
           "cv_status": "FULL_CV",
-          "entries": 23,
+          "entries": 26,
           "copies": 1,
           "created_timestamp": 1778385460,
           "end_timestamp": 1779252840,
@@ -60415,7 +60489,7 @@
           "name": "Read Only Memories: NEURODIVER",
           "link": "DfOfV/read-only-memories-neurodiver",
           "cv_status": "FULL_CV",
-          "entries": 27,
+          "entries": 28,
           "copies": 1,
           "created_timestamp": 1778107524,
           "end_timestamp": 1779925200,
@@ -61299,10 +61373,10 @@
         "giveaways_with_no_entries": 4,
         "last_giveaway_created_at": 1775589440,
         "last_giveaway_won_at": 1753617600,
-        "total_achievements_percentage": 47,
-        "average_achievements_percentage": 40,
-        "real_total_achievements_percentage": 47,
-        "real_average_achievements_percentage": 40,
+        "total_achievements_percentage": 74,
+        "average_achievements_percentage": 72,
+        "real_total_achievements_percentage": 74,
+        "real_average_achievements_percentage": 72,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561197994770037",
@@ -64466,10 +64540,10 @@
         "giveaways_with_no_entries": 3,
         "last_giveaway_created_at": 1777001879,
         "last_giveaway_won_at": 1776765600,
-        "total_achievements_percentage": 4,
-        "average_achievements_percentage": 1,
-        "real_total_achievements_percentage": 5,
-        "real_average_achievements_percentage": 2,
+        "total_achievements_percentage": 8,
+        "average_achievements_percentage": 7,
+        "real_total_achievements_percentage": 8,
+        "real_average_achievements_percentage": 5,
         "has_missing_achievements_data": true
       },
       "steam_profile_is_private": false,
@@ -65928,10 +66002,6 @@
           "end_timestamp": 1750363200,
           "required_play": true,
           "is_shared": false,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 2
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 1176,
@@ -65942,6 +66012,10 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778585781368
+          },
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2
           }
         },
         {
@@ -65972,10 +66046,6 @@
           "end_timestamp": 1750327200,
           "required_play": true,
           "is_shared": false,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 2
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 299,
@@ -65986,6 +66056,10 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778585783754
+          },
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2
           }
         },
         {
@@ -67782,10 +67856,10 @@
         "giveaways_with_no_entries": 1,
         "last_giveaway_created_at": 1777645962,
         "last_giveaway_won_at": 1778479200,
-        "total_achievements_percentage": 59,
-        "average_achievements_percentage": 73,
-        "real_total_achievements_percentage": 59,
-        "real_average_achievements_percentage": 73,
+        "total_achievements_percentage": 56,
+        "average_achievements_percentage": 65,
+        "real_total_achievements_percentage": 56,
+        "real_average_achievements_percentage": 65,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198079289651",
@@ -68453,10 +68527,10 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1767873384,
         "last_giveaway_won_at": 1764906600,
-        "total_achievements_percentage": 0,
-        "average_achievements_percentage": 0,
-        "real_total_achievements_percentage": 0,
-        "real_average_achievements_percentage": 0,
+        "total_achievements_percentage": 41,
+        "average_achievements_percentage": 29,
+        "real_total_achievements_percentage": 41,
+        "real_average_achievements_percentage": 29,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198152692937",
@@ -68491,12 +68565,6 @@
           "end_timestamp": 1751576520,
           "required_play": true,
           "is_shared": false,
-          "i_played_bro": true,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 2,
-            "additional_notes": "Level 25"
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 1054,
@@ -68507,6 +68575,12 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778588229117
+          },
+          "i_played_bro": true,
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2,
+            "additional_notes": "Level 25"
           }
         }
       ],
@@ -70090,10 +70164,10 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1777982922,
         "last_giveaway_won_at": 1777010340,
-        "total_achievements_percentage": 74,
-        "average_achievements_percentage": 75,
-        "real_total_achievements_percentage": 74,
-        "real_average_achievements_percentage": 75,
+        "total_achievements_percentage": 75,
+        "average_achievements_percentage": 77,
+        "real_total_achievements_percentage": 75,
+        "real_average_achievements_percentage": 77,
         "has_missing_achievements_data": true
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198027595057",
@@ -71690,10 +71764,10 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1775490776,
         "last_giveaway_won_at": 1778417280,
-        "total_achievements_percentage": 6,
-        "average_achievements_percentage": 40,
-        "real_total_achievements_percentage": 59,
-        "real_average_achievements_percentage": 59,
+        "total_achievements_percentage": 24,
+        "average_achievements_percentage": 45,
+        "real_total_achievements_percentage": 52,
+        "real_average_achievements_percentage": 53,
         "has_missing_achievements_data": false
       },
       "steam_profile_is_private": false,
@@ -71874,10 +71948,6 @@
           "end_timestamp": 1762290000,
           "required_play": true,
           "is_shared": false,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 3
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 489,
@@ -71888,6 +71958,10 @@
             "never_played": true,
             "is_playtime_private": false,
             "last_checked": 1778586789540
+          },
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 3
           }
         },
         {
@@ -71978,7 +72052,6 @@
           "end_timestamp": 1757388120,
           "required_play": false,
           "is_shared": false,
-          "i_played_bro": true,
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 1605,
@@ -71989,7 +72062,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586795572
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "Potion Craft: Alchemist Simulator",
@@ -71999,7 +72073,6 @@
           "end_timestamp": 1756809000,
           "required_play": false,
           "is_shared": false,
-          "i_played_bro": true,
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 4355,
@@ -72010,7 +72083,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586796782
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "She and the Light Bearer",
@@ -72041,7 +72115,6 @@
           "end_timestamp": 1752132600,
           "required_play": false,
           "is_shared": false,
-          "i_played_bro": true,
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 540,
@@ -72052,7 +72125,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586799187
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "Clair Obscur: Expedition 33 Deluxe Ed...",
@@ -72062,7 +72136,6 @@
           "end_timestamp": 1751828340,
           "required_play": false,
           "is_shared": false,
-          "i_played_bro": true,
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 1802,
@@ -72073,7 +72146,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586801801
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "Shogun Showdown",
@@ -72083,7 +72157,6 @@
           "end_timestamp": 1751686800,
           "required_play": false,
           "is_shared": false,
-          "i_played_bro": true,
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 1040,
@@ -72094,7 +72167,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586802995
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "The Elder Scrolls IV: Oblivion Remast...",
@@ -72104,11 +72178,6 @@
           "end_timestamp": 1751637600,
           "required_play": true,
           "is_shared": false,
-          "i_played_bro": true,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 6
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 5302,
@@ -72119,6 +72188,11 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586804204
+          },
+          "i_played_bro": true,
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 6
           }
         },
         {
@@ -72129,7 +72203,6 @@
           "end_timestamp": 1751368320,
           "required_play": false,
           "is_shared": false,
-          "i_played_bro": true,
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 824,
@@ -72140,7 +72213,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586805388
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "The Talos Principle 2",
@@ -72150,11 +72224,6 @@
           "end_timestamp": 1751274000,
           "required_play": true,
           "is_shared": false,
-          "i_played_bro": true,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 4
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 2732,
@@ -72165,6 +72234,11 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586806584
+          },
+          "i_played_bro": true,
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 4
           }
         },
         {
@@ -72175,7 +72249,6 @@
           "end_timestamp": 1751072400,
           "required_play": false,
           "is_shared": false,
-          "i_played_bro": true,
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 560,
@@ -72186,7 +72259,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586807778
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "The Pedestrian",
@@ -72196,7 +72270,6 @@
           "end_timestamp": 1750981440,
           "required_play": false,
           "is_shared": false,
-          "i_played_bro": true,
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 248,
@@ -72207,7 +72280,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586808987
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "Ni no Kuni Wrath of the Whi...",
@@ -72217,7 +72291,6 @@
           "end_timestamp": 1750600800,
           "required_play": false,
           "is_shared": false,
-          "i_played_bro": true,
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 2609,
@@ -72228,7 +72301,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586810183
-          }
+          },
+          "i_played_bro": true
         }
       ],
       "giveaways_created": [
@@ -72493,10 +72567,10 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1776084926,
         "last_giveaway_won_at": 1770062400,
-        "total_achievements_percentage": 100,
-        "average_achievements_percentage": 100,
-        "real_total_achievements_percentage": 100,
-        "real_average_achievements_percentage": 100,
+        "total_achievements_percentage": 74,
+        "average_achievements_percentage": 75,
+        "real_total_achievements_percentage": 74,
+        "real_average_achievements_percentage": 75,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198069567036",
@@ -72704,36 +72778,36 @@
       "avatar_url": "https://avatars.steamstatic.com/bfc022d5e8a36287dcb4b546340c32baf3a13ff5_medium.jpg",
       "steam_id": "76561198048462370",
       "stats": {
-        "total_sent_count": 59.3,
-        "total_sent_value": 1410.24,
+        "total_sent_count": 60.3,
+        "total_sent_value": 1425.23,
         "total_received_count": 55.7,
         "total_received_value": 1443.43,
-        "total_gift_difference": 3.7,
-        "total_value_difference": -33.19,
-        "fcv_sent_count": 58,
+        "total_gift_difference": 4.7,
+        "total_value_difference": -18.2,
+        "fcv_sent_count": 59,
         "rcv_sent_count": 1,
         "ncv_sent_count": 0,
         "fcv_received_count": 52,
         "rcv_received_count": 2,
         "ncv_received_count": 0,
-        "fcv_gift_difference": 6,
-        "real_total_sent_value": 1383.37,
+        "fcv_gift_difference": 7,
+        "real_total_sent_value": 1398.36,
         "real_total_received_value": 1372.43,
-        "real_total_value_difference": 10.94,
-        "real_total_sent_count": 58,
+        "real_total_value_difference": 25.93,
+        "real_total_sent_count": 59,
         "real_total_received_count": 52,
-        "real_total_gift_difference": 6,
-        "giveaway_ratio": 42,
+        "real_total_gift_difference": 7,
+        "giveaway_ratio": 43,
         "shared_sent_count": 1,
         "shared_received_count": 2,
         "giveaways_created": 58,
         "giveaways_with_no_entries": 1,
         "last_giveaway_created_at": 1778135639,
         "last_giveaway_won_at": 1778311440,
-        "total_achievements_percentage": 14,
-        "average_achievements_percentage": 23,
-        "real_total_achievements_percentage": 13,
-        "real_average_achievements_percentage": 21,
+        "total_achievements_percentage": 16,
+        "average_achievements_percentage": 25,
+        "real_total_achievements_percentage": 15,
+        "real_average_achievements_percentage": 23,
         "has_missing_achievements_data": true
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198048462370",
@@ -73899,9 +73973,10 @@
           "had_winners": true,
           "winners": [
             {
-              "name": null,
-              "status": "awaiting_feedback",
-              "activated": false
+              "name": "76561198042896883",
+              "winner_username": "Lontaz",
+              "status": "received",
+              "activated": true
             }
           ]
         },
@@ -75290,7 +75365,7 @@
           "name": "The Last Gas Station",
           "link": "HxJcQ/the-last-gas-station",
           "cv_status": "FULL_CV",
-          "entries": 11,
+          "entries": 12,
           "copies": 1,
           "created_timestamp": 1778168549,
           "end_timestamp": 1778947200,
@@ -75323,7 +75398,7 @@
           "name": "Hozy",
           "link": "bRKHB/hozy",
           "cv_status": "FULL_CV",
-          "entries": 8,
+          "entries": 9,
           "copies": 1,
           "created_timestamp": 1778168257,
           "end_timestamp": 1778947200,
@@ -75516,10 +75591,10 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1766586463,
         "last_giveaway_won_at": 1772481960,
-        "total_achievements_percentage": 74,
-        "average_achievements_percentage": 72,
-        "real_total_achievements_percentage": 74,
-        "real_average_achievements_percentage": 72,
+        "total_achievements_percentage": 83,
+        "average_achievements_percentage": 77,
+        "real_total_achievements_percentage": 83,
+        "real_average_achievements_percentage": 77,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198868418890",
@@ -75795,8 +75870,8 @@
         "giveaways_with_no_entries": 2,
         "last_giveaway_created_at": 1778252026,
         "last_giveaway_won_at": 1775066400,
-        "total_achievements_percentage": 21,
-        "average_achievements_percentage": 23,
+        "total_achievements_percentage": 23,
+        "average_achievements_percentage": 24,
         "real_total_achievements_percentage": 16,
         "real_average_achievements_percentage": 18,
         "has_missing_achievements_data": false
@@ -76402,10 +76477,10 @@
         "giveaways_with_no_entries": 5,
         "last_giveaway_created_at": 1776025038,
         "last_giveaway_won_at": 1777323600,
-        "total_achievements_percentage": 27,
-        "average_achievements_percentage": 36,
-        "real_total_achievements_percentage": 24,
-        "real_average_achievements_percentage": 34,
+        "total_achievements_percentage": 32,
+        "average_achievements_percentage": 39,
+        "real_total_achievements_percentage": 30,
+        "real_average_achievements_percentage": 38,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198076648919",
@@ -77327,10 +77402,10 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1775498337,
         "last_giveaway_won_at": 1775494800,
-        "total_achievements_percentage": 23,
-        "average_achievements_percentage": 29,
-        "real_total_achievements_percentage": 23,
-        "real_average_achievements_percentage": 29,
+        "total_achievements_percentage": 37,
+        "average_achievements_percentage": 44,
+        "real_total_achievements_percentage": 35,
+        "real_average_achievements_percentage": 41,
         "has_missing_achievements_data": false
       },
       "steam_profile_is_private": false,
@@ -77588,10 +77663,6 @@
           "end_timestamp": 1759377600,
           "required_play": true,
           "is_shared": false,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 2
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 276,
@@ -77602,6 +77673,10 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778587074592
+          },
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2
           }
         },
         {
@@ -77612,7 +77687,6 @@
           "end_timestamp": 1758488400,
           "required_play": false,
           "is_shared": false,
-          "i_played_bro": true,
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 379,
@@ -77623,7 +77697,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778587075805
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "Outpath",
@@ -77653,7 +77728,6 @@
           "end_timestamp": 1758242280,
           "required_play": false,
           "is_shared": false,
-          "i_played_bro": true,
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 150,
@@ -77664,7 +77738,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778587078218
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "Alisa",
@@ -77714,7 +77789,6 @@
           "end_timestamp": 1750613760,
           "required_play": false,
           "is_shared": false,
-          "i_played_bro": true,
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 1022,
@@ -77725,7 +77799,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778587081817
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "DAVE THE DIVER",
@@ -77735,11 +77810,6 @@
           "end_timestamp": 1750518000,
           "required_play": true,
           "is_shared": false,
-          "i_played_bro": true,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 2
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 2158,
@@ -77750,6 +77820,11 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778587083018
+          },
+          "i_played_bro": true,
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2
           }
         }
       ],
@@ -79259,10 +79334,10 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1777775249,
         "last_giveaway_won_at": 1775635200,
-        "total_achievements_percentage": 87,
-        "average_achievements_percentage": 91,
-        "real_total_achievements_percentage": 87,
-        "real_average_achievements_percentage": 91,
+        "total_achievements_percentage": 85,
+        "average_achievements_percentage": 90,
+        "real_total_achievements_percentage": 85,
+        "real_average_achievements_percentage": 90,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198054324521",
@@ -80619,7 +80694,7 @@
         "average_achievements_percentage": 0,
         "real_total_achievements_percentage": 0,
         "real_average_achievements_percentage": 0,
-        "has_missing_achievements_data": false
+        "has_missing_achievements_data": true
       },
       "steam_profile_is_private": false,
       "country_code": "ru",
@@ -81656,10 +81731,10 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1778181017,
         "last_giveaway_won_at": 1766577600,
-        "total_achievements_percentage": 30,
-        "average_achievements_percentage": 24,
-        "real_total_achievements_percentage": 33,
-        "real_average_achievements_percentage": 27,
+        "total_achievements_percentage": 33,
+        "average_achievements_percentage": 27,
+        "real_total_achievements_percentage": 36,
+        "real_average_achievements_percentage": 30,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198399974062",
@@ -82145,10 +82220,10 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1775340957,
         "last_giveaway_won_at": 1771434000,
-        "total_achievements_percentage": 26,
-        "average_achievements_percentage": 47,
-        "real_total_achievements_percentage": 23,
-        "real_average_achievements_percentage": 40,
+        "total_achievements_percentage": 34,
+        "average_achievements_percentage": 51,
+        "real_total_achievements_percentage": 32,
+        "real_average_achievements_percentage": 48,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198118320246",
@@ -82383,7 +82458,6 @@
           "end_timestamp": 1757768400,
           "required_play": false,
           "is_shared": false,
-          "i_played_bro": true,
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 408,
@@ -82394,7 +82468,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778587500764
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "PEAK",
@@ -83040,10 +83115,10 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1765156560,
         "last_giveaway_won_at": 1777694400,
-        "total_achievements_percentage": 5,
-        "average_achievements_percentage": 19,
-        "real_total_achievements_percentage": 26,
-        "real_average_achievements_percentage": 33,
+        "total_achievements_percentage": 7,
+        "average_achievements_percentage": 22,
+        "real_total_achievements_percentage": 44,
+        "real_average_achievements_percentage": 48,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198081010034",
@@ -83349,9 +83424,9 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1772233939,
         "last_giveaway_won_at": 1759510200,
-        "total_achievements_percentage": 63,
+        "total_achievements_percentage": 62,
         "average_achievements_percentage": 71,
-        "real_total_achievements_percentage": 63,
+        "real_total_achievements_percentage": 62,
         "real_average_achievements_percentage": 71,
         "has_missing_achievements_data": false
       },
@@ -83754,9 +83829,9 @@
         "last_giveaway_created_at": 1774377469,
         "last_giveaway_won_at": 1768158000,
         "total_achievements_percentage": 58,
-        "average_achievements_percentage": 88,
+        "average_achievements_percentage": 89,
         "real_total_achievements_percentage": 58,
-        "real_average_achievements_percentage": 88,
+        "real_average_achievements_percentage": 89,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561197991280042",
@@ -84778,10 +84853,10 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1760819435,
         "last_giveaway_won_at": 1766865600,
-        "total_achievements_percentage": 0,
-        "average_achievements_percentage": 0,
-        "real_total_achievements_percentage": 0,
-        "real_average_achievements_percentage": 0,
+        "total_achievements_percentage": 34,
+        "average_achievements_percentage": 31,
+        "real_total_achievements_percentage": 34,
+        "real_average_achievements_percentage": 31,
         "has_missing_achievements_data": false
       },
       "steam_profile_is_private": false,
@@ -84895,12 +84970,6 @@
           "end_timestamp": 1749916800,
           "required_play": true,
           "is_shared": false,
-          "i_played_bro": true,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 2,
-            "additional_notes": "Beat the game"
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 485,
@@ -84911,6 +84980,12 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778588006334
+          },
+          "i_played_bro": true,
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2,
+            "additional_notes": "Beat the game"
           }
         }
       ],
@@ -85024,11 +85099,11 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1767496398,
         "last_giveaway_won_at": 1777025700,
-        "total_achievements_percentage": 14,
+        "total_achievements_percentage": 12,
         "average_achievements_percentage": 15,
-        "real_total_achievements_percentage": 23,
-        "real_average_achievements_percentage": 22,
-        "has_missing_achievements_data": false
+        "real_total_achievements_percentage": 14,
+        "real_average_achievements_percentage": 18,
+        "has_missing_achievements_data": true
       },
       "steam_profile_is_private": false,
       "country_code": "us",
@@ -85302,11 +85377,6 @@
           "end_timestamp": 1764446880,
           "required_play": true,
           "is_shared": false,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 6,
-            "additional_notes": "2+ hours"
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 193,
@@ -85317,6 +85387,11 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586402637
+          },
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 6,
+            "additional_notes": "2+ hours"
           }
         },
         {
@@ -85548,7 +85623,6 @@
           "end_timestamp": 1752592800,
           "required_play": false,
           "is_shared": false,
-          "i_played_bro": true,
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 457,
@@ -85560,7 +85634,8 @@
             "is_playtime_private": false,
             "last_checked": 1778586418622,
             "is_potentially_idling": true
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "Klonoa Phantasy Reverie Series",
@@ -85590,11 +85665,6 @@
           "end_timestamp": 1751216400,
           "required_play": true,
           "is_shared": false,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 2,
-            "deadline": "31.12.2025"
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 1264,
@@ -85605,6 +85675,11 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586421044
+          },
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2,
+            "deadline": "31.12.2025"
           }
         },
         {
@@ -85615,7 +85690,6 @@
           "end_timestamp": 1751059080,
           "required_play": false,
           "is_shared": false,
-          "i_played_bro": true,
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 955,
@@ -85626,7 +85700,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586422251
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "Digimon Story Cyber Sleuth: Complete ...",
@@ -85657,7 +85732,6 @@
           "end_timestamp": 1750719540,
           "required_play": false,
           "is_shared": false,
-          "i_played_bro": true,
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 582,
@@ -85668,7 +85742,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586424653
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "Digimon Survive",
@@ -85699,7 +85774,6 @@
           "end_timestamp": 1750335720,
           "required_play": false,
           "is_shared": false,
-          "i_played_bro": true,
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 487,
@@ -85710,7 +85784,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586427063
-          }
+          },
+          "i_played_bro": true
         }
       ],
       "giveaways_created": [
@@ -85992,10 +86067,10 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1775525806,
         "last_giveaway_won_at": 1768689600,
-        "total_achievements_percentage": 65,
-        "average_achievements_percentage": 67,
-        "real_total_achievements_percentage": 71,
-        "real_average_achievements_percentage": 74,
+        "total_achievements_percentage": 66,
+        "average_achievements_percentage": 68,
+        "real_total_achievements_percentage": 70,
+        "real_average_achievements_percentage": 73,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198010836552",
@@ -86548,10 +86623,10 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1766458940,
         "last_giveaway_won_at": 1775750400,
-        "total_achievements_percentage": 54,
-        "average_achievements_percentage": 51,
-        "real_total_achievements_percentage": 48,
-        "real_average_achievements_percentage": 38,
+        "total_achievements_percentage": 56,
+        "average_achievements_percentage": 58,
+        "real_total_achievements_percentage": 55,
+        "real_average_achievements_percentage": 56,
         "has_missing_achievements_data": false
       },
       "steam_profile_is_private": false,
@@ -86709,7 +86784,6 @@
           "end_timestamp": 1759397460,
           "required_play": false,
           "is_shared": false,
-          "i_played_bro": true,
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 281,
@@ -86720,7 +86794,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586751984
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "Bug Fables: The Everlasting Sapling",
@@ -86790,7 +86865,6 @@
           "end_timestamp": 1753059600,
           "required_play": false,
           "is_shared": false,
-          "i_played_bro": true,
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 385,
@@ -86801,7 +86875,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586758357
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "Bramble: The Mountain King",
@@ -86811,7 +86886,6 @@
           "end_timestamp": 1753044720,
           "required_play": false,
           "is_shared": false,
-          "i_played_bro": true,
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 314,
@@ -86822,7 +86896,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586759575
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "The Evil Within 2",
@@ -86912,11 +86987,6 @@
           "end_timestamp": 1751896800,
           "required_play": true,
           "is_shared": false,
-          "i_played_bro": true,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 3
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 1745,
@@ -86927,6 +86997,11 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586765623
+          },
+          "i_played_bro": true,
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 3
           }
         },
         {
@@ -86957,11 +87032,6 @@
           "end_timestamp": 1751644800,
           "required_play": true,
           "is_shared": false,
-          "i_played_bro": true,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 2
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 1464,
@@ -86972,6 +87042,11 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586768052
+          },
+          "i_played_bro": true,
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2
           }
         },
         {
@@ -86982,11 +87057,6 @@
           "end_timestamp": 1751533200,
           "required_play": true,
           "is_shared": false,
-          "i_played_bro": true,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 2
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 1870,
@@ -86997,6 +87067,11 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586769251
+          },
+          "i_played_bro": true,
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2
           }
         },
         {
@@ -87007,11 +87082,6 @@
           "end_timestamp": 1751222340,
           "required_play": true,
           "is_shared": false,
-          "i_played_bro": true,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 3
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 543,
@@ -87022,6 +87092,11 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586770459
+          },
+          "i_played_bro": true,
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 3
           }
         },
         {
@@ -87032,11 +87107,6 @@
           "end_timestamp": 1751119200,
           "required_play": true,
           "is_shared": false,
-          "i_played_bro": true,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 2
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 4668,
@@ -87047,6 +87117,11 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586771667
+          },
+          "i_played_bro": true,
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2
           }
         },
         {
@@ -87057,11 +87132,6 @@
           "end_timestamp": 1750780800,
           "required_play": true,
           "is_shared": false,
-          "i_played_bro": true,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 3
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 2039,
@@ -87072,6 +87142,11 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586772866
+          },
+          "i_played_bro": true,
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 3
           }
         },
         {
@@ -87082,11 +87157,6 @@
           "end_timestamp": 1750696200,
           "required_play": true,
           "is_shared": false,
-          "i_played_bro": true,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 2
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 884,
@@ -87097,6 +87167,11 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586774188
+          },
+          "i_played_bro": true,
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2
           }
         },
         {
@@ -87107,7 +87182,6 @@
           "end_timestamp": 1750690800,
           "required_play": false,
           "is_shared": false,
-          "i_played_bro": true,
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 415,
@@ -87118,7 +87192,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586775393
-          }
+          },
+          "i_played_bro": true
         }
       ],
       "giveaways_created": [
@@ -87930,10 +88005,10 @@
         "giveaways_with_no_entries": 1,
         "last_giveaway_created_at": 1777616359,
         "last_giveaway_won_at": 1758632400,
-        "total_achievements_percentage": 69,
-        "average_achievements_percentage": 71,
-        "real_total_achievements_percentage": 69,
-        "real_average_achievements_percentage": 71,
+        "total_achievements_percentage": 72,
+        "average_achievements_percentage": 76,
+        "real_total_achievements_percentage": 72,
+        "real_average_achievements_percentage": 76,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198070041813",
@@ -87948,7 +88023,6 @@
           "end_timestamp": 1758632400,
           "required_play": false,
           "is_shared": false,
-          "i_played_bro": true,
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 0,
@@ -87959,7 +88033,8 @@
             "never_played": false,
             "is_playtime_private": true,
             "last_checked": 1778588009520
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "Cyberpunk 2077",
@@ -88383,10 +88458,10 @@
         "giveaways_with_no_entries": 2,
         "last_giveaway_created_at": 1776778386,
         "last_giveaway_won_at": 1778297460,
-        "total_achievements_percentage": 44,
-        "average_achievements_percentage": 58,
-        "real_total_achievements_percentage": 44,
-        "real_average_achievements_percentage": 58,
+        "total_achievements_percentage": 52,
+        "average_achievements_percentage": 68,
+        "real_total_achievements_percentage": 52,
+        "real_average_achievements_percentage": 68,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198089973992",
@@ -88582,12 +88657,6 @@
           "end_timestamp": 1761505200,
           "required_play": true,
           "is_shared": false,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 2,
-            "deadline": "01.06.2026",
-            "additional_notes": "1hr + \"Cleared The Way of the Ninja\" (Chapter 1) achievement"
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 452,
@@ -88598,6 +88667,12 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586877160
+          },
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2,
+            "deadline": "01.06.2026",
+            "additional_notes": "1hr + \"Cleared The Way of the Ninja\" (Chapter 1) achievement"
           }
         },
         {
@@ -88608,7 +88683,6 @@
           "end_timestamp": 1759550340,
           "required_play": false,
           "is_shared": false,
-          "i_played_bro": true,
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 170,
@@ -88619,7 +88693,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586878358
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "King Arthur: Knight's Tale",
@@ -88649,11 +88724,6 @@
           "end_timestamp": 1759510620,
           "required_play": true,
           "is_shared": false,
-          "i_played_bro": true,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 12
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 1943,
@@ -88664,6 +88734,11 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586880760
+          },
+          "i_played_bro": true,
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 12
           }
         },
         {
@@ -88674,7 +88749,6 @@
           "end_timestamp": 1759420800,
           "required_play": false,
           "is_shared": false,
-          "i_played_bro": true,
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 745,
@@ -88685,7 +88759,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586881968
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "The Wandering Village",
@@ -89789,10 +89864,10 @@
         "giveaways_with_no_entries": 1,
         "last_giveaway_created_at": 1774423038,
         "last_giveaway_won_at": 1769166000,
-        "total_achievements_percentage": 14,
-        "average_achievements_percentage": 13,
-        "real_total_achievements_percentage": 27,
-        "real_average_achievements_percentage": 19,
+        "total_achievements_percentage": 68,
+        "average_achievements_percentage": 83,
+        "real_total_achievements_percentage": 100,
+        "real_average_achievements_percentage": 100,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198067436079",
@@ -90107,10 +90182,10 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1778268122,
         "last_giveaway_won_at": 1776694800,
-        "total_achievements_percentage": 5,
-        "average_achievements_percentage": 5,
-        "real_total_achievements_percentage": 5,
-        "real_average_achievements_percentage": 5,
+        "total_achievements_percentage": 28,
+        "average_achievements_percentage": 28,
+        "real_total_achievements_percentage": 28,
+        "real_average_achievements_percentage": 28,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198129984336",
@@ -90165,7 +90240,7 @@
           "name": "Ghostwire: Tokyo Deluxe",
           "link": "3PFZd/ghostwire-tokyo-deluxe",
           "cv_status": "FULL_CV",
-          "entries": 57,
+          "entries": 59,
           "copies": 1,
           "created_timestamp": 1778268122,
           "end_timestamp": 1779127200,
@@ -90286,8 +90361,8 @@
         "giveaways_with_no_entries": 1,
         "last_giveaway_created_at": 1778210953,
         "last_giveaway_won_at": 1778176800,
-        "total_achievements_percentage": 54,
-        "average_achievements_percentage": 62,
+        "total_achievements_percentage": 50,
+        "average_achievements_percentage": 58,
         "real_total_achievements_percentage": 71,
         "real_average_achievements_percentage": 78,
         "has_missing_achievements_data": false
@@ -91097,7 +91172,12 @@
         "giveaways_created": 5,
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1758429632,
-        "last_giveaway_won_at": 1752076800
+        "last_giveaway_won_at": 1752076800,
+        "total_achievements_percentage": 5,
+        "average_achievements_percentage": 6,
+        "real_total_achievements_percentage": 5,
+        "real_average_achievements_percentage": 6,
+        "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198185630581",
       "steam_profile_is_private": false,
@@ -91171,10 +91251,6 @@
           "end_timestamp": 1751513400,
           "required_play": true,
           "is_shared": false,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 3
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 0,
@@ -91185,6 +91261,10 @@
             "never_played": false,
             "is_playtime_private": true,
             "last_checked": 1778588112928
+          },
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 3
           }
         },
         {
@@ -91344,10 +91424,10 @@
         "giveaways_with_no_entries": 1,
         "last_giveaway_created_at": 1765176580,
         "last_giveaway_won_at": 1754944020,
-        "total_achievements_percentage": 29,
-        "average_achievements_percentage": 26,
-        "real_total_achievements_percentage": 25,
-        "real_average_achievements_percentage": 26,
+        "total_achievements_percentage": 71,
+        "average_achievements_percentage": 62,
+        "real_total_achievements_percentage": 73,
+        "real_average_achievements_percentage": 62,
         "has_missing_achievements_data": true
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198077347875",
@@ -92257,10 +92337,10 @@
         "giveaways_with_no_entries": 4,
         "last_giveaway_created_at": 1778356588,
         "last_giveaway_won_at": 1770422400,
-        "total_achievements_percentage": 48,
-        "average_achievements_percentage": 48,
-        "real_total_achievements_percentage": 48,
-        "real_average_achievements_percentage": 48,
+        "total_achievements_percentage": 31,
+        "average_achievements_percentage": 29,
+        "real_total_achievements_percentage": 34,
+        "real_average_achievements_percentage": 32,
         "has_missing_achievements_data": false
       },
       "steam_profile_is_private": false,
@@ -92419,10 +92499,6 @@
           "end_timestamp": 1756665180,
           "required_play": true,
           "is_shared": false,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 6
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 183,
@@ -92433,6 +92509,10 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586910672
+          },
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 6
           }
         },
         {
@@ -92463,11 +92543,6 @@
           "end_timestamp": 1756032660,
           "required_play": true,
           "is_shared": false,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 3,
-            "additional_notes": "Beat the game. \"The End\" achievement"
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 5568,
@@ -92478,6 +92553,11 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586914553
+          },
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 3,
+            "additional_notes": "Beat the game. \"The End\" achievement"
           }
         },
         {
@@ -92548,11 +92628,6 @@
           "end_timestamp": 1752343200,
           "required_play": true,
           "is_shared": false,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 2,
-            "deadline": "31.12.2025"
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 368,
@@ -92563,6 +92638,11 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586919355
+          },
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2,
+            "deadline": "31.12.2025"
           }
         },
         {
@@ -92573,10 +92653,6 @@
           "end_timestamp": 1751313600,
           "required_play": true,
           "is_shared": false,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 2
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 134,
@@ -92587,6 +92663,10 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586920555
+          },
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2
           }
         },
         {
@@ -92597,11 +92677,6 @@
           "end_timestamp": 1751313600,
           "required_play": true,
           "is_shared": false,
-          "i_played_bro": true,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 2
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 131,
@@ -92612,6 +92687,11 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586921752
+          },
+          "i_played_bro": true,
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2
           }
         },
         {
@@ -92662,10 +92742,6 @@
           "end_timestamp": 1751125920,
           "required_play": true,
           "is_shared": false,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 2
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 830,
@@ -92676,6 +92752,10 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586925350
+          },
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2
           }
         },
         {
@@ -93187,10 +93267,10 @@
         "giveaways_with_no_entries": 3,
         "last_giveaway_created_at": 1776024491,
         "last_giveaway_won_at": 1764114600,
-        "total_achievements_percentage": 18,
-        "average_achievements_percentage": 18,
-        "real_total_achievements_percentage": 19,
-        "real_average_achievements_percentage": 20,
+        "total_achievements_percentage": 23,
+        "average_achievements_percentage": 23,
+        "real_total_achievements_percentage": 26,
+        "real_average_achievements_percentage": 26,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198982150416",
@@ -93827,10 +93907,10 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1778514370,
         "last_giveaway_won_at": 1776694800,
-        "total_achievements_percentage": 56,
-        "average_achievements_percentage": 60,
-        "real_total_achievements_percentage": 55,
-        "real_average_achievements_percentage": 57,
+        "total_achievements_percentage": 80,
+        "average_achievements_percentage": 83,
+        "real_total_achievements_percentage": 79,
+        "real_average_achievements_percentage": 82,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561199141726712",
@@ -93970,7 +94050,6 @@
           "end_timestamp": 1759352340,
           "required_play": false,
           "is_shared": false,
-          "i_played_bro": true,
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 274,
@@ -93981,7 +94060,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778587191279
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "Ghost Song",
@@ -93991,7 +94071,6 @@
           "end_timestamp": 1756587600,
           "required_play": false,
           "is_shared": false,
-          "i_played_bro": true,
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 764,
@@ -94002,7 +94081,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778587192484
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "Dustborn",
@@ -94242,7 +94322,7 @@
           "name": "Horizon Forbidden West Complete Edition",
           "link": "SX23h/horizon-forbidden-west-complete-edition",
           "cv_status": "FULL_CV",
-          "entries": 15,
+          "entries": 17,
           "copies": 1,
           "created_timestamp": 1778514370,
           "end_timestamp": 1778868000,
@@ -94843,10 +94923,10 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1778016838,
         "last_giveaway_won_at": 1767204000,
-        "total_achievements_percentage": 29,
-        "average_achievements_percentage": 35,
-        "real_total_achievements_percentage": 13,
-        "real_average_achievements_percentage": 14,
+        "total_achievements_percentage": 28,
+        "average_achievements_percentage": 34,
+        "real_total_achievements_percentage": 19,
+        "real_average_achievements_percentage": 21,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198116836855",
@@ -96158,10 +96238,10 @@
         "giveaways_with_no_entries": 1,
         "last_giveaway_created_at": 1778502800,
         "last_giveaway_won_at": 1778256000,
-        "total_achievements_percentage": 19,
-        "average_achievements_percentage": 23,
-        "real_total_achievements_percentage": 20,
-        "real_average_achievements_percentage": 25,
+        "total_achievements_percentage": 23,
+        "average_achievements_percentage": 28,
+        "real_total_achievements_percentage": 25,
+        "real_average_achievements_percentage": 30,
         "has_missing_achievements_data": false
       },
       "steam_profile_is_private": false,
@@ -96379,11 +96459,6 @@
           "end_timestamp": 1760583660,
           "required_play": true,
           "is_shared": true,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 3,
-            "additional_notes": "25% HLTB + 10% achievements"
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 446,
@@ -96394,6 +96469,11 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586573077
+          },
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 3,
+            "additional_notes": "25% HLTB + 10% achievements"
           }
         },
         {
@@ -96604,11 +96684,6 @@
           "end_timestamp": 1754016720,
           "required_play": true,
           "is_shared": false,
-          "i_played_bro": true,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 2
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 446,
@@ -96619,6 +96694,11 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586586343
+          },
+          "i_played_bro": true,
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2
           }
         },
         {
@@ -96629,10 +96709,6 @@
           "end_timestamp": 1753975260,
           "required_play": true,
           "is_shared": true,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 2
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 232,
@@ -96643,6 +96719,10 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586587549
+          },
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2
           }
         },
         {
@@ -96653,11 +96733,6 @@
           "end_timestamp": 1753042920,
           "required_play": true,
           "is_shared": false,
-          "i_played_bro": true,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 6
-          },
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 637,
@@ -96668,6 +96743,11 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586588745
+          },
+          "i_played_bro": true,
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 6
           }
         },
         {
@@ -96678,7 +96758,6 @@
           "end_timestamp": 1752784200,
           "required_play": false,
           "is_shared": false,
-          "i_played_bro": true,
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 569,
@@ -96689,7 +96768,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586589929
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "Red Dead Redemption 2",
@@ -96719,7 +96799,6 @@
           "end_timestamp": 1751845020,
           "required_play": false,
           "is_shared": false,
-          "i_played_bro": true,
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 1163,
@@ -96730,7 +96809,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586592317
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "Outer Wilds",
@@ -96740,7 +96820,6 @@
           "end_timestamp": 1751752140,
           "required_play": false,
           "is_shared": false,
-          "i_played_bro": true,
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 1097,
@@ -96751,7 +96830,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586593546
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "Viewfinder",
@@ -96761,7 +96841,6 @@
           "end_timestamp": 1751240220,
           "required_play": false,
           "is_shared": false,
-          "i_played_bro": true,
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 424,
@@ -96772,7 +96851,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586594759
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "Cyberwar: Neon City",
@@ -96782,7 +96862,6 @@
           "end_timestamp": 1750910340,
           "required_play": false,
           "is_shared": false,
-          "i_played_bro": true,
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 382,
@@ -96793,7 +96872,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1778586595981
-          }
+          },
+          "i_played_bro": true
         }
       ],
       "giveaways_created": [
@@ -96801,7 +96881,7 @@
           "name": "Mixtape",
           "link": "kamUt/mixtape",
           "cv_status": "FULL_CV",
-          "entries": 19,
+          "entries": 21,
           "copies": 1,
           "created_timestamp": 1778502800,
           "end_timestamp": 1778851920,
@@ -97331,10 +97411,10 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1777668060,
         "last_giveaway_won_at": 1774803600,
-        "total_achievements_percentage": 72,
-        "average_achievements_percentage": 83,
-        "real_total_achievements_percentage": 70,
-        "real_average_achievements_percentage": 81,
+        "total_achievements_percentage": 81,
+        "average_achievements_percentage": 90,
+        "real_total_achievements_percentage": 80,
+        "real_average_achievements_percentage": 89,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198352113526",
@@ -98451,10 +98531,10 @@
         "giveaways_with_no_entries": 1,
         "last_giveaway_created_at": 1768222709,
         "last_giveaway_won_at": 1758495600,
-        "total_achievements_percentage": 26,
-        "average_achievements_percentage": 27,
-        "real_total_achievements_percentage": 16,
-        "real_average_achievements_percentage": 16,
+        "total_achievements_percentage": 49,
+        "average_achievements_percentage": 50,
+        "real_total_achievements_percentage": 33,
+        "real_average_achievements_percentage": 33,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198183406253",
