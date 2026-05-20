@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1779275170201,
+  "lastUpdated": 1779301982822,
   "users": {
     "76561198359284432": {
       "username": "a10i",
@@ -1752,7 +1752,7 @@
             "last_checked": 1779253845373
           },
           "required_play_meta": {
-            "requirements_met": false,
+            "requirements_met": true,
             "deadline_in_months": 3,
             "additional_notes": "5+ hr"
           }
@@ -1992,9 +1992,6 @@
             }
           ]
         }
-      ],
-      "warnings": [
-        "required_plays_need_review"
       ]
     },
     "76561198075940587": {
@@ -5618,7 +5615,7 @@
           "name": "Flick Shot Rogues",
           "link": "1srcE/flick-shot-rogues",
           "cv_status": "FULL_CV",
-          "entries": 4,
+          "entries": 5,
           "copies": 1,
           "created_timestamp": 1779123102,
           "end_timestamp": 1779731460,
@@ -10336,7 +10333,7 @@
           "name": "Heart of the Woods",
           "link": "jcMfO/heart-of-the-woods",
           "cv_status": "FULL_CV",
-          "entries": 34,
+          "entries": 35,
           "copies": 1,
           "created_timestamp": 1778009121,
           "end_timestamp": 1780074000,
@@ -23932,26 +23929,26 @@
       "avatar_url": "https://avatars.steamstatic.com/da9d39f1641475eee1842deab32940f6442858a4_medium.jpg",
       "steam_id": "76561198020386807",
       "stats": {
-        "total_sent_count": 17,
-        "total_sent_value": 331.83,
+        "total_sent_count": 18,
+        "total_sent_value": 346.82,
         "total_received_count": 35,
         "total_received_value": 823.65,
-        "total_gift_difference": -18,
-        "total_value_difference": -491.82,
-        "fcv_sent_count": 16,
+        "total_gift_difference": -17,
+        "total_value_difference": -476.83,
+        "fcv_sent_count": 17,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
         "fcv_received_count": 33,
         "rcv_received_count": 1,
         "ncv_received_count": 0,
-        "fcv_gift_difference": -17,
-        "real_total_sent_value": 316.84,
+        "fcv_gift_difference": -16,
+        "real_total_sent_value": 331.83,
         "real_total_received_value": 794.67,
-        "real_total_value_difference": -477.83,
-        "real_total_sent_count": 16,
+        "real_total_value_difference": -462.84,
+        "real_total_sent_count": 17,
         "real_total_received_count": 33,
-        "real_total_gift_difference": -17,
-        "giveaway_ratio": 7,
+        "real_total_gift_difference": -16,
+        "giveaway_ratio": 8,
         "shared_sent_count": 1,
         "shared_received_count": 0,
         "giveaways_created": 19,
@@ -24686,9 +24683,10 @@
           "had_winners": true,
           "winners": [
             {
-              "name": null,
-              "status": "awaiting_feedback",
-              "activated": false
+              "name": "76561198054575805",
+              "winner_username": "insideAfireball",
+              "status": "received",
+              "activated": true
             }
           ]
         },
@@ -29000,7 +28998,15 @@
           "created_timestamp": 1777980029,
           "end_timestamp": 1779279360,
           "required_play": false,
-          "is_shared": true
+          "is_shared": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "Children of Morta: Ancient Spirits",
@@ -37153,30 +37159,30 @@
       "stats": {
         "total_sent_count": 26,
         "total_sent_value": 697.74,
-        "total_received_count": 26,
-        "total_received_value": 743.74,
-        "total_gift_difference": 0,
-        "total_value_difference": -46,
+        "total_received_count": 27,
+        "total_received_value": 758.73,
+        "total_gift_difference": -1,
+        "total_value_difference": -60.99,
         "fcv_sent_count": 26,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
-        "fcv_received_count": 23,
+        "fcv_received_count": 24,
         "rcv_received_count": 1,
         "ncv_received_count": 0,
-        "fcv_gift_difference": 3,
+        "fcv_gift_difference": 2,
         "real_total_sent_value": 697.74,
-        "real_total_received_value": 601.27,
-        "real_total_value_difference": 96.47,
+        "real_total_received_value": 616.26,
+        "real_total_value_difference": 81.48,
         "real_total_sent_count": 26,
-        "real_total_received_count": 23,
-        "real_total_gift_difference": 3,
-        "giveaway_ratio": 19.33,
+        "real_total_received_count": 24,
+        "real_total_gift_difference": 2,
+        "giveaway_ratio": 19,
         "shared_sent_count": 0,
         "shared_received_count": 2,
         "giveaways_created": 29,
         "giveaways_with_no_entries": 4,
         "last_giveaway_created_at": 1778953954,
-        "last_giveaway_won_at": 1778173200,
+        "last_giveaway_won_at": 1779231660,
         "total_achievements_percentage": 17,
         "average_achievements_percentage": 26,
         "real_total_achievements_percentage": 19,
@@ -37187,6 +37193,15 @@
       "steam_profile_is_private": false,
       "country_code": "us",
       "giveaways_won": [
+        {
+          "name": "Assassin's Creed Freedom Cry",
+          "link": "Uqc24/assassins-creed-freedom-cry",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1779231660,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "SANABI",
           "link": "RGfgK/sanabi",
@@ -42963,7 +42978,7 @@
           "name": "ASTRONEER",
           "link": "LBQqM/astroneer",
           "cv_status": "FULL_CV",
-          "entries": 9,
+          "entries": 11,
           "copies": 1,
           "created_timestamp": 1779038628,
           "end_timestamp": 1779306840,
@@ -43632,7 +43647,7 @@
           "is_shared": false,
           "i_played_bro": false,
           "required_play_meta": {
-            "requirements_met": false,
+            "requirements_met": true,
             "deadline_in_months": 3,
             "additional_notes": "5+ hr"
           },
@@ -49546,7 +49561,7 @@
           "name": "Cardpocalypse",
           "link": "BkuiF/cardpocalypse",
           "cv_status": "REDUCED_CV",
-          "entries": 44,
+          "entries": 45,
           "copies": 1,
           "created_timestamp": 1778881709,
           "end_timestamp": 1779508800,
@@ -49557,7 +49572,7 @@
           "name": "Hello Goodboy",
           "link": "NMIt5/hello-goodboy",
           "cv_status": "REDUCED_CV",
-          "entries": 50,
+          "entries": 51,
           "copies": 1,
           "created_timestamp": 1778962875,
           "end_timestamp": 1779595200,
@@ -52703,7 +52718,7 @@
           "name": "Heroes of Hammerwatch II",
           "link": "9VUb4/heroes-of-hammerwatch-ii",
           "cv_status": "REDUCED_CV",
-          "entries": 159,
+          "entries": 166,
           "copies": 1,
           "created_timestamp": 1778593091,
           "end_timestamp": 1779444000,
@@ -52714,7 +52729,7 @@
           "name": "Bright Memory: Infinite",
           "link": "34m4K/bright-memory-infinite",
           "cv_status": "REDUCED_CV",
-          "entries": 162,
+          "entries": 170,
           "copies": 1,
           "created_timestamp": 1778592337,
           "end_timestamp": 1779444000,
@@ -52725,7 +52740,7 @@
           "name": "Astebreed: Definitive Edition",
           "link": "wxL9H/astebreed-definitive-edition",
           "cv_status": "REDUCED_CV",
-          "entries": 114,
+          "entries": 117,
           "copies": 1,
           "created_timestamp": 1778591718,
           "end_timestamp": 1779444000,
@@ -52736,7 +52751,7 @@
           "name": "Hades II",
           "link": "1cNn4/hades-ii",
           "cv_status": "FULL_CV",
-          "entries": 35,
+          "entries": 36,
           "copies": 1,
           "created_timestamp": 1778755140,
           "end_timestamp": 1779444000,
@@ -58485,9 +58500,9 @@
         "giveaway_ratio": 37,
         "shared_sent_count": 10,
         "shared_received_count": 5,
-        "giveaways_created": 77,
+        "giveaways_created": 87,
         "giveaways_with_no_entries": 15,
-        "last_giveaway_created_at": 1778874789,
+        "last_giveaway_created_at": 1779297824,
         "last_giveaway_won_at": 1778934120,
         "total_achievements_percentage": 2,
         "average_achievements_percentage": 2,
@@ -59915,6 +59930,116 @@
         }
       ],
       "giveaways_created": [
+        {
+          "name": "Bloodroots",
+          "link": "Wia0R/bloodroots",
+          "cv_status": "NO_CV",
+          "entries": 7,
+          "copies": 1,
+          "created_timestamp": 1779297824,
+          "end_timestamp": 1779570000,
+          "required_play": false,
+          "is_shared": true
+        },
+        {
+          "name": "Escape From Mystwood Mansion",
+          "link": "gVIYc/escape-from-mystwood-mansion",
+          "cv_status": "REDUCED_CV",
+          "entries": 5,
+          "copies": 1,
+          "created_timestamp": 1779297615,
+          "end_timestamp": 1779570000,
+          "required_play": false,
+          "is_shared": true
+        },
+        {
+          "name": "Cavern of Dreams",
+          "link": "mvAQo/cavern-of-dreams",
+          "cv_status": "NO_CV",
+          "entries": 1,
+          "copies": 1,
+          "created_timestamp": 1779297520,
+          "end_timestamp": 1779570000,
+          "required_play": false,
+          "is_shared": true
+        },
+        {
+          "name": "Jazzpunk: Director's Cut",
+          "link": "VEMqK/jazzpunk-directors-cut",
+          "cv_status": "REDUCED_CV",
+          "entries": 5,
+          "copies": 1,
+          "created_timestamp": 1779297414,
+          "end_timestamp": 1779570000,
+          "required_play": false,
+          "is_shared": true
+        },
+        {
+          "name": "Starsand",
+          "link": "9GtG2/starsand",
+          "cv_status": "NO_CV",
+          "entries": 3,
+          "copies": 1,
+          "created_timestamp": 1779297327,
+          "end_timestamp": 1779570000,
+          "required_play": false,
+          "is_shared": true
+        },
+        {
+          "name": "Teacup",
+          "link": "zfFiT/teacup",
+          "cv_status": "REDUCED_CV",
+          "entries": 1,
+          "copies": 1,
+          "created_timestamp": 1779297204,
+          "end_timestamp": 1779570000,
+          "required_play": false,
+          "is_shared": true
+        },
+        {
+          "name": "Life Eater",
+          "link": "Ki5yi/life-eater",
+          "cv_status": "REDUCED_CV",
+          "entries": 3,
+          "copies": 1,
+          "created_timestamp": 1779297051,
+          "end_timestamp": 1779570000,
+          "required_play": false,
+          "is_shared": true
+        },
+        {
+          "name": "The Vale: Shadow of the Crown",
+          "link": "DTWfn/the-vale-shadow-of-the-crown",
+          "cv_status": "REDUCED_CV",
+          "entries": 3,
+          "copies": 1,
+          "created_timestamp": 1779296878,
+          "end_timestamp": 1779570000,
+          "required_play": false,
+          "is_shared": true
+        },
+        {
+          "name": "Squirrel with a Gun",
+          "link": "BrmtF/squirrel-with-a-gun",
+          "cv_status": "REDUCED_CV",
+          "entries": 2,
+          "copies": 1,
+          "created_timestamp": 1779296817,
+          "end_timestamp": 1779570000,
+          "required_play": false,
+          "is_shared": true
+        },
+        {
+          "name": "Force of Nature 2: Ghost Keeper",
+          "link": "bhLBj/force-of-nature-2-ghost-keeper",
+          "cv_status": "REDUCED_CV",
+          "entries": 7,
+          "copies": 1,
+          "created_timestamp": 1779296737,
+          "end_timestamp": 1779570000,
+          "required_play": false,
+          "is_shared": true
+        },
         {
           "name": "Gloomy Eyes",
           "link": "n603L/gloomy-eyes",
@@ -85141,7 +85266,7 @@
           "name": "MOUSE: P.I. For Hire",
           "link": "cPvw9/mouse-pi-for-hire",
           "cv_status": "FULL_CV",
-          "entries": 31,
+          "entries": 35,
           "copies": 1,
           "created_timestamp": 1778612677,
           "end_timestamp": 1779307260,
@@ -93513,7 +93638,7 @@
           "name": "The Alters",
           "link": "UJg8K/the-alters",
           "cv_status": "FULL_CV",
-          "entries": 25,
+          "entries": 26,
           "copies": 1,
           "created_timestamp": 1779151210,
           "end_timestamp": 1779411600,
@@ -93524,7 +93649,7 @@
           "name": "Blue Prince",
           "link": "6ND8b/blue-prince",
           "cv_status": "FULL_CV",
-          "entries": 18,
+          "entries": 19,
           "copies": 1,
           "created_timestamp": 1779151205,
           "end_timestamp": 1779411600,
