@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1779599023860,
+  "lastUpdated": 1779617382090,
   "users": {
     "76561198359284432": {
       "username": "a10i",
@@ -2517,10 +2517,10 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1761997192,
         "last_giveaway_won_at": 1779184800,
-        "total_achievements_percentage": 92,
-        "average_achievements_percentage": 93,
-        "real_total_achievements_percentage": 92,
-        "real_average_achievements_percentage": 93,
+        "total_achievements_percentage": 96,
+        "average_achievements_percentage": 97,
+        "real_total_achievements_percentage": 96,
+        "real_average_achievements_percentage": 97,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198063900528",
@@ -27126,11 +27126,11 @@
         "real_total_gift_difference": -7,
         "giveaway_ratio": 10,
         "shared_sent_count": 9,
-        "shared_received_count": 3,
+        "shared_received_count": 4,
         "giveaways_created": 28,
         "giveaways_with_no_entries": 2,
         "last_giveaway_created_at": 1778545965,
-        "last_giveaway_won_at": 1776483540,
+        "last_giveaway_won_at": 1779570000,
         "total_achievements_percentage": 8,
         "average_achievements_percentage": 7,
         "real_total_achievements_percentage": 6,
@@ -27140,6 +27140,15 @@
       "steam_profile_is_private": false,
       "country_code": null,
       "giveaways_won": [
+        {
+          "name": "Jazzpunk: Director's Cut",
+          "link": "VEMqK/jazzpunk-directors-cut",
+          "cv_status": "REDUCED_CV",
+          "status": "received",
+          "end_timestamp": 1779570000,
+          "required_play": false,
+          "is_shared": true
+        },
         {
           "name": "Weird West: Definitive Edition",
           "link": "xh2sE/weird-west-definitive-edition",
@@ -28319,10 +28328,10 @@
         "giveaways_with_no_entries": 2,
         "last_giveaway_created_at": 1767840553,
         "last_giveaway_won_at": 1779508800,
-        "total_achievements_percentage": 16,
-        "average_achievements_percentage": 38,
-        "real_total_achievements_percentage": 17,
-        "real_average_achievements_percentage": 41,
+        "total_achievements_percentage": 15,
+        "average_achievements_percentage": 36,
+        "real_total_achievements_percentage": 16,
+        "real_average_achievements_percentage": 38,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198047981011",
@@ -30370,12 +30379,20 @@
           "name": "FINAL FANTASY XVI",
           "link": "aYrKp/final-fantasy-xvi",
           "cv_status": "FULL_CV",
-          "entries": 28,
+          "entries": 30,
           "copies": 1,
           "created_timestamp": 1778556373,
           "end_timestamp": 1779606000,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "Tainted Grail: The Fall of Avalon",
@@ -31586,7 +31603,7 @@
           "name": "My Big Sister: Remastered",
           "link": "Hq3tT/my-big-sister-remastered",
           "cv_status": "FULL_CV",
-          "entries": 218,
+          "entries": 223,
           "copies": 1,
           "created_timestamp": 1779480961,
           "end_timestamp": 1780261560,
@@ -48319,9 +48336,9 @@
         "giveaway_ratio": 0.67,
         "shared_sent_count": 157,
         "shared_received_count": 2,
-        "giveaways_created": 148,
+        "giveaways_created": 149,
         "giveaways_with_no_entries": 0,
-        "last_giveaway_created_at": 1779516543,
+        "last_giveaway_created_at": 1779610804,
         "last_giveaway_won_at": 1764944580,
         "total_achievements_percentage": 44,
         "average_achievements_percentage": 33,
@@ -48457,26 +48474,45 @@
       ],
       "giveaways_created": [
         {
-          "name": "Hello Goodboy",
-          "link": "NMIt5/hello-goodboy",
-          "cv_status": "REDUCED_CV",
-          "entries": 63,
-          "copies": 1,
-          "created_timestamp": 1778962875,
-          "end_timestamp": 1779595200,
-          "required_play": false,
-          "is_shared": true
-        },
-        {
           "name": "Mythic Ocean",
           "link": "PCccn/mythic-ocean",
           "cv_status": "REDUCED_CV",
-          "entries": 21,
+          "entries": 22,
           "copies": 1,
           "created_timestamp": 1779516543,
           "end_timestamp": 1780113600,
           "required_play": false,
           "is_shared": true
+        },
+        {
+          "name": "Don't Be Afraid",
+          "link": "t7bDj/dont-be-afraid",
+          "cv_status": "REDUCED_CV",
+          "entries": 7,
+          "copies": 1,
+          "created_timestamp": 1779610804,
+          "end_timestamp": 1780200000,
+          "required_play": false,
+          "is_shared": true
+        },
+        {
+          "name": "Hello Goodboy",
+          "link": "NMIt5/hello-goodboy",
+          "cv_status": "REDUCED_CV",
+          "entries": 64,
+          "copies": 1,
+          "created_timestamp": 1778962875,
+          "end_timestamp": 1779595200,
+          "required_play": false,
+          "is_shared": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "Cardpocalypse",
@@ -57462,12 +57498,12 @@
       "avatar_url": "https://avatars.steamstatic.com/c9fca0ebe7f2673251c93ab055a69b4ce410f523_medium.jpg",
       "steam_id": "76561198444468770",
       "stats": {
-        "total_sent_count": 63.6,
-        "total_sent_value": 1159.41,
+        "total_sent_count": 64.6,
+        "total_sent_value": 1176.9,
         "total_received_count": 67.7,
         "total_received_value": 1131.09,
-        "total_gift_difference": -4.1,
-        "total_value_difference": 28.32,
+        "total_gift_difference": -3.1,
+        "total_value_difference": 45.81,
         "fcv_sent_count": 58,
         "rcv_sent_count": 1,
         "ncv_sent_count": 0,
@@ -57482,7 +57518,7 @@
         "real_total_received_count": 63,
         "real_total_gift_difference": -5,
         "giveaway_ratio": 37,
-        "shared_sent_count": 14,
+        "shared_sent_count": 18,
         "shared_received_count": 5,
         "giveaways_created": 87,
         "giveaways_with_no_entries": 15,
@@ -58927,9 +58963,10 @@
           "had_winners": true,
           "winners": [
             {
-              "name": null,
-              "status": "awaiting_feedback",
-              "activated": false
+              "name": "76561198008749566",
+              "winner_username": "SergeD",
+              "status": "received",
+              "activated": true
             }
           ]
         },
@@ -58986,9 +59023,10 @@
           "had_winners": true,
           "winners": [
             {
-              "name": null,
-              "status": "awaiting_feedback",
-              "activated": false
+              "name": "76561198056789339",
+              "winner_username": "elysium1988",
+              "status": "received",
+              "activated": true
             }
           ]
         },
@@ -59025,9 +59063,10 @@
           "had_winners": true,
           "winners": [
             {
-              "name": null,
-              "status": "awaiting_feedback",
-              "activated": false
+              "name": "Iazy",
+              "winner_username": "Iazy",
+              "status": "received",
+              "activated": true
             }
           ]
         },
@@ -59083,9 +59122,10 @@
           "had_winners": true,
           "winners": [
             {
-              "name": null,
-              "status": "awaiting_feedback",
-              "activated": false
+              "name": "BubbIes",
+              "winner_username": "BubbIes",
+              "status": "received",
+              "activated": true
             }
           ]
         },
@@ -72239,9 +72279,9 @@
         "last_giveaway_created_at": 1775490776,
         "last_giveaway_won_at": 1778934120,
         "total_achievements_percentage": 24,
-        "average_achievements_percentage": 45,
-        "real_total_achievements_percentage": 52,
-        "real_average_achievements_percentage": 52,
+        "average_achievements_percentage": 46,
+        "real_total_achievements_percentage": 53,
+        "real_average_achievements_percentage": 54,
         "has_missing_achievements_data": false
       },
       "steam_profile_is_private": false,
@@ -73033,7 +73073,8 @@
       ],
       "warnings": [
         "unplayed_required_play_giveaways",
-        "illegal_entered_required_play_giveaways"
+        "illegal_entered_required_play_giveaways",
+        "required_plays_need_review"
       ]
     },
     "76561198069567036": {
@@ -81385,10 +81426,10 @@
       "stats": {
         "total_sent_count": 6.4,
         "total_sent_value": 180.87,
-        "total_received_count": 11.7,
-        "total_received_value": 342.8,
-        "total_gift_difference": -5.3,
-        "total_value_difference": -161.93,
+        "total_received_count": 12.2,
+        "total_received_value": 352.8,
+        "total_gift_difference": -5.8,
+        "total_value_difference": -171.93,
         "fcv_sent_count": 5,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
@@ -81404,11 +81445,11 @@
         "real_total_gift_difference": -2,
         "giveaway_ratio": 2.67,
         "shared_sent_count": 7,
-        "shared_received_count": 8,
+        "shared_received_count": 9,
         "giveaways_created": 12,
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1767118311,
-        "last_giveaway_won_at": 1772403420,
+        "last_giveaway_won_at": 1779570000,
         "total_achievements_percentage": 0,
         "average_achievements_percentage": 0,
         "real_total_achievements_percentage": 0,
@@ -81418,6 +81459,15 @@
       "steam_profile_is_private": false,
       "country_code": "ru",
       "giveaways_won": [
+        {
+          "name": "Bloodroots",
+          "link": "Wia0R/bloodroots",
+          "cv_status": "NO_CV",
+          "status": "received",
+          "end_timestamp": 1779570000,
+          "required_play": false,
+          "is_shared": true
+        },
         {
           "name": "Arcade Spirits",
           "link": "p4QAY/arcade-spirits",
@@ -83845,7 +83895,7 @@
         "last_giveaway_created_at": 1779238703,
         "last_giveaway_won_at": 1777694400,
         "total_achievements_percentage": 7,
-        "average_achievements_percentage": 22,
+        "average_achievements_percentage": 25,
         "real_total_achievements_percentage": 44,
         "real_average_achievements_percentage": 48,
         "has_missing_achievements_data": false
@@ -84172,9 +84222,15 @@
         "giveaways_created": 1,
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1779525787,
-        "last_giveaway_won_at": 1753915680
+        "last_giveaway_won_at": 1753915680,
+        "total_achievements_percentage": 42,
+        "average_achievements_percentage": 42,
+        "real_total_achievements_percentage": 0,
+        "real_average_achievements_percentage": 0,
+        "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198832209109",
+      "steam_profile_is_private": false,
       "country_code": "us",
       "giveaways_won": [
         {
@@ -84210,8 +84266,7 @@
           "required_play": false,
           "is_shared": false
         }
-      ],
-      "steam_profile_is_private": false
+      ]
     },
     "76561199438702936": {
       "username": "snbac",
@@ -87508,9 +87563,9 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1766458940,
         "last_giveaway_won_at": 1778965200,
-        "total_achievements_percentage": 54,
-        "average_achievements_percentage": 56,
-        "real_total_achievements_percentage": 53,
+        "total_achievements_percentage": 55,
+        "average_achievements_percentage": 57,
+        "real_total_achievements_percentage": 54,
         "real_average_achievements_percentage": 55,
         "has_missing_achievements_data": false
       },
@@ -89909,7 +89964,7 @@
           "name": "Marvel’s Spider-Man: Miles Morales",
           "link": "zxXgb/marvels-spider-man-miles-morales",
           "cv_status": "FULL_CV",
-          "entries": 37,
+          "entries": 39,
           "copies": 1,
           "created_timestamp": 1779450972,
           "end_timestamp": 1779626700,

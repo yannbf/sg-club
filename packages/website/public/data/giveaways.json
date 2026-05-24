@@ -1,46 +1,6 @@
 {
-  "last_updated": "2026-05-24T03:48:52.070Z",
+  "last_updated": "2026-05-24T10:07:53.896Z",
   "giveaways": [
-    {
-      "id": "NMIt5",
-      "name": "Hello Goodboy",
-      "points": 15,
-      "copies": 1,
-      "app_id": 1789090,
-      "package_id": null,
-      "link": "NMIt5/hello-goodboy",
-      "created_timestamp": 1778962875,
-      "start_timestamp": 1778962875,
-      "end_timestamp": 1779595200,
-      "whitelist": true,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 63,
-      "creator": "76561198234142828",
-      "is_shared": true,
-      "cv_status": "REDUCED_CV",
-      "creator_username": "lockcjwen"
-    },
-    {
-      "id": "aYrKp",
-      "name": "FINAL FANTASY XVI",
-      "points": 50,
-      "copies": 1,
-      "app_id": 2515020,
-      "package_id": null,
-      "link": "aYrKp/final-fantasy-xvi",
-      "created_timestamp": 1778556373,
-      "start_timestamp": 1778556373,
-      "end_timestamp": 1779606000,
-      "region_restricted": true,
-      "group": true,
-      "comment_count": 1,
-      "entry_count": 28,
-      "creator": "76561198066957402",
-      "cv_status": "FULL_CV",
-      "event_type": "may_event_2026",
-      "creator_username": "Gooberdragon"
-    },
     {
       "id": "zxXgb",
       "name": "Marvel’s Spider-Man: Miles Morales",
@@ -54,7 +14,7 @@
       "end_timestamp": 1779626700,
       "group": true,
       "comment_count": 0,
-      "entry_count": 37,
+      "entry_count": 39,
       "creator": "76561198089973992",
       "cv_status": "FULL_CV",
       "event_type": "may_event_2026",
@@ -228,7 +188,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 21,
+      "entry_count": 22,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -255,6 +215,26 @@
       "creator_username": "insideAfireball"
     },
     {
+      "id": "t7bDj",
+      "name": "Don't Be Afraid",
+      "points": 10,
+      "copies": 1,
+      "app_id": 760410,
+      "package_id": null,
+      "link": "t7bDj/dont-be-afraid",
+      "created_timestamp": 1779610804,
+      "start_timestamp": 1779610804,
+      "end_timestamp": 1780200000,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 7,
+      "creator": "76561198234142828",
+      "is_shared": true,
+      "cv_status": "REDUCED_CV",
+      "creator_username": "lockcjwen"
+    },
+    {
       "id": "Hq3tT",
       "name": "My Big Sister: Remastered",
       "points": 8,
@@ -268,11 +248,67 @@
       "whitelist": true,
       "group": true,
       "comment_count": 1,
-      "entry_count": 218,
+      "entry_count": 223,
       "creator": "76561199644864244",
       "is_shared": true,
       "cv_status": "FULL_CV",
       "creator_username": "Grogglz"
+    },
+    {
+      "id": "aYrKp",
+      "name": "FINAL FANTASY XVI",
+      "points": 50,
+      "copies": 1,
+      "app_id": 2515020,
+      "package_id": null,
+      "link": "aYrKp/final-fantasy-xvi",
+      "created_timestamp": 1778556373,
+      "start_timestamp": 1778556373,
+      "end_timestamp": 1779606000,
+      "region_restricted": true,
+      "group": true,
+      "comment_count": 1,
+      "entry_count": 30,
+      "creator": "76561198066957402",
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "FULL_CV",
+      "event_type": "may_event_2026",
+      "creator_username": "Gooberdragon",
+      "deleted": false
+    },
+    {
+      "id": "NMIt5",
+      "name": "Hello Goodboy",
+      "points": 15,
+      "copies": 1,
+      "app_id": 1789090,
+      "package_id": null,
+      "link": "NMIt5/hello-goodboy",
+      "created_timestamp": 1778962875,
+      "start_timestamp": 1778962875,
+      "end_timestamp": 1779595200,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 64,
+      "creator": "76561198234142828",
+      "is_shared": true,
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "REDUCED_CV",
+      "creator_username": "lockcjwen",
+      "deleted": false
     },
     {
       "id": "Wia0R",
@@ -287,20 +323,20 @@
       "end_timestamp": 1779570000,
       "whitelist": true,
       "group": true,
-      "comment_count": 0,
+      "comment_count": 1,
       "entry_count": 55,
       "creator": "76561198444468770",
       "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "76561198008749566",
+          "status": "received",
+          "winner_username": "SergeD"
         }
       ],
       "cv_status": "NO_CV",
-      "creator_username": "mourinhos86",
-      "deleted": false
+      "creator_username": "mourinhos86"
     },
     {
       "id": "gVIYc",
@@ -378,13 +414,13 @@
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "76561198056789339",
+          "status": "received",
+          "winner_username": "elysium1988"
         }
       ],
       "cv_status": "REDUCED_CV",
-      "creator_username": "mourinhos86",
-      "deleted": false
+      "creator_username": "mourinhos86"
     },
     {
       "id": "9GtG2",
@@ -427,20 +463,20 @@
       "end_timestamp": 1779570000,
       "whitelist": true,
       "group": true,
-      "comment_count": 0,
+      "comment_count": 1,
       "entry_count": 36,
       "creator": "76561198444468770",
       "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "Iazy",
+          "status": "received",
+          "winner_username": "Iazy"
         }
       ],
       "cv_status": "REDUCED_CV",
-      "creator_username": "mourinhos86",
-      "deleted": false
+      "creator_username": "mourinhos86"
     },
     {
       "id": "Ki5yi",
@@ -512,20 +548,20 @@
       "region_restricted": true,
       "whitelist": true,
       "group": true,
-      "comment_count": 0,
+      "comment_count": 1,
       "entry_count": 28,
       "creator": "76561198444468770",
       "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "BubbIes",
+          "status": "received",
+          "winner_username": "BubbIes"
         }
       ],
       "cv_status": "REDUCED_CV",
-      "creator_username": "mourinhos86",
-      "deleted": false
+      "creator_username": "mourinhos86"
     },
     {
       "id": "bhLBj",
