@@ -1,25 +1,6 @@
 {
-  "last_updated": "2026-05-27T04:00:59.273Z",
+  "last_updated": "2026-05-27T18:43:58.157Z",
   "giveaways": [
-    {
-      "id": "5MA6d",
-      "name": "Path of Exile 2",
-      "points": 30,
-      "copies": 1,
-      "app_id": 2694490,
-      "package_id": null,
-      "link": "5MA6d/path-of-exile-2",
-      "created_timestamp": 1778729507,
-      "start_timestamp": 1778729507,
-      "end_timestamp": 1779856200,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 12,
-      "creator": "76561198315443582",
-      "cv_status": "FULL_CV",
-      "event_type": "may_event_2026",
-      "creator_username": "Patxxv"
-    },
     {
       "id": "DfOfV",
       "name": "Read Only Memories: NEURODIVER",
@@ -34,7 +15,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 54,
+      "entry_count": 58,
       "creator": "76561197975099685",
       "is_shared": true,
       "cv_status": "FULL_CV",
@@ -59,6 +40,27 @@
       "cv_status": "FULL_CV",
       "event_type": "may_event_2026",
       "creator_username": "QuinlanLJ"
+    },
+    {
+      "id": "NN7AY",
+      "name": "Daemon X Machina: Titanic Scion",
+      "points": 50,
+      "copies": 1,
+      "app_id": 1342490,
+      "package_id": null,
+      "link": "NN7AY/daemon-x-machina-titanic-scion",
+      "created_timestamp": 1779899327,
+      "start_timestamp": 1779899327,
+      "end_timestamp": 1780002000,
+      "region_restricted": true,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 11,
+      "creator": "76561198444468770",
+      "is_shared": true,
+      "cv_status": "FULL_CV",
+      "creator_username": "mourinhos86"
     },
     {
       "id": "26Jai",
@@ -110,7 +112,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 43,
+      "entry_count": 44,
       "creator": "76561198025173613",
       "required_play": true,
       "is_shared": true,
@@ -131,9 +133,10 @@
       "region_restricted": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 0,
+      "entry_count": 6,
       "creator": "76561198113581790",
       "cv_status": "FULL_CV",
+      "event_type": "may_event_2026",
       "creator_username": "damianea103"
     },
     {
@@ -149,7 +152,7 @@
       "end_timestamp": 1780105200,
       "region_restricted": true,
       "group": true,
-      "comment_count": 11,
+      "comment_count": 12,
       "entry_count": 18,
       "creator": "76561198832209109",
       "cv_status": "FULL_CV",
@@ -210,7 +213,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 39,
+      "entry_count": 41,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -230,7 +233,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 1,
-      "entry_count": 268,
+      "entry_count": 279,
       "creator": "76561199644864244",
       "is_shared": true,
       "cv_status": "FULL_CV",
@@ -290,7 +293,7 @@
       "region_restricted": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 10,
+      "entry_count": 9,
       "creator": "76561197991280042",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -329,7 +332,7 @@
       "region_restricted": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 17,
+      "entry_count": 16,
       "creator": "76561197991280042",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -348,11 +351,38 @@
       "end_timestamp": 1780462800,
       "group": true,
       "comment_count": 0,
-      "entry_count": 10,
+      "entry_count": 11,
       "creator": "76561197991280042",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
       "creator_username": "SoullessSoup"
+    },
+    {
+      "id": "5MA6d",
+      "name": "Path of Exile 2",
+      "points": 30,
+      "copies": 1,
+      "app_id": 2694490,
+      "package_id": null,
+      "link": "5MA6d/path-of-exile-2",
+      "created_timestamp": 1778729507,
+      "start_timestamp": 1778729507,
+      "end_timestamp": 1779856200,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 12,
+      "creator": "76561198315443582",
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "FULL_CV",
+      "event_type": "may_event_2026",
+      "creator_username": "Patxxv",
+      "deleted": false
     },
     {
       "id": "G16bn",
@@ -746,20 +776,20 @@
       "end_timestamp": 1779570000,
       "whitelist": true,
       "group": true,
-      "comment_count": 1,
+      "comment_count": 2,
       "entry_count": 43,
       "creator": "76561198444468770",
       "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "bron99",
+          "status": "received",
+          "winner_username": "bron99"
         }
       ],
       "cv_status": "REDUCED_CV",
-      "creator_username": "mourinhos86",
-      "deleted": false
+      "creator_username": "mourinhos86"
     },
     {
       "id": "BrmtF",
@@ -1047,7 +1077,7 @@
       "end_timestamp": 1779444000,
       "region_restricted": true,
       "group": true,
-      "comment_count": 1,
+      "comment_count": 2,
       "entry_count": 40,
       "creator": "76561198042896883",
       "hasWinners": true,
@@ -1232,7 +1262,7 @@
       "end_timestamp": 1779260400,
       "region_restricted": true,
       "group": true,
-      "comment_count": 7,
+      "comment_count": 8,
       "entry_count": 13,
       "creator": "76561198066957402",
       "hasWinners": true,
@@ -26654,7 +26684,8 @@
         }
       ],
       "cv_status": "REDUCED_CV",
-      "creator_username": "BanjoBearLV"
+      "creator_username": "BanjoBearLV",
+      "required_play": false
     },
     {
       "id": "Nk4AL",
@@ -27218,7 +27249,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "SoullessSoup"
+      "creator_username": "SoullessSoup",
+      "required_play": false
     },
     {
       "id": "H77Qi",
