@@ -8,9 +8,9 @@ import {
 } from '../scrapers/group-members'
 
 /**
- * Allow `--mode=<fresh|medium|backfill|all>` (with optional
- * `--budget=<minutes>`) on the command line, so a single script entry
- * powers every scheduled job and an ad-hoc local backfill.
+ * Allow `--mode=<daily|all>` (with optional `--budget=<minutes>`) on
+ * the command line, so a single script entry powers every scheduled
+ * job and an ad-hoc local backfill.
  *
  * Environment variables PLAYTIME_MODE and PLAYTIME_BUDGET_MINUTES are
  * still honoured (CLI flags simply set them before the scraper runs).
@@ -47,7 +47,7 @@ async function generatePlaytimeData(): Promise<void> {
     `🎮 Generating playtime data — mode=${mode}` +
       (budgetMinutes ? `, budget=${budgetMinutes}min` : '') +
       (mode === 'daily'
-        ? ' (age-aware refresh: ≤30d→1d, ≤180d→7d, >180d→30d; missing always fetched)'
+        ? ' (refresh every win older than 1 day; missing always fetched)'
         : ' (refresh every win regardless of staleness)')
   )
 

@@ -68,28 +68,21 @@ export interface UpdatePlayDataOptions {
 const DAY_MS = 24 * 60 * 60 * 1000
 
 /**
- * Per-win age-aware staleness. Recent wins can still gain
- * playtime/achievements every day; ancient wins barely move. So we
- * refresh recent more often than old.
+ * How stale a win has to be before we refetch it. Daily, regardless of
+ * win age — recent wins still gain playtime, and old wins occasionally
+ * do too (e.g. user replays months later), so we refresh everyone
+ * every day.
  *
- *   age ≤ 30 days   → refresh after 1 day
- *   age 30–180 days → refresh after 7 days
- *   age > 180 days  → refresh after 30 days
- *   any age, no data yet → always
+ * Projection against today's data (146 users × ~1875 wins, ~1.3 s/win):
+ *   • Full daily refresh: ~1700 calls, ≈ 37 min
+ *   • Steam quota: ~1.9 % of the 100 k/day per-key limit
  *
- * Projection against today's data (146 users × ~1875 wins, 1 req/sec):
- *   • Day 1 backlog flush: ~1791 calls, ≈ 30 min, then everything is fresh
- *   • Steady state:         ~229 calls/day, ≈ 4 min
- *   • Steam quota:          ≤ 0.5 % of the 100 k/day per-key limit
- *
- * The previous behaviour silently dropped any win older than ~150 days
- * unless FETCH_ALL_STEAM_DATA was set, which is how users like yannbz
- * ended up with whole chunks of wins lacking playtime data.
+ * Tiered staleness (1d / 7d / 30d by age) used to live here; it made
+ * recently-played-after-a-long-gap wins look untouched for weeks.
+ * yannbz / DOOM was the case that surfaced it.
  */
-function refreshAfterDaysFor(ageDays: number): number {
-  if (ageDays <= 30) return 1
-  if (ageDays <= 180) return 7
-  return 30
+function refreshAfterDaysFor(_ageDays: number): number {
+  return 1
 }
 
 export function resolvePlaytimeMode(): PlaytimeMode {
