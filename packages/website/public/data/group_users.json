@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1779907539994,
+  "lastUpdated": 1779940236565,
   "users": {
     "76561198359284432": {
       "username": "a10i",
@@ -10376,7 +10376,7 @@
           "name": "Heart of the Woods",
           "link": "jcMfO/heart-of-the-woods",
           "cv_status": "FULL_CV",
-          "entries": 44,
+          "entries": 45,
           "copies": 1,
           "created_timestamp": 1778009121,
           "end_timestamp": 1780074000,
@@ -18230,7 +18230,7 @@
           "name": "Stray",
           "link": "AY67F/stray",
           "cv_status": "FULL_CV",
-          "entries": 6,
+          "entries": 8,
           "copies": 1,
           "created_timestamp": 1779841803,
           "end_timestamp": 1780103880,
@@ -31683,7 +31683,7 @@
           "name": "My Big Sister: Remastered",
           "link": "Hq3tT/my-big-sister-remastered",
           "cv_status": "FULL_CV",
-          "entries": 279,
+          "entries": 283,
           "copies": 1,
           "created_timestamp": 1779480961,
           "end_timestamp": 1780261560,
@@ -48579,7 +48579,7 @@
           "name": "Mythic Ocean",
           "link": "PCccn/mythic-ocean",
           "cv_status": "REDUCED_CV",
-          "entries": 31,
+          "entries": 32,
           "copies": 1,
           "created_timestamp": 1779516543,
           "end_timestamp": 1780113600,
@@ -48590,7 +48590,7 @@
           "name": "Don't Be Afraid",
           "link": "t7bDj/dont-be-afraid",
           "cv_status": "REDUCED_CV",
-          "entries": 41,
+          "entries": 42,
           "copies": 1,
           "created_timestamp": 1779610804,
           "end_timestamp": 1780200000,
@@ -59057,7 +59057,7 @@
           "name": "Daemon X Machina: Titanic Scion",
           "link": "NN7AY/daemon-x-machina-titanic-scion",
           "cv_status": "FULL_CV",
-          "entries": 11,
+          "entries": 22,
           "copies": 1,
           "created_timestamp": 1779899327,
           "end_timestamp": 1780002000,
@@ -61011,12 +61011,20 @@
           "name": "Read Only Memories: NEURODIVER",
           "link": "DfOfV/read-only-memories-neurodiver",
           "cv_status": "FULL_CV",
-          "entries": 58,
+          "entries": 57,
           "copies": 1,
           "created_timestamp": 1778107524,
           "end_timestamp": 1779925200,
           "required_play": false,
-          "is_shared": true
+          "is_shared": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "Dropsy: Warm Damp Hug Edition",
@@ -73458,9 +73466,9 @@
         "total_sent_count": 62.3,
         "total_sent_value": 1491.21,
         "total_received_count": 56.7,
-        "total_received_value": 1479.43,
+        "total_received_value": 1499.43,
         "total_gift_difference": 5.7,
-        "total_value_difference": 11.78,
+        "total_value_difference": -8.22,
         "fcv_sent_count": 61,
         "rcv_sent_count": 1,
         "ncv_sent_count": 0,
@@ -87513,9 +87521,9 @@
         "giveaway_ratio": 0.67,
         "shared_sent_count": 1,
         "shared_received_count": 0,
-        "giveaways_created": 3,
+        "giveaways_created": 4,
         "giveaways_with_no_entries": 0,
-        "last_giveaway_created_at": 1764274802,
+        "last_giveaway_created_at": 1779919817,
         "last_giveaway_won_at": 1753393320,
         "total_achievements_percentage": 59,
         "average_achievements_percentage": 65,
@@ -87622,6 +87630,17 @@
         }
       ],
       "giveaways_created": [
+        {
+          "name": "Heroes of Hammerwatch II",
+          "link": "hMpZZ/heroes-of-hammerwatch-ii",
+          "cv_status": "REDUCED_CV",
+          "entries": 12,
+          "copies": 1,
+          "created_timestamp": 1779919817,
+          "end_timestamp": 1780315260,
+          "required_play": false,
+          "is_shared": true
+        },
         {
           "name": "Synergy",
           "link": "1ga1E/synergy",
@@ -97273,11 +97292,11 @@
       "steam_id": "76561198101327606",
       "stats": {
         "total_sent_count": 13,
-        "total_sent_value": 491.85,
+        "total_sent_value": 511.85,
         "total_received_count": 4,
         "total_received_value": 41.96,
         "total_gift_difference": 9,
-        "total_value_difference": 449.89,
+        "total_value_difference": 469.89,
         "fcv_sent_count": 13,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
