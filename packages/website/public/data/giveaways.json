@@ -1,26 +1,6 @@
 {
-  "last_updated": "2026-05-28T03:49:12.861Z",
+  "last_updated": "2026-05-28T11:52:37.604Z",
   "giveaways": [
-    {
-      "id": "lHdre",
-      "name": "Wigmund",
-      "points": 15,
-      "copies": 2,
-      "app_id": 1164690,
-      "package_id": null,
-      "link": "lHdre/wigmund",
-      "created_timestamp": 1779737662,
-      "start_timestamp": 1779737662,
-      "end_timestamp": 1779962400,
-      "region_restricted": true,
-      "group": true,
-      "comment_count": 1,
-      "entry_count": 5,
-      "creator": "76561198048462370",
-      "cv_status": "FULL_CV",
-      "event_type": "may_event_2026",
-      "creator_username": "QuinlanLJ"
-    },
     {
       "id": "NN7AY",
       "name": "Daemon X Machina: Titanic Scion",
@@ -36,7 +16,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 22,
+      "entry_count": 25,
       "creator": "76561198444468770",
       "is_shared": true,
       "cv_status": "FULL_CV",
@@ -92,7 +72,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 45,
+      "entry_count": 47,
       "creator": "76561198025173613",
       "required_play": true,
       "is_shared": true,
@@ -153,11 +133,30 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 32,
+      "entry_count": 33,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
       "creator_username": "lockcjwen"
+    },
+    {
+      "id": "4OTvw",
+      "name": "UNCHARTED: Legacy of Thieves Collection",
+      "points": 50,
+      "copies": 1,
+      "app_id": 1659420,
+      "package_id": null,
+      "link": "4OTvw/uncharted-legacy-of-thieves-collection",
+      "created_timestamp": 1779951363,
+      "start_timestamp": 1779951363,
+      "end_timestamp": 1780155000,
+      "region_restricted": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 0,
+      "creator": "76561199574536589",
+      "cv_status": "FULL_CV",
+      "creator_username": "ArxTun"
     },
     {
       "id": "vsHUD",
@@ -213,7 +212,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 1,
-      "entry_count": 283,
+      "entry_count": 285,
       "creator": "76561199644864244",
       "is_shared": true,
       "cv_status": "FULL_CV",
@@ -233,7 +232,7 @@
       "region_restricted": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 12,
+      "entry_count": 34,
       "creator": "76561198048238310",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -273,7 +272,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 29,
+      "entry_count": 31,
       "creator": "76561197991280042",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -293,7 +292,7 @@
       "region_restricted": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 9,
+      "entry_count": 10,
       "creator": "76561197991280042",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -332,7 +331,7 @@
       "region_restricted": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 16,
+      "entry_count": 17,
       "creator": "76561197991280042",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -356,6 +355,34 @@
       "is_shared": true,
       "cv_status": "REDUCED_CV",
       "creator_username": "SoullessSoup"
+    },
+    {
+      "id": "lHdre",
+      "name": "Wigmund",
+      "points": 15,
+      "copies": 2,
+      "app_id": 1164690,
+      "package_id": null,
+      "link": "lHdre/wigmund",
+      "created_timestamp": 1779737662,
+      "start_timestamp": 1779737662,
+      "end_timestamp": 1779962400,
+      "region_restricted": true,
+      "group": true,
+      "comment_count": 2,
+      "entry_count": 5,
+      "creator": "76561198048462370",
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": "76561198017660760",
+          "status": "received",
+          "winner_username": "TempR"
+        }
+      ],
+      "cv_status": "FULL_CV",
+      "event_type": "may_event_2026",
+      "creator_username": "QuinlanLJ"
     },
     {
       "id": "DfOfV",
@@ -861,20 +888,20 @@
       "end_timestamp": 1779570000,
       "whitelist": true,
       "group": true,
-      "comment_count": 0,
+      "comment_count": 1,
       "entry_count": 52,
       "creator": "76561198444468770",
       "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "bitterman4020",
+          "status": "received",
+          "winner_username": "bitterman4020"
         }
       ],
       "cv_status": "REDUCED_CV",
-      "creator_username": "mourinhos86",
-      "deleted": false
+      "creator_username": "mourinhos86"
     },
     {
       "id": "Yl2od",
