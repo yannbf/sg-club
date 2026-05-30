@@ -1,5 +1,6 @@
-import { getAllGiveaways, getAllUsers, getExMembers, getGameData, getUserEntries } from '@/lib/data'
+import { getAllGiveaways, getAllUsers, getExMembers, getGameData, getSteamIdMap, getUserEntries } from '@/lib/data'
 import { GameData, Giveaway, User, UserEntry } from '@/types'
+import { createCreatorResolver, CreatorResolver } from '@/lib/creator-resolver'
 import { getUserRatio } from './users/util'
 import DashboardClient, { DashboardStats, InsightData, UserLuckData } from './dashboard-client'
 
@@ -7,11 +8,16 @@ function calculateInsights(
   giveawayList: Giveaway[],
   userList: User[],
   userMap: Map<string, User>,
-  allGameData: GameData[]
+  allGameData: GameData[],
+  resolver: CreatorResolver
 ): InsightData {
+  // Group creator counts by canonical steam_id so a renamed user (or a deleted
+  // SG account whose `creator` field is still a username string) collapses to
+  // a single row instead of fragmenting across multiple labels.
   const creators = new Map<string, number>()
   giveawayList.forEach(ga => {
-    creators.set(ga.creator, (creators.get(ga.creator) || 0) + 1)
+    const key = resolver.canonicalSteamId(ga.creator)
+    creators.set(key, (creators.get(key) || 0) + 1)
   })
 
   const winners = new Map<string, number>()
@@ -205,23 +211,29 @@ function computeStats(
   userMap: Map<string, User>,
   allGameData: GameData[],
   memberLabel: string,
-  userEntries: UserEntry
+  userEntries: UserEntry,
+  resolver: CreatorResolver
 ): DashboardStats {
   const memberCount = users.length
-  const totalGiveawaysCount = allGiveaways.length
+
+  // Exclude deleted giveaways from every count — they're not visible anywhere
+  // else on the dashboard and SG itself drops them from group totals.
+  const liveGiveaways = allGiveaways.filter(ga => !ga.deleted)
+  const totalGiveawaysCount = liveGiveaways.length
 
   const usersWithWarnings = users.filter(user => (user.warnings?.length || 0) > 0)
   const usersWithWarningsCount = usersWithWarnings.length
   const usersWithWarningsPercentage = memberCount > 0 ? (usersWithWarningsCount / memberCount) * 100 : 0
 
   const totalGiveawaysCreated = totalGiveawaysCount
-  const totalGiveawaysCreatedFullCV = allGiveaways.filter(ga => ga.cv_status === 'FULL_CV').length
+  const totalGiveawaysCreatedFullCV = liveGiveaways.filter(ga => ga.cv_status === 'FULL_CV').length
 
-  const totalGiveawaysWon = allGiveaways.reduce((sum, giveaway) => {
+  // Delivered keys — counted from per-giveaway winners.
+  const totalGiveawaysWon = liveGiveaways.reduce((sum, giveaway) => {
     return sum + (giveaway.winners?.filter(w => w.status === 'received').length || 0)
   }, 0)
 
-  const totalGiveawaysWonFullCV = allGiveaways.filter(ga => ga.cv_status === 'FULL_CV' && ga.winners?.filter(w => w.status === 'received').length).length
+  const totalGiveawaysWonFullCV = liveGiveaways.filter(ga => ga.cv_status === 'FULL_CV' && ga.winners?.filter(w => w.status === 'received').length).length
 
   const totalValueSent = users.reduce((sum, user) => sum + user.stats.total_sent_value, 0)
   const totalValueReceived = users.reduce((sum, user) => sum + user.stats.total_received_value, 0)
@@ -252,9 +264,9 @@ function computeStats(
     netReceivers,
     usersWithWarningsCount,
     usersWithWarningsPercentage,
-    allTimeInsights: calculateInsights(giveaways, users, userMap, allGameData),
-    last30DaysInsights: calculateInsights(recentGiveaways, users, userMap, allGameData),
-    last7DaysInsights: calculateInsights(last7DaysGiveaways, users, userMap, allGameData),
+    allTimeInsights: calculateInsights(giveaways, users, userMap, allGameData, resolver),
+    last30DaysInsights: calculateInsights(recentGiveaways, users, userMap, allGameData, resolver),
+    last7DaysInsights: calculateInsights(last7DaysGiveaways, users, userMap, allGameData, resolver),
     luckRankings: calculateLuckRankings(users, allGiveaways, userEntries),
   }
 }
@@ -266,6 +278,7 @@ export default async function Home() {
   const exMembersData = await getExMembers()
   const allGameData = await getGameData()
   const userEntries = await getUserEntries()
+  const steamIdMap = await getSteamIdMap()
 
   if (!userData) {
     return (
@@ -283,9 +296,10 @@ export default async function Home() {
   const allUserMap = new Map(allUsers.map(u => [u.steam_id, u]))
 
   const entries = userEntries || {}
+  const resolver = createCreatorResolver(steamIdMap)
 
-  const activeStats = computeStats(activeUsers, allGiveaways, giveaways, activeUserMap, allGameData, 'Active Members', entries)
-  const allStats = computeStats(allUsers, allGiveaways, giveaways, allUserMap, allGameData, 'Total Members', entries)
+  const activeStats = computeStats(activeUsers, allGiveaways, giveaways, activeUserMap, allGameData, 'Active Members', entries, resolver)
+  const allStats = computeStats(allUsers, allGiveaways, giveaways, allUserMap, allGameData, 'Total Members', entries, resolver)
 
   const lastUpdated = userData.lastUpdated ? new Date(userData.lastUpdated).toISOString() : null
 

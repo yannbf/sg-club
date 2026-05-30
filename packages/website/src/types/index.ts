@@ -38,6 +38,11 @@ export interface User {
   steam_profile_url?: string
   steam_profile_is_private?: boolean
   country_code?: string | null
+  /**
+   * True when the SteamGifts account no longer exists. Profile + Steam-derived
+   * fields may be stubs reconstructed from giveaway data rather than live SG.
+   */
+  is_deleted_sg_account?: boolean
   giveaways_won?: {
     name: string
     link: string
@@ -182,6 +187,12 @@ export type UserEntry = Record<
 export interface SteamIdMapEntry {
   current: string
   previous: Array<{ username: string; changed_at: string }>
+  /**
+   * True when the SteamGifts account no longer exists (user deleted their account
+   * altogether). Their giveaways still appear in scraped data but the SG group page
+   * drops them from "Contributors" totals — so we should do the same.
+   */
+  deleted_sg_account?: boolean
 }
 
 export type SteamIdMap = Record<string, SteamIdMapEntry>

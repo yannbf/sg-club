@@ -79,6 +79,13 @@ export interface User {
   stats: UserGiveawaysStats
   warnings?: string[]
   left_at_timestamp?: number
+  /**
+   * True when the SteamGifts account no longer exists. The user is preserved
+   * (typically in ex_members) so their historical giveaways stay attributed,
+   * but their profile_url / avatar_url / Steam-API-derived fields may be
+   * stubs reconstructed from giveaway data instead of live SG data.
+   */
+  is_deleted_sg_account?: boolean
   giveaways_won?: Array<{
     name: string
     link: string
@@ -200,6 +207,12 @@ export type CVStatus = 'FULL_CV' | 'REDUCED_CV' | 'NO_CV'
 export interface SteamIdMapEntry {
   current: string
   previous: Array<{ username: string; changed_at: string }>
+  /**
+   * True when the SteamGifts account no longer exists (user deleted their account
+   * altogether). Their giveaways still appear in scraped data but the SG group page
+   * drops them from "Contributors" totals — so we should do the same.
+   */
+  deleted_sg_account?: boolean
 }
 
 export type SteamIdMap = Record<string, SteamIdMapEntry>

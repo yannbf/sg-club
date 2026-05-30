@@ -29,6 +29,7 @@
     "backup-data": "tsx src/scripts/backup-data.ts",
     "migrate-to-steam-id": "tsx src/scripts/migrate-to-steam-id.ts",
     "validate-migration": "tsx src/scripts/validate-migration.ts",
+    "reconstruct-deleted-users": "tsx src/scripts/reconstruct-deleted-users.ts",
     "get-entries": "tsx src/scripts/get-entries.ts"
   },
   "dependencies": {

@@ -16,6 +16,7 @@ import {
   Users as UsersIcon,
 } from 'lucide-react'
 import { formatPlaytime } from '@/lib/data'
+import { createCreatorResolver } from '@/lib/creator-resolver'
 import GivenGiveawaysClient from './GivenGiveawaysClient'
 import WonGiveawaysClient from './WonGiveawaysClient'
 import type { User, UserGroupData, UserEntry, SteamIdMap } from '@/types'
@@ -242,7 +243,13 @@ export default function UserDetailPageClient({
   const isAdmin = useIsAdmin()
   const [showOriginalStats, setShowOriginalStats] = useState(false)
 
-  const userGiveaways = giveaways.filter((g) => g.creator === user.steam_id)
+  // Resolve creator fields through steam_id_map: handles renamed users
+  // (creator stored under an old username) and deleted SG accounts (creator
+  // stored as a raw username string because it never resolved to a steam_id).
+  const creatorResolver = createCreatorResolver(steamIdMap)
+  const userGiveaways = giveaways.filter(
+    (g) => creatorResolver.canonicalSteamId(g.creator) === user.steam_id,
+  )
   const enteredGiveawayData = userEntries?.[user.steam_id] || []
   const enteredGiveaways = enteredGiveawayData
     .map((g) => giveaways.find((ga) => ga.link === g.link))
@@ -379,6 +386,15 @@ export default function UserDetailPageClient({
               {isExMember && isAdmin && (
                 <Badge variant="error" size="md">
                   Ex member
+                </Badge>
+              )}
+              {user.is_deleted_sg_account && (
+                <Badge
+                  variant="error"
+                  size="md"
+                  title="This SteamGifts account no longer exists. The stats shown are reconstructed from their historical giveaways recorded in the group."
+                >
+                  Account deleted
                 </Badge>
               )}
               {isAdmin && (

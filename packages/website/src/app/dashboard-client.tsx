@@ -619,7 +619,13 @@ export type DashboardStats = {
   totalValueSent: number
   totalGiveawaysCreated: number
   totalGiveawaysWon: number
+  /**
+   * Number of Full CV giveaways created. Same figure SG's group page surfaces
+   * as "Gifts Sent" — note that label is misleading on SG's side; it's a
+   * giveaway count, not a delivered-keys count.
+   */
   totalGiveawaysCreatedFullCV: number
+  /** Full CV giveaways that have at least one received-status winner. */
   totalGiveawaysWonFullCV: number
   totalValueReceived: number
   netContributors: number
@@ -782,7 +788,11 @@ export default function DashboardClient({
               accent="info"
             />
             <Row
-              label="Giveaways successfully sent"
+              label={
+                <span title="Keys actually delivered to winners (status = received).">
+                  Giveaways successfully sent
+                </span>
+              }
               value={fmt(stats.totalGiveawaysWon)}
               accent="success"
             />
@@ -790,7 +800,7 @@ export default function DashboardClient({
               label={
                 <>
                   <span className="font-semibold">Full CV</span> giveaways
-                  created
+                  created{' '}
                 </>
               }
               value={fmt(stats.totalGiveawaysCreatedFullCV)}

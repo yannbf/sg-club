@@ -453,6 +453,11 @@ function UserCard({ user, isAdmin }: { user: User; isAdmin: boolean }) {
           </div>
           <div className="mt-1 flex flex-wrap items-center gap-1.5">
             {isAdmin && userTypeBadge(user)}
+            {user.is_deleted_sg_account && (
+              <Badge variant="error" size="sm" title="This SteamGifts account no longer exists. Stats are reconstructed from their historical giveaways.">
+                Account deleted
+              </Badge>
+            )}
             {isAdmin && user.warnings && user.warnings.length > 0 && (
               <Badge
                 variant={
