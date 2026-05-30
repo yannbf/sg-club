@@ -1,26 +1,6 @@
 {
-  "last_updated": "2026-05-30T03:36:35.139Z",
+  "last_updated": "2026-05-30T10:14:36.499Z",
   "giveaways": [
-    {
-      "id": "PCccn",
-      "name": "Mythic Ocean",
-      "points": 15,
-      "copies": 1,
-      "app_id": 814360,
-      "package_id": null,
-      "link": "PCccn/mythic-ocean",
-      "created_timestamp": 1779516543,
-      "start_timestamp": 1779516543,
-      "end_timestamp": 1780113600,
-      "whitelist": true,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 37,
-      "creator": "76561198234142828",
-      "is_shared": true,
-      "cv_status": "REDUCED_CV",
-      "creator_username": "lockcjwen"
-    },
     {
       "id": "4OTvw",
       "name": "UNCHARTED: Legacy of Thieves Collection",
@@ -94,7 +74,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 41,
+      "entry_count": 40,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -134,7 +114,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 1,
-      "entry_count": 312,
+      "entry_count": 308,
       "creator": "76561199644864244",
       "is_shared": true,
       "cv_status": "FULL_CV",
@@ -154,7 +134,7 @@
       "region_restricted": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 80,
+      "entry_count": 86,
       "creator": "76561198048238310",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -194,7 +174,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 32,
+      "entry_count": 33,
       "creator": "76561197991280042",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -279,6 +259,27 @@
       "creator_username": "SoullessSoup"
     },
     {
+      "id": "o7npA",
+      "name": "Daemon X Machina: Titanic Scion",
+      "points": 50,
+      "copies": 1,
+      "app_id": 1342490,
+      "package_id": null,
+      "link": "o7npA/daemon-x-machina-titanic-scion",
+      "created_timestamp": 1780128380,
+      "start_timestamp": 1780128380,
+      "end_timestamp": 1780632000,
+      "region_restricted": true,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 37,
+      "creator": "76561198143588240",
+      "is_shared": true,
+      "cv_status": "FULL_CV",
+      "creator_username": "LumpyCreature"
+    },
+    {
       "id": "jPIBc",
       "name": "The Dungeon Of Naheulbeuk: The Amulet...",
       "points": 35,
@@ -292,11 +293,39 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 1,
+      "entry_count": 9,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
       "creator_username": "lockcjwen"
+    },
+    {
+      "id": "PCccn",
+      "name": "Mythic Ocean",
+      "points": 15,
+      "copies": 1,
+      "app_id": 814360,
+      "package_id": null,
+      "link": "PCccn/mythic-ocean",
+      "created_timestamp": 1779516543,
+      "start_timestamp": 1779516543,
+      "end_timestamp": 1780113600,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 37,
+      "creator": "76561198234142828",
+      "is_shared": true,
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "REDUCED_CV",
+      "creator_username": "lockcjwen",
+      "deleted": false
     },
     {
       "id": "VgDxf",
@@ -311,7 +340,7 @@
       "end_timestamp": 1780105200,
       "region_restricted": true,
       "group": true,
-      "comment_count": 15,
+      "comment_count": 16,
       "entry_count": 20,
       "creator": "76561198832209109",
       "hasWinners": true,
@@ -339,20 +368,20 @@
       "end_timestamp": 1780103880,
       "region_restricted": true,
       "group": true,
-      "comment_count": 0,
+      "comment_count": 1,
       "entry_count": 11,
       "creator": "76561198113581790",
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "76561198452519450",
+          "status": "received",
+          "winner_username": "MikeWithAnI"
         }
       ],
       "cv_status": "FULL_CV",
       "event_type": "may_event_2026",
-      "creator_username": "damianea103",
-      "deleted": false
+      "creator_username": "damianea103"
     },
     {
       "id": "jcMfO",
