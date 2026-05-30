@@ -76,6 +76,7 @@ describe('checkDeletedGiveaways', () => {
         end_timestamp: now - 500, // Ended 500 seconds ago
         group: true,
         entry_count: 0, // No entries
+        creator: '76561197960287930',
         creator_username: 'testuser',
       }
 
@@ -83,7 +84,7 @@ describe('checkDeletedGiveaways', () => {
       expect(result).toBe(true)
     })
 
-    it('should return false for ongoing giveaway', () => {
+    it('should return true for ongoing giveaway (can be deleted before ending)', () => {
       const now = Math.floor(Date.now() / 1000)
       const giveaway: Giveaway = {
         id: 'test',
@@ -97,7 +98,32 @@ describe('checkDeletedGiveaways', () => {
         start_timestamp: now - 1000,
         end_timestamp: now + 500, // Ends in 500 seconds
         group: true,
+        entry_count: 13, // Has entries but creator could still delete it
+        creator: '76561197960287930',
+        creator_username: 'testuser',
+      }
+
+      const result = shouldCheckGiveaway(giveaway)
+      expect(result).toBe(true)
+    })
+
+    it('should return false for giveaway already marked deleted', () => {
+      const now = Math.floor(Date.now() / 1000)
+      const giveaway: Giveaway = {
+        id: 'test',
+        name: 'Test Giveaway',
+        points: 10,
+        copies: 1,
+        app_id: null,
+        package_id: null,
+        link: 'test/test-giveaway',
+        created_timestamp: now - 1000,
+        start_timestamp: now - 1000,
+        end_timestamp: now - 500,
+        group: true,
         entry_count: 0,
+        deleted: true,
+        creator: '76561197960287930',
         creator_username: 'testuser',
       }
 
@@ -105,7 +131,31 @@ describe('checkDeletedGiveaways', () => {
       expect(result).toBe(false)
     })
 
-    it('should return false for ended giveaway with entries', () => {
+    it('should return true for ended giveaway with undefined winners', () => {
+      const now = Math.floor(Date.now() / 1000)
+      const giveaway: Giveaway = {
+        id: 'test',
+        name: 'Test Giveaway',
+        points: 10,
+        copies: 1,
+        app_id: null,
+        package_id: null,
+        link: 'test/test-giveaway',
+        created_timestamp: now - 1000,
+        start_timestamp: now - 1000,
+        end_timestamp: now - 500,
+        group: true,
+        entry_count: 5,
+        // winners: undefined — never populated
+        creator: '76561197960287930',
+        creator_username: 'testuser',
+      }
+
+      const result = shouldCheckGiveaway(giveaway)
+      expect(result).toBe(true)
+    })
+
+    it('should return false for ended giveaway with a confirmed received winner', () => {
       const now = Math.floor(Date.now() / 1000)
       const giveaway: Giveaway = {
         id: 'test',
@@ -119,7 +169,9 @@ describe('checkDeletedGiveaways', () => {
         start_timestamp: now - 1000,
         end_timestamp: now - 500, // Ended 500 seconds ago
         group: true,
-        entry_count: 5, // Has entries
+        entry_count: 5,
+        winners: [{ name: 'winneruser', status: 'received' }],
+        creator: '76561197960287930',
         creator_username: 'testuser',
       }
 
@@ -127,7 +179,7 @@ describe('checkDeletedGiveaways', () => {
       expect(result).toBe(false)
     })
 
-    it('should return false for future giveaway', () => {
+    it('should return true for future giveaway (not yet ended)', () => {
       const now = Math.floor(Date.now() / 1000)
       const giveaway: Giveaway = {
         id: 'test',
@@ -142,11 +194,12 @@ describe('checkDeletedGiveaways', () => {
         end_timestamp: now + 1500,
         group: true,
         entry_count: 0,
+        creator: '76561197960287930',
         creator_username: 'testuser',
       }
 
       const result = shouldCheckGiveaway(giveaway)
-      expect(result).toBe(false)
+      expect(result).toBe(true)
     })
   })
 })

@@ -64,22 +64,29 @@ function getGiveawayUrl(giveaway: Giveaway): string {
 }
 
 /**
- * Checks if a giveaway should be checked for deletion
- * Returns true if the giveaway has ended and has no entries
+ * Checks if a giveaway should be checked for deletion.
+ *
+ * Active giveaways are always re-checked — SG creators can delete a
+ * giveaway before it ends (e.g. MOTORSLICE vsHUD, UNCHARTED 4OTvw),
+ * and the live set is small enough that the extra fetches are cheap.
+ *
+ * Ended giveaways are filtered to the suspicious-outcome subset so we
+ * don't hammer SG on every closed-out giveaway.
  */
 function shouldCheckGiveaway(giveaway: Giveaway): boolean {
+  if (giveaway.deleted) return false
+
   const now = Math.floor(Date.now() / 1000)
   const hasEnded = giveaway.end_timestamp < now
+
+  if (!hasEnded) return true
+
   const hasNoEntries = giveaway.entry_count === 0
-  const hasNoWinners = giveaway.winners?.length === 0
+  const hasNoWinners = (giveaway.winners?.length ?? 0) === 0
   const hasNoConfirmedWinners =
     giveaway.winners?.every((winner) => winner.status !== 'received') ?? false
 
-  return (
-    hasEnded &&
-    (hasNoEntries || hasNoWinners || hasNoConfirmedWinners) &&
-    !giveaway.deleted
-  )
+  return hasNoEntries || hasNoWinners || hasNoConfirmedWinners
 }
 
 /**
@@ -114,7 +121,7 @@ async function checkDeletedGiveaways(): Promise<void> {
   const giveawaysToCheck = giveawaysData.giveaways.filter(shouldCheckGiveaway)
 
   console.log(
-    `📋 Found ${giveawaysToCheck.length} ended giveaways with no entries to check`
+    `📋 Found ${giveawaysToCheck.length} giveaways to check (all active + ended with suspicious outcome)`
   )
 
   for (const giveaway of giveawaysToCheck) {
