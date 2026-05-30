@@ -1,46 +1,6 @@
 {
-  "last_updated": "2026-05-29T18:47:15.768Z",
+  "last_updated": "2026-05-30T03:36:35.139Z",
   "giveaways": [
-    {
-      "id": "AY67F",
-      "name": "Stray",
-      "points": 30,
-      "copies": 1,
-      "app_id": 1332010,
-      "package_id": null,
-      "link": "AY67F/stray",
-      "created_timestamp": 1779841803,
-      "start_timestamp": 1779841803,
-      "end_timestamp": 1780103880,
-      "region_restricted": true,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 10,
-      "creator": "76561198113581790",
-      "cv_status": "FULL_CV",
-      "event_type": "may_event_2026",
-      "creator_username": "damianea103"
-    },
-    {
-      "id": "VgDxf",
-      "name": "Persona 3 Reload",
-      "points": 50,
-      "copies": 1,
-      "app_id": 2161700,
-      "package_id": null,
-      "link": "VgDxf/persona-3-reload",
-      "created_timestamp": 1779525787,
-      "start_timestamp": 1779525787,
-      "end_timestamp": 1780105200,
-      "region_restricted": true,
-      "group": true,
-      "comment_count": 14,
-      "entry_count": 18,
-      "creator": "76561198832209109",
-      "cv_status": "FULL_CV",
-      "event_type": "may_event_2026",
-      "creator_username": "Slenderpoop00"
-    },
     {
       "id": "PCccn",
       "name": "Mythic Ocean",
@@ -154,7 +114,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 2,
+      "entry_count": 4,
       "creator": "76561198444468770",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -174,7 +134,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 1,
-      "entry_count": 309,
+      "entry_count": 312,
       "creator": "76561199644864244",
       "is_shared": true,
       "cv_status": "FULL_CV",
@@ -194,7 +154,7 @@
       "region_restricted": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 77,
+      "entry_count": 80,
       "creator": "76561198048238310",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -319,6 +279,82 @@
       "creator_username": "SoullessSoup"
     },
     {
+      "id": "jPIBc",
+      "name": "The Dungeon Of Naheulbeuk: The Amulet...",
+      "points": 35,
+      "copies": 1,
+      "app_id": 970830,
+      "package_id": null,
+      "link": "jPIBc/the-dungeon-of-naheulbeuk-the-amulet-of-chaos",
+      "created_timestamp": 1780104457,
+      "start_timestamp": 1780104457,
+      "end_timestamp": 1780718400,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 1,
+      "creator": "76561198234142828",
+      "is_shared": true,
+      "cv_status": "REDUCED_CV",
+      "creator_username": "lockcjwen"
+    },
+    {
+      "id": "VgDxf",
+      "name": "Persona 3 Reload",
+      "points": 50,
+      "copies": 1,
+      "app_id": 2161700,
+      "package_id": null,
+      "link": "VgDxf/persona-3-reload",
+      "created_timestamp": 1779525787,
+      "start_timestamp": 1779525787,
+      "end_timestamp": 1780105200,
+      "region_restricted": true,
+      "group": true,
+      "comment_count": 15,
+      "entry_count": 20,
+      "creator": "76561198832209109",
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": "76561198081010034",
+          "status": "received",
+          "winner_username": "SirSage"
+        }
+      ],
+      "cv_status": "FULL_CV",
+      "event_type": "may_event_2026",
+      "creator_username": "Slenderpoop00"
+    },
+    {
+      "id": "AY67F",
+      "name": "Stray",
+      "points": 30,
+      "copies": 1,
+      "app_id": 1332010,
+      "package_id": null,
+      "link": "AY67F/stray",
+      "created_timestamp": 1779841803,
+      "start_timestamp": 1779841803,
+      "end_timestamp": 1780103880,
+      "region_restricted": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 11,
+      "creator": "76561198113581790",
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "FULL_CV",
+      "event_type": "may_event_2026",
+      "creator_username": "damianea103",
+      "deleted": false
+    },
+    {
       "id": "jcMfO",
       "name": "Heart of the Woods",
       "points": 15,
@@ -331,7 +367,7 @@
       "end_timestamp": 1780074000,
       "whitelist": true,
       "group": true,
-      "comment_count": 0,
+      "comment_count": 1,
       "entry_count": 51,
       "creator": "76561198025173613",
       "required_play": true,
@@ -339,13 +375,13 @@
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "Moony1986",
+          "status": "received",
+          "winner_username": "Moony1986"
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "Carenard",
-      "deleted": false
+      "creator_username": "Carenard"
     },
     {
       "id": "26Jai",
@@ -2279,7 +2315,7 @@
       "start_timestamp": 1778591134,
       "end_timestamp": 1778932800,
       "group": true,
-      "comment_count": 2,
+      "comment_count": 3,
       "entry_count": 5,
       "creator": "76561198002466205",
       "hasWinners": true,
@@ -8700,7 +8736,7 @@
       "start_timestamp": 1775172264,
       "end_timestamp": 1775422800,
       "group": true,
-      "comment_count": 2,
+      "comment_count": 4,
       "entry_count": 2,
       "creator": "76561198444468770",
       "event_type": "april_event_2026",
