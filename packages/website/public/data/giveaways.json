@@ -1,27 +1,6 @@
 {
-  "last_updated": "2026-05-31T04:04:51.138Z",
+  "last_updated": "2026-05-31T10:31:41.575Z",
   "giveaways": [
-    {
-      "id": "t7bDj",
-      "name": "Don't Be Afraid",
-      "points": 10,
-      "copies": 1,
-      "app_id": 760410,
-      "package_id": null,
-      "link": "t7bDj/dont-be-afraid",
-      "created_timestamp": 1779610804,
-      "start_timestamp": 1779610804,
-      "end_timestamp": 1780200000,
-      "whitelist": true,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 41,
-      "creator": "76561198234142828",
-      "is_shared": true,
-      "cv_status": "REDUCED_CV",
-      "creator_username": "lockcjwen",
-      "deleted": false
-    },
     {
       "id": "mqS1B",
       "name": "Tropico 3: Gold Edition",
@@ -57,7 +36,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 1,
-      "entry_count": 321,
+      "entry_count": 337,
       "creator": "76561199644864244",
       "is_shared": true,
       "cv_status": "FULL_CV",
@@ -78,7 +57,7 @@
       "region_restricted": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 95,
+      "entry_count": 99,
       "creator": "76561198048238310",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -224,7 +203,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 126,
+      "entry_count": 147,
       "creator": "76561198143588240",
       "is_shared": true,
       "cv_status": "FULL_CV",
@@ -245,7 +224,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 19,
+      "entry_count": 22,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -266,7 +245,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 11,
+      "entry_count": 22,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -287,12 +266,40 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 7,
+      "entry_count": 16,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
       "creator_username": "lockcjwen",
       "deleted": false
+    },
+    {
+      "id": "t7bDj",
+      "name": "Don't Be Afraid",
+      "points": 10,
+      "copies": 1,
+      "app_id": 760410,
+      "package_id": null,
+      "link": "t7bDj/dont-be-afraid",
+      "created_timestamp": 1779610804,
+      "start_timestamp": 1779610804,
+      "end_timestamp": 1780200000,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 2,
+      "entry_count": 41,
+      "creator": "76561198234142828",
+      "is_shared": true,
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": "Seretti",
+          "status": "received",
+          "winner_username": "Seretti"
+        }
+      ],
+      "cv_status": "REDUCED_CV",
+      "creator_username": "lockcjwen"
     },
     {
       "id": "CKTdF",
@@ -307,20 +314,20 @@
       "end_timestamp": 1780182900,
       "region_restricted": true,
       "group": true,
-      "comment_count": 3,
+      "comment_count": 4,
       "entry_count": 20,
       "creator": "76561199574536589",
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "76561198051248084",
+          "status": "received",
+          "winner_username": "Eindirk"
         }
       ],
       "cv_status": "FULL_CV",
       "event_type": "may_event_2026",
-      "creator_username": "ArxTun",
-      "deleted": false
+      "creator_username": "ArxTun"
     },
     {
       "id": "vsHUD",
