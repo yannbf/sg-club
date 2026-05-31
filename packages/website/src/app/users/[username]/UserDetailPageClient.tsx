@@ -442,8 +442,37 @@ export default function UserDetailPageClient({
               </a>
             )}
             <dl className="mt-4 space-y-1 text-sm">
+              {user.contributor_level != null && (
+                <div className="flex items-baseline gap-2">
+                  <dt className="text-muted-foreground">SG level</dt>
+                  <dd className="text-foreground font-medium tabular-nums-strict">
+                    {user.contributor_level.toFixed(2)}
+                  </dd>
+                </div>
+              )}
+              {user.registered_at && (
+                <div className="flex items-baseline gap-2">
+                  <dt className="text-muted-foreground">Registered on SG</dt>
+                  <dd className="text-foreground">
+                    <FormattedDate timestamp={user.registered_at} />
+                  </dd>
+                </div>
+              )}
+              {user.stats.first_seen_at && (
+                <div className="flex items-baseline gap-2">
+                  <dt
+                    className="text-muted-foreground"
+                    title="Earliest evidence of group activity (oldest GA created/won/entered)"
+                  >
+                    Member since
+                  </dt>
+                  <dd className="text-foreground">
+                    <FormattedDate timestamp={user.stats.first_seen_at} />
+                  </dd>
+                </div>
+              )}
               {user.stats.last_giveaway_created_at && (
-                <div className="flex items-baseline justify-between gap-3">
+                <div className="flex items-baseline gap-2">
                   <dt className="text-muted-foreground">Last GA created</dt>
                   <dd className="text-foreground">
                     <FormattedDate
@@ -453,7 +482,7 @@ export default function UserDetailPageClient({
                 </div>
               )}
               {user.stats.last_giveaway_won_at && (
-                <div className="flex items-baseline justify-between gap-3">
+                <div className="flex items-baseline gap-2">
                   <dt className="text-muted-foreground">Last GA won</dt>
                   <dd className="text-foreground">
                     <FormattedDate
@@ -463,13 +492,20 @@ export default function UserDetailPageClient({
                 </div>
               )}
               {lastEnteredGiveaway && (
-                <div className="flex items-baseline justify-between gap-3">
-                  <dt className="text-muted-foreground">Last GA entered</dt>
+                <div className="flex items-baseline gap-2 min-w-0">
+                  <dt className="text-muted-foreground shrink-0">Last GA entered</dt>
                   <dd
-                    className="text-foreground truncate min-w-0 text-right"
+                    className="text-foreground truncate min-w-0"
                     title={lastEnteredGameName}
                   >
-                    <span className="font-semibold">{lastEnteredGameName}</span>{' '}
+                    <a
+                      href={getLink(lastEnteredGiveaway.link)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-semibold hover:text-accent hover:underline"
+                    >
+                      {lastEnteredGameName}
+                    </a>{' '}
                     <span className="text-muted-foreground">
                       <FormattedDate timestamp={lastEnteredGiveaway.joined_at} />
                     </span>

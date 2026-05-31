@@ -86,6 +86,10 @@ export interface User {
    * stubs reconstructed from giveaway data instead of live SG data.
    */
   is_deleted_sg_account?: boolean
+  /** Unix seconds — when the user registered on SteamGifts (from their SG profile page). */
+  registered_at?: number
+  /** SteamGifts contributor level (typically 0–10, can have decimals). */
+  contributor_level?: number
   giveaways_won?: Array<{
     name: string
     link: string
@@ -179,6 +183,13 @@ export interface UserGiveawaysStats {
   // Other stats
   last_giveaway_created_at: number | null
   last_giveaway_won_at: number | null
+  /**
+   * Unix seconds — earliest evidence of group membership, computed from the
+   * oldest of: giveaways_created (created_timestamp), giveaways_won
+   * (end_timestamp), and entries on group GAs (joined_at). Best-effort proxy
+   * for when the user joined the group, since SG doesn't expose join dates.
+   */
+  first_seen_at?: number | null
   total_achievements_percentage?: number
   average_achievements_percentage?: number
   real_total_achievements_percentage?: number

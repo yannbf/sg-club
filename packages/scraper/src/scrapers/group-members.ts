@@ -1,5 +1,5 @@
 import { writeFileSync, readFileSync, existsSync } from 'node:fs'
-import { load } from 'cheerio'
+import { load, type CheerioAPI } from 'cheerio'
 import type {
   User,
   UserStats,
@@ -20,6 +20,78 @@ const debug = (...args: any[]) => {
   if (process.env.DEBUG) {
     console.log(...args)
   }
+}
+
+/**
+ * Earliest evidence of group membership for this user — min over:
+ *   • the previously stored stats.first_seen_at (so a stamp survives)
+ *   • giveaways_created[].created_timestamp
+ *   • giveaways_won[].end_timestamp (no created stored on wins)
+ *   • USER_ENTRIES[steam_id][].joined_at (entries on group GAs)
+ *
+ * All inputs are unix seconds. Returns null if the user has no traces yet
+ * and no prior stamp (caller should stamp at detection time in that case).
+ */
+function computeFirstSeenAt(user: User): number | null {
+  let earliest: number | null = null
+  const consider = (ts: number | null | undefined) => {
+    if (typeof ts !== 'number' || !Number.isFinite(ts) || ts <= 0) return
+    if (earliest === null || ts < earliest) earliest = ts
+  }
+
+  consider(user.stats?.first_seen_at)
+  for (const g of user.giveaways_created ?? []) consider(g.created_timestamp)
+  for (const g of user.giveaways_won ?? []) consider(g.end_timestamp)
+  for (const e of USER_ENTRIES[user.steam_id] ?? []) consider(e.joined_at)
+
+  return earliest
+}
+
+/**
+ * SG profile pages show contributor level either in a prominent header badge
+ * (.featured__contributor-level) or as a "Contributor Level" row in the
+ * .featured__table sidebar. Either format yields a number like "5" or "5.21".
+ */
+function parseContributorLevel($: CheerioAPI): number | null {
+  const headerText = $('.featured__contributor-level').first().text().trim()
+  const headerMatch = headerText.match(/([0-9]+(?:\.[0-9]+)?)/)
+  if (headerMatch) {
+    const n = parseFloat(headerMatch[1])
+    if (Number.isFinite(n)) return n
+  }
+
+  let level: number | null = null
+  $('.featured__table__row').each((_, el) => {
+    const $row = $(el)
+    const label = $row.find('.featured__table__row__left').text().trim().toLowerCase()
+    if (label !== 'contributor level') return
+    const valueText = $row.find('.featured__table__row__right').text().trim()
+    const m = valueText.match(/([0-9]+(?:\.[0-9]+)?)/)
+    if (m) {
+      const n = parseFloat(m[1])
+      if (Number.isFinite(n)) level = n
+    }
+  })
+  return level
+}
+
+/**
+ * SG profile pages list "Registered" in the .featured__table sidebar with a
+ * <span data-timestamp="..."> containing the exact unix-seconds value.
+ */
+function parseRegisteredAt($: CheerioAPI): number | null {
+  let registeredAt: number | null = null
+  $('.featured__table__row').each((_, el) => {
+    const $row = $(el)
+    const label = $row.find('.featured__table__row__left').text().trim()
+    if (label.toLowerCase() !== 'registered') return
+    const ts = parseInt(
+      $row.find('.featured__table__row__right span[data-timestamp]').first().attr('data-timestamp') || '',
+      10,
+    )
+    if (Number.isFinite(ts) && ts > 0) registeredAt = ts
+  })
+  return registeredAt
 }
 
 const GAME_DATA = JSON.parse(
@@ -356,11 +428,13 @@ export class SteamGiftsUserFetcher {
 
   private async fetchUserSteamInfo(
     user: User,
-  ): Promise<{ steam_id: string | null; steam_profile_url: string | null }> {
+  ): Promise<{
+    steam_id: string | null
+    steam_profile_url: string | null
+    registered_at: number | null
+    contributor_level: number | null
+  }> {
     try {
-      // const userProfileUrl = this.baseUrl + user.profile_url
-      // console.log(`🔍 Fetching Steam info for: ${user.username}`)
-
       const html = await this.fetchPage(user.profile_url)
       const $ = load(html)
 
@@ -373,27 +447,33 @@ export class SteamGiftsUserFetcher {
         )
       })
 
-      if ($steamLink.length > 0) {
-        const steam_profile_url = $steamLink.attr('href') || null
-        let steam_id: string | null = null
+      let steam_id: string | null = null
+      let steam_profile_url: string | null = null
 
+      if ($steamLink.length > 0) {
+        steam_profile_url = $steamLink.attr('href') || null
         if (steam_profile_url) {
-          // Extract Steam ID from profile URL
           const steamIdMatch = steam_profile_url.match(/profiles\/(\d+)/)
           if (steamIdMatch) {
             steam_id = steamIdMatch[1]
           }
         }
-
-        return { steam_id, steam_profile_url }
       }
 
-      return { steam_id: null, steam_profile_url: null }
+      const registered_at = parseRegisteredAt($)
+      const contributor_level = parseContributorLevel($)
+
+      return { steam_id, steam_profile_url, registered_at, contributor_level }
     } catch (error) {
       const errorMessage = `Error fetching Steam info for ${user.username}`
       console.warn(`⚠️  ${errorMessage}:`, error)
       logError(error, errorMessage)
-      return { steam_id: null, steam_profile_url: null }
+      return {
+        steam_id: null,
+        steam_profile_url: null,
+        registered_at: null,
+        contributor_level: null,
+      }
     }
   }
 
@@ -437,6 +517,7 @@ export class SteamGiftsUserFetcher {
       last_giveaway_won_at: user.giveaways_won?.length
         ? Math.max(...user.giveaways_won.map((g) => g.end_timestamp))
         : null,
+      first_seen_at: computeFirstSeenAt(user),
     }
 
     // Build game price lookup from module-level GAME_DATA (loaded once at startup)
@@ -1455,10 +1536,18 @@ export class SteamGiftsUserFetcher {
             currentGroupSteamIds.add(existingUser.steam_id)
             updatedUsersCount++
           } else {
-            // Genuinely new user
+            // Genuinely new user — stamp first_seen_at at detection so users
+            // with no activity yet still get a sensible "member since" date.
+            // computeFirstSeenAt will later lower it if older activity surfaces.
             newUsersCount++
             console.log(`➕ New: ${user.username}`)
-            existingUsers.set(user.username, user)
+            existingUsers.set(user.username, {
+              ...user,
+              stats: {
+                ...user.stats,
+                first_seen_at: Math.floor(Date.now() / 1000),
+              },
+            })
           }
         }
       }
@@ -1519,9 +1608,29 @@ export class SteamGiftsUserFetcher {
                   ...user,
                   steam_id: steamInfo.steam_id || user.steam_id,
                   steam_profile_url: steamInfo.steam_profile_url,
+                  ...(steamInfo.registered_at != null && {
+                    registered_at: steamInfo.registered_at,
+                  }),
+                  ...(steamInfo.contributor_level != null && {
+                    contributor_level: steamInfo.contributor_level,
+                  }),
                 }
                 existingUsers.set(user.username, updatedUser)
                 steamInfoFetched++
+              } else if (
+                steamInfo.registered_at != null ||
+                steamInfo.contributor_level != null
+              ) {
+                // No Steam profile linked, but we still got SG profile metadata
+                existingUsers.set(user.username, {
+                  ...user,
+                  ...(steamInfo.registered_at != null && {
+                    registered_at: steamInfo.registered_at,
+                  }),
+                  ...(steamInfo.contributor_level != null && {
+                    contributor_level: steamInfo.contributor_level,
+                  }),
+                })
 
                 if (steamInfo.steam_id) {
                   // console.log(
@@ -1546,6 +1655,45 @@ export class SteamGiftsUserFetcher {
           console.log(
             `✅ All users already have Steam info or no Steam profiles`,
           )
+        }
+
+        // Backfill SG profile metadata (registered_at, contributor_level) for
+        // users who already had Steam info from a prior run (so we skipped the
+        // profile fetch above) but pre-date these fields. One-time cost;
+        // subsequent runs see no candidates. Level may change over time, so
+        // re-fetch if missing entirely — for level refresh, see the periodic
+        // refresh logic in updateProfileMetadata (out of scope for this pass).
+        const usersNeedingProfileMeta = Array.from(
+          existingUsers.values(),
+        ).filter(
+          (user) =>
+            (user.registered_at == null || user.contributor_level == null) &&
+            user.profile_url,
+        )
+
+        if (usersNeedingProfileMeta.length > 0) {
+          console.log(
+            `📋 Found ${usersNeedingProfileMeta.length} users missing SG profile metadata — backfilling`,
+          )
+          let metaCounter = 0
+          for (const user of usersNeedingProfileMeta) {
+            metaCounter++
+            try {
+              console.log(
+                `[${metaCounter}/${usersNeedingProfileMeta.length}] 📅 Fetching SG profile metadata for: ${user.username}`,
+              )
+              const info = await this.fetchUserSteamInfo(user)
+              const patch: Partial<User> = {}
+              if (info.registered_at != null) patch.registered_at = info.registered_at
+              if (info.contributor_level != null) patch.contributor_level = info.contributor_level
+              if (Object.keys(patch).length > 0) {
+                existingUsers.set(user.username, { ...user, ...patch })
+              }
+              await delay(400)
+            } catch (error) {
+              console.warn(`⚠️  Error backfilling ${user.username}:`, error)
+            }
+          }
         }
 
         const usersNeedingCountryCodeInfo = Array.from(
@@ -1620,6 +1768,22 @@ export class SteamGiftsUserFetcher {
         }
       }
 
+      // Backfill first_seen_at for ex-members that pre-date the field.
+      let exMembersBackfilled = 0
+      for (const [steamId, exUser] of Object.entries(exMembersRecord)) {
+        if (exUser.stats?.first_seen_at != null) continue
+        const firstSeenAt = computeFirstSeenAt(exUser)
+        if (firstSeenAt == null) continue
+        exMembersRecord[steamId] = {
+          ...exUser,
+          stats: { ...exUser.stats, first_seen_at: firstSeenAt },
+        }
+        exMembersBackfilled++
+      }
+      if (exMembersBackfilled > 0) {
+        console.log(`📅 Backfilled first_seen_at on ${exMembersBackfilled} ex-members`)
+      }
+
       // Remove any ex-members who have rejoined (by real steam_id or username for synthetic IDs)
       let rejoinedCount = 0
       const allCurrentSteamIds = new Set(
@@ -1662,7 +1826,7 @@ export class SteamGiftsUserFetcher {
         }
       }
 
-      if (reliableRemoved.length > 0 || rejoinedCount > 0) {
+      if (reliableRemoved.length > 0 || rejoinedCount > 0 || exMembersBackfilled > 0) {
         writeFileSync(
           exMembersFilename,
           JSON.stringify(

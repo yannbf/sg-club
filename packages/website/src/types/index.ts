@@ -28,6 +28,11 @@ export interface User {
     shared_received_count: number
     last_giveaway_created_at: number | null
     last_giveaway_won_at: number | null
+    /**
+     * Unix seconds — earliest evidence of group membership, computed from
+     * giveaways_created, giveaways_won, and entries on group GAs.
+     */
+    first_seen_at?: number | null
     total_achievements_percentage?: number
     average_achievements_percentage?: number
     real_total_achievements_percentage?: number
@@ -43,6 +48,10 @@ export interface User {
    * fields may be stubs reconstructed from giveaway data rather than live SG.
    */
   is_deleted_sg_account?: boolean
+  /** Unix seconds — SteamGifts account registration date (scraped from SG profile). */
+  registered_at?: number
+  /** SteamGifts contributor level (typically 0–10, can have decimals). */
+  contributor_level?: number
   giveaways_won?: {
     name: string
     link: string
