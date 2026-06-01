@@ -213,10 +213,14 @@ class HltbFetcher {
   }
 
   private normalizeName(name: string): string[] {
+    // Replace punctuation with a SPACE, not an empty string — otherwise
+    // "Spider-Man" collapses to "spiderman" which HLTB's index treats as
+    // a single token that doesn't co-occur with adjacent words, killing
+    // multi-token searches like "Spider-Man: Miles Morales".
     return name
       .normalize('NFD')
       .replace(/[̀-ͯ]/g, '')
-      .replace(/[^\w\s]/gi, '')
+      .replace(/[^\w\s]/gi, ' ')
       .toLowerCase()
       .split(/\s+/)
       .filter(Boolean)
