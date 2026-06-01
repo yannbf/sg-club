@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1780248221277,
+  "lastUpdated": 1780287636401,
   "users": {
     "76561198359284432": {
       "username": "a10i",
@@ -20874,7 +20874,7 @@
     "76561199014836450": {
       "username": "Dobke",
       "profile_url": "/user/Dobke",
-      "avatar_url": "https://avatars.steamstatic.com/1820152bb96388dfdd2685c3c409f9bbbc4a7fb0_medium.jpg",
+      "avatar_url": "https://avatars.steamstatic.com/7f7c523a3a56edfa962a605b74c307588fcf9a6a_medium.jpg",
       "steam_id": "76561199014836450",
       "stats": {
         "total_sent_count": 18,
@@ -29174,15 +29174,72 @@
         "giveaway_ratio": 0,
         "shared_sent_count": 0,
         "shared_received_count": 0,
-        "giveaways_created": 0,
+        "giveaways_created": 5,
         "giveaways_with_no_entries": 0,
-        "last_giveaway_created_at": null,
+        "last_giveaway_created_at": 1780243621,
         "last_giveaway_won_at": null,
-        "first_seen_at": 1780248151
+        "first_seen_at": 1780240343
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561197967055456",
-      "registered_at": 1647551922,
-      "country_code": "no"
+      "country_code": "no",
+      "giveaways_created": [
+        {
+          "name": "ENCODYA",
+          "link": "wv3xn/encodya",
+          "cv_status": "REDUCED_CV",
+          "entries": 32,
+          "copies": 1,
+          "created_timestamp": 1780243621,
+          "end_timestamp": 1780300800,
+          "required_play": false,
+          "is_shared": true
+        },
+        {
+          "name": "Pesterquest",
+          "link": "fPCkm/pesterquest",
+          "cv_status": "REDUCED_CV",
+          "entries": 10,
+          "copies": 1,
+          "created_timestamp": 1780243193,
+          "end_timestamp": 1780300800,
+          "required_play": false,
+          "is_shared": true
+        },
+        {
+          "name": "The Black Grimoire: Cursebreaker",
+          "link": "L9seM/the-black-grimoire-cursebreaker",
+          "cv_status": "REDUCED_CV",
+          "entries": 29,
+          "copies": 1,
+          "created_timestamp": 1780242670,
+          "end_timestamp": 1780300800,
+          "required_play": false,
+          "is_shared": true
+        },
+        {
+          "name": "Deliver Us The Moon",
+          "link": "wnTEC/deliver-us-the-moon",
+          "cv_status": "REDUCED_CV",
+          "entries": 70,
+          "copies": 1,
+          "created_timestamp": 1780242003,
+          "end_timestamp": 1780300800,
+          "required_play": false,
+          "is_shared": true
+        },
+        {
+          "name": "KuloNiku: Bowl Up!",
+          "link": "gTGIs/kuloniku-bowl-up",
+          "cv_status": "FULL_CV",
+          "entries": 7,
+          "copies": 1,
+          "created_timestamp": 1780240343,
+          "end_timestamp": 1780484400,
+          "required_play": false,
+          "is_shared": false
+        }
+      ],
+      "registered_at": 1647551922
     },
     "76561198036424003": {
       "username": "GeekDoesStuff",
@@ -31573,12 +31630,12 @@
       "avatar_url": "https://avatars.steamstatic.com/206a42f067098ec1b9c66e886c31a7564150fc0d_medium.jpg",
       "steam_id": "76561199644864244",
       "stats": {
-        "total_sent_count": 9.7,
-        "total_sent_value": 148.07,
+        "total_sent_count": 9.8,
+        "total_sent_value": 149.07,
         "total_received_count": 13.8,
         "total_received_value": 190.53,
-        "total_gift_difference": -4.2,
-        "total_value_difference": -42.46,
+        "total_gift_difference": -4,
+        "total_value_difference": -41.46,
         "fcv_sent_count": 4,
         "rcv_sent_count": 3,
         "ncv_sent_count": 0,
@@ -31593,7 +31650,7 @@
         "real_total_received_count": 12,
         "real_total_gift_difference": -8,
         "giveaway_ratio": 0.33,
-        "shared_sent_count": 7,
+        "shared_sent_count": 8,
         "shared_received_count": 2,
         "giveaways_created": 15,
         "giveaways_with_no_entries": 1,
@@ -31924,12 +31981,21 @@
           "name": "My Big Sister: Remastered",
           "link": "Hq3tT/my-big-sister-remastered",
           "cv_status": "FULL_CV",
-          "entries": 350,
+          "entries": 381,
           "copies": 1,
           "created_timestamp": 1779480961,
           "end_timestamp": 1780261560,
           "required_play": false,
-          "is_shared": true
+          "is_shared": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "grimfandango8888",
+              "winner_username": "grimfandango8888",
+              "status": "received",
+              "activated": true
+            }
+          ]
         },
         {
           "name": "Mate'Morphosis",
@@ -48897,7 +48963,7 @@
           "name": "Sclash",
           "link": "6LcqR/sclash",
           "cv_status": "REDUCED_CV",
-          "entries": 28,
+          "entries": 31,
           "copies": 3,
           "created_timestamp": 1780184789,
           "end_timestamp": 1780804800,
@@ -48908,7 +48974,7 @@
           "name": "LiEat",
           "link": "28pz6/lieat",
           "cv_status": "REDUCED_CV",
-          "entries": 18,
+          "entries": 23,
           "copies": 1,
           "created_timestamp": 1780184724,
           "end_timestamp": 1780804800,
@@ -52753,7 +52819,7 @@
           "name": "Daemon X Machina: Titanic Scion",
           "link": "o7npA/daemon-x-machina-titanic-scion",
           "cv_status": "FULL_CV",
-          "entries": 153,
+          "entries": 164,
           "copies": 1,
           "created_timestamp": 1780128380,
           "end_timestamp": 1780632000,
@@ -58011,12 +58077,12 @@
       "avatar_url": "https://avatars.steamstatic.com/7f18eae81841c2417e42926d28a153f8a8110d7c_medium.jpg",
       "steam_id": "76561198444468770",
       "stats": {
-        "total_sent_count": 65.3,
-        "total_sent_value": 1203.39,
+        "total_sent_count": 65.6,
+        "total_sent_value": 1207.14,
         "total_received_count": 67.7,
         "total_received_value": 1131.09,
-        "total_gift_difference": -2.4,
-        "total_value_difference": 72.3,
+        "total_gift_difference": -2.1,
+        "total_value_difference": 76.05,
         "fcv_sent_count": 58,
         "rcv_sent_count": 1,
         "ncv_sent_count": 0,
@@ -58031,7 +58097,7 @@
         "real_total_received_count": 63,
         "real_total_gift_difference": -5,
         "giveaway_ratio": 37,
-        "shared_sent_count": 21,
+        "shared_sent_count": 22,
         "shared_received_count": 5,
         "giveaways_created": 89,
         "giveaways_with_no_entries": 15,
@@ -59468,12 +59534,21 @@
           "name": "Tropico 3: Gold Edition",
           "link": "mqS1B/tropico-3-gold-edition",
           "cv_status": "REDUCED_CV",
-          "entries": 8,
+          "entries": 12,
           "copies": 1,
           "created_timestamp": 1780022812,
           "end_timestamp": 1780261200,
           "required_play": false,
-          "is_shared": true
+          "is_shared": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "VampireXL",
+              "winner_username": "VampireXL",
+              "status": "received",
+              "activated": true
+            }
+          ]
         },
         {
           "name": "Daemon X Machina: Titanic Scion",
@@ -85695,7 +85770,7 @@
           "name": "The Forgotten City",
           "link": "NkCLS/the-forgotten-city",
           "cv_status": "REDUCED_CV",
-          "entries": 16,
+          "entries": 17,
           "copies": 1,
           "created_timestamp": 1779705774,
           "end_timestamp": 1780462800,
@@ -85706,7 +85781,7 @@
           "name": "Terra Memoria",
           "link": "L7fSd/terra-memoria",
           "cv_status": "REDUCED_CV",
-          "entries": 37,
+          "entries": 39,
           "copies": 1,
           "created_timestamp": 1779705640,
           "end_timestamp": 1780462800,
@@ -85717,7 +85792,7 @@
           "name": "Knights in Tight Spaces",
           "link": "xFwxI/knights-in-tight-spaces",
           "cv_status": "REDUCED_CV",
-          "entries": 13,
+          "entries": 14,
           "copies": 1,
           "created_timestamp": 1779704325,
           "end_timestamp": 1780462800,
@@ -85728,7 +85803,7 @@
           "name": "The Light Brigade",
           "link": "zPeHj/the-light-brigade",
           "cv_status": "FULL_CV",
-          "entries": 3,
+          "entries": 6,
           "copies": 1,
           "created_timestamp": 1779704032,
           "end_timestamp": 1780462800,
@@ -85739,7 +85814,7 @@
           "name": "Assassin's Creed Valhalla",
           "link": "fzsLp/assassins-creed-valhalla",
           "cv_status": "REDUCED_CV",
-          "entries": 21,
+          "entries": 22,
           "copies": 1,
           "created_timestamp": 1779702978,
           "end_timestamp": 1780462800,
@@ -85750,7 +85825,7 @@
           "name": "Rogue Waters",
           "link": "4wLs4/rogue-waters",
           "cv_status": "REDUCED_CV",
-          "entries": 14,
+          "entries": 17,
           "copies": 1,
           "created_timestamp": 1779702827,
           "end_timestamp": 1780462800,
@@ -88239,7 +88314,7 @@
           "name": "Heroes of Hammerwatch II",
           "link": "hMpZZ/heroes-of-hammerwatch-ii",
           "cv_status": "REDUCED_CV",
-          "entries": 104,
+          "entries": 127,
           "copies": 1,
           "created_timestamp": 1779919817,
           "end_timestamp": 1780315260,
@@ -95335,9 +95410,9 @@
         "giveaway_ratio": 17,
         "shared_sent_count": 1,
         "shared_received_count": 0,
-        "giveaways_created": 19,
+        "giveaways_created": 20,
         "giveaways_with_no_entries": 3,
-        "last_giveaway_created_at": 1776024491,
+        "last_giveaway_created_at": 1780265736,
         "last_giveaway_won_at": 1764114600,
         "first_seen_at": 1749692598,
         "total_achievements_percentage": 23,
@@ -95561,6 +95636,17 @@
         }
       ],
       "giveaways_created": [
+        {
+          "name": "Turbo Overkill",
+          "link": "rvBVe/turbo-overkill",
+          "cv_status": "FULL_CV",
+          "entries": 0,
+          "copies": 1,
+          "created_timestamp": 1780265736,
+          "end_timestamp": 1780794000,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "RoboCop: Rogue City",
           "link": "01LQ2/robocop-rogue-city",
