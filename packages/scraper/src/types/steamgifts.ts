@@ -90,6 +90,14 @@ export interface User {
   registered_at?: number
   /** SteamGifts contributor level (typically 0–10, can have decimals). */
   contributor_level?: number
+  /**
+   * Unix ms — most recent time we observed the member's total playtime
+   * increase on ANY tracked game (set by the daily playtime job). Best-effort
+   * proxy for "last time the member actually played something". Only populated
+   * going forward; absent for members whose playtime hasn't risen since
+   * tracking began, so treat `undefined`/`null` as "unknown", not "inactive".
+   */
+  last_played_at?: number | null
   giveaways_won?: Array<{
     name: string
     link: string

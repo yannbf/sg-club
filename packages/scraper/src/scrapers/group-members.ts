@@ -851,6 +851,7 @@ export class SteamGiftsUserFetcher {
       }
 
       let userUpdated = false
+      let playedSinceLastCheck = false
       const updatedGiveawaysWon = [...user.giveaways_won!]
 
       // Within a user: missing-data wins first, then by most-recent end
@@ -897,6 +898,14 @@ export class SteamGiftsUserFetcher {
           )
 
           if (gamePlayData) {
+            // Total playtime never decreases, so any rise since the last
+            // snapshot means the member actually played this game recently.
+            const previousPlaytime =
+              wonGame.steam_play_data?.playtime_minutes ?? 0
+            if (gamePlayData.playtime_minutes > previousPlaytime) {
+              playedSinceLastCheck = true
+            }
+
             let isPotentiallyIdling =
               wonGame.steam_play_data?.is_potentially_idling
 
@@ -959,6 +968,7 @@ export class SteamGiftsUserFetcher {
         users.set(username, {
           ...user,
           giveaways_won: updatedGiveawaysWon,
+          ...(playedSinceLastCheck && { last_played_at: Date.now() }),
         })
       }
 
@@ -1395,23 +1405,89 @@ export class SteamGiftsUserFetcher {
       return deadline
     }
 
-    const hasSoonExpiringRequiredPlays = (user.giveaways_won || []).some(
-      (g) => {
-        if (!g.required_play || g.required_play_meta?.requirements_met)
-          return false
+    const unfulfilledRequiredPlayDays = (user.giveaways_won || [])
+      .filter((g) => g.required_play && !g.required_play_meta?.requirements_met)
+      .map((g) => {
         const deadlineDate = getDeadlineDate(
           g.end_timestamp,
           g.required_play_meta,
         )
-        const daysRemaining = Math.floor(
-          (deadlineDate.getTime() - Date.now()) / oneDayMs,
-        )
-        return daysRemaining >= 0 && daysRemaining < 15
-      },
+        return Math.floor((deadlineDate.getTime() - Date.now()) / oneDayMs)
+      })
+
+    const hasSoonExpiringRequiredPlays = unfulfilledRequiredPlayDays.some(
+      (daysRemaining) => daysRemaining >= 0 && daysRemaining < 15,
+    )
+    const hasExpiredRequiredPlays = unfulfilledRequiredPlayDays.some(
+      (daysRemaining) => daysRemaining < 0,
     )
 
     if (hasSoonExpiringRequiredPlays) {
       warnings.push('required_play_deadline_within_15_days')
+    }
+    if (hasExpiredRequiredPlays) {
+      warnings.push('required_play_deadline_expired')
+    }
+
+    // --- "Needs attention" signals for member outreach ---
+    const nowMs = Date.now()
+    const monthsAgoMs = (months: number) => nowMs - months * 30 * oneDayMs
+    const monthsAgoSec = (months: number) => monthsAgoMs(months) / 1000
+
+    // Members are only worth surfacing once they've been around long enough to
+    // have acted differently. `first_seen_at` is a best-effort join proxy; when
+    // it's missing we don't have grounds to suppress, so we let the check run.
+    const firstSeenMs = user.stats.first_seen_at
+      ? user.stats.first_seen_at * 1000
+      : null
+    const establishedForMonths = (months: number) =>
+      firstSeenMs == null || firstSeenMs <= monthsAgoMs(months)
+
+    // Play rate: share of won games we have evidence the member actually played.
+    const wonGames = user.giveaways_won ?? []
+    const totalWins = wonGames.length
+    const playedWins = wonGames.filter(
+      (g) =>
+        g.steam_play_data &&
+        !g.steam_play_data.never_played &&
+        !g.steam_play_data.has_no_available_stats,
+    ).length
+    const playPercentage =
+      totalWins > 0 ? Math.round((playedWins / totalWins) * 100) : 0
+
+    if (totalWins > 2 && playPercentage === 0 && establishedForMonths(2)) {
+      warnings.push('zero_play_rate_with_wins')
+    } else if (
+      totalWins > 7 &&
+      playPercentage > 0 &&
+      playPercentage < 10 &&
+      establishedForMonths(2)
+    ) {
+      warnings.push('low_play_rate_many_wins')
+    }
+
+    // Hasn't played anything in 4+ months yet is still joining/winning GAs.
+    const lastPlayedMs = user.last_played_at ?? null
+    if (lastPlayedMs != null && lastPlayedMs < monthsAgoMs(4)) {
+      const recentEntries = USER_ENTRIES?.[user.steam_id] || []
+      const joinedRecently = recentEntries.some(
+        (e) => e.joined_at >= monthsAgoSec(2),
+      )
+      const wonRecently =
+        user.stats.last_giveaway_won_at != null &&
+        user.stats.last_giveaway_won_at >= monthsAgoSec(2)
+      if (joinedRecently || wonRecently) {
+        warnings.push('inactive_play_but_active')
+      }
+    }
+
+    // Hasn't created a giveaway in the past 6 months (established members only).
+    const lastCreatedSec = user.stats.last_giveaway_created_at ?? null
+    if (
+      establishedForMonths(6) &&
+      (lastCreatedSec == null || lastCreatedSec < monthsAgoSec(6))
+    ) {
+      warnings.push('no_giveaway_created_in_6_months')
     }
 
     // TODO: Maybe bring this back.

@@ -134,6 +134,42 @@ ${toLeaveText}`)
     messages.push(`Please leave the following giveaways:\n${toLeaveText}`)
   }
 
+  if (user.warnings.includes('required_play_deadline_expired')) {
+    const expiredRequired = (user.giveaways_won || []).filter((g) => {
+      if (!g.required_play || g.required_play_meta?.requirements_met)
+        return false
+      const { daysRemaining } = getDeadlineData(
+        g.end_timestamp,
+        g.required_play_meta?.deadline_in_months,
+        g.required_play_meta?.deadline,
+      )
+      return daysRemaining < 0
+    })
+
+    expiredRequired.sort((a, b) => a.end_timestamp - b.end_timestamp)
+
+    const formatter = new Intl.DateTimeFormat('en-US', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+    })
+    const expiredText = expiredRequired
+      .map((g) => {
+        const { daysRemaining, deadlineDate } = getDeadlineData(
+          g.end_timestamp,
+          g.required_play_meta?.deadline_in_months,
+          g.required_play_meta?.deadline,
+        )
+        return `${getLink(g.link)} (deadline passed ${Math.abs(daysRemaining)} day(s) ago: ${formatter.format(deadlineDate)})`
+      })
+      .join('\n')
+
+    messages.push(
+      'The deadline for the following PLAY REQUIRED win(s) has already passed. Please fulfill the requirements as soon as possible:',
+    )
+    messages.push(expiredText)
+  }
+
   const unplayedGamesStats = getUnplayedGamesStats(user)
   const hasLowPlayRate = unplayedGamesStats.percentage < 33
 
@@ -187,6 +223,27 @@ const warningToMessageMap: Record<string, UserWarning> = {
   },
   required_play_deadline_within_15_days: {
     description: 'Has required play games with less than 15 days remaining',
+    severity: 'warning',
+  },
+  required_play_deadline_expired: {
+    description: 'Has required play games whose deadline has passed',
+    severity: 'problem',
+  },
+  zero_play_rate_with_wins: {
+    description: 'Has a 0% play rate despite having more than 2 wins',
+    severity: 'problem',
+  },
+  low_play_rate_many_wins: {
+    description: 'Has an under 10% play rate with more than 7 wins',
+    severity: 'problem',
+  },
+  inactive_play_but_active: {
+    description:
+      'Has not played any game in over 4 months but is still joining or winning giveaways',
+    severity: 'warning',
+  },
+  no_giveaway_created_in_6_months: {
+    description: 'Has not created a giveaway in over 6 months',
     severity: 'warning',
   },
   required_plays_need_review: {
