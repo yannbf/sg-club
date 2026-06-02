@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1780402934214,
+  "lastUpdated": 1780430421228,
   "users": {
     "76561198359284432": {
       "username": "a10i",
@@ -746,7 +746,7 @@
           "cv_status": "FULL_CV",
           "status": "received",
           "end_timestamp": 1779033600,
-          "required_play": false,
+          "required_play": true,
           "is_shared": false,
           "steam_play_data": {
             "owned": true,
@@ -758,6 +758,10 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1780295284443
+          },
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
           }
         },
         {
@@ -2637,6 +2641,11 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1780295639559
+          },
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 4,
+            "additional_notes": "Act 1"
           }
         },
         {
@@ -2901,10 +2910,7 @@
           ]
         }
       ],
-      "registered_at": 1686500294,
-      "warnings": [
-        "required_plays_need_review"
-      ]
+      "registered_at": 1686500294
     },
     "76561198009116714": {
       "username": "atti",
@@ -3738,7 +3744,7 @@
           "name": "Romancing SaGa 2",
           "link": "2R5ER/romancing-saga-2",
           "cv_status": "FULL_CV",
-          "entries": 3,
+          "entries": 4,
           "copies": 1,
           "created_timestamp": 1780288927,
           "end_timestamp": 1780716600,
@@ -5371,7 +5377,7 @@
           "cv_status": "FULL_CV",
           "status": "received",
           "end_timestamp": 1776694800,
-          "required_play": false,
+          "required_play": true,
           "is_shared": false,
           "steam_play_data": {
             "owned": true,
@@ -5383,6 +5389,11 @@
             "never_played": true,
             "is_playtime_private": false,
             "last_checked": 1780294946657
+          },
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 4,
+            "additional_notes": "Inheritance achievement"
           }
         },
         {
@@ -7512,9 +7523,9 @@
         "giveaway_ratio": 5,
         "shared_sent_count": 16,
         "shared_received_count": 2,
-        "giveaways_created": 23,
+        "giveaways_created": 24,
         "giveaways_with_no_entries": 0,
-        "last_giveaway_created_at": 1776399300,
+        "last_giveaway_created_at": 1780422767,
         "last_giveaway_won_at": 1760270400,
         "first_seen_at": 1749674714,
         "total_achievements_percentage": 0,
@@ -7694,6 +7705,17 @@
         }
       ],
       "giveaways_created": [
+        {
+          "name": "Construction Simulator",
+          "link": "uFXXn/construction-simulator",
+          "cv_status": "FULL_CV",
+          "entries": 17,
+          "copies": 1,
+          "created_timestamp": 1780422767,
+          "end_timestamp": 1780509600,
+          "required_play": false,
+          "is_shared": true
+        },
         {
           "name": "An Elder Scrolls Legend: Battlespire",
           "link": "P4bSy/an-elder-scrolls-legend-battlespire",
@@ -8185,9 +8207,9 @@
         "giveaway_ratio": 27.67,
         "shared_sent_count": 1,
         "shared_received_count": 0,
-        "giveaways_created": 44,
+        "giveaways_created": 45,
         "giveaways_with_no_entries": 2,
-        "last_giveaway_created_at": 1778059397,
+        "last_giveaway_created_at": 1780402791,
         "last_giveaway_won_at": 1778947200,
         "first_seen_at": 1749708183,
         "total_achievements_percentage": 20,
@@ -9207,6 +9229,17 @@
       ],
       "giveaways_created": [
         {
+          "name": "Mina the Hollower",
+          "link": "2zj9x/mina-the-hollower",
+          "cv_status": "FULL_CV",
+          "entries": 20,
+          "copies": 1,
+          "created_timestamp": 1780402791,
+          "end_timestamp": 1780682400,
+          "required_play": false,
+          "is_shared": false
+        },
+        {
           "name": "BALL x PIT",
           "link": "yhW8X/ball-x-pit",
           "cv_status": "FULL_CV",
@@ -10158,6 +10191,10 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1780295166170
+          },
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2
           }
         },
         {
@@ -10525,6 +10562,11 @@
           "end_timestamp": 1780074000,
           "required_play": true,
           "is_shared": true,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -10555,8 +10597,13 @@
           "copies": 1,
           "created_timestamp": 1777956813,
           "end_timestamp": 1778864400,
-          "required_play": false,
+          "required_play": true,
           "is_shared": true,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -10577,6 +10624,11 @@
           "end_timestamp": 1778691600,
           "required_play": true,
           "is_shared": true,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -11383,10 +11435,7 @@
           ]
         }
       ],
-      "registered_at": 1356926034,
-      "warnings": [
-        "required_plays_need_review"
-      ]
+      "registered_at": 1356926034
     },
     "76561198224589020": {
       "username": "Carrei",
@@ -11564,6 +11613,11 @@
           "end_timestamp": 1779080400,
           "required_play": true,
           "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -17145,7 +17199,7 @@
             "last_checked": 1780293913315
           },
           "required_play_meta": {
-            "requirements_met": false,
+            "requirements_met": true,
             "deadline_in_months": 2
           }
         },
@@ -21624,7 +21678,7 @@
             "last_checked": 1780294065942
           },
           "required_play_meta": {
-            "requirements_met": false,
+            "requirements_met": true,
             "deadline_in_months": 2,
             "deadline": "30.6.2026"
           }
@@ -23064,10 +23118,7 @@
           ]
         }
       ],
-      "registered_at": 1426781554,
-      "warnings": [
-        "required_plays_need_review"
-      ]
+      "registered_at": 1426781554
     },
     "76561198408001048": {
       "username": "dramainfouracts",
@@ -23677,7 +23728,7 @@
           "name": "Eternal Strands",
           "link": "PKmDm/eternal-strands",
           "cv_status": "FULL_CV",
-          "entries": 21,
+          "entries": 22,
           "copies": 1,
           "created_timestamp": 1780329966,
           "end_timestamp": 1782489600,
@@ -23688,7 +23739,7 @@
           "name": "Chained Echoes",
           "link": "nqt7m/chained-echoes",
           "cv_status": "FULL_CV",
-          "entries": 13,
+          "entries": 14,
           "copies": 1,
           "created_timestamp": 1780329772,
           "end_timestamp": 1782489600,
@@ -23699,7 +23750,7 @@
           "name": "Cast n Chill",
           "link": "Xo9Oc/cast-n-chill",
           "cv_status": "FULL_CV",
-          "entries": 18,
+          "entries": 21,
           "copies": 1,
           "created_timestamp": 1780329688,
           "end_timestamp": 1782489600,
@@ -23710,7 +23761,7 @@
           "name": "Kena: Bridge of Spirits",
           "link": "G59bp/kena-bridge-of-spirits",
           "cv_status": "FULL_CV",
-          "entries": 25,
+          "entries": 28,
           "copies": 1,
           "created_timestamp": 1780329576,
           "end_timestamp": 1782489600,
@@ -29298,7 +29349,7 @@
           "name": "KuloNiku: Bowl Up!",
           "link": "gTGIs/kuloniku-bowl-up",
           "cv_status": "FULL_CV",
-          "entries": 10,
+          "entries": 11,
           "copies": 1,
           "created_timestamp": 1780240343,
           "end_timestamp": 1780484400,
@@ -29563,8 +29614,13 @@
           "copies": 1,
           "created_timestamp": 1777980029,
           "end_timestamp": 1779279360,
-          "required_play": false,
+          "required_play": true,
           "is_shared": true,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -29711,7 +29767,7 @@
           "is_shared": true,
           "i_played_bro": false,
           "required_play_meta": {
-            "requirements_met": false,
+            "requirements_met": true,
             "deadline_in_months": 2
           },
           "had_winners": true,
@@ -33153,7 +33209,7 @@
           "name": "Mina the Hollower",
           "link": "hXEiq/mina-the-hollower",
           "cv_status": "FULL_CV",
-          "entries": 23,
+          "entries": 24,
           "copies": 1,
           "created_timestamp": 1780337282,
           "end_timestamp": 1780945140,
@@ -34879,6 +34935,11 @@
           "end_timestamp": 1777320000,
           "required_play": true,
           "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -36462,6 +36523,12 @@
           "end_timestamp": 1779106920,
           "required_play": true,
           "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 1,
+            "additional_notes": "1 achievement"
+          },
           "had_winners": true,
           "winners": [
             {
@@ -36494,6 +36561,12 @@
           "end_timestamp": 1778934120,
           "required_play": true,
           "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 1,
+            "additional_notes": "1 achievement"
+          },
           "had_winners": true,
           "winners": [
             {
@@ -36514,6 +36587,12 @@
           "end_timestamp": 1778934120,
           "required_play": true,
           "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2,
+            "additional_notes": "2 achievements"
+          },
           "had_winners": true,
           "winners": [
             {
@@ -42940,7 +43019,7 @@
           "is_shared": false,
           "i_played_bro": false,
           "required_play_meta": {
-            "requirements_met": false,
+            "requirements_met": true,
             "deadline": "30.6.2026",
             "deadline_in_months": 2
           },
@@ -45344,8 +45423,13 @@
           "copies": 1,
           "created_timestamp": 1778769650,
           "end_timestamp": 1779033600,
-          "required_play": false,
+          "required_play": true,
           "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -49110,7 +49194,7 @@
           "name": "The Dungeon Of Naheulbeuk: The Amulet...",
           "link": "jPIBc/the-dungeon-of-naheulbeuk-the-amulet-of-chaos",
           "cv_status": "REDUCED_CV",
-          "entries": 23,
+          "entries": 24,
           "copies": 1,
           "created_timestamp": 1780104457,
           "end_timestamp": 1780718400,
@@ -52977,7 +53061,7 @@
           "name": "Daemon X Machina: Titanic Scion",
           "link": "o7npA/daemon-x-machina-titanic-scion",
           "cv_status": "FULL_CV",
-          "entries": 200,
+          "entries": 203,
           "copies": 1,
           "created_timestamp": 1780128380,
           "end_timestamp": 1780632000,
@@ -53128,6 +53212,10 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1780294547022
+          },
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
           }
         },
         {
@@ -53735,8 +53823,14 @@
           "copies": 1,
           "created_timestamp": 1776440545,
           "end_timestamp": 1776694800,
-          "required_play": false,
+          "required_play": true,
           "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 4,
+            "additional_notes": "Break the Loop achievement"
+          },
           "had_winners": true,
           "winners": [
             {
@@ -53755,8 +53849,14 @@
           "copies": 1,
           "created_timestamp": 1776440483,
           "end_timestamp": 1776694800,
-          "required_play": false,
+          "required_play": true,
           "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 3,
+            "additional_notes": "Still Wakes the Deep achievement"
+          },
           "had_winners": true,
           "winners": [
             {
@@ -53775,8 +53875,14 @@
           "copies": 1,
           "created_timestamp": 1776440455,
           "end_timestamp": 1776694800,
-          "required_play": false,
+          "required_play": true,
           "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 4,
+            "additional_notes": "Inheritance achievement"
+          },
           "had_winners": true,
           "winners": [
             {
@@ -56070,6 +56176,10 @@
             "never_played": true,
             "is_playtime_private": false,
             "last_checked": 1780294713559
+          },
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
           }
         },
         {
@@ -56550,7 +56660,7 @@
           "name": "Tempest Rising",
           "link": "uTspj/tempest-rising",
           "cv_status": "REDUCED_CV",
-          "entries": 8,
+          "entries": 10,
           "copies": 1,
           "created_timestamp": 1780323331,
           "end_timestamp": 1781125140,
@@ -58301,6 +58411,11 @@
             "never_played": true,
             "is_playtime_private": false,
             "last_checked": 1780293830985
+          },
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2,
+            "additional_notes": "2 achievements"
           }
         },
         {
@@ -62660,9 +62775,9 @@
         "giveaway_ratio": 12.33,
         "shared_sent_count": 23,
         "shared_received_count": 0,
-        "giveaways_created": 40,
+        "giveaways_created": 42,
         "giveaways_with_no_entries": 4,
-        "last_giveaway_created_at": 1775589440,
+        "last_giveaway_created_at": 1780421226,
         "last_giveaway_won_at": 1753617600,
         "first_seen_at": 1749676256,
         "total_achievements_percentage": 74,
@@ -62723,6 +62838,28 @@
         }
       ],
       "giveaways_created": [
+        {
+          "name": "The Riftbreaker",
+          "link": "EacdD/the-riftbreaker",
+          "cv_status": "FULL_CV",
+          "entries": 5,
+          "copies": 1,
+          "created_timestamp": 1780421093,
+          "end_timestamp": 1780845660,
+          "required_play": true,
+          "is_shared": true
+        },
+        {
+          "name": "INDIKA",
+          "link": "3DfKR/indika",
+          "cv_status": "FULL_CV",
+          "entries": 21,
+          "copies": 1,
+          "created_timestamp": 1780421226,
+          "end_timestamp": 1780845840,
+          "required_play": true,
+          "is_shared": true
+        },
         {
           "name": "Planet of Lana",
           "link": "MUoY3/planet-of-lana",
@@ -65489,7 +65626,7 @@
           "name": "Death Howl",
           "link": "Ivj2p/death-howl",
           "cv_status": "FULL_CV",
-          "entries": 3,
+          "entries": 5,
           "copies": 1,
           "created_timestamp": 1780371520,
           "end_timestamp": 1781434800,
@@ -72054,6 +72191,11 @@
           "end_timestamp": 1778417280,
           "required_play": true,
           "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 4
+          },
           "had_winners": true,
           "winners": [
             {
@@ -73149,6 +73291,11 @@
             "never_played": true,
             "is_playtime_private": false,
             "last_checked": 1780294680067
+          },
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 1,
+            "additional_notes": "1 achievement"
           }
         },
         {
@@ -73169,6 +73316,10 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1780294681198
+          },
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 4
           }
         },
         {
@@ -73918,9 +74069,7 @@
       ],
       "registered_at": 1470063563,
       "warnings": [
-        "unplayed_required_play_giveaways",
-        "illegal_entered_required_play_giveaways",
-        "required_plays_need_review"
+        "required_play_deadline_within_15_days"
       ]
     },
     "76561198069567036": {
@@ -75435,6 +75584,12 @@
           "end_timestamp": 1779184800,
           "required_play": true,
           "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 4,
+            "additional_notes": "Act 1"
+          },
           "had_winners": true,
           "winners": [
             {
@@ -79923,6 +80078,11 @@
             "never_played": false,
             "is_playtime_private": true,
             "last_checked": 1780295145158
+          },
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 1,
+            "additional_notes": "1 achievement"
           }
         },
         {
@@ -85950,7 +86110,7 @@
           "name": "The Forgotten City",
           "link": "NkCLS/the-forgotten-city",
           "cv_status": "REDUCED_CV",
-          "entries": 18,
+          "entries": 19,
           "copies": 1,
           "created_timestamp": 1779705774,
           "end_timestamp": 1780462800,
@@ -85961,7 +86121,7 @@
           "name": "Terra Memoria",
           "link": "L7fSd/terra-memoria",
           "cv_status": "REDUCED_CV",
-          "entries": 43,
+          "entries": 45,
           "copies": 1,
           "created_timestamp": 1779705640,
           "end_timestamp": 1780462800,
@@ -85972,7 +86132,7 @@
           "name": "Knights in Tight Spaces",
           "link": "xFwxI/knights-in-tight-spaces",
           "cv_status": "REDUCED_CV",
-          "entries": 17,
+          "entries": 18,
           "copies": 1,
           "created_timestamp": 1779704325,
           "end_timestamp": 1780462800,
@@ -85983,7 +86143,7 @@
           "name": "The Light Brigade",
           "link": "zPeHj/the-light-brigade",
           "cv_status": "FULL_CV",
-          "entries": 6,
+          "entries": 7,
           "copies": 1,
           "created_timestamp": 1779704032,
           "end_timestamp": 1780462800,
@@ -85994,7 +86154,7 @@
           "name": "Assassin's Creed Valhalla",
           "link": "fzsLp/assassins-creed-valhalla",
           "cv_status": "REDUCED_CV",
-          "entries": 24,
+          "entries": 25,
           "copies": 1,
           "created_timestamp": 1779702978,
           "end_timestamp": 1780462800,
@@ -90136,6 +90296,11 @@
             "never_played": true,
             "is_playtime_private": false,
             "last_checked": 1780295751182
+          },
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 8,
+            "additional_notes": "Discovered Nemesis"
           }
         },
         {
@@ -92392,7 +92557,7 @@
           "cv_status": "FULL_CV",
           "status": "received",
           "end_timestamp": 1776694800,
-          "required_play": false,
+          "required_play": true,
           "is_shared": false,
           "steam_play_data": {
             "owned": true,
@@ -92404,6 +92569,11 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1780296004641
+          },
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 4,
+            "additional_notes": "Break the Loop achievement"
           }
         }
       ],
@@ -92416,8 +92586,13 @@
           "copies": 1,
           "created_timestamp": 1778268122,
           "end_timestamp": 1779127200,
-          "required_play": false,
+          "required_play": true,
           "is_shared": true,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -92549,7 +92724,10 @@
           ]
         }
       ],
-      "registered_at": 1501184514
+      "registered_at": 1501184514,
+      "warnings": [
+        "required_plays_need_review"
+      ]
     },
     "76561198080362358": {
       "username": "VenomousNyx",
@@ -96314,7 +96492,7 @@
           "cv_status": "FULL_CV",
           "status": "received",
           "end_timestamp": 1776694800,
-          "required_play": false,
+          "required_play": true,
           "is_shared": false,
           "steam_play_data": {
             "owned": true,
@@ -96326,6 +96504,11 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1780294923313
+          },
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 3,
+            "additional_notes": "Still Wakes the Deep achievement"
           }
         },
         {
@@ -96719,6 +96902,12 @@
           "end_timestamp": 1778868000,
           "required_play": true,
           "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 8,
+            "additional_notes": "Discovered Nemesis"
+          },
           "had_winners": true,
           "winners": [
             {
@@ -97291,7 +97480,10 @@
           ]
         }
       ],
-      "registered_at": 1632496809
+      "registered_at": 1632496809,
+      "warnings": [
+        "required_plays_need_review"
+      ]
     },
     "76561198116836855": {
       "username": "Waxlor",
@@ -97986,6 +98178,11 @@
           "end_timestamp": 1778664600,
           "required_play": true,
           "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
