@@ -76,6 +76,11 @@ export interface SteamAppDetailsData {
   type: string
   name: string
   steam_appid: number
+  // Present for DLC entries — points at the base game.
+  fullgame?: {
+    appid?: string | number
+    name?: string
+  }
 }
 
 export interface SteamAppDetails {

@@ -893,6 +893,7 @@ export class SteamGiftsUserFetcher {
             user.steam_id,
             giveaway.app_id ?? giveaway.package_id!,
             giveaway.package_id ? 'sub' : 'app',
+            wonGame.name,
           )
 
           if (gamePlayData) {

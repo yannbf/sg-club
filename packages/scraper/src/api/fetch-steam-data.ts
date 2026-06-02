@@ -17,6 +17,7 @@ import {
   formatPlaytime,
   formatDate,
   getRequiredEnvVar,
+  normalizeGameName,
 } from '../utils/common.js'
 import { logError } from '../utils/log-error.js'
 
@@ -135,6 +136,33 @@ export class SteamGameChecker {
     }
   }
 
+  private async getOwnedGamesCached(
+    steamId: string,
+  ): Promise<SteamGameInfo[]> {
+    const cached = this.ownedGamesCache.get(steamId)
+    if (cached) return cached
+    const games = await this.getOwnedGames(steamId)
+    this.ownedGamesCache.set(steamId, games)
+    return games
+  }
+
+  /**
+   * Fallback identity resolution: match a giveaway title against the names
+   * in the user's own Steam library (include_appinfo=1 gives us names). Used
+   * when sub→app resolution fails for a delisted/region-locked package — a
+   * title match still answers "do they own it?" and recovers playtime.
+   */
+  private async matchOwnedGameByName(
+    steamId: string,
+    name: string,
+  ): Promise<number | null> {
+    const target = normalizeGameName(name)
+    if (!target) return null
+    const ownedGames = await this.getOwnedGamesCached(steamId)
+    const match = ownedGames.find((g) => normalizeGameName(g.name) === target)
+    return match ? match.appid : null
+  }
+
   public async getAppIdForSubId(subId: number): Promise<number | null> {
     const packageDetailsUrl = `https://store.steampowered.com/api/packagedetails/?packageids=${subId}`
 
@@ -194,6 +222,19 @@ export class SteamGameChecker {
             `Error processing app details for appId ${app.id} (from subId ${subId})`,
           )
         }
+      }
+
+      // No member resolved as type:'game' — every appdetails probe failed
+      // (delisted / region-locked) or the package is all DLC/soundtracks.
+      // The package DOES list apps, so fall back to the first member, which
+      // is almost always the base game. Recovers ownership/playtime and a
+      // thumbnail instead of treating the whole package as unidentifiable.
+      const fallbackAppId = apps[0]?.id ?? null
+      if (fallbackAppId) {
+        console.log(
+          `[INFO] No type:'game' member for subID ${subId}; falling back to first app member ${fallbackAppId}`,
+        )
+        return fallbackAppId
       }
     } catch (error) {
       console.log(error, `Failed to get appId from subId ${subId}`)
@@ -296,6 +337,7 @@ export class SteamGameChecker {
     steamId: string,
     appOrSubId: number,
     type: 'app' | 'sub' = 'app',
+    name?: string,
   ): Promise<GamePlayData> {
     // Check cache first
     const lastChecked = this.noStatsCache.get(appOrSubId)
@@ -325,25 +367,40 @@ export class SteamGameChecker {
         )
         appOrSubId = appIdFromSub
       } else {
-        // No game in the package (delisted / region-only / partial
-        // package). The achievements endpoint would 400 with "no stats"
-        // and we'd burn an extra API call. Cache the negative result so
-        // future runs skip this sub for the standard 2-week no-stats
-        // window.
-        console.log(
-          `[INFO] No app found for subId ${appOrSubId}; marking as no-stats`,
-        )
-        this.noStatsCache.set(appOrSubId, Date.now())
-        return {
-          owned: false,
-          playtime_minutes: 0,
-          playtime_formatted: '0 minutes',
-          achievements_unlocked: 0,
-          achievements_total: 0,
-          achievements_percentage: 0,
-          never_played: true,
-          is_playtime_private: false,
-          has_no_available_stats: true,
+        // Sub→app resolution failed (delisted / region-only / partial
+        // package). Before giving up, try matching the giveaway title
+        // against the user's own Steam library — that directly answers
+        // "do they own it?" even when the store no longer lists the
+        // package, and recovers playtime/achievements.
+        const matchedAppId = name
+          ? await this.matchOwnedGameByName(steamId, name)
+          : null
+
+        if (matchedAppId) {
+          console.log(
+            `[INFO] Recovered appId ${matchedAppId} for subId ${appOrSubId} by title match ("${name}")`,
+          )
+          appOrSubId = matchedAppId
+        } else {
+          // Genuinely unidentifiable. The achievements endpoint would 400
+          // with "no stats" and we'd burn an extra API call. Cache the
+          // negative result so future runs skip this sub for the standard
+          // 2-week no-stats window.
+          console.log(
+            `[INFO] No app found for subId ${appOrSubId}; marking as no-stats`,
+          )
+          this.noStatsCache.set(appOrSubId, Date.now())
+          return {
+            owned: false,
+            playtime_minutes: 0,
+            playtime_formatted: '0 minutes',
+            achievements_unlocked: 0,
+            achievements_total: 0,
+            achievements_percentage: 0,
+            never_played: true,
+            is_playtime_private: false,
+            has_no_available_stats: true,
+          }
         }
       }
     }
@@ -390,9 +447,7 @@ export class SteamGameChecker {
     }
 
     // Get owned games
-    const ownedGames =
-      this.ownedGamesCache.get(steamId) || (await this.getOwnedGames(steamId))
-    this.ownedGamesCache.set(steamId, ownedGames)
+    const ownedGames = await this.getOwnedGamesCached(steamId)
 
     if (ownedGames.length === 0) {
       // console.log('No owned games found, skipping...')

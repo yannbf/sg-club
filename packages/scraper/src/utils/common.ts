@@ -37,6 +37,29 @@ export function formatPlaytime(minutes: number): string {
 }
 
 /**
+ * Normalizes a game/package title for fuzzy matching against a Steam
+ * library. Lowercases, strips trademark glyphs and punctuation, and drops
+ * common edition/bundle qualifiers ("Complete Pack", "Collection",
+ * "Definitive Edition"…) so a package title like
+ * "Orcs Must Die! 2 - Complete Pack" collapses to the same key as the owned
+ * game "Orcs Must Die! 2". Used as a fallback when sub→app resolution fails.
+ */
+export function normalizeGameName(name: string | null | undefined): string {
+  return String(name ?? '')
+    .toLowerCase()
+    .replace(/[®™©]/g, '')
+    .replace(/&/g, ' and ')
+    .replace(/[^a-z0-9]+/g, ' ')
+    .replace(/\b(the|a|an)\b/g, ' ')
+    .replace(
+      /\b(complete|deluxe|definitive|ultimate|premium|gold|goty|game of the year|collection|collectors?|bundle|pack|edition|season|seasons|anthology|trilogy|saga)\b/g,
+      ' ',
+    )
+    .replace(/\s+/g, ' ')
+    .trim()
+}
+
+/**
  * Parses Steam URL to extract app_id or package_id
  */
 export function parseSteamUrl(url: string): {
