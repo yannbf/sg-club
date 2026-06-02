@@ -388,6 +388,17 @@ export default function UserDetailPageClient({
     ? giveaways.find((g) => g.link === lastEnteredGiveaway.link)?.name
     : undefined
 
+  const lastCreatedGiveaway = user.giveaways_created?.length
+    ? [...user.giveaways_created].sort(
+        (a, b) => b.created_timestamp - a.created_timestamp,
+      )[0]
+    : undefined
+  const lastWonGiveaway = user.giveaways_won?.length
+    ? [...user.giveaways_won].sort(
+        (a, b) => b.end_timestamp - a.end_timestamp,
+      )[0]
+    : undefined
+
   return (
     <div className="space-y-6">
       {lastUpdated && (
@@ -528,23 +539,47 @@ export default function UserDetailPageClient({
                   </dd>
                 </div>
               )}
-              {user.stats.last_giveaway_created_at && (
-                <div className="flex items-baseline gap-2">
-                  <dt className="text-muted-foreground">Last GA created</dt>
-                  <dd className="text-foreground">
-                    <FormattedDate
-                      timestamp={user.stats.last_giveaway_created_at}
-                    />
+              {lastCreatedGiveaway && (
+                <div className="flex items-baseline gap-2 min-w-0">
+                  <dt className="text-muted-foreground shrink-0">Last GA created</dt>
+                  <dd
+                    className="text-foreground truncate min-w-0"
+                    title={lastCreatedGiveaway.name}
+                  >
+                    <a
+                      href={getLink(lastCreatedGiveaway.link)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-semibold hover:text-accent hover:underline"
+                    >
+                      {lastCreatedGiveaway.name}
+                    </a>{' '}
+                    <span className="text-muted-foreground">
+                      <FormattedDate
+                        timestamp={lastCreatedGiveaway.created_timestamp}
+                      />
+                    </span>
                   </dd>
                 </div>
               )}
-              {user.stats.last_giveaway_won_at && (
-                <div className="flex items-baseline gap-2">
-                  <dt className="text-muted-foreground">Last GA won</dt>
-                  <dd className="text-foreground">
-                    <FormattedDate
-                      timestamp={user.stats.last_giveaway_won_at}
-                    />
+              {lastWonGiveaway && (
+                <div className="flex items-baseline gap-2 min-w-0">
+                  <dt className="text-muted-foreground shrink-0">Last GA won</dt>
+                  <dd
+                    className="text-foreground truncate min-w-0"
+                    title={lastWonGiveaway.name}
+                  >
+                    <a
+                      href={getLink(lastWonGiveaway.link)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-semibold hover:text-accent hover:underline"
+                    >
+                      {lastWonGiveaway.name}
+                    </a>{' '}
+                    <span className="text-muted-foreground">
+                      <FormattedDate timestamp={lastWonGiveaway.end_timestamp} />
+                    </span>
                   </dd>
                 </div>
               )}
