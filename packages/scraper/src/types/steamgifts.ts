@@ -8,6 +8,22 @@ export type NoStatsReason =
   | 'library_unavailable' // couldn't read the library (private profile / empty)
   | 'no_steam_stats' // owned, but Steam exposes no achievement stats
 
+/**
+ * Per-game stats for one title inside a multi-game Steam package (e.g. Kingdom
+ * Hearts Integrum bundles three separate games). The win's top-level play data
+ * is the *sum* across these; this array lets the UI expand the breakdown.
+ */
+export interface GameBreakdownEntry {
+  app_id: number
+  name: string
+  owned: boolean
+  playtime_minutes: number
+  playtime_formatted: string
+  achievements_unlocked: number
+  achievements_total: number
+  achievements_percentage: number
+}
+
 export interface Giveaway {
   id: string
   name: string
@@ -76,6 +92,9 @@ export interface SteamPlayData {
   last_checked?: number // Timestamp when this data was last fetched
   has_no_available_stats?: boolean
   no_stats_reason?: NoStatsReason
+  // Present only for multi-game packages: per-title stats summed into the
+  // fields above. Lets the UI show an expandable breakdown.
+  games_breakdown?: GameBreakdownEntry[]
   is_potentially_idling?: boolean
 }
 

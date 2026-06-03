@@ -28,6 +28,22 @@ export function noStatsReasonLabel(reason?: NoStatsReason): string {
   }
 }
 
+/**
+ * Per-game stats for one title inside a multi-game Steam package (e.g. Kingdom
+ * Hearts Integrum bundles three games). The win's top-level play data is the
+ * sum across these; this lets the UI expand to show each game.
+ */
+export interface GameBreakdownEntry {
+  app_id: number
+  name: string
+  owned: boolean
+  playtime_minutes: number
+  playtime_formatted: string
+  achievements_unlocked: number
+  achievements_total: number
+  achievements_percentage: number
+}
+
 export interface User {
   username: string
   profile_url: string
@@ -107,6 +123,7 @@ export interface User {
       is_playtime_private: boolean
       has_no_available_stats: boolean
       no_stats_reason?: NoStatsReason
+      games_breakdown?: GameBreakdownEntry[]
       last_checked: number
       is_potentially_idling?: boolean
     }
@@ -219,6 +236,7 @@ export interface SteamPlayData {
   is_playtime_private: boolean
   has_no_available_stats?: boolean
   no_stats_reason?: NoStatsReason
+  games_breakdown?: GameBreakdownEntry[]
   last_checked: number
 }
 

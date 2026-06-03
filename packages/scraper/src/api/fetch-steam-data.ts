@@ -13,7 +13,10 @@ import type {
   SteamAppDetailsResponse,
   SteamPackageDetailsResponse,
 } from '../types/steam.js'
-import type { NoStatsReason } from '../types/steamgifts.js'
+import type {
+  NoStatsReason,
+  GameBreakdownEntry,
+} from '../types/steamgifts.js'
 import {
   formatPlaytime,
   formatDate,
@@ -31,7 +34,7 @@ if (existsSync(rootEnvPath)) {
   loadEnv()
 }
 
-export type { NoStatsReason } from '../types/steamgifts.js'
+export type { NoStatsReason, GameBreakdownEntry } from '../types/steamgifts.js'
 
 export interface GamePlayData {
   owned: boolean
@@ -44,6 +47,8 @@ export interface GamePlayData {
   is_playtime_private: boolean
   has_no_available_stats?: boolean
   no_stats_reason?: NoStatsReason
+  // Present only for multi-game packages — per-title stats summed above.
+  games_breakdown?: GameBreakdownEntry[]
 }
 
 export interface SteamProfileVisibility {
@@ -192,7 +197,15 @@ export class SteamGameChecker {
     return null
   }
 
-  public async getAppIdForSubId(subId: number): Promise<number | null> {
+  /**
+   * Resolve a Steam package (sub) to *all* of its game apps, with names. A
+   * package can bundle several distinct games (e.g. Kingdom Hearts Integrum =
+   * 3 games), and we want to track playtime across every one of them, not just
+   * the first. Returns [] when the package can't be resolved at all (delisted).
+   */
+  public async getGameAppsForSubId(
+    subId: number,
+  ): Promise<{ appId: number; name: string }[]> {
     const packageDetailsUrl = `https://store.steampowered.com/api/packagedetails/?packageids=${subId}`
 
     try {
@@ -202,7 +215,7 @@ export class SteamGameChecker {
           new Error(`HTTP error! status: ${packageResponse.status}`),
           `Failed to fetch package details for subId ${subId}`,
         )
-        return null
+        return []
       }
 
       const packageData =
@@ -212,10 +225,11 @@ export class SteamGameChecker {
       if (!packageDetails?.success || !packageDetails.data) {
         const errorMessage = `Package details request was not successful or missing data for subId ${packageDetailsUrl}`
         logError(new Error(errorMessage), errorMessage)
-        return null
+        return []
       }
 
       const apps = packageDetails.data.apps
+      const games: { appId: number; name: string }[] = []
 
       for (const app of apps) {
         const appDetailsUrl = `https://store.steampowered.com/api/appdetails/?appids=${app.id}`
@@ -240,10 +254,10 @@ export class SteamGameChecker {
             appDetails.data &&
             appDetails.data.type === 'game'
           ) {
-            console.log(
-              `[INFO] Found game appID ${appDetails.data.steam_appid} for subID ${subId}`,
-            )
-            return appDetails.data.steam_appid
+            games.push({
+              appId: appDetails.data.steam_appid,
+              name: appDetails.data.name ?? app.name ?? `App ${app.id}`,
+            })
           }
         } catch (error) {
           logError(
@@ -253,17 +267,26 @@ export class SteamGameChecker {
         }
       }
 
+      if (games.length > 0) {
+        console.log(
+          `[INFO] Resolved subID ${subId} to ${games.length} game app(s): ${games
+            .map((g) => g.appId)
+            .join(', ')}`,
+        )
+        return games
+      }
+
       // No member resolved as type:'game' — every appdetails probe failed
       // (delisted / region-locked) or the package is all DLC/soundtracks.
       // The package DOES list apps, so fall back to the first member, which
       // is almost always the base game. Recovers ownership/playtime and a
       // thumbnail instead of treating the whole package as unidentifiable.
-      const fallbackAppId = apps[0]?.id ?? null
-      if (fallbackAppId) {
+      const fallback = apps[0]
+      if (fallback) {
         console.log(
-          `[INFO] No type:'game' member for subID ${subId}; falling back to first app member ${fallbackAppId}`,
+          `[INFO] No type:'game' member for subID ${subId}; falling back to first app member ${fallback.id}`,
         )
-        return fallbackAppId
+        return [{ appId: fallback.id, name: fallback.name ?? `App ${fallback.id}` }]
       }
     } catch (error) {
       console.log(error, `Failed to get appId from subId ${subId}`)
@@ -271,7 +294,16 @@ export class SteamGameChecker {
     }
 
     console.log(`[INFO] No game appID found for subID ${subId}`)
-    return null
+    return []
+  }
+
+  /**
+   * Back-compat single-app resolver: returns the first game app of a package
+   * (used where only one appId is needed, e.g. price/thumbnail lookups).
+   */
+  public async getAppIdForSubId(subId: number): Promise<number | null> {
+    const games = await this.getGameAppsForSubId(subId)
+    return games[0]?.appId ?? null
   }
 
   private async getPlayerAchievements(
@@ -374,34 +406,25 @@ export class SteamGameChecker {
       console.log(
         `[INFO] Game with appId ${appOrSubId} is in the 'no stats' cache. Skipping.`,
       )
-      return {
-        owned: false,
-        playtime_minutes: 0,
-        playtime_formatted: '0 minutes',
-        achievements_unlocked: 0,
-        achievements_total: 0,
-        achievements_percentage: 0,
-        never_played: true,
-        is_playtime_private: false,
-        has_no_available_stats: true,
-        no_stats_reason: cached.reason,
-      }
+      return this.noStatsResult(cached.reason)
     }
 
+    // Resolve the target to a concrete list of game apps. For an 'app'
+    // giveaway that's the single app; for a 'sub' (package) it can be several
+    // distinct games (e.g. Kingdom Hearts Integrum bundles three).
+    let games: { appId: number; name?: string }[]
+
     if (type === 'sub') {
-      console.log(`[INFO] Getting appId from subId ${appOrSubId}`)
-      const appIdFromSub = await this.getAppIdForSubId(appOrSubId)
-      if (appIdFromSub) {
-        console.log(
-          `[INFO] Found appId ${appIdFromSub} from subId ${appOrSubId}`,
-        )
-        appOrSubId = appIdFromSub
+      console.log(`[INFO] Resolving subId ${appOrSubId} to its game app(s)`)
+      const resolved = await this.getGameAppsForSubId(appOrSubId)
+
+      if (resolved.length > 0) {
+        games = resolved
       } else {
         // Sub→app resolution failed (delisted / region-only / partial
-        // package). Before giving up, try matching the giveaway title
-        // against the user's own Steam library — that directly answers
-        // "do they own it?" even when the store no longer lists the
-        // package, and recovers playtime/achievements.
+        // package). Before giving up, try matching the giveaway title against
+        // the user's own Steam library — that directly answers "do they own
+        // it?" even when the store no longer lists the package.
         const matchedAppId = name
           ? await this.matchOwnedGameByName(steamId, name)
           : null
@@ -410,12 +433,10 @@ export class SteamGameChecker {
           console.log(
             `[INFO] Recovered appId ${matchedAppId} for subId ${appOrSubId} by title match ("${name}")`,
           )
-          appOrSubId = matchedAppId
+          games = [{ appId: matchedAppId, name }]
         } else {
-          // Genuinely unidentifiable. The achievements endpoint would 400
-          // with "no stats" and we'd burn an extra API call. Cache the
-          // negative result so future runs skip this sub for the standard
-          // 2-week no-stats window.
+          // Genuinely unidentifiable. Cache the negative result so future runs
+          // skip this sub for the standard 2-week no-stats window.
           console.log(
             `[INFO] No app found for subId ${appOrSubId}; marking as no-stats`,
           )
@@ -423,119 +444,136 @@ export class SteamGameChecker {
             ts: Date.now(),
             reason: 'package_delisted',
           })
-          return {
-            owned: false,
-            playtime_minutes: 0,
-            playtime_formatted: '0 minutes',
-            achievements_unlocked: 0,
-            achievements_total: 0,
-            achievements_percentage: 0,
-            never_played: true,
-            is_playtime_private: false,
-            has_no_available_stats: true,
-            no_stats_reason: 'package_delisted',
-          }
+          return this.noStatsResult('package_delisted')
         }
       }
+    } else {
+      games = [{ appId: appOrSubId }]
     }
 
-    // Get achievements first
-    const achievements = await this.getPlayerAchievements(steamId, appOrSubId)
-    let achievementsData = {
+    return this.aggregatePlayData(steamId, games)
+  }
+
+  /** Canonical "no stats" result with a machine-readable reason. */
+  private noStatsResult(reason: NoStatsReason): GamePlayData {
+    return {
+      owned: false,
+      playtime_minutes: 0,
+      playtime_formatted: '0 minutes',
       achievements_unlocked: 0,
       achievements_total: 0,
       achievements_percentage: 0,
-    } as Pick<
-      GamePlayData,
-      | 'achievements_unlocked'
-      | 'achievements_total'
-      | 'achievements_percentage'
-      | 'never_played'
-      | 'has_no_available_stats'
-    >
-
-    if (achievements) {
-      const unlockedAchievements =
-        achievements?.filter((a) => a.achieved === 1) || []
-      const totalAchievements = achievements?.length || 0
-      const completionPercentage =
-        totalAchievements > 0
-          ? Number(
-              ((unlockedAchievements.length / totalAchievements) * 100).toFixed(
-                1,
-              ),
-            )
-          : 0
-
-      achievementsData = {
-        achievements_unlocked: unlockedAchievements.length,
-        achievements_total: totalAchievements,
-        achievements_percentage: completionPercentage,
-        never_played: unlockedAchievements.length === 0,
-      }
-    } else {
-      achievementsData = {
-        ...achievementsData,
-        has_no_available_stats: true,
-      }
+      never_played: true,
+      is_playtime_private: false,
+      has_no_available_stats: true,
+      no_stats_reason: reason,
     }
+  }
 
-    // Get owned games
+  /**
+   * Compute play data across one or more game apps and SUM it into a single
+   * result. For a single-game giveaway this is just that game; for a
+   * multi-game package the playtime and achievements are summed, the win counts
+   * as played if *any* member was played, and a per-title `games_breakdown` is
+   * attached so the UI can expand the detail.
+   */
+  private async aggregatePlayData(
+    steamId: string,
+    games: { appId: number; name?: string }[],
+  ): Promise<GamePlayData> {
     const ownedGames = await this.getOwnedGamesCached(steamId)
 
     if (ownedGames.length === 0) {
-      // Empty library usually means a private profile (or genuinely no games);
-      // either way we can't confirm ownership or read playtime.
+      // Empty library — private profile or genuinely no games.
+      return this.noStatsResult('library_unavailable')
+    }
+
+    const multi = games.length > 1
+    const breakdown: GameBreakdownEntry[] = []
+    let totalPlaytime = 0
+    let totalUnlocked = 0
+    let totalAchievements = 0
+    let ownedAny = false
+    let anyStats = false
+    let anyPlayed = false
+
+    for (const { appId, name } of games) {
+      const gameInfo = ownedGames.find((g) => g.appid === appId)
+      const owned = Boolean(gameInfo)
+      const playtime = gameInfo?.playtime_forever ?? 0
+
+      let entryUnlocked = 0
+      let entryTotal = 0
+
+      if (gameInfo) {
+        ownedAny = true
+        totalPlaytime += playtime
+
+        const achievements = await this.getPlayerAchievements(steamId, appId)
+        if (achievements) {
+          anyStats = true
+          entryUnlocked = achievements.filter((a) => a.achieved === 1).length
+          entryTotal = achievements.length
+          totalUnlocked += entryUnlocked
+          totalAchievements += entryTotal
+          // Preserve existing semantics: with achievement stats, "played"
+          // means at least one achievement unlocked; without, it's playtime.
+          if (entryUnlocked > 0) anyPlayed = true
+        } else if (playtime > 0) {
+          anyPlayed = true
+        }
+      }
+
+      breakdown.push({
+        app_id: appId,
+        name: name ?? gameInfo?.name ?? `App ${appId}`,
+        owned,
+        playtime_minutes: playtime,
+        playtime_formatted: formatPlaytime(playtime),
+        achievements_unlocked: entryUnlocked,
+        achievements_total: entryTotal,
+        achievements_percentage:
+          entryTotal > 0
+            ? Number(((entryUnlocked / entryTotal) * 100).toFixed(1))
+            : 0,
+      })
+    }
+
+    if (!ownedAny) {
+      // Resolved to real app(s), but none are in this user's library.
       return {
-        owned: false,
-        playtime_minutes: 0,
-        playtime_formatted: '0 minutes',
-        ...achievementsData,
-        is_playtime_private: false,
-        has_no_available_stats: true,
-        no_stats_reason: 'library_unavailable',
+        ...this.noStatsResult('not_in_library'),
+        ...(multi ? { games_breakdown: breakdown } : {}),
       }
     }
 
-    // Find the specific game
-    const gameInfo = ownedGames.find((game) => game.appid === appOrSubId)
+    const percentage =
+      totalAchievements > 0
+        ? Number(((totalUnlocked / totalAchievements) * 100).toFixed(1))
+        : 0
 
-    if (!gameInfo) {
-      // Resolved to a real app, but it's not in this user's library.
-      return {
-        owned: false,
-        playtime_minutes: 0,
-        playtime_formatted: '0 minutes',
-        ...achievementsData,
-        is_playtime_private: false,
-        has_no_available_stats: true,
-        no_stats_reason: 'not_in_library',
-      }
-    }
-
-    if (achievements === null) {
-      // Owned (playtime is valid) but Steam exposes no achievement stats.
-      return {
-        owned: true,
-        playtime_minutes: gameInfo.playtime_forever,
-        playtime_formatted: formatPlaytime(gameInfo.playtime_forever),
-        ...achievementsData,
-        never_played: gameInfo.playtime_forever === 0,
-        is_playtime_private: false,
-        has_no_available_stats: true,
-        no_stats_reason: 'no_steam_stats',
-      }
-    }
-
-    return {
+    const result: GamePlayData = {
       owned: true,
-      playtime_minutes: gameInfo.playtime_forever,
-      playtime_formatted: formatPlaytime(gameInfo.playtime_forever),
-      ...achievementsData,
-      is_playtime_private:
-        gameInfo.playtime_forever === 0 &&
-        achievementsData.achievements_unlocked > 0,
+      playtime_minutes: totalPlaytime,
+      playtime_formatted: formatPlaytime(totalPlaytime),
+      achievements_unlocked: totalUnlocked,
+      achievements_total: totalAchievements,
+      achievements_percentage: percentage,
+      never_played: !anyPlayed,
+      is_playtime_private: totalPlaytime === 0 && totalUnlocked > 0,
     }
+
+    if (!anyStats) {
+      // Owned (playtime is valid) but Steam exposes no achievement stats.
+      result.has_no_available_stats = true
+      result.no_stats_reason = 'no_steam_stats'
+    }
+
+    if (multi) {
+      result.games_breakdown = breakdown
+    }
+
+    return result
   }
 
   public async checkGame(steamId: string, appId: number): Promise<void> {

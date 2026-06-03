@@ -1,6 +1,6 @@
 'use client'
 
-import { Giveaway, GameData, User, noStatsReasonLabel } from '@/types'
+import { Giveaway, GameData, User, GameBreakdownEntry, noStatsReasonLabel } from '@/types'
 import { getCVBadgeColor, getCVLabel, formatPlaytime } from '@/lib/data'
 import GameImage from '@/components/GameImage'
 import { useGameData, useDebounce } from '@/lib/hooks'
@@ -15,6 +15,53 @@ interface Props {
   wonGiveaways: NonNullable<User['giveaways_won']>
   gameData: GameData[]
   user: User
+}
+
+function GamesBreakdown({ games, steamId }: { games: GameBreakdownEntry[]; steamId: string }) {
+  const [expanded, setExpanded] = useState(false)
+  return (
+    <div className="mt-3 border-t border-card-border pt-3">
+      <button
+        type="button"
+        onClick={() => setExpanded((v) => !v)}
+        className="text-xs font-medium text-accent hover:underline"
+      >
+        {expanded ? '▾' : '▸'} This package bundles {games.length} games — {expanded ? 'hide' : 'show'} breakdown
+      </button>
+      {expanded && (
+        <div className="mt-2 space-y-1">
+          {games.map((g) => (
+            <div
+              key={g.app_id}
+              className="grid grid-cols-3 gap-2 text-xs py-1 border-b border-card-border/50 last:border-0"
+            >
+              <span className="truncate" title={g.name}>
+                {g.owned ? '' : '🚫 '}
+                {g.name}
+              </span>
+              <span className="text-muted-foreground">
+                {g.owned ? formatPlaytime(g.playtime_minutes) : 'Not owned'}
+              </span>
+              <span className="text-muted-foreground">
+                {g.achievements_total > 0 ? (
+                  <a
+                    href={`https://steamcommunity.com/profiles/${steamId}/stats/${g.app_id}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-accent hover:underline"
+                  >
+                    {g.achievements_unlocked}/{g.achievements_total} ({g.achievements_percentage}%)
+                  </a>
+                ) : (
+                  '—'
+                )}
+              </span>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  )
 }
 
 export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData, user }: Props) {
@@ -346,6 +393,13 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData, 
                           </a>}
                         </div>
                       </div>
+                      {game.steam_play_data.games_breakdown &&
+                        game.steam_play_data.games_breakdown.length > 1 && (
+                          <GamesBreakdown
+                            games={game.steam_play_data.games_breakdown}
+                            steamId={user.steam_id}
+                          />
+                        )}
                     </div>
                   )}
                 </div>
