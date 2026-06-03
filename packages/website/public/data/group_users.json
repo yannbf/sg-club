@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1780507054123,
+  "lastUpdated": 1780517219028,
   "users": {
     "76561198359284432": {
       "username": "a10i",
@@ -4524,7 +4524,7 @@
         "last_giveaway_created_at": 1778737919,
         "last_giveaway_won_at": 1778263200,
         "first_seen_at": 1749689275,
-        "total_achievements_percentage": 39,
+        "total_achievements_percentage": 34,
         "average_achievements_percentage": 33,
         "real_total_achievements_percentage": 43,
         "real_average_achievements_percentage": 38,
@@ -7717,12 +7717,20 @@
           "name": "Construction Simulator",
           "link": "uFXXn/construction-simulator",
           "cv_status": "REDUCED_CV",
-          "entries": 75,
+          "entries": 93,
           "copies": 1,
           "created_timestamp": 1780422767,
           "end_timestamp": 1780509600,
           "required_play": false,
-          "is_shared": true
+          "is_shared": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "An Elder Scrolls Legend: Battlespire",
@@ -9265,7 +9273,7 @@
           "name": "Mina the Hollower",
           "link": "2zj9x/mina-the-hollower",
           "cv_status": "FULL_CV",
-          "entries": 24,
+          "entries": 25,
           "copies": 1,
           "created_timestamp": 1780402791,
           "end_timestamp": 1780682400,
@@ -31483,10 +31491,10 @@
         "last_giveaway_created_at": 1768695083,
         "last_giveaway_won_at": 1775026800,
         "first_seen_at": 1749758089,
-        "total_achievements_percentage": 52,
-        "average_achievements_percentage": 42,
-        "real_total_achievements_percentage": 61,
-        "real_average_achievements_percentage": 48,
+        "total_achievements_percentage": 46,
+        "average_achievements_percentage": 45,
+        "real_total_achievements_percentage": 50,
+        "real_average_achievements_percentage": 53,
         "has_missing_achievements_data": true
       },
       "steam_profile_is_private": false,
@@ -33306,7 +33314,7 @@
           "name": "Mina the Hollower",
           "link": "hXEiq/mina-the-hollower",
           "cv_status": "FULL_CV",
-          "entries": 24,
+          "entries": 25,
           "copies": 1,
           "created_timestamp": 1780337282,
           "end_timestamp": 1780945140,
@@ -36180,10 +36188,10 @@
         "last_giveaway_won_at": 1779227640,
         "first_seen_at": 1749701886,
         "total_achievements_percentage": 71,
-        "average_achievements_percentage": 58,
-        "real_total_achievements_percentage": 73,
-        "real_average_achievements_percentage": 59,
-        "has_missing_achievements_data": true
+        "average_achievements_percentage": 62,
+        "real_total_achievements_percentage": 72,
+        "real_average_achievements_percentage": 62,
+        "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561197984532155",
       "steam_profile_is_private": false,
@@ -43002,9 +43010,9 @@
         "last_giveaway_created_at": 1770927609,
         "last_giveaway_won_at": 1778346000,
         "first_seen_at": 1752812953,
-        "total_achievements_percentage": 6,
+        "total_achievements_percentage": 5,
         "average_achievements_percentage": 6,
-        "real_total_achievements_percentage": 8,
+        "real_total_achievements_percentage": 7,
         "real_average_achievements_percentage": 7,
         "has_missing_achievements_data": false
       },
@@ -49336,7 +49344,7 @@
           "name": "The Dungeon Of Naheulbeuk: The Amulet...",
           "link": "jPIBc/the-dungeon-of-naheulbeuk-the-amulet-of-chaos",
           "cv_status": "REDUCED_CV",
-          "entries": 25,
+          "entries": 26,
           "copies": 1,
           "created_timestamp": 1780104457,
           "end_timestamp": 1780718400,
@@ -49358,7 +49366,7 @@
           "name": "LiEat",
           "link": "28pz6/lieat",
           "cv_status": "REDUCED_CV",
-          "entries": 26,
+          "entries": 27,
           "copies": 1,
           "created_timestamp": 1780184724,
           "end_timestamp": 1780804800,
@@ -53203,7 +53211,7 @@
           "name": "Daemon X Machina: Titanic Scion",
           "link": "o7npA/daemon-x-machina-titanic-scion",
           "cv_status": "FULL_CV",
-          "entries": 211,
+          "entries": 215,
           "copies": 1,
           "created_timestamp": 1780128380,
           "end_timestamp": 1780632000,
@@ -63044,7 +63052,7 @@
           "name": "INDIKA",
           "link": "3DfKR/indika",
           "cv_status": "REDUCED_CV",
-          "entries": 39,
+          "entries": 49,
           "copies": 1,
           "created_timestamp": 1780421226,
           "end_timestamp": 1780845840,
@@ -65820,7 +65828,7 @@
           "name": "Death Howl",
           "link": "Ivj2p/death-howl",
           "cv_status": "FULL_CV",
-          "entries": 6,
+          "entries": 8,
           "copies": 1,
           "created_timestamp": 1780371520,
           "end_timestamp": 1781434800,
@@ -69535,9 +69543,9 @@
         "giveaway_ratio": 19,
         "shared_sent_count": 0,
         "shared_received_count": 0,
-        "giveaways_created": 21,
+        "giveaways_created": 23,
         "giveaways_with_no_entries": 1,
-        "last_giveaway_created_at": 1777645962,
+        "last_giveaway_created_at": 1780509914,
         "last_giveaway_won_at": 1778479200,
         "first_seen_at": 1749675171,
         "total_achievements_percentage": 62,
@@ -69743,6 +69751,28 @@
         }
       ],
       "giveaways_created": [
+        {
+          "name": "Gothic 1 Remake",
+          "link": "qDCRq/gothic-1-remake",
+          "cv_status": "FULL_CV",
+          "entries": 6,
+          "copies": 1,
+          "created_timestamp": 1780509914,
+          "end_timestamp": 1781283600,
+          "required_play": false,
+          "is_shared": false
+        },
+        {
+          "name": "Blue Prince",
+          "link": "PY6Tl/blue-prince",
+          "cv_status": "FULL_CV",
+          "entries": 8,
+          "copies": 1,
+          "created_timestamp": 1780509403,
+          "end_timestamp": 1781283600,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "SANABI",
           "link": "RGfgK/sanabi",
@@ -78441,9 +78471,9 @@
         "giveaway_ratio": 6,
         "shared_sent_count": 12,
         "shared_received_count": 1,
-        "giveaways_created": 29,
+        "giveaways_created": 30,
         "giveaways_with_no_entries": 5,
-        "last_giveaway_created_at": 1776025038,
+        "last_giveaway_created_at": 1780510234,
         "last_giveaway_won_at": 1779638400,
         "first_seen_at": 1749675969,
         "total_achievements_percentage": 35,
@@ -78816,6 +78846,17 @@
         }
       ],
       "giveaways_created": [
+        {
+          "name": "Please, Touch The Artwork",
+          "link": "BUvFY/please-touch-the-artwork",
+          "cv_status": "FULL_CV",
+          "entries": 2,
+          "copies": 1,
+          "created_timestamp": 1780510234,
+          "end_timestamp": 1781481600,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "THRESHOLD",
           "link": "8wqMP/threshold",
@@ -89176,7 +89217,7 @@
         "total_achievements_percentage": 55,
         "average_achievements_percentage": 57,
         "real_total_achievements_percentage": 54,
-        "real_average_achievements_percentage": 56,
+        "real_average_achievements_percentage": 55,
         "has_missing_achievements_data": false
       },
       "steam_profile_is_private": false,
@@ -91091,9 +91132,9 @@
         "last_giveaway_won_at": 1778851920,
         "first_seen_at": 1750023728,
         "total_achievements_percentage": 53,
-        "average_achievements_percentage": 70,
+        "average_achievements_percentage": 69,
         "real_total_achievements_percentage": 53,
-        "real_average_achievements_percentage": 70,
+        "real_average_achievements_percentage": 69,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198089973992",
@@ -98474,10 +98515,10 @@
         "last_giveaway_created_at": 1778049222,
         "last_giveaway_won_at": 1768654800,
         "first_seen_at": 1752242613,
-        "total_achievements_percentage": 5,
-        "average_achievements_percentage": 11,
-        "real_total_achievements_percentage": 5,
-        "real_average_achievements_percentage": 11,
+        "total_achievements_percentage": 4,
+        "average_achievements_percentage": 10,
+        "real_total_achievements_percentage": 4,
+        "real_average_achievements_percentage": 10,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198057642029",
@@ -98839,7 +98880,6 @@
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198146290646",
       "steam_profile_is_private": false,
       "country_code": "us",
-      "registered_at": 1603435126,
       "warnings": [
         "no_giveaway_created_in_6_months"
       ]
