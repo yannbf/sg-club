@@ -1,3 +1,33 @@
+/**
+ * Machine-readable explanation for why a won game has no available stats, so
+ * the UI can tell an admin *why* instead of a bare "No stats available".
+ * Mirrors the type produced by the scraper. See noStatsReasonLabel().
+ */
+export type NoStatsReason =
+  | 'package_delisted'
+  | 'not_in_library'
+  | 'library_unavailable'
+  | 'no_steam_stats'
+
+/**
+ * Friendly, admin-facing explanation for a `NoStatsReason` code. Falls back to
+ * a generic line for unknown / legacy records that predate the reason field.
+ */
+export function noStatsReasonLabel(reason?: NoStatsReason): string {
+  switch (reason) {
+    case 'package_delisted':
+      return 'This giveaway is a delisted Steam package so the game could not be identified.'
+    case 'not_in_library':
+      return "Resolved to a Steam game, but it isn't in this user's library (they may not own it)."
+    case 'library_unavailable':
+      return "Could not read this user's game library — their Steam profile is likely private."
+    case 'no_steam_stats':
+      return 'Steam exposes no achievement stats for this game.'
+    default:
+      return 'Stats could not be retrieved from Steam.'
+  }
+}
+
 export interface User {
   username: string
   profile_url: string
@@ -76,6 +106,7 @@ export interface User {
       never_played: boolean
       is_playtime_private: boolean
       has_no_available_stats: boolean
+      no_stats_reason?: NoStatsReason
       last_checked: number
       is_potentially_idling?: boolean
     }
@@ -186,6 +217,8 @@ export interface SteamPlayData {
   achievements_percentage: number
   never_played: boolean
   is_playtime_private: boolean
+  has_no_available_stats?: boolean
+  no_stats_reason?: NoStatsReason
   last_checked: number
 }
 

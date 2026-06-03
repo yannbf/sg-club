@@ -1,6 +1,6 @@
 'use client'
 
-import { Giveaway, GameData, User } from '@/types'
+import { Giveaway, GameData, User, noStatsReasonLabel } from '@/types'
 import { getCVBadgeColor, getCVLabel, formatPlaytime } from '@/lib/data'
 import GameImage from '@/components/GameImage'
 import { useGameData, useDebounce } from '@/lib/hooks'
@@ -300,6 +300,14 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData, 
                     <div className="bg-background/50 p-4 border-t border-card-border">
                       <div className="text-sm text-muted-foreground font-medium">
                         ⚠️ No stats available
+                      </div>
+                      <div className="mt-1 text-xs text-muted-foreground">
+                        {!game.steam_play_data
+                          ? "This game hasn't been checked against Steam yet."
+                          : game.steam_play_data.is_playtime_private &&
+                              !game.steam_play_data.has_no_available_stats
+                            ? "This user's Steam playtime is set to private."
+                            : noStatsReasonLabel(game.steam_play_data.no_stats_reason)}
                       </div>
                     </div>
                   )}

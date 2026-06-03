@@ -1,3 +1,13 @@
+/**
+ * Machine-readable explanation for why a won game has no available stats, so
+ * the UI can tell an admin *why* instead of a bare "No stats available".
+ */
+export type NoStatsReason =
+  | 'package_delisted' // sub→app + title match both failed (package unlisted)
+  | 'not_in_library' // resolved to a real app, but the user doesn't own it
+  | 'library_unavailable' // couldn't read the library (private profile / empty)
+  | 'no_steam_stats' // owned, but Steam exposes no achievement stats
+
 export interface Giveaway {
   id: string
   name: string
@@ -65,6 +75,7 @@ export interface SteamPlayData {
   never_played: boolean
   last_checked?: number // Timestamp when this data was last fetched
   has_no_available_stats?: boolean
+  no_stats_reason?: NoStatsReason
   is_potentially_idling?: boolean
 }
 

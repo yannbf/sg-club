@@ -13,6 +13,7 @@ import type {
   SteamAppDetailsResponse,
   SteamPackageDetailsResponse,
 } from '../types/steam.js'
+import type { NoStatsReason } from '../types/steamgifts.js'
 import {
   formatPlaytime,
   formatDate,
@@ -30,6 +31,8 @@ if (existsSync(rootEnvPath)) {
   loadEnv()
 }
 
+export type { NoStatsReason } from '../types/steamgifts.js'
+
 export interface GamePlayData {
   owned: boolean
   playtime_minutes: number
@@ -40,6 +43,7 @@ export interface GamePlayData {
   never_played: boolean
   is_playtime_private: boolean
   has_no_available_stats?: boolean
+  no_stats_reason?: NoStatsReason
 }
 
 export interface SteamProfileVisibility {
@@ -60,7 +64,10 @@ if (!API_KEY) {
 export class SteamGameChecker {
   private readonly baseUrl = 'https://api.steampowered.com'
   private readonly apiKey: string
-  private readonly noStatsCache: Map<number, number> = new Map()
+  private readonly noStatsCache: Map<
+    number,
+    { ts: number; reason: NoStatsReason }
+  > = new Map()
   private readonly TWO_WEEKS_IN_MS = 14 * 24 * 60 * 60 * 1000
 
   constructor(apiKey: string) {
@@ -159,8 +166,30 @@ export class SteamGameChecker {
     const target = normalizeGameName(name)
     if (!target) return null
     const ownedGames = await this.getOwnedGamesCached(steamId)
-    const match = ownedGames.find((g) => normalizeGameName(g.name) === target)
-    return match ? match.appid : null
+
+    // Exact normalized match is the strong signal — prefer it.
+    const exact = ownedGames.find((g) => normalizeGameName(g.name) === target)
+    if (exact) return exact.appid
+
+    // SteamGifts truncates long giveaway titles (e.g. "Atelier Ryza 2: Lost
+    // Legends & the Se..."), so the stored name is a *prefix* of the real one
+    // and never equals it exactly. When the title is truncated, fall back to a
+    // prefix match — but only accept it when it resolves to a single owned
+    // game, so an ambiguous stub can't grab the wrong title.
+    const isTruncated = /(\.{3}|…)\s*$/.test(name.trim())
+    if (isTruncated && target.length >= 6) {
+      const prefixMatches = ownedGames.filter((g) =>
+        normalizeGameName(g.name).startsWith(target),
+      )
+      if (prefixMatches.length === 1) {
+        console.log(
+          `[INFO] Matched truncated title "${name}" to owned game "${prefixMatches[0].name}" by prefix`,
+        )
+        return prefixMatches[0].appid
+      }
+    }
+
+    return null
   }
 
   public async getAppIdForSubId(subId: number): Promise<number | null> {
@@ -340,8 +369,8 @@ export class SteamGameChecker {
     name?: string,
   ): Promise<GamePlayData> {
     // Check cache first
-    const lastChecked = this.noStatsCache.get(appOrSubId)
-    if (lastChecked && Date.now() - lastChecked < this.TWO_WEEKS_IN_MS) {
+    const cached = this.noStatsCache.get(appOrSubId)
+    if (cached && Date.now() - cached.ts < this.TWO_WEEKS_IN_MS) {
       console.log(
         `[INFO] Game with appId ${appOrSubId} is in the 'no stats' cache. Skipping.`,
       )
@@ -355,6 +384,7 @@ export class SteamGameChecker {
         never_played: true,
         is_playtime_private: false,
         has_no_available_stats: true,
+        no_stats_reason: cached.reason,
       }
     }
 
@@ -389,7 +419,10 @@ export class SteamGameChecker {
           console.log(
             `[INFO] No app found for subId ${appOrSubId}; marking as no-stats`,
           )
-          this.noStatsCache.set(appOrSubId, Date.now())
+          this.noStatsCache.set(appOrSubId, {
+            ts: Date.now(),
+            reason: 'package_delisted',
+          })
           return {
             owned: false,
             playtime_minutes: 0,
@@ -400,6 +433,7 @@ export class SteamGameChecker {
             never_played: true,
             is_playtime_private: false,
             has_no_available_stats: true,
+            no_stats_reason: 'package_delisted',
           }
         }
       }
@@ -450,13 +484,16 @@ export class SteamGameChecker {
     const ownedGames = await this.getOwnedGamesCached(steamId)
 
     if (ownedGames.length === 0) {
-      // console.log('No owned games found, skipping...')
+      // Empty library usually means a private profile (or genuinely no games);
+      // either way we can't confirm ownership or read playtime.
       return {
         owned: false,
         playtime_minutes: 0,
         playtime_formatted: '0 minutes',
         ...achievementsData,
         is_playtime_private: false,
+        has_no_available_stats: true,
+        no_stats_reason: 'library_unavailable',
       }
     }
 
@@ -464,18 +501,20 @@ export class SteamGameChecker {
     const gameInfo = ownedGames.find((game) => game.appid === appOrSubId)
 
     if (!gameInfo) {
-      // console.log('Game not found, skipping...')
+      // Resolved to a real app, but it's not in this user's library.
       return {
         owned: false,
         playtime_minutes: 0,
         playtime_formatted: '0 minutes',
         ...achievementsData,
         is_playtime_private: false,
+        has_no_available_stats: true,
+        no_stats_reason: 'not_in_library',
       }
     }
 
     if (achievements === null) {
-      // console.log('No achievements found, skipping...')
+      // Owned (playtime is valid) but Steam exposes no achievement stats.
       return {
         owned: true,
         playtime_minutes: gameInfo.playtime_forever,
@@ -484,6 +523,7 @@ export class SteamGameChecker {
         never_played: gameInfo.playtime_forever === 0,
         is_playtime_private: false,
         has_no_available_stats: true,
+        no_stats_reason: 'no_steam_stats',
       }
     }
 
@@ -618,7 +658,7 @@ export class SteamGameChecker {
   }
 
   public async setHasNoAvailableStats(appId: number): Promise<void> {
-    this.noStatsCache.set(appId, Date.now())
+    this.noStatsCache.set(appId, { ts: Date.now(), reason: 'no_steam_stats' })
     console.log(
       `[INFO] Game with appId ${appId} has been flagged as having no available stats.`,
     )
