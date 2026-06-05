@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1780598038188,
+  "lastUpdated": 1780632048745,
   "users": {
     "76561198359284432": {
       "username": "a10i",
@@ -705,16 +705,27 @@
         "real_total_gift_difference": 0,
         "giveaway_ratio": 0,
         "shared_sent_count": 0,
-        "shared_received_count": 0,
+        "shared_received_count": 1,
         "giveaways_created": 0,
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": null,
-        "last_giveaway_won_at": null,
-        "first_seen_at": 1780597905
+        "last_giveaway_won_at": 1777712040,
+        "first_seen_at": 1777712040
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198053065013",
-      "registered_at": 1675845589,
-      "country_code": "ca"
+      "country_code": "ca",
+      "giveaways_won": [
+        {
+          "name": "ION Shift",
+          "link": "bj31I/ion-shift",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1777712040,
+          "required_play": false,
+          "is_shared": true
+        }
+      ],
+      "registered_at": 1675845589
     },
     "76561198047330685": {
       "username": "akfas",
@@ -10243,9 +10254,9 @@
         "giveaway_ratio": 12,
         "shared_sent_count": 25,
         "shared_received_count": 0,
-        "giveaways_created": 39,
+        "giveaways_created": 40,
         "giveaways_with_no_entries": 2,
-        "last_giveaway_created_at": 1778011755,
+        "last_giveaway_created_at": 1780601248,
         "last_giveaway_won_at": 1778664600,
         "first_seen_at": 1749678774,
         "total_achievements_percentage": 49,
@@ -10637,6 +10648,17 @@
         }
       ],
       "giveaways_created": [
+        {
+          "name": "Cast n Chill",
+          "link": "kkP9k/cast-n-chill",
+          "cv_status": "FULL_CV",
+          "entries": 9,
+          "copies": 1,
+          "created_timestamp": 1780601248,
+          "end_timestamp": 1780855200,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "Heart of the Woods",
           "link": "jcMfO/heart-of-the-woods",
@@ -23297,7 +23319,7 @@
           "name": "DAVE THE DIVER",
           "link": "MeD6T/dave-the-diver",
           "cv_status": "FULL_CV",
-          "entries": 7,
+          "entries": 8,
           "copies": 1,
           "created_timestamp": 1780479170,
           "end_timestamp": 1780869600,
@@ -23897,7 +23919,7 @@
           "name": "Cast n Chill",
           "link": "Xo9Oc/cast-n-chill",
           "cv_status": "FULL_CV",
-          "entries": 22,
+          "entries": 21,
           "copies": 1,
           "created_timestamp": 1780329688,
           "end_timestamp": 1782489600,
@@ -29495,7 +29517,7 @@
           "name": "How to Say Goodbye",
           "link": "ZAbFR/how-to-say-goodbye",
           "cv_status": "FULL_CV",
-          "entries": 35,
+          "entries": 45,
           "copies": 1,
           "created_timestamp": 1780561874,
           "end_timestamp": 1780740000,
@@ -29506,7 +29528,7 @@
           "name": "Inua - A Story in Ice and Time",
           "link": "mBzG8/inua-a-story-in-ice-and-time",
           "cv_status": "REDUCED_CV",
-          "entries": 24,
+          "entries": 36,
           "copies": 1,
           "created_timestamp": 1780582234,
           "end_timestamp": 1780740000,
@@ -29517,7 +29539,7 @@
           "name": "To Hell With The Ugly",
           "link": "yLV5q/to-hell-with-the-ugly",
           "cv_status": "FULL_CV",
-          "entries": 31,
+          "entries": 40,
           "copies": 1,
           "created_timestamp": 1780582091,
           "end_timestamp": 1780740000,
@@ -29528,7 +29550,7 @@
           "name": "Athenian Rhapsody",
           "link": "OyyaP/athenian-rhapsody",
           "cv_status": "REDUCED_CV",
-          "entries": 13,
+          "entries": 24,
           "copies": 1,
           "created_timestamp": 1780581086,
           "end_timestamp": 1780740000,
@@ -33454,7 +33476,7 @@
           "name": "DAVE THE DIVER",
           "link": "IUsBW/dave-the-diver",
           "cv_status": "FULL_CV",
-          "entries": 1,
+          "entries": 10,
           "copies": 1,
           "created_timestamp": 1780595636,
           "end_timestamp": 1781377140,
@@ -49497,7 +49519,7 @@
           "name": "Sclash",
           "link": "6LcqR/sclash",
           "cv_status": "REDUCED_CV",
-          "entries": 40,
+          "entries": 39,
           "copies": 3,
           "created_timestamp": 1780184789,
           "end_timestamp": 1780804800,
@@ -49508,7 +49530,7 @@
           "name": "LiEat",
           "link": "28pz6/lieat",
           "cv_status": "REDUCED_CV",
-          "entries": 25,
+          "entries": 26,
           "copies": 1,
           "created_timestamp": 1780184724,
           "end_timestamp": 1780804800,
@@ -53253,7 +53275,7 @@
         "shared_sent_count": 0,
         "shared_received_count": 0,
         "giveaways_created": 5,
-        "giveaways_with_no_entries": 0,
+        "giveaways_with_no_entries": 1,
         "last_giveaway_created_at": 1780128380,
         "last_giveaway_won_at": 1779447600,
         "first_seen_at": 1768684499,
@@ -53353,12 +53375,13 @@
           "name": "Daemon X Machina: Titanic Scion",
           "link": "o7npA/daemon-x-machina-titanic-scion",
           "cv_status": "FULL_CV",
-          "entries": 243,
+          "entries": 282,
           "copies": 1,
           "created_timestamp": 1780128380,
           "end_timestamp": 1780632000,
           "required_play": false,
-          "is_shared": true
+          "is_shared": true,
+          "had_winners": false
         },
         {
           "name": "BALL x PIT",
@@ -62288,7 +62311,7 @@
           "had_winners": true,
           "winners": [
             {
-              "name": "aez76",
+              "name": "76561198053065013",
               "winner_username": "aez76",
               "status": "received",
               "activated": true
@@ -63208,7 +63231,7 @@
           "name": "INDIKA",
           "link": "3DfKR/indika",
           "cv_status": "REDUCED_CV",
-          "entries": 56,
+          "entries": 57,
           "copies": 1,
           "created_timestamp": 1780421226,
           "end_timestamp": 1780845840,
@@ -69916,7 +69939,7 @@
           "name": "Gothic 1 Remake",
           "link": "qDCRq/gothic-1-remake",
           "cv_status": "FULL_CV",
-          "entries": 16,
+          "entries": 20,
           "copies": 1,
           "created_timestamp": 1780509914,
           "end_timestamp": 1781283600,
@@ -74770,9 +74793,9 @@
         "total_sent_count": 64.3,
         "total_sent_value": 1511.19,
         "total_received_count": 56.7,
-        "total_received_value": 1499.43,
+        "total_received_value": 1479.43,
         "total_gift_difference": 7.7,
-        "total_value_difference": 11.76,
+        "total_value_difference": 31.76,
         "fcv_sent_count": 63,
         "rcv_sent_count": 1,
         "ncv_sent_count": 0,
@@ -85827,9 +85850,9 @@
         "giveaway_ratio": 1,
         "shared_sent_count": 0,
         "shared_received_count": 1,
-        "giveaways_created": 1,
+        "giveaways_created": 3,
         "giveaways_with_no_entries": 0,
-        "last_giveaway_created_at": 1779525787,
+        "last_giveaway_created_at": 1780624001,
         "last_giveaway_won_at": 1753915680,
         "first_seen_at": 1753915680,
         "total_achievements_percentage": 42,
@@ -85864,6 +85887,28 @@
         }
       ],
       "giveaways_created": [
+        {
+          "name": "Dragon's Dogma 2",
+          "link": "DfcUW/dragons-dogma-2",
+          "cv_status": "FULL_CV",
+          "entries": 0,
+          "copies": 1,
+          "created_timestamp": 1780624001,
+          "end_timestamp": 1781352780,
+          "required_play": false,
+          "is_shared": false
+        },
+        {
+          "name": "Neva",
+          "link": "ZNGie/neva",
+          "cv_status": "FULL_CV",
+          "entries": 4,
+          "copies": 1,
+          "created_timestamp": 1780623839,
+          "end_timestamp": 1781352780,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "Persona 3 Reload",
           "link": "VgDxf/persona-3-reload",
@@ -86339,12 +86384,12 @@
       "avatar_url": "https://avatars.steamstatic.com/41c49b1521e2b5d011dffdc9fd57962f95c53298_medium.jpg",
       "steam_id": "76561197991280042",
       "stats": {
-        "total_sent_count": 23.9,
-        "total_sent_value": 612.34,
+        "total_sent_count": 24.2,
+        "total_sent_value": 618.59,
         "total_received_count": 9,
         "total_received_value": 185.91,
-        "total_gift_difference": 14.9,
-        "total_value_difference": 426.43,
+        "total_gift_difference": 15.2,
+        "total_value_difference": 432.68,
         "fcv_sent_count": 18,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
@@ -86359,7 +86404,7 @@
         "real_total_received_count": 9,
         "real_total_gift_difference": 9,
         "giveaway_ratio": 17.67,
-        "shared_sent_count": 20,
+        "shared_sent_count": 21,
         "shared_received_count": 0,
         "giveaways_created": 39,
         "giveaways_with_no_entries": 0,
@@ -86592,9 +86637,10 @@
           "had_winners": true,
           "winners": [
             {
-              "name": null,
-              "status": "awaiting_feedback",
-              "activated": false
+              "name": "irste",
+              "winner_username": "irste",
+              "status": "received",
+              "activated": true
             }
           ]
         },
@@ -99071,11 +99117,14 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": null,
         "last_giveaway_won_at": null,
-        "first_seen_at": 1780597905
+        "first_seen_at": null
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198265345392",
+      "country_code": null,
       "registered_at": 1618600118,
-      "country_code": null
+      "warnings": [
+        "no_giveaway_created_in_6_months"
+      ]
     },
     "76561198146290646": {
       "username": "xAlienMaster",
@@ -99126,11 +99175,11 @@
       "steam_id": "76561198101327606",
       "stats": {
         "total_sent_count": 13,
-        "total_sent_value": 511.85,
+        "total_sent_value": 491.85,
         "total_received_count": 4,
         "total_received_value": 41.96,
         "total_gift_difference": 9,
-        "total_value_difference": 469.89,
+        "total_value_difference": 449.89,
         "fcv_sent_count": 13,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
@@ -102374,6 +102423,7 @@
           ]
         }
       ],
+      "registered_at": 1317338226,
       "warnings": [
         "no_giveaway_created_in_6_months"
       ]
