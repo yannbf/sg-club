@@ -15,6 +15,7 @@ import {
   Trophy,
   X,
 } from 'lucide-react'
+import { DiscordIcon } from '@/components/icons/DiscordIcon'
 import { formatPlaytime } from '@/lib/data'
 import { User } from '@/types'
 import FormattedDate from '@/components/FormattedDate'
@@ -95,6 +96,25 @@ function getRecentWins(user: User) {
   return user.giveaways_won.filter((g) => g.end_timestamp > twoWeeksAgo).length
 }
 
+function discordBadge(user: User) {
+  if (user.discord_member === undefined) return null
+  return user.discord_member ? (
+    <Badge variant="discord" size="sm" title="In the community Discord server">
+      <DiscordIcon className="h-3 w-3" />
+      Discord
+    </Badge>
+  ) : (
+    <Badge
+      variant="outline"
+      size="sm"
+      title="Not in the community Discord server"
+    >
+      <DiscordIcon className="h-3 w-3" />
+      Not on Discord
+    </Badge>
+  )
+}
+
 function userTypeBadge(user: User) {
   switch (getUserRatio(user.stats.giveaway_ratio)) {
     case 'contributor':
@@ -154,6 +174,8 @@ export default function UsersClient({
         contributors: getUserRatio(ratio) === 'contributor',
         receivers: getUserRatio(ratio) === 'receiver',
         neutral: getUserRatio(ratio) === 'neutral',
+        discord: user.discord_member === true,
+        no_discord: user.discord_member === false,
       }
 
       return filterTags.some((key) => userFlags[key])
@@ -329,6 +351,12 @@ export default function UsersClient({
           <ToggleGroupItem value="neutral">
             <Scale className="h-3.5 w-3.5" /> Neutral
           </ToggleGroupItem>
+          <ToggleGroupItem value="discord">
+            <DiscordIcon className="h-3.5 w-3.5" /> On Discord
+          </ToggleGroupItem>
+          <ToggleGroupItem value="no_discord">
+            <DiscordIcon className="h-3.5 w-3.5" /> Not on Discord
+          </ToggleGroupItem>
         </ToggleGroup>
         {activeFilters > 0 && (
           <Button variant="ghost" size="sm" onClick={resetFilters}>
@@ -452,6 +480,7 @@ function UserCard({ user, isAdmin }: { user: User; isAdmin: boolean }) {
             </div>
           </div>
           <div className="mt-1 flex flex-wrap items-center gap-1.5">
+            {discordBadge(user)}
             {isAdmin && userTypeBadge(user)}
             {user.is_deleted_sg_account && (
               <Badge variant="error" size="sm" title="This SteamGifts account no longer exists. Stats are reconstructed from their historical giveaways.">

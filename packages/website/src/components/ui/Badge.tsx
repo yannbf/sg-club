@@ -23,6 +23,8 @@ const badgeVariants = cva(
           'border-transparent bg-[color-mix(in_oklab,var(--accent-purple)_18%,transparent)] text-[var(--accent-purple)]',
         amber:
           'border-transparent bg-[color-mix(in_oklab,var(--accent-yellow)_18%,transparent)] text-[var(--accent-yellow)]',
+        discord:
+          'border-transparent bg-[color-mix(in_oklab,#5865F2_20%,transparent)] text-[#5865F2] dark:text-[#A5AEFF]',
       },
       size: {
         sm: 'px-1.5 py-0 text-[10px]',

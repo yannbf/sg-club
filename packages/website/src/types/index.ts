@@ -98,6 +98,12 @@ export interface User {
   registered_at?: number
   /** SteamGifts contributor level (typically 0–10, can have decimals). */
   contributor_level?: number
+  /**
+   * Whether this user is in the community Discord server. Sourced from the
+   * manually-maintained public/data/discord_members.json map (keyed by SG
+   * username) and merged in at load time. `undefined` means "not yet classified".
+   */
+  discord_member?: boolean
   giveaways_won?: {
     name: string
     link: string

@@ -7,6 +7,7 @@ let buildTimeUserEntries: UserEntry | null = null
 let buildTimeGameData: GameData[] | null = null
 let buildTimeSteamIdMap: SteamIdMap | null = null
 let buildTimeExMembers: UserGroupData | null = null
+let buildTimeDiscordMembers: Record<string, boolean> | null = null
 
 // Helper to get base URL for data files
 function getBaseUrl() {
@@ -242,6 +243,66 @@ export async function getSteamIdMap(): Promise<SteamIdMap> {
   }
 }
 
+async function fetchDiscordMembers(): Promise<Record<string, boolean>> {
+  try {
+    const baseUrl = getBaseUrl()
+    const response = await fetch(`${baseUrl}/data/discord_members.json`)
+    if (!response.ok) throw new Error('Failed to fetch discord members')
+    const data = await response.json()
+    return data.members || {}
+  } catch (error) {
+    console.error('Error reading discord members data:', error)
+    return {}
+  }
+}
+
+/** Returns a map of SteamGifts username → whether they are in the Discord server. */
+export async function getDiscordMembers(): Promise<Record<string, boolean>> {
+  if (typeof window !== 'undefined' || process.env.NODE_ENV === 'development') {
+    return await fetchDiscordMembers()
+  }
+
+  try {
+    if (!buildTimeDiscordMembers) {
+      const { readFileSync } = await import('fs')
+      const { join } = await import('path')
+      const filePath = join(
+        process.cwd(),
+        'public',
+        'data',
+        'discord_members.json'
+      )
+      const parsed = JSON.parse(readFileSync(filePath, 'utf8'))
+      buildTimeDiscordMembers = parsed.members || {}
+    }
+    return buildTimeDiscordMembers || {}
+  } catch (error) {
+    console.error('Error loading discord members:', error)
+    return {}
+  }
+}
+
+/**
+ * Returns a copy of `data` with each user's `discord_member` set from the
+ * (case-insensitive) username → membership map. Users absent from the map keep
+ * `discord_member` undefined ("not yet classified").
+ */
+function annotateDiscordMembership(
+  data: UserGroupData,
+  members: Record<string, boolean>
+): UserGroupData {
+  const lookup = new Map(
+    Object.entries(members).map(([name, value]) => [name.toLowerCase(), value])
+  )
+  const users = Object.fromEntries(
+    Object.entries(data.users).map(([steamId, user]) => [
+      steamId,
+      { ...user, discord_member: lookup.get(user.username.toLowerCase()) },
+    ])
+  )
+  return { ...data, users }
+}
+
 export async function getAllGiveaways(): Promise<Giveaway[]> {
   const data = await loadBuildTimeData()
   return data.giveaways
@@ -260,29 +321,40 @@ export async function getAllUsers(): Promise<UserGroupData | null> {
     )
   )
 
-  return {
-    ...data.users,
-    users: filteredUsers,
-  }
+  const discordMembers = await getDiscordMembers()
+  return annotateDiscordMembership(
+    {
+      ...data.users,
+      users: filteredUsers,
+    },
+    discordMembers
+  )
 }
 
 export async function getExMembers(): Promise<UserGroupData | null> {
+  let exMembers: UserGroupData | null
+
   if (typeof window !== 'undefined' || process.env.NODE_ENV === 'development') {
-    return fetchExMembers()
+    exMembers = await fetchExMembers()
+  } else {
+    if (!buildTimeExMembers) {
+      try {
+        const { readFileSync } = await import('fs')
+        const { join } = await import('path')
+        const filePath = join(process.cwd(), 'public', 'data', 'ex_members.json')
+        buildTimeExMembers = JSON.parse(readFileSync(filePath, 'utf8'))
+      } catch (error) {
+        console.error('Error loading ex members:', error)
+        return null
+      }
+    }
+    exMembers = buildTimeExMembers
   }
 
-  if (!buildTimeExMembers) {
-    try {
-      const { readFileSync } = await import('fs')
-      const { join } = await import('path')
-      const filePath = join(process.cwd(), 'public', 'data', 'ex_members.json')
-      buildTimeExMembers = JSON.parse(readFileSync(filePath, 'utf8'))
-    } catch (error) {
-      console.error('Error loading ex members:', error)
-      return null
-    }
-  }
-  return buildTimeExMembers
+  if (!exMembers) return null
+
+  const discordMembers = await getDiscordMembers()
+  return annotateDiscordMembership(exMembers, discordMembers)
 }
 
 export async function getAllUsersAsArray(): Promise<User[]> {

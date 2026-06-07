@@ -36,6 +36,7 @@ import { getDeadlineData } from '@/components/DeadlineStatus'
 import { getUserRatio } from '../util'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
+import { DiscordIcon } from '@/components/icons/DiscordIcon'
 import { Button } from '@/components/ui/Button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
 import { useIsAdmin } from '@/lib/auth'
@@ -451,6 +452,26 @@ export default function UserDetailPageClient({
                 {user.username}
               </a>
               <CountryFlag countryCode={user.country_code} />
+              {user.discord_member !== undefined &&
+                (user.discord_member ? (
+                  <Badge
+                    variant="discord"
+                    size="md"
+                    title="In the community Discord server"
+                  >
+                    <DiscordIcon className="h-3 w-3" />
+                    Discord
+                  </Badge>
+                ) : (
+                  <Badge
+                    variant="outline"
+                    size="md"
+                    title="Not in the community Discord server"
+                  >
+                    <DiscordIcon className="h-3 w-3" />
+                    Not on Discord
+                  </Badge>
+                ))}
               {isExMember && isAdmin && (
                 <Badge variant="error" size="md">
                   Ex member
