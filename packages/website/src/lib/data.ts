@@ -1,4 +1,5 @@
 import { Giveaway, UserGroupData, User, GameData, UserEntry, SteamIdMap, WishlistData } from '@/types'
+import type { SpringCleaningSnapshot } from '@/lib/spring-cleaning'
 
 // For build time - import data directly
 let buildTimeGiveaways: Giveaway[] | null = null
@@ -493,6 +494,41 @@ export async function getWishlist(): Promise<WishlistData | null> {
     return JSON.parse(readFileSync(filePath, 'utf8'))
   } catch (error) {
     console.error('Error loading wishlist:', error)
+    return null
+  }
+}
+
+/**
+ * Loads a frozen spring-cleaning edition snapshot (or null if not yet frozen).
+ * Snapshots live in public/data/spring-cleaning/<slug>.json and are written by
+ * `pnpm freeze-spring-cleaning`.
+ */
+export async function getSpringCleaningSnapshot(
+  slug: string
+): Promise<SpringCleaningSnapshot | null> {
+  if (typeof window !== 'undefined' || process.env.NODE_ENV === 'development') {
+    try {
+      const baseUrl = getBaseUrl()
+      const response = await fetch(`${baseUrl}/data/spring-cleaning/${slug}.json`)
+      if (!response.ok) return null
+      return await response.json()
+    } catch {
+      return null
+    }
+  }
+
+  try {
+    const { readFileSync } = await import('fs')
+    const { join } = await import('path')
+    const filePath = join(
+      process.cwd(),
+      'public',
+      'data',
+      'spring-cleaning',
+      `${slug}.json`
+    )
+    return JSON.parse(readFileSync(filePath, 'utf8'))
+  } catch {
     return null
   }
 }

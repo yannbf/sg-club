@@ -6,6 +6,7 @@ import Link from 'next/link'
 import {
   Activity,
   AlertTriangle,
+  Archive,
   ArrowUpRight,
   Ban,
   CalendarDays,
@@ -14,10 +15,12 @@ import {
   Filter,
   Gamepad2,
   Gift,
+  Heart,
   Scale,
   ShieldAlert,
   Sparkles,
   ThumbsUp,
+  Trophy,
 } from 'lucide-react'
 import {
   FlagSeverity,
@@ -26,6 +29,7 @@ import {
   FlaggedGame,
   SectionResult,
   UserHighlights,
+  RecentGiveaway,
   SpringCleaningEdition,
   SPRING_CLEANINGS,
 } from '@/lib/spring-cleaning'
@@ -45,6 +49,8 @@ interface Props {
   result: SpringCleaningResult
   edition: SpringCleaningEdition
   lastUpdated?: number | null
+  /** Unix seconds when this edition was frozen. Present ⇒ historical snapshot. */
+  frozenAt?: number | null
 }
 
 const severityBadge: Record<
@@ -119,6 +125,35 @@ function DiscordChip({ member }: { member?: boolean }) {
       <DiscordIcon className="h-3 w-3" />
       No Discord
     </Badge>
+  )
+}
+
+function RecentLine({
+  label,
+  icon: Icon,
+  item,
+}: {
+  label: string
+  icon: React.ComponentType<{ className?: string }>
+  item: RecentGiveaway | null
+}) {
+  if (!item) return null
+  return (
+    <p className="flex min-w-0 items-center gap-1 text-xs text-muted-foreground">
+      <Icon className="h-3 w-3 shrink-0 text-subtle" />
+      <span className="shrink-0">{label}:</span>
+      <a
+        href={item.link}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="truncate text-foreground hover:text-accent hover:underline"
+      >
+        {item.name}
+      </a>
+      <span className="shrink-0 text-subtle">
+        · <FormattedDate timestamp={item.at} />
+      </span>
+    </p>
   )
 }
 
@@ -275,6 +310,22 @@ function PriorityCard({ user }: { user: AnalyzedUser }) {
             </p>
           )}
 
+          {(user.lastCreated || user.lastWon || user.lastEntered) && (
+            <div className="mt-1.5 space-y-0.5">
+              <RecentLine
+                label="Last FCV GA created"
+                icon={Gift}
+                item={user.lastCreated}
+              />
+              <RecentLine label="Last GA won" icon={Trophy} item={user.lastWon} />
+              <RecentLine
+                label="Last GA entered"
+                icon={Heart}
+                item={user.lastEntered}
+              />
+            </div>
+          )}
+
           <Highlights highlights={user.highlights} ratio={user.ratio} />
 
           <ul className="mt-3 space-y-2">
@@ -414,6 +465,7 @@ export default function SpringCleaningClient({
   result,
   edition,
   lastUpdated,
+  frozenAt,
 }: Props) {
   const [view, setView] = useState<View>('priority')
   const [onlyExpel, setOnlyExpel] = useState(false)
@@ -468,10 +520,23 @@ export default function SpringCleaningClient({
           play rate, proof-of-play, ratio, unplayed quality wins, and Discord
           presence. Use this to decide who to warn or expel.
         </p>
-        {lastUpdated && (
-          <div className="mt-1 text-sm text-muted-foreground">
-            <LastUpdated lastUpdatedDate={lastUpdated} />
+        {frozenAt != null ? (
+          <div className="mt-2 flex items-center gap-2 rounded-md border border-card-border bg-card-background-hover/40 px-3 py-1.5 text-xs text-muted-foreground">
+            <Archive className="h-3.5 w-3.5 text-subtle" />
+            <span>
+              Frozen snapshot — data as detected on{' '}
+              <span className="font-medium text-foreground">
+                <FormattedDate timestamp={frozenAt} />
+              </span>
+              . It won&apos;t change as members come, go, or fix their stats.
+            </span>
           </div>
+        ) : (
+          lastUpdated && (
+            <div className="mt-1 text-sm text-muted-foreground">
+              <LastUpdated lastUpdatedDate={lastUpdated} />
+            </div>
+          )
         )}
       </div>
 

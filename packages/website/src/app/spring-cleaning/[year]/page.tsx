@@ -5,6 +5,7 @@ import {
   getGameData,
   getWishlist,
   getUserEntries,
+  getSpringCleaningSnapshot,
 } from '@/lib/data'
 import {
   analyzeSpringCleaning,
@@ -24,6 +25,23 @@ export default async function SpringCleaningEditionPage(props: {
   const { year } = await props.params
   const edition = getSpringCleaningEdition(year)
   if (!edition) notFound()
+
+  // Prefer the frozen snapshot — it captures the edition exactly as detected,
+  // surviving members leaving or fixing their stats. Fall back to a live
+  // analysis only when an edition hasn't been frozen yet (a draft).
+  const snapshot = await getSpringCleaningSnapshot(edition.slug)
+  if (snapshot) {
+    return (
+      <AdminGate>
+        <SpringCleaningClient
+          result={snapshot.result}
+          edition={edition}
+          lastUpdated={snapshot.sourceLastUpdated}
+          frozenAt={snapshot.generatedAt}
+        />
+      </AdminGate>
+    )
+  }
 
   const userData = await getAllUsers()
   const giveaways = await getAllGiveaways()

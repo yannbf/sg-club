@@ -1,11 +1,14 @@
-import {
+import type {
   Giveaway,
   GameData,
   User,
   UserEntry,
   WishlistData,
 } from '@/types'
-import { getUserRatio } from '@/app/users/util'
+
+// NOTE: this module is deliberately kept free of runtime `@/` imports (types
+// are `import type`, erased at build) so it can also run from a plain Node
+// script — see scripts/freeze-spring-cleaning.ts.
 
 /**
  * "Spring cleaning" analysis — surfaces members an admin may want to warn or
@@ -67,6 +70,10 @@ export const MANY_QUALITY_GIVEN = 3
 export const INACTIVE_MONTHS = 4
 /** Last full-CV giveaway created longer ago than this ⇒ stopped contributing. */
 export const DORMANT_CREATE_MONTHS = 6
+/** No (real) full-CV giveaway created in this long ⇒ a standalone warning for anyone. */
+export const STALE_CREATE_MONTHS = 5
+/** Private/unreadable Steam + at least this many high-quality wins ⇒ escalate to expel. */
+export const QUALITY_WINS_HIDDEN_MIN = 2
 /** Won or entered within this window ⇒ "still active / still taking". */
 export const STILL_ACTIVE_MONTHS = 2
 /** A giveaway_ratio at/above this is "great" — a top contributor in good standing. */
@@ -89,6 +96,7 @@ export type FlagId =
   | 'bad_play_rate'
   | 'private_steam'
   | 'quality_unplayed'
+  | 'no_recent_giveaway'
   | 'inactive_member'
   | 'bad_ratio'
   | 'not_on_discord'
@@ -139,6 +147,15 @@ export interface UserHighlights {
   requiredPlay: { played: number; notPlayed: number }
 }
 
+/** A named, linked, dated giveaway reference for a member's recent activity. */
+export interface RecentGiveaway {
+  name: string
+  /** Full SteamGifts giveaway URL. */
+  link: string
+  /** Unix seconds. */
+  at: number
+}
+
 export interface AnalyzedUser {
   username: string
   steam_id: string
@@ -151,6 +168,12 @@ export interface AnalyzedUser {
   memberSince: number | null
   /** Unix seconds — most recent giveaway won, created, or entered. */
   lastActiveAt: number | null
+  /** Most recent counting full-CV giveaway they created (entries > 0, not deleted). */
+  lastCreated: RecentGiveaway | null
+  /** Most recent giveaway they won. */
+  lastWon: RecentGiveaway | null
+  /** Most recent giveaway they entered. */
+  lastEntered: RecentGiveaway | null
   /** The member's positive contributions, for balanced judgement. */
   highlights: UserHighlights
   /** Highest-severity classification across this user's flags. */
@@ -184,12 +207,28 @@ export interface SpringCleaningResult {
   counts: Record<FlagId, number>
 }
 
+/**
+ * A frozen edition: the full analysis result captured at a point in time, so an
+ * old cleaning can always be revisited exactly as it was detected — even after
+ * members leave or fix their stats. Written by scripts/freeze-spring-cleaning.ts
+ * to public/data/spring-cleaning/<slug>.json and read by the edition page.
+ */
+export interface SpringCleaningSnapshot {
+  edition: SpringCleaningEdition
+  /** Unix seconds when the snapshot was frozen. */
+  generatedAt: number
+  /** group_users.json `lastUpdated` (ms) of the source data at freeze time. */
+  sourceLastUpdated: number | null
+  result: SpringCleaningResult
+}
+
 const FLAG_WEIGHT: Record<FlagId, number> = {
   dormant_creator_still_taking: 5,
   zero_proven_play: 4,
   bad_play_rate: 4,
   quality_unplayed: 3,
   inactive_member: 3,
+  no_recent_giveaway: 2,
   private_steam: 2,
   bad_ratio: 2,
   not_on_discord: 1,
@@ -218,9 +257,14 @@ const SECTION_META: Record<
     severity: 'warn',
   },
   private_steam: {
-    title: 'Private Steam profile',
+    title: 'Private Steam — unverifiable',
     description:
-      'Steam playtime is hidden, so play activity cannot be verified. Hiding stats is itself worth a warning.',
+      'Steam library/playtime is hidden, so play activity cannot be verified. Hiding stats is worth a warning — and worse when it conceals high-quality wins.',
+    severity: 'warn',
+  },
+  no_recent_giveaway: {
+    title: 'No recent giveaway created',
+    description: `Has not created a counting full-CV giveaway in over ${STALE_CREATE_MONTHS} months (giveaways with no entries or that were deleted don't count).`,
     severity: 'warn',
   },
   quality_unplayed: {
@@ -360,7 +404,15 @@ function analyzeUser(
     userEntries: UserEntry | null
     lookups: Lookups
   },
-): { flags: UserFlag[]; highlights: UserHighlights } {
+): {
+  flags: UserFlag[]
+  highlights: UserHighlights
+  recent: {
+    lastCreated: RecentGiveaway | null
+    lastWon: RecentGiveaway | null
+    lastEntered: RecentGiveaway | null
+  }
+} {
   const { nowSec, userEntries, lookups } = ctx
   const { giveawayByLink, wishlistFor: wishlistCountFor } = lookups
   const flags: UserFlag[] = []
@@ -373,9 +425,28 @@ function analyzeUser(
     firstSeen == null || firstSeen <= nowSec - months * MONTH_SECONDS
 
   const lastWon = user.stats.last_giveaway_won_at ?? null
-  const lastCreated = user.stats.last_giveaway_created_at ?? null
   const lastEntered = lastEnteredAt(user.steam_id, userEntries)
-  const lastActivity = Math.max(lastWon ?? 0, lastCreated ?? 0, lastEntered ?? 0)
+
+  // A created giveaway only "counts" if people actually entered it and it wasn't
+  // deleted — a 0-entry or deleted GA contributed nothing to anyone.
+  const isRealCreated = (g: NonNullable<User['giveaways_created']>[number]) =>
+    g.entries > 0 && !giveawayByLink.get(g.link)?.deleted
+  const realCreated = created.filter(isRealCreated)
+  const createdFcv = realCreated.filter((g) => g.cv_status === 'FULL_CV')
+  const lastFcvCreatedGa = [...createdFcv].sort(
+    (a, b) => b.created_timestamp - a.created_timestamp,
+  )[0]
+  const lastFcvCreated = lastFcvCreatedGa?.created_timestamp ?? null
+  // Last activity uses real created GAs (a deleted/0-entry GA isn't activity).
+  const lastRealCreatedAt =
+    realCreated.length > 0
+      ? Math.max(...realCreated.map((g) => g.created_timestamp))
+      : null
+  const lastActivity = Math.max(
+    lastWon ?? 0,
+    lastRealCreatedAt ?? 0,
+    lastEntered ?? 0,
+  )
 
   const recentlyActive =
     (lastWon != null && lastWon >= nowSec - STILL_ACTIVE_MONTHS * MONTH_SECONDS) ||
@@ -383,16 +454,13 @@ function analyzeUser(
       lastEntered >= nowSec - STILL_ACTIVE_MONTHS * MONTH_SECONDS)
 
   // --- 1. Taking without giving (low-ratio members only) -------------------
-  const lastFcvCreatedGa = [...created]
-    .filter((g) => g.cv_status === 'FULL_CV')
-    .sort((a, b) => b.created_timestamp - a.created_timestamp)[0]
-  const lastFcvCreated = lastFcvCreatedGa?.created_timestamp ?? null
   const dormantCreator =
     establishedFor(ESTABLISHED_MONTHS) &&
     (lastFcvCreated == null ||
       lastFcvCreated < nowSec - DORMANT_CREATE_MONTHS * MONTH_SECONDS)
   // Only a low-ratio member "takes without giving" — net contributors are exempt.
-  if (dormantCreator && recentlyActive && ratio < LOW_RATIO_MAX) {
+  const dormantFired = dormantCreator && recentlyActive && ratio < LOW_RATIO_MAX
+  if (dormantFired) {
     const createdNote =
       lastFcvCreated == null
         ? 'Never created a full-CV giveaway'
@@ -448,6 +516,38 @@ function analyzeUser(
     })
   }
 
+  // --- 1b. No recent giveaway created (anyone) -----------------------------
+  // A standalone warning when a member hasn't created a counting full-CV GA in
+  // a while. Skipped if the stronger "taking without giving" flag already fired.
+  const staleCreate =
+    lastFcvCreated == null
+      ? establishedFor(STALE_CREATE_MONTHS)
+      : lastFcvCreated < nowSec - STALE_CREATE_MONTHS * MONTH_SECONDS
+  if (staleCreate && !dormantFired) {
+    flags.push({
+      id: 'no_recent_giveaway',
+      severity: 'warn',
+      label:
+        lastFcvCreated == null
+          ? 'No counting full-CV giveaway created yet'
+          : `Last full-CV giveaway created ${formatMonths(monthsAgo(lastFcvCreated, nowSec))}`,
+      detail:
+        lastFcvCreated == null
+          ? "Hasn't created a full-CV giveaway with entries that wasn't later deleted."
+          : `Over ${STALE_CREATE_MONTHS} months since their last counting full-CV giveaway.`,
+      games: lastFcvCreatedGa
+        ? [
+            {
+              name: lastFcvCreatedGa.name,
+              link: sgGiveawayUrl(lastFcvCreatedGa.link),
+              note: `last created · ${formatMonths(monthsAgo(lastFcvCreatedGa.created_timestamp, nowSec))}`,
+            },
+          ]
+        : undefined,
+      weight: FLAG_WEIGHT.no_recent_giveaway,
+    })
+  }
+
   // --- 2. Proof-of-play: 0% proven -----------------------------------------
   const requiredWins = won.filter((g) => g.required_play)
   const provenWins = requiredWins.filter(
@@ -476,15 +576,40 @@ function analyzeUser(
       ? `Note: ${playRate.noStatsCount} of ${playRate.total} wins have no Steam stats available, so the true rate may be higher.`
       : undefined
 
-  if (user.steam_profile_is_private) {
-    // Can't see playtime at all — warn for hiding, but don't accuse of skipping.
+  // "Private" covers an explicitly private profile AND the case where most wins
+  // come back as `library_unavailable` (a private library by another name).
+  const unreadableWins = won.filter(
+    (g) => g.steam_play_data?.no_stats_reason === 'library_unavailable',
+  )
+  const isPrivateSteam =
+    !!user.steam_profile_is_private ||
+    (won.length > 0 && unreadableWins.length >= Math.ceil(won.length / 2))
+
+  // High-quality wins we can't verify were ever played — worse than plain hiding.
+  const hiddenQualityWins = won
+    .map((g) => ({ g, wc: wishlistCountFor(g.link, g.name) }))
+    .filter(({ wc }) => wc >= QUALITY_WISHLIST_MIN)
+    .sort((a, b) => b.wc - a.wc)
+
+  if (isPrivateSteam) {
+    const worse = hiddenQualityWins.length >= QUALITY_WINS_HIDDEN_MIN
     flags.push({
       id: 'private_steam',
-      severity: 'warn',
-      label: 'Private Steam profile — play activity unverifiable',
-      detail:
-        'Steam playtime is hidden, so a true play rate cannot be measured. Hiding stats is itself worth a warning.',
-      weight: FLAG_WEIGHT.private_steam,
+      severity: worse ? 'expel' : 'warn',
+      label: worse
+        ? `Private Steam hiding ${hiddenQualityWins.length} high-quality wins`
+        : 'Private Steam — play activity unverifiable',
+      detail: worse
+        ? "Library is private, so we can't confirm these valuable wins were ever played — hiding stats while holding high-quality wins is a red flag."
+        : 'Steam library/playtime is hidden, so a true play rate cannot be measured. Hiding stats is itself worth a warning.',
+      games: worse
+        ? hiddenQualityWins.slice(0, 8).map(({ g, wc }) => ({
+            name: g.name,
+            link: sgGiveawayUrl(g.link),
+            note: `${wc} wishlists · won ${formatMonths(monthsAgo(g.end_timestamp, nowSec))}`,
+          }))
+        : undefined,
+      weight: worse ? FLAG_WEIGHT.bad_play_rate : FLAG_WEIGHT.private_steam,
     })
   } else if (
     playRate.total > 2 &&
@@ -536,8 +661,7 @@ function analyzeUser(
   // player merely skipped a couple of titles.
   const engagedPlayer = playRate.percentage >= GREAT_PLAY_RATE
   const skipQuality =
-    user.steam_profile_is_private ||
-    (engagedPlayer && qualityUnplayed.length <= 2)
+    isPrivateSteam || (engagedPlayer && qualityUnplayed.length <= 2)
   if (qualityUnplayed.length > 0 && !skipQuality) {
     flags.push({
       id: 'quality_unplayed',
@@ -578,7 +702,8 @@ function analyzeUser(
   }
 
   // --- 6. Bad ratio (net receiver) -----------------------------------------
-  if (getUserRatio(ratio) === 'receiver') {
+  // A "receiver" is a member whose weighted wins outstrip their gifts (ratio ≤ -1).
+  if (ratio <= -1) {
     const severe = ratio <= -3
     flags.push({
       id: 'bad_ratio',
@@ -606,14 +731,10 @@ function analyzeUser(
   if (ratio >= GREAT_RATIO_MIN) {
     badges.push(`Top contributor (ratio ${ratio.toFixed(2)})`)
   }
-  if (
-    !user.steam_profile_is_private &&
-    playRate.total >= 5 &&
-    playRate.percentage === 100
-  ) {
+  if (!isPrivateSteam && playRate.total >= 5 && playRate.percentage === 100) {
     badges.push(`100% play rate (${playRate.total} wins)`)
   } else if (
-    !user.steam_profile_is_private &&
+    !isPrivateSteam &&
     playRate.total >= 5 &&
     playRate.percentage >= GREAT_PLAY_RATE
   ) {
@@ -621,9 +742,10 @@ function analyzeUser(
   }
 
   // --- Contributions (events run, quality games gifted) --------------------
-  const createdFcv = created.filter((g) => g.cv_status === 'FULL_CV')
+  // Only real giveaways count (entries > 0, not deleted) — createdFcv is already
+  // filtered above; events likewise ignore dead/deleted giveaways.
   const eventCounts = new Map<string, number>()
-  for (const g of created) {
+  for (const g of realCreated) {
     const eventType = giveawayByLink.get(g.link)?.event_type
     if (eventType) eventCounts.set(eventType, (eventCounts.get(eventType) ?? 0) + 1)
   }
@@ -682,7 +804,7 @@ function analyzeUser(
   // rate, or a hard rule break (proof-of-play). Everything else (unplayed
   // quality wins, no Discord, etc.) is forgiven for these members.
   const incrediblePlayer =
-    !user.steam_profile_is_private &&
+    !isPrivateSteam &&
     playRate.total >= 5 &&
     playRate.percentage >= INCREDIBLE_PLAY_RATE
   const greatContributions =
@@ -692,6 +814,7 @@ function analyzeUser(
 
   const ALLOWED_WHEN_STRONG: ReadonlySet<FlagId> = new Set([
     'inactive_member',
+    'no_recent_giveaway',
     'bad_play_rate',
     'private_steam',
     'zero_proven_play',
@@ -700,7 +823,39 @@ function analyzeUser(
     ? flags.filter((f) => ALLOWED_WHEN_STRONG.has(f.id))
     : flags
 
-  return { flags: finalFlags, highlights }
+  // Recent-activity references for the card header (counting GAs only for created).
+  const lastWonGame = [...won].sort(
+    (a, b) => b.end_timestamp - a.end_timestamp,
+  )[0]
+  const lastEnteredEntry = (userEntries?.[user.steam_id] ?? [])
+    .slice()
+    .sort((a, b) => b.joined_at - a.joined_at)[0]
+  const recent = {
+    lastCreated: lastFcvCreatedGa
+      ? {
+          name: lastFcvCreatedGa.name,
+          link: sgGiveawayUrl(lastFcvCreatedGa.link),
+          at: lastFcvCreatedGa.created_timestamp,
+        }
+      : null,
+    lastWon: lastWonGame
+      ? {
+          name: lastWonGame.name,
+          link: sgGiveawayUrl(lastWonGame.link),
+          at: lastWonGame.end_timestamp,
+        }
+      : null,
+    lastEntered: lastEnteredEntry
+      ? {
+          name:
+            giveawayByLink.get(lastEnteredEntry.link)?.name ?? 'a giveaway',
+          link: sgGiveawayUrl(lastEnteredEntry.link),
+          at: lastEnteredEntry.joined_at,
+        }
+      : null,
+  }
+
+  return { flags: finalFlags, highlights, recent }
 }
 
 /**
@@ -733,7 +888,7 @@ export function analyzeSpringCleaning(
     }
     eligibleCount++
 
-    const { flags, highlights } = analyzeUser(user, {
+    const { flags, highlights, recent } = analyzeUser(user, {
       nowSec,
       userEntries,
       lookups,
@@ -760,6 +915,9 @@ export function analyzeSpringCleaning(
           user.stats.last_giveaway_created_at ?? 0,
           lastEnteredAt(user.steam_id, userEntries) ?? 0,
         ) || null,
+      lastCreated: recent.lastCreated,
+      lastWon: recent.lastWon,
+      lastEntered: recent.lastEntered,
       highlights,
       classification,
       score,
@@ -779,6 +937,7 @@ export function analyzeSpringCleaning(
     'bad_play_rate',
     'private_steam',
     'quality_unplayed',
+    'no_recent_giveaway',
     'inactive_member',
     'bad_ratio',
     'not_on_discord',
