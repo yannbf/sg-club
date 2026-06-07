@@ -263,8 +263,8 @@ const SECTION_META: Record<
     severity: 'warn',
   },
   no_recent_giveaway: {
-    title: 'No recent giveaway created',
-    description: `Has not created a counting full-CV giveaway in over ${STALE_CREATE_MONTHS} months (giveaways with no entries or that were deleted don't count).`,
+    title: 'No recent / no valid giveaway created',
+    description: `Has not created a counting full-CV giveaway in over ${STALE_CREATE_MONTHS} months — or never since joining (expel). Giveaways with no entries, that were deleted, or that are shared/whitelist don't count.`,
     severity: 'warn',
   },
   quality_unplayed: {
@@ -519,37 +519,43 @@ function analyzeUser(
       })
     }
 
+    // Actually winning while not giving is expel-worthy; merely entering (with
+    // no recent win) is a lighter "still hanging around" warning.
     flags.push({
       id: 'dormant_creator_still_taking',
-      severity: 'expel',
-      label: 'Stopped giving but still taking',
+      severity: wonRecently ? 'expel' : 'warn',
+      label: wonRecently
+        ? 'Stopped giving but still winning'
+        : 'Stopped giving but still entering',
       detail: lastWonGame
         ? `${createdNote}, but ${takingNote}`
         : `${createdNote}, but ${takingNote} Has never won a giveaway in the group.`,
       games,
-      weight: FLAG_WEIGHT.dormant_creator_still_taking,
+      weight: wonRecently
+        ? FLAG_WEIGHT.dormant_creator_still_taking
+        : Math.round(FLAG_WEIGHT.dormant_creator_still_taking / 2) + 1,
     })
   }
 
-  // --- 1b. No recent giveaway created (anyone) -----------------------------
-  // A standalone warning when a member hasn't created a counting full-CV GA in
-  // a while. Skipped if the stronger "taking without giving" flag already fired.
-  const staleCreate =
-    lastFcvCreated == null
-      ? establishedFor(STALE_CREATE_MONTHS)
-      : lastFcvCreated < nowSec - STALE_CREATE_MONTHS * MONTH_SECONDS
+  // --- 1b. No / no recent valid giveaway created ---------------------------
+  // Never created a valid full-CV giveaway since joining ⇒ expel (a member who
+  // has been around past the membership floor without a single group-exclusive
+  // full-CV giveaway is a freeloader). A merely stale creator ⇒ warning.
+  // Skipped if the stronger "taking without giving" flag already fired.
+  const neverCreatedValidFcv = lastFcvCreated == null
+  const staleCreate = neverCreatedValidFcv
+    ? establishedFor(MIN_MEMBERSHIP_MONTHS)
+    : lastFcvCreated < nowSec - STALE_CREATE_MONTHS * MONTH_SECONDS
   if (staleCreate && !dormantFired) {
     flags.push({
       id: 'no_recent_giveaway',
-      severity: 'warn',
-      label:
-        lastFcvCreated == null
-          ? 'No counting full-CV giveaway created yet'
-          : `Last full-CV giveaway created ${formatMonths(monthsAgo(lastFcvCreated, nowSec))}`,
-      detail:
-        lastFcvCreated == null
-          ? "Hasn't created a full-CV giveaway with entries that wasn't later deleted."
-          : `Over ${STALE_CREATE_MONTHS} months since their last counting full-CV giveaway.`,
+      severity: neverCreatedValidFcv ? 'expel' : 'warn',
+      label: neverCreatedValidFcv
+        ? 'No valid full-CV giveaway created since joining'
+        : `Last full-CV giveaway created ${formatMonths(monthsAgo(lastFcvCreated, nowSec))}`,
+      detail: neverCreatedValidFcv
+        ? `Has been in the group over ${MIN_MEMBERSHIP_MONTHS} months without creating a single group-exclusive full-CV giveaway with entries (deleted or empty giveaways don't count).`
+        : `Over ${STALE_CREATE_MONTHS} months since their last counting full-CV giveaway.`,
       games: lastFcvCreatedGa
         ? [
             {
@@ -559,7 +565,9 @@ function analyzeUser(
             },
           ]
         : undefined,
-      weight: FLAG_WEIGHT.no_recent_giveaway,
+      weight: neverCreatedValidFcv
+        ? FLAG_WEIGHT.no_recent_giveaway + 2
+        : FLAG_WEIGHT.no_recent_giveaway,
     })
   }
 

@@ -4,11 +4,11 @@
     "slug": "2026",
     "label": "Spring Cleaning 2026"
   },
-  "generatedAt": 1780836878,
+  "generatedAt": 1780837722,
   "sourceLastUpdated": 1780829253551,
   "result": {
     "totalAnalyzed": 146,
-    "generatedAt": 1780836878,
+    "generatedAt": 1780837722,
     "expel": [
       {
         "username": "molu13",
@@ -159,7 +159,7 @@
           {
             "id": "dormant_creator_still_taking",
             "severity": "expel",
-            "label": "Stopped giving but still taking",
+            "label": "Stopped giving but still winning",
             "detail": "Last created a full-CV giveaway 6mo ago, but still winning giveaways.",
             "games": [
               {
@@ -191,6 +191,59 @@
                 "note": "25 wishlists · won 5mo ago"
               }
             ],
+            "weight": 3
+          },
+          {
+            "id": "not_on_discord",
+            "severity": "info",
+            "label": "Not on Discord",
+            "weight": 1
+          }
+        ]
+      },
+      {
+        "username": "atti",
+        "steam_id": "76561198009116714",
+        "avatar_url": "https://avatars.steamstatic.com/6f982210fe9a377fdb74d9a836e4d670f0fd68fc_medium.jpg",
+        "discord_member": false,
+        "ratio": 0,
+        "playRate": {
+          "played": 0,
+          "total": 0,
+          "percentage": 0,
+          "noStatsCount": 0
+        },
+        "memberSince": null,
+        "lastActiveAt": null,
+        "lastCreated": null,
+        "lastWon": null,
+        "lastEntered": null,
+        "highlights": {
+          "badges": [],
+          "createdCount": 0,
+          "events": [],
+          "qualityGiven": [],
+          "playedBroCount": 0,
+          "requiredPlay": {
+            "played": 0,
+            "notPlayed": 0
+          }
+        },
+        "classification": "expel",
+        "score": 8,
+        "flags": [
+          {
+            "id": "no_recent_giveaway",
+            "severity": "expel",
+            "label": "No valid full-CV giveaway created since joining",
+            "detail": "Has been in the group over 3 months without creating a single group-exclusive full-CV giveaway with entries (deleted or empty giveaways don't count).",
+            "weight": 4
+          },
+          {
+            "id": "inactive_member",
+            "severity": "warn",
+            "label": "Inactive long-time member",
+            "detail": "No recorded giveaway activity.",
             "weight": 3
           },
           {
@@ -257,11 +310,6 @@
             "detail": "Library is private, so we can't confirm these valuable wins were ever played — hiding stats while holding high-quality wins is a red flag.",
             "games": [
               {
-                "name": "Red Dead Redemption 2: Ultimate Edition",
-                "link": "https://www.steamgifts.com/giveaway/BJfsd/red-dead-redemption-2-ultimate-edition",
-                "note": "31 wishlists · won 11mo ago"
-              },
-              {
                 "name": "Lies of P",
                 "link": "https://www.steamgifts.com/giveaway/1zRET/lies-of-p",
                 "note": "52 wishlists · won 11mo ago"
@@ -297,83 +345,53 @@
         ]
       },
       {
-        "username": "AllTracTurbo",
-        "steam_id": "76561197980988545",
-        "avatar_url": "https://avatars.steamstatic.com/74fab2bb77d54a3cf9f69e91ac32587f9acac802_medium.jpg",
-        "discord_member": false,
-        "ratio": 1.67,
+        "username": "xAlienMaster",
+        "steam_id": "76561198146290646",
+        "avatar_url": "https://avatars.steamstatic.com/103b297c39f5ac948dadc85f1cb39cc95cf8639c_medium.jpg",
+        "discord_member": true,
+        "ratio": 0,
         "playRate": {
-          "played": 3,
-          "total": 3,
-          "percentage": 100,
+          "played": 0,
+          "total": 0,
+          "percentage": 0,
           "noStatsCount": 0
         },
-        "memberSince": 1749783184,
-        "lastActiveAt": 1780705784,
-        "lastCreated": {
-          "name": "DOOM: The Dark Ages",
-          "link": "https://www.steamgifts.com/giveaway/2QIgh/doom-the-dark-ages",
-          "at": 1762020981
-        },
-        "lastWon": {
-          "name": "Hogwarts Legacy",
-          "link": "https://www.steamgifts.com/giveaway/Gbj8P/hogwarts-legacy",
-          "at": 1766662620
-        },
+        "memberSince": 1750397277,
+        "lastActiveAt": 1764144698,
+        "lastCreated": null,
+        "lastWon": null,
         "lastEntered": {
-          "name": "DAVE THE DIVER",
-          "link": "https://www.steamgifts.com/giveaway/O8vWf/dave-the-diver",
-          "at": "1780705784"
+          "name": "WUCHANG: Fallen Feathers",
+          "link": "https://www.steamgifts.com/giveaway/EjZnW/wuchang-fallen-feathers",
+          "at": "1764144698"
         },
         "highlights": {
           "badges": [],
-          "createdCount": 2,
+          "createdCount": 0,
           "events": [],
-          "qualityGiven": [
-            {
-              "name": "DOOM: The Dark Ages",
-              "link": "https://www.steamgifts.com/giveaway/2QIgh/doom-the-dark-ages",
-              "note": "42 wishlists · gifted 1 Nov 2025"
-            }
-          ],
-          "playedBroCount": 2,
+          "qualityGiven": [],
+          "playedBroCount": 0,
           "requiredPlay": {
-            "played": 1,
+            "played": 0,
             "notPlayed": 0
           }
         },
         "classification": "expel",
-        "score": 6,
+        "score": 7,
         "flags": [
           {
-            "id": "dormant_creator_still_taking",
+            "id": "no_recent_giveaway",
             "severity": "expel",
-            "label": "Stopped giving but still taking",
-            "detail": "Last created a full-CV giveaway 7mo ago, but still entering giveaways — but no recent wins.",
-            "games": [
-              {
-                "name": "DOOM: The Dark Ages",
-                "link": "https://www.steamgifts.com/giveaway/2QIgh/doom-the-dark-ages",
-                "note": "last created · 7mo ago"
-              },
-              {
-                "name": "Hogwarts Legacy",
-                "link": "https://www.steamgifts.com/giveaway/Gbj8P/hogwarts-legacy",
-                "note": "last won · 5mo ago"
-              },
-              {
-                "name": "DAVE THE DIVER",
-                "link": "https://www.steamgifts.com/giveaway/O8vWf/dave-the-diver",
-                "note": "last entered · under a month ago"
-              }
-            ],
-            "weight": 5
+            "label": "No valid full-CV giveaway created since joining",
+            "detail": "Has been in the group over 3 months without creating a single group-exclusive full-CV giveaway with entries (deleted or empty giveaways don't count).",
+            "weight": 4
           },
           {
-            "id": "not_on_discord",
-            "severity": "info",
-            "label": "Not on Discord",
-            "weight": 1
+            "id": "inactive_member",
+            "severity": "warn",
+            "label": "Inactive long-time member",
+            "detail": "Joined the group 1.0y ago. Last activity (won/created/entered) 6mo ago.",
+            "weight": 3
           }
         ]
       },
@@ -452,86 +470,6 @@
         ]
       },
       {
-        "username": "TheGr3atUnknown",
-        "steam_id": "76561198048238310",
-        "avatar_url": "https://avatars.steamstatic.com/ad68a140244a4c0f85d210c48180c92d302bc17c_medium.jpg",
-        "discord_member": false,
-        "ratio": 0.67,
-        "playRate": {
-          "played": 4,
-          "total": 4,
-          "percentage": 100,
-          "noStatsCount": 0
-        },
-        "memberSince": 1749938115,
-        "lastActiveAt": 1780783997,
-        "lastCreated": {
-          "name": "FINAL FANTASY IX",
-          "link": "https://www.steamgifts.com/giveaway/UTcYY/final-fantasy-ix",
-          "at": 1755199135
-        },
-        "lastWon": {
-          "name": "Stray",
-          "link": "https://www.steamgifts.com/giveaway/1BOWA/stray",
-          "at": 1753393320
-        },
-        "lastEntered": {
-          "name": "INDIKA",
-          "link": "https://www.steamgifts.com/giveaway/3DfKR/indika",
-          "at": "1780783997"
-        },
-        "highlights": {
-          "badges": [],
-          "createdCount": 2,
-          "events": [
-            {
-              "label": "RPG August",
-              "count": 1
-            }
-          ],
-          "qualityGiven": [],
-          "playedBroCount": 0,
-          "requiredPlay": {
-            "played": 3,
-            "notPlayed": 0
-          }
-        },
-        "classification": "expel",
-        "score": 6,
-        "flags": [
-          {
-            "id": "dormant_creator_still_taking",
-            "severity": "expel",
-            "label": "Stopped giving but still taking",
-            "detail": "Last created a full-CV giveaway 10mo ago, but still entering giveaways — but no recent wins.",
-            "games": [
-              {
-                "name": "FINAL FANTASY IX",
-                "link": "https://www.steamgifts.com/giveaway/UTcYY/final-fantasy-ix",
-                "note": "last created · 10mo ago"
-              },
-              {
-                "name": "Stray",
-                "link": "https://www.steamgifts.com/giveaway/1BOWA/stray",
-                "note": "last won · 11mo ago"
-              },
-              {
-                "name": "INDIKA",
-                "link": "https://www.steamgifts.com/giveaway/3DfKR/indika",
-                "note": "last entered · under a month ago"
-              }
-            ],
-            "weight": 5
-          },
-          {
-            "id": "not_on_discord",
-            "severity": "info",
-            "label": "Not on Discord",
-            "weight": 1
-          }
-        ]
-      },
-      {
         "username": "Grogglz",
         "steam_id": "76561199644864244",
         "avatar_url": "https://avatars.steamstatic.com/206a42f067098ec1b9c66e886c31a7564150fc0d_medium.jpg",
@@ -583,7 +521,7 @@
           {
             "id": "dormant_creator_still_taking",
             "severity": "expel",
-            "label": "Stopped giving but still taking",
+            "label": "Stopped giving but still winning",
             "detail": "Last created a full-CV giveaway 9mo ago, but still winning giveaways.",
             "games": [
               {
@@ -599,151 +537,6 @@
               {
                 "name": "GROSS",
                 "link": "https://www.steamgifts.com/giveaway/U6dfH/gross",
-                "note": "last entered · under a month ago"
-              }
-            ],
-            "weight": 5
-          }
-        ]
-      },
-      {
-        "username": "ILoveMyAlice",
-        "steam_id": "76561198033169982",
-        "avatar_url": "https://avatars.steamstatic.com/521bb052e622d7d14fc32c7b0f686602b13f7cd9_medium.jpg",
-        "discord_member": true,
-        "ratio": 0,
-        "playRate": {
-          "played": 0,
-          "total": 0,
-          "percentage": 0,
-          "noStatsCount": 0
-        },
-        "memberSince": 1754060972,
-        "lastActiveAt": 1777946751,
-        "lastCreated": {
-          "name": "In Stars And Time",
-          "link": "https://www.steamgifts.com/giveaway/5Vw2I/in-stars-and-time",
-          "at": 1754060972
-        },
-        "lastWon": null,
-        "lastEntered": {
-          "name": "Senua’s Saga: Hellblade II",
-          "link": "https://www.steamgifts.com/giveaway/2ME2V/senuas-saga-hellblade-ii",
-          "at": "1777946751"
-        },
-        "highlights": {
-          "badges": [],
-          "createdCount": 1,
-          "events": [
-            {
-              "label": "RPG August",
-              "count": 1
-            }
-          ],
-          "qualityGiven": [],
-          "playedBroCount": 0,
-          "requiredPlay": {
-            "played": 0,
-            "notPlayed": 0
-          }
-        },
-        "classification": "expel",
-        "score": 5,
-        "flags": [
-          {
-            "id": "dormant_creator_still_taking",
-            "severity": "expel",
-            "label": "Stopped giving but still taking",
-            "detail": "Last created a full-CV giveaway 10mo ago, but still entering giveaways — but no recent wins. Has never won a giveaway in the group.",
-            "games": [
-              {
-                "name": "In Stars And Time",
-                "link": "https://www.steamgifts.com/giveaway/5Vw2I/in-stars-and-time",
-                "note": "last created · 10mo ago"
-              },
-              {
-                "name": "Senua’s Saga: Hellblade II",
-                "link": "https://www.steamgifts.com/giveaway/2ME2V/senuas-saga-hellblade-ii",
-                "note": "last entered · 1mo ago"
-              }
-            ],
-            "weight": 5
-          }
-        ]
-      },
-      {
-        "username": "lockcjwen",
-        "steam_id": "76561198234142828",
-        "avatar_url": "https://avatars.steamstatic.com/8d53cbce9f9a1893ea00e1025b014d7abba576cd_medium.jpg",
-        "discord_member": true,
-        "ratio": 0.67,
-        "playRate": {
-          "played": 2,
-          "total": 6,
-          "percentage": 33,
-          "noStatsCount": 1
-        },
-        "memberSince": 1749687895,
-        "lastActiveAt": 1780790029,
-        "lastCreated": {
-          "name": "Clair Obscur: Expedition 33",
-          "link": "https://www.steamgifts.com/giveaway/Kq9ja/clair-obscur-expedition-33",
-          "at": 1765065075
-        },
-        "lastWon": {
-          "name": "Botany Manor",
-          "link": "https://www.steamgifts.com/giveaway/ze83n/botany-manor",
-          "at": 1764944580
-        },
-        "lastEntered": {
-          "name": "Age of Mythology: Retold Premium Edition",
-          "link": "https://www.steamgifts.com/giveaway/DysJq/age-of-mythology-retold-premium-edition",
-          "at": "1780784252"
-        },
-        "highlights": {
-          "badges": [],
-          "createdCount": 2,
-          "events": [
-            {
-              "label": "April Event 2026",
-              "count": 5
-            }
-          ],
-          "qualityGiven": [
-            {
-              "name": "ELDEN RING",
-              "link": "https://www.steamgifts.com/giveaway/6bAih/elden-ring",
-              "note": "43 wishlists · gifted 22 Jun 2025"
-            }
-          ],
-          "playedBroCount": 0,
-          "requiredPlay": {
-            "played": 0,
-            "notPlayed": 0
-          }
-        },
-        "classification": "expel",
-        "score": 5,
-        "flags": [
-          {
-            "id": "dormant_creator_still_taking",
-            "severity": "expel",
-            "label": "Stopped giving but still taking",
-            "detail": "Last created a full-CV giveaway 6mo ago, but still entering giveaways — but no recent wins.",
-            "games": [
-              {
-                "name": "Clair Obscur: Expedition 33",
-                "link": "https://www.steamgifts.com/giveaway/Kq9ja/clair-obscur-expedition-33",
-                "note": "last created · 6mo ago"
-              },
-              {
-                "name": "Botany Manor",
-                "link": "https://www.steamgifts.com/giveaway/ze83n/botany-manor",
-                "note": "last won · 6mo ago"
-              },
-              {
-                "name": "Age of Mythology: Retold Premium Edition",
-                "link": "https://www.steamgifts.com/giveaway/DysJq/age-of-mythology-retold-premium-edition",
                 "note": "last entered · under a month ago"
               }
             ],
@@ -818,42 +611,34 @@
         ]
       },
       {
-        "username": "zolof",
-        "steam_id": "76561199409730396",
-        "avatar_url": "https://avatars.steamstatic.com/e035fcec6814ac29bc4df115cb2d1f5edb26aa1c_medium.jpg",
-        "discord_member": true,
-        "ratio": 1.67,
+        "username": "TheLastShepard",
+        "steam_id": "76561198261117995",
+        "avatar_url": "https://avatars.steamstatic.com/21228275b3080fbd08eb7de40fa8ef7ad3098425_medium.jpg",
+        "discord_member": false,
+        "ratio": 0,
         "playRate": {
-          "played": 2,
-          "total": 2,
-          "percentage": 100,
+          "played": 0,
+          "total": 0,
+          "percentage": 0,
           "noStatsCount": 0
         },
-        "memberSince": 1749683891,
-        "lastActiveAt": 1778769976,
-        "lastCreated": {
-          "name": "Enigma of Fear",
-          "link": "https://www.steamgifts.com/giveaway/r9MFT/enigma-of-fear",
-          "at": 1760613981
-        },
-        "lastWon": {
-          "name": "Rana Card",
-          "link": "https://www.steamgifts.com/giveaway/iJ2gl/rana-card",
-          "at": 1769623200
-        },
+        "memberSince": 1769095998,
+        "lastActiveAt": 1780755195,
+        "lastCreated": null,
+        "lastWon": null,
         "lastEntered": {
-          "name": "Moonlighter 2: The Endless Vault",
-          "link": "https://www.steamgifts.com/giveaway/RHYe1/moonlighter-2-the-endless-vault",
-          "at": "1778769976"
+          "name": "Neva",
+          "link": "https://www.steamgifts.com/giveaway/ZNGie/neva",
+          "at": "1780755195"
         },
         "highlights": {
           "badges": [],
-          "createdCount": 2,
+          "createdCount": 0,
           "events": [],
           "qualityGiven": [],
-          "playedBroCount": 1,
+          "playedBroCount": 0,
           "requiredPlay": {
-            "played": 1,
+            "played": 0,
             "notPlayed": 0
           }
         },
@@ -861,28 +646,17 @@
         "score": 5,
         "flags": [
           {
-            "id": "dormant_creator_still_taking",
+            "id": "no_recent_giveaway",
             "severity": "expel",
-            "label": "Stopped giving but still taking",
-            "detail": "Last created a full-CV giveaway 8mo ago, but still entering giveaways — but no recent wins.",
-            "games": [
-              {
-                "name": "Enigma of Fear",
-                "link": "https://www.steamgifts.com/giveaway/r9MFT/enigma-of-fear",
-                "note": "last created · 8mo ago"
-              },
-              {
-                "name": "Rana Card",
-                "link": "https://www.steamgifts.com/giveaway/iJ2gl/rana-card",
-                "note": "last won · 4mo ago"
-              },
-              {
-                "name": "Moonlighter 2: The Endless Vault",
-                "link": "https://www.steamgifts.com/giveaway/RHYe1/moonlighter-2-the-endless-vault",
-                "note": "last entered · under a month ago"
-              }
-            ],
-            "weight": 5
+            "label": "No valid full-CV giveaway created since joining",
+            "detail": "Has been in the group over 3 months without creating a single group-exclusive full-CV giveaway with entries (deleted or empty giveaways don't count).",
+            "weight": 4
+          },
+          {
+            "id": "not_on_discord",
+            "severity": "info",
+            "label": "Not on Discord",
+            "weight": 1
           }
         ]
       },
@@ -1225,59 +999,6 @@
               }
             ],
             "weight": 2
-          }
-        ]
-      },
-      {
-        "username": "atti",
-        "steam_id": "76561198009116714",
-        "avatar_url": "https://avatars.steamstatic.com/6f982210fe9a377fdb74d9a836e4d670f0fd68fc_medium.jpg",
-        "discord_member": false,
-        "ratio": 0,
-        "playRate": {
-          "played": 0,
-          "total": 0,
-          "percentage": 0,
-          "noStatsCount": 0
-        },
-        "memberSince": null,
-        "lastActiveAt": null,
-        "lastCreated": null,
-        "lastWon": null,
-        "lastEntered": null,
-        "highlights": {
-          "badges": [],
-          "createdCount": 0,
-          "events": [],
-          "qualityGiven": [],
-          "playedBroCount": 0,
-          "requiredPlay": {
-            "played": 0,
-            "notPlayed": 0
-          }
-        },
-        "classification": "warn",
-        "score": 6,
-        "flags": [
-          {
-            "id": "inactive_member",
-            "severity": "warn",
-            "label": "Inactive long-time member",
-            "detail": "No recorded giveaway activity.",
-            "weight": 3
-          },
-          {
-            "id": "no_recent_giveaway",
-            "severity": "warn",
-            "label": "No counting full-CV giveaway created yet",
-            "detail": "Hasn't created a full-CV giveaway with entries that wasn't later deleted.",
-            "weight": 2
-          },
-          {
-            "id": "not_on_discord",
-            "severity": "info",
-            "label": "Not on Discord",
-            "weight": 1
           }
         ]
       },
@@ -1667,6 +1388,87 @@
         ]
       },
       {
+        "username": "AllTracTurbo",
+        "steam_id": "76561197980988545",
+        "avatar_url": "https://avatars.steamstatic.com/74fab2bb77d54a3cf9f69e91ac32587f9acac802_medium.jpg",
+        "discord_member": false,
+        "ratio": 1.67,
+        "playRate": {
+          "played": 3,
+          "total": 3,
+          "percentage": 100,
+          "noStatsCount": 0
+        },
+        "memberSince": 1749783184,
+        "lastActiveAt": 1780705784,
+        "lastCreated": {
+          "name": "DOOM: The Dark Ages",
+          "link": "https://www.steamgifts.com/giveaway/2QIgh/doom-the-dark-ages",
+          "at": 1762020981
+        },
+        "lastWon": {
+          "name": "Hogwarts Legacy",
+          "link": "https://www.steamgifts.com/giveaway/Gbj8P/hogwarts-legacy",
+          "at": 1766662620
+        },
+        "lastEntered": {
+          "name": "DAVE THE DIVER",
+          "link": "https://www.steamgifts.com/giveaway/O8vWf/dave-the-diver",
+          "at": "1780705784"
+        },
+        "highlights": {
+          "badges": [],
+          "createdCount": 2,
+          "events": [],
+          "qualityGiven": [
+            {
+              "name": "DOOM: The Dark Ages",
+              "link": "https://www.steamgifts.com/giveaway/2QIgh/doom-the-dark-ages",
+              "note": "42 wishlists · gifted 1 Nov 2025"
+            }
+          ],
+          "playedBroCount": 2,
+          "requiredPlay": {
+            "played": 1,
+            "notPlayed": 0
+          }
+        },
+        "classification": "warn",
+        "score": 5,
+        "flags": [
+          {
+            "id": "dormant_creator_still_taking",
+            "severity": "warn",
+            "label": "Stopped giving but still entering",
+            "detail": "Last created a full-CV giveaway 7mo ago, but still entering giveaways — but no recent wins.",
+            "games": [
+              {
+                "name": "DOOM: The Dark Ages",
+                "link": "https://www.steamgifts.com/giveaway/2QIgh/doom-the-dark-ages",
+                "note": "last created · 7mo ago"
+              },
+              {
+                "name": "Hogwarts Legacy",
+                "link": "https://www.steamgifts.com/giveaway/Gbj8P/hogwarts-legacy",
+                "note": "last won · 5mo ago"
+              },
+              {
+                "name": "DAVE THE DIVER",
+                "link": "https://www.steamgifts.com/giveaway/O8vWf/dave-the-diver",
+                "note": "last entered · under a month ago"
+              }
+            ],
+            "weight": 4
+          },
+          {
+            "id": "not_on_discord",
+            "severity": "info",
+            "label": "Not on Discord",
+            "weight": 1
+          }
+        ]
+      },
+      {
         "username": "Golwar",
         "steam_id": "76561198003232053",
         "avatar_url": "https://avatars.steamstatic.com/48c3260d73d4d5e2208ccb0742ac74ac0226dcc7_medium.jpg",
@@ -1884,34 +1686,47 @@
         ]
       },
       {
-        "username": "xAlienMaster",
-        "steam_id": "76561198146290646",
-        "avatar_url": "https://avatars.steamstatic.com/103b297c39f5ac948dadc85f1cb39cc95cf8639c_medium.jpg",
-        "discord_member": true,
-        "ratio": 0,
+        "username": "TheGr3atUnknown",
+        "steam_id": "76561198048238310",
+        "avatar_url": "https://avatars.steamstatic.com/ad68a140244a4c0f85d210c48180c92d302bc17c_medium.jpg",
+        "discord_member": false,
+        "ratio": 0.67,
         "playRate": {
-          "played": 0,
-          "total": 0,
-          "percentage": 0,
+          "played": 4,
+          "total": 4,
+          "percentage": 100,
           "noStatsCount": 0
         },
-        "memberSince": 1750397277,
-        "lastActiveAt": 1764144698,
-        "lastCreated": null,
-        "lastWon": null,
+        "memberSince": 1749938115,
+        "lastActiveAt": 1780783997,
+        "lastCreated": {
+          "name": "FINAL FANTASY IX",
+          "link": "https://www.steamgifts.com/giveaway/UTcYY/final-fantasy-ix",
+          "at": 1755199135
+        },
+        "lastWon": {
+          "name": "Stray",
+          "link": "https://www.steamgifts.com/giveaway/1BOWA/stray",
+          "at": 1753393320
+        },
         "lastEntered": {
-          "name": "WUCHANG: Fallen Feathers",
-          "link": "https://www.steamgifts.com/giveaway/EjZnW/wuchang-fallen-feathers",
-          "at": "1764144698"
+          "name": "INDIKA",
+          "link": "https://www.steamgifts.com/giveaway/3DfKR/indika",
+          "at": "1780783997"
         },
         "highlights": {
           "badges": [],
-          "createdCount": 0,
-          "events": [],
+          "createdCount": 2,
+          "events": [
+            {
+              "label": "RPG August",
+              "count": 1
+            }
+          ],
           "qualityGiven": [],
           "playedBroCount": 0,
           "requiredPlay": {
-            "played": 0,
+            "played": 3,
             "notPlayed": 0
           }
         },
@@ -1919,18 +1734,34 @@
         "score": 5,
         "flags": [
           {
-            "id": "inactive_member",
+            "id": "dormant_creator_still_taking",
             "severity": "warn",
-            "label": "Inactive long-time member",
-            "detail": "Joined the group 1.0y ago. Last activity (won/created/entered) 6mo ago.",
-            "weight": 3
+            "label": "Stopped giving but still entering",
+            "detail": "Last created a full-CV giveaway 10mo ago, but still entering giveaways — but no recent wins.",
+            "games": [
+              {
+                "name": "FINAL FANTASY IX",
+                "link": "https://www.steamgifts.com/giveaway/UTcYY/final-fantasy-ix",
+                "note": "last created · 10mo ago"
+              },
+              {
+                "name": "Stray",
+                "link": "https://www.steamgifts.com/giveaway/1BOWA/stray",
+                "note": "last won · 11mo ago"
+              },
+              {
+                "name": "INDIKA",
+                "link": "https://www.steamgifts.com/giveaway/3DfKR/indika",
+                "note": "last entered · under a month ago"
+              }
+            ],
+            "weight": 4
           },
           {
-            "id": "no_recent_giveaway",
-            "severity": "warn",
-            "label": "No counting full-CV giveaway created yet",
-            "detail": "Hasn't created a full-CV giveaway with entries that wasn't later deleted.",
-            "weight": 2
+            "id": "not_on_discord",
+            "severity": "info",
+            "label": "Not on Discord",
+            "weight": 1
           }
         ]
       },
@@ -2007,6 +1838,71 @@
         ]
       },
       {
+        "username": "ILoveMyAlice",
+        "steam_id": "76561198033169982",
+        "avatar_url": "https://avatars.steamstatic.com/521bb052e622d7d14fc32c7b0f686602b13f7cd9_medium.jpg",
+        "discord_member": true,
+        "ratio": 0,
+        "playRate": {
+          "played": 0,
+          "total": 0,
+          "percentage": 0,
+          "noStatsCount": 0
+        },
+        "memberSince": 1754060972,
+        "lastActiveAt": 1777946751,
+        "lastCreated": {
+          "name": "In Stars And Time",
+          "link": "https://www.steamgifts.com/giveaway/5Vw2I/in-stars-and-time",
+          "at": 1754060972
+        },
+        "lastWon": null,
+        "lastEntered": {
+          "name": "Senua’s Saga: Hellblade II",
+          "link": "https://www.steamgifts.com/giveaway/2ME2V/senuas-saga-hellblade-ii",
+          "at": "1777946751"
+        },
+        "highlights": {
+          "badges": [],
+          "createdCount": 1,
+          "events": [
+            {
+              "label": "RPG August",
+              "count": 1
+            }
+          ],
+          "qualityGiven": [],
+          "playedBroCount": 0,
+          "requiredPlay": {
+            "played": 0,
+            "notPlayed": 0
+          }
+        },
+        "classification": "warn",
+        "score": 4,
+        "flags": [
+          {
+            "id": "dormant_creator_still_taking",
+            "severity": "warn",
+            "label": "Stopped giving but still entering",
+            "detail": "Last created a full-CV giveaway 10mo ago, but still entering giveaways — but no recent wins. Has never won a giveaway in the group.",
+            "games": [
+              {
+                "name": "In Stars And Time",
+                "link": "https://www.steamgifts.com/giveaway/5Vw2I/in-stars-and-time",
+                "note": "last created · 10mo ago"
+              },
+              {
+                "name": "Senua’s Saga: Hellblade II",
+                "link": "https://www.steamgifts.com/giveaway/2ME2V/senuas-saga-hellblade-ii",
+                "note": "last entered · 1mo ago"
+              }
+            ],
+            "weight": 4
+          }
+        ]
+      },
+      {
         "username": "imminiman",
         "steam_id": "76561198015261565",
         "avatar_url": "https://avatars.steamstatic.com/60fb100e211ce1b9ee7170a290e08f5c0f1a2914_medium.jpg",
@@ -2079,6 +1975,155 @@
             "severity": "warn",
             "label": "13% play rate — 2 out of 15 wins played",
             "weight": 2
+          }
+        ]
+      },
+      {
+        "username": "lockcjwen",
+        "steam_id": "76561198234142828",
+        "avatar_url": "https://avatars.steamstatic.com/8d53cbce9f9a1893ea00e1025b014d7abba576cd_medium.jpg",
+        "discord_member": true,
+        "ratio": 0.67,
+        "playRate": {
+          "played": 2,
+          "total": 6,
+          "percentage": 33,
+          "noStatsCount": 1
+        },
+        "memberSince": 1749687895,
+        "lastActiveAt": 1780790029,
+        "lastCreated": {
+          "name": "Clair Obscur: Expedition 33",
+          "link": "https://www.steamgifts.com/giveaway/Kq9ja/clair-obscur-expedition-33",
+          "at": 1765065075
+        },
+        "lastWon": {
+          "name": "Botany Manor",
+          "link": "https://www.steamgifts.com/giveaway/ze83n/botany-manor",
+          "at": 1764944580
+        },
+        "lastEntered": {
+          "name": "Age of Mythology: Retold Premium Edition",
+          "link": "https://www.steamgifts.com/giveaway/DysJq/age-of-mythology-retold-premium-edition",
+          "at": "1780784252"
+        },
+        "highlights": {
+          "badges": [],
+          "createdCount": 2,
+          "events": [
+            {
+              "label": "April Event 2026",
+              "count": 5
+            }
+          ],
+          "qualityGiven": [
+            {
+              "name": "ELDEN RING",
+              "link": "https://www.steamgifts.com/giveaway/6bAih/elden-ring",
+              "note": "43 wishlists · gifted 22 Jun 2025"
+            }
+          ],
+          "playedBroCount": 0,
+          "requiredPlay": {
+            "played": 0,
+            "notPlayed": 0
+          }
+        },
+        "classification": "warn",
+        "score": 4,
+        "flags": [
+          {
+            "id": "dormant_creator_still_taking",
+            "severity": "warn",
+            "label": "Stopped giving but still entering",
+            "detail": "Last created a full-CV giveaway 6mo ago, but still entering giveaways — but no recent wins.",
+            "games": [
+              {
+                "name": "Clair Obscur: Expedition 33",
+                "link": "https://www.steamgifts.com/giveaway/Kq9ja/clair-obscur-expedition-33",
+                "note": "last created · 6mo ago"
+              },
+              {
+                "name": "Botany Manor",
+                "link": "https://www.steamgifts.com/giveaway/ze83n/botany-manor",
+                "note": "last won · 6mo ago"
+              },
+              {
+                "name": "Age of Mythology: Retold Premium Edition",
+                "link": "https://www.steamgifts.com/giveaway/DysJq/age-of-mythology-retold-premium-edition",
+                "note": "last entered · under a month ago"
+              }
+            ],
+            "weight": 4
+          }
+        ]
+      },
+      {
+        "username": "zolof",
+        "steam_id": "76561199409730396",
+        "avatar_url": "https://avatars.steamstatic.com/e035fcec6814ac29bc4df115cb2d1f5edb26aa1c_medium.jpg",
+        "discord_member": true,
+        "ratio": 1.67,
+        "playRate": {
+          "played": 2,
+          "total": 2,
+          "percentage": 100,
+          "noStatsCount": 0
+        },
+        "memberSince": 1749683891,
+        "lastActiveAt": 1778769976,
+        "lastCreated": {
+          "name": "Enigma of Fear",
+          "link": "https://www.steamgifts.com/giveaway/r9MFT/enigma-of-fear",
+          "at": 1760613981
+        },
+        "lastWon": {
+          "name": "Rana Card",
+          "link": "https://www.steamgifts.com/giveaway/iJ2gl/rana-card",
+          "at": 1769623200
+        },
+        "lastEntered": {
+          "name": "Moonlighter 2: The Endless Vault",
+          "link": "https://www.steamgifts.com/giveaway/RHYe1/moonlighter-2-the-endless-vault",
+          "at": "1778769976"
+        },
+        "highlights": {
+          "badges": [],
+          "createdCount": 2,
+          "events": [],
+          "qualityGiven": [],
+          "playedBroCount": 1,
+          "requiredPlay": {
+            "played": 1,
+            "notPlayed": 0
+          }
+        },
+        "classification": "warn",
+        "score": 4,
+        "flags": [
+          {
+            "id": "dormant_creator_still_taking",
+            "severity": "warn",
+            "label": "Stopped giving but still entering",
+            "detail": "Last created a full-CV giveaway 8mo ago, but still entering giveaways — but no recent wins.",
+            "games": [
+              {
+                "name": "Enigma of Fear",
+                "link": "https://www.steamgifts.com/giveaway/r9MFT/enigma-of-fear",
+                "note": "last created · 8mo ago"
+              },
+              {
+                "name": "Rana Card",
+                "link": "https://www.steamgifts.com/giveaway/iJ2gl/rana-card",
+                "note": "last won · 4mo ago"
+              },
+              {
+                "name": "Moonlighter 2: The Endless Vault",
+                "link": "https://www.steamgifts.com/giveaway/RHYe1/moonlighter-2-the-endless-vault",
+                "note": "last entered · under a month ago"
+              }
+            ],
+            "weight": 4
           }
         ]
       },
@@ -4866,49 +4911,6 @@
             "weight": 1
           }
         ]
-      },
-      {
-        "username": "TheLastShepard",
-        "steam_id": "76561198261117995",
-        "avatar_url": "https://avatars.steamstatic.com/21228275b3080fbd08eb7de40fa8ef7ad3098425_medium.jpg",
-        "discord_member": false,
-        "ratio": 0,
-        "playRate": {
-          "played": 0,
-          "total": 0,
-          "percentage": 0,
-          "noStatsCount": 0
-        },
-        "memberSince": 1769095998,
-        "lastActiveAt": 1780755195,
-        "lastCreated": null,
-        "lastWon": null,
-        "lastEntered": {
-          "name": "Neva",
-          "link": "https://www.steamgifts.com/giveaway/ZNGie/neva",
-          "at": "1780755195"
-        },
-        "highlights": {
-          "badges": [],
-          "createdCount": 0,
-          "events": [],
-          "qualityGiven": [],
-          "playedBroCount": 0,
-          "requiredPlay": {
-            "played": 0,
-            "notPlayed": 0
-          }
-        },
-        "classification": "warn",
-        "score": 1,
-        "flags": [
-          {
-            "id": "not_on_discord",
-            "severity": "info",
-            "label": "Not on Discord",
-            "weight": 1
-          }
-        ]
       }
     ],
     "sections": [
@@ -4923,7 +4925,7 @@
             "steam_id": "76561198081010034",
             "avatar_url": "https://avatars.steamstatic.com/f66d025f142dec8d1a8b996e129fc4e58fe9cc40_medium.jpg",
             "discord_member": false,
-            "detail": "Stopped giving but still taking — Last created a full-CV giveaway 6mo ago, but still winning giveaways.",
+            "detail": "Stopped giving but still winning — Last created a full-CV giveaway 6mo ago, but still winning giveaways.",
             "games": [
               {
                 "name": "Slay the Princess — The Pristine Cut",
@@ -4947,7 +4949,7 @@
             "steam_id": "76561197980988545",
             "avatar_url": "https://avatars.steamstatic.com/74fab2bb77d54a3cf9f69e91ac32587f9acac802_medium.jpg",
             "discord_member": false,
-            "detail": "Stopped giving but still taking — Last created a full-CV giveaway 7mo ago, but still entering giveaways — but no recent wins.",
+            "detail": "Stopped giving but still entering — Last created a full-CV giveaway 7mo ago, but still entering giveaways — but no recent wins.",
             "games": [
               {
                 "name": "DOOM: The Dark Ages",
@@ -4967,35 +4969,11 @@
             ]
           },
           {
-            "username": "TheGr3atUnknown",
-            "steam_id": "76561198048238310",
-            "avatar_url": "https://avatars.steamstatic.com/ad68a140244a4c0f85d210c48180c92d302bc17c_medium.jpg",
-            "discord_member": false,
-            "detail": "Stopped giving but still taking — Last created a full-CV giveaway 10mo ago, but still entering giveaways — but no recent wins.",
-            "games": [
-              {
-                "name": "FINAL FANTASY IX",
-                "link": "https://www.steamgifts.com/giveaway/UTcYY/final-fantasy-ix",
-                "note": "last created · 10mo ago"
-              },
-              {
-                "name": "Stray",
-                "link": "https://www.steamgifts.com/giveaway/1BOWA/stray",
-                "note": "last won · 11mo ago"
-              },
-              {
-                "name": "INDIKA",
-                "link": "https://www.steamgifts.com/giveaway/3DfKR/indika",
-                "note": "last entered · under a month ago"
-              }
-            ]
-          },
-          {
             "username": "Grogglz",
             "steam_id": "76561199644864244",
             "avatar_url": "https://avatars.steamstatic.com/206a42f067098ec1b9c66e886c31a7564150fc0d_medium.jpg",
             "discord_member": true,
-            "detail": "Stopped giving but still taking — Last created a full-CV giveaway 9mo ago, but still winning giveaways.",
+            "detail": "Stopped giving but still winning — Last created a full-CV giveaway 9mo ago, but still winning giveaways.",
             "games": [
               {
                 "name": "Pinball Storm: Lokanta",
@@ -5015,11 +4993,35 @@
             ]
           },
           {
+            "username": "TheGr3atUnknown",
+            "steam_id": "76561198048238310",
+            "avatar_url": "https://avatars.steamstatic.com/ad68a140244a4c0f85d210c48180c92d302bc17c_medium.jpg",
+            "discord_member": false,
+            "detail": "Stopped giving but still entering — Last created a full-CV giveaway 10mo ago, but still entering giveaways — but no recent wins.",
+            "games": [
+              {
+                "name": "FINAL FANTASY IX",
+                "link": "https://www.steamgifts.com/giveaway/UTcYY/final-fantasy-ix",
+                "note": "last created · 10mo ago"
+              },
+              {
+                "name": "Stray",
+                "link": "https://www.steamgifts.com/giveaway/1BOWA/stray",
+                "note": "last won · 11mo ago"
+              },
+              {
+                "name": "INDIKA",
+                "link": "https://www.steamgifts.com/giveaway/3DfKR/indika",
+                "note": "last entered · under a month ago"
+              }
+            ]
+          },
+          {
             "username": "ILoveMyAlice",
             "steam_id": "76561198033169982",
             "avatar_url": "https://avatars.steamstatic.com/521bb052e622d7d14fc32c7b0f686602b13f7cd9_medium.jpg",
             "discord_member": true,
-            "detail": "Stopped giving but still taking — Last created a full-CV giveaway 10mo ago, but still entering giveaways — but no recent wins. Has never won a giveaway in the group.",
+            "detail": "Stopped giving but still entering — Last created a full-CV giveaway 10mo ago, but still entering giveaways — but no recent wins. Has never won a giveaway in the group.",
             "games": [
               {
                 "name": "In Stars And Time",
@@ -5038,7 +5040,7 @@
             "steam_id": "76561198234142828",
             "avatar_url": "https://avatars.steamstatic.com/8d53cbce9f9a1893ea00e1025b014d7abba576cd_medium.jpg",
             "discord_member": true,
-            "detail": "Stopped giving but still taking — Last created a full-CV giveaway 6mo ago, but still entering giveaways — but no recent wins.",
+            "detail": "Stopped giving but still entering — Last created a full-CV giveaway 6mo ago, but still entering giveaways — but no recent wins.",
             "games": [
               {
                 "name": "Clair Obscur: Expedition 33",
@@ -5062,7 +5064,7 @@
             "steam_id": "76561199409730396",
             "avatar_url": "https://avatars.steamstatic.com/e035fcec6814ac29bc4df115cb2d1f5edb26aa1c_medium.jpg",
             "discord_member": true,
-            "detail": "Stopped giving but still taking — Last created a full-CV giveaway 8mo ago, but still entering giveaways — but no recent wins.",
+            "detail": "Stopped giving but still entering — Last created a full-CV giveaway 8mo ago, but still entering giveaways — but no recent wins.",
             "games": [
               {
                 "name": "Enigma of Fear",
@@ -5332,8 +5334,8 @@
       },
       {
         "id": "no_recent_giveaway",
-        "title": "No recent giveaway created",
-        "description": "Has not created a counting full-CV giveaway in over 5 months (giveaways with no entries or that were deleted don't count).",
+        "title": "No recent / no valid giveaway created",
+        "description": "Has not created a counting full-CV giveaway in over 5 months — or never since joining (expel). Giveaways with no entries, that were deleted, or that are shared/whitelist don't count.",
         "severity": "warn",
         "users": [
           {
@@ -5349,6 +5351,13 @@
                 "note": "last created · 10mo ago"
               }
             ]
+          },
+          {
+            "username": "atti",
+            "steam_id": "76561198009116714",
+            "avatar_url": "https://avatars.steamstatic.com/6f982210fe9a377fdb74d9a836e4d670f0fd68fc_medium.jpg",
+            "discord_member": false,
+            "detail": "No valid full-CV giveaway created since joining — Has been in the group over 3 months without creating a single group-exclusive full-CV giveaway with entries (deleted or empty giveaways don't count)."
           },
           {
             "username": "Dandellion",
@@ -5379,11 +5388,11 @@
             ]
           },
           {
-            "username": "atti",
-            "steam_id": "76561198009116714",
-            "avatar_url": "https://avatars.steamstatic.com/6f982210fe9a377fdb74d9a836e4d670f0fd68fc_medium.jpg",
-            "discord_member": false,
-            "detail": "No counting full-CV giveaway created yet — Hasn't created a full-CV giveaway with entries that wasn't later deleted."
+            "username": "xAlienMaster",
+            "steam_id": "76561198146290646",
+            "avatar_url": "https://avatars.steamstatic.com/103b297c39f5ac948dadc85f1cb39cc95cf8639c_medium.jpg",
+            "discord_member": true,
+            "detail": "No valid full-CV giveaway created since joining — Has been in the group over 3 months without creating a single group-exclusive full-CV giveaway with entries (deleted or empty giveaways don't count)."
           },
           {
             "username": "BlackbeardXIII",
@@ -5526,11 +5535,11 @@
             ]
           },
           {
-            "username": "xAlienMaster",
-            "steam_id": "76561198146290646",
-            "avatar_url": "https://avatars.steamstatic.com/103b297c39f5ac948dadc85f1cb39cc95cf8639c_medium.jpg",
-            "discord_member": true,
-            "detail": "No counting full-CV giveaway created yet — Hasn't created a full-CV giveaway with entries that wasn't later deleted."
+            "username": "TheLastShepard",
+            "steam_id": "76561198261117995",
+            "avatar_url": "https://avatars.steamstatic.com/21228275b3080fbd08eb7de40fa8ef7ad3098425_medium.jpg",
+            "discord_member": false,
+            "detail": "No valid full-CV giveaway created since joining — Has been in the group over 3 months without creating a single group-exclusive full-CV giveaway with entries (deleted or empty giveaways don't count)."
           },
           {
             "username": "zeus9860",
@@ -5947,6 +5956,13 @@
             "detail": "Inactive long-time member — No recorded giveaway activity."
           },
           {
+            "username": "xAlienMaster",
+            "steam_id": "76561198146290646",
+            "avatar_url": "https://avatars.steamstatic.com/103b297c39f5ac948dadc85f1cb39cc95cf8639c_medium.jpg",
+            "discord_member": true,
+            "detail": "Inactive long-time member — Joined the group 1.0y ago. Last activity (won/created/entered) 6mo ago."
+          },
+          {
             "username": "Palindrome",
             "steam_id": "76561198039810488",
             "avatar_url": "https://avatars.steamstatic.com/39342ed8ab30cfaaaf31530e5c13ae74bbd8bced_medium.jpg",
@@ -6003,13 +6019,6 @@
             "detail": "Inactive long-time member — Joined the group 1.0y ago. Last activity (won/created/entered) 4mo ago."
           },
           {
-            "username": "xAlienMaster",
-            "steam_id": "76561198146290646",
-            "avatar_url": "https://avatars.steamstatic.com/103b297c39f5ac948dadc85f1cb39cc95cf8639c_medium.jpg",
-            "discord_member": true,
-            "detail": "Inactive long-time member — Joined the group 1.0y ago. Last activity (won/created/entered) 6mo ago."
-          },
-          {
             "username": "zeus9860",
             "steam_id": "76561197983161455",
             "avatar_url": "https://avatars.steamstatic.com/65b10e04afa417aa7a90b24cff4ad73e135443f1_medium.jpg",
@@ -6046,23 +6055,16 @@
             "detail": "Not on Discord"
           },
           {
-            "username": "Vexterion",
-            "steam_id": "76561198185630581",
-            "avatar_url": "https://avatars.steamstatic.com/ccbefcdd68c6af964f7c80388cb0414da7d04273_medium.jpg",
-            "discord_member": false,
-            "detail": "Not on Discord"
-          },
-          {
-            "username": "AllTracTurbo",
-            "steam_id": "76561197980988545",
-            "avatar_url": "https://avatars.steamstatic.com/74fab2bb77d54a3cf9f69e91ac32587f9acac802_medium.jpg",
-            "discord_member": false,
-            "detail": "Not on Discord"
-          },
-          {
             "username": "atti",
             "steam_id": "76561198009116714",
             "avatar_url": "https://avatars.steamstatic.com/6f982210fe9a377fdb74d9a836e4d670f0fd68fc_medium.jpg",
+            "discord_member": false,
+            "detail": "Not on Discord"
+          },
+          {
+            "username": "Vexterion",
+            "steam_id": "76561198185630581",
+            "avatar_url": "https://avatars.steamstatic.com/ccbefcdd68c6af964f7c80388cb0414da7d04273_medium.jpg",
             "discord_member": false,
             "detail": "Not on Discord"
           },
@@ -6088,13 +6090,6 @@
             "detail": "Not on Discord"
           },
           {
-            "username": "TheGr3atUnknown",
-            "steam_id": "76561198048238310",
-            "avatar_url": "https://avatars.steamstatic.com/ad68a140244a4c0f85d210c48180c92d302bc17c_medium.jpg",
-            "discord_member": false,
-            "detail": "Not on Discord"
-          },
-          {
             "username": "thoughtfulhippo",
             "steam_id": "76561198140258141",
             "avatar_url": "https://avatars.steamstatic.com/9f74b2d14a81356d52ceb93274718939b659b9ba_medium.jpg",
@@ -6105,6 +6100,27 @@
             "username": "Troutroum",
             "steam_id": "76561198061784823",
             "avatar_url": "https://avatars.steamstatic.com/0858322acf779c8a31b7494c39cde9c7811b93bf_medium.jpg",
+            "discord_member": false,
+            "detail": "Not on Discord"
+          },
+          {
+            "username": "AllTracTurbo",
+            "steam_id": "76561197980988545",
+            "avatar_url": "https://avatars.steamstatic.com/74fab2bb77d54a3cf9f69e91ac32587f9acac802_medium.jpg",
+            "discord_member": false,
+            "detail": "Not on Discord"
+          },
+          {
+            "username": "TheGr3atUnknown",
+            "steam_id": "76561198048238310",
+            "avatar_url": "https://avatars.steamstatic.com/ad68a140244a4c0f85d210c48180c92d302bc17c_medium.jpg",
+            "discord_member": false,
+            "detail": "Not on Discord"
+          },
+          {
+            "username": "TheLastShepard",
+            "steam_id": "76561198261117995",
+            "avatar_url": "https://avatars.steamstatic.com/21228275b3080fbd08eb7de40fa8ef7ad3098425_medium.jpg",
             "discord_member": false,
             "detail": "Not on Discord"
           },
@@ -6149,13 +6165,6 @@
             "avatar_url": "https://avatars.steamstatic.com/e7a630c0e5ca81e4776538cb5640a4efa15c8852_medium.jpg",
             "discord_member": false,
             "detail": "Not on Discord"
-          },
-          {
-            "username": "TheLastShepard",
-            "steam_id": "76561198261117995",
-            "avatar_url": "https://avatars.steamstatic.com/21228275b3080fbd08eb7de40fa8ef7ad3098425_medium.jpg",
-            "discord_member": false,
-            "detail": "Not on Discord"
           }
         ]
       }
@@ -6166,7 +6175,7 @@
       "bad_play_rate": 18,
       "private_steam": 2,
       "quality_unplayed": 3,
-      "no_recent_giveaway": 43,
+      "no_recent_giveaway": 44,
       "inactive_member": 12,
       "bad_ratio": 0,
       "not_on_discord": 18
