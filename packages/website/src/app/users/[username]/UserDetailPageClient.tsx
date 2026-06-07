@@ -390,9 +390,9 @@ export default function UserDetailPageClient({
     : undefined
 
   const lastCreatedGiveaway = user.giveaways_created?.length
-    ? [...user.giveaways_created].sort(
-        (a, b) => b.created_timestamp - a.created_timestamp,
-      )[0]
+    ? [...user.giveaways_created]
+        .filter((g) => g.cv_status === 'FULL_CV')
+        .sort((a, b) => b.created_timestamp - a.created_timestamp)[0]
     : undefined
   const lastWonGiveaway = user.giveaways_won?.length
     ? [...user.giveaways_won].sort(
@@ -562,7 +562,7 @@ export default function UserDetailPageClient({
               )}
               {lastCreatedGiveaway && (
                 <div className="flex items-baseline gap-2 min-w-0">
-                  <dt className="text-muted-foreground shrink-0">Last GA created</dt>
+                  <dt className="text-muted-foreground shrink-0">Last FCV GA created</dt>
                   <dd
                     className="text-foreground truncate min-w-0"
                     title={lastCreatedGiveaway.name}
@@ -933,7 +933,7 @@ export default function UserDetailPageClient({
             userNames={userNames}
             gameData={gameData}
             lastUpdated={null}
-            defaultGiveawayStatus="open"
+            defaultGiveawayStatus="all"
           />
         </TabsContent>
 

@@ -27,7 +27,7 @@ export default function GivenGiveawaysClient({ giveaways, userAvatars, userNames
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc')
   const [searchTerm, setSearchTerm] = useState('')
   const debouncedSearchTerm = useDebounce(searchTerm, 300)
-  const [filterCV, setFilterCV] = useState<'all' | 'FULL_CV' | 'REDUCED_CV' | 'NO_CV' | 'RATIO_VALID'>('all')
+  const [filterCV, setFilterCV] = useState<'all' | 'FULL_CV' | 'REDUCED_CV' | 'NO_CV' | 'RATIO_VALID'>('FULL_CV')
   const [filterRegion, setFilterRegion] = useState<boolean>(false)
   const [filterPlayRequired, setFilterPlayRequired] = useState<boolean>(false)
   const [filterShared, setFilterShared] = useState<boolean>(false)
@@ -126,7 +126,8 @@ export default function GivenGiveawaysClient({ giveaways, userAvatars, userNames
     <div className="bg-card-background rounded-lg border-card-border border p-6">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-xl font-semibold">
-          🎁 Giveaways Created ({filteredAndSortedGiveaways.length})
+          🎁 Giveaways Created ({filteredAndSortedGiveaways.length} of{' '}
+          {giveaways.length} total)
         </h2>
         <button
           onClick={() => setIsCollapsed(!isCollapsed)}

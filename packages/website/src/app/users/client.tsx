@@ -83,6 +83,17 @@ function getTotalAchievements(user: User) {
   )
 }
 
+function getLastFcvCreatedAt(user: User): number | null {
+  if (!user.giveaways_created) return null
+  let latest: number | null = null
+  for (const g of user.giveaways_created) {
+    if (g.cv_status === 'FULL_CV' && (latest === null || g.created_timestamp > latest)) {
+      latest = g.created_timestamp
+    }
+  }
+  return latest
+}
+
 function getNoEntryGiveaways(user: User) {
   if (!user.giveaways_created) return 0
   return user.giveaways_created.filter(
@@ -577,8 +588,8 @@ function UserCard({ user, isAdmin }: { user: User; isAdmin: boolean }) {
 
       <dl className="grid grid-cols-2 gap-3 border-t border-card-border pt-3 text-xs">
         <DateBlock
-          label="Last GA created"
-          ts={user.stats.last_giveaway_created_at}
+          label="Last FCV GA created"
+          ts={getLastFcvCreatedAt(user)}
         />
         <DateBlock
           label="Last GA won"
