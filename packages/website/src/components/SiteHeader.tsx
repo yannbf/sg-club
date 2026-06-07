@@ -35,6 +35,8 @@ const NAV: NavItem[] = [
   { href: '/users', label: 'Users', icon: Users, adminOnly: true },
   { href: '/ex-members', label: 'Ex members', icon: LogOut, adminOnly: true },
   { href: '/stats', label: 'Leavers', icon: BarChart3, adminOnly: true },
+  // Spring Cleaning is intentionally not listed — it's reachable only by URL
+  // (/spring-cleaning), still behind the admin gate.
 ]
 
 function isActive(pathname: string, href: string) {
