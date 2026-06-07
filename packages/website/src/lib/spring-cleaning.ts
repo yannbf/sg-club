@@ -431,8 +431,23 @@ function analyzeUser(
   // deleted — a 0-entry or deleted GA contributed nothing to anyone.
   const isRealCreated = (g: NonNullable<User['giveaways_created']>[number]) =>
     g.entries > 0 && !giveawayByLink.get(g.link)?.deleted
+  // A valid full-CV contribution must also be group-exclusive: FULL_CV, not
+  // deleted, had entries, and neither shared nor whitelist (mirrors the site's
+  // isValidFcvGiveaway()). Kept inline so this module stays import-free.
+  const isValidFcv = (g: NonNullable<User['giveaways_created']>[number]) => {
+    if (g.cv_status !== 'FULL_CV') return false
+    const gg = giveawayByLink.get(g.link)
+    return (
+      !!gg &&
+      !gg.deleted &&
+      (gg.entry_count ?? g.entries) > 0 &&
+      gg.group === true &&
+      !gg.is_shared &&
+      !gg.whitelist
+    )
+  }
   const realCreated = created.filter(isRealCreated)
-  const createdFcv = realCreated.filter((g) => g.cv_status === 'FULL_CV')
+  const createdFcv = created.filter(isValidFcv)
   const lastFcvCreatedGa = [...createdFcv].sort(
     (a, b) => b.created_timestamp - a.created_timestamp,
   )[0]

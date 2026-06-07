@@ -1,10 +1,13 @@
-import { getAllUsers, getExMembers } from '@/lib/data'
+import { getAllUsers, getExMembers, getAllGiveaways } from '@/lib/data'
 import UsersClient from './client'
 import { AdminGate } from '@/components/AdminGate'
+import { buildValidFcvLinks } from './util'
 
 export default async function UsersPage() {
   const userData = await getAllUsers()
   const exData = await getExMembers()
+  const giveaways = await getAllGiveaways()
+  const validFcvLinks = [...buildValidFcvLinks(giveaways)]
   const lastUpdated = userData?.lastUpdated
 
   if (!userData) {
@@ -25,6 +28,7 @@ export default async function UsersPage() {
         users={Object.values(userData.users)}
         exMembers={exMembers}
         lastUpdated={lastUpdated}
+        validFcvLinks={validFcvLinks}
       />
     </AdminGate>
   )

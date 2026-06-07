@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import Image from 'next/image'
 import {
   AlertTriangle,
@@ -33,7 +33,7 @@ import {
 } from '@/components/UnplayedGamesStats'
 import Tooltip from '@/components/Tooltip'
 import { getDeadlineData } from '@/components/DeadlineStatus'
-import { getUserRatio } from '../util'
+import { getUserRatio, buildValidFcvLinks, lastValidFcvCreated } from '../util'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { DiscordIcon } from '@/components/icons/DiscordIcon'
@@ -389,11 +389,12 @@ export default function UserDetailPageClient({
     ? giveaways.find((g) => g.link === lastEnteredGiveaway.link)?.name
     : undefined
 
-  const lastCreatedGiveaway = user.giveaways_created?.length
-    ? [...user.giveaways_created]
-        .filter((g) => g.cv_status === 'FULL_CV')
-        .sort((a, b) => b.created_timestamp - a.created_timestamp)[0]
-    : undefined
+  const validFcvLinks = useMemo(
+    () => buildValidFcvLinks(giveaways),
+    [giveaways],
+  )
+  const lastCreatedGiveaway =
+    lastValidFcvCreated(user, validFcvLinks) ?? undefined
   const lastWonGiveaway = user.giveaways_won?.length
     ? [...user.giveaways_won].sort(
         (a, b) => b.end_timestamp - a.end_timestamp,

@@ -26,7 +26,7 @@ import {
 } from '@/components/UnplayedGamesStats'
 import { getWarningsSeverity } from './[username]/UserDetailPageClient'
 import Tooltip from '@/components/Tooltip'
-import { getUserRatio } from './util'
+import { getUserRatio, lastValidFcvCreated } from './util'
 import { useIsAdmin } from '@/lib/auth'
 import { UserLink, steamGiftsProfile } from '@/components/UserLink'
 import { Card } from '@/components/ui/Card'
@@ -50,6 +50,8 @@ interface Props {
   lastUpdated?: number | null
   heading?: string
   description?: string
+  /** Links of group-exclusive, non-deleted, non-empty FULL_CV giveaways. */
+  validFcvLinks?: string[]
 }
 
 type SortKey =
@@ -83,15 +85,11 @@ function getTotalAchievements(user: User) {
   )
 }
 
-function getLastFcvCreatedAt(user: User): number | null {
-  if (!user.giveaways_created) return null
-  let latest: number | null = null
-  for (const g of user.giveaways_created) {
-    if (g.cv_status === 'FULL_CV' && (latest === null || g.created_timestamp > latest)) {
-      latest = g.created_timestamp
-    }
-  }
-  return latest
+function getLastFcvCreatedAt(
+  user: User,
+  validFcvLinks: Set<string>,
+): number | null {
+  return lastValidFcvCreated(user, validFcvLinks)?.created_timestamp ?? null
 }
 
 function getNoEntryGiveaways(user: User) {
@@ -155,8 +153,13 @@ export default function UsersClient({
   lastUpdated,
   heading = 'Users',
   description,
+  validFcvLinks,
 }: Props) {
   const isAdmin = useIsAdmin()
+  const validFcvSet = useMemo(
+    () => new Set(validFcvLinks ?? []),
+    [validFcvLinks],
+  )
   const [includeExMembers, setIncludeExMembers] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
   const [sortBy, setSortBy] = useState<SortKey>('difference')
@@ -395,7 +398,12 @@ export default function UsersClient({
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
         {filteredAndSortedUsers.map((user) => (
-          <UserCard key={user.steam_id} user={user} isAdmin={isAdmin} />
+          <UserCard
+            key={user.steam_id}
+            user={user}
+            isAdmin={isAdmin}
+            validFcvSet={validFcvSet}
+          />
         ))}
       </div>
 
@@ -414,7 +422,15 @@ export default function UsersClient({
   )
 }
 
-function UserCard({ user, isAdmin }: { user: User; isAdmin: boolean }) {
+function UserCard({
+  user,
+  isAdmin,
+  validFcvSet,
+}: {
+  user: User
+  isAdmin: boolean
+  validFcvSet: Set<string>
+}) {
   const ratio = user.stats.giveaway_ratio ?? 0
   const ratioCategory = getUserRatio(ratio)
   const diff = user.stats.real_total_gift_difference
@@ -589,7 +605,7 @@ function UserCard({ user, isAdmin }: { user: User; isAdmin: boolean }) {
       <dl className="grid grid-cols-2 gap-3 border-t border-card-border pt-3 text-xs">
         <DateBlock
           label="Last FCV GA created"
-          ts={getLastFcvCreatedAt(user)}
+          ts={getLastFcvCreatedAt(user, validFcvSet)}
         />
         <DateBlock
           label="Last GA won"
