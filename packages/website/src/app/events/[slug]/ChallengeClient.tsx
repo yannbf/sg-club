@@ -204,14 +204,19 @@ function Podium({
             >
               <div className="relative">
                 {p.is_winner && (
-                  <Crown className="absolute -top-5 left-1/2 h-6 w-6 -translate-x-1/2 text-[var(--accent-yellow)] drop-shadow" />
+                  <Crown className="pointer-events-none absolute -top-5 left-1/2 z-10 h-6 w-6 -translate-x-1/2 text-[var(--accent-yellow)] drop-shadow" />
                 )}
-                <Avatar
-                  src={p.avatar_url}
-                  username={p.username}
-                  size={style.avatar}
-                  ringClass={style.ring}
-                />
+                <ParticipantName
+                  p={p}
+                  className="block rounded-full transition hover:opacity-80"
+                >
+                  <Avatar
+                    src={p.avatar_url}
+                    username={p.username}
+                    size={style.avatar}
+                    ringClass={style.ring}
+                  />
+                </ParticipantName>
                 <span
                   className={cn(
                     'absolute -bottom-1 -right-1 flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold ring-2 ring-card-background',
@@ -298,9 +303,14 @@ function LeaderboardRow({
       {/* Member */}
       <div className="flex min-w-0 items-center gap-3">
         <div className="relative">
-          <Avatar src={p.avatar_url} username={p.username} size={36} />
+          <ParticipantName
+            p={p}
+            className="block rounded-full transition hover:opacity-80"
+          >
+            <Avatar src={p.avatar_url} username={p.username} size={36} />
+          </ParticipantName>
           {p.is_winner && (
-            <Crown className="absolute -right-1 -top-1.5 h-3.5 w-3.5 text-[var(--accent-yellow)]" />
+            <Crown className="pointer-events-none absolute -right-1 -top-1.5 h-3.5 w-3.5 text-[var(--accent-yellow)]" />
           )}
         </div>
         <div className="min-w-0">
