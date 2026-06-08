@@ -26,6 +26,7 @@ on:
     - cron: '0 0,8,16 * * *'   # website data, every 8 hours
     - cron: '0 1 * * *'        # playtime data, daily
     - cron: '0 6,18 * * *'     # wishlist, twice daily, off-peak
+    - cron: '0 * * * *'        # gaming challenge leaderboard, every hour
   workflow_dispatch:
     inputs:
       job:
@@ -38,6 +39,7 @@ on:
           - wishlist
           - playtime
           - playtime-all
+          - challenge
 
 permissions:
   contents: write
@@ -195,5 +197,53 @@ jobs:
             echo "No changes to commit"
           else
             git commit -m "🎮 Update playtime data (${{ env.PLAYTIME_MODE }}) - $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
+            git push origin ${{ github.ref_name }}
+          fi
+
+  challenge:
+    # Refreshes the "Gaming Challenge #1 — Backpack Hero" leaderboard. Light
+    # (~40 Steam calls), so it can run hourly on its own cron and stay clear of
+    # the SteamGifts-heavy jobs.
+    if: |
+      github.event.schedule == '0 * * * *' ||
+      (github.event_name == 'workflow_dispatch' && github.event.inputs.job == 'challenge')
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      STEAM_API_KEY: ${{ secrets.STEAM_API_KEY }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Sync branch with latest changes
+        run: git pull --rebase origin ${{ github.ref_name }} || true
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Generate gaming challenge leaderboard data
+        run: pnpm --filter scraper run challenge
+
+      - name: Commit and push challenge changes
+        run: |
+          git config --global user.name 'GitHub Action'
+          git config --global user.email 'action@github.com'
+          git add packages/website/public/data/challenge_backpack_hero.json
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "🏆 Update challenge leaderboard - $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
             git push origin ${{ github.ref_name }}
           fi

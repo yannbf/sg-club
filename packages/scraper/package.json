@@ -20,6 +20,7 @@
     "check-hltb": "tsx src/scripts/get-hltb.ts",
     "fetch-game-prices": "tsx src/api/fetch-game-prices.ts",
     "get-playtime-data": "tsx src/scripts/get-playtime-data.ts",
+    "challenge": "tsx src/scripts/generate-challenge-data.ts",
     "get-html-page": "tsx src/utils/get-html-page.ts",
     "generate-insights": "tsx src/utils/generate-insights.ts",
     "data": "tsx src/scripts/generate-all-data.ts",

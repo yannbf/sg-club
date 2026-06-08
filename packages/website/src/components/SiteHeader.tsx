@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import {
   BarChart3,
+  CalendarDays,
   Gamepad2,
   Gift,
   Heart,
@@ -31,6 +32,7 @@ const NAV: NavItem[] = [
   { href: '/', label: 'Overview', icon: BarChart3 },
   { href: '/games', label: 'Games', icon: Gamepad2 },
   { href: '/giveaways', label: 'Giveaways', icon: Gift },
+  { href: '/events', label: 'Events', icon: CalendarDays },
   { href: '/wishlist', label: 'Wishlist', icon: Heart },
   { href: '/users', label: 'Users', icon: Users, adminOnly: true },
   { href: '/ex-members', label: 'Ex members', icon: LogOut, adminOnly: true },

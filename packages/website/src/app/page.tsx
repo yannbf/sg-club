@@ -1,6 +1,8 @@
 import { getAllGiveaways, getAllUsers, getExMembers, getGameData, getSteamIdMap, getUserEntries } from '@/lib/data'
 import { GameData, Giveaway, User, UserEntry } from '@/types'
 import { createCreatorResolver, CreatorResolver } from '@/lib/creator-resolver'
+import { getEventSummaries } from '@/lib/event-data'
+import { OngoingEventsBanner } from '@/components/OngoingEventsBanner'
 import { getUserRatio } from './users/util'
 import DashboardClient, { DashboardStats, InsightData, UserLuckData } from './dashboard-client'
 
@@ -303,5 +305,12 @@ export default async function Home() {
 
   const lastUpdated = userData.lastUpdated ? new Date(userData.lastUpdated).toISOString() : null
 
-  return <DashboardClient activeStats={activeStats} allStats={allStats} lastUpdated={lastUpdated} />
+  const ongoingEvents = (await getEventSummaries()).filter((e) => e.isOngoing)
+
+  return (
+    <>
+      <OngoingEventsBanner events={ongoingEvents} />
+      <DashboardClient activeStats={activeStats} allStats={allStats} lastUpdated={lastUpdated} />
+    </>
+  )
 }

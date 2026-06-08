@@ -277,3 +277,78 @@ export interface WishlistData {
   last_updated: string
   entries: WishlistEntry[]
 }
+
+/** One unlocked achievement counted toward a gaming challenge. */
+export interface ChallengeAchievement {
+  apiname: string
+  displayName: string
+  description?: string
+  unlocktime: number
+}
+
+/** One member's standing in a gaming challenge (e.g. Backpack Hero). */
+export interface ChallengeParticipant {
+  /** Display name (may differ from the SteamGifts username, e.g. for guests). */
+  username: string
+  /** SteamGifts username for profile linking; null for non-member guests. */
+  sg_username: string | null
+  /** True when this participant is not a group member (an invited guest). */
+  is_guest: boolean
+  steam_id: string
+  avatar_url: string
+  profile_url: string | null
+  owned: boolean
+  /** Whether Steam exposed this member's achievement stats (false ⇒ private). */
+  stats_available: boolean
+  playtime_total_minutes: number
+  playtime_2weeks_minutes: number
+  baseline_playtime_minutes: number
+  /** Playtime accrued since the challenge start (current total − baseline). */
+  playtime_challenge_minutes: number
+  achievements_total: number
+  achievements_unlocked_total: number
+  /** Achievements unlocked after the challenge start. */
+  challenge_achievements: ChallengeAchievement[]
+  challenge_achievement_count: number
+  /** Already had the winning achievement before the challenge began. */
+  had_hero_before: boolean
+  /** Earned the winning achievement during the challenge. */
+  has_hero: boolean
+  hero_unlocktime: number | null
+  /** The single first member to reach the winning achievement (locked once set). */
+  is_winner: boolean
+}
+
+/** A group member who owns and has played the game but isn't on the roster. */
+export interface ChallengeNonParticipant {
+  username: string
+  steam_id: string
+  avatar_url: string
+  profile_url: string | null
+  playtime_total_minutes: number
+  playtime_2weeks_minutes: number
+  achievements_unlocked_total: number
+  achievements_total: number
+  challenge_achievement_count: number
+}
+
+/** Full payload of a generated gaming-challenge data file. */
+export interface ChallengeData {
+  slug: string
+  appId: number
+  gameName: string
+  heroAchievement: {
+    apiname: string
+    displayName: string
+    description: string
+    iconUrl?: string
+  }
+  startTimestamp: number
+  totalAchievements: number
+  generatedAt: number
+  winnerUsername: string | null
+  /** Unix seconds when the winner unlocked the Hero achievement. */
+  winnerUnlocktime?: number | null
+  participants: ChallengeParticipant[]
+  nonParticipants: ChallengeNonParticipant[]
+}

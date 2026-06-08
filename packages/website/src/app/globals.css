@@ -199,4 +199,30 @@
       linear-gradient(to bottom, color-mix(in oklab, var(--card-border) 50%, transparent) 1px, transparent 1px);
     background-size: 32px 32px;
   }
+
+  /* Golden "100% complete" highlight with a sweeping shine. */
+  .shine-100 {
+    position: relative;
+    overflow: hidden;
+    border-color: color-mix(in oklab, var(--accent-yellow) 55%, var(--card-border)) !important;
+    background: color-mix(in oklab, var(--accent-yellow) 12%, var(--card-background)) !important;
+  }
+  .shine-100::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(
+      110deg,
+      transparent 25%,
+      color-mix(in oklab, var(--accent-yellow) 45%, transparent) 50%,
+      transparent 75%
+    );
+    transform: translateX(-150%);
+    animation: shine-sweep 3s ease-in-out infinite;
+  }
+  @keyframes shine-sweep {
+    0% { transform: translateX(-150%); }
+    60%, 100% { transform: translateX(150%); }
+  }
 }
