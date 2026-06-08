@@ -286,6 +286,16 @@ export interface ChallengeAchievement {
   unlocktime: number
 }
 
+/** A single item-discovery milestone toward the win condition. */
+export interface ChallengeMilestone {
+  apiname: string
+  label: string
+  /** Items required to reach this milestone (e.g. 200/400/700). */
+  items: number
+  unlocked: boolean
+  unlocktime: number | null
+}
+
 /** One member's standing in a gaming challenge (e.g. Backpack Hero). */
 export interface ChallengeParticipant {
   /** Display name (may differ from the SteamGifts username, e.g. for guests). */
@@ -310,6 +320,8 @@ export interface ChallengeParticipant {
   /** Achievements unlocked after the challenge start. */
   challenge_achievements: ChallengeAchievement[]
   challenge_achievement_count: number
+  /** Item-discovery progression (Discoverer 200 → Expert 400 → Hero 700). */
+  milestones: ChallengeMilestone[]
   /** Already had the winning achievement before the challenge began. */
   had_hero_before: boolean
   /** Earned the winning achievement during the challenge. */

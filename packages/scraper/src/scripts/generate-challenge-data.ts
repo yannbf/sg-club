@@ -42,6 +42,12 @@ if (!API_KEY) {
 const APP_ID = 1970580
 const GAME_NAME = 'Backpack Hero'
 const HERO_APINAME = 'ItemHero'
+// The item-discovery progression toward the win condition (Hero = 700 items).
+const MILESTONES = [
+  { apiname: 'ItemDiscoverer', label: 'Discoverer', items: 200 },
+  { apiname: 'ItemExpert', label: 'Expert', items: 400 },
+  { apiname: 'ItemHero', label: 'Hero', items: 700 },
+] as const
 const HERO_ICON_URL =
   'https://cdn.akamai.steamstatic.com/steamcommunity/public/images/apps/1970580/8a4c1ba13e41f1cadff981bfefe467cae6baa6d3.jpg'
 const SLUG = 'gaming-challenge-1-backpack-hero'
@@ -185,6 +191,19 @@ async function fetchProgress(
   )
   const heroDuring = challengeAch.find((a) => a.apiname === HERO_APINAME)
 
+  // Item-discovery progression (Discoverer → Expert → Hero). Item counts are
+  // account-cumulative, so we report each milestone's current unlock status.
+  const milestones = MILESTONES.map((m) => {
+    const entry = (ach?.achieved ?? []).find((a) => a.apiname === m.apiname)
+    return {
+      apiname: m.apiname,
+      label: m.label,
+      items: m.items,
+      unlocked: Boolean(entry),
+      unlocktime: entry?.unlocktime ?? null,
+    }
+  })
+
   return {
     game,
     stats_available: ach !== null,
@@ -192,6 +211,7 @@ async function fetchProgress(
     achievements_unlocked_total: ach?.achieved.length ?? 0,
     challenge_achievements: challengeAch,
     challenge_achievement_count: challengeAch.length,
+    milestones,
     had_hero_before: hadHeroBefore,
     has_hero: Boolean(heroDuring),
     hero_unlocktime: heroDuring?.unlocktime ?? null,
@@ -333,6 +353,7 @@ async function main(): Promise<void> {
       achievements_unlocked_total: p.achievements_unlocked_total,
       challenge_achievements: p.challenge_achievements,
       challenge_achievement_count: p.challenge_achievement_count,
+      milestones: p.milestones,
       had_hero_before: p.had_hero_before,
       has_hero: p.has_hero,
       hero_unlocktime: p.hero_unlocktime,

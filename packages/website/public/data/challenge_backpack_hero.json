@@ -41,7 +41,7 @@
       }
     ]
   },
-  "generatedAt": 1780950355462,
+  "generatedAt": 1780953166280,
   "winnerUsername": null,
   "winnerUnlocktime": null,
   "participants": [
@@ -170,6 +170,29 @@
         }
       ],
       "challenge_achievement_count": 18,
+      "milestones": [
+        {
+          "apiname": "ItemDiscoverer",
+          "label": "Discoverer",
+          "items": 200,
+          "unlocked": true,
+          "unlocktime": 1780909430
+        },
+        {
+          "apiname": "ItemExpert",
+          "label": "Expert",
+          "items": 400,
+          "unlocked": true,
+          "unlocktime": 1780943325
+        },
+        {
+          "apiname": "ItemHero",
+          "label": "Hero",
+          "items": 700,
+          "unlocked": false,
+          "unlocktime": null
+        }
+      ],
       "had_hero_before": false,
       "has_hero": false,
       "hero_unlocktime": null,
@@ -288,6 +311,29 @@
         }
       ],
       "challenge_achievement_count": 16,
+      "milestones": [
+        {
+          "apiname": "ItemDiscoverer",
+          "label": "Discoverer",
+          "items": 200,
+          "unlocked": true,
+          "unlocktime": 1780908198
+        },
+        {
+          "apiname": "ItemExpert",
+          "label": "Expert",
+          "items": 400,
+          "unlocked": false,
+          "unlocktime": null
+        },
+        {
+          "apiname": "ItemHero",
+          "label": "Hero",
+          "items": 700,
+          "unlocked": false,
+          "unlocktime": null
+        }
+      ],
       "had_hero_before": false,
       "has_hero": false,
       "hero_unlocktime": null,
@@ -302,12 +348,12 @@
       "is_guest": false,
       "owned": true,
       "stats_available": true,
-      "playtime_total_minutes": 370,
-      "playtime_2weeks_minutes": 370,
+      "playtime_total_minutes": 400,
+      "playtime_2weeks_minutes": 400,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 370,
+      "playtime_challenge_minutes": 400,
       "achievements_total": 35,
-      "achievements_unlocked_total": 13,
+      "achievements_unlocked_total": 15,
       "challenge_achievements": [
         {
           "apiname": "GotPradasLocket",
@@ -386,9 +432,44 @@
           "displayName": "Swampland",
           "description": "Discover the Enchanted Swamp",
           "unlocktime": 1780941543
+        },
+        {
+          "apiname": "UnlockedMagmaCore",
+          "displayName": "Toasty",
+          "description": "Discover the Magma Core",
+          "unlocktime": 1780952586
+        },
+        {
+          "apiname": "UnlockedTote",
+          "displayName": "Toad Hero",
+          "description": "Unlock Tote",
+          "unlocktime": 1780952628
         }
       ],
-      "challenge_achievement_count": 13,
+      "challenge_achievement_count": 15,
+      "milestones": [
+        {
+          "apiname": "ItemDiscoverer",
+          "label": "Discoverer",
+          "items": 200,
+          "unlocked": true,
+          "unlocktime": 1780927797
+        },
+        {
+          "apiname": "ItemExpert",
+          "label": "Expert",
+          "items": 400,
+          "unlocked": false,
+          "unlocktime": null
+        },
+        {
+          "apiname": "ItemHero",
+          "label": "Hero",
+          "items": 700,
+          "unlocked": false,
+          "unlocktime": null
+        }
+      ],
       "had_hero_before": false,
       "has_hero": false,
       "hero_unlocktime": null,
@@ -483,6 +564,29 @@
         }
       ],
       "challenge_achievement_count": 12,
+      "milestones": [
+        {
+          "apiname": "ItemDiscoverer",
+          "label": "Discoverer",
+          "items": 200,
+          "unlocked": true,
+          "unlocktime": 1780932583
+        },
+        {
+          "apiname": "ItemExpert",
+          "label": "Expert",
+          "items": 400,
+          "unlocked": false,
+          "unlocktime": null
+        },
+        {
+          "apiname": "ItemHero",
+          "label": "Hero",
+          "items": 700,
+          "unlocked": false,
+          "unlocktime": null
+        }
+      ],
       "had_hero_before": false,
       "has_hero": false,
       "hero_unlocktime": null,
@@ -497,12 +601,12 @@
       "is_guest": false,
       "owned": true,
       "stats_available": true,
-      "playtime_total_minutes": 471,
-      "playtime_2weeks_minutes": 471,
+      "playtime_total_minutes": 518,
+      "playtime_2weeks_minutes": 518,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 471,
+      "playtime_challenge_minutes": 518,
       "achievements_total": 35,
-      "achievements_unlocked_total": 9,
+      "achievements_unlocked_total": 10,
       "challenge_achievements": [
         {
           "apiname": "GotPradasLocket",
@@ -557,9 +661,108 @@
           "displayName": "Bird Hero",
           "description": "Unlock Satchel",
           "unlocktime": 1780948259
+        },
+        {
+          "apiname": "FullyArmored",
+          "displayName": "Fully Armored",
+          "description": "Carry a helmet, clothing, two gloves, and footwear",
+          "unlocktime": 1780952400
         }
       ],
-      "challenge_achievement_count": 9,
+      "challenge_achievement_count": 10,
+      "milestones": [
+        {
+          "apiname": "ItemDiscoverer",
+          "label": "Discoverer",
+          "items": 200,
+          "unlocked": true,
+          "unlocktime": 1780915657
+        },
+        {
+          "apiname": "ItemExpert",
+          "label": "Expert",
+          "items": 400,
+          "unlocked": false,
+          "unlocktime": null
+        },
+        {
+          "apiname": "ItemHero",
+          "label": "Hero",
+          "items": 700,
+          "unlocked": false,
+          "unlocktime": null
+        }
+      ],
+      "had_hero_before": false,
+      "has_hero": false,
+      "hero_unlocktime": null,
+      "is_winner": false
+    },
+    {
+      "username": "yugimax",
+      "sg_username": "yugimax",
+      "steam_id": "76561198352113526",
+      "avatar_url": "https://avatars.steamstatic.com/501c9213b047cc0e05350b954a78fdfd5dce36c9_medium.jpg",
+      "profile_url": "https://steamcommunity.com/profiles/76561198352113526",
+      "is_guest": false,
+      "owned": true,
+      "stats_available": true,
+      "playtime_total_minutes": 127,
+      "playtime_2weeks_minutes": 127,
+      "baseline_playtime_minutes": 0,
+      "playtime_challenge_minutes": 127,
+      "achievements_total": 35,
+      "achievements_unlocked_total": 4,
+      "challenge_achievements": [
+        {
+          "apiname": "GotPradasLocket",
+          "displayName": "Prada's Locket",
+          "description": "Find Prada's Locket",
+          "unlocktime": 1780945680
+        },
+        {
+          "apiname": "Glutton",
+          "displayName": "Glutton",
+          "description": "Carry at least 7 consumables",
+          "unlocktime": 1780946234
+        },
+        {
+          "apiname": "UnlockedDeepCave",
+          "displayName": "Deep Explorer",
+          "description": "Discover the Deep Caves",
+          "unlocktime": 1780950574
+        },
+        {
+          "apiname": "Popular",
+          "displayName": "Popular",
+          "description": "Attract at least 40 residents to Haversack Hill",
+          "unlocktime": 1780952943
+        }
+      ],
+      "challenge_achievement_count": 4,
+      "milestones": [
+        {
+          "apiname": "ItemDiscoverer",
+          "label": "Discoverer",
+          "items": 200,
+          "unlocked": false,
+          "unlocktime": null
+        },
+        {
+          "apiname": "ItemExpert",
+          "label": "Expert",
+          "items": 400,
+          "unlocked": false,
+          "unlocktime": null
+        },
+        {
+          "apiname": "ItemHero",
+          "label": "Hero",
+          "items": 700,
+          "unlocked": false,
+          "unlocktime": null
+        }
+      ],
       "had_hero_before": false,
       "has_hero": false,
       "hero_unlocktime": null,
@@ -574,10 +777,10 @@
       "is_guest": false,
       "owned": true,
       "stats_available": true,
-      "playtime_total_minutes": 330,
-      "playtime_2weeks_minutes": 330,
+      "playtime_total_minutes": 360,
+      "playtime_2weeks_minutes": 360,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 330,
+      "playtime_challenge_minutes": 360,
       "achievements_total": 35,
       "achievements_unlocked_total": 3,
       "challenge_achievements": [
@@ -601,6 +804,29 @@
         }
       ],
       "challenge_achievement_count": 3,
+      "milestones": [
+        {
+          "apiname": "ItemDiscoverer",
+          "label": "Discoverer",
+          "items": 200,
+          "unlocked": true,
+          "unlocktime": 1780944430
+        },
+        {
+          "apiname": "ItemExpert",
+          "label": "Expert",
+          "items": 400,
+          "unlocked": false,
+          "unlocktime": null
+        },
+        {
+          "apiname": "ItemHero",
+          "label": "Hero",
+          "items": 700,
+          "unlocked": false,
+          "unlocktime": null
+        }
+      ],
       "had_hero_before": false,
       "has_hero": false,
       "hero_unlocktime": null,
@@ -642,6 +868,87 @@
         }
       ],
       "challenge_achievement_count": 3,
+      "milestones": [
+        {
+          "apiname": "ItemDiscoverer",
+          "label": "Discoverer",
+          "items": 200,
+          "unlocked": false,
+          "unlocktime": null
+        },
+        {
+          "apiname": "ItemExpert",
+          "label": "Expert",
+          "items": 400,
+          "unlocked": false,
+          "unlocktime": null
+        },
+        {
+          "apiname": "ItemHero",
+          "label": "Hero",
+          "items": 700,
+          "unlocked": false,
+          "unlocktime": null
+        }
+      ],
+      "had_hero_before": false,
+      "has_hero": false,
+      "hero_unlocktime": null,
+      "is_winner": false
+    },
+    {
+      "username": "aez76",
+      "sg_username": "aez76",
+      "steam_id": "76561198053065013",
+      "avatar_url": "https://avatars.steamstatic.com/b5eae171031d9da84f7a3320ee1c73df6f0cbce1_medium.jpg",
+      "profile_url": "https://steamcommunity.com/profiles/76561198053065013",
+      "is_guest": false,
+      "owned": true,
+      "stats_available": true,
+      "playtime_total_minutes": 250,
+      "playtime_2weeks_minutes": 250,
+      "baseline_playtime_minutes": 0,
+      "playtime_challenge_minutes": 250,
+      "achievements_total": 35,
+      "achievements_unlocked_total": 2,
+      "challenge_achievements": [
+        {
+          "apiname": "GotPradasLocket",
+          "displayName": "Prada's Locket",
+          "description": "Find Prada's Locket",
+          "unlocktime": 1780932049
+        },
+        {
+          "apiname": "ShivMaster",
+          "displayName": "Shiv Master",
+          "description": "Carry at least 5 shivs",
+          "unlocktime": 1780952847
+        }
+      ],
+      "challenge_achievement_count": 2,
+      "milestones": [
+        {
+          "apiname": "ItemDiscoverer",
+          "label": "Discoverer",
+          "items": 200,
+          "unlocked": false,
+          "unlocktime": null
+        },
+        {
+          "apiname": "ItemExpert",
+          "label": "Expert",
+          "items": 400,
+          "unlocked": false,
+          "unlocktime": null
+        },
+        {
+          "apiname": "ItemHero",
+          "label": "Hero",
+          "items": 700,
+          "unlocked": false,
+          "unlocktime": null
+        }
+      ],
       "had_hero_before": false,
       "has_hero": false,
       "hero_unlocktime": null,
@@ -677,6 +984,29 @@
         }
       ],
       "challenge_achievement_count": 2,
+      "milestones": [
+        {
+          "apiname": "ItemDiscoverer",
+          "label": "Discoverer",
+          "items": 200,
+          "unlocked": false,
+          "unlocktime": null
+        },
+        {
+          "apiname": "ItemExpert",
+          "label": "Expert",
+          "items": 400,
+          "unlocked": false,
+          "unlocktime": null
+        },
+        {
+          "apiname": "ItemHero",
+          "label": "Hero",
+          "items": 700,
+          "unlocked": false,
+          "unlocktime": null
+        }
+      ],
       "had_hero_before": false,
       "has_hero": false,
       "hero_unlocktime": null,
@@ -712,24 +1042,47 @@
         }
       ],
       "challenge_achievement_count": 2,
+      "milestones": [
+        {
+          "apiname": "ItemDiscoverer",
+          "label": "Discoverer",
+          "items": 200,
+          "unlocked": false,
+          "unlocktime": null
+        },
+        {
+          "apiname": "ItemExpert",
+          "label": "Expert",
+          "items": 400,
+          "unlocked": false,
+          "unlocktime": null
+        },
+        {
+          "apiname": "ItemHero",
+          "label": "Hero",
+          "items": 700,
+          "unlocked": false,
+          "unlocktime": null
+        }
+      ],
       "had_hero_before": false,
       "has_hero": false,
       "hero_unlocktime": null,
       "is_winner": false
     },
     {
-      "username": "yugimax",
-      "sg_username": "yugimax",
-      "steam_id": "76561198352113526",
-      "avatar_url": "https://avatars.steamstatic.com/501c9213b047cc0e05350b954a78fdfd5dce36c9_medium.jpg",
-      "profile_url": "https://steamcommunity.com/profiles/76561198352113526",
+      "username": "Ignition365",
+      "sg_username": "Ignition365",
+      "steam_id": "76561197984532155",
+      "avatar_url": "https://avatars.steamstatic.com/c61c9420d2c9c4e3aba0c82dd6413083509ed3ba_medium.jpg",
+      "profile_url": "https://steamcommunity.com/profiles/76561197984532155",
       "is_guest": false,
       "owned": true,
       "stats_available": true,
-      "playtime_total_minutes": 98,
-      "playtime_2weeks_minutes": 98,
+      "playtime_total_minutes": 83,
+      "playtime_2weeks_minutes": 85,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 98,
+      "playtime_challenge_minutes": 83,
       "achievements_total": 35,
       "achievements_unlocked_total": 2,
       "challenge_achievements": [
@@ -737,16 +1090,39 @@
           "apiname": "GotPradasLocket",
           "displayName": "Prada's Locket",
           "description": "Find Prada's Locket",
-          "unlocktime": 1780945680
+          "unlocktime": 1780948071
         },
         {
-          "apiname": "Glutton",
-          "displayName": "Glutton",
-          "description": "Carry at least 7 consumables",
-          "unlocktime": 1780946234
+          "apiname": "UnlockedDeepCave",
+          "displayName": "Deep Explorer",
+          "description": "Discover the Deep Caves",
+          "unlocktime": 1780951682
         }
       ],
       "challenge_achievement_count": 2,
+      "milestones": [
+        {
+          "apiname": "ItemDiscoverer",
+          "label": "Discoverer",
+          "items": 200,
+          "unlocked": false,
+          "unlocktime": null
+        },
+        {
+          "apiname": "ItemExpert",
+          "label": "Expert",
+          "items": 400,
+          "unlocked": false,
+          "unlocktime": null
+        },
+        {
+          "apiname": "ItemHero",
+          "label": "Hero",
+          "items": 700,
+          "unlocked": false,
+          "unlocktime": null
+        }
+      ],
       "had_hero_before": false,
       "has_hero": false,
       "hero_unlocktime": null,
@@ -776,6 +1152,29 @@
         }
       ],
       "challenge_achievement_count": 1,
+      "milestones": [
+        {
+          "apiname": "ItemDiscoverer",
+          "label": "Discoverer",
+          "items": 200,
+          "unlocked": false,
+          "unlocktime": null
+        },
+        {
+          "apiname": "ItemExpert",
+          "label": "Expert",
+          "items": 400,
+          "unlocked": false,
+          "unlocktime": null
+        },
+        {
+          "apiname": "ItemHero",
+          "label": "Hero",
+          "items": 700,
+          "unlocked": false,
+          "unlocktime": null
+        }
+      ],
       "had_hero_before": false,
       "has_hero": false,
       "hero_unlocktime": null,
@@ -805,35 +1204,29 @@
         }
       ],
       "challenge_achievement_count": 1,
-      "had_hero_before": false,
-      "has_hero": false,
-      "hero_unlocktime": null,
-      "is_winner": false
-    },
-    {
-      "username": "aez76",
-      "sg_username": "aez76",
-      "steam_id": "76561198053065013",
-      "avatar_url": "https://avatars.steamstatic.com/b5eae171031d9da84f7a3320ee1c73df6f0cbce1_medium.jpg",
-      "profile_url": "https://steamcommunity.com/profiles/76561198053065013",
-      "is_guest": false,
-      "owned": true,
-      "stats_available": true,
-      "playtime_total_minutes": 220,
-      "playtime_2weeks_minutes": 220,
-      "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 220,
-      "achievements_total": 35,
-      "achievements_unlocked_total": 1,
-      "challenge_achievements": [
+      "milestones": [
         {
-          "apiname": "GotPradasLocket",
-          "displayName": "Prada's Locket",
-          "description": "Find Prada's Locket",
-          "unlocktime": 1780932049
+          "apiname": "ItemDiscoverer",
+          "label": "Discoverer",
+          "items": 200,
+          "unlocked": false,
+          "unlocktime": null
+        },
+        {
+          "apiname": "ItemExpert",
+          "label": "Expert",
+          "items": 400,
+          "unlocked": false,
+          "unlocktime": null
+        },
+        {
+          "apiname": "ItemHero",
+          "label": "Hero",
+          "items": 700,
+          "unlocked": false,
+          "unlocktime": null
         }
       ],
-      "challenge_achievement_count": 1,
       "had_hero_before": false,
       "has_hero": false,
       "hero_unlocktime": null,
@@ -848,10 +1241,10 @@
       "is_guest": false,
       "owned": true,
       "stats_available": true,
-      "playtime_total_minutes": 61,
-      "playtime_2weeks_minutes": 61,
+      "playtime_total_minutes": 121,
+      "playtime_2weeks_minutes": 121,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 61,
+      "playtime_challenge_minutes": 121,
       "achievements_total": 35,
       "achievements_unlocked_total": 1,
       "challenge_achievements": [
@@ -863,6 +1256,29 @@
         }
       ],
       "challenge_achievement_count": 1,
+      "milestones": [
+        {
+          "apiname": "ItemDiscoverer",
+          "label": "Discoverer",
+          "items": 200,
+          "unlocked": false,
+          "unlocktime": null
+        },
+        {
+          "apiname": "ItemExpert",
+          "label": "Expert",
+          "items": 400,
+          "unlocked": false,
+          "unlocktime": null
+        },
+        {
+          "apiname": "ItemHero",
+          "label": "Hero",
+          "items": 700,
+          "unlocked": false,
+          "unlocktime": null
+        }
+      ],
       "had_hero_before": false,
       "has_hero": false,
       "hero_unlocktime": null,
@@ -892,6 +1308,29 @@
         }
       ],
       "challenge_achievement_count": 1,
+      "milestones": [
+        {
+          "apiname": "ItemDiscoverer",
+          "label": "Discoverer",
+          "items": 200,
+          "unlocked": false,
+          "unlocktime": null
+        },
+        {
+          "apiname": "ItemExpert",
+          "label": "Expert",
+          "items": 400,
+          "unlocked": false,
+          "unlocktime": null
+        },
+        {
+          "apiname": "ItemHero",
+          "label": "Hero",
+          "items": 700,
+          "unlocked": false,
+          "unlocktime": null
+        }
+      ],
       "had_hero_before": false,
       "has_hero": false,
       "hero_unlocktime": null,
@@ -921,6 +1360,29 @@
         }
       ],
       "challenge_achievement_count": 1,
+      "milestones": [
+        {
+          "apiname": "ItemDiscoverer",
+          "label": "Discoverer",
+          "items": 200,
+          "unlocked": false,
+          "unlocktime": null
+        },
+        {
+          "apiname": "ItemExpert",
+          "label": "Expert",
+          "items": 400,
+          "unlocked": false,
+          "unlocktime": null
+        },
+        {
+          "apiname": "ItemHero",
+          "label": "Hero",
+          "items": 700,
+          "unlocked": false,
+          "unlocktime": null
+        }
+      ],
       "had_hero_before": false,
       "has_hero": false,
       "hero_unlocktime": null,
@@ -950,6 +1412,29 @@
         }
       ],
       "challenge_achievement_count": 1,
+      "milestones": [
+        {
+          "apiname": "ItemDiscoverer",
+          "label": "Discoverer",
+          "items": 200,
+          "unlocked": false,
+          "unlocktime": null
+        },
+        {
+          "apiname": "ItemExpert",
+          "label": "Expert",
+          "items": 400,
+          "unlocked": false,
+          "unlocktime": null
+        },
+        {
+          "apiname": "ItemHero",
+          "label": "Hero",
+          "items": 700,
+          "unlocked": false,
+          "unlocktime": null
+        }
+      ],
       "had_hero_before": false,
       "has_hero": false,
       "hero_unlocktime": null,
@@ -979,35 +1464,29 @@
         }
       ],
       "challenge_achievement_count": 1,
-      "had_hero_before": false,
-      "has_hero": false,
-      "hero_unlocktime": null,
-      "is_winner": false
-    },
-    {
-      "username": "Ignition365",
-      "sg_username": "Ignition365",
-      "steam_id": "76561197984532155",
-      "avatar_url": "https://avatars.steamstatic.com/c61c9420d2c9c4e3aba0c82dd6413083509ed3ba_medium.jpg",
-      "profile_url": "https://steamcommunity.com/profiles/76561197984532155",
-      "is_guest": false,
-      "owned": true,
-      "stats_available": true,
-      "playtime_total_minutes": 30,
-      "playtime_2weeks_minutes": 30,
-      "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 30,
-      "achievements_total": 35,
-      "achievements_unlocked_total": 1,
-      "challenge_achievements": [
+      "milestones": [
         {
-          "apiname": "GotPradasLocket",
-          "displayName": "Prada's Locket",
-          "description": "Find Prada's Locket",
-          "unlocktime": 1780948071
+          "apiname": "ItemDiscoverer",
+          "label": "Discoverer",
+          "items": 200,
+          "unlocked": false,
+          "unlocktime": null
+        },
+        {
+          "apiname": "ItemExpert",
+          "label": "Expert",
+          "items": 400,
+          "unlocked": false,
+          "unlocktime": null
+        },
+        {
+          "apiname": "ItemHero",
+          "label": "Hero",
+          "items": 700,
+          "unlocked": false,
+          "unlocktime": null
         }
       ],
-      "challenge_achievement_count": 1,
       "had_hero_before": false,
       "has_hero": false,
       "hero_unlocktime": null,
@@ -1022,14 +1501,44 @@
       "is_guest": false,
       "owned": true,
       "stats_available": true,
-      "playtime_total_minutes": 0,
-      "playtime_2weeks_minutes": 0,
+      "playtime_total_minutes": 36,
+      "playtime_2weeks_minutes": 36,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 0,
+      "playtime_challenge_minutes": 36,
       "achievements_total": 35,
-      "achievements_unlocked_total": 0,
-      "challenge_achievements": [],
-      "challenge_achievement_count": 0,
+      "achievements_unlocked_total": 1,
+      "challenge_achievements": [
+        {
+          "apiname": "GotPradasLocket",
+          "displayName": "Prada's Locket",
+          "description": "Find Prada's Locket",
+          "unlocktime": 1780951726
+        }
+      ],
+      "challenge_achievement_count": 1,
+      "milestones": [
+        {
+          "apiname": "ItemDiscoverer",
+          "label": "Discoverer",
+          "items": 200,
+          "unlocked": false,
+          "unlocktime": null
+        },
+        {
+          "apiname": "ItemExpert",
+          "label": "Expert",
+          "items": 400,
+          "unlocked": false,
+          "unlocktime": null
+        },
+        {
+          "apiname": "ItemHero",
+          "label": "Hero",
+          "items": 700,
+          "unlocked": false,
+          "unlocktime": null
+        }
+      ],
       "had_hero_before": false,
       "has_hero": false,
       "hero_unlocktime": null,
@@ -1052,6 +1561,29 @@
       "achievements_unlocked_total": 0,
       "challenge_achievements": [],
       "challenge_achievement_count": 0,
+      "milestones": [
+        {
+          "apiname": "ItemDiscoverer",
+          "label": "Discoverer",
+          "items": 200,
+          "unlocked": false,
+          "unlocktime": null
+        },
+        {
+          "apiname": "ItemExpert",
+          "label": "Expert",
+          "items": 400,
+          "unlocked": false,
+          "unlocktime": null
+        },
+        {
+          "apiname": "ItemHero",
+          "label": "Hero",
+          "items": 700,
+          "unlocked": false,
+          "unlocktime": null
+        }
+      ],
       "had_hero_before": false,
       "has_hero": false,
       "hero_unlocktime": null,
@@ -1074,6 +1606,29 @@
       "achievements_unlocked_total": 0,
       "challenge_achievements": [],
       "challenge_achievement_count": 0,
+      "milestones": [
+        {
+          "apiname": "ItemDiscoverer",
+          "label": "Discoverer",
+          "items": 200,
+          "unlocked": false,
+          "unlocktime": null
+        },
+        {
+          "apiname": "ItemExpert",
+          "label": "Expert",
+          "items": 400,
+          "unlocked": false,
+          "unlocktime": null
+        },
+        {
+          "apiname": "ItemHero",
+          "label": "Hero",
+          "items": 700,
+          "unlocked": false,
+          "unlocktime": null
+        }
+      ],
       "had_hero_before": false,
       "has_hero": false,
       "hero_unlocktime": null,

@@ -17,6 +17,7 @@ import {
 import type { EventMeta } from '@/lib/events'
 import type {
   ChallengeData,
+  ChallengeMilestone,
   ChallengeNonParticipant,
   ChallengeParticipant,
   GameData,
@@ -115,6 +116,47 @@ function GuestTag() {
     >
       Guest
     </span>
+  )
+}
+
+/**
+ * Item-discovery progression toward the win condition:
+ * Discoverer (200) → Expert (400) → Hero (700). Reached tiers are filled.
+ */
+function MilestoneTrack({ milestones }: { milestones: ChallengeMilestone[] }) {
+  if (!milestones?.length) return null
+  return (
+    <div className="mt-1 flex flex-wrap items-center gap-x-0.5 gap-y-1">
+      {milestones.map((m, i) => {
+        const isHero = m.apiname === 'ItemHero'
+        return (
+          <React.Fragment key={m.apiname}>
+            {i > 0 && (
+              <span
+                className={cn(
+                  'h-px w-2 sm:w-3',
+                  m.unlocked ? 'bg-[var(--primary)]' : 'bg-card-border',
+                )}
+                aria-hidden
+              />
+            )}
+            <span
+              title={`${m.label} — discover ${m.items} items${m.unlocked ? ' ✓' : ''}`}
+              className={cn(
+                'rounded-full px-1.5 py-0.5 text-[10px] font-medium leading-none',
+                m.unlocked
+                  ? isHero
+                    ? 'bg-[var(--accent-yellow)] text-[#1a1505]'
+                    : 'bg-[color-mix(in_oklab,var(--primary)_22%,transparent)] text-primary-hi'
+                  : 'border border-card-border text-subtle',
+              )}
+            >
+              {m.label}
+            </span>
+          </React.Fragment>
+        )
+      })}
+    </div>
   )
 }
 
@@ -321,9 +363,7 @@ function LeaderboardRow({
             />
             {p.is_guest && <GuestTag />}
           </div>
-          <div className="flex items-center gap-2 text-[11px] text-muted-foreground">
-            <span>{p.achievements_unlocked_total}/{p.achievements_total} all-time</span>
-          </div>
+          <MilestoneTrack milestones={p.milestones} />
         </div>
       </div>
 
