@@ -204,11 +204,22 @@ async function fetchProgress(
     }
   })
 
+  // Achievements unlocked *before* the challenge, with a reliable timestamp,
+  // form the baseline. Anything the account has beyond that count — post-start
+  // unlocks AND unlocks that synced without a usable unlocktime (e.g. earned in
+  // Steam Deck offline mode) — is treated as challenge progress. This is what
+  // keeps an actively-playing member from being shown as "yet to start" when
+  // Steam hands us achievements with a missing/zero unlock time.
+  const baselineAchievements = (ach?.achieved ?? []).filter(
+    (a) => a.unlocktime > 0 && a.unlocktime < START_TIMESTAMP,
+  ).length
+
   return {
     game,
     stats_available: ach !== null,
     achievements_total: ach?.total ?? 35,
     achievements_unlocked_total: ach?.achieved.length ?? 0,
+    achievements_before_challenge: baselineAchievements,
     challenge_achievements: challengeAch,
     challenge_achievement_count: challengeAch.length,
     milestones,
@@ -336,6 +347,19 @@ async function main(): Promise<void> {
       ? priorBaselines.get(r.steam_id)!
       : Math.max(0, p.game.total - p.game.twoWeeks) // seed: play before the recent window
 
+    const playtimeChallengeMinutes = Math.max(0, p.game.total - baseline)
+    // Achievements gained since the pre-challenge baseline (includes offline
+    // unlocks with no usable unlocktime). A member has "started" if they've made
+    // any progress — playtime OR achievements — so a player who's clearly
+    // unlocking achievements isn't bucketed as "yet to start" just because their
+    // playtime hasn't synced from Steam yet.
+    const achievementsSinceBaseline = Math.max(
+      0,
+      p.achievements_unlocked_total - p.achievements_before_challenge,
+    )
+    const hasStarted =
+      playtimeChallengeMinutes > 0 || achievementsSinceBaseline > 0
+
     participants.push({
       username: r.display_name,
       sg_username: r.sg_username,
@@ -348,11 +372,14 @@ async function main(): Promise<void> {
       playtime_total_minutes: p.game.total,
       playtime_2weeks_minutes: p.game.twoWeeks,
       baseline_playtime_minutes: baseline,
-      playtime_challenge_minutes: Math.max(0, p.game.total - baseline),
+      playtime_challenge_minutes: playtimeChallengeMinutes,
       achievements_total: p.achievements_total,
       achievements_unlocked_total: p.achievements_unlocked_total,
+      achievements_before_challenge: p.achievements_before_challenge,
+      achievements_since_baseline: achievementsSinceBaseline,
       challenge_achievements: p.challenge_achievements,
       challenge_achievement_count: p.challenge_achievement_count,
+      has_started: hasStarted,
       milestones: p.milestones,
       had_hero_before: p.had_hero_before,
       has_hero: p.has_hero,

@@ -317,9 +317,18 @@ export interface ChallengeParticipant {
   playtime_challenge_minutes: number
   achievements_total: number
   achievements_unlocked_total: number
+  /** Achievements unlocked before the challenge began (with a reliable time). */
+  achievements_before_challenge?: number
+  /** Achievements gained since the baseline (includes offline/no-time unlocks). */
+  achievements_since_baseline?: number
   /** Achievements unlocked after the challenge start. */
   challenge_achievements: ChallengeAchievement[]
   challenge_achievement_count: number
+  /**
+   * Whether the member has made any challenge progress (playtime OR achievements
+   * since the baseline). Resilient to playtime not yet syncing from Steam.
+   */
+  has_started?: boolean
   /** Item-discovery progression (Discoverer 200 → Expert 400 → Hero 700). */
   milestones: ChallengeMilestone[]
   /** Already had the winning achievement before the challenge began. */

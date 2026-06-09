@@ -512,17 +512,18 @@ export default function ChallengeClient({
     )
   }
 
-  // Active = made progress since the challenge started. Everyone else is
-  // "yet to start" (they own the game but have no post-start stats).
-  const active = data.participants.filter(
-    (p) =>
-      p.challenge_achievement_count > 0 || p.playtime_challenge_minutes > 0,
-  )
-  const yetToStart = data.participants.filter(
-    (p) =>
-      p.challenge_achievement_count === 0 &&
-      p.playtime_challenge_minutes === 0,
-  )
+  // Active = made progress since the challenge started. "Started" means any
+  // playtime OR any achievements gained since the baseline — the latter covers
+  // members who are clearly unlocking achievements but whose playtime hasn't
+  // synced from Steam yet (e.g. Steam Deck offline play). `has_started` is the
+  // authoritative flag; fall back to the raw signals for older data files.
+  const hasStarted = (p: (typeof data.participants)[number]) =>
+    p.has_started ??
+    (p.challenge_achievement_count > 0 ||
+      p.playtime_challenge_minutes > 0 ||
+      p.achievements_unlocked_total > 0)
+  const active = data.participants.filter(hasStarted)
+  const yetToStart = data.participants.filter((p) => !hasStarted(p))
 
   const podium = active.slice(0, 3)
   const rest = active.slice(3)
