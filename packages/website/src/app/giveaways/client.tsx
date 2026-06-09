@@ -771,7 +771,7 @@ export default function GiveawaysClient({
                         <UserAvatar
                           src={
                             userAvatars.get(giveaway.creator) ||
-                            'https://cdn-icons-png.flaticon.com/512/9287/9287610.png'
+                            'https://images.icon-icons.com/2550/PNG/512/question_mark_circle_icon_152550.png'
                           }
                           username={getDisplayName(giveaway.creator)}
                         />
@@ -878,7 +878,7 @@ export default function GiveawaysClient({
                     <UserAvatar
                       src={
                         userAvatars.get(giveaway.creator) ||
-                        'https://cdn-icons-png.flaticon.com/512/9287/9287610.png'
+                        'https://images.icon-icons.com/2550/PNG/512/question_mark_circle_icon_152550.png'
                       }
                       username={getDisplayName(giveaway.creator)}
                     />
@@ -1011,7 +1011,7 @@ export default function GiveawaysClient({
                             <UserAvatar
                               src={
                                 userAvatars.get(winner.name) ||
-                                'https://cdn-icons-png.flaticon.com/512/9287/9287610.png'
+                                'https://images.icon-icons.com/2550/PNG/512/question_mark_circle_icon_152550.png'
                               }
                               username={winnerDisplayName!}
                             />
@@ -1027,7 +1027,7 @@ export default function GiveawaysClient({
                           >
                             <UserAvatar
                               src={
-                                'https://cdn-icons-png.flaticon.com/512/9287/9287610.png'
+                                'https://images.icon-icons.com/2550/PNG/512/question_mark_circle_icon_152550.png'
                               }
                               username={winnerDisplayName!}
                             />

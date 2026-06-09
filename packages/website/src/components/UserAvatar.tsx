@@ -16,7 +16,7 @@ export default function UserAvatar({ src, username }: UserAvatarProps) {
       height={24}
       className="rounded-full mr-1"
       onError={(e) => {
-        e.currentTarget.src = 'https://cdn-icons-png.flaticon.com/512/9287/9287610.png'
+        e.currentTarget.src = 'https://images.icon-icons.com/2550/PNG/512/question_mark_circle_icon_152550.png'
       }}
     />
   )

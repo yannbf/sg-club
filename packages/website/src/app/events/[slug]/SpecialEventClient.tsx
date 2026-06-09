@@ -1,11 +1,13 @@
 'use client'
 
+import Image from 'next/image'
 import {
   CalendarCheck,
   CheckCircle2,
   ExternalLink,
   Gift,
   PartyPopper,
+  Quote,
   Sparkles,
   Trophy,
 } from 'lucide-react'
@@ -13,8 +15,18 @@ import type { EventMeta } from '@/lib/events'
 import type { GameData, Giveaway } from '@/types'
 import { Card } from '@/components/ui/Card'
 import { GiveawayCard } from '@/components/GiveawayCard'
+import { UserLink } from '@/components/UserLink'
 import { cn } from '@/lib/cn'
 import { EventPageHeader } from './EventPageHeader'
+
+const FALLBACK_AVATAR =
+  'https://images.icon-icons.com/2550/PNG/512/question_mark_circle_icon_152550.png'
+
+export interface ResolvedTestimonial {
+  author: string
+  avatar: string | null
+  text: string
+}
 
 interface GiveawayProps {
   giveaways?: Giveaway[]
@@ -24,6 +36,36 @@ interface GiveawayProps {
   avatarByRaw?: Record<string, string>
   exByRaw?: Record<string, boolean>
   gameById?: Record<string, GameData>
+  testimonials?: ResolvedTestimonial[]
+}
+
+function TestimonialCard({ t }: { t: ResolvedTestimonial }) {
+  return (
+    <Card className="mb-4 break-inside-avoid space-y-3 p-5">
+      <Quote
+        className="h-5 w-5 text-[var(--accent-rose)]"
+        aria-hidden
+        fill="currentColor"
+      />
+      <p className="whitespace-pre-line text-sm leading-relaxed text-muted-foreground">
+        {t.text}
+      </p>
+      <UserLink
+        username={t.author}
+        className="flex items-center gap-2 pt-1 text-sm font-medium text-foreground transition-colors hover:text-accent"
+      >
+        <Image
+          src={t.avatar || FALLBACK_AVATAR}
+          alt={`${t.author}'s avatar`}
+          width={28}
+          height={28}
+          unoptimized
+          className="h-7 w-7 rounded-full object-cover ring-1 ring-card-border"
+        />
+        {t.author}
+      </UserLink>
+    </Card>
+  )
 }
 
 function RecordProgress({
@@ -103,6 +145,7 @@ export default function SpecialEventClient({
   avatarByRaw = {},
   exByRaw = {},
   gameById = {},
+  testimonials,
 }: { meta: EventMeta } & GiveawayProps) {
   const now = Date.now() / 1000
   const isOngoing =
@@ -260,6 +303,23 @@ export default function SpecialEventClient({
           </Card>
         )}
       </div>
+
+      {/* Member testimonials (anniversary train) */}
+      {testimonials && testimonials.length > 0 && (
+        <section className="space-y-4">
+          <div className="flex items-center gap-2">
+            <Quote className="h-5 w-5 text-[var(--accent-rose)]" />
+            <h2 className="text-lg font-semibold text-foreground">
+              What members are saying
+            </h2>
+          </div>
+          <div className="gap-4 [column-fill:_balance] sm:columns-2 lg:columns-3">
+            {testimonials.map((t) => (
+              <TestimonialCard key={t.author} t={t} />
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Event giveaways list (full width) */}
       {hasGiveaways && giveaways!.length > 0 && (

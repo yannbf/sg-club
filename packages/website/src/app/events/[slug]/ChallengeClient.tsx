@@ -31,7 +31,7 @@ import { EventPageHeader } from './EventPageHeader'
 import { cn } from '@/lib/cn'
 
 const FALLBACK_AVATAR =
-  'https://cdn-icons-png.flaticon.com/512/9287/9287610.png'
+  'https://images.icon-icons.com/2550/PNG/512/question_mark_circle_icon_152550.png'
 
 /** Links to the SG profile for members, or the Steam profile for guests. */
 function ParticipantName({

@@ -63,6 +63,23 @@ export interface EventMeta {
    */
   giveawayWindow?: { start: number; end: number }
   recordWindow?: { start: number; end: number; label: string }
+  /** Member testimonials (anniversary train). `author` is a SteamGifts username. */
+  testimonials?: { author: string; text: string }[]
+}
+
+/**
+ * A "valid ratio" giveaway is one that counts toward a member's contributor
+ * value: public (not whitelist-only), not shared, full CV, and not a
+ * decreased-ratio giveaway. Mirrors the rule used by <CvStatusIndicator/>.
+ * Events only surface these so the lists and stats reflect real contributions.
+ */
+export function isValidRatioGiveaway(g: Giveaway): boolean {
+  return (
+    !g.is_shared &&
+    !g.whitelist &&
+    g.cv_status === 'FULL_CV' &&
+    !g.decreased_ratio_info
+  )
 }
 
 /** Per-event descriptive metadata, keyed by `event_type`. */
@@ -230,6 +247,72 @@ export const SPECIAL_EVENTS: EventMeta[] = [
     endTimestamp: Date.UTC(2026, 5, 4, 12) / 1000,
     headlineStat: { value: '550+', label: 'giveaways in the train' },
     linkLabel: 'Open the anniversary thread',
+    testimonials: [
+      {
+        author: 'schmoan',
+        text:
+          'Thank you for this great recap of a wonderful year with TGC! It was really quite the ride and I am looking forward to many more happy memories and lovely people.\n\n' +
+          "And while numbers clearly aren't the important part of this group, it is still interesting to see. Some of it is just mind boggling.\n\n" +
+          'I am just very grateful to Gus for creating this group in the first place, and for all the great people who help run this show, be it as mods or members.\n' +
+          'And of course a special thank you to you, Yann, for all the work you do and for coming up with these stats - and, more importantly, for being such a wonderful and positive person. 💖',
+      },
+      {
+        author: 'Vin3',
+        text:
+          'One year?! Dang, time went by fast haha\n' +
+          "I love this group to bits. But the main reason is not the giveaways, it's the people. It would not be the same -not even close- without our chats.\n" +
+          "Thank you, gus, for accepting me into this group and to everybody I've talked to for being so nice ❤️\n" +
+          'Love you all ❤️',
+      },
+      {
+        author: 'QuinlanLJ',
+        text:
+          "I'm a sucker for some juicy stats. Thank you for bringing them to us! The group is amazing. I'm not a social butterfly in the group, I don't engage too much, but I try and contribute in any way I can, because this is a great group not just because the GA requirements are so damn good, but the people and the monthly themes and the incentive to play your wins make a greatly packaged group. It makes one want to give back. All I can say is keep it up to every one! It's been a great year.",
+      },
+      {
+        author: 'Patzl',
+        text:
+          "It's truly an amazing group. Tons of quality games, and even more impressive: so many people who actually dive into them right away.\n\n" +
+          "I'm mostly a quiet lurker on Discord, not always jumping into conversations, but whenever I do, I feel included. I also try to join every event, and the bingo events are definitely my favourites.\n\n" +
+          "Thanks to all the people of TGC for an amazing, wholesome year - and here's to many more! :)",
+      },
+      {
+        author: 'TempR',
+        text:
+          'The community honestly has been a highlight, even if I am often a quiet lurker. The members are really kind and generous folks and its cool to meet people with similar interests and hobbies, but also different lives and hobbies that are a lot of fun to learn about. The events, even if they may not necessarily all be ones I have much interest in, have all been really cool to watch unfold and see all the effort and creativity placed into them. Like, all the little games and little community get togethers are cool to see happen.\n\n' +
+          "Even with so much going on all the time, its also a place that allows me to do something I find really really rare -- to breathe, relax, and take my time and be myself. There isn't any excess pressure beyond just being kind and enjoying yourself. People have been supportive, understanding and helpful as they can manage. And there seems a real effort to want to have the place be safe and welcoming. How often do we really find places like that, really?\n\n" +
+          "Dunno. I've been out of the loop socially with most things. But, because of TGC, I've met and made friends I wouldn't have otherwise, and that means a lot.\n\n" +
+          'Thank you to everyone who has made this place what it is\n' +
+          'Thank you to all the friendly and warm-hearted people for giving me a chance to meet and know you\n' +
+          'Thank you to all the moderators and contributors for all your efforts and time in building and keeping this place going',
+      },
+      {
+        author: 'Ignition365',
+        text:
+          'Wonderful + hectic + chaos.\n\n' +
+          "So wonderful to see so many people give and so many people play, but also I get to spend so much time sifting through data to track play (Eternally grateful for the internal app you've made)\n\n" +
+          "Every month's end of month event is always so chaotic and fun, it's always something to look forward to at the end of each month. None of which would be possible without gus!\n\n" +
+          'So much fun chatting with everyone on the discord day in and day out, and always thinking about those folks we loved chatting with who needed some time and space for themselves. Always take care of yourselves people.\n\n' +
+          'Thanks for the camaraderie everyone!',
+      },
+      {
+        author: 'damianea103',
+        text:
+          "Thank you to everyone for making this such a welcoming and enjoyable group to be a part of. I've had my ups and (mostly) downs over the past year which have caused me to lose some interest in SG, and gaming in general, but TGC has been there, in the background, keeping the flame still burning for me, hopefully until things settle down and i regain my passion. So thanks, once again, for being such a great group of people, all of you, especially those active in the discord, hopefully for many more years to come <3",
+      },
+      {
+        author: 'yugimax',
+        text:
+          "I won't write much; I just want to say that I feel happy to be part of this group of misfits—in the best possible sense.\n" +
+          'thx Gus, Herbesdeprovence, Ignition365, grampa Schmoan, yannbz and everyone else to make this group feel like a home and hope we have many years to come :)\n' +
+          'Special thx to yannbz for all the status and infos, take me 1h to stop in each car to read all lol',
+      },
+      {
+        author: 'Grogglz',
+        text:
+          "Thank you for the write up! I'm not allllways in Discord, and certainly most things about a complicated or themed event go right over my head, and WOW has this past one (IRL) been a year of.... mixed fortunes, but TGC is always poppin and always fun",
+      },
+    ],
   },
   {
     slug: 'february-event-2026',
@@ -345,6 +428,7 @@ export function buildGiveawayEventSummaries(
   for (const g of giveaways) {
     if (!g.event_type) continue
     if (g.deleted) continue // only valid giveaways count toward events
+    if (!isValidRatioGiveaway(g)) continue // no shared/whitelist/reduced-CV
     const arr = byType.get(g.event_type) ?? []
     arr.push(g)
     byType.set(g.event_type, arr)
@@ -413,7 +497,11 @@ export function buildSpecialEventSummary(
   if (meta.giveawayWindow && giveaways) {
     const { start: ws, end: we } = meta.giveawayWindow
     giveawayCount = giveaways.filter(
-      (g) => !g.deleted && g.end_timestamp >= ws && g.end_timestamp < we,
+      (g) =>
+        !g.deleted &&
+        isValidRatioGiveaway(g) &&
+        g.end_timestamp >= ws &&
+        g.end_timestamp < we,
     ).length
   }
 

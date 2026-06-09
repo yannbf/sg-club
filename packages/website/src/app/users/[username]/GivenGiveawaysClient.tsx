@@ -331,7 +331,7 @@ export default function GivenGiveawaysClient({ giveaways, userAvatars, userNames
                                   className="text-accent hover:underline mr-2 inline-flex items-center"
                                 >
                                   <UserAvatar
-                                    src={userAvatars.get(winner.name) || 'https://cdn-icons-png.flaticon.com/512/9287/9287610.png'}
+                                    src={userAvatars.get(winner.name) || 'https://images.icon-icons.com/2550/PNG/512/question_mark_circle_icon_152550.png'}
                                     username={displayName!}
                                   />
                                   {displayName}
@@ -345,7 +345,7 @@ export default function GivenGiveawaysClient({ giveaways, userAvatars, userNames
                                   className="text-muted-foreground hover:text-foreground mr-2 inline-flex items-center"
                                 >
                                   <UserAvatar
-                                    src={'https://cdn-icons-png.flaticon.com/512/9287/9287610.png'}
+                                    src={'https://images.icon-icons.com/2550/PNG/512/question_mark_circle_icon_152550.png'}
                                     username={displayName!}
                                   />
                                   {displayName} (ex member)

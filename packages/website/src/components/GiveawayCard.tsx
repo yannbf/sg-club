@@ -22,7 +22,7 @@ import { cn } from '@/lib/cn'
 const PLACEHOLDER_IMAGE =
   'https://steamplayercount.com/theme/img/placeholder.svg'
 const FALLBACK_AVATAR =
-  'https://cdn-icons-png.flaticon.com/512/9287/9287610.png'
+  'https://images.icon-icons.com/2550/PNG/512/question_mark_circle_icon_152550.png'
 
 export function getGameImageUrl(giveaway: Giveaway): string {
   if (giveaway.app_id) {
@@ -39,11 +39,32 @@ function statusBadge(giveaway: Giveaway) {
   const isEnded = giveaway.end_timestamp < now
   const isFuture = giveaway.start_timestamp > now
   const hasWinners = giveaway.winners && giveaway.winners.length > 0
-  if (giveaway.deleted) return <Badge variant="error" size="sm">Deleted</Badge>
-  if (isFuture) return <Badge variant="purple" size="sm">Not started</Badge>
-  if (!isEnded) return <Badge variant="info" size="sm">Open</Badge>
-  if (hasWinners) return <Badge variant="success" size="sm">Ended</Badge>
-  return <Badge variant="warning" size="sm">No winners</Badge>
+  // This badge sits on top of the game header image. The translucent Badge
+  // variants (e.g. success-light) washed out over bright artwork and failed
+  // contrast. A solid dark scrim with white text guarantees legibility over any
+  // image (well above WCAG AA), and a colored status dot keeps the semantics.
+  const [label, dot]: [string, string] = giveaway.deleted
+    ? ['Deleted', 'var(--error)']
+    : isFuture
+      ? ['Not started', 'var(--accent-purple)']
+      : !isEnded
+        ? ['Open', 'var(--info)']
+        : hasWinners
+          ? ['Ended', 'var(--success)']
+          : ['No winners', 'var(--warning)']
+  return (
+    <Badge
+      size="sm"
+      className="gap-1 border-transparent bg-black/75 text-white shadow-[0_1px_4px_rgba(0,0,0,0.55)] ring-1 ring-white/15 backdrop-blur-sm"
+    >
+      <span
+        className="h-1.5 w-1.5 rounded-full"
+        style={{ background: dot }}
+        aria-hidden
+      />
+      {label}
+    </Badge>
+  )
 }
 
 function cardAccent(g: Giveaway): string {

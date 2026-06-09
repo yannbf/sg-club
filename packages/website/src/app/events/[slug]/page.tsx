@@ -9,11 +9,17 @@ import {
   getWishlist,
 } from '@/lib/data'
 import { createCreatorResolver, type CreatorResolver } from '@/lib/creator-resolver'
-import { allEventSlugs, getEventBySlug } from '@/lib/events'
+import {
+  allEventSlugs,
+  getEventBySlug,
+  isValidRatioGiveaway,
+} from '@/lib/events'
 import type { GameData, Giveaway, UserGroupData } from '@/types'
 import EventDetailClient, { type EventLeader } from './EventDetailClient'
 import ChallengeClient from './ChallengeClient'
-import SpecialEventClient from './SpecialEventClient'
+import SpecialEventClient, {
+  type ResolvedTestimonial,
+} from './SpecialEventClient'
 
 export function generateStaticParams() {
   return allEventSlugs().map((slug) => ({ slug }))
@@ -121,7 +127,10 @@ export default async function EventDetailPage(props: {
 
     const { start, end } = event.giveawayWindow
     const inWindow = (g: Giveaway, w: { start: number; end: number }) =>
-      !g.deleted && g.end_timestamp >= w.start && g.end_timestamp < w.end
+      !g.deleted &&
+      isValidRatioGiveaway(g) &&
+      g.end_timestamp >= w.start &&
+      g.end_timestamp < w.end
 
     const windowGiveaways = giveaways
       .filter((g) => inWindow(g, event.giveawayWindow!))
@@ -156,7 +165,29 @@ export default async function EventDetailPage(props: {
 
   // ---- Special / link-only event ----
   if (event.kind === 'special') {
-    return <SpecialEventClient meta={event} />
+    let testimonials: ResolvedTestimonial[] | undefined
+    if (event.testimonials?.length) {
+      const [allUsers, exMembers, steamIdMap] = await Promise.all([
+        getAllUsers(),
+        getExMembers(),
+        getSteamIdMap(),
+      ])
+      const resolver = createCreatorResolver(steamIdMap)
+      const avatarBySteamId = new Map<string, string>()
+      for (const u of Object.values(allUsers?.users ?? {})) {
+        if (u.avatar_url) avatarBySteamId.set(u.steam_id, u.avatar_url)
+      }
+      for (const u of Object.values(exMembers?.users ?? {})) {
+        if (u.avatar_url && !avatarBySteamId.has(u.steam_id))
+          avatarBySteamId.set(u.steam_id, u.avatar_url)
+      }
+      testimonials = event.testimonials.map((t) => ({
+        author: resolver.displayName(t.author) || t.author,
+        avatar: avatarBySteamId.get(resolver.canonicalSteamId(t.author)) ?? null,
+        text: t.text,
+      }))
+    }
+    return <SpecialEventClient meta={event} testimonials={testimonials} />
   }
 
   // ---- Giveaway event ----
@@ -170,9 +201,15 @@ export default async function EventDetailPage(props: {
       getWishlist(),
     ])
 
-  // Only valid giveaways — deleted ones are excluded everywhere in events.
+  // Only valid-ratio giveaways: deleted, shared, whitelist-only and reduced-CV
+  // giveaways are excluded everywhere in events.
   const eventGiveaways = giveaways
-    .filter((g) => g.event_type === event.eventType && !g.deleted)
+    .filter(
+      (g) =>
+        g.event_type === event.eventType &&
+        !g.deleted &&
+        isValidRatioGiveaway(g),
+    )
     .sort((a, b) => (b.end_timestamp ?? 0) - (a.end_timestamp ?? 0))
 
   if (eventGiveaways.length === 0) notFound()

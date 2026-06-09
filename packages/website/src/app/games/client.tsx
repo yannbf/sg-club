@@ -353,7 +353,7 @@ export default function GamesClient({
                           steamId
                         const avatarUrl =
                           userAvatars.get(steamId) ||
-                          'https://cdn-icons-png.flaticon.com/512/9287/9287610.png'
+                          'https://images.icon-icons.com/2550/PNG/512/question_mark_circle_icon_152550.png'
                         const isActive = userNames.has(steamId)
                         return isActive ? (
                           <UserLink

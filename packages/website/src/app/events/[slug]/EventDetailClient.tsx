@@ -18,7 +18,7 @@ import { Card } from '@/components/ui/Card'
 import { EventPageHeader } from './EventPageHeader'
 
 const FALLBACK_AVATAR =
-  'https://cdn-icons-png.flaticon.com/512/9287/9287610.png'
+  'https://images.icon-icons.com/2550/PNG/512/question_mark_circle_icon_152550.png'
 
 export interface EventLeader {
   name: string
