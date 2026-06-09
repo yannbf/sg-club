@@ -141,7 +141,7 @@ export default function SpecialEventClient({
               <Card className="space-y-4 p-6">
                 <h2 className="flex items-center gap-2 text-base font-semibold text-foreground">
                   <Gift className="h-5 w-5 text-primary-hi" />
-                  How to contribute
+                  {meta.howToTitle ?? 'How to contribute'}
                 </h2>
                 <ul className="space-y-2.5">
                   {meta.howToContribute.map((c) => (
@@ -188,7 +188,7 @@ export default function SpecialEventClient({
                   {meta.finale.label}
                 </p>
                 <p className="mt-1 text-sm text-muted-foreground">
-                  Join us for an epic Anniversary Gymkhana
+                  {meta.finale.subtitle ?? 'Join us for an epic Anniversary Gymkhana'}
                 </p>
                 {meta.finale.items && meta.finale.items.length > 0 && (
                   <div className="mt-4 flex flex-wrap justify-center gap-2">
@@ -203,9 +203,8 @@ export default function SpecialEventClient({
                   </div>
                 )}
                 <p className="mx-auto mt-5 max-w-prose text-sm leading-relaxed text-muted-foreground">
-                  Whether you create giveaways, clear your pending wins, or do
-                  both, every action brings us closer to breaking last year’s
-                  record. No one gets left behind this year. 🔥
+                  {meta.finale.note ??
+                    'Whether you create giveaways, clear your pending wins, or do both, every action brings us closer to breaking last year’s record. No one gets left behind this year. 🔥'}
                 </p>
               </Card>
             )}

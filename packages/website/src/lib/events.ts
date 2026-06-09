@@ -34,6 +34,8 @@ export interface EventMeta {
   emoji: string
   /** Optional image shown in the icon slot instead of the emoji (e.g. a game's Steam art). */
   imageUrl?: string
+  /** Optional promotional poster art (portrait) shown in the event header. */
+  bannerUrl?: string
   /** Challenge data file slug (challenge events only). */
   challengeSlug?: string
   /** Special/link events carry their own fixed dates + headline (no giveaway data). */
@@ -43,12 +45,17 @@ export interface EventMeta {
   headlineStat?: { value: string; label: string }
   /** Label for the external CTA button (special events). */
   linkLabel?: string
-  /** Ways members can contribute toward a community-goal event. */
+  /** Heading for the steps card (defaults to "How to contribute"). */
+  howToTitle?: string
+  /** Ways members can contribute / take part in a community-goal event. */
   howToContribute?: string[]
   /** The reward rule for a community-goal event. */
   rewardRule?: string
-  /** Grand finale details for a community-goal event. */
-  finale?: { label: string; items?: string[] }
+  /**
+   * Grand finale details for a community-goal event. `subtitle` and `note`
+   * default to the June anniversary copy when omitted.
+   */
+  finale?: { label: string; subtitle?: string; note?: string; items?: string[] }
   /**
    * For special events counted by giveaway end-date (rather than `event_type`):
    * any non-deleted giveaway whose end falls in [start, end) is an event
@@ -70,35 +77,44 @@ const GIVEAWAY_EVENT_META: Record<string, Omit<EventMeta, 'slug' | 'kind'>> = {
     monthly: true,
     accent: 'var(--accent-green)',
     emoji: '🌷',
+    bannerUrl: '/events/may_2026.png',
   },
   april_event_2026: {
     eventType: 'april_event_2026',
     name: 'April Event',
-    tagline: 'Month of the BINGO MADNESS',
+    tagline: 'The Big Bingo Bash',
     description:
-      'Gus drank too much kool aid and came up with the most chaotic bingo experience you can ever have xD. The biggest themed event in TGC history — a fitting send-off for the season.',
+      'Gus drank too much kool-aid and dreamed up the most chaotic bingo night in TGC history — The Big Bingo Bash! 🎉\n\n' +
+      "Here's the deal: create a giveaway with the usual Exclusive settings and you're IN — you get a bingo card and a shot at the prizes. Want MORE cards? MORE chances? MORE chaos? Create more giveaways and stack up those bingo cards. The more you give, the more you play.\n\n" +
+      'The wildest, most unhinged bingo went down April 26th at 16:00 UTC — loud, fast, and absolutely LOCO. The biggest themed event of the season, and a fitting send-off.',
     websiteUrl: null,
     monthly: true,
     accent: 'var(--accent-yellow)',
     emoji: '🫘',
+    bannerUrl: '/events/april_2026.png',
   },
   march_event_2026: {
     eventType: 'march_event_2026',
     name: 'March Event',
-    tagline: 'Mystery month',
+    tagline: 'Mystery Month',
     description:
-      'Detective and mystery games to entice everyone — a month of whodunnits, puzzles, and creeping dread.',
+      'All March long, The Giveaways Club celebrated the thrill of investigation — Mystery Month! 🔍\n\n' +
+      'To take part, members created a giveaway for a game tagged Detective, Mystery, or both, and included "MARCH EVENT ENTRY" in the description so it counted as an official entry.\n\n' +
+      'The month closed with a live finale on March 29th at 16:00 UTC: a mystery-themed competition to test your detective knowledge, win great prizes, and have an amazing time with the community. Magnifying glass ready, clues followed, case solved.',
     websiteUrl: null,
     monthly: true,
     accent: 'var(--accent-rose)',
     emoji: '🐰',
+    bannerUrl: '/events/march_2026.png',
   },
   january_event_2026: {
     eventType: 'january_event_2026',
     name: 'January Event',
-    tagline: 'Cozy month',
+    tagline: 'Cozy Game Event',
     description:
-      'New-year energy, fresh starts, and lots of coziness — wholesome, warm games to ease into 2026.',
+      'New-year energy, fresh starts, and lots of coziness to ease into 2026. 🎆 The Giveaways Club hosted a Cozy Game Event open to everyone.\n\n' +
+      'To join, members created a Steam giveaway using the Steam "Cozy" tag and added "JANUARY EVENT ENTRY" in the description. Every entry that followed those steps was included.\n\n' +
+      'The selection was drawn randomly and live on January 25th at 16:00 UTC on our Discord, alongside three special Bingo games — a follow-up to the popular December bingo. A month focused on cozy games, community, and a good time together.',
     websiteUrl: null,
     monthly: true,
     accent: 'var(--info)',
@@ -107,9 +123,12 @@ const GIVEAWAY_EVENT_META: Record<string, Omit<EventMeta, 'slug' | 'kind'>> = {
   november_event: {
     eventType: 'november_event',
     name: 'November Event',
-    tagline: 'Month of the unknown',
+    tagline: 'Month of the Unknown',
     description:
-      'A month full of first-ever given games on SG — proper hidden gems the group had never gifted before. 💎',
+      'Month of the Unknown — a celebration of the hidden gems we only ever get to enjoy because we discovered them on SteamGifts. 💎\n\n' +
+      'During November, members added one or more giveaways for a never-before-seen game† with at least 100 reviews rated "Positive" (mostly positive or higher), including "NOVEMBER EVENT ENTRY" in the description for our bot to pick up. Entries could start any time after November 1st 00:00 UTC and had to end before November 25th 00:00 UTC.\n\n' +
+      'The raffle winner chose between a wishlisted game or a Fanatical mystery box (also unknown!), up to €30. Each eligible giveaway earned one entry. The live drawing was held November 29th, with an end-of-month Discord event full of minigames and surprises.\n\n' +
+      '† A never-before-seen game is one never given on SteamGifts — games whose past giveaways drew fewer than 10 entries also counted. Giveaways created within the group, and DLCs, were ineligible.',
     websiteUrl: null,
     monthly: true,
     accent: 'var(--accent-purple)',
@@ -118,13 +137,17 @@ const GIVEAWAY_EVENT_META: Record<string, Omit<EventMeta, 'slug' | 'kind'>> = {
   october_event: {
     eventType: 'october_event',
     name: 'October Event',
-    tagline: 'Spooky month',
+    tagline: 'Halloween Time',
     description:
-      'Spooky season, horror games, and survival nightmares — the scariest month on the calendar.',
+      'Spooky season at The Giveaways Club — a month of horror, prizes, and a whole patch of pumpkins. 🎃\n\n' +
+      'To take part, members created an exclusive giveaway with a user-defined "Horror" tag (Survival Horror, Psychological Horror, etc. all counted) and added "OCTOBER EVENT" in the description so our bot could pick it up. Giveaways could start after the announcement (to allow day-one Steam Autumn Sale entries) but had to end in October.\n\n' +
+      'When a giveaway ended and was activated by the winner, you got a code to crack open one of 100 pumpkins — each hiding a random game. The prize pool: 5 high-quality indies, 15 medium-quality indies, and 80 miscellaneous indies. One pumpkin per participant, limited to the first 100 eligible giveaways and claimable once the win was marked received.\n\n' +
+      'More surprise pumpkins and scares happened on Discord, where the five high-quality indie winners were announced. The full list of possible games: https://justpaste.it/cjhoq',
     websiteUrl: null,
     monthly: true,
     accent: 'var(--warning)',
     emoji: '🎃',
+    bannerUrl: '/events/october_2025.png',
   },
   rpg_august: {
     eventType: 'rpg_august',
@@ -170,6 +193,7 @@ export const SPECIAL_EVENTS: EventMeta[] = [
     monthly: false,
     accent: 'var(--accent-rose)',
     emoji: '🎉',
+    bannerUrl: '/events/june_2026.png',
     startTimestamp: Date.UTC(2026, 5, 1, 12) / 1000,
     endTimestamp: Date.UTC(2026, 6, 4, 12) / 1000,
     howToContribute: [
@@ -206,6 +230,69 @@ export const SPECIAL_EVENTS: EventMeta[] = [
     endTimestamp: Date.UTC(2026, 5, 4, 12) / 1000,
     headlineStat: { value: '550+', label: 'giveaways in the train' },
     linkLabel: 'Open the anniversary thread',
+  },
+  {
+    slug: 'february-event-2026',
+    name: 'February Event',
+    tagline: 'Play & Complete · backlog Secret Santa',
+    description:
+      'Throughout February, The Giveaways Club hosts a community event to help members play their wins and enjoy their libraries together — Secret Santa style, but for playing games. 🎮\n\n' +
+      "Each participant chooses a reasonable, playable game from another participant's backlog for them to play. The game must be a win from TGC or SG (or, if all wins are already played, a game from their Steam library), shouldn't be especially long or difficult, and it's one game per participant.\n\n" +
+      'Complete the event by finishing the game or reaching 50% of its achievements. Players who complete the challenge earn a spin on the Wheel of Fortune and a place in the final games. Proof and coordination happen on Discord.',
+    websiteUrl: null,
+    kind: 'special',
+    monthly: false,
+    accent: 'var(--accent-rose)',
+    emoji: '🎮',
+    bannerUrl: '/events/february_2026.png',
+    startTimestamp: Date.UTC(2026, 1, 1, 0) / 1000,
+    endTimestamp: Date.UTC(2026, 1, 28, 16) / 1000,
+    howToTitle: 'How to take part',
+    howToContribute: [
+      'Sign up on Discord (February 1–7)',
+      'Get your assigned game on February 8',
+      'Play it — one game per participant',
+      'Finish it, or reach 50% of its achievements',
+    ],
+    rewardRule:
+      'Complete the challenge to earn a spin on the Wheel of Fortune — with prizes — and a spot in the final games.',
+    finale: {
+      label: 'February 28',
+      subtitle: 'Final games & Wheel of Fortune · 16:00 UTC',
+      note: 'Finish your game or hit 50% achievements to spin the Wheel of Fortune and join the final games. Proof and coordination happen on our Discord server.',
+      items: ['🎡 Wheel of Fortune', '🏆 Final games', '🎁 Prizes'],
+    },
+  },
+  {
+    slug: 'december-event-2025',
+    name: 'December Event',
+    tagline: 'Happy holidays · Secret Santa',
+    description:
+      "This Christmas we're not hosting an internal competitive event — instead, a heartfelt thank-you to everyone and a warm reminder of how fantastic this community is. 🎄\n\n" +
+      "We're running a small Secret Santa for anyone who wants to join. The big day is December 21st, right in the middle of the Steam sales. Spend between €5 and €10 on your giftee, picking a game from their Steam wishlist — sent as a regular Steam gift or a region-appropriate key. Assignments go out one week in advance.\n\n" +
+      'As a bonus, three lucky members are randomly chosen for a second Secret Santa surprise. 🎁 Enjoy the season, and most importantly — be happy and have fun!',
+    websiteUrl: null,
+    kind: 'special',
+    monthly: false,
+    accent: 'var(--accent-green)',
+    emoji: '🎄',
+    startTimestamp: Date.UTC(2025, 11, 1, 0) / 1000,
+    endTimestamp: Date.UTC(2025, 11, 21, 12) / 1000,
+    howToTitle: 'How to join the Secret Santa',
+    howToContribute: [
+      'Sign up on Discord (or reply to the announcement) with your region',
+      'Get matched with your giftee one week before December 21',
+      'Pick a game from their Steam wishlist (€5–€10)',
+      'Send it as a Steam gift or a region-appropriate key',
+    ],
+    rewardRule:
+      'As a bonus, three lucky members are randomly chosen for a second Secret Santa surprise. 🎁',
+    finale: {
+      label: 'December 21',
+      subtitle: 'The big gift-exchange day',
+      note: "Pick a game from your giftee's wishlist (€5–€10) and send it as a Steam gift or region key. Sign up on Discord and don't forget to share your region. 🎄",
+      items: ['🎁 Gift exchange', '🎄 Holiday cheer', '✨ Bonus surprises'],
+    },
   },
 ]
 

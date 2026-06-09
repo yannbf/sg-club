@@ -216,6 +216,16 @@ export default function EventDetailClient({
                     <Heart className="h-2.5 w-2.5 fill-current" />
                     {wishlistCountById[g.id]}
                   </span>
+                  {/* Mini creator avatar (no name) so it's clear who made the drop. */}
+                  <Image
+                    src={avatarByRaw[g.creator] || FALLBACK_AVATAR}
+                    alt={`Created by ${nameByRaw[g.creator] ?? g.creator}`}
+                    title={`Created by ${nameByRaw[g.creator] ?? g.creator}`}
+                    width={24}
+                    height={24}
+                    unoptimized
+                    className="absolute bottom-1.5 left-1.5 h-6 w-6 rounded-full object-cover ring-2 ring-black/40"
+                  />
                 </div>
                 <p className="mt-1.5 line-clamp-1 text-xs font-medium text-foreground group-hover/mini:text-accent">
                   {g.name}

@@ -41,5 +41,11 @@ export async function getEventSummaries(): Promise<EventSummary[]> {
     buildSpecialEventSummary(meta, giveaways),
   )
 
-  return [...challengeSummaries, ...specialSummaries, ...giveawayEvents]
+  // Single chronological list (most recent first) across all event kinds, so
+  // the /events page and homepage banner don't show them grouped by type.
+  const dateKey = (e: EventSummary) =>
+    e.startTimestamp ?? e.endTimestamp ?? 0
+  return [...challengeSummaries, ...specialSummaries, ...giveawayEvents].sort(
+    (a, b) => dateKey(b) - dateKey(a),
+  )
 }
