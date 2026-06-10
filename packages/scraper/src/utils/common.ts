@@ -1,4 +1,28 @@
 /**
+ * Detects a rate-limit / block page by its HTML body.
+ *
+ * SteamGifts now sits behind Cloudflare, which serves a rate-limit interstitial
+ * ("You are being rate limited", error 1015, "used Cloudflare to restrict access")
+ * instead of a clean HTTP 429. That page can arrive with a 403, 503, or even a 2xx
+ * status, so the body is the only reliable signal — checking `response.status`
+ * alone lets the block page through to the parser, which then silently produces
+ * empty/garbage results.
+ *
+ * Also catches SteamGifts' own native throttle page ("It looks like you've sent
+ * too many requests recently"), which is served with a 200.
+ */
+export function isRateLimitedHtml(html: string | null | undefined): boolean {
+  if (!html) return false
+  return (
+    /You are being rate limited/i.test(html) ||
+    /errorCode:\s*101\d/.test(html) ||
+    /used Cloudflare to restrict access/i.test(html) ||
+    (/cf-error-details/.test(html) && /Cloudflare Ray ID/i.test(html)) ||
+    /sent too many requests recently/i.test(html)
+  )
+}
+
+/**
  * Delays execution for the specified number of milliseconds
  */
 export async function delay(ms: number): Promise<void> {

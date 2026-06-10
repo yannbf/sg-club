@@ -1,5 +1,5 @@
 import { load } from 'cheerio'
-import { delay } from '../utils/common.js'
+import { delay, isRateLimitedHtml } from '../utils/common.js'
 import { logError } from '../utils/log-error.js'
 
 export interface WishlistEntry {
@@ -35,11 +35,20 @@ async function fetchPage(path: string, retryCount = 0): Promise<string> {
 
   const response = await fetch(url, { method: 'GET', headers: buildHeaders() })
 
-  if (!response.ok) {
+  // Read the body up front: a Cloudflare block can arrive with a 403/503 or even a
+  // 2xx status, so detection has to look at the HTML, not just response.ok/status.
+  const html = await response.text()
+  const rateLimited =
+    response.status === 429 ||
+    response.status === 403 ||
+    response.status === 503 ||
+    isRateLimitedHtml(html)
+
+  if (rateLimited) {
     // Honor Retry-After if SG provides it; otherwise back off exponentially:
-    // 30s, 60s, 120s, 240s, 480s. SG's group-wishlist endpoint will 429
+    // 30s, 60s, 120s, 240s, 480s. SG's group-wishlist endpoint will throttle
     // aggressively when running alongside other scrapes — give it room.
-    if (response.status === 429 && retryCount < MAX_RETRIES) {
+    if (retryCount < MAX_RETRIES) {
       const retryAfterHeader = response.headers.get('retry-after')
       const retryAfterSec = retryAfterHeader ? parseInt(retryAfterHeader, 10) : null
       const fallbackMs = 30_000 * Math.pow(2, retryCount)
@@ -54,12 +63,18 @@ async function fetchPage(path: string, retryCount = 0): Promise<string> {
       await delay(waitMs)
       return fetchPage(path, retryCount + 1)
     }
+    const error = new Error(`Rate limited fetching ${url} after ${MAX_RETRIES} retries`)
+    logError(error, error.message)
+    throw error
+  }
+
+  if (!response.ok) {
     const error = new Error(`Failed to fetch ${url}: ${response.statusText}`)
     logError(error, error.message)
     throw error
   }
 
-  return response.text()
+  return html
 }
 
 function parseImageUrl(style: string | undefined): string | null {

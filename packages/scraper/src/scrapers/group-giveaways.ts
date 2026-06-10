@@ -6,7 +6,7 @@ import type {
   BundleGamesResponse,
   CVStatus,
 } from '../types/steamgifts.js'
-import { delay } from '../utils/common.js'
+import { delay, isRateLimitedHtml } from '../utils/common.js'
 import { logError } from '../utils/log-error.js'
 
 type Creator = string
@@ -88,27 +88,36 @@ export class SteamGiftsHTMLScraper {
       headers: this.buildSteamGiftsHeaders(useCookie),
     })
 
-    if (!response.ok) {
-      const errorMessage = `Failed to fetch ${url}: ${response.statusText}`
+    // Read the body up front: a Cloudflare block can arrive with a 403/503 or even a
+    // 2xx status, so detection has to look at the HTML, not just response.ok/status.
+    const html = await response.text()
+    const rateLimited =
+      response.status === 429 ||
+      response.status === 403 ||
+      response.status === 503 ||
+      response.statusText.includes('Too Many Requests') ||
+      isRateLimitedHtml(html)
 
-      if (
-        response.status === 429 ||
-        response.statusText.includes('Too Many Requests')
-      ) {
-        console.log(`⚠️  Rate limit exceeded, retrying: ${url}`)
-        if (retryCount < 3) {
-          await delay(10000)
-          return await this.fetchPage(path, useCookie, retryCount + 1)
-        }
-        throw new Error(errorMessage)
+    if (rateLimited) {
+      const errorMessage = `Rate limited fetching ${url}`
+      console.log(`⚠️  Rate limit exceeded, retrying: ${url}`)
+      if (retryCount < 3) {
+        await delay(10000)
+        return await this.fetchPage(path, useCookie, retryCount + 1)
       }
-
       const error = new Error(errorMessage)
       logError(error, errorMessage)
       throw error
     }
 
-    return await response.text()
+    if (!response.ok) {
+      const errorMessage = `Failed to fetch ${url}: ${response.statusText}`
+      const error = new Error(errorMessage)
+      logError(error, errorMessage)
+      throw error
+    }
+
+    return html
   }
 
   async fetchDetailedWinners(giveawayPath: string): Promise<
