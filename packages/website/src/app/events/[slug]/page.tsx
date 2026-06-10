@@ -13,6 +13,7 @@ import {
   allEventSlugs,
   getEventBySlug,
   isValidRatioGiveaway,
+  selectEventGiveaways,
 } from '@/lib/events'
 import type { GameData, Giveaway, UserGroupData } from '@/types'
 import EventDetailClient, { type EventLeader } from './EventDetailClient'
@@ -115,7 +116,7 @@ export default async function EventDetailPage(props: {
   }
 
   // ---- Special event backed by a giveaway date-window (e.g. June challenge) ----
-  if (event.kind === 'special' && event.giveawayWindow) {
+  if (event.kind === 'special' && event.match?.endsBetween) {
     const [giveaways, allUsers, exMembers, gameData, steamIdMap] =
       await Promise.all([
         getAllGiveaways(),
@@ -125,19 +126,20 @@ export default async function EventDetailPage(props: {
         getSteamIdMap(),
       ])
 
-    const { start, end } = event.giveawayWindow
-    const inWindow = (g: Giveaway, w: { start: number; end: number }) =>
-      !g.deleted &&
-      isValidRatioGiveaway(g) &&
-      g.end_timestamp >= w.start &&
-      g.end_timestamp < w.end
+    const windowGiveaways = selectEventGiveaways(event, giveaways).sort(
+      (a, b) => (b.end_timestamp ?? 0) - (a.end_timestamp ?? 0),
+    )
 
-    const windowGiveaways = giveaways
-      .filter((g) => inWindow(g, event.giveawayWindow!))
-      .sort((a, b) => (b.end_timestamp ?? 0) - (a.end_timestamp ?? 0))
-
+    // The record window is a separate comparison range (last year), counted
+    // with the same valid-ratio rule.
     const recordCount = event.recordWindow
-      ? giveaways.filter((g) => inWindow(g, event.recordWindow!)).length
+      ? giveaways.filter(
+          (g) =>
+            !g.deleted &&
+            isValidRatioGiveaway(g) &&
+            g.end_timestamp >= event.recordWindow!.start &&
+            g.end_timestamp < event.recordWindow!.end,
+        ).length
       : 0
 
     const resolver = createCreatorResolver(steamIdMap)

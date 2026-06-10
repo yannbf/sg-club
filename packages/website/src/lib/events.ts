@@ -1,13 +1,21 @@
 import type { Giveaway } from '@/types'
 
 /**
- * Events are surfaced two ways:
- *  - **Giveaway events** are derived from `giveaway.event_type` tags already in
- *    the data (e.g. `rpg_august`, `may_event_2026`). Their dates/stats are
- *    computed from the giveaways that belong to them.
- *  - **Challenge events** are standalone (not giveaway-backed). Right now that's
- *    "Gaming Challenge #1 — Backpack Hero", powered by
- *    public/data/challenge_backpack_hero.json.
+ * Every event is declared here in the registry (GIVEAWAY_EVENT_META,
+ * CHALLENGE_EVENTS, SPECIAL_EVENTS) — listings are built from the registry, not
+ * from whatever tags happen to be in the data, so an unregistered tag never
+ * produces an orphaned card/404.
+ *
+ * Which giveaways belong to an event is declared by its `match` rule
+ * (`selectEventGiveaways`):
+ *  - **Giveaway events** match by `event_type` tag (e.g. `rpg_august`).
+ *  - **Special events** can match by an end-date window (`endsBetween`), e.g.
+ *    the June anniversary counts every valid GA ending in calendar June.
+ *  - **Challenge events** are standalone (not giveaway-backed), powered by a
+ *    challenge data file (e.g. public/data/challenge_backpack_hero.json).
+ *
+ * How long an event lingers in "Happening now" after it ends is controlled by
+ * `keepLiveForDays` / `keepLiveUntil` (`eventLingerUntil`).
  *
  * Website links are placeholders (`websiteUrl: null`) — fill them in here when
  * available; the UI renders a link only when one is set.
@@ -57,12 +65,28 @@ export interface EventMeta {
    */
   finale?: { label: string; subtitle?: string; note?: string; items?: string[] }
   /**
-   * For special events counted by giveaway end-date (rather than `event_type`):
-   * any non-deleted giveaway whose end falls in [start, end) is an event
-   * giveaway. `record` is last year's comparison window.
+   * Rule selecting which giveaways belong to this event. A (valid-ratio,
+   * non-deleted) giveaway qualifies if it satisfies ANY provided sub-rule:
+   *  - `eventType`: the giveaway carries this `event_type` tag.
+   *  - `endsBetween`: the giveaway's end falls in [start, end).
+   * This is the single source of truth for event membership — it replaces the
+   * old split between tag-grouping and the special-event date window.
    */
-  giveawayWindow?: { start: number; end: number }
+  match?: {
+    eventType?: string
+    endsBetween?: { start: number; end: number }
+  }
+  /** Last year's comparison window for a community-goal event's record. */
   recordWindow?: { start: number; end: number; label: string }
+  /**
+   * How long the event keeps showing in "Happening now" after it would
+   * otherwise stop being live — i.e. after its giveaway/date window closes, or
+   * (for challenges) after a winner is recorded. `keepLiveForDays` is relative
+   * to that moment; `keepLiveUntil` is an absolute unix-seconds override. The
+   * later of the two wins. Omit both for no linger (the default).
+   */
+  keepLiveForDays?: number
+  keepLiveUntil?: number
   /** Member testimonials (anniversary train). `author` is a SteamGifts username. */
   testimonials?: { author: string; text: string }[]
 }
@@ -194,6 +218,9 @@ export const CHALLENGE_EVENTS: EventMeta[] = [
     imageUrl:
       'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1970580/header.jpg',
     challengeSlug: 'backpack-hero',
+    // Keep it highlighted in "Happening now" for a week after the winner is
+    // recorded, even though the challenge is already won.
+    keepLiveForDays: 7,
   },
 ]
 
@@ -223,8 +250,11 @@ export const SPECIAL_EVENTS: EventMeta[] = [
       label: 'July 4th',
       items: ['🎮 Minigames', '🏆 Challenges', '🎁 Extra prizes', '🎉 Community fun'],
     },
-    // Any giveaway ending in June 2026 counts; the record is June 2025's tally.
-    giveawayWindow: { start: Date.UTC(2026, 5, 1) / 1000, end: Date.UTC(2026, 6, 1) / 1000 },
+    // Any valid giveaway ending in calendar June 2026 counts; the record is
+    // calendar June 2025's tally.
+    match: {
+      endsBetween: { start: Date.UTC(2026, 5, 1) / 1000, end: Date.UTC(2026, 6, 1) / 1000 },
+    },
     recordWindow: {
       start: Date.UTC(2025, 5, 1) / 1000,
       end: Date.UTC(2025, 6, 1) / 1000,
@@ -383,7 +413,13 @@ const eventTypeToSlug = (eventType: string) => eventType.replace(/_/g, '-')
 
 export function getGiveawayEventMeta(eventType: string): EventMeta {
   const base = GIVEAWAY_EVENT_META[eventType]
-  if (base) return { ...base, slug: eventTypeToSlug(eventType), kind: 'giveaway' }
+  if (base)
+    return {
+      ...base,
+      slug: eventTypeToSlug(eventType),
+      kind: 'giveaway',
+      match: { eventType },
+    }
   // Fallback for any future event_type not yet described here.
   const title = eventType
     .replace(/_/g, ' ')
@@ -398,7 +434,47 @@ export function getGiveawayEventMeta(eventType: string): EventMeta {
     monthly: true,
     accent: 'var(--accent-purple)',
     emoji: '🎁',
+    match: { eventType },
   }
+}
+
+const DAY_SECONDS = 86400
+
+/**
+ * The moment an event stops being "live" in "Happening now", given its natural
+ * end (a window closing or a challenge win) plus any linger config. The later
+ * of `end + keepLiveForDays` and `keepLiveUntil` wins; with neither set it is
+ * just `end` (no linger).
+ */
+export function eventLingerUntil(end: number, meta: EventMeta): number {
+  return Math.max(
+    end + (meta.keepLiveForDays ?? 0) * DAY_SECONDS,
+    meta.keepLiveUntil ?? Number.NEGATIVE_INFINITY,
+  )
+}
+
+/**
+ * The giveaways belonging to an event per its `match` rule. A giveaway
+ * qualifies when it is a valid-ratio, non-deleted GA AND satisfies any provided
+ * sub-rule (tag or end-date window). Returns [] when the event has no rule.
+ */
+export function selectEventGiveaways(
+  meta: EventMeta,
+  giveaways: Giveaway[],
+): Giveaway[] {
+  const m = meta.match
+  if (!m) return []
+  return giveaways.filter((g) => {
+    if (g.deleted || !isValidRatioGiveaway(g)) return false
+    if (m.eventType && g.event_type === m.eventType) return true
+    if (
+      m.endsBetween &&
+      g.end_timestamp >= m.endsBetween.start &&
+      g.end_timestamp < m.endsBetween.end
+    )
+      return true
+    return false
+  })
 }
 
 export interface EventSummary {
@@ -417,25 +493,23 @@ export interface EventSummary {
 }
 
 /**
- * Builds one summary per giveaway `event_type` present in the data, with dates
- * and aggregate stats. Sorted most-recent first.
+ * Builds one summary per *registered* giveaway event (the keys of
+ * GIVEAWAY_EVENT_META), with dates and aggregate stats, using each event's
+ * `match` rule to pull its giveaways. Sorted most-recent first.
+ *
+ * Note: this is driven by the registry, not by whatever `event_type` tags
+ * happen to be in the data. An unregistered tag therefore produces no card
+ * (and no orphaned 404 page) — register it here to surface it.
  */
 export function buildGiveawayEventSummaries(
   giveaways: Giveaway[],
   now: number = Date.now() / 1000,
 ): EventSummary[] {
-  const byType = new Map<string, Giveaway[]>()
-  for (const g of giveaways) {
-    if (!g.event_type) continue
-    if (g.deleted) continue // only valid giveaways count toward events
-    if (!isValidRatioGiveaway(g)) continue // no shared/whitelist/reduced-CV
-    const arr = byType.get(g.event_type) ?? []
-    arr.push(g)
-    byType.set(g.event_type, arr)
-  }
-
   const summaries: EventSummary[] = []
-  for (const [eventType, list] of byType) {
+  for (const eventType of Object.keys(GIVEAWAY_EVENT_META)) {
+    const meta = getGiveawayEventMeta(eventType)
+    const list = selectEventGiveaways(meta, giveaways)
+    if (list.length === 0) continue
     const starts = list.map((g) => g.start_timestamp).filter(Boolean)
     const ends = list.map((g) => g.end_timestamp).filter(Boolean)
     const startTimestamp = starts.length ? Math.min(...starts) : null
@@ -449,10 +523,10 @@ export function buildGiveawayEventSummaries(
       startTimestamp != null &&
       endTimestamp != null &&
       now >= startTimestamp &&
-      now <= endTimestamp
+      now <= eventLingerUntil(endTimestamp, meta)
 
     summaries.push({
-      meta: getGiveawayEventMeta(eventType),
+      meta,
       giveawayCount: list.length,
       totalCopies: list.reduce((s, g) => s + (g.copies ?? 1), 0),
       totalEntries: list.reduce((s, g) => s + (g.entry_count ?? 0), 0),
@@ -491,19 +565,12 @@ export function buildSpecialEventSummary(
   const start = meta.startTimestamp ?? null
   const end = meta.endTimestamp ?? null
 
-  // Giveaway-window special events (e.g. the June challenge) count any
-  // non-deleted giveaway ending inside the window.
-  let giveawayCount = 0
-  if (meta.giveawayWindow && giveaways) {
-    const { start: ws, end: we } = meta.giveawayWindow
-    giveawayCount = giveaways.filter(
-      (g) =>
-        !g.deleted &&
-        isValidRatioGiveaway(g) &&
-        g.end_timestamp >= ws &&
-        g.end_timestamp < we,
-    ).length
-  }
+  // Giveaway-window special events (e.g. the June challenge) count any valid
+  // giveaway selected by the event's `match` rule.
+  const giveawayCount =
+    meta.match?.endsBetween && giveaways
+      ? selectEventGiveaways(meta, giveaways).length
+      : 0
 
   return {
     meta,
@@ -514,7 +581,11 @@ export function buildSpecialEventSummary(
     winnersCount: 0,
     startTimestamp: start,
     endTimestamp: end,
-    isOngoing: start != null && end != null && now >= start && now <= end,
+    isOngoing:
+      start != null &&
+      end != null &&
+      now >= start &&
+      now <= eventLingerUntil(end, meta),
   }
 }
 

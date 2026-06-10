@@ -93,7 +93,7 @@ export function OngoingEventsBanner({ events }: { events: EventSummary[] }) {
                         {e.participantCount ?? 0} participants
                       </span>
                     ) : e.meta.kind === 'special' ? (
-                      e.meta.giveawayWindow ? (
+                      e.meta.match?.endsBetween ? (
                         <span className="inline-flex items-center gap-1">
                           <Gift className="h-3 w-3" />
                           {e.giveawayCount} giveaways

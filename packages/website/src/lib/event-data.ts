@@ -3,6 +3,7 @@ import {
   buildGiveawayEventSummaries,
   buildSpecialEventSummary,
   CHALLENGE_EVENTS,
+  eventLingerUntil,
   SPECIAL_EVENTS,
   type EventSummary,
 } from '@/lib/events'
@@ -15,12 +16,19 @@ import {
 export async function getEventSummaries(): Promise<EventSummary[]> {
   const giveaways = await getAllGiveaways()
   const giveawayEvents = buildGiveawayEventSummaries(giveaways)
+  const now = Date.now() / 1000
 
   const challengeSummaries: EventSummary[] = []
   for (const meta of CHALLENGE_EVENTS) {
     const data = meta.challengeSlug
       ? await getChallengeData(meta.challengeSlug)
       : null
+    // A challenge is "ongoing" until someone wins it — then it lingers in
+    // "Happening now" for `keepLiveForDays`/`keepLiveUntil` past the win.
+    const isOngoing =
+      !data?.winnerUsername ||
+      (data.winnerUnlocktime != null &&
+        now <= eventLingerUntil(data.winnerUnlocktime, meta))
     challengeSummaries.push({
       meta,
       giveawayCount: 0,
@@ -30,8 +38,7 @@ export async function getEventSummaries(): Promise<EventSummary[]> {
       winnersCount: 0,
       startTimestamp: data?.startTimestamp ?? null,
       endTimestamp: null,
-      // A challenge is "ongoing" until someone wins it.
-      isOngoing: !data?.winnerUsername,
+      isOngoing,
       participantCount: data?.participants.length ?? 0,
       winnerUsername: data?.winnerUsername ?? null,
     })

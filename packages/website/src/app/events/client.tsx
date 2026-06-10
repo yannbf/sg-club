@@ -138,7 +138,7 @@ function EventCard({
 
           <div className="mt-auto flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted-foreground">
             {isSpecial ? (
-              meta.giveawayWindow ? (
+              meta.match?.endsBetween ? (
                 <span className="inline-flex items-center gap-1">
                   <Gift className="h-3.5 w-3.5" />
                   <span className="font-semibold text-foreground">
