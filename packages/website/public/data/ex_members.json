@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1780976814319,
+  "lastUpdated": 1781068007494,
   "users": {
     "76561198343020214": {
       "username": "thesodaer",
@@ -18939,6 +18939,162 @@
         "no_giveaway_created_in_6_months"
       ],
       "left_at_timestamp": 1780976686735
+    },
+    "76561198313415063": {
+      "username": "z00rox",
+      "profile_url": "/user/z00rox",
+      "avatar_url": "https://avatars.steamstatic.com/e7a630c0e5ca81e4776538cb5640a4efa15c8852_medium.jpg",
+      "steam_id": "76561198313415063",
+      "stats": {
+        "total_sent_count": 2,
+        "total_sent_value": 29.98,
+        "total_received_count": 3,
+        "total_received_value": 69.97,
+        "total_gift_difference": -1,
+        "total_value_difference": -39.99,
+        "fcv_sent_count": 2,
+        "rcv_sent_count": 0,
+        "ncv_sent_count": 0,
+        "fcv_received_count": 3,
+        "rcv_received_count": 0,
+        "ncv_received_count": 0,
+        "fcv_gift_difference": -1,
+        "real_total_sent_value": 29.98,
+        "real_total_received_value": 69.97,
+        "real_total_value_difference": -39.99,
+        "real_total_sent_count": 2,
+        "real_total_received_count": 3,
+        "real_total_gift_difference": -1,
+        "giveaway_ratio": 1.67,
+        "shared_sent_count": 0,
+        "shared_received_count": 0,
+        "giveaways_created": 2,
+        "giveaways_with_no_entries": 0,
+        "last_giveaway_created_at": 1767484625,
+        "last_giveaway_won_at": 1775834820,
+        "first_seen_at": 1749787133,
+        "total_achievements_percentage": 57,
+        "average_achievements_percentage": 58,
+        "real_total_achievements_percentage": 57,
+        "real_average_achievements_percentage": 58,
+        "has_missing_achievements_data": false
+      },
+      "steam_profile_url": "https://steamcommunity.com/profiles/76561198313415063",
+      "steam_profile_is_private": false,
+      "country_code": "ru",
+      "giveaways_won": [
+        {
+          "name": "Tandem: A Tale of Shadows",
+          "link": "EeBGG/tandem-a-tale-of-shadows",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1775834820,
+          "required_play": false,
+          "is_shared": false,
+          "steam_play_data": {
+            "owned": true,
+            "playtime_minutes": 0,
+            "playtime_formatted": "0 minutes",
+            "achievements_unlocked": 0,
+            "achievements_total": 24,
+            "achievements_percentage": 0,
+            "never_played": true,
+            "is_playtime_private": false,
+            "last_checked": 1780811979729
+          }
+        },
+        {
+          "name": "Stray",
+          "link": "9LUqb/stray",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1751722920,
+          "required_play": true,
+          "is_shared": false,
+          "steam_play_data": {
+            "owned": true,
+            "playtime_minutes": 1394,
+            "playtime_formatted": "23 hours 14 minutes",
+            "achievements_unlocked": 21,
+            "achievements_total": 24,
+            "achievements_percentage": 87.5,
+            "never_played": false,
+            "is_playtime_private": false,
+            "last_checked": 1780811980845
+          },
+          "i_played_bro": true,
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 3
+          }
+        },
+        {
+          "name": "Martha Is Dead",
+          "link": "DTZpW/martha-is-dead",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1750287600,
+          "required_play": false,
+          "is_shared": false,
+          "steam_play_data": {
+            "owned": true,
+            "playtime_minutes": 1036,
+            "playtime_formatted": "17 hours 16 minutes",
+            "achievements_unlocked": 19,
+            "achievements_total": 22,
+            "achievements_percentage": 86.4,
+            "never_played": false,
+            "is_playtime_private": false,
+            "last_checked": 1780811981959
+          },
+          "i_played_bro": true
+        }
+      ],
+      "giveaways_created": [
+        {
+          "name": "THRESHOLD",
+          "link": "SE1hr/threshold",
+          "cv_status": "FULL_CV",
+          "entries": 5,
+          "copies": 1,
+          "created_timestamp": 1767484625,
+          "end_timestamp": 1767837600,
+          "required_play": false,
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "76561198041749780",
+              "winner_username": "doubleomurfy",
+              "status": "received",
+              "activated": true
+            }
+          ]
+        },
+        {
+          "name": "Inscryption",
+          "link": "lsZIi/inscryption",
+          "cv_status": "FULL_CV",
+          "entries": 15,
+          "copies": 1,
+          "created_timestamp": 1752046602,
+          "end_timestamp": 1752336000,
+          "required_play": false,
+          "is_shared": false,
+          "i_played_bro": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "76561198089973992",
+              "winner_username": "TwixClub",
+              "status": "received",
+              "activated": true
+            }
+          ]
+        }
+      ],
+      "registered_at": 1485848795,
+      "left_at_timestamp": 1781067941020
     }
   }
 }
