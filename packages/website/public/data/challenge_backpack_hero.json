@@ -41,7 +41,7 @@
       }
     ]
   },
-  "generatedAt": 1781125665905,
+  "generatedAt": 1781132869192,
   "winnerUsername": "Atro",
   "winnerUnlocktime": 1781039204,
   "participants": [
@@ -275,10 +275,10 @@
       "is_guest": false,
       "owned": true,
       "stats_available": true,
-      "playtime_total_minutes": 1409,
-      "playtime_2weeks_minutes": 1409,
+      "playtime_total_minutes": 1450,
+      "playtime_2weeks_minutes": 1450,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 1409,
+      "playtime_challenge_minutes": 1450,
       "achievements_total": 35,
       "achievements_unlocked_total": 24,
       "achievements_before_challenge": 0,
@@ -845,14 +845,14 @@
       "is_guest": false,
       "owned": true,
       "stats_available": true,
-      "playtime_total_minutes": 1358,
-      "playtime_2weeks_minutes": 1358,
+      "playtime_total_minutes": 1478,
+      "playtime_2weeks_minutes": 1478,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 1358,
+      "playtime_challenge_minutes": 1478,
       "achievements_total": 35,
-      "achievements_unlocked_total": 17,
+      "achievements_unlocked_total": 18,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 17,
+      "achievements_since_baseline": 18,
       "challenge_achievements": [
         {
           "apiname": "GotPradasLocket",
@@ -954,9 +954,15 @@
           "displayName": "Toasty",
           "description": "Discover the Magma Core",
           "unlocktime": 1781115982
+        },
+        {
+          "apiname": "Builder",
+          "displayName": "Builder",
+          "description": "Carry at least 5 structures",
+          "unlocktime": 1781129270
         }
       ],
-      "challenge_achievement_count": 17,
+      "challenge_achievement_count": 18,
       "has_started": true,
       "milestones": [
         {
@@ -1275,6 +1281,144 @@
       "is_winner": false
     },
     {
+      "username": "TempR",
+      "sg_username": "TempR",
+      "steam_id": "76561198017660760",
+      "avatar_url": "https://avatars.steamstatic.com/64b03317c7c90a0ac0889bf006445ac443249b3f_medium.jpg",
+      "profile_url": "https://steamcommunity.com/profiles/76561198017660760",
+      "is_guest": false,
+      "owned": true,
+      "stats_available": true,
+      "playtime_total_minutes": 555,
+      "playtime_2weeks_minutes": 555,
+      "baseline_playtime_minutes": 0,
+      "playtime_challenge_minutes": 555,
+      "achievements_total": 35,
+      "achievements_unlocked_total": 15,
+      "achievements_before_challenge": 0,
+      "achievements_since_baseline": 15,
+      "challenge_achievements": [
+        {
+          "apiname": "GotPradasLocket",
+          "displayName": "Prada's Locket",
+          "description": "Find Prada's Locket",
+          "unlocktime": 1781013220
+        },
+        {
+          "apiname": "BuiltTownHall",
+          "displayName": "Town Hall",
+          "description": "Unlock the Town Hall",
+          "unlocktime": 1781013220
+        },
+        {
+          "apiname": "UnlockedSatchel",
+          "displayName": "Bird Hero",
+          "description": "Unlock Satchel",
+          "unlocktime": 1781013220
+        },
+        {
+          "apiname": "UnlockedDeepCave",
+          "displayName": "Deep Explorer",
+          "description": "Discover the Deep Caves",
+          "unlocktime": 1781013220
+        },
+        {
+          "apiname": "UnlockedBramble",
+          "displayName": "Thorny",
+          "description": "Discover the Bramble",
+          "unlocktime": 1781013220
+        },
+        {
+          "apiname": "ItemDiscoverer",
+          "displayName": "Discoverer",
+          "description": "Discover at least 200 items",
+          "unlocktime": 1781013220
+        },
+        {
+          "apiname": "Popular",
+          "displayName": "Popular",
+          "description": "Attract at least 40 residents to Haversack Hill",
+          "unlocktime": 1781013220
+        },
+        {
+          "apiname": "Glutton",
+          "displayName": "Glutton",
+          "description": "Carry at least 7 consumables",
+          "unlocktime": 1781013220
+        },
+        {
+          "apiname": "Multipurpose",
+          "displayName": "Multipurpose",
+          "description": "Wear a shoehat on your head and one on your feet at the same time",
+          "unlocktime": 1781019076
+        },
+        {
+          "apiname": "ShivMaster",
+          "displayName": "Shiv Master",
+          "description": "Carry at least 5 shivs",
+          "unlocktime": 1781019813
+        },
+        {
+          "apiname": "UnlockedEnchantedSwamp",
+          "displayName": "Swampland",
+          "description": "Discover the Enchanted Swamp",
+          "unlocktime": 1781076844
+        },
+        {
+          "apiname": "SurvivedTheRaid",
+          "displayName": "Resilient Town",
+          "unlocktime": 1781082595
+        },
+        {
+          "apiname": "UnlockedTote",
+          "displayName": "Toad Hero",
+          "description": "Unlock Tote",
+          "unlocktime": 1781091612
+        },
+        {
+          "apiname": "FullyArmored",
+          "displayName": "Fully Armored",
+          "description": "Carry a helmet, clothing, two gloves, and footwear",
+          "unlocktime": 1781127618
+        },
+        {
+          "apiname": "PoisonStack",
+          "displayName": "Poison Stack",
+          "description": "Stack at least 50 poison",
+          "unlocktime": 1781128941
+        }
+      ],
+      "challenge_achievement_count": 15,
+      "has_started": true,
+      "milestones": [
+        {
+          "apiname": "ItemDiscoverer",
+          "label": "Discoverer",
+          "items": 200,
+          "unlocked": true,
+          "unlocktime": 1781013220
+        },
+        {
+          "apiname": "ItemExpert",
+          "label": "Expert",
+          "items": 400,
+          "unlocked": false,
+          "unlocktime": null
+        },
+        {
+          "apiname": "ItemHero",
+          "label": "Hero",
+          "items": 700,
+          "unlocked": false,
+          "unlocktime": null
+        }
+      ],
+      "had_hero_before": false,
+      "has_hero": false,
+      "hero_unlocktime": null,
+      "is_winner": false
+    },
+    {
       "username": "aez76",
       "sg_username": "aez76",
       "steam_id": "76561198053065013",
@@ -1385,132 +1529,6 @@
           "items": 200,
           "unlocked": true,
           "unlocktime": 1780971004
-        },
-        {
-          "apiname": "ItemExpert",
-          "label": "Expert",
-          "items": 400,
-          "unlocked": false,
-          "unlocktime": null
-        },
-        {
-          "apiname": "ItemHero",
-          "label": "Hero",
-          "items": 700,
-          "unlocked": false,
-          "unlocktime": null
-        }
-      ],
-      "had_hero_before": false,
-      "has_hero": false,
-      "hero_unlocktime": null,
-      "is_winner": false
-    },
-    {
-      "username": "TempR",
-      "sg_username": "TempR",
-      "steam_id": "76561198017660760",
-      "avatar_url": "https://avatars.steamstatic.com/64b03317c7c90a0ac0889bf006445ac443249b3f_medium.jpg",
-      "profile_url": "https://steamcommunity.com/profiles/76561198017660760",
-      "is_guest": false,
-      "owned": true,
-      "stats_available": true,
-      "playtime_total_minutes": 383,
-      "playtime_2weeks_minutes": 427,
-      "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 383,
-      "achievements_total": 35,
-      "achievements_unlocked_total": 13,
-      "achievements_before_challenge": 0,
-      "achievements_since_baseline": 13,
-      "challenge_achievements": [
-        {
-          "apiname": "GotPradasLocket",
-          "displayName": "Prada's Locket",
-          "description": "Find Prada's Locket",
-          "unlocktime": 1781013220
-        },
-        {
-          "apiname": "BuiltTownHall",
-          "displayName": "Town Hall",
-          "description": "Unlock the Town Hall",
-          "unlocktime": 1781013220
-        },
-        {
-          "apiname": "UnlockedSatchel",
-          "displayName": "Bird Hero",
-          "description": "Unlock Satchel",
-          "unlocktime": 1781013220
-        },
-        {
-          "apiname": "UnlockedDeepCave",
-          "displayName": "Deep Explorer",
-          "description": "Discover the Deep Caves",
-          "unlocktime": 1781013220
-        },
-        {
-          "apiname": "UnlockedBramble",
-          "displayName": "Thorny",
-          "description": "Discover the Bramble",
-          "unlocktime": 1781013220
-        },
-        {
-          "apiname": "ItemDiscoverer",
-          "displayName": "Discoverer",
-          "description": "Discover at least 200 items",
-          "unlocktime": 1781013220
-        },
-        {
-          "apiname": "Popular",
-          "displayName": "Popular",
-          "description": "Attract at least 40 residents to Haversack Hill",
-          "unlocktime": 1781013220
-        },
-        {
-          "apiname": "Glutton",
-          "displayName": "Glutton",
-          "description": "Carry at least 7 consumables",
-          "unlocktime": 1781013220
-        },
-        {
-          "apiname": "Multipurpose",
-          "displayName": "Multipurpose",
-          "description": "Wear a shoehat on your head and one on your feet at the same time",
-          "unlocktime": 1781019076
-        },
-        {
-          "apiname": "ShivMaster",
-          "displayName": "Shiv Master",
-          "description": "Carry at least 5 shivs",
-          "unlocktime": 1781019813
-        },
-        {
-          "apiname": "UnlockedEnchantedSwamp",
-          "displayName": "Swampland",
-          "description": "Discover the Enchanted Swamp",
-          "unlocktime": 1781076844
-        },
-        {
-          "apiname": "SurvivedTheRaid",
-          "displayName": "Resilient Town",
-          "unlocktime": 1781082595
-        },
-        {
-          "apiname": "UnlockedTote",
-          "displayName": "Toad Hero",
-          "description": "Unlock Tote",
-          "unlocktime": 1781091612
-        }
-      ],
-      "challenge_achievement_count": 13,
-      "has_started": true,
-      "milestones": [
-        {
-          "apiname": "ItemDiscoverer",
-          "label": "Discoverer",
-          "items": 200,
-          "unlocked": true,
-          "unlocktime": 1781013220
         },
         {
           "apiname": "ItemExpert",
@@ -1891,10 +1909,10 @@
       "is_guest": false,
       "owned": true,
       "stats_available": true,
-      "playtime_total_minutes": 385,
-      "playtime_2weeks_minutes": 385,
+      "playtime_total_minutes": 400,
+      "playtime_2weeks_minutes": 400,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 385,
+      "playtime_challenge_minutes": 400,
       "achievements_total": 35,
       "achievements_unlocked_total": 9,
       "achievements_before_challenge": 0,
@@ -2091,10 +2109,10 @@
       "is_guest": false,
       "owned": true,
       "stats_available": true,
-      "playtime_total_minutes": 359,
-      "playtime_2weeks_minutes": 359,
+      "playtime_total_minutes": 401,
+      "playtime_2weeks_minutes": 401,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 359,
+      "playtime_challenge_minutes": 401,
       "achievements_total": 35,
       "achievements_unlocked_total": 5,
       "achievements_before_challenge": 0,
