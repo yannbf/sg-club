@@ -2,48 +2,11 @@
   "slug": "gaming-challenge-1-backpack-hero",
   "appId": 1970580,
   "gameName": "Backpack Hero",
-  "heroAchievement": {
-    "apiname": "ItemHero",
-    "displayName": "Hero",
-    "description": "Discover at least 700 items",
-    "iconUrl": "https://cdn.akamai.steamstatic.com/steamcommunity/public/images/apps/1970580/8a4c1ba13e41f1cadff981bfefe467cae6baa6d3.jpg"
-  },
+  "winType": "achievement",
   "startTimestamp": 1780876800,
   "totalAchievements": 35,
-  "roster": {
-    "participants": [
-      "yannbz",
-      "Bainsol",
-      "Atro",
-      "imminiman",
-      "damianea103",
-      "schmoan",
-      "Patzl",
-      "webdak",
-      "Ignition365",
-      "MikeWithAnI",
-      "snbac",
-      "DancingXmas",
-      "aez76",
-      "BaconChizBurger",
-      "vot4ol",
-      "Grogglz",
-      "Waxlor",
-      "yugimax",
-      "DancingVaquinha",
-      "Vin3",
-      "TempR"
-    ],
-    "guests": [
-      {
-        "steam_id": "76561197996314287",
-        "displayName": "mayanaise"
-      }
-    ]
-  },
-  "generatedAt": 1781257358104,
+  "generatedAt": 1781272021251,
   "winnerUsername": "Atro",
-  "winnerUnlocktime": 1781039204,
   "participants": [
     {
       "username": "Atro",
@@ -2911,5 +2874,43 @@
       "achievements_total": 35,
       "challenge_achievement_count": 0
     }
-  ]
+  ],
+  "heroAchievement": {
+    "apiname": "ItemHero",
+    "displayName": "Hero",
+    "description": "Discover at least 700 items",
+    "iconUrl": "https://cdn.akamai.steamstatic.com/steamcommunity/public/images/apps/1970580/8a4c1ba13e41f1cadff981bfefe467cae6baa6d3.jpg"
+  },
+  "winnerUnlocktime": 1781039204,
+  "roster": {
+    "participants": [
+      "yannbz",
+      "Bainsol",
+      "Atro",
+      "imminiman",
+      "damianea103",
+      "schmoan",
+      "Patzl",
+      "webdak",
+      "Ignition365",
+      "MikeWithAnI",
+      "snbac",
+      "DancingXmas",
+      "aez76",
+      "BaconChizBurger",
+      "vot4ol",
+      "Grogglz",
+      "Waxlor",
+      "yugimax",
+      "DancingVaquinha",
+      "Vin3",
+      "TempR"
+    ],
+    "guests": [
+      {
+        "steam_id": "76561197996314287",
+        "displayName": "mayanaise"
+      }
+    ]
+  }
 }
