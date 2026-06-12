@@ -31,7 +31,8 @@
     "migrate-to-steam-id": "tsx src/scripts/migrate-to-steam-id.ts",
     "validate-migration": "tsx src/scripts/validate-migration.ts",
     "reconstruct-deleted-users": "tsx src/scripts/reconstruct-deleted-users.ts",
-    "get-entries": "tsx src/scripts/get-entries.ts"
+    "get-entries": "tsx src/scripts/get-entries.ts",
+    "check-ex-member-entries": "tsx src/scripts/check-ex-member-entries.ts"
   },
   "dependencies": {
     "@types/cheerio": "^0.22.35",

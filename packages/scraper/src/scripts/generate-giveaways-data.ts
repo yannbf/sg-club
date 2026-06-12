@@ -47,9 +47,21 @@ export async function generateGiveawaysData(): Promise<void> {
       const groupUsersData = JSON.parse(
         readFileSync(groupUsersFilename, 'utf-8')
       )
-      const groupMemberUsernames = new Set(
-        Object.values(groupUsersData.users).map((user: any) => user.username)
-      )
+      // Include ex-members: SteamGifts keeps their entries alive until they
+      // leave each giveaway, so dropping them here would hide rule violations
+      // (see check-ex-member-entries.ts) and falsely flag them as GA leavers.
+      const exMembersFilename = '../website/public/data/ex_members.json'
+      const exMembersData = existsSync(exMembersFilename)
+        ? JSON.parse(readFileSync(exMembersFilename, 'utf-8'))
+        : { users: {} }
+      const knownUsernames = new Set([
+        ...Object.values(groupUsersData.users).map(
+          (user: any) => user.username
+        ),
+        ...Object.values(exMembersData.users).map(
+          (user: any) => user.username
+        ),
+      ])
 
       // Load steam_id → username history lookup map
       const steamIdMapFilename = '../website/public/data/steam_id_map.json'
@@ -152,7 +164,7 @@ export async function generateGiveawaysData(): Promise<void> {
             giveaway.link
           )
           const memberEntries = entries.filter((entry) =>
-            groupMemberUsernames.has(entry.username)
+            knownUsernames.has(entry.username)
           )
 
           // Resolve current scraped entries to steam_ids

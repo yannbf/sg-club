@@ -7,6 +7,7 @@ import { execSync } from 'node:child_process'
 import { existsSync, readFileSync } from 'node:fs'
 import path from 'node:path'
 import { checkDeletedGiveaways } from './check-deleted-giveaways'
+import { checkExMemberEntries } from './check-ex-member-entries'
 
 // perhaps we will use this later.
 async function maybeCommitAndPush() {
@@ -81,6 +82,9 @@ async function generateAllData(): Promise<void> {
   // Skip playtime enrichment during member data generation when splitting jobs
   process.env.SKIP_STEAM_PLAYTIME = 'true'
   await generateMembersData()
+  // Flag ex-members who still have entries in active giveaways (SteamGifts
+  // membership sync delay lets them keep entering/winning after leaving)
+  checkExMemberEntries()
   await generateInsights()
   const endTime = Date.now()
   const duration = (endTime - startTime) / 1000
