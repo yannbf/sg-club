@@ -69,6 +69,16 @@ type SortKey =
 
 type SortDir = 'asc' | 'desc'
 
+/** Needs-attention warning keys that relate to required play giveaways. */
+const PLAY_REQUIRED_WARNINGS = new Set([
+  'unplayed_required_play_giveaways',
+  'illegal_entered_required_play_giveaways',
+  'illegal_entered_any_giveaways',
+  'required_plays_need_review',
+  'required_play_deadline_within_15_days',
+  'required_play_deadline_expired',
+])
+
 function getTotalPlaytime(user: User) {
   if (!user.giveaways_won) return 0
   return user.giveaways_won.reduce(
@@ -185,6 +195,8 @@ export default function UsersClient({
       const ratio = user.stats.giveaway_ratio ?? 0
       const userFlags: Record<string, boolean> = {
         warnings: (user.warnings?.length ?? 0) > 0,
+        play_required_warnings:
+          user.warnings?.some((w) => PLAY_REQUIRED_WARNINGS.has(w)) ?? false,
         contributors: getUserRatio(ratio) === 'contributor',
         receivers: getUserRatio(ratio) === 'receiver',
         neutral: getUserRatio(ratio) === 'neutral',
@@ -352,6 +364,11 @@ export default function UsersClient({
           {isAdmin && (
             <ToggleGroupItem value="warnings">
               <AlertTriangle className="h-3.5 w-3.5" /> Needs attention
+            </ToggleGroupItem>
+          )}
+          {isAdmin && (
+            <ToggleGroupItem value="play_required_warnings">
+              <Gamepad2 className="h-3.5 w-3.5" /> Play required warnings
             </ToggleGroupItem>
           )}
           <ToggleGroupItem value="contributors">
