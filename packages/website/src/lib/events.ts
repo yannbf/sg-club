@@ -106,6 +106,36 @@ export function isValidRatioGiveaway(g: Giveaway): boolean {
   )
 }
 
+/**
+ * The "date" ordering used by the giveaways page, shared so event pages list
+ * giveaways in the same order. With `groupByStatus` (the "all statuses" view):
+ * open giveaways first (upcoming ones leading, then by soonest end), ended
+ * giveaways last (most recently ended first).
+ */
+export function compareGiveawaysByDate(
+  a: Giveaway,
+  b: Giveaway,
+  now: number,
+  sortDirection: 'asc' | 'desc' = 'asc',
+  groupByStatus = true,
+): number {
+  const aIsEnded = a.end_timestamp < now
+  const bIsEnded = b.end_timestamp < now
+  if (groupByStatus && aIsEnded !== bIsEnded) return aIsEnded ? 1 : -1
+
+  const aStartInFuture = a.start_timestamp > now
+  const bStartInFuture = b.start_timestamp > now
+  if (sortDirection === 'asc' && aStartInFuture !== bStartInFuture) {
+    return aStartInFuture ? -1 : 1
+  }
+
+  const comparison =
+    groupByStatus && aIsEnded && bIsEnded
+      ? b.end_timestamp - a.end_timestamp
+      : a.end_timestamp - b.end_timestamp
+  return sortDirection === 'asc' ? comparison : -comparison
+}
+
 /** Per-event descriptive metadata, keyed by `event_type`. */
 const GIVEAWAY_EVENT_META: Record<string, Omit<EventMeta, 'slug' | 'kind'>> = {
   may_event_2026: {

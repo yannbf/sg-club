@@ -25,6 +25,7 @@ import {
   X,
 } from 'lucide-react'
 import { getCVBadgeColor, getCVLabel } from '@/lib/data'
+import { compareGiveawaysByDate } from '@/lib/events'
 import { Giveaway, GameData } from '@/types'
 import UserAvatar from '@/components/UserAvatar'
 import { LastUpdated } from '@/components/LastUpdated'
@@ -364,28 +365,19 @@ export default function GiveawaysClient({
 
     filtered.sort((a, b) => {
       const now = Date.now() / 1000
-      const aIsEnded = a.end_timestamp < now
-      const bIsEnded = b.end_timestamp < now
 
-      if (sortBy === 'date' && giveawayStatus === 'all' && aIsEnded !== bIsEnded) {
-        return aIsEnded ? 1 : -1
+      if (sortBy === 'date') {
+        return compareGiveawaysByDate(
+          a,
+          b,
+          now,
+          sortDirection,
+          giveawayStatus === 'all',
+        )
       }
 
       let comparison = 0
       switch (sortBy) {
-        case 'date': {
-          const aStartInFuture = a.start_timestamp > now
-          const bStartInFuture = b.start_timestamp > now
-          if (sortDirection === 'asc' && aStartInFuture !== bStartInFuture) {
-            return aStartInFuture ? -1 : 1
-          }
-          if (giveawayStatus === 'all' && aIsEnded && bIsEnded) {
-            comparison = b.end_timestamp - a.end_timestamp
-          } else {
-            comparison = a.end_timestamp - b.end_timestamp
-          }
-          break
-        }
         case 'author':
           comparison = getDisplayName(a.creator).localeCompare(
             getDisplayName(b.creator),

@@ -11,6 +11,7 @@ import {
 import { createCreatorResolver, type CreatorResolver } from '@/lib/creator-resolver'
 import {
   allEventSlugs,
+  compareGiveawaysByDate,
   getEventBySlug,
   isValidRatioGiveaway,
   selectEventGiveaways,
@@ -126,8 +127,9 @@ export default async function EventDetailPage(props: {
         getSteamIdMap(),
       ])
 
+    const now = Date.now() / 1000
     const windowGiveaways = selectEventGiveaways(event, giveaways).sort(
-      (a, b) => (b.end_timestamp ?? 0) - (a.end_timestamp ?? 0),
+      (a, b) => compareGiveawaysByDate(a, b, now),
     )
 
     // The record window is a separate comparison range (last year), counted
@@ -205,6 +207,7 @@ export default async function EventDetailPage(props: {
 
   // Only valid-ratio giveaways: deleted, shared, whitelist-only and reduced-CV
   // giveaways are excluded everywhere in events.
+  const now = Date.now() / 1000
   const eventGiveaways = giveaways
     .filter(
       (g) =>
@@ -212,7 +215,7 @@ export default async function EventDetailPage(props: {
         !g.deleted &&
         isValidRatioGiveaway(g),
     )
-    .sort((a, b) => (b.end_timestamp ?? 0) - (a.end_timestamp ?? 0))
+    .sort((a, b) => compareGiveawaysByDate(a, b, now))
 
   if (eventGiveaways.length === 0) notFound()
 
