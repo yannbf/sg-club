@@ -79,9 +79,15 @@ export function OngoingEventsBanner({ events }: { events: EventSummary[] }) {
                 )}
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-1.5">
-                    <span className="inline-flex items-center gap-1 rounded-full bg-[var(--success)]/15 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-success-foreground">
-                      Live
-                    </span>
+                    {e.hasEnded ? (
+                      <span className="inline-flex items-center gap-1 rounded-full bg-[var(--subtle)]/15 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-muted-foreground">
+                        Ended
+                      </span>
+                    ) : (
+                      <span className="inline-flex items-center gap-1 rounded-full bg-[var(--success)]/15 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-success-foreground">
+                        Live
+                      </span>
+                    )}
                     <p className="truncate text-sm font-semibold text-foreground">
                       {e.meta.name}
                     </p>

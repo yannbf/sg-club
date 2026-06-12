@@ -249,9 +249,9 @@ jobs:
           fi
 
   challenge:
-    # Refreshes the "Gaming Challenge #1 — Backpack Hero" leaderboard. Light
-    # (~40 Steam calls), so it can run hourly on its own cron and stay clear of
-    # the SteamGifts-heavy jobs.
+    # Refreshes every gaming-challenge leaderboard (Backpack Hero, Kill The
+    # Crows, …) in one run. Light (a few hundred Steam calls total), so it can
+    # run hourly on its own cron and stay clear of the SteamGifts-heavy jobs.
     if: |
       github.event.schedule == '25 * * * *' ||
       (github.event_name == 'workflow_dispatch' && github.event.inputs.job == 'challenge')
@@ -288,7 +288,7 @@ jobs:
         run: |
           git config --global user.name 'GitHub Action'
           git config --global user.email 'action@github.com'
-          git add packages/website/public/data/challenge_backpack_hero.json
+          git add packages/website/public/data/challenge_*.json
           if git diff --staged --quiet; then
             echo "No changes to commit"
           else

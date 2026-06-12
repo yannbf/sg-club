@@ -222,6 +222,22 @@ export const CHALLENGE_EVENTS: EventMeta[] = [
     // recorded, even though the challenge is already won.
     keepLiveForDays: 7,
   },
+  {
+    slug: 'gaming-challenge-2-kill-the-crows',
+    name: 'Gaming Challenge #2 — Kill The Crows',
+    description:
+      'Our second community gaming challenge — a completion race! There’s no single winner this time: everyone who unlocks 100% of the achievements AND logs over 2 hours of play during the challenge (by the 30th of June) wins. Achievements earned before the challenge count too, so longtime fans can join in. The leaderboard records the exact moment each member hits 100%.',
+    websiteUrl: null,
+    kind: 'challenge',
+    monthly: false,
+    accent: 'var(--accent-rose)',
+    emoji: '🐦‍⬛',
+    imageUrl:
+      'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2441270/header.jpg',
+    challengeSlug: 'kill-the-crows',
+    // Keep it highlighted in "Happening now" for a week after the deadline.
+    keepLiveForDays: 7,
+  },
 ]
 
 /** Standalone, non-giveaway "link" events (e.g. the anniversary train). */
@@ -487,9 +503,17 @@ export interface EventSummary {
   startTimestamp: number | null
   endTimestamp: number | null
   isOngoing: boolean
+  /**
+   * True when the event's natural end has passed but it's still shown in
+   * "Happening now" during its linger window — render an "Ended" badge instead
+   * of "Live".
+   */
+  hasEnded?: boolean
   /** Challenge-only extras (filled by the page from the challenge data file). */
   participantCount?: number
   winnerUsername?: string | null
+  /** Completion challenges: how many members have reached 100% (multiple winners). */
+  winnerCount?: number
 }
 
 /**
@@ -524,6 +548,9 @@ export function buildGiveawayEventSummaries(
       endTimestamp != null &&
       now >= startTimestamp &&
       now <= eventLingerUntil(endTimestamp, meta)
+    // Past its real end but still lingering in "Happening now".
+    const hasEnded =
+      isOngoing && endTimestamp != null && now > endTimestamp
 
     summaries.push({
       meta,
@@ -535,6 +562,7 @@ export function buildGiveawayEventSummaries(
       startTimestamp,
       endTimestamp,
       isOngoing,
+      hasEnded,
     })
   }
 
@@ -572,6 +600,12 @@ export function buildSpecialEventSummary(
       ? selectEventGiveaways(meta, giveaways).length
       : 0
 
+  const isOngoing =
+    start != null &&
+    end != null &&
+    now >= start &&
+    now <= eventLingerUntil(end, meta)
+
   return {
     meta,
     giveawayCount,
@@ -581,11 +615,9 @@ export function buildSpecialEventSummary(
     winnersCount: 0,
     startTimestamp: start,
     endTimestamp: end,
-    isOngoing:
-      start != null &&
-      end != null &&
-      now >= start &&
-      now <= eventLingerUntil(end, meta),
+    isOngoing,
+    // Past its real end but still lingering in "Happening now".
+    hasEnded: isOngoing && end != null && now > end,
   }
 }
 

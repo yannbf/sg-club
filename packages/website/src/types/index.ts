@@ -330,13 +330,35 @@ export interface ChallengeParticipant {
    */
   has_started?: boolean
   /** Item-discovery progression (Discoverer 200 → Expert 400 → Hero 700). */
-  milestones: ChallengeMilestone[]
+  milestones?: ChallengeMilestone[]
   /** Already had the winning achievement before the challenge began. */
-  had_hero_before: boolean
+  had_hero_before?: boolean
   /** Earned the winning achievement during the challenge. */
-  has_hero: boolean
-  hero_unlocktime: number | null
-  /** The single first member to reach the winning achievement (locked once set). */
+  has_hero?: boolean
+  hero_unlocktime?: number | null
+  /**
+   * Completion challenges (winType `completion`): the member has 100% of the
+   * game's achievements.
+   */
+  is_complete?: boolean
+  /**
+   * Completion challenges: the unix-seconds moment the member reached 100% (the
+   * timestamp of their final achievement unlock). Null when unknown.
+   */
+  completed_at?: number | null
+  /** Completion challenges: was already at 100% before the challenge started. */
+  completed_before_start?: boolean
+  /**
+   * Completion challenges: has logged more than the required playtime during the
+   * challenge window (the second win requirement alongside 100%).
+   */
+  meets_playtime?: boolean
+  /**
+   * A winner. For achievement challenges, the single first to reach the winning
+   * achievement (locked once set). For completion challenges, anyone who has
+   * reached 100% (whenever) AND logged the required challenge-window playtime —
+   * there can be many.
+   */
   is_winner: boolean
 }
 
@@ -358,18 +380,35 @@ export interface ChallengeData {
   slug: string
   appId: number
   gameName: string
-  heroAchievement: {
+  /**
+   * How the challenge is won:
+   *  - `achievement`: first member to unlock a single winning achievement
+   *    (e.g. Backpack Hero's "Hero"). Single winner.
+   *  - `completion`: every member who reaches 100% of the game's achievements
+   *    within the window. Multiple winners.
+   * Older files omit this; treat a missing value as `achievement`.
+   */
+  winType?: 'achievement' | 'completion'
+  /** Achievement challenges only: the single winning achievement. */
+  heroAchievement?: {
     apiname: string
     displayName: string
     description: string
     iconUrl?: string
   }
   startTimestamp: number
+  /** Completion challenges: unix seconds — the end of the challenge window (exclusive). */
+  deadline?: number | null
+  /** Completion challenges: minutes of challenge-window playtime required to win. */
+  minPlaytimeMinutes?: number
   totalAchievements: number
   generatedAt: number
+  /** First/earliest winner's display name (achievement: the winner; completion: earliest finisher). */
   winnerUsername: string | null
-  /** Unix seconds when the winner unlocked the Hero achievement. */
+  /** Unix seconds when the (first) winner reached the win condition. */
   winnerUnlocktime?: number | null
+  /** Completion challenges: every winner's display name, ordered by finish time. */
+  winnerUsernames?: string[]
   participants: ChallengeParticipant[]
   nonParticipants: ChallengeNonParticipant[]
 }

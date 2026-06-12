@@ -83,15 +83,20 @@ function EventCard({
           )}
           <div className="min-w-0 flex-1">
             <div className="mb-1 flex flex-wrap items-center gap-1.5">
-              {event.isOngoing && (
-                <span className="inline-flex items-center gap-1 rounded-full bg-[var(--success)]/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-success-foreground">
-                  <span className="relative flex h-1.5 w-1.5">
-                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--success)] opacity-75" />
-                    <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[var(--success)]" />
+              {event.isOngoing &&
+                (event.hasEnded ? (
+                  <span className="inline-flex items-center gap-1 rounded-full bg-[var(--subtle)]/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">
+                    Ended
                   </span>
-                  Live
-                </span>
-              )}
+                ) : (
+                  <span className="inline-flex items-center gap-1 rounded-full bg-[var(--success)]/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-success-foreground">
+                    <span className="relative flex h-1.5 w-1.5">
+                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--success)] opacity-75" />
+                      <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[var(--success)]" />
+                    </span>
+                    Live
+                  </span>
+                ))}
               <Badge
                 variant={isChallenge ? 'primary' : isSpecial ? 'amber' : 'purple'}
                 size="sm"
@@ -172,7 +177,19 @@ function EventCard({
                   </span>{' '}
                   participants
                 </span>
-                {event.winnerUsername ? (
+                {event.winnerCount != null ? (
+                  event.winnerCount > 0 ? (
+                    <span className="inline-flex items-center gap-1 text-[var(--accent-yellow)]">
+                      <Trophy className="h-3.5 w-3.5" />
+                      <span className="font-semibold">
+                        {event.winnerCount}
+                      </span>{' '}
+                      reached 100%
+                    </span>
+                  ) : (
+                    <span className="text-subtle">No finishers yet</span>
+                  )
+                ) : event.winnerUsername ? (
                   <span className="inline-flex items-center gap-1 text-[var(--accent-yellow)]">
                     <Trophy className="h-3.5 w-3.5" /> Winner:{' '}
                     <span className="font-semibold">{event.winnerUsername}</span>

@@ -8,7 +8,6 @@ import {
   Crown,
   ExternalLink,
   Gamepad2,
-  RefreshCw,
   Sparkles,
   Timer,
   Trophy,
@@ -71,17 +70,6 @@ function fmtMinutes(m: number): string {
   return min === 0 ? `${h}h` : `${h}h ${min}m`
 }
 
-function fmtRelative(ms: number): string {
-  const diff = Date.now() - ms
-  const mins = Math.floor(diff / 60000)
-  if (mins < 1) return 'just now'
-  if (mins < 60) return `${mins} minute${mins === 1 ? '' : 's'} ago`
-  const hrs = Math.floor(mins / 60)
-  if (hrs < 24) return `${hrs} hour${hrs === 1 ? '' : 's'} ago`
-  const days = Math.floor(hrs / 24)
-  return `${days} day${days === 1 ? '' : 's'} ago`
-}
-
 function fmtDate(unixSeconds: number): string {
   return new Date(unixSeconds * 1000).toLocaleString('en-GB', {
     day: 'numeric',
@@ -91,20 +79,73 @@ function fmtDate(unixSeconds: number): string {
   })
 }
 
+function fmtDay(unixSeconds: number): string {
+  return new Date(unixSeconds * 1000).toLocaleDateString('en-GB', {
+    day: 'numeric',
+    month: 'short',
+  })
+}
+
 /**
- * Renders time-dependent text only after mount, so server-rendered static HTML
- * (built in UTC, "X ago" frozen at build time) doesn't mismatch the client.
+ * A live, second-by-second countdown to the challenge deadline. Renders a stable
+ * placeholder until mounted (so the static export's HTML matches first paint),
+ * then ticks every second on the client.
  */
-function MountedText({
-  children,
-  fallback = '…',
-}: {
-  children: React.ReactNode
-  fallback?: string
-}) {
-  const [mounted, setMounted] = React.useState(false)
-  React.useEffect(() => setMounted(true), [])
-  return <>{mounted ? children : fallback}</>
+function LiveCountdown({ deadline }: { deadline: number }) {
+  const [now, setNow] = React.useState<number | null>(null)
+  React.useEffect(() => {
+    setNow(Date.now())
+    const id = setInterval(() => setNow(Date.now()), 1000)
+    return () => clearInterval(id)
+  }, [])
+
+  const diffMs = now == null ? null : Math.max(0, deadline * 1000 - now)
+  const ended = diffMs != null && diffMs <= 0
+  const totalSec = diffMs == null ? 0 : Math.floor(diffMs / 1000)
+  const segments = [
+    { label: 'days', value: Math.floor(totalSec / 86400) },
+    { label: 'hrs', value: Math.floor((totalSec % 86400) / 3600) },
+    { label: 'min', value: Math.floor((totalSec % 3600) / 60) },
+    { label: 'sec', value: totalSec % 60 },
+  ]
+
+  return (
+    <Card className="flex flex-col items-center justify-between gap-3 p-4 sm:flex-row sm:p-5">
+      <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
+        <Timer className="h-4 w-4 text-primary-hi" />
+        {ended ? 'Challenge ended' : 'Time remaining'}
+      </div>
+      {!ended && (
+        <div className="flex items-center gap-1.5 sm:gap-2">
+          {segments.map((s, i) => (
+            <React.Fragment key={s.label}>
+              {i > 0 && (
+                <span className="text-lg font-bold text-subtle">:</span>
+              )}
+              <div className="flex min-w-[3rem] flex-col items-center rounded-lg bg-card-background-hover px-2 py-1.5">
+                <span className="text-xl font-bold tabular-nums-strict text-foreground sm:text-2xl">
+                  {now == null ? '––' : String(s.value).padStart(2, '0')}
+                </span>
+                <span className="text-[10px] uppercase tracking-wide text-muted-foreground">
+                  {s.label}
+                </span>
+              </div>
+            </React.Fragment>
+          ))}
+        </div>
+      )}
+    </Card>
+  )
+}
+
+/**
+ * The inclusive last day of a completion challenge, as a display timestamp.
+ * The stored `deadline` is the exclusive UTC-midnight cutoff (e.g. 1 Jul 00:00
+ * = "before the 30th"); pinning to noon of the previous day makes it render as
+ * the right calendar day ("30 Jun") in every viewer timezone.
+ */
+function deadlineDisplayTs(deadline: number | null | undefined): number | null {
+  return deadline != null ? deadline - 43200 : null
 }
 
 /** Small "Guest" badge for non-member participants. */
@@ -225,9 +266,11 @@ const PODIUM = [
 function Podium({
   top,
   totalAchievements,
+  isCompletion = false,
 }: {
   top: ChallengeParticipant[]
   totalAchievements: number
+  isCompletion?: boolean
 }) {
   return (
     <div className="grid grid-cols-1 items-end gap-4 sm:grid-cols-3">
@@ -279,7 +322,9 @@ function Podium({
               <div className="flex items-center gap-1.5">
                 <Award className={cn('h-4 w-4', style.text)} />
                 <span className="text-lg font-bold tabular-nums-strict text-foreground">
-                  {p.challenge_achievement_count}
+                  {isCompletion
+                    ? p.achievements_unlocked_total
+                    : p.challenge_achievement_count}
                 </span>
                 <span className="text-xs text-muted-foreground">
                   / {totalAchievements}
@@ -289,11 +334,17 @@ function Podium({
                 <Clock className="h-3 w-3" />
                 {fmtMinutes(p.playtime_challenge_minutes)} played
               </span>
-              {p.has_hero && (
-                <Badge variant="amber" size="sm">
-                  <Trophy className="h-3 w-3" /> Hero
-                </Badge>
-              )}
+              {isCompletion
+                ? p.is_winner && (
+                    <Badge variant="amber" size="sm">
+                      <Trophy className="h-3 w-3" /> Qualified
+                    </Badge>
+                  )
+                : p.has_hero && (
+                    <Badge variant="amber" size="sm">
+                      <Trophy className="h-3 w-3" /> Hero
+                    </Badge>
+                  )}
             </Card>
           </div>
         )
@@ -306,14 +357,28 @@ function LeaderboardRow({
   p,
   rank,
   totalAchievements,
+  isCompletion = false,
+  minPlaytime = 0,
 }: {
   p: ChallengeParticipant
   rank: number
   totalAchievements: number
+  isCompletion?: boolean
+  minPlaytime?: number
 }) {
+  // Completion races rank by total achievements unlocked (progress toward 100%);
+  // achievement challenges by achievements earned since the start. Playtime is
+  // always the challenge-window figure.
+  const metric = isCompletion
+    ? p.achievements_unlocked_total
+    : p.challenge_achievement_count
+  const playtimeMin = p.playtime_challenge_minutes
+  // Completion: a 100% member still needs `minPlaytime` of challenge-window play
+  // to qualify; surface how much is left.
+  const playtimeLeft = Math.max(0, (minPlaytime ?? 0) - playtimeMin)
   const pct = Math.min(
     100,
-    Math.round((p.challenge_achievement_count / totalAchievements) * 100),
+    Math.round((metric / totalAchievements) * 100),
   )
   const rankColor =
     rank === 1
@@ -363,7 +428,25 @@ function LeaderboardRow({
             />
             {p.is_guest && <GuestTag />}
           </div>
-          <MilestoneTrack milestones={p.milestones} />
+          {isCompletion ? (
+            p.is_winner ? (
+              <span className="mt-1 inline-flex items-center gap-1 text-[11px] font-medium text-[var(--accent-yellow)]">
+                <Trophy className="h-3 w-3" />
+                Qualified
+                {p.completed_at != null && ` · 100% on ${fmtDate(p.completed_at)}`}
+              </span>
+            ) : p.is_complete ? (
+              <span className="mt-1 inline-flex items-center gap-1 text-[11px] font-medium text-muted-foreground">
+                <Clock className="h-3 w-3" />
+                100% ·{' '}
+                {playtimeLeft > 0
+                  ? `${fmtMinutes(playtimeLeft)} more play to qualify`
+                  : 'qualifying…'}
+              </span>
+            ) : null
+          ) : (
+            <MilestoneTrack milestones={p.milestones ?? []} />
+          )}
         </div>
       </div>
 
@@ -371,7 +454,7 @@ function LeaderboardRow({
       <div className="hidden flex-col gap-1 sm:flex">
         <div className="flex items-center justify-between text-xs">
           <span className="font-semibold tabular-nums-strict text-foreground">
-            {p.challenge_achievement_count}
+            {metric}
             <span className="text-muted-foreground"> / {totalAchievements}</span>
           </span>
           <span className="text-muted-foreground">{pct}%</span>
@@ -387,9 +470,7 @@ function LeaderboardRow({
       {/* Playtime (desktop) */}
       <div className="hidden items-center gap-1.5 text-sm text-muted-foreground sm:flex">
         <Clock className="h-3.5 w-3.5" />
-        <span className="tabular-nums-strict">
-          {fmtMinutes(p.playtime_challenge_minutes)}
-        </span>
+        <span className="tabular-nums-strict">{fmtMinutes(playtimeMin)}</span>
       </div>
 
       {/* Compact stats (mobile) + hero (desktop) */}
@@ -398,14 +479,14 @@ function LeaderboardRow({
         <div className="flex flex-col items-end gap-0.5 sm:hidden">
           <span className="inline-flex items-center gap-1 text-sm font-semibold text-foreground">
             <Award className="h-3.5 w-3.5 text-primary-hi" />
-            {p.challenge_achievement_count}
+            {metric}
           </span>
           <span className="inline-flex items-center gap-1 text-[11px] text-muted-foreground tabular-nums-strict">
             <Clock className="h-3 w-3" />
-            {fmtMinutes(p.playtime_challenge_minutes)}
+            {fmtMinutes(playtimeMin)}
           </span>
         </div>
-        {p.has_hero ? (
+        {(isCompletion ? p.is_winner : p.has_hero) ? (
           <Trophy className="h-4 w-4 text-[var(--accent-yellow)]" />
         ) : (
           <span className="hidden text-subtle sm:inline">—</span>
@@ -512,106 +593,203 @@ export default function ChallengeClient({
     )
   }
 
-  // Active = made progress since the challenge started. "Started" means any
-  // playtime OR any achievements gained since the baseline — the latter covers
-  // members who are clearly unlocking achievements but whose playtime hasn't
-  // synced from Steam yet (e.g. Steam Deck offline play). `has_started` is the
-  // authoritative flag; fall back to the raw signals for older data files.
+  // A "completion" challenge has many winners; an "achievement" challenge has a
+  // single winner. Completion winners need BOTH 100% (whenever reached) AND over
+  // `minPlaytimeMinutes` of play logged during the challenge window.
+  const isCompletion = data.winType === 'completion'
+  const minPlaytime = data.minPlaytimeMinutes ?? 0
+
+  // "Started" semantics differ by challenge kind:
+  //  - achievement (clean slate): made progress SINCE the start — challenge-window
+  //    playtime OR achievements gained since the baseline.
+  //  - completion: any achievements or playtime at all (pre-challenge progress
+  //    counts toward 100%), so longtime owners still show on the board.
+  // `has_started` from the data file is authoritative; fall back for older files.
   const hasStarted = (p: (typeof data.participants)[number]) =>
     p.has_started ??
-    (p.challenge_achievement_count > 0 ||
-      p.playtime_challenge_minutes > 0 ||
-      p.achievements_unlocked_total > 0)
+    (isCompletion
+      ? p.achievements_unlocked_total > 0 || p.playtime_total_minutes > 0
+      : p.challenge_achievement_count > 0 ||
+        p.playtime_challenge_minutes > 0 ||
+        p.achievements_unlocked_total > 0)
+
   const active = data.participants.filter(hasStarted)
   const yetToStart = data.participants.filter((p) => !hasStarted(p))
 
   const podium = active.slice(0, 3)
   const rest = active.slice(3)
 
-  const totalAchievementsEarned = active.reduce(
-    (s, p) => s + p.challenge_achievement_count,
-    0,
-  )
+  // Headline metric per kind: total achievements unlocked (completion, since the
+  // goal is 100%) vs achievements earned since the start (achievement). Playtime
+  // shown is challenge-window playtime in both cases (the completion 2h gate is
+  // measured over the window).
+  const metricOf = (p: (typeof data.participants)[number]) =>
+    isCompletion ? p.achievements_unlocked_total : p.challenge_achievement_count
+  const totalAchievementsEarned = active.reduce((s, p) => s + metricOf(p), 0)
   const totalPlaytime = active.reduce(
     (s, p) => s + p.playtime_challenge_minutes,
     0,
   )
-  const heroHolders = data.participants.filter((p) => p.has_hero).length
   const generatedIso = new Date(data.generatedAt).toISOString()
+
+  const winners = data.participants
+    .filter((p) => p.is_winner)
+    .sort(
+      (a, b) =>
+        (a.completed_at ?? Number.POSITIVE_INFINITY) -
+        (b.completed_at ?? Number.POSITIVE_INFINITY),
+    )
+  const heroHolders = data.participants.filter((p) => p.has_hero).length
+  // Headline "win count": members who reached 100% in-window (completion) or
+  // who hold the Hero achievement (achievement).
+  const winCount = isCompletion ? winners.length : heroHolders
+  const deadlinePassed =
+    data.deadline != null && Date.now() / 1000 >= data.deadline
+  const isOngoing = isCompletion ? !deadlinePassed : !data.winnerUsername
+  // The challenge's natural end: deadline reached (completion) or a winner
+  // recorded (achievement). It then lingers with an "Ended" badge.
+  const hasEnded = isCompletion ? deadlinePassed : Boolean(data.winnerUsername)
+  // Inclusive last day for display ("30 Jun"), robust across timezones.
+  const deadlineDisplay = deadlineDisplayTs(data.deadline)
 
   return (
     <div className="mx-auto max-w-screen-xl space-y-8">
       <EventPageHeader
         meta={meta}
         startTimestamp={data.startTimestamp}
-        endTimestamp={null}
-        isOngoing={!data.winnerUsername}
+        endTimestamp={isCompletion ? deadlineDisplay : null}
+        isOngoing={isOngoing}
+        hasEnded={hasEnded}
       >
-        {data.winnerUsername && (
-          <div className="mt-3 flex flex-wrap items-center gap-2 rounded-lg border border-[var(--accent-yellow)]/40 bg-[color-mix(in_oklab,var(--accent-yellow)_12%,transparent)] px-3 py-2 text-sm">
-            <Crown className="h-4 w-4 flex-shrink-0 text-[var(--accent-yellow)]" />
-            <span className="font-semibold text-foreground">
-              {data.winnerUsername}
-            </span>
-            <span className="text-muted-foreground">
-              claimed the Hero achievement
-              {data.winnerUnlocktime
-                ? ` on ${fmtDate(data.winnerUnlocktime)}`
-                : ''}{' '}
-              and won the challenge! 🎉
-            </span>
-          </div>
+        {isCompletion ? (
+          winners.length > 0 && (
+            <div className="mt-3 space-y-1.5 rounded-lg border border-[var(--accent-yellow)]/40 bg-[color-mix(in_oklab,var(--accent-yellow)_12%,transparent)] px-3 py-2.5 text-sm">
+              <div className="flex items-center gap-2 font-semibold text-foreground">
+                <Crown className="h-4 w-4 flex-shrink-0 text-[var(--accent-yellow)]" />
+                {winners.length === 1
+                  ? '1 member qualified 🎉'
+                  : `${winners.length} members qualified 🎉`}
+              </div>
+              <ul className="space-y-1 pl-6 text-muted-foreground">
+                {winners.map((w) => (
+                  <li key={w.steam_id} className="flex flex-wrap items-baseline gap-x-1.5">
+                    <ParticipantName
+                      p={w}
+                      className="font-semibold text-foreground hover:text-accent hover:underline"
+                    />
+                    <span className="text-xs">
+                      {w.completed_at != null
+                        ? `100% on ${fmtDate(w.completed_at)}`
+                        : 'reached 100%'}
+                      {' · '}
+                      {fmtMinutes(w.playtime_challenge_minutes)} played
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )
+        ) : (
+          data.winnerUsername && (
+            <div className="mt-3 flex flex-wrap items-center gap-2 rounded-lg border border-[var(--accent-yellow)]/40 bg-[color-mix(in_oklab,var(--accent-yellow)_12%,transparent)] px-3 py-2 text-sm">
+              <Crown className="h-4 w-4 flex-shrink-0 text-[var(--accent-yellow)]" />
+              <span className="font-semibold text-foreground">
+                {data.winnerUsername}
+              </span>
+              <span className="text-muted-foreground">
+                claimed the Hero achievement
+                {data.winnerUnlocktime
+                  ? ` on ${fmtDate(data.winnerUnlocktime)}`
+                  : ''}{' '}
+                and won the challenge! 🎉
+              </span>
+            </div>
+          )
         )}
-
-        {/* Make it clear the board is a periodic snapshot, not a live feed. */}
-        <p className="mt-3 inline-flex items-center gap-1.5 text-xs text-muted-foreground">
-          <RefreshCw className="h-3 w-3" />
-          <span>
-            Leaderboard updated{' '}
-            <MountedText fallback="recently">
-              {fmtRelative(data.generatedAt)}
-            </MountedText>{' '}
-            — not live; refreshed every few hours.
-          </span>
-        </p>
       </EventPageHeader>
 
       {/* Game spotlight — links to the Steam store page */}
       <GameSpotlight appId={data.appId} gameName={data.gameName} game={game} />
 
-      {/* Winning-achievement callout */}
-      <Card className="flex items-start gap-4 p-5">
-        {data.heroAchievement.iconUrl ? (
-          <Image
-            src={data.heroAchievement.iconUrl}
-            alt={`${data.heroAchievement.displayName} achievement`}
-            width={56}
-            height={56}
-            unoptimized
-            className="h-14 w-14 flex-shrink-0 rounded-xl ring-2 ring-[var(--accent-yellow)]/60"
-          />
-        ) : (
+      {/* Win-condition callout */}
+      {isCompletion ? (
+        <Card className="flex items-start gap-4 p-5">
           <div className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-xl bg-[color-mix(in_oklab,var(--accent-yellow)_18%,transparent)] text-[var(--accent-yellow)]">
             <Trophy className="h-6 w-6" />
           </div>
-        )}
-        <div className="min-w-0 space-y-1">
-          <div className="flex flex-wrap items-center gap-2">
-            <h2 className="text-base font-semibold text-foreground">
-              Winning achievement: “{data.heroAchievement.displayName}”
-            </h2>
-            <Badge variant="amber" size="sm">
-              {heroHolders} unlocked
-            </Badge>
+          <div className="min-w-0 space-y-1">
+            <div className="flex flex-wrap items-center gap-2">
+              <h2 className="text-base font-semibold text-foreground">
+                Unlock all {data.totalAchievements} achievements
+                {minPlaytime > 0
+                  ? ` + play over ${fmtMinutes(minPlaytime)}`
+                  : ''}
+              </h2>
+              <Badge variant="amber" size="sm">
+                {winners.length} qualified
+              </Badge>
+            </div>
+            <p className="text-sm text-muted-foreground">
+              This is a completion race, not a single-winner challenge —{' '}
+              <span className="font-medium text-foreground">everyone</span> wins
+              who unlocks all {data.totalAchievements} achievements
+              {minPlaytime > 0 ? (
+                <>
+                  {' '}
+                  <span className="font-medium text-foreground">and</span> logs
+                  over {fmtMinutes(minPlaytime)} of play
+                </>
+              ) : null}
+              {deadlineDisplay
+                ? ` during the challenge (by the end of ${fmtDay(deadlineDisplay)})`
+                : ''}
+              . Achievements earned before the challenge count too. The
+              leaderboard records when each member hits 100%.
+            </p>
           </div>
-          <p className="text-sm text-muted-foreground">
-            {data.heroAchievement.description}. The first member to unlock it
-            after the challenge start wins. Only achievements earned and playtime
-            logged <span className="font-medium text-foreground">after</span> the
-            start are counted.
-          </p>
-        </div>
-      </Card>
+        </Card>
+      ) : (
+        data.heroAchievement && (
+          <Card className="flex items-start gap-4 p-5">
+            {data.heroAchievement.iconUrl ? (
+              <Image
+                src={data.heroAchievement.iconUrl}
+                alt={`${data.heroAchievement.displayName} achievement`}
+                width={56}
+                height={56}
+                unoptimized
+                className="h-14 w-14 flex-shrink-0 rounded-xl ring-2 ring-[var(--accent-yellow)]/60"
+              />
+            ) : (
+              <div className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-xl bg-[color-mix(in_oklab,var(--accent-yellow)_18%,transparent)] text-[var(--accent-yellow)]">
+                <Trophy className="h-6 w-6" />
+              </div>
+            )}
+            <div className="min-w-0 space-y-1">
+              <div className="flex flex-wrap items-center gap-2">
+                <h2 className="text-base font-semibold text-foreground">
+                  Winning achievement: “{data.heroAchievement.displayName}”
+                </h2>
+                <Badge variant="amber" size="sm">
+                  {heroHolders} unlocked
+                </Badge>
+              </div>
+              <p className="text-sm text-muted-foreground">
+                {data.heroAchievement.description}. The first member to unlock it
+                after the challenge start wins. Only achievements earned and
+                playtime logged{' '}
+                <span className="font-medium text-foreground">after</span> the
+                start are counted.
+              </p>
+            </div>
+          </Card>
+        )
+      )}
+
+      {/* Live countdown to the deadline (completion challenges) */}
+      {isCompletion && data.deadline != null && !hasEnded && (
+        <LiveCountdown deadline={data.deadline} />
+      )}
 
       {/* Stats */}
       <section className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
@@ -623,11 +801,11 @@ export default function ChallengeClient({
           hint={`${active.length} active`}
         />
         <StatCard
-          label="Achievements earned"
+          label={isCompletion ? 'Achievements unlocked' : 'Achievements earned'}
           value={totalAchievementsEarned}
           icon={Award}
           accent="purple"
-          hint="since challenge start"
+          hint={isCompletion ? 'combined, all-time' : 'since challenge start'}
         />
         <StatCard
           label="Hours played"
@@ -636,13 +814,31 @@ export default function ChallengeClient({
           accent="blue"
           hint="combined, since start"
         />
-        <StatCard
-          label="Hero unlocked"
-          value={heroHolders}
-          icon={Trophy}
-          accent="amber"
-          hint={data.winnerUsername ? `Winner: ${data.winnerUsername}` : 'No winner yet'}
-        />
+        {isCompletion ? (
+          <StatCard
+            label="Qualified"
+            value={winCount}
+            icon={Trophy}
+            accent="amber"
+            hint={
+              deadlineDisplay
+                ? `Deadline: ${fmtDay(deadlineDisplay)}`
+                : 'Complete to win'
+            }
+          />
+        ) : (
+          <StatCard
+            label="Hero unlocked"
+            value={heroHolders}
+            icon={Trophy}
+            accent="amber"
+            hint={
+              data.winnerUsername
+                ? `Winner: ${data.winnerUsername}`
+                : 'No winner yet'
+            }
+          />
+        )}
       </section>
 
       {/* Podium */}
@@ -652,7 +848,11 @@ export default function ChallengeClient({
             <Sparkles className="h-5 w-5 text-[var(--accent-yellow)]" />
             <h2 className="text-lg font-semibold text-foreground">Top players</h2>
           </div>
-          <Podium top={podium} totalAchievements={data.totalAchievements} />
+          <Podium
+            top={podium}
+            totalAchievements={data.totalAchievements}
+            isCompletion={isCompletion}
+          />
         </section>
       )}
 
@@ -676,9 +876,9 @@ export default function ChallengeClient({
             <div className="hidden grid-cols-[2.5rem_1fr_9rem_7rem_4rem] gap-4 px-3 pb-2 pt-1 text-[11px] font-medium uppercase tracking-wide text-muted-foreground sm:grid">
               <span className="text-center">#</span>
               <span>Member</span>
-              <span>Challenge achievements</span>
+              <span>{isCompletion ? 'Achievements' : 'Challenge achievements'}</span>
               <span>Playtime</span>
-              <span className="text-right">Hero</span>
+              <span className="text-right">{isCompletion ? 'Qualified' : 'Hero'}</span>
             </div>
             <div className="space-y-0.5">
               {podium.concat(rest).map((p, i) => (
@@ -687,6 +887,8 @@ export default function ChallengeClient({
                   p={p}
                   rank={i + 1}
                   totalAchievements={data.totalAchievements}
+                  isCompletion={isCompletion}
+                  minPlaytime={minPlaytime}
                 />
               ))}
             </div>
@@ -698,7 +900,9 @@ export default function ChallengeClient({
       {yetToStart.length > 0 && (
         <section className="space-y-3">
           <h2 className="text-sm font-semibold text-muted-foreground">
-            Roster · yet to start ({yetToStart.length})
+            {isCompletion
+              ? `Owns the game · not started yet (${yetToStart.length})`
+              : `Roster · yet to start (${yetToStart.length})`}
           </h2>
           <div className="flex flex-wrap gap-2">
             {yetToStart.map((p) => (
@@ -726,17 +930,23 @@ export default function ChallengeClient({
 
       {/* Non-participants who own & played the game */}
       {data.nonParticipants.length > 0 && (
-        <NonParticipants list={data.nonParticipants} />
+        <NonParticipants list={data.nonParticipants} gameName={data.gameName} />
       )}
     </div>
   )
 }
 
-function NonParticipants({ list }: { list: ChallengeNonParticipant[] }) {
+function NonParticipants({
+  list,
+  gameName,
+}: {
+  list: ChallengeNonParticipant[]
+  gameName: string
+}) {
   return (
     <section className="space-y-3 border-t border-card-border pt-6">
       <h2 className="text-sm font-semibold text-muted-foreground">
-        Not competing · members who own &amp; played Backpack Hero ({list.length})
+        Not competing · members who own &amp; played {gameName} ({list.length})
       </h2>
       <div className="grid grid-cols-1 gap-1.5 sm:grid-cols-2 lg:grid-cols-3">
         {list.map((p) => {

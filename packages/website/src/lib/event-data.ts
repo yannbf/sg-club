@@ -23,12 +23,25 @@ export async function getEventSummaries(): Promise<EventSummary[]> {
     const data = meta.challengeSlug
       ? await getChallengeData(meta.challengeSlug)
       : null
-    // A challenge is "ongoing" until someone wins it — then it lingers in
-    // "Happening now" for `keepLiveForDays`/`keepLiveUntil` past the win.
-    const isOngoing =
-      !data?.winnerUsername ||
-      (data.winnerUnlocktime != null &&
-        now <= eventLingerUntil(data.winnerUnlocktime, meta))
+    // "Ongoing" depends on the challenge kind:
+    //  - completion (has a `deadline`): live until the deadline passes, then it
+    //    lingers in "Happening now" for `keepLiveForDays`/`keepLiveUntil`.
+    //  - achievement: live until someone wins, then it lingers past the win.
+    let isOngoing: boolean
+    // Whether the challenge's natural end has passed (deadline reached, or for
+    // achievement challenges a winner recorded) — it then lingers in "Happening
+    // now" with an "Ended" badge until the linger window closes.
+    let naturalEndPassed: boolean
+    if (data?.deadline != null) {
+      isOngoing = now <= eventLingerUntil(data.deadline, meta)
+      naturalEndPassed = now >= data.deadline
+    } else {
+      isOngoing =
+        !data?.winnerUsername ||
+        (data.winnerUnlocktime != null &&
+          now <= eventLingerUntil(data.winnerUnlocktime, meta))
+      naturalEndPassed = Boolean(data?.winnerUsername)
+    }
     challengeSummaries.push({
       meta,
       giveawayCount: 0,
@@ -37,10 +50,14 @@ export async function getEventSummaries(): Promise<EventSummary[]> {
       uniqueCreators: 0,
       winnersCount: 0,
       startTimestamp: data?.startTimestamp ?? null,
-      endTimestamp: null,
+      // Display end = inclusive last day (the stored deadline is the exclusive
+      // UTC-midnight cutoff); noon-of-prior-day renders the right calendar day.
+      endTimestamp: data?.deadline != null ? data.deadline - 43200 : null,
       isOngoing,
+      hasEnded: isOngoing && naturalEndPassed,
       participantCount: data?.participants.length ?? 0,
       winnerUsername: data?.winnerUsername ?? null,
+      winnerCount: data?.winnerUsernames?.length,
     })
   }
 

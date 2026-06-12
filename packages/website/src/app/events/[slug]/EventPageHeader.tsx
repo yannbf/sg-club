@@ -163,12 +163,15 @@ export function EventPageHeader({
   startTimestamp,
   endTimestamp,
   isOngoing,
+  hasEnded,
   children,
 }: {
   meta: EventMeta
   startTimestamp: number | null
   endTimestamp: number | null
   isOngoing?: boolean
+  /** Show an "Ended" badge instead of "Live now" (event over but still shown). */
+  hasEnded?: boolean
   /** Optional extra content rendered under the description (e.g. winner banner). */
   children?: React.ReactNode
 }) {
@@ -239,14 +242,20 @@ export function EventPageHeader({
 
           <div className="min-w-0 flex-1 space-y-2">
             <div className="flex flex-wrap items-center gap-2">
-              {isOngoing && (
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-[var(--success)]/15 px-2.5 py-0.5 text-xs font-semibold uppercase tracking-wide text-success-foreground">
-                  <span className="relative flex h-2 w-2">
-                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--success)] opacity-75" />
-                    <span className="relative inline-flex h-2 w-2 rounded-full bg-[var(--success)]" />
-                  </span>
-                  Live now
+              {hasEnded ? (
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-[var(--subtle)]/15 px-2.5 py-0.5 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                  Ended
                 </span>
+              ) : (
+                isOngoing && (
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-[var(--success)]/15 px-2.5 py-0.5 text-xs font-semibold uppercase tracking-wide text-success-foreground">
+                    <span className="relative flex h-2 w-2">
+                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--success)] opacity-75" />
+                      <span className="relative inline-flex h-2 w-2 rounded-full bg-[var(--success)]" />
+                    </span>
+                    Live now
+                  </span>
+                )
               )}
               <Badge
                 variant={isChallenge ? 'primary' : isSpecial ? 'amber' : 'purple'}
