@@ -247,6 +247,7 @@ export const CHALLENGE_EVENTS: EventMeta[] = [
     emoji: '🎒',
     imageUrl:
       'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1970580/header.jpg',
+    bannerUrl: '/events/game_challenge_1.png',
     challengeSlug: 'backpack-hero',
     // Keep it highlighted in "Happening now" for a week after the winner is
     // recorded, even though the challenge is already won.
@@ -256,7 +257,7 @@ export const CHALLENGE_EVENTS: EventMeta[] = [
     slug: 'gaming-challenge-2-kill-the-crows',
     name: 'Gaming Challenge #2 — Kill The Crows',
     description:
-      'Our second community gaming challenge — a completion race! There’s no single winner this time: everyone who unlocks 100% of the achievements AND logs over 2 hours of play during the challenge (by the 30th of June) wins. Achievements earned before the challenge count too, so longtime fans can join in. The leaderboard records the exact moment each member hits 100%.',
+      'Our second community gaming challenge — a completion race! Sign-ups happen on our Discord server, and only signed-up participants compete. There’s no single winner this time: every participant who unlocks 100% of the achievements AND logs over 2 hours of play during the challenge (by the 30th of June) wins. Achievements earned before the challenge count too, so longtime fans can join in. The leaderboard records the exact moment each participant hits 100%.',
     websiteUrl: null,
     kind: 'challenge',
     monthly: false,
@@ -264,6 +265,7 @@ export const CHALLENGE_EVENTS: EventMeta[] = [
     emoji: '🐦‍⬛',
     imageUrl:
       'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2441270/header.jpg',
+    bannerUrl: '/events/game_challenge_2.png',
     challengeSlug: 'kill-the-crows',
     // Keep it highlighted in "Happening now" for a week after the deadline.
     keepLiveForDays: 7,

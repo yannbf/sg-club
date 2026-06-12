@@ -104,6 +104,12 @@ export interface User {
    * username) and merged in at load time. `undefined` means "not yet classified".
    */
   discord_member?: boolean
+  /**
+   * The user's Discord username (the stable account handle, not the renameable
+   * server/display name). Sourced from the `handles` map in
+   * public/data/discord_members.json and merged in at load time.
+   */
+  discord_handle?: string
   giveaways_won?: {
     name: string
     link: string

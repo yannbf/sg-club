@@ -1,11 +1,13 @@
 import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
-import type { Giveaway, User } from '../types/steamgifts.js'
+import { config as loadEnv } from 'dotenv'
+import type { Giveaway, SteamIdMap, User } from '../types/steamgifts.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 const dataDir = path.resolve(__dirname, '../../..', 'website/public/data')
+const rootEnvPath = path.resolve(__dirname, '../../../..', '.env')
 
 interface ExMembersData {
   lastUpdated: number
@@ -52,16 +54,18 @@ const formatDate = (unixSeconds: number) =>
  * Giveaways shared with other groups or a whitelist are skipped: an ex-member
  * may legitimately be entered through one of those.
  */
-export function checkExMemberEntries(): FlaggedExMember[] {
+export function checkExMemberEntries(
+  entriesOverride?: UserEntriesData,
+): FlaggedExMember[] {
   const exMembers: ExMembersData = JSON.parse(
     readFileSync(path.join(dataDir, 'ex_members.json'), 'utf-8'),
   )
   const giveawaysData: GiveawaysData = JSON.parse(
     readFileSync(path.join(dataDir, 'giveaways.json'), 'utf-8'),
   )
-  const userEntries: UserEntriesData = JSON.parse(
-    readFileSync(path.join(dataDir, 'user_entries.json'), 'utf-8'),
-  )
+  const userEntries: UserEntriesData =
+    entriesOverride ??
+    JSON.parse(readFileSync(path.join(dataDir, 'user_entries.json'), 'utf-8'))
 
   const now = Math.floor(Date.now() / 1000)
   const giveawayMap = new Map<string, Giveaway>(
@@ -136,6 +140,70 @@ export function checkExMemberEntries(): FlaggedExMember[] {
   return flagged
 }
 
+/**
+ * Scrapes the entry pages of all active group-exclusive giveaways directly
+ * from SteamGifts, bypassing user_entries.json. Useful when the local data
+ * may be stale or was generated before ex-member entries were kept.
+ * Requires SG_COOKIE (loaded from the repo root .env).
+ */
+async function fetchLiveEntries(): Promise<UserEntriesData> {
+  loadEnv({ path: rootEnvPath })
+  if (!process.env.SG_COOKIE) {
+    console.error(
+      `❌ SG_COOKIE not set (looked in ${rootEnvPath}) — cannot fetch live entries.`,
+    )
+    process.exit(1)
+  }
+
+  // Imported lazily so the default (file-based) mode never needs env vars
+  const { groupGiveawaysScraper } = await import(
+    '../scrapers/group-giveaways'
+  )
+
+  const giveawaysData: GiveawaysData = JSON.parse(
+    readFileSync(path.join(dataDir, 'giveaways.json'), 'utf-8'),
+  )
+  const steamIdMapData: SteamIdMap = JSON.parse(
+    readFileSync(path.join(dataDir, 'steam_id_map.json'), 'utf-8'),
+  )
+  const usernameToSteamId = new Map<string, string>()
+  for (const [steamId, entry] of Object.entries(steamIdMapData)) {
+    usernameToSteamId.set(entry.current, steamId)
+    for (const prev of entry.previous) {
+      usernameToSteamId.set(prev.username, steamId)
+    }
+  }
+
+  const now = Math.floor(Date.now() / 1000)
+  const targets = giveawaysData.giveaways.filter(
+    (g) =>
+      g.end_timestamp > now &&
+      !g.deleted &&
+      !g.is_shared &&
+      !g.is_whitelist &&
+      !g.whitelist &&
+      g.entry_count > 0,
+  )
+  console.log(
+    `🔄 Fetching live entries for ${targets.length} active group-exclusive giveaways...`,
+  )
+
+  const liveEntries: UserEntriesData = {}
+  for (const giveaway of targets) {
+    const entries = await groupGiveawaysScraper.fetchDetailedEntries(
+      giveaway.link,
+    )
+    liveEntries[giveaway.link] = entries.map((e) => ({
+      steam_id: usernameToSteamId.get(e.username) ?? e.username,
+      joined_at: e.joined_at,
+    }))
+    await delay(1000)
+  }
+  return liveEntries
+}
+
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
+
 export function buildChaseUpMessage(member: FlaggedExMember): string {
   const gaLines = member.active_entries
     .map(
@@ -154,12 +222,14 @@ ${gaLines}
 If the entries are still there when these giveaways end and you win, the win will be reported to SteamGifts support as a rule violation. Thanks for understanding!`
 }
 
-function runCli(): void {
+async function runCli(): Promise<void> {
   const args = process.argv.slice(2)
   const showMessages = args.includes('--messages')
+  const live = args.includes('--live')
   const usernameFilter = args.find((a) => !a.startsWith('--'))?.toLowerCase()
 
-  const flagged = checkExMemberEntries()
+  const entriesOverride = live ? await fetchLiveEntries() : undefined
+  const flagged = checkExMemberEntries(entriesOverride)
   const results = usernameFilter
     ? flagged.filter((f) => f.username.toLowerCase() === usernameFilter)
     : flagged
@@ -206,6 +276,6 @@ function runCli(): void {
 if (import.meta.url.startsWith('file:')) {
   const modulePath = fileURLToPath(import.meta.url)
   if (process.argv[1] === modulePath) {
-    runCli()
+    await runCli()
   }
 }

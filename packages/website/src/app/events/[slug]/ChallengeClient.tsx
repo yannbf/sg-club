@@ -731,8 +731,10 @@ export default function ChallengeClient({
             </div>
             <p className="text-sm text-muted-foreground">
               This is a completion race, not a single-winner challenge —{' '}
-              <span className="font-medium text-foreground">everyone</span> wins
-              who unlocks all {data.totalAchievements} achievements
+              <span className="font-medium text-foreground">
+                every participant
+              </span>{' '}
+              wins who unlocks all {data.totalAchievements} achievements
               {minPlaytime > 0 ? (
                 <>
                   {' '}

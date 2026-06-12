@@ -8,7 +8,7 @@ let buildTimeUserEntries: UserEntry | null = null
 let buildTimeGameData: GameData[] | null = null
 let buildTimeSteamIdMap: SteamIdMap | null = null
 let buildTimeExMembers: UserGroupData | null = null
-let buildTimeDiscordMembers: Record<string, boolean> | null = null
+let buildTimeDiscordData: DiscordData | null = null
 
 // Helper to get base URL for data files
 function getBaseUrl() {
@@ -244,27 +244,34 @@ export async function getSteamIdMap(): Promise<SteamIdMap> {
   }
 }
 
-async function fetchDiscordMembers(): Promise<Record<string, boolean>> {
+interface DiscordData {
+  /** SteamGifts username → whether they are in the Discord server. */
+  members: Record<string, boolean>
+  /** SteamGifts username → Discord username (stable handle, not server name). */
+  handles: Record<string, string>
+}
+
+async function fetchDiscordData(): Promise<DiscordData> {
   try {
     const baseUrl = getBaseUrl()
     const response = await fetch(`${baseUrl}/data/discord_members.json`)
     if (!response.ok) throw new Error('Failed to fetch discord members')
     const data = await response.json()
-    return data.members || {}
+    return { members: data.members || {}, handles: data.handles || {} }
   } catch (error) {
     console.error('Error reading discord members data:', error)
-    return {}
+    return { members: {}, handles: {} }
   }
 }
 
-/** Returns a map of SteamGifts username → whether they are in the Discord server. */
-export async function getDiscordMembers(): Promise<Record<string, boolean>> {
+/** Returns the Discord membership + handle maps, keyed by SteamGifts username. */
+export async function getDiscordData(): Promise<DiscordData> {
   if (typeof window !== 'undefined' || process.env.NODE_ENV === 'development') {
-    return await fetchDiscordMembers()
+    return await fetchDiscordData()
   }
 
   try {
-    if (!buildTimeDiscordMembers) {
+    if (!buildTimeDiscordData) {
       const { readFileSync } = await import('fs')
       const { join } = await import('path')
       const filePath = join(
@@ -274,31 +281,52 @@ export async function getDiscordMembers(): Promise<Record<string, boolean>> {
         'discord_members.json'
       )
       const parsed = JSON.parse(readFileSync(filePath, 'utf8'))
-      buildTimeDiscordMembers = parsed.members || {}
+      buildTimeDiscordData = {
+        members: parsed.members || {},
+        handles: parsed.handles || {},
+      }
     }
-    return buildTimeDiscordMembers || {}
+    return buildTimeDiscordData
   } catch (error) {
     console.error('Error loading discord members:', error)
-    return {}
+    return { members: {}, handles: {} }
   }
 }
 
+/** Returns a map of SteamGifts username → whether they are in the Discord server. */
+export async function getDiscordMembers(): Promise<Record<string, boolean>> {
+  return (await getDiscordData()).members
+}
+
 /**
- * Returns a copy of `data` with each user's `discord_member` set from the
- * (case-insensitive) username → membership map. Users absent from the map keep
- * `discord_member` undefined ("not yet classified").
+ * Returns a copy of `data` with each user's `discord_member` and
+ * `discord_handle` set from the (case-insensitive) username-keyed maps. Users
+ * absent from the maps keep both undefined ("not yet classified").
  */
 function annotateDiscordMembership(
   data: UserGroupData,
-  members: Record<string, boolean>
+  discord: DiscordData
 ): UserGroupData {
-  const lookup = new Map(
-    Object.entries(members).map(([name, value]) => [name.toLowerCase(), value])
+  const memberLookup = new Map(
+    Object.entries(discord.members).map(([name, value]) => [
+      name.toLowerCase(),
+      value,
+    ])
+  )
+  const handleLookup = new Map(
+    Object.entries(discord.handles).map(([name, value]) => [
+      name.toLowerCase(),
+      value,
+    ])
   )
   const users = Object.fromEntries(
     Object.entries(data.users).map(([steamId, user]) => [
       steamId,
-      { ...user, discord_member: lookup.get(user.username.toLowerCase()) },
+      {
+        ...user,
+        discord_member: memberLookup.get(user.username.toLowerCase()),
+        discord_handle: handleLookup.get(user.username.toLowerCase()),
+      },
     ])
   )
   return { ...data, users }
@@ -322,13 +350,13 @@ export async function getAllUsers(): Promise<UserGroupData | null> {
     )
   )
 
-  const discordMembers = await getDiscordMembers()
+  const discord = await getDiscordData()
   return annotateDiscordMembership(
     {
       ...data.users,
       users: filteredUsers,
     },
-    discordMembers
+    discord
   )
 }
 
@@ -354,8 +382,8 @@ export async function getExMembers(): Promise<UserGroupData | null> {
 
   if (!exMembers) return null
 
-  const discordMembers = await getDiscordMembers()
-  return annotateDiscordMembership(exMembers, discordMembers)
+  const discord = await getDiscordData()
+  return annotateDiscordMembership(exMembers, discord)
 }
 
 export async function getAllUsersAsArray(): Promise<User[]> {

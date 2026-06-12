@@ -18,8 +18,10 @@ import { config as loadEnv } from 'dotenv'
  *  - **completion** (e.g. Gaming Challenge #2 — Kill The Crows): win by reaching
  *    100% of the game's achievements (whenever — pre-challenge completions count)
  *    AND logging over `minPlaytimeMinutes` of play during the challenge window.
- *    EVERYONE who qualifies wins; there can be many. Open to every group member
- *    who owns the game (no sign-up roster).
+ *    EVERY participant who qualifies wins; there can be many.
+ *
+ * Either kind can use a `fixed` roster (sign-up list kept in the data file) or
+ * be `open` to every group member who owns the game — see ChallengeConfig.
  *
  * Challenge-window playtime is `current_total − baseline`, where the baseline is
  * seeded on the first run to `playtime_forever − playtime_2weeks` (i.e. play
@@ -134,8 +136,8 @@ const CHALLENGES: ChallengeConfig[] = [
     dataSlug: 'kill_the_crows',
     appId: 2441270,
     gameName: 'Kill The Crows',
-    startTimestamp: Date.UTC(2026, 5, 11) / 1000, // midnight 2026-06-11 UTC (starts today)
-    roster: 'open',
+    startTimestamp: Date.UTC(2026, 5, 11) / 1000, // midnight 2026-06-11 UTC
+    roster: 'fixed',
     win: {
       type: 'completion',
       // Challenge window ends 30 June (deadline = July 1 00:00 UTC).
@@ -694,8 +696,6 @@ async function generateChallenge(config: ChallengeConfig): Promise<void> {
     }
     output.winnerUnlocktime =
       (firstWinner as { hero_unlocktime?: number | null })?.hero_unlocktime ?? null
-    // Preserve the roster in-file so it's the single source of truth.
-    output.roster = roster
   } else {
     output.deadline = config.win.deadline
     output.minPlaytimeMinutes = config.win.minPlaytimeMinutes ?? 0
@@ -703,6 +703,9 @@ async function generateChallenge(config: ChallengeConfig): Promise<void> {
       (firstWinner as { completed_at?: number | null })?.completed_at ?? null
     output.winnerUsernames = winners.map((w) => w.username)
   }
+
+  // Preserve the roster in-file so it's the single source of truth.
+  if (config.roster === 'fixed') output.roster = roster
 
   writeFileSync(outPath, JSON.stringify(output, null, 2))
   const winnerNote =
