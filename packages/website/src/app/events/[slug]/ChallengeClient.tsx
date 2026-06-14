@@ -8,6 +8,7 @@ import {
   Crown,
   ExternalLink,
   Gamepad2,
+  HelpCircle,
   Sparkles,
   Timer,
   Trophy,
@@ -26,6 +27,7 @@ import { Badge } from '@/components/ui/Badge'
 import { UserLink } from '@/components/UserLink'
 import { StatCard } from '@/components/StatCard'
 import { LastUpdated } from '@/components/LastUpdated'
+import Tooltip from '@/components/Tooltip'
 import { EventPageHeader } from './EventPageHeader'
 import { cn } from '@/lib/cn'
 
@@ -68,6 +70,12 @@ function fmtMinutes(m: number): string {
   const min = m % 60
   if (h === 0) return `${min}m`
   return min === 0 ? `${h}h` : `${h}h ${min}m`
+}
+
+/** Compact "+Xh" label for pre-challenge playtime (hours only, no minutes). */
+function fmtBefore(minutes: number): string {
+  const hours = minutes / 60
+  return hours >= 1 ? `+${Math.round(hours)}h` : '+<1h'
 }
 
 function fmtDate(unixSeconds: number): string {
@@ -432,8 +440,9 @@ function LeaderboardRow({
             p.is_winner ? (
               <span className="mt-1 inline-flex items-center gap-1 text-[11px] font-medium text-[var(--accent-yellow)]">
                 <Trophy className="h-3 w-3" />
-                Qualified
-                {p.completed_at != null && ` · 100% on ${fmtDate(p.completed_at)}`}
+                {p.completed_at != null
+                  ? `Achieved on ${fmtDate(p.completed_at)}`
+                  : 'Achieved'}
               </span>
             ) : p.is_complete ? (
               <span className="mt-1 inline-flex items-center gap-1 text-[11px] font-medium text-muted-foreground">
@@ -469,8 +478,16 @@ function LeaderboardRow({
 
       {/* Playtime (desktop) */}
       <div className="hidden items-center gap-1.5 text-sm text-muted-foreground sm:flex">
-        <Clock className="h-3.5 w-3.5" />
+        <Clock className="h-3.5 w-3.5 flex-shrink-0" />
         <span className="tabular-nums-strict">{fmtMinutes(playtimeMin)}</span>
+        {p.baseline_playtime_minutes > 0 && (
+          <span
+            className="text-[11px] text-subtle"
+            title={`Played ${fmtMinutes(p.playtime_total_minutes)} in total — ${fmtMinutes(p.baseline_playtime_minutes)} of it before the challenge started`}
+          >
+            ({fmtBefore(p.baseline_playtime_minutes)} from before)
+          </span>
+        )}
       </div>
 
       {/* Compact stats (mobile) + hero (desktop) */}
@@ -484,6 +501,11 @@ function LeaderboardRow({
           <span className="inline-flex items-center gap-1 text-[11px] text-muted-foreground tabular-nums-strict">
             <Clock className="h-3 w-3" />
             {fmtMinutes(playtimeMin)}
+            {p.baseline_playtime_minutes > 0 && (
+              <span className="text-[10px] text-subtle">
+                ({fmtBefore(p.baseline_playtime_minutes)} from before)
+              </span>
+            )}
           </span>
         </div>
         {(isCompletion ? p.is_winner : p.has_hero) ? (
@@ -860,7 +882,27 @@ export default function ChallengeClient({
               <span className="text-center">#</span>
               <span>Member</span>
               <span>{isCompletion ? 'Achievements' : 'Challenge achievements'}</span>
-              <span>Playtime</span>
+              <span className="inline-flex items-center gap-1">
+                Playtime
+                <Tooltip
+                  content={
+                    <p className="max-w-[15rem] text-xs leading-relaxed">
+                      Hours played <strong>during the challenge</strong> (since{' '}
+                      {fmtDay(data.startTimestamp)}). Some members started the
+                      game earlier — the hours they&apos;d already logged before
+                      the challenge are shown in parentheses.
+                    </p>
+                  }
+                >
+                  <button
+                    type="button"
+                    aria-label="What does playtime mean?"
+                    className="inline-flex text-subtle transition-colors hover:text-foreground"
+                  >
+                    <HelpCircle className="h-3 w-3" />
+                  </button>
+                </Tooltip>
+              </span>
               <span className="text-right">{isCompletion ? 'Qualified' : 'Hero'}</span>
             </div>
             <div className="space-y-0.5">
