@@ -663,30 +663,11 @@ export default function ChallengeClient({
       >
         {isCompletion ? (
           winners.length > 0 && (
-            <div className="mt-3 space-y-1.5 rounded-lg border border-[var(--accent-yellow)]/40 bg-[color-mix(in_oklab,var(--accent-yellow)_12%,transparent)] px-3 py-2.5 text-sm">
-              <div className="flex items-center gap-2 font-semibold text-foreground">
-                <Crown className="h-4 w-4 flex-shrink-0 text-[var(--accent-yellow)]" />
-                {winners.length === 1
-                  ? '1 member qualified 🎉'
-                  : `${winners.length} members qualified 🎉`}
-              </div>
-              <ul className="space-y-1 pl-6 text-muted-foreground">
-                {winners.map((w) => (
-                  <li key={w.steam_id} className="flex flex-wrap items-baseline gap-x-1.5">
-                    <ParticipantName
-                      p={w}
-                      className="font-semibold text-foreground hover:text-accent hover:underline"
-                    />
-                    <span className="text-xs">
-                      {w.completed_at != null
-                        ? `100% on ${fmtDate(w.completed_at)}`
-                        : 'reached 100%'}
-                      {' · '}
-                      {fmtMinutes(w.playtime_challenge_minutes)} played
-                    </span>
-                  </li>
-                ))}
-              </ul>
+            <div className="mt-3 flex items-center gap-2 rounded-lg border border-[var(--accent-yellow)]/40 bg-[color-mix(in_oklab,var(--accent-yellow)_12%,transparent)] px-3 py-2.5 text-sm font-semibold text-foreground">
+              <Crown className="h-4 w-4 flex-shrink-0 text-[var(--accent-yellow)]" />
+              {winners.length === 1
+                ? '1 member qualified 🎉'
+                : `${winners.length} members qualified 🎉`}
             </div>
           )
         ) : (
