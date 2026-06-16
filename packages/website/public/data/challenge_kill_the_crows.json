@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1781136000,
   "totalAchievements": 31,
-  "generatedAt": 1781588706273,
+  "generatedAt": 1781610120959,
   "winnerUsername": "SoullessSoup",
   "participants": [
     {
@@ -5210,14 +5210,14 @@
       "is_guest": false,
       "owned": true,
       "stats_available": true,
-      "playtime_total_minutes": 187,
-      "playtime_2weeks_minutes": 187,
+      "playtime_total_minutes": 200,
+      "playtime_2weeks_minutes": 200,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 187,
+      "playtime_challenge_minutes": 200,
       "achievements_total": 31,
-      "achievements_unlocked_total": 9,
+      "achievements_unlocked_total": 10,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 9,
+      "achievements_since_baseline": 10,
       "challenge_achievements": [
         {
           "apiname": "FIRST_PASSIVE_UNLOCK",
@@ -5272,9 +5272,15 @@
           "displayName": "Girl in bloodstains",
           "description": "Unlock third showdown",
           "unlocktime": 1781530188
+        },
+        {
+          "apiname": "FOURTH_SHOWDOWN_UNLOCK",
+          "displayName": "Fled across the desert",
+          "description": "Unlock fourth showdown",
+          "unlocktime": 1781600219
         }
       ],
-      "challenge_achievement_count": 9,
+      "challenge_achievement_count": 10,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
@@ -5334,6 +5340,57 @@
       "is_winner": false
     },
     {
+      "username": "Tucs",
+      "sg_username": "Tucs",
+      "steam_id": "76561198070041813",
+      "avatar_url": "https://avatars.steamstatic.com/bfbab45618dc427e44b8d5aa7e9939bcd023fcdd_medium.jpg",
+      "profile_url": "https://steamcommunity.com/profiles/76561198070041813",
+      "is_guest": false,
+      "owned": true,
+      "stats_available": true,
+      "playtime_total_minutes": 0,
+      "playtime_2weeks_minutes": 0,
+      "baseline_playtime_minutes": 0,
+      "playtime_challenge_minutes": 0,
+      "achievements_total": 31,
+      "achievements_unlocked_total": 4,
+      "achievements_before_challenge": 0,
+      "achievements_since_baseline": 4,
+      "challenge_achievements": [
+        {
+          "apiname": "KILLED_BY_DEFENDER",
+          "displayName": "Western Flail ",
+          "description": "Oops, that would be hurt",
+          "unlocktime": 1781596175
+        },
+        {
+          "apiname": "FIRST_PASSIVE_UNLOCK",
+          "displayName": "Gear Up!",
+          "description": "Unlock first passive",
+          "unlocktime": 1781596390
+        },
+        {
+          "apiname": "EQUIP_TWO_PASSIVE",
+          "displayName": "Full Pocket",
+          "description": "Equip two passive",
+          "unlocktime": 1781596501
+        },
+        {
+          "apiname": "KILL_GHOST_BANDITO_20",
+          "displayName": "Weird West Shows",
+          "description": "Kill 20 ghosts from graves",
+          "unlocktime": 1781597669
+        }
+      ],
+      "challenge_achievement_count": 4,
+      "has_started": true,
+      "is_complete": false,
+      "completed_at": null,
+      "completed_before_start": false,
+      "meets_playtime": false,
+      "is_winner": false
+    },
+    {
       "username": "Grogglz",
       "sg_username": "Grogglz",
       "steam_id": "76561199644864244",
@@ -5342,10 +5399,10 @@
       "is_guest": false,
       "owned": true,
       "stats_available": true,
-      "playtime_total_minutes": 104,
-      "playtime_2weeks_minutes": 104,
+      "playtime_total_minutes": 113,
+      "playtime_2weeks_minutes": 113,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 104,
+      "playtime_challenge_minutes": 113,
       "achievements_total": 31,
       "achievements_unlocked_total": 3,
       "achievements_before_challenge": 0,
@@ -5592,32 +5649,6 @@
       "steam_id": "76561199409730396",
       "avatar_url": "https://avatars.steamstatic.com/e035fcec6814ac29bc4df115cb2d1f5edb26aa1c_medium.jpg",
       "profile_url": "https://steamcommunity.com/profiles/76561199409730396",
-      "is_guest": false,
-      "owned": true,
-      "stats_available": true,
-      "playtime_total_minutes": 0,
-      "playtime_2weeks_minutes": 0,
-      "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 0,
-      "achievements_total": 31,
-      "achievements_unlocked_total": 0,
-      "achievements_before_challenge": 0,
-      "achievements_since_baseline": 0,
-      "challenge_achievements": [],
-      "challenge_achievement_count": 0,
-      "has_started": false,
-      "is_complete": false,
-      "completed_at": null,
-      "completed_before_start": false,
-      "meets_playtime": false,
-      "is_winner": false
-    },
-    {
-      "username": "Tucs",
-      "sg_username": "Tucs",
-      "steam_id": "76561198070041813",
-      "avatar_url": "https://avatars.steamstatic.com/bfbab45618dc427e44b8d5aa7e9939bcd023fcdd_medium.jpg",
-      "profile_url": "https://steamcommunity.com/profiles/76561198070041813",
       "is_guest": false,
       "owned": true,
       "stats_available": true,
