@@ -89,13 +89,29 @@ export default function WishlistClient({
   }, [entries])
 
   const maxWishes = useMemo(
-    () => uniqueEntries.reduce((m, e) => Math.max(m, e.wishlist_count), 2),
+    () => uniqueEntries.reduce((m, e) => Math.max(m, e.wishlist_count), 1),
     [uniqueEntries],
   )
 
   const [searchTerm, setSearchTerm] = useState('')
   const debouncedSearch = useDebounce(searchTerm, 200)
-  const [minCount, setMinCount] = useState(2)
+  // `minCount` is the applied numeric filter; `minCountText` is the raw input
+  // string so the user can edit freely (clear it, type multiple digits) without
+  // mid-keystroke clamping corrupting what they typed. The numeric value is
+  // clamped for filtering; the text is normalized on blur.
+  const [minCount, setMinCount] = useState(1)
+  const [minCountText, setMinCountText] = useState('1')
+
+  const applyMinCount = (text: string) => {
+    setMinCountText(text)
+    if (text.trim() === '') {
+      setMinCount(1)
+      return
+    }
+    const raw = parseInt(text, 10)
+    if (Number.isNaN(raw)) return
+    setMinCount(Math.max(1, Math.min(maxWishes, raw)))
+  }
   const [sortKey, setSortKey] = useState<SortKey>('wishes')
   const [sortDir, setSortDir] = useState<SortDir>('desc')
   const [givenFilter, setGivenFilter] = useState<GivenFilter>('all')
@@ -189,12 +205,13 @@ export default function WishlistClient({
 
   const activeFilters =
     (debouncedSearch ? 1 : 0) +
-    (minCount > 2 ? 1 : 0) +
+    (minCount > 1 ? 1 : 0) +
     (givenFilter !== 'all' ? 1 : 0)
 
   const resetFilters = () => {
     setSearchTerm('')
-    setMinCount(2)
+    setMinCount(1)
+    setMinCountText('1')
     setSortKey('wishes')
     setSortDir('desc')
     setGivenFilter('all')
@@ -279,18 +296,12 @@ export default function WishlistClient({
             </span>
             <Input
               type="number"
-              min={2}
+              min={1}
               max={maxWishes}
               step={1}
-              value={minCount}
-              onChange={(e) => {
-                const raw = parseInt(e.target.value, 10)
-                if (Number.isNaN(raw)) {
-                  setMinCount(2)
-                } else {
-                  setMinCount(Math.max(2, Math.min(maxWishes, raw)))
-                }
-              }}
+              value={minCountText}
+              onChange={(e) => applyMinCount(e.target.value)}
+              onBlur={() => setMinCountText(String(minCount))}
               className="h-7 w-16 border-0 bg-transparent px-2 focus-visible:ring-0 focus-visible:ring-offset-0 tabular-nums-strict"
             />
           </div>

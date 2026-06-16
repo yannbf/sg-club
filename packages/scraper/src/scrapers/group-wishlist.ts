@@ -13,8 +13,13 @@ export interface WishlistEntry {
 
 const BASE_URL = 'https://www.steamgifts.com'
 const START_PATH = '/group/WlYTQ/thegiveawaysclub/wishlist'
-const MAX_PAGES = 40
-const MIN_COUNT = 2
+// The group wishlist is sorted by wisher count descending. We scrape down to
+// MIN_COUNT wishers; pagination stops naturally once a page's last entry drops
+// below it. MAX_PAGES is only a safety cap — at ~25 rows/page, count 10 lands
+// around page ~90, so 120 leaves comfortable headroom without ever scraping the
+// long single-wisher tail (which runs 500+ pages).
+const MAX_PAGES = 120
+const MIN_COUNT = 10
 
 function buildHeaders(): Record<string, string> {
   const cookie = process.env.SG_COOKIE
