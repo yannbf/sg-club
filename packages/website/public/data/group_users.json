@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1781616211334,
+  "lastUpdated": 1781674519246,
   "users": {
     "76561198359284432": {
       "username": "a10i",
@@ -2885,12 +2885,20 @@
           "name": "Like a Dragon: Pirate Yakuza in Hawaii",
           "link": "sCOsC/like-a-dragon-pirate-yakuza-in-hawaii",
           "cv_status": "FULL_CV",
-          "entries": 11,
+          "entries": 12,
           "copies": 1,
           "created_timestamp": 1781297916,
           "end_timestamp": 1781646840,
           "required_play": true,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "Fears to Fathom - Carson House",
@@ -20586,37 +20594,42 @@
       ],
       "giveaways_created": [
         {
-          "name": "Death Must Die",
-          "link": "ck2Le/death-must-die",
+          "name": "The King is Watching",
+          "link": "xOmCv/the-king-is-watching",
           "cv_status": "FULL_CV",
-          "entries": 13,
+          "entries": 16,
           "copies": 1,
-          "created_timestamp": 1781019614,
-          "end_timestamp": 1781627880,
+          "created_timestamp": 1781019767,
+          "end_timestamp": 1781628120,
           "required_play": false,
-          "is_shared": false
-        },
-        {
-          "name": "Die in the Dungeon",
-          "link": "U0enK/die-in-the-dungeon",
-          "cv_status": "FULL_CV",
-          "entries": 14,
-          "copies": 1,
-          "created_timestamp": 1781019661,
-          "end_timestamp": 1781628000,
-          "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "SANABI",
           "link": "NqBNx/sanabi",
           "cv_status": "FULL_CV",
-          "entries": 7,
+          "entries": 8,
           "copies": 1,
           "created_timestamp": 1781019731,
           "end_timestamp": 1781628060,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "No Case Should Remain Unsolved",
@@ -20627,18 +20640,53 @@
           "created_timestamp": 1781019699,
           "end_timestamp": 1781628060,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
-          "name": "The King is Watching",
-          "link": "xOmCv/the-king-is-watching",
+          "name": "Die in the Dungeon",
+          "link": "U0enK/die-in-the-dungeon",
           "cv_status": "FULL_CV",
-          "entries": 15,
+          "entries": 14,
           "copies": 1,
-          "created_timestamp": 1781019767,
-          "end_timestamp": 1781628120,
+          "created_timestamp": 1781019661,
+          "end_timestamp": 1781628000,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
+        },
+        {
+          "name": "Death Must Die",
+          "link": "ck2Le/death-must-die",
+          "cv_status": "FULL_CV",
+          "entries": 12,
+          "copies": 1,
+          "created_timestamp": 1781019614,
+          "end_timestamp": 1781627880,
+          "required_play": false,
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "The Medium",
@@ -27636,9 +27684,9 @@
         "giveaway_ratio": 9,
         "shared_sent_count": 9,
         "shared_received_count": 4,
-        "giveaways_created": 28,
+        "giveaways_created": 29,
         "giveaways_with_no_entries": 2,
-        "last_giveaway_created_at": 1778545965,
+        "last_giveaway_created_at": 1781641327,
         "last_giveaway_won_at": 1781115240,
         "first_seen_at": 1749870309,
         "total_achievements_percentage": 7,
@@ -28300,6 +28348,17 @@
         }
       ],
       "giveaways_created": [
+        {
+          "name": "Linkito",
+          "link": "HtMf8/linkito",
+          "cv_status": "FULL_CV",
+          "entries": 2,
+          "copies": 1,
+          "created_timestamp": 1781641327,
+          "end_timestamp": 1781990400,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "Marathon",
           "link": "6wEwJ/marathon",
@@ -29534,7 +29593,7 @@
           "name": "Final Sentence",
           "link": "gaaTU/final-sentence",
           "cv_status": "FULL_CV",
-          "entries": 47,
+          "entries": 51,
           "copies": 1,
           "created_timestamp": 1781513344,
           "end_timestamp": 1782812880,
@@ -29545,7 +29604,7 @@
           "name": "Walk The Frog",
           "link": "MGufT/walk-the-frog",
           "cv_status": "FULL_CV",
-          "entries": 64,
+          "entries": 74,
           "copies": 1,
           "created_timestamp": 1781535431,
           "end_timestamp": 1782813360,
@@ -33112,12 +33171,12 @@
       "avatar_url": "https://avatars.steamstatic.com/a0fa950338f07ae607ae6455417f7891da30813d_medium.jpg",
       "steam_id": "76561198013734355",
       "stats": {
-        "total_sent_count": 52,
-        "total_sent_value": 1151.48,
+        "total_sent_count": 53,
+        "total_sent_value": 1166.47,
         "total_received_count": 32.3,
         "total_received_value": 796.18,
-        "total_gift_difference": 19.8,
-        "total_value_difference": 355.3,
+        "total_gift_difference": 20.8,
+        "total_value_difference": 370.29,
         "fcv_sent_count": 39,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
@@ -33132,7 +33191,7 @@
         "real_total_received_count": 30,
         "real_total_gift_difference": 9,
         "giveaway_ratio": 34,
-        "shared_sent_count": 11,
+        "shared_sent_count": 12,
         "shared_received_count": 1,
         "giveaways_created": 49,
         "giveaways_with_no_entries": 0,
@@ -33860,9 +33919,10 @@
           "had_winners": true,
           "winners": [
             {
-              "name": null,
-              "status": "awaiting_feedback",
-              "activated": false
+              "name": "steveywonder75",
+              "winner_username": "steveywonder75",
+              "status": "received",
+              "activated": true
             }
           ]
         },
@@ -42604,7 +42664,7 @@
           "name": "APE OUT",
           "link": "lUC7j/ape-out",
           "cv_status": "FULL_CV",
-          "entries": 3,
+          "entries": 4,
           "copies": 1,
           "created_timestamp": 1781517384,
           "end_timestamp": 1781708400,
@@ -45180,7 +45240,7 @@
     "76561199174167338": {
       "username": "legor2d2",
       "profile_url": "/user/legor2d2",
-      "avatar_url": "https://avatars.steamstatic.com/81be12c9af9a8c1ca9c109f39c3c8dcb896b0788_medium.jpg",
+      "avatar_url": "https://avatars.steamstatic.com/c2cac25ae009d2a257e8c13a3ffef94f08bf0cc5_medium.jpg",
       "steam_id": "76561199174167338",
       "stats": {
         "total_sent_count": 17,
@@ -50324,32 +50384,10 @@
       ],
       "giveaways_created": [
         {
-          "name": "CARNAGE OFFERING",
-          "link": "O3tz7/carnage-offering",
-          "cv_status": "FULL_CV",
-          "entries": 51,
-          "copies": 1,
-          "created_timestamp": 1781050545,
-          "end_timestamp": 1781668800,
-          "required_play": false,
-          "is_shared": true
-        },
-        {
-          "name": "Barn Finders: Amerykan Dream",
-          "link": "epk3y/barn-finders-amerykan-dream",
-          "cv_status": "REDUCED_CV",
-          "entries": 8,
-          "copies": 1,
-          "created_timestamp": 1781050239,
-          "end_timestamp": 1781668800,
-          "required_play": false,
-          "is_shared": true
-        },
-        {
           "name": "Re:Fresh",
           "link": "vC6GI/refresh",
           "cv_status": "REDUCED_CV",
-          "entries": 54,
+          "entries": 58,
           "copies": 2,
           "created_timestamp": 1781251813,
           "end_timestamp": 1781841600,
@@ -50371,12 +50409,50 @@
           "name": "Wordatro!",
           "link": "OyslT/wordatro",
           "cv_status": "REDUCED_CV",
-          "entries": 55,
+          "entries": 63,
           "copies": 1,
           "created_timestamp": 1781396852,
           "end_timestamp": 1782014400,
           "required_play": false,
           "is_shared": true
+        },
+        {
+          "name": "CARNAGE OFFERING",
+          "link": "O3tz7/carnage-offering",
+          "cv_status": "FULL_CV",
+          "entries": 54,
+          "copies": 1,
+          "created_timestamp": 1781050545,
+          "end_timestamp": 1781668800,
+          "required_play": false,
+          "is_shared": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
+        },
+        {
+          "name": "Barn Finders: Amerykan Dream",
+          "link": "epk3y/barn-finders-amerykan-dream",
+          "cv_status": "REDUCED_CV",
+          "entries": 8,
+          "copies": 1,
+          "created_timestamp": 1781050239,
+          "end_timestamp": 1781668800,
+          "required_play": false,
+          "is_shared": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "FAR: Lone Sails",
@@ -53711,7 +53787,7 @@
           "name": "Hell Clock",
           "link": "Lxz8T/hell-clock",
           "cv_status": "REDUCED_CV",
-          "entries": 171,
+          "entries": 178,
           "copies": 1,
           "created_timestamp": 1781178269,
           "end_timestamp": 1781863200,
@@ -53722,7 +53798,7 @@
           "name": "INDIKA",
           "link": "bJ7Tx/indika",
           "cv_status": "REDUCED_CV",
-          "entries": 114,
+          "entries": 117,
           "copies": 1,
           "created_timestamp": 1781178098,
           "end_timestamp": 1781863200,
@@ -53744,7 +53820,7 @@
           "name": "Shadow Gambit: The Cursed Crew",
           "link": "Vknmp/shadow-gambit-the-cursed-crew",
           "cv_status": "REDUCED_CV",
-          "entries": 85,
+          "entries": 88,
           "copies": 1,
           "created_timestamp": 1781182636,
           "end_timestamp": 1781863200,
@@ -53755,7 +53831,7 @@
           "name": "CONTROL Ultimate Edition",
           "link": "lDbnb/control-ultimate-edition",
           "cv_status": "REDUCED_CV",
-          "entries": 100,
+          "entries": 103,
           "copies": 1,
           "created_timestamp": 1781182045,
           "end_timestamp": 1781863200,
@@ -53766,7 +53842,7 @@
           "name": "TOEM: A Photo Adventure",
           "link": "yGYVq/toem-a-photo-adventure",
           "cv_status": "REDUCED_CV",
-          "entries": 65,
+          "entries": 68,
           "copies": 1,
           "created_timestamp": 1781181917,
           "end_timestamp": 1781863200,
@@ -53777,7 +53853,7 @@
           "name": "BAD END THEATER",
           "link": "2cot3/bad-end-theater",
           "cv_status": "REDUCED_CV",
-          "entries": 165,
+          "entries": 174,
           "copies": 1,
           "created_timestamp": 1781181402,
           "end_timestamp": 1781863200,
@@ -53788,7 +53864,7 @@
           "name": "Another Crab's Treasure",
           "link": "4EN7o/another-crabs-treasure",
           "cv_status": "REDUCED_CV",
-          "entries": 165,
+          "entries": 173,
           "copies": 1,
           "created_timestamp": 1781180782,
           "end_timestamp": 1781863200,
@@ -54437,7 +54513,7 @@
         {
           "name": "Daemon X Machina: Titanic Scion",
           "link": "o7npA/daemon-x-machina-titanic-scion",
-          "cv_status": "FULL_CV",
+          "cv_status": "REDUCED_CV",
           "entries": 282,
           "copies": 1,
           "created_timestamp": 1780128380,
@@ -58152,7 +58228,7 @@
           "name": "Hollow Knight: Silksong",
           "link": "SmV17/hollow-knight-silksong",
           "cv_status": "FULL_CV",
-          "entries": 4,
+          "entries": 5,
           "copies": 1,
           "created_timestamp": 1781258732,
           "end_timestamp": 1781989140,
@@ -61184,7 +61260,7 @@
         {
           "name": "Daemon X Machina: Titanic Scion",
           "link": "NN7AY/daemon-x-machina-titanic-scion",
-          "cv_status": "FULL_CV",
+          "cv_status": "REDUCED_CV",
           "entries": 34,
           "copies": 1,
           "created_timestamp": 1779899327,
@@ -71767,9 +71843,9 @@
         "giveaway_ratio": 24.67,
         "shared_sent_count": 20,
         "shared_received_count": 0,
-        "giveaways_created": 48,
+        "giveaways_created": 49,
         "giveaways_with_no_entries": 0,
-        "last_giveaway_created_at": 1780854888,
+        "last_giveaway_created_at": 1781641229,
         "last_giveaway_won_at": 1777010340,
         "first_seen_at": 1749675553,
         "total_achievements_percentage": 81,
@@ -72297,6 +72373,17 @@
         }
       ],
       "giveaways_created": [
+        {
+          "name": "Eastshade",
+          "link": "MPrCO/eastshade",
+          "cv_status": "FULL_CV",
+          "entries": 21,
+          "copies": 1,
+          "created_timestamp": 1781641229,
+          "end_timestamp": 1781899320,
+          "required_play": true,
+          "is_shared": true
+        },
         {
           "name": "Still Wakes the Deep",
           "link": "KXfOU/still-wakes-the-deep",
@@ -77957,7 +78044,7 @@
           "name": "ASTRONEER",
           "link": "vTELb/astroneer",
           "cv_status": "FULL_CV",
-          "entries": 7,
+          "entries": 8,
           "copies": 1,
           "created_timestamp": 1781275336,
           "end_timestamp": 1782072900,
@@ -84700,7 +84787,7 @@
           "name": "DAVE THE DIVER",
           "link": "5Jq4S/dave-the-diver",
           "cv_status": "FULL_CV",
-          "entries": 7,
+          "entries": 8,
           "copies": 1,
           "created_timestamp": 1781566780,
           "end_timestamp": 1782010800,
@@ -85619,7 +85706,7 @@
           "name": "Mina the Hollower",
           "link": "JxA43/mina-the-hollower",
           "cv_status": "FULL_CV",
-          "entries": 25,
+          "entries": 26,
           "copies": 1,
           "created_timestamp": 1781291278,
           "end_timestamp": 1781758800,
@@ -87994,7 +88081,7 @@
           "name": "FEAR 2: Project Origin",
           "link": "gd4pQ/fear-2-project-origin",
           "cv_status": "REDUCED_CV",
-          "entries": 32,
+          "entries": 33,
           "copies": 1,
           "created_timestamp": 1781226296,
           "end_timestamp": 1781866800,
@@ -96669,7 +96756,7 @@
           "name": "The Drifter",
           "link": "XTZmL/the-drifter",
           "cv_status": "FULL_CV",
-          "entries": 23,
+          "entries": 24,
           "copies": 1,
           "created_timestamp": 1781286149,
           "end_timestamp": 1782406800,
@@ -96691,7 +96778,7 @@
           "name": "Tiny Bookshop",
           "link": "XMZtG/tiny-bookshop",
           "cv_status": "FULL_CV",
-          "entries": 23,
+          "entries": 24,
           "copies": 1,
           "created_timestamp": 1781289217,
           "end_timestamp": 1782406800,
