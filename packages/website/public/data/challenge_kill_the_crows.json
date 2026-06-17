@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1781136000,
   "totalAchievements": 31,
-  "generatedAt": 1781714847045,
+  "generatedAt": 1781724987051,
   "winnerUsername": "SoullessSoup",
   "participants": [
     {
@@ -4179,9 +4179,9 @@
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 316,
       "achievements_total": 31,
-      "achievements_unlocked_total": 20,
+      "achievements_unlocked_total": 21,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 20,
+      "achievements_since_baseline": 21,
       "challenge_achievements": [
         {
           "apiname": "FIRST_PASSIVE_UNLOCK",
@@ -4302,9 +4302,15 @@
           "displayName": "MANCATO!",
           "description": "Dodged 10 attacks in a single run",
           "unlocktime": 1781706496
+        },
+        {
+          "apiname": "PERFECT_KILL_60",
+          "displayName": "I count six shots",
+          "description": "Achieve 60 kills with a 100% accuracy",
+          "unlocktime": 1781724890
         }
       ],
-      "challenge_achievement_count": 20,
+      "challenge_achievement_count": 21,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
