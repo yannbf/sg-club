@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1781136000,
   "totalAchievements": 31,
-  "generatedAt": 1781651336276,
+  "generatedAt": 1781661703954,
   "winnerUsername": "SoullessSoup",
   "participants": [
     {
@@ -3065,14 +3065,14 @@
       "is_guest": false,
       "owned": true,
       "stats_available": true,
-      "playtime_total_minutes": 1232,
-      "playtime_2weeks_minutes": 1232,
+      "playtime_total_minutes": 1300,
+      "playtime_2weeks_minutes": 1300,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 1232,
+      "playtime_challenge_minutes": 1300,
       "achievements_total": 31,
-      "achievements_unlocked_total": 27,
+      "achievements_unlocked_total": 31,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 27,
+      "achievements_since_baseline": 31,
       "challenge_achievements": [
         {
           "apiname": "FIRST_PASSIVE_UNLOCK",
@@ -3235,15 +3235,38 @@
           "displayName": "Gunslinger",
           "description": "Achieve 500 kills",
           "unlocktime": 1781387825
+        },
+        {
+          "apiname": "UNLOCK_ALL_EQUIPMENTS",
+          "displayName": "Full Arsenal",
+          "description": "Unlock all gears",
+          "unlocktime": 1781652534
+        },
+        {
+          "apiname": "SEE_ENDING",
+          "displayName": "The Blind",
+          "unlocktime": 1781654230
+        },
+        {
+          "apiname": "EQUIP_ALL_MODIFIERS",
+          "displayName": "The Crimson Moon Rising",
+          "description": "Fought with all curses equipped",
+          "unlocktime": 1781655707
+        },
+        {
+          "apiname": "KILL_BOSS_WITH_HORN",
+          "displayName": "Battering Ram",
+          "description": "Headbutted a boss",
+          "unlocktime": 1781655872
         }
       ],
-      "challenge_achievement_count": 27,
+      "challenge_achievement_count": 31,
       "has_started": true,
-      "is_complete": false,
-      "completed_at": null,
+      "is_complete": true,
+      "completed_at": 1781655872,
       "completed_before_start": false,
       "meets_playtime": true,
-      "is_winner": false
+      "is_winner": true
     },
     {
       "username": "vampiresska",
@@ -5880,7 +5903,8 @@
     "makki",
     "Griske14",
     "TwixClub",
-    "Carenard"
+    "Carenard",
+    "Bainsol"
   ],
   "roster": {
     "participants": [
