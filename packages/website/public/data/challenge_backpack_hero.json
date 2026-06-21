@@ -5,7 +5,7 @@
   "winType": "achievement",
   "startTimestamp": 1780876800,
   "totalAchievements": 35,
-  "generatedAt": 1781955445485,
+  "generatedAt": 1782040549798,
   "winnerUsername": "Atro",
   "participants": [
     {
@@ -274,14 +274,14 @@
       "is_guest": false,
       "owned": true,
       "stats_available": true,
-      "playtime_total_minutes": 3444,
-      "playtime_2weeks_minutes": 3444,
+      "playtime_total_minutes": 3785,
+      "playtime_2weeks_minutes": 3785,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 3444,
+      "playtime_challenge_minutes": 3785,
       "achievements_total": 35,
-      "achievements_unlocked_total": 25,
+      "achievements_unlocked_total": 30,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 25,
+      "achievements_since_baseline": 30,
       "challenge_achievements": [
         {
           "apiname": "GotPradasLocket",
@@ -430,9 +430,39 @@
           "displayName": "Mage",
           "description": "Carry at least 5 manastones",
           "unlocktime": 1781923735
+        },
+        {
+          "apiname": "CursedRun",
+          "displayName": "Cursed Run",
+          "description": "Carry at least 4 cursed items",
+          "unlocktime": 1781957062
+        },
+        {
+          "apiname": "BeatAHardMode",
+          "displayName": "Tough Times",
+          "description": "Win a Run in Hardmode",
+          "unlocktime": 1781983699
+        },
+        {
+          "apiname": "WonAQuickRun",
+          "displayName": "Quick Hero",
+          "description": "Win a Quick Run",
+          "unlocktime": 1782012582
+        },
+        {
+          "apiname": "WonAQuickRunAsPurse",
+          "displayName": "Purse Hero",
+          "description": "Win a Quick Run as Purse",
+          "unlocktime": 1782012582
+        },
+        {
+          "apiname": "WonAQuickRunAsSatchel",
+          "displayName": "Satchel Hero",
+          "description": "Win a Quick Run as Satchel",
+          "unlocktime": 1782018310
         }
       ],
-      "challenge_achievement_count": 25,
+      "challenge_achievement_count": 30,
       "has_started": true,
       "milestones": [
         {
@@ -471,14 +501,14 @@
       "is_guest": false,
       "owned": true,
       "stats_available": true,
-      "playtime_total_minutes": 2459,
-      "playtime_2weeks_minutes": 2459,
+      "playtime_total_minutes": 2712,
+      "playtime_2weeks_minutes": 2712,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 2459,
+      "playtime_challenge_minutes": 2712,
       "achievements_total": 35,
-      "achievements_unlocked_total": 25,
+      "achievements_unlocked_total": 28,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 25,
+      "achievements_since_baseline": 28,
       "challenge_achievements": [
         {
           "apiname": "GotPradasLocket",
@@ -628,9 +658,26 @@
           "displayName": "Cursed Run",
           "description": "Carry at least 4 cursed items",
           "unlocktime": 1781600331
+        },
+        {
+          "apiname": "UnlockedPochette",
+          "displayName": "Porcupine Hero",
+          "description": "Unlock Pochette",
+          "unlocktime": 1781969682
+        },
+        {
+          "apiname": "ItemHero",
+          "displayName": "Hero",
+          "description": "Discover at least 700 items",
+          "unlocktime": 1781978510
+        },
+        {
+          "apiname": "DefeatedChaos",
+          "displayName": "Backpack Hero",
+          "unlocktime": 1782038535
         }
       ],
-      "challenge_achievement_count": 25,
+      "challenge_achievement_count": 28,
       "has_started": true,
       "milestones": [
         {
@@ -651,13 +698,13 @@
           "apiname": "ItemHero",
           "label": "Hero",
           "items": 700,
-          "unlocked": false,
-          "unlocktime": null
+          "unlocked": true,
+          "unlocktime": 1781978510
         }
       ],
       "had_hero_before": false,
-      "has_hero": false,
-      "hero_unlocktime": null,
+      "has_hero": true,
+      "hero_unlocktime": 1781978510,
       "is_winner": false
     },
     {
@@ -1239,14 +1286,14 @@
       "is_guest": false,
       "owned": true,
       "stats_available": true,
-      "playtime_total_minutes": 1784,
-      "playtime_2weeks_minutes": 1784,
+      "playtime_total_minutes": 1922,
+      "playtime_2weeks_minutes": 1922,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 1784,
+      "playtime_challenge_minutes": 1922,
       "achievements_total": 35,
-      "achievements_unlocked_total": 20,
+      "achievements_unlocked_total": 21,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 20,
+      "achievements_since_baseline": 21,
       "challenge_achievements": [
         {
           "apiname": "GotPradasLocket",
@@ -1366,9 +1413,15 @@
           "displayName": "Shivers",
           "description": "Discover the Frozen Heart",
           "unlocktime": 1781365455
+        },
+        {
+          "apiname": "ItemHero",
+          "displayName": "Hero",
+          "description": "Discover at least 700 items",
+          "unlocktime": 1782016816
         }
       ],
-      "challenge_achievement_count": 20,
+      "challenge_achievement_count": 21,
       "has_started": true,
       "milestones": [
         {
@@ -1389,13 +1442,13 @@
           "apiname": "ItemHero",
           "label": "Hero",
           "items": 700,
-          "unlocked": false,
-          "unlocktime": null
+          "unlocked": true,
+          "unlocktime": 1782016816
         }
       ],
       "had_hero_before": false,
-      "has_hero": false,
-      "hero_unlocktime": null,
+      "has_hero": true,
+      "hero_unlocktime": 1782016816,
       "is_winner": false
     },
     {
