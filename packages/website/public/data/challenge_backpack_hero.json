@@ -5,7 +5,7 @@
   "winType": "achievement",
   "startTimestamp": 1780876800,
   "totalAchievements": 35,
-  "generatedAt": 1782040549798,
+  "generatedAt": 1782143192265,
   "winnerUsername": "Atro",
   "participants": [
     {
@@ -18,7 +18,7 @@
       "owned": true,
       "stats_available": true,
       "playtime_total_minutes": 2370,
-      "playtime_2weeks_minutes": 2370,
+      "playtime_2weeks_minutes": 1679,
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 2370,
       "achievements_total": 35,
@@ -274,14 +274,14 @@
       "is_guest": false,
       "owned": true,
       "stats_available": true,
-      "playtime_total_minutes": 3785,
-      "playtime_2weeks_minutes": 3785,
+      "playtime_total_minutes": 4341,
+      "playtime_2weeks_minutes": 4340,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 3785,
+      "playtime_challenge_minutes": 4341,
       "achievements_total": 35,
-      "achievements_unlocked_total": 30,
+      "achievements_unlocked_total": 35,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 30,
+      "achievements_since_baseline": 35,
       "challenge_achievements": [
         {
           "apiname": "GotPradasLocket",
@@ -460,9 +460,39 @@
           "displayName": "Satchel Hero",
           "description": "Win a Quick Run as Satchel",
           "unlocktime": 1782018310
+        },
+        {
+          "apiname": "WonAQuickRunAsTote",
+          "displayName": "Tote Hero",
+          "description": "Win a Quick Run as Tote",
+          "unlocktime": 1782051125
+        },
+        {
+          "apiname": "WonAQuickRunAsPochette",
+          "displayName": "Pochette Hero",
+          "description": "Win a Quick Run as Pochette",
+          "unlocktime": 1782083776
+        },
+        {
+          "apiname": "WonAQuickRunAsCR8",
+          "displayName": "CR-8 Hero",
+          "description": "Win a Quick Run as CR-8",
+          "unlocktime": 1782090273
+        },
+        {
+          "apiname": "Archer",
+          "displayName": "Archer",
+          "description": "Carry at least 5 arrows",
+          "unlocktime": 1782091874
+        },
+        {
+          "apiname": "Builder",
+          "displayName": "Builder",
+          "description": "Carry at least 5 structures",
+          "unlocktime": 1782091968
         }
       ],
-      "challenge_achievement_count": 30,
+      "challenge_achievement_count": 35,
       "has_started": true,
       "milestones": [
         {
@@ -501,14 +531,14 @@
       "is_guest": false,
       "owned": true,
       "stats_available": true,
-      "playtime_total_minutes": 2712,
-      "playtime_2weeks_minutes": 2712,
+      "playtime_total_minutes": 2894,
+      "playtime_2weeks_minutes": 2894,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 2712,
+      "playtime_challenge_minutes": 2894,
       "achievements_total": 35,
-      "achievements_unlocked_total": 28,
+      "achievements_unlocked_total": 31,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 28,
+      "achievements_since_baseline": 31,
       "challenge_achievements": [
         {
           "apiname": "GotPradasLocket",
@@ -675,9 +705,27 @@
           "apiname": "DefeatedChaos",
           "displayName": "Backpack Hero",
           "unlocktime": 1782038535
+        },
+        {
+          "apiname": "WonAQuickRun",
+          "displayName": "Quick Hero",
+          "description": "Win a Quick Run",
+          "unlocktime": 1782045235
+        },
+        {
+          "apiname": "WonAQuickRunAsPurse",
+          "displayName": "Purse Hero",
+          "description": "Win a Quick Run as Purse",
+          "unlocktime": 1782045235
+        },
+        {
+          "apiname": "WonAQuickRunAsSatchel",
+          "displayName": "Satchel Hero",
+          "description": "Win a Quick Run as Satchel",
+          "unlocktime": 1782050259
         }
       ],
-      "challenge_achievement_count": 28,
+      "challenge_achievement_count": 31,
       "has_started": true,
       "milestones": [
         {
@@ -909,7 +957,7 @@
       "owned": true,
       "stats_available": true,
       "playtime_total_minutes": 1302,
-      "playtime_2weeks_minutes": 1302,
+      "playtime_2weeks_minutes": 1063,
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 1302,
       "achievements_total": 35,
@@ -1101,7 +1149,7 @@
       "owned": true,
       "stats_available": true,
       "playtime_total_minutes": 1251,
-      "playtime_2weeks_minutes": 1251,
+      "playtime_2weeks_minutes": 699,
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 1251,
       "achievements_total": 35,
@@ -1286,14 +1334,14 @@
       "is_guest": false,
       "owned": true,
       "stats_available": true,
-      "playtime_total_minutes": 1922,
-      "playtime_2weeks_minutes": 1922,
+      "playtime_total_minutes": 1993,
+      "playtime_2weeks_minutes": 1877,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 1922,
+      "playtime_challenge_minutes": 1993,
       "achievements_total": 35,
-      "achievements_unlocked_total": 21,
+      "achievements_unlocked_total": 22,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 21,
+      "achievements_since_baseline": 22,
       "challenge_achievements": [
         {
           "apiname": "GotPradasLocket",
@@ -1419,9 +1467,15 @@
           "displayName": "Hero",
           "description": "Discover at least 700 items",
           "unlocktime": 1782016816
+        },
+        {
+          "apiname": "Builder",
+          "displayName": "Builder",
+          "description": "Carry at least 5 structures",
+          "unlocktime": 1782055230
         }
       ],
-      "challenge_achievement_count": 21,
+      "challenge_achievement_count": 22,
       "has_started": true,
       "milestones": [
         {
@@ -1617,7 +1671,7 @@
       "owned": true,
       "stats_available": true,
       "playtime_total_minutes": 716,
-      "playtime_2weeks_minutes": 716,
+      "playtime_2weeks_minutes": 520,
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 716,
       "achievements_total": 35,
@@ -1767,7 +1821,7 @@
       "owned": true,
       "stats_available": true,
       "playtime_total_minutes": 801,
-      "playtime_2weeks_minutes": 801,
+      "playtime_2weeks_minutes": 439,
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 801,
       "achievements_total": 35,
@@ -2025,7 +2079,7 @@
       "owned": true,
       "stats_available": true,
       "playtime_total_minutes": 546,
-      "playtime_2weeks_minutes": 546,
+      "playtime_2weeks_minutes": 426,
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 546,
       "achievements_total": 35,
@@ -2145,7 +2199,7 @@
       "owned": true,
       "stats_available": true,
       "playtime_total_minutes": 616,
-      "playtime_2weeks_minutes": 616,
+      "playtime_2weeks_minutes": 379,
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 616,
       "achievements_total": 35,
@@ -2254,7 +2308,7 @@
       "owned": true,
       "stats_available": true,
       "playtime_total_minutes": 964,
-      "playtime_2weeks_minutes": 964,
+      "playtime_2weeks_minutes": 897,
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 964,
       "achievements_total": 35,
@@ -2351,7 +2405,7 @@
       "owned": true,
       "stats_available": true,
       "playtime_total_minutes": 401,
-      "playtime_2weeks_minutes": 401,
+      "playtime_2weeks_minutes": 370,
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 401,
       "achievements_total": 35,
@@ -2497,7 +2551,7 @@
       "owned": true,
       "stats_available": true,
       "playtime_total_minutes": 391,
-      "playtime_2weeks_minutes": 391,
+      "playtime_2weeks_minutes": 210,
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 391,
       "achievements_total": 35,
@@ -2680,7 +2734,7 @@
       "owned": true,
       "stats_available": true,
       "playtime_total_minutes": 136,
-      "playtime_2weeks_minutes": 136,
+      "playtime_2weeks_minutes": 32,
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 136,
       "achievements_total": 35,
@@ -2741,7 +2795,7 @@
       "owned": true,
       "stats_available": true,
       "playtime_total_minutes": 259,
-      "playtime_2weeks_minutes": 259,
+      "playtime_2weeks_minutes": 64,
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 259,
       "achievements_total": 35,
@@ -2861,6 +2915,17 @@
       "profile_url": "https://steamcommunity.com/profiles/76561198159198291",
       "playtime_total_minutes": 4181,
       "playtime_2weeks_minutes": 0,
+      "achievements_unlocked_total": 35,
+      "achievements_total": 35,
+      "challenge_achievement_count": 0
+    },
+    {
+      "username": "Tucs",
+      "steam_id": "76561198070041813",
+      "avatar_url": "https://avatars.steamstatic.com/bfbab45618dc427e44b8d5aa7e9939bcd023fcdd_medium.jpg",
+      "profile_url": "https://steamcommunity.com/profiles/76561198070041813",
+      "playtime_total_minutes": 3264,
+      "playtime_2weeks_minutes": 812,
       "achievements_unlocked_total": 35,
       "achievements_total": 35,
       "challenge_achievement_count": 0
