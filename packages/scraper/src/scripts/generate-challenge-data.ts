@@ -255,6 +255,70 @@ async function getAchievements(
   }
 }
 
+interface ReviewInfo {
+  voted_up: boolean
+  timestamp_created: number
+  recommendationid: string
+}
+
+/**
+ * Fetch every Steam review for a game and key them by the reviewer's 64-bit
+ * steam_id. Uses the public store appreviews endpoint (no API key) with cursor
+ * pagination over all languages/types. A user can only have one review per game,
+ * so the map is steam_id → review. Reviews from accounts whose profile/review
+ * visibility is private won't appear in the public feed — a missing entry means
+ * "no public review", not a guaranteed "never reviewed".
+ */
+async function fetchGameReviews(appId: number): Promise<Map<string, ReviewInfo>> {
+  const map = new Map<string, ReviewInfo>()
+  let cursor = '*'
+  const seenCursors = new Set<string>()
+  for (let page = 0; page < 200; page++) {
+    const url =
+      `https://store.steampowered.com/appreviews/${appId}?json=1` +
+      `&filter=recent&language=all&num_per_page=100` +
+      `&purchase_type=all&review_type=all&cursor=${encodeURIComponent(cursor)}`
+    let data: any
+    try {
+      data = await getJson(url)
+    } catch (e) {
+      console.warn('⚠️  Review fetch failed:', String(e))
+      break
+    }
+    const reviews: any[] = data.reviews ?? []
+    if (reviews.length === 0) break
+    for (const r of reviews) {
+      const sid: string | undefined = r.author?.steamid
+      if (!sid || map.has(sid)) continue
+      map.set(sid, {
+        voted_up: Boolean(r.voted_up),
+        timestamp_created: r.timestamp_created ?? 0,
+        recommendationid: String(r.recommendationid ?? ''),
+      })
+    }
+    const next: string | undefined = data.cursor
+    if (!next || seenCursors.has(next)) break
+    seenCursors.add(next)
+    cursor = next
+    await new Promise((res) => setTimeout(res, 250)) // be polite to the store endpoint
+  }
+  return map
+}
+
+/** Review fields for a participant, derived from the game-wide review map. */
+function reviewFields(steamId: string, appId: number, reviews: Map<string, ReviewInfo>) {
+  const r = reviews.get(steamId)
+  return {
+    wrote_review: Boolean(r),
+    review_voted_up: r ? r.voted_up : null,
+    review_timestamp: r ? r.timestamp_created : null,
+    review_recommendationid: r?.recommendationid ?? null,
+    review_url: r
+      ? `https://steamcommunity.com/profiles/${steamId}/recommended/${appId}`
+      : null,
+  }
+}
+
 /** Generic per-player view: ownership, playtime, and achievement progress. */
 async function fetchPlayer(
   steamId: string,
@@ -509,6 +573,10 @@ async function generateChallenge(config: ChallengeConfig): Promise<void> {
   const schemaTotal = Object.keys(schema).length || 0
   const rosterIds = new Set(resolved.map((r) => r.steam_id))
 
+  // Game-wide Steam reviews, keyed by reviewer steam_id, to flag who reviewed.
+  const reviews = await fetchGameReviews(config.appId)
+  console.log(`   Reviews: ${reviews.size} public reviewer(s) on Steam`)
+
   // --- Participants ---
   const participants = []
   let i = 0
@@ -554,6 +622,7 @@ async function generateChallenge(config: ChallengeConfig): Promise<void> {
       is_guest: r.is_guest,
       owned: p.game.owned,
       stats_available: p.stats_available,
+      ...reviewFields(r.steam_id, config.appId, reviews),
       playtime_total_minutes: p.game.total,
       playtime_2weeks_minutes: p.game.twoWeeks,
       baseline_playtime_minutes: baseline,
@@ -594,6 +663,7 @@ async function generateChallenge(config: ChallengeConfig): Promise<void> {
         achievements_unlocked_total: p.achievements_unlocked_total,
         achievements_total: p.achievements_total,
         challenge_achievement_count: p.challenge_achievement_count,
+        ...reviewFields(m.steam_id, config.appId, reviews),
       })
     }
     process.stderr.write('\n')

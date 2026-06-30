@@ -366,6 +366,16 @@ export interface ChallengeParticipant {
    * there can be many.
    */
   is_winner: boolean
+  /** Wrote a public Steam review for the challenge game. */
+  wrote_review?: boolean
+  /** The review's recommendation (true = recommended). Null if no review. */
+  review_voted_up?: boolean | null
+  /** Unix seconds the review was created. Null if no review. */
+  review_timestamp?: number | null
+  /** Steam recommendation id of the review. Null if no review. */
+  review_recommendationid?: string | null
+  /** Direct link to the member's review page. Null if no review. */
+  review_url?: string | null
 }
 
 /** A group member who owns and has played the game but isn't on the roster. */
@@ -379,6 +389,12 @@ export interface ChallengeNonParticipant {
   achievements_unlocked_total: number
   achievements_total: number
   challenge_achievement_count: number
+  /** Wrote a public Steam review for the challenge game. */
+  wrote_review?: boolean
+  review_voted_up?: boolean | null
+  review_timestamp?: number | null
+  review_recommendationid?: string | null
+  review_url?: string | null
 }
 
 /** Full payload of a generated gaming-challenge data file. */
