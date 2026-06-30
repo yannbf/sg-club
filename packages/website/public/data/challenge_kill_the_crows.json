@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1781136000,
   "totalAchievements": 31,
-  "generatedAt": 1782825705523,
+  "generatedAt": 1782835259315,
   "winnerUsername": "SoullessSoup",
   "participants": [
     {
@@ -3702,7 +3702,7 @@
       "owned": true,
       "stats_available": true,
       "playtime_total_minutes": 839,
-      "playtime_2weeks_minutes": 685,
+      "playtime_2weeks_minutes": 678,
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 839,
       "achievements_total": 31,
@@ -4762,7 +4762,7 @@
       "owned": true,
       "stats_available": true,
       "playtime_total_minutes": 1259,
-      "playtime_2weeks_minutes": 1025,
+      "playtime_2weeks_minutes": 1014,
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 1259,
       "achievements_total": 31,
@@ -4973,10 +4973,10 @@
       "is_guest": false,
       "owned": true,
       "stats_available": true,
-      "playtime_total_minutes": 893,
-      "playtime_2weeks_minutes": 858,
+      "playtime_total_minutes": 899,
+      "playtime_2weeks_minutes": 864,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 893,
+      "playtime_challenge_minutes": 899,
       "achievements_total": 31,
       "achievements_unlocked_total": 31,
       "achievements_before_challenge": 0,
@@ -6560,7 +6560,7 @@
       "owned": true,
       "stats_available": true,
       "playtime_total_minutes": 536,
-      "playtime_2weeks_minutes": 267,
+      "playtime_2weeks_minutes": 256,
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 536,
       "achievements_total": 31,
@@ -6873,6 +6873,153 @@
         }
       ],
       "challenge_achievement_count": 23,
+      "has_started": true,
+      "is_complete": false,
+      "completed_at": null,
+      "completed_before_start": false,
+      "meets_playtime": true,
+      "is_winner": false
+    },
+    {
+      "username": "akfas",
+      "sg_username": "akfas",
+      "steam_id": "76561198047330685",
+      "avatar_url": "https://avatars.steamstatic.com/ffcf23d7cc06fb77db2900d2c694aa1277bfec1e_medium.jpg",
+      "profile_url": "https://steamcommunity.com/profiles/76561198047330685",
+      "is_guest": false,
+      "owned": true,
+      "stats_available": true,
+      "playtime_total_minutes": 150,
+      "playtime_2weeks_minutes": 150,
+      "baseline_playtime_minutes": 0,
+      "playtime_challenge_minutes": 150,
+      "achievements_total": 31,
+      "achievements_unlocked_total": 20,
+      "achievements_before_challenge": 0,
+      "achievements_since_baseline": 20,
+      "challenge_achievements": [
+        {
+          "apiname": "FIRST_PASSIVE_UNLOCK",
+          "displayName": "Gear Up!",
+          "description": "Unlock first passive",
+          "unlocktime": 1782820929
+        },
+        {
+          "apiname": "EQUIP_TWO_PASSIVE",
+          "displayName": "Full Pocket",
+          "description": "Equip two passive",
+          "unlocktime": 1782821069
+        },
+        {
+          "apiname": "FIRST_KILL_BOSS",
+          "displayName": "Remember me?",
+          "description": "Defeat a boss first time",
+          "unlocktime": 1782821223
+        },
+        {
+          "apiname": "SECOND_REVOLVER_UNLOCK",
+          "displayName": "The Kid",
+          "description": "Unlock second revolver",
+          "unlocktime": 1782821280
+        },
+        {
+          "apiname": "KILLED_BY_DEFENDER",
+          "displayName": "Western Flail ",
+          "description": "Oops, that would be hurt",
+          "unlocktime": 1782821405
+        },
+        {
+          "apiname": "STAND_STILL_30",
+          "displayName": "Are you stuck?",
+          "description": "Stand still for 30 sec",
+          "unlocktime": 1782821459
+        },
+        {
+          "apiname": "SECOND_SHOWDOWN_UNLOCK",
+          "displayName": "After harrowing ritual,",
+          "description": "Unlock second showdown",
+          "unlocktime": 1782821671
+        },
+        {
+          "apiname": "KILL_GHOST_BANDITO_20",
+          "displayName": "Weird West Shows",
+          "description": "Kill 20 ghosts from graves",
+          "unlocktime": 1782822234
+        },
+        {
+          "apiname": "PERFECT_KILL_60",
+          "displayName": "I count six shots",
+          "description": "Achieve 60 kills with a 100% accuracy",
+          "unlocktime": 1782822789
+        },
+        {
+          "apiname": "BOMBER_KILL_20",
+          "displayName": "Hey, careful with that dynam...",
+          "description": "Perform friendly kill by bomber 20 times",
+          "unlocktime": 1782823937
+        },
+        {
+          "apiname": "KILLED_BY_BOMBER",
+          "displayName": "Warm Hug",
+          "description": "He just wanted a warm hug",
+          "unlocktime": 1782824440
+        },
+        {
+          "apiname": "SCARE_CROWS_100",
+          "displayName": "Scarecrow",
+          "description": "Scare crows 100 times",
+          "unlocktime": 1782824839
+        },
+        {
+          "apiname": "KILL_200",
+          "displayName": "Survivor",
+          "description": "Achieve 200 kills",
+          "unlocktime": 1782825861
+        },
+        {
+          "apiname": "KILL_300",
+          "displayName": "Crow Killer",
+          "description": "Achieve 300 kills",
+          "unlocktime": 1782826020
+        },
+        {
+          "apiname": "THIRD_REVOLVER_UNLOCK",
+          "displayName": "The Outlaw",
+          "description": "Unlock third revolver",
+          "unlocktime": 1782826064
+        },
+        {
+          "apiname": "THIRD_SHOWDOWN_UNLOCK",
+          "displayName": "Girl in bloodstains",
+          "description": "Unlock third showdown",
+          "unlocktime": 1782826065
+        },
+        {
+          "apiname": "UNLOCK_MODIFIER",
+          "displayName": "Cursed",
+          "description": "Unlocked Curse Mode",
+          "unlocktime": 1782826065
+        },
+        {
+          "apiname": "PERFECT_KILL_120",
+          "displayName": "I count two guns",
+          "description": "Achieve 120 kills with a 100% accuracy",
+          "unlocktime": 1782827074
+        },
+        {
+          "apiname": "KILLED_BY_SHAMAN",
+          "displayName": "Electrified",
+          "description": "Electrocuted",
+          "unlocktime": 1782827185
+        },
+        {
+          "apiname": "FOURTH_SHOWDOWN_UNLOCK",
+          "displayName": "Fled across the desert",
+          "description": "Unlock fourth showdown",
+          "unlocktime": 1782832169
+        }
+      ],
+      "challenge_achievement_count": 20,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
@@ -7391,105 +7538,6 @@
       "is_winner": false
     },
     {
-      "username": "akfas",
-      "sg_username": "akfas",
-      "steam_id": "76561198047330685",
-      "avatar_url": "https://avatars.steamstatic.com/ffcf23d7cc06fb77db2900d2c694aa1277bfec1e_medium.jpg",
-      "profile_url": "https://steamcommunity.com/profiles/76561198047330685",
-      "is_guest": false,
-      "owned": true,
-      "stats_available": true,
-      "playtime_total_minutes": 60,
-      "playtime_2weeks_minutes": 60,
-      "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 60,
-      "achievements_total": 31,
-      "achievements_unlocked_total": 12,
-      "achievements_before_challenge": 0,
-      "achievements_since_baseline": 12,
-      "challenge_achievements": [
-        {
-          "apiname": "FIRST_PASSIVE_UNLOCK",
-          "displayName": "Gear Up!",
-          "description": "Unlock first passive",
-          "unlocktime": 1782820929
-        },
-        {
-          "apiname": "EQUIP_TWO_PASSIVE",
-          "displayName": "Full Pocket",
-          "description": "Equip two passive",
-          "unlocktime": 1782821069
-        },
-        {
-          "apiname": "FIRST_KILL_BOSS",
-          "displayName": "Remember me?",
-          "description": "Defeat a boss first time",
-          "unlocktime": 1782821223
-        },
-        {
-          "apiname": "SECOND_REVOLVER_UNLOCK",
-          "displayName": "The Kid",
-          "description": "Unlock second revolver",
-          "unlocktime": 1782821280
-        },
-        {
-          "apiname": "KILLED_BY_DEFENDER",
-          "displayName": "Western Flail ",
-          "description": "Oops, that would be hurt",
-          "unlocktime": 1782821405
-        },
-        {
-          "apiname": "STAND_STILL_30",
-          "displayName": "Are you stuck?",
-          "description": "Stand still for 30 sec",
-          "unlocktime": 1782821459
-        },
-        {
-          "apiname": "SECOND_SHOWDOWN_UNLOCK",
-          "displayName": "After harrowing ritual,",
-          "description": "Unlock second showdown",
-          "unlocktime": 1782821671
-        },
-        {
-          "apiname": "KILL_GHOST_BANDITO_20",
-          "displayName": "Weird West Shows",
-          "description": "Kill 20 ghosts from graves",
-          "unlocktime": 1782822234
-        },
-        {
-          "apiname": "PERFECT_KILL_60",
-          "displayName": "I count six shots",
-          "description": "Achieve 60 kills with a 100% accuracy",
-          "unlocktime": 1782822789
-        },
-        {
-          "apiname": "BOMBER_KILL_20",
-          "displayName": "Hey, careful with that dynam...",
-          "description": "Perform friendly kill by bomber 20 times",
-          "unlocktime": 1782823937
-        },
-        {
-          "apiname": "KILLED_BY_BOMBER",
-          "displayName": "Warm Hug",
-          "description": "He just wanted a warm hug",
-          "unlocktime": 1782824440
-        },
-        {
-          "apiname": "SCARE_CROWS_100",
-          "displayName": "Scarecrow",
-          "description": "Scare crows 100 times",
-          "unlocktime": 1782824839
-        }
-      ],
-      "challenge_achievement_count": 12,
-      "has_started": true,
-      "is_complete": false,
-      "completed_at": null,
-      "completed_before_start": false,
-      "meets_playtime": false,
-      "is_winner": false
-    },
-    {
       "username": "BorjaGRouco",
       "sg_username": "BorjaGRouco",
       "steam_id": "76561198024970451",
@@ -7498,10 +7546,10 @@
       "is_guest": false,
       "owned": true,
       "stats_available": true,
-      "playtime_total_minutes": 88,
-      "playtime_2weeks_minutes": 68,
+      "playtime_total_minutes": 92,
+      "playtime_2weeks_minutes": 71,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 88,
+      "playtime_challenge_minutes": 92,
       "achievements_total": 31,
       "achievements_unlocked_total": 6,
       "achievements_before_challenge": 0,
