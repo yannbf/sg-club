@@ -4,6 +4,7 @@ import * as React from 'react'
 import Image from 'next/image'
 import {
   Award,
+  BadgeCheck,
   Clock,
   Crown,
   ExternalLink,
@@ -61,6 +62,38 @@ function ParticipantName({
     >
       {content}
     </a>
+  )
+}
+
+/** Small checkmark linking to a member's Steam review, shown when they wrote one. */
+function ReviewBadge({
+  p,
+}: {
+  p: {
+    wrote_review?: boolean
+    review_url?: string | null
+    review_voted_up?: boolean | null
+  }
+}) {
+  if (!p.wrote_review || !p.review_url) return null
+  const vote =
+    p.review_voted_up === true
+      ? ' (recommended)'
+      : p.review_voted_up === false
+        ? ' (not recommended)'
+        : ''
+  return (
+    <Tooltip content={`Wrote a Steam review${vote}`}>
+      <a
+        href={p.review_url}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={`Wrote a Steam review${vote}`}
+        className="shrink-0 text-[var(--accent-green)] transition hover:opacity-80"
+      >
+        <BadgeCheck className="h-4 w-4" />
+      </a>
+    </Tooltip>
   )
 }
 
@@ -326,6 +359,7 @@ function Podium({
                   className="truncate text-sm font-semibold text-foreground hover:text-accent hover:underline"
                 />
                 {p.is_guest && <GuestTag />}
+                <ReviewBadge p={p} />
               </div>
               <div className="flex items-center gap-1.5">
                 <Award className={cn('h-4 w-4', style.text)} />
@@ -435,6 +469,7 @@ function LeaderboardRow({
               className="block truncate text-sm font-medium text-foreground hover:text-accent hover:underline"
             />
             {p.is_guest && <GuestTag />}
+            <ReviewBadge p={p} />
           </div>
           {isCompletion ? (
             p.is_winner ? (
