@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1781136000,
   "totalAchievements": 31,
-  "generatedAt": 1782739724555,
+  "generatedAt": 1782816240811,
   "winnerUsername": "SoullessSoup",
   "participants": [
     {
@@ -2642,7 +2642,7 @@
       "owned": true,
       "stats_available": true,
       "playtime_total_minutes": 590,
-      "playtime_2weeks_minutes": 130,
+      "playtime_2weeks_minutes": 0,
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 590,
       "achievements_total": 31,
@@ -2854,7 +2854,7 @@
       "owned": true,
       "stats_available": true,
       "playtime_total_minutes": 555,
-      "playtime_2weeks_minutes": 238,
+      "playtime_2weeks_minutes": 0,
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 555,
       "achievements_total": 31,
@@ -3066,7 +3066,7 @@
       "owned": true,
       "stats_available": true,
       "playtime_total_minutes": 1300,
-      "playtime_2weeks_minutes": 222,
+      "playtime_2weeks_minutes": 68,
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 1300,
       "achievements_total": 31,
@@ -3278,7 +3278,7 @@
       "owned": true,
       "stats_available": true,
       "playtime_total_minutes": 1558,
-      "playtime_2weeks_minutes": 587,
+      "playtime_2weeks_minutes": 539,
       "baseline_playtime_minutes": 589,
       "playtime_challenge_minutes": 969,
       "achievements_total": 31,
@@ -3476,6 +3476,218 @@
       "has_started": true,
       "is_complete": true,
       "completed_at": 1781899870,
+      "completed_before_start": false,
+      "meets_playtime": true,
+      "is_winner": true
+    },
+    {
+      "username": "Tucs",
+      "sg_username": "Tucs",
+      "steam_id": "76561198070041813",
+      "avatar_url": "https://avatars.steamstatic.com/bfbab45618dc427e44b8d5aa7e9939bcd023fcdd_medium.jpg",
+      "profile_url": "https://steamcommunity.com/profiles/76561198070041813",
+      "is_guest": false,
+      "owned": true,
+      "stats_available": true,
+      "playtime_total_minutes": 660,
+      "playtime_2weeks_minutes": 618,
+      "baseline_playtime_minutes": 0,
+      "playtime_challenge_minutes": 660,
+      "achievements_total": 31,
+      "achievements_unlocked_total": 31,
+      "achievements_before_challenge": 0,
+      "achievements_since_baseline": 31,
+      "challenge_achievements": [
+        {
+          "apiname": "KILLED_BY_DEFENDER",
+          "displayName": "Western Flail ",
+          "description": "Oops, that would be hurt",
+          "unlocktime": 1781596175
+        },
+        {
+          "apiname": "FIRST_PASSIVE_UNLOCK",
+          "displayName": "Gear Up!",
+          "description": "Unlock first passive",
+          "unlocktime": 1781596390
+        },
+        {
+          "apiname": "EQUIP_TWO_PASSIVE",
+          "displayName": "Full Pocket",
+          "description": "Equip two passive",
+          "unlocktime": 1781596501
+        },
+        {
+          "apiname": "KILL_GHOST_BANDITO_20",
+          "displayName": "Weird West Shows",
+          "description": "Kill 20 ghosts from graves",
+          "unlocktime": 1781597669
+        },
+        {
+          "apiname": "STAND_STILL_30",
+          "displayName": "Are you stuck?",
+          "description": "Stand still for 30 sec",
+          "unlocktime": 1781866057
+        },
+        {
+          "apiname": "FIRST_KILL_BOSS",
+          "displayName": "Remember me?",
+          "description": "Defeat a boss first time",
+          "unlocktime": 1781866911
+        },
+        {
+          "apiname": "KILL_200",
+          "displayName": "Survivor",
+          "description": "Achieve 200 kills",
+          "unlocktime": 1781867014
+        },
+        {
+          "apiname": "KILLED_BY_BOMBER",
+          "displayName": "Warm Hug",
+          "description": "He just wanted a warm hug",
+          "unlocktime": 1781867023
+        },
+        {
+          "apiname": "SECOND_REVOLVER_UNLOCK",
+          "displayName": "The Kid",
+          "description": "Unlock second revolver",
+          "unlocktime": 1781867023
+        },
+        {
+          "apiname": "KILLED_BY_SHAMAN",
+          "displayName": "Electrified",
+          "description": "Electrocuted",
+          "unlocktime": 1781867023
+        },
+        {
+          "apiname": "PERFECT_KILL_60",
+          "displayName": "I count six shots",
+          "description": "Achieve 60 kills with a 100% accuracy",
+          "unlocktime": 1781874065
+        },
+        {
+          "apiname": "THIRD_REVOLVER_UNLOCK",
+          "displayName": "The Outlaw",
+          "description": "Unlock third revolver",
+          "unlocktime": 1781874242
+        },
+        {
+          "apiname": "SECOND_SHOWDOWN_UNLOCK",
+          "displayName": "After harrowing ritual,",
+          "description": "Unlock second showdown",
+          "unlocktime": 1781874242
+        },
+        {
+          "apiname": "UNLOCK_MODIFIER",
+          "displayName": "Cursed",
+          "description": "Unlocked Curse Mode",
+          "unlocktime": 1781874242
+        },
+        {
+          "apiname": "BOMBER_KILL_20",
+          "displayName": "Hey, careful with that dynam...",
+          "description": "Perform friendly kill by bomber 20 times",
+          "unlocktime": 1781874396
+        },
+        {
+          "apiname": "SCARE_CROWS_100",
+          "displayName": "Scarecrow",
+          "description": "Scare crows 100 times",
+          "unlocktime": 1781874698
+        },
+        {
+          "apiname": "THIRD_SHOWDOWN_UNLOCK",
+          "displayName": "Girl in bloodstains",
+          "description": "Unlock third showdown",
+          "unlocktime": 1781875155
+        },
+        {
+          "apiname": "FOURTH_REVOLVER_UNLOCK",
+          "displayName": "The Gunsmith",
+          "description": "Unlock fourth revolver",
+          "unlocktime": 1782024737
+        },
+        {
+          "apiname": "FOURTH_SHOWDOWN_UNLOCK",
+          "displayName": "Fled across the desert",
+          "description": "Unlock fourth showdown",
+          "unlocktime": 1782024737
+        },
+        {
+          "apiname": "KILL_300",
+          "displayName": "Crow Killer",
+          "description": "Achieve 300 kills",
+          "unlocktime": 1782026440
+        },
+        {
+          "apiname": "FIRST_KILL_BUGMAN",
+          "displayName": "Kill it with fire",
+          "description": "Meet the hidden cultist",
+          "unlocktime": 1782027052
+        },
+        {
+          "apiname": "KILL_BOSS_WITH_GHOST_BULLET",
+          "displayName": "\"WHEN YOU HAVE TO SHOOT, SHOOT, DON'T WALK!!\"",
+          "description": "Defeat a boss with the Cursed Gaze",
+          "unlocktime": 1782033791
+        },
+        {
+          "apiname": "PERFECT_KILL_120",
+          "displayName": "I count two guns",
+          "description": "Achieve 120 kills with a 100% accuracy",
+          "unlocktime": 1782034047
+        },
+        {
+          "apiname": "DEAL_WITH_ENEMY_30",
+          "displayName": "Murder of crows",
+          "description": "Deal with 30 enemies at the same time",
+          "unlocktime": 1782034630
+        },
+        {
+          "apiname": "DODGE_10",
+          "displayName": "MANCATO!",
+          "description": "Dodged 10 attacks in a single run",
+          "unlocktime": 1782035345
+        },
+        {
+          "apiname": "EQUIP_ALL_MODIFIERS",
+          "displayName": "The Crimson Moon Rising",
+          "description": "Fought with all curses equipped",
+          "unlocktime": 1782038815
+        },
+        {
+          "apiname": "KILL_TOTAL_10K",
+          "displayName": "Cowgirl from Hell",
+          "description": "Defeated 10,000 enemies in total",
+          "unlocktime": 1782041599
+        },
+        {
+          "apiname": "KILL_500",
+          "displayName": "Gunslinger",
+          "description": "Achieve 500 kills",
+          "unlocktime": 1782044004
+        },
+        {
+          "apiname": "KILL_BOSS_WITH_HORN",
+          "displayName": "Battering Ram",
+          "description": "Headbutted a boss",
+          "unlocktime": 1782045290
+        },
+        {
+          "apiname": "UNLOCK_ALL_EQUIPMENTS",
+          "displayName": "Full Arsenal",
+          "description": "Unlock all gears",
+          "unlocktime": 1782127719
+        },
+        {
+          "apiname": "SEE_ENDING",
+          "displayName": "The Blind",
+          "unlocktime": 1782129806
+        }
+      ],
+      "challenge_achievement_count": 31,
+      "has_started": true,
+      "is_complete": true,
+      "completed_at": 1782129806,
       "completed_before_start": false,
       "meets_playtime": true,
       "is_winner": true
@@ -3702,7 +3914,7 @@
       "owned": true,
       "stats_available": true,
       "playtime_total_minutes": 839,
-      "playtime_2weeks_minutes": 722,
+      "playtime_2weeks_minutes": 685,
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 839,
       "achievements_total": 31,
@@ -4338,7 +4550,7 @@
       "owned": true,
       "stats_available": true,
       "playtime_total_minutes": 384,
-      "playtime_2weeks_minutes": 300,
+      "playtime_2weeks_minutes": 288,
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 384,
       "achievements_total": 31,
@@ -4550,7 +4762,7 @@
       "owned": true,
       "stats_available": true,
       "playtime_total_minutes": 591,
-      "playtime_2weeks_minutes": 393,
+      "playtime_2weeks_minutes": 386,
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 591,
       "achievements_total": 31,
@@ -4753,218 +4965,6 @@
       "is_winner": true
     },
     {
-      "username": "Tucs",
-      "sg_username": "Tucs",
-      "steam_id": "76561198070041813",
-      "avatar_url": "https://avatars.steamstatic.com/bfbab45618dc427e44b8d5aa7e9939bcd023fcdd_medium.jpg",
-      "profile_url": "https://steamcommunity.com/profiles/76561198070041813",
-      "is_guest": false,
-      "owned": true,
-      "stats_available": true,
-      "playtime_total_minutes": 0,
-      "playtime_2weeks_minutes": 0,
-      "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 0,
-      "achievements_total": 31,
-      "achievements_unlocked_total": 31,
-      "achievements_before_challenge": 0,
-      "achievements_since_baseline": 31,
-      "challenge_achievements": [
-        {
-          "apiname": "KILLED_BY_DEFENDER",
-          "displayName": "Western Flail ",
-          "description": "Oops, that would be hurt",
-          "unlocktime": 1781596175
-        },
-        {
-          "apiname": "FIRST_PASSIVE_UNLOCK",
-          "displayName": "Gear Up!",
-          "description": "Unlock first passive",
-          "unlocktime": 1781596390
-        },
-        {
-          "apiname": "EQUIP_TWO_PASSIVE",
-          "displayName": "Full Pocket",
-          "description": "Equip two passive",
-          "unlocktime": 1781596501
-        },
-        {
-          "apiname": "KILL_GHOST_BANDITO_20",
-          "displayName": "Weird West Shows",
-          "description": "Kill 20 ghosts from graves",
-          "unlocktime": 1781597669
-        },
-        {
-          "apiname": "STAND_STILL_30",
-          "displayName": "Are you stuck?",
-          "description": "Stand still for 30 sec",
-          "unlocktime": 1781866057
-        },
-        {
-          "apiname": "FIRST_KILL_BOSS",
-          "displayName": "Remember me?",
-          "description": "Defeat a boss first time",
-          "unlocktime": 1781866911
-        },
-        {
-          "apiname": "KILL_200",
-          "displayName": "Survivor",
-          "description": "Achieve 200 kills",
-          "unlocktime": 1781867014
-        },
-        {
-          "apiname": "KILLED_BY_BOMBER",
-          "displayName": "Warm Hug",
-          "description": "He just wanted a warm hug",
-          "unlocktime": 1781867023
-        },
-        {
-          "apiname": "SECOND_REVOLVER_UNLOCK",
-          "displayName": "The Kid",
-          "description": "Unlock second revolver",
-          "unlocktime": 1781867023
-        },
-        {
-          "apiname": "KILLED_BY_SHAMAN",
-          "displayName": "Electrified",
-          "description": "Electrocuted",
-          "unlocktime": 1781867023
-        },
-        {
-          "apiname": "PERFECT_KILL_60",
-          "displayName": "I count six shots",
-          "description": "Achieve 60 kills with a 100% accuracy",
-          "unlocktime": 1781874065
-        },
-        {
-          "apiname": "THIRD_REVOLVER_UNLOCK",
-          "displayName": "The Outlaw",
-          "description": "Unlock third revolver",
-          "unlocktime": 1781874242
-        },
-        {
-          "apiname": "SECOND_SHOWDOWN_UNLOCK",
-          "displayName": "After harrowing ritual,",
-          "description": "Unlock second showdown",
-          "unlocktime": 1781874242
-        },
-        {
-          "apiname": "UNLOCK_MODIFIER",
-          "displayName": "Cursed",
-          "description": "Unlocked Curse Mode",
-          "unlocktime": 1781874242
-        },
-        {
-          "apiname": "BOMBER_KILL_20",
-          "displayName": "Hey, careful with that dynam...",
-          "description": "Perform friendly kill by bomber 20 times",
-          "unlocktime": 1781874396
-        },
-        {
-          "apiname": "SCARE_CROWS_100",
-          "displayName": "Scarecrow",
-          "description": "Scare crows 100 times",
-          "unlocktime": 1781874698
-        },
-        {
-          "apiname": "THIRD_SHOWDOWN_UNLOCK",
-          "displayName": "Girl in bloodstains",
-          "description": "Unlock third showdown",
-          "unlocktime": 1781875155
-        },
-        {
-          "apiname": "FOURTH_REVOLVER_UNLOCK",
-          "displayName": "The Gunsmith",
-          "description": "Unlock fourth revolver",
-          "unlocktime": 1782024737
-        },
-        {
-          "apiname": "FOURTH_SHOWDOWN_UNLOCK",
-          "displayName": "Fled across the desert",
-          "description": "Unlock fourth showdown",
-          "unlocktime": 1782024737
-        },
-        {
-          "apiname": "KILL_300",
-          "displayName": "Crow Killer",
-          "description": "Achieve 300 kills",
-          "unlocktime": 1782026440
-        },
-        {
-          "apiname": "FIRST_KILL_BUGMAN",
-          "displayName": "Kill it with fire",
-          "description": "Meet the hidden cultist",
-          "unlocktime": 1782027052
-        },
-        {
-          "apiname": "KILL_BOSS_WITH_GHOST_BULLET",
-          "displayName": "\"WHEN YOU HAVE TO SHOOT, SHOOT, DON'T WALK!!\"",
-          "description": "Defeat a boss with the Cursed Gaze",
-          "unlocktime": 1782033791
-        },
-        {
-          "apiname": "PERFECT_KILL_120",
-          "displayName": "I count two guns",
-          "description": "Achieve 120 kills with a 100% accuracy",
-          "unlocktime": 1782034047
-        },
-        {
-          "apiname": "DEAL_WITH_ENEMY_30",
-          "displayName": "Murder of crows",
-          "description": "Deal with 30 enemies at the same time",
-          "unlocktime": 1782034630
-        },
-        {
-          "apiname": "DODGE_10",
-          "displayName": "MANCATO!",
-          "description": "Dodged 10 attacks in a single run",
-          "unlocktime": 1782035345
-        },
-        {
-          "apiname": "EQUIP_ALL_MODIFIERS",
-          "displayName": "The Crimson Moon Rising",
-          "description": "Fought with all curses equipped",
-          "unlocktime": 1782038815
-        },
-        {
-          "apiname": "KILL_TOTAL_10K",
-          "displayName": "Cowgirl from Hell",
-          "description": "Defeated 10,000 enemies in total",
-          "unlocktime": 1782041599
-        },
-        {
-          "apiname": "KILL_500",
-          "displayName": "Gunslinger",
-          "description": "Achieve 500 kills",
-          "unlocktime": 1782044004
-        },
-        {
-          "apiname": "KILL_BOSS_WITH_HORN",
-          "displayName": "Battering Ram",
-          "description": "Headbutted a boss",
-          "unlocktime": 1782045290
-        },
-        {
-          "apiname": "UNLOCK_ALL_EQUIPMENTS",
-          "displayName": "Full Arsenal",
-          "description": "Unlock all gears",
-          "unlocktime": 1782127719
-        },
-        {
-          "apiname": "SEE_ENDING",
-          "displayName": "The Blind",
-          "unlocktime": 1782129806
-        }
-      ],
-      "challenge_achievement_count": 31,
-      "has_started": true,
-      "is_complete": true,
-      "completed_at": 1782129806,
-      "completed_before_start": false,
-      "meets_playtime": false,
-      "is_winner": false
-    },
-    {
       "username": "puninup",
       "sg_username": "puninup",
       "steam_id": "76561198069567036",
@@ -4973,14 +4973,14 @@
       "is_guest": false,
       "owned": true,
       "stats_available": true,
-      "playtime_total_minutes": 1185,
-      "playtime_2weeks_minutes": 1012,
+      "playtime_total_minutes": 1259,
+      "playtime_2weeks_minutes": 1058,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 1185,
+      "playtime_challenge_minutes": 1259,
       "achievements_total": 31,
-      "achievements_unlocked_total": 30,
+      "achievements_unlocked_total": 31,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 30,
+      "achievements_since_baseline": 31,
       "challenge_achievements": [
         {
           "apiname": "FIRST_PASSIVE_UNLOCK",
@@ -5161,15 +5161,444 @@
           "displayName": "Battering Ram",
           "description": "Headbutted a boss",
           "unlocktime": 1782171664
+        },
+        {
+          "apiname": "SEE_ENDING",
+          "displayName": "The Blind",
+          "unlocktime": 1782772630
         }
       ],
-      "challenge_achievement_count": 30,
+      "challenge_achievement_count": 31,
       "has_started": true,
-      "is_complete": false,
-      "completed_at": null,
+      "is_complete": true,
+      "completed_at": 1782772630,
       "completed_before_start": false,
       "meets_playtime": true,
-      "is_winner": false
+      "is_winner": true
+    },
+    {
+      "username": "doubleomurfy",
+      "sg_username": "doubleomurfy",
+      "steam_id": "76561198041749780",
+      "avatar_url": "https://avatars.steamstatic.com/08169eb2445114b9e9e34136a76ec837983785e2_medium.jpg",
+      "profile_url": "https://steamcommunity.com/profiles/76561198041749780",
+      "is_guest": false,
+      "owned": true,
+      "stats_available": true,
+      "playtime_total_minutes": 893,
+      "playtime_2weeks_minutes": 858,
+      "baseline_playtime_minutes": 0,
+      "playtime_challenge_minutes": 893,
+      "achievements_total": 31,
+      "achievements_unlocked_total": 31,
+      "achievements_before_challenge": 0,
+      "achievements_since_baseline": 31,
+      "challenge_achievements": [
+        {
+          "apiname": "FIRST_PASSIVE_UNLOCK",
+          "displayName": "Gear Up!",
+          "description": "Unlock first passive",
+          "unlocktime": 1781381176
+        },
+        {
+          "apiname": "EQUIP_TWO_PASSIVE",
+          "displayName": "Full Pocket",
+          "description": "Equip two passive",
+          "unlocktime": 1781381405
+        },
+        {
+          "apiname": "FIRST_KILL_BOSS",
+          "displayName": "Remember me?",
+          "description": "Defeat a boss first time",
+          "unlocktime": 1781381587
+        },
+        {
+          "apiname": "KILLED_BY_BOMBER",
+          "displayName": "Warm Hug",
+          "description": "He just wanted a warm hug",
+          "unlocktime": 1781381657
+        },
+        {
+          "apiname": "SECOND_REVOLVER_UNLOCK",
+          "displayName": "The Kid",
+          "description": "Unlock second revolver",
+          "unlocktime": 1781381658
+        },
+        {
+          "apiname": "KILL_GHOST_BANDITO_20",
+          "displayName": "Weird West Shows",
+          "description": "Kill 20 ghosts from graves",
+          "unlocktime": 1781382311
+        },
+        {
+          "apiname": "BOMBER_KILL_20",
+          "displayName": "Hey, careful with that dynam...",
+          "description": "Perform friendly kill by bomber 20 times",
+          "unlocktime": 1781382565
+        },
+        {
+          "apiname": "KILL_200",
+          "displayName": "Survivor",
+          "description": "Achieve 200 kills",
+          "unlocktime": 1781382593
+        },
+        {
+          "apiname": "THIRD_REVOLVER_UNLOCK",
+          "displayName": "The Outlaw",
+          "description": "Unlock third revolver",
+          "unlocktime": 1781382613
+        },
+        {
+          "apiname": "SECOND_SHOWDOWN_UNLOCK",
+          "displayName": "After harrowing ritual,",
+          "description": "Unlock second showdown",
+          "unlocktime": 1781382614
+        },
+        {
+          "apiname": "UNLOCK_MODIFIER",
+          "displayName": "Cursed",
+          "description": "Unlocked Curse Mode",
+          "unlocktime": 1781382614
+        },
+        {
+          "apiname": "FOURTH_REVOLVER_UNLOCK",
+          "displayName": "The Gunsmith",
+          "description": "Unlock fourth revolver",
+          "unlocktime": 1782080343
+        },
+        {
+          "apiname": "THIRD_SHOWDOWN_UNLOCK",
+          "displayName": "Girl in bloodstains",
+          "description": "Unlock third showdown",
+          "unlocktime": 1782080343
+        },
+        {
+          "apiname": "KILLED_BY_DEFENDER",
+          "displayName": "Western Flail ",
+          "description": "Oops, that would be hurt",
+          "unlocktime": 1782326562
+        },
+        {
+          "apiname": "STAND_STILL_30",
+          "displayName": "Are you stuck?",
+          "description": "Stand still for 30 sec",
+          "unlocktime": 1782327008
+        },
+        {
+          "apiname": "SCARE_CROWS_100",
+          "displayName": "Scarecrow",
+          "description": "Scare crows 100 times",
+          "unlocktime": 1782565154
+        },
+        {
+          "apiname": "FOURTH_SHOWDOWN_UNLOCK",
+          "displayName": "Fled across the desert",
+          "description": "Unlock fourth showdown",
+          "unlocktime": 1782565635
+        },
+        {
+          "apiname": "KILL_BOSS_WITH_GHOST_BULLET",
+          "displayName": "\"WHEN YOU HAVE TO SHOOT, SHOOT, DON'T WALK!!\"",
+          "description": "Defeat a boss with the Cursed Gaze",
+          "unlocktime": 1782566017
+        },
+        {
+          "apiname": "KILL_300",
+          "displayName": "Crow Killer",
+          "description": "Achieve 300 kills",
+          "unlocktime": 1782566138
+        },
+        {
+          "apiname": "FIRST_KILL_BUGMAN",
+          "displayName": "Kill it with fire",
+          "description": "Meet the hidden cultist",
+          "unlocktime": 1782568335
+        },
+        {
+          "apiname": "PERFECT_KILL_60",
+          "displayName": "I count six shots",
+          "description": "Achieve 60 kills with a 100% accuracy",
+          "unlocktime": 1782568841
+        },
+        {
+          "apiname": "KILL_TOTAL_10K",
+          "displayName": "Cowgirl from Hell",
+          "description": "Defeated 10,000 enemies in total",
+          "unlocktime": 1782600004
+        },
+        {
+          "apiname": "KILL_500",
+          "displayName": "Gunslinger",
+          "description": "Achieve 500 kills",
+          "unlocktime": 1782728031
+        },
+        {
+          "apiname": "PERFECT_KILL_120",
+          "displayName": "I count two guns",
+          "description": "Achieve 120 kills with a 100% accuracy",
+          "unlocktime": 1782770471
+        },
+        {
+          "apiname": "KILLED_BY_SHAMAN",
+          "displayName": "Electrified",
+          "description": "Electrocuted",
+          "unlocktime": 1782774793
+        },
+        {
+          "apiname": "DODGE_10",
+          "displayName": "MANCATO!",
+          "description": "Dodged 10 attacks in a single run",
+          "unlocktime": 1782779431
+        },
+        {
+          "apiname": "DEAL_WITH_ENEMY_30",
+          "displayName": "Murder of crows",
+          "description": "Deal with 30 enemies at the same time",
+          "unlocktime": 1782779727
+        },
+        {
+          "apiname": "UNLOCK_ALL_EQUIPMENTS",
+          "displayName": "Full Arsenal",
+          "description": "Unlock all gears",
+          "unlocktime": 1782809858
+        },
+        {
+          "apiname": "KILL_BOSS_WITH_HORN",
+          "displayName": "Battering Ram",
+          "description": "Headbutted a boss",
+          "unlocktime": 1782809995
+        },
+        {
+          "apiname": "EQUIP_ALL_MODIFIERS",
+          "displayName": "The Crimson Moon Rising",
+          "description": "Fought with all curses equipped",
+          "unlocktime": 1782811400
+        },
+        {
+          "apiname": "SEE_ENDING",
+          "displayName": "The Blind",
+          "unlocktime": 1782812472
+        }
+      ],
+      "challenge_achievement_count": 31,
+      "has_started": true,
+      "is_complete": true,
+      "completed_at": 1782812472,
+      "completed_before_start": false,
+      "meets_playtime": true,
+      "is_winner": true
+    },
+    {
+      "username": "zolof",
+      "sg_username": "zolof",
+      "steam_id": "76561199409730396",
+      "avatar_url": "https://avatars.steamstatic.com/e035fcec6814ac29bc4df115cb2d1f5edb26aa1c_medium.jpg",
+      "profile_url": "https://steamcommunity.com/profiles/76561199409730396",
+      "is_guest": false,
+      "owned": true,
+      "stats_available": true,
+      "playtime_total_minutes": 338,
+      "playtime_2weeks_minutes": 338,
+      "baseline_playtime_minutes": 0,
+      "playtime_challenge_minutes": 338,
+      "achievements_total": 31,
+      "achievements_unlocked_total": 31,
+      "achievements_before_challenge": 0,
+      "achievements_since_baseline": 31,
+      "challenge_achievements": [
+        {
+          "apiname": "FIRST_PASSIVE_UNLOCK",
+          "displayName": "Gear Up!",
+          "description": "Unlock first passive",
+          "unlocktime": 1782717174
+        },
+        {
+          "apiname": "EQUIP_TWO_PASSIVE",
+          "displayName": "Full Pocket",
+          "description": "Equip two passive",
+          "unlocktime": 1782717325
+        },
+        {
+          "apiname": "STAND_STILL_30",
+          "displayName": "Are you stuck?",
+          "description": "Stand still for 30 sec",
+          "unlocktime": 1782717380
+        },
+        {
+          "apiname": "KILL_GHOST_BANDITO_20",
+          "displayName": "Weird West Shows",
+          "description": "Kill 20 ghosts from graves",
+          "unlocktime": 1782718250
+        },
+        {
+          "apiname": "FIRST_KILL_BOSS",
+          "displayName": "Remember me?",
+          "description": "Defeat a boss first time",
+          "unlocktime": 1782718564
+        },
+        {
+          "apiname": "SECOND_REVOLVER_UNLOCK",
+          "displayName": "The Kid",
+          "description": "Unlock second revolver",
+          "unlocktime": 1782718595
+        },
+        {
+          "apiname": "SECOND_SHOWDOWN_UNLOCK",
+          "displayName": "After harrowing ritual,",
+          "description": "Unlock second showdown",
+          "unlocktime": 1782718595
+        },
+        {
+          "apiname": "KILLED_BY_DEFENDER",
+          "displayName": "Western Flail ",
+          "description": "Oops, that would be hurt",
+          "unlocktime": 1782725617
+        },
+        {
+          "apiname": "THIRD_SHOWDOWN_UNLOCK",
+          "displayName": "Girl in bloodstains",
+          "description": "Unlock third showdown",
+          "unlocktime": 1782725617
+        },
+        {
+          "apiname": "UNLOCK_MODIFIER",
+          "displayName": "Cursed",
+          "description": "Unlocked Curse Mode",
+          "unlocktime": 1782725617
+        },
+        {
+          "apiname": "KILLED_BY_BOMBER",
+          "displayName": "Warm Hug",
+          "description": "He just wanted a warm hug",
+          "unlocktime": 1782725666
+        },
+        {
+          "apiname": "BOMBER_KILL_20",
+          "displayName": "Hey, careful with that dynam...",
+          "description": "Perform friendly kill by bomber 20 times",
+          "unlocktime": 1782725774
+        },
+        {
+          "apiname": "FOURTH_SHOWDOWN_UNLOCK",
+          "displayName": "Fled across the desert",
+          "description": "Unlock fourth showdown",
+          "unlocktime": 1782725881
+        },
+        {
+          "apiname": "SCARE_CROWS_100",
+          "displayName": "Scarecrow",
+          "description": "Scare crows 100 times",
+          "unlocktime": 1782728659
+        },
+        {
+          "apiname": "DEAL_WITH_ENEMY_30",
+          "displayName": "Murder of crows",
+          "description": "Deal with 30 enemies at the same time",
+          "unlocktime": 1782728747
+        },
+        {
+          "apiname": "KILL_200",
+          "displayName": "Survivor",
+          "description": "Achieve 200 kills",
+          "unlocktime": 1782729433
+        },
+        {
+          "apiname": "KILLED_BY_SHAMAN",
+          "displayName": "Electrified",
+          "description": "Electrocuted",
+          "unlocktime": 1782729445
+        },
+        {
+          "apiname": "THIRD_REVOLVER_UNLOCK",
+          "displayName": "The Outlaw",
+          "description": "Unlock third revolver",
+          "unlocktime": 1782729446
+        },
+        {
+          "apiname": "FOURTH_REVOLVER_UNLOCK",
+          "displayName": "The Gunsmith",
+          "description": "Unlock fourth revolver",
+          "unlocktime": 1782729906
+        },
+        {
+          "apiname": "PERFECT_KILL_60",
+          "displayName": "I count six shots",
+          "description": "Achieve 60 kills with a 100% accuracy",
+          "unlocktime": 1782730417
+        },
+        {
+          "apiname": "KILL_BOSS_WITH_GHOST_BULLET",
+          "displayName": "\"WHEN YOU HAVE TO SHOOT, SHOOT, DON'T WALK!!\"",
+          "description": "Defeat a boss with the Cursed Gaze",
+          "unlocktime": 1782730472
+        },
+        {
+          "apiname": "KILL_300",
+          "displayName": "Crow Killer",
+          "description": "Achieve 300 kills",
+          "unlocktime": 1782730961
+        },
+        {
+          "apiname": "FIRST_KILL_BUGMAN",
+          "displayName": "Kill it with fire",
+          "description": "Meet the hidden cultist",
+          "unlocktime": 1782730994
+        },
+        {
+          "apiname": "KILL_500",
+          "displayName": "Gunslinger",
+          "description": "Achieve 500 kills",
+          "unlocktime": 1782731237
+        },
+        {
+          "apiname": "EQUIP_ALL_MODIFIERS",
+          "displayName": "The Crimson Moon Rising",
+          "description": "Fought with all curses equipped",
+          "unlocktime": 1782736200
+        },
+        {
+          "apiname": "PERFECT_KILL_120",
+          "displayName": "I count two guns",
+          "description": "Achieve 120 kills with a 100% accuracy",
+          "unlocktime": 1782737089
+        },
+        {
+          "apiname": "DODGE_10",
+          "displayName": "MANCATO!",
+          "description": "Dodged 10 attacks in a single run",
+          "unlocktime": 1782738023
+        },
+        {
+          "apiname": "KILL_TOTAL_10K",
+          "displayName": "Cowgirl from Hell",
+          "description": "Defeated 10,000 enemies in total",
+          "unlocktime": 1782741470
+        },
+        {
+          "apiname": "KILL_BOSS_WITH_HORN",
+          "displayName": "Battering Ram",
+          "description": "Headbutted a boss",
+          "unlocktime": 1782811487
+        },
+        {
+          "apiname": "UNLOCK_ALL_EQUIPMENTS",
+          "displayName": "Full Arsenal",
+          "description": "Unlock all gears",
+          "unlocktime": 1782812014
+        },
+        {
+          "apiname": "SEE_ENDING",
+          "displayName": "The Blind",
+          "unlocktime": 1782813214
+        }
+      ],
+      "challenge_achievement_count": 31,
+      "has_started": true,
+      "is_complete": true,
+      "completed_at": 1782813214,
+      "completed_before_start": false,
+      "meets_playtime": true,
+      "is_winner": true
     },
     {
       "username": "BarbaricGenie",
@@ -5180,10 +5609,10 @@
       "is_guest": false,
       "owned": true,
       "stats_available": true,
-      "playtime_total_minutes": 786,
-      "playtime_2weeks_minutes": 513,
+      "playtime_total_minutes": 789,
+      "playtime_2weeks_minutes": 516,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 786,
+      "playtime_challenge_minutes": 789,
       "achievements_total": 31,
       "achievements_unlocked_total": 30,
       "achievements_before_challenge": 0,
@@ -5379,187 +5808,193 @@
       "is_winner": false
     },
     {
-      "username": "zolof",
-      "sg_username": "zolof",
-      "steam_id": "76561199409730396",
-      "avatar_url": "https://avatars.steamstatic.com/e035fcec6814ac29bc4df115cb2d1f5edb26aa1c_medium.jpg",
-      "profile_url": "https://steamcommunity.com/profiles/76561199409730396",
+      "username": "Metalhead8489",
+      "sg_username": "Metalhead8489",
+      "steam_id": "76561198069420656",
+      "avatar_url": "https://avatars.steamstatic.com/c8549eb72244b60cc65d4667fb062a5955e73970_medium.jpg",
+      "profile_url": "https://steamcommunity.com/profiles/76561198069420656",
       "is_guest": false,
       "owned": true,
       "stats_available": true,
-      "playtime_total_minutes": 235,
-      "playtime_2weeks_minutes": 235,
+      "playtime_total_minutes": 513,
+      "playtime_2weeks_minutes": 513,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 235,
+      "playtime_challenge_minutes": 513,
       "achievements_total": 31,
-      "achievements_unlocked_total": 27,
+      "achievements_unlocked_total": 28,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 27,
+      "achievements_since_baseline": 28,
       "challenge_achievements": [
         {
           "apiname": "FIRST_PASSIVE_UNLOCK",
           "displayName": "Gear Up!",
           "description": "Unlock first passive",
-          "unlocktime": 1782717174
+          "unlocktime": 1782581974
         },
         {
           "apiname": "EQUIP_TWO_PASSIVE",
           "displayName": "Full Pocket",
           "description": "Equip two passive",
-          "unlocktime": 1782717325
-        },
-        {
-          "apiname": "STAND_STILL_30",
-          "displayName": "Are you stuck?",
-          "description": "Stand still for 30 sec",
-          "unlocktime": 1782717380
+          "unlocktime": 1782582212
         },
         {
           "apiname": "KILL_GHOST_BANDITO_20",
           "displayName": "Weird West Shows",
           "description": "Kill 20 ghosts from graves",
-          "unlocktime": 1782718250
-        },
-        {
-          "apiname": "FIRST_KILL_BOSS",
-          "displayName": "Remember me?",
-          "description": "Defeat a boss first time",
-          "unlocktime": 1782718564
-        },
-        {
-          "apiname": "SECOND_REVOLVER_UNLOCK",
-          "displayName": "The Kid",
-          "description": "Unlock second revolver",
-          "unlocktime": 1782718595
-        },
-        {
-          "apiname": "SECOND_SHOWDOWN_UNLOCK",
-          "displayName": "After harrowing ritual,",
-          "description": "Unlock second showdown",
-          "unlocktime": 1782718595
+          "unlocktime": 1782582759
         },
         {
           "apiname": "KILLED_BY_DEFENDER",
           "displayName": "Western Flail ",
           "description": "Oops, that would be hurt",
-          "unlocktime": 1782725617
-        },
-        {
-          "apiname": "THIRD_SHOWDOWN_UNLOCK",
-          "displayName": "Girl in bloodstains",
-          "description": "Unlock third showdown",
-          "unlocktime": 1782725617
-        },
-        {
-          "apiname": "UNLOCK_MODIFIER",
-          "displayName": "Cursed",
-          "description": "Unlocked Curse Mode",
-          "unlocktime": 1782725617
-        },
-        {
-          "apiname": "KILLED_BY_BOMBER",
-          "displayName": "Warm Hug",
-          "description": "He just wanted a warm hug",
-          "unlocktime": 1782725666
-        },
-        {
-          "apiname": "BOMBER_KILL_20",
-          "displayName": "Hey, careful with that dynam...",
-          "description": "Perform friendly kill by bomber 20 times",
-          "unlocktime": 1782725774
-        },
-        {
-          "apiname": "FOURTH_SHOWDOWN_UNLOCK",
-          "displayName": "Fled across the desert",
-          "description": "Unlock fourth showdown",
-          "unlocktime": 1782725881
+          "unlocktime": 1782585966
         },
         {
           "apiname": "SCARE_CROWS_100",
           "displayName": "Scarecrow",
           "description": "Scare crows 100 times",
-          "unlocktime": 1782728659
+          "unlocktime": 1782591999
         },
         {
-          "apiname": "DEAL_WITH_ENEMY_30",
-          "displayName": "Murder of crows",
-          "description": "Deal with 30 enemies at the same time",
-          "unlocktime": 1782728747
+          "apiname": "FIRST_KILL_BOSS",
+          "displayName": "Remember me?",
+          "description": "Defeat a boss first time",
+          "unlocktime": 1782592223
         },
         {
           "apiname": "KILL_200",
           "displayName": "Survivor",
           "description": "Achieve 200 kills",
-          "unlocktime": 1782729433
+          "unlocktime": 1782592324
         },
         {
-          "apiname": "KILLED_BY_SHAMAN",
-          "displayName": "Electrified",
-          "description": "Electrocuted",
-          "unlocktime": 1782729445
+          "apiname": "SECOND_REVOLVER_UNLOCK",
+          "displayName": "The Kid",
+          "description": "Unlock second revolver",
+          "unlocktime": 1782592362
         },
         {
-          "apiname": "THIRD_REVOLVER_UNLOCK",
-          "displayName": "The Outlaw",
-          "description": "Unlock third revolver",
-          "unlocktime": 1782729446
-        },
-        {
-          "apiname": "FOURTH_REVOLVER_UNLOCK",
-          "displayName": "The Gunsmith",
-          "description": "Unlock fourth revolver",
-          "unlocktime": 1782729906
+          "apiname": "SECOND_SHOWDOWN_UNLOCK",
+          "displayName": "After harrowing ritual,",
+          "description": "Unlock second showdown",
+          "unlocktime": 1782592362
         },
         {
           "apiname": "PERFECT_KILL_60",
           "displayName": "I count six shots",
           "description": "Achieve 60 kills with a 100% accuracy",
-          "unlocktime": 1782730417
+          "unlocktime": 1782594253
+        },
+        {
+          "apiname": "THIRD_SHOWDOWN_UNLOCK",
+          "displayName": "Girl in bloodstains",
+          "description": "Unlock third showdown",
+          "unlocktime": 1782596131
+        },
+        {
+          "apiname": "UNLOCK_MODIFIER",
+          "displayName": "Cursed",
+          "description": "Unlocked Curse Mode",
+          "unlocktime": 1782596131
+        },
+        {
+          "apiname": "KILLED_BY_BOMBER",
+          "displayName": "Warm Hug",
+          "description": "He just wanted a warm hug",
+          "unlocktime": 1782667384
+        },
+        {
+          "apiname": "FOURTH_SHOWDOWN_UNLOCK",
+          "displayName": "Fled across the desert",
+          "description": "Unlock fourth showdown",
+          "unlocktime": 1782667384
         },
         {
           "apiname": "KILL_BOSS_WITH_GHOST_BULLET",
           "displayName": "\"WHEN YOU HAVE TO SHOOT, SHOOT, DON'T WALK!!\"",
           "description": "Defeat a boss with the Cursed Gaze",
-          "unlocktime": 1782730472
+          "unlocktime": 1782667919
         },
         {
-          "apiname": "KILL_300",
-          "displayName": "Crow Killer",
-          "description": "Achieve 300 kills",
-          "unlocktime": 1782730961
+          "apiname": "THIRD_REVOLVER_UNLOCK",
+          "displayName": "The Outlaw",
+          "description": "Unlock third revolver",
+          "unlocktime": 1782668698
         },
         {
-          "apiname": "FIRST_KILL_BUGMAN",
-          "displayName": "Kill it with fire",
-          "description": "Meet the hidden cultist",
-          "unlocktime": 1782730994
+          "apiname": "STAND_STILL_30",
+          "displayName": "Are you stuck?",
+          "description": "Stand still for 30 sec",
+          "unlocktime": 1782669172
         },
         {
-          "apiname": "KILL_500",
-          "displayName": "Gunslinger",
-          "description": "Achieve 500 kills",
-          "unlocktime": 1782731237
+          "apiname": "DEAL_WITH_ENEMY_30",
+          "displayName": "Murder of crows",
+          "description": "Deal with 30 enemies at the same time",
+          "unlocktime": 1782669442
         },
         {
-          "apiname": "EQUIP_ALL_MODIFIERS",
-          "displayName": "The Crimson Moon Rising",
-          "description": "Fought with all curses equipped",
-          "unlocktime": 1782736200
+          "apiname": "BOMBER_KILL_20",
+          "displayName": "Hey, careful with that dynam...",
+          "description": "Perform friendly kill by bomber 20 times",
+          "unlocktime": 1782669549
+        },
+        {
+          "apiname": "FOURTH_REVOLVER_UNLOCK",
+          "displayName": "The Gunsmith",
+          "description": "Unlock fourth revolver",
+          "unlocktime": 1782670617
         },
         {
           "apiname": "PERFECT_KILL_120",
           "displayName": "I count two guns",
           "description": "Achieve 120 kills with a 100% accuracy",
-          "unlocktime": 1782737089
+          "unlocktime": 1782671200
         },
         {
           "apiname": "DODGE_10",
           "displayName": "MANCATO!",
           "description": "Dodged 10 attacks in a single run",
-          "unlocktime": 1782738023
+          "unlocktime": 1782681863
+        },
+        {
+          "apiname": "KILLED_BY_SHAMAN",
+          "displayName": "Electrified",
+          "description": "Electrocuted",
+          "unlocktime": 1782682314
+        },
+        {
+          "apiname": "KILL_300",
+          "displayName": "Crow Killer",
+          "description": "Achieve 300 kills",
+          "unlocktime": 1782682742
+        },
+        {
+          "apiname": "FIRST_KILL_BUGMAN",
+          "displayName": "Kill it with fire",
+          "description": "Meet the hidden cultist",
+          "unlocktime": 1782682797
+        },
+        {
+          "apiname": "KILL_TOTAL_10K",
+          "displayName": "Cowgirl from Hell",
+          "description": "Defeated 10,000 enemies in total",
+          "unlocktime": 1782736507
+        },
+        {
+          "apiname": "KILL_500",
+          "displayName": "Gunslinger",
+          "description": "Achieve 500 kills",
+          "unlocktime": 1782769506
+        },
+        {
+          "apiname": "EQUIP_ALL_MODIFIERS",
+          "displayName": "The Crimson Moon Rising",
+          "description": "Fought with all curses equipped",
+          "unlocktime": 1782771197
         }
       ],
-      "challenge_achievement_count": 27,
+      "challenge_achievement_count": 28,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
@@ -5751,189 +6186,6 @@
       "is_winner": false
     },
     {
-      "username": "Metalhead8489",
-      "sg_username": "Metalhead8489",
-      "steam_id": "76561198069420656",
-      "avatar_url": "https://avatars.steamstatic.com/c8549eb72244b60cc65d4667fb062a5955e73970_medium.jpg",
-      "profile_url": "https://steamcommunity.com/profiles/76561198069420656",
-      "is_guest": false,
-      "owned": true,
-      "stats_available": true,
-      "playtime_total_minutes": 328,
-      "playtime_2weeks_minutes": 328,
-      "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 328,
-      "achievements_total": 31,
-      "achievements_unlocked_total": 26,
-      "achievements_before_challenge": 0,
-      "achievements_since_baseline": 26,
-      "challenge_achievements": [
-        {
-          "apiname": "FIRST_PASSIVE_UNLOCK",
-          "displayName": "Gear Up!",
-          "description": "Unlock first passive",
-          "unlocktime": 1782581974
-        },
-        {
-          "apiname": "EQUIP_TWO_PASSIVE",
-          "displayName": "Full Pocket",
-          "description": "Equip two passive",
-          "unlocktime": 1782582212
-        },
-        {
-          "apiname": "KILL_GHOST_BANDITO_20",
-          "displayName": "Weird West Shows",
-          "description": "Kill 20 ghosts from graves",
-          "unlocktime": 1782582759
-        },
-        {
-          "apiname": "KILLED_BY_DEFENDER",
-          "displayName": "Western Flail ",
-          "description": "Oops, that would be hurt",
-          "unlocktime": 1782585966
-        },
-        {
-          "apiname": "SCARE_CROWS_100",
-          "displayName": "Scarecrow",
-          "description": "Scare crows 100 times",
-          "unlocktime": 1782591999
-        },
-        {
-          "apiname": "FIRST_KILL_BOSS",
-          "displayName": "Remember me?",
-          "description": "Defeat a boss first time",
-          "unlocktime": 1782592223
-        },
-        {
-          "apiname": "KILL_200",
-          "displayName": "Survivor",
-          "description": "Achieve 200 kills",
-          "unlocktime": 1782592324
-        },
-        {
-          "apiname": "SECOND_REVOLVER_UNLOCK",
-          "displayName": "The Kid",
-          "description": "Unlock second revolver",
-          "unlocktime": 1782592362
-        },
-        {
-          "apiname": "SECOND_SHOWDOWN_UNLOCK",
-          "displayName": "After harrowing ritual,",
-          "description": "Unlock second showdown",
-          "unlocktime": 1782592362
-        },
-        {
-          "apiname": "PERFECT_KILL_60",
-          "displayName": "I count six shots",
-          "description": "Achieve 60 kills with a 100% accuracy",
-          "unlocktime": 1782594253
-        },
-        {
-          "apiname": "THIRD_SHOWDOWN_UNLOCK",
-          "displayName": "Girl in bloodstains",
-          "description": "Unlock third showdown",
-          "unlocktime": 1782596131
-        },
-        {
-          "apiname": "UNLOCK_MODIFIER",
-          "displayName": "Cursed",
-          "description": "Unlocked Curse Mode",
-          "unlocktime": 1782596131
-        },
-        {
-          "apiname": "KILLED_BY_BOMBER",
-          "displayName": "Warm Hug",
-          "description": "He just wanted a warm hug",
-          "unlocktime": 1782667384
-        },
-        {
-          "apiname": "FOURTH_SHOWDOWN_UNLOCK",
-          "displayName": "Fled across the desert",
-          "description": "Unlock fourth showdown",
-          "unlocktime": 1782667384
-        },
-        {
-          "apiname": "KILL_BOSS_WITH_GHOST_BULLET",
-          "displayName": "\"WHEN YOU HAVE TO SHOOT, SHOOT, DON'T WALK!!\"",
-          "description": "Defeat a boss with the Cursed Gaze",
-          "unlocktime": 1782667919
-        },
-        {
-          "apiname": "THIRD_REVOLVER_UNLOCK",
-          "displayName": "The Outlaw",
-          "description": "Unlock third revolver",
-          "unlocktime": 1782668698
-        },
-        {
-          "apiname": "STAND_STILL_30",
-          "displayName": "Are you stuck?",
-          "description": "Stand still for 30 sec",
-          "unlocktime": 1782669172
-        },
-        {
-          "apiname": "DEAL_WITH_ENEMY_30",
-          "displayName": "Murder of crows",
-          "description": "Deal with 30 enemies at the same time",
-          "unlocktime": 1782669442
-        },
-        {
-          "apiname": "BOMBER_KILL_20",
-          "displayName": "Hey, careful with that dynam...",
-          "description": "Perform friendly kill by bomber 20 times",
-          "unlocktime": 1782669549
-        },
-        {
-          "apiname": "FOURTH_REVOLVER_UNLOCK",
-          "displayName": "The Gunsmith",
-          "description": "Unlock fourth revolver",
-          "unlocktime": 1782670617
-        },
-        {
-          "apiname": "PERFECT_KILL_120",
-          "displayName": "I count two guns",
-          "description": "Achieve 120 kills with a 100% accuracy",
-          "unlocktime": 1782671200
-        },
-        {
-          "apiname": "DODGE_10",
-          "displayName": "MANCATO!",
-          "description": "Dodged 10 attacks in a single run",
-          "unlocktime": 1782681863
-        },
-        {
-          "apiname": "KILLED_BY_SHAMAN",
-          "displayName": "Electrified",
-          "description": "Electrocuted",
-          "unlocktime": 1782682314
-        },
-        {
-          "apiname": "KILL_300",
-          "displayName": "Crow Killer",
-          "description": "Achieve 300 kills",
-          "unlocktime": 1782682742
-        },
-        {
-          "apiname": "FIRST_KILL_BUGMAN",
-          "displayName": "Kill it with fire",
-          "description": "Meet the hidden cultist",
-          "unlocktime": 1782682797
-        },
-        {
-          "apiname": "KILL_TOTAL_10K",
-          "displayName": "Cowgirl from Hell",
-          "description": "Defeated 10,000 enemies in total",
-          "unlocktime": 1782736507
-        }
-      ],
-      "challenge_achievement_count": 26,
-      "has_started": true,
-      "is_complete": false,
-      "completed_at": null,
-      "completed_before_start": false,
-      "meets_playtime": true,
-      "is_winner": false
-    },
-    {
       "username": "LieEater",
       "sg_username": "LieEater",
       "steam_id": "76561198067727574",
@@ -5943,7 +6195,7 @@
       "owned": true,
       "stats_available": true,
       "playtime_total_minutes": 417,
-      "playtime_2weeks_minutes": 228,
+      "playtime_2weeks_minutes": 87,
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 417,
       "achievements_total": 31,
@@ -6111,6 +6363,177 @@
       "is_winner": false
     },
     {
+      "username": "VenomousNyx",
+      "sg_username": "VenomousNyx",
+      "steam_id": "76561198080362358",
+      "avatar_url": "https://avatars.steamstatic.com/b81c8aaec7e567b2bf50d9ff53e82ca8aa67676d_medium.jpg",
+      "profile_url": "https://steamcommunity.com/profiles/76561198080362358",
+      "is_guest": false,
+      "owned": true,
+      "stats_available": true,
+      "playtime_total_minutes": 589,
+      "playtime_2weeks_minutes": 373,
+      "baseline_playtime_minutes": 74,
+      "playtime_challenge_minutes": 515,
+      "achievements_total": 31,
+      "achievements_unlocked_total": 24,
+      "achievements_before_challenge": 0,
+      "achievements_since_baseline": 24,
+      "challenge_achievements": [
+        {
+          "apiname": "FIRST_PASSIVE_UNLOCK",
+          "displayName": "Gear Up!",
+          "description": "Unlock first passive",
+          "unlocktime": 1781576855
+        },
+        {
+          "apiname": "EQUIP_TWO_PASSIVE",
+          "displayName": "Full Pocket",
+          "description": "Equip two passive",
+          "unlocktime": 1781577590
+        },
+        {
+          "apiname": "SCARE_CROWS_100",
+          "displayName": "Scarecrow",
+          "description": "Scare crows 100 times",
+          "unlocktime": 1781578403
+        },
+        {
+          "apiname": "STAND_STILL_30",
+          "displayName": "Are you stuck?",
+          "description": "Stand still for 30 sec",
+          "unlocktime": 1781579195
+        },
+        {
+          "apiname": "KILLED_BY_DEFENDER",
+          "displayName": "Western Flail ",
+          "description": "Oops, that would be hurt",
+          "unlocktime": 1782599270
+        },
+        {
+          "apiname": "PERFECT_KILL_60",
+          "displayName": "I count six shots",
+          "description": "Achieve 60 kills with a 100% accuracy",
+          "unlocktime": 1782601074
+        },
+        {
+          "apiname": "KILL_GHOST_BANDITO_20",
+          "displayName": "Weird West Shows",
+          "description": "Kill 20 ghosts from graves",
+          "unlocktime": 1782601384
+        },
+        {
+          "apiname": "FIRST_KILL_BOSS",
+          "displayName": "Remember me?",
+          "description": "Defeat a boss first time",
+          "unlocktime": 1782623033
+        },
+        {
+          "apiname": "KILLED_BY_BOMBER",
+          "displayName": "Warm Hug",
+          "description": "He just wanted a warm hug",
+          "unlocktime": 1782623058
+        },
+        {
+          "apiname": "SECOND_REVOLVER_UNLOCK",
+          "displayName": "The Kid",
+          "description": "Unlock second revolver",
+          "unlocktime": 1782623058
+        },
+        {
+          "apiname": "SECOND_SHOWDOWN_UNLOCK",
+          "displayName": "After harrowing ritual,",
+          "description": "Unlock second showdown",
+          "unlocktime": 1782624316
+        },
+        {
+          "apiname": "THIRD_SHOWDOWN_UNLOCK",
+          "displayName": "Girl in bloodstains",
+          "description": "Unlock third showdown",
+          "unlocktime": 1782625614
+        },
+        {
+          "apiname": "DODGE_10",
+          "displayName": "MANCATO!",
+          "description": "Dodged 10 attacks in a single run",
+          "unlocktime": 1782626236
+        },
+        {
+          "apiname": "FOURTH_SHOWDOWN_UNLOCK",
+          "displayName": "Fled across the desert",
+          "description": "Unlock fourth showdown",
+          "unlocktime": 1782626475
+        },
+        {
+          "apiname": "UNLOCK_MODIFIER",
+          "displayName": "Cursed",
+          "description": "Unlocked Curse Mode",
+          "unlocktime": 1782626475
+        },
+        {
+          "apiname": "PERFECT_KILL_120",
+          "displayName": "I count two guns",
+          "description": "Achieve 120 kills with a 100% accuracy",
+          "unlocktime": 1782627104
+        },
+        {
+          "apiname": "KILL_200",
+          "displayName": "Survivor",
+          "description": "Achieve 200 kills",
+          "unlocktime": 1782628590
+        },
+        {
+          "apiname": "KILL_BOSS_WITH_GHOST_BULLET",
+          "displayName": "\"WHEN YOU HAVE TO SHOOT, SHOOT, DON'T WALK!!\"",
+          "description": "Defeat a boss with the Cursed Gaze",
+          "unlocktime": 1782628633
+        },
+        {
+          "apiname": "THIRD_REVOLVER_UNLOCK",
+          "displayName": "The Outlaw",
+          "description": "Unlock third revolver",
+          "unlocktime": 1782628686
+        },
+        {
+          "apiname": "KILLED_BY_SHAMAN",
+          "displayName": "Electrified",
+          "description": "Electrocuted",
+          "unlocktime": 1782629523
+        },
+        {
+          "apiname": "DEAL_WITH_ENEMY_30",
+          "displayName": "Murder of crows",
+          "description": "Deal with 30 enemies at the same time",
+          "unlocktime": 1782629644
+        },
+        {
+          "apiname": "BOMBER_KILL_20",
+          "displayName": "Hey, careful with that dynam...",
+          "description": "Perform friendly kill by bomber 20 times",
+          "unlocktime": 1782630322
+        },
+        {
+          "apiname": "FOURTH_REVOLVER_UNLOCK",
+          "displayName": "The Gunsmith",
+          "description": "Unlock fourth revolver",
+          "unlocktime": 1782630841
+        },
+        {
+          "apiname": "KILL_TOTAL_10K",
+          "displayName": "Cowgirl from Hell",
+          "description": "Defeated 10,000 enemies in total",
+          "unlocktime": 1782804112
+        }
+      ],
+      "challenge_achievement_count": 24,
+      "has_started": true,
+      "is_complete": false,
+      "completed_at": null,
+      "completed_before_start": false,
+      "meets_playtime": true,
+      "is_winner": false
+    },
+    {
       "username": "Waxlor",
       "sg_username": "Waxlor",
       "steam_id": "76561198116836855",
@@ -6120,7 +6543,7 @@
       "owned": true,
       "stats_available": true,
       "playtime_total_minutes": 536,
-      "playtime_2weeks_minutes": 305,
+      "playtime_2weeks_minutes": 267,
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 536,
       "achievements_total": 31,
@@ -6276,336 +6699,6 @@
       "is_winner": false
     },
     {
-      "username": "VenomousNyx",
-      "sg_username": "VenomousNyx",
-      "steam_id": "76561198080362358",
-      "avatar_url": "https://avatars.steamstatic.com/b81c8aaec7e567b2bf50d9ff53e82ca8aa67676d_medium.jpg",
-      "profile_url": "https://steamcommunity.com/profiles/76561198080362358",
-      "is_guest": false,
-      "owned": true,
-      "stats_available": true,
-      "playtime_total_minutes": 544,
-      "playtime_2weeks_minutes": 469,
-      "baseline_playtime_minutes": 74,
-      "playtime_challenge_minutes": 470,
-      "achievements_total": 31,
-      "achievements_unlocked_total": 23,
-      "achievements_before_challenge": 0,
-      "achievements_since_baseline": 23,
-      "challenge_achievements": [
-        {
-          "apiname": "FIRST_PASSIVE_UNLOCK",
-          "displayName": "Gear Up!",
-          "description": "Unlock first passive",
-          "unlocktime": 1781576855
-        },
-        {
-          "apiname": "EQUIP_TWO_PASSIVE",
-          "displayName": "Full Pocket",
-          "description": "Equip two passive",
-          "unlocktime": 1781577590
-        },
-        {
-          "apiname": "SCARE_CROWS_100",
-          "displayName": "Scarecrow",
-          "description": "Scare crows 100 times",
-          "unlocktime": 1781578403
-        },
-        {
-          "apiname": "STAND_STILL_30",
-          "displayName": "Are you stuck?",
-          "description": "Stand still for 30 sec",
-          "unlocktime": 1781579195
-        },
-        {
-          "apiname": "KILLED_BY_DEFENDER",
-          "displayName": "Western Flail ",
-          "description": "Oops, that would be hurt",
-          "unlocktime": 1782599270
-        },
-        {
-          "apiname": "PERFECT_KILL_60",
-          "displayName": "I count six shots",
-          "description": "Achieve 60 kills with a 100% accuracy",
-          "unlocktime": 1782601074
-        },
-        {
-          "apiname": "KILL_GHOST_BANDITO_20",
-          "displayName": "Weird West Shows",
-          "description": "Kill 20 ghosts from graves",
-          "unlocktime": 1782601384
-        },
-        {
-          "apiname": "FIRST_KILL_BOSS",
-          "displayName": "Remember me?",
-          "description": "Defeat a boss first time",
-          "unlocktime": 1782623033
-        },
-        {
-          "apiname": "KILLED_BY_BOMBER",
-          "displayName": "Warm Hug",
-          "description": "He just wanted a warm hug",
-          "unlocktime": 1782623058
-        },
-        {
-          "apiname": "SECOND_REVOLVER_UNLOCK",
-          "displayName": "The Kid",
-          "description": "Unlock second revolver",
-          "unlocktime": 1782623058
-        },
-        {
-          "apiname": "SECOND_SHOWDOWN_UNLOCK",
-          "displayName": "After harrowing ritual,",
-          "description": "Unlock second showdown",
-          "unlocktime": 1782624316
-        },
-        {
-          "apiname": "THIRD_SHOWDOWN_UNLOCK",
-          "displayName": "Girl in bloodstains",
-          "description": "Unlock third showdown",
-          "unlocktime": 1782625614
-        },
-        {
-          "apiname": "DODGE_10",
-          "displayName": "MANCATO!",
-          "description": "Dodged 10 attacks in a single run",
-          "unlocktime": 1782626236
-        },
-        {
-          "apiname": "FOURTH_SHOWDOWN_UNLOCK",
-          "displayName": "Fled across the desert",
-          "description": "Unlock fourth showdown",
-          "unlocktime": 1782626475
-        },
-        {
-          "apiname": "UNLOCK_MODIFIER",
-          "displayName": "Cursed",
-          "description": "Unlocked Curse Mode",
-          "unlocktime": 1782626475
-        },
-        {
-          "apiname": "PERFECT_KILL_120",
-          "displayName": "I count two guns",
-          "description": "Achieve 120 kills with a 100% accuracy",
-          "unlocktime": 1782627104
-        },
-        {
-          "apiname": "KILL_200",
-          "displayName": "Survivor",
-          "description": "Achieve 200 kills",
-          "unlocktime": 1782628590
-        },
-        {
-          "apiname": "KILL_BOSS_WITH_GHOST_BULLET",
-          "displayName": "\"WHEN YOU HAVE TO SHOOT, SHOOT, DON'T WALK!!\"",
-          "description": "Defeat a boss with the Cursed Gaze",
-          "unlocktime": 1782628633
-        },
-        {
-          "apiname": "THIRD_REVOLVER_UNLOCK",
-          "displayName": "The Outlaw",
-          "description": "Unlock third revolver",
-          "unlocktime": 1782628686
-        },
-        {
-          "apiname": "KILLED_BY_SHAMAN",
-          "displayName": "Electrified",
-          "description": "Electrocuted",
-          "unlocktime": 1782629523
-        },
-        {
-          "apiname": "DEAL_WITH_ENEMY_30",
-          "displayName": "Murder of crows",
-          "description": "Deal with 30 enemies at the same time",
-          "unlocktime": 1782629644
-        },
-        {
-          "apiname": "BOMBER_KILL_20",
-          "displayName": "Hey, careful with that dynam...",
-          "description": "Perform friendly kill by bomber 20 times",
-          "unlocktime": 1782630322
-        },
-        {
-          "apiname": "FOURTH_REVOLVER_UNLOCK",
-          "displayName": "The Gunsmith",
-          "description": "Unlock fourth revolver",
-          "unlocktime": 1782630841
-        }
-      ],
-      "challenge_achievement_count": 23,
-      "has_started": true,
-      "is_complete": false,
-      "completed_at": null,
-      "completed_before_start": false,
-      "meets_playtime": true,
-      "is_winner": false
-    },
-    {
-      "username": "doubleomurfy",
-      "sg_username": "doubleomurfy",
-      "steam_id": "76561198041749780",
-      "avatar_url": "https://avatars.steamstatic.com/08169eb2445114b9e9e34136a76ec837983785e2_medium.jpg",
-      "profile_url": "https://steamcommunity.com/profiles/76561198041749780",
-      "is_guest": false,
-      "owned": true,
-      "stats_available": true,
-      "playtime_total_minutes": 413,
-      "playtime_2weeks_minutes": 378,
-      "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 413,
-      "achievements_total": 31,
-      "achievements_unlocked_total": 23,
-      "achievements_before_challenge": 0,
-      "achievements_since_baseline": 23,
-      "challenge_achievements": [
-        {
-          "apiname": "FIRST_PASSIVE_UNLOCK",
-          "displayName": "Gear Up!",
-          "description": "Unlock first passive",
-          "unlocktime": 1781381176
-        },
-        {
-          "apiname": "EQUIP_TWO_PASSIVE",
-          "displayName": "Full Pocket",
-          "description": "Equip two passive",
-          "unlocktime": 1781381405
-        },
-        {
-          "apiname": "FIRST_KILL_BOSS",
-          "displayName": "Remember me?",
-          "description": "Defeat a boss first time",
-          "unlocktime": 1781381587
-        },
-        {
-          "apiname": "KILLED_BY_BOMBER",
-          "displayName": "Warm Hug",
-          "description": "He just wanted a warm hug",
-          "unlocktime": 1781381657
-        },
-        {
-          "apiname": "SECOND_REVOLVER_UNLOCK",
-          "displayName": "The Kid",
-          "description": "Unlock second revolver",
-          "unlocktime": 1781381658
-        },
-        {
-          "apiname": "KILL_GHOST_BANDITO_20",
-          "displayName": "Weird West Shows",
-          "description": "Kill 20 ghosts from graves",
-          "unlocktime": 1781382311
-        },
-        {
-          "apiname": "BOMBER_KILL_20",
-          "displayName": "Hey, careful with that dynam...",
-          "description": "Perform friendly kill by bomber 20 times",
-          "unlocktime": 1781382565
-        },
-        {
-          "apiname": "KILL_200",
-          "displayName": "Survivor",
-          "description": "Achieve 200 kills",
-          "unlocktime": 1781382593
-        },
-        {
-          "apiname": "THIRD_REVOLVER_UNLOCK",
-          "displayName": "The Outlaw",
-          "description": "Unlock third revolver",
-          "unlocktime": 1781382613
-        },
-        {
-          "apiname": "SECOND_SHOWDOWN_UNLOCK",
-          "displayName": "After harrowing ritual,",
-          "description": "Unlock second showdown",
-          "unlocktime": 1781382614
-        },
-        {
-          "apiname": "UNLOCK_MODIFIER",
-          "displayName": "Cursed",
-          "description": "Unlocked Curse Mode",
-          "unlocktime": 1781382614
-        },
-        {
-          "apiname": "FOURTH_REVOLVER_UNLOCK",
-          "displayName": "The Gunsmith",
-          "description": "Unlock fourth revolver",
-          "unlocktime": 1782080343
-        },
-        {
-          "apiname": "THIRD_SHOWDOWN_UNLOCK",
-          "displayName": "Girl in bloodstains",
-          "description": "Unlock third showdown",
-          "unlocktime": 1782080343
-        },
-        {
-          "apiname": "KILLED_BY_DEFENDER",
-          "displayName": "Western Flail ",
-          "description": "Oops, that would be hurt",
-          "unlocktime": 1782326562
-        },
-        {
-          "apiname": "STAND_STILL_30",
-          "displayName": "Are you stuck?",
-          "description": "Stand still for 30 sec",
-          "unlocktime": 1782327008
-        },
-        {
-          "apiname": "SCARE_CROWS_100",
-          "displayName": "Scarecrow",
-          "description": "Scare crows 100 times",
-          "unlocktime": 1782565154
-        },
-        {
-          "apiname": "FOURTH_SHOWDOWN_UNLOCK",
-          "displayName": "Fled across the desert",
-          "description": "Unlock fourth showdown",
-          "unlocktime": 1782565635
-        },
-        {
-          "apiname": "KILL_BOSS_WITH_GHOST_BULLET",
-          "displayName": "\"WHEN YOU HAVE TO SHOOT, SHOOT, DON'T WALK!!\"",
-          "description": "Defeat a boss with the Cursed Gaze",
-          "unlocktime": 1782566017
-        },
-        {
-          "apiname": "KILL_300",
-          "displayName": "Crow Killer",
-          "description": "Achieve 300 kills",
-          "unlocktime": 1782566138
-        },
-        {
-          "apiname": "FIRST_KILL_BUGMAN",
-          "displayName": "Kill it with fire",
-          "description": "Meet the hidden cultist",
-          "unlocktime": 1782568335
-        },
-        {
-          "apiname": "PERFECT_KILL_60",
-          "displayName": "I count six shots",
-          "description": "Achieve 60 kills with a 100% accuracy",
-          "unlocktime": 1782568841
-        },
-        {
-          "apiname": "KILL_TOTAL_10K",
-          "displayName": "Cowgirl from Hell",
-          "description": "Defeated 10,000 enemies in total",
-          "unlocktime": 1782600004
-        },
-        {
-          "apiname": "KILL_500",
-          "displayName": "Gunslinger",
-          "description": "Achieve 500 kills",
-          "unlocktime": 1782728031
-        }
-      ],
-      "challenge_achievement_count": 23,
-      "has_started": true,
-      "is_complete": false,
-      "completed_at": null,
-      "completed_before_start": false,
-      "meets_playtime": true,
-      "is_winner": false
-    },
-    {
       "username": "Keny88",
       "sg_username": "Keny88",
       "steam_id": "76561198403826603",
@@ -6615,7 +6708,7 @@
       "owned": true,
       "stats_available": true,
       "playtime_total_minutes": 218,
-      "playtime_2weeks_minutes": 29,
+      "playtime_2weeks_minutes": 0,
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 218,
       "achievements_total": 31,
@@ -7353,7 +7446,7 @@
       "owned": true,
       "stats_available": true,
       "playtime_total_minutes": 168,
-      "playtime_2weeks_minutes": 63,
+      "playtime_2weeks_minutes": 55,
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 168,
       "achievements_total": 31,
@@ -7725,12 +7818,16 @@
     "Carenard",
     "Bainsol",
     "PsychoApeMan",
+    "Tucs",
     "TempR",
     "vot4ol",
     "RaitorHaitor",
     "Vin3",
     "yannbz",
-    "Sakakino"
+    "Sakakino",
+    "puninup",
+    "doubleomurfy",
+    "zolof"
   ],
   "roster": {
     "participants": [
