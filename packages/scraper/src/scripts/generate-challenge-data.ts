@@ -30,6 +30,11 @@ import { config as loadEnv } from 'dotenv'
  * achievement's `unlocktime`; for completion challenges total achievements count
  * regardless of when they were unlocked.
  *
+ * Progress is treated as monotonic: Steam intermittently hides a member's
+ * playtime/achievements when their game-details privacy is toggled, so each run
+ * floors playtime and achievement progress at the highest we've previously
+ * recorded — an occasionally-private profile can't wipe a qualified member.
+ *
  * Re-run regularly with: pnpm --filter scraper challenge
  * Generates every registered challenge by default; pass a data-slug
  * (CHALLENGE=kill_the_crows or `… challenge kill_the_crows`) to run just one.
@@ -544,9 +549,11 @@ async function generateChallenge(config: ChallengeConfig): Promise<void> {
   }
 
   const priorBaselines = new Map<string, number>()
+  const priorByStemId = new Map<string, any>()
   for (const p of prior?.participants ?? []) {
     if (typeof p.baseline_playtime_minutes === 'number')
       priorBaselines.set(p.steam_id, p.baseline_playtime_minutes)
+    priorByStemId.set(p.steam_id, p)
   }
 
   // --- Resolve who competes ---
@@ -599,6 +606,35 @@ async function generateChallenge(config: ChallengeConfig): Promise<void> {
     const p = await fetchPlayer(r.steam_id, config, schema, schemaTotal)
     // In an open challenge you can only compete if you own the game.
     if (config.roster === 'open' && !p.game.owned) continue
+
+    // Progress is monotonic. Steam intermittently hides a member's playtime or
+    // achievements when their game-details privacy is toggled (e.g. Tucs during
+    // Kill The Crows: 11h ↔ 0 between pulls). Never let a fresh pull regress what
+    // we've already recorded, so an occasionally-private profile can't wipe a
+    // qualified member's progress.
+    const priorP = priorByStemId.get(r.steam_id)
+    if (priorP) {
+      if ((priorP.playtime_total_minutes ?? 0) > p.game.total)
+        p.game.total = priorP.playtime_total_minutes
+      if ((priorP.achievements_unlocked_total ?? 0) > p.achievements_unlocked_total) {
+        p.achievements_unlocked_total = priorP.achievements_unlocked_total
+        p.achievements_total = p.achievements_total || priorP.achievements_total || 0
+        p.achievements_before_challenge =
+          priorP.achievements_before_challenge ?? p.achievements_before_challenge
+        p.challenge_achievements =
+          priorP.challenge_achievements ?? p.challenge_achievements
+        p.challenge_achievement_count =
+          priorP.challenge_achievement_count ?? p.challenge_achievement_count
+        p.stats_available = true
+        // Re-seed the 100% timestamp so completed_at survives a hidden pull:
+        // completionWinFields reads the latest unlocktime from `achieved`.
+        if (priorP.completed_at != null)
+          p.achieved = [
+            ...p.achieved,
+            { apiname: '__carried__', unlocktime: priorP.completed_at },
+          ]
+      }
+    }
 
     const baseline = priorBaselines.has(r.steam_id)
       ? priorBaselines.get(r.steam_id)!

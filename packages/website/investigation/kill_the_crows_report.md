@@ -16,18 +16,19 @@ Generated from `packages/website/public/data/challenge_kill_the_crows.json` afte
 | Owned the game | 45 |
 | Started (any progress) | 44 |
 | Reached 100% | 29 |
-| **Qualified (winners)** | **28** |
-| Reached 100% but under 2h challenge play (didn't qualify) | 1 — Tucs |
+| **Qualified (winners)** | **29** |
+| Reached 100% but didn't qualify | 0 — everyone who finished, qualified |
 
-> BarbaricGenie hit 100% at 01:09 UTC on 1 Jul (still 30 June locally) and is included as a qualifier under the lenient cutoff.
+> **BarbaricGenie** hit 100% at 01:09 UTC on 1 Jul (still 30 June locally) and is included under the lenient cutoff.
+> **Tucs** played 11h and finished on 22 Jun, but Steam intermittently hides his playtime (game-details privacy). The frozen snapshot happened to catch a "0 playtime" pull; his observed high-water mark (660 min) has been restored, and the generator now floors progress so this can't recur.
 
 ## Playtime
 
 | Metric | Value |
 | --- | --- |
-| Total during challenge window | **356.4 hours** (21,381 min) |
-| Total all-time (owners) | 374.1 hours |
-| Average per active member | 8.1 hours |
+| Total during challenge window | **367.4 hours** (22,041 min) |
+| Total all-time (owners) | 385.1 hours |
+| Average per active member | 8.3 hours |
 
 **Top 5 by challenge-window playtime:** Bainsol 21.7h · puninup 21.0h · PoeticKatana 18.4h · RaitorHaitor 16.3h · PsychoApeMan 16.1h
 
@@ -62,5 +63,5 @@ Generated from `packages/website/public/data/challenge_kill_the_crows.json` afte
 
 ## Combined totals (participants + non-participants)
 
-- **Total hours (all-time):** 403.2
+- **Total hours (all-time):** 414.2
 - **Total reviews written:** 22
