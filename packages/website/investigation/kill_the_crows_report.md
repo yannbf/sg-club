@@ -40,8 +40,8 @@ Generated from `packages/website/public/data/challenge_kill_the_crows.json` afte
 
 ## Reviews (participants)
 
-- **19 of 46 participants wrote a Steam review (41%)** — 👍 18 recommended, 👎 1 not recommended.
-- Reviewers: SoullessSoup, herbesdeprovence, DancingVaquinha, Noodles91, yugimax, Ignition365, BaconChizBurger, Slenderpoop00, makki, TwixClub, Carenard, TempR, vot4ol, RaitorHaitor, Vin3, Sakakino, doubleomurfy, Metalhead8489, BarbaricGenie
+- **21 of 46 participants wrote a Steam review (46%)** — 👍 20 recommended, 👎 1 not recommended.
+- Reviewers: SoullessSoup, herbesdeprovence, DancingVaquinha, Noodles91, yugimax, Ignition365, BaconChizBurger, Slenderpoop00, makki, TwixClub, Carenard, TempR, vot4ol, RaitorHaitor, Vin3, yannbz, Sakakino, doubleomurfy, Metalhead8489, BarbaricGenie, Tucs
 - (Reviews from members with private profiles won't be counted — this is a floor, not a ceiling.)
 
 ## Finish timeline (qualifiers)
@@ -63,4 +63,4 @@ Generated from `packages/website/public/data/challenge_kill_the_crows.json` afte
 ## Combined totals (participants + non-participants)
 
 - **Total hours (all-time):** 403.2
-- **Total reviews written:** 20
+- **Total reviews written:** 22
