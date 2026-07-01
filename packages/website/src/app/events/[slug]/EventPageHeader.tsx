@@ -8,6 +8,7 @@ import {
   ArrowLeft,
   CalendarDays,
   ExternalLink,
+  Flag,
   Gift,
   Globe,
   Maximize2,
@@ -243,8 +244,9 @@ export function EventPageHeader({
           <div className="min-w-0 flex-1 space-y-2">
             <div className="flex flex-wrap items-center gap-2">
               {hasEnded ? (
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-[var(--subtle)]/15 px-2.5 py-0.5 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                  Ended
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-[var(--accent-rose)]/50 bg-[color-mix(in_oklab,var(--accent-rose)_22%,transparent)] px-3 py-1 text-xs font-bold uppercase tracking-wide text-foreground">
+                  <Flag className="h-3.5 w-3.5 text-[var(--accent-rose)]" />
+                  Challenge over
                 </span>
               ) : (
                 isOngoing && (

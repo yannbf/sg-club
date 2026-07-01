@@ -428,13 +428,21 @@ function completionWinFields(
   const completedBeforeStart = Boolean(
     isComplete && completedAt != null && completedAt < start,
   )
+  // Reaching 100% only counts toward winning if it happened by the deadline.
+  // Members who finish the achievements *after* the challenge closed are tracked
+  // separately (`completed_after_deadline`) and never become winners. A missing
+  // timestamp (offline unlocks) is given the benefit of the doubt.
+  const completedAfterDeadline = Boolean(
+    isComplete && completedAt != null && completedAt > win.deadline,
+  )
   const meetsPlaytime = playtimeChallengeMinutes > minPlaytime
-  const isWinner = isComplete && meetsPlaytime
+  const isWinner = isComplete && meetsPlaytime && !completedAfterDeadline
 
   return {
     is_complete: isComplete,
     completed_at: completedAt,
     completed_before_start: completedBeforeStart,
+    completed_after_deadline: completedAfterDeadline,
     meets_playtime: meetsPlaytime,
     is_winner: isWinner,
   }
@@ -674,6 +682,17 @@ async function generateChallenge(config: ChallengeConfig): Promise<void> {
     )
   }
 
+  // Once the challenge window closes the qualified list is frozen: later data
+  // pulls keep refreshing everyone's stats, but the set of winners can neither
+  // grow nor shrink. The freeze is captured the first time we generate after the
+  // deadline and preserved in the data file from then on.
+  const deadlineTs =
+    config.win.type === 'completion' ? config.win.deadline : null
+  const challengeOver = deadlineTs != null && Date.now() / 1000 >= deadlineTs
+  let frozenWinnerIds: string[] | null = Array.isArray(prior?.frozenWinnerIds)
+    ? (prior.frozenWinnerIds as string[])
+    : null
+
   // --- Winners ---
   let winners: typeof participants
   if (config.win.type === 'achievement') {
@@ -687,8 +706,17 @@ async function generateChallenge(config: ChallengeConfig): Promise<void> {
       p.is_winner = winner ? p.steam_id === winner.steam_id : false
     winners = winner ? [winner] : []
   } else {
-    // EVERY member who qualified (100% + enough challenge-window play), ordered
-    // by when they reached 100% (members with no usable 100% timestamp last).
+    // EVERY member who qualified (100% by the deadline + enough challenge-window
+    // play). Freeze the set once the challenge is over so it stays fixed.
+    if (challengeOver) {
+      if (!frozenWinnerIds)
+        frozenWinnerIds = participants
+          .filter((p) => p.is_winner)
+          .map((p) => p.steam_id)
+      const frozen = new Set(frozenWinnerIds)
+      for (const p of participants) p.is_winner = frozen.has(p.steam_id)
+    }
+    // Ordered by when they reached 100% (no usable timestamp sorts last).
     winners = participants
       .filter((p) => p.is_winner)
       .sort(
@@ -751,10 +779,13 @@ async function generateChallenge(config: ChallengeConfig): Promise<void> {
     startTimestamp: config.startTimestamp,
     totalAchievements: schemaTotal || (prior?.totalAchievements ?? 0),
     generatedAt: Date.now(),
+    challengeOver,
     winnerUsername: firstWinner?.username ?? null,
     participants,
     nonParticipants,
   }
+  // Persist the frozen qualified set (completion challenges past their deadline).
+  if (frozenWinnerIds) output.frozenWinnerIds = frozenWinnerIds
 
   if (config.win.type === 'achievement') {
     const win = config.win

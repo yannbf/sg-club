@@ -355,6 +355,11 @@ export interface ChallengeParticipant {
   /** Completion challenges: was already at 100% before the challenge started. */
   completed_before_start?: boolean
   /**
+   * Completion challenges: reached 100% *after* the deadline. These members hit
+   * the goal too late to win and are listed separately from the qualifiers.
+   */
+  completed_after_deadline?: boolean
+  /**
    * Completion challenges: has logged more than the required playtime during the
    * challenge window (the second win requirement alongside 100%).
    */
@@ -425,6 +430,13 @@ export interface ChallengeData {
   minPlaytimeMinutes?: number
   totalAchievements: number
   generatedAt: number
+  /** True once the challenge window has closed (deadline passed). */
+  challengeOver?: boolean
+  /**
+   * Completion challenges: the frozen set of winner steam_ids, captured when the
+   * challenge ended. Once set, the qualified list no longer changes.
+   */
+  frozenWinnerIds?: string[]
   /** First/earliest winner's display name (achievement: the winner; completion: earliest finisher). */
   winnerUsername: string | null
   /** Unix seconds when the (first) winner reached the win condition. */

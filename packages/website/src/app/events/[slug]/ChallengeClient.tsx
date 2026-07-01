@@ -8,6 +8,7 @@ import {
   Clock,
   Crown,
   ExternalLink,
+  Flag,
   Gamepad2,
   HelpCircle,
   Sparkles,
@@ -479,6 +480,11 @@ function LeaderboardRow({
                   ? `Achieved on ${fmtDate(p.completed_at)}`
                   : 'Achieved'}
               </span>
+            ) : p.completed_after_deadline ? (
+              <span className="mt-1 inline-flex items-center gap-1 text-[11px] font-medium text-[var(--accent-rose)]">
+                <Flag className="h-3 w-3" />
+                Reached 100% after the deadline
+              </span>
             ) : p.is_complete ? (
               <span className="mt-1 inline-flex items-center gap-1 text-[11px] font-medium text-muted-foreground">
                 <Clock className="h-3 w-3" />
@@ -696,6 +702,11 @@ export default function ChallengeClient({
         (a.completed_at ?? Number.POSITIVE_INFINITY) -
         (b.completed_at ?? Number.POSITIVE_INFINITY),
     )
+  // Members who reached 100% only after the deadline — they hit the goal too
+  // late to count as qualifiers, and are surfaced in their own section.
+  const lateFinishers = data.participants
+    .filter((p) => p.completed_after_deadline && !p.is_winner)
+    .sort((a, b) => (a.completed_at ?? 0) - (b.completed_at ?? 0))
   const heroHolders = data.participants.filter((p) => p.has_hero).length
   // Headline "win count": members who reached 100% in-window (completion) or
   // who hold the Hero achievement (achievement).
@@ -745,6 +756,30 @@ export default function ChallengeClient({
           )
         )}
       </EventPageHeader>
+
+      {/* Prominent "challenge over" banner */}
+      {hasEnded && (
+        <div className="flex items-center gap-3 rounded-xl border border-[var(--accent-rose)]/40 bg-[color-mix(in_oklab,var(--accent-rose)_10%,transparent)] px-4 py-3">
+          <Flag className="h-5 w-5 flex-shrink-0 text-[var(--accent-rose)]" />
+          <p className="text-sm">
+            <span className="font-semibold text-foreground">
+              This challenge has ended
+            </span>
+            {deadlineDisplay ? (
+              <span className="text-muted-foreground">
+                {' '}
+                — the deadline was {fmtDay(deadlineDisplay)}. Final results are
+                locked in
+                {isCompletion ? ` (${winners.length} qualified)` : ''}.
+              </span>
+            ) : (
+              <span className="text-muted-foreground">
+                . Final results are locked in.
+              </span>
+            )}
+          </p>
+        </div>
+      )}
 
       {/* Game spotlight — links to the Steam store page */}
       <GameSpotlight appId={data.appId} gameName={data.gameName} game={game} />
@@ -955,6 +990,47 @@ export default function ChallengeClient({
           </Card>
         )}
       </section>
+
+      {/* Reached 100% after the deadline — too late to qualify */}
+      {lateFinishers.length > 0 && (
+        <section className="space-y-3">
+          <div className="flex items-center gap-2">
+            <Flag className="h-4 w-4 text-[var(--accent-rose)]" />
+            <h2 className="text-sm font-semibold text-muted-foreground">
+              Reached 100% after the challenge ended ({lateFinishers.length})
+            </h2>
+          </div>
+          <p className="text-xs text-muted-foreground">
+            These members completed all achievements after the deadline, so they
+            don&apos;t count as qualifiers.
+          </p>
+          <div className="grid grid-cols-1 gap-1.5 sm:grid-cols-2 lg:grid-cols-3">
+            {lateFinishers.map((p) => (
+              <div
+                key={p.steam_id}
+                className="flex items-center gap-2.5 rounded-lg border border-card-border bg-card-background px-2.5 py-1.5"
+              >
+                <Avatar src={p.avatar_url} username={p.username} size={28} />
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-center gap-1">
+                    <ParticipantName
+                      p={p}
+                      className="block truncate text-sm font-medium text-foreground hover:text-accent hover:underline"
+                    />
+                    {p.is_guest && <GuestTag />}
+                    <ReviewBadge p={p} />
+                  </div>
+                  {p.completed_at != null && (
+                    <span className="text-[11px] text-muted-foreground">
+                      100% on {fmtDate(p.completed_at)}
+                    </span>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Roster · yet to start */}
       {yetToStart.length > 0 && (
