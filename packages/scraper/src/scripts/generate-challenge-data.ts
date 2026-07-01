@@ -140,8 +140,11 @@ const CHALLENGES: ChallengeConfig[] = [
     roster: 'fixed',
     win: {
       type: 'completion',
-      // Challenge window ends 30 June (deadline = July 1 00:00 UTC).
-      deadline: Date.UTC(2026, 6, 1) / 1000,
+      // Challenge window ends 30 June. The cutoff is nominally July 1 00:00 UTC,
+      // but we extend it to 01:10 UTC to leniently include a member who hit 100%
+      // at 01:09 UTC — still 30 June in their local timezone. The site still
+      // displays the deadline as "30 Jun" (deadlineDisplayTs backs off 12h).
+      deadline: Date.UTC(2026, 6, 1, 1, 10) / 1000,
       // Winners must also log over 2h of play during the window.
       minPlaytimeMinutes: 120,
     },
