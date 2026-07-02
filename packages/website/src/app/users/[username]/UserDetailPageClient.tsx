@@ -344,17 +344,20 @@ export default function UserDetailPageClient({
 
   const ratio = ratioInfo(user)
 
-  // Deleted giveaways stay visible in the tabs for inspection, but every
-  // count/stat on this page must ignore them.
+  // Deleted and ended-with-no-entries giveaways stay visible in the tabs for
+  // inspection, but every count/stat on this page must ignore them.
   const deletedGaLinks = useMemo(
     () => buildDeletedGaLinks(giveaways),
     [giveaways],
   )
+  const nowSec = Date.now() / 1000
   const countedWon = (user.giveaways_won || []).filter((g) =>
     isCountedGa(g, deletedGaLinks),
   )
-  const countedCreated = (user.giveaways_created || []).filter((g) =>
-    isCountedGa(g, deletedGaLinks),
+  const countedCreated = (user.giveaways_created || []).filter(
+    (g) =>
+      isCountedGa(g, deletedGaLinks) &&
+      !(g.end_timestamp < nowSec && (g.entries ?? 0) === 0),
   )
 
   const getTotalPlaytime = () =>

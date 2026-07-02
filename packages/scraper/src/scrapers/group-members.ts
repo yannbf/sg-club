@@ -493,14 +493,18 @@ export class SteamGiftsUserFetcher {
   ): Promise<UserGiveawaysStats> {
     const giveawayMap = new Map(giveaways.map((g) => [g.link, g]))
 
-    // Deleted giveaways stay in the user's arrays so they remain inspectable,
-    // but they must not count toward any stat. Entries carry `deleted` going
-    // forward; fall back to the full giveaway for data written before the
-    // flag was propagated.
+    // Deleted and ended-with-no-entries giveaways stay in the user's arrays
+    // so they remain inspectable, but they must not count toward any stat.
+    // Entries carry `deleted` going forward; fall back to the full giveaway
+    // for data written before the flag was propagated.
     const isDeleted = (g: { link: string; deleted?: boolean }) =>
       g.deleted === true || giveawayMap.get(g.link)?.deleted === true
-    const countingCreated = (user.giveaways_created ?? []).filter(
+    const nowSec = Date.now() / 1000
+    const nonDeletedCreated = (user.giveaways_created ?? []).filter(
       (g) => !isDeleted(g),
+    )
+    const countingCreated = nonDeletedCreated.filter(
+      (g) => !(g.end_timestamp < nowSec && (g.entries ?? 0) === 0),
     )
     const countingWon = (user.giveaways_won ?? []).filter((g) => !isDeleted(g))
 
@@ -567,9 +571,11 @@ export class SteamGiftsUserFetcher {
       return rows
     }
 
-    // Count sent giveaways by CV status and calculate real values
-    if (countingCreated.length) {
-      const giveawaysWithNoEntriesCount = countingCreated.filter(
+    // Count sent giveaways by CV status and calculate real values. The
+    // no-entries stat deliberately uses the wider non-deleted set — those
+    // giveaways are excluded from every other count.
+    if (nonDeletedCreated.length) {
+      const giveawaysWithNoEntriesCount = nonDeletedCreated.filter(
         (giveaway) => 'had_winners' in giveaway && !giveaway.had_winners,
       ).length
 

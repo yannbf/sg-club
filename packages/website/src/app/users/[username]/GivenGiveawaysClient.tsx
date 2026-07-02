@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { UserLink } from '@/components/UserLink'
 import { Giveaway, GameData } from '@/types'
 import { getCVBadgeColor, getCVLabel } from '@/lib/data'
+import { isCountedGiveaway, isValidRatioGiveaway } from '@/lib/events'
 import GameImage from '@/components/GameImage'
 import UserAvatar from '@/components/UserAvatar'
 import { useGameData, useDebounce } from '@/lib/hooks'
@@ -46,10 +47,11 @@ export default function GivenGiveawaysClient({ giveaways, userAvatars, userNames
     if (isDeleted) {
       return {
         isActive: false,
-        statusIcon: '🗑️',
+        statusDot: 'var(--error)',
         statusText: 'Deleted',
+        notValid: true,
         statusColor: 'text-error-foreground',
-        badgeColor: 'bg-error-foreground text-white',
+        badgeColor: 'bg-error-light text-error-foreground',
         borderColor: 'border-error',
         backgroundColor: 'bg-error-light/30'
       }
@@ -62,10 +64,15 @@ export default function GivenGiveawaysClient({ giveaways, userAvatars, userNames
 
     return {
       isActive,
-      statusIcon: isActive ? '🟢' : hasNoEntries ? '‼️' : '🔴',
+      statusDot: isActive ? 'var(--success)' : hasNoEntries ? 'var(--warning)' : 'var(--card-border-strong)',
       statusText: isActive ? 'Open' : hasNoEntries ? 'Ended with no entries' : 'Ended',
+      notValid: hasNoEntries,
       statusColor: isActive ? 'text-success-foreground' : 'text-error-foreground',
-      badgeColor: isActive ? 'bg-success-light text-success-foreground' : 'bg-muted text-white',
+      badgeColor: isActive
+        ? 'bg-success-light text-success-foreground'
+        : hasNoEntries
+          ? 'bg-warning-light text-warning-foreground'
+          : 'bg-muted text-white',
       borderColor,
       backgroundColor: isActive ? 'bg-success-light/30' : hasNoEntries ? 'bg-gray-100/50 dark:bg-gray-800/50' : 'bg-card-background'
     }
@@ -77,13 +84,13 @@ export default function GivenGiveawaysClient({ giveaways, userAvatars, userNames
 
     let matchesCVAndLabels
     if (filterCV === 'RATIO_VALID') {
+      // Only giveaways that actually count: valid-ratio AND not deleted AND
+      // didn't end with zero entries.
       matchesCVAndLabels =
-        giveaway.cv_status === 'FULL_CV' &&
-        !giveaway.is_shared &&
-        !giveaway.whitelist &&
+        isValidRatioGiveaway(giveaway) &&
+        isCountedGiveaway(giveaway) &&
         (!filterRegion || giveaway.region_restricted) &&
-        (!filterPlayRequired || (giveaway.required_play || giveaway.required_play_meta)) &&
-        (!filterDeleted || giveaway.deleted)
+        (!filterPlayRequired || (giveaway.required_play || giveaway.required_play_meta))
     } else {
       matchesCVAndLabels =
         (filterCV === 'all' || giveaway.cv_status === filterCV) &&
@@ -222,9 +229,10 @@ export default function GivenGiveawaysClient({ giveaways, userAvatars, userNames
             </button>
             <button
               onClick={() => setFilterDeleted(!filterDeleted)}
-              className={`px-3 py-1 text-sm rounded-full border transition-colors ${filterDeleted ? 'bg-gray-500 text-white border-gray-500' : 'bg-transparent border-card-border'}`}
+              disabled={filterCV === 'RATIO_VALID'}
+              className={`px-3 py-1 text-sm rounded-full border transition-colors ${filterDeleted ? 'bg-gray-500 text-white border-gray-500' : 'bg-transparent border-card-border'} ${filterCV === 'RATIO_VALID' ? 'opacity-50 cursor-not-allowed' : ''}`}
             >
-              🗑️ Deleted
+              Deleted
             </button>
           </div>
 
@@ -253,8 +261,16 @@ export default function GivenGiveawaysClient({ giveaways, userAvatars, userNames
                                 rel="noopener noreferrer"
                                 className="text-accent hover:underline text-sm"
                               >{giveaway.name} ({giveaway.points}P) <CvStatusIndicator giveaway={giveaway} /></a></h3>
-                            <span className={`inline-flex items-center px-2 py-1 text-xs font-medium rounded-full ${status.badgeColor}`}>
-                              {status.statusIcon} {status.statusText}
+                            <span className={`inline-flex items-center gap-1.5 px-2 py-1 text-xs font-medium rounded-full ${status.badgeColor}`}>
+                              <span
+                                className="h-1.5 w-1.5 rounded-full"
+                                style={{ background: status.statusDot }}
+                                aria-hidden
+                              />
+                              {status.statusText}
+                              {status.notValid && (
+                                <span className="font-normal opacity-75">· Not valid</span>
+                              )}
                             </span>
                           </div>
                           <div className="flex items-center mt-1 space-x-4">
@@ -284,8 +300,12 @@ export default function GivenGiveawaysClient({ giveaways, userAvatars, userNames
                           <div className="flex items-center gap-2 mt-2">
                             {giveaway.deleted && (
                               <Tooltip content={giveaway.deleted_reason || 'Giveaway was deleted'}>
-                                <span className="text-xs font-medium px-2 py-1 bg-gray-500 text-white rounded-full">
-                                  🗑️ Deleted
+                                <span className="inline-flex items-center gap-1.5 text-xs font-medium px-2 py-1 bg-error-light text-error-foreground rounded-full">
+                                  <span
+                                    className="h-1.5 w-1.5 rounded-full bg-[var(--error)]"
+                                    aria-hidden
+                                  />
+                                  Deleted · Not valid
                                 </span>
                               </Tooltip>
                             )}

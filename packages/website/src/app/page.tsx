@@ -2,6 +2,7 @@ import { getAllGiveaways, getAllUsers, getExMembers, getGameData, getSteamIdMap,
 import { GameData, Giveaway, User, UserEntry } from '@/types'
 import { createCreatorResolver, CreatorResolver } from '@/lib/creator-resolver'
 import { getEventSummaries } from '@/lib/event-data'
+import { isCountedGiveaway } from '@/lib/events'
 import { OngoingEventsBanner } from '@/components/OngoingEventsBanner'
 import { getUserRatio } from './users/util'
 import DashboardClient, { DashboardStats, InsightData, UserLuckData } from './dashboard-client'
@@ -218,9 +219,10 @@ function computeStats(
 ): DashboardStats {
   const memberCount = users.length
 
-  // Exclude deleted giveaways from every count — they're not visible anywhere
-  // else on the dashboard and SG itself drops them from group totals.
-  const liveGiveaways = allGiveaways.filter(ga => !ga.deleted)
+  // Only counted giveaways feed the dashboard totals — deleted and
+  // ended-with-no-entries GAs are kept in the data for the record but
+  // count nowhere.
+  const liveGiveaways = allGiveaways.filter(ga => isCountedGiveaway(ga))
   const totalGiveawaysCount = liveGiveaways.length
 
   const usersWithWarnings = users.filter(user => (user.warnings?.length || 0) > 0)
@@ -271,7 +273,7 @@ function computeStats(
     last7DaysInsights: calculateInsights(last7DaysGiveaways, users, userMap, allGameData, resolver),
     luckRankings: calculateLuckRankings(
       users,
-      allGiveaways.filter(ga => !ga.deleted),
+      allGiveaways.filter(ga => isCountedGiveaway(ga)),
       userEntries,
     ),
   }
@@ -279,9 +281,9 @@ function computeStats(
 
 export default async function Home() {
   const allGiveaways = await getAllGiveaways()
-  // Deleted giveaways are kept in the data for inspection but must not feed
-  // any dashboard count, leaderboard, or luck ranking.
-  const giveaways = allGiveaways.filter(ga => !ga.deleted && ga.cv_status === 'FULL_CV' && !ga.is_shared && !ga.whitelist)
+  // Deleted and no-entry giveaways are kept in the data for inspection but
+  // must not feed any dashboard count, leaderboard, or luck ranking.
+  const giveaways = allGiveaways.filter(ga => isCountedGiveaway(ga) && ga.cv_status === 'FULL_CV' && !ga.is_shared && !ga.whitelist)
   const userData = await getAllUsers()
   const exMembersData = await getExMembers()
   const allGameData = await getGameData()

@@ -83,11 +83,12 @@ export function getStatusBadge(giveaway: Giveaway) {
   const isEnded = giveaway.end_timestamp < now
   const isFuture = giveaway.start_timestamp > now
   const hasWinners = giveaway.winners && giveaway.winners.length > 0
+  const hasNoEntries = isEnded && (giveaway.entry_count ?? 0) === 0
 
   if (giveaway.deleted) {
     return (
       <Badge variant="error" size="sm">
-        Deleted
+        Deleted · Not valid
       </Badge>
     )
   }
@@ -102,6 +103,13 @@ export function getStatusBadge(giveaway: Giveaway) {
     return (
       <Badge variant="info" size="sm">
         Open
+      </Badge>
+    )
+  }
+  if (hasNoEntries) {
+    return (
+      <Badge variant="warning" size="sm">
+        No entries · Not valid
       </Badge>
     )
   }
@@ -784,7 +792,7 @@ export default function GiveawaysClient({
                     <div className="mt-2 flex flex-wrap gap-1.5">
                       {giveaway.deleted && (
                         <Badge variant="error" size="sm">
-                          <Trash2 className="h-3 w-3" /> Deleted
+                          <Trash2 className="h-3 w-3" /> Deleted · Not valid
                         </Badge>
                       )}
                       {giveaway.region_restricted && (
@@ -932,7 +940,7 @@ export default function GiveawaysClient({
                   <div className="flex flex-wrap gap-1">
                     {giveaway.deleted && (
                       <Badge variant="error" size="sm">
-                        <Trash2 className="h-3 w-3" /> Deleted
+                        <Trash2 className="h-3 w-3" /> Deleted · Not valid
                       </Badge>
                     )}
                     {giveaway.region_restricted && (

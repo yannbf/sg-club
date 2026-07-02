@@ -107,6 +107,18 @@ export function isValidRatioGiveaway(g: Giveaway): boolean {
 }
 
 /**
+ * A giveaway counts toward totals only when it actually happened: deleted
+ * giveaways and giveaways that ended with zero entries are kept in the data
+ * for the record (and stay visible for inspection) but count nowhere.
+ */
+export function isCountedGiveaway(
+  g: Giveaway,
+  now = Date.now() / 1000,
+): boolean {
+  return !g.deleted && !(g.end_timestamp < now && (g.entry_count ?? 0) === 0)
+}
+
+/**
  * The "date" ordering used by the giveaways page, shared so event pages list
  * giveaways in the same order. With `groupByStatus` (the "all statuses" view):
  * open giveaways first (upcoming ones leading, then by soonest end), ended
@@ -298,10 +310,10 @@ export const SPECIAL_EVENTS: EventMeta[] = [
       label: 'July 4th',
       items: ['🎮 Minigames', '🏆 Challenges', '🎁 Extra prizes', '🎉 Community fun'],
     },
-    // Any valid giveaway ending in calendar June 2026 counts; the record is
-    // calendar June 2025's tally.
+    // Any valid giveaway ending between June 1 and the July 4th finale counts;
+    // the record is calendar June 2025's tally.
     match: {
-      endsBetween: { start: Date.UTC(2026, 5, 1) / 1000, end: Date.UTC(2026, 6, 1) / 1000 },
+      endsBetween: { start: Date.UTC(2026, 5, 1) / 1000, end: Date.UTC(2026, 6, 4, 12) / 1000 },
     },
     recordWindow: {
       start: Date.UTC(2025, 5, 1) / 1000,
@@ -503,8 +515,9 @@ export function eventLingerUntil(end: number, meta: EventMeta): number {
 
 /**
  * The giveaways belonging to an event per its `match` rule. A giveaway
- * qualifies when it is a valid-ratio, non-deleted GA AND satisfies any provided
- * sub-rule (tag or end-date window). Returns [] when the event has no rule.
+ * qualifies when it is a valid-ratio, counted GA (not deleted, didn't end
+ * with zero entries) AND satisfies any provided sub-rule (tag or end-date
+ * window). Returns [] when the event has no rule.
  */
 export function selectEventGiveaways(
   meta: EventMeta,
@@ -513,7 +526,7 @@ export function selectEventGiveaways(
   const m = meta.match
   if (!m) return []
   return giveaways.filter((g) => {
-    if (g.deleted || !isValidRatioGiveaway(g)) return false
+    if (!isCountedGiveaway(g) || !isValidRatioGiveaway(g)) return false
     if (m.eventType && g.event_type === m.eventType) return true
     if (
       m.endsBetween &&

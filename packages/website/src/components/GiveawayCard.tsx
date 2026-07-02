@@ -43,15 +43,18 @@ function statusBadge(giveaway: Giveaway) {
   // variants (e.g. success-light) washed out over bright artwork and failed
   // contrast. A solid dark scrim with white text guarantees legibility over any
   // image (well above WCAG AA), and a colored status dot keeps the semantics.
+  const hasNoEntries = isEnded && (giveaway.entry_count ?? 0) === 0
   const [label, dot]: [string, string] = giveaway.deleted
-    ? ['Deleted', 'var(--error)']
+    ? ['Deleted · Not valid', 'var(--error)']
     : isFuture
       ? ['Not started', 'var(--accent-purple)']
       : !isEnded
         ? ['Open', 'var(--info)']
-        : hasWinners
-          ? ['Ended', 'var(--success)']
-          : ['No winners', 'var(--warning)']
+        : hasNoEntries
+          ? ['No entries · Not valid', 'var(--warning)']
+          : hasWinners
+            ? ['Ended', 'var(--success)']
+            : ['No winners', 'var(--warning)']
   return (
     <Badge
       size="sm"

@@ -100,9 +100,15 @@ class GroupInsightsGenerator {
       0
     )
 
-    // Load and analyze all giveaways to get historical data. Deleted
-    // giveaways stay in the data file for inspection but never count.
-    const allGiveaways = this.loadAllGiveaways().filter((g) => !g.deleted)
+    // Load and analyze all giveaways to get historical data. Deleted and
+    // ended-with-no-entries giveaways stay in the data file for inspection
+    // but never count.
+    const nowSec = Date.now() / 1000
+    const allGiveaways = this.loadAllGiveaways().filter(
+      (g) =>
+        !g.deleted &&
+        !(g.end_timestamp < nowSec && (g.entry_count ?? 0) === 0),
+    )
     const currentSteamIds = new Set(users.map((user) => user.steam_id))
     // Load steam_id → username history map from lookup file (use current username)
     const steamIdMapPath = '../website/public/data/steam_id_map.json'

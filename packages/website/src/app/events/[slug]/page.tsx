@@ -14,6 +14,7 @@ import {
   compareGiveawaysByDate,
   getEventBySlug,
   isValidRatioGiveaway,
+  isCountedGiveaway,
   selectEventGiveaways,
 } from '@/lib/events'
 import type { GameData, Giveaway, UserGroupData } from '@/types'
@@ -133,11 +134,11 @@ export default async function EventDetailPage(props: {
     )
 
     // The record window is a separate comparison range (last year), counted
-    // with the same valid-ratio rule.
+    // with the same valid-ratio + counted rule.
     const recordCount = event.recordWindow
       ? giveaways.filter(
           (g) =>
-            !g.deleted &&
+            isCountedGiveaway(g, now) &&
             isValidRatioGiveaway(g) &&
             g.end_timestamp >= event.recordWindow!.start &&
             g.end_timestamp < event.recordWindow!.end,
@@ -205,14 +206,14 @@ export default async function EventDetailPage(props: {
       getWishlist(),
     ])
 
-  // Only valid-ratio giveaways: deleted, shared, whitelist-only and reduced-CV
-  // giveaways are excluded everywhere in events.
+  // Only valid-ratio, counted giveaways: deleted, no-entry, shared,
+  // whitelist-only and reduced-CV giveaways are excluded everywhere in events.
   const now = Date.now() / 1000
   const eventGiveaways = giveaways
     .filter(
       (g) =>
         g.event_type === event.eventType &&
-        !g.deleted &&
+        isCountedGiveaway(g, now) &&
         isValidRatioGiveaway(g),
     )
     .sort((a, b) => compareGiveawaysByDate(a, b, now))
