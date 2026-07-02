@@ -26,7 +26,7 @@ import {
 } from '@/components/UnplayedGamesStats'
 import { getWarningsSeverity } from './[username]/UserDetailPageClient'
 import Tooltip from '@/components/Tooltip'
-import { getUserRatio, lastValidFcvCreated } from './util'
+import { getUserRatio, isCountedGa, lastValidFcvCreated } from './util'
 import { useIsAdmin } from '@/lib/auth'
 import { UserLink, steamGiftsProfile } from '@/components/UserLink'
 import { Card } from '@/components/ui/Card'
@@ -52,6 +52,8 @@ interface Props {
   description?: string
   /** Links of group-exclusive, non-deleted, non-empty FULL_CV giveaways. */
   validFcvLinks?: string[]
+  /** Links of deleted giveaways — excluded from every count shown here. */
+  deletedGaLinks?: string[]
 }
 
 type SortKey =
@@ -79,20 +81,25 @@ const PLAY_REQUIRED_WARNINGS = new Set([
   'required_play_deadline_expired',
 ])
 
-function getTotalPlaytime(user: User) {
+function getTotalPlaytime(user: User, deletedGaLinks?: Set<string>) {
   if (!user.giveaways_won) return 0
-  return user.giveaways_won.reduce(
-    (total, game) => total + (game.steam_play_data?.playtime_minutes || 0),
-    0,
-  )
+  return user.giveaways_won
+    .filter((g) => isCountedGa(g, deletedGaLinks))
+    .reduce(
+      (total, game) => total + (game.steam_play_data?.playtime_minutes || 0),
+      0,
+    )
 }
 
-function getTotalAchievements(user: User) {
+function getTotalAchievements(user: User, deletedGaLinks?: Set<string>) {
   if (!user.giveaways_won) return 0
-  return user.giveaways_won.reduce(
-    (total, game) => total + (game.steam_play_data?.achievements_unlocked || 0),
-    0,
-  )
+  return user.giveaways_won
+    .filter((g) => isCountedGa(g, deletedGaLinks))
+    .reduce(
+      (total, game) =>
+        total + (game.steam_play_data?.achievements_unlocked || 0),
+      0,
+    )
 }
 
 function getLastFcvCreatedAt(
@@ -102,17 +109,22 @@ function getLastFcvCreatedAt(
   return lastValidFcvCreated(user, validFcvLinks)?.created_timestamp ?? null
 }
 
-function getNoEntryGiveaways(user: User) {
+function getNoEntryGiveaways(user: User, deletedGaLinks?: Set<string>) {
   if (!user.giveaways_created) return 0
   return user.giveaways_created.filter(
-    (g) => g.entries === 0 && g.end_timestamp < Date.now() / 1000,
+    (g) =>
+      isCountedGa(g, deletedGaLinks) &&
+      g.entries === 0 &&
+      g.end_timestamp < Date.now() / 1000,
   ).length
 }
 
-function getRecentWins(user: User) {
+function getRecentWins(user: User, deletedGaLinks?: Set<string>) {
   if (!user.giveaways_won) return 0
   const twoWeeksAgo = Date.now() / 1000 - 14 * 24 * 60 * 60
-  return user.giveaways_won.filter((g) => g.end_timestamp > twoWeeksAgo).length
+  return user.giveaways_won.filter(
+    (g) => isCountedGa(g, deletedGaLinks) && g.end_timestamp > twoWeeksAgo,
+  ).length
 }
 
 function discordBadge(user: User) {
@@ -164,11 +176,16 @@ export default function UsersClient({
   heading = 'Users',
   description,
   validFcvLinks,
+  deletedGaLinks,
 }: Props) {
   const isAdmin = useIsAdmin()
   const validFcvSet = useMemo(
     () => new Set(validFcvLinks ?? []),
     [validFcvLinks],
+  )
+  const deletedGaSet = useMemo(
+    () => new Set(deletedGaLinks ?? []),
+    [deletedGaLinks],
   )
   const [includeExMembers, setIncludeExMembers] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
@@ -233,7 +250,8 @@ export default function UsersClient({
             a.stats.real_total_value_difference
           break
         case 'playtime':
-          comparison = getTotalPlaytime(b) - getTotalPlaytime(a)
+          comparison =
+            getTotalPlaytime(b, deletedGaSet) - getTotalPlaytime(a, deletedGaSet)
           break
         case 'ratio':
           comparison =
@@ -264,7 +282,7 @@ export default function UsersClient({
     })
 
     return filtered
-  }, [allUsers, searchTerm, sortBy, sortDirection, filterTags])
+  }, [allUsers, searchTerm, sortBy, sortDirection, filterTags, deletedGaSet])
 
   const activeFilters =
     (searchTerm ? 1 : 0) + filterTags.length
@@ -420,6 +438,7 @@ export default function UsersClient({
             user={user}
             isAdmin={isAdmin}
             validFcvSet={validFcvSet}
+            deletedGaSet={deletedGaSet}
           />
         ))}
       </div>
@@ -443,23 +462,25 @@ function UserCard({
   user,
   isAdmin,
   validFcvSet,
+  deletedGaSet,
 }: {
   user: User
   isAdmin: boolean
   validFcvSet: Set<string>
+  deletedGaSet: Set<string>
 }) {
   const ratio = user.stats.giveaway_ratio ?? 0
   const ratioCategory = getUserRatio(ratio)
   const diff = user.stats.real_total_gift_difference
   const valueDiff = user.stats.real_total_value_difference
-  const totalPlaytime = getTotalPlaytime(user)
-  const totalAchievements = getTotalAchievements(user)
+  const totalPlaytime = getTotalPlaytime(user, deletedGaSet)
+  const totalAchievements = getTotalAchievements(user, deletedGaSet)
   const playtimeText =
     totalPlaytime === 0 && totalAchievements > 0
       ? 'Unavailable'
       : formatPlaytime(totalPlaytime)
-  const recentWins = getRecentWins(user)
-  const noEntryGAs = getNoEntryGiveaways(user)
+  const recentWins = getRecentWins(user, deletedGaSet)
+  const noEntryGAs = getNoEntryGiveaways(user, deletedGaSet)
   const accentClass = !isAdmin
     ? 'before:bg-[var(--card-border-strong)]'
     : ratioCategory === 'contributor'

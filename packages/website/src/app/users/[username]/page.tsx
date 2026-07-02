@@ -76,9 +76,10 @@ export default async function UserDetailPage(
 ) {
   const params = await props.params;
   const { username } = params
-  const [userResult, allUsers, giveaways, userEntries, gameDataObj, steamIdMap] = await Promise.all([
+  const [userResult, allUsers, exMembersData, giveaways, userEntries, gameDataObj, steamIdMap] = await Promise.all([
     getUser(decodeURIComponent(username)),
     getAllUsers(),
+    getExMembers(),
     getAllGiveaways(),
     getUserEntries(),
     getGameData(),
@@ -127,6 +128,7 @@ export default async function UserDetailPage(
         leavers={userLeaversWithGaData}
         steamIdMap={steamIdMap}
         isExMember={isExMember}
+        exMemberIds={Object.keys(exMembersData?.users ?? {})}
       />
     </AdminGate>
   )

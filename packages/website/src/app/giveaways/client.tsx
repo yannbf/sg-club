@@ -59,6 +59,8 @@ interface Props {
   userAvatars: Map<string, string>
   /** Map of steam_id to username for display */
   userNames?: Map<string, string>
+  /** steam_ids of ex-members — distinguishes "(ex)" from non-group winners. */
+  exMemberIds?: Set<string>
   gameData: GameData[]
   defaultGiveawayStatus?: 'open' | 'ended' | 'all'
 }
@@ -135,6 +137,7 @@ export default function GiveawaysClient({
   lastUpdated,
   userAvatars,
   userNames,
+  exMemberIds,
   gameData,
   defaultGiveawayStatus = 'open',
 }: Props) {
@@ -1024,7 +1027,11 @@ export default function GiveawaysClient({
                               username={winnerDisplayName!}
                             />
                             <span>{winnerDisplayName}</span>
-                            <span className="text-subtle">(ex)</span>
+                            <span className="text-subtle">
+                              {exMemberIds?.has(winner.name)
+                                ? '(ex)'
+                                : '(non-group member)'}
+                            </span>
                           </a>
                         )
                       })}

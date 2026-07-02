@@ -1,13 +1,14 @@
 import { getAllUsers, getExMembers, getAllGiveaways } from '@/lib/data'
 import UsersClient from './client'
 import { AdminGate } from '@/components/AdminGate'
-import { buildValidFcvLinks } from './util'
+import { buildDeletedGaLinks, buildValidFcvLinks } from './util'
 
 export default async function UsersPage() {
   const userData = await getAllUsers()
   const exData = await getExMembers()
   const giveaways = await getAllGiveaways()
   const validFcvLinks = [...buildValidFcvLinks(giveaways)]
+  const deletedGaLinks = [...buildDeletedGaLinks(giveaways)]
   const lastUpdated = userData?.lastUpdated
 
   if (!userData) {
@@ -29,6 +30,7 @@ export default async function UsersPage() {
         exMembers={exMembers}
         lastUpdated={lastUpdated}
         validFcvLinks={validFcvLinks}
+        deletedGaLinks={deletedGaLinks}
       />
     </AdminGate>
   )

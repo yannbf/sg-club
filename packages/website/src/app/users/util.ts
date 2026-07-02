@@ -36,6 +36,25 @@ export function buildValidFcvLinks(giveaways: Giveaway[]): Set<string> {
 }
 
 /**
+ * Links of giveaways that were deleted on SG. Deleted giveaways stay visible
+ * for inspection but must be excluded from every count/statistic. Filter user
+ * array entries with `isCountedGa(entry, deletedGaLinks)` — the link set
+ * covers data generated before the `deleted` flag was propagated onto the
+ * per-user giveaway entries.
+ */
+export function buildDeletedGaLinks(giveaways: Giveaway[]): Set<string> {
+  return new Set(giveaways.filter((g) => g.deleted).map((g) => g.link))
+}
+
+/** Whether a per-user giveaway entry should be included in counts. */
+export function isCountedGa(
+  g: { link: string; deleted?: boolean },
+  deletedGaLinks?: Set<string>
+): boolean {
+  return !g.deleted && !deletedGaLinks?.has(g.link)
+}
+
+/**
  * The member's most recent valid full-CV giveaway created, or null. Pass the
  * set from buildValidFcvLinks() (computed where the giveaway list is available).
  */

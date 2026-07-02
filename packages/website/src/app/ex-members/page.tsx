@@ -2,12 +2,13 @@ import { getExMembers, getAllGiveaways } from '@/lib/data'
 import UsersClient from '../users/client'
 import { Card } from '@/components/ui/Card'
 import { AdminGate } from '@/components/AdminGate'
-import { buildValidFcvLinks } from '../users/util'
+import { buildDeletedGaLinks, buildValidFcvLinks } from '../users/util'
 
 export default async function ExMembersPage() {
   const exData = await getExMembers()
   const giveaways = await getAllGiveaways()
   const validFcvLinks = [...buildValidFcvLinks(giveaways)]
+  const deletedGaLinks = [...buildDeletedGaLinks(giveaways)]
 
   if (!exData || Object.keys(exData.users).length === 0) {
     return (
@@ -35,6 +36,7 @@ export default async function ExMembersPage() {
         heading="Ex members"
         description="Members who have left the group. Their profiles and history are preserved."
         validFcvLinks={validFcvLinks}
+        deletedGaLinks={deletedGaLinks}
       />
     </AdminGate>
   )

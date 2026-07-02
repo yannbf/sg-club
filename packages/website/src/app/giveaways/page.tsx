@@ -1,14 +1,19 @@
-import { getAllGiveaways, getLastUpdated, getAllUsers, getGameData, getSteamIdMap } from '@/lib/data'
+import { getAllGiveaways, getLastUpdated, getAllUsers, getExMembers, getGameData, getSteamIdMap } from '@/lib/data'
 import GiveawaysClient from './client'
 
 export default async function GiveawaysPage() {
-  const [giveaways, lastUpdated, allUsers, gameData, steamIdMap] = await Promise.all([
+  const [giveaways, lastUpdated, allUsers, exMembers, gameData, steamIdMap] = await Promise.all([
     getAllGiveaways(),
     getLastUpdated(),
     getAllUsers(),
+    getExMembers(),
     getGameData(),
     getSteamIdMap(),
   ])
+
+  // Ex-member steam_ids — winners that are neither members nor ex-members
+  // are labelled "non-group member" instead of "(ex)".
+  const exMemberIds = new Set(Object.keys(exMembers?.users ?? {}))
 
   // Create a map of steam_id to avatar_url for display
   const userAvatars = new Map(
@@ -28,6 +33,7 @@ export default async function GiveawaysPage() {
     lastUpdated={lastUpdated}
     userAvatars={userAvatars}
     userNames={userNames}
+    exMemberIds={exMemberIds}
     gameData={gameData}
   />
 } 

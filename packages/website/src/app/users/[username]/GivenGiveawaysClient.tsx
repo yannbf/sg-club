@@ -16,10 +16,12 @@ interface Props {
   giveaways: Giveaway[]
   userAvatars: Map<string, string>
   userNames?: Map<string, string>
+  /** steam_ids of ex-members — distinguishes "(ex member)" from non-group winners. */
+  exMemberIds?: Set<string>
   gameData: GameData[]
 }
 
-export default function GivenGiveawaysClient({ giveaways, userAvatars, userNames, gameData }: Props) {
+export default function GivenGiveawaysClient({ giveaways, userAvatars, userNames, exMemberIds, gameData }: Props) {
   const getDisplayName = (steamIdOrUsername: string) =>
     userNames?.get(steamIdOrUsername) || steamIdOrUsername
   const { getGameData } = useGameData(gameData)
@@ -27,7 +29,7 @@ export default function GivenGiveawaysClient({ giveaways, userAvatars, userNames
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc')
   const [searchTerm, setSearchTerm] = useState('')
   const debouncedSearchTerm = useDebounce(searchTerm, 300)
-  const [filterCV, setFilterCV] = useState<'all' | 'FULL_CV' | 'REDUCED_CV' | 'NO_CV' | 'RATIO_VALID'>('FULL_CV')
+  const [filterCV, setFilterCV] = useState<'all' | 'FULL_CV' | 'REDUCED_CV' | 'NO_CV' | 'RATIO_VALID'>('RATIO_VALID')
   const [filterRegion, setFilterRegion] = useState<boolean>(false)
   const [filterPlayRequired, setFilterPlayRequired] = useState<boolean>(false)
   const [filterShared, setFilterShared] = useState<boolean>(false)
@@ -348,7 +350,10 @@ export default function GivenGiveawaysClient({ giveaways, userAvatars, userNames
                                     src={'https://images.icon-icons.com/2550/PNG/512/question_mark_circle_icon_152550.png'}
                                     username={displayName!}
                                   />
-                                  {displayName} (ex member)
+                                  {displayName}{' '}
+                                  {exMemberIds?.has(winner.name)
+                                    ? '(ex member)'
+                                    : '(non-group member)'}
                                 </a>
                               ))
                             })}

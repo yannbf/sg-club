@@ -137,6 +137,9 @@ export interface User {
     steam_play_data?: SteamPlayData
     required_play: boolean
     is_shared: boolean
+    /** Giveaway was deleted on SG — kept for inspection, excluded from all stats. */
+    deleted?: boolean
+    deleted_reason?: string
     i_played_bro?: boolean
     required_play_meta?: {
       requirements_met: boolean
@@ -156,6 +159,9 @@ export interface User {
     had_winners?: boolean // Only set if giveaway has ended
     required_play: boolean
     is_shared: boolean
+    /** Giveaway was deleted on SG — kept for inspection, excluded from all stats. */
+    deleted?: boolean
+    deleted_reason?: string
     i_played_bro?: boolean
     required_play_meta?: {
       requirements_met: boolean

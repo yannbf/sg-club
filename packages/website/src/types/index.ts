@@ -116,6 +116,9 @@ export interface User {
     cv_status: 'FULL_CV' | 'REDUCED_CV' | 'NO_CV'
     status: string
     end_timestamp: number
+    /** Giveaway was deleted on SG — kept for inspection, excluded from counts. */
+    deleted?: boolean
+    deleted_reason?: string
     i_played_bro?: boolean
     required_play?: boolean
     required_play_meta?: {
@@ -148,6 +151,9 @@ export interface User {
     copies: number
     created_timestamp: number
     end_timestamp: number
+    /** Giveaway was deleted on SG — kept for inspection, excluded from counts. */
+    deleted?: boolean
+    deleted_reason?: string
     had_winners?: boolean
     winners?: {
       name: string

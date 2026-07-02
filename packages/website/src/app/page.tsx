@@ -182,7 +182,7 @@ function calculateLuckRankings(
     let lastWonAt: number | null = user.stats.last_giveaway_won_at ?? null
     if (lastWonAt == null && user.giveaways_won?.length) {
       lastWonAt = user.giveaways_won.reduce(
-        (max, w) => Math.max(max, w.end_timestamp),
+        (max, w) => (w.deleted ? max : Math.max(max, w.end_timestamp)),
         0,
       )
       if (!lastWonAt) lastWonAt = null
@@ -269,13 +269,19 @@ function computeStats(
     allTimeInsights: calculateInsights(giveaways, users, userMap, allGameData, resolver),
     last30DaysInsights: calculateInsights(recentGiveaways, users, userMap, allGameData, resolver),
     last7DaysInsights: calculateInsights(last7DaysGiveaways, users, userMap, allGameData, resolver),
-    luckRankings: calculateLuckRankings(users, allGiveaways, userEntries),
+    luckRankings: calculateLuckRankings(
+      users,
+      allGiveaways.filter(ga => !ga.deleted),
+      userEntries,
+    ),
   }
 }
 
 export default async function Home() {
   const allGiveaways = await getAllGiveaways()
-  const giveaways = allGiveaways.filter(ga => ga.cv_status === 'FULL_CV' && !ga.is_shared && !ga.whitelist)
+  // Deleted giveaways are kept in the data for inspection but must not feed
+  // any dashboard count, leaderboard, or luck ranking.
+  const giveaways = allGiveaways.filter(ga => !ga.deleted && ga.cv_status === 'FULL_CV' && !ga.is_shared && !ga.whitelist)
   const userData = await getAllUsers()
   const exMembersData = await getExMembers()
   const allGameData = await getGameData()

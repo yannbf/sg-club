@@ -491,6 +491,19 @@ export class SteamGiftsUserFetcher {
     user: User,
     giveaways: Giveaway[],
   ): Promise<UserGiveawaysStats> {
+    const giveawayMap = new Map(giveaways.map((g) => [g.link, g]))
+
+    // Deleted giveaways stay in the user's arrays so they remain inspectable,
+    // but they must not count toward any stat. Entries carry `deleted` going
+    // forward; fall back to the full giveaway for data written before the
+    // flag was propagated.
+    const isDeleted = (g: { link: string; deleted?: boolean }) =>
+      g.deleted === true || giveawayMap.get(g.link)?.deleted === true
+    const countingCreated = (user.giveaways_created ?? []).filter(
+      (g) => !isDeleted(g),
+    )
+    const countingWon = (user.giveaways_won ?? []).filter((g) => !isDeleted(g))
+
     const userStats: Omit<
       UserGiveawaysStats,
       | 'total_sent_count'
@@ -521,11 +534,11 @@ export class SteamGiftsUserFetcher {
       giveaways_created: 0,
       giveaways_with_no_entries: 0,
       // Initialize last activity timestamps
-      last_giveaway_created_at: user.giveaways_created?.length
-        ? Math.max(...user.giveaways_created.map((g) => g.created_timestamp))
+      last_giveaway_created_at: countingCreated.length
+        ? Math.max(...countingCreated.map((g) => g.created_timestamp))
         : null,
-      last_giveaway_won_at: user.giveaways_won?.length
-        ? Math.max(...user.giveaways_won.map((g) => g.end_timestamp))
+      last_giveaway_won_at: countingWon.length
+        ? Math.max(...countingWon.map((g) => g.end_timestamp))
         : null,
       first_seen_at: computeFirstSeenAt(user),
     }
@@ -540,8 +553,6 @@ export class SteamGiftsUserFetcher {
         gamePriceMap.set(`sub/${game.package_id}`, game)
       }
     }
-    const giveawayMap = new Map(giveaways.map((g) => [g.link, g]))
-
     const pointsManager = GiveawayPointsManager.getInstance()
     const decreasedRatioCache = new Map<
       string,
@@ -557,15 +568,15 @@ export class SteamGiftsUserFetcher {
     }
 
     // Count sent giveaways by CV status and calculate real values
-    if (user.giveaways_created) {
-      const giveawaysWithNoEntriesCount = user.giveaways_created.filter(
+    if (countingCreated.length) {
+      const giveawaysWithNoEntriesCount = countingCreated.filter(
         (giveaway) => 'had_winners' in giveaway && !giveaway.had_winners,
       ).length
 
-      userStats.giveaways_created = user.giveaways_created.length ?? 0
+      userStats.giveaways_created = countingCreated.length
       userStats.giveaways_with_no_entries = giveawaysWithNoEntriesCount ?? 0
 
-      for (const createdGiveaway of user.giveaways_created) {
+      for (const createdGiveaway of countingCreated) {
         if (!createdGiveaway.had_winners) {
           continue
         }
@@ -645,7 +656,7 @@ export class SteamGiftsUserFetcher {
     // Count received giveaways by CV status and calculate real values
     if (user.giveaways_won) {
       let fcvWonWithoutIPlayedBroWeighted = 0
-      for (const wonGiveaway of user.giveaways_won) {
+      for (const wonGiveaway of countingWon) {
         // Track shared giveaways
         if (wonGiveaway.is_shared) {
           userStats.shared_received_count++
@@ -745,12 +756,11 @@ export class SteamGiftsUserFetcher {
     userStats.giveaway_ratio = round2(userStats.giveaway_ratio ?? 0)
 
     // Calculate achievement percentages
-    const wonGiveawaysWithAchievements =
-      user.giveaways_won?.filter(
-        (g) =>
-          g.steam_play_data?.achievements_percentage !== undefined &&
-          g.steam_play_data?.achievements_percentage !== null,
-      ) || []
+    const wonGiveawaysWithAchievements = countingWon.filter(
+      (g) =>
+        g.steam_play_data?.achievements_percentage !== undefined &&
+        g.steam_play_data?.achievements_percentage !== null,
+    )
 
     if (wonGiveawaysWithAchievements.length > 0) {
       const allAchievementsData = calculateAchievementPercentages(
@@ -1102,6 +1112,12 @@ export class SteamGiftsUserFetcher {
                 end_timestamp: giveaway.end_timestamp,
                 required_play: giveaway.required_play || false,
                 is_shared: giveaway.is_shared || false,
+                // Deleted GAs stay in the array for inspection but are
+                // excluded from every stat in calculateStats.
+                ...(giveaway.deleted && {
+                  deleted: true,
+                  deleted_reason: giveaway.deleted_reason,
+                }),
                 // Preserve existing Steam data if it exists
                 steam_play_data: existingGame?.steam_play_data,
               }
@@ -1155,6 +1171,12 @@ export class SteamGiftsUserFetcher {
             end_timestamp: giveaway.end_timestamp,
             required_play: giveaway.required_play || false,
             is_shared: giveaway.is_shared || false,
+            // Deleted GAs stay in the array for inspection but are
+            // excluded from every stat in calculateStats.
+            ...(giveaway.deleted && {
+              deleted: true,
+              deleted_reason: giveaway.deleted_reason,
+            }),
           }
 
           const giveawayId = giveaway.link.split('/')[0]

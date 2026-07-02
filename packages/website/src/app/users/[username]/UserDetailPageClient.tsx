@@ -33,7 +33,13 @@ import {
 } from '@/components/UnplayedGamesStats'
 import Tooltip from '@/components/Tooltip'
 import { getDeadlineData } from '@/components/DeadlineStatus'
-import { getUserRatio, buildValidFcvLinks, lastValidFcvCreated } from '../util'
+import {
+  getUserRatio,
+  buildValidFcvLinks,
+  buildDeletedGaLinks,
+  isCountedGa,
+  lastValidFcvCreated,
+} from '../util'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { DiscordIcon } from '@/components/icons/DiscordIcon'
@@ -52,6 +58,8 @@ interface Props {
   leavers: GiveawayLeaver[]
   steamIdMap: SteamIdMap
   isExMember?: boolean
+  /** steam_ids of ex-members — distinguishes "(ex member)" from non-group winners. */
+  exMemberIds?: string[]
 }
 
 type UserWarning = {
@@ -297,6 +305,7 @@ export default function UserDetailPageClient({
   leavers,
   steamIdMap,
   isExMember,
+  exMemberIds,
 }: Props) {
   const isAdmin = useIsAdmin()
   const [showOriginalStats, setShowOriginalStats] = useState(false)
@@ -328,20 +337,37 @@ export default function UserDetailPageClient({
       entry.current,
     ]),
   )
+  const exMemberSet = useMemo(
+    () => new Set(exMemberIds ?? []),
+    [exMemberIds],
+  )
 
   const ratio = ratioInfo(user)
 
+  // Deleted giveaways stay visible in the tabs for inspection, but every
+  // count/stat on this page must ignore them.
+  const deletedGaLinks = useMemo(
+    () => buildDeletedGaLinks(giveaways),
+    [giveaways],
+  )
+  const countedWon = (user.giveaways_won || []).filter((g) =>
+    isCountedGa(g, deletedGaLinks),
+  )
+  const countedCreated = (user.giveaways_created || []).filter((g) =>
+    isCountedGa(g, deletedGaLinks),
+  )
+
   const getTotalPlaytime = () =>
-    (user.giveaways_won || []).reduce(
+    countedWon.reduce(
       (total, game) => total + (game.steam_play_data?.playtime_minutes || 0),
       0,
     )
   const getTotalAchievements = () =>
-    (user.giveaways_won || []).reduce(
+    countedWon.reduce(
       (total, game) => total + (game.steam_play_data?.achievements_unlocked || 0),
       0,
     )
-  const getOwnedGames = () => (user.giveaways_won || []).length
+  const getOwnedGames = () => countedWon.length
 
   const realCvRatio =
     user.stats.real_total_received_value === 0
@@ -353,14 +379,10 @@ export default function UserDetailPageClient({
           ).toFixed(2),
         )
 
-  const createdGiveaways = user.giveaways_created
-    ? Object.values(user.giveaways_created).length
-    : 0
-  const ongoingGiveaways = user.giveaways_created
-    ? Object.values(user.giveaways_created).filter(
-        (ga) => ga.end_timestamp > Date.now() / 1000,
-      ).length
-    : 0
+  const createdGiveaways = countedCreated.length
+  const ongoingGiveaways = countedCreated.filter(
+    (ga) => ga.end_timestamp > Date.now() / 1000,
+  ).length
 
   const handleCopyWarningMessage = async () => {
     const message = generateWarningMessage(
@@ -395,10 +417,8 @@ export default function UserDetailPageClient({
   )
   const lastCreatedGiveaway =
     lastValidFcvCreated(user, validFcvLinks) ?? undefined
-  const lastWonGiveaway = user.giveaways_won?.length
-    ? [...user.giveaways_won].sort(
-        (a, b) => b.end_timestamp - a.end_timestamp,
-      )[0]
+  const lastWonGiveaway = countedWon.length
+    ? [...countedWon].sort((a, b) => b.end_timestamp - a.end_timestamp)[0]
     : undefined
 
   return (
@@ -883,9 +903,11 @@ export default function UserDetailPageClient({
           {user.giveaways_won && user.giveaways_won.length > 0 && (
             <TabsTrigger value="won" className="gap-1.5">
               <Trophy className="h-3.5 w-3.5" /> Won
-              <span className="text-xs text-muted-foreground tabular-nums-strict">
-                {user.giveaways_won.length}
-              </span>
+              {countedWon.length > 0 && (
+                <span className="text-xs text-muted-foreground tabular-nums-strict">
+                  {countedWon.length}
+                </span>
+              )}
             </TabsTrigger>
           )}
           <TabsTrigger value="entered" className="gap-1.5">
@@ -911,6 +933,7 @@ export default function UserDetailPageClient({
             giveaways={userGiveaways}
             userAvatars={userAvatars}
             userNames={userNames}
+            exMemberIds={exMemberSet}
             gameData={gameData}
           />
         </TabsContent>

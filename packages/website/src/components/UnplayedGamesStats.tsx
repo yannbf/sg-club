@@ -2,9 +2,11 @@ import { User } from "@/types"
 import Tooltip from "./Tooltip"
 
 export const getUnplayedGamesStats = (user: User) => {
-  if (!user.giveaways_won) return { played: 0, total: 0, percentage: 0 }
-  const total = user.giveaways_won.length
-  const unplayed = user.giveaways_won.filter(game =>
+  // Wins from deleted giveaways don't count toward the play rate.
+  const wins = (user.giveaways_won ?? []).filter(game => !game.deleted)
+  if (wins.length === 0) return { played: 0, total: 0, percentage: 0 }
+  const total = wins.length
+  const unplayed = wins.filter(game =>
     !game.steam_play_data || game.steam_play_data.never_played || game.steam_play_data.has_no_available_stats
   ).length
   const played = total - unplayed
@@ -27,7 +29,7 @@ export function UnplayedGamesStats({ user, size = 'medium' }: { user: User, size
   }
 
   const stats = getUnplayedGamesStats(user);
-  const missingData = user.giveaways_won.some(game => !game.steam_play_data || game.steam_play_data.has_no_available_stats);
+  const missingData = user.giveaways_won.some(game => !game.deleted && (!game.steam_play_data || game.steam_play_data.has_no_available_stats));
   const rateText = stats.total === 0
     ? '0/0 (0%)'
     : `${stats.played}/${stats.total} (${stats.percentage.toFixed(0)}%)`;
