@@ -402,12 +402,14 @@ function LeaderboardRow({
   totalAchievements,
   isCompletion = false,
   minPlaytime = 0,
+  requireReview = false,
 }: {
   p: ChallengeParticipant
   rank: number
   totalAchievements: number
   isCompletion?: boolean
   minPlaytime?: number
+  requireReview?: boolean
 }) {
   // Completion races rank by total achievements unlocked (progress toward 100%);
   // achievement challenges by achievements earned since the start. Playtime is
@@ -491,7 +493,9 @@ function LeaderboardRow({
                 100% ·{' '}
                 {playtimeLeft > 0
                   ? `${fmtMinutes(playtimeLeft)} more play to qualify`
-                  : 'qualifying…'}
+                  : requireReview && !p.wrote_review
+                    ? 'leave a Steam review to qualify'
+                    : 'qualifying…'}
               </span>
             ) : null
           ) : (
@@ -661,6 +665,7 @@ export default function ChallengeClient({
   // `minPlaytimeMinutes` of play logged during the challenge window.
   const isCompletion = data.winType === 'completion'
   const minPlaytime = data.minPlaytimeMinutes ?? 0
+  const requireReview = data.requireReview ?? false
 
   // "Started" semantics differ by challenge kind:
   //  - achievement (clean slate): made progress SINCE the start — challenge-window
@@ -797,6 +802,7 @@ export default function ChallengeClient({
                 {minPlaytime > 0
                   ? ` + play over ${fmtMinutes(minPlaytime)}`
                   : ''}
+                {requireReview ? ' + leave a Steam review' : ''}
               </h2>
               <Badge variant="amber" size="sm">
                 {winners.length} qualified
@@ -813,6 +819,13 @@ export default function ChallengeClient({
                   {' '}
                   <span className="font-medium text-foreground">and</span> logs
                   over {fmtMinutes(minPlaytime)} of play
+                </>
+              ) : null}
+              {requireReview ? (
+                <>
+                  {' '}
+                  <span className="font-medium text-foreground">and</span>{' '}
+                  leaves a Steam review
                 </>
               ) : null}
               {deadlineDisplay
@@ -984,6 +997,7 @@ export default function ChallengeClient({
                   totalAchievements={data.totalAchievements}
                   isCompletion={isCompletion}
                   minPlaytime={minPlaytime}
+                  requireReview={requireReview}
                 />
               ))}
             </div>

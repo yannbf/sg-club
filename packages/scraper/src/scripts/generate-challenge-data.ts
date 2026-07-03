@@ -36,8 +36,10 @@ import { config as loadEnv } from 'dotenv'
  * recorded — an occasionally-private profile can't wipe a qualified member.
  *
  * Re-run regularly with: pnpm --filter scraper challenge
- * Generates every registered challenge by default; pass a data-slug
- * (CHALLENGE=kill_the_crows or `… challenge kill_the_crows`) to run just one.
+ * Generates every non-dormant challenge by default (finished challenges are
+ * marked `dormant` and their data files stay frozen); pass a data-slug
+ * (CHALLENGE=neo_cab or `… challenge neo_cab`) to run just that one, dormant
+ * or not.
  */
 
 const currentDir = dirname(fileURLToPath(import.meta.url))
@@ -81,14 +83,17 @@ interface AchievementWin {
 /**
  * Everyone who reaches 100% of the achievements (whenever — pre-challenge
  * completions count too) AND logs more than `minPlaytimeMinutes` of play during
- * the challenge window wins.
+ * the challenge window (when one is set) AND, when `requireReview` is on, has a
+ * public Steam review for the game, wins.
  */
 interface CompletionWin {
   type: 'completion'
   /** Unix seconds — the end of the challenge window (exclusive). */
   deadline: number
-  /** Minutes of challenge-window playtime required to win (default 0). */
+  /** Minutes of challenge-window playtime required to win (0/omitted = none). */
   minPlaytimeMinutes?: number
+  /** Winning also requires a public Steam review of the game. */
+  requireReview?: boolean
 }
 
 interface ChallengeConfig {
@@ -107,6 +112,12 @@ interface ChallengeConfig {
    */
   roster: 'fixed' | 'open'
   win: AchievementWin | CompletionWin
+  /**
+   * A finished challenge: kept in the registry for the record, but skipped on
+   * normal runs — its data file is frozen as-is and no Steam calls are made.
+   * Passing the challenge's slug explicitly (CHALLENGE=… / CLI arg) still runs it.
+   */
+  dormant?: boolean
 }
 
 /**
@@ -121,6 +132,7 @@ const CHALLENGES: ChallengeConfig[] = [
     gameName: 'Backpack Hero',
     startTimestamp: Date.UTC(2026, 5, 8) / 1000, // midnight 2026-06-08 UTC
     roster: 'fixed',
+    dormant: true, // finished — leaderboard frozen, no more data pulls
     win: {
       type: 'achievement',
       apiname: 'ItemHero',
@@ -143,6 +155,7 @@ const CHALLENGES: ChallengeConfig[] = [
     gameName: 'Kill The Crows',
     startTimestamp: Date.UTC(2026, 5, 11) / 1000, // midnight 2026-06-11 UTC
     roster: 'fixed',
+    dormant: true, // finished — leaderboard frozen, no more data pulls
     win: {
       type: 'completion',
       // Challenge window ends 30 June. The cutoff is nominally July 1 00:00 UTC,
@@ -152,6 +165,23 @@ const CHALLENGES: ChallengeConfig[] = [
       deadline: Date.UTC(2026, 6, 1, 1, 10) / 1000,
       // Winners must also log over 2h of play during the window.
       minPlaytimeMinutes: 120,
+    },
+  },
+  {
+    slug: 'gaming-challenge-3-neo-cab',
+    dataSlug: 'neo_cab',
+    appId: 794540,
+    gameName: 'Neo Cab',
+    startTimestamp: Date.UTC(2026, 6, 3) / 1000, // midnight 2026-07-03 UTC
+    roster: 'fixed',
+    win: {
+      type: 'completion',
+      // Challenge window: July 3 – July 31. The cutoff is Aug 1 00:00 UTC
+      // (exclusive); the site displays the deadline as "31 Jul".
+      deadline: Date.UTC(2026, 7, 1) / 1000,
+      // No playtime floor this time — the mission is 100% completion plus a
+      // Steam review, so pre-challenge completions only need the review.
+      requireReview: true,
     },
   },
 ]
@@ -410,14 +440,16 @@ function achievementWinFields(p: PlayerProgress, config: ChallengeConfig) {
 }
 
 /**
- * Completion-challenge win view. A winner has BOTH: 100% of the achievements
- * (whenever reached — pre-challenge completions count) AND more than the
- * required playtime logged during the challenge window.
+ * Completion-challenge win view. A winner has ALL of: 100% of the achievements
+ * (whenever reached — pre-challenge completions count), more than the required
+ * playtime logged during the challenge window (when a floor is set), and a
+ * public Steam review when the challenge requires one.
  */
 function completionWinFields(
   p: PlayerProgress,
   config: ChallengeConfig,
   playtimeChallengeMinutes: number,
+  wroteReview: boolean,
 ) {
   const win = config.win as CompletionWin
   const start = config.startTimestamp
@@ -443,8 +475,13 @@ function completionWinFields(
   const completedAfterDeadline = Boolean(
     isComplete && completedAt != null && completedAt > win.deadline,
   )
-  const meetsPlaytime = playtimeChallengeMinutes > minPlaytime
-  const isWinner = isComplete && meetsPlaytime && !completedAfterDeadline
+  // No floor (0/omitted) means playtime never gates the win — a member who
+  // completed the game before the challenge shouldn't need to re-play it.
+  const meetsPlaytime =
+    minPlaytime === 0 || playtimeChallengeMinutes > minPlaytime
+  const meetsReview = !win.requireReview || wroteReview
+  const isWinner =
+    isComplete && meetsPlaytime && meetsReview && !completedAfterDeadline
 
   return {
     is_complete: isComplete,
@@ -452,6 +489,7 @@ function completionWinFields(
     completed_before_start: completedBeforeStart,
     completed_after_deadline: completedAfterDeadline,
     meets_playtime: meetsPlaytime,
+    meets_review: meetsReview,
     is_winner: isWinner,
   }
 }
@@ -655,10 +693,16 @@ async function generateChallenge(config: ChallengeConfig): Promise<void> {
         ? p.achievements_unlocked_total > 0 || p.game.total > 0
         : playtimeChallengeMinutes > 0 || achievementsSinceBaseline > 0
 
+    const review = reviewFields(r.steam_id, config.appId, reviews)
     const winFields =
       config.win.type === 'achievement'
         ? achievementWinFields(p, config)
-        : completionWinFields(p, config, playtimeChallengeMinutes)
+        : completionWinFields(
+            p,
+            config,
+            playtimeChallengeMinutes,
+            review.wrote_review,
+          )
 
     participants.push({
       username: r.display_name,
@@ -669,7 +713,7 @@ async function generateChallenge(config: ChallengeConfig): Promise<void> {
       is_guest: r.is_guest,
       owned: p.game.owned,
       stats_available: p.stats_available,
-      ...reviewFields(r.steam_id, config.appId, reviews),
+      ...review,
       playtime_total_minutes: p.game.total,
       playtime_2weeks_minutes: p.game.twoWeeks,
       baseline_playtime_minutes: baseline,
@@ -839,6 +883,7 @@ async function generateChallenge(config: ChallengeConfig): Promise<void> {
   } else {
     output.deadline = config.win.deadline
     output.minPlaytimeMinutes = config.win.minPlaytimeMinutes ?? 0
+    output.requireReview = config.win.requireReview ?? false
     output.winnerUnlocktime =
       (firstWinner as { completed_at?: number | null })?.completed_at ?? null
     output.winnerUsernames = winners.map((w) => w.username)
@@ -866,14 +911,15 @@ async function generateChallenge(config: ChallengeConfig): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  // Optional filter: `CHALLENGE=kill_the_crows` env or first CLI arg. Matches a
-  // challenge's dataSlug or slug. With no filter, generate every challenge.
+  // Optional filter: `CHALLENGE=neo_cab` env or first CLI arg. Matches a
+  // challenge's dataSlug or slug. With no filter, generate every non-dormant
+  // challenge (naming a dormant one explicitly still runs it).
   const filter = (process.env.CHALLENGE || process.argv[2] || '').trim()
   const targets = filter
     ? CHALLENGES.filter(
         (c) => c.dataSlug === filter || c.slug === filter,
       )
-    : CHALLENGES
+    : CHALLENGES.filter((c) => !c.dormant)
   if (filter && targets.length === 0) {
     console.error(
       `❌ No challenge matches "${filter}". Known: ${CHALLENGES.map((c) => c.dataSlug).join(', ')}`,

@@ -279,6 +279,25 @@ export const CHALLENGE_EVENTS: EventMeta[] = [
       'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2441270/header.jpg',
     bannerUrl: '/events/game_challenge_2.png',
     challengeSlug: 'kill-the-crows',
+    // No linger: once Challenge #3 kicked off the crows left "Happening now".
+  },
+  {
+    slug: 'gaming-challenge-3-neo-cab',
+    name: 'Gaming Challenge #3 — Neo Cab',
+    tagline: 'A cyberpunk road trip',
+    description:
+      'Our third community gaming challenge — ready for a cyberpunk road trip? 🚖🌃 This month everyone plays Neo Cab, whether you already own the game or not: we have up to 16 Steam keys available for participants who need one (sign-ups on our Discord server).\n\n' +
+      'The mission: complete Neo Cab 100% and leave a Steam review after finishing the game. That’s it! Estimated playtime is ~4 hours for the main story and ~10–12 hours for 100% completion — plenty of time to finish before July 31st.\n\n' +
+      'Everyone who completes the challenge and submits their review is entered into a giveaway for a €10 Steam Gift Card. Good luck, drivers, and enjoy the ride!',
+    websiteUrl: null,
+    kind: 'challenge',
+    monthly: false,
+    accent: 'var(--accent-yellow)',
+    emoji: '🚖',
+    imageUrl:
+      'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/794540/header.jpg',
+    bannerUrl: '/events/game_challenge_3.png',
+    challengeSlug: 'neo-cab',
     // Keep it highlighted in "Happening now" for a week after the deadline.
     keepLiveForDays: 7,
   },

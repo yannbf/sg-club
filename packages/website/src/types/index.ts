@@ -371,10 +371,15 @@ export interface ChallengeParticipant {
    */
   meets_playtime?: boolean
   /**
+   * Completion challenges: satisfies the review requirement — always true when
+   * the challenge doesn't require a review.
+   */
+  meets_review?: boolean
+  /**
    * A winner. For achievement challenges, the single first to reach the winning
    * achievement (locked once set). For completion challenges, anyone who has
-   * reached 100% (whenever) AND logged the required challenge-window playtime —
-   * there can be many.
+   * reached 100% (whenever) AND met the playtime/review requirements — there
+   * can be many.
    */
   is_winner: boolean
   /** Wrote a public Steam review for the challenge game. */
@@ -434,6 +439,8 @@ export interface ChallengeData {
   deadline?: number | null
   /** Completion challenges: minutes of challenge-window playtime required to win. */
   minPlaytimeMinutes?: number
+  /** Completion challenges: winning also requires a public Steam review. */
+  requireReview?: boolean
   totalAchievements: number
   generatedAt: number
   /** True once the challenge window has closed (deadline passed). */
