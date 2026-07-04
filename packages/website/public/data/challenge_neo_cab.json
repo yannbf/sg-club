@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1783036800,
   "totalAchievements": 18,
-  "generatedAt": 1783179600057,
+  "generatedAt": 1783186426877,
   "challengeOver": false,
   "winnerUsername": "RaitorHaitor",
   "participants": [
@@ -56,16 +56,47 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 120,
-      "playtime_2weeks_minutes": 120,
+      "playtime_total_minutes": 189,
+      "playtime_2weeks_minutes": 189,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 120,
+      "playtime_challenge_minutes": 189,
       "achievements_total": 18,
-      "achievements_unlocked_total": 0,
+      "achievements_unlocked_total": 5,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 0,
-      "challenge_achievements": [],
-      "challenge_achievement_count": 0,
+      "achievements_since_baseline": 5,
+      "challenge_achievements": [
+        {
+          "apiname": "got_feelgrid",
+          "displayName": "Heart on Your Sleeve",
+          "description": "Acquire the Feelgrid",
+          "unlocktime": 1783180310
+        },
+        {
+          "apiname": "star_rating_5",
+          "displayName": "Perfect Rating",
+          "description": "Earn your first 5-star rating",
+          "unlocktime": 1783180310
+        },
+        {
+          "apiname": "star_rating_1",
+          "displayName": "Worst Driver Ever",
+          "description": "Earn your first 1-star rating",
+          "unlocktime": 1783180563
+        },
+        {
+          "apiname": "out_of_coin",
+          "displayName": "Hit Bottom",
+          "description": "Run completeley out of money and fuel",
+          "unlocktime": 1783180593
+        },
+        {
+          "apiname": "night_1",
+          "displayName": "First Night",
+          "description": "Make it through your first night in Los Ojos.",
+          "unlocktime": 1783180617
+        }
+      ],
+      "challenge_achievement_count": 5,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
@@ -89,16 +120,46 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 35,
-      "playtime_2weeks_minutes": 35,
+      "playtime_total_minutes": 161,
+      "playtime_2weeks_minutes": 161,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 35,
+      "playtime_challenge_minutes": 161,
       "achievements_total": 18,
-      "achievements_unlocked_total": 0,
+      "achievements_unlocked_total": 5,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 0,
-      "challenge_achievements": [],
-      "challenge_achievement_count": 0,
+      "achievements_since_baseline": 5,
+      "challenge_achievements": [
+        {
+          "apiname": "night_1",
+          "displayName": "First Night",
+          "description": "Make it through your first night in Los Ojos.",
+          "unlocktime": 1783183558
+        },
+        {
+          "apiname": "find_stanz",
+          "displayName": "Stanzmaschine",
+          "description": "Find the underground night club Savy mentioned.",
+          "unlocktime": 1783183558
+        },
+        {
+          "apiname": "got_feelgrid",
+          "displayName": "Heart on Your Sleeve",
+          "description": "Acquire the Feelgrid",
+          "unlocktime": 1783183558
+        },
+        {
+          "apiname": "puker_face",
+          "displayName": "Puker Face",
+          "unlocktime": 1783183558
+        },
+        {
+          "apiname": "star_rating_5",
+          "displayName": "Perfect Rating",
+          "description": "Earn your first 5-star rating",
+          "unlocktime": 1783183558
+        }
+      ],
+      "challenge_achievement_count": 5,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
@@ -445,8 +506,8 @@
       "avatar_url": "https://avatars.steamstatic.com/64b03317c7c90a0ac0889bf006445ac443249b3f_medium.jpg",
       "profile_url": "https://steamcommunity.com/profiles/76561198017660760",
       "is_guest": false,
-      "owned": false,
-      "stats_available": false,
+      "owned": true,
+      "stats_available": true,
       "wrote_review": false,
       "review_voted_up": null,
       "review_timestamp": null,
@@ -586,6 +647,22 @@
       "review_url": null
     },
     {
+      "username": "TheGr3atUnknown",
+      "steam_id": "76561198048238310",
+      "avatar_url": "https://avatars.steamstatic.com/ad68a140244a4c0f85d210c48180c92d302bc17c_medium.jpg",
+      "profile_url": "https://steamcommunity.com/profiles/76561198048238310",
+      "playtime_total_minutes": 91,
+      "playtime_2weeks_minutes": 91,
+      "achievements_unlocked_total": 7,
+      "achievements_total": 18,
+      "challenge_achievement_count": 7,
+      "wrote_review": false,
+      "review_voted_up": null,
+      "review_timestamp": null,
+      "review_recommendationid": null,
+      "review_url": null
+    },
+    {
       "username": "MedinaRoscoe",
       "steam_id": "76561198010863049",
       "avatar_url": "https://avatars.steamstatic.com/208052ec3256fa1aeaebf20356b9d887611fece2_medium.jpg",
@@ -611,22 +688,6 @@
       "achievements_unlocked_total": 5,
       "achievements_total": 18,
       "challenge_achievement_count": 0,
-      "wrote_review": false,
-      "review_voted_up": null,
-      "review_timestamp": null,
-      "review_recommendationid": null,
-      "review_url": null
-    },
-    {
-      "username": "TheGr3atUnknown",
-      "steam_id": "76561198048238310",
-      "avatar_url": "https://avatars.steamstatic.com/ad68a140244a4c0f85d210c48180c92d302bc17c_medium.jpg",
-      "profile_url": "https://steamcommunity.com/profiles/76561198048238310",
-      "playtime_total_minutes": 42,
-      "playtime_2weeks_minutes": 42,
-      "achievements_unlocked_total": 2,
-      "achievements_total": 18,
-      "challenge_achievement_count": 2,
       "wrote_review": false,
       "review_voted_up": null,
       "review_timestamp": null,
