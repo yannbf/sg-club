@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1783036800,
   "totalAchievements": 18,
-  "generatedAt": 1783186426877,
+  "generatedAt": 1783194223982,
   "challengeOver": false,
   "winnerUsername": "RaitorHaitor",
   "participants": [
@@ -41,6 +41,69 @@
       "meets_playtime": true,
       "meets_review": true,
       "is_winner": true
+    },
+    {
+      "username": "aez76",
+      "sg_username": "aez76",
+      "steam_id": "76561198053065013",
+      "avatar_url": "https://avatars.steamstatic.com/b5eae171031d9da84f7a3320ee1c73df6f0cbce1_medium.jpg",
+      "profile_url": "https://steamcommunity.com/profiles/76561198053065013",
+      "is_guest": false,
+      "owned": true,
+      "stats_available": true,
+      "wrote_review": false,
+      "review_voted_up": null,
+      "review_timestamp": null,
+      "review_recommendationid": null,
+      "review_url": null,
+      "playtime_total_minutes": 281,
+      "playtime_2weeks_minutes": 281,
+      "baseline_playtime_minutes": 0,
+      "playtime_challenge_minutes": 281,
+      "achievements_total": 18,
+      "achievements_unlocked_total": 5,
+      "achievements_before_challenge": 0,
+      "achievements_since_baseline": 5,
+      "challenge_achievements": [
+        {
+          "apiname": "night_1",
+          "displayName": "First Night",
+          "description": "Make it through your first night in Los Ojos.",
+          "unlocktime": 1783183558
+        },
+        {
+          "apiname": "find_stanz",
+          "displayName": "Stanzmaschine",
+          "description": "Find the underground night club Savy mentioned.",
+          "unlocktime": 1783183558
+        },
+        {
+          "apiname": "got_feelgrid",
+          "displayName": "Heart on Your Sleeve",
+          "description": "Acquire the Feelgrid",
+          "unlocktime": 1783183558
+        },
+        {
+          "apiname": "puker_face",
+          "displayName": "Puker Face",
+          "unlocktime": 1783183558
+        },
+        {
+          "apiname": "star_rating_5",
+          "displayName": "Perfect Rating",
+          "description": "Earn your first 5-star rating",
+          "unlocktime": 1783183558
+        }
+      ],
+      "challenge_achievement_count": 5,
+      "has_started": true,
+      "is_complete": false,
+      "completed_at": null,
+      "completed_before_start": false,
+      "completed_after_deadline": false,
+      "meets_playtime": true,
+      "meets_review": false,
+      "is_winner": false
     },
     {
       "username": "yugimax",
@@ -94,69 +157,6 @@
           "displayName": "First Night",
           "description": "Make it through your first night in Los Ojos.",
           "unlocktime": 1783180617
-        }
-      ],
-      "challenge_achievement_count": 5,
-      "has_started": true,
-      "is_complete": false,
-      "completed_at": null,
-      "completed_before_start": false,
-      "completed_after_deadline": false,
-      "meets_playtime": true,
-      "meets_review": false,
-      "is_winner": false
-    },
-    {
-      "username": "aez76",
-      "sg_username": "aez76",
-      "steam_id": "76561198053065013",
-      "avatar_url": "https://avatars.steamstatic.com/b5eae171031d9da84f7a3320ee1c73df6f0cbce1_medium.jpg",
-      "profile_url": "https://steamcommunity.com/profiles/76561198053065013",
-      "is_guest": false,
-      "owned": true,
-      "stats_available": true,
-      "wrote_review": false,
-      "review_voted_up": null,
-      "review_timestamp": null,
-      "review_recommendationid": null,
-      "review_url": null,
-      "playtime_total_minutes": 161,
-      "playtime_2weeks_minutes": 161,
-      "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 161,
-      "achievements_total": 18,
-      "achievements_unlocked_total": 5,
-      "achievements_before_challenge": 0,
-      "achievements_since_baseline": 5,
-      "challenge_achievements": [
-        {
-          "apiname": "night_1",
-          "displayName": "First Night",
-          "description": "Make it through your first night in Los Ojos.",
-          "unlocktime": 1783183558
-        },
-        {
-          "apiname": "find_stanz",
-          "displayName": "Stanzmaschine",
-          "description": "Find the underground night club Savy mentioned.",
-          "unlocktime": 1783183558
-        },
-        {
-          "apiname": "got_feelgrid",
-          "displayName": "Heart on Your Sleeve",
-          "description": "Acquire the Feelgrid",
-          "unlocktime": 1783183558
-        },
-        {
-          "apiname": "puker_face",
-          "displayName": "Puker Face",
-          "unlocktime": 1783183558
-        },
-        {
-          "apiname": "star_rating_5",
-          "displayName": "Perfect Rating",
-          "description": "Earn your first 5-star rating",
-          "unlocktime": 1783183558
         }
       ],
       "challenge_achievement_count": 5,
@@ -651,8 +651,8 @@
       "steam_id": "76561198048238310",
       "avatar_url": "https://avatars.steamstatic.com/ad68a140244a4c0f85d210c48180c92d302bc17c_medium.jpg",
       "profile_url": "https://steamcommunity.com/profiles/76561198048238310",
-      "playtime_total_minutes": 91,
-      "playtime_2weeks_minutes": 91,
+      "playtime_total_minutes": 126,
+      "playtime_2weeks_minutes": 126,
       "achievements_unlocked_total": 7,
       "achievements_total": 18,
       "challenge_achievement_count": 7,
