@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1783036800,
   "totalAchievements": 18,
-  "generatedAt": 1783200423346,
+  "generatedAt": 1783207787736,
   "challengeOver": false,
   "winnerUsername": "RaitorHaitor",
   "participants": [
@@ -56,14 +56,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 371,
-      "playtime_2weeks_minutes": 394,
+      "playtime_total_minutes": 453,
+      "playtime_2weeks_minutes": 453,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 371,
+      "playtime_challenge_minutes": 453,
       "achievements_total": 18,
-      "achievements_unlocked_total": 5,
+      "achievements_unlocked_total": 8,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 5,
+      "achievements_since_baseline": 8,
       "challenge_achievements": [
         {
           "apiname": "night_1",
@@ -93,9 +93,25 @@
           "displayName": "Perfect Rating",
           "description": "Earn your first 5-star rating",
           "unlocktime": 1783183558
+        },
+        {
+          "apiname": "charlie_reveal",
+          "displayName": "Playing both sides",
+          "unlocktime": 1783205749
+        },
+        {
+          "apiname": "star_rating_1",
+          "displayName": "Worst Driver Ever",
+          "description": "Earn your first 1-star rating",
+          "unlocktime": 1783205749
+        },
+        {
+          "apiname": "free_gideon",
+          "displayName": "Get Free",
+          "unlocktime": 1783205749
         }
       ],
-      "challenge_achievement_count": 5,
+      "challenge_achievement_count": 8,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
@@ -695,6 +711,22 @@
       "review_url": null
     },
     {
+      "username": "Mahry",
+      "steam_id": "76561198117390871",
+      "avatar_url": "https://avatars.steamstatic.com/177005b70e974b0719b5b07734d15468c7bcfa21_medium.jpg",
+      "profile_url": "https://steamcommunity.com/profiles/76561198117390871",
+      "playtime_total_minutes": 73,
+      "playtime_2weeks_minutes": 73,
+      "achievements_unlocked_total": 3,
+      "achievements_total": 18,
+      "challenge_achievement_count": 3,
+      "wrote_review": false,
+      "review_voted_up": null,
+      "review_timestamp": null,
+      "review_recommendationid": null,
+      "review_url": null
+    },
+    {
       "username": "LieEater",
       "steam_id": "76561198067727574",
       "avatar_url": "https://avatars.steamstatic.com/c86c6e9e4c442122a6cd5ee2159788a8ba77c527_medium.jpg",
@@ -734,22 +766,6 @@
       "playtime_total_minutes": 11,
       "playtime_2weeks_minutes": 0,
       "achievements_unlocked_total": 1,
-      "achievements_total": 18,
-      "challenge_achievement_count": 0,
-      "wrote_review": false,
-      "review_voted_up": null,
-      "review_timestamp": null,
-      "review_recommendationid": null,
-      "review_url": null
-    },
-    {
-      "username": "Mahry",
-      "steam_id": "76561198117390871",
-      "avatar_url": "https://avatars.steamstatic.com/177005b70e974b0719b5b07734d15468c7bcfa21_medium.jpg",
-      "profile_url": "https://steamcommunity.com/profiles/76561198117390871",
-      "playtime_total_minutes": 30,
-      "playtime_2weeks_minutes": 30,
-      "achievements_unlocked_total": 0,
       "achievements_total": 18,
       "challenge_achievement_count": 0,
       "wrote_review": false,
