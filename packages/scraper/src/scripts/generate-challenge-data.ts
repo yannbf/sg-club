@@ -37,9 +37,10 @@ import { config as loadEnv } from 'dotenv'
  *
  * Re-run regularly with: pnpm --filter scraper challenge
  * Generates every non-dormant challenge by default (finished challenges are
- * marked `dormant` and their data files stay frozen); pass a data-slug
+ * marked `dormant` and refresh on a slower cadence); pass a data-slug
  * (CHALLENGE=neo_cab or `… challenge neo_cab`) to run just that one, dormant
- * or not.
+ * or not, or set INCLUDE_DORMANT=true to refresh everything (the biweekly CI
+ * run).
  */
 
 const currentDir = dirname(fileURLToPath(import.meta.url))
@@ -113,9 +114,9 @@ interface ChallengeConfig {
   roster: 'fixed' | 'open'
   win: AchievementWin | CompletionWin
   /**
-   * A finished challenge: kept in the registry for the record, but skipped on
-   * normal runs — its data file is frozen as-is and no Steam calls are made.
-   * Passing the challenge's slug explicitly (CHALLENGE=… / CLI arg) still runs it.
+   * A finished challenge: skipped on normal (hourly) runs so no Steam calls
+   * are made for it; refreshed only by the biweekly INCLUDE_DORMANT=true run.
+   * Passing the challenge's slug explicitly (CHALLENGE=… / CLI arg) also runs it.
    */
   dormant?: boolean
 }
@@ -913,13 +914,15 @@ async function generateChallenge(config: ChallengeConfig): Promise<void> {
 async function main(): Promise<void> {
   // Optional filter: `CHALLENGE=neo_cab` env or first CLI arg. Matches a
   // challenge's dataSlug or slug. With no filter, generate every non-dormant
-  // challenge (naming a dormant one explicitly still runs it).
+  // challenge — or every challenge when INCLUDE_DORMANT=true (the biweekly CI
+  // refresh). Naming a dormant challenge explicitly also runs it.
   const filter = (process.env.CHALLENGE || process.argv[2] || '').trim()
+  const includeDormant = process.env.INCLUDE_DORMANT === 'true'
   const targets = filter
     ? CHALLENGES.filter(
         (c) => c.dataSlug === filter || c.slug === filter,
       )
-    : CHALLENGES.filter((c) => !c.dormant)
+    : CHALLENGES.filter((c) => includeDormant || !c.dormant)
   if (filter && targets.length === 0) {
     console.error(
       `❌ No challenge matches "${filter}". Known: ${CHALLENGES.map((c) => c.dataSlug).join(', ')}`,

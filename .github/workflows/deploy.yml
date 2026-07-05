@@ -9,10 +9,14 @@ name: Update Website and Playtime Data
 #                                    mode=daily, 45-min budget cap.
 #                                    Refreshes every win older than 1
 #                                    day so stats stay current.
-#   • Twice daily 06:00 + 18:00 UTC → group wishlist scrape, isolated
+#   • 1st + 15th, 06:15 UTC        → group wishlist scrape (≈ every 2
+#                                    weeks, to save compute), isolated
 #                                    so it doesn't run alongside the
 #                                    giveaway scraper which is the
 #                                    other heavy SG endpoint.
+#   • 1st + 15th, 06:40 UTC        → full challenge refresh including
+#                                    dormant (finished) challenges; the
+#                                    hourly run covers active ones only.
 #
 # Projections (146 users × ~1875 wins, ~1.3 s/win observed locally):
 #   • Full daily refresh: ~1700 calls, ≈ 37 min wallclock
@@ -33,8 +37,9 @@ on:
   schedule:
     - cron: '15 0,8,16 * * *'  # website data, every 8 hours
     - cron: '30 1 * * *'       # playtime data, daily
-    - cron: '15 6,18 * * *'    # wishlist, twice daily, off-peak
-    - cron: '25 * * * *'       # gaming challenge leaderboard, every hour
+    - cron: '15 6 1,15 * *'    # wishlist, 1st + 15th of the month (~biweekly)
+    - cron: '25 * * * *'       # gaming challenge leaderboard (active), hourly
+    - cron: '40 6 1,15 * *'    # all challenges incl. dormant (~biweekly)
   workflow_dispatch:
     inputs:
       job:
@@ -117,7 +122,7 @@ jobs:
 
   wishlist:
     if: |
-      github.event.schedule == '15 6,18 * * *' ||
+      github.event.schedule == '15 6 1,15 * *' ||
       (github.event_name == 'workflow_dispatch' && github.event.inputs.job == 'wishlist')
     runs-on: ubuntu-latest
     # ~40 pages × 2.5s + room for 5 retries × up to 480s back-off ≈ 25 min
@@ -249,16 +254,21 @@ jobs:
           fi
 
   challenge:
-    # Refreshes every gaming-challenge leaderboard (Backpack Hero, Kill The
-    # Crows, …) in one run. Light (a few hundred Steam calls total), so it can
-    # run hourly on its own cron and stay clear of the SteamGifts-heavy jobs.
+    # Refreshes the gaming-challenge leaderboards. The hourly cron covers only
+    # ACTIVE challenges (dormant/finished ones are skipped by the generator);
+    # the 1st/15th cron re-runs everything including dormant challenges so
+    # their review/playtime stats don't go permanently stale. Light (a few
+    # hundred Steam calls total), so it stays clear of the SteamGifts-heavy jobs.
     if: |
       github.event.schedule == '25 * * * *' ||
+      github.event.schedule == '40 6 1,15 * *' ||
       (github.event_name == 'workflow_dispatch' && github.event.inputs.job == 'challenge')
     runs-on: ubuntu-latest
     timeout-minutes: 20
     env:
       STEAM_API_KEY: ${{ secrets.STEAM_API_KEY }}
+      # The biweekly schedule refreshes dormant (finished) challenges too.
+      INCLUDE_DORMANT: ${{ github.event.schedule == '40 6 1,15 * *' && 'true' || 'false' }}
 
     steps:
       - name: Checkout repository
