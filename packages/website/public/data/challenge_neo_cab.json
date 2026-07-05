@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1783036800,
   "totalAchievements": 18,
-  "generatedAt": 1783226328141,
+  "generatedAt": 1783239894076,
   "challengeOver": false,
   "winnerUsername": "RaitorHaitor",
   "participants": [
@@ -56,14 +56,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 453,
-      "playtime_2weeks_minutes": 453,
+      "playtime_total_minutes": 559,
+      "playtime_2weeks_minutes": 559,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 453,
+      "playtime_challenge_minutes": 559,
       "achievements_total": 18,
-      "achievements_unlocked_total": 8,
+      "achievements_unlocked_total": 10,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 8,
+      "achievements_since_baseline": 10,
       "challenge_achievements": [
         {
           "apiname": "night_1",
@@ -109,9 +109,19 @@
           "apiname": "free_gideon",
           "displayName": "Get Free",
           "unlocktime": 1783205749
+        },
+        {
+          "apiname": "win_boss_battle",
+          "displayName": "Emotional victory",
+          "unlocktime": 1783238925
+        },
+        {
+          "apiname": "leak_capra",
+          "displayName": "Capra Leaks",
+          "unlocktime": 1783238925
         }
       ],
-      "challenge_achievement_count": 8,
+      "challenge_achievement_count": 10,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
