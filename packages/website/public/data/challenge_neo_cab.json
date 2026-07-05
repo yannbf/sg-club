@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1783036800,
   "totalAchievements": 18,
-  "generatedAt": 1783263487830,
+  "generatedAt": 1783269186496,
   "challengeOver": false,
   "winnerUsername": "RaitorHaitor",
   "participants": [
@@ -57,7 +57,7 @@
       "review_recommendationid": null,
       "review_url": null,
       "playtime_total_minutes": 559,
-      "playtime_2weeks_minutes": 559,
+      "playtime_2weeks_minutes": 567,
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 559,
       "achievements_total": 18,
@@ -145,14 +145,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 126,
-      "playtime_2weeks_minutes": 126,
+      "playtime_total_minutes": 191,
+      "playtime_2weeks_minutes": 191,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 126,
+      "playtime_challenge_minutes": 191,
       "achievements_total": 18,
-      "achievements_unlocked_total": 7,
+      "achievements_unlocked_total": 8,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 7,
+      "achievements_since_baseline": 8,
       "challenge_achievements": [
         {
           "apiname": "got_feelgrid",
@@ -193,9 +193,15 @@
           "apiname": "no_bribe",
           "displayName": "No, Officer",
           "unlocktime": 1783183598
+        },
+        {
+          "apiname": "solve_carlos_mystery",
+          "displayName": "It's Never Lupus",
+          "description": "Solve a medical mystery with Carlos.",
+          "unlocktime": 1783266614
         }
       ],
-      "challenge_achievement_count": 7,
+      "challenge_achievement_count": 8,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
