@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1783341154695,
+  "lastUpdated": 1783363209653,
   "users": {
     "76561198359284432": {
       "username": "a10i",
@@ -747,7 +747,7 @@
           "name": "LEGO Batman: Legacy of the Dark Knight",
           "link": "RPgih/lego-batman-legacy-of-the-dark-knight",
           "cv_status": "FULL_CV",
-          "entries": 28,
+          "entries": 29,
           "copies": 1,
           "created_timestamp": 1783196593,
           "end_timestamp": 1783547940,
@@ -2126,7 +2126,7 @@
           "name": "AI.VI",
           "link": "Tg7xE/aivi",
           "cv_status": "FULL_CV",
-          "entries": 4,
+          "entries": 5,
           "copies": 1,
           "created_timestamp": 1783056118,
           "end_timestamp": 1783404960,
@@ -2482,7 +2482,10 @@
           ]
         }
       ],
-      "registered_at": 1461156254
+      "registered_at": 1461156254,
+      "warnings": [
+        "no_giveaway_created_in_6_months"
+      ]
     },
     "76561197960948034": {
       "username": "Arouet",
@@ -20234,7 +20237,7 @@
           "name": "Cronos: The New Dawn",
           "link": "hVKLt/cronos-the-new-dawn",
           "cv_status": "FULL_CV",
-          "entries": 63,
+          "entries": 69,
           "copies": 1,
           "created_timestamp": 1783186613,
           "end_timestamp": 1783382400,
@@ -20245,7 +20248,7 @@
           "name": "Everything is Crab: The Animal Evolut...",
           "link": "KLYga/everything-is-crab-the-animal-evolution-roguelite",
           "cv_status": "FULL_CV",
-          "entries": 39,
+          "entries": 42,
           "copies": 1,
           "created_timestamp": 1783185576,
           "end_timestamp": 1783382400,
@@ -52655,7 +52658,7 @@
           "name": "Sorcery! Part 3",
           "link": "qCfFc/sorcery-part-3",
           "cv_status": "REDUCED_CV",
-          "entries": 24,
+          "entries": 25,
           "copies": 1,
           "created_timestamp": 1783205013,
           "end_timestamp": 1783828800,
@@ -64275,7 +64278,7 @@
           "name": "Chorus",
           "link": "st3PD/chorus",
           "cv_status": "REDUCED_CV",
-          "entries": 13,
+          "entries": 15,
           "copies": 1,
           "created_timestamp": 1783292167,
           "end_timestamp": 1783458000,
@@ -64286,7 +64289,7 @@
           "name": "The Last Campfire",
           "link": "cvi6B/the-last-campfire",
           "cv_status": "REDUCED_CV",
-          "entries": 10,
+          "entries": 12,
           "copies": 1,
           "created_timestamp": 1783292049,
           "end_timestamp": 1783458000,
@@ -67491,7 +67494,7 @@
           "name": "Last Stop",
           "link": "1Gi5g/last-stop",
           "cv_status": "FULL_CV",
-          "entries": 25,
+          "entries": 27,
           "copies": 1,
           "created_timestamp": 1783277882,
           "end_timestamp": 1783698780,
@@ -67502,7 +67505,7 @@
           "name": "The Artful Escape",
           "link": "Mtl6q/the-artful-escape",
           "cv_status": "FULL_CV",
-          "entries": 28,
+          "entries": 32,
           "copies": 1,
           "created_timestamp": 1783278034,
           "end_timestamp": 1783699080,
@@ -69781,9 +69784,9 @@
         "giveaway_ratio": 7.33,
         "shared_sent_count": 1,
         "shared_received_count": 2,
-        "giveaways_created": 10,
+        "giveaways_created": 11,
         "giveaways_with_no_entries": 0,
-        "last_giveaway_created_at": 1772399135,
+        "last_giveaway_created_at": 1783349063,
         "last_giveaway_won_at": 1783255680,
         "first_seen_at": 1755078056,
         "total_achievements_percentage": 16,
@@ -70024,6 +70027,17 @@
         }
       ],
       "giveaways_created": [
+        {
+          "name": "Still Wakes the Deep",
+          "link": "prMfA/still-wakes-the-deep",
+          "cv_status": "FULL_CV",
+          "entries": 3,
+          "copies": 1,
+          "created_timestamp": 1783349063,
+          "end_timestamp": 1783782120,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "Alone in the Dark",
           "link": "aAoPl/alone-in-the-dark",
@@ -96030,7 +96044,7 @@
           "name": "Mass Effect: Andromeda Deluxe Edition",
           "link": "Zs7uO/mass-effect-andromeda-deluxe-edition",
           "cv_status": "FULL_CV",
-          "entries": 56,
+          "entries": 61,
           "copies": 1,
           "created_timestamp": 1783233934,
           "end_timestamp": 1783364100,
