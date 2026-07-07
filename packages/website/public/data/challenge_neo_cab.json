@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1783036800,
   "totalAchievements": 18,
-  "generatedAt": 1783445641045,
+  "generatedAt": 1783455756375,
   "challengeOver": false,
   "winnerUsername": "RaitorHaitor",
   "participants": [
@@ -24,7 +24,7 @@
       "review_recommendationid": "228683868",
       "review_url": "https://steamcommunity.com/profiles/76561198411996697/recommended/794540",
       "playtime_total_minutes": 484,
-      "playtime_2weeks_minutes": 244,
+      "playtime_2weeks_minutes": 75,
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 484,
       "achievements_total": 18,
@@ -184,11 +184,11 @@
       "is_guest": false,
       "owned": true,
       "stats_available": true,
-      "wrote_review": false,
-      "review_voted_up": null,
-      "review_timestamp": null,
-      "review_recommendationid": null,
-      "review_url": null,
+      "wrote_review": true,
+      "review_voted_up": true,
+      "review_timestamp": 1783445810,
+      "review_recommendationid": "229868159",
+      "review_url": "https://steamcommunity.com/profiles/76561198352113526/recommended/794540",
       "playtime_total_minutes": 681,
       "playtime_2weeks_minutes": 681,
       "baseline_playtime_minutes": 0,
@@ -305,8 +305,8 @@
       "completed_before_start": false,
       "completed_after_deadline": false,
       "meets_playtime": true,
-      "meets_review": false,
-      "is_winner": false
+      "meets_review": true,
+      "is_winner": true
     },
     {
       "username": "TheGr3atUnknown",
@@ -322,14 +322,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 397,
-      "playtime_2weeks_minutes": 397,
+      "playtime_total_minutes": 419,
+      "playtime_2weeks_minutes": 419,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 397,
+      "playtime_challenge_minutes": 419,
       "achievements_total": 18,
-      "achievements_unlocked_total": 17,
+      "achievements_unlocked_total": 18,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 17,
+      "achievements_since_baseline": 18,
       "challenge_achievements": [
         {
           "apiname": "got_feelgrid",
@@ -424,12 +424,17 @@
           "displayName": "Pink Slip",
           "description": "Get fired by Neo Cab for sustaining an imperfect rating.",
           "unlocktime": 1783422192
+        },
+        {
+          "apiname": "savy_reaches_out",
+          "displayName": "Text Me Back!",
+          "unlocktime": 1783449203
         }
       ],
-      "challenge_achievement_count": 17,
+      "challenge_achievement_count": 18,
       "has_started": true,
-      "is_complete": false,
-      "completed_at": null,
+      "is_complete": true,
+      "completed_at": 1783449203,
       "completed_before_start": false,
       "completed_after_deadline": false,
       "meets_playtime": true,
@@ -450,10 +455,10 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 612,
-      "playtime_2weeks_minutes": 612,
+      "playtime_total_minutes": 672,
+      "playtime_2weeks_minutes": 672,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 612,
+      "playtime_challenge_minutes": 672,
       "achievements_total": 18,
       "achievements_unlocked_total": 15,
       "achievements_before_challenge": 0,
@@ -1928,7 +1933,8 @@
   "winnerUnlocktime": 1782248873,
   "winnerUsernames": [
     "RaitorHaitor",
-    "aez76"
+    "aez76",
+    "yugimax"
   ],
   "roster": {
     "participants": [
