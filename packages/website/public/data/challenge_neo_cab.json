@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1783036800,
   "totalAchievements": 18,
-  "generatedAt": 1783512104194,
+  "generatedAt": 1783522000666,
   "challengeOver": false,
   "winnerUsername": "RaitorHaitor",
   "participants": [
@@ -322,10 +322,10 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 425,
-      "playtime_2weeks_minutes": 425,
+      "playtime_total_minutes": 485,
+      "playtime_2weeks_minutes": 485,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 425,
+      "playtime_challenge_minutes": 485,
       "achievements_total": 18,
       "achievements_unlocked_total": 18,
       "achievements_before_challenge": 0,
@@ -455,10 +455,10 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 834,
-      "playtime_2weeks_minutes": 834,
+      "playtime_total_minutes": 933,
+      "playtime_2weeks_minutes": 933,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 834,
+      "playtime_challenge_minutes": 933,
       "achievements_total": 18,
       "achievements_unlocked_total": 17,
       "achievements_before_challenge": 0,
@@ -560,6 +560,97 @@
         }
       ],
       "challenge_achievement_count": 17,
+      "has_started": true,
+      "is_complete": false,
+      "completed_at": null,
+      "completed_before_start": false,
+      "completed_after_deadline": false,
+      "meets_playtime": true,
+      "meets_review": false,
+      "is_winner": false
+    },
+    {
+      "username": "SoullessSoup",
+      "sg_username": "SoullessSoup",
+      "steam_id": "76561197991280042",
+      "avatar_url": "https://avatars.steamstatic.com/41c49b1521e2b5d011dffdc9fd57962f95c53298_medium.jpg",
+      "profile_url": "https://steamcommunity.com/profiles/76561197991280042",
+      "is_guest": false,
+      "owned": true,
+      "stats_available": true,
+      "wrote_review": false,
+      "review_voted_up": null,
+      "review_timestamp": null,
+      "review_recommendationid": null,
+      "review_url": null,
+      "playtime_total_minutes": 96,
+      "playtime_2weeks_minutes": 96,
+      "baseline_playtime_minutes": 0,
+      "playtime_challenge_minutes": 96,
+      "achievements_total": 18,
+      "achievements_unlocked_total": 10,
+      "achievements_before_challenge": 0,
+      "achievements_since_baseline": 10,
+      "challenge_achievements": [
+        {
+          "apiname": "got_feelgrid",
+          "displayName": "Heart on Your Sleeve",
+          "description": "Acquire the Feelgrid",
+          "unlocktime": 1783359121
+        },
+        {
+          "apiname": "star_rating_5",
+          "displayName": "Perfect Rating",
+          "description": "Earn your first 5-star rating",
+          "unlocktime": 1783359121
+        },
+        {
+          "apiname": "night_1",
+          "displayName": "First Night",
+          "description": "Make it through your first night in Los Ojos.",
+          "unlocktime": 1783515846
+        },
+        {
+          "apiname": "find_stanz",
+          "displayName": "Stanzmaschine",
+          "description": "Find the underground night club Savy mentioned.",
+          "unlocktime": 1783515846
+        },
+        {
+          "apiname": "puker_face",
+          "displayName": "Puker Face",
+          "unlocktime": 1783515846
+        },
+        {
+          "apiname": "star_rating_1",
+          "displayName": "Worst Driver Ever",
+          "description": "Earn your first 1-star rating",
+          "unlocktime": 1783515846
+        },
+        {
+          "apiname": "out_of_coin",
+          "displayName": "Hit Bottom",
+          "description": "Run completeley out of money and fuel",
+          "unlocktime": 1783515846
+        },
+        {
+          "apiname": "no_bribe",
+          "displayName": "No, Officer",
+          "unlocktime": 1783515846
+        },
+        {
+          "apiname": "early_termination",
+          "displayName": "Pink Slip",
+          "description": "Get fired by Neo Cab for sustaining an imperfect rating.",
+          "unlocktime": 1783515846
+        },
+        {
+          "apiname": "free_gideon",
+          "displayName": "Get Free",
+          "unlocktime": 1783516198
+        }
+      ],
+      "challenge_achievement_count": 10,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
@@ -741,52 +832,6 @@
           "displayName": "Perfect Rating",
           "description": "Earn your first 5-star rating",
           "unlocktime": 1783293546
-        }
-      ],
-      "challenge_achievement_count": 2,
-      "has_started": true,
-      "is_complete": false,
-      "completed_at": null,
-      "completed_before_start": false,
-      "completed_after_deadline": false,
-      "meets_playtime": true,
-      "meets_review": false,
-      "is_winner": false
-    },
-    {
-      "username": "SoullessSoup",
-      "sg_username": "SoullessSoup",
-      "steam_id": "76561197991280042",
-      "avatar_url": "https://avatars.steamstatic.com/41c49b1521e2b5d011dffdc9fd57962f95c53298_medium.jpg",
-      "profile_url": "https://steamcommunity.com/profiles/76561197991280042",
-      "is_guest": false,
-      "owned": true,
-      "stats_available": true,
-      "wrote_review": false,
-      "review_voted_up": null,
-      "review_timestamp": null,
-      "review_recommendationid": null,
-      "review_url": null,
-      "playtime_total_minutes": 35,
-      "playtime_2weeks_minutes": 35,
-      "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 35,
-      "achievements_total": 18,
-      "achievements_unlocked_total": 2,
-      "achievements_before_challenge": 0,
-      "achievements_since_baseline": 2,
-      "challenge_achievements": [
-        {
-          "apiname": "got_feelgrid",
-          "displayName": "Heart on Your Sleeve",
-          "description": "Acquire the Feelgrid",
-          "unlocktime": 1783359121
-        },
-        {
-          "apiname": "star_rating_5",
-          "displayName": "Perfect Rating",
-          "description": "Earn your first 5-star rating",
-          "unlocktime": 1783359121
         }
       ],
       "challenge_achievement_count": 2,
