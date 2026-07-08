@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1783507797185,
+  "lastUpdated": 1783534234848,
   "users": {
     "76561198359284432": {
       "username": "a10i",
@@ -20269,7 +20269,7 @@
           "name": "VOIN",
           "link": "Q3r2X/voin",
           "cv_status": "FULL_CV",
-          "entries": 17,
+          "entries": 18,
           "copies": 1,
           "created_timestamp": 1783450826,
           "end_timestamp": 1783742340,
@@ -52826,7 +52826,7 @@
           "name": "Pumpkin Jack",
           "link": "NTnbk/pumpkin-jack",
           "cv_status": "REDUCED_CV",
-          "entries": 19,
+          "entries": 20,
           "copies": 1,
           "created_timestamp": 1783171391,
           "end_timestamp": 1783742400,
@@ -62873,12 +62873,12 @@
       "avatar_url": "https://avatars.steamstatic.com/7f18eae81841c2417e42926d28a153f8a8110d7c_medium.jpg",
       "steam_id": "76561198444468770",
       "stats": {
-        "total_sent_count": 66.8,
-        "total_sent_value": 1239.38,
+        "total_sent_count": 67.1,
+        "total_sent_value": 1243.12,
         "total_received_count": 72.7,
         "total_received_value": 1193.04,
-        "total_gift_difference": -5.9,
-        "total_value_difference": 46.34,
+        "total_gift_difference": -5.6,
+        "total_value_difference": 50.08,
         "fcv_sent_count": 59,
         "rcv_sent_count": 1,
         "ncv_sent_count": 0,
@@ -62893,7 +62893,7 @@
         "real_total_received_count": 68,
         "real_total_gift_difference": -9,
         "giveaway_ratio": 36.33,
-        "shared_sent_count": 23,
+        "shared_sent_count": 24,
         "shared_received_count": 5,
         "giveaways_created": 77,
         "giveaways_with_no_entries": 13,
@@ -64486,9 +64486,10 @@
           "had_winners": true,
           "winners": [
             {
-              "name": null,
-              "status": "awaiting_feedback",
-              "activated": false
+              "name": "gregzielinski",
+              "winner_username": "gregzielinski",
+              "status": "received",
+              "activated": true
             }
           ]
         },
@@ -67712,7 +67713,7 @@
           "name": "The Artful Escape",
           "link": "Mtl6q/the-artful-escape",
           "cv_status": "FULL_CV",
-          "entries": 42,
+          "entries": 43,
           "copies": 1,
           "created_timestamp": 1783278034,
           "end_timestamp": 1783699080,
@@ -75946,7 +75947,7 @@
           "name": "Koira",
           "link": "dk3vH/koira",
           "cv_status": "FULL_CV",
-          "entries": 12,
+          "entries": 15,
           "copies": 1,
           "created_timestamp": 1783450970,
           "end_timestamp": 1783713120,
@@ -87837,7 +87838,7 @@
           "name": "Resident Evil 4",
           "link": "QxNJ7/resident-evil-4",
           "cv_status": "FULL_CV",
-          "entries": 5,
+          "entries": 7,
           "copies": 1,
           "created_timestamp": 1783456975,
           "end_timestamp": 1783886400,
@@ -87848,7 +87849,7 @@
           "name": "Lords of the Fallen Deluxe Edition",
           "link": "FPUIh/lords-of-the-fallen-deluxe-edition",
           "cv_status": "FULL_CV",
-          "entries": 5,
+          "entries": 7,
           "copies": 1,
           "created_timestamp": 1783454801,
           "end_timestamp": 1783886400,
@@ -105742,6 +105743,7 @@
           ]
         }
       ],
+      "registered_at": 1703103274,
       "warnings": [
         "required_plays_need_review"
       ]
