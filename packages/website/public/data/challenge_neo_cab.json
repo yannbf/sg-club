@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1783036800,
   "totalAchievements": 18,
-  "generatedAt": 1783529786598,
+  "generatedAt": 1783536868370,
   "challengeOver": false,
   "winnerUsername": "RaitorHaitor",
   "participants": [
@@ -317,11 +317,11 @@
       "is_guest": false,
       "owned": true,
       "stats_available": true,
-      "wrote_review": false,
-      "review_voted_up": null,
-      "review_timestamp": null,
-      "review_recommendationid": null,
-      "review_url": null,
+      "wrote_review": true,
+      "review_voted_up": false,
+      "review_timestamp": 1783525751,
+      "review_recommendationid": "229948556",
+      "review_url": "https://steamcommunity.com/profiles/76561198048238310/recommended/794540",
       "playtime_total_minutes": 540,
       "playtime_2weeks_minutes": 540,
       "baseline_playtime_minutes": 0,
@@ -438,8 +438,8 @@
       "completed_before_start": false,
       "completed_after_deadline": false,
       "meets_playtime": true,
-      "meets_review": false,
-      "is_winner": false
+      "meets_review": true,
+      "is_winner": true
     },
     {
       "username": "Griske14",
@@ -455,14 +455,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 933,
-      "playtime_2weeks_minutes": 933,
+      "playtime_total_minutes": 1012,
+      "playtime_2weeks_minutes": 1012,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 933,
+      "playtime_challenge_minutes": 1012,
       "achievements_total": 18,
-      "achievements_unlocked_total": 17,
+      "achievements_unlocked_total": 18,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 17,
+      "achievements_since_baseline": 18,
       "challenge_achievements": [
         {
           "apiname": "star_rating_5",
@@ -557,12 +557,17 @@
           "displayName": "Pink Slip",
           "description": "Get fired by Neo Cab for sustaining an imperfect rating.",
           "unlocktime": 1783509535
+        },
+        {
+          "apiname": "savy_reaches_out",
+          "displayName": "Text Me Back!",
+          "unlocktime": 1783534816
         }
       ],
-      "challenge_achievement_count": 17,
+      "challenge_achievement_count": 18,
       "has_started": true,
-      "is_complete": false,
-      "completed_at": null,
+      "is_complete": true,
+      "completed_at": 1783534816,
       "completed_before_start": false,
       "completed_after_deadline": false,
       "meets_playtime": true,
@@ -2007,7 +2012,8 @@
   "winnerUsernames": [
     "RaitorHaitor",
     "aez76",
-    "yugimax"
+    "yugimax",
+    "TheGr3atUnknown"
   ],
   "roster": {
     "participants": [
