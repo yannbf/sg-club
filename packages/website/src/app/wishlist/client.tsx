@@ -231,7 +231,9 @@ export default function WishlistClient({
             <Badge variant="outline" className="font-mono tabular-nums-strict">
               {totalWishes.toLocaleString()} wishes
             </Badge>
-            {lastUpdated && <LastUpdated lastUpdatedDate={lastUpdated} />}
+            {lastUpdated && (
+              <LastUpdated lastUpdatedDate={lastUpdated} updateIntervalDays={14} />
+            )}
           </div>
         </div>
       </div>

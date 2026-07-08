@@ -948,7 +948,10 @@ export default function ChallengeClient({
       <section className="space-y-3">
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-semibold text-foreground">Leaderboard</h2>
-          <LastUpdated lastUpdatedDate={generatedIso} />
+          <LastUpdated
+            lastUpdatedDate={generatedIso}
+            updateIntervalDays={hasEnded ? 14 : undefined}
+          />
         </div>
 
         {active.length === 0 ? (
