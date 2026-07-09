@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1783036800,
   "totalAchievements": 18,
-  "generatedAt": 1783559333421,
+  "generatedAt": 1783575015655,
   "challengeOver": false,
   "winnerUsername": "RaitorHaitor",
   "participants": [
@@ -450,11 +450,11 @@
       "is_guest": false,
       "owned": true,
       "stats_available": true,
-      "wrote_review": false,
-      "review_voted_up": null,
-      "review_timestamp": null,
-      "review_recommendationid": null,
-      "review_url": null,
+      "wrote_review": true,
+      "review_voted_up": true,
+      "review_timestamp": 1783551322,
+      "review_recommendationid": "229979825",
+      "review_url": "https://steamcommunity.com/profiles/76561198029751126/recommended/794540",
       "playtime_total_minutes": 1012,
       "playtime_2weeks_minutes": 1012,
       "baseline_playtime_minutes": 0,
@@ -571,8 +571,8 @@
       "completed_before_start": false,
       "completed_after_deadline": false,
       "meets_playtime": true,
-      "meets_review": false,
-      "is_winner": false
+      "meets_review": true,
+      "is_winner": true
     },
     {
       "username": "SoullessSoup",
@@ -2020,7 +2020,8 @@
     "RaitorHaitor",
     "aez76",
     "yugimax",
-    "TheGr3atUnknown"
+    "TheGr3atUnknown",
+    "Griske14"
   ],
   "roster": {
     "participants": [
