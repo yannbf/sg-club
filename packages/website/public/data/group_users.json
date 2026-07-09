@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1783534234848,
+  "lastUpdated": 1783571429951,
   "users": {
     "76561198359284432": {
       "username": "a10i",
@@ -747,12 +747,20 @@
           "name": "LEGO Batman: Legacy of the Dark Knight",
           "link": "RPgih/lego-batman-legacy-of-the-dark-knight",
           "cv_status": "FULL_CV",
-          "entries": 29,
+          "entries": 30,
           "copies": 1,
           "created_timestamp": 1783196593,
           "end_timestamp": 1783547940,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "STAR WARS: Bounty Hunter",
@@ -20269,7 +20277,7 @@
           "name": "VOIN",
           "link": "Q3r2X/voin",
           "cv_status": "FULL_CV",
-          "entries": 18,
+          "entries": 20,
           "copies": 1,
           "created_timestamp": 1783450826,
           "end_timestamp": 1783742340,
@@ -48077,9 +48085,9 @@
         "giveaway_ratio": 34.33,
         "shared_sent_count": 3,
         "shared_received_count": 0,
-        "giveaways_created": 53,
+        "giveaways_created": 54,
         "giveaways_with_no_entries": 16,
-        "last_giveaway_created_at": 1783339794,
+        "last_giveaway_created_at": 1783546234,
         "last_giveaway_won_at": 1783008480,
         "first_seen_at": 1749738189,
         "total_achievements_percentage": 8,
@@ -48711,6 +48719,17 @@
           "copies": 1,
           "created_timestamp": 1783339794,
           "end_timestamp": 1783688400,
+          "required_play": false,
+          "is_shared": false
+        },
+        {
+          "name": "My Big Sister: Remastered",
+          "link": "VmXh1/my-big-sister-remastered",
+          "cv_status": "FULL_CV",
+          "entries": 0,
+          "copies": 1,
+          "created_timestamp": 1783546234,
+          "end_timestamp": 1783861200,
           "required_play": false,
           "is_shared": false
         },
@@ -52837,7 +52856,7 @@
           "name": "Sorcery! Part 3",
           "link": "qCfFc/sorcery-part-3",
           "cv_status": "REDUCED_CV",
-          "entries": 29,
+          "entries": 28,
           "copies": 1,
           "created_timestamp": 1783205013,
           "end_timestamp": 1783828800,
@@ -67702,7 +67721,7 @@
           "name": "Last Stop",
           "link": "1Gi5g/last-stop",
           "cv_status": "FULL_CV",
-          "entries": 34,
+          "entries": 35,
           "copies": 1,
           "created_timestamp": 1783277882,
           "end_timestamp": 1783698780,
@@ -67713,7 +67732,7 @@
           "name": "The Artful Escape",
           "link": "Mtl6q/the-artful-escape",
           "cv_status": "FULL_CV",
-          "entries": 43,
+          "entries": 44,
           "copies": 1,
           "created_timestamp": 1783278034,
           "end_timestamp": 1783699080,
@@ -75947,7 +75966,7 @@
           "name": "Koira",
           "link": "dk3vH/koira",
           "cv_status": "FULL_CV",
-          "entries": 15,
+          "entries": 16,
           "copies": 1,
           "created_timestamp": 1783450970,
           "end_timestamp": 1783713120,
@@ -81643,7 +81662,7 @@
     "76561198075742770": {
       "username": "Realtione",
       "profile_url": "/user/Realtione",
-      "avatar_url": "https://avatars.steamstatic.com/d8e94f972da752153a00ee27783aaa9e49d2a038_medium.jpg",
+      "avatar_url": "https://avatars.steamstatic.com/dddbeaa44a4ff6b11104a6ab0d1b512812ad1d1f_medium.jpg",
       "steam_id": "76561198075742770",
       "stats": {
         "total_sent_count": 4.5,
@@ -87838,7 +87857,7 @@
           "name": "Resident Evil 4",
           "link": "QxNJ7/resident-evil-4",
           "cv_status": "FULL_CV",
-          "entries": 7,
+          "entries": 8,
           "copies": 1,
           "created_timestamp": 1783456975,
           "end_timestamp": 1783886400,
@@ -106240,7 +106259,6 @@
           ]
         }
       ],
-      "registered_at": 1731526897,
       "warnings": [
         "no_giveaway_created_in_6_months"
       ]
