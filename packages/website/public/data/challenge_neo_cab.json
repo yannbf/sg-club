@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1783036800,
   "totalAchievements": 18,
-  "generatedAt": 1783575015655,
+  "generatedAt": 1783591537342,
   "challengeOver": false,
   "winnerUsername": "RaitorHaitor",
   "participants": [
@@ -588,14 +588,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 96,
-      "playtime_2weeks_minutes": 96,
+      "playtime_total_minutes": 216,
+      "playtime_2weeks_minutes": 216,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 96,
+      "playtime_challenge_minutes": 216,
       "achievements_total": 18,
-      "achievements_unlocked_total": 10,
+      "achievements_unlocked_total": 13,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 10,
+      "achievements_since_baseline": 13,
       "challenge_achievements": [
         {
           "apiname": "got_feelgrid",
@@ -653,9 +653,25 @@
           "apiname": "free_gideon",
           "displayName": "Get Free",
           "unlocktime": 1783516198
+        },
+        {
+          "apiname": "charlie_reveal",
+          "displayName": "Playing both sides",
+          "unlocktime": 1783586032
+        },
+        {
+          "apiname": "stay_at_babylon",
+          "displayName": "A Night at the Babylon",
+          "description": "Stay for the night at the bougiest hotel in Los Ojos.",
+          "unlocktime": 1783586032
+        },
+        {
+          "apiname": "savy_reaches_out",
+          "displayName": "Text Me Back!",
+          "unlocktime": 1783589523
         }
       ],
-      "challenge_achievement_count": 10,
+      "challenge_achievement_count": 13,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
@@ -850,6 +866,52 @@
       "is_winner": false
     },
     {
+      "username": "elysium1988",
+      "sg_username": "elysium1988",
+      "steam_id": "76561198056789339",
+      "avatar_url": "https://avatars.steamstatic.com/c11b85c4b0e3fffaad1ad2ac52ec667307779247_medium.jpg",
+      "profile_url": "https://steamcommunity.com/profiles/76561198056789339",
+      "is_guest": false,
+      "owned": true,
+      "stats_available": true,
+      "wrote_review": false,
+      "review_voted_up": null,
+      "review_timestamp": null,
+      "review_recommendationid": null,
+      "review_url": null,
+      "playtime_total_minutes": 44,
+      "playtime_2weeks_minutes": 44,
+      "baseline_playtime_minutes": 0,
+      "playtime_challenge_minutes": 44,
+      "achievements_total": 18,
+      "achievements_unlocked_total": 2,
+      "achievements_before_challenge": 0,
+      "achievements_since_baseline": 2,
+      "challenge_achievements": [
+        {
+          "apiname": "star_rating_5",
+          "displayName": "Perfect Rating",
+          "description": "Earn your first 5-star rating",
+          "unlocktime": 1783331000
+        },
+        {
+          "apiname": "got_feelgrid",
+          "displayName": "Heart on Your Sleeve",
+          "description": "Acquire the Feelgrid",
+          "unlocktime": 1783579821
+        }
+      ],
+      "challenge_achievement_count": 2,
+      "has_started": true,
+      "is_complete": false,
+      "completed_at": null,
+      "completed_before_start": false,
+      "completed_after_deadline": false,
+      "meets_playtime": true,
+      "meets_review": false,
+      "is_winner": false
+    },
+    {
       "username": "Waxlor",
       "sg_username": "Waxlor",
       "steam_id": "76561198116836855",
@@ -923,46 +985,6 @@
           "displayName": "Heart on Your Sleeve",
           "description": "Acquire the Feelgrid",
           "unlocktime": 1783539812
-        }
-      ],
-      "challenge_achievement_count": 1,
-      "has_started": true,
-      "is_complete": false,
-      "completed_at": null,
-      "completed_before_start": false,
-      "completed_after_deadline": false,
-      "meets_playtime": true,
-      "meets_review": false,
-      "is_winner": false
-    },
-    {
-      "username": "elysium1988",
-      "sg_username": "elysium1988",
-      "steam_id": "76561198056789339",
-      "avatar_url": "https://avatars.steamstatic.com/c11b85c4b0e3fffaad1ad2ac52ec667307779247_medium.jpg",
-      "profile_url": "https://steamcommunity.com/profiles/76561198056789339",
-      "is_guest": false,
-      "owned": true,
-      "stats_available": true,
-      "wrote_review": false,
-      "review_voted_up": null,
-      "review_timestamp": null,
-      "review_recommendationid": null,
-      "review_url": null,
-      "playtime_total_minutes": 15,
-      "playtime_2weeks_minutes": 15,
-      "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 15,
-      "achievements_total": 18,
-      "achievements_unlocked_total": 1,
-      "achievements_before_challenge": 0,
-      "achievements_since_baseline": 1,
-      "challenge_achievements": [
-        {
-          "apiname": "star_rating_5",
-          "displayName": "Perfect Rating",
-          "description": "Earn your first 5-star rating",
-          "unlocktime": 1783331000
         }
       ],
       "challenge_achievement_count": 1,
