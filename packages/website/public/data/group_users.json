@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1783661937272,
+  "lastUpdated": 1783683380183,
   "users": {
     "76561198359284432": {
       "username": "a10i",
@@ -8095,9 +8095,9 @@
         "giveaway_ratio": 31.67,
         "shared_sent_count": 1,
         "shared_received_count": 0,
-        "giveaways_created": 47,
+        "giveaways_created": 49,
         "giveaways_with_no_entries": 0,
-        "last_giveaway_created_at": 1783076481,
+        "last_giveaway_created_at": 1783680922,
         "last_giveaway_won_at": 1781481600,
         "first_seen_at": 1749708183,
         "total_achievements_percentage": 20,
@@ -9199,6 +9199,28 @@
         }
       ],
       "giveaways_created": [
+        {
+          "name": "Haste",
+          "link": "21k5O/haste",
+          "cv_status": "FULL_CV",
+          "entries": 1,
+          "copies": 1,
+          "created_timestamp": 1783680922,
+          "end_timestamp": 1783879200,
+          "required_play": false,
+          "is_shared": false
+        },
+        {
+          "name": "Mouthwashing",
+          "link": "uU5Rz/mouthwashing",
+          "cv_status": "FULL_CV",
+          "entries": 0,
+          "copies": 1,
+          "created_timestamp": 1783680880,
+          "end_timestamp": 1783879200,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "Pizza Tower",
           "link": "F8NKM/pizza-tower",
@@ -13457,7 +13479,7 @@
           "name": "ENDER MAGNOLIA: Bloom in the Mist",
           "link": "cpzuw/ender-magnolia-bloom-in-the-mist",
           "cv_status": "FULL_CV",
-          "entries": 10,
+          "entries": 11,
           "copies": 1,
           "created_timestamp": 1783599843,
           "end_timestamp": 1784206800,
@@ -27614,7 +27636,7 @@
           "name": "Abalon: Roguelike Tactics CCG",
           "link": "5qyH9/abalon-roguelike-tactics-ccg",
           "cv_status": "REDUCED_CV",
-          "entries": 13,
+          "entries": 14,
           "copies": 1,
           "created_timestamp": 1783362748,
           "end_timestamp": 1783796400,
@@ -52877,7 +52899,7 @@
           "name": "Pumpkin Jack",
           "link": "NTnbk/pumpkin-jack",
           "cv_status": "REDUCED_CV",
-          "entries": 20,
+          "entries": 22,
           "copies": 1,
           "created_timestamp": 1783171391,
           "end_timestamp": 1783742400,
@@ -67727,7 +67749,7 @@
           "name": "Last Stop",
           "link": "1Gi5g/last-stop",
           "cv_status": "FULL_CV",
-          "entries": 38,
+          "entries": 40,
           "copies": 1,
           "created_timestamp": 1783277882,
           "end_timestamp": 1783698780,
@@ -67738,7 +67760,7 @@
           "name": "The Artful Escape",
           "link": "Mtl6q/the-artful-escape",
           "cv_status": "FULL_CV",
-          "entries": 48,
+          "entries": 52,
           "copies": 1,
           "created_timestamp": 1783278034,
           "end_timestamp": 1783699080,
@@ -67749,7 +67771,7 @@
           "name": "Star Overdrive",
           "link": "o7YpA/star-overdrive",
           "cv_status": "FULL_CV",
-          "entries": 25,
+          "entries": 28,
           "copies": 1,
           "created_timestamp": 1783617619,
           "end_timestamp": 1784042160,
@@ -76011,7 +76033,7 @@
           "name": "Koira",
           "link": "dk3vH/koira",
           "cv_status": "FULL_CV",
-          "entries": 20,
+          "entries": 21,
           "copies": 1,
           "created_timestamp": 1783450970,
           "end_timestamp": 1783713120,
@@ -81478,9 +81500,9 @@
         "giveaway_ratio": 5.67,
         "shared_sent_count": 0,
         "shared_received_count": 0,
-        "giveaways_created": 6,
+        "giveaways_created": 7,
         "giveaways_with_no_entries": 0,
-        "last_giveaway_created_at": 1782757938,
+        "last_giveaway_created_at": 1783681935,
         "last_giveaway_won_at": 1783072800,
         "first_seen_at": 1781102258,
         "total_achievements_percentage": 32,
@@ -81575,6 +81597,17 @@
         }
       ],
       "giveaways_created": [
+        {
+          "name": "Bound By Blades",
+          "link": "q74EF/bound-by-blades",
+          "cv_status": "FULL_CV",
+          "entries": 0,
+          "copies": 1,
+          "created_timestamp": 1783681935,
+          "end_timestamp": 1783875600,
+          "required_play": false,
+          "is_shared": true
+        },
         {
           "name": "Koira",
           "link": "OE5mq/koira",
@@ -81736,9 +81769,15 @@
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1781243564,
         "last_giveaway_won_at": 1783547940,
-        "first_seen_at": 1780819377
+        "first_seen_at": 1780819377,
+        "total_achievements_percentage": 0,
+        "average_achievements_percentage": 0,
+        "real_total_achievements_percentage": 0,
+        "real_average_achievements_percentage": 0,
+        "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198075742770",
+      "steam_profile_is_private": false,
       "country_code": "tr",
       "giveaways_won": [
         {
@@ -81864,8 +81903,7 @@
           ]
         }
       ],
-      "registered_at": 1358374940,
-      "steam_profile_is_private": false
+      "registered_at": 1358374940
     },
     "76561197960990984": {
       "username": "RePlayBe",
@@ -97283,7 +97321,7 @@
           "name": "Absolum",
           "link": "3bvFe/absolum",
           "cv_status": "FULL_CV",
-          "entries": 22,
+          "entries": 23,
           "copies": 1,
           "created_timestamp": 1783587067,
           "end_timestamp": 1784354340,
