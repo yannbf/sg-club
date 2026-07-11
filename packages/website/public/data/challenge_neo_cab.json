@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1783036800,
   "totalAchievements": 18,
-  "generatedAt": 1783744681638,
+  "generatedAt": 1783754607949,
   "challengeOver": false,
   "winnerUsername": "RaitorHaitor",
   "participants": [
@@ -964,14 +964,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 106,
-      "playtime_2weeks_minutes": 106,
+      "playtime_total_minutes": 167,
+      "playtime_2weeks_minutes": 167,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 106,
+      "playtime_challenge_minutes": 167,
       "achievements_total": 18,
-      "achievements_unlocked_total": 8,
+      "achievements_unlocked_total": 10,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 8,
+      "achievements_since_baseline": 10,
       "challenge_achievements": [
         {
           "apiname": "night_1",
@@ -1018,9 +1018,19 @@
           "apiname": "no_bribe",
           "displayName": "No, Officer",
           "unlocktime": 1783290515
+        },
+        {
+          "apiname": "charlie_reveal",
+          "displayName": "Playing both sides",
+          "unlocktime": 1783747003
+        },
+        {
+          "apiname": "free_gideon",
+          "displayName": "Get Free",
+          "unlocktime": 1783747003
         }
       ],
-      "challenge_achievement_count": 8,
+      "challenge_achievement_count": 10,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
