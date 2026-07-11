@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1783747375769,
+  "lastUpdated": 1783764374732,
   "users": {
     "76561198359284432": {
       "username": "a10i",
@@ -2503,8 +2503,7 @@
       "registered_at": 1461156254,
       "warnings": [
         "no_giveaway_created_in_6_months"
-      ],
-      "last_played_at": 1783747308901
+      ]
     },
     "76561197960948034": {
       "username": "Arouet",
@@ -4958,9 +4957,9 @@
         "last_giveaway_created_at": 1778737919,
         "last_giveaway_won_at": 1782939540,
         "first_seen_at": 1749689275,
-        "total_achievements_percentage": 38,
+        "total_achievements_percentage": 39,
         "average_achievements_percentage": 36,
-        "real_total_achievements_percentage": 47,
+        "real_total_achievements_percentage": 48,
         "real_average_achievements_percentage": 41,
         "has_missing_achievements_data": false
       },
@@ -5772,8 +5771,7 @@
       "registered_at": 1387216989,
       "warnings": [
         "required_plays_need_review"
-      ],
-      "last_played_at": 1783746608349
+      ]
     },
     "76561198351673664": {
       "username": "BanjoBearLV",
@@ -5811,7 +5809,7 @@
         "total_achievements_percentage": 15,
         "average_achievements_percentage": 9,
         "real_total_achievements_percentage": 16,
-        "real_average_achievements_percentage": 10,
+        "real_average_achievements_percentage": 9,
         "has_missing_achievements_data": true
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198351673664",
@@ -20250,12 +20248,12 @@
       "avatar_url": "https://avatars.steamstatic.com/a8865c2487da688fb87124d2fe2c004485c9d5ea_medium.jpg",
       "steam_id": "76561199434715535",
       "stats": {
-        "total_sent_count": 3.7,
-        "total_sent_value": 113.3,
+        "total_sent_count": 4,
+        "total_sent_value": 119.96,
         "total_received_count": 2,
         "total_received_value": 59.98,
-        "total_gift_difference": 1.7,
-        "total_value_difference": 53.32,
+        "total_gift_difference": 2,
+        "total_value_difference": 59.98,
         "fcv_sent_count": 3,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
@@ -20270,7 +20268,7 @@
         "real_total_received_count": 2,
         "real_total_gift_difference": 1,
         "giveaway_ratio": 2.33,
-        "shared_sent_count": 2,
+        "shared_sent_count": 3,
         "shared_received_count": 0,
         "giveaways_created": 6,
         "giveaways_with_no_entries": 0,
@@ -20338,7 +20336,16 @@
           "created_timestamp": 1783450826,
           "end_timestamp": 1783742340,
           "required_play": false,
-          "is_shared": true
+          "is_shared": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "Utiss",
+              "winner_username": "Utiss",
+              "status": "received",
+              "activated": true
+            }
+          ]
         },
         {
           "name": "Cronos: The New Dawn",
@@ -24297,8 +24304,7 @@
           ]
         }
       ],
-      "registered_at": 1426781554,
-      "last_played_at": 1783745337623
+      "registered_at": 1426781554
     },
     "76561198408001048": {
       "username": "dramainfouracts",
@@ -27661,7 +27667,7 @@
           "name": "Abalon: Roguelike Tactics CCG",
           "link": "5qyH9/abalon-roguelike-tactics-ccg",
           "cv_status": "REDUCED_CV",
-          "entries": 18,
+          "entries": 19,
           "copies": 1,
           "created_timestamp": 1783362748,
           "end_timestamp": 1783796400,
@@ -27683,7 +27689,7 @@
           "name": "Legends of Kingdom Rush",
           "link": "BHrrK/legends-of-kingdom-rush",
           "cv_status": "REDUCED_CV",
-          "entries": 18,
+          "entries": 19,
           "copies": 1,
           "created_timestamp": 1783362550,
           "end_timestamp": 1783796400,
@@ -33218,7 +33224,7 @@
           "name": "WitchSpring R",
           "link": "ydQsc/witchspring-r",
           "cv_status": "FULL_CV",
-          "entries": 5,
+          "entries": 6,
           "copies": 1,
           "created_timestamp": 1783728870,
           "end_timestamp": 1785028260,
@@ -34295,7 +34301,7 @@
         "last_giveaway_created_at": 1781292461,
         "last_giveaway_won_at": 1783404960,
         "first_seen_at": 1749877001,
-        "total_achievements_percentage": 9,
+        "total_achievements_percentage": 8,
         "average_achievements_percentage": 10,
         "real_total_achievements_percentage": 10,
         "real_average_achievements_percentage": 12,
@@ -35056,9 +35062,9 @@
         "giveaway_ratio": 32.33,
         "shared_sent_count": 12,
         "shared_received_count": 1,
-        "giveaways_created": 49,
+        "giveaways_created": 50,
         "giveaways_with_no_entries": 0,
-        "last_giveaway_created_at": 1780689762,
+        "last_giveaway_created_at": 1783761385,
         "last_giveaway_won_at": 1783015200,
         "first_seen_at": 1749666459,
         "total_achievements_percentage": 22,
@@ -35869,6 +35875,17 @@
         }
       ],
       "giveaways_created": [
+        {
+          "name": "Red Dead Redemption 2",
+          "link": "KV2QI/red-dead-redemption-2",
+          "cv_status": "FULL_CV",
+          "entries": 0,
+          "copies": 1,
+          "created_timestamp": 1783761385,
+          "end_timestamp": 1784542500,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "DAVE THE DIVER",
           "link": "IUsBW/dave-the-diver",
@@ -38867,10 +38884,10 @@
         "last_giveaway_created_at": 1778819186,
         "last_giveaway_won_at": 1783688400,
         "first_seen_at": 1749701886,
-        "total_achievements_percentage": 71,
-        "average_achievements_percentage": 62,
-        "real_total_achievements_percentage": 72,
-        "real_average_achievements_percentage": 62,
+        "total_achievements_percentage": 69,
+        "average_achievements_percentage": 59,
+        "real_total_achievements_percentage": 71,
+        "real_average_achievements_percentage": 59,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561197984532155",
@@ -45566,10 +45583,10 @@
         "last_giveaway_created_at": 1779038628,
         "last_giveaway_won_at": 1782144000,
         "first_seen_at": 1749734315,
-        "total_achievements_percentage": 83,
-        "average_achievements_percentage": 75,
-        "real_total_achievements_percentage": 83,
-        "real_average_achievements_percentage": 75,
+        "total_achievements_percentage": 86,
+        "average_achievements_percentage": 80,
+        "real_total_achievements_percentage": 86,
+        "real_average_achievements_percentage": 80,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198376004004",
@@ -45970,8 +45987,7 @@
           ]
         }
       ],
-      "registered_at": 1716588938,
-      "last_played_at": 1783747281214
+      "registered_at": 1716588938
     },
     "76561198065466175": {
       "username": "Koalala",
@@ -47505,8 +47521,7 @@
           ]
         }
       ],
-      "registered_at": 1687667066,
-      "last_played_at": 1783746042732
+      "registered_at": 1687667066
     },
     "76561199174167338": {
       "username": "legor2d2",
@@ -52832,12 +52847,12 @@
       "avatar_url": "https://avatars.steamstatic.com/8d53cbce9f9a1893ea00e1025b014d7abba576cd_medium.jpg",
       "steam_id": "76561198234142828",
       "stats": {
-        "total_sent_count": 33.4,
-        "total_sent_value": 594.25,
+        "total_sent_count": 33.5,
+        "total_sent_value": 599.25,
         "total_received_count": 4.8,
         "total_received_value": 54.29,
-        "total_gift_difference": 28.5,
-        "total_value_difference": 539.96,
+        "total_gift_difference": 28.7,
+        "total_value_difference": 544.96,
         "fcv_sent_count": 2,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
@@ -52852,7 +52867,7 @@
         "real_total_received_count": 4,
         "real_total_gift_difference": -2,
         "giveaway_ratio": 0.67,
-        "shared_sent_count": 181,
+        "shared_sent_count": 182,
         "shared_received_count": 2,
         "giveaways_created": 168,
         "giveaways_with_no_entries": 0,
@@ -52995,21 +53010,10 @@
       ],
       "giveaways_created": [
         {
-          "name": "Pumpkin Jack",
-          "link": "NTnbk/pumpkin-jack",
-          "cv_status": "REDUCED_CV",
-          "entries": 21,
-          "copies": 1,
-          "created_timestamp": 1783171391,
-          "end_timestamp": 1783742400,
-          "required_play": false,
-          "is_shared": true
-        },
-        {
           "name": "Sorcery! Part 3",
           "link": "qCfFc/sorcery-part-3",
           "cv_status": "REDUCED_CV",
-          "entries": 35,
+          "entries": 37,
           "copies": 1,
           "created_timestamp": 1783205013,
           "end_timestamp": 1783828800,
@@ -53020,12 +53024,32 @@
           "name": "Golfie",
           "link": "xbwTA/golfie",
           "cv_status": "REDUCED_CV",
-          "entries": 7,
+          "entries": 17,
           "copies": 1,
           "created_timestamp": 1783728277,
           "end_timestamp": 1784347200,
           "required_play": false,
           "is_shared": true
+        },
+        {
+          "name": "Pumpkin Jack",
+          "link": "NTnbk/pumpkin-jack",
+          "cv_status": "REDUCED_CV",
+          "entries": 21,
+          "copies": 1,
+          "created_timestamp": 1783171391,
+          "end_timestamp": 1783742400,
+          "required_play": false,
+          "is_shared": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "Utiss",
+              "winner_username": "Utiss",
+              "status": "received",
+              "activated": true
+            }
+          ]
         },
         {
           "name": "Brewmaster: Beer Brewing Simulator",
@@ -56482,10 +56506,10 @@
         "last_giveaway_created_at": 1781182636,
         "last_giveaway_won_at": 1782835200,
         "first_seen_at": 1767075482,
-        "total_achievements_percentage": 4,
-        "average_achievements_percentage": 4,
-        "real_total_achievements_percentage": 4,
-        "real_average_achievements_percentage": 4,
+        "total_achievements_percentage": 6,
+        "average_achievements_percentage": 5,
+        "real_total_achievements_percentage": 6,
+        "real_average_achievements_percentage": 5,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198042896883",
@@ -57306,8 +57330,7 @@
           ]
         }
       ],
-      "registered_at": 1527446737,
-      "last_played_at": 1783747145534
+      "registered_at": 1527446737
     },
     "76561198143588240": {
       "username": "LumpyCreature",
@@ -57790,10 +57813,10 @@
         "last_giveaway_created_at": 1776440545,
         "last_giveaway_won_at": 1782683040,
         "first_seen_at": 1749695850,
-        "total_achievements_percentage": 66,
-        "average_achievements_percentage": 71,
-        "real_total_achievements_percentage": 66,
-        "real_average_achievements_percentage": 71,
+        "total_achievements_percentage": 68,
+        "average_achievements_percentage": 72,
+        "real_total_achievements_percentage": 68,
+        "real_average_achievements_percentage": 72,
         "has_missing_achievements_data": true
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198035801987",
@@ -59229,8 +59252,7 @@
       "warnings": [
         "required_plays_need_review",
         "required_play_deadline_within_15_days"
-      ],
-      "last_played_at": 1783745763001
+      ]
     },
     "76561198413978177": {
       "username": "Markox21",
@@ -62315,8 +62337,7 @@
         "illegal_entered_required_play_giveaways",
         "required_plays_need_review",
         "required_play_deadline_expired"
-      ],
-      "last_played_at": 1783745933504
+      ]
     },
     "76561198452519450": {
       "username": "MikeWithAnI",
@@ -67871,7 +67892,7 @@
           "name": "Star Overdrive",
           "link": "o7YpA/star-overdrive",
           "cv_status": "FULL_CV",
-          "entries": 37,
+          "entries": 40,
           "copies": 1,
           "created_timestamp": 1783617619,
           "end_timestamp": 1784042160,
@@ -70465,7 +70486,7 @@
           "name": "Still Wakes the Deep",
           "link": "prMfA/still-wakes-the-deep",
           "cv_status": "FULL_CV",
-          "entries": 6,
+          "entries": 7,
           "copies": 1,
           "created_timestamp": 1783349063,
           "end_timestamp": 1783782120,
@@ -70709,10 +70730,10 @@
         "last_giveaway_created_at": 1780371520,
         "last_giveaway_won_at": 1782682680,
         "first_seen_at": 1749693391,
-        "total_achievements_percentage": 49,
-        "average_achievements_percentage": 57,
-        "real_total_achievements_percentage": 49,
-        "real_average_achievements_percentage": 57,
+        "total_achievements_percentage": 51,
+        "average_achievements_percentage": 59,
+        "real_total_achievements_percentage": 51,
+        "real_average_achievements_percentage": 59,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198061661987",
@@ -71189,8 +71210,7 @@
           ]
         }
       ],
-      "registered_at": 1446802313,
-      "last_played_at": 1783746921685
+      "registered_at": 1446802313
     },
     "76561198039810488": {
       "username": "Palindrome",
@@ -75605,10 +75625,10 @@
         "last_giveaway_created_at": 1783450970,
         "last_giveaway_won_at": 1782689820,
         "first_seen_at": 1749675553,
-        "total_achievements_percentage": 76,
-        "average_achievements_percentage": 75,
-        "real_total_achievements_percentage": 76,
-        "real_average_achievements_percentage": 75,
+        "total_achievements_percentage": 77,
+        "average_achievements_percentage": 78,
+        "real_total_achievements_percentage": 77,
+        "real_average_achievements_percentage": 78,
         "has_missing_achievements_data": true
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198027595057",
@@ -77279,7 +77299,9 @@
         }
       ],
       "registered_at": 1641833598,
-      "last_played_at": 1783746101314
+      "warnings": [
+        "required_plays_need_review"
+      ]
     },
     "76561197994025244": {
       "username": "PsychoApeMan",
@@ -81156,8 +81178,7 @@
           ]
         }
       ],
-      "registered_at": 1332784435,
-      "last_played_at": 1783745273896
+      "registered_at": 1332784435
     },
     "76561198117650232": {
       "username": "quinnix",
@@ -81657,10 +81678,10 @@
         "last_giveaway_created_at": 1783682794,
         "last_giveaway_won_at": 1783688400,
         "first_seen_at": 1781102258,
-        "total_achievements_percentage": 32,
-        "average_achievements_percentage": 49,
-        "real_total_achievements_percentage": 32,
-        "real_average_achievements_percentage": 49,
+        "total_achievements_percentage": 23,
+        "average_achievements_percentage": 39,
+        "real_total_achievements_percentage": 23,
+        "real_average_achievements_percentage": 39,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198411996697",
@@ -81918,8 +81939,7 @@
           ]
         }
       ],
-      "registered_at": 1769544921,
-      "last_played_at": 1783747233874
+      "registered_at": 1769544921
     },
     "76561198075742770": {
       "username": "Realtione",
@@ -86154,8 +86174,7 @@
           ]
         }
       ],
-      "registered_at": 1717718902,
-      "last_played_at": 1783746771024
+      "registered_at": 1717718902
     },
     "76561198001969728": {
       "username": "schmoan",
@@ -90863,8 +90882,7 @@
           ]
         }
       ],
-      "registered_at": 1332615851,
-      "last_played_at": 1783746945904
+      "registered_at": 1332615851
     },
     "76561198036591983": {
       "username": "Sumnium",
@@ -92908,8 +92926,7 @@
           ]
         }
       ],
-      "registered_at": 1627249031,
-      "last_played_at": 1783747248412
+      "registered_at": 1627249031
     },
     "76561197989280149": {
       "username": "Thexder",
@@ -92944,9 +92961,9 @@
         "last_giveaway_created_at": 1782420053,
         "last_giveaway_won_at": 1781474520,
         "first_seen_at": 1749690860,
-        "total_achievements_percentage": 57,
-        "average_achievements_percentage": 59,
-        "real_total_achievements_percentage": 56,
+        "total_achievements_percentage": 58,
+        "average_achievements_percentage": 60,
+        "real_total_achievements_percentage": 57,
         "real_average_achievements_percentage": 58,
         "has_missing_achievements_data": false
       },
@@ -93791,8 +93808,7 @@
       "registered_at": 1322064486,
       "warnings": [
         "required_plays_need_review"
-      ],
-      "last_played_at": 1783746010028
+      ]
     },
     "76561198140258141": {
       "username": "thoughtfulhippo",
@@ -96182,8 +96198,8 @@
         "last_giveaway_created_at": 1760554517,
         "last_giveaway_won_at": 1783713120,
         "first_seen_at": 1750159200,
-        "total_achievements_percentage": 21,
-        "average_achievements_percentage": 30,
+        "total_achievements_percentage": 19,
+        "average_achievements_percentage": 26,
         "real_total_achievements_percentage": 21,
         "real_average_achievements_percentage": 30,
         "has_missing_achievements_data": false
@@ -97067,10 +97083,10 @@
         "last_giveaway_created_at": 1783587067,
         "last_giveaway_won_at": 1783011600,
         "first_seen_at": 1754506200,
-        "total_achievements_percentage": 39,
-        "average_achievements_percentage": 50,
-        "real_total_achievements_percentage": 47,
-        "real_average_achievements_percentage": 61,
+        "total_achievements_percentage": 41,
+        "average_achievements_percentage": 51,
+        "real_total_achievements_percentage": 49,
+        "real_average_achievements_percentage": 63,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198080362358",
@@ -98104,8 +98120,7 @@
       "registered_at": 1663370083,
       "warnings": [
         "required_plays_need_review"
-      ],
-      "last_played_at": 1783746219105
+      ]
     },
     "76561198185630581": {
       "username": "Vexterion",
