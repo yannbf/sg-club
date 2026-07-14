@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1784003374138,
+  "lastUpdated": 1784024741403,
   "users": {
     "76561198359284432": {
       "username": "a10i",
@@ -750,7 +750,7 @@
           "name": "MECCHA CHAMELEON",
           "link": "6MDYn/meccha-chameleon",
           "cv_status": "FULL_CV",
-          "entries": 6,
+          "entries": 7,
           "copies": 1,
           "created_timestamp": 1783910987,
           "end_timestamp": 1784159940,
@@ -20379,7 +20379,15 @@
           "created_timestamp": 1783791212,
           "end_timestamp": 1784001540,
           "required_play": false,
-          "is_shared": true
+          "is_shared": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "VOIN",
@@ -25152,7 +25160,7 @@
           "name": "DELTARUNE",
           "link": "9BjKX/deltarune",
           "cv_status": "FULL_CV",
-          "entries": 10,
+          "entries": 12,
           "copies": 1,
           "created_timestamp": 1783966820,
           "end_timestamp": 1784304000,
@@ -31353,7 +31361,7 @@
           "name": "Steal The Pig",
           "link": "QoSoc/steal-the-pig",
           "cv_status": "FULL_CV",
-          "entries": 22,
+          "entries": 23,
           "copies": 1,
           "created_timestamp": 1783886330,
           "end_timestamp": 1784102400,
@@ -31364,7 +31372,7 @@
           "name": "Tiny Pasture",
           "link": "sMB1b/tiny-pasture",
           "cv_status": "FULL_CV",
-          "entries": 66,
+          "entries": 71,
           "copies": 1,
           "created_timestamp": 1783857830,
           "end_timestamp": 1784102400,
@@ -31375,7 +31383,7 @@
           "name": "Discounty",
           "link": "LAqVJ/discounty",
           "cv_status": "FULL_CV",
-          "entries": 98,
+          "entries": 106,
           "copies": 1,
           "created_timestamp": 1783856739,
           "end_timestamp": 1784102400,
@@ -53196,7 +53204,7 @@
           "name": "Golfie",
           "link": "xbwTA/golfie",
           "cv_status": "REDUCED_CV",
-          "entries": 39,
+          "entries": 40,
           "copies": 1,
           "created_timestamp": 1783728277,
           "end_timestamp": 1784347200,
@@ -53207,7 +53215,7 @@
           "name": "Sorcery! Part 4",
           "link": "mQbat/sorcery-part-4",
           "cv_status": "REDUCED_CV",
-          "entries": 28,
+          "entries": 31,
           "copies": 1,
           "created_timestamp": 1783817076,
           "end_timestamp": 1784433600,
@@ -58016,10 +58024,10 @@
         "last_giveaway_created_at": 1776440545,
         "last_giveaway_won_at": 1782683040,
         "first_seen_at": 1749695850,
-        "total_achievements_percentage": 68,
-        "average_achievements_percentage": 72,
-        "real_total_achievements_percentage": 68,
-        "real_average_achievements_percentage": 72,
+        "total_achievements_percentage": 70,
+        "average_achievements_percentage": 73,
+        "real_total_achievements_percentage": 70,
+        "real_average_achievements_percentage": 73,
         "has_missing_achievements_data": true
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198035801987",
@@ -59455,8 +59463,7 @@
       "warnings": [
         "required_plays_need_review",
         "required_play_deadline_within_15_days"
-      ],
-      "last_played_at": 1784003372237
+      ]
     },
     "76561198413978177": {
       "username": "Markox21",
@@ -68097,7 +68104,7 @@
           "name": "Star Overdrive",
           "link": "o7YpA/star-overdrive",
           "cv_status": "FULL_CV",
-          "entries": 54,
+          "entries": 59,
           "copies": 1,
           "created_timestamp": 1783617619,
           "end_timestamp": 1784042160,
