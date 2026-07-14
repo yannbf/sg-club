@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1784024741403,
+  "lastUpdated": 1784051521930,
   "users": {
     "76561198359284432": {
       "username": "a10i",
@@ -20291,12 +20291,12 @@
       "avatar_url": "https://avatars.steamstatic.com/a8865c2487da688fb87124d2fe2c004485c9d5ea_medium.jpg",
       "steam_id": "76561199434715535",
       "stats": {
-        "total_sent_count": 4,
-        "total_sent_value": 119.96,
+        "total_sent_count": 4.3,
+        "total_sent_value": 124.96,
         "total_received_count": 2,
         "total_received_value": 59.98,
-        "total_gift_difference": 2,
-        "total_value_difference": 59.98,
+        "total_gift_difference": 2.3,
+        "total_value_difference": 64.98,
         "fcv_sent_count": 3,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
@@ -20311,7 +20311,7 @@
         "real_total_received_count": 2,
         "real_total_gift_difference": 1,
         "giveaway_ratio": 2.33,
-        "shared_sent_count": 3,
+        "shared_sent_count": 4,
         "shared_received_count": 0,
         "giveaways_created": 7,
         "giveaways_with_no_entries": 0,
@@ -20383,9 +20383,10 @@
           "had_winners": true,
           "winners": [
             {
-              "name": null,
-              "status": "awaiting_feedback",
-              "activated": false
+              "name": "Terobero",
+              "winner_username": "Terobero",
+              "status": "received",
+              "activated": true
             }
           ]
         },
@@ -31361,7 +31362,7 @@
           "name": "Steal The Pig",
           "link": "QoSoc/steal-the-pig",
           "cv_status": "FULL_CV",
-          "entries": 23,
+          "entries": 28,
           "copies": 1,
           "created_timestamp": 1783886330,
           "end_timestamp": 1784102400,
@@ -31372,7 +31373,7 @@
           "name": "Tiny Pasture",
           "link": "sMB1b/tiny-pasture",
           "cv_status": "FULL_CV",
-          "entries": 71,
+          "entries": 82,
           "copies": 1,
           "created_timestamp": 1783857830,
           "end_timestamp": 1784102400,
@@ -31383,7 +31384,7 @@
           "name": "Discounty",
           "link": "LAqVJ/discounty",
           "cv_status": "FULL_CV",
-          "entries": 106,
+          "entries": 114,
           "copies": 1,
           "created_timestamp": 1783856739,
           "end_timestamp": 1784102400,
@@ -53204,7 +53205,7 @@
           "name": "Golfie",
           "link": "xbwTA/golfie",
           "cv_status": "REDUCED_CV",
-          "entries": 40,
+          "entries": 41,
           "copies": 1,
           "created_timestamp": 1783728277,
           "end_timestamp": 1784347200,
@@ -68015,12 +68016,12 @@
       "avatar_url": "https://avatars.steamstatic.com/3f337c407f18d78553f7eb0c539324d40315377f_medium.jpg",
       "steam_id": "76561197994770037",
       "stats": {
-        "total_sent_count": 20.3,
-        "total_sent_value": 590.55,
+        "total_sent_count": 20.6,
+        "total_sent_value": 599.29,
         "total_received_count": 2,
         "total_received_value": 109.98,
-        "total_gift_difference": 18.3,
-        "total_value_difference": 480.57,
+        "total_gift_difference": 18.6,
+        "total_value_difference": 489.31,
         "fcv_sent_count": 13,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
@@ -68035,7 +68036,7 @@
         "real_total_received_count": 2,
         "real_total_gift_difference": 11,
         "giveaway_ratio": 12.33,
-        "shared_sent_count": 28,
+        "shared_sent_count": 29,
         "shared_received_count": 0,
         "giveaways_created": 43,
         "giveaways_with_no_entries": 0,
@@ -68101,17 +68102,6 @@
       ],
       "giveaways_created": [
         {
-          "name": "Star Overdrive",
-          "link": "o7YpA/star-overdrive",
-          "cv_status": "FULL_CV",
-          "entries": 59,
-          "copies": 1,
-          "created_timestamp": 1783617619,
-          "end_timestamp": 1784042160,
-          "required_play": true,
-          "is_shared": true
-        },
-        {
           "name": "Hell is Us",
           "link": "heRxU/hell-is-us",
           "cv_status": "FULL_CV",
@@ -68121,6 +68111,26 @@
           "end_timestamp": 1784388540,
           "required_play": true,
           "is_shared": false
+        },
+        {
+          "name": "Star Overdrive",
+          "link": "o7YpA/star-overdrive",
+          "cv_status": "FULL_CV",
+          "entries": 62,
+          "copies": 1,
+          "created_timestamp": 1783617619,
+          "end_timestamp": 1784042160,
+          "required_play": true,
+          "is_shared": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "iby",
+              "winner_username": "iby",
+              "status": "received",
+              "activated": true
+            }
+          ]
         },
         {
           "name": "The Artful Escape",
@@ -101427,8 +101437,7 @@
             }
           ]
         }
-      ],
-      "registered_at": 1670637994
+      ]
     },
     "76561199141726712": {
       "username": "vot4ol",

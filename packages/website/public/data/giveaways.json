@@ -1,28 +1,6 @@
 {
-  "last_updated": "2026-07-14T10:23:00.517Z",
+  "last_updated": "2026-07-14T17:47:59.022Z",
   "giveaways": [
-    {
-      "id": "o7YpA",
-      "name": "Star Overdrive",
-      "points": 35,
-      "copies": 1,
-      "app_id": 2055590,
-      "package_id": null,
-      "link": "o7YpA/star-overdrive",
-      "created_timestamp": 1783617619,
-      "start_timestamp": 1783617619,
-      "end_timestamp": 1784042160,
-      "whitelist": true,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 59,
-      "creator": "76561197994770037",
-      "required_play": true,
-      "is_shared": true,
-      "cv_status": "FULL_CV",
-      "creator_username": "NateSCC",
-      "deleted": false
-    },
     {
       "id": "QoSoc",
       "name": "Steal The Pig",
@@ -37,7 +15,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 23,
+      "entry_count": 28,
       "creator": "76561197967055456",
       "is_shared": true,
       "cv_status": "FULL_CV",
@@ -58,7 +36,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 71,
+      "entry_count": 82,
       "creator": "76561197967055456",
       "is_shared": true,
       "cv_status": "FULL_CV",
@@ -79,7 +57,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 1,
-      "entry_count": 106,
+      "entry_count": 114,
       "creator": "76561197967055456",
       "is_shared": true,
       "cv_status": "FULL_CV",
@@ -197,7 +175,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 40,
+      "entry_count": 41,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -363,6 +341,35 @@
       "deleted": false
     },
     {
+      "id": "o7YpA",
+      "name": "Star Overdrive",
+      "points": 35,
+      "copies": 1,
+      "app_id": 2055590,
+      "package_id": null,
+      "link": "o7YpA/star-overdrive",
+      "created_timestamp": 1783617619,
+      "start_timestamp": 1783617619,
+      "end_timestamp": 1784042160,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 1,
+      "entry_count": 62,
+      "creator": "76561197994770037",
+      "required_play": true,
+      "is_shared": true,
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": "iby",
+          "status": "received",
+          "winner_username": "iby"
+        }
+      ],
+      "cv_status": "FULL_CV",
+      "creator_username": "NateSCC"
+    },
+    {
       "id": "zyfD5",
       "name": "Raccoo Venture",
       "points": 15,
@@ -374,20 +381,20 @@
       "start_timestamp": 1783791212,
       "end_timestamp": 1784001540,
       "group": true,
-      "comment_count": 1,
+      "comment_count": 2,
       "entry_count": 19,
       "creator": "76561199434715535",
       "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "Terobero",
+          "status": "received",
+          "winner_username": "Terobero"
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "DancingXmas",
-      "deleted": false
+      "creator_username": "DancingXmas"
     },
     {
       "id": "QxNJ7",
@@ -9208,7 +9215,7 @@
       "end_timestamp": 1779252840,
       "whitelist": true,
       "group": true,
-      "comment_count": 2,
+      "comment_count": 3,
       "entry_count": 49,
       "creator": "76561197975099685",
       "is_shared": true,
