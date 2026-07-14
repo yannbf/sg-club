@@ -47,11 +47,10 @@ const currentDir = dirname(fileURLToPath(import.meta.url))
 const rootEnvPath = resolve(currentDir, '../../../../.env')
 loadEnv({ path: existsSync(rootEnvPath) ? rootEnvPath : undefined })
 
+// Read at module scope so the fetch helpers can reference it, but validate in
+// main() rather than here — a top-level process.exit() would make this module
+// impossible to import from tests.
 const API_KEY = process.env.STEAM_API_KEY
-if (!API_KEY) {
-  console.error('❌ STEAM_API_KEY not set')
-  process.exit(1)
-}
 
 const BASE = 'https://api.steampowered.com'
 
@@ -210,10 +209,30 @@ interface ResolvedParticipant {
   is_guest: boolean
 }
 
-async function getJson(url: string): Promise<any> {
+export async function getJson(url: string): Promise<any> {
   const res = await fetch(url)
   if (!res.ok) throw new Error(`${res.status} ${res.statusText}`)
   return res.json()
+}
+
+/**
+ * `getJson` with linear backoff for transient failures. The public store review
+ * feed intermittently 429s or returns a short read; retrying usually clears it
+ * and avoids handing back a partial review map that would look like people
+ * un-reviewed. Throws only once every attempt has failed.
+ */
+export async function getJsonWithRetry(url: string, attempts = 4): Promise<any> {
+  let lastErr: unknown
+  for (let attempt = 1; attempt <= attempts; attempt++) {
+    try {
+      return await getJson(url)
+    } catch (e) {
+      lastErr = e
+      if (attempt < attempts)
+        await new Promise((res) => setTimeout(res, 500 * attempt))
+    }
+  }
+  throw lastErr
 }
 
 async function getGameSchema(
@@ -294,10 +313,18 @@ async function getAchievements(
   }
 }
 
-interface ReviewInfo {
+export interface ReviewInfo {
   voted_up: boolean
   timestamp_created: number
   recommendationid: string
+}
+
+export interface ReviewFields {
+  wrote_review: boolean
+  review_voted_up: boolean | null
+  review_timestamp: number | null
+  review_recommendationid: string | null
+  review_url: string | null
 }
 
 /**
@@ -319,9 +346,13 @@ async function fetchGameReviews(appId: number): Promise<Map<string, ReviewInfo>>
       `&purchase_type=all&review_type=all&cursor=${encodeURIComponent(cursor)}`
     let data: any
     try {
-      data = await getJson(url)
+      data = await getJsonWithRetry(url)
     } catch (e) {
-      console.warn('⚠️  Review fetch failed:', String(e))
+      // A page that still fails after retries can leave the map incomplete.
+      // That's tolerated: reviews are applied with a sticky floor
+      // (stickyReviewFields), so anyone recorded as a reviewer in a prior run
+      // is carried forward rather than downgraded by a short read here.
+      console.warn('⚠️  Review fetch failed after retries:', String(e))
       break
     }
     const reviews: any[] = data.reviews ?? []
@@ -345,7 +376,11 @@ async function fetchGameReviews(appId: number): Promise<Map<string, ReviewInfo>>
 }
 
 /** Review fields for a participant, derived from the game-wide review map. */
-function reviewFields(steamId: string, appId: number, reviews: Map<string, ReviewInfo>) {
+export function reviewFields(
+  steamId: string,
+  appId: number,
+  reviews: Map<string, ReviewInfo>,
+): ReviewFields {
   const r = reviews.get(steamId)
   return {
     wrote_review: Boolean(r),
@@ -355,6 +390,37 @@ function reviewFields(steamId: string, appId: number, reviews: Map<string, Revie
     review_url: r
       ? `https://steamcommunity.com/profiles/${steamId}/recommended/${appId}`
       : null,
+  }
+}
+
+/**
+ * Review detection is sticky, mirroring the monotonic playtime/achievement
+ * floor: once a member is on record as having reviewed, a later run that fails
+ * to see their review must not flip them back to "no review" and knock them off
+ * the leaderboard. Steam's public appreviews feed is eventually-consistent and
+ * intermittently drops individual reviews from a read — that's what briefly
+ * un-qualified members on the Neo Cab board. When the fresh fetch finds a review
+ * we take it (it's the most current — e.g. a thumbs-down the member later
+ * flipped to thumbs-up); otherwise we carry forward whatever the prior run
+ * recorded. Like the playtime/achievement floor, this trades away detecting a
+ * genuinely deleted review for never dropping a real one on a bad fetch.
+ */
+export function stickyReviewFields(
+  steamId: string,
+  appId: number,
+  reviews: Map<string, ReviewInfo>,
+  prior: Partial<ReviewFields> | undefined,
+): ReviewFields {
+  const fresh = reviewFields(steamId, appId, reviews)
+  if (fresh.wrote_review || !prior?.wrote_review) return fresh
+  return {
+    wrote_review: true,
+    review_voted_up: prior.review_voted_up ?? null,
+    review_timestamp: prior.review_timestamp ?? null,
+    review_recommendationid: prior.review_recommendationid ?? null,
+    review_url:
+      prior.review_url ??
+      `https://steamcommunity.com/profiles/${steamId}/recommended/${appId}`,
   }
 }
 
@@ -595,6 +661,13 @@ async function generateChallenge(config: ChallengeConfig): Promise<void> {
     priorByStemId.set(p.steam_id, p)
   }
 
+  // Prior review state for everyone recorded last run — participants AND
+  // non-participants — so review stickiness works regardless of which list a
+  // member lands in this time.
+  const priorReviewById = new Map<string, Partial<ReviewFields>>(priorByStemId)
+  for (const p of prior?.nonParticipants ?? [])
+    priorReviewById.set(p.steam_id, p)
+
   // --- Resolve who competes ---
   let roster: { participants: RosterEntry[]; guests: RosterEntry[] } | null = null
   let resolved: ResolvedParticipant[]
@@ -694,7 +767,12 @@ async function generateChallenge(config: ChallengeConfig): Promise<void> {
         ? p.achievements_unlocked_total > 0 || p.game.total > 0
         : playtimeChallengeMinutes > 0 || achievementsSinceBaseline > 0
 
-    const review = reviewFields(r.steam_id, config.appId, reviews)
+    const review = stickyReviewFields(
+      r.steam_id,
+      config.appId,
+      reviews,
+      priorReviewById.get(r.steam_id),
+    )
     const winFields =
       config.win.type === 'achievement'
         ? achievementWinFields(p, config)
@@ -755,7 +833,12 @@ async function generateChallenge(config: ChallengeConfig): Promise<void> {
         achievements_unlocked_total: p.achievements_unlocked_total,
         achievements_total: p.achievements_total,
         challenge_achievement_count: p.challenge_achievement_count,
-        ...reviewFields(m.steam_id, config.appId, reviews),
+        ...stickyReviewFields(
+          m.steam_id,
+          config.appId,
+          reviews,
+          priorReviewById.get(m.steam_id),
+        ),
       })
     }
     process.stderr.write('\n')
@@ -912,6 +995,10 @@ async function generateChallenge(config: ChallengeConfig): Promise<void> {
 }
 
 async function main(): Promise<void> {
+  if (!API_KEY) {
+    console.error('❌ STEAM_API_KEY not set')
+    process.exit(1)
+  }
   // Optional filter: `CHALLENGE=neo_cab` env or first CLI arg. Matches a
   // challenge's dataSlug or slug. With no filter, generate every non-dormant
   // challenge — or every challenge when INCLUDE_DORMANT=true (the biweekly CI
