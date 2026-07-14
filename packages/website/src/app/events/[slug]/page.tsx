@@ -91,9 +91,27 @@ export async function generateMetadata(props: {
   const { slug } = await props.params
   const event = getEventBySlug(slug)
   if (!event) return { title: 'Event — The Giveaways Club' }
+  const title = `${event.name} — The Giveaways Club`
+  // OG descriptions want a short blurb, not the full multi-paragraph writeup.
+  const description =
+    event.tagline ?? event.description.split('\n')[0].slice(0, 200)
+  // The og:image / twitter:image come from opengraph-image.tsx automatically;
+  // metadataBase (root layout) makes the image and url absolute.
   return {
-    title: `${event.name} — The Giveaways Club`,
-    description: event.description,
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      type: 'website',
+      url: `/events/${slug}/`,
+      siteName: 'The Giveaways Club',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+    },
   }
 }
 

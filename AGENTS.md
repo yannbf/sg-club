@@ -6,6 +6,8 @@ Analytics dashboard for "The Giveaways Club" - a SteamGifts group. Combines auto
 
 All data is JSON-based (no database). A scraper generates JSON files that the website reads at build time for static export.
 
+**Production URL:** https://sg-club.vercel.app/ (deployed on Vercel via its native Git integration — a push to `main` triggers a build+deploy; the disabled `deploy_vercel.old_yml` is the retired Action-based hook). This is the canonical origin — use it for `metadataBase`, Open Graph / social share image URLs, and any absolute-link needs.
+
 ## Architecture
 
 ```

@@ -18,6 +18,9 @@ const jetbrains = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
+  // Canonical production origin — makes Open Graph / Twitter image + URL
+  // metadata resolve to absolute links when the site is shared.
+  metadataBase: new URL('https://sg-club.vercel.app'),
   title: 'The Giveaways Club Analytics',
   description: 'Analytics dashboard for The Giveaways Club SteamGifts group.',
 }
