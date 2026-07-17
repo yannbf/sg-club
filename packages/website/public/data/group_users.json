@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1784224583430,
+  "lastUpdated": 1784260377370,
   "users": {
     "76561198359284432": {
       "username": "a10i",
@@ -20335,7 +20335,7 @@
     "76561199434715535": {
       "username": "DancingXmas",
       "profile_url": "/user/DancingXmas",
-      "avatar_url": "https://avatars.steamstatic.com/a8865c2487da688fb87124d2fe2c004485c9d5ea_medium.jpg",
+      "avatar_url": "https://avatars.steamstatic.com/8b7f5c7e2591280eab67f842deab510e7c54fac7_medium.jpg",
       "steam_id": "76561199434715535",
       "stats": {
         "total_sent_count": 4.3,
@@ -20421,7 +20421,7 @@
           "name": "Cuisineer",
           "link": "V05yp/cuisineer",
           "cv_status": "FULL_CV",
-          "entries": 12,
+          "entries": 15,
           "copies": 1,
           "created_timestamp": 1784057384,
           "end_timestamp": 1784347140,
@@ -20432,7 +20432,7 @@
           "name": "PRAGMATA",
           "link": "WcWCm/pragmata",
           "cv_status": "FULL_CV",
-          "entries": 43,
+          "entries": 44,
           "copies": 1,
           "created_timestamp": 1784053337,
           "end_timestamp": 1784347140,
@@ -21329,9 +21329,9 @@
         "giveaway_ratio": 7.67,
         "shared_sent_count": 0,
         "shared_received_count": 1,
-        "giveaways_created": 7,
+        "giveaways_created": 9,
         "giveaways_with_no_entries": 0,
-        "last_giveaway_created_at": 1772369383,
+        "last_giveaway_created_at": 1784236622,
         "last_giveaway_won_at": 1758920400,
         "first_seen_at": 1752521940,
         "total_achievements_percentage": 43,
@@ -21428,6 +21428,28 @@
         }
       ],
       "giveaways_created": [
+        {
+          "name": "That's not my Neighbor",
+          "link": "iS82s/thats-not-my-neighbor",
+          "cv_status": "FULL_CV",
+          "entries": 8,
+          "copies": 1,
+          "created_timestamp": 1784236622,
+          "end_timestamp": 1784412000,
+          "required_play": false,
+          "is_shared": true
+        },
+        {
+          "name": "The Coffin of Andy and Leyley",
+          "link": "C7y1l/the-coffin-of-andy-and-leyley",
+          "cv_status": "FULL_CV",
+          "entries": 10,
+          "copies": 1,
+          "created_timestamp": 1784236170,
+          "end_timestamp": 1784412000,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "Platform 8",
           "link": "gPmgX/platform-8",
@@ -31346,12 +31368,12 @@
       "avatar_url": "https://avatars.steamstatic.com/1168abd7dd5c6cc8eb4488f9012be53340b28456_medium.jpg",
       "steam_id": "76561197967055456",
       "stats": {
-        "total_sent_count": 9.4,
-        "total_sent_value": 134.97,
+        "total_sent_count": 10.1,
+        "total_sent_value": 140.97,
         "total_received_count": 2,
         "total_received_value": 77.98,
-        "total_gift_difference": 7.4,
-        "total_value_difference": 56.99,
+        "total_gift_difference": 8.1,
+        "total_value_difference": 62.99,
         "fcv_sent_count": 4,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
@@ -31366,7 +31388,7 @@
         "real_total_received_count": 2,
         "real_total_gift_difference": 2,
         "giveaway_ratio": 3.33,
-        "shared_sent_count": 19,
+        "shared_sent_count": 21,
         "shared_received_count": 0,
         "giveaways_created": 25,
         "giveaways_with_no_entries": 0,
@@ -31438,9 +31460,10 @@
           "had_winners": true,
           "winners": [
             {
-              "name": null,
-              "status": "awaiting_feedback",
-              "activated": false
+              "name": "monkey66",
+              "winner_username": "monkey66",
+              "status": "received",
+              "activated": true
             }
           ]
         },
@@ -31457,9 +31480,10 @@
           "had_winners": true,
           "winners": [
             {
-              "name": null,
-              "status": "awaiting_feedback",
-              "activated": false
+              "name": "SlappyBag",
+              "winner_username": "SlappyBag",
+              "status": "received",
+              "activated": true
             }
           ]
         },
@@ -33579,7 +33603,7 @@
           "name": "WitchSpring R",
           "link": "ydQsc/witchspring-r",
           "cv_status": "FULL_CV",
-          "entries": 13,
+          "entries": 14,
           "copies": 1,
           "created_timestamp": 1783728870,
           "end_timestamp": 1785028260,
@@ -34621,7 +34645,10 @@
           ]
         }
       ],
-      "registered_at": 1735055786
+      "registered_at": 1735055786,
+      "warnings": [
+        "no_giveaway_created_in_6_months"
+      ]
     },
     "76561199644864244": {
       "username": "Grogglz",
@@ -49107,7 +49134,7 @@
           "name": "StarRupture",
           "link": "wvAOP/starrupture",
           "cv_status": "FULL_CV",
-          "entries": 5,
+          "entries": 6,
           "copies": 1,
           "created_timestamp": 1783620526,
           "end_timestamp": 1784293200,
@@ -53390,7 +53417,7 @@
           "name": "Golfie",
           "link": "xbwTA/golfie",
           "cv_status": "REDUCED_CV",
-          "entries": 46,
+          "entries": 45,
           "copies": 1,
           "created_timestamp": 1783728277,
           "end_timestamp": 1784347200,
@@ -53401,7 +53428,7 @@
           "name": "Sorcery! Part 4",
           "link": "mQbat/sorcery-part-4",
           "cv_status": "REDUCED_CV",
-          "entries": 38,
+          "entries": 40,
           "copies": 1,
           "created_timestamp": 1783817076,
           "end_timestamp": 1784433600,
@@ -53412,7 +53439,7 @@
           "name": "Sorcery! Parts 1 and 2",
           "link": "TmZK9/sorcery-parts-1-and-2",
           "cv_status": "REDUCED_CV",
-          "entries": 34,
+          "entries": 36,
           "copies": 1,
           "created_timestamp": 1784071035,
           "end_timestamp": 1784692800,
@@ -68309,7 +68336,7 @@
           "name": "Hell is Us",
           "link": "heRxU/hell-is-us",
           "cv_status": "FULL_CV",
-          "entries": 12,
+          "entries": 13,
           "copies": 1,
           "created_timestamp": 1783950117,
           "end_timestamp": 1784388540,
@@ -85405,7 +85432,7 @@
           "name": "Persona 5 Royal",
           "link": "aXITv/persona-5-royal",
           "cv_status": "REDUCED_CV",
-          "entries": 14,
+          "entries": 15,
           "copies": 1,
           "created_timestamp": 1784131373,
           "end_timestamp": 1784307540,
@@ -88042,7 +88069,7 @@
           "name": "Moonlight Peaks",
           "link": "ywdqC/moonlight-peaks",
           "cv_status": "FULL_CV",
-          "entries": 17,
+          "entries": 18,
           "copies": 1,
           "created_timestamp": 1784064086,
           "end_timestamp": 1786655820,
@@ -102222,7 +102249,7 @@
           "name": "Scale the Depths",
           "link": "hNF6V/scale-the-depths",
           "cv_status": "FULL_CV",
-          "entries": 11,
+          "entries": 13,
           "copies": 1,
           "created_timestamp": 1784156139,
           "end_timestamp": 1784484000,
@@ -106121,7 +106148,7 @@
           "name": "Lorelei and the Laser Eyes",
           "link": "CjLMi/lorelei-and-the-laser-eyes",
           "cv_status": "FULL_CV",
-          "entries": 14,
+          "entries": 15,
           "copies": 1,
           "created_timestamp": 1784142843,
           "end_timestamp": 1784476800,
