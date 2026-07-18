@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1783036800,
   "totalAchievements": 18,
-  "generatedAt": 1784365715298,
+  "generatedAt": 1784371571829,
   "challengeOver": false,
   "winnerUsername": "RaitorHaitor",
   "participants": [
@@ -1345,11 +1345,11 @@
       "is_guest": false,
       "owned": true,
       "stats_available": true,
-      "wrote_review": false,
-      "review_voted_up": null,
-      "review_timestamp": null,
-      "review_recommendationid": null,
-      "review_url": null,
+      "wrote_review": true,
+      "review_voted_up": false,
+      "review_timestamp": 1784359623,
+      "review_recommendationid": "230739032",
+      "review_url": "https://steamcommunity.com/profiles/76561198080362358/recommended/794540",
       "playtime_total_minutes": 812,
       "playtime_2weeks_minutes": 812,
       "baseline_playtime_minutes": 0,
@@ -1466,8 +1466,8 @@
       "completed_before_start": false,
       "completed_after_deadline": false,
       "meets_playtime": true,
-      "meets_review": false,
-      "is_winner": false
+      "meets_review": true,
+      "is_winner": true
     },
     {
       "username": "Yamaraus",
@@ -2661,7 +2661,8 @@
     "SoullessSoup",
     "Almostn33t",
     "MrOuiOui",
-    "vot4ol"
+    "vot4ol",
+    "VenomousNyx"
   ],
   "roster": {
     "participants": [
