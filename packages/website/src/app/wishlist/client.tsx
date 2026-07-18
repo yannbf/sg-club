@@ -70,8 +70,10 @@ interface Props {
   users: UserLookup
 }
 
-function formatPriceCents(cents: number): string {
-  if (cents === 0) return 'Free'
+/** A price of 0 means "no price data" (unreleased, delisted, or a fetch
+ *  gap) — never render it as "Free". */
+function formatPriceCents(cents: number | null | undefined): string | null {
+  if (cents == null || cents === 0) return null
   return `$${(cents / 100).toFixed(2)}`
 }
 
@@ -142,7 +144,7 @@ function GameInsightsPopover({
   const gameData = appKey ? gameDataByAppId[appKey] : undefined
   const totalMembers = insights?.total_members ?? null
 
-  const hasPrice = gameData != null && gameData.price_usd_full != null
+  const priceText = formatPriceCents(gameData?.price_usd_full)
   const hasReview =
     gameData != null &&
     (gameData.rating_percent != null ||
@@ -199,10 +201,10 @@ function GameInsightsPopover({
             <p>No review data yet</p>
           )}
 
-          {hasPrice ? (
+          {priceText != null ? (
             <p>
               <span className="font-semibold text-foreground">Price:</span>{' '}
-              {formatPriceCents(gameData!.price_usd_full)}
+              {priceText}
               {insight?.bundled != null && (
                 <>
                   {' · '}
@@ -656,10 +658,7 @@ export default function WishlistClient({
           const neverGiven = giveawayCount === 0
           const cardGameData = getGameDataForEntry(entry, gameDataByAppId)
           const cardInsight = getInsightForEntry(entry, insights)
-          const cardPriceText =
-            cardGameData?.price_usd_full != null
-              ? formatPriceCents(cardGameData.price_usd_full)
-              : null
+          const cardPriceText = formatPriceCents(cardGameData?.price_usd_full)
           const cardHasRating =
             cardGameData?.review_score_desc != null ||
             cardGameData?.rating_percent != null
