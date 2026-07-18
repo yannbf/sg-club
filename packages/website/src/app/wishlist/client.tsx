@@ -143,6 +143,10 @@ function GameInsightsPopover({
   const insight = appKey ? insights?.games[appKey] : undefined
   const gameData = appKey ? gameDataByAppId[appKey] : undefined
   const totalMembers = insights?.total_members ?? null
+  // Honest denominators: owners/wanters can only be detected for members
+  // whose Steam library/wishlist is public.
+  const ownsTotal = insights?.members_with_library_data ?? totalMembers
+  const wantsTotal = insights?.members_with_wishlist_data ?? totalMembers
 
   const priceText = formatPriceCents(gameData?.price_usd_full)
   const hasReview =
@@ -232,7 +236,7 @@ function GameInsightsPopover({
             <div>
               <h4 className="text-xs font-semibold text-accent-green">
                 OWNS ({insight.owners.length}
-                {totalMembers != null ? `/${totalMembers}` : ''})
+                {ownsTotal != null ? `/${ownsTotal}` : ''})
               </h4>
               <div className="mt-1 max-h-72 overflow-y-auto">
                 <MemberList
@@ -245,7 +249,7 @@ function GameInsightsPopover({
             <div>
               <h4 className="text-xs font-semibold text-accent-green">
                 WANTS ({insight.wanters.length}
-                {totalMembers != null ? `/${totalMembers}` : ''})
+                {wantsTotal != null ? `/${wantsTotal}` : ''})
               </h4>
               <div className="mt-1 max-h-72 overflow-y-auto">
                 <MemberList
@@ -255,6 +259,14 @@ function GameInsightsPopover({
                 />
               </div>
             </div>
+            {totalMembers != null && (
+              <p className="text-[10px] leading-snug text-subtle">
+                Based on public Steam data: {ownsTotal}/{totalMembers} members
+                share their library, {wantsTotal}/{totalMembers} their
+                wishlist. Wishers ({'❤'}) counts SteamGifts wishlists
+                instead, which all members have.
+              </p>
+            )}
           </div>
         ) : (
           <p className="mt-3 text-xs text-muted-foreground">
