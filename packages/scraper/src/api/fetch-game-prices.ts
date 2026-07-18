@@ -11,6 +11,19 @@ interface Giveaway {
   name: string
 }
 
+interface WishlistEntry {
+  name: string
+  app_id: number | null
+  package_id: number | null
+}
+
+/** A deduplicated item pulled from either giveaways.json or wishlist.json. */
+interface TargetItem {
+  app_id: number | null
+  package_id: number | null
+  name: string
+}
+
 interface GameData {
   name: string
   app_id: number | null
@@ -20,6 +33,13 @@ interface GameData {
   price_usd_reduced: number | null
   needs_manual_update: boolean
   hltb_main_story_hours: number | null
+  // Steam store review summary — fetched incrementally (see
+  // REVIEWS_PER_RUN cap below), independent of the price/HLTB cache-forever
+  // semantics since review data legitimately goes stale over time.
+  rating_percent: number | null
+  review_count: number | null
+  review_score_desc: string | null
+  reviews_updated_at: string | null
 }
 
 interface ApiResponse {
@@ -31,16 +51,50 @@ interface ApiResponse {
   }
 }
 
+interface ReviewSummary {
+  rating_percent: number | null
+  review_count: number | null
+  review_score_desc: string | null
+}
+
 interface Stats {
   totalGames: number
-  cachedGames: number
   newlyProcessed: number
   errors: number
   skipped: number
+  newGamesProcessed: number
+  newGamesDeferred: number
+  reviewsFetched: number
+  reviewsFailed: number
+  reviewsDeferred: number
 }
 
 const DELAY_BETWEEN_REQUESTS = 1000 // 1 second delay between requests
 const API_BASE_URL = 'https://esgst.rafaelgomes.xyz/api/game'
+
+const REVIEWS_DELAY_MS = 300
+const REVIEWS_STALE_MS = 30 * 24 * 60 * 60 * 1000 // 30 days — review scores move slowly
+
+/**
+ * How many brand-new games (not yet present in game_data.json) get the full
+ * ESGST + HLTB treatment in a single run. Games already in giveaways.json
+ * churn slowly, but wishlist.json can dump a ~1000-game one-time backlog on
+ * the union set — without a cap that would blow past the CI job's 30-min
+ * timeout. Anything over the cap is simply skipped this run (never added to
+ * the map), so it's picked up automatically on the next 8h run.
+ */
+function getNewGamesCap(): number {
+  const raw = process.env.GAME_DATA_NEW_PER_RUN
+  const parsed = raw !== undefined ? Number(raw) : NaN
+  return Number.isFinite(parsed) && parsed >= 0 ? parsed : 150
+}
+
+/** How many stale/missing review summaries get fetched in a single run. */
+function getReviewsPerRunCap(): number {
+  const raw = process.env.GAME_DATA_REVIEWS_PER_RUN
+  const parsed = raw !== undefined ? Number(raw) : NaN
+  return Number.isFinite(parsed) && parsed >= 0 ? parsed : 200
+}
 
 async function fetchGameData(
   type: 'app' | 'sub',
@@ -176,13 +230,74 @@ async function fetchHltbData(
   }
 }
 
+/**
+ * Fetch a Steam store review summary for a single app, with linear backoff
+ * retry on 429/5xx (mirrors getJsonWithRetry in generate-challenge-data.ts).
+ * Non-retryable HTTP errors (e.g. 404 for a delisted app) fail fast.
+ * Returns null on exhausted retries or a non-retryable failure.
+ */
+async function fetchReviewSummary(
+  appId: number,
+  attempts = 4
+): Promise<ReviewSummary | null> {
+  const url =
+    `https://store.steampowered.com/appreviews/${appId}?json=1` +
+    `&language=all&purchase_type=all&num_per_page=0`
+
+  let lastErr: unknown
+  for (let attempt = 1; attempt <= attempts; attempt++) {
+    try {
+      const response = await fetch(url)
+      if (response.status === 429 || response.status >= 500) {
+        throw new Error(`Retryable ${response.status} ${response.statusText}`)
+      }
+      if (!response.ok) {
+        console.warn(
+          `⚠️ Review fetch failed for appid ${appId}: ${response.status} ${response.statusText}`
+        )
+        return null
+      }
+      const data = (await response.json()) as {
+        query_summary?: {
+          review_score_desc?: string
+          total_positive?: number
+          total_reviews?: number
+        }
+      }
+      const qs = data.query_summary ?? {}
+      const totalReviews = qs.total_reviews ?? 0
+      const totalPositive = qs.total_positive ?? 0
+      return {
+        rating_percent:
+          totalReviews > 0
+            ? Math.round((totalPositive / totalReviews) * 100)
+            : null,
+        review_count: totalReviews,
+        review_score_desc: qs.review_score_desc ?? null,
+      }
+    } catch (error) {
+      lastErr = error
+      if (attempt < attempts) await setTimeout(500 * attempt)
+    }
+  }
+  console.warn(
+    `⚠️ Review fetch failed after ${attempts} attempts for appid ${appId}:`,
+    String(lastErr)
+  )
+  return null
+}
+
 function formatStats(stats: Stats): string {
   return `
 📊 Processing Statistics:
 ------------------------
-🎮 Total games found: ${stats.totalGames}
-💾 Already in cache: ${stats.cachedGames}
+🎮 Total games in union set: ${stats.totalGames}
 ✨ Newly processed: ${stats.newlyProcessed}
+🆕 New games fetched this run: ${stats.newGamesProcessed}
+⏳ New games deferred (cap reached): ${stats.newGamesDeferred}
+⭐ Review summaries fetched: ${stats.reviewsFetched}
+⚠️  Review fetches failed: ${stats.reviewsFailed}
+⏳ Review fetches deferred (cap reached): ${stats.reviewsDeferred}
 ❌ Errors: ${stats.errors}
 ⏭️  Skipped (no ID): ${stats.skipped}
 ------------------------
@@ -193,10 +308,14 @@ export async function generateGamePrices() {
   console.log('🚀 Starting game price fetcher...\n')
   const stats: Stats = {
     totalGames: 0,
-    cachedGames: 0,
     newlyProcessed: 0,
     errors: 0,
     skipped: 0,
+    newGamesProcessed: 0,
+    newGamesDeferred: 0,
+    reviewsFetched: 0,
+    reviewsFailed: 0,
+    reviewsDeferred: 0,
   }
 
   try {
@@ -237,53 +356,106 @@ export async function generateGamePrices() {
     }
     const giveawaysData = await fs.readFile(giveawaysPath, 'utf-8')
     const { giveaways }: { giveaways: Giveaway[] } = JSON.parse(giveawaysData)
+    console.log(`📚 Found ${giveaways.length} total giveaways`)
 
-    console.log(`📚 Found ${giveaways.length} total giveaways to process\n`)
-    stats.totalGames = giveaways.length
+    // Read wishlist data (optional — may not exist yet, or on a local run)
+    const wishlistPath = path.join(
+      import.meta.dirname,
+      '../../../website/public/data/wishlist.json'
+    )
+    let wishlistEntries: WishlistEntry[] = []
+    if (existsSync(wishlistPath)) {
+      const wishlistData = await fs.readFile(wishlistPath, 'utf-8')
+      const parsed = JSON.parse(wishlistData)
+      wishlistEntries = parsed.entries ?? []
+      console.log(`💝 Found ${wishlistEntries.length} wishlist entries`)
+    } else {
+      console.log('📝 No wishlist.json found, skipping wishlist union')
+    }
 
-    // Track what we've processed in this run to avoid duplicates
-    const processedInThisRun = new Set<number>()
-    let processed = 0
+    // Build the union of giveaways + wishlist games, deduped by app_id/package_id.
+    const targetItemsMap = new Map<number, TargetItem>()
+    for (const giveaway of giveaways) {
+      const id = giveaway.app_id || giveaway.package_id
+      if (!id) {
+        stats.skipped++
+        continue
+      }
+      if (!targetItemsMap.has(id)) {
+        targetItemsMap.set(id, {
+          app_id: giveaway.app_id || null,
+          package_id: giveaway.package_id || null,
+          name: giveaway.name,
+        })
+      }
+    }
+    for (const entry of wishlistEntries) {
+      // Skip wishlist entries with no app_id AND no package_id. Entries with
+      // a package_id but null app_id are kept.
+      const id = entry.app_id || entry.package_id
+      if (!id) {
+        stats.skipped++
+        continue
+      }
+      if (!targetItemsMap.has(id)) {
+        targetItemsMap.set(id, {
+          app_id: entry.app_id || null,
+          package_id: entry.package_id || null,
+          name: entry.name,
+        })
+      }
+    }
+
+    const targetItems = Array.from(targetItemsMap.values())
+    console.log(
+      `📚 Union set: ${targetItems.length} unique games to consider\n`
+    )
+    stats.totalGames = targetItems.length
+
+    const newGamesCap = getNewGamesCap()
+    console.log(`🆕 New-game cap for this run: ${newGamesCap}\n`)
 
     // Runtime cache for this session
     const runtimeCache = new Map<number, GameData>()
 
-    for (const giveaway of giveaways) {
-      if (!giveaway.app_id && !giveaway.package_id) {
-        stats.skipped++
-        continue
-      }
+    let processed = 0
 
-      const id = giveaway.app_id || giveaway.package_id
+    for (const item of targetItems) {
+      const id = item.app_id || item.package_id
       if (!id) continue // TypeScript safety
 
-      // Skip if we've already processed this ID in this run
-      if (processedInThisRun.has(id)) {
-        console.log(
-          `⚠️ Skipping duplicate entry for ID ${id} (processed in this run)`
-        )
+      const existingGame = existingGamesMap.get(id) || null
+      const isNewGame = !existingGame
+
+      if (isNewGame && stats.newGamesProcessed >= newGamesCap) {
+        stats.newGamesDeferred++
         continue
       }
-
-      const existingGame = existingGamesMap.get(id) || null
 
       // Fetch price data if needed
       const priceData = await fetchPriceData(
-        giveaway.app_id ? 'app' : 'sub',
+        item.app_id ? 'app' : 'sub',
         id,
         existingGame,
         runtimeCache
       )
 
-      // Create or update game data
+      // Create or update game data. Review fields are carried over from the
+      // existing entry (or default to null for brand-new games) — they're
+      // updated separately below by the incremental review-fetch pass, not
+      // here, so this loop never clobbers a previously-fetched rating.
       const gameData: GameData = {
-        name: priceData.name || giveaway.name,
-        app_id: giveaway.app_id || null,
-        package_id: giveaway.package_id || null,
+        name: priceData.name || item.name,
+        app_id: item.app_id || null,
+        package_id: item.package_id || null,
         price_usd_full: priceData.price_usd_full,
         price_usd_reduced: priceData.price_usd_reduced,
         needs_manual_update: priceData.needs_manual_update,
         hltb_main_story_hours: null, // Will be updated below
+        rating_percent: existingGame?.rating_percent ?? null,
+        review_count: existingGame?.review_count ?? null,
+        review_score_desc: existingGame?.review_score_desc ?? null,
+        reviews_updated_at: existingGame?.reviews_updated_at ?? null,
       }
 
       if (
@@ -318,9 +490,9 @@ export async function generateGamePrices() {
         // Add new game to map
         existingGamesMap.set(id, gameData)
         console.log(`✨ Added new game: ${gameData.name}`)
+        stats.newGamesProcessed++
       }
 
-      processedInThisRun.add(id) // Mark as processed in this run
       runtimeCache.set(id, gameData) // Add to runtime cache
       stats.newlyProcessed++
 
@@ -328,6 +500,64 @@ export async function generateGamePrices() {
       if (processed % 10 === 0) {
         console.log(`\n🔄 Progress: ${processed} games processed\n`)
       }
+    }
+
+    if (stats.newGamesDeferred > 0) {
+      console.log(
+        `⏳ Deferred ${stats.newGamesDeferred} new game(s) to a future run (cap ${newGamesCap} reached)\n`
+      )
+    }
+
+    // --- Incremental review-summary pass ---
+    // Only app_id games are eligible (package-only entries keep nulls).
+    // Priority: never-fetched (null) games first, then oldest-fetched first.
+    const reviewsPerRunCap = getReviewsPerRunCap()
+    const now = Date.now()
+
+    const reviewCandidates = Array.from(existingGamesMap.values()).filter(
+      (game) => {
+        if (!game.app_id) return false
+        if (!game.reviews_updated_at) return true
+        return (
+          now - new Date(game.reviews_updated_at).getTime() > REVIEWS_STALE_MS
+        )
+      }
+    )
+    reviewCandidates.sort((a, b) => {
+      if (!a.reviews_updated_at && !b.reviews_updated_at) return 0
+      if (!a.reviews_updated_at) return -1
+      if (!b.reviews_updated_at) return 1
+      return (
+        new Date(a.reviews_updated_at).getTime() -
+        new Date(b.reviews_updated_at).getTime()
+      )
+    })
+
+    const reviewsToFetch = reviewCandidates.slice(0, reviewsPerRunCap)
+    stats.reviewsDeferred = reviewCandidates.length - reviewsToFetch.length
+
+    console.log(
+      `\n⭐ Fetching review summaries for ${reviewsToFetch.length} game(s) (cap ${reviewsPerRunCap}, ${stats.reviewsDeferred} deferred)...\n`
+    )
+
+    for (const game of reviewsToFetch) {
+      if (!game.app_id) continue // TypeScript safety
+      const summary = await fetchReviewSummary(game.app_id)
+      if (summary) {
+        game.rating_percent = summary.rating_percent
+        game.review_count = summary.review_count
+        game.review_score_desc = summary.review_score_desc
+        game.reviews_updated_at = new Date().toISOString()
+        stats.reviewsFetched++
+        console.log(
+          `⭐ ${game.name}: ${summary.rating_percent ?? 'N/A'}% (${
+            summary.review_count ?? 0
+          } reviews) — ${summary.review_score_desc ?? 'n/a'}`
+        )
+      } else {
+        stats.reviewsFailed++
+      }
+      await setTimeout(REVIEWS_DELAY_MS)
     }
 
     // Convert map values back to array for saving

@@ -7,12 +7,14 @@ import {
   ExternalLink,
   Filter,
   Heart,
+  Info,
   Search,
   Sparkles,
+  Tag,
   Users as UsersIcon,
   X,
 } from 'lucide-react'
-import { WishlistEntry } from '@/types'
+import { GameData, GameInsightsData, WishlistEntry } from '@/types'
 import { LastUpdated } from '@/components/LastUpdated'
 import { useDebounce } from '@/lib/hooks'
 import { Card } from '@/components/ui/Card'
@@ -28,13 +30,23 @@ import {
   SelectValue,
 } from '@/components/ui/Select'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/ToggleGroup'
+import {
+  Popover,
+  PopoverClose,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/Popover'
 import GameImage from '@/components/GameImage'
+import { UserLink } from '@/components/UserLink'
 import { cn } from '@/lib/cn'
 
 export interface GiveawayStats {
   giveawayCount: number
   averageEntries: number | null
 }
+
+/** steam_id → display info, for resolving owners/wanters in the insights popover. */
+export type UserLookup = Record<string, { username: string; avatar_url: string }>
 
 interface Props {
   entries: WishlistEntry[]
@@ -49,9 +61,218 @@ interface Props {
     exclusive: Record<string, GiveawayStats>
     all: Record<string, GiveawayStats>
   }
+  /** Steam review/price/ownership rollups, keyed by app_id. Null when the
+   *  sibling data pipeline hasn't produced game_insights.json yet. */
+  insights: GameInsightsData | null
+  /** Game price/metadata, keyed by app_id (as a string). */
+  gameDataByAppId: Record<string, GameData>
+  /** steam_id → display info, for resolving owners/wanters. */
+  users: UserLookup
 }
 
-type SortKey = 'wishes' | 'name' | 'giveaways' | 'avg_entries'
+function formatPriceCents(cents: number): string {
+  if (cents === 0) return 'Free'
+  return `$${(cents / 100).toFixed(2)}`
+}
+
+/** Maps a Steam review_score_desc (e.g. "Very Positive") to a text color class
+ *  matching Steam's own store palette. Falls back to muted for unknown/absent
+ *  values (including the literal "No user reviews"). */
+function reviewToneClass(desc: string | null | undefined): string {
+  if (!desc) return 'text-muted-foreground'
+  if (desc.includes('Positive')) return 'text-[#66c0f4]'
+  if (desc.includes('Mixed')) return 'text-[#b9a06a]'
+  if (desc.includes('Negative')) return 'text-[#a34c25]'
+  return 'text-muted-foreground'
+}
+
+/** Renders a wrapped, comma-separated list of member usernames, or a muted fallback when empty. */
+function MemberList({
+  steamIds,
+  users,
+  emptyLabel,
+}: {
+  steamIds: string[]
+  users: UserLookup
+  emptyLabel: string
+}) {
+  const resolved = steamIds
+    .map((id) => users[id])
+    .filter((u): u is UserLookup[string] => Boolean(u))
+    .sort((a, b) => a.username.localeCompare(b.username, undefined, { sensitivity: 'base' }))
+
+  if (resolved.length === 0) {
+    return <p className="text-xs text-muted-foreground">{emptyLabel}</p>
+  }
+
+  return (
+    <div className="flex flex-wrap gap-x-1 gap-y-1 text-xs">
+      {resolved.map((user, index) => (
+        <span key={user.username}>
+          <UserLink
+            username={user.username}
+            className="text-foreground hover:text-accent hover:underline"
+          >
+            {user.username}
+          </UserLink>
+          {index < resolved.length - 1 && (
+            <span className="text-subtle">,</span>
+          )}
+        </span>
+      ))}
+    </div>
+  )
+}
+
+interface GameInsightsPopoverProps {
+  entry: WishlistEntry
+  insights: GameInsightsData | null
+  gameDataByAppId: Record<string, GameData>
+  users: UserLookup
+}
+
+function GameInsightsPopover({
+  entry,
+  insights,
+  gameDataByAppId,
+  users,
+}: GameInsightsPopoverProps) {
+  const appKey = entry.app_id != null ? String(entry.app_id) : null
+  const insight = appKey ? insights?.games[appKey] : undefined
+  const gameData = appKey ? gameDataByAppId[appKey] : undefined
+  const totalMembers = insights?.total_members ?? null
+
+  const hasPrice = gameData != null && gameData.price_usd_full != null
+  const hasReview =
+    gameData != null &&
+    (gameData.rating_percent != null ||
+      gameData.review_count != null ||
+      gameData.review_score_desc != null)
+
+  return (
+    <Popover>
+      <PopoverTrigger asChild>
+        <button
+          type="button"
+          aria-label="Game insights"
+          className="inline-flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full border border-card-border bg-card-background-hover text-muted-foreground transition-colors hover:border-card-border-strong hover:text-foreground"
+        >
+          <Info className="h-3.5 w-3.5" />
+        </button>
+      </PopoverTrigger>
+      <PopoverContent>
+        <div className="flex items-start justify-between gap-2">
+          <a
+            href={entry.steam_url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm font-semibold text-foreground hover:text-accent hover:underline"
+          >
+            {entry.name}
+          </a>
+          <PopoverClose
+            aria-label="Close"
+            className="flex-shrink-0 rounded-md p-0.5 text-muted-foreground transition-colors hover:bg-card-background-hover hover:text-foreground"
+          >
+            <X className="h-3.5 w-3.5" />
+          </PopoverClose>
+        </div>
+        {entry.app_id != null && (
+          <p className="mt-0.5 text-xs text-subtle">appid {entry.app_id}</p>
+        )}
+
+        <div className="mt-3 space-y-1 text-xs text-muted-foreground">
+          {hasReview ? (
+            <p>
+              <span className="font-semibold text-foreground">Rating:</span>{' '}
+              <span className={reviewToneClass(gameData?.review_score_desc)}>
+                {gameData?.review_score_desc ?? 'Unknown'}
+                {gameData?.rating_percent != null && (
+                  <> · {gameData.rating_percent}%</>
+                )}
+              </span>
+              {gameData?.review_count != null && (
+                <> · {gameData.review_count.toLocaleString()} reviews</>
+              )}
+            </p>
+          ) : (
+            <p>No review data yet</p>
+          )}
+
+          {hasPrice ? (
+            <p>
+              <span className="font-semibold text-foreground">Price:</span>{' '}
+              {formatPriceCents(gameData!.price_usd_full)}
+              {insight?.bundled != null && (
+                <>
+                  {' · '}
+                  <span className="font-semibold text-foreground">
+                    Bundled:
+                  </span>{' '}
+                  {insight.bundled ? 'Yes' : 'No'}
+                </>
+              )}
+            </p>
+          ) : (
+            insight?.bundled != null && (
+              <p>
+                <span className="font-semibold text-foreground">
+                  Bundled:
+                </span>{' '}
+                {insight.bundled ? 'Yes' : 'No'}
+              </p>
+            )
+          )}
+        </div>
+
+        {insight ? (
+          <div className="mt-3 space-y-3">
+            <div>
+              <h4 className="text-xs font-semibold text-accent-green">
+                OWNS ({insight.owners.length}
+                {totalMembers != null ? `/${totalMembers}` : ''})
+              </h4>
+              <div className="mt-1 max-h-72 overflow-y-auto">
+                <MemberList
+                  steamIds={insight.owners}
+                  users={users}
+                  emptyLabel="Nobody owns this yet"
+                />
+              </div>
+            </div>
+            <div>
+              <h4 className="text-xs font-semibold text-accent-green">
+                WANTS ({insight.wanters.length}
+                {totalMembers != null ? `/${totalMembers}` : ''})
+              </h4>
+              <div className="mt-1 max-h-72 overflow-y-auto">
+                <MemberList
+                  steamIds={insight.wanters}
+                  users={users}
+                  emptyLabel="Nobody wants this yet"
+                />
+              </div>
+            </div>
+          </div>
+        ) : (
+          <p className="mt-3 text-xs text-muted-foreground">
+            No member data for this game
+          </p>
+        )}
+      </PopoverContent>
+    </Popover>
+  )
+}
+
+type SortKey =
+  | 'wishes'
+  | 'name'
+  | 'giveaways'
+  | 'avg_entries'
+  | 'price'
+  | 'rating'
+  | 'most_wanted'
+  | 'most_owned'
 type SortDir = 'asc' | 'desc'
 type GivenFilter = 'all' | 'never_given' | 'given'
 
@@ -61,6 +282,26 @@ function getStatsKey(entry: WishlistEntry): string {
   if (entry.app_id != null) return `app:${entry.app_id}`
   if (entry.package_id != null) return `sub:${entry.package_id}`
   return `name:${entry.name.toLowerCase()}`
+}
+
+/** Looks up a wishlist entry's GameData by app_id, or undefined if unmapped
+ *  (no app_id, or no matching entry in the price/review dataset). */
+function getGameDataForEntry(
+  entry: WishlistEntry,
+  gameDataByAppId: Record<string, GameData>,
+): GameData | undefined {
+  return entry.app_id != null ? gameDataByAppId[String(entry.app_id)] : undefined
+}
+
+/** Looks up a wishlist entry's GameInsight by app_id, or undefined if
+ *  unmapped (no app_id, no insights data yet, or no matching entry). */
+function getInsightForEntry(
+  entry: WishlistEntry,
+  insights: GameInsightsData | null,
+) {
+  return entry.app_id != null
+    ? insights?.games[String(entry.app_id)]
+    : undefined
 }
 
 interface RowData {
@@ -74,6 +315,9 @@ export default function WishlistClient({
   entries,
   lastUpdated,
   giveawayStats,
+  insights,
+  gameDataByAppId,
+  users,
 }: Props) {
   // Dedupe defensively (data may already be deduped by scraper)
   const uniqueEntries = useMemo(() => {
@@ -170,10 +414,53 @@ export default function WishlistClient({
           if (bVal === null) return -1
           return (aVal - bVal) * dir
         }
+        case 'price': {
+          const aGame = getGameDataForEntry(a.entry, gameDataByAppId)
+          const bGame = getGameDataForEntry(b.entry, gameDataByAppId)
+          const aVal = aGame?.price_usd_full ?? null
+          const bVal = bGame?.price_usd_full ?? null
+          if (aVal == null && bVal == null) return 0
+          if (aVal == null) return 1
+          if (bVal == null) return -1
+          return (aVal - bVal) * dir
+        }
+        case 'rating': {
+          const aGame = getGameDataForEntry(a.entry, gameDataByAppId)
+          const bGame = getGameDataForEntry(b.entry, gameDataByAppId)
+          const aVal = aGame?.rating_percent ?? null
+          const bVal = bGame?.rating_percent ?? null
+          if (aVal == null && bVal == null) return 0
+          if (aVal == null) return 1
+          if (bVal == null) return -1
+          if (aVal !== bVal) return (aVal - bVal) * dir
+          // Tie-break by review_count desc, independent of sort direction.
+          const aCount = aGame?.review_count ?? 0
+          const bCount = bGame?.review_count ?? 0
+          return bCount - aCount
+        }
+        case 'most_wanted': {
+          const aVal = getInsightForEntry(a.entry, insights)?.wanters.length ?? 0
+          const bVal = getInsightForEntry(b.entry, insights)?.wanters.length ?? 0
+          return (aVal - bVal) * dir
+        }
+        case 'most_owned': {
+          const aVal = getInsightForEntry(a.entry, insights)?.owners.length ?? 0
+          const bVal = getInsightForEntry(b.entry, insights)?.owners.length ?? 0
+          return (aVal - bVal) * dir
+        }
       }
     })
     return filtered
-  }, [ranked, debouncedSearch, minCount, givenFilter, sortKey, sortDir])
+  }, [
+    ranked,
+    debouncedSearch,
+    minCount,
+    givenFilter,
+    sortKey,
+    sortDir,
+    gameDataByAppId,
+    insights,
+  ])
 
   const visible = useMemo(
     () => filteredSorted.slice(0, visibleCount),
@@ -265,6 +552,10 @@ export default function WishlistClient({
               <SelectItem value="name">Name</SelectItem>
               <SelectItem value="giveaways">Giveaways in group</SelectItem>
               <SelectItem value="avg_entries">Avg entries</SelectItem>
+              <SelectItem value="price">Price</SelectItem>
+              <SelectItem value="rating">Rating</SelectItem>
+              <SelectItem value="most_wanted">Most wanted</SelectItem>
+              <SelectItem value="most_owned">Most owned</SelectItem>
             </SelectContent>
           </Select>
           <Button
@@ -363,6 +654,15 @@ export default function WishlistClient({
           const { entry, rank, giveawayCount, averageEntries } = row
           const searchUrl = `https://www.steamgifts.com/group/WlYTQ/thegiveawaysclub/search?q=${encodeURIComponent(entry.name)}`
           const neverGiven = giveawayCount === 0
+          const cardGameData = getGameDataForEntry(entry, gameDataByAppId)
+          const cardInsight = getInsightForEntry(entry, insights)
+          const cardPriceText =
+            cardGameData?.price_usd_full != null
+              ? formatPriceCents(cardGameData.price_usd_full)
+              : null
+          const cardHasRating =
+            cardGameData?.review_score_desc != null ||
+            cardGameData?.rating_percent != null
 
           return (
             <Card
@@ -417,14 +717,22 @@ export default function WishlistClient({
                   {entry.name}
                 </a>
 
-                <div className="flex items-center gap-1.5 text-xs">
-                  <Heart className="h-3 w-3 text-accent-rose" />
-                  <span className="font-semibold text-foreground tabular-nums-strict">
-                    {entry.wishlist_count}
-                  </span>
-                  <span className="text-muted-foreground">
-                    {entry.wishlist_count === 1 ? 'wisher' : 'wishers'}
-                  </span>
+                <div className="flex items-center justify-between gap-1.5">
+                  <div className="flex items-center gap-1.5 text-xs">
+                    <Heart className="h-3 w-3 text-accent-rose" />
+                    <span className="font-semibold text-foreground tabular-nums-strict">
+                      {entry.wishlist_count}
+                    </span>
+                    <span className="text-muted-foreground">
+                      {entry.wishlist_count === 1 ? 'wisher' : 'wishers'}
+                    </span>
+                  </div>
+                  <GameInsightsPopover
+                    entry={entry}
+                    insights={insights}
+                    gameDataByAppId={gameDataByAppId}
+                    users={users}
+                  />
                 </div>
 
                 {giveawayCount > 0 ? (
@@ -454,6 +762,56 @@ export default function WishlistClient({
                     Never given in the group
                   </p>
                 )}
+
+                {(cardPriceText || cardHasRating) && (
+                  <p className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                    {cardPriceText && (
+                      <span className="font-medium text-foreground">
+                        {cardPriceText}
+                      </span>
+                    )}
+                    {cardPriceText && cardHasRating && (
+                      <span className="text-subtle">·</span>
+                    )}
+                    {cardHasRating && (
+                      <span className={reviewToneClass(cardGameData?.review_score_desc)}>
+                        {cardGameData?.review_score_desc}
+                        {cardGameData?.review_score_desc &&
+                          cardGameData?.rating_percent != null &&
+                          ' · '}
+                        {cardGameData?.rating_percent != null &&
+                          `${cardGameData.rating_percent}%`}
+                      </span>
+                    )}
+                  </p>
+                )}
+
+                <div className="mt-auto flex items-end justify-between gap-2">
+                  {cardInsight ? (
+                    <p className="text-xs text-muted-foreground">
+                      <span className="font-medium text-foreground tabular-nums-strict">
+                        {cardInsight.owners.length}
+                      </span>{' '}
+                      own
+                      <span className="text-subtle"> · </span>
+                      <span className="font-medium text-foreground tabular-nums-strict">
+                        {cardInsight.wanters.length}
+                      </span>{' '}
+                      want
+                    </p>
+                  ) : (
+                    <span />
+                  )}
+                  <a
+                    href={`https://gg.deals/search/?${new URLSearchParams({ title: entry.name })}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex flex-shrink-0 items-center gap-1 text-xs text-muted-foreground transition-colors hover:text-foreground"
+                  >
+                    <Tag className="h-3 w-3" />
+                    Find deals
+                  </a>
+                </div>
               </div>
             </Card>
           )

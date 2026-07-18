@@ -1,6 +1,12 @@
-import { getWishlist, getAllGiveaways } from '@/lib/data'
+import {
+  getWishlist,
+  getAllGiveaways,
+  getGameInsights,
+  getGameData,
+  getAllUsersAsArray,
+} from '@/lib/data'
 import { Giveaway } from '@/types'
-import WishlistClient, { GiveawayStats } from './client'
+import WishlistClient, { GiveawayStats, UserLookup } from './client'
 
 function buildGiveawayStats(
   giveaways: Giveaway[],
@@ -42,10 +48,28 @@ function buildGiveawayStats(
 }
 
 export default async function WishlistPage() {
-  const [wishlist, giveaways] = await Promise.all([
+  const [wishlist, giveaways, insights, gameData, users] = await Promise.all([
     getWishlist(),
     getAllGiveaways(),
+    getGameInsights(),
+    getGameData(),
+    getAllUsersAsArray(),
   ])
+
+  const gameDataByAppId: Record<string, (typeof gameData)[number]> = {}
+  for (const game of gameData) {
+    if (game.app_id != null) {
+      gameDataByAppId[String(game.app_id)] = game
+    }
+  }
+
+  const usersLookup: UserLookup = {}
+  for (const user of users) {
+    usersLookup[user.steam_id] = {
+      username: user.username,
+      avatar_url: user.avatar_url,
+    }
+  }
 
   // Two views: "group-exclusive" (default) hides shared + whitelist GAs
   // since they're not really representative of how the group itself has
@@ -63,6 +87,9 @@ export default async function WishlistPage() {
       entries={wishlist?.entries ?? []}
       lastUpdated={wishlist?.last_updated ?? null}
       giveawayStats={giveawayStats}
+      insights={insights}
+      gameDataByAppId={gameDataByAppId}
+      users={usersLookup}
     />
   )
 }

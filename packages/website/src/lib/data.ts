@@ -1,4 +1,4 @@
-import { Giveaway, UserGroupData, User, GameData, UserEntry, SteamIdMap, WishlistData, ChallengeData } from '@/types'
+import { Giveaway, UserGroupData, User, GameData, UserEntry, SteamIdMap, WishlistData, ChallengeData, GameInsightsData } from '@/types'
 import type { SpringCleaningSnapshot } from '@/lib/spring-cleaning'
 
 // For build time - import data directly
@@ -522,6 +522,34 @@ export async function getWishlist(): Promise<WishlistData | null> {
     return JSON.parse(readFileSync(filePath, 'utf8'))
   } catch (error) {
     console.error('Error loading wishlist:', error)
+    return null
+  }
+}
+
+/**
+ * Loads per-game Steam review/price/ownership rollups for the wishlist "game
+ * insights" popover, from public/data/game_insights.json. Written by a
+ * sibling scraper pipeline; returns null if the file doesn't exist yet or
+ * fails to parse, so callers can hide the feature gracefully.
+ */
+export async function getGameInsights(): Promise<GameInsightsData | null> {
+  if (typeof window !== 'undefined' || process.env.NODE_ENV === 'development') {
+    try {
+      const baseUrl = getBaseUrl()
+      const response = await fetch(`${baseUrl}/data/game_insights.json`)
+      if (!response.ok) return null
+      return await response.json()
+    } catch {
+      return null
+    }
+  }
+
+  try {
+    const { readFileSync } = await import('fs')
+    const { join } = await import('path')
+    const filePath = join(process.cwd(), 'public', 'data', 'game_insights.json')
+    return JSON.parse(readFileSync(filePath, 'utf8'))
+  } catch {
     return null
   }
 }

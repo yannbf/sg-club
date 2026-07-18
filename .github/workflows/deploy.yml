@@ -4,7 +4,10 @@ name: Update Website and Playtime Data
 # over SteamGifts' rate limit at the same time:
 #
 #   • Every 8h (00 / 08 / 16 UTC)  → website data (giveaways, members
-#                                    metadata, game prices, HLTB).
+#                                    metadata, game prices, HLTB, and Steam
+#                                    review summaries — reviews ride along
+#                                    with prices since both iterate the same
+#                                    giveaways ∪ wishlist game set).
 #   • Daily 01:00 UTC               → playtime data (Steam Web API),
 #                                    mode=daily, 45-min budget cap.
 #                                    Refreshes every win older than 1
@@ -13,7 +16,10 @@ name: Update Website and Playtime Data
 #                                    weeks, to save compute), isolated
 #                                    so it doesn't run alongside the
 #                                    giveaway scraper which is the
-#                                    other heavy SG endpoint.
+#                                    other heavy SG endpoint; followed by
+#                                    game-insights (per-member ownership/
+#                                    wishlist status + SteamGifts bundled
+#                                    flag for every wishlist game).
 #   • 1st + 15th, 06:40 UTC        → full challenge refresh including
 #                                    dormant (finished) challenges; the
 #                                    hourly run covers active ones only.
@@ -126,9 +132,12 @@ jobs:
       (github.event_name == 'workflow_dispatch' && github.event.inputs.job == 'wishlist')
     runs-on: ubuntu-latest
     # ~40 pages × 2.5s + room for 5 retries × up to 480s back-off ≈ 25 min
-    # worst-case; cap at 30.
-    timeout-minutes: 30
+    # worst-case for the wishlist scrape, plus ~2-5 min steady-state for the
+    # game-insights step (bundled-status cache keeps reruns cheap; a fresh
+    # CI run inherits the locally-committed cache so it isn't starting cold).
+    timeout-minutes: 35
     env:
+      STEAM_API_KEY: ${{ secrets.STEAM_API_KEY }}
       SG_TOKEN: ${{ secrets.SG_TOKEN }}
       SG_COOKIE: ${{ secrets.SG_COOKIE }}
 
@@ -156,11 +165,14 @@ jobs:
       - name: Scrape group wishlist
         run: pnpm --filter scraper run wishlist
 
+      - name: Generate game insights (ownership, wishlist status, bundled flag)
+        run: pnpm --filter scraper run game-insights
+
       - name: Commit and push wishlist changes
         run: |
           git config --global user.name 'GitHub Action'
           git config --global user.email 'action@github.com'
-          git add packages/website/public/data/wishlist.json
+          git add packages/website/public/data/wishlist.json packages/website/public/data/game_insights.json packages/scraper/data/game-insights-cache.json
           if git diff --staged --quiet; then
             echo "No changes to commit"
           else

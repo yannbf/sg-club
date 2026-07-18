@@ -233,6 +233,11 @@ export interface GameData {
   price_usd_reduced: number
   needs_manual_update: boolean
   hltb_main_story_hours: number | null
+  /** Steam review summary — optional because older data files predate this field. */
+  rating_percent?: number | null
+  review_count?: number | null
+  review_score_desc?: string | null
+  reviews_updated_at?: string | null
 }
 
 export interface InsightData {
@@ -288,6 +293,25 @@ export interface WishlistEntry {
 export interface WishlistData {
   last_updated: string
   entries: WishlistEntry[]
+}
+
+/** Per-game rollup of bundled/member ownership signals for the wishlist "game insights" popover.
+ *  Review data (rating_percent, review_count, review_score_desc) now lives on GameData. */
+export interface GameInsight {
+  bundled: boolean | null
+  /** steam_id strings of group members who own the game. */
+  owners: string[]
+  /** steam_id strings of group members who have it wishlisted/wanted. */
+  wanters: string[]
+}
+
+/** public/data/game_insights.json — keyed by app_id (as a string). */
+export interface GameInsightsData {
+  last_updated: string
+  total_members: number
+  members_with_library_data: number
+  members_with_wishlist_data: number
+  games: Record<string, GameInsight>
 }
 
 /** One unlocked achievement counted toward a gaming challenge. */
