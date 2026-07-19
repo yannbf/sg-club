@@ -6,7 +6,9 @@ export type DateParseResult =
   | { ok: false; error: string }
 
 const DATE_ONLY = /^\d{4}-\d{2}-\d{2}$/
-const DATE_TIME = /^\d{4}-\d{2}-\d{2}[ T]\d{2}:\d{2}$/
+// Time may be given as "HH:mm" or a bare hour ("18"), optionally preceded by
+// the word "at" ("2026-08-01 at 18", "2026-08-01 at 18:30").
+const DATE_TIME = /^(\d{4}-\d{2}-\d{2})[ T](?:at\s+)?(\d{1,2}(?::\d{2})?)$/i
 const ISO_LIKE = /^\d{4}-\d{2}-\d{2}T/
 
 // Rejects bare numeric slash dates ("1/8", "08/01/2026") outright — the
@@ -32,12 +34,14 @@ const MONTH_NAMES = [
 
 const WEEKDAY_NAMES = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']
 
-const TIME_SUFFIX_RE = /^(\d{1,2}):(\d{2})$/
+// Time suffix: "HH:mm" or a bare hour ("18"), optionally preceded by "at"
+// ("today at 10:00", "next friday at 9", "July 13 at 12").
+const TIME_SUFFIX_RE = /^(\d{1,2})(?::(\d{2}))?$/
 const OFFSET_RE = /^\+(\d+)(d|w|m)$/i
-const TODAY_TOMORROW_RE = /^(today|tomorrow)(?:\s+(\d{1,2}:\d{2}))?$/i
-const NEXT_WEEKDAY_RE = /^next\s+([a-z]+)(?:\s+(\d{1,2}:\d{2}))?$/i
-const MONTH_DAY_RE = /^([a-z]+)\s+(\d{1,2})(?:,?\s+(\d{4}))?(?:\s+(\d{1,2}:\d{2}))?$/i
-const DAY_MONTH_RE = /^(\d{1,2})\s+([a-z]+)(?:,?\s+(\d{4}))?(?:\s+(\d{1,2}:\d{2}))?$/i
+const TODAY_TOMORROW_RE = /^(today|tomorrow)(?:\s+(?:at\s+)?(\d{1,2}(?::\d{2})?))?$/i
+const NEXT_WEEKDAY_RE = /^next\s+([a-z]+)(?:\s+(?:at\s+)?(\d{1,2}(?::\d{2})?))?$/i
+const MONTH_DAY_RE = /^([a-z]+)\s+(\d{1,2})(?:,?\s+(\d{4}))?(?:\s+(?:at\s+)?(\d{1,2}(?::\d{2})?))?$/i
+const DAY_MONTH_RE = /^(\d{1,2})\s+([a-z]+)(?:,?\s+(\d{4}))?(?:\s+(?:at\s+)?(\d{1,2}(?::\d{2})?))?$/i
 
 const ACCEPTED_FORMS_HINT =
   'YYYY-MM-DD, YYYY-MM-DD HH:mm, ISO 8601, "Aug 1" / "1 August 2026", "today" / ' +
@@ -64,13 +68,17 @@ function weekdayIndex(name: string): number {
   return WEEKDAY_NAMES.indexOf(name.toLowerCase())
 }
 
-/** `undefined` text means "no time given" (midnight). `null` means invalid. */
+/**
+ * `undefined` text means "no time given" (midnight). `null` means invalid.
+ * Accepts "HH:mm" or a bare hour ("18", minute defaults to 0) — any leading
+ * "at " is expected to already be stripped by the caller's regex.
+ */
 function parseTimeSuffix(text: string | undefined): { hour: number; minute: number } | null {
   if (!text) return { hour: 0, minute: 0 }
   const match = TIME_SUFFIX_RE.exec(text)
   if (!match) return null
   const hour = Number(match[1])
-  const minute = Number(match[2])
+  const minute = match[2] !== undefined ? Number(match[2]) : 0
   if (hour > 23 || minute > 59) return null
   return { hour, minute }
 }
@@ -111,6 +119,10 @@ function addUtcMonths(epochMs: number, months: number): number {
  *    weekday strictly after today (UTC), with an optional time suffix.
  *  - Relative offsets "+Nd" / "+Nw" / "+Nm" (days/weeks/months), resolved
  *    against `anchor` if given, else midnight UTC of `now`.
+ *  - Time suffixes (wherever accepted above, plus after a plain
+ *    `YYYY-MM-DD`) may be preceded by the word "at" ("today at 10:00", "July
+ *    13 at 12"), and may be a bare hour with no minute ("12" → 12:00,
+ *    validated 0-23).
  *  - Deliberately NOT accepted: ambiguous numeric slash dates like "1/8" —
  *    this is an international group and D/M vs M/D is genuinely ambiguous.
  *
@@ -134,9 +146,17 @@ export function parseAdminDate(input: string, now: number = Date.now(), anchor?:
   if (DATE_ONLY.test(trimmed)) {
     const parsed = new Date(`${trimmed}T00:00:00Z`)
     if (!Number.isNaN(parsed.getTime())) return { ok: true, epochSeconds: Math.floor(parsed.getTime() / 1000) }
-  } else if (DATE_TIME.test(trimmed)) {
-    const parsed = new Date(`${trimmed.replace(' ', 'T')}:00Z`)
-    if (!Number.isNaN(parsed.getTime())) return { ok: true, epochSeconds: Math.floor(parsed.getTime() / 1000) }
+  } else {
+    const dateTimeMatch = DATE_TIME.exec(trimmed)
+    if (dateTimeMatch) {
+      const time = parseTimeSuffix(dateTimeMatch[2])
+      if (!time) return friendlyError(input)
+      const parsed = new Date(`${dateTimeMatch[1]}T00:00:00Z`)
+      if (!Number.isNaN(parsed.getTime())) {
+        const ms = parsed.getTime() + time.hour * 3_600_000 + time.minute * 60_000
+        return { ok: true, epochSeconds: Math.floor(ms / 1000) }
+      }
+    }
   }
 
   const offsetMatch = OFFSET_RE.exec(trimmed)
@@ -235,13 +255,14 @@ export type DateRangeSplitResult =
   | { ok: true; start: string; end: string }
   | { ok: false; error: string }
 
-const DATE_RANGE_SEPARATOR = /\s+(?:→|->|to)\s+/i
+const DATE_RANGE_SEPARATOR = /\s+(?:→|->|to|till|until)\s+/i
 
 /**
  * Splits a single "Dates (UTC)" modal field into start/end date strings, on
- * whichever of `→`, `->`, or the standalone word `to` (surrounded by
- * whitespace) the admin used. Each side is handed to `parseAdminDate`
- * unparsed — this function only handles splitting the combined field.
+ * whichever of `→`, `->`, or the standalone word `to`/`till`/`until`
+ * (surrounded by whitespace) the admin used. Each side is handed to
+ * `parseAdminDate` unparsed — this function only handles splitting the
+ * combined field.
  */
 export function parseDateRangeField(input: string): DateRangeSplitResult {
   const trimmed = input.trim()
@@ -279,13 +300,26 @@ export type ChallengeDatesResult =
   | { ok: false; error: string }
 
 /**
- * Validates the trio of dates used by /challenge-setup. signupDeadline
- * defaults to start when omitted. Ordering rule: deadline <= start < end.
+ * Validates the trio of dates used by /challenge-setup.
  *
  * `now` is threaded through to `parseAdminDate` for every side (pin it in
  * tests). The end date's relative-offset forms ("+30d" etc.) anchor off the
  * parsed start date rather than `now`, so "aug 1 to +30d" means 30 days
  * after Aug 1 — the start side and signup_deadline anchor off `now` instead.
+ *
+ * Immediate starts: a start strictly before *today's* UTC calendar day is
+ * rejected, but a start anywhere within today — even earlier today, i.e.
+ * already in the past by clock time — is allowed and treated as the
+ * challenge starting immediately (e.g. "today", or "July 20" typed on
+ * July 20). The end date must still be strictly after start AND strictly in
+ * the future.
+ *
+ * signupDeadline defaults to `start` when omitted — *unless* the resolved
+ * start is already at-or-before `now` (an immediate start), in which case it
+ * defaults to `end` instead, so signups stay open for the remainder of an
+ * already-running challenge (owner-approved). An explicit signupDeadline is
+ * always validated against the old `deadline <= start` ordering rule
+ * regardless of immediate-start-ness.
  */
 export function validateChallengeDates(
   input: { start: string; end: string; signupDeadline?: string },
@@ -297,22 +331,36 @@ export function validateChallengeDates(
   const endResult = parseAdminDate(input.end, now, startResult.epochSeconds * 1000)
   if (!endResult.ok) return { ok: false, error: `end: ${endResult.error}` }
 
-  const deadlineResult = input.signupDeadline
-    ? parseAdminDate(input.signupDeadline, now)
-    : startResult
+  const { epochSeconds: start } = startResult
+  const { epochSeconds: end } = endResult
+  const nowSeconds = Math.floor(now / 1000)
+  const startOfTodaySeconds = Math.floor(startOfUtcDay(now) / 1000)
+
+  if (start < startOfTodaySeconds) {
+    return { ok: false, error: 'Start date must be today or in the future.' }
+  }
+
+  const isImmediateStart = start <= nowSeconds
+  const deadlineGiven = Boolean(input.signupDeadline)
+  const deadlineResult = deadlineGiven
+    ? parseAdminDate(input.signupDeadline!, now)
+    : isImmediateStart
+      ? endResult
+      : startResult
   if (!deadlineResult.ok) {
     return { ok: false, error: `signup_deadline: ${deadlineResult.error}` }
   }
 
-  const { epochSeconds: start } = startResult
-  const { epochSeconds: end } = endResult
   const { epochSeconds: signupDeadline } = deadlineResult
 
-  if (signupDeadline > start) {
+  if (deadlineGiven && signupDeadline > start) {
     return { ok: false, error: 'Signup deadline must be at or before the start date.' }
   }
   if (start >= end) {
     return { ok: false, error: 'Start date must be before the end date.' }
+  }
+  if (end <= nowSeconds) {
+    return { ok: false, error: 'End date must be in the future.' }
   }
 
   return { ok: true, dates: { signupDeadline, start, end } }

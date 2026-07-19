@@ -29,6 +29,7 @@ packages/website/api/
 packages/scraper/src/scripts/
 ├── discord-close-signups.ts       # cron: close expired signups
 ├── discord-challenge-congrats.ts  # cron: announce challenge completions
+├── discord-challenge-milestones.ts # cron: 24h-left warning + "challenge over" notice
 ├── discord-warn-digest.ts         # cron: weekly mod digest (errors only)
 └── discord-register-commands.ts   # one-off: register the three slash commands
 
@@ -65,6 +66,8 @@ in test phase), one event per line:
 CHALLENGE {"slug":"neo-cab","channel_id":"...","message_id":"...","deadline":1700000000,"start":1700000100,"end":1700100000,"name":"Neo Cab"}
 SIGNUP {"slug":"neo-cab","choice":"want","discord_id":"...","discord_handle":"...","sg_username":"yannbf","guest":false,"ts":1700000050}
 CLOSED {"slug":"neo-cab","ts":1700000500}
+REMINDER24 {"slug":"neo-cab","ts":1700086400}
+ENDED {"slug":"neo-cab","ts":1700100000}
 ```
 
 - `CHALLENGE` — posted once by `/challenge-setup`, records where the
@@ -76,6 +79,11 @@ CLOSED {"slug":"neo-cab","ts":1700000500}
   `want` / `have` / `out`.
 - `CLOSED` — posted once signups are closed for a slug (marks it done so the
   close-signups cron doesn't reprocess it).
+- `REMINDER24` — posted by `discord-challenge-milestones.ts` once a challenge
+  is within 24h of its end, so the "24h left" warning is never repeated.
+- `ENDED` — posted by `discord-challenge-milestones.ts` once a challenge's end
+  has passed and the "challenge over" notice has gone out, so it's never
+  repeated either.
 
 The parser (`signup-log.ts`) is tolerant: any message that isn't a
 well-formed protocol line (human chat, an old pre-protocol bot message,
@@ -122,10 +130,12 @@ any Discord REST call is made, and is covered directly in
 - **`/challenge-setup`** (admin-only via `default_member_permissions`) — takes
   no options; it opens a **modal form** (`custom_id: csetup`) with four text
   inputs: Challenge name, Description, a combined **Dates (UTC)** field
-  (`"<start> → <end>"`, also accepting `->` or the standalone word `to` as
-  the separator — each side parsed leniently, see
+  (`"<start> → <end>"`, also accepting `->` or the standalone word `to` /
+  `till` / `until` as the separator — each side parsed leniently, see
   [Accepted date formats](#accepted-date-formats) below), and an optional
-  Signup deadline (UTC, defaults to the start date, same lenient parsing). On
+  Signup deadline (UTC, defaults to the start date — or to the **end** date
+  when the start is an immediate one, see
+  [Immediate starts](#immediate-starts) below — same lenient parsing). On
   submit the bot slugifies the name, rejects the setup if a `CHALLENGE` with
   the same slug already exists in the log, splits and validates the dates
   field (`parseDateRangeField`/`validateChallengeDates` in `_lib/dates.ts`),
@@ -178,16 +188,43 @@ server's local timezone.
 | Form | Examples | Notes |
 |---|---|---|
 | ISO-ish | `2026-08-01`, `2026-08-01 18:30`, `2026-08-01T18:30:00-05:00` | Original formats, unchanged. Bare `YYYY-MM-DD[ HH:mm]` is UTC; full ISO 8601 honors an explicit offset. |
-| Month name | `Aug 1`, `August 1`, `1 Aug`, `1 August`, `Aug 1 2026`, `Aug 1 18:00` | Day-first or month-first, full name or 3-letter abbreviation. Without a year, resolves to the next occurrence: this year if today-or-future (UTC calendar date), else next year. |
-| Today / tomorrow | `today`, `tomorrow`, `tomorrow 18:00` | Midnight UTC, or the given time. |
-| Next weekday | `next friday`, `next friday 09:00` | The next occurrence of that weekday **strictly after today** (UTC) — if today is Friday, "next friday" is 7 days out, not today. |
+| Month name | `Aug 1`, `August 1`, `1 Aug`, `1 August`, `Aug 1 2026`, `Aug 1 18:00`, `Aug 1 at 18` | Day-first or month-first, full name or 3-letter abbreviation. Without a year, resolves to the next occurrence: this year if today-or-future (UTC calendar date), else next year. |
+| Today / tomorrow | `today`, `tomorrow`, `tomorrow 18:00`, `today at 10:00` | Midnight UTC, or the given time. |
+| Next weekday | `next friday`, `next friday 09:00`, `next friday at 9` | The next occurrence of that weekday **strictly after today** (UTC) — if today is Friday, "next friday" is 7 days out, not today. |
 | Relative offset | `+2d`, `+3w`, `+1m` | Days/weeks/months. Anchored to midnight UTC of *now* for the start side and the signup-deadline field; anchored to the **parsed start date** for the end side of a range (so `"aug 1 to +30d"` means Aug 31, not 30 days from today). |
+
+Everywhere a time suffix is accepted above, plus after a plain
+`YYYY-MM-DD` date (`2026-08-01 at 18`, `2026-08-01 at 18:30`), the time may:
+
+- be preceded by the word **`at`** (`today at 10:00`, `July 13 at 12`,
+  `2026-08-01 at 18`), and/or
+- be a **bare hour** with no minute (`12` → `12:00`), validated 0-23 just
+  like the minute-bearing form — `today at 25` is rejected.
 
 **Deliberately rejected:** bare numeric slash dates like `1/8` or
 `08/01/2026` — the group is international and D/M vs M/D is genuinely
 ambiguous, so the parser never guesses; it returns the friendly error
 instead. Every failure mode returns a friendly error listing example
 accepted forms rather than a raw parse exception.
+
+### Immediate starts
+
+`validateChallengeDates` (`_lib/dates.ts`) allows a start date **anywhere
+within today's UTC calendar day**, even if it's already earlier today by
+clock time (`"today"`, or `"July 20"` typed on July 20) — this is treated as
+the challenge starting immediately. A start strictly before today is
+rejected (`"Start date must be today or in the future."`); the end date must
+still be strictly after start **and** strictly in the future
+(`"End date must be in the future."` otherwise).
+
+When `signup_deadline` is left blank, it defaults to `start` as before — 
+**unless** the resolved start is already at-or-before `now` (an immediate
+start), in which case it defaults to **`end`** instead, so signups stay open
+for the rest of an already-running challenge (owner-approved). A
+future-dated start keeps defaulting to `start`, unchanged. An *explicitly*
+given `signup_deadline` is always checked against the old `deadline <= start`
+ordering rule, regardless of immediate-start-ness — so an explicit deadline
+after start is still an error even when the challenge starts immediately.
 
 ### Severity model & /mod-report
 
@@ -282,7 +319,10 @@ unwanted link-preview card. The digest, the close-summary, and
 `/challenge-list` are additionally emoji-free; `/mod-report` is emoji-free
 apart from the two section-header emojis (‼️/👀 — see
 [Severity model](#severity-model--mod-report)) (the congrats message keeps
-its 🎉/`pandaparty` celebration — that one wasn't in scope).
+its 🎉/`pandaparty` celebration — that one wasn't in scope). The close-summary
+has one more deliberate exception: its final message ends with an
+owner-requested farewell paragraph, `Let's get to gaming! Best of luck to you
+all <3` (verbatim, heart included) — see the close-signups cron entry below.
 
 ## Packing into the fewest messages
 
@@ -316,11 +356,38 @@ Run manually via the `discord-bot.yml` workflow (`workflow_dispatch`, pick a
 - **`pnpm --filter scraper discord:close-signups`** — finds `CHALLENGE`s whose
   deadline has passed with no `CLOSED` marker yet, posts a plain-markdown
   closed-summary (`**Signups closed — <name>**` then `Want the game (N): ...`
-  / `Already have it (M): ...` lines, full name lists, emoji-free), disables
+  / `Already have it (M): ...` lines, full name lists, then a final owner-requested
+  farewell paragraph — `Let's get to gaming! Best of luck to you all <3` — the
+  one deliberate emoji-policy exception on this output), disables
   **only the three signup buttons** on the announcement (`buildDisabledComponents`
   always leaves the fixed "View Event" link button enabled and clickable
   after close), and posts `CLOSED`. Idempotent: a challenge is only touched
   while it has no `CLOSED` marker.
+- **`pnpm --filter scraper discord:milestones`** — reads the log channel once
+  and, for every `CHALLENGE` meta, posts up to two milestone messages (each
+  gated by its own marker so it's never repeated):
+  1. **24h-left warning** — once `end - now <= 24h` (and `end` hasn't passed),
+     with no `REMINDER24` marker yet: posts `Only 24h until the <phrase> is
+     over!` to the challenge's own channel, where `<phrase>` is
+     `challengePhrase(name)` — the name as-is if it already ends with the
+     word "challenge" (case-insensitive), otherwise the name with " challenge"
+     appended (avoids "Test Challenge challenge"). If a local
+     `challenge_*.json` matches the meta (by slug, else
+     `slugify(gameName)`/`slugify(name)` in either direction), a second
+     sentence is appended — `We've got <N> qualified members so far!`, `N`
+     being the same `is_complete && !completed_before_start` qualifying rule
+     `discord-challenge-congrats.ts` uses. No match means the second sentence
+     is omitted entirely (never a fabricated `0`), and a console note is
+     logged. Then posts `REMINDER24`.
+  2. **Challenge-over notice** — once `end <= now` with no `ENDED` marker yet:
+     posts `The <phrase> is over! Click [here](<https://sg-club.vercel.app/events/>)
+     to see the results` (the `(<url>)` form suppresses the link-preview
+     embed) to the challenge's own channel, then posts `ENDED`.
+
+  Both message kinds are posted **before** their marker (crash → safe retry,
+  worst case a duplicate post, never a missed one), same convention as
+  `discord:close-signups`. No state file to commit — everything derives from
+  the log channel.
 - **`pnpm --filter scraper discord:congrats`** — scans local `challenge_*.json`
   files (skipping `challengeOver: true` ones) for participants who are
   `is_complete` and not `completed_before_start`, diffs against
@@ -394,8 +461,9 @@ live:
    is invoked in, so an admin targets a channel just by running it there.
 3. `warn-digest` already runs on a `schedule:` trigger (Friday 13:00 UTC) —
    pointing `WARN_CHANNEL_ID` at `#warns` is the only remaining step for it.
-   The other jobs (`close-signups`, `congrats`, `register-commands`) are
-   still `workflow_dispatch`-only, intentionally, while in test phase; once
+   The other jobs (`close-signups`, `congrats`, `milestones`,
+   `register-commands`) are still `workflow_dispatch`-only, intentionally,
+   while in test phase; once
    confident, add `schedule:` entries for them too, mirroring deploy.yml's
    staggering approach.
 

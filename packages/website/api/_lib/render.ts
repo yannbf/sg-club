@@ -213,10 +213,17 @@ function chunkedNamesLine(label: string, names: string[]): string[] {
   return chunks.map((chunk, i) => `${label} (${names.length}) [${i + 1}/${chunks.length}]: ${chunk}`)
 }
 
+// Owner-requested closing line, appended verbatim to the last message of the
+// closed-signups summary. The "no emoji" policy on this output is a
+// deliberate exception here — the owner asked for this exact text, heart
+// included.
+const CLOSED_SUMMARY_FAREWELL = "Let's get to gaming! Best of luck to you all <3"
+
 /**
  * Plain-markdown closed-signups summary, chunked into ≤1900-char messages.
  * The full name lists are kept (split at comma boundaries if a single list
- * would overflow a message). Emoji-free.
+ * would overflow a message). Emoji-free except for the trailing farewell
+ * paragraph (owner-requested, appended to the very last message).
  */
 export function buildClosedSummaryMessages(input: {
   name: string
@@ -227,6 +234,7 @@ export function buildClosedSummaryMessages(input: {
     `**Signups closed — ${truncate(input.name, 230)}**`,
     ...chunkedNamesLine('Want the game', input.wanters.map(nameForEntry)),
     ...chunkedNamesLine('Already have it', input.owners.map(nameForEntry)),
+    CLOSED_SUMMARY_FAREWELL,
   ]
   return chunkMessage(segments, CODEBLOCK_CHUNK_LIMIT)
 }

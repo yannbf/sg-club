@@ -4,6 +4,8 @@ import {
   parseLogLine,
   serializeChallenge,
   serializeClosed,
+  serializeEnded,
+  serializeReminder24,
   serializeSignup,
 } from './signup-log.js'
 
@@ -60,6 +62,20 @@ describe('serialize/parseLogLine round trip', () => {
     const line = serializeClosed(event)
     expect(parseLogLine(line)).toEqual({ type: 'CLOSED', data: event })
   })
+
+  it('round-trips a REMINDER24 line', () => {
+    const event = { slug: 'neo-cab', ts: 1700000500 }
+    const line = serializeReminder24(event)
+    expect(line).toBe(`REMINDER24 ${JSON.stringify(event)}`)
+    expect(parseLogLine(line)).toEqual({ type: 'REMINDER24', data: event })
+  })
+
+  it('round-trips an ENDED line', () => {
+    const event = { slug: 'neo-cab', ts: 1700000500 }
+    const line = serializeEnded(event)
+    expect(line).toBe(`ENDED ${JSON.stringify(event)}`)
+    expect(parseLogLine(line)).toEqual({ type: 'ENDED', data: event })
+  })
 })
 
 describe('parseLogLine tolerance', () => {
@@ -90,6 +106,14 @@ describe('parseLogLine tolerance', () => {
 
   it('skips a CHALLENGE missing required fields', () => {
     expect(parseLogLine('CHALLENGE {"slug":"neo-cab"}')).toBeNull()
+  })
+
+  it('skips a REMINDER24 missing required fields', () => {
+    expect(parseLogLine('REMINDER24 {"slug":"neo-cab"}')).toBeNull()
+  })
+
+  it('skips an ENDED missing required fields', () => {
+    expect(parseLogLine('ENDED {"slug":"neo-cab"}')).toBeNull()
   })
 })
 

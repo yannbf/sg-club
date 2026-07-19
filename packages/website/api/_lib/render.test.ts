@@ -177,8 +177,20 @@ describe('buildClosedSummaryMessages', () => {
     expect(message).toBe(
       '**Signups closed — Neo Cab**\n' +
         'Want the game (2): alice, bob\n' +
-        'Already have it (1): carol'
+        'Already have it (1): carol\n' +
+        "Let's get to gaming! Best of luck to you all <3"
     )
+  })
+
+  it('appends the farewell paragraph to the last chunked message when the roster is large', () => {
+    const wanters = Array.from({ length: 200 }, (_, i) => entry({ sg_username: `wanter-with-a-long-name-${i}` }))
+    const messages = buildClosedSummaryMessages({ name: 'Big Challenge', wanters, owners: [] })
+
+    expect(messages.length).toBeGreaterThan(1)
+    expect(messages[messages.length - 1]).toContain("Let's get to gaming! Best of luck to you all <3")
+    for (const message of messages.slice(0, -1)) {
+      expect(message).not.toContain('Best of luck')
+    }
   })
 
   it('is emoji-free', () => {

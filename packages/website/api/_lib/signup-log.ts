@@ -33,6 +33,18 @@ export interface ClosedEvent {
   ts: number
 }
 
+/** Posted once 24h (or less) remain before a challenge's end, so the reminder never repeats. */
+export interface Reminder24Event {
+  slug: string
+  ts: number
+}
+
+/** Posted once a challenge's end has passed and the "challenge over" notice has gone out. */
+export interface EndedEvent {
+  slug: string
+  ts: number
+}
+
 export function serializeChallenge(meta: ChallengeMeta): string {
   return `CHALLENGE ${JSON.stringify(meta)}`
 }
@@ -45,10 +57,22 @@ export function serializeClosed(event: ClosedEvent): string {
   return `CLOSED ${JSON.stringify(event)}`
 }
 
+export function serializeReminder24(event: Reminder24Event): string {
+  return `REMINDER24 ${JSON.stringify(event)}`
+}
+
+export function serializeEnded(event: EndedEvent): string {
+  return `ENDED ${JSON.stringify(event)}`
+}
+
 export type ParsedLogEntry =
   | { type: 'CHALLENGE'; data: ChallengeMeta }
   | { type: 'SIGNUP'; data: SignupEvent }
   | { type: 'CLOSED'; data: ClosedEvent }
+  | { type: 'REMINDER24'; data: Reminder24Event }
+  | { type: 'ENDED'; data: EndedEvent }
+
+const MARKER_TYPES = new Set(['CLOSED', 'REMINDER24', 'ENDED'])
 
 /**
  * Tolerant parser — anything that isn't a well-formed protocol line (garbage,
@@ -60,7 +84,7 @@ export function parseLogLine(content: string): ParsedLogEntry | null {
   if (spaceIdx === -1) return null
 
   const type = content.slice(0, spaceIdx)
-  if (type !== 'CHALLENGE' && type !== 'SIGNUP' && type !== 'CLOSED') return null
+  if (type !== 'CHALLENGE' && type !== 'SIGNUP' && !MARKER_TYPES.has(type)) return null
 
   const jsonPart = content.slice(spaceIdx + 1)
   let data: unknown
@@ -82,9 +106,9 @@ export function parseLogLine(content: string): ParsedLogEntry | null {
     if (typeof record.discord_id !== 'string' || typeof record.ts !== 'number') return null
     return { type, data: data as SignupEvent }
   }
-  // CLOSED
+  // CLOSED / REMINDER24 / ENDED — all the same tiny { slug, ts } shape.
   if (typeof record.ts !== 'number') return null
-  return { type, data: data as ClosedEvent }
+  return { type, data: data as ClosedEvent } as ParsedLogEntry
 }
 
 export interface RosterEntry {

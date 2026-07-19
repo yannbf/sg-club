@@ -415,7 +415,11 @@ describe('MODAL_SUBMIT challenge-setup (csetup)', () => {
     const fields = {
       name: 'Neo Cab',
       description: 'A great challenge',
-      dates: '2026-01-01 → 2026-02-01',
+      // Relative offsets so this fixture is never accidentally in the past
+      // relative to the real clock (validateChallengeDates now rejects a
+      // start before today) — "+1d" anchors off midnight UTC of "now",
+      // "+30d" anchors off the parsed start per parseAdminDate's anchoring.
+      dates: '+1d → +30d',
       signup_deadline: '',
       ...overrides,
     }
@@ -487,9 +491,9 @@ describe('MODAL_SUBMIT challenge-setup (csetup)', () => {
   })
 
   it.each([
-    ['an arrow', '2026-01-01 → 2026-02-01'],
-    ['an ASCII arrow', '2026-01-01 -> 2026-02-01'],
-    ["the word 'to'", '2026-01-01 to 2026-02-01'],
+    ['an arrow', '+1d → +30d'],
+    ['an ASCII arrow', '+1d -> +30d'],
+    ["the word 'to'", '+1d to +30d'],
   ])('parses the dates field split on %s', async (_label, dates) => {
     const req = makeCsetupReq({ dates })
     const res = makeRes()

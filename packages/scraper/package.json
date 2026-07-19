@@ -37,6 +37,7 @@
     "monthly-progress": "tsx src/scripts/compare-monthly-progress.ts",
     "discord:close-signups": "tsx src/scripts/discord-close-signups.ts",
     "discord:congrats": "tsx src/scripts/discord-challenge-congrats.ts",
+    "discord:milestones": "tsx src/scripts/discord-challenge-milestones.ts",
     "discord:warn-digest": "tsx src/scripts/discord-warn-digest.ts",
     "discord:register": "tsx src/scripts/discord-register-commands.ts"
   },

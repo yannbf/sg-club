@@ -156,6 +156,51 @@ describe('parseAdminDate', () => {
     })
   })
 
+  describe('"at" keyword and bare-hour times', () => {
+    // 2026-07-19 is a Sunday.
+    const NOW = Date.UTC(2026, 6, 19, 12, 0)
+
+    it('accepts "at" before a HH:mm time on "today"', () => {
+      const result = parseAdminDate('today at 10:00', NOW)
+      expect(result).toEqual({ ok: true, epochSeconds: Date.UTC(2026, 6, 19, 10, 0) / 1000 })
+    })
+
+    it('accepts a bare-hour time (no minutes) after "at" on a month-day form', () => {
+      const result = parseAdminDate('July 13 at 12', NOW)
+      expect(result).toEqual({ ok: true, epochSeconds: Date.UTC(2027, 6, 13, 12, 0) / 1000 })
+    })
+
+    it('accepts a bare-hour time with no "at" keyword', () => {
+      const result = parseAdminDate('tomorrow 9', NOW)
+      expect(result).toEqual({ ok: true, epochSeconds: Date.UTC(2026, 6, 20, 9, 0) / 1000 })
+    })
+
+    it('accepts "at" before a bare-hour time on "next <weekday>"', () => {
+      const result = parseAdminDate('next friday at 9', NOW)
+      expect(result).toEqual({ ok: true, epochSeconds: Date.UTC(2026, 6, 24, 9, 0) / 1000 })
+    })
+
+    it('accepts "at" before a time on a plain YYYY-MM-DD date', () => {
+      const result = parseAdminDate('2026-08-01 at 18', NOW)
+      expect(result).toEqual({ ok: true, epochSeconds: Date.UTC(2026, 7, 1, 18, 0) / 1000 })
+    })
+
+    it('accepts "at" before a HH:mm time on a plain YYYY-MM-DD date', () => {
+      const result = parseAdminDate('2026-08-01 at 18:30', NOW)
+      expect(result).toEqual({ ok: true, epochSeconds: Date.UTC(2026, 7, 1, 18, 30) / 1000 })
+    })
+
+    it('rejects a bare-hour time outside 0-23 ("at 25")', () => {
+      const result = parseAdminDate('today at 25', NOW)
+      expect(result.ok).toBe(false)
+    })
+
+    it('rejects a bare-hour time outside 0-23 with no "at" keyword', () => {
+      const result = parseAdminDate('today 25', NOW)
+      expect(result.ok).toBe(false)
+    })
+  })
+
   describe('relative offsets (+Nd / +Nw / +Nm)', () => {
     const NOW = Date.UTC(2026, 6, 19, 15, 30) // 2026-07-19 15:30 UTC
 
@@ -217,6 +262,16 @@ describe('parseDateRangeField', () => {
     expect(result).toEqual({ ok: true, start: '2026-01-01', end: '2026-02-01' })
   })
 
+  it("splits on the standalone word 'till' surrounded by spaces", () => {
+    const result = parseDateRangeField('2026-01-01 till 2026-02-01')
+    expect(result).toEqual({ ok: true, start: '2026-01-01', end: '2026-02-01' })
+  })
+
+  it("splits on the standalone word 'until' surrounded by spaces", () => {
+    const result = parseDateRangeField('2026-01-01 until 2026-02-01')
+    expect(result).toEqual({ ok: true, start: '2026-01-01', end: '2026-02-01' })
+  })
+
   it('is case-insensitive for the word separator', () => {
     const result = parseDateRangeField('2026-01-01 TO 2026-02-01')
     expect(result).toEqual({ ok: true, start: '2026-01-01', end: '2026-02-01' })
@@ -244,8 +299,14 @@ describe('parseDateRangeField', () => {
 })
 
 describe('validateChallengeDates', () => {
+  // These fixture dates (Feb/Mar 2026) are only "future" relative to a fixed
+  // point before them — pin `now` to 2026-01-01 so the new "start must be
+  // today-or-future" / "end must be in the future" rules don't depend on the
+  // real wall clock.
+  const BEFORE_FIXTURES = Date.UTC(2026, 0, 1)
+
   it('accepts start < end, deadline defaulting to start', () => {
-    const result = validateChallengeDates({ start: '2026-02-01', end: '2026-03-01' })
+    const result = validateChallengeDates({ start: '2026-02-01', end: '2026-03-01' }, BEFORE_FIXTURES)
     expect(result.ok).toBe(true)
     if (result.ok) {
       expect(result.dates.signupDeadline).toBe(result.dates.start)
@@ -254,29 +315,38 @@ describe('validateChallengeDates', () => {
   })
 
   it('accepts an explicit deadline before start', () => {
-    const result = validateChallengeDates({
-      start: '2026-02-01',
-      end: '2026-03-01',
-      signupDeadline: '2026-01-25',
-    })
+    const result = validateChallengeDates(
+      {
+        start: '2026-02-01',
+        end: '2026-03-01',
+        signupDeadline: '2026-01-25',
+      },
+      BEFORE_FIXTURES
+    )
     expect(result.ok).toBe(true)
   })
 
   it('accepts a deadline equal to start', () => {
-    const result = validateChallengeDates({
-      start: '2026-02-01',
-      end: '2026-03-01',
-      signupDeadline: '2026-02-01',
-    })
+    const result = validateChallengeDates(
+      {
+        start: '2026-02-01',
+        end: '2026-03-01',
+        signupDeadline: '2026-02-01',
+      },
+      BEFORE_FIXTURES
+    )
     expect(result.ok).toBe(true)
   })
 
   it('rejects a deadline after start', () => {
-    const result = validateChallengeDates({
-      start: '2026-02-01',
-      end: '2026-03-01',
-      signupDeadline: '2026-02-05',
-    })
+    const result = validateChallengeDates(
+      {
+        start: '2026-02-01',
+        end: '2026-03-01',
+        signupDeadline: '2026-02-05',
+      },
+      BEFORE_FIXTURES
+    )
     expect(result).toEqual({
       ok: false,
       error: 'Signup deadline must be at or before the start date.',
@@ -284,23 +354,23 @@ describe('validateChallengeDates', () => {
   })
 
   it('rejects start >= end', () => {
-    const result = validateChallengeDates({ start: '2026-03-01', end: '2026-03-01' })
+    const result = validateChallengeDates({ start: '2026-03-01', end: '2026-03-01' }, BEFORE_FIXTURES)
     expect(result).toEqual({ ok: false, error: 'Start date must be before the end date.' })
   })
 
   it('rejects start after end', () => {
-    const result = validateChallengeDates({ start: '2026-04-01', end: '2026-03-01' })
+    const result = validateChallengeDates({ start: '2026-04-01', end: '2026-03-01' }, BEFORE_FIXTURES)
     expect(result).toEqual({ ok: false, error: 'Start date must be before the end date.' })
   })
 
   it('propagates an unparseable start date error', () => {
-    const result = validateChallengeDates({ start: 'nope', end: '2026-03-01' })
+    const result = validateChallengeDates({ start: 'nope', end: '2026-03-01' }, BEFORE_FIXTURES)
     expect(result.ok).toBe(false)
     if (!result.ok) expect(result.error).toMatch(/^start:/)
   })
 
   it('propagates an unparseable end date error', () => {
-    const result = validateChallengeDates({ start: '2026-02-01', end: 'nope' })
+    const result = validateChallengeDates({ start: '2026-02-01', end: 'nope' }, BEFORE_FIXTURES)
     expect(result.ok).toBe(false)
     if (!result.ok) expect(result.error).toMatch(/^end:/)
   })
@@ -348,6 +418,91 @@ describe('validateChallengeDates', () => {
         expect(result.error).toMatch(/^start:/)
         expect(result.error).toContain('ambiguous')
       }
+    })
+  })
+
+  describe('immediate starts', () => {
+    // 2026-07-19 is a Sunday, noon UTC.
+    const NOW = Date.UTC(2026, 6, 19, 12, 0)
+
+    it('allows a same-UTC-day start already in the past by clock time, treating it as immediate ("today to august 31")', () => {
+      const range = parseDateRangeField('today to august 31')
+      expect(range.ok).toBe(true)
+      if (!range.ok) return
+      const result = validateChallengeDates(range, NOW)
+      expect(result.ok).toBe(true)
+      if (result.ok) {
+        expect(result.dates.start).toBe(Date.UTC(2026, 6, 19) / 1000)
+        expect(result.dates.end).toBe(Date.UTC(2026, 7, 31) / 1000)
+      }
+    })
+
+    it('allows "<today\'s date> to <tomorrow>" typed on the same day ("July 20 to July 21")', () => {
+      const SAME_DAY_NOW = Date.UTC(2026, 6, 20, 15, 0) // 2026-07-20 15:00 UTC
+      const range = parseDateRangeField('July 20 to July 21')
+      expect(range.ok).toBe(true)
+      if (!range.ok) return
+      const result = validateChallengeDates(range, SAME_DAY_NOW)
+      expect(result.ok).toBe(true)
+      if (result.ok) {
+        expect(result.dates.start).toBe(Date.UTC(2026, 6, 20) / 1000)
+        expect(result.dates.end).toBe(Date.UTC(2026, 6, 21) / 1000)
+      }
+    })
+
+    it('defaults signup_deadline to end for an immediate start ("today at 10:00 until august 31")', () => {
+      const AFTER_TEN = Date.UTC(2026, 6, 19, 15, 0) // 2026-07-19 15:00 UTC, after 10:00
+      const range = parseDateRangeField('today at 10:00 until august 31')
+      expect(range.ok).toBe(true)
+      if (!range.ok) return
+      const result = validateChallengeDates(range, AFTER_TEN)
+      expect(result.ok).toBe(true)
+      if (result.ok) {
+        expect(result.dates.start).toBe(Date.UTC(2026, 6, 19, 10, 0) / 1000)
+        expect(result.dates.end).toBe(Date.UTC(2026, 7, 31) / 1000)
+        expect(result.dates.signupDeadline).toBe(result.dates.end)
+      }
+    })
+
+    it('keeps defaulting signup_deadline to start for a future start ("July 20 10:00 till August 13 at 12")', () => {
+      const BEFORE_TEN = Date.UTC(2026, 6, 20, 8, 0) // 2026-07-20 08:00 UTC, before 10:00
+      const range = parseDateRangeField('July 20 10:00 till August 13 at 12')
+      expect(range.ok).toBe(true)
+      if (!range.ok) return
+      const result = validateChallengeDates(range, BEFORE_TEN)
+      expect(result.ok).toBe(true)
+      if (result.ok) {
+        expect(result.dates.start).toBe(Date.UTC(2026, 6, 20, 10, 0) / 1000)
+        expect(result.dates.end).toBe(Date.UTC(2026, 7, 13, 12, 0) / 1000)
+        expect(result.dates.signupDeadline).toBe(result.dates.start)
+      }
+    })
+
+    it('propagates a bare-hour validation error (e.g. "at 25") from either side of the range', () => {
+      const result = validateChallengeDates({ start: 'today at 25', end: 'august 31' }, NOW)
+      expect(result.ok).toBe(false)
+      if (!result.ok) expect(result.error).toMatch(/^start:/)
+    })
+
+    it('rejects a start strictly before today — a genuinely past date, not just earlier today', () => {
+      const result = validateChallengeDates({ start: 'July 18 2026', end: 'august 31' }, NOW)
+      expect(result).toEqual({ ok: false, error: 'Start date must be today or in the future.' })
+    })
+
+    it('rejects an end date that is not strictly in the future, even if it is after start', () => {
+      const result = validateChallengeDates({ start: 'today', end: 'today at 06:00' }, NOW)
+      expect(result).toEqual({ ok: false, error: 'End date must be in the future.' })
+    })
+
+    it('an explicitly-given deadline after start is still an error, even for an immediate start', () => {
+      const result = validateChallengeDates(
+        { start: 'today', end: 'august 31', signupDeadline: 'next friday' },
+        NOW
+      )
+      expect(result).toEqual({
+        ok: false,
+        error: 'Signup deadline must be at or before the start date.',
+      })
     })
   })
 })

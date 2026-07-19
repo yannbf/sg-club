@@ -9,6 +9,10 @@ name: Discord Bot Cron Jobs
 on:
   schedule:
     - cron: '0 13 * * 5'  # weekly mod digest, Friday 13:00 UTC
+    # Hourly, staggered after deploy.yml's :25 challenge-data refresh so
+    # congrats/milestones see fresh completion data.
+    - cron: '45 * * * *'  # congrats: announce new challenge completions
+    - cron: '50 * * * *'  # milestones: 24h warning + challenge-over notices
   workflow_dispatch:
     inputs:
       job:
@@ -18,6 +22,7 @@ on:
         options:
           - close-signups
           - congrats
+          - milestones
           - warn-digest
           - register-commands
 
@@ -82,8 +87,43 @@ jobs:
         run: pnpm --filter scraper run discord:close-signups
       # No state file to commit — everything is derived from the log channel.
 
+  milestones:
+    if: |
+      github.event.schedule == '50 * * * *' ||
+      (github.event_name == 'workflow_dispatch' && github.event.inputs.job == 'milestones')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Post 24h-warning and challenge-over milestones
+        run: pnpm --filter scraper run discord:milestones
+      # No state file to commit — everything is derived from the log channel
+      # (REMINDER24 / ENDED markers).
+
   congrats:
-    if: github.event.inputs.job == 'congrats'
+    if: |
+      github.event.schedule == '45 * * * *' ||
+      (github.event_name == 'workflow_dispatch' && github.event.inputs.job == 'congrats')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     env:
