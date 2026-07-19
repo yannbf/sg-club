@@ -278,7 +278,7 @@ async function handleChallengeSetup(
               style: TextInputStyle.SHORT,
               label: 'Dates (UTC)',
               required: true,
-              placeholder: '2026-08-01 to Aug 31 · also: tomorrow, next friday, +2w',
+              placeholder: 'August 1 to August 30 - also today to August 4',
             },
           ],
         },
@@ -291,7 +291,7 @@ async function handleChallengeSetup(
               style: TextInputStyle.SHORT,
               label: 'Signup deadline (UTC, optional)',
               required: false,
-              placeholder: 'defaults to start · e.g. Jul 30, +1w',
+              placeholder: 'if not specified, same as the moment the event starts',
             },
           ],
         },
@@ -379,9 +379,12 @@ async function finishChallengeSetupFromModal(interaction: DiscordInteraction): P
     const announcementLink = `https://discord.com/channels/${GUILD_ID}/${targetChannelId}/${announcement.id}`
     await editOriginalResponse(appId, token, { content: `✅ Challenge announced: ${announcementLink}` })
   } catch (err) {
-    await editOriginalResponse(appId, token, {
-      content: `❌ Something went wrong: ${(err as Error).message}`,
-    }).catch(() => {})
+    const message = (err as Error).message
+    // 50001 Missing Access = the bot can't see/post in this private channel.
+    const friendly = message.includes('"code": 50001')
+      ? "❌ I can't post in this channel — it's private and the **TGC Bot** role doesn't have access. Add it via Edit Channel → Permissions → Add members or roles, then run /challenge-setup again."
+      : `❌ Something went wrong: ${message}`
+    await editOriginalResponse(appId, token, { content: friendly }).catch(() => {})
   }
 }
 
