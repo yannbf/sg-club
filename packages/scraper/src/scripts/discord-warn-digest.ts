@@ -145,32 +145,68 @@ export function splitAndUpdateState(items: WarnItem[], state: WarnState, now: nu
   return { newItems, lingeringItems, prunedFingerprints, updatedState: { items: updatedItems } }
 }
 
-function buildDigestEmbed(split: DigestSplit): Record<string, unknown> {
+const EMBED_FIELD_VALUE_LIMIT = 1024
+const MAX_EMBED_FIELDS = 25
+
+/**
+ * Splits lines into as many ≤1024-char fields as needed ("<name>", then
+ * "<name> (cont.)") — Discord silently rejects longer field values, and a
+ * hard slice would silently drop members from the digest.
+ */
+function chunkIntoFields(name: string, lines: string[]): Array<{ name: string; value: string }> {
+  const fields: Array<{ name: string; value: string }> = []
+  let current: string[] = []
+  let currentLength = 0
+
+  for (const line of lines) {
+    if (currentLength + line.length + 1 > EMBED_FIELD_VALUE_LIMIT && current.length > 0) {
+      fields.push({ name: fields.length === 0 ? name : `${name} (cont.)`, value: current.join('\n') })
+      current = []
+      currentLength = 0
+    }
+    current.push(line)
+    currentLength += line.length + 1
+  }
+  if (current.length > 0) {
+    fields.push({ name: fields.length === 0 ? name : `${name} (cont.)`, value: current.join('\n') })
+  }
+  return fields
+}
+
+function buildDigestEmbeds(split: DigestSplit): Array<Record<string, unknown>> {
   const fields: Array<{ name: string; value: string }> = []
 
   if (split.newItems.length > 0) {
-    fields.push({
-      name: '🆕 New this week',
-      value: split.newItems
-        .map((item) => `**${item.memberSgUsername}** — ${item.category}`)
-        .join('\n')
-        .slice(0, 1024),
-    })
+    fields.push(
+      ...chunkIntoFields(
+        `🆕 New this week (${split.newItems.length})`,
+        split.newItems.map((item) => `**${item.memberSgUsername}** — ${item.category}`)
+      )
+    )
   }
   if (split.lingeringItems.length > 0) {
-    fields.push({
-      name: '⏳ Lingering',
-      value: split.lingeringItems
-        .map(
+    fields.push(
+      ...chunkIntoFields(
+        `⏳ Lingering (${split.lingeringItems.length})`,
+        split.lingeringItems.map(
           (item) =>
             `**${item.memberSgUsername}** — ${item.category} (since <t:${item.firstSeen}:R>)`
         )
-        .join('\n')
-        .slice(0, 1024),
-    })
+      )
+    )
   }
 
-  return { title: '📋 Weekly Mod Digest', color: 0xed4245, fields }
+  // An embed holds at most 25 fields / 6000 chars; spread across several
+  // embeds when a digest is huge (25 fields of ≤1024 chars can exceed 6000).
+  const embeds: Array<Record<string, unknown>> = []
+  for (let i = 0; i < fields.length; i += 5) {
+    embeds.push({
+      title: embeds.length === 0 ? '📋 Weekly Mod Digest' : '📋 Weekly Mod Digest (cont.)',
+      color: 0xed4245,
+      fields: fields.slice(i, i + 5),
+    })
+  }
+  return embeds.slice(0, MAX_EMBED_FIELDS)
 }
 
 /**
@@ -190,8 +226,11 @@ export async function postWarnDigest(): Promise<void> {
   }
 
   const channelId = process.env.WARN_CHANNEL_ID ?? TEST_ANNOUNCE_CHANNEL_ID
-  const embed = buildDigestEmbed(split)
-  await createMessage(channelId, { embeds: [embed] })
+  // One embed per message — the 6000-char embed limit applies to the whole
+  // message, so batching embeds together can exceed it on big digests.
+  for (const embed of buildDigestEmbeds(split)) {
+    await createMessage(channelId, { embeds: [embed] })
+  }
 
   saveState(split.updatedState)
   console.log(
