@@ -614,10 +614,14 @@ describe('APPLICATION_COMMAND mod-report', () => {
     expect(payload).toMatchObject({ flags: 4 })
     const content = (payload as { content: string }).content
     expect(content).toContain('**Mod Report**')
-    expect(content).toContain('**Need attention** (1 members)')
-    expect(content).toContain('**Warnings** (1 members)')
-    expect(content).toContain('Required-play deadline expired: [alice](<https://sg-club.vercel.app/users/alice/?tab=won&filter=play-required>)')
-    expect(content).toContain('No giveaway created in 6 months: [bob](<https://sg-club.vercel.app/users/bob/>)')
+    expect(content).toContain('‼️ **Need attention** (1 members)')
+    expect(content).toContain('👀 **Warnings** (1 members)')
+    expect(content).toContain(
+      'Required-play deadline expired:\n- [alice](<https://sg-club.vercel.app/users/alice/?tab=won&filter=play-required>)\n'
+    )
+    expect(content).toContain(
+      'No giveaway created in 6 months:\n- [bob](<https://sg-club.vercel.app/users/bob/>)\n'
+    )
     expect(content).toContain('Ex-member entry checks run in the weekly digest only.')
   })
 
@@ -632,8 +636,8 @@ describe('APPLICATION_COMMAND mod-report', () => {
 
     const [, , payload] = vi.mocked(discordRest.editOriginalResponse).mock.calls[0]!
     const content = (payload as { content: string }).content
-    expect(content).toContain('**Need attention** (0 members)')
-    expect(content).toContain('**Warnings** (0 members)')
+    expect(content).toContain('‼️ **Need attention** (0 members)')
+    expect(content).toContain('👀 **Warnings** (0 members)')
   })
 
   it('surfaces a friendly error if collecting findings throws', async () => {

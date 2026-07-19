@@ -140,6 +140,36 @@ describe('chunkMessage', () => {
     const huge = 'x'.repeat(2000)
     expect(chunkMessage([huge], 1900)).toEqual([huge])
   })
+
+  it('defaults to a 1990-char budget (10 chars of headroom under Discord\'s 2000 cap)', () => {
+    // Two 900-char segments (1801 total joined) always fit one message; the
+    // interesting case is content that only fits with the wider budget.
+    const a = 'a'.repeat(900)
+    const b = 'b'.repeat(900)
+    expect(chunkMessage([a, b])).toEqual([`${a}\n${b}`])
+  })
+
+  it('packs greedily to the full budget instead of splitting early: two segments that fit', () => {
+    // 950 + 1 (separator) + 950 = 1901 chars — this exceeds the old 1900
+    // default (which would have forced 2 messages) but fits the current
+    // 1990 default in one message.
+    const a = 'a'.repeat(950)
+    const b = 'b'.repeat(950)
+    const chunks = chunkMessage([a, b])
+    expect(chunks).toEqual([`${a}\n${b}`])
+    expect(chunks).toHaveLength(1)
+  })
+
+  it('only splits into a new message when the next segment truly does not fit', () => {
+    // Three segments where the first two fit together but the third would
+    // push the running message over budget — greedy packing should keep
+    // segments 1+2 together and only start a new message for segment 3.
+    const seg1 = 'a'.repeat(1000)
+    const seg2 = 'b'.repeat(950) // 1000+1+950 = 1951, still under 1990
+    const seg3 = 'c'.repeat(950) // adding this would push to 2902
+    const chunks = chunkMessage([seg1, seg2, seg3])
+    expect(chunks).toEqual([`${seg1}\n${seg2}`, seg3])
+  })
 })
 
 describe('groupFindingsByMemberForReport', () => {
@@ -214,29 +244,29 @@ describe('buildModReportLines', () => {
 
   it('places a member with any error finding in Need attention, listing labels in importance order', () => {
     const lines = buildModReportLines(findings)
-    const needAttentionIdx = lines.findIndex((l) => l.startsWith('**Need attention**'))
+    const needAttentionIdx = lines.findIndex((l) => l.startsWith('‼️ **Need attention**'))
     const zackLine = lines.find((l) => l.includes('[zack]'))!
     const zackIdx = lines.indexOf(zackLine)
-    const warningsIdx = lines.findIndex((l) => l.startsWith('**Warnings**'))
+    const warningsIdx = lines.findIndex((l) => l.startsWith('👀 **Warnings**'))
 
     expect(zackIdx).toBeGreaterThan(needAttentionIdx)
     expect(zackIdx).toBeLessThan(warningsIdx)
     expect(zackLine).toBe(
-      'Zero play rate · Low play rate: [zack](<https://sg-club.vercel.app/users/zack/>)'
+      'Zero play rate · Low play rate:\n- [zack](<https://sg-club.vercel.app/users/zack/>)\n'
     )
   })
 
   it('places a member whose findings are all warn-level in Warnings only', () => {
     const lines = buildModReportLines(findings)
     const amyLine = lines.find((l) => l.includes('[amy]'))!
-    const warningsIdx = lines.findIndex((l) => l.startsWith('**Warnings**'))
+    const warningsIdx = lines.findIndex((l) => l.startsWith('👀 **Warnings**'))
     expect(lines.indexOf(amyLine)).toBeGreaterThan(warningsIdx)
   })
 
   it('reports accurate member counts in each section header', () => {
     const lines = buildModReportLines(findings)
-    expect(lines).toContain('**Need attention** (1 members)')
-    expect(lines).toContain('**Warnings** (1 members)')
+    expect(lines).toContain('‼️ **Need attention** (1 members)')
+    expect(lines).toContain('👀 **Warnings** (1 members)')
   })
 
   it('ends with the ex-member note', () => {
@@ -244,21 +274,30 @@ describe('buildModReportLines', () => {
     expect(lines.at(-1)).toBe('Ex-member entry checks run in the weekly digest only.')
   })
 
-  it('renders no emojis anywhere', () => {
+  it('renders findings/note lines with no emojis, and carries ‼️/👀 only on the two section headers', () => {
     const lines = buildModReportLines(findings)
     const emojiPattern = /[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/u
-    expect(emojiPattern.test(lines.join('\n'))).toBe(false)
+
+    const needAttentionHeader = lines.find((l) => l.includes('Need attention'))!
+    const warningsHeader = lines.find((l) => l.includes('**Warnings**'))!
+    expect(needAttentionHeader.startsWith('‼️ ')).toBe(true)
+    expect(warningsHeader.startsWith('👀 ')).toBe(true)
+
+    const nonHeaderLines = lines.filter((l) => l !== needAttentionHeader && l !== warningsHeader)
+    for (const line of nonHeaderLines) {
+      expect(emojiPattern.test(line)).toBe(false)
+    }
   })
 
   it('shows empty-section placeholders and zero counts when there are no findings', () => {
     const lines = buildModReportLines([])
-    expect(lines).toContain('**Need attention** (0 members)')
-    expect(lines).toContain('**Warnings** (0 members)')
+    expect(lines).toContain('‼️ **Need attention** (0 members)')
+    expect(lines).toContain('👀 **Warnings** (0 members)')
     expect(lines.filter((l) => l === '_none_')).toHaveLength(2)
   })
 
   describe('combo grouping', () => {
-    it('groups ≥2 members sharing the exact same single-code combo onto one unbulleted line', () => {
+    it('groups ≥2 members sharing the exact same single-code combo onto a bulleted line', () => {
       const shared: GroupWarningFinding[] = [
         { username: 'bob', code: 'required_plays_need_review', label: 'Needs review', severity: 'warn' },
         { username: 'amy', code: 'required_plays_need_review', label: 'Needs review', severity: 'warn' },
@@ -284,13 +323,13 @@ describe('buildModReportLines', () => {
       )
     })
 
-    it('renders a combo unique to 1 member as a single unbulleted line', () => {
+    it('renders a combo unique to 1 member with the same uniform label+bullet+blank-line form', () => {
       const unique: GroupWarningFinding[] = [
         { username: 'amy', code: 'required_plays_need_review', label: 'Needs review', severity: 'warn' },
       ]
       const lines = buildModReportLines(unique)
       expect(lines).toContain(
-        'Needs review: [amy](<https://sg-club.vercel.app/users/amy/?tab=won&filter=play-required>)'
+        'Needs review:\n- [amy](<https://sg-club.vercel.app/users/amy/?tab=won&filter=play-required>)\n'
       )
     })
 
@@ -302,10 +341,10 @@ describe('buildModReportLines', () => {
       ]
       const lines = buildModReportLines(different)
       expect(lines).toContain(
-        'Needs review: [amy](<https://sg-club.vercel.app/users/amy/?tab=won&filter=play-required>)'
+        'Needs review:\n- [amy](<https://sg-club.vercel.app/users/amy/?tab=won&filter=play-required>)\n'
       )
       expect(lines).toContain(
-        'Needs review · Inactive: [bob](<https://sg-club.vercel.app/users/bob/?tab=won&filter=play-required>)'
+        'Needs review · Inactive:\n- [bob](<https://sg-club.vercel.app/users/bob/?tab=won&filter=play-required>)\n'
       )
     })
 
@@ -315,9 +354,9 @@ describe('buildModReportLines', () => {
         { username: 'pat', code: 'unplayed_required_play_giveaways', label: 'Unplayed', severity: 'error' },
       ]
       const lines = buildModReportLines(mixed)
-      expect(lines).toContain('Zero play rate: [zed](<https://sg-club.vercel.app/users/zed/>)')
+      expect(lines).toContain('Zero play rate:\n- [zed](<https://sg-club.vercel.app/users/zed/>)\n')
       expect(lines).toContain(
-        'Unplayed: [pat](<https://sg-club.vercel.app/users/pat/?tab=won&filter=play-required>)'
+        'Unplayed:\n- [pat](<https://sg-club.vercel.app/users/pat/?tab=won&filter=play-required>)\n'
       )
     })
 
@@ -335,7 +374,7 @@ describe('buildModReportLines', () => {
         { username: 'bob', code: 'required_plays_need_review', label: 'Needs review', severity: 'warn' },
       ]
       const lines = buildModReportLines(findings)
-      const warningsIdx = lines.findIndex((l) => l.startsWith('**Warnings**'))
+      const warningsIdx = lines.findIndex((l) => l.startsWith('👀 **Warnings**'))
       const sharedLineIdx = lines.findIndex((l) => l.startsWith('Needs review:'))
       const zedLineIdx = lines.findIndex((l) => l.includes('[zed]'))
 

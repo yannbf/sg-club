@@ -123,13 +123,13 @@ any Discord REST call is made, and is covered directly in
   no options; it opens a **modal form** (`custom_id: csetup`) with four text
   inputs: Challenge name, Description, a combined **Dates (UTC)** field
   (`"<start> → <end>"`, also accepting `->` or the standalone word `to` as
-  the separator — each side parsed by the same rules as before:
-  `YYYY-MM-DD`, `YYYY-MM-DD HH:mm`, or ISO 8601), and an optional Signup
-  deadline (UTC, defaults to the start date). On submit the bot slugifies the
-  name, rejects the setup if a `CHALLENGE` with the same slug already exists
-  in the log, splits and validates the dates field
-  (`parseDateRangeField`/`validateChallengeDates` in `_lib/dates.ts`), then
-  posts the Dyno-style announcement embed + buttons **to the channel the
+  the separator — each side parsed leniently, see
+  [Accepted date formats](#accepted-date-formats) below), and an optional
+  Signup deadline (UTC, defaults to the start date, same lenient parsing). On
+  submit the bot slugifies the name, rejects the setup if a `CHALLENGE` with
+  the same slug already exists in the log, splits and validates the dates
+  field (`parseDateRangeField`/`validateChallengeDates` in `_lib/dates.ts`),
+  then posts the Dyno-style announcement embed + buttons **to the channel the
   command was invoked in**, and records a `CHALLENGE` line in the log
   channel. Any parse/validation failure is surfaced as a friendly `❌ ...`
   ephemeral error instead of posting anything. (There are no channel/image
@@ -153,14 +153,41 @@ any Discord REST call is made, and is covered directly in
 - **`/mod-report`** (admin-only) — the on-demand counterpart to the weekly
   digest below: a full member-status report covering **both** errors and
   warnings (unlike the digest, which only ever shows errors). Non-ephemeral,
-  deferred. Content: a `**Mod Report**` header, an
-  `**Errors** (N members)` section (one bullet per member with ≥1
-  error-severity finding, listing *all* their findings — error labels
-  first, then warn labels), a `**Warnings** (M members)` section (one bullet
-  per member whose findings are all warn-level), and a closing line noting
-  that ex-member entry checks aren't included (see
-  [Severity model](#severity-model--mod-report) below for why). Emoji-free,
-  chunked the same way as `/challenge-list`.
+  deferred. Content: a `**Mod Report**` header, a
+  `‼️ **Need attention** (N members)` section (every member with ≥1
+  error-severity finding, listing *all* their findings — error labels first,
+  then warn labels), a `👀 **Warnings** (M members)` section (every member
+  whose findings are all warn-level), and a closing line noting that
+  ex-member entry checks aren't included (see
+  [Severity model](#severity-model--mod-report) below for why). Within each
+  section, members sharing the *exact same set* of finding codes are grouped
+  onto one combo block instead of one bullet each — see `renderSection`
+  below. The two section headers are the **only** emoji in the output
+  (owner request); everything else — finding labels, member lines, the
+  closing note — stays emoji-free. Chunked into as few messages as fit under
+  a 1990-char budget (see [Packing into the fewest
+  messages](#packing-into-the-fewest-messages) below).
+
+### Accepted date formats
+
+Both `parseAdminDate` inputs — each side of `/challenge-setup`'s **Dates
+(UTC)** field, and the **Signup deadline** field — accept the following,
+case-insensitively, all interpreted as UTC. Parsing never depends on the
+server's local timezone.
+
+| Form | Examples | Notes |
+|---|---|---|
+| ISO-ish | `2026-08-01`, `2026-08-01 18:30`, `2026-08-01T18:30:00-05:00` | Original formats, unchanged. Bare `YYYY-MM-DD[ HH:mm]` is UTC; full ISO 8601 honors an explicit offset. |
+| Month name | `Aug 1`, `August 1`, `1 Aug`, `1 August`, `Aug 1 2026`, `Aug 1 18:00` | Day-first or month-first, full name or 3-letter abbreviation. Without a year, resolves to the next occurrence: this year if today-or-future (UTC calendar date), else next year. |
+| Today / tomorrow | `today`, `tomorrow`, `tomorrow 18:00` | Midnight UTC, or the given time. |
+| Next weekday | `next friday`, `next friday 09:00` | The next occurrence of that weekday **strictly after today** (UTC) — if today is Friday, "next friday" is 7 days out, not today. |
+| Relative offset | `+2d`, `+3w`, `+1m` | Days/weeks/months. Anchored to midnight UTC of *now* for the start side and the signup-deadline field; anchored to the **parsed start date** for the end side of a range (so `"aug 1 to +30d"` means Aug 31, not 30 days from today). |
+
+**Deliberately rejected:** bare numeric slash dates like `1/8` or
+`08/01/2026` — the group is international and D/M vs M/D is genuinely
+ambiguous, so the parser never guesses; it returns the friendly error
+instead. Every failure mode returns a friendly error listing example
+accepted forms rather than a raw parse exception.
 
 ### Severity model & /mod-report
 
@@ -181,9 +208,20 @@ fallback in the scraper).
   flattens every member's `warnings` array into one finding
   (`{ username, code, label, severity }`) per member per code.
 - **`renderMemberLine`** and **`chunkMessage`** are the shared rendering
-  primitives (member bullet formatting, ≤1900-char chunking without
-  splitting a segment) reused by the digest, `/mod-report`, and the
-  plain-markdown `render.ts` outputs (close-summary, `/challenge-list`).
+  primitives (member bullet formatting, chunking a segment list into as few
+  messages as fit without splitting a segment) reused by the digest,
+  `/mod-report`, and the plain-markdown `render.ts` outputs (close-summary,
+  `/challenge-list`). See [Packing into the fewest
+  messages](#packing-into-the-fewest-messages) for the chunking budget.
+- **`renderSection`** (used only by `/mod-report`, not the digest) groups a
+  section's members by their *exact* set of finding codes and renders each
+  combo — including a combo unique to a single member — uniformly as one
+  block: a label line (labels joined by ` · `, importance-ordered), a
+  bulleted, alphabetical (case-insensitive) member list on the next line,
+  and a trailing blank line. Combo blocks are ordered by the combo's most
+  important code, then by member count (larger first), then alphabetically.
+  A member flagged with any required-play-compliance code gets their link
+  deep-linked to `?tab=won&filter=play-required` on their member page.
 
 **Ex-member entry checks are deliberately *not* part of `mod-report.ts`**,
 and so don't appear in `/mod-report` — only in the weekly digest. That
@@ -240,9 +278,35 @@ Every other bot-posted message that carries plain `content` (the weekly
 digest, `/mod-report`, the close-signups summary, `/challenge-list`, and the
 challenge-completion congrats messages) is sent with `flags: 4`
 (`SUPPRESS_EMBEDS`) so a member/challenge link in the text never spawns an
-unwanted link-preview card. The digest, `/mod-report`, the close-summary,
-and `/challenge-list` are additionally emoji-free (the congrats message
-keeps its 🎉/`pandaparty` celebration — that one wasn't in scope).
+unwanted link-preview card. The digest, the close-summary, and
+`/challenge-list` are additionally emoji-free; `/mod-report` is emoji-free
+apart from the two section-header emojis (‼️/👀 — see
+[Severity model](#severity-model--mod-report)) (the congrats message keeps
+its 🎉/`pandaparty` celebration — that one wasn't in scope).
+
+## Packing into the fewest messages
+
+`chunkMessage(segments, maxLength)` (`_lib/mod-report.ts`) joins an ordered
+list of atomic segments into as few `≤maxLength` messages as possible: it
+adds each segment to the running message unless doing so would overflow,
+which is provably optimal for minimizing message count when segments must
+stay in order and can't be split — so packing tightness is purely a function
+of the budget, not the algorithm. Every caller passes segments that are
+already atomic *and* individually within budget: a segment never straddles
+two messages, and a single line that could itself be too long (a big
+comma-separated name list) is pre-split by the caller at comma boundaries
+(`splitNamesIntoChunks` / `chunkedNamesLine` in `render.ts`) before it ever
+reaches `chunkMessage`, so `chunkMessage` itself never needs to split
+mid-segment.
+
+Budgets, all comfortably under Discord's real ~2000-char message cap:
+
+- **`/mod-report`** calls `chunkMessage` with no explicit budget, so it gets
+  the default of **1990** (10 chars of headroom) — the widest budget of any
+  caller, since `/mod-report` combo blocks tend to run long.
+- The **weekly digest**, the **close-signups summary**, and
+  **`/challenge-list`** all pass an explicit **1900**-char budget
+  (`MAX_MESSAGE_LENGTH` / `CODEBLOCK_CHUNK_LIMIT`), unchanged.
 
 ## Cron scripts
 

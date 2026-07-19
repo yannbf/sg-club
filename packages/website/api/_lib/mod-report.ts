@@ -170,10 +170,15 @@ export function renderMemberLine(username: string, findingTexts: string[]): stri
 /**
  * Joins `segments` (each an atomic, possibly multi-line unit — a bullet, a
  * header, a fenced codeblock) into as few ≤maxLength messages as possible,
- * never splitting a segment across two messages. Mirrors Discord's ~2000
- * char message cap with headroom.
+ * never splitting a segment across two messages: each message is a maximal
+ * run of segments (a segment is added unless doing so would overflow), which
+ * is provably optimal for minimizing message count given order-preserving,
+ * atomic segments — so the only lever for packing more tightly is the
+ * budget itself. Default of 1990 leaves 10 chars of headroom under
+ * Discord's real 2000-char cap (previously 1900, which wasted 100 chars of
+ * every message for no reason and could force an extra message).
  */
-export function chunkMessage(segments: string[], maxLength = 1900): string[] {
+export function chunkMessage(segments: string[], maxLength = 1990): string[] {
   const messages: string[] = []
   let current: string[] = []
 
@@ -243,11 +248,11 @@ interface FindingCombo {
 
 /**
  * Groups a section's members by their EXACT set of finding codes, then
- * renders each combo as one line:
- *  - shared by ≥2 members: `<Label A> · <Label B>: [m1], [m2]` (not
- *    bulleted), labels ordered by importance, members alphabetical
- *    (case-insensitive).
- *  - unique to 1 member: the existing bulleted `renderMemberLine` form.
+ * renders each combo uniformly — including a combo unique to a single
+ * member — as a label line followed by a bulleted member list and a
+ * trailing blank line:
+ *   `<Label A> · <Label B>:\n- [m1], [m2]\n`
+ * Labels ordered by importance, members alphabetical (case-insensitive).
  * Lines are ordered by the combo's most important code, then by member
  * count (larger first), then alphabetically by first member.
  */
@@ -284,13 +289,11 @@ function renderSection(members: SectionMember[]): string[] {
     return compareUsernamesCaseInsensitive(a.usernames[0]!, b.usernames[0]!)
   })
 
-  // Multi-member combos: label line, then a bulleted member list on the next
-  // line. Single-member combos: everything on one line, no bullet.
+  // Uniform for every combo (including single-member): label line, then a
+  // bulleted member list, then a trailing blank line.
   return combos.map((combo) => {
     const deep = combo.codes.some((code) => PLAY_REQUIRED_CODES.has(code))
-    return combo.usernames.length >= 2
-      ? `${combo.labels.join(' · ')}:\n- ${combo.usernames.map((u) => memberLink(u, deep)).join(', ')}\n`
-      : `${combo.labels.join(' · ')}: ${memberLink(combo.usernames[0]!, deep)}`
+    return `${combo.labels.join(' · ')}:\n- ${combo.usernames.map((u) => memberLink(u, deep)).join(', ')}\n`
   })
 }
 
@@ -304,6 +307,10 @@ export const EX_MEMBER_NOTE = 'Ex-member entry checks run in the weekly digest o
  * warn-level), and a closing note about ex-member checks. Within each
  * section, members sharing the exact same set of finding codes are grouped
  * onto one line — see `renderSection`.
+ *
+ * The two section headers carry a leading emoji (‼️/👀, owner request) as
+ * the sole exception to the otherwise emoji-free output — everything else
+ * (finding labels, member lines, the note) stays plain.
  */
 export function buildModReportLines(findings: GroupWarningFinding[]): string[] {
   const members = groupFindingsByMemberForReport(findings)
@@ -314,7 +321,7 @@ export function buildModReportLines(findings: GroupWarningFinding[]): string[] {
 
   const lines: string[] = ['**Mod Report**', '']
 
-  lines.push(`**Need attention** (${errorMembers.length} members)`)
+  lines.push(`‼️ **Need attention** (${errorMembers.length} members)`)
   lines.push(
     ...renderSection(
       errorMembers.map((m) => ({
@@ -325,7 +332,7 @@ export function buildModReportLines(findings: GroupWarningFinding[]): string[] {
   )
 
   lines.push('')
-  lines.push(`**Warnings** (${warnOnlyMembers.length} members)`)
+  lines.push(`👀 **Warnings** (${warnOnlyMembers.length} members)`)
   lines.push(
     ...renderSection(warnOnlyMembers.map((m) => ({ username: m.username, findings: m.warnFindings })))
   )
