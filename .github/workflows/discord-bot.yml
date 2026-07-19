@@ -14,11 +14,39 @@ on:
           - close-signups
           - congrats
           - warn-digest
+          - register-commands
 
 permissions:
   contents: write
 
 jobs:
+  register-commands:
+    if: github.event.inputs.job == 'register-commands'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
+      DISCORD_APP_ID: ${{ secrets.DISCORD_APP_ID }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Register guild slash commands
+        run: pnpm --filter scraper run discord:register
+
   close-signups:
     if: github.event.inputs.job == 'close-signups'
     runs-on: ubuntu-latest
