@@ -14,33 +14,33 @@ import {
   InteractionType,
   MessageFlags,
   TextInputStyle,
-} from '../_lib/constants'
+} from '../_lib/constants.js'
 import {
   createMessage,
   editOriginalResponse,
   getAllChannelMessages,
   respondJson,
   sendFollowup,
-} from '../_lib/discord-rest'
+} from '../_lib/discord-rest.js'
 import {
   decodeCustomId,
   encodeModalCustomId,
   validateSlugForCustomId,
   type SignupChoice,
-} from '../_lib/custom-id'
-import { validateChallengeDates } from '../_lib/dates'
+} from '../_lib/custom-id.js'
+import { validateChallengeDates } from '../_lib/dates.js'
 import {
   buildRoster,
   parseLogLine,
   serializeChallenge,
   serializeSignup,
-} from '../_lib/signup-log'
-import { resolveDiscordUserToSgUsername, validateSgUsername } from '../_lib/identity'
+} from '../_lib/signup-log.js'
+import { resolveDiscordUserToSgUsername, validateSgUsername } from '../_lib/identity.js'
 import {
   buildAnnouncementEmbed,
   buildChallengeListOutput,
   buildSignupComponents,
-} from '../_lib/render'
+} from '../_lib/render.js'
 
 // Vercel Function config: raw body needed for Ed25519 signature
 // verification, so auto body-parsing is disabled. maxDuration gives the

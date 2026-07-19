@@ -5,7 +5,7 @@ import {
   serializeChallenge,
   serializeClosed,
   serializeSignup,
-} from './signup-log'
+} from './signup-log.js'
 
 const CHALLENGE_META = {
   slug: 'neo-cab',

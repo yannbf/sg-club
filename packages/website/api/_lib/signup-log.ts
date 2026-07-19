@@ -3,7 +3,7 @@
 // line, in the form `TYPE {json}`. This is the only persisted state for the
 // whole feature — no database.
 
-import type { SignupChoice } from './custom-id'
+import type { SignupChoice } from './custom-id.js'
 
 export interface ChallengeMeta {
   slug: string

@@ -4,9 +4,9 @@
 import {
   encodeSignupCustomId,
   type SignupChoice,
-} from './custom-id'
-import type { Roster, RosterEntry } from './signup-log'
-import { ButtonStyle, ComponentType } from './constants'
+} from './custom-id.js'
+import type { Roster, RosterEntry } from './signup-log.js'
+import { ButtonStyle, ComponentType } from './constants.js'
 
 const EMBED_DESCRIPTION_LIMIT = 4096
 const EMBED_FIELD_VALUE_LIMIT = 1024

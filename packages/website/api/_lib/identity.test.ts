@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest'
-import { resolveDiscordUserToSgUsername, validateSgUsername } from './identity'
+import { resolveDiscordUserToSgUsername, validateSgUsername } from './identity.js'
 
 vi.mock('./data', () => ({
   loadDataFile: vi.fn(async (name: string) => {

@@ -1,7 +1,7 @@
 // Minimal fetch-based Discord REST helper. No discord.js — raw REST only.
 
 import type { ServerResponse } from 'node:http'
-import { getBotToken } from './constants'
+import { getBotToken } from './constants.js'
 
 const API_BASE = 'https://discord.com/api/v10'
 

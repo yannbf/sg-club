@@ -2,7 +2,7 @@
 // discord_members.json map, and validates guest-entered SG usernames against
 // the scraped group_users.json roster.
 
-import { loadDataFile } from './data'
+import { loadDataFile } from './data.js'
 
 export interface DiscordMembersData {
   members: Record<string, boolean>

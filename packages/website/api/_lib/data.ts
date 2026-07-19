@@ -8,7 +8,7 @@
 // Module-level 5-minute cache so a burst of requests within a single warm
 // serverless instance doesn't refetch the same file repeatedly.
 
-import { getDataBaseUrl } from './constants'
+import { getDataBaseUrl } from './constants.js'
 
 const CACHE_TTL_MS = 5 * 60 * 1000
 

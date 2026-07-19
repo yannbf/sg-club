@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { parseAdminDate, validateChallengeDates } from './dates'
+import { parseAdminDate, validateChallengeDates } from './dates.js'
 
 describe('parseAdminDate', () => {
   it('parses YYYY-MM-DD as UTC midnight', () => {

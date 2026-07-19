@@ -5,7 +5,7 @@ import {
   encodeModalCustomId,
   encodeSignupCustomId,
   validateSlugForCustomId,
-} from './custom-id'
+} from './custom-id.js'
 
 describe('custom-id', () => {
   it('round-trips a button custom_id', () => {

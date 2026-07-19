@@ -1,7 +1,7 @@
 import type { IncomingMessage, ServerResponse } from 'node:http'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { encodeModalCustomId, encodeSignupCustomId } from '../_lib/custom-id'
-import { isPastDeadline } from './interactions'
+import { encodeModalCustomId, encodeSignupCustomId } from '../_lib/custom-id.js'
+import { isPastDeadline } from './interactions.js'
 
 vi.mock('discord-interactions', () => ({
   verifyKey: vi.fn(async () => true),
