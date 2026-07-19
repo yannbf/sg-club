@@ -801,18 +801,12 @@ export default function WishlistClient({
                   {cardInsight ? (
                     <p
                       className="text-xs text-muted-foreground"
-                      title="From members' public Steam libraries and wishlists — unlike wishers (❤), which counts SteamGifts wishlists"
+                      title="Based on members' public Steam libraries"
                     >
-                      Steam:{' '}
                       <span className="font-medium text-foreground tabular-nums-strict">
                         {cardInsight.owners.length}
                       </span>{' '}
-                      own
-                      <span className="text-subtle"> · </span>
-                      <span className="font-medium text-foreground tabular-nums-strict">
-                        {cardInsight.wanters.length}
-                      </span>{' '}
-                      want
+                      already own
                     </p>
                   ) : (
                     <span />
