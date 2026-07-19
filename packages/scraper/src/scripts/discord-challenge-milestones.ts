@@ -87,9 +87,20 @@ export function buildEndedMessage(name: string): string {
   return `The ${challengePhrase(name)} is over! Click [here](<${EVENTS_URL}>) to see the results`
 }
 
-/** True when `meta` is within (but not past) the 24h window before its end, and hasn't been reminded yet. */
-export function needsReminder(meta: Pick<ChallengeMeta, 'slug' | 'end'>, remindedSlugs: Set<string>, nowSeconds: number): boolean {
+/**
+ * True when `meta` is within (but not past) the 24h window before its end,
+ * and hasn't been reminded yet. Challenges whose TOTAL duration is 24h or
+ * less never get the reminder — they're born inside the window, and a "24h
+ * left" warning that fires the moment a short challenge is created is noise
+ * (found live with a ~15h test challenge).
+ */
+export function needsReminder(
+  meta: Pick<ChallengeMeta, 'slug' | 'start' | 'end'>,
+  remindedSlugs: Set<string>,
+  nowSeconds: number
+): boolean {
   if (remindedSlugs.has(meta.slug)) return false
+  if (meta.end - meta.start <= REMINDER_WINDOW_SECONDS) return false
   const secondsToEnd = meta.end - nowSeconds
   return secondsToEnd <= REMINDER_WINDOW_SECONDS && secondsToEnd > 0
 }
