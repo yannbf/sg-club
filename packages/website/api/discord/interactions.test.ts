@@ -51,6 +51,18 @@ vi.mock('../_lib/identity', () => ({
   validateSgUsername: vi.fn(async () => 'yannbf'),
 }))
 
+// Only `collectGroupWarningFindings` needs mocking (it goes through
+// loadDataFile/data.ts, which has no host to fetch from in tests) — the
+// rendering functions (buildModReportLines, chunkMessage) run for real so
+// the assertions below exercise the actual production formatting.
+vi.mock('../_lib/mod-report', async () => {
+  const actual = await vi.importActual<typeof import('../_lib/mod-report')>('../_lib/mod-report')
+  return {
+    ...actual,
+    collectGroupWarningFindings: vi.fn(async () => []),
+  }
+})
+
 process.env.DISCORD_PUBLIC_KEY = 'test-public-key'
 process.env.DISCORD_APP_ID = 'test-app-id'
 process.env.DISCORD_BOT_TOKEN = 'test-bot-token'
@@ -59,6 +71,7 @@ process.env.DISCORD_BOT_TOKEN = 'test-bot-token'
 const { default: handler } = await import('./interactions')
 const discordRest = await import('../_lib/discord-rest')
 const identity = await import('../_lib/identity')
+const modReport = await import('../_lib/mod-report')
 
 function makeReq(bodyObj: unknown): IncomingMessage {
   const chunk = Buffer.from(JSON.stringify(bodyObj))
@@ -490,6 +503,91 @@ describe('MODAL_SUBMIT challenge-setup (csetup)', () => {
       'test-app-id',
       'tok',
       expect.objectContaining({ content: expect.stringContaining('❌') })
+    )
+  })
+})
+
+describe('APPLICATION_COMMAND mod-report', () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
+
+  function makeModReportReq(): IncomingMessage {
+    return makeReq({
+      type: 2,
+      token: 'tok',
+      channel_id: 'chan1',
+      member: { user: { id: 'd1', username: 'yannbf' } },
+      data: { name: 'mod-report' },
+    })
+  }
+
+  it('defers non-ephemerally, then edits the original response with the rendered report', async () => {
+    vi.mocked(modReport.collectGroupWarningFindings).mockResolvedValueOnce([
+      {
+        username: 'alice',
+        code: 'required_play_deadline_expired',
+        label: 'Required-play deadline expired',
+        severity: 'error',
+      },
+      {
+        username: 'bob',
+        code: 'no_giveaway_created_in_6_months',
+        label: 'No giveaway created in 6 months',
+        severity: 'warn',
+      },
+    ])
+
+    const req = makeModReportReq()
+    const res = makeRes()
+
+    await handler(req, res)
+
+    // Deferred, non-ephemeral (no flags set on the ack).
+    expect(res.body).toEqual({ type: 5, data: {} })
+
+    await drainWaitUntil()
+
+    expect(discordRest.editOriginalResponse).toHaveBeenCalledTimes(1)
+    const [, , payload] = vi.mocked(discordRest.editOriginalResponse).mock.calls[0]!
+    expect(payload).toMatchObject({ flags: 4 })
+    const content = (payload as { content: string }).content
+    expect(content).toContain('**Mod Report**')
+    expect(content).toContain('**Errors** (1 members)')
+    expect(content).toContain('**Warnings** (1 members)')
+    expect(content).toContain('- [alice](<https://sg-club.vercel.app/users/alice/>) — Required-play deadline expired')
+    expect(content).toContain('- [bob](<https://sg-club.vercel.app/users/bob/>) — No giveaway created in 6 months')
+    expect(content).toContain('Ex-member entry checks run in the weekly digest only.')
+  })
+
+  it('reports zero-member sections when there are no findings', async () => {
+    vi.mocked(modReport.collectGroupWarningFindings).mockResolvedValueOnce([])
+
+    const req = makeModReportReq()
+    const res = makeRes()
+
+    await handler(req, res)
+    await drainWaitUntil()
+
+    const [, , payload] = vi.mocked(discordRest.editOriginalResponse).mock.calls[0]!
+    const content = (payload as { content: string }).content
+    expect(content).toContain('**Errors** (0 members)')
+    expect(content).toContain('**Warnings** (0 members)')
+  })
+
+  it('surfaces a friendly error if collecting findings throws', async () => {
+    vi.mocked(modReport.collectGroupWarningFindings).mockRejectedValueOnce(new Error('data file missing'))
+
+    const req = makeModReportReq()
+    const res = makeRes()
+
+    await handler(req, res)
+    await drainWaitUntil()
+
+    expect(discordRest.editOriginalResponse).toHaveBeenCalledWith(
+      'test-app-id',
+      'tok',
+      expect.objectContaining({ content: expect.stringContaining('data file missing') })
     )
   })
 })

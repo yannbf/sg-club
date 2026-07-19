@@ -156,6 +156,7 @@ export async function announceNewCompletions(): Promise<void> {
     for (const batch of batches) {
       await createMessage(channelId, {
         content: buildCongratsMessage(batch, challenge.gameName, emoji),
+        flags: 4,
       })
       // State is saved after every batch, not at the end — a crash mid-loop
       // (e.g. rate limiting) must never lead to duplicate announcements on

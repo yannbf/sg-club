@@ -4,6 +4,12 @@ import { fileURLToPath } from 'node:url'
 import { checkExMemberEntries } from './check-ex-member-entries.js'
 import { createMessage } from '../../../website/api/_lib/discord-rest.js'
 import { TEST_ANNOUNCE_CHANNEL_ID } from '../../../website/api/_lib/constants.js'
+import {
+  chunkMessage,
+  collectGroupWarningFindings,
+  renderMemberLine,
+  type Severity,
+} from '../../../website/api/_lib/mod-report.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const dataDir = path.resolve(__dirname, '../../..', 'website/public/data')
@@ -14,6 +20,7 @@ export interface WarnItem {
   memberSgUsername: string
   category: string
   description: string
+  severity: Severity
 }
 
 export interface WarnState {
@@ -33,6 +40,13 @@ function saveState(state: WarnState): void {
  * Ex-members still holding entries in active group-exclusive giveaways.
  * Reuses the core check from check-ex-member-entries.ts (see that file for
  * the full membership-sync-delay rationale) rather than duplicating it.
+ * Always error-severity — this is a rule violation, not an advisory.
+ *
+ * This detector cannot be ported into `mod-report.ts` (and therefore isn't
+ * available to /mod-report): beyond ex_members.json it also needs
+ * giveaways.json and user_entries.json (a further ~5MB combined), which is
+ * too much to fetch on every on-demand command invocation. It stays
+ * scraper-only, wired into this weekly digest.
  */
 export function exMemberEntriesDetector(): WarnItem[] {
   const flagged = checkExMemberEntries()
@@ -45,67 +59,45 @@ export function exMemberEntriesDetector(): WarnItem[] {
       description: `Left the group but still has ${member.active_entries.length} active entr${
         member.active_entries.length === 1 ? 'y' : 'ies'
       } in group-exclusive giveaways.`,
+      severity: 'error' as const,
     }))
-}
-
-const WARNING_LABELS: Record<string, string> = {
-  unplayed_required_play_giveaways: 'Unplayed required-play win(s)',
-  illegal_entered_required_play_giveaways: 'Entered required-play GA despite unmet requirement',
-  illegal_entered_any_giveaways: 'Entered a giveaway while ineligible',
-  required_plays_need_review: 'Required-play win(s) need review',
-  required_play_deadline_within_15_days: 'Required-play deadline within 15 days',
-  required_play_deadline_expired: 'Required-play deadline expired',
-  zero_play_rate_with_wins: 'Zero play rate despite wins',
-  low_play_rate_many_wins: 'Low play rate with many wins',
-  inactive_play_but_active: 'Inactive playtime but active on SG',
-  no_giveaway_created_in_6_months: 'No giveaway created in 6 months',
-}
-
-interface GroupUser {
-  username: string
-  steam_id: string
-  warnings?: string[]
-}
-
-interface GroupUsersData {
-  users: Record<string, GroupUser>
 }
 
 /**
  * Surfaces the per-member rule-violation `warnings` the scraper already
  * computes in group-members.ts (calculateUserWarnings) — required-play
  * compliance, play-rate anomalies, and inactivity flags — as digest items.
+ * Delegates the actual loading + severity classification to
+ * `collectGroupWarningFindings` in mod-report.ts (shared with /mod-report).
  */
-export function groupUserWarningsDetector(): WarnItem[] {
-  const groupUsersPath = path.join(dataDir, 'group_users.json')
-  const groupUsers: GroupUsersData = JSON.parse(readFileSync(groupUsersPath, 'utf-8'))
-
-  const items: WarnItem[] = []
-  for (const user of Object.values(groupUsers.users)) {
-    for (const code of user.warnings ?? []) {
-      const label = WARNING_LABELS[code] ?? code
-      items.push({
-        fingerprint: `group-warning:${user.steam_id}:${code}`,
-        memberSgUsername: user.username,
-        category: label,
-        description: `${user.username}: ${label}`,
-      })
-    }
-  }
-  return items
+export async function groupUserWarningsDetector(): Promise<WarnItem[]> {
+  const findings = await collectGroupWarningFindings()
+  return findings.map((finding) => ({
+    fingerprint: `group-warning:${finding.username}:${finding.code}`,
+    memberSgUsername: finding.username,
+    category: finding.label,
+    description: `${finding.username}: ${finding.label}`,
+    severity: finding.severity,
+  }))
 }
 
-const DETECTORS: Array<() => WarnItem[]> = [exMemberEntriesDetector, groupUserWarningsDetector]
+const DETECTORS: Array<() => WarnItem[] | Promise<WarnItem[]>> = [
+  exMemberEntriesDetector,
+  groupUserWarningsDetector,
+]
 
-export function runDetectors(): WarnItem[] {
-  return DETECTORS.flatMap((detector) => {
-    try {
-      return detector()
-    } catch (err) {
-      console.error('⚠️ A warn-digest detector failed:', err)
-      return []
-    }
-  })
+export async function runDetectors(): Promise<WarnItem[]> {
+  const results = await Promise.all(
+    DETECTORS.map(async (detector) => {
+      try {
+        return await detector()
+      } catch (err) {
+        console.error('A warn-digest detector failed:', err)
+        return []
+      }
+    })
+  )
+  return results.flat()
 }
 
 export interface DigestSplit {
@@ -119,7 +111,9 @@ export interface DigestSplit {
  * Splits the current findings into "new this week" vs "lingering" (already
  * in state), and prunes state entries whose finding has disappeared. Pure
  * function — no I/O — so new-vs-lingering + pruning behavior is easy to
- * unit test.
+ * unit test. Operates on ALL findings regardless of severity, so warn-level
+ * items keep their firstSeen history even though they're filtered out of
+ * the posted digest at render time.
  */
 export function splitAndUpdateState(items: WarnItem[], state: WarnState, now: number): DigestSplit {
   const currentFingerprints = new Set(items.map((item) => item.fingerprint))
@@ -145,8 +139,7 @@ export function splitAndUpdateState(items: WarnItem[], state: WarnState, now: nu
   return { newItems, lingeringItems, prunedFingerprints, updatedState: { items: updatedItems } }
 }
 
-const SITE_BASE = 'https://sg-club.vercel.app'
-const HEADER = '📋 **Weekly Mod Digest**'
+const HEADER = '**Weekly Mod Digest**'
 const MAX_MESSAGE_LENGTH = 1900
 
 export interface MemberFindings {
@@ -156,11 +149,13 @@ export interface MemberFindings {
 }
 
 /**
- * Groups all findings (new + lingering) by member so each member appears
- * exactly once, with every finding merged onto their entry. Members with at
- * least one new finding sort first; both groups sort alphabetically.
+ * Groups error-severity findings only (new + lingering) by member, so each
+ * member with at least one error finding appears exactly once, listing only
+ * their error findings — warn-level findings are tracked in state (see
+ * splitAndUpdateState) but never rendered here. Members with at least one
+ * new error finding sort first; both groups sort alphabetically.
  */
-export function groupFindingsByMember(split: DigestSplit): MemberFindings[] {
+export function groupErrorFindingsByMember(split: DigestSplit): MemberFindings[] {
   const byUser = new Map<string, MemberFindings>()
 
   const getEntry = (username: string): MemberFindings => {
@@ -173,13 +168,15 @@ export function groupFindingsByMember(split: DigestSplit): MemberFindings[] {
   }
 
   for (const item of split.newItems) {
+    if (item.severity !== 'error') continue
     const entry = getEntry(item.memberSgUsername)
     entry.hasNew = true
-    entry.findingLines.push(`🆕 ${item.category}`)
+    entry.findingLines.push(`${item.category} (new)`)
   }
   for (const item of split.lingeringItems) {
+    if (item.severity !== 'error') continue
     const entry = getEntry(item.memberSgUsername)
-    entry.findingLines.push(`⏳ ${item.category} (since <t:${item.firstSeen}:R>)`)
+    entry.findingLines.push(`${item.category} (since <t:${item.firstSeen}:R>)`)
   }
 
   return [...byUser.values()].sort((a, b) => {
@@ -188,70 +185,47 @@ export function groupFindingsByMember(split: DigestSplit): MemberFindings[] {
   })
 }
 
-function memberBulletLine(member: MemberFindings): string {
-  const url = `${SITE_BASE}/users/${member.username}/`
-  // <url> suppresses Discord's link-preview embed — without it every linked
-  // member spawns a site-preview card under the digest.
-  return `- [${member.username}](<${url}>) — ${member.findingLines.join(' · ')}`
-}
-
 /**
- * Renders the grouped findings as one or more plain-markdown messages, each
- * ≤1900 chars, splitting strictly at bullet boundaries so a member's line
- * never gets cut mid-way. The header appears only on the first message.
+ * Renders the error-only grouped findings as one or more plain-markdown
+ * messages, each ≤1900 chars, splitting strictly at bullet boundaries so a
+ * member's line never gets cut mid-way. The header appears only on the
+ * first message. No emojis anywhere. Returns an empty array when there are
+ * zero error-level findings (the caller stays silent in that case).
  */
 export function buildDigestMessages(split: DigestSplit): string[] {
-  const bullets = groupFindingsByMember(split).map(memberBulletLine)
+  const bullets = groupErrorFindingsByMember(split).map((member) =>
+    renderMemberLine(member.username, member.findingLines)
+  )
   if (bullets.length === 0) return []
-
-  const messages: string[] = []
-  let current: string[] = []
-
-  const currentText = (withHeader: boolean) =>
-    (withHeader ? `${HEADER}\n` : '') + current.join('\n')
-
-  for (const bullet of bullets) {
-    const isFirstMessage = messages.length === 0
-    const prospective = [...current, bullet]
-    const prospectiveText = (isFirstMessage ? `${HEADER}\n` : '') + prospective.join('\n')
-    if (current.length > 0 && prospectiveText.length > MAX_MESSAGE_LENGTH) {
-      messages.push(currentText(isFirstMessage))
-      current = [bullet]
-    } else {
-      current = prospective
-    }
-  }
-  if (current.length > 0) {
-    messages.push(currentText(messages.length === 0))
-  }
-  return messages
+  return chunkMessage([HEADER, ...bullets], MAX_MESSAGE_LENGTH)
 }
 
 /**
- * Runs every detector, diffs against discord_warn_state.json, and posts a
- * digest message — unless there are zero findings, in which case it stays
- * silent and doesn't touch state.
+ * Runs every detector, diffs against discord_warn_state.json (tracking ALL
+ * findings, including warn-level, so nothing loses its firstSeen history),
+ * and posts a digest of error-level findings only — staying silent (but
+ * still saving state) when there are none.
  */
 export async function postWarnDigest(): Promise<void> {
   const state = loadState()
-  const items = runDetectors()
+  const items = await runDetectors()
   const now = Math.floor(Date.now() / 1000)
   const split = splitAndUpdateState(items, state, now)
+  const messages = buildDigestMessages(split)
 
-  if (items.length === 0) {
-    console.log('✅ No warn-digest findings — staying silent.')
-    return
-  }
-
-  const channelId = process.env.WARN_CHANNEL_ID ?? TEST_ANNOUNCE_CHANNEL_ID
-  for (const content of buildDigestMessages(split)) {
-    await createMessage(channelId, { content })
+  if (messages.length === 0) {
+    console.log('No error-level warn-digest findings — staying silent.')
+  } else {
+    const channelId = process.env.WARN_CHANNEL_ID ?? TEST_ANNOUNCE_CHANNEL_ID
+    for (const content of messages) {
+      await createMessage(channelId, { content, flags: 4 })
+    }
+    console.log(
+      `Posted warn digest: ${split.newItems.length} new, ${split.lingeringItems.length} lingering, ${split.prunedFingerprints.length} pruned (all severities tracked; errors only rendered).`
+    )
   }
 
   saveState(split.updatedState)
-  console.log(
-    `📋 Posted warn digest: ${split.newItems.length} new, ${split.lingeringItems.length} lingering, ${split.prunedFingerprints.length} pruned.`
-  )
 }
 
 if (import.meta.url.startsWith('file:')) {

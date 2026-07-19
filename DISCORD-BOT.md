@@ -21,15 +21,16 @@ packages/website/api/
 │   ├── signup-log.ts          # the log-channel protocol (see below)
 │   ├── identity.ts            # Discord user <-> SG username resolution
 │   ├── data.ts                # loads public/data/*.json (fetch or fs, cached)
-│   └── render.ts              # embeds, buttons, the /challenge-list output
+│   ├── mod-report.ts          # severity model + shared rendering for the digest and /mod-report (see below)
+│   └── render.ts              # the announcement embed/buttons, and plain-markdown close-summary/challenge-list content
 └── discord/
     └── interactions.ts        # the actual Vercel Function — Discord's Interactions Endpoint
 
 packages/scraper/src/scripts/
 ├── discord-close-signups.ts       # cron: close expired signups
 ├── discord-challenge-congrats.ts  # cron: announce challenge completions
-├── discord-warn-digest.ts         # cron: weekly mod digest
-└── discord-register-commands.ts   # one-off: register the two slash commands
+├── discord-warn-digest.ts         # cron: weekly mod digest (errors only)
+└── discord-register-commands.ts   # one-off: register the three slash commands
 
 .github/workflows/discord-bot.yml  # workflow_dispatch runner for the three cron scripts
 ```
@@ -122,8 +123,53 @@ any Discord REST call is made, and is covered directly in
   and records a `CHALLENGE` line in the log channel. (There are no
   channel/image options anymore.)
 - **`/challenge-list <slug>`** — reads the whole log channel, builds the
-  roster, and posts an embed + comma-separated codeblock lists (want / all
-  participants), marking unresolved/guest entries with ⚠️.
+  roster, and posts **plain-markdown content** (no embed): a
+  `**<name> — signups**` header, `Want the game (N)` / `Already have it (M)`
+  codeblocks (comma-separated, for easy copy-paste), an
+  `Unresolved/guests (K): ...` plain list, and a `Total: X` line. Emoji-free.
+  Chunked into ≤1900-char messages when the roster is large.
+- **`/mod-report`** (admin-only) — the on-demand counterpart to the weekly
+  digest below: a full member-status report covering **both** errors and
+  warnings (unlike the digest, which only ever shows errors). Non-ephemeral,
+  deferred. Content: a `**Mod Report**` header, an
+  `**Errors** (N members)` section (one bullet per member with ≥1
+  error-severity finding, listing *all* their findings — error labels
+  first, then warn labels), a `**Warnings** (M members)` section (one bullet
+  per member whose findings are all warn-level), and a closing line noting
+  that ex-member entry checks aren't included (see
+  [Severity model](#severity-model--mod-report) below for why). Emoji-free,
+  chunked the same way as `/challenge-list`.
+
+### Severity model & /mod-report
+
+`packages/website/api/_lib/mod-report.ts` is shared by the weekly digest
+(scraper-side) and `/mod-report` (the interactions endpoint) — it's the one
+place that knows how to turn `group_users.json`'s per-member `warnings`
+codes into human-readable, severity-classified findings, and how to render
+a member's findings as a link + bullet line. It works in both environments
+because it goes through `loadDataFile` (fetch-by-host on Vercel, filesystem
+fallback in the scraper).
+
+- **`SEVERITY`** classifies each warning code as `'error'` or `'warn'`
+  (unknown codes default to `'warn'`): illegal/unplayed required-play
+  giveaways, an expired required-play deadline, and zero play rate despite
+  wins are `error`; needs-review, a deadline within 15 days, low play rate,
+  inactive-but-active, and no giveaway in 6 months are `warn`.
+- **`collectGroupWarningFindings(host?)`** loads `group_users.json` and
+  flattens every member's `warnings` array into one finding
+  (`{ username, code, label, severity }`) per member per code.
+- **`renderMemberLine`** and **`chunkMessage`** are the shared rendering
+  primitives (member bullet formatting, ≤1900-char chunking without
+  splitting a segment) reused by the digest, `/mod-report`, and the
+  plain-markdown `render.ts` outputs (close-summary, `/challenge-list`).
+
+**Ex-member entry checks are deliberately *not* part of `mod-report.ts`**,
+and so don't appear in `/mod-report` — only in the weekly digest. That
+detector (`check-ex-member-entries.ts`) needs `giveaways.json` and
+`user_entries.json` in addition to `ex_members.json` (~5MB combined), which
+is too much to fetch on every on-demand command invocation. `/mod-report`'s
+output ends with a line making this explicit: *"Ex-member entry checks run
+in the weekly digest only."*
 
 ### Live signup counter
 
@@ -137,8 +183,20 @@ The announcement is located via `interaction.message` when present (button
 clicks) or the `CHALLENGE` log entry otherwise (modal submits). No extra
 messages are posted to the channel.
 
-Both are **guild** commands (instant propagation, no ~1h global-command
-delay) registered via `pnpm --filter scraper discord:register`.
+All three are **guild** commands (instant propagation, no ~1h
+global-command delay) registered via `pnpm --filter scraper discord:register`.
+
+## No-embed policy
+
+The announcement is the one message that stays an embed — it's a live
+widget (countdown, signup counter, buttons) and needs the structured fields.
+Every other bot-posted message that carries plain `content` (the weekly
+digest, `/mod-report`, the close-signups summary, `/challenge-list`, and the
+challenge-completion congrats messages) is sent with `flags: 4`
+(`SUPPRESS_EMBEDS`) so a member/challenge link in the text never spawns an
+unwanted link-preview card. The digest, `/mod-report`, the close-summary,
+and `/challenge-list` are additionally emoji-free (the congrats message
+keeps its 🎉/`pandaparty` celebration — that one wasn't in scope).
 
 ## Cron scripts
 
@@ -146,9 +204,11 @@ Run manually via the `discord-bot.yml` workflow (`workflow_dispatch`, pick a
 `job`), or locally with the pnpm scripts below.
 
 - **`pnpm --filter scraper discord:close-signups`** — finds `CHALLENGE`s whose
-  deadline has passed with no `CLOSED` marker yet, posts a closed-summary
-  embed, disables the announcement's buttons, and posts `CLOSED`. Idempotent:
-  a challenge is only touched while it has no `CLOSED` marker.
+  deadline has passed with no `CLOSED` marker yet, posts a plain-markdown
+  closed-summary (`**Signups closed — <name>**` then `Want the game (N): ...`
+  / `Already have it (M): ...` lines, full name lists, emoji-free), disables
+  the announcement's buttons, and posts `CLOSED`. Idempotent: a challenge is
+  only touched while it has no `CLOSED` marker.
 - **`pnpm --filter scraper discord:congrats`** — scans local `challenge_*.json`
   files (skipping `challengeOver: true` ones) for participants who are
   `is_complete` and not `completed_before_start`, diffs against
@@ -162,26 +222,35 @@ Run manually via the `discord-bot.yml` workflow (`workflow_dispatch`, pick a
   animated variants handled), falling back to `🐼🎉` if it's missing or the
   fetch fails.
 - **`pnpm --filter scraper discord:warn-digest`** — runs a small set of
-  pluggable detectors and posts a **plain markdown digest** (no embed),
-  tracked in `packages/website/public/data/discord_warn_state.json`
-  (`{ items: { [fingerprint]: { firstSeen } } }`). Format: a
-  `📋 **Weekly Mod Digest**` header, then **one bullet per member** — a
-  member never appears twice; all their findings are merged onto their
-  bullet, each prefixed `🆕` (new this week) or `⏳` (lingering, with
-  `(since <t:X:R>)`), and the member name links to their
-  `https://sg-club.vercel.app/users/<username>/` page. Members with any 🆕
-  finding sort first, then alphabetically. Long digests split into multiple
-  ≤1900-char messages at bullet boundaries (header only on the first). Stays
-  silent if there are zero findings. Two detectors are wired up:
+  pluggable detectors, diffs against
+  `packages/website/public/data/discord_warn_state.json`
+  (`{ items: { [fingerprint]: { firstSeen } } }`) to track every finding's
+  `firstSeen` date, and posts a **plain markdown, emoji-free digest**
+  (`flags: 4`, no embed) — but **error-severity findings only** (see
+  [Severity model](#severity-model--mod-report) — for the full picture,
+  including warnings, use `/mod-report`). State tracking covers *all*
+  findings regardless of severity, so a warn-level finding never loses its
+  `firstSeen` history even though it's filtered out of the posted message.
+  Format: a `**Weekly Mod Digest**` header, then **one bullet per member
+  with ≥1 error finding** — a member never appears twice; all of *their
+  error findings* (never their warn findings) are merged onto their bullet,
+  each suffixed `(new)` or `(since <t:X:R>)`, and the member name links to
+  their `https://sg-club.vercel.app/users/<username>/` page. Members with any
+  new finding sort first, then alphabetically. Long digests split into
+  multiple ≤1900-char messages at bullet boundaries (header only on the
+  first). Stays silent (posts nothing) when there are zero error-level
+  findings — but state is still saved. Two detectors are wired up:
   1. **Ex-member entries** — reuses the core check from
      `check-ex-member-entries.ts` (ex-members who still have entries in
      active group-exclusive giveaways, exploiting SteamGifts' membership-sync
-     delay).
-  2. **Group-user rule warnings** — surfaces the per-member `warnings` array
+     delay). Always error-severity. Scraper-only — see
+     [Severity model](#severity-model--mod-report) for why it isn't in
+     `mod-report.ts` / `/mod-report`.
+  2. **Group-user rule warnings** — delegates to
+     `collectGroupWarningFindings` in `mod-report.ts` (shared with
+     `/mod-report`), which surfaces the per-member `warnings` array
      `group_users.json` already computes (`calculateUserWarnings` in
-     `group-members.ts`): unplayed required-play wins, expired required-play
-     deadlines, zero/low play rate with wins, no giveaway created in 6
-     months, etc.
+     `group-members.ts`), classified error/warn per the severity model.
 
 ## Environment variables
 
@@ -225,12 +294,12 @@ live:
    Discord developer portal) to `https://<site>/api/discord/interactions`.
    Discord will send a PING to verify it immediately — the endpoint must be
    live first.
-5. Run `pnpm --filter scraper discord:register` to register the two guild
+5. Run `pnpm --filter scraper discord:register` to register the three guild
    slash commands.
 6. Test the full flow in `#bot-test`: `/challenge-setup`, click each button,
    try the guest-modal path with a Discord account that isn't in
-   `discord_members.json`, then `/challenge-list`, then run
-   `discord:close-signups` manually (or wait for the deadline).
+   `discord_members.json`, then `/challenge-list`, then `/mod-report`, then
+   run `discord:close-signups` manually (or wait for the deadline).
 
 ## Risks / things that couldn't be verified here
 
@@ -242,10 +311,10 @@ live:
   `/api` functions too, but it could not be exercised against a real Vercel
   deployment from this environment — verify in step 4 above (a failed PING
   means the body was parsed/consumed before signature verification could run).
-- **Deferred-command continuation lifetime.** `/challenge-setup` and
-  `/challenge-list` send an initial ack (`res.end()`) and then keep doing
-  Discord REST calls in the same function invocation before finally
-  returning. This relies on Vercel keeping the invocation alive until the
+- **Deferred-command continuation lifetime.** `/challenge-setup`,
+  `/challenge-list`, and `/mod-report` send an initial ack (`res.end()`) and
+  then keep doing Discord REST calls in the same function invocation before
+  finally returning. This relies on Vercel keeping the invocation alive until the
   handler's promise resolves (not until `res.end()` is called) — the
   intended and commonly-used behavior for Node.js Functions, bounded by
   `maxDuration: 60`, but also not exercised against a live deployment.

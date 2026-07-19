@@ -42,10 +42,15 @@ import {
 import { resolveDiscordUserToSgUsername, validateSgUsername } from '../_lib/identity.js'
 import {
   buildAnnouncementEmbed,
-  buildChallengeListOutput,
+  buildChallengeListMessages,
   buildSignupComponents,
   withUpdatedSignupCounts,
 } from '../_lib/render.js'
+import {
+  buildModReportLines,
+  chunkMessage,
+  collectGroupWarningFindings,
+} from '../_lib/mod-report.js'
 
 // Vercel Function config: raw body needed for Ed25519 signature
 // verification, so auto body-parsing is disabled. maxDuration gives the
@@ -224,8 +229,11 @@ async function handleApplicationCommand(
     await handleChallengeList(interaction, res)
     return
   }
+  if (commandName === 'mod-report') {
+    await handleModReport(interaction, res, host)
+    return
+  }
   respondJson(res, 400, { error: 'Unknown command' })
-  void host
 }
 
 async function handleChallengeSetup(
@@ -424,14 +432,44 @@ async function finishChallengeList(interaction: DiscordInteraction): Promise<voi
     }
 
     const roster = buildRoster(messages, slug)
-    const output = buildChallengeListOutput({ name: challengeName, roster })
+    const chunks = buildChallengeListMessages({ name: challengeName, roster })
 
+    await editOriginalResponse(appId, token, { content: chunks[0] ?? '_No signups yet._', flags: 4 })
+    for (const chunk of chunks.slice(1)) {
+      await sendFollowup(appId, token, { content: chunk, flags: 4 })
+    }
+  } catch (err) {
     await editOriginalResponse(appId, token, {
-      embeds: [output.embed],
-      content: output.codeblocks[0] ?? '',
-    })
-    for (const chunk of output.codeblocks.slice(1)) {
-      await sendFollowup(appId, token, { content: chunk })
+      content: `❌ ${(err as Error).message}`,
+    }).catch(() => {})
+  }
+}
+
+async function handleModReport(
+  interaction: DiscordInteraction,
+  res: ServerResponse,
+  host?: string
+): Promise<void> {
+  // Non-ephemeral, same rationale as /challenge-list — no leak risk since
+  // the report only summarizes data already public on member pages.
+  respondJson(res, 200, {
+    type: InteractionResponseType.DEFERRED_CHANNEL_MESSAGE_WITH_SOURCE,
+    data: {},
+  })
+  waitUntil(finishModReport(interaction, host))
+}
+
+async function finishModReport(interaction: DiscordInteraction, host?: string): Promise<void> {
+  const appId = getAppId()
+  const token = interaction.token
+
+  try {
+    const findings = await collectGroupWarningFindings(host)
+    const chunks = chunkMessage(buildModReportLines(findings))
+
+    await editOriginalResponse(appId, token, { content: chunks[0] ?? '_No findings._', flags: 4 })
+    for (const chunk of chunks.slice(1)) {
+      await sendFollowup(appId, token, { content: chunk, flags: 4 })
     }
   } catch (err) {
     await editOriginalResponse(appId, token, {

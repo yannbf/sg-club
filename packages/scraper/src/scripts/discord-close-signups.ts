@@ -14,7 +14,7 @@ import {
   type ChallengeMeta,
 } from '../../../website/api/_lib/signup-log.js'
 import {
-  buildClosedSummaryEmbed,
+  buildClosedSummaryMessages,
   buildDisabledComponents,
 } from '../../../website/api/_lib/render.js'
 import { getLogChannelId } from '../../../website/api/_lib/constants.js'
@@ -64,12 +64,14 @@ export async function closeExpiredSignups(): Promise<void> {
 
     const roster = buildRoster(messages, meta.slug)
 
-    const summaryEmbed = buildClosedSummaryEmbed({
+    const summaryMessages = buildClosedSummaryMessages({
       name: meta.name,
       wanters: roster.wanters,
       owners: roster.owners,
     })
-    await createMessage(meta.channel_id, { embeds: [summaryEmbed] })
+    for (const content of summaryMessages) {
+      await createMessage(meta.channel_id, { content, flags: 4 })
+    }
 
     const disabledComponents = buildDisabledComponents(meta.slug, meta.deadline)
     await editMessage(meta.channel_id, meta.message_id, { components: disabledComponents })

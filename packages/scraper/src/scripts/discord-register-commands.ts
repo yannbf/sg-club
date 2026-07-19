@@ -17,9 +17,15 @@ const commands = [
     default_member_permissions: MANAGE_GUILD_PERMISSION,
     options: [{ name: 'slug', description: 'Challenge slug', type: 3, required: true }],
   },
+  {
+    name: 'mod-report',
+    description: 'Full member-status report (errors + warnings)',
+    default_member_permissions: MANAGE_GUILD_PERMISSION,
+    options: [],
+  },
 ]
 
-/** Registers the two guild commands via PUT — guild commands propagate instantly (no ~1h global-command delay). */
+/** Registers the guild commands via PUT — guild commands propagate instantly (no ~1h global-command delay). */
 async function registerCommands(): Promise<void> {
   const appId = getAppId()
   const token = getBotToken()
