@@ -47,12 +47,16 @@ function friendlyError(input: string): DateParseResult {
   return { ok: false, error: `Could not parse date "${input}". Use ${ACCEPTED_FORMS_HINT}.` }
 }
 
-/** Full month name or unambiguous 3-letter abbreviation, case-insensitive. */
+/**
+ * Full month name or any unambiguous prefix of ≥3 letters ("aug", "sept",
+ * "septem"), case-insensitive. All ≥3-letter prefixes of the 12 months are
+ * unique, so prefix matching can't mis-resolve.
+ */
 function monthIndex(name: string): number {
   const lower = name.toLowerCase()
   const exact = MONTH_NAMES.indexOf(lower)
   if (exact !== -1) return exact
-  if (lower.length === 3) return MONTH_NAMES.findIndex((m) => m.startsWith(lower))
+  if (lower.length >= 3) return MONTH_NAMES.findIndex((m) => m.startsWith(lower))
   return -1
 }
 

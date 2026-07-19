@@ -5,8 +5,7 @@ name: Discord Bot Cron Jobs
 # the first to go on a real schedule (Friday 13:00 UTC), mirroring deploy.yml's
 # schedule-condition pattern: the job's `if:` matches either the matching
 # `github.event.schedule` value or a manual dispatch with that job selected.
-# NOTE: the digest still posts to the #bot-test test channel until
-# WARN_CHANNEL_ID is pointed at the real #warns channel.
+# The digest posts to the real #warns channel (WARN_CHANNEL_ID below).
 on:
   schedule:
     - cron: '0 13 * * 5'  # weekly mod digest, Friday 13:00 UTC
@@ -147,6 +146,7 @@ jobs:
     timeout-minutes: 10
     env:
       DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
+      WARN_CHANNEL_ID: '1388638737411473498' # #warns
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
