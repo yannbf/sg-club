@@ -2,7 +2,7 @@ import type { IncomingMessage, ServerResponse } from 'node:http'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { encodeModalCustomId, encodeSignupCustomId, slugify } from '../_lib/custom-id.js'
 import { serializeChallenge } from '../_lib/signup-log.js'
-import { isPastDeadline, validateEventLink } from './interactions.js'
+import { isPastDeadline } from './interactions.js'
 
 // Outside the real Vercel runtime waitUntil is a no-op that doesn't track
 // the promise, so tests capture the registered promises and drain them
@@ -122,28 +122,6 @@ describe('isPastDeadline', () => {
   })
 })
 
-describe('validateEventLink', () => {
-  it('accepts an https:// url', () => {
-    expect(validateEventLink('https://store.steampowered.com/app/123')).toBeNull()
-  })
-
-  it('rejects an empty value', () => {
-    expect(validateEventLink('   ')).toBe('Event link is required.')
-  })
-
-  it('rejects a non-https url', () => {
-    expect(validateEventLink('http://store.steampowered.com/app/123')).toBe(
-      'Event link must start with https://'
-    )
-  })
-
-  it('rejects a value with no protocol at all', () => {
-    expect(validateEventLink('store.steampowered.com/app/123')).toBe(
-      'Event link must start with https://'
-    )
-  })
-})
-
 describe('MESSAGE_COMPONENT button clicks', () => {
   beforeEach(() => {
     vi.clearAllMocks()
@@ -248,8 +226,11 @@ describe('MESSAGE_COMPONENT button clicks', () => {
 
     expect(discordRest.editMessage).toHaveBeenCalledTimes(1)
     const [, , payload] = vi.mocked(discordRest.editMessage).mock.calls[0]
-    const embeds = payload.embeds as Array<{ fields: Array<{ name: string; value: string }> }>
-    expect(embeds[0].fields.some((f) => f.name === 'Signups so far')).toBe(true)
+    // getAllChannelMessages is mocked to return [] regardless of the just-posted
+    // SIGNUP, so the rebuilt roster (and thus the counter) is still zero here —
+    // what's under test is that the counter update targets embed.footer.text.
+    const embeds = payload.embeds as Array<{ footer?: { text: string } }>
+    expect(embeds[0].footer?.text).toBe('🎁 0 want · ✅ 0 have')
   })
 
   it('refreshes the signup counter after a withdrawal', async () => {
@@ -269,8 +250,8 @@ describe('MESSAGE_COMPONENT button clicks', () => {
 
     expect(discordRest.editMessage).toHaveBeenCalledTimes(1)
     const [, , payload] = vi.mocked(discordRest.editMessage).mock.calls[0]
-    const embeds = payload.embeds as Array<{ fields: Array<{ name: string; value: string }> }>
-    expect(embeds[0].fields.some((f) => f.name === 'Signups so far')).toBe(true)
+    const embeds = payload.embeds as Array<{ footer?: { text: string } }>
+    expect(embeds[0].footer?.text).toBe('🎁 0 want · ✅ 0 have')
   })
 })
 
@@ -384,8 +365,8 @@ describe('MODAL_SUBMIT', () => {
     expect(discordRest.getMessage).toHaveBeenCalledWith('chan1', 'ann1')
     expect(discordRest.editMessage).toHaveBeenCalledTimes(1)
     const [, , payload] = vi.mocked(discordRest.editMessage).mock.calls[0]
-    const embeds = payload.embeds as Array<{ fields: Array<{ name: string; value: string }> }>
-    expect(embeds[0].fields.some((f) => f.name === 'Signups so far')).toBe(true)
+    const embeds = payload.embeds as Array<{ footer?: { text: string } }>
+    expect(embeds[0].footer?.text).toBe('🎁 0 want · ✅ 0 have')
   })
 })
 
@@ -394,7 +375,7 @@ describe('APPLICATION_COMMAND challenge-setup', () => {
     vi.clearAllMocks()
   })
 
-  it('responds immediately with a MODAL and 5 action rows, without deferring', async () => {
+  it('responds immediately with a MODAL and 4 action rows, without deferring', async () => {
     const req = makeReq({
       type: 2,
       token: 'tok',
@@ -413,9 +394,9 @@ describe('APPLICATION_COMMAND challenge-setup', () => {
     const body = res.body as {
       data: { components: Array<{ components: Array<{ custom_id: string }> }> }
     }
-    expect(body.data.components).toHaveLength(5)
+    expect(body.data.components).toHaveLength(4)
     const customIds = body.data.components.map((row) => row.components[0]!.custom_id)
-    expect(customIds).toEqual(['name', 'description', 'dates', 'event_link', 'signup_deadline'])
+    expect(customIds).toEqual(['name', 'description', 'dates', 'signup_deadline'])
     expect(discordRest.createMessage).not.toHaveBeenCalled()
   })
 })
@@ -429,14 +410,12 @@ describe('MODAL_SUBMIT challenge-setup (csetup)', () => {
     name?: string
     description?: string
     dates?: string
-    event_link?: string
     signup_deadline?: string
   }): IncomingMessage {
     const fields = {
       name: 'Neo Cab',
       description: 'A great challenge',
       dates: '2026-01-01 → 2026-02-01',
-      event_link: 'https://store.steampowered.com/app/123',
       signup_deadline: '',
       ...overrides,
     }
@@ -451,7 +430,6 @@ describe('MODAL_SUBMIT challenge-setup (csetup)', () => {
           { components: [{ custom_id: 'name', value: fields.name }] },
           { components: [{ custom_id: 'description', value: fields.description }] },
           { components: [{ custom_id: 'dates', value: fields.dates }] },
-          { components: [{ custom_id: 'event_link', value: fields.event_link }] },
           { components: [{ custom_id: 'signup_deadline', value: fields.signup_deadline }] },
         ],
       },
@@ -490,14 +468,16 @@ describe('MODAL_SUBMIT challenge-setup (csetup)', () => {
     const linkButton = buttons.find((b) => b.style === 5)
     expect(linkButton).toMatchObject({
       label: 'View Event',
-      url: 'https://store.steampowered.com/app/123',
+      url: 'https://sg-club.vercel.app/events/',
     })
     expect(linkButton?.custom_id).toBeUndefined()
+    const withdrawButton = buttons.find((b) => b.label.includes('Withdraw'))
+    expect(withdrawButton?.label).toBe('✕ Withdraw')
 
     const [, logPayload] = vi.mocked(discordRest.createMessage).mock.calls[1]
     const expectedSlug = slugify('Neo Cab')
     expect(logPayload.content).toContain(`"slug":"${expectedSlug}"`)
-    expect(logPayload.content).toContain('"link":"https://store.steampowered.com/app/123"')
+    expect(logPayload.content).not.toContain('"link"')
 
     expect(discordRest.editOriginalResponse).toHaveBeenCalledWith(
       'test-app-id',
@@ -586,22 +566,6 @@ describe('MODAL_SUBMIT challenge-setup (csetup)', () => {
     )
   })
 
-  it('surfaces a friendly error when the event link is not https://', async () => {
-    const req = makeCsetupReq({ event_link: 'ftp://example.com' })
-    const res = makeRes()
-
-    await handler(req, res)
-    await drainWaitUntil()
-
-    expect(discordRest.createMessage).not.toHaveBeenCalled()
-    expect(discordRest.editOriginalResponse).toHaveBeenCalledWith(
-      'test-app-id',
-      'tok',
-      expect.objectContaining({
-        content: expect.stringContaining('Event link must start with https://'),
-      })
-    )
-  })
 })
 
 describe('APPLICATION_COMMAND mod-report', () => {
@@ -686,6 +650,192 @@ describe('APPLICATION_COMMAND mod-report', () => {
       'tok',
       expect.objectContaining({ content: expect.stringContaining('data file missing') })
     )
+  })
+})
+
+describe('APPLICATION_COMMAND challenge-list', () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
+
+  function makeChallengeListReq(): IncomingMessage {
+    return makeReq({
+      type: 2,
+      token: 'tok',
+      channel_id: 'chan1',
+      member: { user: { id: 'd1', username: 'yannbf' } },
+      data: { name: 'challenge-list' },
+    })
+  }
+
+  function challengeMeta(overrides: {
+    slug: string
+    name: string
+    messageId: string
+  }): string {
+    return serializeChallenge({
+      slug: overrides.slug,
+      channel_id: 'chan1',
+      message_id: overrides.messageId,
+      deadline: 1,
+      start: 1,
+      end: 2,
+      name: overrides.name,
+    })
+  }
+
+  it('defers ephemerally, then replies "No challenges found." when the log has no CHALLENGE metas', async () => {
+    const req = makeChallengeListReq()
+    const res = makeRes()
+
+    await handler(req, res)
+
+    // Deferred ephemeral ack — building the picker needs a log-channel fetch.
+    expect(res.body).toEqual({ type: 5, data: { flags: 1 << 6 } })
+
+    await drainWaitUntil()
+
+    expect(discordRest.editOriginalResponse).toHaveBeenCalledWith(
+      'test-app-id',
+      'tok',
+      expect.objectContaining({ content: 'No challenges found.' })
+    )
+  })
+
+  it('replies with a "Pick a challenge:" string-select, newest challenge first', async () => {
+    vi.mocked(discordRest.getAllChannelMessages).mockResolvedValueOnce([
+      { id: 'log2', channel_id: 'logc', content: challengeMeta({ slug: 'neo-cab-2', name: 'Neo Cab 2', messageId: 'ann2' }), timestamp: '' },
+      { id: 'log1', channel_id: 'logc', content: challengeMeta({ slug: 'neo-cab', name: 'Neo Cab', messageId: 'ann1' }), timestamp: '' },
+    ])
+    const req = makeChallengeListReq()
+    const res = makeRes()
+
+    await handler(req, res)
+    await drainWaitUntil()
+
+    const [, , payload] = vi.mocked(discordRest.editOriginalResponse).mock.calls[0]!
+    expect((payload as { content: string }).content).toBe('Pick a challenge:')
+
+    const components = (
+      payload as {
+        components: Array<{
+          type: number
+          components: Array<{
+            type: number
+            custom_id: string
+            options: Array<{ label: string; value: string; description: string }>
+          }>
+        }>
+      }
+    ).components
+    const select = components[0]!.components[0]!
+    expect(select.type).toBe(3)
+    expect(select.custom_id).toBe('clist')
+    expect(select.options).toEqual([
+      { label: 'Neo Cab 2', value: 'neo-cab-2', description: 'neo-cab-2' },
+      { label: 'Neo Cab', value: 'neo-cab', description: 'neo-cab' },
+    ])
+  })
+
+  it('dedupes by slug (keeping the newest meta) and caps the picker at 25 options', async () => {
+    // getAllChannelMessages returns newest-first; two CHALLENGE lines per
+    // slug (a re-announce) should collapse to one option, keeping the first
+    // (newest) one seen.
+    const messages = [
+      { id: 'dup-new', channel_id: 'logc', content: challengeMeta({ slug: 'dup', name: 'Dup (new)', messageId: 'annNew' }), timestamp: '' },
+      ...Array.from({ length: 29 }, (_, i) => ({
+        id: `log${i}`,
+        channel_id: 'logc',
+        content: challengeMeta({ slug: `challenge-${i}`, name: `Challenge ${i}`, messageId: `ann${i}` }),
+        timestamp: '',
+      })),
+      { id: 'dup-old', channel_id: 'logc', content: challengeMeta({ slug: 'dup', name: 'Dup (old)', messageId: 'annOld' }), timestamp: '' },
+    ]
+    vi.mocked(discordRest.getAllChannelMessages).mockResolvedValueOnce(messages)
+
+    const req = makeChallengeListReq()
+    const res = makeRes()
+
+    await handler(req, res)
+    await drainWaitUntil()
+
+    const [, , payload] = vi.mocked(discordRest.editOriginalResponse).mock.calls[0]!
+    const components = (
+      payload as { components: Array<{ components: Array<{ options: Array<{ label: string; value: string }> }> }> }
+    ).components
+    const options = components[0]!.components[0]!.options
+    expect(options).toHaveLength(25)
+    expect(options[0]).toEqual({ label: 'Dup (new)', value: 'dup', description: 'dup' })
+    expect(options.some((o) => o.label === 'Dup (old)')).toBe(false)
+  })
+})
+
+describe('MESSAGE_COMPONENT challenge-list select (clist)', () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
+
+  it('defers non-ephemerally, then renders the roster for the selected slug', async () => {
+    vi.mocked(discordRest.getAllChannelMessages).mockResolvedValueOnce([
+      {
+        id: 'log1',
+        channel_id: 'logc',
+        content: serializeChallenge({
+          slug: 'neo-cab',
+          channel_id: 'chan1',
+          message_id: 'ann1',
+          deadline: 1,
+          start: 1,
+          end: 2,
+          name: 'Neo Cab',
+        }),
+        timestamp: '',
+      },
+    ])
+    const req = makeReq({
+      type: 3,
+      token: 'tok',
+      channel_id: 'chan1',
+      member: { user: { id: 'd1', username: 'yannbf' } },
+      data: { custom_id: 'clist', values: ['neo-cab'] },
+    })
+    const res = makeRes()
+
+    await handler(req, res)
+
+    // Deferred, non-ephemeral (no flags on the ack) — same rationale as the
+    // old slug-argument /challenge-list.
+    expect(res.body).toEqual({ type: 5, data: {} })
+
+    await drainWaitUntil()
+
+    expect(discordRest.editOriginalResponse).toHaveBeenCalledWith(
+      'test-app-id',
+      'tok',
+      expect.objectContaining({
+        content: expect.stringContaining('**Neo Cab — signups**'),
+        flags: 4,
+      })
+    )
+  })
+
+  it('is routed independently of the su|/sg| decoder', async () => {
+    // Regression guard: `clist` has no pipes, so decodeCustomId would
+    // reject it — the handler must check for it before falling through to
+    // the signup-button decoder.
+    const req = makeReq({
+      type: 3,
+      token: 'tok',
+      channel_id: 'chan1',
+      member: { user: { id: 'd1', username: 'yannbf' } },
+      data: { custom_id: 'clist', values: ['some-slug'] },
+    })
+    const res = makeRes()
+
+    await handler(req, res)
+
+    expect(res.body).not.toMatchObject({ type: 400 })
+    expect(res.statusCode).not.toBe(400)
   })
 })
 

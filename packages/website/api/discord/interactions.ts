@@ -7,6 +7,7 @@ import type { IncomingMessage, ServerResponse } from 'node:http'
 import { waitUntil } from '@vercel/functions'
 import { verifyKey } from 'discord-interactions'
 import {
+  ComponentType,
   getAppId,
   getLogChannelId,
   getPublicKey,
@@ -38,6 +39,7 @@ import {
   parseLogLine,
   serializeChallenge,
   serializeSignup,
+  type ChallengeMeta,
 } from '../_lib/signup-log.js'
 import { resolveDiscordUserToSgUsername, validateSgUsername } from '../_lib/identity.js'
 import {
@@ -78,6 +80,8 @@ interface DiscordInteraction {
     custom_id?: string
     options?: Array<{ name: string; value?: unknown }>
     components?: Array<{ components?: Array<{ custom_id: string; value?: string }> }>
+    /** Selected values for a MESSAGE_COMPONENT string-select interaction (e.g. `clist`). */
+    values?: string[]
   }
 }
 
@@ -91,16 +95,6 @@ async function readRawBody(req: IncomingMessage): Promise<Buffer> {
 
 function getInteractionUser(interaction: DiscordInteraction): DiscordUserPayload | undefined {
   return interaction.member?.user ?? interaction.user
-}
-
-function parseOptions(
-  options: Array<{ name: string; value?: unknown }> = []
-): Record<string, unknown> {
-  const out: Record<string, unknown> = {}
-  for (const option of options) {
-    out[option.name] = option.value
-  }
-  return out
 }
 
 function extractModalValue(interaction: DiscordInteraction, customId: string): string | null {
@@ -293,19 +287,6 @@ async function handleChallengeSetup(
           components: [
             {
               type: 4,
-              custom_id: 'event_link',
-              style: TextInputStyle.SHORT,
-              label: 'Event link (URL)',
-              required: true,
-              placeholder: 'https://store.steampowered.com/app/...',
-            },
-          ],
-        },
-        {
-          type: 1,
-          components: [
-            {
-              type: 4,
               custom_id: 'signup_deadline',
               style: TextInputStyle.SHORT,
               label: 'Signup deadline (UTC, optional)',
@@ -327,7 +308,6 @@ async function finishChallengeSetupFromModal(interaction: DiscordInteraction): P
     const name = extractModalValue(interaction, 'name') ?? ''
     const description = extractModalValue(interaction, 'description') ?? ''
     const datesInput = extractModalValue(interaction, 'dates') ?? ''
-    const eventLinkInput = extractModalValue(interaction, 'event_link') ?? ''
     const deadlineRaw = extractModalValue(interaction, 'signup_deadline')
     const deadlineInput = deadlineRaw?.trim() ? deadlineRaw : undefined
 
@@ -353,13 +333,6 @@ async function finishChallengeSetupFromModal(interaction: DiscordInteraction): P
       await editOriginalResponse(appId, token, { content: `❌ ${datesResult.error}` })
       return
     }
-
-    const eventLinkError = validateEventLink(eventLinkInput)
-    if (eventLinkError) {
-      await editOriginalResponse(appId, token, { content: `❌ ${eventLinkError}` })
-      return
-    }
-    const link = eventLinkInput.trim()
 
     const messages = await getAllChannelMessages(getLogChannelId(), 2000)
     for (const message of messages) {
@@ -387,7 +360,7 @@ async function finishChallengeSetupFromModal(interaction: DiscordInteraction): P
       start: datesResult.dates.start,
       end: datesResult.dates.end,
     })
-    const components = buildSignupComponents(slug, datesResult.dates.signupDeadline, link)
+    const components = buildSignupComponents(slug, datesResult.dates.signupDeadline)
 
     const announcement = await createMessage(targetChannelId, { embeds: [embed], components })
 
@@ -400,7 +373,6 @@ async function finishChallengeSetupFromModal(interaction: DiscordInteraction): P
         start: datesResult.dates.start,
         end: datesResult.dates.end,
         name,
-        link,
       }),
     })
 
@@ -413,27 +385,102 @@ async function finishChallengeSetupFromModal(interaction: DiscordInteraction): P
   }
 }
 
+// Discord caps a select menu at 25 options.
+const CHALLENGE_LIST_PICKER_LIMIT = 25
+const CHALLENGE_LIST_SELECT_ID = 'clist'
+
+function truncateLabel(text: string, limit: number): string {
+  if (text.length <= limit) return text
+  return `${text.slice(0, limit - 1)}…`
+}
+
 async function handleChallengeList(
   interaction: DiscordInteraction,
   res: ServerResponse
 ): Promise<void> {
+  // Deferred + ephemeral: the picker itself only needs to be visible to
+  // whoever ran the command, and building its options requires a log-channel
+  // fetch that can't reliably finish inside Discord's 3s ack window.
+  respondJson(res, 200, {
+    type: InteractionResponseType.DEFERRED_CHANNEL_MESSAGE_WITH_SOURCE,
+    data: { flags: MessageFlags.EPHEMERAL },
+  })
+  waitUntil(finishChallengeListPicker(interaction))
+}
+
+/** Builds the "Pick a challenge:" ephemeral select menu (or a "no challenges" message). */
+async function finishChallengeListPicker(interaction: DiscordInteraction): Promise<void> {
+  const appId = getAppId()
+  const token = interaction.token
+
+  try {
+    const messages = await getAllChannelMessages(getLogChannelId(), 2000)
+
+    // Messages come back newest-first, so the first CHALLENGE seen per slug
+    // is the most recent one — and Map iteration order matches that
+    // newest-first insertion order, so slicing the first 25 gives the 25
+    // most recently announced distinct challenges.
+    const metaBySlug = new Map<string, ChallengeMeta>()
+    for (const message of messages) {
+      const parsed = parseLogLine(message.content)
+      if (parsed?.type !== 'CHALLENGE') continue
+      if (!metaBySlug.has(parsed.data.slug)) metaBySlug.set(parsed.data.slug, parsed.data)
+    }
+
+    const challenges = [...metaBySlug.values()].slice(0, CHALLENGE_LIST_PICKER_LIMIT)
+
+    if (challenges.length === 0) {
+      await editOriginalResponse(appId, token, { content: 'No challenges found.' })
+      return
+    }
+
+    await editOriginalResponse(appId, token, {
+      content: 'Pick a challenge:',
+      components: [
+        {
+          type: ComponentType.ACTION_ROW,
+          components: [
+            {
+              type: ComponentType.STRING_SELECT,
+              custom_id: CHALLENGE_LIST_SELECT_ID,
+              options: challenges.map((meta) => ({
+                label: truncateLabel(meta.name, 100),
+                value: meta.slug,
+                description: meta.slug,
+              })),
+            },
+          ],
+        },
+      ],
+    })
+  } catch (err) {
+    await editOriginalResponse(appId, token, {
+      content: `❌ ${(err as Error).message}`,
+    }).catch(() => {})
+  }
+}
+
+/** MESSAGE_COMPONENT entry for the `clist` string-select — renders the roster for the chosen slug. */
+async function handleChallengeListSelect(
+  interaction: DiscordInteraction,
+  res: ServerResponse
+): Promise<void> {
+  const slug = interaction.data?.values?.[0]
+
   // Non-ephemeral — the log channel itself isn't visible to non-admins, so
   // there's no leak risk in showing the roster to whoever ran the command.
   respondJson(res, 200, {
     type: InteractionResponseType.DEFERRED_CHANNEL_MESSAGE_WITH_SOURCE,
     data: {},
   })
-  waitUntil(finishChallengeList(interaction))
+  if (slug) waitUntil(finishChallengeList(interaction, slug))
 }
 
-async function finishChallengeList(interaction: DiscordInteraction): Promise<void> {
+async function finishChallengeList(interaction: DiscordInteraction, slug: string): Promise<void> {
   const appId = getAppId()
   const token = interaction.token
 
   try {
-    const options = parseOptions(interaction.data?.options)
-    const slug = String(options.slug ?? '')
-
     const messages = await getAllChannelMessages(getLogChannelId(), 2000)
 
     let challengeName = slug
@@ -501,24 +548,20 @@ export function isPastDeadline(deadlineEpoch: number, nowSeconds: number): boole
   return nowSeconds > deadlineEpoch
 }
 
-/**
- * Validates the /challenge-setup "Event link" field. Returns a user-facing
- * error string, or null if OK. Kept standalone (like isPastDeadline) so it's
- * trivial to unit test directly.
- */
-export function validateEventLink(input: string): string | null {
-  const trimmed = input.trim()
-  if (!trimmed) return 'Event link is required.'
-  if (!/^https:\/\//i.test(trimmed)) return 'Event link must start with https://'
-  return null
-}
-
 async function handleMessageComponent(
   interaction: DiscordInteraction,
   res: ServerResponse,
   host?: string
 ): Promise<void> {
   const customId = interaction.data?.custom_id
+
+  // Routed independently of decodeCustomId (which only understands the
+  // `su|`/`sg|` signup formats) since `clist` isn't a pipe-delimited id.
+  if (customId === CHALLENGE_LIST_SELECT_ID) {
+    await handleChallengeListSelect(interaction, res)
+    return
+  }
+
   const decoded = customId ? decodeCustomId(customId) : null
   if (!decoded || decoded.kind !== 'button') {
     respondJson(res, 400, { error: 'Unknown component' })
@@ -692,5 +735,5 @@ function choiceLabel(choice: SignupChoice): string {
 
 function confirmationMessage(sgUsername: string, choice: SignupChoice): string {
   const otherButton = choice === 'want' ? '✅ I already have it' : '🎁 I want the game'
-  return `Recorded: **${sgUsername}** — ${choiceLabel(choice)}. Press "${otherButton}" to change your answer, or "❌ Withdraw" to drop out.`
+  return `Recorded: **${sgUsername}** — ${choiceLabel(choice)}. Press "${otherButton}" to change your answer, or "✕ Withdraw" to drop out.`
 }

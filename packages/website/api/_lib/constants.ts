@@ -67,6 +67,7 @@ export const MessageFlags = {
 export const ComponentType = {
   ACTION_ROW: 1,
   BUTTON: 2,
+  STRING_SELECT: 3,
   TEXT_INPUT: 4,
 } as const
 

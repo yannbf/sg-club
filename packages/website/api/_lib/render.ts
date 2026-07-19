@@ -19,6 +19,13 @@ const ACCENT_COLOR = 0x5865f2
 /** Dyno-style banner shown on every challenge announcement embed. */
 const ANNOUNCEMENT_IMAGE_URL = 'https://sg-club.vercel.app/game-challenge-banner.png'
 
+/**
+ * Fixed events-page URL for the "View Event" link button. No longer
+ * per-challenge (the /challenge-setup modal dropped its event-link field) —
+ * every announcement points at the same events index.
+ */
+const EVENTS_URL = 'https://sg-club.vercel.app/events/'
+
 function truncate(text: string, limit: number): string {
   if (text.length <= limit) return text
   return `${text.slice(0, limit - 1)}…`
@@ -36,24 +43,24 @@ function formatSignupCounts(wantCount: number, haveCount: number): string {
   return `🎁 ${wantCount} want · ✅ ${haveCount} have`
 }
 
-const SIGNUP_COUNT_FIELD_NAME = 'Signups so far'
-
-/** Upserts the "Signups so far" field on an existing embed by name, preserving everything else. */
+/**
+ * Updates the embed footer (rendered below the image, in small text) with
+ * the current signup counts, preserving everything else on the embed
+ * (including any other footer properties, e.g. an icon_url).
+ */
 export function withUpdatedSignupCounts(
   embed: Record<string, unknown>,
   wantCount: number,
   haveCount: number
 ): Record<string, unknown> {
-  const existingFields = Array.isArray(embed.fields)
-    ? (embed.fields as Array<{ name: string; value: string }>)
-    : []
-  const value = formatSignupCounts(wantCount, haveCount)
-  const idx = existingFields.findIndex((f) => f.name === SIGNUP_COUNT_FIELD_NAME)
-  const fields =
-    idx === -1
-      ? [...existingFields, { name: SIGNUP_COUNT_FIELD_NAME, value }]
-      : existingFields.map((f, i) => (i === idx ? { ...f, value } : f))
-  return { ...embed, fields }
+  const existingFooter =
+    typeof embed.footer === 'object' && embed.footer !== null
+      ? (embed.footer as Record<string, unknown>)
+      : {}
+  return {
+    ...embed,
+    footer: { ...existingFooter, text: formatSignupCounts(wantCount, haveCount) },
+  }
 }
 
 export function buildAnnouncementEmbed(input: AnnouncementInput): Record<string, unknown> {
@@ -72,12 +79,9 @@ export function buildAnnouncementEmbed(input: AnnouncementInput): Record<string,
         value: truncate(`<t:${input.start}:d> → <t:${input.end}:d>`, EMBED_FIELD_VALUE_LIMIT),
         inline: true,
       },
-      {
-        name: SIGNUP_COUNT_FIELD_NAME,
-        value: formatSignupCounts(0, 0),
-      },
     ],
     image: { url: ANNOUNCEMENT_IMAGE_URL },
+    footer: { text: formatSignupCounts(0, 0) },
   }
   return embed
 }
@@ -96,25 +100,24 @@ interface ActionRow {
   components: ActionRowButton[]
 }
 
+// U+2715 MULTIPLICATION X (a text glyph, not an emoji) — the ❌ emoji
+// renders red-on-red against the DANGER button's red background and is hard
+// to read, so the label uses a plain glyph that renders white instead.
 const BUTTON_SPECS: Array<{ choice: SignupChoice; label: string; style: number }> = [
   { choice: 'want', label: '🎁 I want the game', style: ButtonStyle.SUCCESS },
   { choice: 'have', label: '✅ I already have it', style: ButtonStyle.PRIMARY },
-  { choice: 'out', label: '❌ Withdraw', style: ButtonStyle.DANGER },
+  { choice: 'out', label: '✕ Withdraw', style: ButtonStyle.DANGER },
 ]
 
 const VIEW_EVENT_LABEL = 'View Event'
 
 /**
  * The three signup buttons, plus a trailing link button (type 2, style 5 —
- * no custom_id, just a url) to the challenge's event page when `link` is
- * given. Discord caps action rows at 5 buttons, so 3 + 1 fits with room to
- * spare.
+ * no custom_id, just a url) pointing at the fixed events page. Discord caps
+ * action rows at 5 buttons, so 3 + 1 fits with room to spare. The link
+ * button is always present (there's no per-challenge event link anymore).
  */
-export function buildSignupComponents(
-  slug: string,
-  deadlineEpoch: number,
-  link?: string
-): ActionRow[] {
+export function buildSignupComponents(slug: string, deadlineEpoch: number): ActionRow[] {
   const components: ActionRowButton[] = BUTTON_SPECS.map((spec) => ({
     type: ComponentType.BUTTON,
     style: spec.style,
@@ -122,30 +125,24 @@ export function buildSignupComponents(
     custom_id: encodeSignupCustomId(slug, spec.choice, deadlineEpoch),
   }))
 
-  if (link) {
-    components.push({
-      type: ComponentType.BUTTON,
-      style: ButtonStyle.LINK,
-      label: VIEW_EVENT_LABEL,
-      url: link,
-    })
-  }
+  components.push({
+    type: ComponentType.BUTTON,
+    style: ButtonStyle.LINK,
+    label: VIEW_EVENT_LABEL,
+    url: EVENTS_URL,
+  })
 
   return [{ type: ComponentType.ACTION_ROW, components }]
 }
 
 /**
  * Same buttons, but with only the three signup buttons disabled — the "View
- * Event" link button (if present) stays clickable after signups close, since
- * disabling isn't meaningful for a link button and the event page is still
- * useful to browse.
+ * Event" link button stays clickable after signups close, since disabling
+ * isn't meaningful for a link button and the events page is still useful to
+ * browse.
  */
-export function buildDisabledComponents(
-  slug: string,
-  deadlineEpoch: number,
-  link?: string
-): ActionRow[] {
-  const rows = buildSignupComponents(slug, deadlineEpoch, link)
+export function buildDisabledComponents(slug: string, deadlineEpoch: number): ActionRow[] {
+  const rows = buildSignupComponents(slug, deadlineEpoch)
   return rows.map((row) => ({
     ...row,
     components: row.components.map((component) =>

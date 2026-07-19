@@ -1,9 +1,15 @@
 name: Discord Bot Cron Jobs
 
-# Manual-only for now (no cron schedule) — the bot feature is in test phase,
-# running against #bot-test / #bot-test-logs. Once verified, add a `schedule:`
-# trigger mirroring deploy.yml's staggering approach.
+# Most jobs stay workflow_dispatch-only for now — the bot feature is in test
+# phase, running against #bot-test / #bot-test-logs. The weekly mod digest is
+# the first to go on a real schedule (Friday 13:00 UTC), mirroring deploy.yml's
+# schedule-condition pattern: the job's `if:` matches either the matching
+# `github.event.schedule` value or a manual dispatch with that job selected.
+# NOTE: the digest still posts to the #bot-test test channel until
+# WARN_CHANNEL_ID is pointed at the real #warns channel.
 on:
+  schedule:
+    - cron: '0 13 * * 5'  # weekly mod digest, Friday 13:00 UTC
   workflow_dispatch:
     inputs:
       job:
@@ -134,7 +140,9 @@ jobs:
           fi
 
   warn-digest:
-    if: github.event.inputs.job == 'warn-digest'
+    if: |
+      github.event.schedule == '0 13 * * 5' ||
+      (github.event_name == 'workflow_dispatch' && github.event.inputs.job == 'warn-digest')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     env:

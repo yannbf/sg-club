@@ -62,14 +62,16 @@ Every event is a single message posted to the log channel (`#bot-test-logs`
 in test phase), one event per line:
 
 ```
-CHALLENGE {"slug":"neo-cab","channel_id":"...","message_id":"...","deadline":1700000000,"start":1700000100,"end":1700100000,"name":"Neo Cab","link":"https://store.steampowered.com/app/123"}
+CHALLENGE {"slug":"neo-cab","channel_id":"...","message_id":"...","deadline":1700000000,"start":1700000100,"end":1700100000,"name":"Neo Cab"}
 SIGNUP {"slug":"neo-cab","choice":"want","discord_id":"...","discord_handle":"...","sg_username":"yannbf","guest":false,"ts":1700000050}
 CLOSED {"slug":"neo-cab","ts":1700000500}
 ```
 
 - `CHALLENGE` — posted once by `/challenge-setup`, records where the
-  announcement lives, its dates, and its event `link` (optional — older
-  lines posted before this field existed keep parsing fine without it).
+  announcement lives and its dates. `link` is a vestigial optional field —
+  `/challenge-setup` no longer collects a per-challenge event link (see the
+  Slash commands section below), but `ChallengeMeta.link` and the parser stay
+  tolerant of old log lines that still have it.
 - `SIGNUP` — posted on every button click / modal submit. `choice` is one of
   `want` / `have` / `out`.
 - `CLOSED` — posted once signups are closed for a slug (marks it done so the
@@ -95,14 +97,17 @@ there's no database to look anything up in:
 su|<slug>|<choice>|<deadlineEpoch>   # signup button
 sg|<slug>|<choice>|<deadlineEpoch>   # guest-username modal
 csetup                               # the /challenge-setup form modal
+clist                                # the /challenge-list challenge picker (string select)
 ```
 
 `choice` is `want` / `have` / `out`. `handleModalSubmit` routes by
 `custom_id` prefix: `csetup` goes to the challenge-setup flow, anything else
-falls through to the `sg|...` decoder. Slugs are auto-generated from the
-challenge name via `slugify()` (lowercase, non-alphanumeric runs → `-`,
-trimmed, max 40 chars) and validated (`^[a-z0-9-]{1,40}$`) so the encoded ID
-never exceeds Discord's 100-char `custom_id` limit.
+falls through to the `sg|...` decoder. `handleMessageComponent` checks for
+the fixed `clist` id first (it has no pipes, so `decodeCustomId` would reject
+it) before falling through to the `su|...` decoder. Slugs are auto-generated
+from the challenge name via `slugify()` (lowercase, non-alphanumeric runs →
+`-`, trimmed, max 40 chars) and validated (`^[a-z0-9-]{1,40}$`) so the
+encoded ID never exceeds Discord's 100-char `custom_id` limit.
 
 ## The core invariant
 
@@ -115,28 +120,36 @@ any Discord REST call is made, and is covered directly in
 ## Slash commands
 
 - **`/challenge-setup`** (admin-only via `default_member_permissions`) — takes
-  no options; it opens a **modal form** (`custom_id: csetup`) with five text
+  no options; it opens a **modal form** (`custom_id: csetup`) with four text
   inputs: Challenge name, Description, a combined **Dates (UTC)** field
   (`"<start> → <end>"`, also accepting `->` or the standalone word `to` as
   the separator — each side parsed by the same rules as before:
-  `YYYY-MM-DD`, `YYYY-MM-DD HH:mm`, or ISO 8601), a required **Event link
-  (URL)** (must start with `https://`), and an optional Signup deadline
-  (UTC, defaults to the start date). On submit the bot slugifies the name,
-  rejects the setup if a `CHALLENGE` with the same slug already exists in
-  the log, splits and validates the dates field
-  (`parseDateRangeField`/`validateChallengeDates` in `_lib/dates.ts`),
-  validates the event link, then posts the Dyno-style announcement embed +
-  buttons **to the channel the command was invoked in**, and records a
-  `CHALLENGE` line (including the event `link`) in the log channel. Any
-  parse/validation failure is surfaced as a friendly `❌ ...` ephemeral
-  error instead of posting anything. (There are no channel/image options —
-  the banner image is a fixed constant, see below.)
-- **`/challenge-list <slug>`** — reads the whole log channel, builds the
-  roster, and posts **plain-markdown content** (no embed): a
-  `**<name> — signups**` header, `Want the game (N)` / `Already have it (M)`
-  codeblocks (comma-separated, for easy copy-paste), an
-  `Unresolved/guests (K): ...` plain list, and a `Total: X` line. Emoji-free.
-  Chunked into ≤1900-char messages when the roster is large.
+  `YYYY-MM-DD`, `YYYY-MM-DD HH:mm`, or ISO 8601), and an optional Signup
+  deadline (UTC, defaults to the start date). On submit the bot slugifies the
+  name, rejects the setup if a `CHALLENGE` with the same slug already exists
+  in the log, splits and validates the dates field
+  (`parseDateRangeField`/`validateChallengeDates` in `_lib/dates.ts`), then
+  posts the Dyno-style announcement embed + buttons **to the channel the
+  command was invoked in**, and records a `CHALLENGE` line in the log
+  channel. Any parse/validation failure is surfaced as a friendly `❌ ...`
+  ephemeral error instead of posting anything. (There are no channel/image
+  options — the banner image is a fixed constant, and the "View Event" button
+  now points at a fixed events URL — see below.)
+- **`/challenge-list`** — an interactive picker, no options. Reads the whole
+  log channel, collects the distinct `CHALLENGE` metas (deduped by slug,
+  keeping the newest re-announce if any, capped at the 25 most recent —
+  Discord's per-select-menu option limit), and replies **ephemerally** with
+  `Pick a challenge:` plus a string-select component (`custom_id: clist`,
+  one option per challenge: label = name, value = slug). If there are no
+  challenges in the log it replies ephemerally `No challenges found.`
+  instead. Picking an option fires a `MESSAGE_COMPONENT` interaction
+  (`custom_id: clist`, routed ahead of the `su|`/`sg|` decoder since it isn't
+  pipe-delimited) that renders the roster for the chosen slug exactly as
+  before: **plain-markdown content** (no embed), a `**<name> — signups**`
+  header, `Want the game (N)` / `Already have it (M)` codeblocks
+  (comma-separated, for easy copy-paste), an `Unresolved/guests (K): ...`
+  plain list, and a `Total: X` line. Emoji-free, non-ephemeral, chunked into
+  ≤1900-char messages when the roster is large.
 - **`/mod-report`** (admin-only) — the on-demand counterpart to the weekly
   digest below: a full member-status report covering **both** errors and
   warnings (unlike the digest, which only ever shows errors). Non-ephemeral,
@@ -185,15 +198,22 @@ in the weekly digest only."*
 `buildAnnouncementEmbed` (`_lib/render.ts`) renders a Dyno-style layout: a
 plain title (the challenge name, no emoji), the admin's description text,
 two **inline** fields side by side (`Signups close` → `<t:deadline:R>` and
-`Challenge` → `<t:start:d> → <t:end:d>`, short date format), a non-inline
-**"Signups so far"** field (initially `🎁 0 want · ✅ 0 have`), the fixed
-banner image `https://sg-club.vercel.app/game-challenge-banner.png`, and the
-accent color.
+`Challenge` → `<t:start:d> → <t:end:d>`, short date format), the fixed
+banner image `https://sg-club.vercel.app/game-challenge-banner.png`, the
+accent color, and a **footer** (`🎁 0 want · ✅ 0 have` initially) — the
+footer renders as small text below the image, so the live counts don't
+compete visually with the banner or the date fields.
 
-`buildSignupComponents(slug, deadlineEpoch, link)` builds one action row with
-the three signup buttons plus a trailing type-2/style-5 **link button**
-("View Event", no `custom_id`, just a `url`) when a link is given — 4
-buttons total, under Discord's 5-per-row cap.
+`buildSignupComponents(slug, deadlineEpoch)` builds one action row with the
+three signup buttons plus a trailing type-2/style-5 **link button** ("View
+Event", no `custom_id`, just a fixed `url` pointing at
+`https://sg-club.vercel.app/events/`) — 4 buttons total, under Discord's
+5-per-row cap. The link is a fixed constant now, not per-challenge (the
+`/challenge-setup` modal no longer collects an event link), so the button is
+always present. The withdraw button's label is the plain text glyph `✕
+Withdraw` (U+2715), not the ❌ emoji — the emoji renders red-on-red against
+the button's DANGER (red) background and is hard to read; the text glyph
+renders white.
 
 ### Live signup counter
 
@@ -201,7 +221,7 @@ After every recorded signup event (button click or guest-modal submit) the
 endpoint — in a fire-and-forget `waitUntil` continuation, after the
 ephemeral confirmation has already been sent — rebuilds the roster from the
 log and PATCHes only the `embeds` field on the announcement message
-(`withUpdatedSignupCounts` upserts the "Signups so far" field by name,
+(`withUpdatedSignupCounts` rewrites `embed.footer.text` to the new counts,
 everything else on the embed preserved). The PATCH payload never includes
 `components`, so the buttons — including the link button — are left exactly
 as Discord already has them. The announcement is located via
@@ -233,11 +253,10 @@ Run manually via the `discord-bot.yml` workflow (`workflow_dispatch`, pick a
   deadline has passed with no `CLOSED` marker yet, posts a plain-markdown
   closed-summary (`**Signups closed — <name>**` then `Want the game (N): ...`
   / `Already have it (M): ...` lines, full name lists, emoji-free), disables
-  **only the three signup buttons** on the announcement (`meta.link` is
-  passed through to `buildDisabledComponents`, so the "View Event" link
-  button — if the challenge has one — stays enabled and clickable after
-  close), and posts `CLOSED`. Idempotent: a challenge is only touched while
-  it has no `CLOSED` marker.
+  **only the three signup buttons** on the announcement (`buildDisabledComponents`
+  always leaves the fixed "View Event" link button enabled and clickable
+  after close), and posts `CLOSED`. Idempotent: a challenge is only touched
+  while it has no `CLOSED` marker.
 - **`pnpm --filter scraper discord:congrats`** — scans local `challenge_*.json`
   files (skipping `challengeOver: true` ones) for participants who are
   `is_complete` and not `completed_before_start`, diffs against
@@ -250,8 +269,13 @@ Run manually via the `discord-bot.yml` workflow (`workflow_dispatch`, pick a
   `pandaparty` emoji (looked up once per run via `GET /guilds/{id}/emojis`,
   animated variants handled), falling back to `🐼🎉` if it's missing or the
   fetch fails.
-- **`pnpm --filter scraper discord:warn-digest`** — runs a small set of
-  pluggable detectors, diffs against
+- **`pnpm --filter scraper discord:warn-digest`** — the first job on a real
+  `schedule:` trigger (`discord-bot.yml` runs it automatically Friday 13:00
+  UTC, in addition to the usual `workflow_dispatch`; every other job is
+  still dispatch-only). **Still posts to the `#bot-test` test channel** until
+  `WARN_CHANNEL_ID` is pointed at the real `#warns` channel — see
+  Environment variables below. Runs a small set of pluggable detectors, diffs
+  against
   `packages/website/public/data/discord_warn_state.json`
   (`{ items: { [fingerprint]: { firstSeen } } }`) to track every finding's
   `firstSeen` date, and posts a **plain markdown, emoji-free digest**
@@ -304,8 +328,12 @@ live:
    secrets/vars for the cron scripts).
 2. `/challenge-setup` posts its announcement to whatever channel the command
    is invoked in, so an admin targets a channel just by running it there.
-3. Once confident, add a `schedule:` trigger to `discord-bot.yml` (it's
-   `workflow_dispatch`-only right now, intentionally, while in test phase).
+3. `warn-digest` already runs on a `schedule:` trigger (Friday 13:00 UTC) —
+   pointing `WARN_CHANNEL_ID` at `#warns` is the only remaining step for it.
+   The other jobs (`close-signups`, `congrats`, `register-commands`) are
+   still `workflow_dispatch`-only, intentionally, while in test phase; once
+   confident, add `schedule:` entries for them too, mirroring deploy.yml's
+   staggering approach.
 
 ## Manual setup steps (for Yann)
 

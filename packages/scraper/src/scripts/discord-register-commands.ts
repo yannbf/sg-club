@@ -15,7 +15,7 @@ const commands = [
     name: 'challenge-list',
     description: 'List current signups for a challenge',
     default_member_permissions: MANAGE_GUILD_PERMISSION,
-    options: [{ name: 'slug', description: 'Challenge slug', type: 3, required: true }],
+    options: [],
   },
   {
     name: 'mod-report',

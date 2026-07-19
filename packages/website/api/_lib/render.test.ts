@@ -52,11 +52,11 @@ describe('buildAnnouncementEmbed', () => {
     })
   })
 
-  it('keeps "Signups so far" as a non-inline field with the initial zero counts', () => {
+  it('sets the initial zero counts on the embed footer (not a field)', () => {
     const embed = buildAnnouncementEmbed(input)
+    expect(embed.footer).toEqual({ text: '🎁 0 want · ✅ 0 have' })
     const fields = embed.fields as Array<{ name: string; value: string; inline?: boolean }>
-    const counts = fields.find((f) => f.name === 'Signups so far')
-    expect(counts).toEqual({ name: 'Signups so far', value: '🎁 0 want · ✅ 0 have' })
+    expect(fields.some((f) => f.name === 'Signups so far')).toBe(false)
   })
 
   it('sets the banner image', () => {
@@ -71,7 +71,7 @@ describe('buildAnnouncementEmbed', () => {
 })
 
 describe('withUpdatedSignupCounts', () => {
-  it('preserves the inline flag on other fields when upserting the counts field', () => {
+  it('updates the footer text with the new counts, preserving other fields untouched', () => {
     const embed = buildAnnouncementEmbed({
       name: 'Neo Cab',
       description: 'desc',
@@ -80,12 +80,24 @@ describe('withUpdatedSignupCounts', () => {
       end: 3,
     })
     const updated = withUpdatedSignupCounts(embed, 3, 2)
+    expect(updated.footer).toEqual({ text: '🎁 3 want · ✅ 2 have' })
     const fields = updated.fields as Array<{ name: string; value: string; inline?: boolean }>
     expect(fields.find((f) => f.name === 'Signups close')).toMatchObject({ inline: true })
     expect(fields.find((f) => f.name === 'Challenge')).toMatchObject({ inline: true })
-    expect(fields.find((f) => f.name === 'Signups so far')).toEqual({
-      name: 'Signups so far',
-      value: '🎁 3 want · ✅ 2 have',
+  })
+
+  it('preserves other footer properties (e.g. an icon_url) when updating the text', () => {
+    const embed = { ...buildAnnouncementEmbed({
+      name: 'Neo Cab',
+      description: 'desc',
+      signupDeadline: 1,
+      start: 2,
+      end: 3,
+    }), footer: { text: 'old', icon_url: 'https://example.com/icon.png' } }
+    const updated = withUpdatedSignupCounts(embed, 5, 4)
+    expect(updated.footer).toEqual({
+      text: '🎁 5 want · ✅ 4 have',
+      icon_url: 'https://example.com/icon.png',
     })
   })
 
@@ -104,47 +116,45 @@ describe('withUpdatedSignupCounts', () => {
 })
 
 describe('buildSignupComponents', () => {
-  it('builds the three signup buttons with no link button when link is omitted', () => {
+  it('builds the three signup buttons plus a trailing link button', () => {
     const rows = buildSignupComponents('neo-cab', 1700000000)
     expect(rows).toHaveLength(1)
-    expect(rows[0]!.components).toHaveLength(3)
-    expect(rows[0]!.components.every((c) => c.style !== 5)).toBe(true)
+    expect(rows[0]!.components).toHaveLength(4)
   })
 
-  it('appends a type-2 style-5 link button with the event url and no custom_id when link is given', () => {
-    const rows = buildSignupComponents('neo-cab', 1700000000, 'https://store.steampowered.com/app/123')
+  it('appends a type-2 style-5 link button pointing at the fixed events url, with no custom_id', () => {
+    const rows = buildSignupComponents('neo-cab', 1700000000)
     const buttons = rows[0]!.components
-    expect(buttons).toHaveLength(4)
 
     const linkButton = buttons[3]!
     expect(linkButton).toMatchObject({
       type: 2,
       style: 5,
       label: 'View Event',
-      url: 'https://store.steampowered.com/app/123',
+      url: 'https://sg-club.vercel.app/events/',
     })
     expect(linkButton.custom_id).toBeUndefined()
   })
 
-  it('keeps the three signup buttons with valid custom_ids when a link button is present', () => {
-    const rows = buildSignupComponents('neo-cab', 1700000000, 'https://example.com')
+  it('keeps the three signup buttons with valid custom_ids alongside the link button', () => {
+    const rows = buildSignupComponents('neo-cab', 1700000000)
     const signupButtons = rows[0]!.components.slice(0, 3)
     for (const button of signupButtons) {
       expect(button.custom_id).toContain('neo-cab')
       expect(button.url).toBeUndefined()
     }
   })
+
+  it('uses a plain "✕ Withdraw" label (no emoji) for the withdraw button', () => {
+    const rows = buildSignupComponents('neo-cab', 1700000000)
+    const withdrawButton = rows[0]!.components.find((c) => c.label.includes('Withdraw'))
+    expect(withdrawButton?.label).toBe('✕ Withdraw')
+  })
 })
 
 describe('buildDisabledComponents', () => {
-  it('disables all three signup buttons when there is no link', () => {
-    const rows = buildDisabledComponents('neo-cab', 1700000000)
-    expect(rows[0]!.components).toHaveLength(3)
-    expect(rows[0]!.components.every((c) => c.disabled === true)).toBe(true)
-  })
-
   it('disables only the three signup buttons, leaving the link button enabled', () => {
-    const rows = buildDisabledComponents('neo-cab', 1700000000, 'https://example.com')
+    const rows = buildDisabledComponents('neo-cab', 1700000000)
     const buttons = rows[0]!.components
     expect(buttons).toHaveLength(4)
 
@@ -154,12 +164,7 @@ describe('buildDisabledComponents', () => {
     expect(signupButtons).toHaveLength(3)
     expect(signupButtons.every((b) => b.disabled === true)).toBe(true)
     expect(linkButton.disabled).toBeUndefined()
-    expect(linkButton.url).toBe('https://example.com')
-  })
-
-  it('omits the link button entirely for an old challenge meta with no link', () => {
-    const rows = buildDisabledComponents('neo-cab', 1700000000, undefined)
-    expect(rows[0]!.components.some((c) => c.style === 5)).toBe(false)
+    expect(linkButton.url).toBe('https://sg-club.vercel.app/events/')
   })
 })
 
