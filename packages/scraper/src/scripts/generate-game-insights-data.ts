@@ -124,34 +124,54 @@ function saveCache(cache: InsightsCache): void {
 
 // --- Steam Web API: per-member owned games / wishlist ---
 
+/** Fetch a Steam Web API JSON endpoint, retrying transient failures
+ *  (429s/5xx/network errors) with backoff. Without this, a mid-run rate
+ *  limit silently misclassifies public profiles as private — that's how
+ *  the first data run only found 53/144 public wishlists. Returns null
+ *  only after all retries are exhausted. */
+async function fetchSteamJson(url: string, label: string): Promise<any | null> {
+  const backoffs = [2000, 8000, 30000]
+  for (let attempt = 0; attempt <= backoffs.length; attempt++) {
+    try {
+      const res = await fetch(url)
+      if (res.ok) return await res.json()
+      if (attempt < backoffs.length) {
+        console.warn(
+          `\n⚠️  HTTP ${res.status} for ${label} — retrying in ${backoffs[attempt] / 1000}s`,
+        )
+        await delay(backoffs[attempt])
+        continue
+      }
+      console.warn(`\n⚠️  HTTP ${res.status} for ${label} — giving up`)
+      return null
+    } catch (error) {
+      if (attempt < backoffs.length) {
+        await delay(backoffs[attempt])
+        continue
+      }
+      logError(error, `Failed to fetch ${label}`)
+      return null
+    }
+  }
+  return null
+}
+
 async function fetchOwnedGames(steamId: string): Promise<Set<number> | null> {
   const url = `${STEAM_BASE}/IPlayerService/GetOwnedGames/v0001/?key=${API_KEY}&steamid=${steamId}&format=json`
-  try {
-    const res = await fetch(url)
-    if (!res.ok) return null
-    const data: any = await res.json()
-    const games = data?.response?.games
-    if (!Array.isArray(games) || games.length === 0) return null
-    return new Set(games.map((g: { appid: number }) => g.appid))
-  } catch (error) {
-    logError(error, `Failed to fetch owned games for steamId ${steamId}`)
-    return null
-  }
+  const data = await fetchSteamJson(url, `owned games (${steamId})`)
+  const games = data?.response?.games
+  if (!Array.isArray(games) || games.length === 0) return null
+  return new Set(games.map((g: { appid: number }) => g.appid))
 }
 
 async function fetchWishlist(steamId: string): Promise<Set<number> | null> {
-  const url = `${STEAM_BASE}/IWishlistService/GetWishlist/v1/?steamid=${steamId}`
-  try {
-    const res = await fetch(url)
-    if (!res.ok) return null
-    const data: any = await res.json()
-    const items = data?.response?.items
-    if (!Array.isArray(items) || items.length === 0) return null
-    return new Set(items.map((it: { appid: number }) => it.appid))
-  } catch (error) {
-    logError(error, `Failed to fetch wishlist for steamId ${steamId}`)
-    return null
-  }
+  // Keyed request: anonymous calls fall under much stricter IP-based
+  // throttling, which is what starved the wishlist data on the first run.
+  const url = `${STEAM_BASE}/IWishlistService/GetWishlist/v1/?key=${API_KEY}&steamid=${steamId}`
+  const data = await fetchSteamJson(url, `wishlist (${steamId})`)
+  const items = data?.response?.items
+  if (!Array.isArray(items) || items.length === 0) return null
+  return new Set(items.map((it: { appid: number }) => it.appid))
 }
 
 // --- SteamGifts bundle-games search (mirrors group-giveaways.ts's
@@ -281,9 +301,9 @@ export async function generateGameInsightsData(): Promise<void> {
     )
 
     const ownedAppIds = await fetchOwnedGames(member.steam_id)
-    await delay(200)
+    await delay(300)
     const wishlistAppIds = await fetchWishlist(member.steam_id)
-    await delay(200)
+    await delay(300)
 
     if (ownedAppIds) {
       membersWithLibraryData++

@@ -799,7 +799,11 @@ export default function WishlistClient({
 
                 <div className="mt-auto flex items-end justify-between gap-2">
                   {cardInsight ? (
-                    <p className="text-xs text-muted-foreground">
+                    <p
+                      className="text-xs text-muted-foreground"
+                      title="From members' public Steam libraries and wishlists — unlike wishers (❤), which counts SteamGifts wishlists"
+                    >
+                      Steam:{' '}
                       <span className="font-medium text-foreground tabular-nums-strict">
                         {cardInsight.owners.length}
                       </span>{' '}
