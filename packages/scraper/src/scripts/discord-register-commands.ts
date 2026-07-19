@@ -9,46 +9,7 @@ const commands = [
     name: 'challenge-setup',
     description: 'Announce a new challenge and open signups',
     default_member_permissions: MANAGE_GUILD_PERMISSION,
-    options: [
-      {
-        name: 'slug',
-        description: 'Short id, e.g. neo-cab (lowercase letters, numbers, hyphens, max 40 chars)',
-        type: 3, // STRING
-        required: true,
-      },
-      { name: 'name', description: 'Challenge display name', type: 3, required: true },
-      {
-        name: 'intro',
-        description: 'Intro text for the announcement (multi-line ok)',
-        type: 3,
-        required: true,
-      },
-      {
-        name: 'start',
-        description: 'Start date: YYYY-MM-DD, YYYY-MM-DD HH:mm, or ISO 8601 (UTC unless offset given)',
-        type: 3,
-        required: true,
-      },
-      { name: 'end', description: 'End date (same formats as start)', type: 3, required: true },
-      {
-        name: 'signup_deadline',
-        description: 'Signup deadline (defaults to start)',
-        type: 3,
-        required: false,
-      },
-      {
-        name: 'channel',
-        description: 'Channel to post the announcement in (defaults to this channel)',
-        type: 7, // CHANNEL
-        required: false,
-      },
-      {
-        name: 'image',
-        description: 'Optional banner image for the announcement embed',
-        type: 11, // ATTACHMENT
-        required: false,
-      },
-    ],
+    options: [],
   },
   {
     name: 'challenge-list',

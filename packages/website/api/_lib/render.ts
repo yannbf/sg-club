@@ -23,17 +23,40 @@ function truncate(text: string, limit: number): string {
 
 export interface AnnouncementInput {
   name: string
-  intro: string
-  imageUrl?: string
+  description: string
   signupDeadline: number
   start: number
   end: number
 }
 
+function formatSignupCounts(wantCount: number, haveCount: number): string {
+  return `🎁 ${wantCount} want · ✅ ${haveCount} have`
+}
+
+const SIGNUP_COUNT_FIELD_NAME = 'Signups so far'
+
+/** Upserts the "Signups so far" field on an existing embed by name, preserving everything else. */
+export function withUpdatedSignupCounts(
+  embed: Record<string, unknown>,
+  wantCount: number,
+  haveCount: number
+): Record<string, unknown> {
+  const existingFields = Array.isArray(embed.fields)
+    ? (embed.fields as Array<{ name: string; value: string }>)
+    : []
+  const value = formatSignupCounts(wantCount, haveCount)
+  const idx = existingFields.findIndex((f) => f.name === SIGNUP_COUNT_FIELD_NAME)
+  const fields =
+    idx === -1
+      ? [...existingFields, { name: SIGNUP_COUNT_FIELD_NAME, value }]
+      : existingFields.map((f, i) => (i === idx ? { ...f, value } : f))
+  return { ...embed, fields }
+}
+
 export function buildAnnouncementEmbed(input: AnnouncementInput): Record<string, unknown> {
   const embed: Record<string, unknown> = {
     title: truncate(input.name, 256),
-    description: truncate(input.intro, EMBED_DESCRIPTION_LIMIT),
+    description: truncate(input.description, EMBED_DESCRIPTION_LIMIT),
     color: ACCENT_COLOR,
     fields: [
       {
@@ -47,9 +70,12 @@ export function buildAnnouncementEmbed(input: AnnouncementInput): Record<string,
         name: 'Challenge',
         value: truncate(`<t:${input.start}:D> → <t:${input.end}:D>`, EMBED_FIELD_VALUE_LIMIT),
       },
+      {
+        name: SIGNUP_COUNT_FIELD_NAME,
+        value: formatSignupCounts(0, 0),
+      },
     ],
   }
-  if (input.imageUrl) embed.image = { url: input.imageUrl }
   return embed
 }
 

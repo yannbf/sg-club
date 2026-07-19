@@ -67,6 +67,20 @@ export function decodeCustomId(customId: string): DecodedCustomId | null {
 }
 
 /**
+ * Derives a URL/custom_id-safe slug from a free-text challenge name:
+ * lowercased, non-alphanumeric runs collapsed to a single hyphen, leading
+ * and trailing hyphens trimmed, capped at 40 chars (with any trailing
+ * hyphen left by truncation trimmed too).
+ */
+export function slugify(name: string): string {
+  const slug = name
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+  return slug.slice(0, 40).replace(/-+$/, '')
+}
+
+/**
  * Validates a slug is safe to embed in every custom_id the setup command
  * will generate. Returns a user-facing error string, or null if OK.
  */

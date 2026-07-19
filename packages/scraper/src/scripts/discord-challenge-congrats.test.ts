@@ -1,5 +1,11 @@
 import { describe, expect, it } from 'vitest'
-import { diffNewCompletions, qualifyingUsernames } from './discord-challenge-congrats'
+import {
+  batchUsernames,
+  buildCongratsMessage,
+  diffNewCompletions,
+  joinNamesWithAnd,
+  qualifyingUsernames,
+} from './discord-challenge-congrats'
 
 describe('qualifyingUsernames', () => {
   it('includes only participants who are complete and did not complete before start', () => {
@@ -49,5 +55,67 @@ describe('diffNewCompletions', () => {
 
     const secondRun = diffNewCompletions(qualifying, announced)
     expect(secondRun).toEqual([])
+  })
+})
+
+describe('joinNamesWithAnd', () => {
+  it('bolds a single name with no "and"', () => {
+    expect(joinNamesWithAnd(['a'])).toBe('**a**')
+  })
+
+  it('joins two names with "and"', () => {
+    expect(joinNamesWithAnd(['a', 'b'])).toBe('**a** and **b**')
+  })
+
+  it('joins three or more names with commas and a final "and", no Oxford comma', () => {
+    expect(joinNamesWithAnd(['a', 'b', 'c'])).toBe('**a**, **b** and **c**')
+    expect(joinNamesWithAnd(['a', 'b', 'c', 'd'])).toBe('**a**, **b**, **c** and **d**')
+  })
+})
+
+describe('buildCongratsMessage', () => {
+  it('builds the exact message shape for a single name', () => {
+    expect(buildCongratsMessage(['a'], 'Neo Cab', '🐼🎉')).toBe(
+      '🎉 **a** just finished the **Neo Cab** challenge! Congrats 🐼🎉'
+    )
+  })
+
+  it('builds the exact message shape for three names', () => {
+    expect(buildCongratsMessage(['a', 'b', 'c'], 'Neo Cab', '🐼🎉')).toBe(
+      '🎉 **a**, **b** and **c** just finished the **Neo Cab** challenge! Congrats 🐼🎉'
+    )
+  })
+})
+
+describe('batchUsernames', () => {
+  it('keeps a small list in a single batch', () => {
+    const batches = batchUsernames(['a', 'b', 'c'], 'Neo Cab', '🐼🎉')
+    expect(batches).toEqual([['a', 'b', 'c']])
+  })
+
+  it('splits into multiple batches when the combined message would exceed the length limit, without dropping or duplicating anyone', () => {
+    // Each name is long enough that a handful of them together will blow
+    // past the 1900-char budget, forcing at least one split.
+    const usernames = Array.from({ length: 60 }, (_, i) => `SuperLongSteamGiftsUsername${i}`)
+    const batches = batchUsernames(usernames, 'Neo Cab', '🐼🎉')
+
+    expect(batches.length).toBeGreaterThan(1)
+
+    for (const batch of batches) {
+      expect(buildCongratsMessage(batch, 'Neo Cab', '🐼🎉').length).toBeLessThanOrEqual(1900)
+    }
+
+    const flattened = batches.flat()
+    expect(flattened).toEqual(usernames)
+    expect(new Set(flattened).size).toBe(usernames.length)
+  })
+
+  it('still gives a single oversized username its own batch rather than dropping it', () => {
+    const hugeUsername = 'X'.repeat(2000)
+    const batches = batchUsernames(['a', hugeUsername, 'b'], 'Neo Cab', '🐼🎉')
+
+    const flattened = batches.flat()
+    expect(flattened).toEqual(['a', hugeUsername, 'b'])
+    expect(batches.some((b) => b.length === 1 && b[0] === hugeUsername)).toBe(true)
   })
 })

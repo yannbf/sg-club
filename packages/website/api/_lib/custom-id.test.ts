@@ -4,6 +4,7 @@ import {
   decodeCustomId,
   encodeModalCustomId,
   encodeSignupCustomId,
+  slugify,
   validateSlugForCustomId,
 } from './custom-id.js'
 
@@ -67,5 +68,32 @@ describe('custom-id', () => {
     // This test instead exercises the length guard directly by checking the
     // regex boundary: 41 chars is already rejected by the pattern.
     expect(validateSlugForCustomId('a'.repeat(41))).not.toBeNull()
+  })
+})
+
+describe('slugify', () => {
+  it('lowercases and collapses spaces/punctuation into single hyphens', () => {
+    expect(slugify('Neo Cab: A Journey!')).toBe('neo-cab-a-journey')
+  })
+
+  it('truncates a very long name to 40 chars', () => {
+    const slug = slugify('a'.repeat(50))
+    expect(slug).toBe('a'.repeat(40))
+    expect(slug.length).toBe(40)
+  })
+
+  it('trims a trailing dash left behind by truncation mid-dash-run', () => {
+    // 39 'a's + a space (-> hyphen) lands the hyphen exactly at index 39, so
+    // slice(0, 40) would otherwise end with a dangling '-'.
+    const name = `${'a'.repeat(39)} ${'b'.repeat(10)}`
+    const slug = slugify(name)
+    expect(slug).toBe('a'.repeat(39))
+    expect(slug.endsWith('-')).toBe(false)
+  })
+
+  it('slugifies an all-punctuation name to an empty string', () => {
+    const slug = slugify('!!!___...')
+    expect(slug).toBe('')
+    expect(validateSlugForCustomId(slug)).not.toBeNull()
   })
 })

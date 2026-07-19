@@ -1,10 +1,15 @@
 import { existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { createMessage, getAllChannelMessages } from '../../../website/api/_lib/discord-rest.js'
+import {
+  createMessage,
+  getAllChannelMessages,
+  getGuildEmojis,
+} from '../../../website/api/_lib/discord-rest.js'
 import { parseLogLine } from '../../../website/api/_lib/signup-log.js'
 import {
   getLogChannelId,
+  GUILD_ID,
   TEST_ANNOUNCE_CHANNEL_ID,
 } from '../../../website/api/_lib/constants.js'
 
@@ -62,6 +67,57 @@ function findActiveChallengeFiles(): ChallengeFile[] {
     .filter((challenge) => challenge.challengeOver === false)
 }
 
+const PANDA_EMOJI_NAME = 'pandaparty'
+const FALLBACK_EMOJI = '🐼🎉'
+const MAX_MESSAGE_LENGTH = 1900
+
+/** Looks up the custom `pandaparty` guild emoji, falling back to the default if it can't be found. */
+export async function resolvePandaEmoji(): Promise<string> {
+  try {
+    const emojis = await getGuildEmojis(GUILD_ID)
+    const panda = emojis.find((e) => e.name === PANDA_EMOJI_NAME)
+    if (!panda) return FALLBACK_EMOJI
+    return panda.animated ? `<a:pandaparty:${panda.id}>` : `<:pandaparty:${panda.id}>`
+  } catch (err) {
+    console.warn('⚠️ Could not fetch guild emojis; falling back to the default emoji:', err)
+    return FALLBACK_EMOJI
+  }
+}
+
+/** Joins names with commas and a final "and", no Oxford comma. */
+export function joinNamesWithAnd(names: string[]): string {
+  const bold = names.map((n) => `**${n}**`)
+  if (bold.length === 1) return bold[0]
+  if (bold.length === 2) return `${bold[0]} and ${bold[1]}`
+  return `${bold.slice(0, -1).join(', ')} and ${bold[bold.length - 1]}`
+}
+
+/** Builds a single congrats message for a batch of usernames that finished the same challenge. */
+export function buildCongratsMessage(usernames: string[], gameName: string, emoji: string): string {
+  return `🎉 ${joinNamesWithAnd(usernames)} just finished the **${gameName}** challenge! Congrats ${emoji}`
+}
+
+/**
+ * Groups usernames into as few batches as possible while keeping each
+ * rendered message under MAX_MESSAGE_LENGTH. A single username that alone
+ * exceeds the limit still gets its own batch — nobody gets dropped.
+ */
+export function batchUsernames(usernames: string[], gameName: string, emoji: string): string[][] {
+  const batches: string[][] = []
+  let current: string[] = []
+  for (const username of usernames) {
+    const candidate = [...current, username]
+    if (current.length > 0 && buildCongratsMessage(candidate, gameName, emoji).length > MAX_MESSAGE_LENGTH) {
+      batches.push(current)
+      current = [username]
+    } else {
+      current = candidate
+    }
+  }
+  if (current.length > 0) batches.push(current)
+  return batches
+}
+
 async function resolveChannelForSlug(slug: string): Promise<string> {
   try {
     const messages = await getAllChannelMessages(getLogChannelId(), 2000)
@@ -85,6 +141,7 @@ export async function announceNewCompletions(): Promise<void> {
   const challenges = findActiveChallengeFiles()
   const state = loadState()
   let anyNew = false
+  const emoji = await resolvePandaEmoji()
 
   for (const challenge of challenges) {
     const qualifying = qualifyingUsernames(challenge)
@@ -94,17 +151,19 @@ export async function announceNewCompletions(): Promise<void> {
 
     anyNew = true
     const channelId = await resolveChannelForSlug(challenge.slug)
+    const batches = batchUsernames(newlyCompleted, challenge.gameName, emoji)
 
-    for (const username of newlyCompleted) {
+    for (const batch of batches) {
       await createMessage(channelId, {
-        content: `🎉 **${username}** just finished the **${challenge.gameName}** challenge! Congrats 🐼🎉`,
+        content: buildCongratsMessage(batch, challenge.gameName, emoji),
       })
-      // State is saved after every post, not at the end — a crash mid-loop
+      // State is saved after every batch, not at the end — a crash mid-loop
       // (e.g. rate limiting) must never lead to duplicate announcements on
-      // the next run.
-      state.announced[challenge.slug] = [...(state.announced[challenge.slug] ?? []), username]
+      // the next run. Worst case on a crash mid-run is a whole batch gets
+      // re-sent, same tradeoff the old per-user code had.
+      state.announced[challenge.slug] = [...(state.announced[challenge.slug] ?? []), ...batch]
       saveState(state)
-      console.log(`🎉 Announced ${username} for ${challenge.slug}`)
+      console.log(`🎉 Announced ${batch.join(', ')} for ${challenge.slug}`)
     }
   }
 

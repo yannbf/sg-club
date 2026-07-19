@@ -145,73 +145,89 @@ export function splitAndUpdateState(items: WarnItem[], state: WarnState, now: nu
   return { newItems, lingeringItems, prunedFingerprints, updatedState: { items: updatedItems } }
 }
 
-const EMBED_FIELD_VALUE_LIMIT = 1024
-const MAX_EMBED_FIELDS = 25
+const SITE_BASE = 'https://sg-club.vercel.app'
+const HEADER = '📋 **Weekly Mod Digest**'
+const MAX_MESSAGE_LENGTH = 1900
 
-/**
- * Splits lines into as many ≤1024-char fields as needed ("<name>", then
- * "<name> (cont.)") — Discord silently rejects longer field values, and a
- * hard slice would silently drop members from the digest.
- */
-function chunkIntoFields(name: string, lines: string[]): Array<{ name: string; value: string }> {
-  const fields: Array<{ name: string; value: string }> = []
-  let current: string[] = []
-  let currentLength = 0
-
-  for (const line of lines) {
-    if (currentLength + line.length + 1 > EMBED_FIELD_VALUE_LIMIT && current.length > 0) {
-      fields.push({ name: fields.length === 0 ? name : `${name} (cont.)`, value: current.join('\n') })
-      current = []
-      currentLength = 0
-    }
-    current.push(line)
-    currentLength += line.length + 1
-  }
-  if (current.length > 0) {
-    fields.push({ name: fields.length === 0 ? name : `${name} (cont.)`, value: current.join('\n') })
-  }
-  return fields
+export interface MemberFindings {
+  username: string
+  hasNew: boolean
+  findingLines: string[]
 }
 
-function buildDigestEmbeds(split: DigestSplit): Array<Record<string, unknown>> {
-  const fields: Array<{ name: string; value: string }> = []
+/**
+ * Groups all findings (new + lingering) by member so each member appears
+ * exactly once, with every finding merged onto their entry. Members with at
+ * least one new finding sort first; both groups sort alphabetically.
+ */
+export function groupFindingsByMember(split: DigestSplit): MemberFindings[] {
+  const byUser = new Map<string, MemberFindings>()
 
-  if (split.newItems.length > 0) {
-    fields.push(
-      ...chunkIntoFields(
-        `🆕 New this week (${split.newItems.length})`,
-        split.newItems.map((item) => `**${item.memberSgUsername}** — ${item.category}`)
-      )
-    )
-  }
-  if (split.lingeringItems.length > 0) {
-    fields.push(
-      ...chunkIntoFields(
-        `⏳ Lingering (${split.lingeringItems.length})`,
-        split.lingeringItems.map(
-          (item) =>
-            `**${item.memberSgUsername}** — ${item.category} (since <t:${item.firstSeen}:R>)`
-        )
-      )
-    )
+  const getEntry = (username: string): MemberFindings => {
+    let entry = byUser.get(username)
+    if (!entry) {
+      entry = { username, hasNew: false, findingLines: [] }
+      byUser.set(username, entry)
+    }
+    return entry
   }
 
-  // An embed holds at most 25 fields / 6000 chars; spread across several
-  // embeds when a digest is huge (25 fields of ≤1024 chars can exceed 6000).
-  const embeds: Array<Record<string, unknown>> = []
-  for (let i = 0; i < fields.length; i += 5) {
-    embeds.push({
-      title: embeds.length === 0 ? '📋 Weekly Mod Digest' : '📋 Weekly Mod Digest (cont.)',
-      color: 0xed4245,
-      fields: fields.slice(i, i + 5),
-    })
+  for (const item of split.newItems) {
+    const entry = getEntry(item.memberSgUsername)
+    entry.hasNew = true
+    entry.findingLines.push(`🆕 ${item.category}`)
   }
-  return embeds.slice(0, MAX_EMBED_FIELDS)
+  for (const item of split.lingeringItems) {
+    const entry = getEntry(item.memberSgUsername)
+    entry.findingLines.push(`⏳ ${item.category} (since <t:${item.firstSeen}:R>)`)
+  }
+
+  return [...byUser.values()].sort((a, b) => {
+    if (a.hasNew !== b.hasNew) return a.hasNew ? -1 : 1
+    return a.username.localeCompare(b.username)
+  })
+}
+
+function memberBulletLine(member: MemberFindings): string {
+  const url = `${SITE_BASE}/users/${member.username}/`
+  return `- [${member.username}](${url}) — ${member.findingLines.join(' · ')}`
+}
+
+/**
+ * Renders the grouped findings as one or more plain-markdown messages, each
+ * ≤1900 chars, splitting strictly at bullet boundaries so a member's line
+ * never gets cut mid-way. The header appears only on the first message.
+ */
+export function buildDigestMessages(split: DigestSplit): string[] {
+  const bullets = groupFindingsByMember(split).map(memberBulletLine)
+  if (bullets.length === 0) return []
+
+  const messages: string[] = []
+  let current: string[] = []
+
+  const currentText = (withHeader: boolean) =>
+    (withHeader ? `${HEADER}\n` : '') + current.join('\n')
+
+  for (const bullet of bullets) {
+    const isFirstMessage = messages.length === 0
+    const prospective = [...current, bullet]
+    const prospectiveText = (isFirstMessage ? `${HEADER}\n` : '') + prospective.join('\n')
+    if (current.length > 0 && prospectiveText.length > MAX_MESSAGE_LENGTH) {
+      messages.push(currentText(isFirstMessage))
+      current = [bullet]
+    } else {
+      current = prospective
+    }
+  }
+  if (current.length > 0) {
+    messages.push(currentText(messages.length === 0))
+  }
+  return messages
 }
 
 /**
  * Runs every detector, diffs against discord_warn_state.json, and posts a
- * digest embed — unless there are zero findings, in which case it stays
+ * digest message — unless there are zero findings, in which case it stays
  * silent and doesn't touch state.
  */
 export async function postWarnDigest(): Promise<void> {
@@ -226,10 +242,8 @@ export async function postWarnDigest(): Promise<void> {
   }
 
   const channelId = process.env.WARN_CHANNEL_ID ?? TEST_ANNOUNCE_CHANNEL_ID
-  // One embed per message — the 6000-char embed limit applies to the whole
-  // message, so batching embeds together can exceed it on big digests.
-  for (const embed of buildDigestEmbeds(split)) {
-    await createMessage(channelId, { embeds: [embed] })
+  for (const content of buildDigestMessages(split)) {
+    await createMessage(channelId, { content })
   }
 
   saveState(split.updatedState)

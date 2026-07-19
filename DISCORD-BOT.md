@@ -86,17 +86,21 @@ clicking a button again.
 
 ## Custom IDs
 
-Buttons and the guest-username modal encode the challenge context directly in
-`custom_id`, since there's no database to look anything up in:
+Buttons and modals encode their context directly in `custom_id`, since
+there's no database to look anything up in:
 
 ```
-su|<slug>|<choice>|<deadlineEpoch>   # button
-sg|<slug>|<choice>|<deadlineEpoch>   # modal
+su|<slug>|<choice>|<deadlineEpoch>   # signup button
+sg|<slug>|<choice>|<deadlineEpoch>   # guest-username modal
+csetup                               # the /challenge-setup form modal
 ```
 
-`choice` is `want` / `have` / `out`. Slugs are validated (`^[a-z0-9-]{1,40}$`)
-at `/challenge-setup` time so the encoded ID never exceeds Discord's 100-char
-`custom_id` limit.
+`choice` is `want` / `have` / `out`. `handleModalSubmit` routes by
+`custom_id` prefix: `csetup` goes to the challenge-setup flow, anything else
+falls through to the `sg|...` decoder. Slugs are auto-generated from the
+challenge name via `slugify()` (lowercase, non-alphanumeric runs → `-`,
+trimmed, max 40 chars) and validated (`^[a-z0-9-]{1,40}$`) so the encoded ID
+never exceeds Discord's 100-char `custom_id` limit.
 
 ## The core invariant
 
@@ -108,12 +112,30 @@ any Discord REST call is made, and is covered directly in
 
 ## Slash commands
 
-- **`/challenge-setup`** (admin-only via `default_member_permissions`) — posts
-  the announcement embed + the three signup buttons to a channel, and records
-  a `CHALLENGE` line in the log channel.
+- **`/challenge-setup`** (admin-only via `default_member_permissions`) — takes
+  no options; it opens a **modal form** (`custom_id: csetup`) with five text
+  inputs: Challenge name, Description, Start date (UTC), End date (UTC), and
+  an optional Signup deadline (UTC, defaults to the start date). On submit
+  the bot slugifies the name, rejects the setup if a `CHALLENGE` with the
+  same slug already exists in the log, then posts the announcement embed +
+  the three signup buttons **to the channel the command was invoked in**,
+  and records a `CHALLENGE` line in the log channel. (There are no
+  channel/image options anymore.)
 - **`/challenge-list <slug>`** — reads the whole log channel, builds the
   roster, and posts an embed + comma-separated codeblock lists (want / all
   participants), marking unresolved/guest entries with ⚠️.
+
+### Live signup counter
+
+The announcement embed carries a **"Signups so far"** field (initially
+`🎁 0 want · ✅ 0 have`). After every recorded signup event (button click or
+guest-modal submit) the endpoint — in a fire-and-forget `waitUntil`
+continuation, after the ephemeral confirmation has already been sent —
+rebuilds the roster from the log and PATCHes that one field on the
+announcement message (upserted by field name, everything else preserved).
+The announcement is located via `interaction.message` when present (button
+clicks) or the `CHALLENGE` log entry otherwise (modal submits). No extra
+messages are posted to the channel.
 
 Both are **guild** commands (instant propagation, no ~1h global-command
 delay) registered via `pnpm --filter scraper discord:register`.
@@ -132,12 +154,25 @@ Run manually via the `discord-bot.yml` workflow (`workflow_dispatch`, pick a
   `is_complete` and not `completed_before_start`, diffs against
   `packages/website/public/data/discord_announce_state.json`
   (`{ announced: { [slug]: string[] } }`), and announces each new completion
-  exactly once.
+  exactly once. Completions are **batched into one message per challenge**
+  (`🎉 **A**, **B** and **C** just finished the **<game>** challenge!`),
+  splitting into multiple messages only past ~1900 chars; state is saved
+  after each batch post. The congrats emoji is the guild's custom
+  `pandaparty` emoji (looked up once per run via `GET /guilds/{id}/emojis`,
+  animated variants handled), falling back to `🐼🎉` if it's missing or the
+  fetch fails.
 - **`pnpm --filter scraper discord:warn-digest`** — runs a small set of
-  pluggable detectors and posts a "🆕 New this week" / "⏳ Lingering" digest,
+  pluggable detectors and posts a **plain markdown digest** (no embed),
   tracked in `packages/website/public/data/discord_warn_state.json`
-  (`{ items: { [fingerprint]: { firstSeen } } }`). Stays silent if there are
-  zero findings. Two detectors are wired up:
+  (`{ items: { [fingerprint]: { firstSeen } } }`). Format: a
+  `📋 **Weekly Mod Digest**` header, then **one bullet per member** — a
+  member never appears twice; all their findings are merged onto their
+  bullet, each prefixed `🆕` (new this week) or `⏳` (lingering, with
+  `(since <t:X:R>)`), and the member name links to their
+  `https://sg-club.vercel.app/users/<username>/` page. Members with any 🆕
+  finding sort first, then alphabetically. Long digests split into multiple
+  ≤1900-char messages at bullet boundaries (header only on the first). Stays
+  silent if there are zero findings. Two detectors are wired up:
   1. **Ex-member entries** — reuses the core check from
      `check-ex-member-entries.ts` (ex-members who still have entries in
      active group-exclusive giveaways, exploiting SteamGifts' membership-sync
@@ -169,8 +204,8 @@ live:
 1. Set `LOG_CHANNEL_ID`, `CONGRATS_CHANNEL_ID`, and `WARN_CHANNEL_ID` env vars
    to the real channels (Vercel for the interactions endpoint, GitHub Actions
    secrets/vars for the cron scripts).
-2. `/challenge-setup`'s `channel` option already lets an admin target any
-   channel per-challenge, so no code change is needed there.
+2. `/challenge-setup` posts its announcement to whatever channel the command
+   is invoked in, so an admin targets a channel just by running it there.
 3. Once confident, add a `schedule:` trigger to `discord-bot.yml` (it's
    `workflow_dispatch`-only right now, intentionally, while in test phase).
 

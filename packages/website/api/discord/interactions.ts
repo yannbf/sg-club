@@ -18,14 +18,17 @@ import {
 } from '../_lib/constants.js'
 import {
   createMessage,
+  editMessage,
   editOriginalResponse,
   getAllChannelMessages,
+  getMessage,
   respondJson,
   sendFollowup,
 } from '../_lib/discord-rest.js'
 import {
   decodeCustomId,
   encodeModalCustomId,
+  slugify,
   validateSlugForCustomId,
   type SignupChoice,
 } from '../_lib/custom-id.js'
@@ -41,6 +44,7 @@ import {
   buildAnnouncementEmbed,
   buildChallengeListOutput,
   buildSignupComponents,
+  withUpdatedSignupCounts,
 } from '../_lib/render.js'
 
 // Vercel Function config: raw body needed for Ed25519 signature
@@ -63,11 +67,11 @@ interface DiscordInteraction {
   channel_id?: string
   member?: { user: DiscordUserPayload }
   user?: DiscordUserPayload
+  message?: { id: string; channel_id: string; embeds?: Record<string, unknown>[] }
   data?: {
     name?: string
     custom_id?: string
     options?: Array<{ name: string; value?: unknown }>
-    resolved?: { attachments?: Record<string, { url: string }> }
     components?: Array<{ components?: Array<{ custom_id: string; value?: string }> }>
   }
 }
@@ -101,6 +105,55 @@ function extractModalValue(interaction: DiscordInteraction, customId: string): s
     }
   }
   return null
+}
+
+interface AnnouncementLocation {
+  id: string
+  channel_id: string
+  embeds?: Record<string, unknown>[]
+}
+
+/**
+ * Fire-and-forget refresh of the "Signups so far" field on a challenge's
+ * announcement embed. Prefers the message location carried on the
+ * interaction itself (button clicks); falls back to the CHALLENGE log entry
+ * for interactions that don't carry `.message` (modal submits).
+ */
+async function updateSignupCounter(
+  slug: string,
+  interactionMessage?: AnnouncementLocation
+): Promise<void> {
+  try {
+    const messages = await getAllChannelMessages(getLogChannelId(), 2000)
+    const roster = buildRoster(messages, slug)
+
+    let channelId = interactionMessage?.channel_id
+    let messageId = interactionMessage?.id
+    let embed = interactionMessage?.embeds?.[0]
+
+    if (!channelId || !messageId) {
+      for (const message of messages) {
+        const parsed = parseLogLine(message.content)
+        if (parsed?.type === 'CHALLENGE' && parsed.data.slug === slug) {
+          channelId = parsed.data.channel_id
+          messageId = parsed.data.message_id
+          break
+        }
+      }
+    }
+    if (!channelId || !messageId) return
+
+    if (!embed) {
+      const fetched = await getMessage(channelId, messageId)
+      embed = fetched.embeds?.[0]
+    }
+    if (!embed) return
+
+    const updatedEmbed = withUpdatedSignupCounts(embed, roster.wanters.length, roster.owners.length)
+    await editMessage(channelId, messageId, { embeds: [updatedEmbed] })
+  } catch (err) {
+    console.error(`⚠️ Failed to update signup counter for "${slug}":`, err)
+  }
 }
 
 export default async function handler(req: IncomingMessage, res: ServerResponse): Promise<void> {
@@ -179,31 +232,98 @@ async function handleChallengeSetup(
   interaction: DiscordInteraction,
   res: ServerResponse
 ): Promise<void> {
-  // Ack immediately (ephemeral); the real work continues after the HTTP
-  // response via waitUntil — Vercel freezes the invocation as soon as
-  // res.end() is called unless the promise is registered there.
+  // Discord does not allow deferring an APPLICATION_COMMAND and then opening
+  // a modal as a followup — the modal must be the immediate synchronous
+  // response, so there's no defer/waitUntil here.
   respondJson(res, 200, {
-    type: InteractionResponseType.DEFERRED_CHANNEL_MESSAGE_WITH_SOURCE,
-    data: { flags: MessageFlags.EPHEMERAL },
+    type: InteractionResponseType.MODAL,
+    data: {
+      custom_id: 'csetup',
+      title: 'New Challenge',
+      components: [
+        {
+          type: 1,
+          components: [
+            {
+              type: 4,
+              custom_id: 'name',
+              style: TextInputStyle.SHORT,
+              label: 'Challenge name',
+              required: true,
+              max_length: 100,
+            },
+          ],
+        },
+        {
+          type: 1,
+          components: [
+            {
+              type: 4,
+              custom_id: 'description',
+              style: TextInputStyle.PARAGRAPH,
+              label: 'Description',
+              required: true,
+              max_length: 2000,
+            },
+          ],
+        },
+        {
+          type: 1,
+          components: [
+            {
+              type: 4,
+              custom_id: 'start',
+              style: TextInputStyle.SHORT,
+              label: 'Start date (UTC)',
+              required: true,
+              placeholder: 'YYYY-MM-DD or YYYY-MM-DD HH:mm',
+            },
+          ],
+        },
+        {
+          type: 1,
+          components: [
+            {
+              type: 4,
+              custom_id: 'end',
+              style: TextInputStyle.SHORT,
+              label: 'End date (UTC)',
+              required: true,
+              placeholder: 'YYYY-MM-DD or YYYY-MM-DD HH:mm',
+            },
+          ],
+        },
+        {
+          type: 1,
+          components: [
+            {
+              type: 4,
+              custom_id: 'signup_deadline',
+              style: TextInputStyle.SHORT,
+              label: 'Signup deadline (UTC, optional)',
+              required: false,
+              placeholder: 'defaults to start date',
+            },
+          ],
+        },
+      ],
+    },
   })
-  waitUntil(finishChallengeSetup(interaction))
 }
 
-async function finishChallengeSetup(interaction: DiscordInteraction): Promise<void> {
+async function finishChallengeSetupFromModal(interaction: DiscordInteraction): Promise<void> {
   const appId = getAppId()
   const token = interaction.token
 
   try {
-    const options = parseOptions(interaction.data?.options)
-    const slug = String(options.slug ?? '')
-    const name = String(options.name ?? '')
-    const intro = String(options.intro ?? '')
-    const attachmentId = options.image as string | undefined
-    const channelOption = options.channel as string | undefined
-    const startInput = String(options.start ?? '')
-    const endInput = String(options.end ?? '')
-    const deadlineInput = options.signup_deadline ? String(options.signup_deadline) : undefined
+    const name = extractModalValue(interaction, 'name') ?? ''
+    const description = extractModalValue(interaction, 'description') ?? ''
+    const startInput = extractModalValue(interaction, 'start') ?? ''
+    const endInput = extractModalValue(interaction, 'end') ?? ''
+    const deadlineRaw = extractModalValue(interaction, 'signup_deadline')
+    const deadlineInput = deadlineRaw?.trim() ? deadlineRaw : undefined
 
+    const slug = slugify(name)
     const slugError = validateSlugForCustomId(slug)
     if (slugError) {
       await editOriginalResponse(appId, token, { content: `❌ ${slugError}` })
@@ -220,7 +340,18 @@ async function finishChallengeSetup(interaction: DiscordInteraction): Promise<vo
       return
     }
 
-    const targetChannelId = channelOption ?? interaction.channel_id
+    const messages = await getAllChannelMessages(getLogChannelId(), 2000)
+    for (const message of messages) {
+      const parsed = parseLogLine(message.content)
+      if (parsed?.type === 'CHALLENGE' && parsed.data.slug === slug) {
+        await editOriginalResponse(appId, token, {
+          content: `❌ a challenge with slug ${slug} already exists`,
+        })
+        return
+      }
+    }
+
+    const targetChannelId = interaction.channel_id
     if (!targetChannelId) {
       await editOriginalResponse(appId, token, {
         content: '❌ Could not determine a target channel.',
@@ -228,14 +359,9 @@ async function finishChallengeSetup(interaction: DiscordInteraction): Promise<vo
       return
     }
 
-    const imageUrl = attachmentId
-      ? interaction.data?.resolved?.attachments?.[attachmentId]?.url
-      : undefined
-
     const embed = buildAnnouncementEmbed({
       name,
-      intro,
-      imageUrl,
+      description,
       signupDeadline: datesResult.dates.signupDeadline,
       start: datesResult.dates.start,
       end: datesResult.dates.end,
@@ -369,6 +495,7 @@ async function handleMessageComponent(
       type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
       data: { flags: MessageFlags.EPHEMERAL, content: "You've been withdrawn." },
     })
+    waitUntil(updateSignupCounter(slug, interaction.message))
     return
   }
 
@@ -393,6 +520,7 @@ async function handleMessageComponent(
         content: confirmationMessage(sgUsername, choice),
       },
     })
+    waitUntil(updateSignupCounter(slug, interaction.message))
     return
   }
 
@@ -428,6 +556,16 @@ async function handleModalSubmit(
   host?: string
 ): Promise<void> {
   const customId = interaction.data?.custom_id
+
+  if (customId === 'csetup') {
+    respondJson(res, 200, {
+      type: InteractionResponseType.DEFERRED_CHANNEL_MESSAGE_WITH_SOURCE,
+      data: { flags: MessageFlags.EPHEMERAL },
+    })
+    waitUntil(finishChallengeSetupFromModal(interaction))
+    return
+  }
+
   const decoded = customId ? decodeCustomId(customId) : null
   if (!decoded || decoded.kind !== 'modal') {
     respondJson(res, 400, { error: 'Unknown modal' })
@@ -481,6 +619,7 @@ async function handleModalSubmit(
     type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
     data: { flags: MessageFlags.EPHEMERAL, content },
   })
+  waitUntil(updateSignupCounter(slug, interaction.message))
 }
 
 function choiceLabel(choice: SignupChoice): string {

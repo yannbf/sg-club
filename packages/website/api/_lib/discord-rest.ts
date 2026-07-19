@@ -37,6 +37,7 @@ export interface DiscordMessage {
   channel_id: string
   content: string
   timestamp: string
+  embeds?: Record<string, unknown>[]
 }
 
 export async function createMessage(
@@ -60,6 +61,23 @@ export async function editMessage(
     body: JSON.stringify(payload),
   })
   return (await res.json()) as DiscordMessage
+}
+
+export async function getMessage(channelId: string, messageId: string): Promise<DiscordMessage> {
+  const res = await discordFetch(`/channels/${channelId}/messages/${messageId}`)
+  return (await res.json()) as DiscordMessage
+}
+
+export interface DiscordEmoji {
+  id: string
+  name: string
+  animated?: boolean
+}
+
+/** GET /guilds/{id}/emojis — used to look up custom emoji (e.g. `pandaparty`) by name. */
+export async function getGuildEmojis(guildId: string): Promise<DiscordEmoji[]> {
+  const res = await discordFetch(`/guilds/${guildId}/emojis`)
+  return (await res.json()) as DiscordEmoji[]
 }
 
 export async function getChannelMessages(
