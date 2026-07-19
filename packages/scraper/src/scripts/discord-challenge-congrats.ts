@@ -99,15 +99,16 @@ export async function announceNewCompletions(): Promise<void> {
       await createMessage(channelId, {
         content: `🎉 **${username}** just finished the **${challenge.gameName}** challenge! Congrats 🐼🎉`,
       })
+      // State is saved after every post, not at the end — a crash mid-loop
+      // (e.g. rate limiting) must never lead to duplicate announcements on
+      // the next run.
+      state.announced[challenge.slug] = [...(state.announced[challenge.slug] ?? []), username]
+      saveState(state)
       console.log(`🎉 Announced ${username} for ${challenge.slug}`)
     }
-
-    state.announced[challenge.slug] = [...alreadyAnnounced, ...newlyCompleted]
   }
 
-  if (anyNew) {
-    saveState(state)
-  } else {
+  if (!anyNew) {
     console.log('✅ No new challenge completions to announce.')
   }
 }

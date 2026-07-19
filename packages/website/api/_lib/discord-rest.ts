@@ -5,21 +5,31 @@ import { getBotToken } from './constants.js'
 
 const API_BASE = 'https://discord.com/api/v10'
 
+const MAX_RATE_LIMIT_RETRIES = 5
+
 async function discordFetch(path: string, init: RequestInit = {}): Promise<Response> {
   const token = getBotToken()
-  const res = await fetch(`${API_BASE}${path}`, {
-    ...init,
-    headers: {
-      Authorization: `Bot ${token}`,
-      'Content-Type': 'application/json',
-      ...(init.headers ?? {}),
-    },
-  })
-  if (!res.ok) {
-    const body = await res.text().catch(() => '')
-    throw new Error(`Discord API ${init.method ?? 'GET'} ${path} failed: ${res.status} ${body}`)
+  for (let attempt = 0; ; attempt++) {
+    const res = await fetch(`${API_BASE}${path}`, {
+      ...init,
+      headers: {
+        Authorization: `Bot ${token}`,
+        'Content-Type': 'application/json',
+        ...(init.headers ?? {}),
+      },
+    })
+    if (res.status === 429 && attempt < MAX_RATE_LIMIT_RETRIES) {
+      const body = (await res.json().catch(() => ({}))) as { retry_after?: number }
+      const waitMs = Math.ceil((body.retry_after ?? 1) * 1000) + 250
+      await new Promise((resolve) => setTimeout(resolve, waitMs))
+      continue
+    }
+    if (!res.ok) {
+      const body = await res.text().catch(() => '')
+      throw new Error(`Discord API ${init.method ?? 'GET'} ${path} failed: ${res.status} ${body}`)
+    }
+    return res
   }
-  return res
 }
 
 export interface DiscordMessage {
