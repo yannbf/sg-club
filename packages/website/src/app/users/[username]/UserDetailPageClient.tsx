@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Image from 'next/image'
 import {
   AlertTriangle,
@@ -309,6 +309,26 @@ export default function UserDetailPageClient({
 }: Props) {
   const isAdmin = useIsAdmin()
   const [showOriginalStats, setShowOriginalStats] = useState(false)
+
+  // Deep links (e.g. the Discord bot's mod report) can preselect a tab and
+  // pre-enable the Won tab's "Play required" filter via query params:
+  // /users/<name>/?tab=won&filter=play-required
+  // The site is a static export, so the query string is only readable
+  // client-side; reading it in an effect keeps hydration consistent. Both
+  // states flip in the same commit, so the Won tab content mounts with the
+  // filter prop already set.
+  const [activeTab, setActiveTab] = useState('created')
+  const [deepLinkPlayRequired, setDeepLinkPlayRequired] = useState(false)
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const tab = params.get('tab')
+    if (tab && ['created', 'won', 'entered', 'leavers'].includes(tab)) {
+      setActiveTab(tab)
+    }
+    if (params.get('filter') === 'play-required') {
+      setDeepLinkPlayRequired(true)
+    }
+  }, [])
 
   // Resolve creator fields through steam_id_map: handles renamed users
   // (creator stored under an old username) and deleted SG accounts (creator
@@ -893,7 +913,7 @@ export default function UserDetailPageClient({
         )}
 
       {/* Tabs: Created / Won / Entered / Leavers */}
-      <Tabs defaultValue="created">
+      <Tabs value={activeTab} onValueChange={setActiveTab}>
         <TabsList className="flex flex-wrap">
           <TabsTrigger value="created" className="gap-1.5">
             <Gift className="h-3.5 w-3.5" /> Created
@@ -948,6 +968,7 @@ export default function UserDetailPageClient({
               wonGiveaways={user.giveaways_won}
               gameData={gameData}
               user={user}
+              initialFilterPlayRequired={deepLinkPlayRequired}
             />
           </TabsContent>
         )}

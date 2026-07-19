@@ -15,6 +15,8 @@ interface Props {
   wonGiveaways: NonNullable<User['giveaways_won']>
   gameData: GameData[]
   user: User
+  /** Pre-enables the "Play required" filter (deep links from the Discord bot). */
+  initialFilterPlayRequired?: boolean
 }
 
 function GamesBreakdown({ games, steamId }: { games: GameBreakdownEntry[]; steamId: string }) {
@@ -64,13 +66,13 @@ function GamesBreakdown({ games, steamId }: { games: GameBreakdownEntry[]; steam
   )
 }
 
-export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData, user }: Props) {
+export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData, user, initialFilterPlayRequired }: Props) {
   const { getGameData } = useGameData(gameData)
   const [searchTerm, setSearchTerm] = useState('')
   const debouncedSearchTerm = useDebounce(searchTerm, 300)
   const [filterCV, setFilterCV] = useState<'all' | 'FULL_CV' | 'REDUCED_CV' | 'NO_CV'>('all')
   const [filterRegion, setFilterRegion] = useState<boolean>(false)
-  const [filterPlayRequired, setFilterPlayRequired] = useState<boolean>(false)
+  const [filterPlayRequired, setFilterPlayRequired] = useState<boolean>(initialFilterPlayRequired ?? false)
   const [filterShared, setFilterShared] = useState<boolean>(false)
   const [playFilter, setPlayFilter] = useState<'all' | 'played' | 'never_played' | 'unplayed_required'>('all')
   const [isCollapsed, setIsCollapsed] = useState(false)

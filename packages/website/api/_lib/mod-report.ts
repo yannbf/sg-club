@@ -65,11 +65,13 @@ export const IMPORTANCE_ORDER: string[] = [
   'illegal_entered_any_giveaways',
   'illegal_entered_required_play_giveaways',
   'unplayed_required_play_giveaways',
+  // needs-review outranks deadline-expired (Yann: it's more actionable) even
+  // though it's warn-severity — importance and severity are separate axes.
+  'required_plays_need_review',
   'required_play_deadline_expired',
   'zero_play_rate_with_wins',
   'ex_member_entries',
   // warnings, most to least important
-  'required_plays_need_review',
   'required_play_deadline_within_15_days',
   'low_play_rate_many_wins',
   'inactive_play_but_active',
@@ -129,12 +131,29 @@ export async function collectGroupWarningFindings(host?: string): Promise<GroupW
 export const SITE_BASE = 'https://sg-club.vercel.app'
 
 /**
+ * Finding codes about required-play compliance. Members flagged with any of
+ * these get a deep link straight to their Won tab with the "Play required"
+ * filter pre-enabled (the user page reads ?tab=won&filter=play-required).
+ */
+export const PLAY_REQUIRED_CODES = new Set([
+  'illegal_entered_required_play_giveaways',
+  'unplayed_required_play_giveaways',
+  'required_plays_need_review',
+  'required_play_deadline_expired',
+  'required_play_deadline_within_15_days',
+])
+
+const PLAY_REQUIRED_QUERY = '?tab=won&filter=play-required'
+
+/**
  * A member's page link in the `[name](<url>)` no-preview form. Shared by
  * `renderMemberLine` (bulleted, single member) and the /mod-report combo
- * grouping (comma-separated, no bullet).
+ * grouping (comma-separated, no bullet). `deepLinkPlayRequired` points the
+ * link at the member's Won tab with the Play required filter on.
  */
-function memberLink(username: string): string {
-  const url = `${SITE_BASE}/users/${username}/`
+function memberLink(username: string, deepLinkPlayRequired = false): string {
+  const query = deepLinkPlayRequired ? PLAY_REQUIRED_QUERY : ''
+  const url = `${SITE_BASE}/users/${username}/${query}`
   return `[${username}](<${url}>)`
 }
 
@@ -217,6 +236,7 @@ interface SectionMember {
 
 interface FindingCombo {
   labels: string[]
+  codes: string[]
   usernames: string[]
   mostImportantRank: number
 }
@@ -252,6 +272,7 @@ function renderSection(members: SectionMember[]): string[] {
     const orderedCodes = [...codeLabels.keys()].sort((a, b) => importanceRank(a) - importanceRank(b))
     return {
       labels: orderedCodes.map((code) => codeLabels.get(code)!),
+      codes: orderedCodes,
       usernames: [...usernames].sort(compareUsernamesCaseInsensitive),
       mostImportantRank: importanceRank(orderedCodes[0]!),
     }
@@ -263,11 +284,14 @@ function renderSection(members: SectionMember[]): string[] {
     return compareUsernamesCaseInsensitive(a.usernames[0]!, b.usernames[0]!)
   })
 
-  return combos.map((combo) =>
-    combo.usernames.length >= 2
-      ? `${combo.labels.join(' · ')}: ${combo.usernames.map(memberLink).join(', ')}`
-      : renderMemberLine(combo.usernames[0]!, combo.labels)
-  )
+  // Multi-member combos: label line, then a bulleted member list on the next
+  // line. Single-member combos: everything on one line, no bullet.
+  return combos.map((combo) => {
+    const deep = combo.codes.some((code) => PLAY_REQUIRED_CODES.has(code))
+    return combo.usernames.length >= 2
+      ? `${combo.labels.join(' · ')}:\n- ${combo.usernames.map((u) => memberLink(u, deep)).join(', ')}\n`
+      : `${combo.labels.join(' · ')}: ${memberLink(combo.usernames[0]!, deep)}`
+  })
 }
 
 export const EX_MEMBER_NOTE = 'Ex-member entry checks run in the weekly digest only.'

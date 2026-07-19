@@ -166,8 +166,11 @@ describe('groupFindingsByMemberForReport', () => {
 })
 
 describe('importanceRank', () => {
-  it('ranks error codes before warn codes', () => {
-    expect(importanceRank('zero_play_rate_with_wins')).toBeLessThan(
+  it('ranks needs-review above deadline-expired (more actionable) but below illegal entries', () => {
+    expect(importanceRank('required_plays_need_review')).toBeLessThan(
+      importanceRank('required_play_deadline_expired')
+    )
+    expect(importanceRank('illegal_entered_any_giveaways')).toBeLessThan(
       importanceRank('required_plays_need_review')
     )
   })
@@ -219,7 +222,7 @@ describe('buildModReportLines', () => {
     expect(zackIdx).toBeGreaterThan(needAttentionIdx)
     expect(zackIdx).toBeLessThan(warningsIdx)
     expect(zackLine).toBe(
-      '- [zack](<https://sg-club.vercel.app/users/zack/>) — Zero play rate · Low play rate'
+      'Zero play rate · Low play rate: [zack](<https://sg-club.vercel.app/users/zack/>)'
     )
   })
 
@@ -261,12 +264,11 @@ describe('buildModReportLines', () => {
         { username: 'amy', code: 'required_plays_need_review', label: 'Needs review', severity: 'warn' },
       ]
       const lines = buildModReportLines(shared)
+      // Label line, then a bulleted member list; needs-review is a
+      // play-required code so members get the Won-tab deep link.
       expect(lines).toContain(
-        'Needs review: [amy](<https://sg-club.vercel.app/users/amy/>), [bob](<https://sg-club.vercel.app/users/bob/>)'
+        'Needs review:\n- [amy](<https://sg-club.vercel.app/users/amy/?tab=won&filter=play-required>), [bob](<https://sg-club.vercel.app/users/bob/?tab=won&filter=play-required>)\n'
       )
-      // Not rendered as individual bullets.
-      expect(lines.some((l) => l.startsWith('- [amy]'))).toBe(false)
-      expect(lines.some((l) => l.startsWith('- [bob]'))).toBe(false)
     })
 
     it('groups ≥2 members sharing the exact same multi-code combo, with labels in importance order', () => {
@@ -278,17 +280,17 @@ describe('buildModReportLines', () => {
       ]
       const lines = buildModReportLines(shared)
       expect(lines).toContain(
-        'Zero play rate · Low play rate: [amy](<https://sg-club.vercel.app/users/amy/>), [zack](<https://sg-club.vercel.app/users/zack/>)'
+        'Zero play rate · Low play rate:\n- [amy](<https://sg-club.vercel.app/users/amy/>), [zack](<https://sg-club.vercel.app/users/zack/>)\n'
       )
     })
 
-    it('renders a combo unique to 1 member as a member bullet, not a grouped line', () => {
+    it('renders a combo unique to 1 member as a single unbulleted line', () => {
       const unique: GroupWarningFinding[] = [
         { username: 'amy', code: 'required_plays_need_review', label: 'Needs review', severity: 'warn' },
       ]
       const lines = buildModReportLines(unique)
       expect(lines).toContain(
-        '- [amy](<https://sg-club.vercel.app/users/amy/>) — Needs review'
+        'Needs review: [amy](<https://sg-club.vercel.app/users/amy/?tab=won&filter=play-required>)'
       )
     })
 
@@ -299,9 +301,23 @@ describe('buildModReportLines', () => {
         { username: 'bob', code: 'inactive_play_but_active', label: 'Inactive', severity: 'warn' },
       ]
       const lines = buildModReportLines(different)
-      expect(lines).toContain('- [amy](<https://sg-club.vercel.app/users/amy/>) — Needs review')
       expect(lines).toContain(
-        '- [bob](<https://sg-club.vercel.app/users/bob/>) — Needs review · Inactive'
+        'Needs review: [amy](<https://sg-club.vercel.app/users/amy/?tab=won&filter=play-required>)'
+      )
+      expect(lines).toContain(
+        'Needs review · Inactive: [bob](<https://sg-club.vercel.app/users/bob/?tab=won&filter=play-required>)'
+      )
+    })
+
+    it('deep-links only members whose combo includes a play-required code', () => {
+      const mixed: GroupWarningFinding[] = [
+        { username: 'zed', code: 'zero_play_rate_with_wins', label: 'Zero play rate', severity: 'error' },
+        { username: 'pat', code: 'unplayed_required_play_giveaways', label: 'Unplayed', severity: 'error' },
+      ]
+      const lines = buildModReportLines(mixed)
+      expect(lines).toContain('Zero play rate: [zed](<https://sg-club.vercel.app/users/zed/>)')
+      expect(lines).toContain(
+        'Unplayed: [pat](<https://sg-club.vercel.app/users/pat/?tab=won&filter=play-required>)'
       )
     })
 
