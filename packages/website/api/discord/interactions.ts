@@ -4,6 +4,7 @@
 // (req, res) handler signature so we don't need the @vercel/node package.
 
 import type { IncomingMessage, ServerResponse } from 'node:http'
+import { waitUntil } from '@vercel/functions'
 import { verifyKey } from 'discord-interactions'
 import {
   getAppId,
@@ -178,13 +179,17 @@ async function handleChallengeSetup(
   interaction: DiscordInteraction,
   res: ServerResponse
 ): Promise<void> {
-  // Ack immediately (ephemeral) — everything below happens after the HTTP
-  // response is already sent, using the interaction token for the followup.
+  // Ack immediately (ephemeral); the real work continues after the HTTP
+  // response via waitUntil — Vercel freezes the invocation as soon as
+  // res.end() is called unless the promise is registered there.
   respondJson(res, 200, {
     type: InteractionResponseType.DEFERRED_CHANNEL_MESSAGE_WITH_SOURCE,
     data: { flags: MessageFlags.EPHEMERAL },
   })
+  waitUntil(finishChallengeSetup(interaction))
+}
 
+async function finishChallengeSetup(interaction: DiscordInteraction): Promise<void> {
   const appId = getAppId()
   const token = interaction.token
 
@@ -270,7 +275,10 @@ async function handleChallengeList(
     type: InteractionResponseType.DEFERRED_CHANNEL_MESSAGE_WITH_SOURCE,
     data: {},
   })
+  waitUntil(finishChallengeList(interaction))
+}
 
+async function finishChallengeList(interaction: DiscordInteraction): Promise<void> {
   const appId = getAppId()
   const token = interaction.token
 
