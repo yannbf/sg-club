@@ -263,8 +263,9 @@ function GameInsightsPopover({
               <p className="text-[10px] leading-snug text-subtle">
                 Based on public Steam data: {ownsTotal}/{totalMembers} members
                 share their library, {wantsTotal}/{totalMembers} their
-                wishlist. Wishers ({'❤'}) counts SteamGifts wishlists
-                instead, which all members have.
+                wishlist. The {'❤'} wisher count on the card shows the higher
+                of the SteamGifts group wishlist (updated biweekly) and the
+                Steam wishlists above.
               </p>
             )}
           </div>
@@ -320,6 +321,10 @@ function getInsightForEntry(
 
 interface RowData {
   entry: WishlistEntry
+  /** Displayed wisher count: the higher of the SteamGifts group-wishlist
+   *  count (refreshed biweekly, so it lags) and the live Steam-wishlist
+   *  wanter count. One number everywhere, no confusing near-misses. */
+  wishers: number
   rank: number
   giveawayCount: number
   averageEntries: number | null
@@ -346,9 +351,17 @@ export default function WishlistClient({
     return Array.from(seen.values())
   }, [entries])
 
+  const effectiveWishers = useMemo(() => {
+    return (entry: WishlistEntry) =>
+      Math.max(
+        entry.wishlist_count,
+        getInsightForEntry(entry, insights)?.wanters.length ?? 0,
+      )
+  }, [insights])
+
   const maxWishes = useMemo(
-    () => uniqueEntries.reduce((m, e) => Math.max(m, e.wishlist_count), 1),
-    [uniqueEntries],
+    () => uniqueEntries.reduce((m, e) => Math.max(m, effectiveWishers(e)), 1),
+    [uniqueEntries, effectiveWishers],
   )
 
   const [searchTerm, setSearchTerm] = useState('')
@@ -388,23 +401,24 @@ export default function WishlistClient({
 
   const ranked = useMemo<RowData[]>(() => {
     const sortedByWishes = [...uniqueEntries].sort(
-      (a, b) => b.wishlist_count - a.wishlist_count,
+      (a, b) => effectiveWishers(b) - effectiveWishers(a),
     )
     return sortedByWishes.map((entry, i) => {
       const stats = activeStats[getStatsKey(entry)]
       return {
         entry,
+        wishers: effectiveWishers(entry),
         rank: i + 1,
         giveawayCount: stats?.giveawayCount ?? 0,
         averageEntries: stats?.averageEntries ?? null,
       }
     })
-  }, [uniqueEntries, activeStats])
+  }, [uniqueEntries, activeStats, effectiveWishers])
 
   const filteredSorted = useMemo<RowData[]>(() => {
     const term = debouncedSearch.toLowerCase().trim()
     const filtered = ranked.filter((row) => {
-      if (row.entry.wishlist_count < minCount) return false
+      if (row.wishers < minCount) return false
       if (term && !row.entry.name.toLowerCase().includes(term)) return false
       if (givenFilter === 'never_given' && row.giveawayCount > 0) return false
       if (givenFilter === 'given' && row.giveawayCount === 0) return false
@@ -415,7 +429,7 @@ export default function WishlistClient({
     filtered.sort((a, b) => {
       switch (sortKey) {
         case 'wishes':
-          return (a.entry.wishlist_count - b.entry.wishlist_count) * dir
+          return (a.wishers - b.wishers) * dir
         case 'name':
           return a.entry.name.localeCompare(b.entry.name) * dir
         case 'giveaways':
@@ -500,8 +514,8 @@ export default function WishlistClient({
   }, [filteredSorted.length])
 
   const totalWishes = useMemo(
-    () => uniqueEntries.reduce((sum, e) => sum + e.wishlist_count, 0),
-    [uniqueEntries],
+    () => uniqueEntries.reduce((sum, e) => sum + effectiveWishers(e), 0),
+    [uniqueEntries, effectiveWishers],
   )
 
   const activeFilters =
@@ -729,13 +743,16 @@ export default function WishlistClient({
                 </a>
 
                 <div className="flex items-center justify-between gap-1.5">
-                  <div className="flex items-center gap-1.5 text-xs">
+                  <div
+                    className="flex items-center gap-1.5 text-xs"
+                    title="Highest of the SteamGifts group-wishlist count and members' Steam wishlists"
+                  >
                     <Heart className="h-3 w-3 text-accent-rose" />
                     <span className="font-semibold text-foreground tabular-nums-strict">
-                      {entry.wishlist_count}
+                      {row.wishers}
                     </span>
                     <span className="text-muted-foreground">
-                      {entry.wishlist_count === 1 ? 'wisher' : 'wishers'}
+                      {row.wishers === 1 ? 'wisher' : 'wishers'}
                     </span>
                   </div>
                   <GameInsightsPopover
