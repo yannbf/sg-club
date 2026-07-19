@@ -16,6 +16,9 @@ const CODEBLOCK_CHUNK_LIMIT = 1900 // headroom under Discord's 2000-char message
 
 const ACCENT_COLOR = 0x5865f2
 
+/** Dyno-style banner shown on every challenge announcement embed. */
+const ANNOUNCEMENT_IMAGE_URL = 'https://sg-club.vercel.app/game-challenge-banner.png'
+
 function truncate(text: string, limit: number): string {
   if (text.length <= limit) return text
   return `${text.slice(0, limit - 1)}…`
@@ -61,20 +64,20 @@ export function buildAnnouncementEmbed(input: AnnouncementInput): Record<string,
     fields: [
       {
         name: 'Signups close',
-        value: truncate(
-          `<t:${input.signupDeadline}:F> (<t:${input.signupDeadline}:R>)`,
-          EMBED_FIELD_VALUE_LIMIT
-        ),
+        value: truncate(`<t:${input.signupDeadline}:R>`, EMBED_FIELD_VALUE_LIMIT),
+        inline: true,
       },
       {
         name: 'Challenge',
-        value: truncate(`<t:${input.start}:D> → <t:${input.end}:D>`, EMBED_FIELD_VALUE_LIMIT),
+        value: truncate(`<t:${input.start}:d> → <t:${input.end}:d>`, EMBED_FIELD_VALUE_LIMIT),
+        inline: true,
       },
       {
         name: SIGNUP_COUNT_FIELD_NAME,
         value: formatSignupCounts(0, 0),
       },
     ],
+    image: { url: ANNOUNCEMENT_IMAGE_URL },
   }
   return embed
 }
@@ -83,7 +86,8 @@ interface ActionRowButton {
   type: typeof ComponentType.BUTTON
   style: number
   label: string
-  custom_id: string
+  custom_id?: string
+  url?: string
   disabled?: boolean
 }
 
@@ -98,25 +102,55 @@ const BUTTON_SPECS: Array<{ choice: SignupChoice; label: string; style: number }
   { choice: 'out', label: '❌ Withdraw', style: ButtonStyle.DANGER },
 ]
 
-export function buildSignupComponents(slug: string, deadlineEpoch: number): ActionRow[] {
-  return [
-    {
-      type: ComponentType.ACTION_ROW,
-      components: BUTTON_SPECS.map((spec) => ({
-        type: ComponentType.BUTTON,
-        style: spec.style,
-        label: spec.label,
-        custom_id: encodeSignupCustomId(slug, spec.choice, deadlineEpoch),
-      })),
-    },
-  ]
+const VIEW_EVENT_LABEL = 'View Event'
+
+/**
+ * The three signup buttons, plus a trailing link button (type 2, style 5 —
+ * no custom_id, just a url) to the challenge's event page when `link` is
+ * given. Discord caps action rows at 5 buttons, so 3 + 1 fits with room to
+ * spare.
+ */
+export function buildSignupComponents(
+  slug: string,
+  deadlineEpoch: number,
+  link?: string
+): ActionRow[] {
+  const components: ActionRowButton[] = BUTTON_SPECS.map((spec) => ({
+    type: ComponentType.BUTTON,
+    style: spec.style,
+    label: spec.label,
+    custom_id: encodeSignupCustomId(slug, spec.choice, deadlineEpoch),
+  }))
+
+  if (link) {
+    components.push({
+      type: ComponentType.BUTTON,
+      style: ButtonStyle.LINK,
+      label: VIEW_EVENT_LABEL,
+      url: link,
+    })
+  }
+
+  return [{ type: ComponentType.ACTION_ROW, components }]
 }
 
-export function buildDisabledComponents(slug: string, deadlineEpoch: number): ActionRow[] {
-  const rows = buildSignupComponents(slug, deadlineEpoch)
+/**
+ * Same buttons, but with only the three signup buttons disabled — the "View
+ * Event" link button (if present) stays clickable after signups close, since
+ * disabling isn't meaningful for a link button and the event page is still
+ * useful to browse.
+ */
+export function buildDisabledComponents(
+  slug: string,
+  deadlineEpoch: number,
+  link?: string
+): ActionRow[] {
+  const rows = buildSignupComponents(slug, deadlineEpoch, link)
   return rows.map((row) => ({
     ...row,
-    components: row.components.map((component) => ({ ...component, disabled: true })),
+    components: row.components.map((component) =>
+      component.style === ButtonStyle.LINK ? component : { ...component, disabled: true }
+    ),
   }))
 }
 

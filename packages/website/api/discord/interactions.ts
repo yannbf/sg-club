@@ -32,7 +32,7 @@ import {
   validateSlugForCustomId,
   type SignupChoice,
 } from '../_lib/custom-id.js'
-import { validateChallengeDates } from '../_lib/dates.js'
+import { parseDateRangeField, validateChallengeDates } from '../_lib/dates.js'
 import {
   buildRoster,
   parseLogLine,
@@ -280,11 +280,11 @@ async function handleChallengeSetup(
           components: [
             {
               type: 4,
-              custom_id: 'start',
+              custom_id: 'dates',
               style: TextInputStyle.SHORT,
-              label: 'Start date (UTC)',
+              label: 'Dates (UTC)',
               required: true,
-              placeholder: 'YYYY-MM-DD or YYYY-MM-DD HH:mm',
+              placeholder: "YYYY-MM-DD → YYYY-MM-DD (or 'to')",
             },
           ],
         },
@@ -293,11 +293,11 @@ async function handleChallengeSetup(
           components: [
             {
               type: 4,
-              custom_id: 'end',
+              custom_id: 'event_link',
               style: TextInputStyle.SHORT,
-              label: 'End date (UTC)',
+              label: 'Event link (URL)',
               required: true,
-              placeholder: 'YYYY-MM-DD or YYYY-MM-DD HH:mm',
+              placeholder: 'https://store.steampowered.com/app/...',
             },
           ],
         },
@@ -326,8 +326,8 @@ async function finishChallengeSetupFromModal(interaction: DiscordInteraction): P
   try {
     const name = extractModalValue(interaction, 'name') ?? ''
     const description = extractModalValue(interaction, 'description') ?? ''
-    const startInput = extractModalValue(interaction, 'start') ?? ''
-    const endInput = extractModalValue(interaction, 'end') ?? ''
+    const datesInput = extractModalValue(interaction, 'dates') ?? ''
+    const eventLinkInput = extractModalValue(interaction, 'event_link') ?? ''
     const deadlineRaw = extractModalValue(interaction, 'signup_deadline')
     const deadlineInput = deadlineRaw?.trim() ? deadlineRaw : undefined
 
@@ -338,15 +338,28 @@ async function finishChallengeSetupFromModal(interaction: DiscordInteraction): P
       return
     }
 
+    const rangeResult = parseDateRangeField(datesInput)
+    if (!rangeResult.ok) {
+      await editOriginalResponse(appId, token, { content: `❌ ${rangeResult.error}` })
+      return
+    }
+
     const datesResult = validateChallengeDates({
-      start: startInput,
-      end: endInput,
+      start: rangeResult.start,
+      end: rangeResult.end,
       signupDeadline: deadlineInput,
     })
     if (!datesResult.ok) {
       await editOriginalResponse(appId, token, { content: `❌ ${datesResult.error}` })
       return
     }
+
+    const eventLinkError = validateEventLink(eventLinkInput)
+    if (eventLinkError) {
+      await editOriginalResponse(appId, token, { content: `❌ ${eventLinkError}` })
+      return
+    }
+    const link = eventLinkInput.trim()
 
     const messages = await getAllChannelMessages(getLogChannelId(), 2000)
     for (const message of messages) {
@@ -374,7 +387,7 @@ async function finishChallengeSetupFromModal(interaction: DiscordInteraction): P
       start: datesResult.dates.start,
       end: datesResult.dates.end,
     })
-    const components = buildSignupComponents(slug, datesResult.dates.signupDeadline)
+    const components = buildSignupComponents(slug, datesResult.dates.signupDeadline, link)
 
     const announcement = await createMessage(targetChannelId, { embeds: [embed], components })
 
@@ -387,11 +400,12 @@ async function finishChallengeSetupFromModal(interaction: DiscordInteraction): P
         start: datesResult.dates.start,
         end: datesResult.dates.end,
         name,
+        link,
       }),
     })
 
-    const link = `https://discord.com/channels/${GUILD_ID}/${targetChannelId}/${announcement.id}`
-    await editOriginalResponse(appId, token, { content: `✅ Challenge announced: ${link}` })
+    const announcementLink = `https://discord.com/channels/${GUILD_ID}/${targetChannelId}/${announcement.id}`
+    await editOriginalResponse(appId, token, { content: `✅ Challenge announced: ${announcementLink}` })
   } catch (err) {
     await editOriginalResponse(appId, token, {
       content: `❌ Something went wrong: ${(err as Error).message}`,
@@ -485,6 +499,18 @@ async function finishModReport(interaction: DiscordInteraction, host?: string): 
  */
 export function isPastDeadline(deadlineEpoch: number, nowSeconds: number): boolean {
   return nowSeconds > deadlineEpoch
+}
+
+/**
+ * Validates the /challenge-setup "Event link" field. Returns a user-facing
+ * error string, or null if OK. Kept standalone (like isPastDeadline) so it's
+ * trivial to unit test directly.
+ */
+export function validateEventLink(input: string): string | null {
+  const trimmed = input.trim()
+  if (!trimmed) return 'Event link is required.'
+  if (!/^https:\/\//i.test(trimmed)) return 'Event link must start with https://'
+  return null
 }
 
 async function handleMessageComponent(

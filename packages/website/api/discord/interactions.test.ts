@@ -2,7 +2,7 @@ import type { IncomingMessage, ServerResponse } from 'node:http'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { encodeModalCustomId, encodeSignupCustomId, slugify } from '../_lib/custom-id.js'
 import { serializeChallenge } from '../_lib/signup-log.js'
-import { isPastDeadline } from './interactions.js'
+import { isPastDeadline, validateEventLink } from './interactions.js'
 
 // Outside the real Vercel runtime waitUntil is a no-op that doesn't track
 // the promise, so tests capture the registered promises and drain them
@@ -119,6 +119,28 @@ describe('isPastDeadline', () => {
   it('is false at or before the deadline', () => {
     expect(isPastDeadline(1000, 1000)).toBe(false)
     expect(isPastDeadline(1000, 999)).toBe(false)
+  })
+})
+
+describe('validateEventLink', () => {
+  it('accepts an https:// url', () => {
+    expect(validateEventLink('https://store.steampowered.com/app/123')).toBeNull()
+  })
+
+  it('rejects an empty value', () => {
+    expect(validateEventLink('   ')).toBe('Event link is required.')
+  })
+
+  it('rejects a non-https url', () => {
+    expect(validateEventLink('http://store.steampowered.com/app/123')).toBe(
+      'Event link must start with https://'
+    )
+  })
+
+  it('rejects a value with no protocol at all', () => {
+    expect(validateEventLink('store.steampowered.com/app/123')).toBe(
+      'Event link must start with https://'
+    )
   })
 })
 
@@ -388,8 +410,12 @@ describe('APPLICATION_COMMAND challenge-setup', () => {
       type: 9,
       data: { custom_id: 'csetup' },
     })
-    const body = res.body as { data: { components: unknown[] } }
+    const body = res.body as {
+      data: { components: Array<{ components: Array<{ custom_id: string }> }> }
+    }
     expect(body.data.components).toHaveLength(5)
+    const customIds = body.data.components.map((row) => row.components[0]!.custom_id)
+    expect(customIds).toEqual(['name', 'description', 'dates', 'event_link', 'signup_deadline'])
     expect(discordRest.createMessage).not.toHaveBeenCalled()
   })
 })
@@ -402,15 +428,15 @@ describe('MODAL_SUBMIT challenge-setup (csetup)', () => {
   function makeCsetupReq(overrides: {
     name?: string
     description?: string
-    start?: string
-    end?: string
+    dates?: string
+    event_link?: string
     signup_deadline?: string
   }): IncomingMessage {
     const fields = {
       name: 'Neo Cab',
       description: 'A great challenge',
-      start: '2026-01-01',
-      end: '2026-02-01',
+      dates: '2026-01-01 → 2026-02-01',
+      event_link: 'https://store.steampowered.com/app/123',
       signup_deadline: '',
       ...overrides,
     }
@@ -424,8 +450,8 @@ describe('MODAL_SUBMIT challenge-setup (csetup)', () => {
         components: [
           { components: [{ custom_id: 'name', value: fields.name }] },
           { components: [{ custom_id: 'description', value: fields.description }] },
-          { components: [{ custom_id: 'start', value: fields.start }] },
-          { components: [{ custom_id: 'end', value: fields.end }] },
+          { components: [{ custom_id: 'dates', value: fields.dates }] },
+          { components: [{ custom_id: 'event_link', value: fields.event_link }] },
           { components: [{ custom_id: 'signup_deadline', value: fields.signup_deadline }] },
         ],
       },
@@ -446,13 +472,52 @@ describe('MODAL_SUBMIT challenge-setup (csetup)', () => {
     await drainWaitUntil()
 
     expect(discordRest.createMessage).toHaveBeenCalledTimes(2)
-    const [announcementChannel] = vi.mocked(discordRest.createMessage).mock.calls[0]
+    const [announcementChannel, announcementPayload] = vi.mocked(discordRest.createMessage).mock
+      .calls[0]
     expect(announcementChannel).toBe('chan1')
+
+    const embed = (announcementPayload.embeds as Array<Record<string, unknown>>)[0]!
+    expect(embed.image).toEqual({ url: 'https://sg-club.vercel.app/game-challenge-banner.png' })
+    const fields = embed.fields as Array<{ name: string; value: string; inline?: boolean }>
+    expect(fields.find((f) => f.name === 'Signups close')).toMatchObject({ inline: true })
+    expect(fields.find((f) => f.name === 'Challenge')).toMatchObject({ inline: true })
+
+    const components = announcementPayload.components as Array<{
+      components: Array<{ label: string; style: number; url?: string; custom_id?: string }>
+    }>
+    const buttons = components[0]!.components
+    expect(buttons).toHaveLength(4)
+    const linkButton = buttons.find((b) => b.style === 5)
+    expect(linkButton).toMatchObject({
+      label: 'View Event',
+      url: 'https://store.steampowered.com/app/123',
+    })
+    expect(linkButton?.custom_id).toBeUndefined()
 
     const [, logPayload] = vi.mocked(discordRest.createMessage).mock.calls[1]
     const expectedSlug = slugify('Neo Cab')
     expect(logPayload.content).toContain(`"slug":"${expectedSlug}"`)
+    expect(logPayload.content).toContain('"link":"https://store.steampowered.com/app/123"')
 
+    expect(discordRest.editOriginalResponse).toHaveBeenCalledWith(
+      'test-app-id',
+      'tok',
+      expect.objectContaining({ content: expect.stringContaining('✅ Challenge announced:') })
+    )
+  })
+
+  it.each([
+    ['an arrow', '2026-01-01 → 2026-02-01'],
+    ['an ASCII arrow', '2026-01-01 -> 2026-02-01'],
+    ["the word 'to'", '2026-01-01 to 2026-02-01'],
+  ])('parses the dates field split on %s', async (_label, dates) => {
+    const req = makeCsetupReq({ dates })
+    const res = makeRes()
+
+    await handler(req, res)
+    await drainWaitUntil()
+
+    expect(discordRest.createMessage).toHaveBeenCalledTimes(2)
     expect(discordRest.editOriginalResponse).toHaveBeenCalledWith(
       'test-app-id',
       'tok',
@@ -491,8 +556,8 @@ describe('MODAL_SUBMIT challenge-setup (csetup)', () => {
     )
   })
 
-  it('surfaces a friendly error for bad dates', async () => {
-    const req = makeCsetupReq({ start: 'not-a-date' })
+  it('surfaces a friendly error when the dates field has no recognizable separator', async () => {
+    const req = makeCsetupReq({ dates: '2026-01-01 2026-02-01' })
     const res = makeRes()
 
     await handler(req, res)
@@ -503,6 +568,38 @@ describe('MODAL_SUBMIT challenge-setup (csetup)', () => {
       'test-app-id',
       'tok',
       expect.objectContaining({ content: expect.stringContaining('❌') })
+    )
+  })
+
+  it('surfaces a friendly error for a bad date on one side of the range', async () => {
+    const req = makeCsetupReq({ dates: 'not-a-date → 2026-02-01' })
+    const res = makeRes()
+
+    await handler(req, res)
+    await drainWaitUntil()
+
+    expect(discordRest.createMessage).not.toHaveBeenCalled()
+    expect(discordRest.editOriginalResponse).toHaveBeenCalledWith(
+      'test-app-id',
+      'tok',
+      expect.objectContaining({ content: expect.stringContaining('❌') })
+    )
+  })
+
+  it('surfaces a friendly error when the event link is not https://', async () => {
+    const req = makeCsetupReq({ event_link: 'ftp://example.com' })
+    const res = makeRes()
+
+    await handler(req, res)
+    await drainWaitUntil()
+
+    expect(discordRest.createMessage).not.toHaveBeenCalled()
+    expect(discordRest.editOriginalResponse).toHaveBeenCalledWith(
+      'test-app-id',
+      'tok',
+      expect.objectContaining({
+        content: expect.stringContaining('Event link must start with https://'),
+      })
     )
   })
 })

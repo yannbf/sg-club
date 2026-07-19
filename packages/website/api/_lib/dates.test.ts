@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { parseAdminDate, validateChallengeDates } from './dates.js'
+import { parseAdminDate, parseDateRangeField, validateChallengeDates } from './dates.js'
 
 describe('parseAdminDate', () => {
   it('parses YYYY-MM-DD as UTC midnight', () => {
@@ -31,6 +31,48 @@ describe('parseAdminDate', () => {
 
   it('returns an error for unparseable input', () => {
     const result = parseAdminDate('not a date')
+    expect(result.ok).toBe(false)
+  })
+})
+
+describe('parseDateRangeField', () => {
+  it('splits on a unicode arrow surrounded by spaces', () => {
+    const result = parseDateRangeField('2026-01-01 → 2026-02-01')
+    expect(result).toEqual({ ok: true, start: '2026-01-01', end: '2026-02-01' })
+  })
+
+  it('splits on an ASCII arrow surrounded by spaces', () => {
+    const result = parseDateRangeField('2026-01-01 -> 2026-02-01')
+    expect(result).toEqual({ ok: true, start: '2026-01-01', end: '2026-02-01' })
+  })
+
+  it("splits on the standalone word 'to' surrounded by spaces", () => {
+    const result = parseDateRangeField('2026-01-01 to 2026-02-01')
+    expect(result).toEqual({ ok: true, start: '2026-01-01', end: '2026-02-01' })
+  })
+
+  it('is case-insensitive for the word separator', () => {
+    const result = parseDateRangeField('2026-01-01 TO 2026-02-01')
+    expect(result).toEqual({ ok: true, start: '2026-01-01', end: '2026-02-01' })
+  })
+
+  it('preserves a space-separated date+time on each side', () => {
+    const result = parseDateRangeField('2026-01-01 18:30 → 2026-02-01 09:00')
+    expect(result).toEqual({ ok: true, start: '2026-01-01 18:30', end: '2026-02-01 09:00' })
+  })
+
+  it('returns an error for empty input', () => {
+    expect(parseDateRangeField('   ')).toEqual({ ok: false, error: 'Dates are required.' })
+  })
+
+  it('returns an error when no recognizable separator is present', () => {
+    const result = parseDateRangeField('2026-01-01 2026-02-01')
+    expect(result.ok).toBe(false)
+    if (!result.ok) expect(result.error).toContain('Could not parse dates')
+  })
+
+  it('returns an error when one side of the separator is blank', () => {
+    const result = parseDateRangeField('2026-01-01 → ')
     expect(result.ok).toBe(false)
   })
 })

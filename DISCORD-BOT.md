@@ -62,13 +62,14 @@ Every event is a single message posted to the log channel (`#bot-test-logs`
 in test phase), one event per line:
 
 ```
-CHALLENGE {"slug":"neo-cab","channel_id":"...","message_id":"...","deadline":1700000000,"start":1700000100,"end":1700100000,"name":"Neo Cab"}
+CHALLENGE {"slug":"neo-cab","channel_id":"...","message_id":"...","deadline":1700000000,"start":1700000100,"end":1700100000,"name":"Neo Cab","link":"https://store.steampowered.com/app/123"}
 SIGNUP {"slug":"neo-cab","choice":"want","discord_id":"...","discord_handle":"...","sg_username":"yannbf","guest":false,"ts":1700000050}
 CLOSED {"slug":"neo-cab","ts":1700000500}
 ```
 
 - `CHALLENGE` — posted once by `/challenge-setup`, records where the
-  announcement lives and its dates.
+  announcement lives, its dates, and its event `link` (optional — older
+  lines posted before this field existed keep parsing fine without it).
 - `SIGNUP` — posted on every button click / modal submit. `choice` is one of
   `want` / `have` / `out`.
 - `CLOSED` — posted once signups are closed for a slug (marks it done so the
@@ -115,13 +116,21 @@ any Discord REST call is made, and is covered directly in
 
 - **`/challenge-setup`** (admin-only via `default_member_permissions`) — takes
   no options; it opens a **modal form** (`custom_id: csetup`) with five text
-  inputs: Challenge name, Description, Start date (UTC), End date (UTC), and
-  an optional Signup deadline (UTC, defaults to the start date). On submit
-  the bot slugifies the name, rejects the setup if a `CHALLENGE` with the
-  same slug already exists in the log, then posts the announcement embed +
-  the three signup buttons **to the channel the command was invoked in**,
-  and records a `CHALLENGE` line in the log channel. (There are no
-  channel/image options anymore.)
+  inputs: Challenge name, Description, a combined **Dates (UTC)** field
+  (`"<start> → <end>"`, also accepting `->` or the standalone word `to` as
+  the separator — each side parsed by the same rules as before:
+  `YYYY-MM-DD`, `YYYY-MM-DD HH:mm`, or ISO 8601), a required **Event link
+  (URL)** (must start with `https://`), and an optional Signup deadline
+  (UTC, defaults to the start date). On submit the bot slugifies the name,
+  rejects the setup if a `CHALLENGE` with the same slug already exists in
+  the log, splits and validates the dates field
+  (`parseDateRangeField`/`validateChallengeDates` in `_lib/dates.ts`),
+  validates the event link, then posts the Dyno-style announcement embed +
+  buttons **to the channel the command was invoked in**, and records a
+  `CHALLENGE` line (including the event `link`) in the log channel. Any
+  parse/validation failure is surfaced as a friendly `❌ ...` ephemeral
+  error instead of posting anything. (There are no channel/image options —
+  the banner image is a fixed constant, see below.)
 - **`/challenge-list <slug>`** — reads the whole log channel, builds the
   roster, and posts **plain-markdown content** (no embed): a
   `**<name> — signups**` header, `Want the game (N)` / `Already have it (M)`
@@ -171,17 +180,34 @@ is too much to fetch on every on-demand command invocation. `/mod-report`'s
 output ends with a line making this explicit: *"Ex-member entry checks run
 in the weekly digest only."*
 
+### Announcement embed & buttons
+
+`buildAnnouncementEmbed` (`_lib/render.ts`) renders a Dyno-style layout: a
+plain title (the challenge name, no emoji), the admin's description text,
+two **inline** fields side by side (`Signups close` → `<t:deadline:R>` and
+`Challenge` → `<t:start:d> → <t:end:d>`, short date format), a non-inline
+**"Signups so far"** field (initially `🎁 0 want · ✅ 0 have`), the fixed
+banner image `https://sg-club.vercel.app/game-challenge-banner.png`, and the
+accent color.
+
+`buildSignupComponents(slug, deadlineEpoch, link)` builds one action row with
+the three signup buttons plus a trailing type-2/style-5 **link button**
+("View Event", no `custom_id`, just a `url`) when a link is given — 4
+buttons total, under Discord's 5-per-row cap.
+
 ### Live signup counter
 
-The announcement embed carries a **"Signups so far"** field (initially
-`🎁 0 want · ✅ 0 have`). After every recorded signup event (button click or
-guest-modal submit) the endpoint — in a fire-and-forget `waitUntil`
-continuation, after the ephemeral confirmation has already been sent —
-rebuilds the roster from the log and PATCHes that one field on the
-announcement message (upserted by field name, everything else preserved).
-The announcement is located via `interaction.message` when present (button
-clicks) or the `CHALLENGE` log entry otherwise (modal submits). No extra
-messages are posted to the channel.
+After every recorded signup event (button click or guest-modal submit) the
+endpoint — in a fire-and-forget `waitUntil` continuation, after the
+ephemeral confirmation has already been sent — rebuilds the roster from the
+log and PATCHes only the `embeds` field on the announcement message
+(`withUpdatedSignupCounts` upserts the "Signups so far" field by name,
+everything else on the embed preserved). The PATCH payload never includes
+`components`, so the buttons — including the link button — are left exactly
+as Discord already has them. The announcement is located via
+`interaction.message` when present (button clicks) or the `CHALLENGE` log
+entry otherwise (modal submits). No extra messages are posted to the
+channel.
 
 All three are **guild** commands (instant propagation, no ~1h
 global-command delay) registered via `pnpm --filter scraper discord:register`.
@@ -207,8 +233,11 @@ Run manually via the `discord-bot.yml` workflow (`workflow_dispatch`, pick a
   deadline has passed with no `CLOSED` marker yet, posts a plain-markdown
   closed-summary (`**Signups closed — <name>**` then `Want the game (N): ...`
   / `Already have it (M): ...` lines, full name lists, emoji-free), disables
-  the announcement's buttons, and posts `CLOSED`. Idempotent: a challenge is
-  only touched while it has no `CLOSED` marker.
+  **only the three signup buttons** on the announcement (`meta.link` is
+  passed through to `buildDisabledComponents`, so the "View Event" link
+  button — if the challenge has one — stays enabled and clickable after
+  close), and posts `CLOSED`. Idempotent: a challenge is only touched while
+  it has no `CLOSED` marker.
 - **`pnpm --filter scraper discord:congrats`** — scans local `challenge_*.json`
   files (skipping `challengeOver: true` ones) for participants who are
   `is_complete` and not `completed_before_start`, diffs against

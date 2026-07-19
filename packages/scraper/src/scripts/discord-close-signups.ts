@@ -73,7 +73,7 @@ export async function closeExpiredSignups(): Promise<void> {
       await createMessage(meta.channel_id, { content, flags: 4 })
     }
 
-    const disabledComponents = buildDisabledComponents(meta.slug, meta.deadline)
+    const disabledComponents = buildDisabledComponents(meta.slug, meta.deadline, meta.link)
     await editMessage(meta.channel_id, meta.message_id, { components: disabledComponents })
 
     await createMessage(logChannelId, {

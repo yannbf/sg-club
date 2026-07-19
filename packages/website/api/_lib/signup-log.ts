@@ -13,6 +13,9 @@ export interface ChallengeMeta {
   start: number
   end: number
   name: string
+  /** Event link (e.g. the storefront page). Optional so old CHALLENGE lines
+   * posted before this field existed keep parsing tolerantly. */
+  link?: string
 }
 
 export interface SignupEvent {

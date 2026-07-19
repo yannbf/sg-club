@@ -1,5 +1,12 @@
 import { describe, expect, it } from 'vitest'
-import { buildChallengeListMessages, buildClosedSummaryMessages } from './render.js'
+import {
+  buildAnnouncementEmbed,
+  buildChallengeListMessages,
+  buildClosedSummaryMessages,
+  buildDisabledComponents,
+  buildSignupComponents,
+  withUpdatedSignupCounts,
+} from './render.js'
 import type { Roster, RosterEntry } from './signup-log.js'
 
 function entry(overrides: Partial<RosterEntry>): RosterEntry {
@@ -14,6 +21,147 @@ function entry(overrides: Partial<RosterEntry>): RosterEntry {
 }
 
 const emojiPattern = /[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/u
+
+describe('buildAnnouncementEmbed', () => {
+  const input = {
+    name: 'Neo Cab',
+    description: 'A great challenge',
+    signupDeadline: 1700000000,
+    start: 1700000100,
+    end: 1700001000,
+  }
+
+  it('sets a plain title (no emoji) and the admin description', () => {
+    const embed = buildAnnouncementEmbed(input)
+    expect(embed.title).toBe('Neo Cab')
+    expect(embed.description).toBe('A great challenge')
+  })
+
+  it('renders "Signups close" and "Challenge" as inline fields', () => {
+    const embed = buildAnnouncementEmbed(input)
+    const fields = embed.fields as Array<{ name: string; value: string; inline?: boolean }>
+
+    const close = fields.find((f) => f.name === 'Signups close')
+    expect(close).toEqual({ name: 'Signups close', value: '<t:1700000000:R>', inline: true })
+
+    const challenge = fields.find((f) => f.name === 'Challenge')
+    expect(challenge).toEqual({
+      name: 'Challenge',
+      value: '<t:1700000100:d> → <t:1700001000:d>',
+      inline: true,
+    })
+  })
+
+  it('keeps "Signups so far" as a non-inline field with the initial zero counts', () => {
+    const embed = buildAnnouncementEmbed(input)
+    const fields = embed.fields as Array<{ name: string; value: string; inline?: boolean }>
+    const counts = fields.find((f) => f.name === 'Signups so far')
+    expect(counts).toEqual({ name: 'Signups so far', value: '🎁 0 want · ✅ 0 have' })
+  })
+
+  it('sets the banner image', () => {
+    const embed = buildAnnouncementEmbed(input)
+    expect(embed.image).toEqual({ url: 'https://sg-club.vercel.app/game-challenge-banner.png' })
+  })
+
+  it('keeps the accent color', () => {
+    const embed = buildAnnouncementEmbed(input)
+    expect(embed.color).toBe(0x5865f2)
+  })
+})
+
+describe('withUpdatedSignupCounts', () => {
+  it('preserves the inline flag on other fields when upserting the counts field', () => {
+    const embed = buildAnnouncementEmbed({
+      name: 'Neo Cab',
+      description: 'desc',
+      signupDeadline: 1,
+      start: 2,
+      end: 3,
+    })
+    const updated = withUpdatedSignupCounts(embed, 3, 2)
+    const fields = updated.fields as Array<{ name: string; value: string; inline?: boolean }>
+    expect(fields.find((f) => f.name === 'Signups close')).toMatchObject({ inline: true })
+    expect(fields.find((f) => f.name === 'Challenge')).toMatchObject({ inline: true })
+    expect(fields.find((f) => f.name === 'Signups so far')).toEqual({
+      name: 'Signups so far',
+      value: '🎁 3 want · ✅ 2 have',
+    })
+  })
+
+  it('preserves the image and other top-level embed fields', () => {
+    const embed = buildAnnouncementEmbed({
+      name: 'Neo Cab',
+      description: 'desc',
+      signupDeadline: 1,
+      start: 2,
+      end: 3,
+    })
+    const updated = withUpdatedSignupCounts(embed, 1, 1)
+    expect(updated.image).toEqual(embed.image)
+    expect(updated.title).toBe(embed.title)
+  })
+})
+
+describe('buildSignupComponents', () => {
+  it('builds the three signup buttons with no link button when link is omitted', () => {
+    const rows = buildSignupComponents('neo-cab', 1700000000)
+    expect(rows).toHaveLength(1)
+    expect(rows[0]!.components).toHaveLength(3)
+    expect(rows[0]!.components.every((c) => c.style !== 5)).toBe(true)
+  })
+
+  it('appends a type-2 style-5 link button with the event url and no custom_id when link is given', () => {
+    const rows = buildSignupComponents('neo-cab', 1700000000, 'https://store.steampowered.com/app/123')
+    const buttons = rows[0]!.components
+    expect(buttons).toHaveLength(4)
+
+    const linkButton = buttons[3]!
+    expect(linkButton).toMatchObject({
+      type: 2,
+      style: 5,
+      label: 'View Event',
+      url: 'https://store.steampowered.com/app/123',
+    })
+    expect(linkButton.custom_id).toBeUndefined()
+  })
+
+  it('keeps the three signup buttons with valid custom_ids when a link button is present', () => {
+    const rows = buildSignupComponents('neo-cab', 1700000000, 'https://example.com')
+    const signupButtons = rows[0]!.components.slice(0, 3)
+    for (const button of signupButtons) {
+      expect(button.custom_id).toContain('neo-cab')
+      expect(button.url).toBeUndefined()
+    }
+  })
+})
+
+describe('buildDisabledComponents', () => {
+  it('disables all three signup buttons when there is no link', () => {
+    const rows = buildDisabledComponents('neo-cab', 1700000000)
+    expect(rows[0]!.components).toHaveLength(3)
+    expect(rows[0]!.components.every((c) => c.disabled === true)).toBe(true)
+  })
+
+  it('disables only the three signup buttons, leaving the link button enabled', () => {
+    const rows = buildDisabledComponents('neo-cab', 1700000000, 'https://example.com')
+    const buttons = rows[0]!.components
+    expect(buttons).toHaveLength(4)
+
+    const signupButtons = buttons.filter((b) => b.style !== 5)
+    const linkButton = buttons.find((b) => b.style === 5)!
+
+    expect(signupButtons).toHaveLength(3)
+    expect(signupButtons.every((b) => b.disabled === true)).toBe(true)
+    expect(linkButton.disabled).toBeUndefined()
+    expect(linkButton.url).toBe('https://example.com')
+  })
+
+  it('omits the link button entirely for an old challenge meta with no link', () => {
+    const rows = buildDisabledComponents('neo-cab', 1700000000, undefined)
+    expect(rows[0]!.components.some((c) => c.style === 5)).toBe(false)
+  })
+})
 
 describe('buildClosedSummaryMessages', () => {
   it('renders a plain-markdown header + want/have lines with no embed', () => {

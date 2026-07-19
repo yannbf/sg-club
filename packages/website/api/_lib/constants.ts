@@ -75,6 +75,7 @@ export const ButtonStyle = {
   SECONDARY: 2,
   SUCCESS: 3,
   DANGER: 4,
+  LINK: 5,
 } as const
 
 export const TextInputStyle = {

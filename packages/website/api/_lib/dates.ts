@@ -36,6 +36,43 @@ export function parseAdminDate(input: string): DateParseResult {
   return { ok: true, epochSeconds: Math.floor(parsed.getTime() / 1000) }
 }
 
+export type DateRangeSplitResult =
+  | { ok: true; start: string; end: string }
+  | { ok: false; error: string }
+
+const DATE_RANGE_SEPARATOR = /\s+(?:→|->|to)\s+/i
+
+/**
+ * Splits a single "Dates (UTC)" modal field into start/end date strings, on
+ * whichever of `→`, `->`, or the standalone word `to` (surrounded by
+ * whitespace) the admin used. Each side is handed to `parseAdminDate`
+ * unparsed — this function only handles splitting the combined field.
+ */
+export function parseDateRangeField(input: string): DateRangeSplitResult {
+  const trimmed = input.trim()
+  if (!trimmed) return { ok: false, error: 'Dates are required.' }
+
+  const match = trimmed.match(DATE_RANGE_SEPARATOR)
+  if (!match) {
+    return {
+      ok: false,
+      error: `Could not parse dates "${input}". Use "<start> → <end>" or "<start> to <end>".`,
+    }
+  }
+
+  const matchIndex = match.index ?? 0
+  const start = trimmed.slice(0, matchIndex).trim()
+  const end = trimmed.slice(matchIndex + match[0].length).trim()
+  if (!start || !end) {
+    return {
+      ok: false,
+      error: `Could not parse dates "${input}". Use "<start> → <end>" or "<start> to <end>".`,
+    }
+  }
+
+  return { ok: true, start, end }
+}
+
 export interface ChallengeDates {
   signupDeadline: number
   start: number

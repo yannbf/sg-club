@@ -31,6 +31,24 @@ describe('serialize/parseLogLine round trip', () => {
     expect(parseLogLine(line)).toEqual({ type: 'CHALLENGE', data: CHALLENGE_META })
   })
 
+  it('round-trips a CHALLENGE line with a link', () => {
+    const meta = { ...CHALLENGE_META, link: 'https://store.steampowered.com/app/123' }
+    const line = serializeChallenge(meta)
+    expect(parseLogLine(line)).toEqual({ type: 'CHALLENGE', data: meta })
+  })
+
+  it('tolerantly parses an old CHALLENGE line with no link field', () => {
+    // Simulates a pre-existing log line posted before `link` existed —
+    // serializeChallenge is never called with `link` omitted here on
+    // purpose, to model raw legacy content.
+    const legacyLine = `CHALLENGE ${JSON.stringify(CHALLENGE_META)}`
+    const parsed = parseLogLine(legacyLine)
+    expect(parsed).toEqual({ type: 'CHALLENGE', data: CHALLENGE_META })
+    if (parsed?.type === 'CHALLENGE') {
+      expect(parsed.data.link).toBeUndefined()
+    }
+  })
+
   it('round-trips a SIGNUP line', () => {
     const event = { ...SIGNUP_BASE, choice: 'want' as const, ts: 1700000050 }
     const line = serializeSignup(event)
