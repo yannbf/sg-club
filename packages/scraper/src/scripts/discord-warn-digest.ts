@@ -190,7 +190,9 @@ export function groupFindingsByMember(split: DigestSplit): MemberFindings[] {
 
 function memberBulletLine(member: MemberFindings): string {
   const url = `${SITE_BASE}/users/${member.username}/`
-  return `- [${member.username}](${url}) — ${member.findingLines.join(' · ')}`
+  // <url> suppresses Discord's link-preview embed — without it every linked
+  // member spawns a site-preview card under the digest.
+  return `- [${member.username}](<${url}>) — ${member.findingLines.join(' · ')}`
 }
 
 /**

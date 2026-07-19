@@ -170,7 +170,7 @@ describe('buildDigestMessages', () => {
     // all messages reconstructs the full expected set with nothing
     // missing or duplicated.
     const expectedBullets = groupFindingsByMember(split).map(
-      (m) => `- [${m.username}](https://sg-club.vercel.app/users/${m.username}/) — ${m.findingLines.join(' · ')}`
+      (m) => `- [${m.username}](<https://sg-club.vercel.app/users/${m.username}/>) — ${m.findingLines.join(' · ')}`
     )
     const actualBullets = messages.flatMap((message) =>
       message
