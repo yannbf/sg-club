@@ -822,6 +822,8 @@ export default function WishlistClient({
                     >
                       <span className="font-medium text-foreground tabular-nums-strict">
                         {cardInsight.owners.length}
+                        {insights?.members_with_library_data != null &&
+                          `/${insights.members_with_library_data}`}
                       </span>{' '}
                       already own
                     </p>
