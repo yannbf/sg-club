@@ -1,0 +1,162 @@
+name: Discord Bot Cron Jobs
+
+# Manual-only for now (no cron schedule) — the bot feature is in test phase,
+# running against #bot-test / #bot-test-logs. Once verified, add a `schedule:`
+# trigger mirroring deploy.yml's staggering approach.
+on:
+  workflow_dispatch:
+    inputs:
+      job:
+        description: 'Which Discord job to run'
+        required: true
+        type: choice
+        options:
+          - close-signups
+          - congrats
+          - warn-digest
+
+permissions:
+  contents: write
+
+jobs:
+  close-signups:
+    if: github.event.inputs.job == 'close-signups'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Close expired signups
+        run: pnpm --filter scraper run discord:close-signups
+      # No state file to commit — everything is derived from the log channel.
+
+  congrats:
+    if: github.event.inputs.job == 'congrats'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Sync branch with latest changes
+        run: git pull --rebase origin ${{ github.ref_name }} || true
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Announce new challenge completions
+        run: pnpm --filter scraper run discord:congrats
+
+      - name: Commit and push announce-state changes
+        run: |
+          git config --global user.name 'GitHub Action'
+          git config --global user.email 'action@github.com'
+          git add packages/website/public/data/discord_announce_state.json
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "🎉 Update Discord congrats state - $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
+            # Another job may have pushed while we ran — rebase onto the
+            # latest and retry rather than failing the whole run.
+            for attempt in 1 2 3 4 5; do
+              if git push origin ${{ github.ref_name }}; then
+                echo "Pushed on attempt $attempt"; break
+              fi
+              if [ "$attempt" = "5" ]; then
+                echo "Push still rejected after 5 attempts"; exit 1
+              fi
+              echo "Push rejected (attempt $attempt) — rebasing on latest and retrying"
+              git pull --rebase origin ${{ github.ref_name }}
+              sleep 5
+            done
+          fi
+
+  warn-digest:
+    if: github.event.inputs.job == 'warn-digest'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Sync branch with latest changes
+        run: git pull --rebase origin ${{ github.ref_name }} || true
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Post weekly mod warn digest
+        run: pnpm --filter scraper run discord:warn-digest
+
+      - name: Commit and push warn-state changes
+        run: |
+          git config --global user.name 'GitHub Action'
+          git config --global user.email 'action@github.com'
+          git add packages/website/public/data/discord_warn_state.json
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "📋 Update Discord warn-digest state - $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
+            # Another job may have pushed while we ran — rebase onto the
+            # latest and retry rather than failing the whole run.
+            for attempt in 1 2 3 4 5; do
+              if git push origin ${{ github.ref_name }}; then
+                echo "Pushed on attempt $attempt"; break
+              fi
+              if [ "$attempt" = "5" ]; then
+                echo "Push still rejected after 5 attempts"; exit 1
+              fi
+              echo "Push rejected (attempt $attempt) — rebasing on latest and retrying"
+              git pull --rebase origin ${{ github.ref_name }}
+              sleep 5
+            done
+          fi

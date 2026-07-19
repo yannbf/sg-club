@@ -34,7 +34,11 @@
     "reconstruct-deleted-users": "tsx src/scripts/reconstruct-deleted-users.ts",
     "get-entries": "tsx src/scripts/get-entries.ts",
     "check-ex-member-entries": "tsx src/scripts/check-ex-member-entries.ts",
-    "monthly-progress": "tsx src/scripts/compare-monthly-progress.ts"
+    "monthly-progress": "tsx src/scripts/compare-monthly-progress.ts",
+    "discord:close-signups": "tsx src/scripts/discord-close-signups.ts",
+    "discord:congrats": "tsx src/scripts/discord-challenge-congrats.ts",
+    "discord:warn-digest": "tsx src/scripts/discord-warn-digest.ts",
+    "discord:register": "tsx src/scripts/discord-register-commands.ts"
   },
   "dependencies": {
     "@types/cheerio": "^0.22.35",
