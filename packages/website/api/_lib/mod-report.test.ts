@@ -4,6 +4,7 @@ import {
   chunkMessage,
   collectGroupWarningFindings,
   groupFindingsByMemberForReport,
+  importanceRank,
   renderMemberLine,
   severityFor,
   type GroupWarningFinding,
@@ -148,15 +149,56 @@ describe('groupFindingsByMemberForReport', () => {
     { username: 'amy', code: 'required_plays_need_review', label: 'Needs review', severity: 'warn' },
   ]
 
-  it('splits each member into error vs warn label buckets', () => {
+  it('splits each member into error vs warn (code, label) buckets', () => {
     const grouped = groupFindingsByMemberForReport(findings)
     const zack = grouped.find((m) => m.username === 'zack')
-    expect(zack).toEqual({ username: 'zack', errorLabels: ['Zero play rate'], warnLabels: ['Low play rate'] })
+    expect(zack).toEqual({
+      username: 'zack',
+      errorFindings: [{ code: 'zero_play_rate_with_wins', label: 'Zero play rate' }],
+      warnFindings: [{ code: 'low_play_rate_many_wins', label: 'Low play rate' }],
+    })
   })
 
   it('sorts members alphabetically', () => {
     const grouped = groupFindingsByMemberForReport(findings)
     expect(grouped.map((m) => m.username)).toEqual(['amy', 'zack'])
+  })
+})
+
+describe('importanceRank', () => {
+  it('ranks error codes before warn codes', () => {
+    expect(importanceRank('zero_play_rate_with_wins')).toBeLessThan(
+      importanceRank('required_plays_need_review')
+    )
+  })
+
+  it('ranks no_giveaway_created_in_6_months last among known codes', () => {
+    const knownCodes = [
+      'illegal_entered_any_giveaways',
+      'illegal_entered_required_play_giveaways',
+      'unplayed_required_play_giveaways',
+      'required_play_deadline_expired',
+      'zero_play_rate_with_wins',
+      'required_plays_need_review',
+      'required_play_deadline_within_15_days',
+      'low_play_rate_many_wins',
+      'inactive_play_but_active',
+    ]
+    for (const code of knownCodes) {
+      expect(importanceRank('no_giveaway_created_in_6_months')).toBeGreaterThan(importanceRank(code))
+    }
+  })
+
+  it('ranks required_plays_need_review above no_giveaway_created_in_6_months', () => {
+    expect(importanceRank('required_plays_need_review')).toBeLessThan(
+      importanceRank('no_giveaway_created_in_6_months')
+    )
+  })
+
+  it('ranks unknown codes just above no_giveaway_created_in_6_months, below every other known code', () => {
+    const unknownRank = importanceRank('some_unknown_code')
+    expect(unknownRank).toBeLessThan(importanceRank('no_giveaway_created_in_6_months'))
+    expect(unknownRank).toBeGreaterThan(importanceRank('inactive_play_but_active'))
   })
 })
 
@@ -167,14 +209,14 @@ describe('buildModReportLines', () => {
     { username: 'amy', code: 'required_plays_need_review', label: 'Needs review', severity: 'warn' },
   ]
 
-  it('places a member with any error finding in Errors, listing error labels before warn labels', () => {
+  it('places a member with any error finding in Need attention, listing labels in importance order', () => {
     const lines = buildModReportLines(findings)
-    const errorsIdx = lines.findIndex((l) => l.startsWith('**Errors**'))
+    const needAttentionIdx = lines.findIndex((l) => l.startsWith('**Need attention**'))
     const zackLine = lines.find((l) => l.includes('[zack]'))!
     const zackIdx = lines.indexOf(zackLine)
     const warningsIdx = lines.findIndex((l) => l.startsWith('**Warnings**'))
 
-    expect(zackIdx).toBeGreaterThan(errorsIdx)
+    expect(zackIdx).toBeGreaterThan(needAttentionIdx)
     expect(zackIdx).toBeLessThan(warningsIdx)
     expect(zackLine).toBe(
       '- [zack](<https://sg-club.vercel.app/users/zack/>) — Zero play rate · Low play rate'
@@ -190,7 +232,7 @@ describe('buildModReportLines', () => {
 
   it('reports accurate member counts in each section header', () => {
     const lines = buildModReportLines(findings)
-    expect(lines).toContain('**Errors** (1 members)')
+    expect(lines).toContain('**Need attention** (1 members)')
     expect(lines).toContain('**Warnings** (1 members)')
   })
 
@@ -207,8 +249,82 @@ describe('buildModReportLines', () => {
 
   it('shows empty-section placeholders and zero counts when there are no findings', () => {
     const lines = buildModReportLines([])
-    expect(lines).toContain('**Errors** (0 members)')
+    expect(lines).toContain('**Need attention** (0 members)')
     expect(lines).toContain('**Warnings** (0 members)')
     expect(lines.filter((l) => l === '_none_')).toHaveLength(2)
+  })
+
+  describe('combo grouping', () => {
+    it('groups ≥2 members sharing the exact same single-code combo onto one unbulleted line', () => {
+      const shared: GroupWarningFinding[] = [
+        { username: 'bob', code: 'required_plays_need_review', label: 'Needs review', severity: 'warn' },
+        { username: 'amy', code: 'required_plays_need_review', label: 'Needs review', severity: 'warn' },
+      ]
+      const lines = buildModReportLines(shared)
+      expect(lines).toContain(
+        'Needs review: [amy](<https://sg-club.vercel.app/users/amy/>), [bob](<https://sg-club.vercel.app/users/bob/>)'
+      )
+      // Not rendered as individual bullets.
+      expect(lines.some((l) => l.startsWith('- [amy]'))).toBe(false)
+      expect(lines.some((l) => l.startsWith('- [bob]'))).toBe(false)
+    })
+
+    it('groups ≥2 members sharing the exact same multi-code combo, with labels in importance order', () => {
+      const shared: GroupWarningFinding[] = [
+        { username: 'zack', code: 'low_play_rate_many_wins', label: 'Low play rate', severity: 'warn' },
+        { username: 'zack', code: 'zero_play_rate_with_wins', label: 'Zero play rate', severity: 'error' },
+        { username: 'amy', code: 'zero_play_rate_with_wins', label: 'Zero play rate', severity: 'error' },
+        { username: 'amy', code: 'low_play_rate_many_wins', label: 'Low play rate', severity: 'warn' },
+      ]
+      const lines = buildModReportLines(shared)
+      expect(lines).toContain(
+        'Zero play rate · Low play rate: [amy](<https://sg-club.vercel.app/users/amy/>), [zack](<https://sg-club.vercel.app/users/zack/>)'
+      )
+    })
+
+    it('renders a combo unique to 1 member as a member bullet, not a grouped line', () => {
+      const unique: GroupWarningFinding[] = [
+        { username: 'amy', code: 'required_plays_need_review', label: 'Needs review', severity: 'warn' },
+      ]
+      const lines = buildModReportLines(unique)
+      expect(lines).toContain(
+        '- [amy](<https://sg-club.vercel.app/users/amy/>) — Needs review'
+      )
+    })
+
+    it('does not group members whose code sets differ even if labels overlap', () => {
+      const different: GroupWarningFinding[] = [
+        { username: 'amy', code: 'required_plays_need_review', label: 'Needs review', severity: 'warn' },
+        { username: 'bob', code: 'required_plays_need_review', label: 'Needs review', severity: 'warn' },
+        { username: 'bob', code: 'inactive_play_but_active', label: 'Inactive', severity: 'warn' },
+      ]
+      const lines = buildModReportLines(different)
+      expect(lines).toContain('- [amy](<https://sg-club.vercel.app/users/amy/>) — Needs review')
+      expect(lines).toContain(
+        '- [bob](<https://sg-club.vercel.app/users/bob/>) — Needs review · Inactive'
+      )
+    })
+
+    it('orders combo lines by importance of the most important code, then member count, then first member', () => {
+      const findings: GroupWarningFinding[] = [
+        // Unique, no_giveaway (least important) — should sort last.
+        {
+          username: 'zed',
+          code: 'no_giveaway_created_in_6_months',
+          label: 'No giveaway created in 6 months',
+          severity: 'warn',
+        },
+        // Shared pair, required_plays_need_review (more important) — should sort first.
+        { username: 'amy', code: 'required_plays_need_review', label: 'Needs review', severity: 'warn' },
+        { username: 'bob', code: 'required_plays_need_review', label: 'Needs review', severity: 'warn' },
+      ]
+      const lines = buildModReportLines(findings)
+      const warningsIdx = lines.findIndex((l) => l.startsWith('**Warnings**'))
+      const sharedLineIdx = lines.findIndex((l) => l.startsWith('Needs review:'))
+      const zedLineIdx = lines.findIndex((l) => l.includes('[zed]'))
+
+      expect(sharedLineIdx).toBeGreaterThan(warningsIdx)
+      expect(sharedLineIdx).toBeLessThan(zedLineIdx)
+    })
   })
 })

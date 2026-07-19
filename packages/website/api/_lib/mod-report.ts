@@ -46,6 +46,48 @@ export const WARNING_LABELS: Record<string, string> = {
   no_giveaway_created_in_6_months: 'No giveaway created in 6 months',
 }
 
+/**
+ * Every finding code, most to least important, used by /mod-report to order
+ * labels within a combo and combos within a section. Not used by the weekly
+ * digest (its per-member rendering is unaffected by this ranking).
+ *
+ * `ex_member_entries` is a pseudo-code for the ex-member-entries check
+ * (discord-warn-digest.ts) — it never actually appears in `/mod-report`
+ * findings (that detector needs data too heavy to load on-demand, see the
+ * file header), but is listed here for a complete, documented ranking.
+ *
+ * Unknown codes (not present in this list) rank just above
+ * `no_giveaway_created_in_6_months` — the least important known code — via
+ * `importanceRank` below.
+ */
+export const IMPORTANCE_ORDER: string[] = [
+  // errors, most to least important
+  'illegal_entered_any_giveaways',
+  'illegal_entered_required_play_giveaways',
+  'unplayed_required_play_giveaways',
+  'required_play_deadline_expired',
+  'zero_play_rate_with_wins',
+  'ex_member_entries',
+  // warnings, most to least important
+  'required_plays_need_review',
+  'required_play_deadline_within_15_days',
+  'low_play_rate_many_wins',
+  'inactive_play_but_active',
+  'no_giveaway_created_in_6_months',
+]
+
+const LEAST_IMPORTANT_KNOWN_RANK = IMPORTANCE_ORDER.indexOf('no_giveaway_created_in_6_months')
+
+/**
+ * Numeric importance rank for a finding code (lower = more important). Known
+ * codes get their index in `IMPORTANCE_ORDER`; unknown codes rank just above
+ * `no_giveaway_created_in_6_months`.
+ */
+export function importanceRank(code: string): number {
+  const idx = IMPORTANCE_ORDER.indexOf(code)
+  return idx !== -1 ? idx : LEAST_IMPORTANT_KNOWN_RANK - 0.5
+}
+
 interface GroupUser {
   username: string
   steam_id: string
@@ -87,14 +129,23 @@ export async function collectGroupWarningFindings(host?: string): Promise<GroupW
 export const SITE_BASE = 'https://sg-club.vercel.app'
 
 /**
+ * A member's page link in the `[name](<url>)` no-preview form. Shared by
+ * `renderMemberLine` (bulleted, single member) and the /mod-report combo
+ * grouping (comma-separated, no bullet).
+ */
+function memberLink(username: string): string {
+  const url = `${SITE_BASE}/users/${username}/`
+  return `[${username}](<${url}>)`
+}
+
+/**
  * Renders one member's bullet line: a link to their member page followed by
  * their finding texts joined with " · ". The `(<url>)` form suppresses
  * Discord's link-preview embed. No emojis — used by both the digest and
  * /mod-report.
  */
 export function renderMemberLine(username: string, findingTexts: string[]): string {
-  const url = `${SITE_BASE}/users/${username}/`
-  return `- [${username}](<${url}>) — ${findingTexts.join(' · ')}`
+  return `- ${memberLink(username)} — ${findingTexts.join(' · ')}`
 }
 
 /**
@@ -121,15 +172,20 @@ export function chunkMessage(segments: string[], maxLength = 1900): string[] {
   return messages
 }
 
+export interface MemberFinding {
+  code: string
+  label: string
+}
+
 export interface MemberReportEntry {
   username: string
-  errorLabels: string[]
-  warnLabels: string[]
+  errorFindings: MemberFinding[]
+  warnFindings: MemberFinding[]
 }
 
 /**
- * Groups findings by member, splitting each member's labels into error vs
- * warn buckets. Sorted alphabetically by username.
+ * Groups findings by member, splitting each member's (code, label) pairs
+ * into error vs warn buckets. Sorted alphabetically by username.
  */
 export function groupFindingsByMemberForReport(
   findings: GroupWarningFinding[]
@@ -139,52 +195,116 @@ export function groupFindingsByMemberForReport(
   for (const finding of findings) {
     let entry = byUser.get(finding.username)
     if (!entry) {
-      entry = { username: finding.username, errorLabels: [], warnLabels: [] }
+      entry = { username: finding.username, errorFindings: [], warnFindings: [] }
       byUser.set(finding.username, entry)
     }
-    if (finding.severity === 'error') entry.errorLabels.push(finding.label)
-    else entry.warnLabels.push(finding.label)
+    const item: MemberFinding = { code: finding.code, label: finding.label }
+    if (finding.severity === 'error') entry.errorFindings.push(item)
+    else entry.warnFindings.push(item)
   }
 
   return [...byUser.values()].sort((a, b) => a.username.localeCompare(b.username))
+}
+
+function compareUsernamesCaseInsensitive(a: string, b: string): number {
+  return a.localeCompare(b, undefined, { sensitivity: 'base' })
+}
+
+interface SectionMember {
+  username: string
+  findings: MemberFinding[]
+}
+
+interface FindingCombo {
+  labels: string[]
+  usernames: string[]
+  mostImportantRank: number
+}
+
+/**
+ * Groups a section's members by their EXACT set of finding codes, then
+ * renders each combo as one line:
+ *  - shared by ≥2 members: `<Label A> · <Label B>: [m1], [m2]` (not
+ *    bulleted), labels ordered by importance, members alphabetical
+ *    (case-insensitive).
+ *  - unique to 1 member: the existing bulleted `renderMemberLine` form.
+ * Lines are ordered by the combo's most important code, then by member
+ * count (larger first), then alphabetically by first member.
+ */
+function renderSection(members: SectionMember[]): string[] {
+  if (members.length === 0) return ['_none_']
+
+  const combosByKey = new Map<string, { codeLabels: Map<string, string>; usernames: string[] }>()
+  for (const member of members) {
+    // Use each finding's own label (not WARNING_LABELS) so unknown-code
+    // fallbacks and any caller-supplied label stay intact.
+    const codeLabels = new Map(member.findings.map((f) => [f.code, f.label] as const))
+    const key = [...codeLabels.keys()].sort().join('|')
+    let combo = combosByKey.get(key)
+    if (!combo) {
+      combo = { codeLabels, usernames: [] }
+      combosByKey.set(key, combo)
+    }
+    combo.usernames.push(member.username)
+  }
+
+  const combos: FindingCombo[] = [...combosByKey.values()].map(({ codeLabels, usernames }) => {
+    const orderedCodes = [...codeLabels.keys()].sort((a, b) => importanceRank(a) - importanceRank(b))
+    return {
+      labels: orderedCodes.map((code) => codeLabels.get(code)!),
+      usernames: [...usernames].sort(compareUsernamesCaseInsensitive),
+      mostImportantRank: importanceRank(orderedCodes[0]!),
+    }
+  })
+
+  combos.sort((a, b) => {
+    if (a.mostImportantRank !== b.mostImportantRank) return a.mostImportantRank - b.mostImportantRank
+    if (a.usernames.length !== b.usernames.length) return b.usernames.length - a.usernames.length
+    return compareUsernamesCaseInsensitive(a.usernames[0]!, b.usernames[0]!)
+  })
+
+  return combos.map((combo) =>
+    combo.usernames.length >= 2
+      ? `${combo.labels.join(' · ')}: ${combo.usernames.map(memberLink).join(', ')}`
+      : renderMemberLine(combo.usernames[0]!, combo.labels)
+  )
 }
 
 export const EX_MEMBER_NOTE = 'Ex-member entry checks run in the weekly digest only.'
 
 /**
  * Builds the full /mod-report content as an array of line/segment strings
- * (not yet chunked — pass through `chunkMessage` for that): a header, an
- * **Errors** section (members with ≥1 error finding, all their findings
- * listed error-first then warn), a **Warnings** section (members whose
- * findings are all warn-level), and a closing note about ex-member checks.
+ * (not yet chunked — pass through `chunkMessage` for that): a header, a
+ * **Need attention** section (members with ≥1 error finding, all their
+ * findings listed), a **Warnings** section (members whose findings are all
+ * warn-level), and a closing note about ex-member checks. Within each
+ * section, members sharing the exact same set of finding codes are grouped
+ * onto one line — see `renderSection`.
  */
 export function buildModReportLines(findings: GroupWarningFinding[]): string[] {
   const members = groupFindingsByMemberForReport(findings)
-  const errorMembers = members.filter((m) => m.errorLabels.length > 0)
+  const errorMembers = members.filter((m) => m.errorFindings.length > 0)
   const warnOnlyMembers = members.filter(
-    (m) => m.errorLabels.length === 0 && m.warnLabels.length > 0
+    (m) => m.errorFindings.length === 0 && m.warnFindings.length > 0
   )
 
   const lines: string[] = ['**Mod Report**', '']
 
-  lines.push(`**Errors** (${errorMembers.length} members)`)
-  if (errorMembers.length === 0) {
-    lines.push('_none_')
-  } else {
-    for (const member of errorMembers) {
-      lines.push(renderMemberLine(member.username, [...member.errorLabels, ...member.warnLabels]))
-    }
-  }
+  lines.push(`**Need attention** (${errorMembers.length} members)`)
+  lines.push(
+    ...renderSection(
+      errorMembers.map((m) => ({
+        username: m.username,
+        findings: [...m.errorFindings, ...m.warnFindings],
+      }))
+    )
+  )
 
   lines.push('')
   lines.push(`**Warnings** (${warnOnlyMembers.length} members)`)
-  if (warnOnlyMembers.length === 0) {
-    lines.push('_none_')
-  } else {
-    for (const member of warnOnlyMembers) {
-      lines.push(renderMemberLine(member.username, member.warnLabels))
-    }
-  }
+  lines.push(
+    ...renderSection(warnOnlyMembers.map((m) => ({ username: m.username, findings: m.warnFindings })))
+  )
 
   lines.push('')
   lines.push(EX_MEMBER_NOTE)

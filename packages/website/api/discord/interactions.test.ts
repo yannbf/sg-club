@@ -650,7 +650,7 @@ describe('APPLICATION_COMMAND mod-report', () => {
     expect(payload).toMatchObject({ flags: 4 })
     const content = (payload as { content: string }).content
     expect(content).toContain('**Mod Report**')
-    expect(content).toContain('**Errors** (1 members)')
+    expect(content).toContain('**Need attention** (1 members)')
     expect(content).toContain('**Warnings** (1 members)')
     expect(content).toContain('- [alice](<https://sg-club.vercel.app/users/alice/>) — Required-play deadline expired')
     expect(content).toContain('- [bob](<https://sg-club.vercel.app/users/bob/>) — No giveaway created in 6 months')
@@ -668,7 +668,7 @@ describe('APPLICATION_COMMAND mod-report', () => {
 
     const [, , payload] = vi.mocked(discordRest.editOriginalResponse).mock.calls[0]!
     const content = (payload as { content: string }).content
-    expect(content).toContain('**Errors** (0 members)')
+    expect(content).toContain('**Need attention** (0 members)')
     expect(content).toContain('**Warnings** (0 members)')
   })
 
