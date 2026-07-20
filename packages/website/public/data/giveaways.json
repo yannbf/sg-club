@@ -1,65 +1,6 @@
 {
-  "last_updated": "2026-07-19T04:05:43.685Z",
+  "last_updated": "2026-07-20T04:14:53.857Z",
   "giveaways": [
-    {
-      "id": "mQbat",
-      "name": "Sorcery! Part 4",
-      "points": 10,
-      "copies": 1,
-      "app_id": 504800,
-      "package_id": null,
-      "link": "mQbat/sorcery-part-4",
-      "created_timestamp": 1783817076,
-      "start_timestamp": 1783817076,
-      "end_timestamp": 1784433600,
-      "whitelist": true,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 49,
-      "creator": "76561198234142828",
-      "is_shared": true,
-      "cv_status": "REDUCED_CV",
-      "creator_username": "lockcjwen",
-      "deleted": false
-    },
-    {
-      "id": "CjLMi",
-      "name": "Lorelei and the Laser Eyes",
-      "points": 25,
-      "copies": 1,
-      "app_id": 2008920,
-      "package_id": null,
-      "link": "CjLMi/lorelei-and-the-laser-eyes",
-      "created_timestamp": 1784142843,
-      "start_timestamp": 1784142843,
-      "end_timestamp": 1784476800,
-      "group": true,
-      "comment_count": 1,
-      "entry_count": 17,
-      "creator": "76561198352113526",
-      "cv_status": "FULL_CV",
-      "creator_username": "yugimax",
-      "deleted": false
-    },
-    {
-      "id": "hNF6V",
-      "name": "Scale the Depths",
-      "points": 10,
-      "copies": 1,
-      "app_id": 3198890,
-      "package_id": null,
-      "link": "hNF6V/scale-the-depths",
-      "created_timestamp": 1784156139,
-      "start_timestamp": 1784156139,
-      "end_timestamp": 1784484000,
-      "group": true,
-      "comment_count": 2,
-      "entry_count": 17,
-      "creator": "76561199141726712",
-      "cv_status": "FULL_CV",
-      "creator_username": "vot4ol",
-      "deleted": false
-    },
     {
       "id": "KV2QI",
       "name": "Red Dead Redemption 2",
@@ -73,7 +14,7 @@
       "end_timestamp": 1784542500,
       "group": true,
       "comment_count": 3,
-      "entry_count": 17,
+      "entry_count": 18,
       "creator": "76561198013734355",
       "cv_status": "FULL_CV",
       "creator_username": "gus09",
@@ -91,8 +32,8 @@
       "start_timestamp": 1784367874,
       "end_timestamp": 1784563200,
       "group": true,
-      "comment_count": 21,
-      "entry_count": 6,
+      "comment_count": 23,
+      "entry_count": 10,
       "creator": "76561198040188513",
       "cv_status": "FULL_CV",
       "creator_username": "kiseli",
@@ -111,7 +52,7 @@
       "end_timestamp": 1784599200,
       "group": true,
       "comment_count": 0,
-      "entry_count": 12,
+      "entry_count": 14,
       "creator": "76561197999508776",
       "required_play": true,
       "cv_status": "FULL_CV",
@@ -151,7 +92,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 38,
+      "entry_count": 41,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -197,7 +138,8 @@
       "is_shared": true,
       "cv_status": "FULL_CV",
       "creator_username": "vlbastos",
-      "deleted": false
+      "deleted": true,
+      "deleted_reason": "Selected Incorrect Game or Information"
     },
     {
       "id": "8nuqv",
@@ -232,7 +174,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 21,
+      "entry_count": 29,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -253,7 +195,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 37,
+      "entry_count": 43,
       "creator": "76561198010836552",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -294,7 +236,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 18,
+      "entry_count": 55,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -315,7 +257,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 5,
+      "entry_count": 34,
       "creator": "76561198025173613",
       "required_play": true,
       "is_shared": true,
@@ -354,8 +296,8 @@
       "start_timestamp": 1784404110,
       "end_timestamp": 1785488400,
       "group": true,
-      "comment_count": 4,
-      "entry_count": 7,
+      "comment_count": 5,
+      "entry_count": 10,
       "creator": "76561197967055456",
       "cv_status": "FULL_CV",
       "creator_username": "Foxpile",
@@ -412,13 +354,93 @@
       "end_timestamp": 1786655820,
       "whitelist": true,
       "group": true,
-      "comment_count": 2,
-      "entry_count": 23,
+      "comment_count": 3,
+      "entry_count": 24,
       "creator": "76561198399974062",
       "is_shared": true,
       "cv_status": "FULL_CV",
       "creator_username": "ShroudOfLethe",
       "deleted": false
+    },
+    {
+      "id": "hNF6V",
+      "name": "Scale the Depths",
+      "points": 10,
+      "copies": 1,
+      "app_id": 3198890,
+      "package_id": null,
+      "link": "hNF6V/scale-the-depths",
+      "created_timestamp": 1784156139,
+      "start_timestamp": 1784156139,
+      "end_timestamp": 1784484000,
+      "group": true,
+      "comment_count": 4,
+      "entry_count": 19,
+      "creator": "76561199141726712",
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": "76561198832209109",
+          "status": "received",
+          "winner_username": "Slenderpoop00"
+        }
+      ],
+      "cv_status": "FULL_CV",
+      "creator_username": "vot4ol"
+    },
+    {
+      "id": "CjLMi",
+      "name": "Lorelei and the Laser Eyes",
+      "points": 25,
+      "copies": 1,
+      "app_id": 2008920,
+      "package_id": null,
+      "link": "CjLMi/lorelei-and-the-laser-eyes",
+      "created_timestamp": 1784142843,
+      "start_timestamp": 1784142843,
+      "end_timestamp": 1784476800,
+      "group": true,
+      "comment_count": 2,
+      "entry_count": 20,
+      "creator": "76561198352113526",
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": "76561198080362358",
+          "status": "received",
+          "winner_username": "VenomousNyx"
+        }
+      ],
+      "cv_status": "FULL_CV",
+      "creator_username": "yugimax"
+    },
+    {
+      "id": "mQbat",
+      "name": "Sorcery! Part 4",
+      "points": 10,
+      "copies": 1,
+      "app_id": 504800,
+      "package_id": null,
+      "link": "mQbat/sorcery-part-4",
+      "created_timestamp": 1783817076,
+      "start_timestamp": 1783817076,
+      "end_timestamp": 1784433600,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 2,
+      "entry_count": 49,
+      "creator": "76561198234142828",
+      "is_shared": true,
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": "nahemot",
+          "status": "received",
+          "winner_username": "nahemot"
+        }
+      ],
+      "cv_status": "REDUCED_CV",
+      "creator_username": "lockcjwen"
     },
     {
       "id": "iS82s",
@@ -434,20 +456,20 @@
       "region_restricted": true,
       "whitelist": true,
       "group": true,
-      "comment_count": 17,
+      "comment_count": 19,
       "entry_count": 31,
       "creator": "76561198159198291",
       "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "76561198000608288",
+          "status": "received",
+          "winner_username": "LinustheBold"
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "DanielStoSve",
-      "deleted": false
+      "creator_username": "DanielStoSve"
     },
     {
       "id": "C7y1l",
@@ -462,19 +484,19 @@
       "end_timestamp": 1784412000,
       "region_restricted": true,
       "group": true,
-      "comment_count": 30,
+      "comment_count": 32,
       "entry_count": 19,
       "creator": "76561198159198291",
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "76561198017660760",
+          "status": "received",
+          "winner_username": "TempR"
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "DanielStoSve",
-      "deleted": false
+      "creator_username": "DanielStoSve"
     },
     {
       "id": "Nh6Do",
