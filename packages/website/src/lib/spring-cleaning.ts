@@ -384,9 +384,13 @@ export function computePlayRate(user: User): PlayRate {
   ).length
   const played = won.filter(
     (g) =>
-      g.steam_play_data &&
-      !g.steam_play_data.never_played &&
-      !g.steam_play_data.has_no_available_stats,
+      // "I played, bro" / proof-of-play attestations count as played
+      // regardless of Steam data (played elsewhere, private profile...).
+      g.i_played_bro ||
+      g.required_play_meta?.requirements_met ||
+      (g.steam_play_data &&
+        !g.steam_play_data.never_played &&
+        !g.steam_play_data.has_no_available_stats),
   ).length
   return {
     played,
@@ -672,6 +676,9 @@ function analyzeUser(
     .map((g) => ({ g, wc: wishlistCountFor(g.link, g.name) }))
     .filter(({ g, wc }) => {
       if (wc < QUALITY_WISHLIST_MIN) return false
+      // Attested games ("I played, bro" / proof of play) are never accused —
+      // Steam may show them unplayed when they were played elsewhere.
+      if (g.i_played_bro || g.required_play_meta?.requirements_met) return false
       const sp = g.steam_play_data
       // Only accuse when Steam actually proves it unplayed (stats must exist).
       if (!sp || sp.has_no_available_stats) return false

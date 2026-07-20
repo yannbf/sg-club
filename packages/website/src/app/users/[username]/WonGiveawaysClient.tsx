@@ -125,10 +125,13 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData, 
         (!filterShared || giveawayInfo?.is_shared) &&
         (!filterPotentiallyIdling || game.steam_play_data?.is_potentially_idling)
 
+      // "I played, bro" / proof-of-play attestations count as played
+      // regardless of Steam data.
+      const isAttested = Boolean(game.i_played_bro || game.required_play_meta?.requirements_met)
       const matchesPlayFilter =
         playFilter === 'all' ||
-        (playFilter === 'played' && game.steam_play_data && !game.steam_play_data.never_played) ||
-        (playFilter === 'never_played' && game.steam_play_data?.never_played) ||
+        (playFilter === 'played' && (isAttested || (game.steam_play_data && !game.steam_play_data.never_played))) ||
+        (playFilter === 'never_played' && game.steam_play_data?.never_played && !isAttested) ||
         (playFilter === 'unplayed_required' && (game.required_play || game.required_play_meta) && (!game.required_play_meta || game.required_play_meta?.requirements_met === false))
 
       return matchesSearch && matchesCV && matchesLabels && matchesPlayFilter
