@@ -1496,9 +1496,9 @@ export class SteamGiftsUserFetcher {
     if (totalWins > 2 && playPercentage === 0 && establishedForMonths(2)) {
       warnings.push('zero_play_rate_with_wins')
     } else if (
-      totalWins > 7 &&
+      totalWins >= 5 &&
       playPercentage > 0 &&
-      playPercentage < 10 &&
+      playPercentage <= 20 &&
       establishedForMonths(2)
     ) {
       warnings.push('low_play_rate_many_wins')
