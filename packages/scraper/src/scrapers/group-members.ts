@@ -1481,14 +1481,18 @@ export class SteamGiftsUserFetcher {
     const establishedForMonths = (months: number) =>
       firstSeenMs == null || firstSeenMs <= monthsAgoMs(months)
 
-    // Play rate: share of won games we have evidence the member actually played.
+    // Play rate: share of won games we have evidence the member actually
+    // played. "I played, bro" / proof-of-play attestations always count as
+    // played regardless of Steam data (played elsewhere, private profile...).
     const wonGames = user.giveaways_won ?? []
     const totalWins = wonGames.length
     const playedWins = wonGames.filter(
       (g) =>
-        g.steam_play_data &&
-        !g.steam_play_data.never_played &&
-        !g.steam_play_data.has_no_available_stats,
+        g.i_played_bro ||
+        g.required_play_meta?.requirements_met ||
+        (g.steam_play_data &&
+          !g.steam_play_data.never_played &&
+          !g.steam_play_data.has_no_available_stats),
     ).length
     const playPercentage =
       totalWins > 0 ? Math.round((playedWins / totalWins) * 100) : 0
