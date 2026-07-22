@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1784717990948,
+  "lastUpdated": 1784743665717,
   "users": {
     "76561198359284432": {
       "username": "a10i",
@@ -17805,10 +17805,10 @@
       "stats": {
         "total_sent_count": 28,
         "total_sent_value": 1000.72,
-        "total_received_count": 62.8,
-        "total_received_value": 1185.96,
-        "total_gift_difference": -34.8,
-        "total_value_difference": -185.24,
+        "total_received_count": 63.3,
+        "total_received_value": 1189.95,
+        "total_gift_difference": -35.3,
+        "total_value_difference": -189.23,
         "fcv_sent_count": 28,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
@@ -17824,11 +17824,11 @@
         "real_total_gift_difference": -30,
         "giveaway_ratio": 11.67,
         "shared_sent_count": 0,
-        "shared_received_count": 7,
+        "shared_received_count": 8,
         "giveaways_created": 28,
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1783884334,
-        "last_giveaway_won_at": 1781708400,
+        "last_giveaway_won_at": 1784710800,
         "first_seen_at": 1749697803,
         "total_achievements_percentage": 14,
         "average_achievements_percentage": 16,
@@ -17839,6 +17839,15 @@
       "steam_profile_is_private": false,
       "country_code": "pl",
       "giveaways_won": [
+        {
+          "name": "looK INside - Chapter 1",
+          "link": "DSpaI/look-inside-chapter-1",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1784710800,
+          "required_play": false,
+          "is_shared": true
+        },
         {
           "name": "APE OUT",
           "link": "lUC7j/ape-out",
@@ -22328,7 +22337,7 @@
           "name": "PRAGMATA",
           "link": "gUjHp/pragmata",
           "cv_status": "FULL_CV",
-          "entries": 120,
+          "entries": 122,
           "copies": 1,
           "created_timestamp": 1784561298,
           "end_timestamp": 1785016800,
@@ -22339,7 +22348,7 @@
           "name": "Gothic 1 Remake",
           "link": "S2b5f/gothic-1-remake",
           "cv_status": "FULL_CV",
-          "entries": 96,
+          "entries": 100,
           "copies": 1,
           "created_timestamp": 1784561516,
           "end_timestamp": 1785535200,
@@ -31515,12 +31524,12 @@
       "avatar_url": "https://avatars.steamstatic.com/1168abd7dd5c6cc8eb4488f9012be53340b28456_medium.jpg",
       "steam_id": "76561197967055456",
       "stats": {
-        "total_sent_count": 10.8,
-        "total_sent_value": 146.06,
+        "total_sent_count": 11.8,
+        "total_sent_value": 157.55,
         "total_received_count": 2,
         "total_received_value": 77.98,
-        "total_gift_difference": 8.8,
-        "total_value_difference": 68.08,
+        "total_gift_difference": 9.8,
+        "total_value_difference": 79.57,
         "fcv_sent_count": 4,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
@@ -31535,7 +31544,7 @@
         "real_total_received_count": 2,
         "real_total_gift_difference": 2,
         "giveaway_ratio": 3.33,
-        "shared_sent_count": 22,
+        "shared_sent_count": 25,
         "shared_received_count": 0,
         "giveaways_created": 33,
         "giveaways_with_no_entries": 0,
@@ -31598,7 +31607,7 @@
           "name": "Fogpiercer",
           "link": "Z7Enk/fogpiercer",
           "cv_status": "FULL_CV",
-          "entries": 13,
+          "entries": 12,
           "copies": 1,
           "created_timestamp": 1784404110,
           "end_timestamp": 1785488400,
@@ -31657,9 +31666,10 @@
           "had_winners": true,
           "winners": [
             {
-              "name": null,
-              "status": "awaiting_feedback",
-              "activated": false
+              "name": "76561198069420656",
+              "winner_username": "Metalhead8489",
+              "status": "received",
+              "activated": true
             }
           ]
         },
@@ -31676,9 +31686,10 @@
           "had_winners": true,
           "winners": [
             {
-              "name": null,
-              "status": "awaiting_feedback",
-              "activated": false
+              "name": "cami666",
+              "winner_username": "cami666",
+              "status": "received",
+              "activated": true
             }
           ]
         },
@@ -31714,9 +31725,10 @@
           "had_winners": true,
           "winners": [
             {
-              "name": null,
-              "status": "awaiting_feedback",
-              "activated": false
+              "name": "76561198113581790",
+              "winner_username": "damianea103",
+              "status": "received",
+              "activated": true
             }
           ]
         },
@@ -38352,7 +38364,7 @@
           "name": "Ratatan",
           "link": "k5Xh4/ratatan",
           "cv_status": "FULL_CV",
-          "entries": 3,
+          "entries": 5,
           "copies": 1,
           "created_timestamp": 1784307139,
           "end_timestamp": 1784750400,
@@ -46408,7 +46420,7 @@
           "name": "Dead as Disco",
           "link": "M6Kj7/dead-as-disco",
           "cv_status": "FULL_CV",
-          "entries": 25,
+          "entries": 29,
           "copies": 1,
           "created_timestamp": 1784659709,
           "end_timestamp": 1785267420,
@@ -53903,7 +53915,7 @@
           "name": "Blue Estate The Game",
           "link": "sEQcX/blue-estate-the-game",
           "cv_status": "REDUCED_CV",
-          "entries": 30,
+          "entries": 31,
           "copies": 1,
           "created_timestamp": 1784334566,
           "end_timestamp": 1784952000,
@@ -53914,7 +53926,7 @@
           "name": "Welcome to Elk",
           "link": "qK3Y9/welcome-to-elk",
           "cv_status": "REDUCED_CV",
-          "entries": 66,
+          "entries": 69,
           "copies": 2,
           "created_timestamp": 1784414586,
           "end_timestamp": 1785038400,
@@ -61861,11 +61873,11 @@
         "real_total_gift_difference": -5,
         "giveaway_ratio": 9.33,
         "shared_sent_count": 15,
-        "shared_received_count": 8,
+        "shared_received_count": 9,
         "giveaways_created": 29,
         "giveaways_with_no_entries": 2,
         "last_giveaway_created_at": 1783081366,
-        "last_giveaway_won_at": 1783213200,
+        "last_giveaway_won_at": 1784710800,
         "first_seen_at": 1749682838,
         "total_achievements_percentage": 52,
         "average_achievements_percentage": 50,
@@ -61876,6 +61888,15 @@
       "steam_profile_is_private": false,
       "country_code": "gr",
       "giveaways_won": [
+        {
+          "name": "Mari and Bayu - The Road Home",
+          "link": "qbcAZ/mari-and-bayu-the-road-home",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1784710800,
+          "required_play": false,
+          "is_shared": true
+        },
         {
           "name": "Koira",
           "link": "OE5mq/koira",
@@ -77257,7 +77278,7 @@
           "name": "The Darkest Files",
           "link": "Rera1/the-darkest-files",
           "cv_status": "FULL_CV",
-          "entries": 6,
+          "entries": 7,
           "copies": 1,
           "created_timestamp": 1784599168,
           "end_timestamp": 1784858400,
@@ -102146,7 +102167,7 @@
           "name": "Blanc",
           "link": "sA9Td/blanc",
           "cv_status": "REDUCED_CV",
-          "entries": 68,
+          "entries": 100,
           "copies": 1,
           "created_timestamp": 1784679183,
           "end_timestamp": 1785027600,
