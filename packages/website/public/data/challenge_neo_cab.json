@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1783036800,
   "totalAchievements": 18,
-  "generatedAt": 1784820700776,
+  "generatedAt": 1784829286075,
   "challengeOver": false,
   "winnerUsername": "RaitorHaitor",
   "participants": [
@@ -589,7 +589,7 @@
       "review_recommendationid": "230101341",
       "review_url": "https://steamcommunity.com/profiles/76561198117390871/recommended/794540",
       "playtime_total_minutes": 396,
-      "playtime_2weeks_minutes": 258,
+      "playtime_2weeks_minutes": 257,
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 396,
       "achievements_total": 18,
@@ -2014,14 +2014,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 92,
-      "playtime_2weeks_minutes": 92,
+      "playtime_total_minutes": 160,
+      "playtime_2weeks_minutes": 160,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 92,
+      "playtime_challenge_minutes": 160,
       "achievements_total": 18,
-      "achievements_unlocked_total": 2,
+      "achievements_unlocked_total": 4,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 2,
+      "achievements_since_baseline": 4,
       "challenge_achievements": [
         {
           "apiname": "got_feelgrid",
@@ -2034,9 +2034,20 @@
           "displayName": "Perfect Rating",
           "description": "Earn your first 5-star rating",
           "unlocktime": 1784139440
+        },
+        {
+          "apiname": "puker_face",
+          "displayName": "Puker Face",
+          "unlocktime": 1784823651
+        },
+        {
+          "apiname": "star_rating_1",
+          "displayName": "Worst Driver Ever",
+          "description": "Earn your first 1-star rating",
+          "unlocktime": 1784823651
         }
       ],
-      "challenge_achievement_count": 2,
+      "challenge_achievement_count": 4,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
