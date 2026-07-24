@@ -122,23 +122,19 @@ there's no database to look anything up in:
 ```
 su|<slug>|<choice>|<deadlineEpoch>   # signup button
 sg|<slug>|<choice>|<deadlineEpoch>   # guest-username modal
-csetup                               # the /challenge-setup form modal, no congrats channel picked
-csetup|<congratsChannelId>           # same modal, carrying the picked congrats channel forward
+csetup                               # the /challenge-setup form modal (includes the congrats-channel picker)
 clist                                # the /challenge-list challenge picker (string select)
 carch                                # the /challenge-archive challenge picker (string select)
 ```
 
-`choice` is `want` / `have` / `out`. `handleModalSubmit` routes by
-`custom_id` prefix: `csetup` or `csetup|...` both go to the challenge-setup
-flow (the optional suffix, if present, is the congrats channel id extracted
-before calling `finishChallengeSetupFromModal`), anything else falls through
+`choice` is `want` / `have` / `out`. `handleModalSubmit` routes the plain
+`csetup` custom_id to the challenge-setup flow; anything else falls through
 to the `sg|...` decoder. `handleMessageComponent` checks for the fixed
 `clist`/`carch` ids first (neither has pipes, so `decodeCustomId` would
 reject them) before falling through to the `su|...` decoder. Slugs are auto-generated
 from the challenge name via `slugify()` (lowercase, non-alphanumeric runs →
 `-`, trimmed, max 40 chars) and validated (`^[a-z0-9-]{1,40}$`) so the
-encoded ID never exceeds Discord's 100-char `custom_id` limit. A Discord
-channel id (snowflake) comfortably fits too, even appended after `csetup|`.
+encoded ID never exceeds Discord's 100-char `custom_id` limit.
 
 ## The core invariant
 
@@ -151,29 +147,33 @@ any Discord REST call is made, and is covered directly in
 ## Slash commands
 
 - **`/challenge-setup`** (admin-only via `default_member_permissions`) — takes
-  one optional option, **`congrats-channel`** (a channel picker, text
-  channels only — see [Two-channel challenge
-  messages](#two-channel-challenge-messages) below), and opens a **modal
-  form** (`custom_id: csetup`, or `csetup|<congratsChannelId>` when a
-  congrats channel was picked) with four text inputs: Challenge name,
-  Description, a combined **Dates (UTC)** field (`"<start> → <end>"`, also
-  accepting `->` or the standalone word `to` / `till` / `until` as the
-  separator — each side parsed leniently, see [Accepted date
-  formats](#accepted-date-formats) below), and an optional Signup deadline
-  (UTC, defaults to the start date — or to the **end** date when the start is
-  an immediate one, see [Immediate starts](#immediate-starts) below — same
-  lenient parsing). On submit the bot slugifies the name, rejects the setup
-  if a `CHALLENGE` with the same slug already exists in the log, splits and
-  validates the dates field (`parseDateRangeField`/`validateChallengeDates`
-  in `_lib/dates.ts`), then posts the Dyno-style announcement embed +
-  buttons **to the channel the command was invoked in**, and records a
-  `CHALLENGE` line in the log channel — including `congrats_channel_id` when
-  one was picked. Any parse/validation failure is surfaced as a friendly `❌
-  ...` ephemeral error instead of posting anything. (There's no
-  image option — the banner image is a fixed constant, and the "View Event"
-  button now points at a fixed events URL — see below.) The ephemeral success
-  confirmation mentions the congrats channel (`Congrats will post in
-  <#channelId>`) when one was picked.
+  no options and opens a **components-v2 modal form** (`custom_id: csetup`)
+  directly. Every field is a Label component (type 18) wrapping its input:
+  Challenge name, Description, a combined **Dates (UTC)** field
+  (`"<start> → <end>"`, also accepting `->` or the standalone word `to` /
+  `till` / `until` as the separator — each side parsed leniently, see
+  [Accepted date formats](#accepted-date-formats) below), an optional Signup
+  deadline (UTC, defaults to the start date — or to the **end** date when the
+  start is an immediate one, see [Immediate starts](#immediate-starts) below —
+  same lenient parsing), and an optional **congrats channel** picker (a
+  Channel Select, type 8, text channels only — see [Two-channel challenge
+  messages](#two-channel-challenge-messages) below), all inside the same
+  form instead of being threaded in through a slash-command option. On submit
+  the bot slugifies the name, rejects the setup if a `CHALLENGE` with the same
+  slug already exists in the log, splits and validates the dates field
+  (`parseDateRangeField`/`validateChallengeDates` in `_lib/dates.ts`), then
+  posts the Dyno-style announcement embed + buttons **to the channel the
+  command was invoked in**, and records a `CHALLENGE` line in the log
+  channel — including `congrats_channel_id` when one was picked. Any
+  parse/validation failure is surfaced as a friendly `❌ ...` ephemeral error
+  instead of posting anything. (There's no image option — the banner image is
+  a fixed constant, and the "View Event" button now points at a fixed events
+  URL — see below.) The ephemeral success confirmation mentions the congrats
+  channel (`Congrats will post in <#channelId>`) when one was picked.
+  `extractModalValue` (in `interactions.ts`) is tolerant of both the legacy
+  action-row modal-submit shape (`data.components[].components[].value`) and
+  the components-v2 shape (top-level entries carrying `custom_id` directly,
+  with `value` for text inputs or `values[0]` for the channel select).
 - **`/challenge-list`** — an interactive picker, no options. Reads the whole
   log channel (via `collectChallengeIndex`), excludes any slug carrying an
   `ARCHIVED` marker, and splits the rest into two groups: **ongoing**
@@ -237,8 +237,8 @@ same `CHALLENGE` log entry (mod-approved design):
   reminder, and the challenge-over message (both from
   `discord:milestones`) — see the [Cron scripts](#cron-scripts) entries
   below, which all still post to `meta.channel_id` unchanged.
-- **Congrats channel** — optional, picked via `/challenge-setup`'s
-  `congrats-channel` option and recorded as
+- **Congrats channel** — optional, picked via the **Congrats channel** field
+  inside `/challenge-setup`'s modal form and recorded as
   `ChallengeMeta.congrats_channel_id`. When set, it's the *only* channel that
   receives the "X just finished the challenge!" posts from
   `discord:congrats` (`resolveChannelForSlug`/`pickCongratsChannel` in

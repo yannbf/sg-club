@@ -69,6 +69,8 @@ export const ComponentType = {
   BUTTON: 2,
   STRING_SELECT: 3,
   TEXT_INPUT: 4,
+  CHANNEL_SELECT: 8,
+  LABEL: 18,
 } as const
 
 export const ButtonStyle = {

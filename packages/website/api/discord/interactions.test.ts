@@ -375,7 +375,7 @@ describe('APPLICATION_COMMAND challenge-setup', () => {
     vi.clearAllMocks()
   })
 
-  it('responds immediately with a MODAL and 4 action rows, without deferring', async () => {
+  it('responds immediately with a MODAL and 5 Label-wrapped components, without deferring', async () => {
     const req = makeReq({
       type: 2,
       token: 'tok',
@@ -392,33 +392,20 @@ describe('APPLICATION_COMMAND challenge-setup', () => {
       data: { custom_id: 'csetup' },
     })
     const body = res.body as {
-      data: { components: Array<{ components: Array<{ custom_id: string }> }> }
+      data: { components: Array<{ type: number; label: string; component: { custom_id: string; type: number } }> }
     }
-    expect(body.data.components).toHaveLength(4)
-    const customIds = body.data.components.map((row) => row.components[0]!.custom_id)
-    expect(customIds).toEqual(['name', 'description', 'dates', 'signup_deadline'])
+    // Components-v2: every field is a Label (type 18) wrapping its input component.
+    expect(body.data.components).toHaveLength(5)
+    expect(body.data.components.every((c) => c.type === 18)).toBe(true)
+    const customIds = body.data.components.map((c) => c.component.custom_id)
+    expect(customIds).toEqual(['name', 'description', 'dates', 'signup_deadline', 'congrats_channel'])
+
+    // The congrats-channel field is a Channel Select (type 8), text-channels only.
+    const congratsChannel = body.data.components.find((c) => c.component.custom_id === 'congrats_channel')!
+    expect(congratsChannel.component.type).toBe(8)
+    expect(congratsChannel.component).toMatchObject({ channel_types: [0], required: false })
+
     expect(discordRest.createMessage).not.toHaveBeenCalled()
-  })
-
-  it('threads a picked congrats-channel option into the modal custom_id as csetup|<channelId>', async () => {
-    const req = makeReq({
-      type: 2,
-      token: 'tok',
-      channel_id: 'chan1',
-      member: { user: { id: 'd1', username: 'yannbf' } },
-      data: {
-        name: 'challenge-setup',
-        options: [{ name: 'congrats-channel', value: 'congrats-chan-1' }],
-      },
-    })
-    const res = makeRes()
-
-    await handler(req, res)
-
-    expect(res.body).toMatchObject({
-      type: 9,
-      data: { custom_id: 'csetup|congrats-chan-1' },
-    })
   })
 })
 
@@ -513,33 +500,7 @@ describe('MODAL_SUBMIT challenge-setup (csetup)', () => {
     )
   })
 
-  it('routes csetup|<channelId>, records congrats_channel_id in the log, and mentions the channel in the confirmation', async () => {
-    const req = makeCsetupReq({ customId: 'csetup|congrats-chan-1' })
-    const res = makeRes()
-
-    await handler(req, res)
-    // Still a deferred ephemeral ack, same as the plain "csetup" form.
-    expect(res.body).toMatchObject({
-      type: 5,
-      data: { flags: 1 << 6 },
-    })
-
-    await drainWaitUntil()
-
-    expect(discordRest.createMessage).toHaveBeenCalledTimes(2)
-    const [, logPayload] = vi.mocked(discordRest.createMessage).mock.calls[1]
-    expect(logPayload.content).toContain('"congrats_channel_id":"congrats-chan-1"')
-
-    expect(discordRest.editOriginalResponse).toHaveBeenCalledWith(
-      'test-app-id',
-      'tok',
-      expect.objectContaining({
-        content: expect.stringContaining('Congrats will post in <#congrats-chan-1>'),
-      })
-    )
-  })
-
-  it('omits congrats_channel_id from the log and the confirmation mention when no channel was picked (plain csetup)', async () => {
+  it('omits congrats_channel_id from the log and the confirmation mention when no channel was picked (legacy action-row shape)', async () => {
     const req = makeCsetupReq({})
     const res = makeRes()
 
@@ -553,6 +514,71 @@ describe('MODAL_SUBMIT challenge-setup (csetup)', () => {
       'test-app-id',
       'tok',
       expect.objectContaining({ content: expect.not.stringContaining('Congrats will post') })
+    )
+  })
+
+  // Components-v2 modal submits nest each field's value differently from the
+  // legacy action-row shape `makeCsetupReq` builds above: top-level entries
+  // carry `custom_id` directly (text inputs: `value`; the channel select:
+  // `values`), instead of `data.components[].components[].value`.
+  function makeCsetupReqV2(overrides: {
+    dates?: string
+    congratsChannelId?: string
+  }): IncomingMessage {
+    const dates = overrides.dates ?? '+1d → +30d'
+    const components: Array<Record<string, unknown>> = [
+      { custom_id: 'name', value: 'Neo Cab' },
+      { custom_id: 'description', value: 'A great challenge' },
+      { custom_id: 'dates', value: dates },
+      { custom_id: 'signup_deadline', value: '' },
+      {
+        custom_id: 'congrats_channel',
+        values: overrides.congratsChannelId ? [overrides.congratsChannelId] : [],
+      },
+    ]
+    return makeReq({
+      type: 5,
+      token: 'tok',
+      channel_id: 'chan1',
+      member: { user: { id: 'd1', username: 'yannbf' } },
+      data: { custom_id: 'csetup', components },
+    })
+  }
+
+  it('parses the components-v2 flat payload shape (no channel picked)', async () => {
+    const req = makeCsetupReqV2({})
+    const res = makeRes()
+
+    await handler(req, res)
+    await drainWaitUntil()
+
+    expect(discordRest.createMessage).toHaveBeenCalledTimes(2)
+    const [, logPayload] = vi.mocked(discordRest.createMessage).mock.calls[1]
+    expect(logPayload.content).not.toContain('congrats_channel_id')
+    expect(discordRest.editOriginalResponse).toHaveBeenCalledWith(
+      'test-app-id',
+      'tok',
+      expect.objectContaining({ content: expect.stringContaining('✅ Challenge announced:') })
+    )
+  })
+
+  it('reads the congrats channel from the v2 Channel Select, records congrats_channel_id in the log, and mentions the channel in the confirmation', async () => {
+    const req = makeCsetupReqV2({ congratsChannelId: 'congrats-chan-1' })
+    const res = makeRes()
+
+    await handler(req, res)
+    await drainWaitUntil()
+
+    expect(discordRest.createMessage).toHaveBeenCalledTimes(2)
+    const [, logPayload] = vi.mocked(discordRest.createMessage).mock.calls[1]
+    expect(logPayload.content).toContain('"congrats_channel_id":"congrats-chan-1"')
+
+    expect(discordRest.editOriginalResponse).toHaveBeenCalledWith(
+      'test-app-id',
+      'tok',
+      expect.objectContaining({
+        content: expect.stringContaining('Congrats will post in <#congrats-chan-1>'),
+      })
     )
   })
 

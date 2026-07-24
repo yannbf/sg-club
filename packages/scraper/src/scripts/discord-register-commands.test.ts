@@ -9,16 +9,8 @@ describe('challenge-setup command registration shape', () => {
     expect(challengeSetup?.default_member_permissions).toBe('32')
   })
 
-  it('gains exactly one optional congrats-channel option', () => {
-    expect(challengeSetup?.options).toHaveLength(1)
-    const option = challengeSetup?.options[0]
-    expect(option).toMatchObject({
-      name: 'congrats-channel',
-      type: 7, // CHANNEL
-      required: false,
-      channel_types: [0], // GUILD_TEXT
-    })
-    expect(typeof option?.description).toBe('string')
+  it('takes no options — the congrats-channel picker lives inside the modal form', () => {
+    expect(challengeSetup?.options).toEqual([])
   })
 })
 

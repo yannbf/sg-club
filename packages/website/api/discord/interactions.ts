@@ -81,10 +81,25 @@ interface DiscordInteraction {
     name?: string
     custom_id?: string
     options?: Array<{ name: string; value?: unknown }>
-    components?: Array<{ components?: Array<{ custom_id: string; value?: string }> }>
+    components?: ModalComponentEntry[]
     /** Selected values for a MESSAGE_COMPONENT string-select interaction (e.g. `clist`). */
     values?: string[]
   }
+}
+
+/**
+ * A modal-submit payload entry. Shapes vary by Discord API version:
+ *  - legacy action rows: `{ components: [{ custom_id, value }] }`
+ *  - components-v2 Label wrapper (if echoed nested): `{ component: { custom_id, value|values } }`
+ *  - components-v2 flat (expected): `{ custom_id, value|values }` directly at the top level
+ * `extractModalValue` walks all three shapes tolerantly.
+ */
+interface ModalComponentEntry {
+  custom_id?: string
+  value?: string
+  values?: string[]
+  component?: ModalComponentEntry
+  components?: ModalComponentEntry[]
 }
 
 async function readRawBody(req: IncomingMessage): Promise<Buffer> {
@@ -99,11 +114,27 @@ function getInteractionUser(interaction: DiscordInteraction): DiscordUserPayload
   return interaction.member?.user ?? interaction.user
 }
 
-function extractModalValue(interaction: DiscordInteraction, customId: string): string | null {
-  for (const row of interaction.data?.components ?? []) {
-    for (const component of row.components ?? []) {
-      if (component.custom_id === customId) return component.value ?? null
+/** Finds `customId` within a single top-level modal-submit entry, walking whichever nesting shape it has. */
+function findModalComponent(
+  entry: ModalComponentEntry,
+  customId: string
+): ModalComponentEntry | undefined {
+  if (entry.component) return findModalComponent(entry.component, customId)
+  if (entry.components) {
+    for (const child of entry.components) {
+      const found = findModalComponent(child, customId)
+      if (found) return found
     }
+    return undefined
+  }
+  return entry.custom_id === customId ? entry : undefined
+}
+
+/** Text inputs carry `value`; selects (e.g. the congrats-channel picker) carry `values` — first entry wins. */
+function extractModalValue(interaction: DiscordInteraction, customId: string): string | null {
+  for (const entry of interaction.data?.components ?? []) {
+    const match = findModalComponent(entry, customId)
+    if (match) return match.values?.[0] ?? match.value ?? null
   }
   return null
 }
@@ -236,92 +267,87 @@ async function handleApplicationCommand(
   respondJson(res, 400, { error: 'Unknown command' })
 }
 
-function getStringOption(interaction: DiscordInteraction, name: string): string | undefined {
-  const option = interaction.data?.options?.find((o) => o.name === name)
-  return typeof option?.value === 'string' ? option.value : undefined
-}
-
 async function handleChallengeSetup(
   interaction: DiscordInteraction,
   res: ServerResponse
 ): Promise<void> {
-  // The congrats-channel picker's value (a channel id snowflake) is threaded
-  // through the modal's custom_id — the modal has no other way to carry
-  // context forward from the slash command's options. A snowflake comfortably
-  // fits the 100-char custom_id cap even appended to "csetup|".
-  const congratsChannelId = getStringOption(interaction, 'congrats-channel')
-  const modalCustomId = congratsChannelId ? `csetup|${congratsChannelId}` : 'csetup'
-
   // Discord does not allow deferring an APPLICATION_COMMAND and then opening
   // a modal as a followup — the modal must be the immediate synchronous
   // response, so there's no defer/waitUntil here.
+  //
+  // Components-v2 modal: every field is a Label (type 18) wrapping its input
+  // component, rather than the legacy action-row (type 1) shape. The congrats
+  // channel picker lives here as a Channel Select (type 8) instead of being
+  // threaded through the slash command's options and the modal custom_id.
   respondJson(res, 200, {
     type: InteractionResponseType.MODAL,
     data: {
-      custom_id: modalCustomId,
+      custom_id: 'csetup',
       title: 'New Challenge',
       components: [
         {
-          type: 1,
-          components: [
-            {
-              type: 4,
-              custom_id: 'name',
-              style: TextInputStyle.SHORT,
-              label: 'Challenge name',
-              required: true,
-              max_length: 100,
-            },
-          ],
+          type: ComponentType.LABEL,
+          label: 'Challenge name',
+          component: {
+            type: 4,
+            custom_id: 'name',
+            style: TextInputStyle.SHORT,
+            required: true,
+            max_length: 100,
+          },
         },
         {
-          type: 1,
-          components: [
-            {
-              type: 4,
-              custom_id: 'description',
-              style: TextInputStyle.PARAGRAPH,
-              label: 'Description',
-              required: true,
-              max_length: 2000,
-            },
-          ],
+          type: ComponentType.LABEL,
+          label: 'Description',
+          component: {
+            type: 4,
+            custom_id: 'description',
+            style: TextInputStyle.PARAGRAPH,
+            required: true,
+            max_length: 2000,
+          },
         },
         {
-          type: 1,
-          components: [
-            {
-              type: 4,
-              custom_id: 'dates',
-              style: TextInputStyle.SHORT,
-              label: 'Dates (UTC)',
-              required: true,
-              placeholder: 'August 1 to August 30 - also today to August 4',
-            },
-          ],
+          type: ComponentType.LABEL,
+          label: 'Dates (UTC)',
+          description: 'August 1 to August 30 - also today to August 4',
+          component: {
+            type: 4,
+            custom_id: 'dates',
+            style: TextInputStyle.SHORT,
+            required: true,
+          },
         },
         {
-          type: 1,
-          components: [
-            {
-              type: 4,
-              custom_id: 'signup_deadline',
-              style: TextInputStyle.SHORT,
-              label: 'Signup deadline (UTC, optional)',
-              required: false,
-              placeholder: 'if not specified, same as the moment the event starts',
-            },
-          ],
+          type: ComponentType.LABEL,
+          label: 'Signup deadline (UTC, optional)',
+          description: 'if not specified, same as the moment the event starts',
+          component: {
+            type: 4,
+            custom_id: 'signup_deadline',
+            style: TextInputStyle.SHORT,
+            required: false,
+          },
+        },
+        {
+          type: ComponentType.LABEL,
+          label: 'Congrats channel (optional)',
+          description: "Where 'X finished the challenge' posts go (default: this channel)",
+          component: {
+            type: ComponentType.CHANNEL_SELECT,
+            custom_id: 'congrats_channel',
+            channel_types: [0], // GUILD_TEXT
+            required: false,
+            min_values: 0,
+            max_values: 1,
+          },
         },
       ],
     },
   })
 }
 
-async function finishChallengeSetupFromModal(
-  interaction: DiscordInteraction,
-  congratsChannelId?: string
-): Promise<void> {
+async function finishChallengeSetupFromModal(interaction: DiscordInteraction): Promise<void> {
   const appId = getAppId()
   const token = interaction.token
 
@@ -331,6 +357,7 @@ async function finishChallengeSetupFromModal(
     const datesInput = extractModalValue(interaction, 'dates') ?? ''
     const deadlineRaw = extractModalValue(interaction, 'signup_deadline')
     const deadlineInput = deadlineRaw?.trim() ? deadlineRaw : undefined
+    const congratsChannelId = extractModalValue(interaction, 'congrats_channel') ?? undefined
 
     const slug = slugify(name)
     const slugError = validateSlugForCustomId(slug)
@@ -806,13 +833,12 @@ async function handleModalSubmit(
 ): Promise<void> {
   const customId = interaction.data?.custom_id
 
-  if (customId === 'csetup' || customId?.startsWith('csetup|')) {
-    const congratsChannelId = customId.startsWith('csetup|') ? customId.slice('csetup|'.length) : undefined
+  if (customId === 'csetup') {
     respondJson(res, 200, {
       type: InteractionResponseType.DEFERRED_CHANNEL_MESSAGE_WITH_SOURCE,
       data: { flags: MessageFlags.EPHEMERAL },
     })
-    waitUntil(finishChallengeSetupFromModal(interaction, congratsChannelId))
+    waitUntil(finishChallengeSetupFromModal(interaction))
     return
   }
 

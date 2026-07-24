@@ -9,15 +9,7 @@ export const commands = [
     name: 'challenge-setup',
     description: 'Announce a new challenge and open signups',
     default_member_permissions: MANAGE_GUILD_PERMISSION,
-    options: [
-      {
-        name: 'congrats-channel',
-        description: "Channel for 'X finished the challenge' posts (default: this channel)",
-        type: 7, // CHANNEL
-        required: false,
-        channel_types: [0], // GUILD_TEXT
-      },
-    ],
+    options: [],
   },
   {
     name: 'challenge-list',
