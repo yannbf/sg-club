@@ -36,10 +36,12 @@ import {
 import { parseDateRangeField, validateChallengeDates } from '../_lib/dates.js'
 import {
   buildRoster,
+  collectChallengeIndex,
   parseLogLine,
+  serializeArchived,
   serializeChallenge,
   serializeSignup,
-  type ChallengeMeta,
+  type ChallengeIndexEntry,
 } from '../_lib/signup-log.js'
 import { resolveDiscordUserToSgUsername, validateSgUsername } from '../_lib/identity.js'
 import {
@@ -221,6 +223,10 @@ async function handleApplicationCommand(
   }
   if (commandName === 'challenge-list') {
     await handleChallengeList(interaction, res)
+    return
+  }
+  if (commandName === 'challenge-archive') {
+    await handleChallengeArchive(interaction, res)
     return
   }
   if (commandName === 'mod-report') {
@@ -430,6 +436,15 @@ async function handleChallengeList(
   waitUntil(finishChallengeListPicker(interaction))
 }
 
+/**
+ * True when `entry` is still running: its end hasn't passed and no `ENDED`
+ * marker has been posted for it. Used to split the `/challenge-list` picker
+ * into ongoing/ended sections.
+ */
+function isOngoing(entry: ChallengeIndexEntry, nowSeconds: number): boolean {
+  return entry.meta.end > nowSeconds && !entry.ended
+}
+
 /** Builds the "Pick a challenge:" ephemeral select menu (or a "no challenges" message). */
 async function finishChallengeListPicker(interaction: DiscordInteraction): Promise<void> {
   const appId = getAppId()
@@ -437,19 +452,18 @@ async function finishChallengeListPicker(interaction: DiscordInteraction): Promi
 
   try {
     const messages = await getAllChannelMessages(getLogChannelId(), 2000)
+    const index = collectChallengeIndex(messages)
+    const nowSeconds = Math.floor(Date.now() / 1000)
 
-    // Messages come back newest-first, so the first CHALLENGE seen per slug
-    // is the most recent one — and Map iteration order matches that
-    // newest-first insertion order, so slicing the first 25 gives the 25
-    // most recently announced distinct challenges.
-    const metaBySlug = new Map<string, ChallengeMeta>()
-    for (const message of messages) {
-      const parsed = parseLogLine(message.content)
-      if (parsed?.type !== 'CHALLENGE') continue
-      if (!metaBySlug.has(parsed.data.slug)) metaBySlug.set(parsed.data.slug, parsed.data)
-    }
-
-    const challenges = [...metaBySlug.values()].slice(0, CHALLENGE_LIST_PICKER_LIMIT)
+    // Archived challenges never appear in the picker. Among the rest,
+    // ongoing challenges are listed first (newest-first), then ended ones
+    // (newest-first) — Map iteration order already matches newest-first
+    // insertion order (see collectChallengeIndex), so no extra sort is
+    // needed within each group.
+    const entries = [...index.values()].filter((entry) => !entry.archived)
+    const ongoing = entries.filter((entry) => isOngoing(entry, nowSeconds))
+    const ended = entries.filter((entry) => !isOngoing(entry, nowSeconds))
+    const challenges = [...ongoing, ...ended].slice(0, CHALLENGE_LIST_PICKER_LIMIT)
 
     if (challenges.length === 0) {
       await editOriginalResponse(appId, token, { content: 'No challenges found.' })
@@ -465,10 +479,10 @@ async function finishChallengeListPicker(interaction: DiscordInteraction): Promi
             {
               type: ComponentType.STRING_SELECT,
               custom_id: CHALLENGE_LIST_SELECT_ID,
-              options: challenges.map((meta) => ({
-                label: truncateLabel(meta.name, 100),
-                value: meta.slug,
-                description: meta.slug,
+              options: challenges.map((entry) => ({
+                label: truncateLabel(entry.meta.name, 100),
+                value: entry.meta.slug,
+                description: `${isOngoing(entry, nowSeconds) ? 'ongoing' : 'ended'} · ${entry.meta.slug}`,
               })),
             },
           ],
@@ -528,6 +542,108 @@ async function finishChallengeList(interaction: DiscordInteraction, slug: string
   }
 }
 
+const CHALLENGE_ARCHIVE_SELECT_ID = 'carch'
+
+async function handleChallengeArchive(
+  interaction: DiscordInteraction,
+  res: ServerResponse
+): Promise<void> {
+  // Same rationale as /challenge-list: the picker only needs to be visible
+  // to whoever ran the command, and building it requires a log-channel
+  // fetch that can't reliably finish inside Discord's 3s ack window.
+  respondJson(res, 200, {
+    type: InteractionResponseType.DEFERRED_CHANNEL_MESSAGE_WITH_SOURCE,
+    data: { flags: MessageFlags.EPHEMERAL },
+  })
+  waitUntil(finishChallengeArchivePicker(interaction))
+}
+
+/** Builds the "Pick a challenge to archive:" ephemeral select menu (or a "no challenges" message). */
+async function finishChallengeArchivePicker(interaction: DiscordInteraction): Promise<void> {
+  const appId = getAppId()
+  const token = interaction.token
+
+  try {
+    const messages = await getAllChannelMessages(getLogChannelId(), 2000)
+    const index = collectChallengeIndex(messages)
+
+    // Every non-archived challenge is eligible — ongoing or ended — newest
+    // re-announce/newest slug first, capped at the picker limit.
+    const challenges = [...index.values()]
+      .filter((entry) => !entry.archived)
+      .slice(0, CHALLENGE_LIST_PICKER_LIMIT)
+
+    if (challenges.length === 0) {
+      await editOriginalResponse(appId, token, { content: 'No challenges to archive.' })
+      return
+    }
+
+    await editOriginalResponse(appId, token, {
+      content: 'Pick a challenge to archive:',
+      components: [
+        {
+          type: ComponentType.ACTION_ROW,
+          components: [
+            {
+              type: ComponentType.STRING_SELECT,
+              custom_id: CHALLENGE_ARCHIVE_SELECT_ID,
+              options: challenges.map((entry) => ({
+                label: truncateLabel(entry.meta.name, 100),
+                value: entry.meta.slug,
+                description: entry.meta.slug,
+              })),
+            },
+          ],
+        },
+      ],
+    })
+  } catch (err) {
+    await editOriginalResponse(appId, token, {
+      content: `❌ ${(err as Error).message}`,
+    }).catch(() => {})
+  }
+}
+
+/** MESSAGE_COMPONENT entry for the `carch` string-select — posts the ARCHIVED marker for the chosen slug. */
+async function handleChallengeArchiveSelect(
+  interaction: DiscordInteraction,
+  res: ServerResponse
+): Promise<void> {
+  const slug = interaction.data?.values?.[0]
+
+  // Deferred update of the same ephemeral picker message — the marker post
+  // is a log-channel write that can't reliably finish inside the 3s window.
+  respondJson(res, 200, {
+    type: InteractionResponseType.DEFERRED_UPDATE_MESSAGE,
+    data: {},
+  })
+  if (slug) waitUntil(finishChallengeArchive(interaction, slug))
+}
+
+async function finishChallengeArchive(interaction: DiscordInteraction, slug: string): Promise<void> {
+  const appId = getAppId()
+  const token = interaction.token
+
+  try {
+    const messages = await getAllChannelMessages(getLogChannelId(), 2000)
+    const index = collectChallengeIndex(messages)
+    const name = index.get(slug)?.meta.name ?? slug
+
+    await createMessage(getLogChannelId(), {
+      content: serializeArchived({ slug, ts: Math.floor(Date.now() / 1000) }),
+    })
+
+    await editOriginalResponse(appId, token, {
+      content: `Archived **${name}**. It will no longer appear in lists or bot activity. (Un-archive by deleting the ARCHIVED line in the log channel.)`,
+      components: [],
+    })
+  } catch (err) {
+    await editOriginalResponse(appId, token, {
+      content: `❌ ${(err as Error).message}`,
+    }).catch(() => {})
+  }
+}
+
 async function handleModReport(
   interaction: DiscordInteraction,
   res: ServerResponse,
@@ -578,9 +694,13 @@ async function handleMessageComponent(
   const customId = interaction.data?.custom_id
 
   // Routed independently of decodeCustomId (which only understands the
-  // `su|`/`sg|` signup formats) since `clist` isn't a pipe-delimited id.
+  // `su|`/`sg|` signup formats) since `clist`/`carch` aren't pipe-delimited ids.
   if (customId === CHALLENGE_LIST_SELECT_ID) {
     await handleChallengeListSelect(interaction, res)
+    return
+  }
+  if (customId === CHALLENGE_ARCHIVE_SELECT_ID) {
+    await handleChallengeArchiveSelect(interaction, res)
     return
   }
 

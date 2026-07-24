@@ -49,6 +49,12 @@ export interface EndedEvent {
   ts: number
 }
 
+/** Posted once a challenge is archived via `/challenge-archive` — hides it from lists and bot activity. */
+export interface ArchivedEvent {
+  slug: string
+  ts: number
+}
+
 export function serializeChallenge(meta: ChallengeMeta): string {
   return `CHALLENGE ${JSON.stringify(meta)}`
 }
@@ -69,14 +75,19 @@ export function serializeEnded(event: EndedEvent): string {
   return `ENDED ${JSON.stringify(event)}`
 }
 
+export function serializeArchived(event: ArchivedEvent): string {
+  return `ARCHIVED ${JSON.stringify(event)}`
+}
+
 export type ParsedLogEntry =
   | { type: 'CHALLENGE'; data: ChallengeMeta }
   | { type: 'SIGNUP'; data: SignupEvent }
   | { type: 'CLOSED'; data: ClosedEvent }
   | { type: 'REMINDER24'; data: Reminder24Event }
   | { type: 'ENDED'; data: EndedEvent }
+  | { type: 'ARCHIVED'; data: ArchivedEvent }
 
-const MARKER_TYPES = new Set(['CLOSED', 'REMINDER24', 'ENDED'])
+const MARKER_TYPES = new Set(['CLOSED', 'REMINDER24', 'ENDED', 'ARCHIVED'])
 
 /**
  * Tolerant parser — anything that isn't a well-formed protocol line (garbage,
@@ -110,9 +121,73 @@ export function parseLogLine(content: string): ParsedLogEntry | null {
     if (typeof record.discord_id !== 'string' || typeof record.ts !== 'number') return null
     return { type, data: data as SignupEvent }
   }
-  // CLOSED / REMINDER24 / ENDED — all the same tiny { slug, ts } shape.
+  // CLOSED / REMINDER24 / ENDED / ARCHIVED — all the same tiny { slug, ts } shape.
   if (typeof record.ts !== 'number') return null
   return { type, data: data as ClosedEvent } as ParsedLogEntry
+}
+
+export interface ChallengeIndexEntry {
+  meta: ChallengeMeta
+  closed: boolean
+  reminded: boolean
+  ended: boolean
+  archived: boolean
+}
+
+/**
+ * Reads the whole log once and builds a per-slug index: the newest
+ * `CHALLENGE` meta seen (messages come back newest-first, so the first
+ * `CHALLENGE` seen per slug is the most recent re-announce, same convention
+ * used across the interactions endpoint and cron scripts), plus which marker
+ * types (`CLOSED`/`REMINDER24`/`ENDED`/`ARCHIVED`) have been posted for it.
+ * Shared by anything that needs "the current state of every challenge" —
+ * the `/challenge-list` and `/challenge-archive` pickers, and the
+ * close-signups/milestones/congrats cron scripts.
+ */
+export function collectChallengeIndex(
+  logMessages: Array<{ content: string }>
+): Map<string, ChallengeIndexEntry> {
+  const metaBySlug = new Map<string, ChallengeMeta>()
+  const closedSlugs = new Set<string>()
+  const remindedSlugs = new Set<string>()
+  const endedSlugs = new Set<string>()
+  const archivedSlugs = new Set<string>()
+
+  for (const message of logMessages) {
+    const parsed = parseLogLine(message.content)
+    if (!parsed) continue
+    switch (parsed.type) {
+      case 'CHALLENGE':
+        if (!metaBySlug.has(parsed.data.slug)) metaBySlug.set(parsed.data.slug, parsed.data)
+        break
+      case 'CLOSED':
+        closedSlugs.add(parsed.data.slug)
+        break
+      case 'REMINDER24':
+        remindedSlugs.add(parsed.data.slug)
+        break
+      case 'ENDED':
+        endedSlugs.add(parsed.data.slug)
+        break
+      case 'ARCHIVED':
+        archivedSlugs.add(parsed.data.slug)
+        break
+      case 'SIGNUP':
+        break
+    }
+  }
+
+  const index = new Map<string, ChallengeIndexEntry>()
+  for (const [slug, meta] of metaBySlug) {
+    index.set(slug, {
+      meta,
+      closed: closedSlugs.has(slug),
+      reminded: remindedSlugs.has(slug),
+      ended: endedSlugs.has(slug),
+      archived: archivedSlugs.has(slug),
+    })
+  }
+  return index
 }
 
 export interface RosterEntry {

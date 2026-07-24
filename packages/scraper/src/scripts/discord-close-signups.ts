@@ -9,9 +9,8 @@ import {
 } from '../../../website/api/_lib/discord-rest.js'
 import {
   buildRoster,
-  parseLogLine,
+  collectChallengeIndex,
   serializeClosed,
-  type ChallengeMeta,
 } from '../../../website/api/_lib/signup-log.js'
 import {
   buildClosedSummaryMessages,
@@ -28,31 +27,18 @@ import { getLogChannelId } from '../../../website/api/_lib/constants.js'
  * Idempotent across runs — a challenge is only processed while it has no
  * CLOSED marker. The marker is posted last so a failure mid-close gets
  * retried on the next run (worst case: a duplicate summary post, never a
- * missed close).
+ * missed close). Archived challenges are treated like already-closed ones —
+ * skipped entirely, no summary post, no CLOSED marker.
  */
 export async function closeExpiredSignups(): Promise<void> {
   const logChannelId = getLogChannelId()
   const messages = await getAllChannelMessages(logChannelId, 2000)
-
-  const challenges = new Map<string, ChallengeMeta>()
-  const closedSlugs = new Set<string>()
-
-  for (const message of messages) {
-    const parsed = parseLogLine(message.content)
-    if (!parsed) continue
-    if (parsed.type === 'CHALLENGE') {
-      // Messages come back newest-first; keep the first (most recent) meta
-      // seen per slug in case a challenge was ever re-announced.
-      if (!challenges.has(parsed.data.slug)) challenges.set(parsed.data.slug, parsed.data)
-    } else if (parsed.type === 'CLOSED') {
-      closedSlugs.add(parsed.data.slug)
-    }
-  }
+  const index = collectChallengeIndex(messages)
 
   const now = Math.floor(Date.now() / 1000)
-  const toClose = [...challenges.values()].filter(
-    (meta) => meta.deadline <= now && !closedSlugs.has(meta.slug)
-  )
+  const toClose = [...index.values()]
+    .filter((entry) => !entry.closed && !entry.archived && entry.meta.deadline <= now)
+    .map((entry) => entry.meta)
 
   if (toClose.length === 0) {
     console.log('✅ No expired signups to close.')

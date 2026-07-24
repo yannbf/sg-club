@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+import type { ChallengeIndexEntry } from '../../../website/api/_lib/signup-log'
 import {
   batchUsernames,
   buildCongratsMessage,
@@ -6,6 +7,7 @@ import {
   joinNamesWithAnd,
   pickCongratsChannel,
   qualifyingUsernames,
+  resolveCongratsChannel,
 } from './discord-challenge-congrats'
 
 describe('qualifyingUsernames', () => {
@@ -75,6 +77,49 @@ describe('pickCongratsChannel', () => {
 
   it('falls back to the provided fallback channel when no meta matched at all', () => {
     expect(pickCongratsChannel(undefined, 'fallback-chan')).toBe('fallback-chan')
+  })
+})
+
+describe('resolveCongratsChannel', () => {
+  function entry(overrides: Partial<ChallengeIndexEntry> = {}): ChallengeIndexEntry {
+    return {
+      meta: {
+        slug: 'neo-cab',
+        channel_id: 'announce-chan',
+        message_id: 'm1',
+        deadline: 1,
+        start: 1,
+        end: 2,
+        name: 'Neo Cab',
+      },
+      closed: false,
+      reminded: false,
+      ended: false,
+      archived: false,
+      ...overrides,
+    }
+  }
+
+  it('returns null when the matched challenge is archived, regardless of its channel config', () => {
+    const index = new Map([['neo-cab', entry({ archived: true })]])
+    expect(resolveCongratsChannel('neo-cab', index, 'fallback-chan')).toBeNull()
+  })
+
+  it('prefers congrats_channel_id when the matched, non-archived challenge has one', () => {
+    const index = new Map([
+      ['neo-cab', entry({ meta: { ...entry().meta, congrats_channel_id: 'congrats-chan' } })],
+    ])
+    expect(resolveCongratsChannel('neo-cab', index, 'fallback-chan')).toBe('congrats-chan')
+  })
+
+  it('falls back to channel_id for a matched, non-archived challenge with no congrats_channel_id', () => {
+    const index = new Map([['neo-cab', entry()]])
+    expect(resolveCongratsChannel('neo-cab', index, 'fallback-chan')).toBe('announce-chan')
+  })
+
+  it('falls back to the provided fallback channel when no entry matches the slug', () => {
+    const index = new Map<string, ChallengeIndexEntry>()
+    expect(resolveCongratsChannel('unknown-slug', index, 'fallback-chan')).toBe('fallback-chan')
   })
 })
 

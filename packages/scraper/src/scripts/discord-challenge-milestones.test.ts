@@ -1,12 +1,23 @@
-import { describe, expect, it } from 'vitest'
-import {
+import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { serializeArchived, serializeChallenge } from '../../../website/api/_lib/signup-log'
+
+// Mocked so postChallengeMilestones can be exercised end-to-end (the
+// archived-skip behavior below) without hitting the real Discord API.
+vi.mock('../../../website/api/_lib/discord-rest', () => ({
+  createMessage: vi.fn(async () => ({ id: 'm1', channel_id: 'c1', content: '', timestamp: '' })),
+  getAllChannelMessages: vi.fn(async () => []),
+}))
+
+const {
   build24hReminderMessage,
   buildEndedMessage,
   challengePhrase,
   matchChallengeFile,
   needsEndedNotice,
   needsReminder,
-} from './discord-challenge-milestones'
+  postChallengeMilestones,
+} = await import('./discord-challenge-milestones')
+const discordRest = await import('../../../website/api/_lib/discord-rest')
 
 describe('challengePhrase', () => {
   it('appends " challenge" when the name does not already end with the word', () => {
@@ -163,5 +174,47 @@ describe('needsEndedNotice', () => {
   it('is false once an ENDED marker already exists for the slug', () => {
     const meta = { slug: 'neo-cab', end: NOW - 1 }
     expect(needsEndedNotice(meta, new Set(['neo-cab']), NOW)).toBe(false)
+  })
+})
+
+describe('postChallengeMilestones — archived challenges', () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
+
+  const PAST_END = { slug: 'archived-one', channel_id: 'c1', message_id: 'm1', deadline: 1, start: 1, end: 1, name: 'Archived One' }
+  const PAST_END_ACTIVE = { slug: 'active-one', channel_id: 'c2', message_id: 'm2', deadline: 1, start: 1, end: 1, name: 'Active One' }
+
+  it('skips an archived challenge entirely — no ended notice, no marker posted for it', async () => {
+    vi.mocked(discordRest.getAllChannelMessages).mockResolvedValueOnce([
+      { id: 'l1', channel_id: 'log', content: serializeChallenge(PAST_END), timestamp: '' },
+      { id: 'l2', channel_id: 'log', content: serializeArchived({ slug: 'archived-one', ts: 1 }), timestamp: '' },
+    ])
+
+    await postChallengeMilestones()
+
+    // Only the CHALLENGE + ARCHIVED reads happened; no message was ever
+    // posted to the challenge's own channel or a new marker to the log.
+    expect(discordRest.createMessage).not.toHaveBeenCalled()
+  })
+
+  it('still processes a non-archived challenge in the same run', async () => {
+    vi.mocked(discordRest.getAllChannelMessages).mockResolvedValueOnce([
+      { id: 'l1', channel_id: 'log', content: serializeChallenge(PAST_END), timestamp: '' },
+      { id: 'l2', channel_id: 'log', content: serializeArchived({ slug: 'archived-one', ts: 1 }), timestamp: '' },
+      { id: 'l3', channel_id: 'log', content: serializeChallenge(PAST_END_ACTIVE), timestamp: '' },
+    ])
+
+    await postChallengeMilestones()
+
+    // Ended notice + ENDED marker for the non-archived challenge only.
+    expect(discordRest.createMessage).toHaveBeenCalledWith(
+      'c2',
+      expect.objectContaining({ content: expect.stringContaining('Active One') })
+    )
+    expect(discordRest.createMessage).not.toHaveBeenCalledWith(
+      'c1',
+      expect.anything()
+    )
   })
 })

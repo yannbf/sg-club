@@ -35,7 +35,18 @@ describe('other commands are unchanged', () => {
     expect(modReport?.default_member_permissions).toBe('32')
   })
 
-  it('registers exactly three commands', () => {
-    expect(commands).toHaveLength(3)
+  it('registers exactly four commands', () => {
+    expect(commands).toHaveLength(4)
+  })
+})
+
+describe('challenge-archive command registration shape', () => {
+  const challengeArchive = commands.find((c) => c.name === 'challenge-archive')
+
+  it('exists, is admin-only, and takes no options', () => {
+    expect(challengeArchive).toBeDefined()
+    expect(challengeArchive?.default_member_permissions).toBe('32')
+    expect(challengeArchive?.options).toEqual([])
+    expect(typeof challengeArchive?.description).toBe('string')
   })
 })

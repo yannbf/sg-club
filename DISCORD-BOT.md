@@ -31,7 +31,7 @@ packages/scraper/src/scripts/
 ├── discord-challenge-congrats.ts  # cron: announce challenge completions
 ├── discord-challenge-milestones.ts # cron: 24h-left warning + "challenge over" notice
 ├── discord-warn-digest.ts         # cron: weekly mod digest (errors only)
-└── discord-register-commands.ts   # one-off: register the three slash commands
+└── discord-register-commands.ts   # one-off: register the four slash commands
 
 .github/workflows/discord-bot.yml  # workflow_dispatch runner for the three cron scripts
 ```
@@ -68,6 +68,7 @@ SIGNUP {"slug":"neo-cab","choice":"want","discord_id":"...","discord_handle":"..
 CLOSED {"slug":"neo-cab","ts":1700000500}
 REMINDER24 {"slug":"neo-cab","ts":1700086400}
 ENDED {"slug":"neo-cab","ts":1700100000}
+ARCHIVED {"slug":"neo-cab","ts":1700200000}
 ```
 
 - `CHALLENGE` — posted once by `/challenge-setup`, records where the
@@ -87,6 +88,13 @@ ENDED {"slug":"neo-cab","ts":1700100000}
 - `ENDED` — posted by `discord-challenge-milestones.ts` once a challenge's end
   has passed and the "challenge over" notice has gone out, so it's never
   repeated either.
+- `ARCHIVED` — posted by `/challenge-archive` once an admin archives a
+  challenge. An archived challenge is hidden from both pickers
+  (`/challenge-list`, `/challenge-archive` itself) and skipped entirely by
+  every cron script (`discord:close-signups`, `discord:milestones`,
+  `discord:congrats`) — see their entries below. **Un-archiving** is manual:
+  delete the `ARCHIVED` line from the log channel (there's no un-archive
+  command).
 
 The parser (`signup-log.ts`) is tolerant: any message that isn't a
 well-formed protocol line (human chat, an old pre-protocol bot message,
@@ -99,6 +107,13 @@ keeps the result correct regardless of pagination order). A user whose latest
 choice is `out` is dropped entirely; a user can rejoin after withdrawing by
 clicking a button again.
 
+`collectChallengeIndex(messages)` builds the per-slug "current state of every
+challenge" view shared by the `/challenge-list` and `/challenge-archive`
+pickers and the three cron scripts: the newest `CHALLENGE` meta per slug
+(same newest-first dedupe convention as `buildRoster`) plus which of the four
+marker types (`closed`/`reminded`/`ended`/`archived`) have been posted for
+it.
+
 ## Custom IDs
 
 Buttons and modals encode their context directly in `custom_id`, since
@@ -110,6 +125,7 @@ sg|<slug>|<choice>|<deadlineEpoch>   # guest-username modal
 csetup                               # the /challenge-setup form modal, no congrats channel picked
 csetup|<congratsChannelId>           # same modal, carrying the picked congrats channel forward
 clist                                # the /challenge-list challenge picker (string select)
+carch                                # the /challenge-archive challenge picker (string select)
 ```
 
 `choice` is `want` / `have` / `out`. `handleModalSubmit` routes by
@@ -117,8 +133,8 @@ clist                                # the /challenge-list challenge picker (str
 flow (the optional suffix, if present, is the congrats channel id extracted
 before calling `finishChallengeSetupFromModal`), anything else falls through
 to the `sg|...` decoder. `handleMessageComponent` checks for the fixed
-`clist` id first (it has no pipes, so `decodeCustomId` would reject it)
-before falling through to the `su|...` decoder. Slugs are auto-generated
+`clist`/`carch` ids first (neither has pipes, so `decodeCustomId` would
+reject them) before falling through to the `su|...` decoder. Slugs are auto-generated
 from the challenge name via `slugify()` (lowercase, non-alphanumeric runs →
 `-`, trimmed, max 40 chars) and validated (`^[a-z0-9-]{1,40}$`) so the
 encoded ID never exceeds Discord's 100-char `custom_id` limit. A Discord
@@ -159,20 +175,38 @@ any Discord REST call is made, and is covered directly in
   confirmation mentions the congrats channel (`Congrats will post in
   <#channelId>`) when one was picked.
 - **`/challenge-list`** — an interactive picker, no options. Reads the whole
-  log channel, collects the distinct `CHALLENGE` metas (deduped by slug,
-  keeping the newest re-announce if any, capped at the 25 most recent —
-  Discord's per-select-menu option limit), and replies **ephemerally** with
-  `Pick a challenge:` plus a string-select component (`custom_id: clist`,
-  one option per challenge: label = name, value = slug). If there are no
-  challenges in the log it replies ephemerally `No challenges found.`
-  instead. Picking an option fires a `MESSAGE_COMPONENT` interaction
-  (`custom_id: clist`, routed ahead of the `su|`/`sg|` decoder since it isn't
-  pipe-delimited) that renders the roster for the chosen slug exactly as
-  before: **plain-markdown content** (no embed), a `**<name> — signups**`
-  header, `Want the game (N)` / `Already have it (M)` codeblocks
-  (comma-separated, for easy copy-paste), an `Unresolved/guests (K): ...`
-  plain list, and a `Total: X` line. Emoji-free, non-ephemeral, chunked into
-  ≤1900-char messages when the roster is large.
+  log channel (via `collectChallengeIndex`), excludes any slug carrying an
+  `ARCHIVED` marker, and splits the rest into two groups: **ongoing**
+  (`meta.end` is still in the future AND no `ENDED` marker) sorted
+  newest-first, then **ended** sorted newest-first — ongoing challenges are
+  listed first. Capped at the 25 most recent — Discord's per-select-menu
+  option limit — with ongoing challenges prioritized into the cap ahead of
+  ended ones. Replies **ephemerally** with `Pick a challenge:` plus a
+  string-select component (`custom_id: clist`, one option per challenge:
+  label = name, value = slug, description = `ongoing · <slug>` or
+  `ended · <slug>`). If there are no eligible challenges it replies
+  ephemerally `No challenges found.` instead. Picking an option fires a
+  `MESSAGE_COMPONENT` interaction (`custom_id: clist`, routed ahead of the
+  `su|`/`sg|` decoder since it isn't pipe-delimited) that renders the roster
+  for the chosen slug exactly as before: **plain-markdown content** (no
+  embed), a `**<name> — signups**` header, `Want the game (N)` / `Already
+  have it (M)` codeblocks (comma-separated, for easy copy-paste), an
+  `Unresolved/guests (K): ...` plain list, and a `Total: X` line. Emoji-free,
+  non-ephemeral, chunked into ≤1900-char messages when the roster is large.
+- **`/challenge-archive`** (admin-only) — an interactive picker, no options,
+  the counterpart to `/challenge-list` for hiding a challenge instead of
+  viewing it. Reads the log channel (same `collectChallengeIndex`), builds a
+  picker of every **non-archived** challenge — ongoing or ended, no
+  ongoing/ended split needed here since the point is just to pick one —
+  deduped by slug (newest meta), capped at 25, label = name, description =
+  slug. Replies ephemerally `Pick a challenge to archive:` with a
+  string-select (`custom_id: carch`), or `No challenges to archive.` when
+  none are eligible. Picking an option posts an `ARCHIVED` marker to the log
+  channel, then edits the same ephemeral picker message (`DEFERRED_UPDATE_MESSAGE`
+  ack) to `Archived **<name>**. It will no longer appear in lists or bot
+  activity. (Un-archive by deleting the ARCHIVED line in the log channel.)`
+  with the select menu removed. There's no un-archive command by design —
+  deleting the `ARCHIVED` log line is the whole mechanism.
 - **`/mod-report`** (admin-only) — the on-demand counterpart to the weekly
   digest below: a full member-status report covering **both** errors and
   warnings (unlike the digest, which only ever shows errors). Non-ephemeral,
@@ -347,7 +381,7 @@ as Discord already has them. The announcement is located via
 entry otherwise (modal submits). No extra messages are posted to the
 channel.
 
-All three are **guild** commands (instant propagation, no ~1h
+All four are **guild** commands (instant propagation, no ~1h
 global-command delay) registered via `pnpm --filter scraper discord:register`.
 
 ## No-embed policy
@@ -405,7 +439,9 @@ Run manually via the `discord-bot.yml` workflow (`workflow_dispatch`, pick a
   **only the three signup buttons** on the announcement (`buildDisabledComponents`
   always leaves the fixed "View Event" link button enabled and clickable
   after close), and posts `CLOSED`. Idempotent: a challenge is only touched
-  while it has no `CLOSED` marker.
+  while it has no `CLOSED` marker. Archived challenges (`ARCHIVED` marker)
+  are treated like already-closed ones — skipped entirely, no summary, no
+  button-disable edit, no `CLOSED` marker.
 - **`pnpm --filter scraper discord:milestones`** — reads the log channel once
   and, for every `CHALLENGE` meta, posts up to two milestone messages (each
   gated by its own marker so it's never repeated):
@@ -430,7 +466,9 @@ Run manually via the `discord-bot.yml` workflow (`workflow_dispatch`, pick a
   Both message kinds are posted **before** their marker (crash → safe retry,
   worst case a duplicate post, never a missed one), same convention as
   `discord:close-signups`. No state file to commit — everything derives from
-  the log channel.
+  the log channel. Archived challenges are skipped entirely — neither
+  milestone message is ever posted for one, regardless of where it sits in
+  its 24h/ended windows.
 - **`pnpm --filter scraper discord:congrats`** — scans local `challenge_*.json`
   files (skipping `challengeOver: true` ones) for participants who are
   `is_complete` and not `completed_before_start`, diffs against
@@ -447,7 +485,14 @@ Run manually via the `discord-bot.yml` workflow (`workflow_dispatch`, pick a
   `CHALLENGE` meta's `congrats_channel_id` over its `channel_id` — see
   [Two-channel challenge messages](#two-channel-challenge-messages) above —
   falling back to `CONGRATS_CHANNEL_ID` / the test channel only when no meta
-  matches the slug at all.
+  matches the slug at all. When the matched `CHALLENGE` meta carries an
+  `ARCHIVED` marker, `resolveCongratsChannel` returns `null` and the whole
+  challenge is skipped for that run (console note logged) — an archived
+  challenge never gets a congrats post even if its local `challenge_*.json`
+  still shows newly-qualifying participants. This is a best-effort check
+  driven by the same log-channel read as the channel lookup — an odd
+  "archived but the local JSON still says active" state isn't otherwise
+  reconciled.
 - **`pnpm --filter scraper discord:warn-digest`** — the first job on a real
   `schedule:` trigger (`discord-bot.yml` runs it automatically Friday 13:00
   UTC, in addition to the usual `workflow_dispatch`; every other job is
@@ -531,12 +576,14 @@ live:
    Discord developer portal) to `https://<site>/api/discord/interactions`.
    Discord will send a PING to verify it immediately — the endpoint must be
    live first.
-5. Run `pnpm --filter scraper discord:register` to register the three guild
+5. Run `pnpm --filter scraper discord:register` to register the four guild
    slash commands.
 6. Test the full flow in `#bot-test`: `/challenge-setup`, click each button,
    try the guest-modal path with a Discord account that isn't in
-   `discord_members.json`, then `/challenge-list`, then `/mod-report`, then
-   run `discord:close-signups` manually (or wait for the deadline).
+   `discord_members.json`, then `/challenge-list`, then `/challenge-archive`
+   (and confirm the archived challenge disappears from both pickers), then
+   `/mod-report`, then run `discord:close-signups` manually (or wait for the
+   deadline).
 
 ## Risks / things that couldn't be verified here
 

@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url'
 // Cross-package relative import — see discord-close-signups.ts / DISCORD-BOT.md.
 import { createMessage, getAllChannelMessages } from '../../../website/api/_lib/discord-rest.js'
 import {
-  parseLogLine,
+  collectChallengeIndex,
   serializeEnded,
   serializeReminder24,
   type ChallengeMeta,
@@ -118,35 +118,29 @@ export function needsEndedNotice(meta: Pick<ChallengeMeta, 'slug' | 'end'>, ende
  *
  * Idempotent across runs via the REMINDER24/ENDED markers, which are posted
  * AFTER the channel message — a crash mid-run risks a duplicate post on
- * retry, never a missed one.
+ * retry, never a missed one. Archived challenges are skipped entirely — no
+ * reminder, no ended notice, no marker.
  */
 export async function postChallengeMilestones(): Promise<void> {
   const logChannelId = getLogChannelId()
   const messages = await getAllChannelMessages(logChannelId, 2000)
+  const index = collectChallengeIndex(messages)
 
-  const challenges = new Map<string, ChallengeMeta>()
-  const remindedSlugs = new Set<string>()
-  const endedSlugs = new Set<string>()
-
-  for (const message of messages) {
-    const parsed = parseLogLine(message.content)
-    if (!parsed) continue
-    if (parsed.type === 'CHALLENGE') {
-      // Messages come back newest-first; keep the first (most recent) meta
-      // seen per slug, same convention as discord-close-signups.ts.
-      if (!challenges.has(parsed.data.slug)) challenges.set(parsed.data.slug, parsed.data)
-    } else if (parsed.type === 'REMINDER24') {
-      remindedSlugs.add(parsed.data.slug)
-    } else if (parsed.type === 'ENDED') {
-      endedSlugs.add(parsed.data.slug)
-    }
-  }
+  const remindedSlugs = new Set(
+    [...index.entries()].filter(([, entry]) => entry.reminded).map(([slug]) => slug)
+  )
+  const endedSlugs = new Set(
+    [...index.entries()].filter(([, entry]) => entry.ended).map(([slug]) => slug)
+  )
+  const challenges: ChallengeMeta[] = [...index.values()]
+    .filter((entry) => !entry.archived)
+    .map((entry) => entry.meta)
 
   const nowSeconds = Math.floor(Date.now() / 1000)
   const challengeFiles = loadChallengeFiles()
   let anyPosted = false
 
-  for (const meta of challenges.values()) {
+  for (const meta of challenges) {
     if (needsReminder(meta, remindedSlugs, nowSeconds)) {
       const file = matchChallengeFile(meta, challengeFiles)
       let qualifiedCount: number | null = null

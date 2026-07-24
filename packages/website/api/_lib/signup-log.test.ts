@@ -1,7 +1,9 @@
 import { describe, expect, it } from 'vitest'
 import {
   buildRoster,
+  collectChallengeIndex,
   parseLogLine,
+  serializeArchived,
   serializeChallenge,
   serializeClosed,
   serializeEnded,
@@ -93,6 +95,13 @@ describe('serialize/parseLogLine round trip', () => {
     expect(line).toBe(`ENDED ${JSON.stringify(event)}`)
     expect(parseLogLine(line)).toEqual({ type: 'ENDED', data: event })
   })
+
+  it('round-trips an ARCHIVED line', () => {
+    const event = { slug: 'neo-cab', ts: 1700000500 }
+    const line = serializeArchived(event)
+    expect(line).toBe(`ARCHIVED ${JSON.stringify(event)}`)
+    expect(parseLogLine(line)).toEqual({ type: 'ARCHIVED', data: event })
+  })
 })
 
 describe('parseLogLine tolerance', () => {
@@ -131,6 +140,10 @@ describe('parseLogLine tolerance', () => {
 
   it('skips an ENDED missing required fields', () => {
     expect(parseLogLine('ENDED {"slug":"neo-cab"}')).toBeNull()
+  })
+
+  it('skips an ARCHIVED missing required fields', () => {
+    expect(parseLogLine('ARCHIVED {"slug":"neo-cab"}')).toBeNull()
   })
 })
 
@@ -224,5 +237,68 @@ describe('buildRoster', () => {
     expect(roster.wanters).toHaveLength(1)
     expect(roster.owners).toHaveLength(1)
     expect(roster.all).toHaveLength(2)
+  })
+})
+
+describe('collectChallengeIndex', () => {
+  function challengeLine(overrides: Partial<typeof CHALLENGE_META> & { slug: string }) {
+    return { content: serializeChallenge({ ...CHALLENGE_META, ...overrides }) }
+  }
+
+  it('indexes a single CHALLENGE with all flags false when no markers exist', () => {
+    const index = collectChallengeIndex([challengeLine({ slug: 'neo-cab' })])
+    expect(index.get('neo-cab')).toEqual({
+      meta: { ...CHALLENGE_META, slug: 'neo-cab' },
+      closed: false,
+      reminded: false,
+      ended: false,
+      archived: false,
+    })
+  })
+
+  it('dedupes by slug, keeping the newest (first-seen, since messages are newest-first) meta', () => {
+    const messages = [
+      challengeLine({ slug: 'neo-cab', name: 'Neo Cab (new)' }),
+      challengeLine({ slug: 'neo-cab', name: 'Neo Cab (old)' }),
+    ]
+    const index = collectChallengeIndex(messages)
+    expect(index.get('neo-cab')?.meta.name).toBe('Neo Cab (new)')
+  })
+
+  it('sets closed/reminded/ended/archived flags from their respective markers', () => {
+    const messages = [
+      challengeLine({ slug: 'neo-cab' }),
+      { content: serializeClosed({ slug: 'neo-cab', ts: 1 }) },
+      { content: serializeReminder24({ slug: 'neo-cab', ts: 1 }) },
+      { content: serializeEnded({ slug: 'neo-cab', ts: 1 }) },
+      { content: serializeArchived({ slug: 'neo-cab', ts: 1 }) },
+    ]
+    const index = collectChallengeIndex(messages)
+    expect(index.get('neo-cab')).toMatchObject({
+      closed: true,
+      reminded: true,
+      ended: true,
+      archived: true,
+    })
+  })
+
+  it('keeps each slug independent', () => {
+    const messages = [
+      challengeLine({ slug: 'neo-cab' }),
+      challengeLine({ slug: 'other-challenge' }),
+      { content: serializeArchived({ slug: 'other-challenge', ts: 1 }) },
+    ]
+    const index = collectChallengeIndex(messages)
+    expect(index.get('neo-cab')?.archived).toBe(false)
+    expect(index.get('other-challenge')?.archived).toBe(true)
+  })
+
+  it('ignores markers for slugs with no CHALLENGE meta, and non-protocol messages', () => {
+    const messages = [
+      { content: 'anyone know the deadline?' },
+      { content: serializeClosed({ slug: 'ghost-slug', ts: 1 }) },
+    ]
+    const index = collectChallengeIndex(messages)
+    expect(index.size).toBe(0)
   })
 })

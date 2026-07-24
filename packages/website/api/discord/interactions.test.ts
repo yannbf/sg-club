@@ -1,7 +1,7 @@
 import type { IncomingMessage, ServerResponse } from 'node:http'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { encodeModalCustomId, encodeSignupCustomId, slugify } from '../_lib/custom-id.js'
-import { serializeChallenge } from '../_lib/signup-log.js'
+import { serializeArchived, serializeChallenge } from '../_lib/signup-log.js'
 import { isPastDeadline } from './interactions.js'
 
 // Outside the real Vercel runtime waitUntil is a no-op that doesn't track
@@ -746,6 +746,7 @@ describe('APPLICATION_COMMAND challenge-list', () => {
     slug: string
     name: string
     messageId: string
+    end?: number
   }): string {
     return serializeChallenge({
       slug: overrides.slug,
@@ -753,7 +754,9 @@ describe('APPLICATION_COMMAND challenge-list', () => {
       message_id: overrides.messageId,
       deadline: 1,
       start: 1,
-      end: 2,
+      // Far in the future by default, so these picker-shape tests exercise
+      // an "ongoing" challenge unless a test explicitly wants an ended one.
+      end: overrides.end ?? FUTURE_DEADLINE,
       name: overrides.name,
     })
   }
@@ -806,8 +809,8 @@ describe('APPLICATION_COMMAND challenge-list', () => {
     expect(select.type).toBe(3)
     expect(select.custom_id).toBe('clist')
     expect(select.options).toEqual([
-      { label: 'Neo Cab 2', value: 'neo-cab-2', description: 'neo-cab-2' },
-      { label: 'Neo Cab', value: 'neo-cab', description: 'neo-cab' },
+      { label: 'Neo Cab 2', value: 'neo-cab-2', description: 'ongoing · neo-cab-2' },
+      { label: 'Neo Cab', value: 'neo-cab', description: 'ongoing · neo-cab' },
     ])
   })
 
@@ -839,8 +842,90 @@ describe('APPLICATION_COMMAND challenge-list', () => {
     ).components
     const options = components[0]!.components[0]!.options
     expect(options).toHaveLength(25)
-    expect(options[0]).toEqual({ label: 'Dup (new)', value: 'dup', description: 'dup' })
+    expect(options[0]).toEqual({ label: 'Dup (new)', value: 'dup', description: 'ongoing · dup' })
     expect(options.some((o) => o.label === 'Dup (old)')).toBe(false)
+  })
+
+  it('lists ongoing challenges before ended ones, each newest-first within its group', async () => {
+    const messages = [
+      { id: 'log-ended-new', channel_id: 'logc', content: challengeMeta({ slug: 'ended-2', name: 'Ended 2', messageId: 'a1', end: 2 }), timestamp: '' },
+      { id: 'log-ongoing-new', channel_id: 'logc', content: challengeMeta({ slug: 'ongoing-2', name: 'Ongoing 2', messageId: 'a2' }), timestamp: '' },
+      { id: 'log-ended-old', channel_id: 'logc', content: challengeMeta({ slug: 'ended-1', name: 'Ended 1', messageId: 'a3', end: 2 }), timestamp: '' },
+      { id: 'log-ongoing-old', channel_id: 'logc', content: challengeMeta({ slug: 'ongoing-1', name: 'Ongoing 1', messageId: 'a4' }), timestamp: '' },
+    ]
+    vi.mocked(discordRest.getAllChannelMessages).mockResolvedValueOnce(messages)
+
+    const req = makeChallengeListReq()
+    const res = makeRes()
+    await handler(req, res)
+    await drainWaitUntil()
+
+    const [, , payload] = vi.mocked(discordRest.editOriginalResponse).mock.calls[0]!
+    const components = (
+      payload as { components: Array<{ components: Array<{ options: Array<{ value: string; description: string }> }> }> }
+    ).components
+    const options = components[0]!.components[0]!.options
+    expect(options.map((o) => o.value)).toEqual(['ongoing-2', 'ongoing-1', 'ended-2', 'ended-1'])
+    expect(options.map((o) => o.description)).toEqual([
+      'ongoing · ongoing-2',
+      'ongoing · ongoing-1',
+      'ended · ended-2',
+      'ended · ended-1',
+    ])
+  })
+
+  it('excludes archived challenges entirely, even when prioritizing ongoing ones', async () => {
+    const messages = [
+      { id: 'log1', channel_id: 'logc', content: challengeMeta({ slug: 'archived-ongoing', name: 'Archived Ongoing', messageId: 'a1' }), timestamp: '' },
+      { id: 'log2', channel_id: 'logc', content: serializeArchived({ slug: 'archived-ongoing', ts: 1 }), timestamp: '' },
+      { id: 'log3', channel_id: 'logc', content: challengeMeta({ slug: 'kept', name: 'Kept', messageId: 'a2' }), timestamp: '' },
+    ]
+    vi.mocked(discordRest.getAllChannelMessages).mockResolvedValueOnce(messages)
+
+    const req = makeChallengeListReq()
+    const res = makeRes()
+    await handler(req, res)
+    await drainWaitUntil()
+
+    const [, , payload] = vi.mocked(discordRest.editOriginalResponse).mock.calls[0]!
+    const components = (
+      payload as { components: Array<{ components: Array<{ options: Array<{ value: string }> }> }> }
+    ).components
+    const options = components[0]!.components[0]!.options
+    expect(options.map((o) => o.value)).toEqual(['kept'])
+  })
+
+  it('caps at 25 with ongoing challenges prioritized over ended ones', async () => {
+    // 30 ongoing + 10 ended, more than the 25-option cap combined — the cap
+    // should be filled entirely by ongoing challenges, none of the ended
+    // ones should make it in.
+    const ongoing = Array.from({ length: 30 }, (_, i) => ({
+      id: `ongoing-${i}`,
+      channel_id: 'logc',
+      content: challengeMeta({ slug: `ongoing-${i}`, name: `Ongoing ${i}`, messageId: `o${i}` }),
+      timestamp: '',
+    }))
+    const ended = Array.from({ length: 10 }, (_, i) => ({
+      id: `ended-${i}`,
+      channel_id: 'logc',
+      content: challengeMeta({ slug: `ended-${i}`, name: `Ended ${i}`, messageId: `e${i}`, end: 2 }),
+      timestamp: '',
+    }))
+    // Interleave so the picker's ordering logic (not source order) is what's under test.
+    vi.mocked(discordRest.getAllChannelMessages).mockResolvedValueOnce([...ended, ...ongoing])
+
+    const req = makeChallengeListReq()
+    const res = makeRes()
+    await handler(req, res)
+    await drainWaitUntil()
+
+    const [, , payload] = vi.mocked(discordRest.editOriginalResponse).mock.calls[0]!
+    const components = (
+      payload as { components: Array<{ components: Array<{ options: Array<{ value: string; description: string }> }> }> }
+    ).components
+    const options = components[0]!.components[0]!.options
+    expect(options).toHaveLength(25)
+    expect(options.every((o) => o.description.startsWith('ongoing · '))).toBe(true)
   })
 })
 
@@ -903,6 +988,177 @@ describe('MESSAGE_COMPONENT challenge-list select (clist)', () => {
       channel_id: 'chan1',
       member: { user: { id: 'd1', username: 'yannbf' } },
       data: { custom_id: 'clist', values: ['some-slug'] },
+    })
+    const res = makeRes()
+
+    await handler(req, res)
+
+    expect(res.body).not.toMatchObject({ type: 400 })
+    expect(res.statusCode).not.toBe(400)
+  })
+})
+
+describe('APPLICATION_COMMAND challenge-archive', () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
+
+  function makeChallengeArchiveReq(): IncomingMessage {
+    return makeReq({
+      type: 2,
+      token: 'tok',
+      channel_id: 'chan1',
+      member: { user: { id: 'd1', username: 'yannbf' } },
+      data: { name: 'challenge-archive' },
+    })
+  }
+
+  it('defers ephemerally, then replies "No challenges to archive." when the log has no CHALLENGE metas', async () => {
+    const req = makeChallengeArchiveReq()
+    const res = makeRes()
+
+    await handler(req, res)
+
+    expect(res.body).toEqual({ type: 5, data: { flags: 1 << 6 } })
+
+    await drainWaitUntil()
+
+    expect(discordRest.editOriginalResponse).toHaveBeenCalledWith(
+      'test-app-id',
+      'tok',
+      expect.objectContaining({ content: 'No challenges to archive.' })
+    )
+  })
+
+  it('replies with a "Pick a challenge to archive:" string-select including both ongoing and ended, but excluding archived challenges', async () => {
+    vi.mocked(discordRest.getAllChannelMessages).mockResolvedValueOnce([
+      {
+        id: 'log1',
+        channel_id: 'logc',
+        content: serializeChallenge({
+          slug: 'ongoing-1',
+          channel_id: 'chan1',
+          message_id: 'ann1',
+          deadline: 1,
+          start: 1,
+          end: FUTURE_DEADLINE,
+          name: 'Ongoing One',
+        }),
+        timestamp: '',
+      },
+      {
+        id: 'log2',
+        channel_id: 'logc',
+        content: serializeChallenge({
+          slug: 'ended-1',
+          channel_id: 'chan1',
+          message_id: 'ann2',
+          deadline: 1,
+          start: 1,
+          end: 2,
+          name: 'Ended One',
+        }),
+        timestamp: '',
+      },
+      {
+        id: 'log3',
+        channel_id: 'logc',
+        content: serializeChallenge({
+          slug: 'archived-1',
+          channel_id: 'chan1',
+          message_id: 'ann3',
+          deadline: 1,
+          start: 1,
+          end: FUTURE_DEADLINE,
+          name: 'Archived One',
+        }),
+        timestamp: '',
+      },
+      { id: 'log4', channel_id: 'logc', content: serializeArchived({ slug: 'archived-1', ts: 1 }), timestamp: '' },
+    ])
+
+    const req = makeChallengeArchiveReq()
+    const res = makeRes()
+
+    await handler(req, res)
+    await drainWaitUntil()
+
+    const [, , payload] = vi.mocked(discordRest.editOriginalResponse).mock.calls[0]!
+    expect((payload as { content: string }).content).toBe('Pick a challenge to archive:')
+
+    const components = (
+      payload as {
+        components: Array<{
+          components: Array<{ custom_id: string; options: Array<{ label: string; value: string }> }>
+        }>
+      }
+    ).components
+    const select = components[0]!.components[0]!
+    expect(select.custom_id).toBe('carch')
+    expect(select.options.map((o) => o.value).sort()).toEqual(['ended-1', 'ongoing-1'])
+  })
+})
+
+describe('MESSAGE_COMPONENT challenge-archive select (carch)', () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
+
+  it('defers with an UPDATE_MESSAGE ack, posts the ARCHIVED marker, then edits the original response with an ephemeral confirmation and no components', async () => {
+    vi.mocked(discordRest.getAllChannelMessages).mockResolvedValueOnce([
+      {
+        id: 'log1',
+        channel_id: 'logc',
+        content: serializeChallenge({
+          slug: 'neo-cab',
+          channel_id: 'chan1',
+          message_id: 'ann1',
+          deadline: 1,
+          start: 1,
+          end: 2,
+          name: 'Neo Cab',
+        }),
+        timestamp: '',
+      },
+    ])
+    const req = makeReq({
+      type: 3,
+      token: 'tok',
+      channel_id: 'chan1',
+      member: { user: { id: 'd1', username: 'yannbf' } },
+      data: { custom_id: 'carch', values: ['neo-cab'] },
+    })
+    const res = makeRes()
+
+    await handler(req, res)
+
+    // Deferred UPDATE_MESSAGE — updates the same ephemeral picker message in place.
+    expect(res.body).toEqual({ type: 6, data: {} })
+
+    await drainWaitUntil()
+
+    expect(discordRest.createMessage).toHaveBeenCalledWith(
+      expect.any(String),
+      expect.objectContaining({ content: expect.stringMatching(/^ARCHIVED \{.*"slug":"neo-cab".*\}$/) })
+    )
+
+    expect(discordRest.editOriginalResponse).toHaveBeenCalledWith(
+      'test-app-id',
+      'tok',
+      expect.objectContaining({
+        content: expect.stringContaining('Archived **Neo Cab**'),
+        components: [],
+      })
+    )
+  })
+
+  it('is routed independently of the su|/sg| decoder', async () => {
+    const req = makeReq({
+      type: 3,
+      token: 'tok',
+      channel_id: 'chan1',
+      member: { user: { id: 'd1', username: 'yannbf' } },
+      data: { custom_id: 'carch', values: ['some-slug'] },
     })
     const res = makeRes()
 

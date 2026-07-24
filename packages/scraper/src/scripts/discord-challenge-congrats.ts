@@ -6,7 +6,11 @@ import {
   getAllChannelMessages,
   getGuildEmojis,
 } from '../../../website/api/_lib/discord-rest.js'
-import { parseLogLine, type ChallengeMeta } from '../../../website/api/_lib/signup-log.js'
+import {
+  collectChallengeIndex,
+  type ChallengeIndexEntry,
+  type ChallengeMeta,
+} from '../../../website/api/_lib/signup-log.js'
 import {
   getLogChannelId,
   GUILD_ID,
@@ -140,16 +144,29 @@ export function pickCongratsChannel(
   return meta.congrats_channel_id ?? meta.channel_id
 }
 
-async function resolveChannelForSlug(slug: string): Promise<string> {
+/**
+ * Pure routing decision, split out for testability: `null` means the
+ * matched challenge carries an `ARCHIVED` marker and congrats posting
+ * should be skipped entirely for it. Otherwise resolves to the channel via
+ * `pickCongratsChannel` (a matched-but-not-archived meta, or the fallback
+ * when no meta matched at all).
+ */
+export function resolveCongratsChannel(
+  slug: string,
+  index: Map<string, ChallengeIndexEntry>,
+  fallbackChannelId: string
+): string | null {
+  const entry = index.get(slug)
+  if (entry?.archived) return null
+  return pickCongratsChannel(entry?.meta, fallbackChannelId)
+}
+
+async function resolveChannelForSlug(slug: string): Promise<string | null> {
   const fallbackChannelId = process.env.CONGRATS_CHANNEL_ID ?? TEST_ANNOUNCE_CHANNEL_ID
   try {
     const messages = await getAllChannelMessages(getLogChannelId(), 2000)
-    for (const message of messages) {
-      const parsed = parseLogLine(message.content)
-      if (parsed?.type === 'CHALLENGE' && parsed.data.slug === slug) {
-        return pickCongratsChannel(parsed.data, fallbackChannelId)
-      }
-    }
+    const index = collectChallengeIndex(messages)
+    return resolveCongratsChannel(slug, index, fallbackChannelId)
   } catch (err) {
     console.warn(`⚠️ Could not read log channel to resolve a channel for "${slug}":`, err)
   }
@@ -172,8 +189,13 @@ export async function announceNewCompletions(): Promise<void> {
     const newlyCompleted = diffNewCompletions(qualifying, alreadyAnnounced)
     if (newlyCompleted.length === 0) continue
 
-    anyNew = true
     const channelId = await resolveChannelForSlug(challenge.slug)
+    if (channelId === null) {
+      console.log(`⏭️ Skipping congrats for "${challenge.slug}" — challenge is archived.`)
+      continue
+    }
+
+    anyNew = true
     const batches = batchUsernames(newlyCompleted, challenge.gameName, emoji)
 
     for (const batch of batches) {

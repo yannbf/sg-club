@@ -26,6 +26,12 @@ export const commands = [
     options: [],
   },
   {
+    name: 'challenge-archive',
+    description: 'Archive a challenge (hides it from lists and bot activity)',
+    default_member_permissions: MANAGE_GUILD_PERMISSION,
+    options: [],
+  },
+  {
     name: 'mod-report',
     description: 'Full member-status report (errors + warnings)',
     default_member_permissions: MANAGE_GUILD_PERMISSION,
