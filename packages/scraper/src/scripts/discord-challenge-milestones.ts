@@ -21,8 +21,8 @@ const EVENTS_URL = 'https://sg-club.vercel.app/events/'
 
 interface Participant {
   username: string
-  is_complete: boolean
-  completed_before_start: boolean
+  /** Precomputed site qualification — see discord-challenge-congrats.ts. */
+  is_winner: boolean
 }
 
 interface ChallengeFile {

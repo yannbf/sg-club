@@ -19,8 +19,13 @@ const statePath = path.join(dataDir, 'discord_announce_state.json')
 
 interface Participant {
   username: string
-  is_complete: boolean
-  completed_before_start: boolean
+  /**
+   * Precomputed by generate-challenge-data.ts:
+   * is_complete && meets_playtime && meets_review && !completed_after_deadline.
+   * The single source of truth for "qualified" — using anything weaker
+   * announced a member who hadn't written their required review yet.
+   */
+  is_winner: boolean
 }
 
 interface ChallengeFile {
@@ -43,11 +48,13 @@ function saveState(state: AnnounceState): void {
   writeFileSync(statePath, JSON.stringify(state, null, 2))
 }
 
-/** A participant qualifies once they've finished the challenge for real (not by having already met it before it started). */
+/**
+ * A participant qualifies when the site says so: `is_winner` already encodes
+ * completion + playtime + required review + within-deadline (and the frozen
+ * winner set once a challenge is over).
+ */
 export function qualifyingUsernames(challenge: Pick<ChallengeFile, 'participants'>): string[] {
-  return challenge.participants
-    .filter((p) => p.is_complete && !p.completed_before_start)
-    .map((p) => p.username)
+  return challenge.participants.filter((p) => p.is_winner).map((p) => p.username)
 }
 
 /**

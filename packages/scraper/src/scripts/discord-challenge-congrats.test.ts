@@ -8,12 +8,15 @@ import {
 } from './discord-challenge-congrats'
 
 describe('qualifyingUsernames', () => {
-  it('includes only participants who are complete and did not complete before start', () => {
+  it('includes exactly the participants the site marks as winners (is_winner)', () => {
     const result = qualifyingUsernames({
       participants: [
-        { username: 'a', is_complete: true, completed_before_start: false },
-        { username: 'b', is_complete: true, completed_before_start: true },
-        { username: 'c', is_complete: false, completed_before_start: false },
+        // is_winner already encodes completion + playtime + required review +
+        // within-deadline — e.g. a member at 100% achievements without their
+        // required review has is_winner: false.
+        { username: 'a', is_winner: true },
+        { username: 'reviewless-completer', is_winner: false },
+        { username: 'c', is_winner: false },
       ],
     })
     expect(result).toEqual(['a'])
