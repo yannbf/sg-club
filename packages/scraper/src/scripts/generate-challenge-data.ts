@@ -855,7 +855,12 @@ async function generateChallenge(config: ChallengeConfig): Promise<void> {
   // deadline and preserved in the data file from then on.
   const deadlineTs =
     config.win.type === 'completion' ? config.win.deadline : null
-  const challengeOver = deadlineTs != null && Date.now() / 1000 >= deadlineTs
+  // Dormant challenges are finished by definition — achievement-type ones have
+  // no deadline, so without this they'd read as "ongoing" forever and the
+  // Discord congrats scanner would keep picking them up.
+  const challengeOver =
+    config.dormant === true ||
+    (deadlineTs != null && Date.now() / 1000 >= deadlineTs)
   let frozenWinnerIds: string[] | null = Array.isArray(prior?.frozenWinnerIds)
     ? (prior.frozenWinnerIds as string[])
     : null
