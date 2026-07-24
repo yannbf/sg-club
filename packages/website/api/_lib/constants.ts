@@ -40,6 +40,17 @@ export function getDataBaseUrl(): string | undefined {
   return process.env.DATA_BASE_URL
 }
 
+/**
+ * Production announce-channel override for /challenge-setup. While `null`
+ * (test phase), the announcement posts in whatever channel the command was
+ * invoked from. For production, set this to the #challenge-announcements
+ * channel id so every challenge lands there and it becomes impossible to
+ * accidentally announce in the wrong channel. Flipping this is the only
+ * change needed — everything downstream (the confirmation link, the log
+ * entry) already follows whatever channel the announcement landed in.
+ */
+export const FORCED_ANNOUNCE_CHANNEL_ID: string | null = null
+
 // Raw Discord interaction/response type + flag numbers. Hardcoded rather than
 // imported from `discord-interactions` so we're not coupled to that package's
 // export surface for anything beyond `verifyKey`.

@@ -8,6 +8,7 @@ import { waitUntil } from '@vercel/functions'
 import { verifyKey } from 'discord-interactions'
 import {
   ComponentType,
+  FORCED_ANNOUNCE_CHANNEL_ID,
   getAppId,
   getLogChannelId,
   getPublicKey,
@@ -33,7 +34,7 @@ import {
   validateSlugForCustomId,
   type SignupChoice,
 } from '../_lib/custom-id.js'
-import { parseDateRangeField, validateChallengeDates } from '../_lib/dates.js'
+import { parseAdminDate, parseDateRangeField, validateChallengeDates } from '../_lib/dates.js'
 import {
   buildRoster,
   collectChallengeIndex,
@@ -47,6 +48,7 @@ import { resolveDiscordUserToSgUsername, validateSgUsername } from '../_lib/iden
 import {
   buildAnnouncementEmbed,
   buildChallengeListMessages,
+  buildDisabledComponents,
   buildSignupComponents,
   withUpdatedSignupCounts,
 } from '../_lib/render.js'
@@ -260,6 +262,10 @@ async function handleApplicationCommand(
     await handleChallengeArchive(interaction, res)
     return
   }
+  if (commandName === 'challenge-edit') {
+    await handleChallengeEdit(interaction, res)
+    return
+  }
   if (commandName === 'mod-report') {
     await handleModReport(interaction, res, host)
     return
@@ -393,7 +399,9 @@ async function finishChallengeSetupFromModal(interaction: DiscordInteraction): P
       }
     }
 
-    const targetChannelId = interaction.channel_id
+    // FORCED_ANNOUNCE_CHANNEL_ID overrides the invoking channel once flipped
+    // on for production, so a challenge can't land in the wrong place.
+    const targetChannelId = FORCED_ANNOUNCE_CHANNEL_ID ?? interaction.channel_id
     if (!targetChannelId) {
       await editOriginalResponse(appId, token, {
         content: '❌ Could not determine a target channel.',
@@ -654,20 +662,401 @@ async function finishChallengeArchive(interaction: DiscordInteraction, slug: str
   try {
     const messages = await getAllChannelMessages(getLogChannelId(), 2000)
     const index = collectChallengeIndex(messages)
-    const name = index.get(slug)?.meta.name ?? slug
+    const entry = index.get(slug)
+    const name = entry?.meta.name ?? slug
 
     await createMessage(getLogChannelId(), {
       content: serializeArchived({ slug, ts: Math.floor(Date.now() / 1000) }),
     })
 
+    // Best-effort: disable the live widget so it can't be clicked anymore.
+    // Never let this block the archive itself — the announcement may have
+    // been deleted, or the bot may lack access, and the ARCHIVED marker
+    // above is already what actually defines "archived".
+    if (entry) {
+      try {
+        await editMessage(entry.meta.channel_id, entry.meta.message_id, {
+          components: buildDisabledComponents(slug, entry.meta.deadline),
+        })
+      } catch (err) {
+        console.error(`⚠️ Failed to disable signup buttons for archived challenge "${slug}":`, err)
+      }
+    }
+
     await editOriginalResponse(appId, token, {
-      content: `Archived **${name}**. It will no longer appear in lists or bot activity. (Un-archive by deleting the ARCHIVED line in the log channel.)`,
+      content: `Archived **${name}**. It will no longer appear in lists or bot activity, and its signup buttons are disabled. If the announcement was posted by mistake you can delete the message manually. (Un-archive by deleting the ARCHIVED line in the log channel.)`,
       components: [],
     })
   } catch (err) {
     await editOriginalResponse(appId, token, {
       content: `❌ ${(err as Error).message}`,
     }).catch(() => {})
+  }
+}
+
+const CHALLENGE_EDIT_SELECT_ID = 'cedit'
+
+async function handleChallengeEdit(
+  interaction: DiscordInteraction,
+  res: ServerResponse
+): Promise<void> {
+  // Same rationale as /challenge-list and /challenge-archive: the picker
+  // only needs to be visible to whoever ran the command, and building it
+  // requires a log-channel fetch that can't reliably finish inside
+  // Discord's 3s ack window.
+  respondJson(res, 200, {
+    type: InteractionResponseType.DEFERRED_CHANNEL_MESSAGE_WITH_SOURCE,
+    data: { flags: MessageFlags.EPHEMERAL },
+  })
+  waitUntil(finishChallengeEditPicker(interaction))
+}
+
+/** Builds the "Pick a challenge to edit:" ephemeral select menu (or a "no challenges" message). */
+async function finishChallengeEditPicker(interaction: DiscordInteraction): Promise<void> {
+  const appId = getAppId()
+  const token = interaction.token
+
+  try {
+    const messages = await getAllChannelMessages(getLogChannelId(), 2000)
+    const index = collectChallengeIndex(messages)
+    const nowSeconds = Math.floor(Date.now() / 1000)
+
+    // Same ordering as /challenge-list: every non-archived challenge is
+    // eligible (ongoing or ended), ongoing first, each group newest-first.
+    const entries = [...index.values()].filter((entry) => !entry.archived)
+    const ongoing = entries.filter((entry) => isOngoing(entry, nowSeconds))
+    const ended = entries.filter((entry) => !isOngoing(entry, nowSeconds))
+    const challenges = [...ongoing, ...ended].slice(0, CHALLENGE_LIST_PICKER_LIMIT)
+
+    if (challenges.length === 0) {
+      await editOriginalResponse(appId, token, { content: 'No challenges to edit.' })
+      return
+    }
+
+    await editOriginalResponse(appId, token, {
+      content: 'Pick a challenge to edit:',
+      components: [
+        {
+          type: ComponentType.ACTION_ROW,
+          components: [
+            {
+              type: ComponentType.STRING_SELECT,
+              custom_id: CHALLENGE_EDIT_SELECT_ID,
+              options: challenges.map((entry) => ({
+                label: truncateLabel(entry.meta.name, 100),
+                value: entry.meta.slug,
+                description: `${isOngoing(entry, nowSeconds) ? 'ongoing' : 'ended'} · ${entry.meta.slug}`,
+              })),
+            },
+          ],
+        },
+      ],
+    })
+  } catch (err) {
+    await editOriginalResponse(appId, token, {
+      content: `❌ ${(err as Error).message}`,
+    }).catch(() => {})
+  }
+}
+
+/**
+ * MESSAGE_COMPONENT entry for the `cedit` string-select — opens the edit
+ * modal for the chosen slug. Same constraint as /challenge-setup's modal:
+ * Discord doesn't allow deferring a component interaction and then opening a
+ * modal as a followup, so this must respond synchronously with no fetches
+ * beforehand. The slug is threaded through via the modal's custom_id
+ * (`cemod|<slug>`) since the modal itself carries no other state.
+ */
+async function handleChallengeEditSelect(
+  interaction: DiscordInteraction,
+  res: ServerResponse
+): Promise<void> {
+  const slug = interaction.data?.values?.[0]
+  if (!slug) {
+    respondJson(res, 400, { error: 'Missing slug' })
+    return
+  }
+
+  respondJson(res, 200, {
+    type: InteractionResponseType.MODAL,
+    data: {
+      custom_id: `cemod|${slug}`,
+      title: 'Edit Challenge',
+      components: [
+        {
+          type: ComponentType.LABEL,
+          label: 'Challenge name',
+          description: 'Leave empty to keep the current name',
+          component: {
+            type: 4,
+            custom_id: 'name',
+            style: TextInputStyle.SHORT,
+            required: false,
+            max_length: 100,
+          },
+        },
+        {
+          type: ComponentType.LABEL,
+          label: 'Description',
+          description: 'Leave empty to keep the current description',
+          component: {
+            type: 4,
+            custom_id: 'description',
+            style: TextInputStyle.PARAGRAPH,
+            required: false,
+            max_length: 2000,
+          },
+        },
+        {
+          type: ComponentType.LABEL,
+          label: 'Dates (UTC)',
+          description: 'e.g. August 1 to August 30 — empty keeps current',
+          component: {
+            type: 4,
+            custom_id: 'dates',
+            style: TextInputStyle.SHORT,
+            required: false,
+          },
+        },
+        {
+          type: ComponentType.LABEL,
+          label: 'Signup deadline (UTC)',
+          description: 'Empty keeps current (or the default if dates change)',
+          component: {
+            type: 4,
+            custom_id: 'signup_deadline',
+            style: TextInputStyle.SHORT,
+            required: false,
+          },
+        },
+        {
+          type: ComponentType.LABEL,
+          label: 'Congrats channel',
+          description: 'Empty keeps the current pick',
+          component: {
+            type: ComponentType.CHANNEL_SELECT,
+            custom_id: 'congrats_channel',
+            channel_types: [0], // GUILD_TEXT
+            required: false,
+            min_values: 0,
+            max_values: 1,
+          },
+        },
+      ],
+    },
+  })
+}
+
+export interface ChallengeEditModalInputs {
+  name: string
+  description: string
+  dates: string
+  signupDeadline: string
+  congratsChannelId: string
+}
+
+export interface ChallengeEditExisting {
+  name: string
+  start: number
+  end: number
+  deadline: number
+  congrats_channel_id?: string
+}
+
+export interface ChallengeEditResolved {
+  name: string
+  /** New description text, or `undefined` to keep whatever's already on the
+   * live embed — this function has no Discord access, so the caller reads
+   * the current description off the fetched embed itself when this is
+   * `undefined`. */
+  description?: string
+  start: number
+  end: number
+  deadline: number
+  congrats_channel_id?: string
+  /** Friendly labels for what changed, in field order. Empty means every
+   * field was left blank. */
+  changed: string[]
+}
+
+export type ChallengeEditResolution =
+  | { ok: true; resolved: ChallengeEditResolved }
+  | { ok: false; error: string }
+
+/**
+ * Pure merge-decision for /challenge-edit: given the raw (possibly-empty)
+ * modal inputs and the challenge's current meta, decides which fields
+ * actually change and what the resolved values are. No Discord I/O, so it's
+ * unit-testable without mocking anything — `finishChallengeEdit` below is
+ * the thin Discord-facing wrapper around this.
+ */
+export function resolveChallengeEdit(
+  inputs: ChallengeEditModalInputs,
+  existing: ChallengeEditExisting,
+  now: number = Date.now()
+): ChallengeEditResolution {
+  const changed: string[] = []
+
+  const name = inputs.name.trim() ? inputs.name : existing.name
+  if (inputs.name.trim()) changed.push('name')
+
+  const description = inputs.description.trim() ? inputs.description : undefined
+  if (description !== undefined) changed.push('description')
+
+  let start = existing.start
+  let end = existing.end
+  let deadline = existing.deadline
+
+  const datesGiven = Boolean(inputs.dates.trim())
+  const deadlineGiven = Boolean(inputs.signupDeadline.trim())
+
+  if (datesGiven) {
+    // Same validation path as /challenge-setup: parseDateRangeField splits
+    // the combined field, validateChallengeDates parses+validates each side
+    // (and re-derives the deadline default if none was given here either).
+    const rangeResult = parseDateRangeField(inputs.dates)
+    if (!rangeResult.ok) return { ok: false, error: rangeResult.error }
+
+    const datesResult = validateChallengeDates(
+      {
+        start: rangeResult.start,
+        end: rangeResult.end,
+        signupDeadline: deadlineGiven ? inputs.signupDeadline : undefined,
+      },
+      now
+    )
+    if (!datesResult.ok) return { ok: false, error: datesResult.error }
+
+    start = datesResult.dates.start
+    end = datesResult.dates.end
+    deadline = datesResult.dates.signupDeadline
+    changed.push('dates')
+  } else if (deadlineGiven) {
+    // No new dates, so the existing start can't be re-validated through
+    // validateChallengeDates (it only accepts date *strings*, and re-parsing
+    // an already-running challenge's start as a fresh string would wrongly
+    // re-trigger its "start must be today or later" rule). Parse the
+    // deadline directly instead and enforce the one deadline-specific rule
+    // validateChallengeDates has, with the same message.
+    const deadlineResult = parseAdminDate(inputs.signupDeadline, now)
+    if (!deadlineResult.ok) return { ok: false, error: `signup_deadline: ${deadlineResult.error}` }
+    // Mirrors validateChallengeDates: before the start, an explicit deadline
+    // must be ≤ start. But an already-running challenge legitimately keeps
+    // signups open past its start (the immediate-start DEFAULT deadline is
+    // the end date), so there the only hard bound is the end.
+    const notStarted = existing.start > Math.floor(now / 1000)
+    if (notStarted && deadlineResult.epochSeconds > existing.start) {
+      return { ok: false, error: 'Signup deadline must be at or before the start date.' }
+    }
+    if (!notStarted && deadlineResult.epochSeconds > existing.end) {
+      return { ok: false, error: 'Signup deadline must be at or before the end date.' }
+    }
+    deadline = deadlineResult.epochSeconds
+    changed.push('signup deadline')
+  }
+
+  const congratsGiven = Boolean(inputs.congratsChannelId.trim())
+  const congrats_channel_id = congratsGiven ? inputs.congratsChannelId : existing.congrats_channel_id
+  if (congratsGiven) changed.push('congrats channel')
+
+  return { ok: true, resolved: { name, description, start, end, deadline, congrats_channel_id, changed } }
+}
+
+async function finishChallengeEdit(interaction: DiscordInteraction, slug: string): Promise<void> {
+  const appId = getAppId()
+  const token = interaction.token
+
+  try {
+    const messages = await getAllChannelMessages(getLogChannelId(), 2000)
+    const index = collectChallengeIndex(messages)
+    const entry = index.get(slug)
+    if (!entry || entry.archived) {
+      await editOriginalResponse(appId, token, {
+        content: `❌ Challenge "${slug}" not found (it may have been archived).`,
+      })
+      return
+    }
+    const meta = entry.meta
+
+    const inputs: ChallengeEditModalInputs = {
+      name: extractModalValue(interaction, 'name') ?? '',
+      description: extractModalValue(interaction, 'description') ?? '',
+      dates: extractModalValue(interaction, 'dates') ?? '',
+      signupDeadline: extractModalValue(interaction, 'signup_deadline') ?? '',
+      congratsChannelId: extractModalValue(interaction, 'congrats_channel') ?? '',
+    }
+
+    const resolution = resolveChallengeEdit(inputs, {
+      name: meta.name,
+      start: meta.start,
+      end: meta.end,
+      deadline: meta.deadline,
+      congrats_channel_id: meta.congrats_channel_id,
+    })
+    if (!resolution.ok) {
+      await editOriginalResponse(appId, token, { content: `❌ ${resolution.error}` })
+      return
+    }
+
+    const { resolved } = resolution
+    if (resolved.changed.length === 0) {
+      await editOriginalResponse(appId, token, {
+        content: 'Nothing to change — all fields were left empty.',
+      })
+      return
+    }
+
+    const fetchedMessage = await getMessage(meta.channel_id, meta.message_id)
+    const currentEmbed = fetchedMessage.embeds?.[0] ?? {}
+    const currentDescription = typeof currentEmbed.description === 'string' ? currentEmbed.description : ''
+    const description = resolved.description ?? currentDescription
+
+    let embed = buildAnnouncementEmbed({
+      name: resolved.name,
+      description,
+      signupDeadline: resolved.deadline,
+      start: resolved.start,
+      end: resolved.end,
+    })
+    // Restore the live signup counts rather than resetting the footer to
+    // 0/0 — buildAnnouncementEmbed always starts a fresh embed at 0/0.
+    const roster = buildRoster(messages, slug)
+    embed = withUpdatedSignupCounts(embed, roster.wanters.length, roster.owners.length)
+
+    // The deadline is baked into the button custom_ids, so components must
+    // be re-sent whenever it changed — sending them unconditionally is
+    // simpler and harmless. Edits never reopen signups: once CLOSED, the
+    // widget stays disabled regardless of what else was edited.
+    const components = entry.closed
+      ? buildDisabledComponents(slug, resolved.deadline)
+      : buildSignupComponents(slug, resolved.deadline)
+
+    await editMessage(meta.channel_id, meta.message_id, { embeds: [embed], components })
+
+    await createMessage(getLogChannelId(), {
+      content: serializeChallenge({
+        slug,
+        channel_id: meta.channel_id,
+        message_id: meta.message_id,
+        deadline: resolved.deadline,
+        start: resolved.start,
+        end: resolved.end,
+        name: resolved.name,
+        ...(resolved.congrats_channel_id ? { congrats_channel_id: resolved.congrats_channel_id } : {}),
+      }),
+    })
+
+    const announcementLink = `https://discord.com/channels/${GUILD_ID}/${meta.channel_id}/${meta.message_id}`
+    await editOriginalResponse(appId, token, {
+      content: `✅ Updated **${resolved.name}** — changed: ${resolved.changed.join(', ')}. ${announcementLink}`,
+    })
+  } catch (err) {
+    const message = (err as Error).message
+    // 50001 Missing Access = the bot can't see/post in this private channel.
+    const friendly = message.includes('"code": 50001')
+      ? "❌ I can't edit that announcement — it's private and the **TGC Bot** role doesn't have access. Add it via Edit Channel → Permissions → Add members or roles, then try again."
+      : `❌ Something went wrong: ${message}`
+    await editOriginalResponse(appId, token, { content: friendly }).catch(() => {})
   }
 }
 
@@ -721,13 +1110,18 @@ async function handleMessageComponent(
   const customId = interaction.data?.custom_id
 
   // Routed independently of decodeCustomId (which only understands the
-  // `su|`/`sg|` signup formats) since `clist`/`carch` aren't pipe-delimited ids.
+  // `su|`/`sg|` signup formats) since `clist`/`carch`/`cedit` aren't
+  // pipe-delimited ids.
   if (customId === CHALLENGE_LIST_SELECT_ID) {
     await handleChallengeListSelect(interaction, res)
     return
   }
   if (customId === CHALLENGE_ARCHIVE_SELECT_ID) {
     await handleChallengeArchiveSelect(interaction, res)
+    return
+  }
+  if (customId === CHALLENGE_EDIT_SELECT_ID) {
+    await handleChallengeEditSelect(interaction, res)
     return
   }
 
@@ -839,6 +1233,19 @@ async function handleModalSubmit(
       data: { flags: MessageFlags.EPHEMERAL },
     })
     waitUntil(finishChallengeSetupFromModal(interaction))
+    return
+  }
+
+  // Routed independently of decodeCustomId (pipe-delimited but not the
+  // `sg|` signup-modal shape it understands) — same rationale as `cedit`
+  // above for MESSAGE_COMPONENT.
+  if (customId?.startsWith('cemod|')) {
+    const slug = customId.slice('cemod|'.length)
+    respondJson(res, 200, {
+      type: InteractionResponseType.DEFERRED_CHANNEL_MESSAGE_WITH_SOURCE,
+      data: { flags: MessageFlags.EPHEMERAL },
+    })
+    waitUntil(finishChallengeEdit(interaction, slug))
     return
   }
 

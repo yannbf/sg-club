@@ -2,7 +2,7 @@ import type { IncomingMessage, ServerResponse } from 'node:http'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { encodeModalCustomId, encodeSignupCustomId, slugify } from '../_lib/custom-id.js'
 import { serializeArchived, serializeChallenge } from '../_lib/signup-log.js'
-import { isPastDeadline } from './interactions.js'
+import { isPastDeadline, resolveChallengeEdit } from './interactions.js'
 
 // Outside the real Vercel runtime waitUntil is a no-op that doesn't track
 // the promise, so tests capture the registered promises and drain them
@@ -119,6 +119,154 @@ describe('isPastDeadline', () => {
   it('is false at or before the deadline', () => {
     expect(isPastDeadline(1000, 1000)).toBe(false)
     expect(isPastDeadline(1000, 999)).toBe(false)
+  })
+})
+
+describe('resolveChallengeEdit', () => {
+  // Pinned well after EXISTING.start so the deadline-only branch is
+  // exercised against a challenge that's already running (an "immediate
+  // start" from setup) — the point being that reusing the existing start
+  // must NOT re-trigger validateChallengeDates's "start must be today or
+  // later" rule, which only applies when a date string is freshly parsed.
+  const NOW = Date.UTC(2026, 6, 20, 12, 0)
+  const EXISTING = {
+    name: 'Neo Cab',
+    start: Math.floor(Date.UTC(2026, 6, 15) / 1000),
+    end: Math.floor(Date.UTC(2026, 6, 30) / 1000),
+    deadline: Math.floor(Date.UTC(2026, 6, 15) / 1000),
+    congrats_channel_id: 'congrats-1',
+  }
+  const EMPTY_INPUTS = {
+    name: '',
+    description: '',
+    dates: '',
+    signupDeadline: '',
+    congratsChannelId: '',
+  }
+
+  it('all fields empty: no changes, resolved mirrors the existing meta', () => {
+    const result = resolveChallengeEdit(EMPTY_INPUTS, EXISTING, NOW)
+    expect(result).toEqual({
+      ok: true,
+      resolved: {
+        name: EXISTING.name,
+        description: undefined,
+        start: EXISTING.start,
+        end: EXISTING.end,
+        deadline: EXISTING.deadline,
+        congrats_channel_id: EXISTING.congrats_channel_id,
+        changed: [],
+      },
+    })
+  })
+
+  it('name only: changes just the name', () => {
+    const result = resolveChallengeEdit({ ...EMPTY_INPUTS, name: 'Neo Cab 2' }, EXISTING, NOW)
+    expect(result.ok).toBe(true)
+    if (!result.ok) return
+    expect(result.resolved.name).toBe('Neo Cab 2')
+    expect(result.resolved.changed).toEqual(['name'])
+    expect(result.resolved.start).toBe(EXISTING.start)
+    expect(result.resolved.end).toBe(EXISTING.end)
+    expect(result.resolved.deadline).toBe(EXISTING.deadline)
+  })
+
+  it('description only: resolved.description carries the new text, marked changed', () => {
+    const result = resolveChallengeEdit({ ...EMPTY_INPUTS, description: 'New desc' }, EXISTING, NOW)
+    expect(result.ok).toBe(true)
+    if (!result.ok) return
+    expect(result.resolved.description).toBe('New desc')
+    expect(result.resolved.changed).toEqual(['description'])
+  })
+
+  it('dates + explicit deadline: recomputes start/end/deadline as a single "dates" change', () => {
+    const result = resolveChallengeEdit(
+      { ...EMPTY_INPUTS, dates: 'Aug 1 2026 to Aug 30 2026', signupDeadline: 'Jul 28 2026' },
+      EXISTING,
+      NOW
+    )
+    expect(result.ok).toBe(true)
+    if (!result.ok) return
+    expect(result.resolved.start).toBe(Math.floor(Date.UTC(2026, 7, 1) / 1000))
+    expect(result.resolved.end).toBe(Math.floor(Date.UTC(2026, 7, 30) / 1000))
+    expect(result.resolved.deadline).toBe(Math.floor(Date.UTC(2026, 6, 28) / 1000))
+    // Providing both dates and a deadline together still counts as one
+    // "dates" change, not two — the deadline just rides along.
+    expect(result.resolved.changed).toEqual(['dates'])
+  })
+
+  it('dates without an explicit deadline: the deadline re-defaults off the new start', () => {
+    const result = resolveChallengeEdit(
+      { ...EMPTY_INPUTS, dates: 'Aug 1 2026 to Aug 30 2026' },
+      EXISTING,
+      NOW
+    )
+    expect(result.ok).toBe(true)
+    if (!result.ok) return
+    expect(result.resolved.deadline).toBe(result.resolved.start)
+    expect(result.resolved.changed).toEqual(['dates'])
+  })
+
+  it('deadline only: validates against the EXISTING start/end, leaves dates untouched', () => {
+    const result = resolveChallengeEdit({ ...EMPTY_INPUTS, signupDeadline: 'Jul 14 2026' }, EXISTING, NOW)
+    expect(result.ok).toBe(true)
+    if (!result.ok) return
+    expect(result.resolved.deadline).toBe(Math.floor(Date.UTC(2026, 6, 14) / 1000))
+    expect(result.resolved.start).toBe(EXISTING.start)
+    expect(result.resolved.end).toBe(EXISTING.end)
+    expect(result.resolved.changed).toEqual(['signup deadline'])
+  })
+
+  it('deadline only, already-running challenge: a deadline between start and end is valid', () => {
+    // The immediate-start DEFAULT deadline at setup is the end date, so
+    // running challenges legitimately keep signups open past their start
+    // (Neo Cab: started July 1, signups close July 30). Shortening such a
+    // deadline mid-window must not be rejected.
+    const result = resolveChallengeEdit({ ...EMPTY_INPUTS, signupDeadline: 'Jul 22 2026' }, EXISTING, NOW)
+    expect(result.ok).toBe(true)
+    if (!result.ok) return
+    expect(result.resolved.deadline).toBe(Math.floor(Date.UTC(2026, 6, 22) / 1000))
+  })
+
+  it('deadline only, already-running challenge: rejects a deadline after the end', () => {
+    const result = resolveChallengeEdit({ ...EMPTY_INPUTS, signupDeadline: 'Aug 5 2026' }, EXISTING, NOW)
+    expect(result).toEqual({ ok: false, error: 'Signup deadline must be at or before the end date.' })
+  })
+
+  it('deadline only, not-yet-started challenge: rejects a deadline after the start, same message as setup', () => {
+    const future = {
+      ...EXISTING,
+      start: Math.floor(Date.UTC(2026, 7, 1) / 1000),
+      end: Math.floor(Date.UTC(2026, 7, 30) / 1000),
+      deadline: Math.floor(Date.UTC(2026, 7, 1) / 1000),
+    }
+    const result = resolveChallengeEdit({ ...EMPTY_INPUTS, signupDeadline: 'Aug 10 2026' }, future, NOW)
+    expect(result).toEqual({ ok: false, error: 'Signup deadline must be at or before the start date.' })
+  })
+
+  it('congrats channel empty: keeps the existing pick', () => {
+    const result = resolveChallengeEdit(EMPTY_INPUTS, EXISTING, NOW)
+    expect(result.ok).toBe(true)
+    if (!result.ok) return
+    expect(result.resolved.congrats_channel_id).toBe('congrats-1')
+    expect(result.resolved.changed).not.toContain('congrats channel')
+  })
+
+  it('congrats channel given: replaces the existing pick', () => {
+    const result = resolveChallengeEdit(
+      { ...EMPTY_INPUTS, congratsChannelId: 'congrats-2' },
+      EXISTING,
+      NOW
+    )
+    expect(result.ok).toBe(true)
+    if (!result.ok) return
+    expect(result.resolved.congrats_channel_id).toBe('congrats-2')
+    expect(result.resolved.changed).toEqual(['congrats channel'])
+  })
+
+  it('propagates a bad dates-field error unchanged', () => {
+    const result = resolveChallengeEdit({ ...EMPTY_INPUTS, dates: 'not a range' }, EXISTING, NOW)
+    expect(result.ok).toBe(false)
   })
 })
 
