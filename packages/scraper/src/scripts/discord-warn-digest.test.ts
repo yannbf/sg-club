@@ -210,6 +210,28 @@ describe('buildDigestMessages', () => {
     expect(emojiPattern.test(fullText)).toBe(false)
   })
 
+  it('deep-links members with required-play error codes to their filtered Won tab', () => {
+    const playRequiredItem: WarnItem = {
+      ...ITEM_B,
+      code: 'required_play_deadline_expired',
+    }
+    const split: DigestSplit = {
+      newItems: [ITEM_A, playRequiredItem],
+      lingeringItems: [],
+      prunedFingerprints: [],
+      updatedState: { items: {} },
+    }
+
+    const fullText = buildDigestMessages(split).join('\n')
+
+    // bob (required-play code) gets the filtered deep link; alice
+    // (ex-member entries, no code) keeps the plain profile link.
+    expect(fullText).toContain(
+      '[bob](<https://sg-club.vercel.app/users/bob/?tab=won&filter=play-required>)'
+    )
+    expect(fullText).toContain('[alice](<https://sg-club.vercel.app/users/alice/>)')
+  })
+
   it('puts the header only on the first message and never splits a bullet across messages', () => {
     // Long category strings force a split into multiple ≤1900-char messages.
     const longCategory = 'X'.repeat(150)

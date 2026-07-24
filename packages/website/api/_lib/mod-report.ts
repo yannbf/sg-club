@@ -163,8 +163,12 @@ function memberLink(username: string, deepLinkPlayRequired = false): string {
  * Discord's link-preview embed. No emojis — used by both the digest and
  * /mod-report.
  */
-export function renderMemberLine(username: string, findingTexts: string[]): string {
-  return `- ${memberLink(username)} — ${findingTexts.join(' · ')}`
+export function renderMemberLine(
+  username: string,
+  findingTexts: string[],
+  deepLinkPlayRequired = false
+): string {
+  return `- ${memberLink(username, deepLinkPlayRequired)} — ${findingTexts.join(' · ')}`
 }
 
 /**

@@ -7,6 +7,7 @@ import { TEST_ANNOUNCE_CHANNEL_ID } from '../../../website/api/_lib/constants.js
 import {
   chunkMessage,
   collectGroupWarningFindings,
+  PLAY_REQUIRED_CODES,
   renderMemberLine,
   type Severity,
 } from '../../../website/api/_lib/mod-report.js'
@@ -21,6 +22,9 @@ export interface WarnItem {
   category: string
   description: string
   severity: Severity
+  /** Underlying finding code (group-warning items only) — drives the
+   * play-required deep link on the member's digest line. */
+  code?: string
 }
 
 export interface WarnState {
@@ -78,6 +82,7 @@ export async function groupUserWarningsDetector(): Promise<WarnItem[]> {
     category: finding.label,
     description: `${finding.username}: ${finding.label}`,
     severity: finding.severity,
+    code: finding.code,
   }))
 }
 
@@ -146,6 +151,9 @@ export interface MemberFindings {
   username: string
   hasNew: boolean
   findingLines: string[]
+  /** True when any of the member's error findings is required-play related —
+   * their line links straight to the Won tab with the filter on. */
+  deepLinkPlayRequired: boolean
 }
 
 /**
@@ -161,10 +169,13 @@ export function groupErrorFindingsByMember(split: DigestSplit): MemberFindings[]
   const getEntry = (username: string): MemberFindings => {
     let entry = byUser.get(username)
     if (!entry) {
-      entry = { username, hasNew: false, findingLines: [] }
+      entry = { username, hasNew: false, findingLines: [], deepLinkPlayRequired: false }
       byUser.set(username, entry)
     }
     return entry
+  }
+  const markPlayRequired = (entry: MemberFindings, item: WarnItem): void => {
+    if (item.code && PLAY_REQUIRED_CODES.has(item.code)) entry.deepLinkPlayRequired = true
   }
 
   for (const item of split.newItems) {
@@ -172,11 +183,13 @@ export function groupErrorFindingsByMember(split: DigestSplit): MemberFindings[]
     const entry = getEntry(item.memberSgUsername)
     entry.hasNew = true
     entry.findingLines.push(`${item.category} (new)`)
+    markPlayRequired(entry, item)
   }
   for (const item of split.lingeringItems) {
     if (item.severity !== 'error') continue
     const entry = getEntry(item.memberSgUsername)
     entry.findingLines.push(`${item.category} (since <t:${item.firstSeen}:R>)`)
+    markPlayRequired(entry, item)
   }
 
   return [...byUser.values()].sort((a, b) => {
@@ -194,7 +207,7 @@ export function groupErrorFindingsByMember(split: DigestSplit): MemberFindings[]
  */
 export function buildDigestMessages(split: DigestSplit): string[] {
   const bullets = groupErrorFindingsByMember(split).map((member) =>
-    renderMemberLine(member.username, member.findingLines)
+    renderMemberLine(member.username, member.findingLines, member.deepLinkPlayRequired)
   )
   if (bullets.length === 0) return []
   return chunkMessage([HEADER, ...bullets], MAX_MESSAGE_LENGTH)
