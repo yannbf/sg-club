@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1783036800,
   "totalAchievements": 18,
-  "generatedAt": 1784908367386,
+  "generatedAt": 1784915902844,
   "challengeOver": false,
   "winnerUsername": "RaitorHaitor",
   "participants": [
@@ -1744,11 +1744,11 @@
       "is_guest": false,
       "owned": true,
       "stats_available": true,
-      "wrote_review": false,
-      "review_voted_up": null,
-      "review_timestamp": null,
-      "review_recommendationid": null,
-      "review_url": null,
+      "wrote_review": true,
+      "review_voted_up": true,
+      "review_timestamp": 1784901504,
+      "review_recommendationid": "231201433",
+      "review_url": "https://steamcommunity.com/profiles/76561197994025244/recommended/794540",
       "playtime_total_minutes": 544,
       "playtime_2weeks_minutes": 322,
       "baseline_playtime_minutes": 221,
@@ -1815,8 +1815,8 @@
       "completed_before_start": false,
       "completed_after_deadline": false,
       "meets_playtime": true,
-      "meets_review": false,
-      "is_winner": false
+      "meets_review": true,
+      "is_winner": true
     },
     {
       "username": "puninup",
@@ -3080,7 +3080,8 @@
     "vot4ol",
     "DancingVaquinha",
     "VenomousNyx",
-    "Slenderpoop00"
+    "Slenderpoop00",
+    "PsychoApeMan"
   ],
   "roster": {
     "participants": [
