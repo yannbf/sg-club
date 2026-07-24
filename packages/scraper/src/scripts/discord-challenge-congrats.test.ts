@@ -4,6 +4,7 @@ import {
   buildCongratsMessage,
   diffNewCompletions,
   joinNamesWithAnd,
+  pickCongratsChannel,
   qualifyingUsernames,
 } from './discord-challenge-congrats'
 
@@ -58,6 +59,22 @@ describe('diffNewCompletions', () => {
 
     const secondRun = diffNewCompletions(qualifying, announced)
     expect(secondRun).toEqual([])
+  })
+})
+
+describe('pickCongratsChannel', () => {
+  it('prefers congrats_channel_id when the matched meta has one', () => {
+    const meta = { channel_id: 'announce-chan', congrats_channel_id: 'congrats-chan' }
+    expect(pickCongratsChannel(meta, 'fallback-chan')).toBe('congrats-chan')
+  })
+
+  it('falls back to channel_id when the matched meta has no congrats_channel_id', () => {
+    const meta = { channel_id: 'announce-chan', congrats_channel_id: undefined }
+    expect(pickCongratsChannel(meta, 'fallback-chan')).toBe('announce-chan')
+  })
+
+  it('falls back to the provided fallback channel when no meta matched at all', () => {
+    expect(pickCongratsChannel(undefined, 'fallback-chan')).toBe('fallback-chan')
   })
 })
 

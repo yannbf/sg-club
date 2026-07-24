@@ -399,6 +399,27 @@ describe('APPLICATION_COMMAND challenge-setup', () => {
     expect(customIds).toEqual(['name', 'description', 'dates', 'signup_deadline'])
     expect(discordRest.createMessage).not.toHaveBeenCalled()
   })
+
+  it('threads a picked congrats-channel option into the modal custom_id as csetup|<channelId>', async () => {
+    const req = makeReq({
+      type: 2,
+      token: 'tok',
+      channel_id: 'chan1',
+      member: { user: { id: 'd1', username: 'yannbf' } },
+      data: {
+        name: 'challenge-setup',
+        options: [{ name: 'congrats-channel', value: 'congrats-chan-1' }],
+      },
+    })
+    const res = makeRes()
+
+    await handler(req, res)
+
+    expect(res.body).toMatchObject({
+      type: 9,
+      data: { custom_id: 'csetup|congrats-chan-1' },
+    })
+  })
 })
 
 describe('MODAL_SUBMIT challenge-setup (csetup)', () => {
@@ -411,6 +432,7 @@ describe('MODAL_SUBMIT challenge-setup (csetup)', () => {
     description?: string
     dates?: string
     signup_deadline?: string
+    customId?: string
   }): IncomingMessage {
     const fields = {
       name: 'Neo Cab',
@@ -421,6 +443,7 @@ describe('MODAL_SUBMIT challenge-setup (csetup)', () => {
       // "+30d" anchors off the parsed start per parseAdminDate's anchoring.
       dates: '+1d → +30d',
       signup_deadline: '',
+      customId: 'csetup',
       ...overrides,
     }
     return makeReq({
@@ -429,7 +452,7 @@ describe('MODAL_SUBMIT challenge-setup (csetup)', () => {
       channel_id: 'chan1',
       member: { user: { id: 'd1', username: 'yannbf' } },
       data: {
-        custom_id: 'csetup',
+        custom_id: fields.customId,
         components: [
           { components: [{ custom_id: 'name', value: fields.name }] },
           { components: [{ custom_id: 'description', value: fields.description }] },
@@ -487,6 +510,49 @@ describe('MODAL_SUBMIT challenge-setup (csetup)', () => {
       'test-app-id',
       'tok',
       expect.objectContaining({ content: expect.stringContaining('✅ Challenge announced:') })
+    )
+  })
+
+  it('routes csetup|<channelId>, records congrats_channel_id in the log, and mentions the channel in the confirmation', async () => {
+    const req = makeCsetupReq({ customId: 'csetup|congrats-chan-1' })
+    const res = makeRes()
+
+    await handler(req, res)
+    // Still a deferred ephemeral ack, same as the plain "csetup" form.
+    expect(res.body).toMatchObject({
+      type: 5,
+      data: { flags: 1 << 6 },
+    })
+
+    await drainWaitUntil()
+
+    expect(discordRest.createMessage).toHaveBeenCalledTimes(2)
+    const [, logPayload] = vi.mocked(discordRest.createMessage).mock.calls[1]
+    expect(logPayload.content).toContain('"congrats_channel_id":"congrats-chan-1"')
+
+    expect(discordRest.editOriginalResponse).toHaveBeenCalledWith(
+      'test-app-id',
+      'tok',
+      expect.objectContaining({
+        content: expect.stringContaining('Congrats will post in <#congrats-chan-1>'),
+      })
+    )
+  })
+
+  it('omits congrats_channel_id from the log and the confirmation mention when no channel was picked (plain csetup)', async () => {
+    const req = makeCsetupReq({})
+    const res = makeRes()
+
+    await handler(req, res)
+    await drainWaitUntil()
+
+    const [, logPayload] = vi.mocked(discordRest.createMessage).mock.calls[1]
+    expect(logPayload.content).not.toContain('congrats_channel_id')
+
+    expect(discordRest.editOriginalResponse).toHaveBeenCalledWith(
+      'test-app-id',
+      'tok',
+      expect.objectContaining({ content: expect.not.stringContaining('Congrats will post') })
     )
   })
 

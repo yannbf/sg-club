@@ -230,17 +230,29 @@ async function handleApplicationCommand(
   respondJson(res, 400, { error: 'Unknown command' })
 }
 
+function getStringOption(interaction: DiscordInteraction, name: string): string | undefined {
+  const option = interaction.data?.options?.find((o) => o.name === name)
+  return typeof option?.value === 'string' ? option.value : undefined
+}
+
 async function handleChallengeSetup(
   interaction: DiscordInteraction,
   res: ServerResponse
 ): Promise<void> {
+  // The congrats-channel picker's value (a channel id snowflake) is threaded
+  // through the modal's custom_id — the modal has no other way to carry
+  // context forward from the slash command's options. A snowflake comfortably
+  // fits the 100-char custom_id cap even appended to "csetup|".
+  const congratsChannelId = getStringOption(interaction, 'congrats-channel')
+  const modalCustomId = congratsChannelId ? `csetup|${congratsChannelId}` : 'csetup'
+
   // Discord does not allow deferring an APPLICATION_COMMAND and then opening
   // a modal as a followup — the modal must be the immediate synchronous
   // response, so there's no defer/waitUntil here.
   respondJson(res, 200, {
     type: InteractionResponseType.MODAL,
     data: {
-      custom_id: 'csetup',
+      custom_id: modalCustomId,
       title: 'New Challenge',
       components: [
         {
@@ -300,7 +312,10 @@ async function handleChallengeSetup(
   })
 }
 
-async function finishChallengeSetupFromModal(interaction: DiscordInteraction): Promise<void> {
+async function finishChallengeSetupFromModal(
+  interaction: DiscordInteraction,
+  congratsChannelId?: string
+): Promise<void> {
   const appId = getAppId()
   const token = interaction.token
 
@@ -373,11 +388,15 @@ async function finishChallengeSetupFromModal(interaction: DiscordInteraction): P
         start: datesResult.dates.start,
         end: datesResult.dates.end,
         name,
+        ...(congratsChannelId ? { congrats_channel_id: congratsChannelId } : {}),
       }),
     })
 
     const announcementLink = `https://discord.com/channels/${GUILD_ID}/${targetChannelId}/${announcement.id}`
-    await editOriginalResponse(appId, token, { content: `✅ Challenge announced: ${announcementLink}` })
+    const congratsNote = congratsChannelId ? ` Congrats will post in <#${congratsChannelId}>.` : ''
+    await editOriginalResponse(appId, token, {
+      content: `✅ Challenge announced: ${announcementLink}${congratsNote}`,
+    })
   } catch (err) {
     const message = (err as Error).message
     // 50001 Missing Access = the bot can't see/post in this private channel.
@@ -667,12 +686,13 @@ async function handleModalSubmit(
 ): Promise<void> {
   const customId = interaction.data?.custom_id
 
-  if (customId === 'csetup') {
+  if (customId === 'csetup' || customId?.startsWith('csetup|')) {
+    const congratsChannelId = customId.startsWith('csetup|') ? customId.slice('csetup|'.length) : undefined
     respondJson(res, 200, {
       type: InteractionResponseType.DEFERRED_CHANNEL_MESSAGE_WITH_SOURCE,
       data: { flags: MessageFlags.EPHEMERAL },
     })
-    waitUntil(finishChallengeSetupFromModal(interaction))
+    waitUntil(finishChallengeSetupFromModal(interaction, congratsChannelId))
     return
   }
 

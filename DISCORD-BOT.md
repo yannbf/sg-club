@@ -74,7 +74,10 @@ ENDED {"slug":"neo-cab","ts":1700100000}
   announcement lives and its dates. `link` is a vestigial optional field —
   `/challenge-setup` no longer collects a per-challenge event link (see the
   Slash commands section below), but `ChallengeMeta.link` and the parser stay
-  tolerant of old log lines that still have it.
+  tolerant of old log lines that still have it. `congrats_channel_id` is
+  another optional field — see [Two-channel challenge
+  messages](#two-channel-challenge-messages) below — absent on old lines and
+  on any setup that didn't pick a split channel.
 - `SIGNUP` — posted on every button click / modal submit. `choice` is one of
   `want` / `have` / `out`.
 - `CLOSED` — posted once signups are closed for a slug (marks it done so the
@@ -104,18 +107,22 @@ there's no database to look anything up in:
 ```
 su|<slug>|<choice>|<deadlineEpoch>   # signup button
 sg|<slug>|<choice>|<deadlineEpoch>   # guest-username modal
-csetup                               # the /challenge-setup form modal
+csetup                               # the /challenge-setup form modal, no congrats channel picked
+csetup|<congratsChannelId>           # same modal, carrying the picked congrats channel forward
 clist                                # the /challenge-list challenge picker (string select)
 ```
 
 `choice` is `want` / `have` / `out`. `handleModalSubmit` routes by
-`custom_id` prefix: `csetup` goes to the challenge-setup flow, anything else
-falls through to the `sg|...` decoder. `handleMessageComponent` checks for
-the fixed `clist` id first (it has no pipes, so `decodeCustomId` would reject
-it) before falling through to the `su|...` decoder. Slugs are auto-generated
+`custom_id` prefix: `csetup` or `csetup|...` both go to the challenge-setup
+flow (the optional suffix, if present, is the congrats channel id extracted
+before calling `finishChallengeSetupFromModal`), anything else falls through
+to the `sg|...` decoder. `handleMessageComponent` checks for the fixed
+`clist` id first (it has no pipes, so `decodeCustomId` would reject it)
+before falling through to the `su|...` decoder. Slugs are auto-generated
 from the challenge name via `slugify()` (lowercase, non-alphanumeric runs →
 `-`, trimmed, max 40 chars) and validated (`^[a-z0-9-]{1,40}$`) so the
-encoded ID never exceeds Discord's 100-char `custom_id` limit.
+encoded ID never exceeds Discord's 100-char `custom_id` limit. A Discord
+channel id (snowflake) comfortably fits too, even appended after `csetup|`.
 
 ## The core invariant
 
@@ -128,23 +135,29 @@ any Discord REST call is made, and is covered directly in
 ## Slash commands
 
 - **`/challenge-setup`** (admin-only via `default_member_permissions`) — takes
-  no options; it opens a **modal form** (`custom_id: csetup`) with four text
-  inputs: Challenge name, Description, a combined **Dates (UTC)** field
-  (`"<start> → <end>"`, also accepting `->` or the standalone word `to` /
-  `till` / `until` as the separator — each side parsed leniently, see
-  [Accepted date formats](#accepted-date-formats) below), and an optional
-  Signup deadline (UTC, defaults to the start date — or to the **end** date
-  when the start is an immediate one, see
-  [Immediate starts](#immediate-starts) below — same lenient parsing). On
-  submit the bot slugifies the name, rejects the setup if a `CHALLENGE` with
-  the same slug already exists in the log, splits and validates the dates
-  field (`parseDateRangeField`/`validateChallengeDates` in `_lib/dates.ts`),
-  then posts the Dyno-style announcement embed + buttons **to the channel the
-  command was invoked in**, and records a `CHALLENGE` line in the log
-  channel. Any parse/validation failure is surfaced as a friendly `❌ ...`
-  ephemeral error instead of posting anything. (There are no channel/image
-  options — the banner image is a fixed constant, and the "View Event" button
-  now points at a fixed events URL — see below.)
+  one optional option, **`congrats-channel`** (a channel picker, text
+  channels only — see [Two-channel challenge
+  messages](#two-channel-challenge-messages) below), and opens a **modal
+  form** (`custom_id: csetup`, or `csetup|<congratsChannelId>` when a
+  congrats channel was picked) with four text inputs: Challenge name,
+  Description, a combined **Dates (UTC)** field (`"<start> → <end>"`, also
+  accepting `->` or the standalone word `to` / `till` / `until` as the
+  separator — each side parsed leniently, see [Accepted date
+  formats](#accepted-date-formats) below), and an optional Signup deadline
+  (UTC, defaults to the start date — or to the **end** date when the start is
+  an immediate one, see [Immediate starts](#immediate-starts) below — same
+  lenient parsing). On submit the bot slugifies the name, rejects the setup
+  if a `CHALLENGE` with the same slug already exists in the log, splits and
+  validates the dates field (`parseDateRangeField`/`validateChallengeDates`
+  in `_lib/dates.ts`), then posts the Dyno-style announcement embed +
+  buttons **to the channel the command was invoked in**, and records a
+  `CHALLENGE` line in the log channel — including `congrats_channel_id` when
+  one was picked. Any parse/validation failure is surfaced as a friendly `❌
+  ...` ephemeral error instead of posting anything. (There's no
+  image option — the banner image is a fixed constant, and the "View Event"
+  button now points at a fixed events URL — see below.) The ephemeral success
+  confirmation mentions the congrats channel (`Congrats will post in
+  <#channelId>`) when one was picked.
 - **`/challenge-list`** — an interactive picker, no options. Reads the whole
   log channel, collects the distinct `CHALLENGE` metas (deduped by slug,
   keeping the newest re-announce if any, capped at the 25 most recent —
@@ -177,6 +190,36 @@ any Discord REST call is made, and is covered directly in
   closing note — stays emoji-free. Chunked into as few messages as fit under
   a 1990-char budget (see [Packing into the fewest
   messages](#packing-into-the-fewest-messages) below).
+
+### Two-channel challenge messages
+
+A challenge's messages can optionally split across two channels sharing the
+same `CHALLENGE` log entry (mod-approved design):
+
+- **Announcement channel** — wherever `/challenge-setup` was invoked
+  (`ChallengeMeta.channel_id`, unchanged). This is the only channel involved
+  by default, and keeps: the signup widget (the announcement embed +
+  buttons), the signups-closed summary (`discord:close-signups`), the 24h
+  reminder, and the challenge-over message (both from
+  `discord:milestones`) — see the [Cron scripts](#cron-scripts) entries
+  below, which all still post to `meta.channel_id` unchanged.
+- **Congrats channel** — optional, picked via `/challenge-setup`'s
+  `congrats-channel` option and recorded as
+  `ChallengeMeta.congrats_channel_id`. When set, it's the *only* channel that
+  receives the "X just finished the challenge!" posts from
+  `discord:congrats` (`resolveChannelForSlug`/`pickCongratsChannel` in
+  `discord-challenge-congrats.ts` prefer `congrats_channel_id` over
+  `channel_id` once a `CHALLENGE` meta is matched; the `CONGRATS_CHANNEL_ID`
+  env var / test-channel fallback only kicks in when no meta matches at
+  all).
+
+**Default (no channel picked):** everything — including the congrats
+posts — stays in the invoking channel, exactly as before this feature
+existed.
+
+Because congrats posts can land in a channel distinct from the
+announcement, **the bot needs Send Messages / Embed Links access to both
+channels** when a split is used, not just the announcement channel.
 
 ### Accepted date formats
 
@@ -399,7 +442,12 @@ Run manually via the `discord-bot.yml` workflow (`workflow_dispatch`, pick a
   after each batch post. The congrats emoji is the guild's custom
   `pandaparty` emoji (looked up once per run via `GET /guilds/{id}/emojis`,
   animated variants handled), falling back to `🐼🎉` if it's missing or the
-  fetch fails.
+  fetch fails. Target channel resolution
+  (`resolveChannelForSlug`/`pickCongratsChannel`) prefers a matched
+  `CHALLENGE` meta's `congrats_channel_id` over its `channel_id` — see
+  [Two-channel challenge messages](#two-channel-challenge-messages) above —
+  falling back to `CONGRATS_CHANNEL_ID` / the test channel only when no meta
+  matches the slug at all.
 - **`pnpm --filter scraper discord:warn-digest`** — the first job on a real
   `schedule:` trigger (`discord-bot.yml` runs it automatically Friday 13:00
   UTC, in addition to the usual `workflow_dispatch`; every other job is

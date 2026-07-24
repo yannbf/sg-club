@@ -16,6 +16,10 @@ export interface ChallengeMeta {
   /** Event link (e.g. the storefront page). Optional so old CHALLENGE lines
    * posted before this field existed keep parsing tolerantly. */
   link?: string
+  /** Channel for "X just finished the challenge!" congrats posts, when a
+   * split was chosen at setup time. Absent (old lines, or setup without a
+   * pick) means congrats posts go to `channel_id` like everything else. */
+  congrats_channel_id?: string
 }
 
 export interface SignupEvent {

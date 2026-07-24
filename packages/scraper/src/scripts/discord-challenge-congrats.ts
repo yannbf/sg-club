@@ -6,7 +6,7 @@ import {
   getAllChannelMessages,
   getGuildEmojis,
 } from '../../../website/api/_lib/discord-rest.js'
-import { parseLogLine } from '../../../website/api/_lib/signup-log.js'
+import { parseLogLine, type ChallengeMeta } from '../../../website/api/_lib/signup-log.js'
 import {
   getLogChannelId,
   GUILD_ID,
@@ -125,19 +125,35 @@ export function batchUsernames(usernames: string[], gameName: string, emoji: str
   return batches
 }
 
+/**
+ * Pure channel-selection logic, split out for testability: a matched
+ * challenge posts congrats to its dedicated `congrats_channel_id` when the
+ * two-channel split was chosen at setup time, else its `channel_id` like
+ * every other challenge message. No match at all (old data, or the log
+ * channel couldn't be read) falls back to the env var / test channel.
+ */
+export function pickCongratsChannel(
+  meta: Pick<ChallengeMeta, 'channel_id' | 'congrats_channel_id'> | undefined,
+  fallbackChannelId: string
+): string {
+  if (!meta) return fallbackChannelId
+  return meta.congrats_channel_id ?? meta.channel_id
+}
+
 async function resolveChannelForSlug(slug: string): Promise<string> {
+  const fallbackChannelId = process.env.CONGRATS_CHANNEL_ID ?? TEST_ANNOUNCE_CHANNEL_ID
   try {
     const messages = await getAllChannelMessages(getLogChannelId(), 2000)
     for (const message of messages) {
       const parsed = parseLogLine(message.content)
       if (parsed?.type === 'CHALLENGE' && parsed.data.slug === slug) {
-        return parsed.data.channel_id
+        return pickCongratsChannel(parsed.data, fallbackChannelId)
       }
     }
   } catch (err) {
     console.warn(`⚠️ Could not read log channel to resolve a channel for "${slug}":`, err)
   }
-  return process.env.CONGRATS_CHANNEL_ID ?? TEST_ANNOUNCE_CHANNEL_ID
+  return fallbackChannelId
 }
 
 /**

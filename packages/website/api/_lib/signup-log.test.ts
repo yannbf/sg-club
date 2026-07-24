@@ -51,6 +51,23 @@ describe('serialize/parseLogLine round trip', () => {
     }
   })
 
+  it('round-trips a CHALLENGE line with a congrats_channel_id', () => {
+    const meta = { ...CHALLENGE_META, congrats_channel_id: 'congrats-chan-1' }
+    const line = serializeChallenge(meta)
+    expect(parseLogLine(line)).toEqual({ type: 'CHALLENGE', data: meta })
+  })
+
+  it('tolerantly parses an old CHALLENGE line with no congrats_channel_id field', () => {
+    // Simulates a pre-existing log line posted before the two-channel split
+    // existed.
+    const legacyLine = `CHALLENGE ${JSON.stringify(CHALLENGE_META)}`
+    const parsed = parseLogLine(legacyLine)
+    expect(parsed).toEqual({ type: 'CHALLENGE', data: CHALLENGE_META })
+    if (parsed?.type === 'CHALLENGE') {
+      expect(parsed.data.congrats_channel_id).toBeUndefined()
+    }
+  })
+
   it('round-trips a SIGNUP line', () => {
     const event = { ...SIGNUP_BASE, choice: 'want' as const, ts: 1700000050 }
     const line = serializeSignup(event)
