@@ -257,16 +257,49 @@ export type DateRangeSplitResult =
 
 const DATE_RANGE_SEPARATOR = /\s+(?:→|->|to|till|until)\s+/i
 
+/** A single month name (≥3-letter prefix ok) with an optional 4-digit year. */
+const MONTH_ONLY_RE = /^([a-z]{3,9})\s*(\d{4})?$/i
+
 /**
  * Splits a single "Dates (UTC)" modal field into start/end date strings, on
  * whichever of `→`, `->`, or the standalone word `to`/`till`/`until`
  * (surrounded by whitespace) the admin used. Each side is handed to
  * `parseAdminDate` unparsed — this function only handles splitting the
  * combined field.
+ *
+ * Shorthand: a bare month name ("August", "aug 2027") means the WHOLE month —
+ * start = the 1st, end = the 1st of the next month (the usual exclusive
+ * cutoff, so the challenge covers through the month's last day). Naming the
+ * current month starts the challenge today (its 1st is already in the past).
+ * `now` only matters for that resolution; it defaults to the real clock.
  */
-export function parseDateRangeField(input: string): DateRangeSplitResult {
+export function parseDateRangeField(input: string, now: number = Date.now()): DateRangeSplitResult {
   const trimmed = input.trim()
   if (!trimmed) return { ok: false, error: 'Dates are required.' }
+
+  const monthOnly = MONTH_ONLY_RE.exec(trimmed)
+  if (monthOnly) {
+    const month = monthIndex(monthOnly[1]!)
+    if (month !== -1) {
+      const nowDate = new Date(now)
+      const explicitYear = monthOnly[2] !== undefined ? Number(monthOnly[2]) : undefined
+      // Same "next occurrence" rule as month-day parsing: a month earlier in
+      // the calendar than the current one means next year.
+      const year =
+        explicitYear ??
+        (month >= nowDate.getUTCMonth()
+          ? nowDate.getUTCFullYear()
+          : nowDate.getUTCFullYear() + 1)
+      const isCurrentMonth =
+        year === nowDate.getUTCFullYear() && month === nowDate.getUTCMonth()
+      const endYear = month === 11 ? year + 1 : year
+      return {
+        ok: true,
+        start: isCurrentMonth ? 'today' : `${MONTH_NAMES[month]} 1 ${year}`,
+        end: `${MONTH_NAMES[(month + 1) % 12]} 1 ${endYear}`,
+      }
+    }
+  }
 
   const match = trimmed.match(DATE_RANGE_SEPARATOR)
   if (!match) {

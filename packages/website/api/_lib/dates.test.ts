@@ -247,6 +247,44 @@ describe('parseAdminDate', () => {
 })
 
 describe('parseDateRangeField', () => {
+  // Pinned to 2026-07-19 for the month-only shorthand cases.
+  const NOW = Date.UTC(2026, 6, 19, 12, 0)
+
+  it('month-only shorthand: a future month means the whole month', () => {
+    const result = parseDateRangeField('August', NOW)
+    expect(result).toEqual({ ok: true, start: 'august 1 2026', end: 'september 1 2026' })
+  })
+
+  it('month-only shorthand: accepts ≥3-letter prefixes', () => {
+    const result = parseDateRangeField('aug', NOW)
+    expect(result).toEqual({ ok: true, start: 'august 1 2026', end: 'september 1 2026' })
+  })
+
+  it('month-only shorthand: the current month starts today (its 1st is already past)', () => {
+    const result = parseDateRangeField('July', NOW)
+    expect(result).toEqual({ ok: true, start: 'today', end: 'august 1 2026' })
+  })
+
+  it('month-only shorthand: a month earlier in the calendar resolves to next year', () => {
+    const result = parseDateRangeField('March', NOW)
+    expect(result).toEqual({ ok: true, start: 'march 1 2027', end: 'april 1 2027' })
+  })
+
+  it('month-only shorthand: December wraps the end into January of the next year', () => {
+    const result = parseDateRangeField('December', NOW)
+    expect(result).toEqual({ ok: true, start: 'december 1 2026', end: 'january 1 2027' })
+  })
+
+  it('month-only shorthand: an explicit year is honored', () => {
+    const result = parseDateRangeField('August 2027', NOW)
+    expect(result).toEqual({ ok: true, start: 'august 1 2027', end: 'september 1 2027' })
+  })
+
+  it('month-only shorthand: a non-month single word still errors', () => {
+    const result = parseDateRangeField('tomorrow', NOW)
+    expect(result.ok).toBe(false)
+  })
+
   it('splits on a unicode arrow surrounded by spaces', () => {
     const result = parseDateRangeField('2026-01-01 → 2026-02-01')
     expect(result).toEqual({ ok: true, start: '2026-01-01', end: '2026-02-01' })

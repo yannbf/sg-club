@@ -524,7 +524,7 @@ describe('APPLICATION_COMMAND challenge-setup', () => {
     vi.clearAllMocks()
   })
 
-  it('responds immediately with a MODAL and 5 Label-wrapped components, without deferring', async () => {
+  it('responds immediately with a MODAL and 4 Label-wrapped components, without deferring', async () => {
     const req = makeReq({
       type: 2,
       token: 'tok',
@@ -543,11 +543,13 @@ describe('APPLICATION_COMMAND challenge-setup', () => {
     const body = res.body as {
       data: { components: Array<{ type: number; label: string; component: { custom_id: string; type: number } }> }
     }
-    // Components-v2: every field is a Label (type 18) wrapping its input component.
-    expect(body.data.components).toHaveLength(5)
+    // Components-v2: every field is a Label (type 18) wrapping its input
+    // component. No signup-deadline field — the default rule always applies
+    // at setup (/challenge-edit can still adjust it).
+    expect(body.data.components).toHaveLength(4)
     expect(body.data.components.every((c) => c.type === 18)).toBe(true)
     const customIds = body.data.components.map((c) => c.component.custom_id)
-    expect(customIds).toEqual(['name', 'description', 'dates', 'signup_deadline', 'congrats_channel'])
+    expect(customIds).toEqual(['name', 'description', 'dates', 'congrats_channel'])
 
     // The congrats-channel field is a Channel Select (type 8), text-channels only.
     const congratsChannel = body.data.components.find((c) => c.component.custom_id === 'congrats_channel')!

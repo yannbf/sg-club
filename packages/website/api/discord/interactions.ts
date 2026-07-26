@@ -316,23 +316,12 @@ async function handleChallengeSetup(
         {
           type: ComponentType.LABEL,
           label: 'Dates (UTC)',
-          description: 'August 1 to August 30 - also today to August 4',
+          description: 'August 1 to August 30 - also today to August 4, or just "August"',
           component: {
             type: 4,
             custom_id: 'dates',
             style: TextInputStyle.SHORT,
             required: true,
-          },
-        },
-        {
-          type: ComponentType.LABEL,
-          label: 'Signup deadline (UTC, optional)',
-          description: 'if not specified, same as the moment the event starts',
-          component: {
-            type: 4,
-            custom_id: 'signup_deadline',
-            style: TextInputStyle.SHORT,
-            required: false,
           },
         },
         {
@@ -361,8 +350,6 @@ async function finishChallengeSetupFromModal(interaction: DiscordInteraction): P
     const name = extractModalValue(interaction, 'name') ?? ''
     const description = extractModalValue(interaction, 'description') ?? ''
     const datesInput = extractModalValue(interaction, 'dates') ?? ''
-    const deadlineRaw = extractModalValue(interaction, 'signup_deadline')
-    const deadlineInput = deadlineRaw?.trim() ? deadlineRaw : undefined
     const congratsChannelId = extractModalValue(interaction, 'congrats_channel') ?? undefined
 
     const slug = slugify(name)
@@ -381,7 +368,10 @@ async function finishChallengeSetupFromModal(interaction: DiscordInteraction): P
     const datesResult = validateChallengeDates({
       start: rangeResult.start,
       end: rangeResult.end,
-      signupDeadline: deadlineInput,
+      // The setup modal no longer asks for a signup deadline — the default
+      // rule applies (the start for future challenges, the end for
+      // immediate starts); /challenge-edit can still adjust it afterwards.
+      signupDeadline: undefined,
     })
     if (!datesResult.ok) {
       await editOriginalResponse(appId, token, { content: `❌ ${datesResult.error}` })
@@ -914,7 +904,7 @@ export function resolveChallengeEdit(
     // Same validation path as /challenge-setup: parseDateRangeField splits
     // the combined field, validateChallengeDates parses+validates each side
     // (and re-derives the deadline default if none was given here either).
-    const rangeResult = parseDateRangeField(inputs.dates)
+    const rangeResult = parseDateRangeField(inputs.dates, now)
     if (!rangeResult.ok) return { ok: false, error: rangeResult.error }
 
     const datesResult = validateChallengeDates(
