@@ -49,7 +49,7 @@ export function getDataBaseUrl(): string | undefined {
  * change needed — everything downstream (the confirmation link, the log
  * entry) already follows whatever channel the announcement landed in.
  */
-export const FORCED_ANNOUNCE_CHANNEL_ID: string | null = null
+export const FORCED_ANNOUNCE_CHANNEL_ID: string | null = '1515075583434948788' // #challenge-announcements
 
 // Raw Discord interaction/response type + flag numbers. Hardcoded rather than
 // imported from `discord-interactions` so we're not coupled to that package's
