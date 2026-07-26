@@ -165,6 +165,7 @@ export function EventPageHeader({
   endTimestamp,
   isOngoing,
   hasEnded,
+  signupPhase,
   children,
 }: {
   meta: EventMeta
@@ -173,6 +174,8 @@ export function EventPageHeader({
   isOngoing?: boolean
   /** Show an "Ended" badge instead of "Live now" (event over but still shown). */
   hasEnded?: boolean
+  /** Show a "Signups open" badge instead of "Live now" (challenge sign-up phase). */
+  signupPhase?: boolean
   /** Optional extra content rendered under the description (e.g. winner banner). */
   children?: React.ReactNode
 }) {
@@ -247,6 +250,11 @@ export function EventPageHeader({
                 <span className="inline-flex items-center gap-1.5 rounded-full border border-[var(--accent-rose)]/50 bg-[color-mix(in_oklab,var(--accent-rose)_22%,transparent)] px-3 py-1 text-xs font-bold uppercase tracking-wide text-foreground">
                   <Flag className="h-3.5 w-3.5 text-[var(--accent-rose)]" />
                   Challenge over
+                </span>
+              ) : signupPhase ? (
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-[var(--accent-yellow)]/50 bg-[color-mix(in_oklab,var(--accent-yellow)_18%,transparent)] px-3 py-1 text-xs font-bold uppercase tracking-wide text-foreground">
+                  <span className="inline-flex h-2 w-2 rounded-full bg-[var(--accent-yellow)]" />
+                  Signups open
                 </span>
               ) : (
                 isOngoing && (

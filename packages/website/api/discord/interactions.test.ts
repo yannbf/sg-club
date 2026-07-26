@@ -1,6 +1,7 @@
 import type { IncomingMessage, ServerResponse } from 'node:http'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { encodeModalCustomId, encodeSignupCustomId, slugify } from '../_lib/custom-id.js'
+import { FORCED_ANNOUNCE_CHANNEL_ID } from '../_lib/constants.js'
 import { serializeArchived, serializeChallenge } from '../_lib/signup-log.js'
 import { isPastDeadline, resolveChallengeEdit } from './interactions.js'
 
@@ -614,7 +615,12 @@ describe('MODAL_SUBMIT challenge-setup (csetup)', () => {
     expect(discordRest.createMessage).toHaveBeenCalledTimes(2)
     const [announcementChannel, announcementPayload] = vi.mocked(discordRest.createMessage).mock
       .calls[0]
-    expect(announcementChannel).toBe('chan1')
+    // With the production channel switch flipped, the announcement always
+    // lands in FORCED_ANNOUNCE_CHANNEL_ID rather than the invoking channel
+    // ('chan1'); when the switch is null (test phase) the invoking channel
+    // wins. Asserting against the constant keeps the test valid in BOTH
+    // configurations.
+    expect(announcementChannel).toBe(FORCED_ANNOUNCE_CHANNEL_ID ?? 'chan1')
 
     const embed = (announcementPayload.embeds as Array<Record<string, unknown>>)[0]!
     expect(embed.image).toEqual({ url: 'https://sg-club.vercel.app/game-challenge-banner.png' })

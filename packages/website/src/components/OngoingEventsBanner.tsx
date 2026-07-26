@@ -79,7 +79,11 @@ export function OngoingEventsBanner({ events }: { events: EventSummary[] }) {
                 )}
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-1.5">
-                    {e.hasEnded ? (
+                    {e.signupPhase ? (
+                      <span className="inline-flex items-center gap-1 rounded-full bg-[var(--accent-yellow)]/15 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-[var(--accent-yellow)]">
+                        Signups open
+                      </span>
+                    ) : e.hasEnded ? (
                       <span className="inline-flex items-center gap-1 rounded-full bg-[var(--subtle)]/15 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-muted-foreground">
                         Ended
                       </span>
@@ -94,10 +98,23 @@ export function OngoingEventsBanner({ events }: { events: EventSummary[] }) {
                   </div>
                   <p className="mt-0.5 flex items-center gap-2 text-xs text-muted-foreground">
                     {isChallenge ? (
-                      <span className="inline-flex items-center gap-1">
-                        <UsersIcon className="h-3 w-3" />
-                        {e.participantCount ?? 0} participants
-                      </span>
+                      e.signupPhase ? (
+                        <span className="inline-flex items-center gap-1">
+                          <CalendarDays className="h-3 w-3" />
+                          Starts{' '}
+                          {e.startTimestamp
+                            ? new Date(e.startTimestamp * 1000).toLocaleDateString(
+                                'en-GB',
+                                { day: 'numeric', month: 'short' },
+                              )
+                            : 'soon'}
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center gap-1">
+                          <UsersIcon className="h-3 w-3" />
+                          {e.participantCount ?? 0} participants
+                        </span>
+                      )
                     ) : e.meta.kind === 'special' ? (
                       e.meta.match?.endsBetween ? (
                         <span className="inline-flex items-center gap-1">

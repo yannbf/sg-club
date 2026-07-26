@@ -46,6 +46,17 @@ export interface EventMeta {
   bannerUrl?: string
   /** Challenge data file slug (challenge events only). */
   challengeSlug?: string
+  /**
+   * Steam app id — lets a challenge page render its game spotlight before the
+   * challenge data file exists (sign-up phase).
+   */
+  appId?: number
+  /**
+   * Display name for the game — used alongside `appId` in the sign-up-phase
+   * spotlight, before the challenge data file (which normally carries the
+   * name) exists.
+   */
+  gameName?: string
   /** Special/link events carry their own fixed dates + headline (no giveaway data). */
   startTimestamp?: number
   endTimestamp?: number
@@ -298,6 +309,34 @@ export const CHALLENGE_EVENTS: EventMeta[] = [
       'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/794540/header.jpg',
     bannerUrl: '/events/game_challenge_3.png',
     challengeSlug: 'neo-cab',
+    // Keep it highlighted in "Happening now" for a week after the deadline.
+    keepLiveForDays: 7,
+  },
+  {
+    slug: 'gaming-challenge-4-bloody-spell',
+    name: 'Gaming Challenge #4 — Bloody Spell',
+    tagline: 'Test your blade',
+    description:
+      'Ready to test your blade? ⚔️ Our August challenge dives into the brutal world of Bloody Spell — whether you\'ve been waiting for an excuse to play it or it\'s been sitting in your Steam library for years, this is your chance!\n\n' +
+      "Already own Bloody Spell? You're in. Don't own it? No problem — The Giveaways Club has copies available: request one on our Discord before July 31 and we'll send your key on August 1, when registrations close and the challenge begins.\n\n" +
+      'The mission: complete the game during August and leave a Steam review. Everyone who does enters the same prize draw — what changes is the prize. 🥉 Finish the main story (unlock the “Departure” achievement) and, if drawn, you win a €10 Steam Gift Card. 🥇 Go for 100% completion (every achievement) and your prize is upgraded to a €20 Steam Gift Card.\n\n' +
+      'So yes… the draw is exactly the same for everyone. The difference is how much you dare to challenge yourself. 😈 Sharpen your sword, prepare for August, and good luck — see you in Bloody Spell! 🩸',
+    websiteUrl: null,
+    kind: 'challenge',
+    monthly: false,
+    accent: 'var(--accent-rose)',
+    emoji: '🩸',
+    imageUrl:
+      'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/992300/header.jpg',
+    bannerUrl: '/events/game_challenge_4.png',
+    challengeSlug: 'bloody-spell',
+    appId: 992300,
+    gameName: 'Bloody Spell',
+    // Sign-up window: requests on Discord until July 31, keys delivered and
+    // the challenge starts Aug 1. Window is Aug 1 - Aug 31, exclusive Sept 1
+    // cutoff (same convention as the scraper configs).
+    startTimestamp: Date.UTC(2026, 7, 1) / 1000,
+    endTimestamp: Date.UTC(2026, 8, 1) / 1000,
     // Keep it highlighted in "Happening now" for a week after the deadline.
     keepLiveForDays: 7,
   },
@@ -573,6 +612,8 @@ export interface EventSummary {
    * of "Live".
    */
   hasEnded?: boolean
+  /** Challenge sign-up phase: registrations open, challenge hasn't started yet. */
+  signupPhase?: boolean
   /** Challenge-only extras (filled by the page from the challenge data file). */
   participantCount?: number
   winnerUsername?: string | null

@@ -133,7 +133,17 @@ function fmtDay(unixSeconds: number): string {
  * placeholder until mounted (so the static export's HTML matches first paint),
  * then ticks every second on the client.
  */
-function LiveCountdown({ deadline }: { deadline: number }) {
+function LiveCountdown({
+  deadline,
+  label = 'Time remaining',
+  endedLabel = 'Challenge ended',
+}: {
+  deadline: number
+  /** Heading shown while counting down (default: deadline framing). */
+  label?: string
+  /** Heading shown once the countdown reaches zero. */
+  endedLabel?: string
+}) {
   const [now, setNow] = React.useState<number | null>(null)
   React.useEffect(() => {
     setNow(Date.now())
@@ -155,7 +165,7 @@ function LiveCountdown({ deadline }: { deadline: number }) {
     <Card className="flex flex-col items-center justify-between gap-3 p-4 sm:flex-row sm:p-5">
       <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
         <Timer className="h-4 w-4 text-primary-hi" />
-        {ended ? 'Challenge ended' : 'Time remaining'}
+        {ended ? endedLabel : label}
       </div>
       {!ended && (
         <div className="flex items-center gap-1.5 sm:gap-2">
@@ -638,6 +648,61 @@ export default function ChallengeClient({
   game?: GameData | null
 }) {
   if (!data) {
+    // A future-start challenge with no data file yet is in sign-up phase —
+    // registrations are open, but the challenge (and its leaderboard) hasn't
+    // begun. Render a proper landing page instead of the "no data" dev message.
+    const signupPhase =
+      meta.startTimestamp != null && Date.now() / 1000 < meta.startTimestamp
+    if (signupPhase) {
+      const endDisplay =
+        meta.endTimestamp != null ? meta.endTimestamp - 43200 : null
+      return (
+        <div className="mx-auto max-w-screen-xl space-y-8">
+          <EventPageHeader
+            meta={meta}
+            startTimestamp={meta.startTimestamp ?? null}
+            endTimestamp={endDisplay}
+            isOngoing
+            signupPhase
+          />
+
+          {/* Prominent sign-up banner */}
+          <div className="flex items-center gap-3 rounded-xl border border-[var(--accent-yellow)]/40 bg-[color-mix(in_oklab,var(--accent-yellow)_10%,transparent)] px-4 py-3">
+            <Flag className="h-5 w-5 flex-shrink-0 text-[var(--accent-yellow)]" />
+            <p className="text-sm">
+              <span className="font-semibold text-foreground">
+                Sign-up phase — the challenge hasn’t started yet
+              </span>
+              <span className="text-muted-foreground">
+                {' '}
+                — Request the game or sign up on our Discord until{' '}
+                {fmtDay(meta.startTimestamp! - 43200)}. Registrations close and
+                the challenge begins on {fmtDay(meta.startTimestamp!)}.
+              </span>
+            </p>
+          </div>
+
+          {/* Game spotlight — links to the Steam store page */}
+          {meta.appId != null && meta.gameName != null && (
+            <GameSpotlight
+              appId={meta.appId}
+              gameName={meta.gameName}
+              game={game}
+            />
+          )}
+
+          {/* Countdown to the challenge start */}
+          {meta.startTimestamp != null && (
+            <LiveCountdown
+              deadline={meta.startTimestamp}
+              label="Challenge starts in"
+              endedLabel="Challenge starting…"
+            />
+          )}
+        </div>
+      )
+    }
+
     return (
       <div className="mx-auto max-w-screen-xl space-y-8">
         <EventPageHeader

@@ -84,7 +84,12 @@ function EventCard({
           <div className="min-w-0 flex-1">
             <div className="mb-1 flex flex-wrap items-center gap-1.5">
               {event.isOngoing &&
-                (event.hasEnded ? (
+                (event.signupPhase ? (
+                  <span className="inline-flex items-center gap-1 rounded-full bg-[var(--accent-yellow)]/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-[var(--accent-yellow)]">
+                    <span className="inline-flex h-1.5 w-1.5 rounded-full bg-[var(--accent-yellow)]" />
+                    Signups open
+                  </span>
+                ) : event.hasEnded ? (
                   <span className="inline-flex items-center gap-1 rounded-full bg-[var(--subtle)]/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">
                     Ended
                   </span>
@@ -168,7 +173,23 @@ function EventCard({
                   </span>
                 </span>
               ) : null
-            ) : isChallenge ? (
+            ) : isChallenge ? event.signupPhase ? (
+              <>
+                <span className="inline-flex items-center gap-1">
+                  <CalendarDays className="h-3.5 w-3.5" />
+                  Starts{' '}
+                  <span className="font-semibold text-foreground">
+                    {event.startTimestamp
+                      ? new Date(event.startTimestamp * 1000).toLocaleDateString(
+                          'en-GB',
+                          { day: 'numeric', month: 'short' },
+                        )
+                      : 'soon'}
+                  </span>
+                </span>
+                <span className="text-subtle">Sign-ups on Discord</span>
+              </>
+            ) : (
               <>
                 <span className="inline-flex items-center gap-1">
                   <UsersIcon className="h-3.5 w-3.5" />

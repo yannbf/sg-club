@@ -128,9 +128,12 @@ export default async function EventDetailPage(props: {
       event.challengeSlug ? getChallengeData(event.challengeSlug) : null,
       getGameData(),
     ])
+    // In sign-up phase (no data file yet), fall back to the registry's appId
+    // so the game spotlight can still resolve HLTB/price info.
+    const gameAppId = data?.appId ?? event.appId
     const game =
-      data != null
-        ? (gameData.find((g) => g.app_id === data.appId) ?? null)
+      gameAppId != null
+        ? (gameData.find((g) => g.app_id === gameAppId) ?? null)
         : null
     return <ChallengeClient meta={event} data={data} game={game} />
   }

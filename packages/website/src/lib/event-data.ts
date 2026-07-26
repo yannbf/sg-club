@@ -32,7 +32,16 @@ export async function getEventSummaries(): Promise<EventSummary[]> {
     // achievement challenges a winner recorded) — it then lingers in "Happening
     // now" with an "Ended" badge until the linger window closes.
     let naturalEndPassed: boolean
-    if (data?.deadline != null) {
+    // Sign-up phase: no data file yet and the challenge's declared start is
+    // still in the future — registrations are open but nothing has begun. If
+    // a data file exists, its own dates/winner state drive the logic instead
+    // (even if `meta.startTimestamp` is technically still in the future).
+    const signupPhase =
+      data == null && meta.startTimestamp != null && now < meta.startTimestamp
+    if (signupPhase) {
+      isOngoing = true
+      naturalEndPassed = false
+    } else if (data?.deadline != null) {
       isOngoing = now <= eventLingerUntil(data.deadline, meta)
       naturalEndPassed = now >= data.deadline
     } else {
@@ -49,12 +58,18 @@ export async function getEventSummaries(): Promise<EventSummary[]> {
       totalEntries: 0,
       uniqueCreators: 0,
       winnersCount: 0,
-      startTimestamp: data?.startTimestamp ?? null,
+      startTimestamp: data?.startTimestamp ?? meta.startTimestamp ?? null,
       // Display end = inclusive last day (the stored deadline is the exclusive
       // UTC-midnight cutoff); noon-of-prior-day renders the right calendar day.
-      endTimestamp: data?.deadline != null ? data.deadline - 43200 : null,
+      // Falls back to the registered end (same convention) when there's no
+      // data file yet.
+      endTimestamp:
+        data?.deadline != null
+          ? data.deadline - 43200
+          : (meta.endTimestamp != null ? meta.endTimestamp - 43200 : null),
       isOngoing,
       hasEnded: isOngoing && naturalEndPassed,
+      signupPhase,
       participantCount: data?.participants.length ?? 0,
       winnerUsername: data?.winnerUsername ?? null,
       winnerCount: data?.winnerUsernames?.length,
