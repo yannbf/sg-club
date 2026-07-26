@@ -2,8 +2,14 @@ import type { IncomingMessage, ServerResponse } from 'node:http'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { encodeModalCustomId, encodeSignupCustomId, slugify } from '../_lib/custom-id.js'
 import { FORCED_ANNOUNCE_CHANNEL_ID } from '../_lib/constants.js'
-import { serializeArchived, serializeChallenge } from '../_lib/signup-log.js'
-import { isPastDeadline, resolveChallengeEdit } from './interactions.js'
+import { serializeArchived, serializeChallenge, serializeSignup } from '../_lib/signup-log.js'
+import {
+  buildRaffleMessage,
+  isPastDeadline,
+  parseNameList,
+  pickWinners,
+  resolveChallengeEdit,
+} from './interactions.js'
 
 // Outside the real Vercel runtime waitUntil is a no-op that doesn't track
 // the promise, so tests capture the registered promises and drain them
@@ -1348,6 +1354,561 @@ describe('MESSAGE_COMPONENT challenge-archive select (carch)', () => {
 
     expect(res.body).not.toMatchObject({ type: 400 })
     expect(res.statusCode).not.toBe(400)
+  })
+})
+
+describe('parseNameList', () => {
+  it('splits on commas', () => {
+    expect(parseNameList('Alice, Bob, Carol')).toEqual(['Alice', 'Bob', 'Carol'])
+  })
+
+  it('splits on newlines', () => {
+    expect(parseNameList('Alice\nBob\nCarol')).toEqual(['Alice', 'Bob', 'Carol'])
+  })
+
+  it('splits on a mix of commas and newlines', () => {
+    expect(parseNameList('Alice, Bob\nCarol,Dave')).toEqual(['Alice', 'Bob', 'Carol', 'Dave'])
+  })
+
+  it('trims whitespace and drops empty entries', () => {
+    expect(parseNameList('  Alice  ,, \n  \nBob ,')).toEqual(['Alice', 'Bob'])
+  })
+
+  it('dedupes case-insensitively, preserving the first-seen casing', () => {
+    expect(parseNameList('Alice, alice, ALICE, Bob')).toEqual(['Alice', 'Bob'])
+  })
+})
+
+describe('pickWinners', () => {
+  it('is deterministic given a stubbed randomInt, and picks exactly N distinct entries from the pool', () => {
+    const pool = ['a', 'b', 'c', 'd', 'e']
+    // Always swap with the first eligible slot — a simple, fully deterministic stub.
+    const winners = pickWinners(pool, 3, () => 0)
+    expect(winners).toHaveLength(3)
+    expect(new Set(winners).size).toBe(3)
+    for (const winner of winners) expect(pool).toContain(winner)
+  })
+
+  it('never mutates the input array', () => {
+    const pool = ['a', 'b', 'c', 'd']
+    const copy = [...pool]
+    pickWinners(pool, 2, () => 1)
+    expect(pool).toEqual(copy)
+  })
+
+  it('caps at the pool size when count exceeds it', () => {
+    const pool = ['a', 'b']
+    const winners = pickWinners(pool, 5, () => 0)
+    expect(winners).toHaveLength(2)
+  })
+})
+
+describe('buildRaffleMessage', () => {
+  it('formats a single winner (no "and")', () => {
+    const content = buildRaffleMessage({
+      title: 'Neo Cab',
+      poolLabel: 'Want the game',
+      poolSize: 4,
+      winners: ['Alice'],
+    })
+    expect(content).toBe(
+      '🎉 **Raffle — Neo Cab**\nWant the game · 4 entrants · 1 winner(s)\n\n**Alice**\n\nCongratulations! 🎉'
+    )
+  })
+
+  it('formats two winners joined by "and", no comma', () => {
+    const content = buildRaffleMessage({
+      title: 'Neo Cab',
+      poolLabel: 'Want the game',
+      poolSize: 4,
+      winners: ['Alice', 'Bob'],
+    })
+    expect(content).toContain('**Alice** and **Bob**')
+  })
+
+  it('formats three+ winners with commas and a final "and", no Oxford comma', () => {
+    const content = buildRaffleMessage({
+      title: 'Neo Cab',
+      poolLabel: 'Want the game',
+      poolSize: 4,
+      winners: ['Alice', 'Bob', 'Carol'],
+    })
+    expect(content).toContain('**Alice**, **Bob** and **Carol**')
+  })
+
+  it('omits the title suffix for a manual (pasted-list) raffle', () => {
+    const content = buildRaffleMessage({ poolLabel: 'Pasted list', poolSize: 3, winners: ['Alice'] })
+    expect(content.startsWith('🎉 **Raffle**\n')).toBe(true)
+    expect(content).not.toContain('—')
+  })
+})
+
+describe('APPLICATION_COMMAND raffle', () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
+
+  function makeRaffleReq(): IncomingMessage {
+    return makeReq({
+      type: 2,
+      token: 'tok',
+      channel_id: 'chan1',
+      member: { user: { id: 'd1', username: 'yannbf' } },
+      data: { name: 'raffle' },
+    })
+  }
+
+  it('defers ephemerally, then shows a picker with the manual option first', async () => {
+    const req = makeRaffleReq()
+    const res = makeRes()
+
+    await handler(req, res)
+    expect(res.body).toEqual({ type: 5, data: { flags: 1 << 6 } })
+
+    await drainWaitUntil()
+
+    const [, , payload] = vi.mocked(discordRest.editOriginalResponse).mock.calls[0]!
+    const components = (
+      payload as {
+        components: Array<{
+          components: Array<{
+            custom_id: string
+            options: Array<{ label: string; value: string; description: string }>
+          }>
+        }>
+      }
+    ).components
+    const select = components[0]!.components[0]!
+    expect(select.custom_id).toBe('craff')
+    expect(select.options[0]).toEqual({
+      label: 'Paste a list of names…',
+      value: '__manual',
+      description: 'Raffle over any pasted list',
+    })
+  })
+
+  it('labels each challenge option with its phase: signup phase / ongoing / ended', async () => {
+    const now = Math.floor(Date.now() / 1000)
+    const messages = [
+      {
+        id: 'log1',
+        channel_id: 'logc',
+        content: serializeChallenge({
+          slug: 'future-one',
+          channel_id: 'chan1',
+          message_id: 'a1',
+          deadline: now + 1000,
+          start: now + 1000,
+          end: now + 2000,
+          name: 'Future One',
+        }),
+        timestamp: '',
+      },
+      {
+        id: 'log2',
+        channel_id: 'logc',
+        content: serializeChallenge({
+          slug: 'ongoing-one',
+          channel_id: 'chan1',
+          message_id: 'a2',
+          deadline: now - 500,
+          start: now - 500,
+          end: now + 2000,
+          name: 'Ongoing One',
+        }),
+        timestamp: '',
+      },
+      {
+        id: 'log3',
+        channel_id: 'logc',
+        content: serializeChallenge({
+          slug: 'ended-one',
+          channel_id: 'chan1',
+          message_id: 'a3',
+          deadline: now - 2000,
+          start: now - 2000,
+          end: now - 1000,
+          name: 'Ended One',
+        }),
+        timestamp: '',
+      },
+    ]
+    vi.mocked(discordRest.getAllChannelMessages).mockResolvedValueOnce(messages)
+
+    const req = makeRaffleReq()
+    const res = makeRes()
+    await handler(req, res)
+    await drainWaitUntil()
+
+    const [, , payload] = vi.mocked(discordRest.editOriginalResponse).mock.calls[0]!
+    const components = (
+      payload as {
+        components: Array<{ components: Array<{ options: Array<{ value: string; description: string }> }> }>
+      }
+    ).components
+    const options = components[0]!.components[0]!.options
+    const bySlug = Object.fromEntries(options.map((o) => [o.value, o.description]))
+    expect(bySlug['future-one']).toBe('signup phase · future-one')
+    expect(bySlug['ongoing-one']).toBe('ongoing · ongoing-one')
+    expect(bySlug['ended-one']).toBe('ended · ended-one')
+  })
+})
+
+describe('MESSAGE_COMPONENT raffle select (craff)', () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
+
+  it('opens the manual-list modal synchronously, with no fetches', async () => {
+    const req = makeReq({
+      type: 3,
+      token: 'tok',
+      channel_id: 'chan1',
+      member: { user: { id: 'd1', username: 'yannbf' } },
+      data: { custom_id: 'craff', values: ['__manual'] },
+    })
+    const res = makeRes()
+
+    await handler(req, res)
+
+    expect(res.body).toMatchObject({ type: 9, data: { custom_id: 'crmod|__manual', title: 'Raffle — pasted list' } })
+    expect(discordRest.getAllChannelMessages).not.toHaveBeenCalled()
+  })
+
+  it('opens the challenge modal synchronously for a picked slug, with no fetches', async () => {
+    const req = makeReq({
+      type: 3,
+      token: 'tok',
+      channel_id: 'chan1',
+      member: { user: { id: 'd1', username: 'yannbf' } },
+      data: { custom_id: 'craff', values: ['neo-cab'] },
+    })
+    const res = makeRes()
+
+    await handler(req, res)
+
+    expect(res.body).toMatchObject({ type: 9, data: { custom_id: 'crmod|neo-cab', title: 'Raffle' } })
+    expect(discordRest.getAllChannelMessages).not.toHaveBeenCalled()
+    const body = res.body as { data: { components: Array<{ component: { custom_id: string } }> } }
+    expect(body.data.components.map((c) => c.component.custom_id)).toEqual(['count', 'pool'])
+  })
+})
+
+describe('MODAL_SUBMIT raffle (crmod)', () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
+
+  it('defers non-ephemerally', async () => {
+    const req = makeReq({
+      type: 5,
+      token: 'tok',
+      channel_id: 'chan1',
+      member: { user: { id: 'd1', username: 'yannbf' } },
+      data: {
+        custom_id: 'crmod|__manual',
+        components: [
+          { custom_id: 'names', value: 'Alice\nBob\nCarol' },
+          { custom_id: 'count', value: '1' },
+        ],
+      },
+    })
+    const res = makeRes()
+
+    await handler(req, res)
+    expect(res.body).toEqual({ type: 5, data: {} })
+  })
+
+  it('manual flow end-to-end: draws the requested number of winners, all from the pasted list, and announces + logs', async () => {
+    const req = makeReq({
+      type: 5,
+      token: 'tok',
+      channel_id: 'chan1',
+      member: { user: { id: 'd1', username: 'yannbf' } },
+      data: {
+        custom_id: 'crmod|__manual',
+        components: [
+          { custom_id: 'names', value: 'Alice\nBob\nCarol\nDave\nEve' },
+          { custom_id: 'count', value: '2' },
+        ],
+      },
+    })
+    const res = makeRes()
+
+    await handler(req, res)
+    await drainWaitUntil()
+
+    // randomInt comes from node:crypto — not stubbed here, so only
+    // membership + count are asserted (see task notes on this tradeoff).
+    const [, , payload] = vi.mocked(discordRest.editOriginalResponse).mock.calls[0]!
+    const content = (payload as { content: string }).content
+    expect(content).toContain('🎉 **Raffle**')
+    expect(content).toContain('Pasted list · 5 entrants · 2 winner(s)')
+    const namesInMessage = ['Alice', 'Bob', 'Carol', 'Dave', 'Eve'].filter((n) => content.includes(`**${n}**`))
+    expect(namesInMessage).toHaveLength(2)
+
+    expect(discordRest.createMessage).toHaveBeenCalledTimes(1)
+    const [, logPayload] = vi.mocked(discordRest.createMessage).mock.calls[0]
+    expect(logPayload.content).toMatch(/^RAFFLE \{.*"slug":"manual".*\}$/)
+  })
+
+  it('rejects a non-positive-integer count', async () => {
+    const req = makeReq({
+      type: 5,
+      token: 'tok',
+      channel_id: 'chan1',
+      member: { user: { id: 'd1', username: 'yannbf' } },
+      data: {
+        custom_id: 'crmod|__manual',
+        components: [
+          { custom_id: 'names', value: 'Alice\nBob' },
+          { custom_id: 'count', value: 'not-a-number' },
+        ],
+      },
+    })
+    const res = makeRes()
+
+    await handler(req, res)
+    await drainWaitUntil()
+
+    expect(discordRest.createMessage).not.toHaveBeenCalled()
+    expect(discordRest.editOriginalResponse).toHaveBeenCalledWith(
+      'test-app-id',
+      'tok',
+      expect.objectContaining({ content: expect.stringContaining('positive integer') })
+    )
+  })
+
+  it('rejects when count >= pool size', async () => {
+    const req = makeReq({
+      type: 5,
+      token: 'tok',
+      channel_id: 'chan1',
+      member: { user: { id: 'd1', username: 'yannbf' } },
+      data: {
+        custom_id: 'crmod|__manual',
+        components: [
+          { custom_id: 'names', value: 'Alice\nBob' },
+          { custom_id: 'count', value: '2' },
+        ],
+      },
+    })
+    const res = makeRes()
+
+    await handler(req, res)
+    await drainWaitUntil()
+
+    expect(discordRest.createMessage).not.toHaveBeenCalled()
+    expect(discordRest.editOriginalResponse).toHaveBeenCalledWith(
+      'test-app-id',
+      'tok',
+      expect.objectContaining({ content: expect.stringContaining('Everyone would win') })
+    )
+  })
+
+  it('rejects an empty pool', async () => {
+    const req = makeReq({
+      type: 5,
+      token: 'tok',
+      channel_id: 'chan1',
+      member: { user: { id: 'd1', username: 'yannbf' } },
+      data: {
+        custom_id: 'crmod|__manual',
+        components: [
+          { custom_id: 'names', value: '' },
+          { custom_id: 'count', value: '1' },
+        ],
+      },
+    })
+    const res = makeRes()
+
+    await handler(req, res)
+    await drainWaitUntil()
+
+    expect(discordRest.createMessage).not.toHaveBeenCalled()
+    expect(discordRest.editOriginalResponse).toHaveBeenCalledWith(
+      'test-app-id',
+      'tok',
+      expect.objectContaining({ content: expect.stringContaining('no entrants') })
+    )
+  })
+
+  it('challenge flow: draws from the roster pool, defaulting to "want" when the pool select is left empty', async () => {
+    vi.mocked(discordRest.getAllChannelMessages).mockResolvedValueOnce([
+      {
+        id: 'log1',
+        channel_id: 'logc',
+        content: serializeChallenge({
+          slug: 'neo-cab',
+          channel_id: 'chan1',
+          message_id: 'ann1',
+          deadline: 1,
+          start: 1,
+          end: 2,
+          name: 'Neo Cab',
+        }),
+        timestamp: '',
+      },
+      {
+        id: 'log2',
+        channel_id: 'logc',
+        content: serializeSignup({
+          slug: 'neo-cab',
+          choice: 'want',
+          discord_id: 'd1',
+          discord_handle: 'yannbf',
+          sg_username: 'yannbf',
+          guest: false,
+          ts: 100,
+        }),
+        timestamp: '',
+      },
+      {
+        id: 'log3',
+        channel_id: 'logc',
+        content: serializeSignup({
+          slug: 'neo-cab',
+          choice: 'have',
+          discord_id: 'd2',
+          discord_handle: 'someoneelse',
+          sg_username: null,
+          guest: false,
+          ts: 100,
+        }),
+        timestamp: '',
+      },
+      {
+        id: 'log4',
+        channel_id: 'logc',
+        content: serializeSignup({
+          slug: 'neo-cab',
+          choice: 'want',
+          discord_id: 'd3',
+          discord_handle: 'thirdperson',
+          sg_username: 'thirdperson',
+          guest: false,
+          ts: 100,
+        }),
+        timestamp: '',
+      },
+    ])
+
+    const req = makeReq({
+      type: 5,
+      token: 'tok',
+      channel_id: 'chan1',
+      member: { user: { id: 'd1', username: 'yannbf' } },
+      data: {
+        custom_id: 'crmod|neo-cab',
+        components: [{ custom_id: 'count', value: '1' }],
+      },
+    })
+    const res = makeRes()
+
+    await handler(req, res)
+    await drainWaitUntil()
+
+    const [, , payload] = vi.mocked(discordRest.editOriginalResponse).mock.calls[0]!
+    const content = (payload as { content: string }).content
+    expect(content).toContain('🎉 **Raffle — Neo Cab**')
+    expect(content).toContain('Want the game · 2 entrants · 1 winner(s)')
+    const namesInMessage = ['yannbf', 'thirdperson'].filter((n) => content.includes(`**${n}**`))
+    expect(namesInMessage).toHaveLength(1)
+  })
+
+  it('challenge flow: uses the "have" pool when selected', async () => {
+    vi.mocked(discordRest.getAllChannelMessages).mockResolvedValueOnce([
+      {
+        id: 'log1',
+        channel_id: 'logc',
+        content: serializeChallenge({
+          slug: 'neo-cab',
+          channel_id: 'chan1',
+          message_id: 'ann1',
+          deadline: 1,
+          start: 1,
+          end: 2,
+          name: 'Neo Cab',
+        }),
+        timestamp: '',
+      },
+      {
+        id: 'log2',
+        channel_id: 'logc',
+        content: serializeSignup({
+          slug: 'neo-cab',
+          choice: 'have',
+          discord_id: 'd2',
+          discord_handle: 'someoneelse',
+          sg_username: null,
+          guest: false,
+          ts: 100,
+        }),
+        timestamp: '',
+      },
+      {
+        id: 'log3',
+        channel_id: 'logc',
+        content: serializeSignup({
+          slug: 'neo-cab',
+          choice: 'have',
+          discord_id: 'd3',
+          discord_handle: 'anotherperson',
+          sg_username: null,
+          guest: false,
+          ts: 100,
+        }),
+        timestamp: '',
+      },
+    ])
+
+    const req = makeReq({
+      type: 5,
+      token: 'tok',
+      channel_id: 'chan1',
+      member: { user: { id: 'd1', username: 'yannbf' } },
+      data: {
+        custom_id: 'crmod|neo-cab',
+        components: [
+          { custom_id: 'count', value: '1' },
+          { custom_id: 'pool', values: ['have'] },
+        ],
+      },
+    })
+    const res = makeRes()
+
+    await handler(req, res)
+    await drainWaitUntil()
+
+    const [, , payload] = vi.mocked(discordRest.editOriginalResponse).mock.calls[0]!
+    const content = (payload as { content: string }).content
+    expect(content).toContain('Already have it · 2 entrants · 1 winner(s)')
+    const namesInMessage = ['@someoneelse', '@anotherperson'].filter((n) => content.includes(`**${n}**`))
+    expect(namesInMessage).toHaveLength(1)
+  })
+
+  it('errors for an unknown/archived challenge slug', async () => {
+    const req = makeReq({
+      type: 5,
+      token: 'tok',
+      channel_id: 'chan1',
+      member: { user: { id: 'd1', username: 'yannbf' } },
+      data: {
+        custom_id: 'crmod|ghost-slug',
+        components: [{ custom_id: 'count', value: '1' }],
+      },
+    })
+    const res = makeRes()
+
+    await handler(req, res)
+    await drainWaitUntil()
+
+    expect(discordRest.createMessage).not.toHaveBeenCalled()
+    expect(discordRest.editOriginalResponse).toHaveBeenCalledWith(
+      'test-app-id',
+      'tok',
+      expect.objectContaining({ content: expect.stringContaining('not found') })
+    )
   })
 })
 

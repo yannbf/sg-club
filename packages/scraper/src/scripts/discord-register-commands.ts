@@ -35,6 +35,12 @@ export const commands = [
     default_member_permissions: MANAGE_GUILD_PERMISSION,
     options: [],
   },
+  {
+    name: 'raffle',
+    description: 'Draw N random winners from a challenge roster or a pasted list',
+    default_member_permissions: MANAGE_GUILD_PERMISSION,
+    options: [],
+  },
 ]
 
 /** Registers the guild commands via PUT — guild commands propagate instantly (no ~1h global-command delay). */

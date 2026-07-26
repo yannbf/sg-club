@@ -55,6 +55,19 @@ export interface ArchivedEvent {
   ts: number
 }
 
+/**
+ * Posted once per `/raffle` draw, purely for auditability (who won, from
+ * what pool, when) — never read back to reconstruct state. `slug` is the
+ * challenge slug the raffle drew from, or the literal `'manual'` for a
+ * pasted-list raffle.
+ */
+export interface RaffleEvent {
+  slug: string
+  pool: string
+  winners: string[]
+  ts: number
+}
+
 export function serializeChallenge(meta: ChallengeMeta): string {
   return `CHALLENGE ${JSON.stringify(meta)}`
 }
@@ -79,6 +92,10 @@ export function serializeArchived(event: ArchivedEvent): string {
   return `ARCHIVED ${JSON.stringify(event)}`
 }
 
+export function serializeRaffle(event: RaffleEvent): string {
+  return `RAFFLE ${JSON.stringify(event)}`
+}
+
 export type ParsedLogEntry =
   | { type: 'CHALLENGE'; data: ChallengeMeta }
   | { type: 'SIGNUP'; data: SignupEvent }
@@ -86,6 +103,7 @@ export type ParsedLogEntry =
   | { type: 'REMINDER24'; data: Reminder24Event }
   | { type: 'ENDED'; data: EndedEvent }
   | { type: 'ARCHIVED'; data: ArchivedEvent }
+  | { type: 'RAFFLE'; data: RaffleEvent }
 
 const MARKER_TYPES = new Set(['CLOSED', 'REMINDER24', 'ENDED', 'ARCHIVED'])
 
@@ -99,7 +117,7 @@ export function parseLogLine(content: string): ParsedLogEntry | null {
   if (spaceIdx === -1) return null
 
   const type = content.slice(0, spaceIdx)
-  if (type !== 'CHALLENGE' && type !== 'SIGNUP' && !MARKER_TYPES.has(type)) return null
+  if (type !== 'CHALLENGE' && type !== 'SIGNUP' && type !== 'RAFFLE' && !MARKER_TYPES.has(type)) return null
 
   const jsonPart = content.slice(spaceIdx + 1)
   let data: unknown
@@ -120,6 +138,16 @@ export function parseLogLine(content: string): ParsedLogEntry | null {
   if (type === 'SIGNUP') {
     if (typeof record.discord_id !== 'string' || typeof record.ts !== 'number') return null
     return { type, data: data as SignupEvent }
+  }
+  if (type === 'RAFFLE') {
+    if (
+      typeof record.pool !== 'string' ||
+      typeof record.ts !== 'number' ||
+      !Array.isArray(record.winners) ||
+      !record.winners.every((w) => typeof w === 'string')
+    )
+      return null
+    return { type, data: data as RaffleEvent }
   }
   // CLOSED / REMINDER24 / ENDED / ARCHIVED — all the same tiny { slug, ts } shape.
   if (typeof record.ts !== 'number') return null
@@ -173,6 +201,8 @@ export function collectChallengeIndex(
         archivedSlugs.add(parsed.data.slug)
         break
       case 'SIGNUP':
+      case 'RAFFLE':
+        // RAFFLE lines are audit-only — they carry no challenge state.
         break
     }
   }

@@ -4,6 +4,7 @@
 // (req, res) handler signature so we don't need the @vercel/node package.
 
 import type { IncomingMessage, ServerResponse } from 'node:http'
+import { randomInt } from 'node:crypto'
 import { waitUntil } from '@vercel/functions'
 import { verifyKey } from 'discord-interactions'
 import {
@@ -41,8 +42,10 @@ import {
   parseLogLine,
   serializeArchived,
   serializeChallenge,
+  serializeRaffle,
   serializeSignup,
   type ChallengeIndexEntry,
+  type RosterEntry,
 } from '../_lib/signup-log.js'
 import { resolveDiscordUserToSgUsername, validateSgUsername } from '../_lib/identity.js'
 import {
@@ -268,6 +271,10 @@ async function handleApplicationCommand(
   }
   if (commandName === 'mod-report') {
     await handleModReport(interaction, res, host)
+    return
+  }
+  if (commandName === 'raffle') {
+    await handleRaffle(interaction, res)
     return
   }
   respondJson(res, 400, { error: 'Unknown command' })
@@ -1050,6 +1057,309 @@ async function finishChallengeEdit(interaction: DiscordInteraction, slug: string
   }
 }
 
+const RAFFLE_SELECT_ID = 'craff'
+const RAFFLE_MANUAL_VALUE = '__manual'
+const RAFFLE_PICKER_LIMIT = 25
+
+async function handleRaffle(interaction: DiscordInteraction, res: ServerResponse): Promise<void> {
+  // Same rationale as /challenge-list and friends: the picker only needs to
+  // be visible to whoever ran the command, and building it requires a
+  // log-channel fetch that can't reliably finish inside Discord's 3s ack
+  // window.
+  respondJson(res, 200, {
+    type: InteractionResponseType.DEFERRED_CHANNEL_MESSAGE_WITH_SOURCE,
+    data: { flags: MessageFlags.EPHEMERAL },
+  })
+  waitUntil(finishRafflePicker(interaction))
+}
+
+/** Phase label for a challenge's raffle-picker option description — a three-way split, unlike the ongoing/ended pickers elsewhere. */
+function rafflePhaseLabel(entry: ChallengeIndexEntry, nowSeconds: number): 'signup phase' | 'ongoing' | 'ended' {
+  if (nowSeconds < entry.meta.start) return 'signup phase'
+  if (nowSeconds < entry.meta.end && !entry.ended) return 'ongoing'
+  return 'ended'
+}
+
+/** Builds the "Pick what to raffle:" ephemeral select menu (manual option first, then every non-archived challenge). */
+async function finishRafflePicker(interaction: DiscordInteraction): Promise<void> {
+  const appId = getAppId()
+  const token = interaction.token
+
+  try {
+    const messages = await getAllChannelMessages(getLogChannelId(), 2000)
+    const index = collectChallengeIndex(messages)
+    const nowSeconds = Math.floor(Date.now() / 1000)
+
+    // Same ongoing-first ordering as /challenge-list and /challenge-edit —
+    // archived challenges never appear.
+    const entries = [...index.values()].filter((entry) => !entry.archived)
+    const ongoing = entries.filter((entry) => isOngoing(entry, nowSeconds))
+    const ended = entries.filter((entry) => !isOngoing(entry, nowSeconds))
+    const challenges = [...ongoing, ...ended].slice(0, RAFFLE_PICKER_LIMIT - 1)
+
+    await editOriginalResponse(appId, token, {
+      content: 'Pick what to raffle:',
+      components: [
+        {
+          type: ComponentType.ACTION_ROW,
+          components: [
+            {
+              type: ComponentType.STRING_SELECT,
+              custom_id: RAFFLE_SELECT_ID,
+              options: [
+                {
+                  label: 'Paste a list of names…',
+                  value: RAFFLE_MANUAL_VALUE,
+                  description: 'Raffle over any pasted list',
+                },
+                ...challenges.map((entry) => ({
+                  label: truncateLabel(entry.meta.name, 100),
+                  value: entry.meta.slug,
+                  description: `${rafflePhaseLabel(entry, nowSeconds)} · ${entry.meta.slug}`,
+                })),
+              ],
+            },
+          ],
+        },
+      ],
+    })
+  } catch (err) {
+    await editOriginalResponse(appId, token, {
+      content: `❌ ${(err as Error).message}`,
+    }).catch(() => {})
+  }
+}
+
+/**
+ * MESSAGE_COMPONENT entry for the `craff` string-select — opens the raffle
+ * modal for the chosen value. Same constraint as /challenge-edit's modal:
+ * Discord doesn't allow deferring a component interaction and then opening a
+ * modal as a followup, so this must respond synchronously with no fetches
+ * beforehand. The picked value is threaded through via the modal's
+ * custom_id (`crmod|<value>`) since the modal itself carries no other state.
+ */
+async function handleRaffleSelect(interaction: DiscordInteraction, res: ServerResponse): Promise<void> {
+  const value = interaction.data?.values?.[0]
+  if (!value) {
+    respondJson(res, 400, { error: 'Missing selection' })
+    return
+  }
+
+  if (value === RAFFLE_MANUAL_VALUE) {
+    respondJson(res, 200, {
+      type: InteractionResponseType.MODAL,
+      data: {
+        custom_id: `crmod|${RAFFLE_MANUAL_VALUE}`,
+        title: 'Raffle — pasted list',
+        components: [
+          {
+            type: ComponentType.LABEL,
+            label: 'Paste a list of names',
+            description: 'One name per line, or comma-separated',
+            component: {
+              type: 4,
+              custom_id: 'names',
+              style: TextInputStyle.PARAGRAPH,
+              required: true,
+              max_length: 4000,
+            },
+          },
+          {
+            type: ComponentType.LABEL,
+            label: 'Number of winners',
+            component: {
+              type: 4,
+              custom_id: 'count',
+              style: TextInputStyle.SHORT,
+              required: true,
+              max_length: 4,
+            },
+          },
+        ],
+      },
+    })
+    return
+  }
+
+  respondJson(res, 200, {
+    type: InteractionResponseType.MODAL,
+    data: {
+      custom_id: `crmod|${value}`,
+      title: 'Raffle',
+      components: [
+        {
+          type: ComponentType.LABEL,
+          label: 'Number of winners',
+          component: {
+            type: 4,
+            custom_id: 'count',
+            style: TextInputStyle.SHORT,
+            required: true,
+            max_length: 4,
+          },
+        },
+        {
+          type: ComponentType.LABEL,
+          label: 'Pool',
+          description: 'Default: want the game',
+          component: {
+            type: ComponentType.STRING_SELECT,
+            custom_id: 'pool',
+            required: false,
+            min_values: 0,
+            max_values: 1,
+            options: [
+              { label: '🎁 Want the game', value: 'want' },
+              { label: '✅ Already have it', value: 'have' },
+              { label: 'Everyone signed up', value: 'all' },
+            ],
+          },
+        },
+      ],
+    },
+  })
+}
+
+/** Splits pasted names on commas AND newlines, trims, drops empties, and dedupes case-insensitively (first-seen casing wins). */
+export function parseNameList(text: string): string[] {
+  const seen = new Set<string>()
+  const result: string[] = []
+  for (const raw of text.split(/[\n,]/)) {
+    const name = raw.trim()
+    if (!name) continue
+    const key = name.toLowerCase()
+    if (seen.has(key)) continue
+    seen.add(key)
+    result.push(name)
+  }
+  return result
+}
+
+/**
+ * Fisher-Yates partial shuffle: picks `count` distinct entries from `pool`
+ * without mutating it. `randomInt` is injected (production passes
+ * node:crypto's `randomInt`) so the algorithm is deterministic and
+ * unit-testable without stubbing a module.
+ */
+export function pickWinners<T>(pool: T[], count: number, randomInt: (maxExclusive: number) => number): T[] {
+  const working = [...pool]
+  const winners: T[] = []
+  const n = Math.min(count, working.length)
+  for (let i = 0; i < n; i++) {
+    const j = i + randomInt(working.length - i)
+    ;[working[i], working[j]] = [working[j]!, working[i]!]
+    winners.push(working[i]!)
+  }
+  return winners
+}
+
+export interface BuildRaffleMessageInput {
+  /** Omitted for the manual (pasted-list) raffle — header reads just "Raffle". */
+  title?: string
+  poolLabel: string
+  poolSize: number
+  winners: string[]
+}
+
+/** Joins winner names with commas and a final "and" — no Oxford comma (e.g. "A, B and C"). */
+function joinWinnerNames(winners: string[]): string {
+  if (winners.length === 1) return `**${winners[0]}**`
+  if (winners.length === 2) return `**${winners[0]}** and **${winners[1]}**`
+  const allButLast = winners.slice(0, -1).map((w) => `**${w}**`)
+  return `${allButLast.join(', ')} and **${winners[winners.length - 1]}**`
+}
+
+export function buildRaffleMessage(input: BuildRaffleMessageInput): string {
+  const header = input.title ? `🎉 **Raffle — ${input.title}**` : '🎉 **Raffle**'
+  const summary = `${input.poolLabel} · ${input.poolSize} entrants · ${input.winners.length} winner(s)`
+  const names = joinWinnerNames(input.winners)
+  return `${header}\n${summary}\n\n${names}\n\nCongratulations! 🎉`
+}
+
+const RAFFLE_POOL_LABELS: Record<'want' | 'have' | 'all', string> = {
+  want: 'Want the game',
+  have: 'Already have it',
+  all: 'Everyone signed up',
+}
+
+function nameForRosterEntry(entry: RosterEntry): string {
+  return entry.sg_username ?? `@${entry.discord_handle}`
+}
+
+async function finishRaffle(interaction: DiscordInteraction, value: string): Promise<void> {
+  const appId = getAppId()
+  const token = interaction.token
+
+  try {
+    const countRaw = extractModalValue(interaction, 'count') ?? ''
+    const count = Number(countRaw)
+    if (!Number.isInteger(count) || count <= 0) {
+      await editOriginalResponse(appId, token, { content: '❌ Number of winners must be a positive integer.' })
+      return
+    }
+
+    let title: string | undefined
+    let poolLabel: string
+    let pool: string[]
+
+    if (value === RAFFLE_MANUAL_VALUE) {
+      const namesRaw = extractModalValue(interaction, 'names') ?? ''
+      pool = parseNameList(namesRaw)
+      poolLabel = 'Pasted list'
+    } else {
+      const messages = await getAllChannelMessages(getLogChannelId(), 2000)
+      const index = collectChallengeIndex(messages)
+      const entry = index.get(value)
+      if (!entry || entry.archived) {
+        await editOriginalResponse(appId, token, {
+          content: `❌ Challenge "${value}" not found (it may have been archived).`,
+        })
+        return
+      }
+      title = entry.meta.name
+
+      const roster = buildRoster(messages, value)
+      const poolChoice = (extractModalValue(interaction, 'pool') || 'want') as 'want' | 'have' | 'all'
+      const rosterEntries =
+        poolChoice === 'want' ? roster.wanters : poolChoice === 'have' ? roster.owners : roster.all
+      pool = rosterEntries.map(nameForRosterEntry)
+      poolLabel = RAFFLE_POOL_LABELS[poolChoice]
+    }
+
+    if (pool.length === 0) {
+      await editOriginalResponse(appId, token, { content: '❌ There are no entrants to raffle from.' })
+      return
+    }
+    if (count >= pool.length) {
+      await editOriginalResponse(appId, token, {
+        content: `❌ Everyone would win — pick fewer winners than the ${pool.length} entrants.`,
+      })
+      return
+    }
+
+    const winners = pickWinners(pool, count, (maxExclusive) => randomInt(maxExclusive))
+
+    const content = buildRaffleMessage({ title, poolLabel, poolSize: pool.length, winners })
+    await editOriginalResponse(appId, token, { content, flags: 4 })
+
+    await createMessage(getLogChannelId(), {
+      content: serializeRaffle({
+        slug: value === RAFFLE_MANUAL_VALUE ? 'manual' : value,
+        pool: poolLabel,
+        winners,
+        ts: Math.floor(Date.now() / 1000),
+      }),
+    })
+  } catch (err) {
+    const message = (err as Error).message
+    // 50001 Missing Access = the bot can't see/post in this private channel.
+    const friendly = message.includes('"code": 50001')
+      ? "❌ I can't post the raffle result here — it's private and the **TGC Bot** role doesn't have access. Add it via Edit Channel → Permissions → Add members or roles, then try again."
+      : `❌ Something went wrong: ${message}`
+    await editOriginalResponse(appId, token, { content: friendly }).catch(() => {})
+  }
+}
+
 async function handleModReport(
   interaction: DiscordInteraction,
   res: ServerResponse,
@@ -1112,6 +1422,10 @@ async function handleMessageComponent(
   }
   if (customId === CHALLENGE_EDIT_SELECT_ID) {
     await handleChallengeEditSelect(interaction, res)
+    return
+  }
+  if (customId === RAFFLE_SELECT_ID) {
+    await handleRaffleSelect(interaction, res)
     return
   }
 
@@ -1236,6 +1550,19 @@ async function handleModalSubmit(
       data: { flags: MessageFlags.EPHEMERAL },
     })
     waitUntil(finishChallengeEdit(interaction, slug))
+    return
+  }
+
+  if (customId?.startsWith('crmod|')) {
+    const value = customId.slice('crmod|'.length)
+    // Non-ephemeral defer — the raffle result is the public announcement,
+    // posted wherever the command was invoked (unlike the other admin
+    // flows above, which stay ephemeral throughout).
+    respondJson(res, 200, {
+      type: InteractionResponseType.DEFERRED_CHANNEL_MESSAGE_WITH_SOURCE,
+      data: {},
+    })
+    waitUntil(finishRaffle(interaction, value))
     return
   }
 

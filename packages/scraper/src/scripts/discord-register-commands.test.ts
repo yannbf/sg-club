@@ -27,8 +27,19 @@ describe('other commands are unchanged', () => {
     expect(modReport?.default_member_permissions).toBe('32')
   })
 
-  it('registers exactly five commands', () => {
-    expect(commands).toHaveLength(5)
+  it('registers exactly six commands', () => {
+    expect(commands).toHaveLength(6)
+  })
+})
+
+describe('raffle command registration shape', () => {
+  const raffle = commands.find((c) => c.name === 'raffle')
+
+  it('exists, is admin-only, and takes no options', () => {
+    expect(raffle).toBeDefined()
+    expect(raffle?.default_member_permissions).toBe('32')
+    expect(raffle?.options).toEqual([])
+    expect(typeof raffle?.description).toBe('string')
   })
 })
 

@@ -7,6 +7,7 @@ import {
   serializeChallenge,
   serializeClosed,
   serializeEnded,
+  serializeRaffle,
   serializeReminder24,
   serializeSignup,
 } from './signup-log.js'
@@ -101,6 +102,24 @@ describe('serialize/parseLogLine round trip', () => {
     const line = serializeArchived(event)
     expect(line).toBe(`ARCHIVED ${JSON.stringify(event)}`)
     expect(parseLogLine(line)).toEqual({ type: 'ARCHIVED', data: event })
+  })
+
+  it('round-trips a RAFFLE line', () => {
+    const event = { slug: 'neo-cab', pool: 'want', winners: ['yannbf', 'alice'], ts: 1700000500 }
+    const line = serializeRaffle(event)
+    expect(line).toBe(`RAFFLE ${JSON.stringify(event)}`)
+    expect(parseLogLine(line)).toEqual({ type: 'RAFFLE', data: event })
+  })
+
+  it('round-trips a manual RAFFLE line', () => {
+    const event = { slug: 'manual', pool: 'pasted list', winners: ['bob'], ts: 1700000500 }
+    const line = serializeRaffle(event)
+    expect(parseLogLine(line)).toEqual({ type: 'RAFFLE', data: event })
+  })
+
+  it('rejects a RAFFLE line whose winners field is not an array', () => {
+    const badLine = `RAFFLE ${JSON.stringify({ slug: 'neo-cab', pool: 'want', winners: 'yannbf', ts: 1 })}`
+    expect(parseLogLine(badLine)).toBeNull()
   })
 })
 
@@ -300,5 +319,20 @@ describe('collectChallengeIndex', () => {
     ]
     const index = collectChallengeIndex(messages)
     expect(index.size).toBe(0)
+  })
+
+  it('ignores RAFFLE lines entirely — audit-only, no effect on the index', () => {
+    const messages = [
+      challengeLine({ slug: 'neo-cab' }),
+      { content: serializeRaffle({ slug: 'neo-cab', pool: 'want', winners: ['alice'], ts: 1 }) },
+    ]
+    const index = collectChallengeIndex(messages)
+    expect(index.get('neo-cab')).toEqual({
+      meta: { ...CHALLENGE_META, slug: 'neo-cab' },
+      closed: false,
+      reminded: false,
+      ended: false,
+      archived: false,
+    })
   })
 })
