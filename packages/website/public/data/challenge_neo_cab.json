@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1783036800,
   "totalAchievements": 18,
-  "generatedAt": 1785094976377,
+  "generatedAt": 1785101108020,
   "challengeOver": false,
   "winnerUsername": "RaitorHaitor",
   "participants": [
@@ -1965,14 +1965,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 751,
-      "playtime_2weeks_minutes": 702,
+      "playtime_total_minutes": 763,
+      "playtime_2weeks_minutes": 714,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 751,
+      "playtime_challenge_minutes": 763,
       "achievements_total": 18,
-      "achievements_unlocked_total": 17,
+      "achievements_unlocked_total": 18,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 17,
+      "achievements_since_baseline": 18,
       "challenge_achievements": [
         {
           "apiname": "star_rating_5",
@@ -2066,12 +2066,18 @@
           "apiname": "savy_reaches_out",
           "displayName": "Text Me Back!",
           "unlocktime": 1784845942
+        },
+        {
+          "apiname": "early_termination",
+          "displayName": "Pink Slip",
+          "description": "Get fired by Neo Cab for sustaining an imperfect rating.",
+          "unlocktime": 1785099742
         }
       ],
-      "challenge_achievement_count": 17,
+      "challenge_achievement_count": 18,
       "has_started": true,
-      "is_complete": false,
-      "completed_at": null,
+      "is_complete": true,
+      "completed_at": 1785099742,
       "completed_before_start": false,
       "completed_after_deadline": false,
       "meets_playtime": true,
@@ -2092,14 +2098,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 541,
-      "playtime_2weeks_minutes": 545,
+      "playtime_total_minutes": 632,
+      "playtime_2weeks_minutes": 632,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 541,
+      "playtime_challenge_minutes": 632,
       "achievements_total": 18,
-      "achievements_unlocked_total": 16,
+      "achievements_unlocked_total": 17,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 16,
+      "achievements_since_baseline": 17,
       "challenge_achievements": [
         {
           "apiname": "night_1",
@@ -2188,9 +2194,15 @@
           "apiname": "no_bribe",
           "displayName": "No, Officer",
           "unlocktime": 1785092735
+        },
+        {
+          "apiname": "early_termination",
+          "displayName": "Pink Slip",
+          "description": "Get fired by Neo Cab for sustaining an imperfect rating.",
+          "unlocktime": 1785096286
         }
       ],
-      "challenge_achievement_count": 16,
+      "challenge_achievement_count": 17,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
