@@ -45,9 +45,11 @@ describe('buildAnnouncementEmbed', () => {
     expect(close).toEqual({ name: 'Signups close', value: '<t:1700000000:R>', inline: true })
 
     const challenge = fields.find((f) => f.name === 'Challenge')
+    // End shows the last covered moment (end - 1) as a full localized
+    // timestamp so every timezone sees the exact ending time.
     expect(challenge).toEqual({
       name: 'Challenge',
-      value: '<t:1700000100:d> → <t:1700001000:d>',
+      value: '<t:1700000100:d> → ends <t:1700000999:f>',
       inline: true,
     })
   })

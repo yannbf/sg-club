@@ -76,7 +76,15 @@ export function buildAnnouncementEmbed(input: AnnouncementInput): Record<string,
       },
       {
         name: 'Challenge',
-        value: truncate(`<t:${input.start}:d> → <t:${input.end}:d>`, EMBED_FIELD_VALUE_LIMIT),
+        // `end - 1` is the last covered moment (ends are exclusive cutoffs),
+        // and the `:f` style renders it as a full date+time in each viewer's
+        // OWN timezone — members span many timezones, and a bare `:d` date
+        // for a midnight-UTC cutoff shows a different calendar day depending
+        // on where the viewer lives.
+        value: truncate(
+          `<t:${input.start}:d> → ends <t:${input.end - 1}:f>`,
+          EMBED_FIELD_VALUE_LIMIT
+        ),
         inline: true,
       },
     ],

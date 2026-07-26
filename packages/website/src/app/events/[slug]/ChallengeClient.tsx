@@ -128,6 +128,17 @@ function fmtDay(unixSeconds: number): string {
   })
 }
 
+/** An exact moment as "31 Aug, 23:59" pinned to UTC (not the viewer's zone). */
+function fmtUtcMoment(unixSeconds: number): string {
+  return new Date(unixSeconds * 1000).toLocaleString('en-GB', {
+    day: 'numeric',
+    month: 'short',
+    hour: '2-digit',
+    minute: '2-digit',
+    timeZone: 'UTC',
+  })
+}
+
 /**
  * A live, second-by-second countdown to the challenge deadline. Renders a stable
  * placeholder until mounted (so the static export's HTML matches first paint),
@@ -699,6 +710,17 @@ export default function ChallengeClient({
               endedLabel="Challenge starting…"
             />
           )}
+
+          {/* Members span many timezones — spell out the exact UTC window
+              (timestamps are UTC-midnight cutoffs; end is exclusive, so the
+              last covered moment is end - 1). */}
+          {meta.startTimestamp != null && meta.endTimestamp != null && (
+            <p className="text-center text-xs text-muted-foreground">
+              Exact window: {fmtUtcMoment(meta.startTimestamp)} →{' '}
+              {fmtUtcMoment(meta.endTimestamp - 1)} (UTC). The countdown above
+              follows your local clock.
+            </p>
+          )}
         </div>
       )
     }
@@ -894,7 +916,7 @@ export default function ChallengeClient({
                 </>
               ) : null}
               {deadlineDisplay
-                ? ` during the challenge (by the end of ${fmtDay(deadlineDisplay)})`
+                ? ` during the challenge (by the end of ${fmtDay(deadlineDisplay)}, UTC)`
                 : ''}
               . Achievements earned before the challenge count too. The
               leaderboard records when each member hits 100%.
