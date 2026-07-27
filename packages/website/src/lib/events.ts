@@ -319,7 +319,7 @@ export const CHALLENGE_EVENTS: EventMeta[] = [
     description:
       'Ready to test your blade? ⚔️ Our August challenge dives into the brutal world of Bloody Spell — whether you\'ve been waiting for an excuse to play it or it\'s been sitting in your Steam library for years, this is your chance!\n\n' +
       "Already own Bloody Spell? You're in. Don't own it? No problem — The Giveaways Club has copies available: request one on our Discord before July 31 and we'll send your key on August 1, when registrations close and the challenge begins.\n\n" +
-      'The mission: complete the game during August and leave a Steam review. Everyone who does enters the same prize draw — what changes is the prize. 🥉 Finish the main story (unlock the “Departure” achievement) and, if drawn, you win a €10 Steam Gift Card. 🥇 Go for 100% completion (every achievement) and your prize is upgraded to a €20 Steam Gift Card.\n\n' +
+      'The mission: complete the game during August and leave a Steam review. Everyone who does enters the same prize draw — what changes is the prize. 🥉 Finish the main story (unlock the “Departure” achievement) and, if drawn, you win a €10 Steam Gift Card. 🥇 Go for full completion (every achievement except “Master of Magic”) and your prize is upgraded to a €20 Steam Gift Card.\n\n' +
       'So yes… the draw is exactly the same for everyone. The difference is how much you dare to challenge yourself. 😈 Sharpen your sword, prepare for August, and good luck — see you in Bloody Spell! 🩸',
     websiteUrl: null,
     kind: 'challenge',

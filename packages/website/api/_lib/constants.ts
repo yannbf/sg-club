@@ -35,6 +35,16 @@ export function getLogChannelId(): string {
   return process.env.LOG_CHANNEL_ID ?? TEST_LOG_CHANNEL_ID
 }
 
+/**
+ * Admin channel for the crons' instructional nudges (signups closed /
+ * challenge over → "you can /raffle now"). Same pattern as WARN_CHANNEL_ID:
+ * defaults to #bot-test so local/manual runs can't ping the real admin
+ * channel; the workflow sets it to #admin-stuff in production.
+ */
+export function getAdminChannelId(): string {
+  return process.env.ADMIN_CHANNEL_ID ?? TEST_ANNOUNCE_CHANNEL_ID
+}
+
 /** Optional override so data.ts fetches JSON from a specific origin instead of the request host. */
 export function getDataBaseUrl(): string | undefined {
   return process.env.DATA_BASE_URL

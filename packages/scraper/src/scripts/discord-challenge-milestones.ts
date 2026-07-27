@@ -9,7 +9,7 @@ import {
   serializeReminder24,
   type ChallengeMeta,
 } from '../../../website/api/_lib/signup-log.js'
-import { getLogChannelId } from '../../../website/api/_lib/constants.js'
+import { getAdminChannelId, getLogChannelId } from '../../../website/api/_lib/constants.js'
 import { slugify } from '../../../website/api/_lib/custom-id.js'
 import { qualifyingUsernames } from './discord-challenge-congrats.js'
 
@@ -85,6 +85,19 @@ export function build24hReminderMessage(name: string, qualifiedCount: number | n
 /** `The <phrase> is over! Click [here](<url>) to see the results` — the `(<url>)` form suppresses the link preview. */
 export function buildEndedMessage(name: string): string {
   return `The ${challengePhrase(name)} is over! Click [here](<${EVENTS_URL}>) to see the results`
+}
+
+/**
+ * Instructional nudge posted to the admin channel alongside the public
+ * "challenge over" notice — points mods at /raffle's pasted-list mode for
+ * the prize draw among finishers. Plain markdown, no emojis.
+ */
+export function buildEndedAdminNudge(name: string): string {
+  return (
+    `The ${challengePhrase(name)} just ended. For the prize draw, copy the qualified members from ` +
+    `[the results page](<${EVENTS_URL}>) and use /raffle with "Paste a list of names…" plus the number of winners. ` +
+    `Run it in the channel where the winners should be announced (e.g. #challenge-announcements) — the draw result is posted right there, and every draw is logged in the bot log channel.`
+  )
 }
 
 /**
@@ -164,6 +177,14 @@ export async function postChallengeMilestones(): Promise<void> {
     if (needsEndedNotice(meta, endedSlugs, nowSeconds)) {
       await createMessage(meta.channel_id, { content: buildEndedMessage(meta.name), flags: 4 })
       await createMessage(logChannelId, { content: serializeEnded({ slug: meta.slug, ts: nowSeconds }) })
+      // Best-effort admin nudge AFTER the ENDED marker — the notice itself
+      // must never be blocked (or duplicated on retry) because the admin
+      // channel was unreachable.
+      try {
+        await createMessage(getAdminChannelId(), { content: buildEndedAdminNudge(meta.name), flags: 4 })
+      } catch (err) {
+        console.error(`⚠️ Failed to post the challenge-over admin nudge for "${meta.slug}":`, err)
+      }
       anyPosted = true
       console.log(`🏁 Posted "challenge over" notice for "${meta.name}" (${meta.slug}).`)
     }

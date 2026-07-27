@@ -10,6 +10,7 @@ vi.mock('../../../website/api/_lib/discord-rest', () => ({
 
 const {
   build24hReminderMessage,
+  buildEndedAdminNudge,
   buildEndedMessage,
   challengePhrase,
   matchChallengeFile,
@@ -74,6 +75,21 @@ describe('buildEndedMessage', () => {
     expect(buildEndedMessage('Test Challenge')).toBe(
       'The Test Challenge is over! Click [here](<https://sg-club.vercel.app/events/>) to see the results'
     )
+  })
+})
+
+describe('buildEndedAdminNudge', () => {
+  it('mentions the challenge, the pasted-list raffle mode, the results page, and where to run it', () => {
+    const nudge = buildEndedAdminNudge('Neo Cab')
+    expect(nudge).toContain('Neo Cab challenge just ended')
+    expect(nudge).toContain('/raffle')
+    expect(nudge).toContain('Paste a list of names')
+    expect(nudge).toContain('https://sg-club.vercel.app/events/')
+    expect(nudge).toContain('channel where the winners should be announced')
+  })
+
+  it('applies the same "challenge" phrase dedup as the public messages', () => {
+    expect(buildEndedAdminNudge('Test Challenge')).toContain('The Test Challenge just ended')
   })
 })
 
@@ -207,10 +223,15 @@ describe('postChallengeMilestones — archived challenges', () => {
 
     await postChallengeMilestones()
 
-    // Ended notice + ENDED marker for the non-archived challenge only.
+    // Ended notice + ENDED marker for the non-archived challenge only,
+    // plus the instructional admin nudge pointing at /raffle.
     expect(discordRest.createMessage).toHaveBeenCalledWith(
       'c2',
       expect.objectContaining({ content: expect.stringContaining('Active One') })
+    )
+    expect(discordRest.createMessage).toHaveBeenCalledWith(
+      expect.any(String),
+      expect.objectContaining({ content: expect.stringContaining('/raffle') })
     )
     expect(discordRest.createMessage).not.toHaveBeenCalledWith(
       'c1',

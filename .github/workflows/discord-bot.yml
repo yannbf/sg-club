@@ -58,11 +58,17 @@ jobs:
         run: pnpm --filter scraper run discord:register
 
   close-signups:
-    if: github.event.inputs.job == 'close-signups'
+    # On the hourly :50 schedule (idempotent via CLOSED markers) so a signup
+    # deadline passing while nobody is around still closes on time — plus
+    # manual dispatch.
+    if: |
+      github.event.schedule == '50 * * * *' ||
+      (github.event_name == 'workflow_dispatch' && github.event.inputs.job == 'close-signups')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     env:
       DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
+      ADMIN_CHANNEL_ID: '1385350331327582208' # #admin-stuff
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -95,6 +101,7 @@ jobs:
     timeout-minutes: 10
     env:
       DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
+      ADMIN_CHANNEL_ID: '1385350331327582208' # #admin-stuff
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4

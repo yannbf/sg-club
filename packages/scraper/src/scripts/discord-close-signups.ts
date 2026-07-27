@@ -16,7 +16,7 @@ import {
   buildClosedSummaryMessages,
   buildDisabledComponents,
 } from '../../../website/api/_lib/render.js'
-import { getLogChannelId } from '../../../website/api/_lib/constants.js'
+import { getAdminChannelId, getLogChannelId } from '../../../website/api/_lib/constants.js'
 
 /**
  * Reads the signup-log channel, finds every CHALLENGE whose deadline has
@@ -30,6 +30,19 @@ import { getLogChannelId } from '../../../website/api/_lib/constants.js'
  * missed close). Archived challenges are treated like already-closed ones —
  * skipped entirely, no summary post, no CLOSED marker.
  */
+/**
+ * Instructional nudge posted to the admin channel right after a challenge's
+ * signups close — points mods at /raffle for the too-many-requests case.
+ * Plain markdown, no emojis (report-style output).
+ */
+export function buildSignupsClosedAdminNudge(name: string, wantCount: number, haveCount: number): string {
+  return (
+    `Signups for **${name}** are closed — ${wantCount} want the game, ${haveCount} already have it.\n` +
+    `If there are more requests than keys, use /raffle: pick **${name}**, keep the pool on "Want the game", and set the number of winners. ` +
+    `Run it in the channel where the winners should be announced (e.g. #challenge-announcements) — the draw result is posted right there, and every draw is logged in the bot log channel.`
+  )
+}
+
 export async function closeExpiredSignups(): Promise<void> {
   const logChannelId = getLogChannelId()
   const messages = await getAllChannelMessages(logChannelId, 2000)
@@ -65,6 +78,21 @@ export async function closeExpiredSignups(): Promise<void> {
     await createMessage(logChannelId, {
       content: serializeClosed({ slug: meta.slug, ts: now }),
     })
+
+    // Best-effort admin nudge AFTER the CLOSED marker — the close itself must
+    // never be blocked (or re-run) because the admin channel was unreachable.
+    try {
+      await createMessage(getAdminChannelId(), {
+        content: buildSignupsClosedAdminNudge(
+          meta.name,
+          roster.wanters.length,
+          roster.owners.length
+        ),
+        flags: 4,
+      })
+    } catch (err) {
+      console.error(`⚠️ Failed to post the signups-closed admin nudge for "${meta.slug}":`, err)
+    }
 
     console.log(
       `✅ Closed "${meta.name}" — ${roster.wanters.length} want, ${roster.owners.length} have.`

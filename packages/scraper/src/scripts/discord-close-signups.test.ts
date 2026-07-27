@@ -9,7 +9,7 @@ vi.mock('../../../website/api/_lib/discord-rest', () => ({
   getAllChannelMessages: vi.fn(async () => []),
 }))
 
-const { closeExpiredSignups } = await import('./discord-close-signups')
+const { buildSignupsClosedAdminNudge, closeExpiredSignups } = await import('./discord-close-signups')
 const discordRest = await import('../../../website/api/_lib/discord-rest')
 
 const PAST_DEADLINE_META = {
@@ -84,5 +84,23 @@ describe('closeExpiredSignups — archived challenges', () => {
     )
     expect(discordRest.editMessage).toHaveBeenCalledWith('c2', 'm2', expect.anything())
     expect(discordRest.editMessage).not.toHaveBeenCalledWith('c1', 'm1', expect.anything())
+
+    // The instructional admin nudge went out too (to the admin channel —
+    // the #bot-test default in tests, distinct from the challenge channel).
+    expect(discordRest.createMessage).toHaveBeenCalledWith(
+      expect.any(String),
+      expect.objectContaining({ content: expect.stringContaining('/raffle') })
+    )
+  })
+})
+
+describe('buildSignupsClosedAdminNudge', () => {
+  it('mentions the challenge, the counts, the pool to keep, and where to run /raffle', () => {
+    const nudge = buildSignupsClosedAdminNudge('Bloody Spell', 19, 4)
+    expect(nudge).toContain('**Bloody Spell**')
+    expect(nudge).toContain('19 want the game, 4 already have it')
+    expect(nudge).toContain('/raffle')
+    expect(nudge).toContain('"Want the game"')
+    expect(nudge).toContain('channel where the winners should be announced')
   })
 })
