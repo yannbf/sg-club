@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1783036800,
   "totalAchievements": 18,
-  "generatedAt": 1785257844908,
+  "generatedAt": 1785264856952,
   "challengeOver": false,
   "winnerUsername": "RaitorHaitor",
   "participants": [
@@ -2492,11 +2492,11 @@
       "is_guest": false,
       "owned": true,
       "stats_available": true,
-      "wrote_review": false,
-      "review_voted_up": null,
-      "review_timestamp": null,
-      "review_recommendationid": null,
-      "review_url": null,
+      "wrote_review": true,
+      "review_voted_up": true,
+      "review_timestamp": 1785251850,
+      "review_recommendationid": "231520497",
+      "review_url": "https://steamcommunity.com/profiles/76561198054324521/recommended/794540",
       "playtime_total_minutes": 416,
       "playtime_2weeks_minutes": 175,
       "baseline_playtime_minutes": 241,
@@ -2563,8 +2563,8 @@
       "completed_before_start": false,
       "completed_after_deadline": false,
       "meets_playtime": true,
-      "meets_review": false,
-      "is_winner": false
+      "meets_review": true,
+      "is_winner": true
     },
     {
       "username": "vampiresska",
@@ -2580,10 +2580,10 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 473,
-      "playtime_2weeks_minutes": 473,
+      "playtime_total_minutes": 503,
+      "playtime_2weeks_minutes": 503,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 473,
+      "playtime_challenge_minutes": 503,
       "achievements_total": 18,
       "achievements_unlocked_total": 17,
       "achievements_before_challenge": 0,
@@ -3663,7 +3663,8 @@
     "puninup",
     "TempR",
     "Atro",
-    "Ignition365"
+    "Ignition365",
+    "Sakakino"
   ],
   "roster": {
     "participants": [
