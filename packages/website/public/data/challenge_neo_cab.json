@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1783036800,
   "totalAchievements": 18,
-  "generatedAt": 1785271246899,
+  "generatedAt": 1785277952381,
   "challengeOver": false,
   "winnerUsername": "RaitorHaitor",
   "participants": [
@@ -1966,7 +1966,7 @@
       "review_recommendationid": "231393326",
       "review_url": "https://steamcommunity.com/profiles/76561198069567036/recommended/794540",
       "playtime_total_minutes": 763,
-      "playtime_2weeks_minutes": 626,
+      "playtime_2weeks_minutes": 598,
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 763,
       "achievements_total": 18,
@@ -2575,11 +2575,11 @@
       "is_guest": false,
       "owned": true,
       "stats_available": true,
-      "wrote_review": false,
-      "review_voted_up": null,
-      "review_timestamp": null,
-      "review_recommendationid": null,
-      "review_url": null,
+      "wrote_review": true,
+      "review_voted_up": true,
+      "review_timestamp": 1785265741,
+      "review_recommendationid": "231535555",
+      "review_url": "https://steamcommunity.com/profiles/76561198129984336/recommended/794540",
       "playtime_total_minutes": 533,
       "playtime_2weeks_minutes": 533,
       "baseline_playtime_minutes": 0,
@@ -2696,8 +2696,8 @@
       "completed_before_start": false,
       "completed_after_deadline": false,
       "meets_playtime": true,
-      "meets_review": false,
-      "is_winner": false
+      "meets_review": true,
+      "is_winner": true
     },
     {
       "username": "Waxlor",
@@ -3565,6 +3565,22 @@
       "review_url": null
     },
     {
+      "username": "Ivannes",
+      "steam_id": "76561198118726910",
+      "avatar_url": "https://avatars.steamstatic.com/f929925df26b86d3aaf9b504c42bc8a7f18a882b_medium.jpg",
+      "profile_url": "https://steamcommunity.com/profiles/76561198118726910",
+      "playtime_total_minutes": 119,
+      "playtime_2weeks_minutes": 119,
+      "achievements_unlocked_total": 5,
+      "achievements_total": 18,
+      "challenge_achievement_count": 5,
+      "wrote_review": false,
+      "review_voted_up": null,
+      "review_timestamp": null,
+      "review_recommendationid": null,
+      "review_url": null
+    },
+    {
       "username": "MikeWithAnI",
       "steam_id": "76561198452519450",
       "avatar_url": "https://avatars.steamstatic.com/4e1f24c34611ca597a117d4c85cf5a9ecabe7a89_medium.jpg",
@@ -3574,22 +3590,6 @@
       "achievements_unlocked_total": 5,
       "achievements_total": 18,
       "challenge_achievement_count": 0,
-      "wrote_review": false,
-      "review_voted_up": null,
-      "review_timestamp": null,
-      "review_recommendationid": null,
-      "review_url": null
-    },
-    {
-      "username": "Ivannes",
-      "steam_id": "76561198118726910",
-      "avatar_url": "https://avatars.steamstatic.com/f929925df26b86d3aaf9b504c42bc8a7f18a882b_medium.jpg",
-      "profile_url": "https://steamcommunity.com/profiles/76561198118726910",
-      "playtime_total_minutes": 77,
-      "playtime_2weeks_minutes": 77,
-      "achievements_unlocked_total": 3,
-      "achievements_total": 18,
-      "challenge_achievement_count": 3,
       "wrote_review": false,
       "review_voted_up": null,
       "review_timestamp": null,
@@ -3670,7 +3670,8 @@
     "TempR",
     "Atro",
     "Ignition365",
-    "Sakakino"
+    "Sakakino",
+    "vampiresska"
   ],
   "roster": {
     "participants": [
