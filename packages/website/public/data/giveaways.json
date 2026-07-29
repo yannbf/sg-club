@@ -1,45 +1,6 @@
 {
-  "last_updated": "2026-07-29T11:05:59.153Z",
+  "last_updated": "2026-07-29T17:52:11.623Z",
   "giveaways": [
-    {
-      "id": "6k12j",
-      "name": "Uncle Chop's Rocket Shop",
-      "points": 20,
-      "copies": 1,
-      "app_id": 1849790,
-      "package_id": null,
-      "link": "6k12j/uncle-chops-rocket-shop",
-      "created_timestamp": 1784941785,
-      "start_timestamp": 1784941785,
-      "end_timestamp": 1785330000,
-      "group": true,
-      "comment_count": 1,
-      "entry_count": 10,
-      "creator": "76561198054324521",
-      "cv_status": "FULL_CV",
-      "creator_username": "Sakakino",
-      "deleted": false
-    },
-    {
-      "id": "l3NLs",
-      "name": "FINAL FANTASY XVI COMPLETE EDITION",
-      "points": 50,
-      "copies": 1,
-      "app_id": null,
-      "package_id": 1111230,
-      "link": "l3NLs/final-fantasy-xvi-complete-edition",
-      "created_timestamp": 1784974197,
-      "start_timestamp": 1784974197,
-      "end_timestamp": 1785330000,
-      "group": true,
-      "comment_count": 7,
-      "entry_count": 26,
-      "creator": "76561197962863579",
-      "required_play": true,
-      "cv_status": "FULL_CV",
-      "creator_username": "CatzZz",
-      "deleted": false
-    },
     {
       "id": "vDHgi",
       "name": "Lempo",
@@ -54,7 +15,7 @@
       "region_restricted": true,
       "group": true,
       "comment_count": 2,
-      "entry_count": 344,
+      "entry_count": 365,
       "creator": "76561198118320246",
       "is_shared": true,
       "cv_status": "FULL_CV",
@@ -352,7 +313,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 13,
-      "entry_count": 138,
+      "entry_count": 142,
       "creator": "76561199014836450",
       "is_shared": true,
       "cv_status": "FULL_CV",
@@ -372,8 +333,8 @@
       "end_timestamp": 1785549540,
       "whitelist": true,
       "group": true,
-      "comment_count": 4,
-      "entry_count": 82,
+      "comment_count": 5,
+      "entry_count": 86,
       "creator": "76561198053065013",
       "is_shared": true,
       "cv_status": "FULL_CV",
@@ -394,7 +355,7 @@
       "region_restricted": true,
       "group": true,
       "comment_count": 6,
-      "entry_count": 35,
+      "entry_count": 36,
       "creator": "76561199434715535",
       "required_play": true,
       "cv_status": "FULL_CV",
@@ -553,7 +514,7 @@
       "end_timestamp": 1785754800,
       "group": true,
       "comment_count": 0,
-      "entry_count": 7,
+      "entry_count": 8,
       "creator": "76561198411996697",
       "required_play": true,
       "is_shared": true,
@@ -570,12 +531,12 @@
       "package_id": null,
       "link": "YPoTU/spirit-city-lofi-sessions",
       "created_timestamp": 1785316597,
-      "start_timestamp": 1785326520,
+      "start_timestamp": 1785316597,
       "end_timestamp": 1785801720,
       "whitelist": true,
       "group": true,
-      "comment_count": 0,
-      "entry_count": 0,
+      "comment_count": 4,
+      "entry_count": 7,
       "creator": "76561198117390871",
       "is_shared": true,
       "cv_status": "FULL_CV",
@@ -614,7 +575,7 @@
       "end_timestamp": 1785826800,
       "group": true,
       "comment_count": 0,
-      "entry_count": 3,
+      "entry_count": 4,
       "creator": "76561198041749780",
       "cv_status": "FULL_CV",
       "creator_username": "doubleomurfy",
@@ -673,7 +634,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 12,
-      "entry_count": 72,
+      "entry_count": 74,
       "creator": "76561198129984336",
       "is_shared": true,
       "cv_status": "FULL_CV",
@@ -760,6 +721,59 @@
       "deleted": false
     },
     {
+      "id": "6k12j",
+      "name": "Uncle Chop's Rocket Shop",
+      "points": 20,
+      "copies": 1,
+      "app_id": 1849790,
+      "package_id": null,
+      "link": "6k12j/uncle-chops-rocket-shop",
+      "created_timestamp": 1784941785,
+      "start_timestamp": 1784941785,
+      "end_timestamp": 1785330000,
+      "group": true,
+      "comment_count": 2,
+      "entry_count": 10,
+      "creator": "76561198054324521",
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": "76561198055569704",
+          "status": "received",
+          "winner_username": "CuteEnby"
+        }
+      ],
+      "cv_status": "FULL_CV",
+      "creator_username": "Sakakino"
+    },
+    {
+      "id": "l3NLs",
+      "name": "FINAL FANTASY XVI COMPLETE EDITION",
+      "points": 50,
+      "copies": 1,
+      "app_id": null,
+      "package_id": 1111230,
+      "link": "l3NLs/final-fantasy-xvi-complete-edition",
+      "created_timestamp": 1784974197,
+      "start_timestamp": 1784974197,
+      "end_timestamp": 1785330000,
+      "group": true,
+      "comment_count": 7,
+      "entry_count": 26,
+      "creator": "76561197962863579",
+      "required_play": true,
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "FULL_CV",
+      "creator_username": "CatzZz",
+      "deleted": false
+    },
+    {
       "id": "pucnn",
       "name": "Tiny Bookshop",
       "points": 20,
@@ -772,20 +786,20 @@
       "end_timestamp": 1785315600,
       "whitelist": true,
       "group": true,
-      "comment_count": 7,
+      "comment_count": 9,
       "entry_count": 131,
       "creator": "76561197967055456",
       "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "76561198117650232",
+          "status": "received",
+          "winner_username": "quinnix"
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "Foxpile",
-      "deleted": false
+      "creator_username": "Foxpile"
     },
     {
       "id": "M6Kj7",
@@ -800,20 +814,20 @@
       "end_timestamp": 1785267420,
       "whitelist": true,
       "group": true,
-      "comment_count": 1,
+      "comment_count": 3,
       "entry_count": 46,
       "creator": "76561198376004004",
       "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "BabyGawrGura",
+          "status": "received",
+          "winner_username": "BabyGawrGura"
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "Kirouse",
-      "deleted": false
+      "creator_username": "Kirouse"
     },
     {
       "id": "slbeW",
@@ -1271,13 +1285,13 @@
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "HopeUwU",
+          "status": "received",
+          "winner_username": "HopeUwU"
         }
       ],
       "cv_status": "REDUCED_CV",
-      "creator_username": "TexWilleri",
-      "deleted": false
+      "creator_username": "TexWilleri"
     },
     {
       "id": "sEQcX",
