@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1783036800,
   "totalAchievements": 18,
-  "generatedAt": 1785349873949,
+  "generatedAt": 1785356967212,
   "challengeOver": false,
   "winnerUsername": "RaitorHaitor",
   "participants": [
@@ -2713,14 +2713,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 435,
-      "playtime_2weeks_minutes": 409,
+      "playtime_total_minutes": 495,
+      "playtime_2weeks_minutes": 469,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 435,
+      "playtime_challenge_minutes": 495,
       "achievements_total": 18,
-      "achievements_unlocked_total": 11,
+      "achievements_unlocked_total": 13,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 11,
+      "achievements_since_baseline": 13,
       "challenge_achievements": [
         {
           "apiname": "got_feelgrid",
@@ -2782,9 +2782,21 @@
           "apiname": "destroy_feelgrid",
           "displayName": "Luddite",
           "unlocktime": 1785244276
+        },
+        {
+          "apiname": "out_of_coin",
+          "displayName": "Hit Bottom",
+          "description": "Run completeley out of money and fuel",
+          "unlocktime": 1785355053
+        },
+        {
+          "apiname": "early_termination",
+          "displayName": "Pink Slip",
+          "description": "Get fired by Neo Cab for sustaining an imperfect rating.",
+          "unlocktime": 1785355053
         }
       ],
-      "challenge_achievement_count": 11,
+      "challenge_achievement_count": 13,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
@@ -2841,14 +2853,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 182,
-      "playtime_2weeks_minutes": 137,
+      "playtime_total_minutes": 209,
+      "playtime_2weeks_minutes": 164,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 182,
+      "playtime_challenge_minutes": 209,
       "achievements_total": 18,
-      "achievements_unlocked_total": 7,
+      "achievements_unlocked_total": 8,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 7,
+      "achievements_since_baseline": 8,
       "challenge_achievements": [
         {
           "apiname": "star_rating_5",
@@ -2889,9 +2901,14 @@
           "displayName": "Worst Driver Ever",
           "description": "Earn your first 1-star rating",
           "unlocktime": 1785246326
+        },
+        {
+          "apiname": "saved_allie",
+          "displayName": "A Friend in Need",
+          "unlocktime": 1785353768
         }
       ],
-      "challenge_achievement_count": 7,
+      "challenge_achievement_count": 8,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
