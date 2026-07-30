@@ -60,6 +60,7 @@ import {
   chunkMessage,
   collectGroupWarningFindings,
 } from '../_lib/mod-report.js'
+import { buildBotHelpMessages } from '../_lib/bot-help.js'
 
 // Vercel Function config: raw body needed for Ed25519 signature
 // verification, so auto body-parsing is disabled. maxDuration gives the
@@ -79,7 +80,9 @@ interface DiscordInteraction {
   type: number
   token: string
   channel_id?: string
-  member?: { user: DiscordUserPayload }
+  // `permissions` is Discord's decimal-string bitfield for the invoking
+  // member's resolved guild permissions — see `hasManageGuild`.
+  member?: { user: DiscordUserPayload; permissions?: string }
   user?: DiscordUserPayload
   message?: { id: string; channel_id: string; embeds?: Record<string, unknown>[] }
   data?: {
@@ -117,6 +120,49 @@ async function readRawBody(req: IncomingMessage): Promise<Buffer> {
 
 function getInteractionUser(interaction: DiscordInteraction): DiscordUserPayload | undefined {
   return interaction.member?.user ?? interaction.user
+}
+
+// MANAGE_GUILD is bit 0x20 in Discord's permission bitfield. BigInt(...)
+// rather than a `0x20n` literal — the project's TS target (ES2017) doesn't
+// support BigInt literal syntax.
+const MANAGE_GUILD_BIT = BigInt(0x20)
+
+/**
+ * Defense-in-depth check for admin/mod-only surfaces: every command is
+ * registered with `default_member_permissions: '32'` (Manage Server), but a
+ * server admin can loosen that per-command in Integrations settings, so the
+ * endpoint re-checks the bit itself rather than trusting Discord's
+ * registration-time gate alone. `permissions` is a decimal-string bitfield
+ * that can exceed 2^53, hence BigInt rather than Number.
+ */
+export function hasManageGuild(permissions: string | undefined): boolean {
+  if (permissions === undefined) return false
+  let bits: bigint
+  try {
+    bits = BigInt(permissions)
+  } catch {
+    return false
+  }
+  return (bits & MANAGE_GUILD_BIT) === MANAGE_GUILD_BIT
+}
+
+/**
+ * Single guard for every admin-facing entry point (application commands, the
+ * admin selects, the admin modals). Responds synchronously — no defer — with
+ * an ephemeral refusal when the invoking member lacks MANAGE_GUILD, and
+ * returns true so the caller can bail immediately; returns false to let the
+ * caller proceed. Never applied to the member-facing su|/sg| signup flows.
+ */
+function guardAdmin(interaction: DiscordInteraction, res: ServerResponse): boolean {
+  if (hasManageGuild(interaction.member?.permissions)) return false
+  respondJson(res, 200, {
+    type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+    data: {
+      flags: MessageFlags.EPHEMERAL,
+      content: 'These commands are for admins/mods only.',
+    },
+  })
+  return true
 }
 
 /** Finds `customId` within a single top-level modal-submit entry, walking whichever nesting shape it has. */
@@ -252,6 +298,9 @@ async function handleApplicationCommand(
   res: ServerResponse,
   host?: string
 ): Promise<void> {
+  // Every application command is an admin surface.
+  if (guardAdmin(interaction, res)) return
+
   const commandName = interaction.data?.name
   if (commandName === 'challenge-setup') {
     await handleChallengeSetup(interaction, res)
@@ -275,6 +324,10 @@ async function handleApplicationCommand(
   }
   if (commandName === 'raffle') {
     await handleRaffle(interaction, res)
+    return
+  }
+  if (commandName === 'bot-help') {
+    await handleBotHelp(interaction, res)
     return
   }
   respondJson(res, 400, { error: 'Unknown command' })
@@ -1393,6 +1446,36 @@ async function finishModReport(interaction: DiscordInteraction, host?: string): 
   }
 }
 
+async function handleBotHelp(interaction: DiscordInteraction, res: ServerResponse): Promise<void> {
+  // Deferred + ephemeral, same rationale as /challenge-list and friends —
+  // the guide is only relevant to whoever ran the command.
+  respondJson(res, 200, {
+    type: InteractionResponseType.DEFERRED_CHANNEL_MESSAGE_WITH_SOURCE,
+    data: { flags: MessageFlags.EPHEMERAL },
+  })
+  waitUntil(finishBotHelp(interaction))
+}
+
+async function finishBotHelp(interaction: DiscordInteraction): Promise<void> {
+  const appId = getAppId()
+  const token = interaction.token
+
+  try {
+    const chunks = buildBotHelpMessages()
+    // The ephemeral defer already makes this edit ephemeral, so only
+    // SUPPRESS_EMBEDS needs to be set here; a followup is a distinct message
+    // and doesn't inherit ephemeral from the defer, so both flags apply there.
+    await editOriginalResponse(appId, token, { content: chunks[0] ?? '', flags: 4 })
+    for (const chunk of chunks.slice(1)) {
+      await sendFollowup(appId, token, { content: chunk, flags: MessageFlags.EPHEMERAL | 4 })
+    }
+  } catch (err) {
+    await editOriginalResponse(appId, token, {
+      content: `❌ ${(err as Error).message}`,
+    }).catch(() => {})
+  }
+}
+
 /**
  * Core invariant: a click after the deadline records nothing and never
  * touches the log channel. Kept as a standalone, synchronously-checkable
@@ -1408,6 +1491,19 @@ async function handleMessageComponent(
   host?: string
 ): Promise<void> {
   const customId = interaction.data?.custom_id
+
+  // Every admin select (clist/carch/cedit/craff) is guarded here, once, ahead
+  // of the individual routes below. The su|/sg| signup buttons fall through
+  // to decodeCustomId further down and are never guarded — they're the
+  // member-facing surface.
+  if (
+    customId === CHALLENGE_LIST_SELECT_ID ||
+    customId === CHALLENGE_ARCHIVE_SELECT_ID ||
+    customId === CHALLENGE_EDIT_SELECT_ID ||
+    customId === RAFFLE_SELECT_ID
+  ) {
+    if (guardAdmin(interaction, res)) return
+  }
 
   // Routed independently of decodeCustomId (which only understands the
   // `su|`/`sg|` signup formats) since `clist`/`carch`/`cedit` aren't
@@ -1530,6 +1626,14 @@ async function handleModalSubmit(
   host?: string
 ): Promise<void> {
   const customId = interaction.data?.custom_id
+
+  // Every admin modal (csetup/cemod|/crmod|) is guarded here, once, ahead of
+  // the individual routes below. The sg| guest-signup modal falls through to
+  // decodeCustomId further down and is never guarded — it's the
+  // member-facing surface.
+  if (customId === 'csetup' || customId?.startsWith('cemod|') || customId?.startsWith('crmod|')) {
+    if (guardAdmin(interaction, res)) return
+  }
 
   if (customId === 'csetup') {
     respondJson(res, 200, {

@@ -41,6 +41,12 @@ export const commands = [
     default_member_permissions: MANAGE_GUILD_PERMISSION,
     options: [],
   },
+  {
+    name: 'bot-help',
+    description: 'How every TGC Bot command works and where messages get posted',
+    default_member_permissions: MANAGE_GUILD_PERMISSION,
+    options: [],
+  },
 ]
 
 /** Registers the guild commands via PUT — guild commands propagate instantly (no ~1h global-command delay). */

@@ -29,6 +29,9 @@ interface ChallengeFile {
   slug: string
   gameName: string
   participants: Participant[]
+  /** True once the file was generated after the challenge deadline — the
+   * frozen-results signal the ended admin nudge reports. */
+  challengeOver?: boolean
 }
 
 /**
@@ -91,12 +94,23 @@ export function buildEndedMessage(name: string): string {
  * Instructional nudge posted to the admin channel alongside the public
  * "challenge over" notice — points mods at /raffle's pasted-list mode for
  * the prize draw among finishers. Plain markdown, no emojis.
+ *
+ * `resultsFinal` reflects whether the matched data file was generated AFTER
+ * the deadline (`challengeOver: true`): the site data refreshes hourly at
+ * :25 while this notice goes out at :50, so results are normally final — but
+ * if that refresh failed or lagged, a member finishing in the last minutes
+ * could still be missing from the results page, and the nudge must say so
+ * rather than let an admin draw from a stale list.
  */
-export function buildEndedAdminNudge(name: string): string {
+export function buildEndedAdminNudge(name: string, resultsFinal: boolean): string {
+  const freshness = resultsFinal
+    ? 'The results page is final — safe to copy the qualified list.'
+    : 'Heads-up: the results data has NOT refreshed past the deadline yet — wait for the next hourly data update (~:25, plus a few minutes to deploy) before copying the qualified list, or a last-minute finisher could be missed.'
   return (
     `The ${challengePhrase(name)} just ended. For the prize draw, copy the qualified members from ` +
     `[the results page](<${EVENTS_URL}>) and use /raffle with "Paste a list of names…" plus the number of winners. ` +
-    `Run it in the channel where the winners should be announced (e.g. #challenge-announcements) — the draw result is posted right there, and every draw is logged in the bot log channel.`
+    `Run it in the channel where the winners should be announced (e.g. #challenge-announcements) — the draw result is posted right there, and every draw is logged in the bot log channel.\n` +
+    freshness
   )
 }
 
@@ -179,9 +193,15 @@ export async function postChallengeMilestones(): Promise<void> {
       await createMessage(logChannelId, { content: serializeEnded({ slug: meta.slug, ts: nowSeconds }) })
       // Best-effort admin nudge AFTER the ENDED marker — the notice itself
       // must never be blocked (or duplicated on retry) because the admin
-      // channel was unreachable.
+      // channel was unreachable. `challengeOver` on the matched data file
+      // proves the results were generated after the deadline (see
+      // buildEndedAdminNudge); a missing file counts as not-final.
       try {
-        await createMessage(getAdminChannelId(), { content: buildEndedAdminNudge(meta.name), flags: 4 })
+        const file = matchChallengeFile(meta, challengeFiles)
+        await createMessage(getAdminChannelId(), {
+          content: buildEndedAdminNudge(meta.name, file?.challengeOver === true),
+          flags: 4,
+        })
       } catch (err) {
         console.error(`⚠️ Failed to post the challenge-over admin nudge for "${meta.slug}":`, err)
       }

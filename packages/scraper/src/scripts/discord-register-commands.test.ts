@@ -27,8 +27,19 @@ describe('other commands are unchanged', () => {
     expect(modReport?.default_member_permissions).toBe('32')
   })
 
-  it('registers exactly six commands', () => {
-    expect(commands).toHaveLength(6)
+  it('registers exactly seven commands', () => {
+    expect(commands).toHaveLength(7)
+  })
+})
+
+describe('bot-help command registration shape', () => {
+  const botHelp = commands.find((c) => c.name === 'bot-help')
+
+  it('exists, is admin-only, and takes no options', () => {
+    expect(botHelp).toBeDefined()
+    expect(botHelp?.default_member_permissions).toBe('32')
+    expect(botHelp?.options).toEqual([])
+    expect(typeof botHelp?.description).toBe('string')
   })
 })
 

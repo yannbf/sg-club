@@ -80,7 +80,7 @@ describe('buildEndedMessage', () => {
 
 describe('buildEndedAdminNudge', () => {
   it('mentions the challenge, the pasted-list raffle mode, the results page, and where to run it', () => {
-    const nudge = buildEndedAdminNudge('Neo Cab')
+    const nudge = buildEndedAdminNudge('Neo Cab', true)
     expect(nudge).toContain('Neo Cab challenge just ended')
     expect(nudge).toContain('/raffle')
     expect(nudge).toContain('Paste a list of names')
@@ -88,8 +88,18 @@ describe('buildEndedAdminNudge', () => {
     expect(nudge).toContain('channel where the winners should be announced')
   })
 
+  it('says the results are final when the data file was generated post-deadline', () => {
+    expect(buildEndedAdminNudge('Neo Cab', true)).toContain('The results page is final')
+  })
+
+  it('warns about stale results when no post-deadline generation has run yet', () => {
+    const nudge = buildEndedAdminNudge('Neo Cab', false)
+    expect(nudge).toContain('has NOT refreshed past the deadline')
+    expect(nudge).not.toContain('The results page is final')
+  })
+
   it('applies the same "challenge" phrase dedup as the public messages', () => {
-    expect(buildEndedAdminNudge('Test Challenge')).toContain('The Test Challenge just ended')
+    expect(buildEndedAdminNudge('Test Challenge', true)).toContain('The Test Challenge just ended')
   })
 })
 

@@ -5,6 +5,7 @@ import { FORCED_ANNOUNCE_CHANNEL_ID } from '../_lib/constants.js'
 import { serializeArchived, serializeChallenge, serializeSignup } from '../_lib/signup-log.js'
 import {
   buildRaffleMessage,
+  hasManageGuild,
   isPastDeadline,
   parseNameList,
   pickWinners,
@@ -80,8 +81,25 @@ const discordRest = await import('../_lib/discord-rest')
 const identity = await import('../_lib/identity')
 const modReport = await import('../_lib/mod-report')
 
+// The admin guard checks member.permissions, but almost none of the fixtures
+// below set it — so every request defaults to '32' (Manage Server) here
+// unless a test overrides it, keeping the whole suite green post-guard
+// without touching every individual fixture.
+function withDefaultPermissions(bodyObj: unknown): unknown {
+  if (
+    bodyObj &&
+    typeof bodyObj === 'object' &&
+    'member' in bodyObj &&
+    bodyObj.member &&
+    typeof bodyObj.member === 'object'
+  ) {
+    return { ...bodyObj, member: { permissions: '32', ...bodyObj.member } }
+  }
+  return bodyObj
+}
+
 function makeReq(bodyObj: unknown): IncomingMessage {
-  const chunk = Buffer.from(JSON.stringify(bodyObj))
+  const chunk = Buffer.from(JSON.stringify(withDefaultPermissions(bodyObj)))
   const req = {
     method: 'POST',
     headers: {
@@ -126,6 +144,28 @@ describe('isPastDeadline', () => {
   it('is false at or before the deadline', () => {
     expect(isPastDeadline(1000, 1000)).toBe(false)
     expect(isPastDeadline(1000, 999)).toBe(false)
+  })
+})
+
+describe('hasManageGuild', () => {
+  it('is true when the bitfield includes MANAGE_GUILD (bit 0x20)', () => {
+    expect(hasManageGuild('32')).toBe(true)
+  })
+
+  it('is false for a bitfield without the bit', () => {
+    expect(hasManageGuild('0')).toBe(false)
+  })
+
+  it('is true for a big bitfield string (beyond 2^53) that still contains the bit', () => {
+    expect(hasManageGuild(String((BigInt(1) << BigInt(40)) | BigInt(32)))).toBe(true)
+  })
+
+  it('is false for a big bitfield string that omits the bit', () => {
+    expect(hasManageGuild(String(BigInt(1) << BigInt(40)))).toBe(false)
+  })
+
+  it('is false when permissions is undefined', () => {
+    expect(hasManageGuild(undefined)).toBe(false)
   })
 })
 
@@ -1909,6 +1949,101 @@ describe('MODAL_SUBMIT raffle (crmod)', () => {
       'tok',
       expect.objectContaining({ content: expect.stringContaining('not found') })
     )
+  })
+})
+
+describe('admin guard', () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
+
+  it('an admin command with member.permissions "0" gets the ephemeral refusal, with no defer', async () => {
+    const req = makeReq({
+      type: 2,
+      token: 'tok',
+      channel_id: 'chan1',
+      member: { user: { id: 'd1', username: 'yannbf' }, permissions: '0' },
+      data: { name: 'mod-report' },
+    })
+    const res = makeRes()
+
+    await handler(req, res)
+
+    expect(res.body).toEqual({
+      type: 4,
+      data: { flags: 1 << 6, content: 'These commands are for admins/mods only.' },
+    })
+    expect(discordRest.editOriginalResponse).not.toHaveBeenCalled()
+    expect(modReport.collectGroupWarningFindings).not.toHaveBeenCalled()
+  })
+
+  it('an admin command with member.permissions "32" proceeds as before', async () => {
+    vi.mocked(modReport.collectGroupWarningFindings).mockResolvedValueOnce([])
+    const req = makeReq({
+      type: 2,
+      token: 'tok',
+      channel_id: 'chan1',
+      member: { user: { id: 'd1', username: 'yannbf' }, permissions: '32' },
+      data: { name: 'mod-report' },
+    })
+    const res = makeRes()
+
+    await handler(req, res)
+
+    // Deferred, non-ephemeral ack — the guard did not intercept it.
+    expect(res.body).toEqual({ type: 5, data: {} })
+  })
+
+  it('a su| signup button click with permissions "0" still works (no guard)', async () => {
+    const customId = encodeSignupCustomId('neo-cab', 'out', FUTURE_DEADLINE)
+    const req = makeReq({
+      type: 3,
+      token: 'tok',
+      channel_id: 'chan1',
+      member: { user: { id: 'd1', username: 'yannbf' }, permissions: '0' },
+      data: { custom_id: customId },
+    })
+    const res = makeRes()
+
+    await handler(req, res)
+
+    expect(discordRest.createMessage).toHaveBeenCalledTimes(1)
+    expect(res.body).toMatchObject({
+      data: { content: "You've been withdrawn." },
+    })
+  })
+})
+
+describe('APPLICATION_COMMAND bot-help', () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
+
+  it('defers ephemerally, then edits the original response with the first chunk and follows up with the rest', async () => {
+    const req = makeReq({
+      type: 2,
+      token: 'tok',
+      channel_id: 'chan1',
+      member: { user: { id: 'd1', username: 'yannbf' } },
+      data: { name: 'bot-help' },
+    })
+    const res = makeRes()
+
+    await handler(req, res)
+
+    expect(res.body).toEqual({ type: 5, data: { flags: 1 << 6 } })
+
+    await drainWaitUntil()
+
+    expect(discordRest.editOriginalResponse).toHaveBeenCalledTimes(1)
+    const [, , payload] = vi.mocked(discordRest.editOriginalResponse).mock.calls[0]!
+    const content = (payload as { content: string }).content
+    expect(content).toContain('/challenge-setup')
+    expect(content).toContain(
+      FORCED_ANNOUNCE_CHANNEL_ID ? `<#${FORCED_ANNOUNCE_CHANNEL_ID}>` : 'the channel you run it in'
+    )
+    expect(content.length).toBeLessThanOrEqual(1900)
+    expect(payload).toMatchObject({ flags: 4 })
   })
 })
 
