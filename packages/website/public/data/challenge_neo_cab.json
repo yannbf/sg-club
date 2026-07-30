@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1783036800,
   "totalAchievements": 18,
-  "generatedAt": 1785407875217,
+  "generatedAt": 1785416498825,
   "challengeOver": false,
   "winnerUsername": "RaitorHaitor",
   "participants": [
@@ -1091,7 +1091,7 @@
       "review_recommendationid": "230613561",
       "review_url": "https://steamcommunity.com/profiles/76561197975099685/recommended/794540",
       "playtime_total_minutes": 353,
-      "playtime_2weeks_minutes": 217,
+      "playtime_2weeks_minutes": 123,
       "baseline_playtime_minutes": 11,
       "playtime_challenge_minutes": 342,
       "achievements_total": 18,
@@ -2718,9 +2718,9 @@
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 594,
       "achievements_total": 18,
-      "achievements_unlocked_total": 13,
+      "achievements_unlocked_total": 18,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 13,
+      "achievements_since_baseline": 18,
       "challenge_achievements": [
         {
           "apiname": "got_feelgrid",
@@ -2794,17 +2794,43 @@
           "displayName": "Pink Slip",
           "description": "Get fired by Neo Cab for sustaining an imperfect rating.",
           "unlocktime": 1785355053
+        },
+        {
+          "apiname": "savy_reaches_out",
+          "displayName": "Text Me Back!",
+          "unlocktime": 1785412989
+        },
+        {
+          "apiname": "solve_carlos_mystery",
+          "displayName": "It's Never Lupus",
+          "description": "Solve a medical mystery with Carlos.",
+          "unlocktime": 1785412989
+        },
+        {
+          "apiname": "puker_face",
+          "displayName": "Puker Face",
+          "unlocktime": 1785412989
+        },
+        {
+          "apiname": "saved_allie",
+          "displayName": "A Friend in Need",
+          "unlocktime": 1785412989
+        },
+        {
+          "apiname": "no_bribe",
+          "displayName": "No, Officer",
+          "unlocktime": 1785412989
         }
       ],
-      "challenge_achievement_count": 13,
+      "challenge_achievement_count": 18,
       "has_started": true,
-      "is_complete": false,
-      "completed_at": null,
+      "is_complete": true,
+      "completed_at": 1785412989,
       "completed_before_start": false,
       "completed_after_deadline": false,
       "meets_playtime": true,
       "meets_review": true,
-      "is_winner": false
+      "is_winner": true
     },
     {
       "username": "Yamaraus",
@@ -3688,7 +3714,8 @@
     "Atro",
     "Ignition365",
     "Sakakino",
-    "vampiresska"
+    "vampiresska",
+    "Waxlor"
   ],
   "roster": {
     "participants": [
