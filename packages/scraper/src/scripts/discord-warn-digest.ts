@@ -9,6 +9,7 @@ import {
   collectGroupWarningFindings,
   PLAY_REQUIRED_CODES,
   renderMemberLine,
+  type DeepLink,
   type Severity,
 } from '../../../website/api/_lib/mod-report.js'
 
@@ -22,8 +23,9 @@ export interface WarnItem {
   category: string
   description: string
   severity: Severity
-  /** Underlying finding code (group-warning items only) — drives the
-   * play-required deep link on the member's digest line. */
+  /** Underlying finding code — drives the deep link on the member's digest
+   * line. Group-warning items carry their warning code; ex-member items
+   * carry the `ex_member_entries` pseudo-code (see IMPORTANCE_ORDER). */
   code?: string
 }
 
@@ -59,11 +61,12 @@ export function exMemberEntriesDetector(): WarnItem[] {
     .map((member) => ({
       fingerprint: `ex-member-entries:${member.steam_id}`,
       memberSgUsername: member.username,
-      category: 'Ex-member entries',
+      category: 'Ex members that still have entries in group giveaways',
       description: `Left the group but still has ${member.active_entries.length} active entr${
         member.active_entries.length === 1 ? 'y' : 'ies'
       } in group-exclusive giveaways.`,
       severity: 'error' as const,
+      code: 'ex_member_entries',
     }))
 }
 
@@ -76,14 +79,20 @@ export function exMemberEntriesDetector(): WarnItem[] {
  */
 export async function groupUserWarningsDetector(): Promise<WarnItem[]> {
   const findings = await collectGroupWarningFindings()
-  return findings.map((finding) => ({
-    fingerprint: `group-warning:${finding.username}:${finding.code}`,
-    memberSgUsername: finding.username,
-    category: finding.label,
-    description: `${finding.username}: ${finding.label}`,
-    severity: finding.severity,
-    code: finding.code,
-  }))
+  return findings.map((finding) => {
+    // Per-game specifics ("Sonic Frontiers (deadline <t:…:R>)") go in the
+    // rendered category only — the fingerprint stays code-based so a detail
+    // change (new game, shifted deadline) doesn't reset firstSeen.
+    const category = finding.detail ? `${finding.label}: ${finding.detail}` : finding.label
+    return {
+      fingerprint: `group-warning:${finding.username}:${finding.code}`,
+      memberSgUsername: finding.username,
+      category,
+      description: `${finding.username}: ${category}`,
+      severity: finding.severity,
+      code: finding.code,
+    }
+  })
 }
 
 const DETECTORS: Array<() => WarnItem[] | Promise<WarnItem[]>> = [
@@ -151,9 +160,15 @@ export interface MemberFindings {
   username: string
   hasNew: boolean
   findingLines: string[]
-  /** True when any of the member's error findings is required-play related —
-   * their line links straight to the Won tab with the filter on. */
-  deepLinkPlayRequired: boolean
+  /** Pre-filtered tab the member's line should link to, when their findings
+   * warrant one: any required-play finding links to the Won tab with the
+   * Play required filter on; an ex-member-entries finding as the member's
+   * ONLY finding links to the Entered tab filtered to open giveaways. */
+  deepLink?: DeepLink
+}
+
+interface MemberAccumulator extends MemberFindings {
+  codes: string[]
 }
 
 /**
@@ -164,18 +179,15 @@ export interface MemberFindings {
  * new error finding sort first; both groups sort alphabetically.
  */
 export function groupErrorFindingsByMember(split: DigestSplit): MemberFindings[] {
-  const byUser = new Map<string, MemberFindings>()
+  const byUser = new Map<string, MemberAccumulator>()
 
-  const getEntry = (username: string): MemberFindings => {
+  const getEntry = (username: string): MemberAccumulator => {
     let entry = byUser.get(username)
     if (!entry) {
-      entry = { username, hasNew: false, findingLines: [], deepLinkPlayRequired: false }
+      entry = { username, hasNew: false, findingLines: [], codes: [] }
       byUser.set(username, entry)
     }
     return entry
-  }
-  const markPlayRequired = (entry: MemberFindings, item: WarnItem): void => {
-    if (item.code && PLAY_REQUIRED_CODES.has(item.code)) entry.deepLinkPlayRequired = true
   }
 
   for (const item of split.newItems) {
@@ -183,19 +195,32 @@ export function groupErrorFindingsByMember(split: DigestSplit): MemberFindings[]
     const entry = getEntry(item.memberSgUsername)
     entry.hasNew = true
     entry.findingLines.push(`${item.category} (new)`)
-    markPlayRequired(entry, item)
+    if (item.code) entry.codes.push(item.code)
   }
   for (const item of split.lingeringItems) {
     if (item.severity !== 'error') continue
     const entry = getEntry(item.memberSgUsername)
     entry.findingLines.push(`${item.category} (since <t:${item.firstSeen}:R>)`)
-    markPlayRequired(entry, item)
+    if (item.code) entry.codes.push(item.code)
   }
 
-  return [...byUser.values()].sort((a, b) => {
-    if (a.hasNew !== b.hasNew) return a.hasNew ? -1 : 1
-    return a.username.localeCompare(b.username)
-  })
+  return [...byUser.values()]
+    .map(({ codes, ...entry }): MemberFindings => {
+      if (codes.some((code) => PLAY_REQUIRED_CODES.has(code))) {
+        return { ...entry, deepLink: 'play-required' }
+      }
+      // Only when ex-member entries is the member's sole finding: mixing in
+      // other (non-play-required) findings makes the Entered/Open view too
+      // narrow a landing page for the line.
+      if (codes.length === entry.findingLines.length && codes.every((c) => c === 'ex_member_entries')) {
+        return { ...entry, deepLink: 'entered-open' }
+      }
+      return entry
+    })
+    .sort((a, b) => {
+      if (a.hasNew !== b.hasNew) return a.hasNew ? -1 : 1
+      return a.username.localeCompare(b.username)
+    })
 }
 
 /**
@@ -207,7 +232,7 @@ export function groupErrorFindingsByMember(split: DigestSplit): MemberFindings[]
  */
 export function buildDigestMessages(split: DigestSplit): string[] {
   const bullets = groupErrorFindingsByMember(split).map((member) =>
-    renderMemberLine(member.username, member.findingLines, member.deepLinkPlayRequired)
+    renderMemberLine(member.username, member.findingLines, member.deepLink)
   )
   if (bullets.length === 0) return []
   return chunkMessage([HEADER, ...bullets], MAX_MESSAGE_LENGTH)

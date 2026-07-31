@@ -11,9 +11,10 @@ import {
 const ITEM_A: WarnItem = {
   fingerprint: 'ex-member-entries:1',
   memberSgUsername: 'alice',
-  category: 'Ex-member entries',
+  category: 'Ex members that still have entries in group giveaways',
   description: 'alice: ex-member entries',
   severity: 'error',
+  code: 'ex_member_entries',
 }
 const ITEM_B: WarnItem = {
   fingerprint: 'group-warning:2:required_play_deadline_expired',
@@ -121,7 +122,7 @@ describe('groupErrorFindingsByMember', () => {
     expect(grouped[0]!.username).toBe('alice')
     expect(grouped[0]!.hasNew).toBe(true)
     expect(grouped[0]!.findingLines).toEqual([
-      'Ex-member entries (new)',
+      'Ex members that still have entries in group giveaways (new)',
       'Zero play rate despite wins (since <t:1700000000:R>)',
     ])
   })
@@ -224,12 +225,44 @@ describe('buildDigestMessages', () => {
 
     const fullText = buildDigestMessages(split).join('\n')
 
-    // bob (required-play code) gets the filtered deep link; alice
-    // (ex-member entries, no code) keeps the plain profile link.
+    // bob (required-play code) gets the filtered Won-tab deep link; alice
+    // (ex-member entries only) gets the Entered-tab open-filter deep link.
     expect(fullText).toContain(
       '[bob](<https://sg-club.vercel.app/users/bob/?tab=won&filter=play-required>)'
     )
-    expect(fullText).toContain('[alice](<https://sg-club.vercel.app/users/alice/>)')
+    expect(fullText).toContain(
+      '[alice](<https://sg-club.vercel.app/users/alice/?tab=entered&filter=open>)'
+    )
+  })
+
+  it('deep-links a member whose only finding is ex-member entries to their open Entered tab, but not when mixed with other non-play-required findings', () => {
+    const otherErrorForAlice: WarnItem = {
+      fingerprint: 'group-warning:alice:some_future_error',
+      memberSgUsername: 'alice',
+      category: 'Some future error',
+      description: 'alice: some future error',
+      severity: 'error',
+      code: 'some_future_error',
+    }
+    const soloSplit: DigestSplit = {
+      newItems: [ITEM_A],
+      lingeringItems: [],
+      prunedFingerprints: [],
+      updatedState: { items: {} },
+    }
+    const mixedSplit: DigestSplit = {
+      newItems: [ITEM_A, otherErrorForAlice],
+      lingeringItems: [],
+      prunedFingerprints: [],
+      updatedState: { items: {} },
+    }
+
+    expect(buildDigestMessages(soloSplit).join('\n')).toContain(
+      '[alice](<https://sg-club.vercel.app/users/alice/?tab=entered&filter=open>)'
+    )
+    expect(buildDigestMessages(mixedSplit).join('\n')).toContain(
+      '[alice](<https://sg-club.vercel.app/users/alice/>)'
+    )
   })
 
   it('puts the header only on the first message and never splits a bullet across messages', () => {

@@ -310,15 +310,17 @@ export default function UserDetailPageClient({
   const isAdmin = useIsAdmin()
   const [showOriginalStats, setShowOriginalStats] = useState(false)
 
-  // Deep links (e.g. the Discord bot's mod report) can preselect a tab and
-  // pre-enable the Won tab's "Play required" filter via query params:
-  // /users/<name>/?tab=won&filter=play-required
+  // Deep links (e.g. the Discord bot's mod report / weekly digest) can
+  // preselect a tab and pre-enable a filter via query params:
+  //   /users/<name>/?tab=won&filter=play-required  (Won, "Play required" on)
+  //   /users/<name>/?tab=entered&filter=open       (Entered, open GAs only)
   // The site is a static export, so the query string is only readable
   // client-side; reading it in an effect keeps hydration consistent. Both
-  // states flip in the same commit, so the Won tab content mounts with the
+  // states flip in the same commit, so the tab content mounts with the
   // filter prop already set.
   const [activeTab, setActiveTab] = useState('created')
   const [deepLinkPlayRequired, setDeepLinkPlayRequired] = useState(false)
+  const [deepLinkEnteredOpen, setDeepLinkEnteredOpen] = useState(false)
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
     const tab = params.get('tab')
@@ -327,6 +329,9 @@ export default function UserDetailPageClient({
     }
     if (params.get('filter') === 'play-required') {
       setDeepLinkPlayRequired(true)
+    }
+    if (params.get('filter') === 'open') {
+      setDeepLinkEnteredOpen(true)
     }
   }, [])
 
@@ -981,7 +986,7 @@ export default function UserDetailPageClient({
             userNames={userNames}
             gameData={gameData}
             lastUpdated={null}
-            defaultGiveawayStatus="all"
+            defaultGiveawayStatus={deepLinkEnteredOpen ? 'open' : 'all'}
           />
         </TabsContent>
 

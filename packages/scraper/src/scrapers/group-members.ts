@@ -1355,19 +1355,23 @@ export class SteamGiftsUserFetcher {
     if (unplayedRequiredPlayGiveaways.length >= 2) {
       warnings.push('unplayed_required_play_giveaways')
 
-      const enteredGiveawayData = USER_ENTRIES?.[user.steam_id] || []
+      // Only entries in giveaways that are still OPEN count as a violation:
+      // an entry in an ended giveaway can no longer be withdrawn, so flagging
+      // it would keep the warning alive long after there's nothing to act on.
+      const nowSec = Date.now() / 1000
+      const openEnteredGiveaways = (USER_ENTRIES?.[user.steam_id] || [])
+        .map((g) => giveaways.find((ga) => ga.link === g.link))
+        .filter(
+          (g): g is Giveaway => g !== undefined && g.end_timestamp > nowSec,
+        )
 
       if (unplayedRequiredPlayGiveaways.length === 2) {
-        const enteredGiveawaysWithPlayRequired = enteredGiveawayData
-          .map((g) => giveaways.find((ga) => ga.link === g.link))
-          .filter((g) => g !== undefined && g.required_play)
-
-        if (enteredGiveawaysWithPlayRequired.length > 0) {
+        if (openEnteredGiveaways.some((g) => g.required_play)) {
           warnings.push('illegal_entered_required_play_giveaways')
         }
       } else if (
         unplayedRequiredPlayGiveaways.length >= 3 &&
-        enteredGiveawayData.length > 0
+        openEnteredGiveaways.length > 0
       ) {
         warnings.push('illegal_entered_any_giveaways')
       }

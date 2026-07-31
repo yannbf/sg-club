@@ -90,10 +90,26 @@ export function importanceRank(code: string): number {
   return idx !== -1 ? idx : LEAST_IMPORTANT_KNOWN_RANK - 0.5
 }
 
+interface WonGiveaway {
+  name: string
+  end_timestamp: number
+  required_play?: boolean
+  required_play_meta?: {
+    requirements_met?: boolean
+    deadline?: string
+    deadline_in_months?: number
+  }
+  steam_play_data?: {
+    playtime_minutes?: number
+    achievements_percentage?: number
+  }
+}
+
 interface GroupUser {
   username: string
   steam_id: string
   warnings?: string[]
+  giveaways_won?: WonGiveaway[]
 }
 
 interface GroupUsersData {
@@ -105,23 +121,110 @@ export interface GroupWarningFinding {
   code: string
   label: string
   severity: Severity
+  /** Optional per-member specifics for the label — the game name(s) behind
+   * the finding, with Discord relative timestamps where a deadline is
+   * involved (e.g. "Sonic Frontiers (deadline <t:…:R>)"). Only rendered by
+   * the weekly digest; /mod-report groups members under shared labels. */
+  detail?: string
+}
+
+/** Deadline for an unmet required-play win, in unix seconds. Mirrors
+ * `getDeadlineDate` in group-members.ts: an explicit dd.MM.yyyy deadline
+ * wins; otherwise end date + deadline_in_months (default 2, 0 treated as
+ * unset). */
+function requiredPlayDeadlineSec(g: WonGiveaway): number {
+  const meta = g.required_play_meta
+  if (meta?.deadline) {
+    const [day, month, year] = meta.deadline.split('.').map((p) => parseInt(p, 10))
+    if (day && month && year) {
+      return Math.floor(new Date(year, month - 1, day, 23, 59, 59, 999).getTime() / 1000)
+    }
+  }
+  const months = meta?.deadline_in_months || 2
+  const deadline = new Date(g.end_timestamp * 1000)
+  deadline.setMonth(deadline.getMonth() + months)
+  return Math.floor(deadline.getTime() / 1000)
+}
+
+/**
+ * Per-code detail strings for one member, derived purely from their
+ * `giveaways_won` (already in group_users.json — no extra data needed).
+ * Codes whose evidence lives elsewhere (entries, play rate, activity) get no
+ * detail and render as label-only lines.
+ */
+export function buildFindingDetails(
+  user: GroupUser,
+  nowSec: number
+): Partial<Record<string, string>> {
+  const unmet = (user.giveaways_won ?? []).filter(
+    (g) => g.required_play && !g.required_play_meta?.requirements_met
+  )
+  if (unmet.length === 0) return {}
+
+  const details: Partial<Record<string, string>> = {}
+  const named = (games: WonGiveaway[], suffix: (g: WonGiveaway) => string = () => ''): string =>
+    games.map((g) => `${g.name}${suffix(g)}`).join(', ')
+
+  details.unplayed_required_play_giveaways = named(unmet)
+
+  const expired = unmet.filter((g) => requiredPlayDeadlineSec(g) < nowSec)
+  if (expired.length > 0) {
+    details.required_play_deadline_expired = named(
+      expired,
+      (g) => ` (deadline <t:${requiredPlayDeadlineSec(g)}:R>)`
+    )
+  }
+
+  const dueSoon = unmet.filter((g) => {
+    const deadline = requiredPlayDeadlineSec(g)
+    return deadline >= nowSec && deadline < nowSec + 15 * 24 * 60 * 60
+  })
+  if (dueSoon.length > 0) {
+    details.required_play_deadline_within_15_days = named(
+      dueSoon,
+      (g) => ` (deadline <t:${requiredPlayDeadlineSec(g)}:R>)`
+    )
+  }
+
+  // Approximation of the needs-review signal (≥50% achievements or ≥15h
+  // played); the scraper's third trigger (≥90% of HLTB main story) needs
+  // game data we don't load here, so such a game may be missing from the
+  // detail even though the code itself is present.
+  const needReview = unmet.filter(
+    (g) =>
+      (g.steam_play_data?.achievements_percentage ?? 0) >= 50 ||
+      (g.steam_play_data?.playtime_minutes ?? 0) >= 15 * 60
+  )
+  if (needReview.length > 0) {
+    details.required_plays_need_review = named(needReview, (g) => {
+      const minutes = g.steam_play_data?.playtime_minutes
+      return minutes ? ` (${Math.round(minutes / 6) / 10}h played)` : ''
+    })
+  }
+
+  return details
 }
 
 /**
  * Loads group_users.json and flattens every member's `warnings` array into
- * one finding per member per warning code.
+ * one finding per member per warning code, attaching per-game details where
+ * the won-giveaways data supports them.
  */
 export async function collectGroupWarningFindings(host?: string): Promise<GroupWarningFinding[]> {
   const groupUsers = await loadDataFile<GroupUsersData>('group_users.json', host)
+  const nowSec = Math.floor(Date.now() / 1000)
 
   const findings: GroupWarningFinding[] = []
   for (const user of Object.values(groupUsers.users)) {
-    for (const code of user.warnings ?? []) {
+    if (!user.warnings?.length) continue
+    const details = buildFindingDetails(user, nowSec)
+    for (const code of user.warnings) {
       findings.push({
         username: user.username,
         code,
         label: WARNING_LABELS[code] ?? code,
         severity: severityFor(code),
+        detail: details[code],
       })
     }
   }
@@ -143,16 +246,27 @@ export const PLAY_REQUIRED_CODES = new Set([
   'required_play_deadline_within_15_days',
 ])
 
-const PLAY_REQUIRED_QUERY = '?tab=won&filter=play-required'
+/**
+ * The two deep-link targets a member line can point at instead of the plain
+ * profile: the Won tab with the Play required filter on (required-play
+ * findings), or the Entered tab filtered to open giveaways (ex-members still
+ * holding entries). The user page reads these query params client-side.
+ */
+export type DeepLink = 'play-required' | 'entered-open'
+
+const DEEP_LINK_QUERIES: Record<DeepLink, string> = {
+  'play-required': '?tab=won&filter=play-required',
+  'entered-open': '?tab=entered&filter=open',
+}
 
 /**
  * A member's page link in the `[name](<url>)` no-preview form. Shared by
  * `renderMemberLine` (bulleted, single member) and the /mod-report combo
- * grouping (comma-separated, no bullet). `deepLinkPlayRequired` points the
- * link at the member's Won tab with the Play required filter on.
+ * grouping (comma-separated, no bullet). `deepLink` points the link at a
+ * pre-filtered tab of the member's page instead of the plain profile.
  */
-function memberLink(username: string, deepLinkPlayRequired = false): string {
-  const query = deepLinkPlayRequired ? PLAY_REQUIRED_QUERY : ''
+function memberLink(username: string, deepLink?: DeepLink): string {
+  const query = deepLink ? DEEP_LINK_QUERIES[deepLink] : ''
   const url = `${SITE_BASE}/users/${username}/${query}`
   return `[${username}](<${url}>)`
 }
@@ -166,9 +280,9 @@ function memberLink(username: string, deepLinkPlayRequired = false): string {
 export function renderMemberLine(
   username: string,
   findingTexts: string[],
-  deepLinkPlayRequired = false
+  deepLink?: DeepLink
 ): string {
-  return `- ${memberLink(username, deepLinkPlayRequired)} — ${findingTexts.join(' · ')}`
+  return `- ${memberLink(username, deepLink)} — ${findingTexts.join(' · ')}`
 }
 
 /**
@@ -297,6 +411,8 @@ function renderSection(members: SectionMember[]): string[] {
   // bulleted member list, then a trailing blank line.
   return combos.map((combo) => {
     const deep = combo.codes.some((code) => PLAY_REQUIRED_CODES.has(code))
+      ? ('play-required' as const)
+      : undefined
     return `${combo.labels.join(' · ')}:\n- ${combo.usernames.map((u) => memberLink(u, deep)).join(', ')}\n`
   })
 }

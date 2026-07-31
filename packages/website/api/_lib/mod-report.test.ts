@@ -1,5 +1,6 @@
 import { describe, expect, it, vi } from 'vitest'
 import {
+  buildFindingDetails,
   buildModReportLines,
   chunkMessage,
   collectGroupWarningFindings,
@@ -23,6 +24,20 @@ vi.mock('./data', () => ({
           '2': { username: 'bob', steam_id: '2', warnings: ['required_plays_need_review'] },
           '3': { username: 'carol', steam_id: '3', warnings: [] },
           '4': { username: 'dave', steam_id: '4', warnings: ['some_unknown_code'] },
+          '5': {
+            username: 'erin',
+            steam_id: '5',
+            warnings: ['unplayed_required_play_giveaways'],
+            giveaways_won: [
+              {
+                name: 'Sonic Frontiers',
+                // Any past end date works: the detail only lists the name.
+                end_timestamp: 1_700_000_000,
+                required_play: true,
+                required_play_meta: {},
+              },
+            ],
+          },
         },
       }
     }
@@ -96,7 +111,99 @@ describe('collectGroupWarningFindings', () => {
       code: 'some_unknown_code',
       label: 'some_unknown_code',
       severity: 'warn',
+      detail: undefined,
     })
+  })
+
+  it('attaches game-name details when the member has giveaways_won data', async () => {
+    const findings = await collectGroupWarningFindings()
+    const erin = findings.find((f) => f.username === 'erin')
+    expect(erin?.code).toBe('unplayed_required_play_giveaways')
+    expect(erin?.detail).toBe('Sonic Frontiers')
+  })
+})
+
+describe('buildFindingDetails', () => {
+  const DAY = 24 * 60 * 60
+  // End timestamp chosen mid-month so the +2-months default deadline math is
+  // not affected by month-length edge cases.
+  const END = Math.floor(new Date(2026, 0, 15).getTime() / 1000)
+  const win = (overrides: object) => ({
+    name: 'Sonic Frontiers',
+    end_timestamp: END,
+    required_play: true,
+    required_play_meta: {},
+    ...overrides,
+  })
+  const userWith = (giveaways_won: object[]) => ({
+    username: 'u',
+    steam_id: '1',
+    giveaways_won: giveaways_won as never,
+  })
+
+  it('returns no details when the member has no unmet required-play wins', () => {
+    expect(buildFindingDetails(userWith([]), END)).toEqual({})
+    expect(
+      buildFindingDetails(
+        userWith([win({ required_play_meta: { requirements_met: true } })]),
+        END
+      )
+    ).toEqual({})
+  })
+
+  it('lists unmet required-play wins by name, joined with commas', () => {
+    const details = buildFindingDetails(
+      userWith([win({}), win({ name: 'Hollow Knight: Silksong' })]),
+      END
+    )
+    expect(details.unplayed_required_play_giveaways).toBe(
+      'Sonic Frontiers, Hollow Knight: Silksong'
+    )
+  })
+
+  it('marks a win as deadline-expired using end date + deadline_in_months (default 2) with a Discord relative timestamp', () => {
+    const deadline = new Date(END * 1000)
+    deadline.setMonth(deadline.getMonth() + 2)
+    const deadlineSec = Math.floor(deadline.getTime() / 1000)
+
+    const expiredNow = deadlineSec + 275 * DAY
+    const details = buildFindingDetails(userWith([win({})]), expiredNow)
+    expect(details.required_play_deadline_expired).toBe(
+      `Sonic Frontiers (deadline <t:${deadlineSec}:R>)`
+    )
+    expect(details.required_play_deadline_within_15_days).toBeUndefined()
+  })
+
+  it('honors an explicit dd.MM.yyyy deadline over the months-based one', () => {
+    const explicit = Math.floor(new Date(2026, 5, 30, 23, 59, 59, 999).getTime() / 1000)
+    const details = buildFindingDetails(
+      userWith([win({ required_play_meta: { deadline: '30.06.2026', deadline_in_months: 6 } })]),
+      explicit + DAY
+    )
+    expect(details.required_play_deadline_expired).toBe(
+      `Sonic Frontiers (deadline <t:${explicit}:R>)`
+    )
+  })
+
+  it('classifies a deadline in the next 15 days as due-soon, not expired', () => {
+    const deadline = new Date(END * 1000)
+    deadline.setMonth(deadline.getMonth() + 2)
+    const now = Math.floor(deadline.getTime() / 1000) - 10 * DAY
+
+    const details = buildFindingDetails(userWith([win({})]), now)
+    expect(details.required_play_deadline_within_15_days).toContain('Sonic Frontiers')
+    expect(details.required_play_deadline_expired).toBeUndefined()
+  })
+
+  it('flags needs-review games (≥50% achievements or ≥15h) with hours played when known', () => {
+    const details = buildFindingDetails(
+      userWith([
+        win({ steam_play_data: { playtime_minutes: 662, achievements_percentage: 60.4 } }),
+        win({ name: 'Barely Touched', steam_play_data: { playtime_minutes: 30 } }),
+      ]),
+      END
+    )
+    expect(details.required_plays_need_review).toBe('Sonic Frontiers (11h played)')
   })
 })
 
