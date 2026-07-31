@@ -12,6 +12,7 @@ const {
   build24hReminderMessage,
   buildEndedAdminNudge,
   buildEndedMessage,
+  nextResultsReadyTs,
   challengePhrase,
   matchChallengeFile,
   needsEndedNotice,
@@ -78,9 +79,29 @@ describe('buildEndedMessage', () => {
   })
 })
 
+describe('nextResultsReadyTs', () => {
+  // 2026-08-01 (a Saturday) in UTC; the data refresh cron is :25 hourly and
+  // results are live ~10 minutes later, at :35.
+  const HOUR = Date.UTC(2026, 7, 1, 14) / 1000
+
+  it('before :25, points at THIS hour\'s :35', () => {
+    expect(nextResultsReadyTs(HOUR + 10 * 60)).toBe(HOUR + 35 * 60)
+  })
+
+  it('at :25 exactly, that refresh is already starting — points at the NEXT hour', () => {
+    expect(nextResultsReadyTs(HOUR + 25 * 60)).toBe(HOUR + 3600 + 35 * 60)
+  })
+
+  it('after :25 (the :50 milestones run), points at the next hour\'s :35', () => {
+    expect(nextResultsReadyTs(HOUR + 50 * 60)).toBe(HOUR + 3600 + 35 * 60)
+  })
+})
+
 describe('buildEndedAdminNudge', () => {
+  const NOW = Date.UTC(2026, 7, 1, 14, 50) / 1000
+
   it('mentions the challenge, the pasted-list raffle mode, the results page, and where to run it', () => {
-    const nudge = buildEndedAdminNudge('Neo Cab', true)
+    const nudge = buildEndedAdminNudge('Neo Cab', true, NOW)
     expect(nudge).toContain('Neo Cab challenge just ended')
     expect(nudge).toContain('/raffle')
     expect(nudge).toContain('Paste a list of names')
@@ -89,17 +110,22 @@ describe('buildEndedAdminNudge', () => {
   })
 
   it('says the results are final when the data file was generated post-deadline', () => {
-    expect(buildEndedAdminNudge('Neo Cab', true)).toContain('The results page is final')
+    const nudge = buildEndedAdminNudge('Neo Cab', true, NOW)
+    expect(nudge).toContain('The results page is final')
+    expect(nudge).not.toContain('<t:')
   })
 
-  it('warns about stale results when no post-deadline generation has run yet', () => {
-    const nudge = buildEndedAdminNudge('Neo Cab', false)
+  it('warns about stale results with a concrete relative + local-time timestamp of the next refresh', () => {
+    const nudge = buildEndedAdminNudge('Neo Cab', false, NOW)
     expect(nudge).toContain('has NOT refreshed past the deadline')
+    const readyTs = nextResultsReadyTs(NOW)
+    expect(nudge).toContain(`<t:${readyTs}:R>`)
+    expect(nudge).toContain(`<t:${readyTs}:t>`)
     expect(nudge).not.toContain('The results page is final')
   })
 
   it('applies the same "challenge" phrase dedup as the public messages', () => {
-    expect(buildEndedAdminNudge('Test Challenge', true)).toContain('The Test Challenge just ended')
+    expect(buildEndedAdminNudge('Test Challenge', true, NOW)).toContain('The Test Challenge just ended')
   })
 })
 

@@ -90,6 +90,31 @@ export function buildEndedMessage(name: string): string {
   return `The ${challengePhrase(name)} is over! Click [here](<${EVENTS_URL}>) to see the results`
 }
 
+// The site's data refresh cron fires at :25 every hour; scraping, committing,
+// and the Vercel deploy take up to ~10 more minutes, so results land by :35.
+const DATA_REFRESH_MINUTE = 25
+const DATA_REFRESH_BUFFER_SECONDS = 10 * 60
+
+/**
+ * When the NEXT hourly data refresh's results should be live on the site:
+ * the next :25 after `nowSeconds`, plus the scrape+deploy buffer (i.e. that
+ * hour's :35). Used by the ended admin nudge so mods get a concrete "check
+ * back at" moment instead of guessing the cron cadence.
+ */
+export function nextResultsReadyTs(nowSeconds: number): number {
+  const nowDate = new Date(nowSeconds * 1000)
+  const hourStartSeconds =
+    Date.UTC(
+      nowDate.getUTCFullYear(),
+      nowDate.getUTCMonth(),
+      nowDate.getUTCDate(),
+      nowDate.getUTCHours()
+    ) / 1000
+  const refreshThisHour = hourStartSeconds + DATA_REFRESH_MINUTE * 60
+  const nextRefresh = nowSeconds < refreshThisHour ? refreshThisHour : refreshThisHour + 3600
+  return nextRefresh + DATA_REFRESH_BUFFER_SECONDS
+}
+
 /**
  * Instructional nudge posted to the admin channel alongside the public
  * "challenge over" notice — points mods at /raffle's pasted-list mode for
@@ -102,10 +127,11 @@ export function buildEndedMessage(name: string): string {
  * could still be missing from the results page, and the nudge must say so
  * rather than let an admin draw from a stale list.
  */
-export function buildEndedAdminNudge(name: string, resultsFinal: boolean): string {
+export function buildEndedAdminNudge(name: string, resultsFinal: boolean, nowSeconds: number): string {
+  const readyTs = nextResultsReadyTs(nowSeconds)
   const freshness = resultsFinal
     ? 'The results page is final — safe to copy the qualified list.'
-    : 'Heads-up: the results data has NOT refreshed past the deadline yet — wait for the next hourly data update (~:25, plus a few minutes to deploy) before copying the qualified list, or a last-minute finisher could be missed.'
+    : `Heads-up: the results data has NOT refreshed past the deadline yet. It should be final <t:${readyTs}:R> (<t:${readyTs}:t>) — wait until then before copying the qualified list, or a last-minute finisher could be missed.`
   return (
     `The ${challengePhrase(name)} just ended. For the prize draw, copy the qualified members from ` +
     `[the results page](<${EVENTS_URL}>) and use /raffle with "Paste a list of names…" plus the number of winners. ` +
@@ -199,7 +225,7 @@ export async function postChallengeMilestones(): Promise<void> {
       try {
         const file = matchChallengeFile(meta, challengeFiles)
         await createMessage(getAdminChannelId(), {
-          content: buildEndedAdminNudge(meta.name, file?.challengeOver === true),
+          content: buildEndedAdminNudge(meta.name, file?.challengeOver === true, nowSeconds),
           flags: 4,
         })
       } catch (err) {
