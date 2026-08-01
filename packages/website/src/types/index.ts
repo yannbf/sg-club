@@ -406,6 +406,19 @@ export interface ChallengeParticipant {
    * can be many.
    */
   is_winner: boolean
+  /**
+   * Tiered completion challenges (a `storyAchievement` is set on the data):
+   * which prize tier the member won — `completion` (full completion) beats
+   * `story` (cleared the story achievement). Null/absent when not a winner.
+   */
+  win_tier?: 'completion' | 'story' | null
+  /** Tiered challenges: the unix-seconds moment the winning tier was reached. */
+  qualified_at?: number | null
+  /** Tiered challenges: has unlocked the story achievement. */
+  story_unlocked?: boolean
+  story_unlocktime?: number | null
+  /** Tiered challenges: unlocked the story achievement only after the deadline. */
+  story_after_deadline?: boolean
   /** Wrote a public Steam review for the challenge game. */
   wrote_review?: boolean
   /** The review's recommendation (true = recommended). Null if no review. */
@@ -465,6 +478,24 @@ export interface ChallengeData {
   minPlaytimeMinutes?: number
   /** Completion challenges: winning also requires a public Steam review. */
   requireReview?: boolean
+  /**
+   * Tiered completion challenges: the story achievement that wins the lower
+   * prize tier (full completion wins the upper tier). Absent on single-tier
+   * challenges.
+   */
+  storyAchievement?: {
+    apiname: string
+    displayName: string
+    description?: string
+  }
+  /** Achievements excluded from the 100% goal (e.g. an unobtainable one). */
+  excludedAchievements?: { apiname: string; displayName: string }[]
+  /**
+   * The number of achievements that actually count toward completion
+   * (totalAchievements minus the excluded ones). Absent when nothing is
+   * excluded — fall back to totalAchievements.
+   */
+  requiredAchievements?: number
   totalAchievements: number
   generatedAt: number
   /** True once the challenge window has closed (deadline passed). */
@@ -474,6 +505,8 @@ export interface ChallengeData {
    * challenge ended. Once set, the qualified list no longer changes.
    */
   frozenWinnerIds?: string[]
+  /** Tiered challenges: each frozen winner's tier, keyed by steam_id. */
+  frozenWinnerTiers?: Record<string, 'completion' | 'story'>
   /** First/earliest winner's display name (achievement: the winner; completion: earliest finisher). */
   winnerUsername: string | null
   /** Unix seconds when the (first) winner reached the win condition. */

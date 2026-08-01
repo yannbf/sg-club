@@ -1,5 +1,6 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import {
+  completionWinFields,
   getJsonWithRetry,
   reviewFields,
   stickyReviewFields,
@@ -100,6 +101,157 @@ describe('stickyReviewFields', () => {
       stickyReviewFields(SID, APP, reviewMap(), { wrote_review: false })
         .wrote_review,
     ).toBe(false)
+  })
+})
+
+// The Bloody Spell setup: two prize tiers ("Departure" story clear → full
+// completion), review required, "Master of Magic" excluded from the 100% goal.
+const START = Date.UTC(2026, 7, 1) / 1000
+const DEADLINE = Date.UTC(2026, 8, 1) / 1000
+const STORY = 'a10016' // Departure
+const EXCLUDED = 'a30008' // Master of Magic
+
+const tieredConfig = (over: Record<string, unknown> = {}) =>
+  ({
+    slug: 'gaming-challenge-4-bloody-spell',
+    dataSlug: 'bloody_spell',
+    appId: 992300,
+    gameName: 'Bloody Spell',
+    startTimestamp: START,
+    roster: 'fixed',
+    win: {
+      type: 'completion',
+      deadline: DEADLINE,
+      requireReview: true,
+      minPlaytimeMinutes: 120,
+      storyAchievement: { apiname: STORY, displayName: 'Departure' },
+      excludeAchievements: [EXCLUDED],
+      ...over,
+    },
+  }) as any
+
+const player = (over: Record<string, unknown> = {}) =>
+  ({
+    game: { owned: true, total: 300, twoWeeks: 300 },
+    achieved: [],
+    stats_available: true,
+    achievements_total: 60,
+    achievements_unlocked_total: 0,
+    achievements_before_challenge: 0,
+    challenge_achievements: [],
+    challenge_achievement_count: 0,
+    ...over,
+  }) as any
+
+/** 59 countable unlocks (everything except the excluded one), last at `lastAt`. */
+const fullClear = (lastAt: number) =>
+  Array.from({ length: 59 }, (_, i) => ({
+    apiname: i === 0 ? STORY : `a${i}`,
+    unlocktime: i === 58 ? lastAt : START + 1000 + i,
+  }))
+
+describe('completionWinFields (tiered)', () => {
+  it('story achievement + review qualifies at the story tier', () => {
+    const p = player({
+      achieved: [{ apiname: STORY, unlocktime: START + 5000 }],
+      achievements_unlocked_total: 1,
+    })
+    const out = completionWinFields(p, tieredConfig(), 150, true) as any
+    expect(out.is_winner).toBe(true)
+    expect(out.win_tier).toBe('story')
+    expect(out.qualified_at).toBe(START + 5000)
+    expect(out.is_complete).toBe(false)
+  })
+
+  it('neither tier qualifies without the 2h of challenge-window play', () => {
+    const p = player({
+      achieved: fullClear(START + 90000), // includes the story achievement
+      achievements_unlocked_total: 59,
+    })
+    // 100 minutes played — under the 120-minute floor.
+    const out = completionWinFields(p, tieredConfig(), 100, true) as any
+    expect(out.is_complete).toBe(true)
+    expect(out.story_unlocked).toBe(true)
+    expect(out.meets_playtime).toBe(false)
+    expect(out.is_winner).toBe(false)
+    expect(out.win_tier).toBe(null)
+  })
+
+  it('story achievement without the required review does not qualify', () => {
+    const p = player({
+      achieved: [{ apiname: STORY, unlocktime: START + 5000 }],
+      achievements_unlocked_total: 1,
+    })
+    const out = completionWinFields(p, tieredConfig(), 150, false) as any
+    expect(out.is_winner).toBe(false)
+    expect(out.win_tier).toBe(null)
+    expect(out.story_unlocked).toBe(true)
+  })
+
+  it('a pre-challenge story clear still counts (completion semantics)', () => {
+    const p = player({
+      achieved: [{ apiname: STORY, unlocktime: START - 86400 }],
+      achievements_unlocked_total: 1,
+    })
+    const out = completionWinFields(p, tieredConfig(), 150, true) as any
+    expect(out.win_tier).toBe('story')
+  })
+
+  it('a story clear after the deadline never qualifies', () => {
+    const p = player({
+      achieved: [{ apiname: STORY, unlocktime: DEADLINE + 60 }],
+      achievements_unlocked_total: 1,
+    })
+    const out = completionWinFields(p, tieredConfig(), 150, true) as any
+    expect(out.is_winner).toBe(false)
+    expect(out.story_after_deadline).toBe(true)
+  })
+
+  it('unlocking everything except the excluded achievement is full completion', () => {
+    const last = START + 90000
+    const p = player({
+      achieved: fullClear(last),
+      achievements_unlocked_total: 59,
+    })
+    const out = completionWinFields(p, tieredConfig(), 150, true) as any
+    expect(out.is_complete).toBe(true)
+    expect(out.win_tier).toBe('completion')
+    expect(out.completed_at).toBe(last)
+    expect(out.qualified_at).toBe(last)
+  })
+
+  it('a late excluded-achievement unlock neither blocks nor shifts the 100% moment', () => {
+    const last = START + 90000
+    const p = player({
+      // Excluded achievement unlocked AFTER the deadline — must not push
+      // completed_at past it, and must not be required for completion.
+      achieved: [
+        ...fullClear(last),
+        { apiname: EXCLUDED, unlocktime: DEADLINE + 999 },
+      ],
+      achievements_unlocked_total: 60,
+    })
+    const out = completionWinFields(p, tieredConfig(), 150, true) as any
+    expect(out.is_complete).toBe(true)
+    expect(out.completed_at).toBe(last)
+    expect(out.completed_after_deadline).toBe(false)
+    expect(out.win_tier).toBe('completion')
+  })
+
+  it('untiered challenges keep their exact field shape (no story/tier fields)', () => {
+    const p = player({
+      achieved: [{ apiname: STORY, unlocktime: START + 5000 }],
+      achievements_unlocked_total: 1,
+    })
+    const out = completionWinFields(
+      p,
+      tieredConfig({ storyAchievement: undefined, excludeAchievements: undefined }),
+      150,
+      true,
+    ) as any
+    expect('win_tier' in out).toBe(false)
+    expect('story_unlocked' in out).toBe(false)
+    expect(out.is_winner).toBe(false)
   })
 })
 

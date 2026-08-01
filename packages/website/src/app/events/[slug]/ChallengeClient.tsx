@@ -11,6 +11,7 @@ import {
   Flag,
   Gamepad2,
   HelpCircle,
+  Medal,
   Sparkles,
   Timer,
   Trophy,
@@ -211,6 +212,17 @@ function deadlineDisplayTs(deadline: number | null | undefined): number | null {
   return deadline != null ? deadline - 43200 : null
 }
 
+/**
+ * Winner colors for tiered challenges (gold for the story tier, silver for the
+ * full-completion tier), per the Bloody Spell prize framing. `win_tier` only
+ * exists on tiered challenges, so single-tier winners keep the plain gold.
+ */
+function tierTextClass(p: { win_tier?: 'completion' | 'story' | null }): string {
+  return p.win_tier === 'completion'
+    ? 'text-[var(--subtle)]'
+    : 'text-[var(--accent-yellow)]'
+}
+
 /** Small "Guest" badge for non-member participants. */
 function GuestTag() {
   return (
@@ -352,7 +364,12 @@ function Podium({
             >
               <div className="relative">
                 {p.is_winner && (
-                  <Crown className="pointer-events-none absolute -top-5 left-1/2 z-10 h-6 w-6 -translate-x-1/2 text-[var(--accent-yellow)] drop-shadow" />
+                  <Crown
+                    className={cn(
+                      'pointer-events-none absolute -top-5 left-1/2 z-10 h-6 w-6 -translate-x-1/2 drop-shadow',
+                      tierTextClass(p),
+                    )}
+                  />
                 )}
                 <ParticipantName
                   p={p}
@@ -400,8 +417,19 @@ function Podium({
               </span>
               {isCompletion
                 ? p.is_winner && (
-                    <Badge variant="amber" size="sm">
-                      <Trophy className="h-3 w-3" /> Qualified
+                    <Badge
+                      variant={p.win_tier === 'completion' ? 'silver' : 'amber'}
+                      size="sm"
+                    >
+                      {p.win_tier === 'story' ? (
+                        <>
+                          <Medal className="h-3 w-3" /> Story cleared
+                        </>
+                      ) : (
+                        <>
+                          <Trophy className="h-3 w-3" /> Qualified
+                        </>
+                      )}
                     </Badge>
                   )
                 : p.has_hero && (
@@ -460,7 +488,10 @@ function LeaderboardRow({
       className={cn(
         'grid grid-cols-[2rem_1fr_auto] items-center gap-3 px-3 py-2.5 sm:grid-cols-[2.5rem_1fr_9rem_7rem_4rem] sm:gap-4',
         'rounded-lg transition-colors hover:bg-card-background-hover',
-        p.is_winner && 'bg-[color-mix(in_oklab,var(--accent-yellow)_8%,transparent)]',
+        p.is_winner &&
+          (p.win_tier === 'completion'
+            ? 'bg-[color-mix(in_oklab,var(--subtle)_8%,transparent)]'
+            : 'bg-[color-mix(in_oklab,var(--accent-yellow)_8%,transparent)]'),
       )}
     >
       {/* Rank */}
@@ -483,7 +514,12 @@ function LeaderboardRow({
             <Avatar src={p.avatar_url} username={p.username} size={36} />
           </ParticipantName>
           {p.is_winner && (
-            <Crown className="pointer-events-none absolute -right-1 -top-1.5 h-3.5 w-3.5 text-[var(--accent-yellow)]" />
+            <Crown
+              className={cn(
+                'pointer-events-none absolute -right-1 -top-1.5 h-3.5 w-3.5',
+                tierTextClass(p),
+              )}
+            />
           )}
         </div>
         <div className="min-w-0">
@@ -497,11 +533,24 @@ function LeaderboardRow({
           </div>
           {isCompletion ? (
             p.is_winner ? (
-              <span className="mt-1 inline-flex items-center gap-1 text-[11px] font-medium text-[var(--accent-yellow)]">
-                <Trophy className="h-3 w-3" />
-                {p.completed_at != null
-                  ? `Achieved on ${fmtDate(p.completed_at)}`
-                  : 'Achieved'}
+              <span
+                className={cn(
+                  'mt-1 inline-flex items-center gap-1 text-[11px] font-medium',
+                  tierTextClass(p),
+                )}
+              >
+                {p.win_tier === 'story' ? (
+                  <Medal className="h-3 w-3" />
+                ) : (
+                  <Trophy className="h-3 w-3" />
+                )}
+                {p.win_tier === 'story'
+                  ? p.qualified_at != null
+                    ? `Story cleared on ${fmtDate(p.qualified_at)}`
+                    : 'Story cleared'
+                  : p.completed_at != null
+                    ? `Achieved on ${fmtDate(p.completed_at)}`
+                    : 'Achieved'}
               </span>
             ) : p.completed_after_deadline ? (
               <span className="mt-1 inline-flex items-center gap-1 text-[11px] font-medium text-[var(--accent-rose)]">
@@ -512,6 +561,21 @@ function LeaderboardRow({
               <span className="mt-1 inline-flex items-center gap-1 text-[11px] font-medium text-muted-foreground">
                 <Clock className="h-3 w-3" />
                 100% ·{' '}
+                {playtimeLeft > 0
+                  ? `${fmtMinutes(playtimeLeft)} more play to qualify`
+                  : requireReview && !p.wrote_review
+                    ? 'leave a Steam review to qualify'
+                    : 'qualifying…'}
+              </span>
+            ) : p.story_after_deadline ? (
+              <span className="mt-1 inline-flex items-center gap-1 text-[11px] font-medium text-[var(--accent-rose)]">
+                <Flag className="h-3 w-3" />
+                Cleared the story after the deadline
+              </span>
+            ) : p.story_unlocked ? (
+              <span className="mt-1 inline-flex items-center gap-1 text-[11px] font-medium text-muted-foreground">
+                <Clock className="h-3 w-3" />
+                Story cleared ·{' '}
                 {playtimeLeft > 0
                   ? `${fmtMinutes(playtimeLeft)} more play to qualify`
                   : requireReview && !p.wrote_review
@@ -575,7 +639,11 @@ function LeaderboardRow({
           </span>
         </div>
         {(isCompletion ? p.is_winner : p.has_hero) ? (
-          <Trophy className="h-4 w-4 text-[var(--accent-yellow)]" />
+          p.win_tier === 'story' ? (
+            <Medal className={cn('h-4 w-4', tierTextClass(p))} />
+          ) : (
+            <Trophy className={cn('h-4 w-4', tierTextClass(p))} />
+          )
         ) : (
           <span className="hidden text-subtle sm:inline">—</span>
         )}
@@ -753,6 +821,10 @@ export default function ChallengeClient({
   const isCompletion = data.winType === 'completion'
   const minPlaytime = data.minPlaytimeMinutes ?? 0
   const requireReview = data.requireReview ?? false
+  // Tiered completion challenge (e.g. Bloody Spell): clearing the story
+  // achievement wins the lower prize tier, full completion the upper one.
+  const tiered = isCompletion && Boolean(data.storyAchievement)
+  const requiredAchievements = data.requiredAchievements ?? data.totalAchievements
 
   // "Started" semantics differ by challenge kind:
   //  - achievement (clean slate): made progress SINCE the start — challenge-window
@@ -791,9 +863,12 @@ export default function ChallengeClient({
     .filter((p) => p.is_winner)
     .sort(
       (a, b) =>
-        (a.completed_at ?? Number.POSITIVE_INFINITY) -
-        (b.completed_at ?? Number.POSITIVE_INFINITY),
+        (a.qualified_at ?? a.completed_at ?? Number.POSITIVE_INFINITY) -
+        (b.qualified_at ?? b.completed_at ?? Number.POSITIVE_INFINITY),
     )
+  // Tier split for the header banner of tiered challenges.
+  const fullTierCount = winners.filter((p) => p.win_tier !== 'story').length
+  const storyTierCount = winners.length - fullTierCount
   // Members who reached 100% only after the deadline — they hit the goal too
   // late to count as qualifiers, and are surfaced in their own section.
   const lateFinishers = data.participants
@@ -828,6 +903,11 @@ export default function ChallengeClient({
               {winners.length === 1
                 ? '1 member qualified 🎉'
                 : `${winners.length} members qualified 🎉`}
+              {tiered && winners.length > 0 && (
+                <span className="font-normal text-muted-foreground">
+                  ({fullTierCount} full completion · {storyTierCount} story)
+                </span>
+              )}
             </div>
           )
         ) : (
@@ -885,42 +965,94 @@ export default function ChallengeClient({
           <div className="min-w-0 space-y-1">
             <div className="flex flex-wrap items-center gap-2">
               <h2 className="text-base font-semibold text-foreground">
-                Unlock all {data.totalAchievements} achievements
-                {minPlaytime > 0
-                  ? ` + play over ${fmtMinutes(minPlaytime)}`
-                  : ''}
-                {requireReview ? ' + leave a Steam review' : ''}
+                {tiered
+                  ? `Clear the story — or go for all ${requiredAchievements} achievements${
+                      minPlaytime > 0
+                        ? ` + play over ${fmtMinutes(minPlaytime)}`
+                        : ''
+                    }${requireReview ? ' + leave a Steam review' : ''}`
+                  : `Unlock all ${data.totalAchievements} achievements${
+                      minPlaytime > 0
+                        ? ` + play over ${fmtMinutes(minPlaytime)}`
+                        : ''
+                    }${requireReview ? ' + leave a Steam review' : ''}`}
               </h2>
               <Badge variant="amber" size="sm">
                 {winners.length} qualified
               </Badge>
             </div>
-            <p className="text-sm text-muted-foreground">
-              This is a completion race, not a single-winner challenge —{' '}
-              <span className="font-medium text-foreground">
-                every participant
-              </span>{' '}
-              wins who unlocks all {data.totalAchievements} achievements
-              {minPlaytime > 0 ? (
-                <>
-                  {' '}
-                  <span className="font-medium text-foreground">and</span> logs
-                  over {fmtMinutes(minPlaytime)} of play
-                </>
-              ) : null}
-              {requireReview ? (
-                <>
-                  {' '}
-                  <span className="font-medium text-foreground">and</span>{' '}
-                  leaves a Steam review
-                </>
-              ) : null}
-              {deadlineDisplay
-                ? ` during the challenge (by the end of ${fmtDay(deadlineDisplay)}, UTC)`
-                : ''}
-              . Achievements earned before the challenge count too. The
-              leaderboard records when each member hits 100%.
-            </p>
+            {tiered ? (
+              <p className="text-sm text-muted-foreground">
+                Two prize tiers, one draw —{' '}
+                <span className="font-medium text-foreground">
+                  every participant
+                </span>{' '}
+                wins who finishes the main story (unlock{' '}
+                <span className="font-medium text-foreground">
+                  “{data.storyAchievement!.displayName}”
+                </span>
+                )
+                {minPlaytime > 0 ? (
+                  <>
+                    , logs over {fmtMinutes(minPlaytime)} of play during the
+                    challenge
+                  </>
+                ) : null}
+                {requireReview ? (
+                  <>
+                    {' '}
+                    <span className="font-medium text-foreground">and</span>{' '}
+                    leaves a Steam review
+                  </>
+                ) : null}
+                {deadlineDisplay
+                  ? ` by the end of ${fmtDay(deadlineDisplay)} (UTC)`
+                  : ''}
+                . Unlock all {requiredAchievements} achievements
+                {data.excludedAchievements?.length ? (
+                  <>
+                    {' '}
+                    (every one except{' '}
+                    {data.excludedAchievements
+                      .map((a) => `“${a.displayName}”`)
+                      .join(', ')}
+                    )
+                  </>
+                ) : null}{' '}
+                to upgrade your prize to the{' '}
+                <span className="font-medium text-foreground">
+                  full-completion tier
+                </span>
+                . Progress made before the challenge counts too.
+              </p>
+            ) : (
+              <p className="text-sm text-muted-foreground">
+                This is a completion race, not a single-winner challenge —{' '}
+                <span className="font-medium text-foreground">
+                  every participant
+                </span>{' '}
+                wins who unlocks all {data.totalAchievements} achievements
+                {minPlaytime > 0 ? (
+                  <>
+                    {' '}
+                    <span className="font-medium text-foreground">and</span>{' '}
+                    logs over {fmtMinutes(minPlaytime)} of play
+                  </>
+                ) : null}
+                {requireReview ? (
+                  <>
+                    {' '}
+                    <span className="font-medium text-foreground">and</span>{' '}
+                    leaves a Steam review
+                  </>
+                ) : null}
+                {deadlineDisplay
+                  ? ` during the challenge (by the end of ${fmtDay(deadlineDisplay)}, UTC)`
+                  : ''}
+                . Achievements earned before the challenge count too. The
+                leaderboard records when each member hits 100%.
+              </p>
+            )}
           </div>
         </Card>
       ) : (

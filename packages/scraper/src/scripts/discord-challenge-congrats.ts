@@ -21,6 +21,9 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const dataDir = path.resolve(__dirname, '../../..', 'website/public/data')
 const statePath = path.join(dataDir, 'discord_announce_state.json')
 
+/** Prize tier on tiered challenges: Tier 1 = story cleared, Tier 2 = full completion. */
+export type WinTier = 'completion' | 'story'
+
 interface Participant {
   username: string
   /**
@@ -30,6 +33,11 @@ interface Participant {
    * announced a member who hadn't written their required review yet.
    */
   is_winner: boolean
+  /**
+   * Tiered challenges only (e.g. Bloody Spell): which prize tier the winner
+   * reached. Absent on single-tier challenges.
+   */
+  win_tier?: WinTier | null
 }
 
 interface ChallengeFile {
@@ -41,6 +49,12 @@ interface ChallengeFile {
 
 export interface AnnounceState {
   announced: Record<string, string[]>
+  /**
+   * Tiered challenges: the tier each username was last announced at, keyed by
+   * slug. Lets a story-tier winner get one more congrats when they upgrade to
+   * full completion. Absent for single-tier challenges and in old state files.
+   */
+  tiers?: Record<string, Record<string, WinTier>>
 }
 
 function loadState(): AnnounceState {
@@ -69,6 +83,39 @@ export function qualifyingUsernames(challenge: Pick<ChallengeFile, 'participants
 export function diffNewCompletions(qualifying: string[], alreadyAnnounced: string[]): string[] {
   const already = new Set(alreadyAnnounced)
   return qualifying.filter((username) => !already.has(username))
+}
+
+/** One pending congrats: a fresh win, or a story→completion tier upgrade. */
+export interface TierAnnouncement {
+  username: string
+  /** The winner's current tier; null on single-tier challenges. */
+  tier: WinTier | null
+  /** Previously congratulated at the story tier, now at full completion. */
+  upgraded: boolean
+}
+
+/**
+ * Tier-aware diff: everything `diffNewCompletions` announces, plus one extra
+ * announcement for winners previously congratulated at the story tier who have
+ * since upgraded to full completion. Never re-announces a same-tier winner.
+ */
+export function diffTierAnnouncements(
+  participants: Participant[],
+  alreadyAnnounced: string[],
+  announcedTiers: Record<string, WinTier>,
+): TierAnnouncement[] {
+  const already = new Set(alreadyAnnounced)
+  const out: TierAnnouncement[] = []
+  for (const p of participants) {
+    if (!p.is_winner) continue
+    const tier = p.win_tier ?? null
+    if (!already.has(p.username)) {
+      out.push({ username: p.username, tier, upgraded: false })
+    } else if (tier === 'completion' && announcedTiers[p.username] === 'story') {
+      out.push({ username: p.username, tier, upgraded: true })
+    }
+  }
+  return out
 }
 
 function findActiveChallengeFiles(): ChallengeFile[] {
@@ -106,6 +153,73 @@ export function joinNamesWithAnd(names: string[]): string {
 /** Builds a single congrats message for a batch of usernames that finished the same challenge. */
 export function buildCongratsMessage(usernames: string[], gameName: string, emoji: string): string {
   return `🎉 ${joinNamesWithAnd(usernames)} just finished the **${gameName}** challenge! Congrats ${emoji}`
+}
+
+/**
+ * Builds one congrats message for a batch of tier announcements. Single-tier
+ * challenges (every tier null) keep the classic `buildCongratsMessage` shape.
+ * Tiered batches get tier-specific phrasing, and a batch mixing both tiers is
+ * grouped into ONE message with a line per tier (Tier 1 = story cleared,
+ * Tier 2 = full completion).
+ */
+export function buildTieredCongratsMessage(
+  announcements: TierAnnouncement[],
+  gameName: string,
+  emoji: string,
+): string {
+  const story = announcements.filter((a) => a.tier === 'story')
+  const completion = announcements.filter((a) => a.tier === 'completion')
+  if (story.length === 0 && completion.length === 0) {
+    return buildCongratsMessage(
+      announcements.map((a) => a.username),
+      gameName,
+      emoji,
+    )
+  }
+
+  const storyNames = story.map((a) => a.username)
+  const completionNames = completion.map((a) => a.username)
+  if (story.length > 0 && completion.length > 0) {
+    return [
+      `🎉 **${gameName}** challenge update! ${emoji}`,
+      `🥇 Tier 1 — story cleared: ${joinNamesWithAnd(storyNames)}`,
+      `🏆 Tier 2 — full completion: ${joinNamesWithAnd(completionNames)}`,
+    ].join('\n')
+  }
+  if (completion.length > 0) {
+    return completion.every((a) => a.upgraded)
+      ? `🏆 ${joinNamesWithAnd(completionNames)} upgraded their **${gameName}** win to Tier 2 — full completion! Congrats ${emoji}`
+      : `🏆 ${joinNamesWithAnd(completionNames)} reached 100% of **${gameName}** — a Tier 2 win! Congrats ${emoji}`
+  }
+  return `🥇 ${joinNamesWithAnd(storyNames)} cleared the story of **${gameName}** — a Tier 1 win! Congrats ${emoji}`
+}
+
+/**
+ * Groups tier announcements into as few messages as possible while keeping
+ * each rendered message under MAX_MESSAGE_LENGTH — same greedy strategy as
+ * `batchUsernames`, over the tier-aware message builder.
+ */
+export function batchAnnouncements(
+  announcements: TierAnnouncement[],
+  gameName: string,
+  emoji: string,
+): TierAnnouncement[][] {
+  const batches: TierAnnouncement[][] = []
+  let current: TierAnnouncement[] = []
+  for (const announcement of announcements) {
+    const candidate = [...current, announcement]
+    if (
+      current.length > 0 &&
+      buildTieredCongratsMessage(candidate, gameName, emoji).length > MAX_MESSAGE_LENGTH
+    ) {
+      batches.push(current)
+      current = [announcement]
+    } else {
+      current = candidate
+    }
+  }
+  if (current.length > 0) batches.push(current)
+  return batches
 }
 
 /**
@@ -184,10 +298,14 @@ export async function announceNewCompletions(): Promise<void> {
   const emoji = await resolvePandaEmoji()
 
   for (const challenge of challenges) {
-    const qualifying = qualifyingUsernames(challenge)
     const alreadyAnnounced = state.announced[challenge.slug] ?? []
-    const newlyCompleted = diffNewCompletions(qualifying, alreadyAnnounced)
-    if (newlyCompleted.length === 0) continue
+    const announcedTiers = state.tiers?.[challenge.slug] ?? {}
+    const pending = diffTierAnnouncements(
+      challenge.participants,
+      alreadyAnnounced,
+      announcedTiers,
+    )
+    if (pending.length === 0) continue
 
     const channelId = await resolveChannelForSlug(challenge.slug)
     if (channelId === null) {
@@ -196,20 +314,32 @@ export async function announceNewCompletions(): Promise<void> {
     }
 
     anyNew = true
-    const batches = batchUsernames(newlyCompleted, challenge.gameName, emoji)
+    const batches = batchAnnouncements(pending, challenge.gameName, emoji)
 
     for (const batch of batches) {
       await createMessage(channelId, {
-        content: buildCongratsMessage(batch, challenge.gameName, emoji),
+        content: buildTieredCongratsMessage(batch, challenge.gameName, emoji),
         flags: 4,
       })
       // State is saved after every batch, not at the end — a crash mid-loop
       // (e.g. rate limiting) must never lead to duplicate announcements on
       // the next run. Worst case on a crash mid-run is a whole batch gets
       // re-sent, same tradeoff the old per-user code had.
-      state.announced[challenge.slug] = [...(state.announced[challenge.slug] ?? []), ...batch]
+      const announcedSet = new Set(state.announced[challenge.slug] ?? [])
+      for (const a of batch) announcedSet.add(a.username)
+      state.announced[challenge.slug] = [...announcedSet]
+      for (const a of batch) {
+        if (a.tier == null) continue
+        state.tiers ??= {}
+        state.tiers[challenge.slug] ??= {}
+        state.tiers[challenge.slug][a.username] = a.tier
+      }
       saveState(state)
-      console.log(`🎉 Announced ${batch.join(', ')} for ${challenge.slug}`)
+      console.log(
+        `🎉 Announced ${batch
+          .map((a) => `${a.username}${a.tier ? ` (${a.tier}${a.upgraded ? ', upgraded' : ''})` : ''}`)
+          .join(', ')} for ${challenge.slug}`,
+      )
     }
   }
 

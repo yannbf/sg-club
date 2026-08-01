@@ -94,7 +94,26 @@ interface CompletionWin {
   minPlaytimeMinutes?: number
   /** Winning also requires a public Steam review of the game. */
   requireReview?: boolean
+  /**
+   * Achievement apinames excluded from the 100% goal (e.g. Bloody Spell's
+   * "Master of Magic"): dropped from both the required total and the unlocked
+   * count, so completion means "everything except these".
+   */
+  excludeAchievements?: string[]
+  /**
+   * Optional lower prize tier: unlocking this single achievement (by the
+   * deadline, plus the same playtime/review gates) also qualifies, at the
+   * `story` tier. Full completion upgrades the member to the `completion`
+   * tier. Each participant's tier lands in `win_tier`.
+   */
+  storyAchievement?: {
+    apiname: string
+    displayName: string
+    description?: string
+  }
 }
+
+export type WinTier = 'completion' | 'story'
 
 interface ChallengeConfig {
   /** Stored in the output `slug` field; mirrors the event URL slug. */
@@ -182,6 +201,33 @@ const CHALLENGES: ChallengeConfig[] = [
       // No playtime floor this time — the mission is 100% completion plus a
       // Steam review, so pre-challenge completions only need the review.
       requireReview: true,
+    },
+  },
+  {
+    slug: 'gaming-challenge-4-bloody-spell',
+    dataSlug: 'bloody_spell',
+    appId: 992300,
+    gameName: 'Bloody Spell',
+    startTimestamp: Date.UTC(2026, 7, 1) / 1000, // midnight 2026-08-01 UTC
+    roster: 'fixed',
+    win: {
+      type: 'completion',
+      // Challenge window: Aug 1 – Aug 31. The cutoff is Sept 1 00:00 UTC
+      // (exclusive); the site displays the deadline as "31 Aug".
+      deadline: Date.UTC(2026, 8, 1) / 1000,
+      // Both prize tiers require a Steam review AND over 2h of play logged
+      // during the challenge window (even for pre-challenge story clears).
+      requireReview: true,
+      minPlaytimeMinutes: 120,
+      // Two prize tiers: 🥉 clear the main story ("Departure") for the €10
+      // draw; 🥇 full completion upgrades the prize to €20. "Master of Magic"
+      // is excluded from the 100% goal.
+      storyAchievement: {
+        apiname: 'a10016',
+        displayName: 'Departure',
+        description: 'Clear the main storyline.',
+      },
+      excludeAchievements: ['a30008'], // Master of Magic
     },
   },
 ]
@@ -511,8 +557,14 @@ function achievementWinFields(p: PlayerProgress, config: ChallengeConfig) {
  * (whenever reached — pre-challenge completions count), more than the required
  * playtime logged during the challenge window (when a floor is set), and a
  * public Steam review when the challenge requires one.
+ *
+ * Tiered challenges (a `storyAchievement` is configured) add a lower prize
+ * tier: unlocking the story achievement by the deadline, under the same
+ * playtime/review gates, also wins — `win_tier` records which tier each winner
+ * reached ('completion' beats 'story'). `excludeAchievements` are dropped from
+ * the 100% goal entirely.
  */
-function completionWinFields(
+export function completionWinFields(
   p: PlayerProgress,
   config: ChallengeConfig,
   playtimeChallengeMinutes: number,
@@ -521,14 +573,24 @@ function completionWinFields(
   const win = config.win as CompletionWin
   const start = config.startTimestamp
   const minPlaytime = win.minPlaytimeMinutes ?? 0
+  const excluded = new Set(win.excludeAchievements ?? [])
+  // Excluded achievements are dropped from BOTH sides of the 100% comparison.
+  // When a hidden-profile pull carried a floored count forward we can't see the
+  // per-achievement breakdown, so unobserved excluded unlocks simply aren't
+  // subtracted — the benefit of the doubt goes to the member.
+  const excludedUnlocked = p.achieved.filter((a) =>
+    excluded.has(a.apiname),
+  ).length
+  const effectiveUnlocked = p.achievements_unlocked_total - excludedUnlocked
+  const effectiveTotal =
+    p.achievements_total > 0 ? p.achievements_total - excluded.size : 0
   const isComplete =
-    p.stats_available &&
-    p.achievements_total > 0 &&
-    p.achievements_unlocked_total >= p.achievements_total
-  // The 100% moment is when the final achievement unlocked = the latest
-  // unlocktime across the account's unlocks.
+    p.stats_available && effectiveTotal > 0 && effectiveUnlocked >= effectiveTotal
+  // The 100% moment is when the final counted achievement unlocked = the latest
+  // unlocktime across the account's non-excluded unlocks.
   const lastUnlock = p.achieved.reduce(
-    (max, a) => (a.unlocktime > max ? a.unlocktime : max),
+    (max, a) =>
+      !excluded.has(a.apiname) && a.unlocktime > max ? a.unlocktime : max,
     0,
   )
   const completedAt = isComplete && lastUnlock > 0 ? lastUnlock : null
@@ -547,17 +609,53 @@ function completionWinFields(
   const meetsPlaytime =
     minPlaytime === 0 || playtimeChallengeMinutes > minPlaytime
   const meetsReview = !win.requireReview || wroteReview
-  const isWinner =
+  const completionQualifies =
     isComplete && meetsPlaytime && meetsReview && !completedAfterDeadline
+
+  // Story tier: the single story achievement, same deadline/gate rules as the
+  // completion tier (pre-challenge unlocks count, post-deadline ones don't).
+  const storyEntry = win.storyAchievement
+    ? p.achieved.find((a) => a.apiname === win.storyAchievement!.apiname)
+    : undefined
+  const storyUnlocktime = storyEntry?.unlocktime ?? null
+  const storyAfterDeadline = Boolean(
+    storyEntry && storyUnlocktime != null && storyUnlocktime > win.deadline,
+  )
+  const storyQualifies = Boolean(
+    storyEntry && !storyAfterDeadline && meetsPlaytime && meetsReview,
+  )
+
+  const winTier: WinTier | null = completionQualifies
+    ? 'completion'
+    : storyQualifies
+      ? 'story'
+      : null
+  // The moment the winning tier was reached — orders winners on the board.
+  const qualifiedAt = completionQualifies
+    ? completedAt
+    : storyQualifies
+      ? storyUnlocktime
+      : null
 
   return {
     is_complete: isComplete,
     completed_at: completedAt,
     completed_before_start: completedBeforeStart,
     completed_after_deadline: completedAfterDeadline,
+    // Story-tier fields only exist on tiered challenges, so untouched data
+    // files (Kill The Crows, Neo Cab) keep their exact shape.
+    ...(win.storyAchievement
+      ? {
+          story_unlocked: Boolean(storyEntry),
+          story_unlocktime: storyUnlocktime,
+          story_after_deadline: storyAfterDeadline,
+          win_tier: winTier,
+          qualified_at: qualifiedAt,
+        }
+      : {}),
     meets_playtime: meetsPlaytime,
     meets_review: meetsReview,
-    is_winner: isWinner,
+    is_winner: winTier != null,
   }
 }
 
@@ -708,7 +806,9 @@ async function generateChallenge(config: ChallengeConfig): Promise<void> {
   console.log(`   Reviews: ${reviews.size} public reviewer(s) on Steam`)
 
   // --- Participants ---
-  const participants = []
+  // Rows mix the achievement- and completion-shape win fields (plus the
+  // optional tier fields), so the row type is deliberately open.
+  const participants: Record<string, any>[] = []
   let i = 0
   for (const r of resolved) {
     i++
@@ -864,6 +964,12 @@ async function generateChallenge(config: ChallengeConfig): Promise<void> {
   let frozenWinnerIds: string[] | null = Array.isArray(prior?.frozenWinnerIds)
     ? (prior.frozenWinnerIds as string[])
     : null
+  // Tiered challenges freeze each winner's tier alongside the winner set, so a
+  // post-deadline story→completion upgrade can't change anyone's prize.
+  let frozenWinnerTiers: Record<string, WinTier> | null =
+    prior?.frozenWinnerTiers && typeof prior.frozenWinnerTiers === 'object'
+      ? (prior.frozenWinnerTiers as Record<string, WinTier>)
+      : null
 
   // --- Winners ---
   let winners: typeof participants
@@ -880,21 +986,40 @@ async function generateChallenge(config: ChallengeConfig): Promise<void> {
   } else {
     // EVERY member who qualified (100% by the deadline + enough challenge-window
     // play). Freeze the set once the challenge is over so it stays fixed.
+    const tiered = Boolean((config.win as CompletionWin).storyAchievement)
     if (challengeOver) {
-      if (!frozenWinnerIds)
+      if (!frozenWinnerIds) {
         frozenWinnerIds = participants
           .filter((p) => p.is_winner)
           .map((p) => p.steam_id)
+        if (tiered) {
+          frozenWinnerTiers = {}
+          for (const p of participants)
+            if (p.is_winner && p.win_tier)
+              frozenWinnerTiers[p.steam_id] = p.win_tier
+        }
+      }
       const frozen = new Set(frozenWinnerIds)
-      for (const p of participants) p.is_winner = frozen.has(p.steam_id)
+      for (const p of participants) {
+        p.is_winner = frozen.has(p.steam_id)
+        if (tiered)
+          p.win_tier = p.is_winner
+            ? (frozenWinnerTiers?.[p.steam_id] ?? p.win_tier)
+            : null
+      }
     }
-    // Ordered by when they reached 100% (no usable timestamp sorts last).
+    // Ordered by when they qualified: full completions above story-tier wins,
+    // each by the moment their tier was reached (no usable timestamp sorts
+    // last). Untiered challenges keep the plain 100%-moment order.
+    const tierRank = (p: (typeof participants)[number]) =>
+      p.win_tier === 'story' ? 1 : 0
     winners = participants
       .filter((p) => p.is_winner)
       .sort(
         (a, b) =>
-          (a.completed_at ?? Number.POSITIVE_INFINITY) -
-          (b.completed_at ?? Number.POSITIVE_INFINITY),
+          tierRank(a) - tierRank(b) ||
+          (a.qualified_at ?? a.completed_at ?? Number.POSITIVE_INFINITY) -
+            (b.qualified_at ?? b.completed_at ?? Number.POSITIVE_INFINITY),
       )
   }
 
@@ -926,11 +1051,16 @@ async function generateChallenge(config: ChallengeConfig): Promise<void> {
       const aw = a.is_winner ? 1 : 0
       const bw = b.is_winner ? 1 : 0
       if (aw !== bw) return bw - aw
-      if (aw && bw)
+      if (aw && bw) {
+        // Tiered: full completions rank above story-tier wins.
+        const at = a.win_tier === 'story' ? 1 : 0
+        const bt = b.win_tier === 'story' ? 1 : 0
+        if (at !== bt) return at - bt
         return (
-          (a.completed_at ?? Number.POSITIVE_INFINITY) -
-          (b.completed_at ?? Number.POSITIVE_INFINITY)
+          (a.qualified_at ?? a.completed_at ?? Number.POSITIVE_INFINITY) -
+          (b.qualified_at ?? b.completed_at ?? Number.POSITIVE_INFINITY)
         )
+      }
       const ae = engaged(a) ? 1 : 0
       const be = engaged(b) ? 1 : 0
       if (ae !== be) return be - ae
@@ -958,6 +1088,7 @@ async function generateChallenge(config: ChallengeConfig): Promise<void> {
   }
   // Persist the frozen qualified set (completion challenges past their deadline).
   if (frozenWinnerIds) output.frozenWinnerIds = frozenWinnerIds
+  if (frozenWinnerTiers) output.frozenWinnerTiers = frozenWinnerTiers
 
   if (config.win.type === 'achievement') {
     const win = config.win
@@ -974,8 +1105,34 @@ async function generateChallenge(config: ChallengeConfig): Promise<void> {
     output.minPlaytimeMinutes = config.win.minPlaytimeMinutes ?? 0
     output.requireReview = config.win.requireReview ?? false
     output.winnerUnlocktime =
-      (firstWinner as { completed_at?: number | null })?.completed_at ?? null
+      (firstWinner as { qualified_at?: number | null; completed_at?: number | null })
+        ?.qualified_at ??
+      (firstWinner as { completed_at?: number | null })?.completed_at ??
+      null
     output.winnerUsernames = winners.map((w) => w.username)
+
+    // Tiered-challenge metadata for the site: the story achievement (schema
+    // names win over the config fallbacks), which achievements are excluded
+    // from the 100% goal, and the resulting required count.
+    const story = config.win.storyAchievement
+    if (story) {
+      output.storyAchievement = {
+        apiname: story.apiname,
+        displayName: schema[story.apiname]?.displayName ?? story.displayName,
+        description: schema[story.apiname]?.description ?? story.description,
+      }
+    }
+    const excludedList = config.win.excludeAchievements ?? []
+    if (excludedList.length) {
+      output.excludedAchievements = excludedList.map((apiname) => ({
+        apiname,
+        displayName: schema[apiname]?.displayName ?? apiname,
+      }))
+      output.requiredAchievements = Math.max(
+        0,
+        (output.totalAchievements as number) - excludedList.length,
+      )
+    }
   }
 
   // Preserve the roster in-file so it's the single source of truth.

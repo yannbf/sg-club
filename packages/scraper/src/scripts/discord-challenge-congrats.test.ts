@@ -1,13 +1,17 @@
 import { describe, expect, it } from 'vitest'
 import type { ChallengeIndexEntry } from '../../../website/api/_lib/signup-log'
 import {
+  batchAnnouncements,
   batchUsernames,
   buildCongratsMessage,
+  buildTieredCongratsMessage,
   diffNewCompletions,
+  diffTierAnnouncements,
   joinNamesWithAnd,
   pickCongratsChannel,
   qualifyingUsernames,
   resolveCongratsChannel,
+  type TierAnnouncement,
 } from './discord-challenge-congrats'
 
 describe('qualifyingUsernames', () => {
@@ -61,6 +65,135 @@ describe('diffNewCompletions', () => {
 
     const secondRun = diffNewCompletions(qualifying, announced)
     expect(secondRun).toEqual([])
+  })
+})
+
+describe('diffTierAnnouncements', () => {
+  it('announces new winners with their tier, and skips non-winners', () => {
+    const result = diffTierAnnouncements(
+      [
+        { username: 'a', is_winner: true, win_tier: 'story' },
+        { username: 'b', is_winner: true, win_tier: 'completion' },
+        { username: 'c', is_winner: false, win_tier: null },
+      ],
+      [],
+      {},
+    )
+    expect(result).toEqual([
+      { username: 'a', tier: 'story', upgraded: false },
+      { username: 'b', tier: 'completion', upgraded: false },
+    ])
+  })
+
+  it('re-announces a story-tier winner exactly once when they upgrade to completion', () => {
+    const participants = [
+      { username: 'a', is_winner: true, win_tier: 'completion' as const },
+    ]
+    const upgraded = diffTierAnnouncements(participants, ['a'], { a: 'story' })
+    expect(upgraded).toEqual([{ username: 'a', tier: 'completion', upgraded: true }])
+
+    // Once state records the completion tier, later runs stay silent.
+    expect(diffTierAnnouncements(participants, ['a'], { a: 'completion' })).toEqual([])
+  })
+
+  it('never re-announces a same-tier winner, and treats untiered winners like diffNewCompletions', () => {
+    expect(
+      diffTierAnnouncements(
+        [{ username: 'a', is_winner: true, win_tier: 'story' }],
+        ['a'],
+        { a: 'story' },
+      ),
+    ).toEqual([])
+    // Untiered challenge: no win_tier field at all, no tier state.
+    expect(
+      diffTierAnnouncements(
+        [
+          { username: 'a', is_winner: true },
+          { username: 'b', is_winner: true },
+        ],
+        ['a'],
+        {},
+      ),
+    ).toEqual([{ username: 'b', tier: null, upgraded: false }])
+  })
+})
+
+describe('buildTieredCongratsMessage', () => {
+  const emoji = '🐼🎉'
+  const ann = (
+    username: string,
+    tier: TierAnnouncement['tier'],
+    upgraded = false,
+  ): TierAnnouncement => ({ username, tier, upgraded })
+
+  it('keeps the classic message shape for untiered challenges', () => {
+    expect(buildTieredCongratsMessage([ann('a', null)], 'Neo Cab', emoji)).toBe(
+      '🎉 **a** just finished the **Neo Cab** challenge! Congrats 🐼🎉',
+    )
+  })
+
+  it('announces story-only batches as Tier 1', () => {
+    expect(
+      buildTieredCongratsMessage([ann('a', 'story'), ann('b', 'story')], 'Bloody Spell', emoji),
+    ).toBe(
+      '🥇 **a** and **b** cleared the story of **Bloody Spell** — a Tier 1 win! Congrats 🐼🎉',
+    )
+  })
+
+  it('announces completion-only batches as Tier 2', () => {
+    expect(buildTieredCongratsMessage([ann('a', 'completion')], 'Bloody Spell', emoji)).toBe(
+      '🏆 **a** reached 100% of **Bloody Spell** — a Tier 2 win! Congrats 🐼🎉',
+    )
+  })
+
+  it('uses upgrade phrasing when every completion in the batch is an upgrade', () => {
+    expect(
+      buildTieredCongratsMessage([ann('a', 'completion', true)], 'Bloody Spell', emoji),
+    ).toBe(
+      '🏆 **a** upgraded their **Bloody Spell** win to Tier 2 — full completion! Congrats 🐼🎉',
+    )
+  })
+
+  it('groups mixed tiers into a single message with one line per tier', () => {
+    expect(
+      buildTieredCongratsMessage(
+        [ann('a', 'story'), ann('b', 'completion'), ann('c', 'story')],
+        'Bloody Spell',
+        emoji,
+      ),
+    ).toBe(
+      [
+        '🎉 **Bloody Spell** challenge update! 🐼🎉',
+        '🥇 Tier 1 — story cleared: **a** and **c**',
+        '🏆 Tier 2 — full completion: **b**',
+      ].join('\n'),
+    )
+  })
+})
+
+describe('batchAnnouncements', () => {
+  it('keeps a small mixed batch in a single message', () => {
+    const anns: TierAnnouncement[] = [
+      { username: 'a', tier: 'story', upgraded: false },
+      { username: 'b', tier: 'completion', upgraded: false },
+    ]
+    expect(batchAnnouncements(anns, 'Bloody Spell', '🐼🎉')).toEqual([anns])
+  })
+
+  it('splits when the rendered message would exceed the limit, dropping nobody', () => {
+    const anns: TierAnnouncement[] = Array.from({ length: 60 }, (_, i) => ({
+      username: `SuperLongSteamGiftsUsername${i}`,
+      tier: i % 2 ? ('story' as const) : ('completion' as const),
+      upgraded: false,
+    }))
+    const batches = batchAnnouncements(anns, 'Bloody Spell', '🐼🎉')
+    expect(batches.length).toBeGreaterThan(1)
+    for (const batch of batches) {
+      expect(
+        buildTieredCongratsMessage(batch, 'Bloody Spell', '🐼🎉').length,
+      ).toBeLessThanOrEqual(1900)
+    }
+    expect(batches.flat()).toEqual(anns)
   })
 })
 

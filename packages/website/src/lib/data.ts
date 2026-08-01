@@ -599,13 +599,18 @@ export async function getChallengeData(
   slug: string
 ): Promise<ChallengeData | null> {
   const fileName = `challenge_${slug.replace(/-/g, '_')}.json`
+  // A freshly-seeded file may hold only the sign-up `roster` block until the
+  // generator's first run; treat it as "no leaderboard yet" so the event page
+  // shows the pre-challenge landing instead of choking on missing fields.
+  const generated = (data: ChallengeData | null) =>
+    data && Array.isArray(data.participants) ? data : null
 
   if (typeof window !== 'undefined' || process.env.NODE_ENV === 'development') {
     try {
       const baseUrl = getBaseUrl()
       const response = await fetch(`${baseUrl}/data/${fileName}`)
       if (!response.ok) return null
-      return await response.json()
+      return generated(await response.json())
     } catch {
       return null
     }
@@ -615,7 +620,7 @@ export async function getChallengeData(
     const { readFileSync } = await import('fs')
     const { join } = await import('path')
     const filePath = join(process.cwd(), 'public', 'data', fileName)
-    return JSON.parse(readFileSync(filePath, 'utf8'))
+    return generated(JSON.parse(readFileSync(filePath, 'utf8')))
   } catch {
     return null
   }
