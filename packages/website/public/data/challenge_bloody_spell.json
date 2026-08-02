@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1785542400,
   "totalAchievements": 60,
-  "generatedAt": 1785685076840,
+  "generatedAt": 1785691986206,
   "challengeOver": false,
   "winnerUsername": null,
   "participants": [
@@ -719,14 +719,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 105,
-      "playtime_2weeks_minutes": 105,
+      "playtime_total_minutes": 158,
+      "playtime_2weeks_minutes": 158,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 105,
+      "playtime_challenge_minutes": 158,
       "achievements_total": 60,
-      "achievements_unlocked_total": 15,
+      "achievements_unlocked_total": 16,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 15,
+      "achievements_since_baseline": 16,
       "challenge_achievements": [
         {
           "apiname": "a30003",
@@ -817,9 +817,15 @@
           "displayName": "Boss Void",
           "description": "Defeat Boss Void.",
           "unlocktime": 1785684370
+        },
+        {
+          "apiname": "a10011",
+          "displayName": "Ore Collector",
+          "description": "Collect 10 Iron Ore.",
+          "unlocktime": 1785685374
         }
       ],
-      "challenge_achievement_count": 15,
+      "challenge_achievement_count": 16,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
@@ -830,7 +836,7 @@
       "story_after_deadline": false,
       "win_tier": null,
       "qualified_at": null,
-      "meets_playtime": false,
+      "meets_playtime": true,
       "meets_review": false,
       "is_winner": false
     },
@@ -1170,6 +1176,111 @@
       "win_tier": null,
       "qualified_at": null,
       "meets_playtime": true,
+      "meets_review": false,
+      "is_winner": false
+    },
+    {
+      "username": "Foxpile",
+      "sg_username": "Foxpile",
+      "steam_id": "76561197967055456",
+      "avatar_url": "https://avatars.steamstatic.com/1168abd7dd5c6cc8eb4488f9012be53340b28456_medium.jpg",
+      "profile_url": "https://steamcommunity.com/profiles/76561197967055456",
+      "is_guest": false,
+      "owned": true,
+      "stats_available": true,
+      "wrote_review": false,
+      "review_voted_up": null,
+      "review_timestamp": null,
+      "review_recommendationid": null,
+      "review_url": null,
+      "playtime_total_minutes": 75,
+      "playtime_2weeks_minutes": 75,
+      "baseline_playtime_minutes": 0,
+      "playtime_challenge_minutes": 75,
+      "achievements_total": 60,
+      "achievements_unlocked_total": 11,
+      "achievements_before_challenge": 0,
+      "achievements_since_baseline": 11,
+      "challenge_achievements": [
+        {
+          "apiname": "a30003",
+          "displayName": "Master of Blade",
+          "description": "Unlock all spell of Blade.",
+          "unlocktime": 1785685298
+        },
+        {
+          "apiname": "a30004",
+          "displayName": "Master of Spearstick",
+          "description": "Unlock all spell of Spearstick.",
+          "unlocktime": 1785685298
+        },
+        {
+          "apiname": "a30005",
+          "displayName": "Master of Great sword",
+          "description": "Unlock all spell of Great sword.",
+          "unlocktime": 1785685298
+        },
+        {
+          "apiname": "a30006",
+          "displayName": "Master of Kung Fu",
+          "description": "Unlock all spell of Knuckles.",
+          "unlocktime": 1785685298
+        },
+        {
+          "apiname": "a30007",
+          "displayName": "Master of Dual Blade",
+          "description": "Unlock all spell of Dual Blade.",
+          "unlocktime": 1785685298
+        },
+        {
+          "apiname": "a30008",
+          "displayName": "Master of Magic",
+          "description": "Unlock all spell of Magic.",
+          "unlocktime": 1785685298
+        },
+        {
+          "apiname": "a30001",
+          "displayName": "Justice martial art",
+          "description": "Dressed all the equipment of sect.",
+          "unlocktime": 1785686044
+        },
+        {
+          "apiname": "a10008",
+          "displayName": "Sharp Eyes",
+          "description": "Guess 5 times in a guessing jar game.",
+          "unlocktime": 1785688103
+        },
+        {
+          "apiname": "a10002",
+          "displayName": "Novice Detective",
+          "description": "Investigate for 10 times.",
+          "unlocktime": 1785688975
+        },
+        {
+          "apiname": "a10003",
+          "displayName": "Blood Messenger",
+          "description": "Collect 6000 blood essence.",
+          "unlocktime": 1785689069
+        },
+        {
+          "apiname": "a10005",
+          "displayName": "Lord of the Pit",
+          "description": "Fall into the pit for 5 times in a row.",
+          "unlocktime": 1785689512
+        }
+      ],
+      "challenge_achievement_count": 11,
+      "has_started": true,
+      "is_complete": false,
+      "completed_at": null,
+      "completed_before_start": false,
+      "completed_after_deadline": false,
+      "story_unlocked": false,
+      "story_unlocktime": null,
+      "story_after_deadline": false,
+      "win_tier": null,
+      "qualified_at": null,
+      "meets_playtime": false,
       "meets_review": false,
       "is_winner": false
     },
@@ -1538,44 +1649,6 @@
       "steam_id": "76561198077347875",
       "avatar_url": "https://avatars.steamstatic.com/9e76eda7caab581920e660ee652fadb31672ec0d_medium.jpg",
       "profile_url": "https://steamcommunity.com/profiles/76561198077347875",
-      "is_guest": false,
-      "owned": true,
-      "stats_available": true,
-      "wrote_review": false,
-      "review_voted_up": null,
-      "review_timestamp": null,
-      "review_recommendationid": null,
-      "review_url": null,
-      "playtime_total_minutes": 0,
-      "playtime_2weeks_minutes": 0,
-      "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 0,
-      "achievements_total": 60,
-      "achievements_unlocked_total": 0,
-      "achievements_before_challenge": 0,
-      "achievements_since_baseline": 0,
-      "challenge_achievements": [],
-      "challenge_achievement_count": 0,
-      "has_started": false,
-      "is_complete": false,
-      "completed_at": null,
-      "completed_before_start": false,
-      "completed_after_deadline": false,
-      "story_unlocked": false,
-      "story_unlocktime": null,
-      "story_after_deadline": false,
-      "win_tier": null,
-      "qualified_at": null,
-      "meets_playtime": false,
-      "meets_review": false,
-      "is_winner": false
-    },
-    {
-      "username": "Foxpile",
-      "sg_username": "Foxpile",
-      "steam_id": "76561197967055456",
-      "avatar_url": "https://avatars.steamstatic.com/1168abd7dd5c6cc8eb4488f9012be53340b28456_medium.jpg",
-      "profile_url": "https://steamcommunity.com/profiles/76561197967055456",
       "is_guest": false,
       "owned": true,
       "stats_available": true,
