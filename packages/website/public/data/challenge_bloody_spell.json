@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1785542400,
   "totalAchievements": 60,
-  "generatedAt": 1785713544966,
+  "generatedAt": 1785730021663,
   "challengeOver": false,
   "winnerUsername": null,
   "participants": [
@@ -23,14 +23,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 327,
-      "playtime_2weeks_minutes": 327,
+      "playtime_total_minutes": 433,
+      "playtime_2weeks_minutes": 433,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 327,
+      "playtime_challenge_minutes": 433,
       "achievements_total": 60,
-      "achievements_unlocked_total": 26,
+      "achievements_unlocked_total": 31,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 26,
+      "achievements_since_baseline": 31,
       "challenge_achievements": [
         {
           "apiname": "a30003",
@@ -187,9 +187,39 @@
           "displayName": "Priestess Trial",
           "description": "Clear the Priestess Trial Mode (Fourth Floor).",
           "unlocktime": 1785713514
+        },
+        {
+          "apiname": "a20028",
+          "displayName": "BOSS SuYejin",
+          "description": "Defeat BOSS SuYejin.",
+          "unlocktime": 1785713592
+        },
+        {
+          "apiname": "a10001",
+          "displayName": "Mania for Destruction",
+          "description": "Destroy 250 items in scene.",
+          "unlocktime": 1785714140
+        },
+        {
+          "apiname": "a10006",
+          "displayName": "Treasure Hunter",
+          "description": "Open 15 chests.",
+          "unlocktime": 1785716097
+        },
+        {
+          "apiname": "a20027",
+          "displayName": "BOSS XiaoLi",
+          "description": "Defeat BOSS XiaoLi.",
+          "unlocktime": 1785716870
+        },
+        {
+          "apiname": "a10014",
+          "displayName": "Skilled craftsmen",
+          "description": "Successfully upgrade equipment 9 times in the mini-game.",
+          "unlocktime": 1785717550
         }
       ],
-      "challenge_achievement_count": 26,
+      "challenge_achievement_count": 31,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
@@ -584,10 +614,10 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 222,
-      "playtime_2weeks_minutes": 222,
+      "playtime_total_minutes": 254,
+      "playtime_2weeks_minutes": 254,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 222,
+      "playtime_challenge_minutes": 254,
       "achievements_total": 60,
       "achievements_unlocked_total": 21,
       "achievements_before_challenge": 0,
@@ -718,6 +748,171 @@
           "displayName": "Photographer",
           "description": "Press F12 in photo mode to take 5 pictures.",
           "unlocktime": 1785712462
+        }
+      ],
+      "challenge_achievement_count": 21,
+      "has_started": true,
+      "is_complete": false,
+      "completed_at": null,
+      "completed_before_start": false,
+      "completed_after_deadline": false,
+      "story_unlocked": false,
+      "story_unlocktime": null,
+      "story_after_deadline": false,
+      "win_tier": null,
+      "qualified_at": null,
+      "meets_playtime": true,
+      "meets_review": false,
+      "is_winner": false
+    },
+    {
+      "username": "PsychoApeMan",
+      "sg_username": "PsychoApeMan",
+      "steam_id": "76561197994025244",
+      "avatar_url": "https://avatars.steamstatic.com/8feb0392e23cf7ce12d4021de64b395591d932bd_medium.jpg",
+      "profile_url": "https://steamcommunity.com/profiles/76561197994025244",
+      "is_guest": false,
+      "owned": true,
+      "stats_available": true,
+      "wrote_review": false,
+      "review_voted_up": null,
+      "review_timestamp": null,
+      "review_recommendationid": null,
+      "review_url": null,
+      "playtime_total_minutes": 202,
+      "playtime_2weeks_minutes": 202,
+      "baseline_playtime_minutes": 0,
+      "playtime_challenge_minutes": 202,
+      "achievements_total": 60,
+      "achievements_unlocked_total": 21,
+      "achievements_before_challenge": 0,
+      "achievements_since_baseline": 21,
+      "challenge_achievements": [
+        {
+          "apiname": "a30003",
+          "displayName": "Master of Blade",
+          "description": "Unlock all spell of Blade.",
+          "unlocktime": 1785640194
+        },
+        {
+          "apiname": "a30004",
+          "displayName": "Master of Spearstick",
+          "description": "Unlock all spell of Spearstick.",
+          "unlocktime": 1785640195
+        },
+        {
+          "apiname": "a30005",
+          "displayName": "Master of Great sword",
+          "description": "Unlock all spell of Great sword.",
+          "unlocktime": 1785640195
+        },
+        {
+          "apiname": "a30006",
+          "displayName": "Master of Kung Fu",
+          "description": "Unlock all spell of Knuckles.",
+          "unlocktime": 1785640195
+        },
+        {
+          "apiname": "a30007",
+          "displayName": "Master of Dual Blade",
+          "description": "Unlock all spell of Dual Blade.",
+          "unlocktime": 1785640195
+        },
+        {
+          "apiname": "a30008",
+          "displayName": "Master of Magic",
+          "description": "Unlock all spell of Magic.",
+          "unlocktime": 1785640195
+        },
+        {
+          "apiname": "a30001",
+          "displayName": "Justice martial art",
+          "description": "Dressed all the equipment of sect.",
+          "unlocktime": 1785643842
+        },
+        {
+          "apiname": "a10008",
+          "displayName": "Sharp Eyes",
+          "description": "Guess 5 times in a guessing jar game.",
+          "unlocktime": 1785645742
+        },
+        {
+          "apiname": "a10002",
+          "displayName": "Novice Detective",
+          "description": "Investigate for 10 times.",
+          "unlocktime": 1785646050
+        },
+        {
+          "apiname": "a10003",
+          "displayName": "Blood Messenger",
+          "description": "Collect 6000 blood essence.",
+          "unlocktime": 1785646317
+        },
+        {
+          "apiname": "a10012",
+          "displayName": "Drink a toast",
+          "description": "Collect 5 bottles of wine.",
+          "unlocktime": 1785646765
+        },
+        {
+          "apiname": "a40001",
+          "displayName": "Pursuing navigation",
+          "description": "Found the key of Yilong studio.",
+          "unlocktime": 1785647296
+        },
+        {
+          "apiname": "a10011",
+          "displayName": "Ore Collector",
+          "description": "Collect 10 Iron Ore.",
+          "unlocktime": 1785723124
+        },
+        {
+          "apiname": "a20009",
+          "displayName": "Boss Void",
+          "description": "Defeat Boss Void.",
+          "unlocktime": 1785724100
+        },
+        {
+          "apiname": "a10001",
+          "displayName": "Mania for Destruction",
+          "description": "Destroy 250 items in scene.",
+          "unlocktime": 1785724239
+        },
+        {
+          "apiname": "a20002",
+          "displayName": "Silent Executioner",
+          "description": "Kill 20 enemies with Blood Sniff.",
+          "unlocktime": 1785726803
+        },
+        {
+          "apiname": "a20008",
+          "displayName": "Boss Bloodthirsty",
+          "description": "Defeat Bloodthirster.",
+          "unlocktime": 1785727101
+        },
+        {
+          "apiname": "a40003",
+          "displayName": "Secret base",
+          "description": "Enter YiLong studio.",
+          "unlocktime": 1785727138
+        },
+        {
+          "apiname": "a10013",
+          "displayName": "Catch mice",
+          "description": "Destroy 9 mice in the mini-game.",
+          "unlocktime": 1785729103
+        },
+        {
+          "apiname": "a20003",
+          "displayName": "Counterattack Proficient",
+          "description": "Succeed to counterattack enemy for 20 times.",
+          "unlocktime": 1785729415
+        },
+        {
+          "apiname": "a10007",
+          "displayName": "The No.1 Thief",
+          "description": "Open 5 big treasure chests.",
+          "unlocktime": 1785729633
         }
       ],
       "challenge_achievement_count": 21,
@@ -1312,117 +1507,6 @@
       "is_winner": false
     },
     {
-      "username": "PsychoApeMan",
-      "sg_username": "PsychoApeMan",
-      "steam_id": "76561197994025244",
-      "avatar_url": "https://avatars.steamstatic.com/8feb0392e23cf7ce12d4021de64b395591d932bd_medium.jpg",
-      "profile_url": "https://steamcommunity.com/profiles/76561197994025244",
-      "is_guest": false,
-      "owned": true,
-      "stats_available": true,
-      "wrote_review": false,
-      "review_voted_up": null,
-      "review_timestamp": null,
-      "review_recommendationid": null,
-      "review_url": null,
-      "playtime_total_minutes": 82,
-      "playtime_2weeks_minutes": 82,
-      "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 82,
-      "achievements_total": 60,
-      "achievements_unlocked_total": 12,
-      "achievements_before_challenge": 0,
-      "achievements_since_baseline": 12,
-      "challenge_achievements": [
-        {
-          "apiname": "a30003",
-          "displayName": "Master of Blade",
-          "description": "Unlock all spell of Blade.",
-          "unlocktime": 1785640194
-        },
-        {
-          "apiname": "a30004",
-          "displayName": "Master of Spearstick",
-          "description": "Unlock all spell of Spearstick.",
-          "unlocktime": 1785640195
-        },
-        {
-          "apiname": "a30005",
-          "displayName": "Master of Great sword",
-          "description": "Unlock all spell of Great sword.",
-          "unlocktime": 1785640195
-        },
-        {
-          "apiname": "a30006",
-          "displayName": "Master of Kung Fu",
-          "description": "Unlock all spell of Knuckles.",
-          "unlocktime": 1785640195
-        },
-        {
-          "apiname": "a30007",
-          "displayName": "Master of Dual Blade",
-          "description": "Unlock all spell of Dual Blade.",
-          "unlocktime": 1785640195
-        },
-        {
-          "apiname": "a30008",
-          "displayName": "Master of Magic",
-          "description": "Unlock all spell of Magic.",
-          "unlocktime": 1785640195
-        },
-        {
-          "apiname": "a30001",
-          "displayName": "Justice martial art",
-          "description": "Dressed all the equipment of sect.",
-          "unlocktime": 1785643842
-        },
-        {
-          "apiname": "a10008",
-          "displayName": "Sharp Eyes",
-          "description": "Guess 5 times in a guessing jar game.",
-          "unlocktime": 1785645742
-        },
-        {
-          "apiname": "a10002",
-          "displayName": "Novice Detective",
-          "description": "Investigate for 10 times.",
-          "unlocktime": 1785646050
-        },
-        {
-          "apiname": "a10003",
-          "displayName": "Blood Messenger",
-          "description": "Collect 6000 blood essence.",
-          "unlocktime": 1785646317
-        },
-        {
-          "apiname": "a10012",
-          "displayName": "Drink a toast",
-          "description": "Collect 5 bottles of wine.",
-          "unlocktime": 1785646765
-        },
-        {
-          "apiname": "a40001",
-          "displayName": "Pursuing navigation",
-          "description": "Found the key of Yilong studio.",
-          "unlocktime": 1785647296
-        }
-      ],
-      "challenge_achievement_count": 12,
-      "has_started": true,
-      "is_complete": false,
-      "completed_at": null,
-      "completed_before_start": false,
-      "completed_after_deadline": false,
-      "story_unlocked": false,
-      "story_unlocktime": null,
-      "story_after_deadline": false,
-      "win_tier": null,
-      "qualified_at": null,
-      "meets_playtime": false,
-      "meets_review": false,
-      "is_winner": false
-    },
-    {
       "username": "adam1224",
       "sg_username": null,
       "steam_id": "76561198025823574",
@@ -1528,6 +1612,93 @@
       "is_winner": false
     },
     {
+      "username": "Thexder",
+      "sg_username": "Thexder",
+      "steam_id": "76561197989280149",
+      "avatar_url": "https://avatars.steamstatic.com/17404bfb8f6d11d310ff6d51e48c32c3263f066f_medium.jpg",
+      "profile_url": "https://steamcommunity.com/profiles/76561197989280149",
+      "is_guest": false,
+      "owned": true,
+      "stats_available": true,
+      "wrote_review": false,
+      "review_voted_up": null,
+      "review_timestamp": null,
+      "review_recommendationid": null,
+      "review_url": null,
+      "playtime_total_minutes": 60,
+      "playtime_2weeks_minutes": 60,
+      "baseline_playtime_minutes": 0,
+      "playtime_challenge_minutes": 60,
+      "achievements_total": 60,
+      "achievements_unlocked_total": 8,
+      "achievements_before_challenge": 0,
+      "achievements_since_baseline": 8,
+      "challenge_achievements": [
+        {
+          "apiname": "a30003",
+          "displayName": "Master of Blade",
+          "description": "Unlock all spell of Blade.",
+          "unlocktime": 1785725824
+        },
+        {
+          "apiname": "a30004",
+          "displayName": "Master of Spearstick",
+          "description": "Unlock all spell of Spearstick.",
+          "unlocktime": 1785725825
+        },
+        {
+          "apiname": "a30005",
+          "displayName": "Master of Great sword",
+          "description": "Unlock all spell of Great sword.",
+          "unlocktime": 1785725825
+        },
+        {
+          "apiname": "a30006",
+          "displayName": "Master of Kung Fu",
+          "description": "Unlock all spell of Knuckles.",
+          "unlocktime": 1785725825
+        },
+        {
+          "apiname": "a30007",
+          "displayName": "Master of Dual Blade",
+          "description": "Unlock all spell of Dual Blade.",
+          "unlocktime": 1785725825
+        },
+        {
+          "apiname": "a30008",
+          "displayName": "Master of Magic",
+          "description": "Unlock all spell of Magic.",
+          "unlocktime": 1785725825
+        },
+        {
+          "apiname": "a30001",
+          "displayName": "Justice martial art",
+          "description": "Dressed all the equipment of sect.",
+          "unlocktime": 1785727227
+        },
+        {
+          "apiname": "a10012",
+          "displayName": "Drink a toast",
+          "description": "Collect 5 bottles of wine.",
+          "unlocktime": 1785729769
+        }
+      ],
+      "challenge_achievement_count": 8,
+      "has_started": true,
+      "is_complete": false,
+      "completed_at": null,
+      "completed_before_start": false,
+      "completed_after_deadline": false,
+      "story_unlocked": false,
+      "story_unlocktime": null,
+      "story_after_deadline": false,
+      "win_tier": null,
+      "qualified_at": null,
+      "meets_playtime": false,
+      "meets_review": false,
+      "is_winner": false
+    },
+    {
       "username": "lockcjwen",
       "sg_username": "lockcjwen",
       "steam_id": "76561198234142828",
@@ -1590,44 +1761,6 @@
       "challenge_achievements": [],
       "challenge_achievement_count": 0,
       "has_started": true,
-      "is_complete": false,
-      "completed_at": null,
-      "completed_before_start": false,
-      "completed_after_deadline": false,
-      "story_unlocked": false,
-      "story_unlocktime": null,
-      "story_after_deadline": false,
-      "win_tier": null,
-      "qualified_at": null,
-      "meets_playtime": false,
-      "meets_review": false,
-      "is_winner": false
-    },
-    {
-      "username": "Thexder",
-      "sg_username": "Thexder",
-      "steam_id": "76561197989280149",
-      "avatar_url": "https://avatars.steamstatic.com/17404bfb8f6d11d310ff6d51e48c32c3263f066f_medium.jpg",
-      "profile_url": "https://steamcommunity.com/profiles/76561197989280149",
-      "is_guest": false,
-      "owned": true,
-      "stats_available": true,
-      "wrote_review": false,
-      "review_voted_up": null,
-      "review_timestamp": null,
-      "review_recommendationid": null,
-      "review_url": null,
-      "playtime_total_minutes": 0,
-      "playtime_2weeks_minutes": 0,
-      "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 0,
-      "achievements_total": 60,
-      "achievements_unlocked_total": 0,
-      "achievements_before_challenge": 0,
-      "achievements_since_baseline": 0,
-      "challenge_achievements": [],
-      "challenge_achievement_count": 0,
-      "has_started": false,
       "is_complete": false,
       "completed_at": null,
       "completed_before_start": false,
@@ -2007,6 +2140,22 @@
       "avatar_url": "https://avatars.steamstatic.com/ccbefcdd68c6af964f7c80388cb0414da7d04273_medium.jpg",
       "profile_url": "https://steamcommunity.com/profiles/76561198185630581",
       "playtime_total_minutes": 366,
+      "playtime_2weeks_minutes": 0,
+      "achievements_unlocked_total": 0,
+      "achievements_total": 60,
+      "challenge_achievement_count": 0,
+      "wrote_review": false,
+      "review_voted_up": null,
+      "review_timestamp": null,
+      "review_recommendationid": null,
+      "review_url": null
+    },
+    {
+      "username": "xXShurraXx",
+      "steam_id": "76561198101327606",
+      "avatar_url": "https://avatars.steamstatic.com/2d4d805c41e77a2a460bf3666fe9cbeedd9c0c2a_medium.jpg",
+      "profile_url": "https://steamcommunity.com/profiles/76561198101327606",
+      "playtime_total_minutes": 323,
       "playtime_2weeks_minutes": 0,
       "achievements_unlocked_total": 0,
       "achievements_total": 60,
