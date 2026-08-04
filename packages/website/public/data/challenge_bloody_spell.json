@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1785542400,
   "totalAchievements": 60,
-  "generatedAt": 1785830482377,
+  "generatedAt": 1785841434201,
   "challengeOver": false,
   "winnerUsername": null,
   "participants": [
@@ -1475,14 +1475,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 389,
-      "playtime_2weeks_minutes": 389,
+      "playtime_total_minutes": 441,
+      "playtime_2weeks_minutes": 441,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 389,
+      "playtime_challenge_minutes": 441,
       "achievements_total": 60,
-      "achievements_unlocked_total": 26,
+      "achievements_unlocked_total": 30,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 26,
+      "achievements_since_baseline": 30,
       "challenge_achievements": [
         {
           "apiname": "a30003",
@@ -1639,9 +1639,33 @@
           "displayName": "Skilled craftsmen",
           "description": "Successfully upgrade equipment 9 times in the mini-game.",
           "unlocktime": 1785793923
+        },
+        {
+          "apiname": "a10006",
+          "displayName": "Treasure Hunter",
+          "description": "Open 15 chests.",
+          "unlocktime": 1785836815
+        },
+        {
+          "apiname": "a20001",
+          "displayName": "Walking Shadow",
+          "description": "Succeed to evade enemy attack for 20 times in a row.",
+          "unlocktime": 1785837026
+        },
+        {
+          "apiname": "a20027",
+          "displayName": "BOSS XiaoLi",
+          "description": "Defeat BOSS XiaoLi.",
+          "unlocktime": 1785838078
+        },
+        {
+          "apiname": "a20028",
+          "displayName": "BOSS SuYejin",
+          "description": "Defeat BOSS SuYejin.",
+          "unlocktime": 1785838801
         }
       ],
-      "challenge_achievement_count": 26,
+      "challenge_achievement_count": 30,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
