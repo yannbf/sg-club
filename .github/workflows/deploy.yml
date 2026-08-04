@@ -70,9 +70,10 @@ jobs:
       (github.event_name == 'workflow_dispatch' && github.event.inputs.job == 'website') ||
       github.event_name == 'push'
     runs-on: ubuntu-latest
-    # Typical run is ~13 min; cap at 30 so a stuck HLTB/SG fetch can't burn
-    # the default 6h runner allowance.
-    timeout-minutes: 30
+    # Runs have grown to ~30 min as the giveaways ∪ wishlist set grows (the
+    # price/review loop iterates it fresh each run); cap at 50 so a stuck
+    # HLTB/SG fetch still can't burn the default 6h runner allowance.
+    timeout-minutes: 50
     env:
       STEAM_API_KEY: ${{ secrets.STEAM_API_KEY }}
       SG_TOKEN: ${{ secrets.SG_TOKEN }}
@@ -121,6 +122,9 @@ jobs:
                 echo "Push still rejected after 5 attempts"; exit 1
               fi
               echo "Push rejected (attempt $attempt) — rebasing on latest and retrying"
+              # The data step can leave modified files outside the staged
+              # paths; they'd make the rebase abort with "unstaged changes".
+              git checkout -- .
               git pull --rebase origin ${{ github.ref_name }}
               sleep 5
             done
@@ -187,6 +191,9 @@ jobs:
                 echo "Push still rejected after 5 attempts"; exit 1
               fi
               echo "Push rejected (attempt $attempt) — rebasing on latest and retrying"
+              # The data step can leave modified files outside the staged
+              # paths; they'd make the rebase abort with "unstaged changes".
+              git checkout -- .
               git pull --rebase origin ${{ github.ref_name }}
               sleep 5
             done
@@ -260,6 +267,9 @@ jobs:
                 echo "Push still rejected after 5 attempts"; exit 1
               fi
               echo "Push rejected (attempt $attempt) — rebasing on latest and retrying"
+              # The data step can leave modified files outside the staged
+              # paths; they'd make the rebase abort with "unstaged changes".
+              git checkout -- .
               git pull --rebase origin ${{ github.ref_name }}
               sleep 5
             done
@@ -325,6 +335,9 @@ jobs:
                 echo "Push still rejected after 5 attempts"; exit 1
               fi
               echo "Push rejected (attempt $attempt) — rebasing on latest and retrying"
+              # The data step can leave modified files outside the staged
+              # paths; they'd make the rebase abort with "unstaged changes".
+              git checkout -- .
               git pull --rebase origin ${{ github.ref_name }}
               sleep 5
             done
