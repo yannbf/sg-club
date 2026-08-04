@@ -33,6 +33,10 @@ interface GameData {
   price_usd_reduced: number | null
   needs_manual_update: boolean
   hltb_main_story_hours: number | null
+  // When we last asked HLTB about this game. Lets a null result act as a
+  // negative cache (HLTB simply has no entry for many giveaway games) instead
+  // of being retried on every run.
+  hltb_checked_at?: string | null
   // Steam store review summary — fetched incrementally (see
   // REVIEWS_PER_RUN cap below), independent of the price/HLTB cache-forever
   // semantics since review data legitimately goes stale over time.
@@ -74,6 +78,9 @@ const API_BASE_URL = 'https://esgst.rafaelgomes.xyz/api/game'
 
 const REVIEWS_DELAY_MS = 300
 const REVIEWS_STALE_MS = 30 * 24 * 60 * 60 * 1000 // 30 days — review scores move slowly
+// How long a null HLTB result is trusted before we ask again. Most nulls are
+// games HLTB will never have, so retrying often is pure wasted wallclock.
+const HLTB_NULL_RETRY_MS = 30 * 24 * 60 * 60 * 1000 // 30 days
 
 /**
  * How many brand-new games (not yet present in game_data.json) get the full
@@ -120,9 +127,10 @@ async function fetchPriceData(
   price_usd_reduced: number | null
   needs_manual_update: boolean
 }> {
-  // First check in cached data
+  // First check in cached data. Note != null, not truthiness: free games have
+  // price 0, and a truthy check made every one of them refetch on every run.
   const cachedGame = cache.get(id) ?? existingGame
-  if (cachedGame?.price_usd_full) {
+  if (cachedGame && cachedGame.price_usd_full != null) {
     console.log(
       `💰 Using cached price data: $${(cachedGame.price_usd_full / 100).toFixed(
         2
@@ -202,7 +210,7 @@ async function fetchHltbData(
   gameName: string,
   existingGame: GameData | null,
   cache: Map<number, GameData>
-): Promise<number | null> {
+): Promise<{ hours: number | null; checkedAt: string | null }> {
   // First check runtime cache for any game with this name
   const cachedGame = cache.get(id) ?? existingGame
 
@@ -215,7 +223,20 @@ async function fetchHltbData(
     console.log(
       `📝 Using cached HLTB data: ${cachedGame.hltb_main_story_hours} hours`
     )
-    return cachedGame.hltb_main_story_hours
+    return {
+      hours: cachedGame.hltb_main_story_hours,
+      checkedAt: cachedGame.hltb_checked_at ?? null,
+    }
+  }
+
+  // Negative cache: a recent null answer means HLTB (probably) has no entry
+  // for this game — trust that for a while instead of re-asking every run.
+  if (
+    cachedGame?.hltb_checked_at &&
+    Date.now() - new Date(cachedGame.hltb_checked_at).getTime() <
+      HLTB_NULL_RETRY_MS
+  ) {
+    return { hours: null, checkedAt: cachedGame.hltb_checked_at }
   }
 
   // Otherwise, fetch new data
@@ -223,10 +244,14 @@ async function fetchHltbData(
     console.log(`🕹️ Fetching HLTB data for "${gameName}"...`)
     const hltbData = await hltb.getGameInfo(gameName)
     console.log(`✅ HLTB data: ${hltbData.mainStoryHours} hours`)
-    return hltbData.mainStoryHours
+    // A null here is a genuine "HLTB has no entry" answer — stamp it so the
+    // negative cache kicks in.
+    return { hours: hltbData.mainStoryHours, checkedAt: new Date().toISOString() }
   } catch (error) {
+    // Transient failure (HLTB throws on network/5xx) — keep the old stamp so
+    // the next run retries instead of negative-caching an outage for 30 days.
     console.error(`❌ Error fetching HLTB data for "${gameName}":`, error)
-    return null
+    return { hours: null, checkedAt: cachedGame?.hltb_checked_at ?? null }
   }
 }
 
@@ -452,6 +477,7 @@ export async function generateGamePrices() {
         price_usd_reduced: priceData.price_usd_reduced,
         needs_manual_update: priceData.needs_manual_update,
         hltb_main_story_hours: null, // Will be updated below
+        hltb_checked_at: existingGame?.hltb_checked_at ?? null,
         rating_percent: existingGame?.rating_percent ?? null,
         review_count: existingGame?.review_count ?? null,
         review_score_desc: existingGame?.review_score_desc ?? null,
@@ -473,12 +499,14 @@ export async function generateGamePrices() {
 
       // Fetch HLTB data if we have a valid game name
       if (gameData.name) {
-        gameData.hltb_main_story_hours = await fetchHltbData(
+        const hltbResult = await fetchHltbData(
           id,
           gameData.name,
           existingGame,
           runtimeCache
         )
+        gameData.hltb_main_story_hours = hltbResult.hours
+        gameData.hltb_checked_at = hltbResult.checkedAt
       }
 
       // Update existing game or add new one
