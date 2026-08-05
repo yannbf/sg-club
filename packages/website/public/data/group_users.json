@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1785880863603,
+  "lastUpdated": 1785902048861,
   "users": {
     "76561198359284432": {
       "username": "a10i",
@@ -978,9 +978,9 @@
         "giveaway_ratio": 12.67,
         "shared_sent_count": 6,
         "shared_received_count": 3,
-        "giveaways_created": 24,
+        "giveaways_created": 25,
         "giveaways_with_no_entries": 0,
-        "last_giveaway_created_at": 1785864048,
+        "last_giveaway_created_at": 1785879449,
         "last_giveaway_won_at": 1781352780,
         "first_seen_at": 1749720354,
         "total_achievements_percentage": 12,
@@ -1346,10 +1346,21 @@
           "name": "The Last Gas Station",
           "link": "Vua6z/the-last-gas-station",
           "cv_status": "FULL_CV",
-          "entries": 10,
+          "entries": 11,
           "copies": 1,
           "created_timestamp": 1785864048,
           "end_timestamp": 1787137200,
+          "required_play": false,
+          "is_shared": false
+        },
+        {
+          "name": "RoboCop: Rogue City - Unfinished Busi...",
+          "link": "5quCb/robocop-rogue-city-unfinished-business",
+          "cv_status": "FULL_CV",
+          "entries": 3,
+          "copies": 1,
+          "created_timestamp": 1785879449,
+          "end_timestamp": 1787742000,
           "required_play": false,
           "is_shared": false
         },
@@ -1882,9 +1893,9 @@
         "giveaway_ratio": 6.33,
         "shared_sent_count": 0,
         "shared_received_count": 1,
-        "giveaways_created": 13,
+        "giveaways_created": 15,
         "giveaways_with_no_entries": 1,
-        "last_giveaway_created_at": 1785550759,
+        "last_giveaway_created_at": 1785891129,
         "last_giveaway_won_at": 1785862800,
         "first_seen_at": 1752969600,
         "total_achievements_percentage": 43,
@@ -2260,6 +2271,28 @@
         }
       ],
       "giveaways_created": [
+        {
+          "name": "Need for Speed Hot Pursuit Remastered",
+          "link": "8wILk/need-for-speed-hot-pursuit-remastered",
+          "cv_status": "FULL_CV",
+          "entries": 0,
+          "copies": 1,
+          "created_timestamp": 1785891129,
+          "end_timestamp": 1786153320,
+          "required_play": false,
+          "is_shared": false
+        },
+        {
+          "name": "Need for Speed Rivals",
+          "link": "4fBle/need-for-speed-rivals",
+          "cv_status": "FULL_CV",
+          "entries": 0,
+          "copies": 1,
+          "created_timestamp": 1785890736,
+          "end_timestamp": 1786153320,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "Yomawari: Midnight Shadows",
           "link": "hlEwy/yomawari-midnight-shadows",
@@ -19687,7 +19720,7 @@
           "name": "Like a Dragon: Infinite Wealth",
           "link": "NUlDg/like-a-dragon-infinite-wealth",
           "cv_status": "FULL_CV",
-          "entries": 12,
+          "entries": 10,
           "copies": 1,
           "created_timestamp": 1785528146,
           "end_timestamp": 1786132800,
@@ -20976,7 +21009,7 @@
           "name": "Assassin's Creed Black Flag Resynced",
           "link": "tKwox/assassins-creed-black-flag-resynced",
           "cv_status": "FULL_CV",
-          "entries": 31,
+          "entries": 30,
           "copies": 1,
           "created_timestamp": 1785515908,
           "end_timestamp": 1786161540,
@@ -22855,7 +22888,7 @@
           "name": "Fable",
           "link": "JXbs6/fable",
           "cv_status": "FULL_CV",
-          "entries": 58,
+          "entries": 59,
           "copies": 1,
           "created_timestamp": 1785526136,
           "end_timestamp": 1786744800,
@@ -35330,6 +35363,7 @@
       "registered_at": 1740325672,
       "warnings": [
         "unplayed_required_play_giveaways",
+        "illegal_entered_required_play_giveaways",
         "required_plays_need_review",
         "low_play_rate_many_wins"
       ]
@@ -37464,7 +37498,7 @@
           "name": "Promise Mascot Agency",
           "link": "oaP5l/promise-mascot-agency",
           "cv_status": "FULL_CV",
-          "entries": 16,
+          "entries": 17,
           "copies": 1,
           "created_timestamp": 1785786853,
           "end_timestamp": 1786176000,
@@ -39264,7 +39298,7 @@
           "name": "Dead Cells: Return to Castlevania",
           "link": "omWqF/dead-cells-return-to-castlevania",
           "cv_status": "FULL_CV",
-          "entries": 3,
+          "entries": 4,
           "copies": 1,
           "created_timestamp": 1785863546,
           "end_timestamp": 1786219200,
@@ -41450,7 +41484,7 @@
           "name": "Vampire Crawlers: The Turbo Wildcard ...",
           "link": "PzDgO/vampire-crawlers-the-turbo-wildcard-from-vampire-survivors",
           "cv_status": "FULL_CV",
-          "entries": 41,
+          "entries": 44,
           "copies": 1,
           "created_timestamp": 1785772358,
           "end_timestamp": 1785948660,
@@ -50193,7 +50227,7 @@
           "name": "Dead Cells",
           "link": "g0bYF/dead-cells",
           "cv_status": "FULL_CV",
-          "entries": 6,
+          "entries": 5,
           "copies": 1,
           "created_timestamp": 1785659457,
           "end_timestamp": 1786107600,
@@ -52595,7 +52629,7 @@
           "name": "Sephiria",
           "link": "S7ZzB/sephiria",
           "cv_status": "FULL_CV",
-          "entries": 8,
+          "entries": 9,
           "copies": 1,
           "created_timestamp": 1785715108,
           "end_timestamp": 1785974400,
@@ -54613,9 +54647,9 @@
         "giveaway_ratio": 0.67,
         "shared_sent_count": 191,
         "shared_received_count": 2,
-        "giveaways_created": 181,
+        "giveaways_created": 182,
         "giveaways_with_no_entries": 0,
-        "last_giveaway_created_at": 1785811936,
+        "last_giveaway_created_at": 1785897906,
         "last_giveaway_won_at": 1764944580,
         "first_seen_at": 1749687895,
         "total_achievements_percentage": 44,
@@ -54812,7 +54846,7 @@
           "name": "Rainbow Billy: The Curse of the Levia...",
           "link": "Gvamp/rainbow-billy-the-curse-of-the-leviathan",
           "cv_status": "REDUCED_CV",
-          "entries": 44,
+          "entries": 45,
           "copies": 1,
           "created_timestamp": 1785718856,
           "end_timestamp": 1786334400,
@@ -54823,10 +54857,21 @@
           "name": "Little Problems: A Cozy Detective Game",
           "link": "1w2EK/little-problems-a-cozy-detective-game",
           "cv_status": "REDUCED_CV",
-          "entries": 48,
+          "entries": 51,
           "copies": 1,
           "created_timestamp": 1785811936,
           "end_timestamp": 1786420800,
+          "required_play": false,
+          "is_shared": true
+        },
+        {
+          "name": "What Lies in the Multiverse",
+          "link": "7TF5B/what-lies-in-the-multiverse",
+          "cv_status": "REDUCED_CV",
+          "entries": 5,
+          "copies": 2,
+          "created_timestamp": 1785897906,
+          "end_timestamp": 1786507200,
           "required_play": false,
           "is_shared": true
         },
@@ -62495,11 +62540,11 @@
         "real_total_gift_difference": -5,
         "giveaway_ratio": 9.33,
         "shared_sent_count": 15,
-        "shared_received_count": 9,
+        "shared_received_count": 10,
         "giveaways_created": 29,
         "giveaways_with_no_entries": 2,
         "last_giveaway_created_at": 1783081366,
-        "last_giveaway_won_at": 1784710800,
+        "last_giveaway_won_at": 1785862800,
         "first_seen_at": 1749682838,
         "total_achievements_percentage": 52,
         "average_achievements_percentage": 52,
@@ -62510,6 +62555,15 @@
       "steam_profile_is_private": false,
       "country_code": "gr",
       "giveaways_won": [
+        {
+          "name": "Life of Delta",
+          "link": "tcmxX/life-of-delta",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1785862800,
+          "required_play": true,
+          "is_shared": true
+        },
         {
           "name": "Mari and Bayu - The Road Home",
           "link": "qbcAZ/mari-and-bayu-the-road-home",
@@ -63980,6 +64034,8 @@
       ],
       "registered_at": 1396356781,
       "warnings": [
+        "unplayed_required_play_giveaways",
+        "illegal_entered_required_play_giveaways",
         "required_plays_need_review"
       ]
     },
@@ -66223,7 +66279,7 @@
           "name": "Hell is Us",
           "link": "iDXxz/hell-is-us",
           "cv_status": "FULL_CV",
-          "entries": 89,
+          "entries": 90,
           "copies": 1,
           "created_timestamp": 1785602068,
           "end_timestamp": 1786030200,
@@ -66234,7 +66290,7 @@
           "name": "Dark Envoy",
           "link": "raH0B/dark-envoy",
           "cv_status": "REDUCED_CV",
-          "entries": 6,
+          "entries": 8,
           "copies": 1,
           "created_timestamp": 1785865528,
           "end_timestamp": 1786289940,
@@ -80118,7 +80174,7 @@
         "real_total_received_count": 8,
         "real_total_gift_difference": 0,
         "giveaway_ratio": 5.33,
-        "shared_sent_count": 5,
+        "shared_sent_count": 6,
         "shared_received_count": 0,
         "giveaways_created": 14,
         "giveaways_with_no_entries": 0,
@@ -80382,6 +80438,12 @@
             {
               "name": "ALUSHAL",
               "winner_username": "ALUSHAL",
+              "status": "received",
+              "activated": true
+            },
+            {
+              "name": "76561198069420656",
+              "winner_username": "Metalhead8489",
               "status": "received",
               "activated": true
             }
@@ -90222,9 +90284,9 @@
         "giveaway_ratio": 3.33,
         "shared_sent_count": 2,
         "shared_received_count": 4,
-        "giveaways_created": 13,
+        "giveaways_created": 14,
         "giveaways_with_no_entries": 0,
-        "last_giveaway_created_at": 1782420702,
+        "last_giveaway_created_at": 1785881889,
         "last_giveaway_won_at": 1785028260,
         "first_seen_at": 1749800993,
         "total_achievements_percentage": 10,
@@ -91104,6 +91166,17 @@
       ],
       "giveaways_created": [
         {
+          "name": "Red Dead Redemption",
+          "link": "2aagp/red-dead-redemption",
+          "cv_status": "FULL_CV",
+          "entries": 13,
+          "copies": 1,
+          "created_timestamp": 1785881889,
+          "end_timestamp": 1786144200,
+          "required_play": true,
+          "is_shared": false
+        },
+        {
           "name": "FINAL FANTASY IX",
           "link": "ycGpf/final-fantasy-ix",
           "cv_status": "FULL_CV",
@@ -91418,9 +91491,9 @@
         "giveaway_ratio": 1.33,
         "shared_sent_count": 2,
         "shared_received_count": 0,
-        "giveaways_created": 5,
+        "giveaways_created": 6,
         "giveaways_with_no_entries": 0,
-        "last_giveaway_created_at": 1781696232,
+        "last_giveaway_created_at": 1785879500,
         "last_giveaway_won_at": 1781589600,
         "first_seen_at": 1749938115,
         "total_achievements_percentage": 54,
@@ -91548,6 +91621,17 @@
         }
       ],
       "giveaways_created": [
+        {
+          "name": "Resident Evil 4 Gold Edition",
+          "link": "unGgt/resident-evil-4-gold-edition",
+          "cv_status": "FULL_CV",
+          "entries": 3,
+          "copies": 1,
+          "created_timestamp": 1785879500,
+          "end_timestamp": 1786138560,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "Dying Light 2 Stay Human: Reloaded Ed...",
           "link": "FCjCW/dying-light-2-stay-human-reloaded-edition",
@@ -91686,15 +91770,28 @@
         "giveaway_ratio": 0,
         "shared_sent_count": 0,
         "shared_received_count": 0,
-        "giveaways_created": 0,
+        "giveaways_created": 1,
         "giveaways_with_no_entries": 0,
-        "last_giveaway_created_at": null,
+        "last_giveaway_created_at": 1785833939,
         "last_giveaway_won_at": null,
-        "first_seen_at": 1785880733
+        "first_seen_at": 1785833939
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198064970339",
-      "registered_at": 1375201255,
-      "country_code": "bg"
+      "country_code": "bg",
+      "giveaways_created": [
+        {
+          "name": "DOOM",
+          "link": "GfiAn/doom",
+          "cv_status": "FULL_CV",
+          "entries": 1,
+          "copies": 1,
+          "created_timestamp": 1785833939,
+          "end_timestamp": 1786352400,
+          "required_play": true,
+          "is_shared": false
+        }
+      ],
+      "registered_at": 1375201255
     },
     "76561197989280149": {
       "username": "Thexder",
@@ -92769,7 +92866,6 @@
           ]
         }
       ],
-      "registered_at": 1449483057,
       "warnings": [
         "no_giveaway_created_in_6_months"
       ]
@@ -93198,7 +93294,6 @@
           ]
         }
       ],
-      "registered_at": 1744874111,
       "warnings": [
         "no_giveaway_created_in_6_months"
       ]
@@ -95430,7 +95525,7 @@
           "name": "The Alters",
           "link": "C4r27/the-alters",
           "cv_status": "FULL_CV",
-          "entries": 103,
+          "entries": 104,
           "copies": 1,
           "created_timestamp": 1785150181,
           "end_timestamp": 1785924000,
@@ -97986,9 +98081,9 @@
         "giveaway_ratio": 9.33,
         "shared_sent_count": 0,
         "shared_received_count": 0,
-        "giveaways_created": 17,
+        "giveaways_created": 22,
         "giveaways_with_no_entries": 1,
-        "last_giveaway_created_at": 1778356588,
+        "last_giveaway_created_at": 1785885188,
         "last_giveaway_won_at": 1785150480,
         "first_seen_at": 1750425846,
         "total_achievements_percentage": 25,
@@ -98581,6 +98676,61 @@
         }
       ],
       "giveaways_created": [
+        {
+          "name": "Cruelty Squad",
+          "link": "Sezad/cruelty-squad",
+          "cv_status": "FULL_CV",
+          "entries": 0,
+          "copies": 1,
+          "created_timestamp": 1785881384,
+          "end_timestamp": 1786143720,
+          "required_play": false,
+          "is_shared": false
+        },
+        {
+          "name": "Märchen Forest",
+          "link": "KIJk6/marchen-forest",
+          "cv_status": "FULL_CV",
+          "entries": 2,
+          "copies": 1,
+          "created_timestamp": 1785882647,
+          "end_timestamp": 1786144500,
+          "required_play": false,
+          "is_shared": false
+        },
+        {
+          "name": "Possessor(s)",
+          "link": "nm2AH/possessors",
+          "cv_status": "FULL_CV",
+          "entries": 0,
+          "copies": 1,
+          "created_timestamp": 1785885188,
+          "end_timestamp": 1786144800,
+          "required_play": false,
+          "is_shared": false
+        },
+        {
+          "name": "Card Shark",
+          "link": "NBDEH/card-shark",
+          "cv_status": "FULL_CV",
+          "entries": 2,
+          "copies": 1,
+          "created_timestamp": 1785885142,
+          "end_timestamp": 1786144800,
+          "required_play": false,
+          "is_shared": false
+        },
+        {
+          "name": "Cult of the Lamb",
+          "link": "WtxiN/cult-of-the-lamb",
+          "cv_status": "FULL_CV",
+          "entries": 1,
+          "copies": 1,
+          "created_timestamp": 1785885123,
+          "end_timestamp": 1786144800,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "Gambonanza",
           "link": "Y2QKO/gambonanza",
@@ -101187,7 +101337,7 @@
           "name": "Amnesia: Rebirth",
           "link": "stmBt/amnesia-rebirth",
           "cv_status": "REDUCED_CV",
-          "entries": 14,
+          "entries": 12,
           "copies": 1,
           "created_timestamp": 1785437326,
           "end_timestamp": 1786128000,
@@ -105204,7 +105354,8 @@
             }
           ]
         }
-      ]
+      ],
+      "registered_at": 1640644736
     },
     "76561197983161455": {
       "username": "zeus9860",
@@ -105312,6 +105463,7 @@
           ]
         }
       ],
+      "registered_at": 1317338226,
       "warnings": [
         "no_giveaway_created_in_6_months"
       ]
