@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1785914654975,
+  "lastUpdated": 1785927986225,
   "users": {
     "76561198359284432": {
       "username": "a10i",
@@ -16360,26 +16360,26 @@
       "avatar_url": "https://avatars.steamstatic.com/d7c961f7ae6d1bccfb8520d569e1bf53f6f9e8f4_medium.jpg",
       "steam_id": "76561198055569704",
       "stats": {
-        "total_sent_count": 45,
-        "total_sent_value": 657.55,
+        "total_sent_count": 46,
+        "total_sent_value": 669.54,
         "total_received_count": 44.3,
         "total_received_value": 730.22,
-        "total_gift_difference": 0.7,
-        "total_value_difference": -72.67,
-        "fcv_sent_count": 43,
+        "total_gift_difference": 1.7,
+        "total_value_difference": -60.68,
+        "fcv_sent_count": 44,
         "rcv_sent_count": 2,
         "ncv_sent_count": 0,
         "fcv_received_count": 41,
         "rcv_received_count": 1,
         "ncv_received_count": 0,
-        "fcv_gift_difference": 2,
-        "real_total_sent_value": 623.57,
+        "fcv_gift_difference": 3,
+        "real_total_sent_value": 635.56,
         "real_total_received_value": 694.04,
-        "real_total_value_difference": -70.47,
-        "real_total_sent_count": 43,
+        "real_total_value_difference": -58.48,
+        "real_total_sent_count": 44,
         "real_total_received_count": 41,
-        "real_total_gift_difference": 2,
-        "giveaway_ratio": 32.67,
+        "real_total_gift_difference": 3,
+        "giveaway_ratio": 33.67,
         "shared_sent_count": 0,
         "shared_received_count": 3,
         "giveaways_created": 39,
@@ -17343,7 +17343,16 @@
           "created_timestamp": 1785610508,
           "end_timestamp": 1785916800,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "76561198040188513",
+              "winner_username": "kiseli",
+              "status": "received",
+              "activated": true
+            }
+          ]
         },
         {
           "name": "Hohokum",
@@ -19764,7 +19773,7 @@
           "name": "Like a Dragon: Infinite Wealth",
           "link": "NUlDg/like-a-dragon-infinite-wealth",
           "cv_status": "FULL_CV",
-          "entries": 9,
+          "entries": 8,
           "copies": 1,
           "created_timestamp": 1785528146,
           "end_timestamp": 1786132800,
@@ -47634,30 +47643,30 @@
       "stats": {
         "total_sent_count": 3,
         "total_sent_value": 64.97,
-        "total_received_count": 3,
-        "total_received_value": 46.97,
-        "total_gift_difference": 0,
-        "total_value_difference": 18,
+        "total_received_count": 4,
+        "total_received_value": 58.96,
+        "total_gift_difference": -1,
+        "total_value_difference": 6.01,
         "fcv_sent_count": 3,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
-        "fcv_received_count": 3,
+        "fcv_received_count": 4,
         "rcv_received_count": 0,
         "ncv_received_count": 0,
-        "fcv_gift_difference": 0,
+        "fcv_gift_difference": -1,
         "real_total_sent_value": 64.97,
-        "real_total_received_value": 46.97,
-        "real_total_value_difference": 18,
+        "real_total_received_value": 58.96,
+        "real_total_value_difference": 6.01,
         "real_total_sent_count": 3,
-        "real_total_received_count": 3,
-        "real_total_gift_difference": 0,
-        "giveaway_ratio": 2,
+        "real_total_received_count": 4,
+        "real_total_gift_difference": -1,
+        "giveaway_ratio": 1.67,
         "shared_sent_count": 0,
         "shared_received_count": 0,
         "giveaways_created": 3,
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1785081190,
-        "last_giveaway_won_at": 1785693600,
+        "last_giveaway_won_at": 1785916800,
         "first_seen_at": 1784367874,
         "total_achievements_percentage": 31,
         "average_achievements_percentage": 30,
@@ -47669,6 +47678,15 @@
       "steam_profile_is_private": false,
       "country_code": "rs",
       "giveaways_won": [
+        {
+          "name": "Dodo Duckie",
+          "link": "j2TzN/dodo-duckie",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1785916800,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "Rusty's Retirement",
           "link": "ys7HU/rustys-retirement",
@@ -54890,7 +54908,7 @@
           "name": "The Gunk",
           "link": "HOcdw/the-gunk",
           "cv_status": "REDUCED_CV",
-          "entries": 21,
+          "entries": 22,
           "copies": 1,
           "created_timestamp": 1785467928,
           "end_timestamp": 1786075200,
@@ -54901,7 +54919,7 @@
           "name": "Entropy Survivors",
           "link": "0Km0m/entropy-survivors",
           "cv_status": "REDUCED_CV",
-          "entries": 69,
+          "entries": 70,
           "copies": 2,
           "created_timestamp": 1785546854,
           "end_timestamp": 1786161600,
@@ -54956,7 +54974,7 @@
           "name": "Little Problems: A Cozy Detective Game",
           "link": "1w2EK/little-problems-a-cozy-detective-game",
           "cv_status": "REDUCED_CV",
-          "entries": 51,
+          "entries": 53,
           "copies": 1,
           "created_timestamp": 1785811936,
           "end_timestamp": 1786420800,
@@ -54967,7 +54985,7 @@
           "name": "What Lies in the Multiverse",
           "link": "7TF5B/what-lies-in-the-multiverse",
           "cv_status": "REDUCED_CV",
-          "entries": 10,
+          "entries": 11,
           "copies": 2,
           "created_timestamp": 1785897906,
           "end_timestamp": 1786507200,
@@ -66400,7 +66418,7 @@
           "name": "Hell is Us",
           "link": "iDXxz/hell-is-us",
           "cv_status": "FULL_CV",
-          "entries": 90,
+          "entries": 91,
           "copies": 1,
           "created_timestamp": 1785602068,
           "end_timestamp": 1786030200,
@@ -68765,7 +68783,6 @@
           ]
         }
       ],
-      "registered_at": 1457824896,
       "warnings": [
         "no_giveaway_created_in_6_months"
       ]
@@ -81615,7 +81632,8 @@
             }
           ]
         }
-      ]
+      ],
+      "registered_at": 1320937373
     },
     "76561198076648919": {
       "username": "RGVS",
@@ -91290,7 +91308,7 @@
           "name": "Red Dead Redemption",
           "link": "2aagp/red-dead-redemption",
           "cv_status": "FULL_CV",
-          "entries": 16,
+          "entries": 18,
           "copies": 1,
           "created_timestamp": 1785881889,
           "end_timestamp": 1786144200,
@@ -91746,7 +91764,7 @@
           "name": "Resident Evil 4 Gold Edition",
           "link": "unGgt/resident-evil-4-gold-edition",
           "cv_status": "FULL_CV",
-          "entries": 4,
+          "entries": 5,
           "copies": 1,
           "created_timestamp": 1785879500,
           "end_timestamp": 1786138560,
@@ -95648,12 +95666,20 @@
           "name": "The Alters",
           "link": "C4r27/the-alters",
           "cv_status": "FULL_CV",
-          "entries": 106,
+          "entries": 108,
           "copies": 1,
           "created_timestamp": 1785150181,
           "end_timestamp": 1785924000,
           "required_play": false,
-          "is_shared": true
+          "is_shared": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "Beast Breaker",
