@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1785542400,
   "totalAchievements": 60,
-  "generatedAt": 1785977515373,
+  "generatedAt": 1785991275780,
   "challengeOver": false,
   "winnerUsername": "yugimax",
   "participants": [
@@ -1703,14 +1703,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 450,
-      "playtime_2weeks_minutes": 450,
+      "playtime_total_minutes": 660,
+      "playtime_2weeks_minutes": 660,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 450,
+      "playtime_challenge_minutes": 660,
       "achievements_total": 60,
-      "achievements_unlocked_total": 31,
+      "achievements_unlocked_total": 33,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 31,
+      "achievements_since_baseline": 33,
       "challenge_achievements": [
         {
           "apiname": "a30003",
@@ -1897,9 +1897,21 @@
           "displayName": "BOSS SuYejin",
           "description": "Defeat BOSS SuYejin.",
           "unlocktime": 1785807144
+        },
+        {
+          "apiname": "a10015",
+          "displayName": "Marksman",
+          "description": "Nest 9 utensils in the ferrule mini-game.",
+          "unlocktime": 1785982021
+        },
+        {
+          "apiname": "a20029",
+          "displayName": "BOSS Guard",
+          "description": "Defeat BOSS Guard.",
+          "unlocktime": 1785988023
         }
       ],
-      "challenge_achievement_count": 31,
+      "challenge_achievement_count": 33,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
@@ -2135,14 +2147,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 150,
-      "playtime_2weeks_minutes": 150,
+      "playtime_total_minutes": 192,
+      "playtime_2weeks_minutes": 192,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 150,
+      "playtime_challenge_minutes": 192,
       "achievements_total": 60,
-      "achievements_unlocked_total": 20,
+      "achievements_unlocked_total": 21,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 20,
+      "achievements_since_baseline": 21,
       "challenge_achievements": [
         {
           "apiname": "a30003",
@@ -2263,9 +2275,15 @@
           "displayName": "Catch mice",
           "description": "Destroy 9 mice in the mini-game.",
           "unlocktime": 1785977031
+        },
+        {
+          "apiname": "a10007",
+          "displayName": "The No.1 Thief",
+          "description": "Open 5 big treasure chests.",
+          "unlocktime": 1785978127
         }
       ],
-      "challenge_achievement_count": 20,
+      "challenge_achievement_count": 21,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
