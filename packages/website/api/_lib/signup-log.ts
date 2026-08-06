@@ -3,7 +3,7 @@
 // line, in the form `TYPE {json}`. This is the only persisted state for the
 // whole feature — no database.
 
-import type { SignupChoice } from './custom-id.js'
+import { slugify, type SignupChoice } from './custom-id.js'
 
 export interface ChallengeMeta {
   slug: string
@@ -218,6 +218,28 @@ export function collectChallengeIndex(
     })
   }
   return index
+}
+
+/**
+ * Finds the local challenge_*.json matching a CHALLENGE meta, trying (in
+ * order): exact slug match, `slugify(gameName) === meta.slug`,
+ * `slugify(meta.name) === json.slug`, then `slugify(meta.name) ===
+ * slugify(gameName)`. Returns undefined if nothing matches — callers must
+ * not invent data for the challenge in that case. The fuzzy fallbacks exist
+ * because the Discord-side slug comes from whatever name an admin typed into
+ * /challenge-setup (e.g. "bloody-spell"), while the site data files use
+ * hardcoded slugs like "gaming-challenge-4-bloody-spell".
+ */
+export function matchChallengeFile<T extends { slug: string; gameName: string }>(
+  meta: Pick<ChallengeMeta, 'slug' | 'name'>,
+  files: T[]
+): T | undefined {
+  return (
+    files.find((f) => f.slug === meta.slug) ??
+    files.find((f) => slugify(f.gameName) === meta.slug) ??
+    files.find((f) => slugify(meta.name) === f.slug) ??
+    files.find((f) => slugify(meta.name) === slugify(f.gameName))
+  )
 }
 
 export interface RosterEntry {

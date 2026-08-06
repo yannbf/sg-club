@@ -233,26 +233,59 @@ describe('resolveCongratsChannel', () => {
     }
   }
 
+  const neoCabFile = { slug: 'neo-cab', gameName: 'Neo Cab' }
+
   it('returns null when the matched challenge is archived, regardless of its channel config', () => {
     const index = new Map([['neo-cab', entry({ archived: true })]])
-    expect(resolveCongratsChannel('neo-cab', index, 'fallback-chan')).toBeNull()
+    expect(resolveCongratsChannel(neoCabFile, index, 'fallback-chan')).toBeNull()
   })
 
   it('prefers congrats_channel_id when the matched, non-archived challenge has one', () => {
     const index = new Map([
       ['neo-cab', entry({ meta: { ...entry().meta, congrats_channel_id: 'congrats-chan' } })],
     ])
-    expect(resolveCongratsChannel('neo-cab', index, 'fallback-chan')).toBe('congrats-chan')
+    expect(resolveCongratsChannel(neoCabFile, index, 'fallback-chan')).toBe('congrats-chan')
   })
 
   it('falls back to channel_id for a matched, non-archived challenge with no congrats_channel_id', () => {
     const index = new Map([['neo-cab', entry()]])
-    expect(resolveCongratsChannel('neo-cab', index, 'fallback-chan')).toBe('announce-chan')
+    expect(resolveCongratsChannel(neoCabFile, index, 'fallback-chan')).toBe('announce-chan')
   })
 
   it('falls back to the provided fallback channel when no entry matches the slug', () => {
     const index = new Map<string, ChallengeIndexEntry>()
-    expect(resolveCongratsChannel('unknown-slug', index, 'fallback-chan')).toBe('fallback-chan')
+    expect(
+      resolveCongratsChannel({ slug: 'unknown-slug', gameName: 'Unknown' }, index, 'fallback-chan')
+    ).toBe('fallback-chan')
+  })
+
+  it('fuzzy-matches when the log slug came from the game name, not the data-file slug', () => {
+    // The real gaming-challenge-4 shape: /challenge-setup slugified the typed
+    // name "Bloody Spell" into "bloody-spell", while the site data file uses
+    // the hardcoded slug "gaming-challenge-4-bloody-spell".
+    const index = new Map([
+      [
+        'bloody-spell',
+        entry({
+          meta: {
+            ...entry().meta,
+            slug: 'bloody-spell',
+            name: 'Bloody Spell',
+            congrats_channel_id: 'bloodspell-chan',
+          },
+        }),
+      ],
+    ])
+    const file = { slug: 'gaming-challenge-4-bloody-spell', gameName: 'Bloody Spell' }
+    expect(resolveCongratsChannel(file, index, 'fallback-chan')).toBe('bloodspell-chan')
+  })
+
+  it('still skips congrats (null) when the fuzzy-matched challenge is archived', () => {
+    const index = new Map([
+      ['bloody-spell', entry({ archived: true, meta: { ...entry().meta, slug: 'bloody-spell', name: 'Bloody Spell' } })],
+    ])
+    const file = { slug: 'gaming-challenge-4-bloody-spell', gameName: 'Bloody Spell' }
+    expect(resolveCongratsChannel(file, index, 'fallback-chan')).toBeNull()
   })
 })
 

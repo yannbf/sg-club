@@ -5,12 +5,12 @@ import { fileURLToPath } from 'node:url'
 import { createMessage, getAllChannelMessages } from '../../../website/api/_lib/discord-rest.js'
 import {
   collectChallengeIndex,
+  matchChallengeFile,
   serializeEnded,
   serializeReminder24,
   type ChallengeMeta,
 } from '../../../website/api/_lib/signup-log.js'
 import { getAdminChannelId, getLogChannelId } from '../../../website/api/_lib/constants.js'
-import { slugify } from '../../../website/api/_lib/custom-id.js'
 import { qualifyingUsernames } from './discord-challenge-congrats.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -56,24 +56,9 @@ export function challengePhrase(name: string): string {
   return /challenge$/i.test(trimmed) ? trimmed : `${trimmed} challenge`
 }
 
-/**
- * Finds the local challenge_*.json matching a CHALLENGE meta, trying (in
- * order): exact slug match, `slugify(gameName) === meta.slug`,
- * `slugify(meta.name) === json.slug`, then `slugify(meta.name) ===
- * slugify(gameName)`. Returns undefined if nothing matches — callers must
- * not invent a qualified-member count in that case.
- */
-export function matchChallengeFile(
-  meta: Pick<ChallengeMeta, 'slug' | 'name'>,
-  files: ChallengeFile[]
-): ChallengeFile | undefined {
-  return (
-    files.find((f) => f.slug === meta.slug) ??
-    files.find((f) => slugify(f.gameName) === meta.slug) ??
-    files.find((f) => slugify(meta.name) === f.slug) ??
-    files.find((f) => slugify(meta.name) === slugify(f.gameName))
-  )
-}
+// Moved to signup-log.ts so discord-challenge-congrats.ts can share the same
+// meta↔data-file matching rules; re-exported to keep this script's surface.
+export { matchChallengeFile }
 
 /**
  * `Only 24h until the <phrase> is over!`, plus a second sentence with the

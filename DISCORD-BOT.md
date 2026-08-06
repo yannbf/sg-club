@@ -241,7 +241,7 @@ same `CHALLENGE` log entry (mod-approved design):
   inside `/challenge-setup`'s modal form and recorded as
   `ChallengeMeta.congrats_channel_id`. When set, it's the *only* channel that
   receives the "X just finished the challenge!" posts from
-  `discord:congrats` (`resolveChannelForSlug`/`pickCongratsChannel` in
+  `discord:congrats` (`resolveChannelForChallenge`/`pickCongratsChannel` in
   `discord-challenge-congrats.ts` prefer `congrats_channel_id` over
   `channel_id` once a `CHALLENGE` meta is matched; the `CONGRATS_CHANNEL_ID`
   env var / test-channel fallback only kicks in when no meta matches at
@@ -481,11 +481,17 @@ Run manually via the `discord-bot.yml` workflow (`workflow_dispatch`, pick a
   `pandaparty` emoji (looked up once per run via `GET /guilds/{id}/emojis`,
   animated variants handled), falling back to `🐼🎉` if it's missing or the
   fetch fails. Target channel resolution
-  (`resolveChannelForSlug`/`pickCongratsChannel`) prefers a matched
+  (`resolveChannelForChallenge`/`pickCongratsChannel`) prefers a matched
   `CHALLENGE` meta's `congrats_channel_id` over its `channel_id` — see
-  [Two-channel challenge messages](#two-channel-challenge-messages) above —
-  falling back to `CONGRATS_CHANNEL_ID` / the test channel only when no meta
-  matches the slug at all. When the matched `CHALLENGE` meta carries an
+  [Two-channel challenge messages](#two-channel-challenge-messages) above.
+  The meta is matched by exact slug first, then the same fuzzy
+  `matchChallengeFile` rules `discord:milestones` uses (`slugify(gameName)`
+  / `slugify(name)` in either direction, shared via `signup-log.ts`) — the
+  Discord-side slug comes from the name typed into `/challenge-setup`
+  (e.g. `bloody-spell`) while data files use hardcoded slugs like
+  `gaming-challenge-4-bloody-spell`. Only when no meta matches at all does
+  it fall back to `CONGRATS_CHANNEL_ID` / the test channel (with a console
+  warning). When the matched `CHALLENGE` meta carries an
   `ARCHIVED` marker, `resolveCongratsChannel` returns `null` and the whole
   challenge is skipped for that run (console note logged) — an archived
   challenge never gets a congrats post even if its local `challenge_*.json`

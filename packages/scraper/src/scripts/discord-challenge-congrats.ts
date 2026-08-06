@@ -8,6 +8,7 @@ import {
 } from '../../../website/api/_lib/discord-rest.js'
 import {
   collectChallengeIndex,
+  matchChallengeFile,
   type ChallengeIndexEntry,
   type ChallengeMeta,
 } from '../../../website/api/_lib/signup-log.js'
@@ -259,6 +260,23 @@ export function pickCongratsChannel(
 }
 
 /**
+ * Finds the log-channel index entry for a local challenge file. An exact
+ * slug match wins; otherwise the same fuzzy rules as `matchChallengeFile`
+ * apply, because the Discord-side slug comes from whatever name an admin
+ * typed into /challenge-setup (e.g. "bloody-spell") while data files use
+ * hardcoded slugs like "gaming-challenge-4-bloody-spell".
+ */
+export function findChallengeEntry(
+  file: { slug: string; gameName: string },
+  index: Map<string, ChallengeIndexEntry>
+): ChallengeIndexEntry | undefined {
+  return (
+    index.get(file.slug) ??
+    [...index.values()].find((entry) => matchChallengeFile(entry.meta, [file]) !== undefined)
+  )
+}
+
+/**
  * Pure routing decision, split out for testability: `null` means the
  * matched challenge carries an `ARCHIVED` marker and congrats posting
  * should be skipped entirely for it. Otherwise resolves to the channel via
@@ -266,23 +284,30 @@ export function pickCongratsChannel(
  * when no meta matched at all).
  */
 export function resolveCongratsChannel(
-  slug: string,
+  file: { slug: string; gameName: string },
   index: Map<string, ChallengeIndexEntry>,
   fallbackChannelId: string
 ): string | null {
-  const entry = index.get(slug)
+  const entry = findChallengeEntry(file, index)
   if (entry?.archived) return null
   return pickCongratsChannel(entry?.meta, fallbackChannelId)
 }
 
-async function resolveChannelForSlug(slug: string): Promise<string | null> {
+async function resolveChannelForChallenge(
+  challenge: Pick<ChallengeFile, 'slug' | 'gameName'>
+): Promise<string | null> {
   const fallbackChannelId = process.env.CONGRATS_CHANNEL_ID ?? TEST_ANNOUNCE_CHANNEL_ID
   try {
     const messages = await getAllChannelMessages(getLogChannelId(), 2000)
     const index = collectChallengeIndex(messages)
-    return resolveCongratsChannel(slug, index, fallbackChannelId)
+    if (!findChallengeEntry(challenge, index)) {
+      console.warn(
+        `⚠️ No CHALLENGE log entry matched "${challenge.slug}" ("${challenge.gameName}") — congrats will post to the fallback channel ${fallbackChannelId}.`
+      )
+    }
+    return resolveCongratsChannel(challenge, index, fallbackChannelId)
   } catch (err) {
-    console.warn(`⚠️ Could not read log channel to resolve a channel for "${slug}":`, err)
+    console.warn(`⚠️ Could not read log channel to resolve a channel for "${challenge.slug}":`, err)
   }
   return fallbackChannelId
 }
@@ -307,7 +332,7 @@ export async function announceNewCompletions(): Promise<void> {
     )
     if (pending.length === 0) continue
 
-    const channelId = await resolveChannelForSlug(challenge.slug)
+    const channelId = await resolveChannelForChallenge(challenge)
     if (channelId === null) {
       console.log(`⏭️ Skipping congrats for "${challenge.slug}" — challenge is archived.`)
       continue
