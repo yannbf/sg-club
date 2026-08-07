@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1785542400,
   "totalAchievements": 60,
-  "generatedAt": 1786130989038,
+  "generatedAt": 1786137018944,
   "challengeOver": false,
   "winnerUsername": "Foxpile",
   "participants": [
@@ -1247,14 +1247,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 901,
-      "playtime_2weeks_minutes": 901,
+      "playtime_total_minutes": 991,
+      "playtime_2weeks_minutes": 991,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 901,
+      "playtime_challenge_minutes": 991,
       "achievements_total": 60,
-      "achievements_unlocked_total": 48,
+      "achievements_unlocked_total": 56,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 48,
+      "achievements_since_baseline": 56,
       "challenge_achievements": [
         {
           "apiname": "a30003",
@@ -1543,9 +1543,57 @@
           "displayName": "Priestess Phantom",
           "description": "Kill 20 Priestess Phantom.",
           "unlocktime": 1786130589
+        },
+        {
+          "apiname": "a20019",
+          "displayName": "Female ghost",
+          "description": "Kill 9 Female ghost.",
+          "unlocktime": 1786133054
+        },
+        {
+          "apiname": "a20025",
+          "displayName": "Sombra",
+          "description": "Kill 5 Sombra.",
+          "unlocktime": 1786133054
+        },
+        {
+          "apiname": "a10018",
+          "displayName": "You are strong",
+          "description": "Clear the blood palace mode.",
+          "unlocktime": 1786134679
+        },
+        {
+          "apiname": "a10020",
+          "displayName": "Priestess Trial",
+          "description": "Clear the Priestess Trial Mode (Fourth Floor).",
+          "unlocktime": 1786135072
+        },
+        {
+          "apiname": "a40006",
+          "displayName": "Chaos' ultimate weapon",
+          "description": "Find all Chaos weapons in the main map.",
+          "unlocktime": 1786135523
+        },
+        {
+          "apiname": "a20017",
+          "displayName": "Mutant dog",
+          "description": "Kill 120 mutant dog.",
+          "unlocktime": 1786135866
+        },
+        {
+          "apiname": "a10019",
+          "displayName": "Survival",
+          "description": "Beat survival mode.",
+          "unlocktime": 1786136447
+        },
+        {
+          "apiname": "a10021",
+          "displayName": "Fight by oneself",
+          "description": "Clear Arena mode.",
+          "unlocktime": 1786136780
         }
       ],
-      "challenge_achievement_count": 48,
+      "challenge_achievement_count": 56,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
@@ -2113,6 +2161,255 @@
       "is_winner": false
     },
     {
+      "username": "QuinlanLJ",
+      "sg_username": "QuinlanLJ",
+      "steam_id": "76561198048462370",
+      "avatar_url": "https://avatars.steamstatic.com/bfc022d5e8a36287dcb4b546340c32baf3a13ff5_medium.jpg",
+      "profile_url": "https://steamcommunity.com/profiles/76561198048462370",
+      "is_guest": false,
+      "owned": true,
+      "stats_available": true,
+      "wrote_review": false,
+      "review_voted_up": null,
+      "review_timestamp": null,
+      "review_recommendationid": null,
+      "review_url": null,
+      "playtime_total_minutes": 365,
+      "playtime_2weeks_minutes": 365,
+      "baseline_playtime_minutes": 0,
+      "playtime_challenge_minutes": 365,
+      "achievements_total": 60,
+      "achievements_unlocked_total": 35,
+      "achievements_before_challenge": 0,
+      "achievements_since_baseline": 35,
+      "challenge_achievements": [
+        {
+          "apiname": "a30003",
+          "displayName": "Master of Blade",
+          "description": "Unlock all spell of Blade.",
+          "unlocktime": 1785618557
+        },
+        {
+          "apiname": "a30004",
+          "displayName": "Master of Spearstick",
+          "description": "Unlock all spell of Spearstick.",
+          "unlocktime": 1785618557
+        },
+        {
+          "apiname": "a30005",
+          "displayName": "Master of Great sword",
+          "description": "Unlock all spell of Great sword.",
+          "unlocktime": 1785618557
+        },
+        {
+          "apiname": "a30006",
+          "displayName": "Master of Kung Fu",
+          "description": "Unlock all spell of Knuckles.",
+          "unlocktime": 1785618557
+        },
+        {
+          "apiname": "a30007",
+          "displayName": "Master of Dual Blade",
+          "description": "Unlock all spell of Dual Blade.",
+          "unlocktime": 1785618557
+        },
+        {
+          "apiname": "a30008",
+          "displayName": "Master of Magic",
+          "description": "Unlock all spell of Magic.",
+          "unlocktime": 1785618557
+        },
+        {
+          "apiname": "a30001",
+          "displayName": "Justice martial art",
+          "description": "Dressed all the equipment of sect.",
+          "unlocktime": 1785619908
+        },
+        {
+          "apiname": "a10002",
+          "displayName": "Novice Detective",
+          "description": "Investigate for 10 times.",
+          "unlocktime": 1785621751
+        },
+        {
+          "apiname": "a10003",
+          "displayName": "Blood Messenger",
+          "description": "Collect 6000 blood essence.",
+          "unlocktime": 1785621864
+        },
+        {
+          "apiname": "a10012",
+          "displayName": "Drink a toast",
+          "description": "Collect 5 bottles of wine.",
+          "unlocktime": 1785705710
+        },
+        {
+          "apiname": "a20009",
+          "displayName": "Boss Void",
+          "description": "Defeat Boss Void.",
+          "unlocktime": 1785706466
+        },
+        {
+          "apiname": "a10001",
+          "displayName": "Mania for Destruction",
+          "description": "Destroy 250 items in scene.",
+          "unlocktime": 1785706560
+        },
+        {
+          "apiname": "a40001",
+          "displayName": "Pursuing navigation",
+          "description": "Found the key of Yilong studio.",
+          "unlocktime": 1785706754
+        },
+        {
+          "apiname": "a20002",
+          "displayName": "Silent Executioner",
+          "description": "Kill 20 enemies with Blood Sniff.",
+          "unlocktime": 1785706876
+        },
+        {
+          "apiname": "a20003",
+          "displayName": "Counterattack Proficient",
+          "description": "Succeed to counterattack enemy for 20 times.",
+          "unlocktime": 1785706998
+        },
+        {
+          "apiname": "a20008",
+          "displayName": "Boss Bloodthirsty",
+          "description": "Defeat Bloodthirster.",
+          "unlocktime": 1785707484
+        },
+        {
+          "apiname": "a40003",
+          "displayName": "Secret base",
+          "description": "Enter YiLong studio.",
+          "unlocktime": 1785707564
+        },
+        {
+          "apiname": "a10007",
+          "displayName": "The No.1 Thief",
+          "description": "Open 5 big treasure chests.",
+          "unlocktime": 1785707962
+        },
+        {
+          "apiname": "a10011",
+          "displayName": "Ore Collector",
+          "description": "Collect 10 Iron Ore.",
+          "unlocktime": 1785786625
+        },
+        {
+          "apiname": "a40007",
+          "displayName": "Photographer",
+          "description": "Press F12 in photo mode to take 5 pictures.",
+          "unlocktime": 1785787778
+        },
+        {
+          "apiname": "a20001",
+          "displayName": "Walking Shadow",
+          "description": "Succeed to evade enemy attack for 20 times in a row.",
+          "unlocktime": 1785788216
+        },
+        {
+          "apiname": "a20010",
+          "displayName": "Boss Tinghan Lu",
+          "description": "Defeat Boss Tinghan Lu.",
+          "unlocktime": 1785788331
+        },
+        {
+          "apiname": "a20026",
+          "displayName": "Boss Stone",
+          "description": "Defeat Boss Stone.",
+          "unlocktime": 1785788691
+        },
+        {
+          "apiname": "a10005",
+          "displayName": "Lord of the Pit",
+          "description": "Fall into the pit for 5 times in a row.",
+          "unlocktime": 1785878539
+        },
+        {
+          "apiname": "a10014",
+          "displayName": "Skilled craftsmen",
+          "description": "Successfully upgrade equipment 9 times in the mini-game.",
+          "unlocktime": 1785963389
+        },
+        {
+          "apiname": "a10006",
+          "displayName": "Treasure Hunter",
+          "description": "Open 15 chests.",
+          "unlocktime": 1785963572
+        },
+        {
+          "apiname": "a20027",
+          "displayName": "BOSS XiaoLi",
+          "description": "Defeat BOSS XiaoLi.",
+          "unlocktime": 1785965208
+        },
+        {
+          "apiname": "a20028",
+          "displayName": "BOSS SuYejin",
+          "description": "Defeat BOSS SuYejin.",
+          "unlocktime": 1785965208
+        },
+        {
+          "apiname": "a10015",
+          "displayName": "Marksman",
+          "description": "Nest 9 utensils in the ferrule mini-game.",
+          "unlocktime": 1786055407
+        },
+        {
+          "apiname": "a20029",
+          "displayName": "BOSS Guard",
+          "description": "Defeat BOSS Guard.",
+          "unlocktime": 1786056433
+        },
+        {
+          "apiname": "a20030",
+          "displayName": "BOSS Priestess",
+          "description": "Defeat BOSS Priestess.",
+          "unlocktime": 1786134075
+        },
+        {
+          "apiname": "a20031",
+          "displayName": "BOSS Faceless",
+          "description": "Defeat BOSS Faceless.",
+          "unlocktime": 1786134512
+        },
+        {
+          "apiname": "a10016",
+          "displayName": "Departure",
+          "description": "Clear the main storyline.",
+          "unlocktime": 1786134582
+        },
+        {
+          "apiname": "a30002",
+          "displayName": "Deep Evil",
+          "description": "Unlock all Bloody Spell.",
+          "unlocktime": 1786134605
+        },
+        {
+          "apiname": "a40008",
+          "displayName": "No desire",
+          "description": "Push Uncle Li's chair in the clearance scene away from the desk.",
+          "unlocktime": 1786134655
+        }
+      ],
+      "challenge_achievement_count": 35,
+      "has_started": true,
+      "is_complete": false,
+      "completed_at": null,
+      "completed_before_start": false,
+      "completed_after_deadline": false,
+      "story_unlocked": true,
+      "story_unlocktime": 1786134582,
+      "story_after_deadline": false,
+      "win_tier": null,
+      "qualified_at": null,
+      "meets_playtime": true,
+      "meets_review": false,
+      "is_winner": false
+    },
+    {
       "username": "Tucs",
       "sg_username": "Tucs",
       "steam_id": "76561198070041813",
@@ -2359,225 +2656,6 @@
       "qualified_at": null,
       "meets_playtime": false,
       "meets_review": true,
-      "is_winner": false
-    },
-    {
-      "username": "QuinlanLJ",
-      "sg_username": "QuinlanLJ",
-      "steam_id": "76561198048462370",
-      "avatar_url": "https://avatars.steamstatic.com/bfc022d5e8a36287dcb4b546340c32baf3a13ff5_medium.jpg",
-      "profile_url": "https://steamcommunity.com/profiles/76561198048462370",
-      "is_guest": false,
-      "owned": true,
-      "stats_available": true,
-      "wrote_review": false,
-      "review_voted_up": null,
-      "review_timestamp": null,
-      "review_recommendationid": null,
-      "review_url": null,
-      "playtime_total_minutes": 338,
-      "playtime_2weeks_minutes": 338,
-      "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 338,
-      "achievements_total": 60,
-      "achievements_unlocked_total": 30,
-      "achievements_before_challenge": 0,
-      "achievements_since_baseline": 30,
-      "challenge_achievements": [
-        {
-          "apiname": "a30003",
-          "displayName": "Master of Blade",
-          "description": "Unlock all spell of Blade.",
-          "unlocktime": 1785618557
-        },
-        {
-          "apiname": "a30004",
-          "displayName": "Master of Spearstick",
-          "description": "Unlock all spell of Spearstick.",
-          "unlocktime": 1785618557
-        },
-        {
-          "apiname": "a30005",
-          "displayName": "Master of Great sword",
-          "description": "Unlock all spell of Great sword.",
-          "unlocktime": 1785618557
-        },
-        {
-          "apiname": "a30006",
-          "displayName": "Master of Kung Fu",
-          "description": "Unlock all spell of Knuckles.",
-          "unlocktime": 1785618557
-        },
-        {
-          "apiname": "a30007",
-          "displayName": "Master of Dual Blade",
-          "description": "Unlock all spell of Dual Blade.",
-          "unlocktime": 1785618557
-        },
-        {
-          "apiname": "a30008",
-          "displayName": "Master of Magic",
-          "description": "Unlock all spell of Magic.",
-          "unlocktime": 1785618557
-        },
-        {
-          "apiname": "a30001",
-          "displayName": "Justice martial art",
-          "description": "Dressed all the equipment of sect.",
-          "unlocktime": 1785619908
-        },
-        {
-          "apiname": "a10002",
-          "displayName": "Novice Detective",
-          "description": "Investigate for 10 times.",
-          "unlocktime": 1785621751
-        },
-        {
-          "apiname": "a10003",
-          "displayName": "Blood Messenger",
-          "description": "Collect 6000 blood essence.",
-          "unlocktime": 1785621864
-        },
-        {
-          "apiname": "a10012",
-          "displayName": "Drink a toast",
-          "description": "Collect 5 bottles of wine.",
-          "unlocktime": 1785705710
-        },
-        {
-          "apiname": "a20009",
-          "displayName": "Boss Void",
-          "description": "Defeat Boss Void.",
-          "unlocktime": 1785706466
-        },
-        {
-          "apiname": "a10001",
-          "displayName": "Mania for Destruction",
-          "description": "Destroy 250 items in scene.",
-          "unlocktime": 1785706560
-        },
-        {
-          "apiname": "a40001",
-          "displayName": "Pursuing navigation",
-          "description": "Found the key of Yilong studio.",
-          "unlocktime": 1785706754
-        },
-        {
-          "apiname": "a20002",
-          "displayName": "Silent Executioner",
-          "description": "Kill 20 enemies with Blood Sniff.",
-          "unlocktime": 1785706876
-        },
-        {
-          "apiname": "a20003",
-          "displayName": "Counterattack Proficient",
-          "description": "Succeed to counterattack enemy for 20 times.",
-          "unlocktime": 1785706998
-        },
-        {
-          "apiname": "a20008",
-          "displayName": "Boss Bloodthirsty",
-          "description": "Defeat Bloodthirster.",
-          "unlocktime": 1785707484
-        },
-        {
-          "apiname": "a40003",
-          "displayName": "Secret base",
-          "description": "Enter YiLong studio.",
-          "unlocktime": 1785707564
-        },
-        {
-          "apiname": "a10007",
-          "displayName": "The No.1 Thief",
-          "description": "Open 5 big treasure chests.",
-          "unlocktime": 1785707962
-        },
-        {
-          "apiname": "a10011",
-          "displayName": "Ore Collector",
-          "description": "Collect 10 Iron Ore.",
-          "unlocktime": 1785786625
-        },
-        {
-          "apiname": "a40007",
-          "displayName": "Photographer",
-          "description": "Press F12 in photo mode to take 5 pictures.",
-          "unlocktime": 1785787778
-        },
-        {
-          "apiname": "a20001",
-          "displayName": "Walking Shadow",
-          "description": "Succeed to evade enemy attack for 20 times in a row.",
-          "unlocktime": 1785788216
-        },
-        {
-          "apiname": "a20010",
-          "displayName": "Boss Tinghan Lu",
-          "description": "Defeat Boss Tinghan Lu.",
-          "unlocktime": 1785788331
-        },
-        {
-          "apiname": "a20026",
-          "displayName": "Boss Stone",
-          "description": "Defeat Boss Stone.",
-          "unlocktime": 1785788691
-        },
-        {
-          "apiname": "a10005",
-          "displayName": "Lord of the Pit",
-          "description": "Fall into the pit for 5 times in a row.",
-          "unlocktime": 1785878539
-        },
-        {
-          "apiname": "a10014",
-          "displayName": "Skilled craftsmen",
-          "description": "Successfully upgrade equipment 9 times in the mini-game.",
-          "unlocktime": 1785963389
-        },
-        {
-          "apiname": "a10006",
-          "displayName": "Treasure Hunter",
-          "description": "Open 15 chests.",
-          "unlocktime": 1785963572
-        },
-        {
-          "apiname": "a20027",
-          "displayName": "BOSS XiaoLi",
-          "description": "Defeat BOSS XiaoLi.",
-          "unlocktime": 1785965208
-        },
-        {
-          "apiname": "a20028",
-          "displayName": "BOSS SuYejin",
-          "description": "Defeat BOSS SuYejin.",
-          "unlocktime": 1785965208
-        },
-        {
-          "apiname": "a10015",
-          "displayName": "Marksman",
-          "description": "Nest 9 utensils in the ferrule mini-game.",
-          "unlocktime": 1786055407
-        },
-        {
-          "apiname": "a20029",
-          "displayName": "BOSS Guard",
-          "description": "Defeat BOSS Guard.",
-          "unlocktime": 1786056433
-        }
-      ],
-      "challenge_achievement_count": 30,
-      "has_started": true,
-      "is_complete": false,
-      "completed_at": null,
-      "completed_before_start": false,
-      "completed_after_deadline": false,
-      "story_unlocked": false,
-      "story_unlocktime": null,
-      "story_after_deadline": false,
-      "win_tier": null,
-      "qualified_at": null,
-      "meets_playtime": true,
-      "meets_review": false,
       "is_winner": false
     },
     {
