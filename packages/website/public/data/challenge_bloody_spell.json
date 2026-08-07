@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1785542400,
   "totalAchievements": 60,
-  "generatedAt": 1786079843102,
+  "generatedAt": 1786085018242,
   "challengeOver": false,
   "winnerUsername": "yugimax",
   "participants": [
@@ -1562,14 +1562,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 802,
-      "playtime_2weeks_minutes": 802,
+      "playtime_total_minutes": 816,
+      "playtime_2weeks_minutes": 816,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 802,
+      "playtime_challenge_minutes": 816,
       "achievements_total": 60,
-      "achievements_unlocked_total": 39,
+      "achievements_unlocked_total": 41,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 39,
+      "achievements_since_baseline": 41,
       "challenge_achievements": [
         {
           "apiname": "a30003",
@@ -1804,9 +1804,21 @@
           "displayName": "Master",
           "description": "Clear the main storyline on hard difficulty.",
           "unlocktime": 1786079672
+        },
+        {
+          "apiname": "a30002",
+          "displayName": "Deep Evil",
+          "description": "Unlock all Bloody Spell.",
+          "unlocktime": 1786080267
+        },
+        {
+          "apiname": "a40008",
+          "displayName": "No desire",
+          "description": "Push Uncle Li's chair in the clearance scene away from the desk.",
+          "unlocktime": 1786080361
         }
       ],
-      "challenge_achievement_count": 39,
+      "challenge_achievement_count": 41,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
