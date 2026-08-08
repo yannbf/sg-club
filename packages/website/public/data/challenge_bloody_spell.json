@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1785542400,
   "totalAchievements": 60,
-  "generatedAt": 1786226166242,
+  "generatedAt": 1786229809385,
   "challengeOver": false,
   "winnerUsername": "Foxpile",
   "participants": [
@@ -1220,14 +1220,14 @@
       "review_timestamp": 1785879698,
       "review_recommendationid": "232073576",
       "review_url": "https://steamcommunity.com/profiles/76561198352113526/recommended/992300",
-      "playtime_total_minutes": 921,
-      "playtime_2weeks_minutes": 921,
+      "playtime_total_minutes": 981,
+      "playtime_2weeks_minutes": 981,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 921,
+      "playtime_challenge_minutes": 981,
       "achievements_total": 60,
-      "achievements_unlocked_total": 53,
+      "achievements_unlocked_total": 54,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 53,
+      "achievements_since_baseline": 54,
       "challenge_achievements": [
         {
           "apiname": "a30003",
@@ -1546,9 +1546,15 @@
           "displayName": "Butcher",
           "description": "Kill 20 Butcher.",
           "unlocktime": 1786158300
+        },
+        {
+          "apiname": "a40004",
+          "displayName": "Visitors from Outer Space",
+          "description": "Found the lost anti-epidemic medical staff.",
+          "unlocktime": 1786226856
         }
       ],
-      "challenge_achievement_count": 53,
+      "challenge_achievement_count": 54,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
