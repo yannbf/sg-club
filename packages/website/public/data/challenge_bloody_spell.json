@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1785542400,
   "totalAchievements": 60,
-  "generatedAt": 1786229809385,
+  "generatedAt": 1786233241129,
   "challengeOver": false,
   "winnerUsername": "Foxpile",
   "participants": [
@@ -1220,14 +1220,14 @@
       "review_timestamp": 1785879698,
       "review_recommendationid": "232073576",
       "review_url": "https://steamcommunity.com/profiles/76561198352113526/recommended/992300",
-      "playtime_total_minutes": 981,
-      "playtime_2weeks_minutes": 981,
+      "playtime_total_minutes": 1041,
+      "playtime_2weeks_minutes": 1041,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 981,
+      "playtime_challenge_minutes": 1041,
       "achievements_total": 60,
-      "achievements_unlocked_total": 54,
+      "achievements_unlocked_total": 56,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 54,
+      "achievements_since_baseline": 56,
       "challenge_achievements": [
         {
           "apiname": "a30003",
@@ -1552,9 +1552,21 @@
           "displayName": "Visitors from Outer Space",
           "description": "Found the lost anti-epidemic medical staff.",
           "unlocktime": 1786226856
+        },
+        {
+          "apiname": "a40002",
+          "displayName": "Great merit",
+          "description": "Donate protective clothing as prompted.",
+          "unlocktime": 1786230659
+        },
+        {
+          "apiname": "a40006",
+          "displayName": "Chaos' ultimate weapon",
+          "description": "Find all Chaos weapons in the main map.",
+          "unlocktime": 1786232920
         }
       ],
-      "challenge_achievement_count": 54,
+      "challenge_achievement_count": 56,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
@@ -3270,6 +3282,93 @@
       "is_winner": false
     },
     {
+      "username": "LieEater",
+      "sg_username": "LieEater",
+      "steam_id": "76561198067727574",
+      "avatar_url": "https://avatars.steamstatic.com/c86c6e9e4c442122a6cd5ee2159788a8ba77c527_medium.jpg",
+      "profile_url": "https://steamcommunity.com/profiles/76561198067727574",
+      "is_guest": false,
+      "owned": true,
+      "stats_available": true,
+      "wrote_review": false,
+      "review_voted_up": null,
+      "review_timestamp": null,
+      "review_recommendationid": null,
+      "review_url": null,
+      "playtime_total_minutes": 36,
+      "playtime_2weeks_minutes": 36,
+      "baseline_playtime_minutes": 0,
+      "playtime_challenge_minutes": 36,
+      "achievements_total": 60,
+      "achievements_unlocked_total": 8,
+      "achievements_before_challenge": 0,
+      "achievements_since_baseline": 8,
+      "challenge_achievements": [
+        {
+          "apiname": "a30003",
+          "displayName": "Master of Blade",
+          "description": "Unlock all spell of Blade.",
+          "unlocktime": 1786230054
+        },
+        {
+          "apiname": "a30004",
+          "displayName": "Master of Spearstick",
+          "description": "Unlock all spell of Spearstick.",
+          "unlocktime": 1786230054
+        },
+        {
+          "apiname": "a30005",
+          "displayName": "Master of Great sword",
+          "description": "Unlock all spell of Great sword.",
+          "unlocktime": 1786230054
+        },
+        {
+          "apiname": "a30006",
+          "displayName": "Master of Kung Fu",
+          "description": "Unlock all spell of Knuckles.",
+          "unlocktime": 1786230054
+        },
+        {
+          "apiname": "a30007",
+          "displayName": "Master of Dual Blade",
+          "description": "Unlock all spell of Dual Blade.",
+          "unlocktime": 1786230054
+        },
+        {
+          "apiname": "a30008",
+          "displayName": "Master of Magic",
+          "description": "Unlock all spell of Magic.",
+          "unlocktime": 1786230054
+        },
+        {
+          "apiname": "a30001",
+          "displayName": "Justice martial art",
+          "description": "Dressed all the equipment of sect.",
+          "unlocktime": 1786231223
+        },
+        {
+          "apiname": "a20003",
+          "displayName": "Counterattack Proficient",
+          "description": "Succeed to counterattack enemy for 20 times.",
+          "unlocktime": 1786231319
+        }
+      ],
+      "challenge_achievement_count": 8,
+      "has_started": true,
+      "is_complete": false,
+      "completed_at": null,
+      "completed_before_start": false,
+      "completed_after_deadline": false,
+      "story_unlocked": false,
+      "story_unlocktime": null,
+      "story_after_deadline": false,
+      "win_tier": null,
+      "qualified_at": null,
+      "meets_playtime": false,
+      "meets_review": false,
+      "is_winner": false
+    },
+    {
       "username": "Ignition365",
       "sg_username": "Ignition365",
       "steam_id": "76561197984532155",
@@ -3465,44 +3564,6 @@
       "steam_id": "76561198077347875",
       "avatar_url": "https://avatars.steamstatic.com/9e76eda7caab581920e660ee652fadb31672ec0d_medium.jpg",
       "profile_url": "https://steamcommunity.com/profiles/76561198077347875",
-      "is_guest": false,
-      "owned": true,
-      "stats_available": true,
-      "wrote_review": false,
-      "review_voted_up": null,
-      "review_timestamp": null,
-      "review_recommendationid": null,
-      "review_url": null,
-      "playtime_total_minutes": 0,
-      "playtime_2weeks_minutes": 0,
-      "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 0,
-      "achievements_total": 60,
-      "achievements_unlocked_total": 0,
-      "achievements_before_challenge": 0,
-      "achievements_since_baseline": 0,
-      "challenge_achievements": [],
-      "challenge_achievement_count": 0,
-      "has_started": false,
-      "is_complete": false,
-      "completed_at": null,
-      "completed_before_start": false,
-      "completed_after_deadline": false,
-      "story_unlocked": false,
-      "story_unlocktime": null,
-      "story_after_deadline": false,
-      "win_tier": null,
-      "qualified_at": null,
-      "meets_playtime": false,
-      "meets_review": false,
-      "is_winner": false
-    },
-    {
-      "username": "LieEater",
-      "sg_username": "LieEater",
-      "steam_id": "76561198067727574",
-      "avatar_url": "https://avatars.steamstatic.com/c86c6e9e4c442122a6cd5ee2159788a8ba77c527_medium.jpg",
-      "profile_url": "https://steamcommunity.com/profiles/76561198067727574",
       "is_guest": false,
       "owned": true,
       "stats_available": true,
