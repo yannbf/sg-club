@@ -489,9 +489,12 @@ Run manually via the `discord-bot.yml` workflow (`workflow_dispatch`, pick a
   / `slugify(name)` in either direction, shared via `signup-log.ts`) — the
   Discord-side slug comes from the name typed into `/challenge-setup`
   (e.g. `bloody-spell`) while data files use hardcoded slugs like
-  `gaming-challenge-4-bloody-spell`. Only when no meta matches at all does
-  it fall back to `CONGRATS_CHANNEL_ID` / the test channel (with a console
-  warning). When the matched `CHALLENGE` meta carries an
+  `gaming-challenge-4-bloody-spell`. Only when the log was read but no meta
+  matches at all does it fall back to `CONGRATS_CHANNEL_ID` / the test
+  channel (with a console warning). If the log channel *read itself fails*
+  (e.g. a transient Discord 503), the challenge is skipped for that run —
+  nothing is recorded as announced, so the next hourly run retries; it never
+  falls back to the wrong channel on an error. When the matched `CHALLENGE` meta carries an
   `ARCHIVED` marker, `resolveCongratsChannel` returns `null` and the whole
   challenge is skipped for that run (console note logged) — an archived
   challenge never gets a congrats post even if its local `challenge_*.json`

@@ -307,9 +307,17 @@ async function resolveChannelForChallenge(
     }
     return resolveCongratsChannel(challenge, index, fallbackChannelId)
   } catch (err) {
-    console.warn(`⚠️ Could not read log channel to resolve a channel for "${challenge.slug}":`, err)
+    // A transient Discord error here must NOT fall back — that once posted a
+    // congrats to the test channel (and recorded it as announced) just
+    // because a log-channel read 503'd. Skip the challenge this run; the
+    // pending completions are still un-announced, so the next hourly run
+    // retries with a working channel lookup.
+    console.warn(
+      `⚠️ Could not read log channel to resolve a channel for "${challenge.slug}" — skipping congrats this run:`,
+      err
+    )
+    return null
   }
-  return fallbackChannelId
 }
 
 /**
@@ -334,7 +342,10 @@ export async function announceNewCompletions(): Promise<void> {
 
     const channelId = await resolveChannelForChallenge(challenge)
     if (channelId === null) {
-      console.log(`⏭️ Skipping congrats for "${challenge.slug}" — challenge is archived.`)
+      // Archived challenge, or the log channel couldn't be read (see
+      // resolveChannelForChallenge) — either way nothing is recorded as
+      // announced, so a transient failure retries next run.
+      console.log(`⏭️ Skipping congrats for "${challenge.slug}" — archived or channel unresolved.`)
       continue
     }
 
