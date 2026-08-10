@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1785542400,
   "totalAchievements": 60,
-  "generatedAt": 1786385740933,
+  "generatedAt": 1786390272773,
   "challengeOver": false,
   "winnerUsername": "Foxpile",
   "participants": [
@@ -3636,11 +3636,48 @@
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 210,
       "achievements_total": 60,
-      "achievements_unlocked_total": 0,
+      "achievements_unlocked_total": 6,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 0,
-      "challenge_achievements": [],
-      "challenge_achievement_count": 0,
+      "achievements_since_baseline": 6,
+      "challenge_achievements": [
+        {
+          "apiname": "a30003",
+          "displayName": "Master of Blade",
+          "description": "Unlock all spell of Blade.",
+          "unlocktime": 1786387635
+        },
+        {
+          "apiname": "a30004",
+          "displayName": "Master of Spearstick",
+          "description": "Unlock all spell of Spearstick.",
+          "unlocktime": 1786387635
+        },
+        {
+          "apiname": "a30005",
+          "displayName": "Master of Great sword",
+          "description": "Unlock all spell of Great sword.",
+          "unlocktime": 1786387635
+        },
+        {
+          "apiname": "a30006",
+          "displayName": "Master of Kung Fu",
+          "description": "Unlock all spell of Knuckles.",
+          "unlocktime": 1786387635
+        },
+        {
+          "apiname": "a30007",
+          "displayName": "Master of Dual Blade",
+          "description": "Unlock all spell of Dual Blade.",
+          "unlocktime": 1786387635
+        },
+        {
+          "apiname": "a30008",
+          "displayName": "Master of Magic",
+          "description": "Unlock all spell of Magic.",
+          "unlocktime": 1786387635
+        }
+      ],
+      "challenge_achievement_count": 6,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
