@@ -213,12 +213,12 @@ function deadlineDisplayTs(deadline: number | null | undefined): number | null {
 }
 
 /**
- * Winner colors for tiered challenges (gold for the story tier, silver for the
- * full-completion tier), per the Bloody Spell prize framing. `win_tier` only
- * exists on tiered challenges, so single-tier winners keep the plain gold.
+ * Winner colors for tiered challenges: gold for the full-completion tier (the
+ * top prize), silver for the story tier. `win_tier` only exists on tiered
+ * challenges, so single-tier winners keep the plain gold.
  */
 function tierTextClass(p: { win_tier?: 'completion' | 'story' | null }): string {
-  return p.win_tier === 'completion'
+  return p.win_tier === 'story'
     ? 'text-[var(--subtle)]'
     : 'text-[var(--accent-yellow)]'
 }
@@ -418,7 +418,7 @@ function Podium({
               {isCompletion
                 ? p.is_winner && (
                     <Badge
-                      variant={p.win_tier === 'completion' ? 'silver' : 'amber'}
+                      variant={p.win_tier === 'story' ? 'silver' : 'amber'}
                       size="sm"
                     >
                       {p.win_tier === 'story' ? (
@@ -489,7 +489,7 @@ function LeaderboardRow({
         'grid grid-cols-[2rem_1fr_auto] items-center gap-3 px-3 py-2.5 sm:grid-cols-[2.5rem_1fr_9rem_7rem_4rem] sm:gap-4',
         'rounded-lg transition-colors hover:bg-card-background-hover',
         p.is_winner &&
-          (p.win_tier === 'completion'
+          (p.win_tier === 'story'
             ? 'bg-[color-mix(in_oklab,var(--subtle)_8%,transparent)]'
             : 'bg-[color-mix(in_oklab,var(--accent-yellow)_8%,transparent)]'),
       )}
