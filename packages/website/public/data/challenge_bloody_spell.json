@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1785542400,
   "totalAchievements": 60,
-  "generatedAt": 1786572687045,
+  "generatedAt": 1786576323427,
   "challengeOver": false,
   "winnerUsername": "Foxpile",
   "participants": [
@@ -3653,14 +3653,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 113,
-      "playtime_2weeks_minutes": 113,
+      "playtime_total_minutes": 144,
+      "playtime_2weeks_minutes": 144,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 113,
+      "playtime_challenge_minutes": 144,
       "achievements_total": 60,
-      "achievements_unlocked_total": 9,
+      "achievements_unlocked_total": 10,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 9,
+      "achievements_since_baseline": 10,
       "challenge_achievements": [
         {
           "apiname": "a30003",
@@ -3715,9 +3715,15 @@
           "displayName": "Novice Detective",
           "description": "Investigate for 10 times.",
           "unlocktime": 1786521490
+        },
+        {
+          "apiname": "a10003",
+          "displayName": "Blood Messenger",
+          "description": "Collect 6000 blood essence.",
+          "unlocktime": 1786574020
         }
       ],
-      "challenge_achievement_count": 9,
+      "challenge_achievement_count": 10,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
@@ -3728,7 +3734,7 @@
       "story_after_deadline": false,
       "win_tier": null,
       "qualified_at": null,
-      "meets_playtime": false,
+      "meets_playtime": true,
       "meets_review": false,
       "is_winner": false
     },
