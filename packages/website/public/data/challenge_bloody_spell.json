@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1785542400,
   "totalAchievements": 60,
-  "generatedAt": 1786655661317,
+  "generatedAt": 1786659140235,
   "challengeOver": false,
   "winnerUsername": "Foxpile",
   "participants": [
@@ -2639,14 +2639,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 1294,
-      "playtime_2weeks_minutes": 1294,
+      "playtime_total_minutes": 1354,
+      "playtime_2weeks_minutes": 1354,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 1294,
+      "playtime_challenge_minutes": 1354,
       "achievements_total": 60,
-      "achievements_unlocked_total": 56,
+      "achievements_unlocked_total": 58,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 56,
+      "achievements_since_baseline": 58,
       "challenge_achievements": [
         {
           "apiname": "a30003",
@@ -2983,9 +2983,21 @@
           "displayName": "Fight by oneself",
           "description": "Clear Arena mode.",
           "unlocktime": 1786654532
+        },
+        {
+          "apiname": "a10020",
+          "displayName": "Priestess Trial",
+          "description": "Clear the Priestess Trial Mode (Fourth Floor).",
+          "unlocktime": 1786655692
+        },
+        {
+          "apiname": "a10019",
+          "displayName": "Survival",
+          "description": "Beat survival mode.",
+          "unlocktime": 1786657451
         }
       ],
-      "challenge_achievement_count": 56,
+      "challenge_achievement_count": 58,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
