@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1785542400,
   "totalAchievements": 60,
-  "generatedAt": 1786629436969,
+  "generatedAt": 1786635187083,
   "challengeOver": false,
   "winnerUsername": "Foxpile",
   "participants": [
@@ -2906,14 +2906,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 890,
-      "playtime_2weeks_minutes": 890,
+      "playtime_total_minutes": 980,
+      "playtime_2weeks_minutes": 980,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 890,
+      "playtime_challenge_minutes": 980,
       "achievements_total": 60,
-      "achievements_unlocked_total": 33,
+      "achievements_unlocked_total": 35,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 33,
+      "achievements_since_baseline": 35,
       "challenge_achievements": [
         {
           "apiname": "a30003",
@@ -3112,9 +3112,21 @@
           "displayName": "Big Demon",
           "description": "Kill 30 Big Demon.",
           "unlocktime": 1786628648
+        },
+        {
+          "apiname": "a10015",
+          "displayName": "Marksman",
+          "description": "Nest 9 utensils in the ferrule mini-game.",
+          "unlocktime": 1786634062
+        },
+        {
+          "apiname": "a20029",
+          "displayName": "BOSS Guard",
+          "description": "Defeat BOSS Guard.",
+          "unlocktime": 1786634062
         }
       ],
-      "challenge_achievement_count": 33,
+      "challenge_achievement_count": 35,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
