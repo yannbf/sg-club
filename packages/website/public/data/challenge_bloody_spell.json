@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1785542400,
   "totalAchievements": 60,
-  "generatedAt": 1786649740931,
+  "generatedAt": 1786655661317,
   "challengeOver": false,
   "winnerUsername": "Foxpile",
   "participants": [
@@ -2639,14 +2639,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 1204,
-      "playtime_2weeks_minutes": 1204,
+      "playtime_total_minutes": 1294,
+      "playtime_2weeks_minutes": 1294,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 1204,
+      "playtime_challenge_minutes": 1294,
       "achievements_total": 60,
-      "achievements_unlocked_total": 45,
+      "achievements_unlocked_total": 56,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 45,
+      "achievements_since_baseline": 56,
       "challenge_achievements": [
         {
           "apiname": "a30003",
@@ -2917,9 +2917,75 @@
           "displayName": "Great merit",
           "description": "Donate protective clothing as prompted.",
           "unlocktime": 1786649301
+        },
+        {
+          "apiname": "a40006",
+          "displayName": "Chaos' ultimate weapon",
+          "description": "Find all Chaos weapons in the main map.",
+          "unlocktime": 1786651411
+        },
+        {
+          "apiname": "a20017",
+          "displayName": "Mutant dog",
+          "description": "Kill 120 mutant dog.",
+          "unlocktime": 1786652040
+        },
+        {
+          "apiname": "a20018",
+          "displayName": "Bat",
+          "description": "Kill 100 Bat.",
+          "unlocktime": 1786652164
+        },
+        {
+          "apiname": "a20020",
+          "displayName": "Little Demon",
+          "description": "Kill 90 Little Demon.",
+          "unlocktime": 1786652262
+        },
+        {
+          "apiname": "a20019",
+          "displayName": "Female ghost",
+          "description": "Kill 9 Female ghost.",
+          "unlocktime": 1786652330
+        },
+        {
+          "apiname": "a20006",
+          "displayName": "Ordinary void",
+          "description": "Kill 80 Ordinary void.",
+          "unlocktime": 1786652434
+        },
+        {
+          "apiname": "a20007",
+          "displayName": "Super Void",
+          "description": "Kill 30 Super Void.",
+          "unlocktime": 1786652517
+        },
+        {
+          "apiname": "a20022",
+          "displayName": "Butcher",
+          "description": "Kill 20 Butcher.",
+          "unlocktime": 1786652735
+        },
+        {
+          "apiname": "a20023",
+          "displayName": "Guard",
+          "description": "Kill 20 Guard.",
+          "unlocktime": 1786652905
+        },
+        {
+          "apiname": "a20025",
+          "displayName": "Sombra",
+          "description": "Kill 5 Sombra.",
+          "unlocktime": 1786654215
+        },
+        {
+          "apiname": "a10021",
+          "displayName": "Fight by oneself",
+          "description": "Clear Arena mode.",
+          "unlocktime": 1786654532
         }
       ],
-      "challenge_achievement_count": 45,
+      "challenge_achievement_count": 56,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
