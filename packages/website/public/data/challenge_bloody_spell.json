@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1785542400,
   "totalAchievements": 60,
-  "generatedAt": 1786617407096,
+  "generatedAt": 1786622959103,
   "challengeOver": false,
   "winnerUsername": "Foxpile",
   "participants": [
@@ -2906,14 +2906,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 710,
-      "playtime_2weeks_minutes": 710,
+      "playtime_total_minutes": 830,
+      "playtime_2weeks_minutes": 830,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 710,
+      "playtime_challenge_minutes": 830,
       "achievements_total": 60,
-      "achievements_unlocked_total": 28,
+      "achievements_unlocked_total": 31,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 28,
+      "achievements_since_baseline": 31,
       "challenge_achievements": [
         {
           "apiname": "a30003",
@@ -3082,9 +3082,27 @@
           "displayName": "Soul Envoy",
           "description": "Collect 10 Torn Page of the Soul Pact.",
           "unlocktime": 1786611203
+        },
+        {
+          "apiname": "a40004",
+          "displayName": "Visitors from Outer Space",
+          "description": "Found the lost anti-epidemic medical staff.",
+          "unlocktime": 1786617798
+        },
+        {
+          "apiname": "a20027",
+          "displayName": "BOSS XiaoLi",
+          "description": "Defeat BOSS XiaoLi.",
+          "unlocktime": 1786621110
+        },
+        {
+          "apiname": "a20028",
+          "displayName": "BOSS SuYejin",
+          "description": "Defeat BOSS SuYejin.",
+          "unlocktime": 1786621228
         }
       ],
-      "challenge_achievement_count": 28,
+      "challenge_achievement_count": 31,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
@@ -3891,7 +3909,7 @@
       "review_recommendationid": null,
       "review_url": null,
       "playtime_total_minutes": 261,
-      "playtime_2weeks_minutes": 43,
+      "playtime_2weeks_minutes": 9,
       "baseline_playtime_minutes": 211,
       "playtime_challenge_minutes": 50,
       "achievements_total": 60,
