@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1785542400,
   "totalAchievements": 60,
-  "generatedAt": 1786611088280,
+  "generatedAt": 1786617407096,
   "challengeOver": false,
   "winnerUsername": "Foxpile",
   "participants": [
@@ -2906,14 +2906,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 620,
-      "playtime_2weeks_minutes": 620,
+      "playtime_total_minutes": 710,
+      "playtime_2weeks_minutes": 710,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 620,
+      "playtime_challenge_minutes": 710,
       "achievements_total": 60,
-      "achievements_unlocked_total": 27,
+      "achievements_unlocked_total": 28,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 27,
+      "achievements_since_baseline": 28,
       "challenge_achievements": [
         {
           "apiname": "a30003",
@@ -3076,9 +3076,15 @@
           "displayName": "Treasure Hunter",
           "description": "Open 15 chests.",
           "unlocktime": 1786610891
+        },
+        {
+          "apiname": "a10004",
+          "displayName": "Soul Envoy",
+          "description": "Collect 10 Torn Page of the Soul Pact.",
+          "unlocktime": 1786611203
         }
       ],
-      "challenge_achievement_count": 27,
+      "challenge_achievement_count": 28,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
