@@ -12,30 +12,30 @@ import {
 const ITEM_A: WarnItem = {
   fingerprint: 'ex-member-entries:1',
   memberSgUsername: 'alice',
-  category: 'Ex members that still have entries in group giveaways',
-  description: 'alice: ex-member entries',
+  label: 'Left the group but still has entries in group giveaways',
+  detail: '3 active entries',
   severity: 'error',
   code: 'ex_member_entries',
 }
 const ITEM_B: WarnItem = {
   fingerprint: 'group-warning:2:required_play_deadline_expired',
   memberSgUsername: 'bob',
-  category: 'Required-play deadline expired',
-  description: 'bob: required-play deadline expired',
+  label: 'Required-play deadline expired',
   severity: 'error',
+  code: 'required_play_deadline_expired',
 }
 const ITEM_WARN: WarnItem = {
   fingerprint: 'group-warning:3:no_giveaway_created_in_6_months',
   memberSgUsername: 'carol',
-  category: 'No giveaway created in 6 months',
-  description: 'carol: no giveaway created in 6 months',
+  label: 'No giveaway created in 6 months',
+  code: 'no_giveaway_created_in_6_months',
   severity: 'warn',
 }
 const ITEM_UPCOMING: WarnItem = {
   fingerprint: 'group-warning:4:required_play_deadline_within_15_days',
   memberSgUsername: 'dave',
-  category: 'Required-play deadline within 15 days: Blue Prince (deadline <t:1787000000:R>)',
-  description: 'dave: required-play deadline within 15 days',
+  label: 'Required-play deadline within 15 days',
+  detail: 'Blue Prince (deadline <t:1787000000:R>)',
   severity: 'warn',
   code: 'required_play_deadline_within_15_days',
 }
@@ -117,7 +117,9 @@ describe('groupFindingsByMember', () => {
         {
           ...ITEM_A,
           fingerprint: 'group-warning:1:zero_play_rate_with_wins',
-          category: 'Zero play rate despite wins',
+          label: 'Zero play rate despite wins',
+          detail: undefined,
+          code: 'zero_play_rate_with_wins',
           firstSeen: 1700000000,
         },
       ],
@@ -129,10 +131,62 @@ describe('groupFindingsByMember', () => {
 
     expect(grouped).toHaveLength(1)
     expect(grouped[0]!.username).toBe('alice')
-    expect(grouped[0]!.hasNew).toBe(true)
-    expect(grouped[0]!.findingLines).toEqual([
-      'Ex members that still have entries in group giveaways (new)',
-      'Zero play rate despite wins (since <t:1700000000:R>)',
+    // One new, one lingering — so the member is not "all new", and their
+    // time on the list comes from the lingering finding.
+    expect(grouped[0]!.allNew).toBe(false)
+    expect(grouped[0]!.onListSince).toBe(1700000000)
+    // Ordered by importance, so the lingering zero-play-rate finding outranks
+    // the new ex-member-entries one.
+    expect(grouped[0]!.findings.map((f) => [f.label, f.isNew])).toEqual([
+      ['Zero play rate despite wins', false],
+      ['Left the group but still has entries in group giveaways', true],
+    ])
+  })
+
+  it('takes the oldest firstSeen when a member has several lingering findings', () => {
+    const split: DigestSplit = {
+      newItems: [],
+      lingeringItems: [
+        { ...ITEM_A, firstSeen: 1700000000 },
+        {
+          ...ITEM_A,
+          fingerprint: 'group-warning:1:zero_play_rate_with_wins',
+          firstSeen: 1600000000,
+        },
+      ],
+      prunedFingerprints: [],
+      updatedState: { items: {} },
+    }
+
+    expect(groupFindingsByMember(split, isError)[0]!.onListSince).toBe(1600000000)
+  })
+
+  it('orders a member findings by importance, not by new-vs-lingering', () => {
+    const split: DigestSplit = {
+      newItems: [
+        {
+          ...ITEM_B,
+          memberSgUsername: 'bob',
+          label: 'No giveaway created in 6 months',
+          code: 'no_giveaway_created_in_6_months',
+        },
+      ],
+      lingeringItems: [
+        {
+          ...ITEM_B,
+          memberSgUsername: 'bob',
+          label: 'Entered a giveaway while ineligible',
+          code: 'illegal_entered_any_giveaways',
+          firstSeen: 1000,
+        },
+      ],
+      prunedFingerprints: [],
+      updatedState: { items: {} },
+    }
+
+    expect(groupFindingsByMember(split, isError)[0]!.findings.map((f) => f.code)).toEqual([
+      'illegal_entered_any_giveaways',
+      'no_giveaway_created_in_6_months',
     ])
   })
 
@@ -160,7 +214,9 @@ describe('groupFindingsByMember', () => {
 
     expect(grouped).toHaveLength(1)
     expect(grouped[0]!.username).toBe('bob')
-    expect(grouped[0]!.findingLines).toEqual(['Required-play deadline expired (new)'])
+    expect(grouped[0]!.findings.map((f) => f.label)).toEqual([
+      'Required-play deadline expired',
+    ])
   })
 
   it('sorts members with a new error finding before members with only lingering error findings, alphabetically within each group', () => {
@@ -222,6 +278,57 @@ describe('buildDigestMessages', () => {
     expect(fullText).toContain(
       '[dave](<https://sg-club.vercel.app/users/dave/?tab=won&filter=play-required>)'
     )
+  })
+
+  it('drops an upcoming-deadline finding that names no game, and the member with it', () => {
+    // Happens when group_users.json still carries a warning computed from a
+    // deadline the current parser reads differently — there is no game to
+    // point at, so there is nothing actionable to post.
+    const gameless: WarnItem = { ...ITEM_UPCOMING, detail: undefined }
+    const split: DigestSplit = {
+      newItems: [ITEM_B, gameless],
+      lingeringItems: [],
+      prunedFingerprints: [],
+      updatedState: { items: {} },
+    }
+    const fullText = buildDigestMessages(split).join('\n')
+
+    expect(fullText).not.toContain('dave')
+    expect(fullText).not.toContain('**Required-play deadlines coming up**')
+  })
+
+  it('keeps each section header attached to its own intro line', () => {
+    const split: DigestSplit = {
+      newItems: [ITEM_UPCOMING],
+      lingeringItems: [],
+      prunedFingerprints: [],
+      updatedState: { items: {} },
+    }
+    const messages = buildDigestMessages(split)
+
+    // A header and the line explaining it are one atomic segment, so chunking
+    // can never strand a header at the end of a message.
+    for (const header of ['**Weekly Mod Digest**', '**Required-play deadlines coming up**']) {
+      const message = messages.find((m) => m.includes(header))!
+      const lines = message.split('\n')
+      const headerIndex = lines.indexOf(header)
+      expect(lines[headerIndex + 1]).toBeDefined()
+      expect(lines[headerIndex + 1]!.startsWith('**')).toBe(false)
+    }
+  })
+
+  it('sorts the deadline section by name, since it shows no new/unresolved marker', () => {
+    const split: DigestSplit = {
+      newItems: [{ ...ITEM_UPCOMING, memberSgUsername: 'zoe' }],
+      lingeringItems: [
+        { ...ITEM_UPCOMING, memberSgUsername: 'adam', firstSeen: 1000 },
+      ],
+      prunedFingerprints: [],
+      updatedState: { items: {} },
+    }
+    const fullText = buildDigestMessages(split).join('\n')
+
+    expect(fullText.indexOf('adam')).toBeLessThan(fullText.indexOf('zoe'))
   })
 
   it('keeps upcoming deadlines below the violations, and other warn-level findings out entirely', () => {
@@ -297,8 +404,7 @@ describe('buildDigestMessages', () => {
     const otherErrorForAlice: WarnItem = {
       fingerprint: 'group-warning:alice:some_future_error',
       memberSgUsername: 'alice',
-      category: 'Some future error',
-      description: 'alice: some future error',
+      label: 'Some future error',
       severity: 'error',
       code: 'some_future_error',
     }
@@ -329,8 +435,7 @@ describe('buildDigestMessages', () => {
     const newItems: WarnItem[] = Array.from({ length: 30 }, (_, i) => ({
       fingerprint: `f:${i}`,
       memberSgUsername: `member${String(i).padStart(2, '0')}`,
-      category: longCategory,
-      description: 'irrelevant',
+      label: longCategory,
       severity: 'error' as const,
     }))
     const split: DigestSplit = {
@@ -355,17 +460,14 @@ describe('buildDigestMessages', () => {
       expect(message.length).toBeLessThanOrEqual(1900)
     }
 
-    // No bullet is split mid-way: every line in every message is either the
-    // header or a well-formed bullet, and concatenating all bullets across
-    // all messages reconstructs the full expected set with nothing
-    // missing or duplicated.
-    const expectedBullets = groupFindingsByMember(split, isError).map(
-      (m) =>
-        `- [${m.username}](<https://sg-club.vercel.app/users/${m.username}/>) — ${m.findingLines.join(' · ')}`
-    )
-    const actualBullets = messages.flatMap((message) =>
-      message.split('\n').filter((line) => line !== '**Weekly Mod Digest**' && line.length > 0)
-    )
-    expect(actualBullets).toEqual(expectedBullets)
+    // No member is split mid-way: each member's whole block (name line plus
+    // its finding sub-bullets) appears intact inside exactly one message.
+    for (const member of groupFindingsByMember(split, isError)) {
+      const block = [
+        `- [${member.username}](<https://sg-club.vercel.app/users/${member.username}/>) — new this week`,
+        `  - ${longCategory}`,
+      ].join('\n')
+      expect(messages.filter((message) => message.includes(block))).toHaveLength(1)
+    }
   })
 })

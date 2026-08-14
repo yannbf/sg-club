@@ -7,7 +7,9 @@ import { TEST_ANNOUNCE_CHANNEL_ID } from '../../../website/api/_lib/constants.js
 import {
   chunkMessage,
   collectGroupWarningFindings,
+  importanceRank,
   PLAY_REQUIRED_CODES,
+  renderMemberBlock,
   renderMemberLine,
   type DeepLink,
   type Severity,
@@ -20,12 +22,17 @@ const statePath = path.join(dataDir, 'discord_warn_state.json')
 export interface WarnItem {
   fingerprint: string
   memberSgUsername: string
-  category: string
-  description: string
+  /** What the member did, e.g. "Unplayed required-play wins". */
+  label: string
+  /** The specifics behind the label — game names, deadlines. Kept separate
+   * from `label` so a section whose header already states the rule can render
+   * the specifics alone. */
+  detail?: string
   severity: Severity
   /** Underlying finding code — drives the deep link on the member's digest
-   * line. Group-warning items carry their warning code; ex-member items
-   * carry the `ex_member_entries` pseudo-code (see IMPORTANCE_ORDER). */
+   * line and the ordering of their findings. Group-warning items carry their
+   * warning code; ex-member items carry the `ex_member_entries` pseudo-code
+   * (see IMPORTANCE_ORDER). */
   code?: string
 }
 
@@ -61,10 +68,10 @@ export function exMemberEntriesDetector(): WarnItem[] {
     .map((member) => ({
       fingerprint: `ex-member-entries:${member.steam_id}`,
       memberSgUsername: member.username,
-      category: 'Ex members that still have entries in group giveaways',
-      description: `Left the group but still has ${member.active_entries.length} active entr${
+      label: 'Left the group but still has entries in group giveaways',
+      detail: `${member.active_entries.length} active entr${
         member.active_entries.length === 1 ? 'y' : 'ies'
-      } in group-exclusive giveaways.`,
+      }`,
       severity: 'error' as const,
       code: 'ex_member_entries',
     }))
@@ -79,20 +86,17 @@ export function exMemberEntriesDetector(): WarnItem[] {
  */
 export async function groupUserWarningsDetector(): Promise<WarnItem[]> {
   const findings = await collectGroupWarningFindings()
-  return findings.map((finding) => {
-    // Per-game specifics ("Sonic Frontiers (deadline <t:…:R>)") go in the
-    // rendered category only — the fingerprint stays code-based so a detail
-    // change (new game, shifted deadline) doesn't reset firstSeen.
-    const category = finding.detail ? `${finding.label}: ${finding.detail}` : finding.label
-    return {
-      fingerprint: `group-warning:${finding.username}:${finding.code}`,
-      memberSgUsername: finding.username,
-      category,
-      description: `${finding.username}: ${category}`,
-      severity: finding.severity,
-      code: finding.code,
-    }
-  })
+  // Per-game specifics ("Sonic Frontiers (deadline <t:…:R>)") stay out of the
+  // fingerprint, which is code-based so a detail change (new game, shifted
+  // deadline) doesn't reset firstSeen.
+  return findings.map((finding) => ({
+    fingerprint: `group-warning:${finding.username}:${finding.code}`,
+    memberSgUsername: finding.username,
+    label: finding.label,
+    detail: finding.detail,
+    severity: finding.severity,
+    code: finding.code,
+  }))
 }
 
 const DETECTORS: Array<() => WarnItem[] | Promise<WarnItem[]>> = [
@@ -153,8 +157,12 @@ export function splitAndUpdateState(items: WarnItem[], state: WarnState, now: nu
   return { newItems, lingeringItems, prunedFingerprints, updatedState: { items: updatedItems } }
 }
 
-const HEADER = '**Weekly Mod Digest**'
-const UPCOMING_HEADER = '**Required-play deadlines coming up**'
+// Each of these is one chunkMessage segment, so a header can never be
+// stranded at the bottom of a message with its list on the next one.
+const HEADER = '**Weekly Mod Digest**\nMembers currently breaking a rule:'
+const HEADER_NO_VIOLATIONS = '**Weekly Mod Digest**\nNo rule violations this week.'
+const UPCOMING_HEADER =
+  '**Required-play deadlines coming up**\nNot violations yet — these lapse soon:'
 const MAX_MESSAGE_LENGTH = 1900
 
 /**
@@ -171,10 +179,21 @@ export const isError = (item: WarnItem): boolean => item.severity === 'error'
 export const isUpcomingDeadline = (item: WarnItem): boolean =>
   item.code !== undefined && UPCOMING_DEADLINE_CODES.has(item.code)
 
+export interface MemberFinding {
+  label: string
+  detail?: string
+  code?: string
+  /** Not present in the previous digest — i.e. this appeared this week. */
+  isNew: boolean
+}
+
 export interface MemberFindings {
   username: string
-  hasNew: boolean
-  findingLines: string[]
+  /** Every one of this member's findings appeared this week. */
+  allNew: boolean
+  /** Oldest `firstSeen` across their findings; absent when `allNew`. */
+  onListSince?: number
+  findings: MemberFinding[]
   /** Pre-filtered tab the member's line should link to, when their findings
    * warrant one: any required-play finding links to the Won tab with the
    * Play required filter on; an ex-member-entries finding as the member's
@@ -182,88 +201,146 @@ export interface MemberFindings {
   deepLink?: DeepLink
 }
 
-interface MemberAccumulator extends MemberFindings {
-  codes: string[]
-}
-
 /**
  * Groups the findings a `select` predicate accepts (new + lingering) by
- * member, so each member appears exactly once listing only their selected
- * findings. Members with at least one new finding sort first; both groups
- * sort alphabetically. Findings the predicate rejects are still tracked in
- * state (see splitAndUpdateState), just not rendered in this section.
+ * member, so each member appears exactly once carrying only their selected
+ * findings, most serious first. Members with at least one new finding sort
+ * first; both groups sort alphabetically. Findings the predicate rejects are
+ * still tracked in state (see splitAndUpdateState), just not in this section.
  */
 export function groupFindingsByMember(
   split: DigestSplit,
   select: (item: WarnItem) => boolean
 ): MemberFindings[] {
-  const byUser = new Map<string, MemberAccumulator>()
+  const byUser = new Map<string, MemberFindings>()
 
-  const getEntry = (username: string): MemberAccumulator => {
+  const getEntry = (username: string): MemberFindings => {
     let entry = byUser.get(username)
     if (!entry) {
-      entry = { username, hasNew: false, findingLines: [], codes: [] }
+      entry = { username, allNew: true, findings: [] }
       byUser.set(username, entry)
     }
     return entry
   }
 
-  for (const item of split.newItems) {
-    if (!select(item)) continue
+  const add = (item: WarnItem, isNew: boolean, firstSeen?: number) => {
+    if (!select(item)) return
     const entry = getEntry(item.memberSgUsername)
-    entry.hasNew = true
-    entry.findingLines.push(`${item.category} (new)`)
-    if (item.code) entry.codes.push(item.code)
-  }
-  for (const item of split.lingeringItems) {
-    if (!select(item)) continue
-    const entry = getEntry(item.memberSgUsername)
-    entry.findingLines.push(`${item.category} (since <t:${item.firstSeen}:R>)`)
-    if (item.code) entry.codes.push(item.code)
+    entry.findings.push({ label: item.label, detail: item.detail, code: item.code, isNew })
+    if (isNew) return
+    entry.allNew = false
+    if (firstSeen !== undefined) {
+      entry.onListSince =
+        entry.onListSince === undefined ? firstSeen : Math.min(entry.onListSince, firstSeen)
+    }
   }
 
+  for (const item of split.newItems) add(item, true)
+  for (const item of split.lingeringItems) add(item, false, item.firstSeen)
+
   return [...byUser.values()]
-    .map(({ codes, ...entry }): MemberFindings => {
+    .map((entry): MemberFindings => {
+      entry.findings.sort(
+        (a, b) => importanceRank(a.code ?? '') - importanceRank(b.code ?? '')
+      )
+      const codes = entry.findings.map((f) => f.code).filter((c): c is string => !!c)
       if (codes.some((code) => PLAY_REQUIRED_CODES.has(code))) {
         return { ...entry, deepLink: 'play-required' }
       }
       // Only when ex-member entries is the member's sole finding: mixing in
       // other (non-play-required) findings makes the Entered/Open view too
       // narrow a landing page for the line.
-      if (codes.length === entry.findingLines.length && codes.every((c) => c === 'ex_member_entries')) {
+      if (
+        codes.length === entry.findings.length &&
+        codes.every((c) => c === 'ex_member_entries')
+      ) {
         return { ...entry, deepLink: 'entered-open' }
       }
       return entry
     })
     .sort((a, b) => {
-      if (a.hasNew !== b.hasNew) return a.hasNew ? -1 : 1
+      if (a.allNew !== b.allNew) return a.allNew ? -1 : 1
       return a.username.localeCompare(b.username)
     })
 }
 
+const withDetail = (finding: MemberFinding): string =>
+  finding.detail ? `${finding.label}: ${finding.detail}` : finding.label
+
+/**
+ * One member's violations: a bullet naming them and how long they've been on
+ * the list, with each finding as its own sub-bullet.
+ *
+ * The headline is what makes the timing legible. "unresolved since <date>"
+ * says what the duration measures — the previous "(since …)" suffix hung off
+ * a finding with nothing saying since *what*. An individual finding is only
+ * marked new when the member themselves isn't, where it genuinely means
+ * "this one got added to an existing problem".
+ */
+function renderViolations(member: MemberFindings): string {
+  const headline =
+    member.allNew || member.onListSince === undefined
+      ? 'new this week'
+      : `unresolved since <t:${member.onListSince}:R>`
+  const lines = member.findings.map((finding) =>
+    !member.allNew && finding.isNew ? `${withDetail(finding)} (new this week)` : withDetail(finding)
+  )
+  return renderMemberBlock(member.username, headline, lines, member.deepLink)
+}
+
+/**
+ * One member's upcoming deadlines, on a single line. The section header
+ * already says what the rule is, so only the specifics (game + deadline)
+ * are rendered — and no new/unresolved marker, since the deadline itself is
+ * the only timing that matters here.
+ */
+function renderUpcomingDeadlines(member: MemberFindings): string {
+  const texts = member.findings.map((finding) => finding.detail!)
+  return renderMemberLine(member.username, texts, member.deepLink)
+}
+
+/**
+ * Upcoming-deadline members, dropping any finding we can't name a game for.
+ *
+ * A detail-less deadline finding means the stored warning in group_users.json
+ * and the deadlines recomputed here disagree — the stored one is left over
+ * from a scrape that read the deadline differently. The recomputation is the
+ * fresher answer, and "deadline within 15 days" with no game attached is
+ * nothing a mod can act on, so it waits for the next scrape to clear.
+ *
+ * Sorted by name only: this section shows no new/unresolved marker, so the
+ * new-first ordering the violations use would look arbitrary here.
+ */
+function upcomingDeadlineMembers(split: DigestSplit): MemberFindings[] {
+  return groupFindingsByMember(split, isUpcomingDeadline)
+    .map((member) => ({
+      ...member,
+      findings: member.findings.filter((finding) => finding.detail),
+    }))
+    .filter((member) => member.findings.length > 0)
+    .sort((a, b) => a.username.localeCompare(b.username))
+}
+
 /**
  * Renders the digest as one or more plain-markdown messages, each ≤1900
- * chars, splitting strictly at bullet boundaries so a member's line never
- * gets cut mid-way. Two sections: current rule violations (error severity),
- * then required-play deadlines about to run out. No emojis anywhere. Returns
- * an empty array when neither section has anything (the caller stays silent).
+ * chars, splitting strictly at segment boundaries so a member's findings
+ * never get cut in half. Two sections: current rule violations (error
+ * severity), then required-play deadlines about to run out. No emojis
+ * anywhere. Returns an empty array when neither section has anything (the
+ * caller stays silent).
  */
 export function buildDigestMessages(split: DigestSplit): string[] {
-  const render = (members: MemberFindings[]): string[] =>
-    members.map((member) =>
-      renderMemberLine(member.username, member.findingLines, member.deepLink)
-    )
-
-  const errorBullets = render(groupFindingsByMember(split, isError))
+  const violations = groupFindingsByMember(split, isError).map(renderViolations)
   // A member can appear in both sections: the deadline line is the actionable
   // "act before this lapses" item, distinct from whatever they're already in
   // violation of.
-  const upcomingBullets = render(groupFindingsByMember(split, isUpcomingDeadline))
+  const upcoming = upcomingDeadlineMembers(split).map(renderUpcomingDeadlines)
 
-  if (errorBullets.length === 0 && upcomingBullets.length === 0) return []
+  if (violations.length === 0 && upcoming.length === 0) return []
 
-  const segments = [HEADER, ...errorBullets]
-  if (upcomingBullets.length > 0) segments.push(UPCOMING_HEADER, ...upcomingBullets)
+  const segments =
+    violations.length > 0 ? [HEADER, ...violations] : [HEADER_NO_VIOLATIONS]
+  if (upcoming.length > 0) segments.push(UPCOMING_HEADER, ...upcoming)
   return chunkMessage(segments, MAX_MESSAGE_LENGTH)
 }
 

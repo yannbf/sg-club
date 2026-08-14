@@ -94,7 +94,7 @@ describe('collectGroupWarningFindings', () => {
     expect(findings).toContainEqual({
       username: 'bob',
       code: 'required_plays_need_review',
-      label: 'Required-play win(s) need review',
+      label: 'Required-play wins that may already be done',
       severity: 'warn',
     })
   })

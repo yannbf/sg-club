@@ -40,10 +40,10 @@ export function severityFor(code: string): Severity {
 }
 
 export const WARNING_LABELS: Record<string, string> = {
-  unplayed_required_play_giveaways: 'Unplayed required-play win(s)',
-  illegal_entered_required_play_giveaways: 'Entered required-play GA despite unmet requirement',
+  unplayed_required_play_giveaways: 'Unplayed required-play wins',
+  illegal_entered_required_play_giveaways: 'Entered a required-play giveaway while ineligible',
   illegal_entered_any_giveaways: 'Entered a giveaway while ineligible',
-  required_plays_need_review: 'Required-play win(s) need review',
+  required_plays_need_review: 'Required-play wins that may already be done',
   required_play_deadline_within_15_days: 'Required-play deadline within 15 days',
   required_play_deadline_expired: 'Required-play deadline expired',
   zero_play_rate_with_wins: 'Zero play rate despite wins',
@@ -264,6 +264,23 @@ export function renderMemberLine(
   deepLink?: DeepLink
 ): string {
   return `- ${memberLink(username, deepLink)} — ${findingTexts.join(' · ')}`
+}
+
+/**
+ * Renders one member as a bullet with their findings as sub-bullets, rather
+ * than run together on a single line. `headline` sits next to the name and is
+ * where per-member context goes (how long they've been on the list). Returns
+ * ONE segment containing newlines, so `chunkMessage` still keeps a member's
+ * findings together in a single message.
+ */
+export function renderMemberBlock(
+  username: string,
+  headline: string,
+  findingTexts: string[],
+  deepLink?: DeepLink
+): string {
+  const head = `- ${memberLink(username, deepLink)} — ${headline}`
+  return [head, ...findingTexts.map((text) => `  - ${text}`)].join('\n')
 }
 
 /**

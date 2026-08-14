@@ -334,11 +334,14 @@ fallback in the scraper).
 - **`collectGroupWarningFindings(host?)`** loads `group_users.json` and
   flattens every member's `warnings` array into one finding
   (`{ username, code, label, severity }`) per member per code.
-- **`renderMemberLine`** and **`chunkMessage`** are the shared rendering
-  primitives (member bullet formatting, chunking a segment list into as few
-  messages as fit without splitting a segment) reused by the digest,
-  `/mod-report`, and the plain-markdown `render.ts` outputs (close-summary,
-  `/challenge-list`). See [Packing into the fewest
+- **`renderMemberLine`**, **`renderMemberBlock`** and **`chunkMessage`** are
+  the shared rendering primitives, reused by the digest, `/mod-report`, and
+  the plain-markdown `render.ts` outputs (close-summary, `/challenge-list`).
+  `renderMemberLine` puts a member's findings on one line joined with " · ";
+  `renderMemberBlock` gives them a headline and one sub-bullet per finding,
+  returning a single multi-line segment so chunking keeps them together.
+  `chunkMessage` packs a segment list into as few messages as fit without
+  splitting a segment. See [Packing into the fewest
   messages](#packing-into-the-fewest-messages) for the chunking budget.
 - **`renderSection`** (used only by `/mod-report`, not the digest) groups a
   section's members by their *exact* set of finding codes and renders each
@@ -539,13 +542,32 @@ Run manually via the `discord-bot.yml` workflow (`workflow_dispatch`, pick a
   *all* findings regardless of severity, so a warn-level finding never loses
   its `firstSeen` history even when it isn't rendered.
 
-  Within a section there is **one bullet per member** — a member never
-  appears twice in the same section; their findings are merged onto their
-  bullet, each suffixed `(new)` or `(since <t:X:R>)`, and the member name
-  links to their `https://sg-club.vercel.app/users/<username>/` page. Members
-  with any new finding sort first, then alphabetically. Long digests split
-  into multiple ≤1900-char messages at bullet boundaries (header only on the
-  first). Stays silent (posts nothing) when both sections are empty — but
+  Each section header is followed by a line saying what the section is, and
+  the two are **one `chunkMessage` segment**, so a header can never be
+  stranded at the bottom of a message with its list on the next one.
+
+  **Violations** render as one block per member (`renderMemberBlock`): a
+  bullet with the member's link and a headline, then each finding as a
+  sub-bullet, ordered by `importanceRank`. The headline is either `new this
+  week` or `unresolved since <t:X:R>` (the *oldest* `firstSeen` across their
+  findings) — phrased so the duration says what it measures, which the old
+  bare `(since <t:X:R>)` suffix did not. An individual finding is marked
+  `(new this week)` only when the member themselves is not new, where it
+  genuinely means "this got added to an existing problem". A member's whole
+  block is one segment, so chunking never splits their findings in half.
+  Members with only-new findings sort first, then alphabetically.
+
+  **Upcoming deadlines** render as a single line per member listing just the
+  game + deadline — the section header already states the rule, and there is
+  no new/unresolved marker because the deadline itself is the timing that
+  matters. Sorted by name alone (a new-first order would look arbitrary with
+  no marker explaining it). A finding with no game attached is dropped, along
+  with the member if that leaves them empty: it means `group_users.json`
+  still holds a warning computed from a deadline the current parser reads
+  differently, and the recomputed answer is the fresher one.
+
+  Long digests split into multiple ≤1900-char messages at segment
+  boundaries. Stays silent (posts nothing) when both sections are empty — but
   state is still saved. Two detectors are wired up:
   1. **Ex-member entries** — reuses the core check from
      `check-ex-member-entries.ts` (ex-members who still have entries in
