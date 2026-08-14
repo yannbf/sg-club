@@ -16,6 +16,7 @@ import {
   X,
 } from 'lucide-react'
 import { DiscordIcon } from '@/components/icons/DiscordIcon'
+import { DiscordBadge } from '@/components/DiscordBadge'
 import { formatPlaytime } from '@/lib/data'
 import { User } from '@/types'
 import FormattedDate from '@/components/FormattedDate'
@@ -128,21 +129,12 @@ function getRecentWins(user: User, deletedGaLinks?: Set<string>) {
 }
 
 function discordBadge(user: User) {
-  if (user.discord_member === undefined) return null
-  return user.discord_member ? (
-    <Badge variant="discord" size="sm" title="In the community Discord server">
-      <DiscordIcon className="h-3 w-3" />
-      Discord
-    </Badge>
-  ) : (
-    <Badge
-      variant="outline"
+  return (
+    <DiscordBadge
+      member={user.discord_member}
+      handle={user.discord_handle}
       size="sm"
-      title="Not in the community Discord server"
-    >
-      <DiscordIcon className="h-3 w-3" />
-      Not on Discord
-    </Badge>
+    />
   )
 }
 

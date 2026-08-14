@@ -33,12 +33,12 @@ import {
   SpringCleaningEdition,
   SPRING_CLEANINGS,
 } from '@/lib/spring-cleaning'
-import { DiscordIcon } from '@/components/icons/DiscordIcon'
 import { UserLink, steamGiftsProfile } from '@/components/UserLink'
 import { LastUpdated } from '@/components/LastUpdated'
 import FormattedDate from '@/components/FormattedDate'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
+import { DiscordBadge } from '@/components/DiscordBadge'
 import {
   ToggleGroup,
   ToggleGroupItem,
@@ -113,18 +113,20 @@ function GameChips({ games }: { games: FlaggedGame[] }) {
   )
 }
 
-function DiscordChip({ member }: { member?: boolean }) {
-  if (member === undefined) return null
-  return member ? (
-    <Badge variant="discord" size="sm" title="In the community Discord server">
-      <DiscordIcon className="h-3 w-3" />
-      Discord
-    </Badge>
-  ) : (
-    <Badge variant="outline" size="sm" title="Not in the community Discord server">
-      <DiscordIcon className="h-3 w-3" />
-      No Discord
-    </Badge>
+function DiscordChip({
+  member,
+  handle,
+}: {
+  member?: boolean
+  handle?: string
+}) {
+  return (
+    <DiscordBadge
+      member={member}
+      handle={handle}
+      size="sm"
+      absentLabel="No Discord"
+    />
   )
 }
 
@@ -279,7 +281,7 @@ function PriorityCard({ user }: { user: AnalyzedUser }) {
               )}
               {isExpel ? 'Expel candidate' : 'Warning'}
             </Badge>
-            <DiscordChip member={user.discord_member} />
+            <DiscordChip member={user.discord_member} handle={user.discord_handle} />
             {user.isDeleted && (
               <Badge variant="error" size="sm">
                 Account deleted
@@ -378,7 +380,7 @@ function SectionUserRow({
           >
             {user.username}
           </UserLink>
-          <DiscordChip member={user.discord_member} />
+          <DiscordChip member={user.discord_member} handle={user.discord_handle} />
         </div>
         <p className="mt-0.5 text-sm text-muted-foreground">{user.detail}</p>
         {user.games && user.games.length > 0 && <GameChips games={user.games} />}

@@ -161,6 +161,8 @@ export interface AnalyzedUser {
   steam_id: string
   avatar_url: string
   discord_member?: boolean
+  /** Discord account handle, when the member is matched to one. */
+  discord_handle?: string
   ratio: number
   playRate: PlayRate
   isDeleted?: boolean
@@ -193,6 +195,7 @@ export interface SectionResult {
     steam_id: string
     avatar_url: string
     discord_member?: boolean
+    discord_handle?: string
     detail: string
     games?: FlaggedGame[]
   }>
@@ -935,6 +938,7 @@ export function analyzeSpringCleaning(
       steam_id: user.steam_id,
       avatar_url: user.avatar_url,
       discord_member: user.discord_member,
+      discord_handle: user.discord_handle,
       ratio: user.stats.giveaway_ratio ?? 0,
       playRate: computePlayRate(user),
       isDeleted: user.is_deleted_sg_account,
@@ -990,6 +994,7 @@ export function analyzeSpringCleaning(
         steam_id: u.steam_id,
         avatar_url: u.avatar_url,
         discord_member: u.discord_member,
+        discord_handle: u.discord_handle,
         detail: flag.detail ? `${flag.label} — ${flag.detail}` : flag.label,
         games: flag.games,
       })),
