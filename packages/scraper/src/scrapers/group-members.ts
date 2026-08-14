@@ -9,6 +9,7 @@ import type {
   UserGiveawaysStats,
   SteamIdMap,
   SteamIdMapEntry,
+  SteamPlayData,
 } from '../types/steamgifts.js'
 import { steamChecker, type GamePlayData } from '../api/fetch-steam-data.js'
 import { delay, isRateLimitedHtml } from '../utils/common.js'
@@ -27,7 +28,7 @@ const debug = (...args: any[]) => {
  *   • the previously stored stats.first_seen_at (so a stamp survives)
  *   • giveaways_created[].created_timestamp
  *   • giveaways_won[].end_timestamp (no created stored on wins)
- *   • USER_ENTRIES[steam_id][].joined_at (entries on group GAs)
+ *   • getUserEntries()[steam_id][].joined_at (entries on group GAs)
  *
  * All inputs are unix seconds. Returns null if the user has no traces yet
  * and no prior stamp (caller should stamp at detection time in that case).
@@ -42,7 +43,7 @@ function computeFirstSeenAt(user: User): number | null {
   consider(user.stats?.first_seen_at)
   for (const g of user.giveaways_created ?? []) consider(g.created_timestamp)
   for (const g of user.giveaways_won ?? []) consider(g.end_timestamp)
-  for (const e of USER_ENTRIES[user.steam_id] ?? []) consider(e.joined_at)
+  for (const e of getUserEntries()[user.steam_id] ?? []) consider(e.joined_at)
 
   return earliest
 }
@@ -94,30 +95,68 @@ function parseRegisteredAt($: CheerioAPI): number | null {
   return registeredAt
 }
 
-const GAME_DATA = JSON.parse(
-  readFileSync('../website/public/data/game_data.json', 'utf-8'),
-) as GamePrice[]
-let GIVEAWAY_DATA: Giveaway[] = []
-try {
-  GIVEAWAY_DATA = JSON.parse(
-    readFileSync('../website/public/data/giveaways.json', 'utf-8'),
-  ).giveaways as Giveaway[]
-} catch (error) {
-  console.warn(`⚠️  Could not load giveaway file: ${error}`)
+/**
+ * The generated JSON files are read lazily and memoized, never at module
+ * scope: importing this module must not touch the filesystem, so it can be
+ * imported by tests (and by any consumer that only wants a pure helper)
+ * without the data files being present.
+ */
+function loadJsonOnce<T>(path: string, label: string, fallback: T): () => T {
+  let cached: T | undefined
+  return () => {
+    if (cached !== undefined) return cached
+    try {
+      cached = JSON.parse(readFileSync(path, 'utf-8')) as T
+    } catch (error) {
+      console.warn(`⚠️  Could not load ${label}: ${error}`)
+      cached = fallback
+    }
+    return cached
+  }
 }
+
+const getGameData = loadJsonOnce<GamePrice[]>(
+  '../website/public/data/game_data.json',
+  'game data file',
+  [],
+)
+
+let giveawayDataOverride: Giveaway[] | null = null
+const loadGiveawayData = loadJsonOnce<{ giveaways?: Giveaway[] }>(
+  '../website/public/data/giveaways.json',
+  'giveaway file',
+  {},
+)
+const getGiveawayData = (): Giveaway[] =>
+  giveawayDataOverride ?? loadGiveawayData().giveaways ?? []
 
 // Raw format: { "ga_link": [{ steam_id, joined_at }] }
 // Pivoted to: { "steam_id": [{ link, joined_at }] }
-const RAW_USER_ENTRIES = JSON.parse(
-  readFileSync('../website/public/data/user_entries.json', 'utf-8'),
-) as Record<string, { steam_id: string; joined_at: string }[]>
+const loadRawUserEntries = loadJsonOnce<
+  Record<string, { steam_id: string; joined_at: string }[]>
+>('../website/public/data/user_entries.json', 'user entries file', {})
 
-const USER_ENTRIES: Record<string, { link: string; joined_at: number }[]> = {}
-for (const [gaLink, entries] of Object.entries(RAW_USER_ENTRIES)) {
-  for (const entry of entries) {
-    if (!USER_ENTRIES[entry.steam_id]) USER_ENTRIES[entry.steam_id] = []
-    USER_ENTRIES[entry.steam_id].push({ link: gaLink, joined_at: Number(entry.joined_at) })
+let userEntriesCache: Record<
+  string,
+  { link: string; joined_at: number }[]
+> | null = null
+function getUserEntries(): Record<
+  string,
+  { link: string; joined_at: number }[]
+> {
+  if (userEntriesCache) return userEntriesCache
+  const pivoted: Record<string, { link: string; joined_at: number }[]> = {}
+  for (const [gaLink, entries] of Object.entries(loadRawUserEntries())) {
+    for (const entry of entries) {
+      if (!pivoted[entry.steam_id]) pivoted[entry.steam_id] = []
+      pivoted[entry.steam_id].push({
+        link: gaLink,
+        joined_at: Number(entry.joined_at),
+      })
+    }
   }
+  userEntriesCache = pivoted
+  return pivoted
 }
 
 const IDLE_GAMES_WHITELIST = [
@@ -191,6 +230,68 @@ export function shouldFetchWin(won: WonGame, mode: PlaytimeMode): boolean {
   return stalenessDays >= refreshAfterDaysFor(ageDays)
 }
 
+/**
+ * Does this snapshot actually prove the member touched the game?
+ *
+ * Deliberately ignores `has_no_available_stats`: that flag also covers
+ * `no_steam_stats`, where the library was read fine and playtime is real but
+ * the game simply exposes no achievements. Treating the flag as "no evidence"
+ * would discard genuine playtime for every achievement-less game. Every result
+ * that truly saw nothing carries zeros anyway, so the numbers are the test.
+ */
+function hasPlayEvidence(data?: SteamPlayData | GamePlayData): boolean {
+  if (!data) return false
+  return data.playtime_minutes > 0 || data.achievements_unlocked > 0
+}
+
+/**
+ * Merge a fresh Steam pull over what we already recorded, treating evidence as
+ * monotonic — the same invariant `generate-challenge-data.ts` applies to
+ * challenge progress.
+ *
+ * Steam stops reporting a library when the member flips their game-details
+ * privacy, and `GetOwnedGames` also comes back empty on a transient API
+ * failure; both surface here as `library_unavailable` with zero playtime. Left
+ * to overwrite, one bad pull erases hours we had already proven and the member
+ * reads as a 0% never-played hoarder forever after. So a pull carrying no
+ * evidence never replaces a snapshot that had some, and playtime/achievements
+ * only ever ratchet up.
+ */
+export function mergePlayData(
+  previous: SteamPlayData | undefined,
+  fresh: GamePlayData,
+): GamePlayData {
+  if (!hasPlayEvidence(previous)) return fresh
+  const prev = previous as SteamPlayData
+
+  // The fresh pull can't see the library — keep everything we already knew.
+  // `is_playtime_private` isn't persisted on the stored snapshot, so re-derive
+  // it the same way aggregatePlayData does.
+  if (!hasPlayEvidence(fresh)) {
+    return {
+      ...prev,
+      is_playtime_private:
+        prev.playtime_minutes === 0 && prev.achievements_unlocked > 0,
+      stats_hidden_at: Date.now(),
+    }
+  }
+
+  // Both readable: floor each metric at its high-water mark. Playtime can only
+  // grow in reality, so a drop means a partial read, not a member un-playing.
+  const merged: GamePlayData = { ...fresh }
+  if (prev.playtime_minutes > fresh.playtime_minutes) {
+    merged.playtime_minutes = prev.playtime_minutes
+    merged.playtime_formatted = prev.playtime_formatted
+  }
+  if (prev.achievements_unlocked > fresh.achievements_unlocked) {
+    merged.achievements_unlocked = prev.achievements_unlocked
+    merged.achievements_total = fresh.achievements_total || prev.achievements_total
+    merged.achievements_percentage = prev.achievements_percentage
+  }
+  merged.never_played = merged.playtime_minutes === 0 && merged.achievements_unlocked === 0
+  return merged
+}
+
 function countPendingWins(
   user: User,
   giveawayByLink: Map<string, Giveaway>,
@@ -211,8 +312,8 @@ function countPendingWins(
 // getGameInfo receives a giveaway link, then finds the HLTB data for the game
 // and returns the game data
 const getGameInfo = (link: string) => {
-  const giveawayData = GIVEAWAY_DATA.find((g) => g.link === link)
-  const gameData = GAME_DATA.find(
+  const giveawayData = getGiveawayData().find((g) => g.link === link)
+  const gameData = getGameData().find(
     (g) =>
       (g.app_id && g.app_id === giveawayData?.app_id) ||
       (g.package_id && g.package_id === giveawayData?.package_id),
@@ -547,9 +648,9 @@ export class SteamGiftsUserFetcher {
       first_seen_at: computeFirstSeenAt(user),
     }
 
-    // Build game price lookup from module-level GAME_DATA (loaded once at startup)
+    // Build game price lookup from the memoized game-data file
     const gamePriceMap = new Map<string, GamePrice>()
-    for (const game of GAME_DATA) {
+    for (const game of getGameData()) {
       if (game.app_id) {
         gamePriceMap.set(`app/${game.app_id}`, game)
       }
@@ -924,11 +1025,19 @@ export class SteamGiftsUserFetcher {
           )
 
           if (gamePlayData) {
+            // A pull that can't read the library must not erase playtime we
+            // already proved — merge over the previous snapshot instead of
+            // replacing it.
+            const mergedPlayData = mergePlayData(
+              wonGame.steam_play_data,
+              gamePlayData,
+            )
+
             // Total playtime never decreases, so any rise since the last
             // snapshot means the member actually played this game recently.
             const previousPlaytime =
               wonGame.steam_play_data?.playtime_minutes ?? 0
-            if (gamePlayData.playtime_minutes > previousPlaytime) {
+            if (mergedPlayData.playtime_minutes > previousPlaytime) {
               playedSinceLastCheck = true
             }
 
@@ -941,22 +1050,22 @@ export class SteamGiftsUserFetcher {
 
             if (isPotentiallyIdling && isWhitelisted) {
               isPotentiallyIdling = undefined
-            } else if (gamePlayData.achievements_total === 0) {
+            } else if (mergedPlayData.achievements_total === 0) {
               isPotentiallyIdling = undefined
             } else if (
               !isWhitelisted &&
               !isPotentiallyIdling &&
-              gamePlayData.achievements_total > 0 &&
-              gamePlayData.achievements_unlocked === 0 &&
-              gamePlayData.playtime_minutes > 180
+              mergedPlayData.achievements_total > 0 &&
+              mergedPlayData.achievements_unlocked === 0 &&
+              mergedPlayData.playtime_minutes > 180
             ) {
               isPotentiallyIdling = true
             }
 
             if (
               isPotentiallyIdling &&
-              gamePlayData.achievements_total > 0 &&
-              gamePlayData.achievements_unlocked > 0
+              mergedPlayData.achievements_total > 0 &&
+              mergedPlayData.achievements_unlocked > 0
             ) {
               isPotentiallyIdling = false
             }
@@ -964,7 +1073,7 @@ export class SteamGiftsUserFetcher {
             updatedGiveawaysWon[idx] = {
               ...wonGame,
               steam_play_data: {
-                ...gamePlayData,
+                ...mergedPlayData,
                 last_checked: Date.now(),
                 ...(isPotentiallyIdling !== undefined && {
                   is_potentially_idling: isPotentiallyIdling,
@@ -1359,7 +1468,7 @@ export class SteamGiftsUserFetcher {
       // an entry in an ended giveaway can no longer be withdrawn, so flagging
       // it would keep the warning alive long after there's nothing to act on.
       const nowSec = Date.now() / 1000
-      const openEnteredGiveaways = (USER_ENTRIES?.[user.steam_id] || [])
+      const openEnteredGiveaways = (getUserEntries()[user.steam_id] || [])
         .map((g) => giveaways.find((ga) => ga.link === g.link))
         .filter(
           (g): g is Giveaway => g !== undefined && g.end_timestamp > nowSec,
@@ -1515,7 +1624,7 @@ export class SteamGiftsUserFetcher {
     // Hasn't played anything in 4+ months yet is still joining/winning GAs.
     const lastPlayedMs = user.last_played_at ?? null
     if (lastPlayedMs != null && lastPlayedMs < monthsAgoMs(4)) {
-      const recentEntries = USER_ENTRIES?.[user.steam_id] || []
+      const recentEntries = getUserEntries()[user.steam_id] || []
       const joinedRecently = recentEntries.some(
         (e) => e.joined_at >= monthsAgoSec(2),
       )
@@ -1966,15 +2075,17 @@ export class SteamGiftsUserFetcher {
 
       // Reload giveaway data in case it was updated by an earlier pipeline step
       try {
-        GIVEAWAY_DATA = JSON.parse(
+        giveawayDataOverride = JSON.parse(
           readFileSync('../website/public/data/giveaways.json', 'utf-8'),
         ).giveaways as Giveaway[]
-        console.log(`📁 Loaded ${GIVEAWAY_DATA.length} giveaways for user enrichment`)
+        console.log(
+          `📁 Loaded ${giveawayDataOverride.length} giveaways for user enrichment`,
+        )
       } catch (error) {
         console.warn(`⚠️  Could not reload giveaway file: ${error}`)
       }
 
-      const giveaways = GIVEAWAY_DATA
+      const giveaways = getGiveawayData()
       if (giveaways.length > 0) {
         await this.enrichUsersWithGiveaways(existingUsers, giveaways)
 

@@ -49,6 +49,9 @@ export interface GamePlayData {
   no_stats_reason?: NoStatsReason
   // Present only for multi-game packages — per-title stats summed above.
   games_breakdown?: GameBreakdownEntry[]
+  // Set by mergePlayData when proven playtime is retained through a pull that
+  // could not read the library.
+  stats_hidden_at?: number
 }
 
 export interface SteamProfileVisibility {
@@ -57,26 +60,35 @@ export interface SteamProfileVisibility {
 }
 
 const API_KEY = process.env.STEAM_API_KEY
-if (!API_KEY) {
-  console.error(`❌ Steam API key not found`)
-  console.error(`   Set STEAM_API_KEY environment variable`)
-  console.error(
-    `   Get your API key from: https://steamcommunity.com/dev/apikey`,
-  )
-  process.exit(1)
-}
 
 export class SteamGameChecker {
   private readonly baseUrl = 'https://api.steampowered.com'
-  private readonly apiKey: string
+  private readonly providedKey: string | undefined
   private readonly noStatsCache: Map<
     number,
     { ts: number; reason: NoStatsReason }
   > = new Map()
   private readonly TWO_WEEKS_IN_MS = 14 * 24 * 60 * 60 * 1000
 
-  constructor(apiKey: string) {
-    this.apiKey = apiKey
+  constructor(apiKey?: string) {
+    this.providedKey = apiKey ?? process.env.STEAM_API_KEY
+  }
+
+  /**
+   * Resolved on first request rather than at import. A missing key is fatal to
+   * anything that calls Steam, but importing this module (for a type, or for a
+   * pure helper that lives alongside) must not kill the process.
+   */
+  private get apiKey(): string {
+    if (!this.providedKey) {
+      console.error(`❌ Steam API key not found`)
+      console.error(`   Set STEAM_API_KEY environment variable`)
+      console.error(
+        `   Get your API key from: https://steamcommunity.com/dev/apikey`,
+      )
+      throw new Error('STEAM_API_KEY is not set')
+    }
+    return this.providedKey
   }
 
   private async fetchSteamAPI(endpoint: string): Promise<any> {
@@ -136,7 +148,9 @@ export class SteamGameChecker {
     }
   }
 
-  private async getOwnedGames(steamId: string): Promise<SteamGameInfo[]> {
+  private async getOwnedGames(
+    steamId: string,
+  ): Promise<SteamGameInfo[] | null> {
     const endpoint = `/IPlayerService/GetOwnedGames/v0001/?key=${this.apiKey}&steamid=${steamId}&format=json&include_appinfo=1&include_played_free_games=0`
 
     try {
@@ -144,17 +158,21 @@ export class SteamGameChecker {
       return data.response.games || []
     } catch (error) {
       logError(error, `Failed to get owned games for Steam ID ${steamId}`)
-      return []
+      // `null`, not `[]` — a request that failed is not a member who owns
+      // nothing, and callers must be able to tell the two apart.
+      return null
     }
   }
 
   private async getOwnedGamesCached(
     steamId: string,
-  ): Promise<SteamGameInfo[]> {
+  ): Promise<SteamGameInfo[] | null> {
     const cached = this.ownedGamesCache.get(steamId)
     if (cached) return cached
     const games = await this.getOwnedGames(steamId)
-    this.ownedGamesCache.set(steamId, games)
+    // Only cache a real answer. Caching a failure would poison every remaining
+    // win for this member in the same run off one transient error.
+    if (games) this.ownedGamesCache.set(steamId, games)
     return games
   }
 
@@ -171,6 +189,7 @@ export class SteamGameChecker {
     const target = normalizeGameName(name)
     if (!target) return null
     const ownedGames = await this.getOwnedGamesCached(steamId)
+    if (!ownedGames) return null
 
     // Exact normalized match is the strong signal — prefer it.
     const exact = ownedGames.find((g) => normalizeGameName(g.name) === target)
@@ -483,8 +502,10 @@ export class SteamGameChecker {
   ): Promise<GamePlayData> {
     const ownedGames = await this.getOwnedGamesCached(steamId)
 
-    if (ownedGames.length === 0) {
-      // Empty library — private profile or genuinely no games.
+    // Null (request failed) and empty (private profile / no games) are both
+    // "we can't see the library". mergePlayData keeps any previously proven
+    // playtime rather than letting this erase it.
+    if (!ownedGames || ownedGames.length === 0) {
       return this.noStatsResult('library_unavailable')
     }
 
@@ -585,7 +606,7 @@ export class SteamGameChecker {
     // Get owned games
     const ownedGames = await this.getOwnedGames(steamId)
 
-    if (ownedGames.length === 0) {
+    if (!ownedGames || ownedGames.length === 0) {
       console.log(`❌ Could not access user's game library`)
       console.log(
         `   This usually means the user's profile is private or the Steam ID is invalid`,
@@ -725,7 +746,7 @@ async function main(): Promise<void> {
     process.exit(1)
   }
 
-  const checker = new SteamGameChecker(API_KEY!)
+  const checker = new SteamGameChecker(API_KEY)
 
   try {
     await checker.checkGame(steamId, appId)

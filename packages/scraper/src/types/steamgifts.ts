@@ -92,6 +92,12 @@ export interface SteamPlayData {
   last_checked?: number // Timestamp when this data was last fetched
   has_no_available_stats?: boolean
   no_stats_reason?: NoStatsReason
+  /**
+   * Unix ms — last time a pull came back with the library unreadable while we
+   * already held proven playtime. The proven figures are kept (see
+   * `mergePlayData`); this records that they are no longer being refreshed.
+   */
+  stats_hidden_at?: number
   // Present only for multi-game packages: per-title stats summed into the
   // fields above. Lets the UI show an expandable breakdown.
   games_breakdown?: GameBreakdownEntry[]
