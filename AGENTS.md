@@ -112,3 +112,100 @@ Both jobs auto-commit to the current branch if data changed.
 - **Cheerio for scraping** - HTML is fetched with native fetch + parsed with Cheerio, no headless browser needed
 - **Virtualized rendering** - large lists use React Virtuoso for performance
 - **CSS variables for theming** - Tailwind config uses CSS custom properties (accent, card-background, etc.)
+
+## Analysing members (leechers, warnings, spring cleaning)
+
+### Group vocabulary
+
+The group is **The Giveaways Club (TGC)**. A **valid group giveaway** — the unit
+of contribution every activity metric is built on — is one that is:
+
+- not `deleted`, and did not end with `entry_count === 0`
+  (`isCountedGiveaway` in `packages/website/src/lib/events.ts`), **and**
+- `cv_status === 'FULL_CV'`, **and**
+- not `is_shared` and not `whitelist` (`isValidRatioGiveaway`).
+
+`is_shared` means the giveaway's group is not TGC — it reaches members through
+another group, or a whitelist. Consequences that are easy to get wrong:
+
+- **Shared giveaways are not contributions.** A member can create hundreds of
+  them and still have created zero valid group giveaways. Check
+  `createdValid`, never a raw `giveaways_created` count or
+  `last_giveaway_created_at` (which counts deleted and zero-entry giveaways).
+- **Ex-members legitimately appear in shared giveaways.** Entries only need
+  chasing on group-*exclusive* giveaways; `check-ex-member-entries.ts` already
+  encodes this and is the check to run, rather than a fresh cross-reference.
+- **Farming only the shared pool is still a leech signal.** A member who
+  creates no valid group giveaway and whose entries lean on shared/whitelist
+  giveaways is taking from the group without feeding it, even though every
+  individual entry is legal.
+
+### Rules that apply here, and rules that do not
+
+TGC enforces contribution recency, play rate, required-play compliance, and
+giveaway ratio. It does **not** enforce a Value Difference floor — the
+`-$50` rule documented for other SteamGifts groups is not a TGC rule, and
+applying it flags a large share of the membership including long-standing
+contributors. Before acting on any rule, sanity-check the hit rate: a
+criterion that flags tens of percent of the group is a wrong criterion, not a
+crisis.
+
+### Reuse the existing analysis code
+
+These already encode the agreed thresholds and are the source of truth. Extend
+them rather than writing a parallel scoring scheme:
+
+| Where | What it decides |
+| --- | --- |
+| `packages/website/src/lib/spring-cleaning.ts` | Full expel/warn analysis with tuned thresholds; pure, runnable from Node |
+| `calculateUserWarnings` in `scrapers/group-members.ts` | Per-member rule warnings persisted to `user.warnings` |
+| `scripts/check-ex-member-entries.ts` | Ex-members holding entries in active group-exclusive giveaways |
+| `website/api/_lib/mod-report.ts` | Shared severity classification for the Discord digest and `/mod-report` |
+
+### Judging play evidence
+
+- **Steam playtime is evidence; attestation is not.** `i_played_bro` and
+  `required_play_meta.requirements_met` are self-reported. Report them
+  separately from Steam-verified playtime — folding them in silently credits a
+  member with their own word.
+- **Wins with unreadable stats are neither played nor unplayed.** Count them as
+  a third category; treating them as unplayed manufactures a 0% play rate.
+- **`has_no_available_stats` does not mean "no evidence".** It also covers
+  `no_steam_stats`, where the library read fine and playtime is real but the
+  game exposes no achievements. Test the numbers (`playtime_minutes`,
+  `achievements_unlocked`), not the flag.
+- **Check progress before calling a play requirement unmet.** Compare playtime
+  against `hltb_main_story_hours` in `game_data.json` and the achievement
+  percentage. Many unfulfilled play-required wins are finished games that were
+  never marked, and they count toward the "2 unfulfilled ⇒ stop entering" rule
+  until someone marks them. `required_plays_need_review` is the scraper already
+  saying so.
+- **Play-requirement deadlines are hand-entered** and appear as `dd.MM.yyyy`,
+  `dd-MM-yyyy`, and occasionally with an out-of-range month. Parse defensively
+  and fall back to `end_timestamp + deadline_in_months`.
+
+### Steam data is intermittent — never regress it
+
+`GetOwnedGames` returns an empty library both when a member hides their game
+details and when the request simply fails, and the resulting snapshot has zero
+playtime and `no_stats_reason: 'library_unavailable'`. Persisting that over a
+good snapshot destroys proven history and makes an active member read as a
+never-played hoarder indefinitely.
+
+Anywhere Steam data is written, treat progress as **monotonic**: a pull with no
+evidence must not replace a snapshot that had some, and playtime and
+achievements only ratchet up. `mergePlayData` (`group-members.ts`) does this
+for wins; `generate-challenge-data.ts` does it for challenge progress. Both
+exist because the same bug was found twice — when adding a new place that
+stores Steam results, apply the invariant there too.
+
+Because `public/data/*.json` is committed on every scrape, **git history is a
+recovery tool**: walking `git log` for a data file recovers high-water values
+that a bad pull erased.
+
+### Keep scraper modules importable
+
+Do not read data files or call `process.exit` at module scope. Load JSON lazily
+and memoize it, and resolve required env vars on first use. Module-level side
+effects make a file impossible to import in tests — `group-members.ts` and
+`fetch-steam-data.ts` both had to be reworked for exactly this reason.
