@@ -180,9 +180,21 @@ them rather than writing a parallel scoring scheme:
   never marked, and they count toward the "2 unfulfilled ⇒ stop entering" rule
   until someone marks them. `required_plays_need_review` is the scraper already
   saying so.
-- **Play-requirement deadlines are hand-entered** and appear as `dd.MM.yyyy`,
-  `dd-MM-yyyy`, and occasionally with an out-of-range month. Parse defensively
-  and fall back to `end_timestamp + deadline_in_months`.
+- **A game that hasn't released yet is not an unfulfilled play requirement.**
+  Nobody can play it, so it counts toward nothing: not the unplayed total, not
+  the "2 unfulfilled ⇒ stop entering" rule, not a deadline warning, not the
+  play rate. `game_data.json` carries `coming_soon` (from Steam's
+  `appdetails?filters=release_date`), and the member scraper copies it onto
+  the win as `unreleased` so the Discord handlers and the UI can honour it
+  without loading game data.
+- **Play-requirement deadlines are hand-entered** and appear day-first with
+  `.`, `-` or `/` separators, with or without leading zeros, and occasionally
+  with an out-of-range month. Don't write another parser: use
+  `parseHandEnteredDeadline` / `requiredPlayDeadline` /
+  `isUnfulfilledRequiredPlay` from `website/api/_lib/required-play.ts`, which
+  the scraper, the Discord handlers and the site UI all share. Three
+  divergent copies of that logic previously disagreed about every format
+  except `dd.MM.yyyy`, silently reclassifying wins.
 
 ### Steam data is intermittent — never regress it
 

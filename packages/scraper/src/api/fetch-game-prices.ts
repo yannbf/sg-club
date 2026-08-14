@@ -44,6 +44,13 @@ interface GameData {
   review_count: number | null
   review_score_desc: string | null
   reviews_updated_at: string | null
+  // Steam store release status. `coming_soon` is what the play-required rules
+  // read: an unreleased game can't be played, so it must not count toward a
+  // member's unplayed total or deadline warnings. Fetched incrementally like
+  // reviews, but a released game is never re-checked (see the pass below).
+  coming_soon: boolean | null
+  release_date: string | null
+  release_checked_at: string | null
 }
 
 interface ApiResponse {
@@ -61,6 +68,19 @@ interface ReviewSummary {
   review_score_desc: string | null
 }
 
+interface ReleaseStatus {
+  coming_soon: boolean
+  release_date: string | null
+}
+
+/**
+ * `null` is a per-app failure (delisted, region-locked, transient) — skip that
+ * app and carry on. `'rate_limited'` means Steam is refusing the whole
+ * endpoint, so the pass should stop and let the next run continue where it
+ * left off, rather than burning its remaining wallclock on guaranteed 429s.
+ */
+type ReleaseFetchResult = ReleaseStatus | null | 'rate_limited'
+
 interface Stats {
   totalGames: number
   newlyProcessed: number
@@ -71,6 +91,9 @@ interface Stats {
   reviewsFetched: number
   reviewsFailed: number
   reviewsDeferred: number
+  releasesFetched: number
+  releasesFailed: number
+  releasesDeferred: number
 }
 
 const DELAY_BETWEEN_REQUESTS = 1000 // 1 second delay between requests
@@ -78,6 +101,16 @@ const API_BASE_URL = 'https://esgst.rafaelgomes.xyz/api/game'
 
 const REVIEWS_DELAY_MS = 300
 const REVIEWS_STALE_MS = 30 * 24 * 60 * 60 * 1000 // 30 days — review scores move slowly
+
+// appdetails is far stingier than appreviews (roughly 200 requests per 5
+// minutes per IP), so this pass paces itself well below that rather than
+// reusing the review pass's 300ms.
+const RELEASE_DELAY_MS = 1500
+// How long an unreleased verdict is trusted. Only `coming_soon: true` games
+// are ever re-checked (a released game cannot un-release), and a release date
+// that slips or lands needs to be picked up within a day or two, since it
+// decides whether the win starts counting against its owner.
+const RELEASE_STALE_MS = 2 * 24 * 60 * 60 * 1000 // 2 days
 // How long a null HLTB result is trusted before we ask again. Most nulls are
 // games HLTB will never have, so retrying often is pure wasted wallclock.
 const HLTB_NULL_RETRY_MS = 30 * 24 * 60 * 60 * 1000 // 30 days
@@ -99,6 +132,13 @@ function getNewGamesCap(): number {
 /** How many stale/missing review summaries get fetched in a single run. */
 function getReviewsPerRunCap(): number {
   const raw = process.env.GAME_DATA_REVIEWS_PER_RUN
+  const parsed = raw !== undefined ? Number(raw) : NaN
+  return Number.isFinite(parsed) && parsed >= 0 ? parsed : 200
+}
+
+/** How many stale/missing release statuses get fetched in a single run. */
+function getReleasesPerRunCap(): number {
+  const raw = process.env.GAME_DATA_RELEASE_PER_RUN
   const parsed = raw !== undefined ? Number(raw) : NaN
   return Number.isFinite(parsed) && parsed >= 0 ? parsed : 200
 }
@@ -312,6 +352,98 @@ async function fetchReviewSummary(
   return null
 }
 
+/**
+ * Fetch a Steam store release status for a single app. `filters=release_date`
+ * keeps the response to a few dozen bytes instead of the full (often >100KB)
+ * appdetails payload. Same linear-backoff retry as fetchReviewSummary.
+ *
+ * Returns null on a failure or on `success: false` (delisted or region-locked
+ * apps), which the caller treats as "unknown" — never as "released", since
+ * that would resurrect the very warnings this data exists to suppress.
+ */
+async function fetchReleaseStatus(
+  appId: number,
+  attempts = 3
+): Promise<ReleaseFetchResult> {
+  const url =
+    `https://store.steampowered.com/api/appdetails/?appids=${appId}` +
+    `&filters=release_date&cc=us&l=en`
+
+  let lastErr: unknown
+  for (let attempt = 1; attempt <= attempts; attempt++) {
+    try {
+      const response = await fetch(url)
+      // A 429 here means the rolling window is spent; no amount of in-loop
+      // backoff we're willing to wait will clear it.
+      if (response.status === 429) return 'rate_limited'
+      if (response.status >= 500) {
+        throw new Error(`Retryable ${response.status} ${response.statusText}`)
+      }
+      if (!response.ok) {
+        console.warn(
+          `⚠️ Release fetch failed for appid ${appId}: ${response.status} ${response.statusText}`
+        )
+        return null
+      }
+      const data = (await response.json()) as Record<
+        string,
+        {
+          success?: boolean
+          data?: { release_date?: { coming_soon?: boolean; date?: string } }
+        }
+      >
+      const entry = data[String(appId)]
+      if (!entry?.success || !entry.data?.release_date) return null
+      return {
+        coming_soon: entry.data.release_date.coming_soon === true,
+        release_date: entry.data.release_date.date || null,
+      }
+    } catch (error) {
+      lastErr = error
+      if (attempt < attempts) await setTimeout(500 * attempt)
+    }
+  }
+  console.warn(
+    `⚠️ Release fetch failed after ${attempts} attempts for appid ${appId}:`,
+    String(lastErr)
+  )
+  return null
+}
+
+/**
+ * Games whose release status is worth (re-)fetching this run, most urgent
+ * first. A game already known to be released is skipped forever — it cannot
+ * un-release — so the steady-state pass is tiny and the bulk of the work is
+ * the one-time backfill of never-checked games.
+ *
+ * That backfill is ordered by app ID, highest first. Steam hands out app IDs
+ * in ascending order, so the newest games — the only ones that can still be
+ * unreleased — are checked in the first run instead of waiting behind
+ * thousands of long-released back-catalogue titles.
+ */
+export function selectReleaseCandidates(
+  games: GameData[],
+  now: number
+): GameData[] {
+  const appIdOf = (game: GameData) => game.app_id || game.app_id_for_package_id || 0
+
+  return games
+    .filter((game) => {
+      if (!appIdOf(game)) return false
+      if (!game.release_checked_at) return true
+      if (game.coming_soon !== true) return false
+      return now - new Date(game.release_checked_at).getTime() > RELEASE_STALE_MS
+    })
+    .sort((a, b) => {
+      const aChecked = a.release_checked_at
+      const bChecked = b.release_checked_at
+      if (!aChecked && !bChecked) return appIdOf(b) - appIdOf(a)
+      if (!aChecked) return -1
+      if (!bChecked) return 1
+      return new Date(aChecked).getTime() - new Date(bChecked).getTime()
+    })
+}
+
 function formatStats(stats: Stats): string {
   return `
 📊 Processing Statistics:
@@ -323,6 +455,9 @@ function formatStats(stats: Stats): string {
 ⭐ Review summaries fetched: ${stats.reviewsFetched}
 ⚠️  Review fetches failed: ${stats.reviewsFailed}
 ⏳ Review fetches deferred (cap reached): ${stats.reviewsDeferred}
+🗓️  Release statuses fetched: ${stats.releasesFetched}
+⚠️  Release fetches failed: ${stats.releasesFailed}
+⏳ Release fetches deferred (cap reached): ${stats.releasesDeferred}
 ❌ Errors: ${stats.errors}
 ⏭️  Skipped (no ID): ${stats.skipped}
 ------------------------
@@ -341,6 +476,9 @@ export async function generateGamePrices() {
     reviewsFetched: 0,
     reviewsFailed: 0,
     reviewsDeferred: 0,
+    releasesFetched: 0,
+    releasesFailed: 0,
+    releasesDeferred: 0,
   }
 
   try {
@@ -482,6 +620,9 @@ export async function generateGamePrices() {
         review_count: existingGame?.review_count ?? null,
         review_score_desc: existingGame?.review_score_desc ?? null,
         reviews_updated_at: existingGame?.reviews_updated_at ?? null,
+        coming_soon: existingGame?.coming_soon ?? null,
+        release_date: existingGame?.release_date ?? null,
+        release_checked_at: existingGame?.release_checked_at ?? null,
       }
 
       if (
@@ -586,6 +727,52 @@ export async function generateGamePrices() {
         stats.reviewsFailed++
       }
       await setTimeout(REVIEWS_DELAY_MS)
+    }
+
+    // --- Incremental release-status pass ---
+    const releasesPerRunCap = getReleasesPerRunCap()
+    const releaseCandidates = selectReleaseCandidates(
+      Array.from(existingGamesMap.values()),
+      Date.now()
+    )
+    const releasesToFetch = releaseCandidates.slice(0, releasesPerRunCap)
+    stats.releasesDeferred = releaseCandidates.length - releasesToFetch.length
+
+    console.log(
+      `\n🗓️ Fetching release status for ${releasesToFetch.length} game(s) (cap ${releasesPerRunCap}, ${stats.releasesDeferred} deferred)...\n`
+    )
+
+    for (const game of releasesToFetch) {
+      const appId = game.app_id || game.app_id_for_package_id
+      if (!appId) continue // TypeScript safety
+      const status = await fetchReleaseStatus(appId)
+      if (status === 'rate_limited') {
+        console.warn(
+          `⚠️ Steam rate-limited the release pass — stopping here, the next run resumes from this point.`
+        )
+        break
+      }
+      if (status) {
+        const justReleased = game.coming_soon === true && !status.coming_soon
+        game.coming_soon = status.coming_soon
+        game.release_date = status.release_date
+        game.release_checked_at = new Date().toISOString()
+        stats.releasesFetched++
+        if (status.coming_soon) {
+          console.log(
+            `🗓️ ${game.name}: unreleased (${status.release_date ?? 'no date'})`
+          )
+        } else if (justReleased) {
+          console.log(
+            `🚀 ${game.name}: released (${status.release_date ?? 'no date'}) — play requirements now count`
+          )
+        }
+      } else {
+        // Leave coming_soon untouched: an unknown answer must not be read as
+        // "released". Not stamping release_checked_at means we retry next run.
+        stats.releasesFailed++
+      }
+      await setTimeout(RELEASE_DELAY_MS)
     }
 
     // Convert map values back to array for saving

@@ -143,6 +143,17 @@ export interface User {
     steam_play_data?: SteamPlayData
     required_play: boolean
     is_shared: boolean
+    /**
+     * The game had not released on Steam as of the last game-data run. Set
+     * only while true, so it disappears on its own once the game is out. An
+     * unreleased win is excluded from every required-play rule — see
+     * `isUnfulfilledRequiredPlay` in website/api/_lib/required-play.ts.
+     */
+    unreleased?: boolean
+    /** Steam's announced release date, when `unreleased`. Free-form display
+     * text straight from the store ("Q4", "Coming soon", a formatted date) —
+     * show it, never parse it. */
+    release_date?: string | null
     /** Giveaway was deleted on SG — kept for inspection, excluded from all stats. */
     deleted?: boolean
     deleted_reason?: string
@@ -286,4 +297,8 @@ export interface GamePrice {
   price_usd_reduced: number
   needs_manual_update: boolean
   hltb_main_story_hours: number | null
+  /** Steam release status — null until the release pass has seen the game. */
+  coming_soon?: boolean | null
+  release_date?: string | null
+  release_checked_at?: string | null
 }

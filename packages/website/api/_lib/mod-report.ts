@@ -12,6 +12,12 @@
 // command — so it stays scraper-only, wired into the weekly digest alone.
 
 import { loadDataFile } from './data.js'
+import {
+  DEADLINE_WARNING_DAYS,
+  isUnfulfilledRequiredPlay,
+  requiredPlayDeadlineSec,
+  type RequiredPlayWin,
+} from './required-play.js'
 
 export type Severity = 'error' | 'warn'
 
@@ -90,15 +96,8 @@ export function importanceRank(code: string): number {
   return idx !== -1 ? idx : LEAST_IMPORTANT_KNOWN_RANK - 0.5
 }
 
-interface WonGiveaway {
+interface WonGiveaway extends RequiredPlayWin {
   name: string
-  end_timestamp: number
-  required_play?: boolean
-  required_play_meta?: {
-    requirements_met?: boolean
-    deadline?: string
-    deadline_in_months?: number
-  }
   steam_play_data?: {
     playtime_minutes?: number
     achievements_percentage?: number
@@ -128,24 +127,6 @@ export interface GroupWarningFinding {
   detail?: string
 }
 
-/** Deadline for an unmet required-play win, in unix seconds. Mirrors
- * `getDeadlineDate` in group-members.ts: an explicit dd.MM.yyyy deadline
- * wins; otherwise end date + deadline_in_months (default 2, 0 treated as
- * unset). */
-function requiredPlayDeadlineSec(g: WonGiveaway): number {
-  const meta = g.required_play_meta
-  if (meta?.deadline) {
-    const [day, month, year] = meta.deadline.split('.').map((p) => parseInt(p, 10))
-    if (day && month && year) {
-      return Math.floor(new Date(year, month - 1, day, 23, 59, 59, 999).getTime() / 1000)
-    }
-  }
-  const months = meta?.deadline_in_months || 2
-  const deadline = new Date(g.end_timestamp * 1000)
-  deadline.setMonth(deadline.getMonth() + months)
-  return Math.floor(deadline.getTime() / 1000)
-}
-
 /**
  * Per-code detail strings for one member, derived purely from their
  * `giveaways_won` (already in group_users.json — no extra data needed).
@@ -156,9 +137,7 @@ export function buildFindingDetails(
   user: GroupUser,
   nowSec: number
 ): Partial<Record<string, string>> {
-  const unmet = (user.giveaways_won ?? []).filter(
-    (g) => g.required_play && !g.required_play_meta?.requirements_met
-  )
+  const unmet = (user.giveaways_won ?? []).filter(isUnfulfilledRequiredPlay)
   if (unmet.length === 0) return {}
 
   const details: Partial<Record<string, string>> = {}
@@ -177,7 +156,9 @@ export function buildFindingDetails(
 
   const dueSoon = unmet.filter((g) => {
     const deadline = requiredPlayDeadlineSec(g)
-    return deadline >= nowSec && deadline < nowSec + 15 * 24 * 60 * 60
+    return (
+      deadline >= nowSec && deadline < nowSec + DEADLINE_WARNING_DAYS * 24 * 60 * 60
+    )
   })
   if (dueSoon.length > 0) {
     details.required_play_deadline_within_15_days = named(

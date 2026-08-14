@@ -33,6 +33,7 @@ import {
 } from '@/components/UnplayedGamesStats'
 import Tooltip from '@/components/Tooltip'
 import { getDeadlineData } from '@/components/DeadlineStatus'
+import { isUnfulfilledRequiredPlay } from '../../../../api/_lib/required-play'
 import {
   getUserRatio,
   buildValidFcvLinks,
@@ -88,9 +89,7 @@ export const generateWarningMessage = (
       'Please keep track of your PLAY REQUIRED giveaways. As per the rules, you are not allowed to enter any more PLAY REQUIRED giveaways if you have 2 unfulfilled PLAY REQUIRED wins:',
     )
     const unplayedRequired =
-      user.giveaways_won?.filter(
-        (g) => g.required_play && !g.required_play_meta?.requirements_met,
-      ) || []
+      user.giveaways_won?.filter(isUnfulfilledRequiredPlay) || []
 
     unplayedRequired.sort((a, b) => a.end_timestamp - b.end_timestamp)
 
@@ -99,6 +98,7 @@ export const generateWarningMessage = (
         const { daysRemaining, deadlineDate } = getDeadlineData(
           g.end_timestamp,
           g.required_play_meta?.deadline_in_months,
+          g.required_play_meta?.deadline,
         )
         const formatter = new Intl.DateTimeFormat('en-US', {
           day: 'numeric',
@@ -145,8 +145,7 @@ ${toLeaveText}`)
 
   if (user.warnings.includes('required_play_deadline_expired')) {
     const expiredRequired = (user.giveaways_won || []).filter((g) => {
-      if (!g.required_play || g.required_play_meta?.requirements_met)
-        return false
+      if (!isUnfulfilledRequiredPlay(g)) return false
       const { daysRemaining } = getDeadlineData(
         g.end_timestamp,
         g.required_play_meta?.deadline_in_months,

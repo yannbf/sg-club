@@ -121,6 +121,15 @@ export interface User {
     deleted_reason?: string
     i_played_bro?: boolean
     required_play?: boolean
+    /**
+     * The game had not released on Steam as of the last game-data run, so it
+     * is excluded from every required-play rule — a member can't play a game
+     * that doesn't exist yet. Set only while true.
+     */
+    unreleased?: boolean
+    /** Steam's announced release date, when `unreleased`. Free-form display
+     * text straight from the store — show it, never parse it. */
+    release_date?: string | null
     required_play_meta?: {
       requirements_met: boolean
       deadline?: string
@@ -238,6 +247,10 @@ export interface GameData {
   review_count?: number | null
   review_score_desc?: string | null
   reviews_updated_at?: string | null
+  /** Steam release status — optional because older data files predate this field. */
+  coming_soon?: boolean | null
+  release_date?: string | null
+  release_checked_at?: string | null
 }
 
 export interface InsightData {

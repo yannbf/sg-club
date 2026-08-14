@@ -30,7 +30,7 @@ packages/scraper/src/scripts/
 ├── discord-close-signups.ts       # cron: close expired signups
 ├── discord-challenge-congrats.ts  # cron: announce challenge completions
 ├── discord-challenge-milestones.ts # cron: 24h-left warning + "challenge over" notice
-├── discord-warn-digest.ts         # cron: weekly mod digest (errors only)
+├── discord-warn-digest.ts         # cron: weekly mod digest (errors + upcoming deadlines)
 └── discord-register-commands.ts   # one-off: register the four slash commands
 
 .github/workflows/discord-bot.yml  # workflow_dispatch runner for the three cron scripts
@@ -209,7 +209,8 @@ any Discord REST call is made, and is covered directly in
   deleting the `ARCHIVED` log line is the whole mechanism.
 - **`/mod-report`** (admin-only) — the on-demand counterpart to the weekly
   digest below: a full member-status report covering **both** errors and
-  warnings (unlike the digest, which only ever shows errors). Non-ephemeral,
+  warnings (unlike the digest, which shows errors plus one warn-level code —
+  upcoming required-play deadlines). Non-ephemeral,
   deferred. Content: a `**Mod Report**` header, a
   `‼️ **Need attention** (N members)` section (every member with ≥1
   error-severity finding, listing *all* their findings — error labels first,
@@ -317,7 +318,19 @@ fallback in the scraper).
   (unknown codes default to `'warn'`): illegal/unplayed required-play
   giveaways, an expired required-play deadline, and zero play rate despite
   wins are `error`; needs-review, a deadline within 15 days, low play rate,
-  inactive-but-active, and no giveaway in 6 months are `warn`.
+  inactive-but-active, and no giveaway in 6 months are `warn`. Severity
+  decides which digest *section* a finding lands in, not whether it's
+  reported at all: `required_play_deadline_within_15_days` stays `warn`
+  (it isn't a violation yet) but the digest gives it its own section.
+- **`required-play.ts`** (next to `mod-report.ts`) is the single source of
+  truth for required-play deadline maths, imported by the scraper's warning
+  rules, the Discord handlers, and the site UI. `parseHandEnteredDeadline`
+  copes with the day-first spreadsheet formats actually in use (`.`, `-` or
+  `/` separators, no leading zeros) and rejects impossible dates rather than
+  letting `new Date` roll them into a later month.
+  `isUnfulfilledRequiredPlay` is the one place that decides a required-play
+  win counts against a member — notably excluding games that haven't
+  released yet.
 - **`collectGroupWarningFindings(host?)`** loads `group_users.json` and
   flattens every member's `warnings` array into one finding
   (`{ username, code, label, severity }`) per member per code.
@@ -512,20 +525,28 @@ Run manually via the `discord-bot.yml` workflow (`workflow_dispatch`, pick a
   `packages/website/public/data/discord_warn_state.json`
   (`{ items: { [fingerprint]: { firstSeen } } }`) to track every finding's
   `firstSeen` date, and posts a **plain markdown, emoji-free digest**
-  (`flags: 4`, no embed) — but **error-severity findings only** (see
-  [Severity model](#severity-model--mod-report) — for the full picture,
-  including warnings, use `/mod-report`). State tracking covers *all*
-  findings regardless of severity, so a warn-level finding never loses its
-  `firstSeen` history even though it's filtered out of the posted message.
-  Format: a `**Weekly Mod Digest**` header, then **one bullet per member
-  with ≥1 error finding** — a member never appears twice; all of *their
-  error findings* (never their warn findings) are merged onto their bullet,
-  each suffixed `(new)` or `(since <t:X:R>)`, and the member name links to
-  their `https://sg-club.vercel.app/users/<username>/` page. Members with any
-  new finding sort first, then alphabetically. Long digests split into
-  multiple ≤1900-char messages at bullet boundaries (header only on the
-  first). Stays silent (posts nothing) when there are zero error-level
-  findings — but state is still saved. Two detectors are wired up:
+  (`flags: 4`, no embed) in **two sections** (for everything else, including
+  the other warnings, use `/mod-report`):
+  1. `**Weekly Mod Digest**` — **error-severity findings only** (see
+     [Severity model](#severity-model--mod-report)): current rule violations.
+  2. `**Required-play deadlines coming up**` — the one warn-level code that
+     still gets pushed weekly, `required_play_deadline_within_15_days`. It's
+     an advisory, not a violation, but once it lapses the member *is* in
+     violation, so a digest that only reported errors would always be telling
+     them too late. Every other warn-level code stays on-demand.
+
+  A member can legitimately appear in both sections. State tracking covers
+  *all* findings regardless of severity, so a warn-level finding never loses
+  its `firstSeen` history even when it isn't rendered.
+
+  Within a section there is **one bullet per member** — a member never
+  appears twice in the same section; their findings are merged onto their
+  bullet, each suffixed `(new)` or `(since <t:X:R>)`, and the member name
+  links to their `https://sg-club.vercel.app/users/<username>/` page. Members
+  with any new finding sort first, then alphabetically. Long digests split
+  into multiple ≤1900-char messages at bullet boundaries (header only on the
+  first). Stays silent (posts nothing) when both sections are empty — but
+  state is still saved. Two detectors are wired up:
   1. **Ex-member entries** — reuses the core check from
      `check-ex-member-entries.ts` (ex-members who still have entries in
      active group-exclusive giveaways, exploiting SteamGifts' membership-sync

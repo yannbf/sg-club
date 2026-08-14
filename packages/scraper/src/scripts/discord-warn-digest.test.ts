@@ -1,7 +1,8 @@
 import { describe, expect, it } from 'vitest'
 import {
   buildDigestMessages,
-  groupErrorFindingsByMember,
+  groupFindingsByMember,
+  isError,
   splitAndUpdateState,
   type DigestSplit,
   type WarnItem,
@@ -29,6 +30,14 @@ const ITEM_WARN: WarnItem = {
   category: 'No giveaway created in 6 months',
   description: 'carol: no giveaway created in 6 months',
   severity: 'warn',
+}
+const ITEM_UPCOMING: WarnItem = {
+  fingerprint: 'group-warning:4:required_play_deadline_within_15_days',
+  memberSgUsername: 'dave',
+  category: 'Required-play deadline within 15 days: Blue Prince (deadline <t:1787000000:R>)',
+  description: 'dave: required-play deadline within 15 days',
+  severity: 'warn',
+  code: 'required_play_deadline_within_15_days',
 }
 
 describe('splitAndUpdateState', () => {
@@ -100,7 +109,7 @@ describe('splitAndUpdateState', () => {
   })
 })
 
-describe('groupErrorFindingsByMember', () => {
+describe('groupFindingsByMember', () => {
   it('merges a new error item and a lingering error item for the same user into one entry', () => {
     const split: DigestSplit = {
       newItems: [ITEM_A],
@@ -116,7 +125,7 @@ describe('groupErrorFindingsByMember', () => {
       updatedState: { items: {} },
     }
 
-    const grouped = groupErrorFindingsByMember(split)
+    const grouped = groupFindingsByMember(split, isError)
 
     expect(grouped).toHaveLength(1)
     expect(grouped[0]!.username).toBe('alice')
@@ -135,7 +144,7 @@ describe('groupErrorFindingsByMember', () => {
       updatedState: { items: {} },
     }
 
-    expect(groupErrorFindingsByMember(split)).toEqual([])
+    expect(groupFindingsByMember(split, isError)).toEqual([])
   })
 
   it('shows only the error findings for a member who has both error and warn findings', () => {
@@ -147,7 +156,7 @@ describe('groupErrorFindingsByMember', () => {
       updatedState: { items: {} },
     }
 
-    const grouped = groupErrorFindingsByMember(split)
+    const grouped = groupFindingsByMember(split, isError)
 
     expect(grouped).toHaveLength(1)
     expect(grouped[0]!.username).toBe('bob')
@@ -171,7 +180,7 @@ describe('groupErrorFindingsByMember', () => {
       updatedState: { items: {} },
     }
 
-    const grouped = groupErrorFindingsByMember(split)
+    const grouped = groupFindingsByMember(split, isError)
 
     expect(grouped.map((m) => m.username)).toEqual(['yara', 'zack', 'bob', 'carol'])
   })
@@ -188,7 +197,7 @@ describe('buildDigestMessages', () => {
     expect(buildDigestMessages(split)).toEqual([])
   })
 
-  it('stays silent (empty array) when every finding is warn-level', () => {
+  it('stays silent (empty array) when every finding is warn-level and none is an upcoming deadline', () => {
     const split: DigestSplit = {
       newItems: [ITEM_WARN],
       lingeringItems: [],
@@ -196,6 +205,55 @@ describe('buildDigestMessages', () => {
       updatedState: { items: {} },
     }
     expect(buildDigestMessages(split)).toEqual([])
+  })
+
+  it('reports an upcoming required-play deadline in its own section, warn severity notwithstanding', () => {
+    const split: DigestSplit = {
+      newItems: [ITEM_UPCOMING],
+      lingeringItems: [],
+      prunedFingerprints: [],
+      updatedState: { items: {} },
+    }
+    const fullText = buildDigestMessages(split).join('\n')
+
+    expect(fullText).toContain('**Required-play deadlines coming up**')
+    expect(fullText).toContain('Blue Prince')
+    // Deep-linked to the Won tab like every other required-play finding.
+    expect(fullText).toContain(
+      '[dave](<https://sg-club.vercel.app/users/dave/?tab=won&filter=play-required>)'
+    )
+  })
+
+  it('keeps upcoming deadlines below the violations, and other warn-level findings out entirely', () => {
+    const split: DigestSplit = {
+      newItems: [ITEM_B, ITEM_WARN, ITEM_UPCOMING],
+      lingeringItems: [],
+      prunedFingerprints: [],
+      updatedState: { items: {} },
+    }
+    const fullText = buildDigestMessages(split).join('\n')
+
+    expect(fullText.indexOf('bob')).toBeLessThan(
+      fullText.indexOf('**Required-play deadlines coming up**')
+    )
+    expect(fullText.indexOf('**Required-play deadlines coming up**')).toBeLessThan(
+      fullText.indexOf('dave')
+    )
+    expect(fullText).not.toContain('carol')
+  })
+
+  it('lists a member in both sections when they are in violation AND have a deadline coming up', () => {
+    const bobDeadline: WarnItem = { ...ITEM_UPCOMING, memberSgUsername: 'bob' }
+    const split: DigestSplit = {
+      newItems: [ITEM_B, bobDeadline],
+      lingeringItems: [],
+      prunedFingerprints: [],
+      updatedState: { items: {} },
+    }
+    const fullText = buildDigestMessages(split).join('\n')
+
+    expect(fullText).toContain('Required-play deadline expired')
+    expect(fullText.match(/\[bob\]/g)).toHaveLength(2)
   })
 
   it('renders no emojis anywhere in the output', () => {
@@ -301,7 +359,7 @@ describe('buildDigestMessages', () => {
     // header or a well-formed bullet, and concatenating all bullets across
     // all messages reconstructs the full expected set with nothing
     // missing or duplicated.
-    const expectedBullets = groupErrorFindingsByMember(split).map(
+    const expectedBullets = groupFindingsByMember(split, isError).map(
       (m) =>
         `- [${m.username}](<https://sg-club.vercel.app/users/${m.username}/>) — ${m.findingLines.join(' · ')}`
     )

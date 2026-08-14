@@ -378,9 +378,11 @@ function lastEnteredAt(
  * Pure play-rate over a user's wins. "Played" means Steam shows non-zero
  * playtime (achievements are NOT required). Wins with no available stats are
  * counted in the denominator but tracked separately so the UI can caveat them.
+ * Wins whose game hasn't released are out of the denominator entirely — an
+ * unplayable game is not evidence of anything.
  */
 export function computePlayRate(user: User): PlayRate {
-  const won = user.giveaways_won ?? []
+  const won = (user.giveaways_won ?? []).filter((g) => !g.unreleased)
   const total = won.length
   const noStatsCount = won.filter(
     (g) => !g.steam_play_data || g.steam_play_data.has_no_available_stats,
@@ -579,7 +581,10 @@ function analyzeUser(
   }
 
   // --- 2. Proof-of-play: 0% proven -----------------------------------------
-  const requiredWins = won.filter((g) => g.required_play)
+  // Unreleased games are excluded here and from every other required-play
+  // count below: the member can't fulfil a requirement on a game that isn't
+  // out yet, so counting it manufactures a 0% record.
+  const requiredWins = won.filter((g) => g.required_play && !g.unreleased)
   const provenWins = requiredWins.filter(
     (g) => g.required_play_meta?.requirements_met,
   )
@@ -682,6 +687,7 @@ function analyzeUser(
       // Attested games ("I played, bro" / proof of play) are never accused —
       // Steam may show them unplayed when they were played elsewhere.
       if (g.i_played_bro || g.required_play_meta?.requirements_met) return false
+      if (g.unreleased) return false
       const sp = g.steam_play_data
       // Only accuse when Steam actually proves it unplayed (stats must exist).
       if (!sp || sp.has_no_available_stats) return false
@@ -804,7 +810,7 @@ function analyzeUser(
 
   // Proof-of-play engagement: "I played, bro" marks and PLAY-REQUIRED outcomes.
   const playedBroCount = won.filter((g) => g.i_played_bro).length
-  const requiredWonAll = won.filter((g) => g.required_play)
+  const requiredWonAll = won.filter((g) => g.required_play && !g.unreleased)
   const requiredPlayed = requiredWonAll.filter(
     (g) => g.required_play_meta?.requirements_met,
   ).length

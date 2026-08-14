@@ -154,7 +154,22 @@ export function splitAndUpdateState(items: WarnItem[], state: WarnState, now: nu
 }
 
 const HEADER = '**Weekly Mod Digest**'
+const UPCOMING_HEADER = '**Required-play deadlines coming up**'
 const MAX_MESSAGE_LENGTH = 1900
+
+/**
+ * Warn-level codes that still get their own digest section. A play
+ * requirement about to run out is the one advisory worth pushing weekly:
+ * once it lapses the member is in violation, and by then the digest telling
+ * them is too late to act on. Every other warn-level code stays on-demand
+ * via /mod-report.
+ */
+const UPCOMING_DEADLINE_CODES = new Set(['required_play_deadline_within_15_days'])
+
+/** The two section predicates for `groupFindingsByMember`. */
+export const isError = (item: WarnItem): boolean => item.severity === 'error'
+export const isUpcomingDeadline = (item: WarnItem): boolean =>
+  item.code !== undefined && UPCOMING_DEADLINE_CODES.has(item.code)
 
 export interface MemberFindings {
   username: string
@@ -172,13 +187,16 @@ interface MemberAccumulator extends MemberFindings {
 }
 
 /**
- * Groups error-severity findings only (new + lingering) by member, so each
- * member with at least one error finding appears exactly once, listing only
- * their error findings — warn-level findings are tracked in state (see
- * splitAndUpdateState) but never rendered here. Members with at least one
- * new error finding sort first; both groups sort alphabetically.
+ * Groups the findings a `select` predicate accepts (new + lingering) by
+ * member, so each member appears exactly once listing only their selected
+ * findings. Members with at least one new finding sort first; both groups
+ * sort alphabetically. Findings the predicate rejects are still tracked in
+ * state (see splitAndUpdateState), just not rendered in this section.
  */
-export function groupErrorFindingsByMember(split: DigestSplit): MemberFindings[] {
+export function groupFindingsByMember(
+  split: DigestSplit,
+  select: (item: WarnItem) => boolean
+): MemberFindings[] {
   const byUser = new Map<string, MemberAccumulator>()
 
   const getEntry = (username: string): MemberAccumulator => {
@@ -191,14 +209,14 @@ export function groupErrorFindingsByMember(split: DigestSplit): MemberFindings[]
   }
 
   for (const item of split.newItems) {
-    if (item.severity !== 'error') continue
+    if (!select(item)) continue
     const entry = getEntry(item.memberSgUsername)
     entry.hasNew = true
     entry.findingLines.push(`${item.category} (new)`)
     if (item.code) entry.codes.push(item.code)
   }
   for (const item of split.lingeringItems) {
-    if (item.severity !== 'error') continue
+    if (!select(item)) continue
     const entry = getEntry(item.memberSgUsername)
     entry.findingLines.push(`${item.category} (since <t:${item.firstSeen}:R>)`)
     if (item.code) entry.codes.push(item.code)
@@ -224,25 +242,36 @@ export function groupErrorFindingsByMember(split: DigestSplit): MemberFindings[]
 }
 
 /**
- * Renders the error-only grouped findings as one or more plain-markdown
- * messages, each ≤1900 chars, splitting strictly at bullet boundaries so a
- * member's line never gets cut mid-way. The header appears only on the
- * first message. No emojis anywhere. Returns an empty array when there are
- * zero error-level findings (the caller stays silent in that case).
+ * Renders the digest as one or more plain-markdown messages, each ≤1900
+ * chars, splitting strictly at bullet boundaries so a member's line never
+ * gets cut mid-way. Two sections: current rule violations (error severity),
+ * then required-play deadlines about to run out. No emojis anywhere. Returns
+ * an empty array when neither section has anything (the caller stays silent).
  */
 export function buildDigestMessages(split: DigestSplit): string[] {
-  const bullets = groupErrorFindingsByMember(split).map((member) =>
-    renderMemberLine(member.username, member.findingLines, member.deepLink)
-  )
-  if (bullets.length === 0) return []
-  return chunkMessage([HEADER, ...bullets], MAX_MESSAGE_LENGTH)
+  const render = (members: MemberFindings[]): string[] =>
+    members.map((member) =>
+      renderMemberLine(member.username, member.findingLines, member.deepLink)
+    )
+
+  const errorBullets = render(groupFindingsByMember(split, isError))
+  // A member can appear in both sections: the deadline line is the actionable
+  // "act before this lapses" item, distinct from whatever they're already in
+  // violation of.
+  const upcomingBullets = render(groupFindingsByMember(split, isUpcomingDeadline))
+
+  if (errorBullets.length === 0 && upcomingBullets.length === 0) return []
+
+  const segments = [HEADER, ...errorBullets]
+  if (upcomingBullets.length > 0) segments.push(UPCOMING_HEADER, ...upcomingBullets)
+  return chunkMessage(segments, MAX_MESSAGE_LENGTH)
 }
 
 /**
  * Runs every detector, diffs against discord_warn_state.json (tracking ALL
  * findings, including warn-level, so nothing loses its firstSeen history),
- * and posts a digest of error-level findings only — staying silent (but
- * still saving state) when there are none.
+ * and posts the digest — staying silent (but still saving state) when
+ * neither section has anything to report.
  */
 export async function postWarnDigest(): Promise<void> {
   const state = loadState()
@@ -252,14 +281,14 @@ export async function postWarnDigest(): Promise<void> {
   const messages = buildDigestMessages(split)
 
   if (messages.length === 0) {
-    console.log('No error-level warn-digest findings — staying silent.')
+    console.log('No reportable warn-digest findings — staying silent.')
   } else {
     const channelId = process.env.WARN_CHANNEL_ID ?? TEST_ANNOUNCE_CHANNEL_ID
     for (const content of messages) {
       await createMessage(channelId, { content, flags: 4 })
     }
     console.log(
-      `Posted warn digest: ${split.newItems.length} new, ${split.lingeringItems.length} lingering, ${split.prunedFingerprints.length} pruned (all severities tracked; errors only rendered).`
+      `Posted warn digest: ${split.newItems.length} new, ${split.lingeringItems.length} lingering, ${split.prunedFingerprints.length} pruned (all severities tracked; errors + upcoming deadlines rendered).`
     )
   }
 

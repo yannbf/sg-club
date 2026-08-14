@@ -2,8 +2,9 @@ import { User } from "@/types"
 import Tooltip from "./Tooltip"
 
 export const getUnplayedGamesStats = (user: User) => {
-  // Wins from deleted giveaways don't count toward the play rate.
-  const wins = (user.giveaways_won ?? []).filter(game => !game.deleted)
+  // Wins from deleted giveaways don't count toward the play rate, nor do wins
+  // whose game hasn't released — there's nothing to play yet.
+  const wins = (user.giveaways_won ?? []).filter(game => !game.deleted && !game.unreleased)
   if (wins.length === 0) return { played: 0, total: 0, percentage: 0 }
   const total = wins.length
   const unplayed = wins.filter(game =>

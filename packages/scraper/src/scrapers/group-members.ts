@@ -16,6 +16,11 @@ import { delay, isRateLimitedHtml } from '../utils/common.js'
 import { logError } from '../utils/log-error.js'
 import { GiveawayPointsManager } from '../api/fetch-proof-of-play.js'
 import type { GiveawayData } from '../api/fetch-proof-of-play.js'
+import {
+  DEADLINE_WARNING_DAYS,
+  daysUntilDeadline,
+  isUnfulfilledRequiredPlay,
+} from '../../../website/api/_lib/required-play.js'
 
 const debug = (...args: any[]) => {
   if (process.env.DEBUG) {
@@ -1156,6 +1161,17 @@ export class SteamGiftsUserFetcher {
     const totalUsers = existingUsers.size
 
     // Pre-build lookup maps for O(1) access instead of O(giveaways) per user
+    const gameDataByKey = new Map<string, GamePrice>()
+    for (const game of getGameData()) {
+      if (game.app_id) gameDataByKey.set(`app/${game.app_id}`, game)
+      if (game.package_id) gameDataByKey.set(`sub/${game.package_id}`, game)
+    }
+    const gameDataFor = (giveaway: Giveaway): GamePrice | undefined =>
+      (giveaway.app_id ? gameDataByKey.get(`app/${giveaway.app_id}`) : undefined) ??
+      (giveaway.package_id
+        ? gameDataByKey.get(`sub/${giveaway.package_id}`)
+        : undefined)
+
     const giveawaysByCreator = new Map<string, Giveaway[]>()
     const giveawaysByWinner = new Map<string, Giveaway[]>()
     for (const giveaway of giveaways) {
@@ -1219,6 +1235,12 @@ export class SteamGiftsUserFetcher {
               // Get existing game data to preserve Steam data
               const existingGame = existingWonGames.get(giveaway.link)
 
+              // Release status travels with the win so the Discord handlers
+              // and the UI can honour it without loading game_data.json.
+              // Stamped only while unreleased, so it clears itself on the
+              // first run after the game comes out.
+              const gameInfo = gameDataFor(giveaway)
+
               const giveawayData: NonNullable<User['giveaways_won']>[0] = {
                 name: giveaway.name,
                 link: giveaway.link,
@@ -1227,6 +1249,10 @@ export class SteamGiftsUserFetcher {
                 end_timestamp: giveaway.end_timestamp,
                 required_play: giveaway.required_play || false,
                 is_shared: giveaway.is_shared || false,
+                ...(gameInfo?.coming_soon === true && {
+                  unreleased: true,
+                  release_date: gameInfo.release_date ?? null,
+                }),
                 // Deleted GAs stay in the array for inspection but are
                 // excluded from every stat in calculateStats.
                 ...(giveaway.deleted && {
@@ -1458,9 +1484,7 @@ export class SteamGiftsUserFetcher {
   public calculateUserWarnings(user: User, giveaways: Giveaway[]): string[] {
     let warnings: string[] = []
     const unplayedRequiredPlayGiveaways =
-      user.giveaways_won?.filter(
-        (g) => g.required_play && !g.required_play_meta?.requirements_met,
-      ) ?? []
+      user.giveaways_won?.filter(isUnfulfilledRequiredPlay) ?? []
     if (unplayedRequiredPlayGiveaways.length >= 2) {
       warnings.push('unplayed_required_play_giveaways')
 
@@ -1511,11 +1535,7 @@ export class SteamGiftsUserFetcher {
         hasPotentiallyCompletedMainStory ||
         hasOver15HoursPlaytime
 
-      return (
-        g.required_play &&
-        !g.required_play_meta?.requirements_met &&
-        shouldReview
-      )
+      return isUnfulfilledRequiredPlay(g) && shouldReview
     })
 
     if (
@@ -1527,47 +1547,13 @@ export class SteamGiftsUserFetcher {
 
     // Add warning for play required wins with less than 15 days remaining
     const oneDayMs = 24 * 60 * 60 * 1000
-    const getDeadlineDate = (
-      endTimestamp: number,
-      meta?: { deadline?: string; deadline_in_months?: number },
-    ): Date => {
-      if (meta?.deadline) {
-        // Expected format: dd.MM.yyyy
-        const parts = meta.deadline.split('.')
-        if (parts.length === 3) {
-          const day = parseInt(parts[0], 10)
-          const month = parseInt(parts[1], 10)
-          const year = parseInt(parts[2], 10)
-          if (
-            !Number.isNaN(day) &&
-            !Number.isNaN(month) &&
-            !Number.isNaN(year)
-          ) {
-            return new Date(year, month - 1, day, 23, 59, 59, 999)
-          }
-        }
-      }
-
-      const months = meta?.deadline_in_months ?? 2
-      const effectiveMonths = months === 0 ? 2 : months
-      const base = new Date(endTimestamp * 1000)
-      const deadline = new Date(base.getTime())
-      deadline.setMonth(deadline.getMonth() + effectiveMonths)
-      return deadline
-    }
-
-    const unfulfilledRequiredPlayDays = (user.giveaways_won || [])
-      .filter((g) => g.required_play && !g.required_play_meta?.requirements_met)
-      .map((g) => {
-        const deadlineDate = getDeadlineDate(
-          g.end_timestamp,
-          g.required_play_meta,
-        )
-        return Math.floor((deadlineDate.getTime() - Date.now()) / oneDayMs)
-      })
+    const unfulfilledRequiredPlayDays = unplayedRequiredPlayGiveaways.map((g) =>
+      daysUntilDeadline(g),
+    )
 
     const hasSoonExpiringRequiredPlays = unfulfilledRequiredPlayDays.some(
-      (daysRemaining) => daysRemaining >= 0 && daysRemaining < 15,
+      (daysRemaining) =>
+        daysRemaining >= 0 && daysRemaining < DEADLINE_WARNING_DAYS,
     )
     const hasExpiredRequiredPlays = unfulfilledRequiredPlayDays.some(
       (daysRemaining) => daysRemaining < 0,
