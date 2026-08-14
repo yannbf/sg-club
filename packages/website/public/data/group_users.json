@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1786703668965,
+  "lastUpdated": 1786728633055,
   "users": {
     "76561198359284432": {
       "username": "a10i",
@@ -253,6 +253,11 @@
           "end_timestamp": 1786266000,
           "required_play": true,
           "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -871,8 +876,7 @@
           "i_played_bro": false,
           "required_play_meta": {
             "requirements_met": true,
-            "deadline_in_months": 2,
-            "additional_notes": "Xal’Goroth Defeated achievement"
+            "deadline_in_months": 2
           },
           "had_winners": true,
           "winners": [
@@ -1907,30 +1911,30 @@
       "stats": {
         "total_sent_count": 13,
         "total_sent_value": 213.87,
-        "total_received_count": 18.5,
-        "total_received_value": 409.32,
-        "total_gift_difference": -5.5,
-        "total_value_difference": -195.45,
+        "total_received_count": 19.5,
+        "total_received_value": 429.31,
+        "total_gift_difference": -6.5,
+        "total_value_difference": -215.44,
         "fcv_sent_count": 13,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
-        "fcv_received_count": 18,
+        "fcv_received_count": 19,
         "rcv_received_count": 0,
         "ncv_received_count": 0,
-        "fcv_gift_difference": -5,
+        "fcv_gift_difference": -6,
         "real_total_sent_value": 223.87,
-        "real_total_received_value": 408.82,
-        "real_total_value_difference": -184.95,
+        "real_total_received_value": 428.81,
+        "real_total_value_difference": -204.94,
         "real_total_sent_count": 13,
-        "real_total_received_count": 18,
-        "real_total_gift_difference": -5,
-        "giveaway_ratio": 7,
+        "real_total_received_count": 19,
+        "real_total_gift_difference": -6,
+        "giveaway_ratio": 6.67,
         "shared_sent_count": 0,
         "shared_received_count": 1,
         "giveaways_created": 14,
         "giveaways_with_no_entries": 4,
         "last_giveaway_created_at": 1786592928,
-        "last_giveaway_won_at": 1786145820,
+        "last_giveaway_won_at": 1786701600,
         "first_seen_at": 1752969600,
         "total_achievements_percentage": 48,
         "average_achievements_percentage": 59,
@@ -1942,6 +1946,15 @@
       "steam_profile_is_private": false,
       "country_code": "in",
       "giveaways_won": [
+        {
+          "name": "Rubinite",
+          "link": "yoLG0/rubinite",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1786701600,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "Master Lemon: The Quest for Iceland",
           "link": "EQLT0/master-lemon-the-quest-for-iceland",
@@ -1980,6 +1993,10 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1786679871494
+          },
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2
           }
         },
         {
@@ -2373,6 +2390,11 @@
           "end_timestamp": 1786192440,
           "required_play": true,
           "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 3
+          },
           "had_winners": true,
           "winners": [
             {
@@ -2678,9 +2700,6 @@
       ],
       "registered_at": 1693165401,
       "warnings": [
-        "unplayed_required_play_giveaways",
-        "illegal_entered_required_play_giveaways",
-        "required_plays_need_review",
         "required_play_deadline_within_15_days"
       ]
     },
@@ -3343,6 +3362,12 @@
           "end_timestamp": 1781646840,
           "required_play": true,
           "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 3,
+            "additional_notes": "Ya Gotta Keep Livin' achievement"
+          },
           "had_winners": true,
           "winners": [
             {
@@ -3944,6 +3969,10 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1786679699930
+          },
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2
           }
         },
         {
@@ -5193,10 +5222,7 @@
           ]
         }
       ],
-      "registered_at": 1733753264,
-      "warnings": [
-        "required_plays_need_review"
-      ]
+      "registered_at": 1733753264
     },
     "76561198055181554": {
       "username": "Bainsol",
@@ -5259,6 +5285,10 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1786680047805
+          },
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 3
           }
         },
         {
@@ -6042,10 +6072,7 @@
           ]
         }
       ],
-      "registered_at": 1387216989,
-      "warnings": [
-        "required_plays_need_review"
-      ]
+      "registered_at": 1387216989
     },
     "76561198351673664": {
       "username": "BanjoBearLV",
@@ -6610,7 +6637,7 @@
           "name": "Cozy Caravan",
           "link": "S8GTR/cozy-caravan",
           "cv_status": "FULL_CV",
-          "entries": 4,
+          "entries": 5,
           "copies": 1,
           "created_timestamp": 1786136610,
           "end_timestamp": 1786744980,
@@ -6632,7 +6659,7 @@
           "name": "Wild Woods",
           "link": "AC40u/wild-woods",
           "cv_status": "FULL_CV",
-          "entries": 2,
+          "entries": 3,
           "copies": 1,
           "created_timestamp": 1786136850,
           "end_timestamp": 1786745160,
@@ -6643,7 +6670,7 @@
           "name": "Tailside: Cozy Cafe Sim",
           "link": "GBw57/tailside-cozy-cafe-sim",
           "cv_status": "FULL_CV",
-          "entries": 4,
+          "entries": 5,
           "copies": 1,
           "created_timestamp": 1786136802,
           "end_timestamp": 1786745160,
@@ -6654,7 +6681,7 @@
           "name": "Spilled!",
           "link": "HIQh6/spilled",
           "cv_status": "FULL_CV",
-          "entries": 6,
+          "entries": 7,
           "copies": 1,
           "created_timestamp": 1786136987,
           "end_timestamp": 1786745340,
@@ -8674,7 +8701,7 @@
           "cv_status": "FULL_CV",
           "status": "received",
           "end_timestamp": 1786144800,
-          "required_play": false,
+          "required_play": true,
           "is_shared": false,
           "steam_play_data": {
             "owned": true,
@@ -8686,6 +8713,11 @@
             "never_played": true,
             "is_playtime_private": false,
             "last_checked": 1786592975749
+          },
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2,
+            "additional_notes": "2 hours"
           }
         },
         {
@@ -11396,6 +11428,11 @@
           "end_timestamp": 1785085200,
           "required_play": true,
           "is_shared": true,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -11450,6 +11487,11 @@
           "end_timestamp": 1781456400,
           "required_play": true,
           "is_shared": true,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -11470,6 +11512,11 @@
           "end_timestamp": 1781456400,
           "required_play": true,
           "is_shared": true,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -11490,6 +11537,11 @@
           "end_timestamp": 1781456400,
           "required_play": true,
           "is_shared": true,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -12439,7 +12491,7 @@
         "shared_received_count": 3,
         "giveaways_created": 15,
         "giveaways_with_no_entries": 0,
-        "last_giveaway_created_at": 1786647361,
+        "last_giveaway_created_at": 1786705076,
         "last_giveaway_won_at": 1783274400,
         "first_seen_at": 1760962956,
         "total_achievements_percentage": 22,
@@ -12624,7 +12676,20 @@
           "created_timestamp": 1786647361,
           "end_timestamp": 1786823520,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "deleted": true,
+          "deleted_reason": "Selected Incorrect Game or Information"
+        },
+        {
+          "name": "Bad Bitch Blasters",
+          "link": "QVaif/bad-bitch-blasters",
+          "cv_status": "FULL_CV",
+          "entries": 12,
+          "copies": 1,
+          "created_timestamp": 1786705076,
+          "end_timestamp": 1786881360,
+          "required_play": false,
+          "is_shared": true
         },
         {
           "name": "El Shaddai ASCENSION OF THE METATRON ...",
@@ -13000,6 +13065,10 @@
             "never_played": true,
             "is_playtime_private": false,
             "last_checked": 1786680569662
+          },
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 6
           }
         },
         {
@@ -13195,10 +13264,10 @@
         "last_giveaway_created_at": 1784974197,
         "last_giveaway_won_at": 1785556800,
         "first_seen_at": 1752461166,
-        "total_achievements_percentage": 0,
-        "average_achievements_percentage": 0,
-        "real_total_achievements_percentage": 0,
-        "real_average_achievements_percentage": 0,
+        "total_achievements_percentage": 63,
+        "average_achievements_percentage": 31,
+        "real_total_achievements_percentage": 64,
+        "real_average_achievements_percentage": 65,
         "has_missing_achievements_data": true
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561197962863579",
@@ -13400,6 +13469,11 @@
           "end_timestamp": 1785330000,
           "required_play": true,
           "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -14319,6 +14393,11 @@
           "end_timestamp": 1784206800,
           "required_play": true,
           "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -14513,6 +14592,11 @@
             "never_played": true,
             "is_playtime_private": false,
             "last_checked": 1786679585958
+          },
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2,
+            "additional_notes": "2 screenshots and IPB rules"
           }
         },
         {
@@ -15474,7 +15558,6 @@
       "registered_at": 1679600861,
       "warnings": [
         "unplayed_required_play_giveaways",
-        "illegal_entered_required_play_giveaways",
         "required_play_deadline_expired"
       ]
     },
@@ -18638,10 +18721,10 @@
       "stats": {
         "total_sent_count": 29,
         "total_sent_value": 1070.71,
-        "total_received_count": 66.6,
-        "total_received_value": 1248.25,
-        "total_gift_difference": -37.6,
-        "total_value_difference": -177.54,
+        "total_received_count": 67.6,
+        "total_received_value": 1283.24,
+        "total_gift_difference": -38.6,
+        "total_value_difference": -212.53,
         "fcv_sent_count": 29,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
@@ -18657,11 +18740,11 @@
         "real_total_gift_difference": -32,
         "giveaway_ratio": 11.67,
         "shared_sent_count": 0,
-        "shared_received_count": 9,
+        "shared_received_count": 10,
         "giveaways_created": 29,
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1785528146,
-        "last_giveaway_won_at": 1785693600,
+        "last_giveaway_won_at": 1786655820,
         "first_seen_at": 1749697803,
         "total_achievements_percentage": 15,
         "average_achievements_percentage": 16,
@@ -18672,6 +18755,15 @@
       "steam_profile_is_private": false,
       "country_code": "pl",
       "giveaways_won": [
+        {
+          "name": "Moonlight Peaks",
+          "link": "ywdqC/moonlight-peaks",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1786655820,
+          "required_play": false,
+          "is_shared": true
+        },
         {
           "name": "Expelled!",
           "link": "thJS1/expelled",
@@ -18710,6 +18802,11 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1786592580758
+          },
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2,
+            "additional_notes": "2 screenshots and IPB rules"
           }
         },
         {
@@ -21457,6 +21554,10 @@
             "never_played": true,
             "is_playtime_private": false,
             "last_checked": 1786680502598
+          },
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 3
           }
         },
         {
@@ -21497,6 +21598,10 @@
             "never_played": true,
             "is_playtime_private": false,
             "last_checked": 1786680504790
+          },
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
           }
         },
         {
@@ -21545,7 +21650,7 @@
           "name": "Resonance: A Plague Tale Legacy",
           "link": "OpjY6/resonance-a-plague-tale-legacy",
           "cv_status": "FULL_CV",
-          "entries": 23,
+          "entries": 24,
           "copies": 1,
           "created_timestamp": 1785971189,
           "end_timestamp": 1786766340,
@@ -21573,6 +21678,11 @@
           "end_timestamp": 1786161540,
           "required_play": true,
           "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -21617,8 +21727,13 @@
           "copies": 1,
           "created_timestamp": 1784057384,
           "end_timestamp": 1784347140,
-          "required_play": false,
+          "required_play": true,
           "is_shared": true,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -21639,6 +21754,11 @@
           "end_timestamp": 1784347140,
           "required_play": true,
           "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -21657,8 +21777,13 @@
           "copies": 1,
           "created_timestamp": 1783791212,
           "end_timestamp": 1784001540,
-          "required_play": false,
+          "required_play": true,
           "is_shared": true,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -21677,8 +21802,13 @@
           "copies": 1,
           "created_timestamp": 1783450826,
           "end_timestamp": 1783742340,
-          "required_play": false,
+          "required_play": true,
           "is_shared": true,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -21697,8 +21827,13 @@
           "copies": 1,
           "created_timestamp": 1783186613,
           "end_timestamp": 1783382400,
-          "required_play": false,
+          "required_play": true,
           "is_shared": true,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -21717,8 +21852,13 @@
           "copies": 1,
           "created_timestamp": 1783185576,
           "end_timestamp": 1783382400,
-          "required_play": false,
+          "required_play": true,
           "is_shared": true,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -22656,8 +22796,13 @@
           "copies": 1,
           "created_timestamp": 1784236622,
           "end_timestamp": 1784412000,
-          "required_play": false,
+          "required_play": true,
           "is_shared": true,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -22676,8 +22821,13 @@
           "copies": 1,
           "created_timestamp": 1784236170,
           "end_timestamp": 1784412000,
-          "required_play": false,
+          "required_play": true,
           "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -23457,7 +23607,7 @@
           "name": "Fable",
           "link": "JXbs6/fable",
           "cv_status": "FULL_CV",
-          "entries": 70,
+          "entries": 71,
           "copies": 1,
           "created_timestamp": 1785526136,
           "end_timestamp": 1786744800,
@@ -23901,30 +24051,30 @@
       "stats": {
         "total_sent_count": 33,
         "total_sent_value": 861.68,
-        "total_received_count": 61,
-        "total_received_value": 1323.39,
-        "total_gift_difference": -28,
-        "total_value_difference": -461.71,
+        "total_received_count": 62,
+        "total_received_value": 1333.38,
+        "total_gift_difference": -29,
+        "total_value_difference": -471.7,
         "fcv_sent_count": 31,
         "rcv_sent_count": 1,
         "ncv_sent_count": 0,
-        "fcv_received_count": 61,
+        "fcv_received_count": 62,
         "rcv_received_count": 0,
         "ncv_received_count": 0,
-        "fcv_gift_difference": -30,
+        "fcv_gift_difference": -31,
         "real_total_sent_value": 814.7,
-        "real_total_received_value": 1324.39,
-        "real_total_value_difference": -509.69,
+        "real_total_received_value": 1334.38,
+        "real_total_value_difference": -519.68,
         "real_total_sent_count": 31,
-        "real_total_received_count": 61,
-        "real_total_gift_difference": -30,
-        "giveaway_ratio": 15.67,
+        "real_total_received_count": 62,
+        "real_total_gift_difference": -31,
+        "giveaway_ratio": 15.33,
         "shared_sent_count": 0,
         "shared_received_count": 0,
-        "giveaways_created": 32,
+        "giveaways_created": 34,
         "giveaways_with_no_entries": 4,
-        "last_giveaway_created_at": 1786041446,
-        "last_giveaway_won_at": 1786557600,
+        "last_giveaway_created_at": 1786701846,
+        "last_giveaway_won_at": 1786712400,
         "first_seen_at": 1749747597,
         "total_achievements_percentage": 26,
         "average_achievements_percentage": 35,
@@ -23935,6 +24085,20 @@
       "steam_profile_is_private": false,
       "country_code": null,
       "giveaways_won": [
+        {
+          "name": "Dogpile",
+          "link": "biag9/dogpile",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1786712400,
+          "required_play": true,
+          "is_shared": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2,
+            "additional_notes": "2 screenshots and IPB rules"
+          }
+        },
         {
           "name": "God Of Weapons",
           "link": "ya4Pr/god-of-weapons",
@@ -25210,6 +25374,28 @@
       ],
       "giveaways_created": [
         {
+          "name": "KINGDOM HEARTS -HD 1.5+2.5 ReMIX-",
+          "link": "5FJJp/kingdom-hearts-hd-1525-remix",
+          "cv_status": "FULL_CV",
+          "entries": 6,
+          "copies": 1,
+          "created_timestamp": 1786701846,
+          "end_timestamp": 1787058000,
+          "required_play": false,
+          "is_shared": false
+        },
+        {
+          "name": "Age of Mythology: Retold Premium Edition",
+          "link": "rSLB6/age-of-mythology-retold-premium-edition",
+          "cv_status": "FULL_CV",
+          "entries": 6,
+          "copies": 1,
+          "created_timestamp": 1786700985,
+          "end_timestamp": 1787058000,
+          "required_play": false,
+          "is_shared": false
+        },
+        {
           "name": "Split Fiction",
           "link": "arUPQ/split-fiction",
           "cv_status": "FULL_CV",
@@ -26032,7 +26218,7 @@
           "cv_status": "FULL_CV",
           "status": "received",
           "end_timestamp": 1786024800,
-          "required_play": false,
+          "required_play": true,
           "is_shared": false,
           "steam_play_data": {
             "owned": true,
@@ -26044,6 +26230,10 @@
             "never_played": true,
             "is_playtime_private": false,
             "last_checked": 1786680637040
+          },
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
           }
         },
         {
@@ -26516,6 +26706,10 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1786680104562
+          },
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2
           }
         },
         {
@@ -27515,10 +27709,7 @@
           ]
         }
       ],
-      "registered_at": 1516788080,
-      "warnings": [
-        "required_plays_need_review"
-      ]
+      "registered_at": 1516788080
     },
     "76561198020386807": {
       "username": "eeev",
@@ -27528,30 +27719,30 @@
       "stats": {
         "total_sent_count": 19,
         "total_sent_value": 406.81,
-        "total_received_count": 40,
-        "total_received_value": 969.6,
-        "total_gift_difference": -21,
-        "total_value_difference": -562.79,
+        "total_received_count": 42,
+        "total_received_value": 993.58,
+        "total_gift_difference": -23,
+        "total_value_difference": -586.77,
         "fcv_sent_count": 18,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
-        "fcv_received_count": 38,
+        "fcv_received_count": 40,
         "rcv_received_count": 1,
         "ncv_received_count": 0,
-        "fcv_gift_difference": -20,
+        "fcv_gift_difference": -22,
         "real_total_sent_value": 391.82,
-        "real_total_received_value": 942.62,
-        "real_total_value_difference": -550.8,
+        "real_total_received_value": 966.6,
+        "real_total_value_difference": -574.78,
         "real_total_sent_count": 18,
-        "real_total_received_count": 38,
-        "real_total_gift_difference": -20,
-        "giveaway_ratio": 7.33,
+        "real_total_received_count": 40,
+        "real_total_gift_difference": -22,
+        "giveaway_ratio": 6.67,
         "shared_sent_count": 1,
         "shared_received_count": 0,
-        "giveaways_created": 19,
+        "giveaways_created": 20,
         "giveaways_with_no_entries": 1,
-        "last_giveaway_created_at": 1780929866,
-        "last_giveaway_won_at": 1786456800,
+        "last_giveaway_created_at": 1786715309,
+        "last_giveaway_won_at": 1786712400,
         "first_seen_at": 1749733161,
         "total_achievements_percentage": 11,
         "average_achievements_percentage": 19,
@@ -27562,6 +27753,34 @@
       "steam_profile_is_private": false,
       "country_code": "de",
       "giveaways_won": [
+        {
+          "name": "The Séance of Blake Manor",
+          "link": "Enx0P/the-seance-of-blake-manor",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1786712400,
+          "required_play": true,
+          "is_shared": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2,
+            "additional_notes": "2 screenshots and IPB rules"
+          }
+        },
+        {
+          "name": "A Castle Full of Cats",
+          "link": "j9FGd/a-castle-full-of-cats",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1786712400,
+          "required_play": true,
+          "is_shared": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2,
+            "additional_notes": "2 screenshots and IPB rules"
+          }
+        },
         {
           "name": "Unusual Findings",
           "link": "sgVsx/unusual-findings",
@@ -28369,6 +28588,17 @@
       ],
       "giveaways_created": [
         {
+          "name": "Herdling",
+          "link": "clhJJ/herdling",
+          "cv_status": "FULL_CV",
+          "entries": 8,
+          "copies": 1,
+          "created_timestamp": 1786715309,
+          "end_timestamp": 1786977960,
+          "required_play": false,
+          "is_shared": false
+        },
+        {
           "name": "Zanki Zero: Last Beginning",
           "link": "zEKEn/zanki-zero-last-beginning",
           "cv_status": "FULL_CV",
@@ -28794,7 +29024,10 @@
           ]
         }
       ],
-      "registered_at": 1407444209
+      "registered_at": 1407444209,
+      "warnings": [
+        "unplayed_required_play_giveaways"
+      ]
     },
     "76561198051248084": {
       "username": "Eindirk",
@@ -31119,7 +31352,7 @@
           "cv_status": "FULL_CV",
           "status": "received",
           "end_timestamp": 1782450000,
-          "required_play": false,
+          "required_play": true,
           "is_shared": false,
           "steam_play_data": {
             "owned": true,
@@ -31131,6 +31364,10 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1786679030793
+          },
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2
           }
         },
         {
@@ -33149,6 +33386,11 @@
             "never_played": true,
             "is_playtime_private": false,
             "last_checked": 1786680677097
+          },
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 3,
+            "additional_notes": "15 hours"
           }
         },
         {
@@ -33197,7 +33439,7 @@
           "name": "Sprout Valley",
           "link": "LEbtv/sprout-valley",
           "cv_status": "FULL_CV",
-          "entries": 40,
+          "entries": 50,
           "copies": 1,
           "created_timestamp": 1786632215,
           "end_timestamp": 1787212800,
@@ -33208,7 +33450,7 @@
           "name": "Omelet You Cook",
           "link": "fsbt3/omelet-you-cook",
           "cv_status": "FULL_CV",
-          "entries": 7,
+          "entries": 8,
           "copies": 1,
           "created_timestamp": 1786631853,
           "end_timestamp": 1787472000,
@@ -34904,6 +35146,10 @@
             "never_played": true,
             "is_playtime_private": false,
             "last_checked": 1786592760590
+          },
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 3
           }
         },
         {
@@ -35764,7 +36010,7 @@
           "name": "Black Myth: Wukong",
           "link": "hYenN/black-myth-wukong",
           "cv_status": "FULL_CV",
-          "entries": 29,
+          "entries": 28,
           "copies": 1,
           "created_timestamp": 1786494307,
           "end_timestamp": 1787468400,
@@ -36351,7 +36597,6 @@
         "unplayed_required_play_giveaways",
         "illegal_entered_required_play_giveaways",
         "required_plays_need_review",
-        "required_play_deadline_within_15_days",
         "low_play_rate_many_wins"
       ]
     },
@@ -36403,7 +36648,7 @@
           "cv_status": "FULL_CV",
           "status": "received",
           "end_timestamp": 1781269200,
-          "required_play": false,
+          "required_play": true,
           "is_shared": false,
           "steam_play_data": {
             "owned": true,
@@ -36416,6 +36661,10 @@
             "is_playtime_private": false,
             "last_checked": 1786680120580,
             "is_potentially_idling": false
+          },
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
           }
         },
         {
@@ -36851,6 +37100,8 @@
       ],
       "registered_at": 1735055786,
       "warnings": [
+        "required_plays_need_review",
+        "required_play_deadline_expired",
         "no_giveaway_created_in_6_months"
       ]
     },
@@ -37298,7 +37549,7 @@
           "name": "Katanaut",
           "link": "5ZrNN/katanaut",
           "cv_status": "FULL_CV",
-          "entries": 2,
+          "entries": 3,
           "copies": 1,
           "created_timestamp": 1786480942,
           "end_timestamp": 1786829940,
@@ -40344,6 +40595,11 @@
           "end_timestamp": 1786564800,
           "required_play": true,
           "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -40444,6 +40700,11 @@
           "end_timestamp": 1782072000,
           "required_play": true,
           "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -41310,10 +41571,10 @@
       "stats": {
         "total_sent_count": 27.8,
         "total_sent_value": 582.19,
-        "total_received_count": 25,
-        "total_received_value": 607.76,
-        "total_gift_difference": 2.8,
-        "total_value_difference": -25.57,
+        "total_received_count": 26,
+        "total_received_value": 614.75,
+        "total_gift_difference": 1.8,
+        "total_value_difference": -32.56,
         "fcv_sent_count": 24,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
@@ -41363,6 +41624,10 @@
             "never_played": true,
             "is_playtime_private": false,
             "last_checked": 1786679521923
+          },
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
           }
         },
         {
@@ -44692,7 +44957,7 @@
           "is_shared": false,
           "i_played_bro": false,
           "required_play_meta": {
-            "requirements_met": true,
+            "requirements_met": false,
             "deadline_in_months": 2
           },
           "had_winners": true,
@@ -44715,6 +44980,11 @@
           "end_timestamp": 1782581460,
           "required_play": true,
           "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -46866,6 +47136,11 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1786678944077
+          },
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2,
+            "additional_notes": "2 screenshots and IPB rules"
           }
         },
         {
@@ -47870,10 +48145,7 @@
           ]
         }
       ],
-      "registered_at": 1457423943,
-      "warnings": [
-        "required_plays_need_review"
-      ]
+      "registered_at": 1457423943
     },
     "76561197965128191": {
       "username": "kecha",
@@ -50959,30 +51231,30 @@
       "avatar_url": "https://avatars.steamstatic.com/2ff660b2bd1850c391838a8649cf5e02924ca828_medium.jpg",
       "steam_id": "76561197968806363",
       "stats": {
-        "total_sent_count": 60,
-        "total_sent_value": 1169.57,
+        "total_sent_count": 67,
+        "total_sent_value": 1285.5,
         "total_received_count": 26,
         "total_received_value": 624.74,
-        "total_gift_difference": 34,
-        "total_value_difference": 544.83,
-        "fcv_sent_count": 55,
+        "total_gift_difference": 41,
+        "total_value_difference": 660.76,
+        "fcv_sent_count": 61,
         "rcv_sent_count": 2,
         "ncv_sent_count": 0,
         "fcv_received_count": 26,
         "rcv_received_count": 0,
         "ncv_received_count": 0,
-        "fcv_gift_difference": 29,
-        "real_total_sent_value": 1078.5,
+        "fcv_gift_difference": 35,
+        "real_total_sent_value": 1187.44,
         "real_total_received_value": 624.74,
-        "real_total_value_difference": 453.76,
-        "real_total_sent_count": 55,
+        "real_total_value_difference": 562.7,
+        "real_total_sent_count": 61,
         "real_total_received_count": 26,
-        "real_total_gift_difference": 29,
-        "giveaway_ratio": 47,
+        "real_total_gift_difference": 35,
+        "giveaway_ratio": 53,
         "shared_sent_count": 4,
         "shared_received_count": 0,
-        "giveaways_created": 74,
-        "giveaways_with_no_entries": 28,
+        "giveaways_created": 72,
+        "giveaways_with_no_entries": 30,
         "last_giveaway_created_at": 1786461662,
         "last_giveaway_won_at": 1785222000,
         "first_seen_at": 1749738189,
@@ -51537,7 +51809,22 @@
           "created_timestamp": 1786047579,
           "end_timestamp": 1786712400,
           "required_play": true,
-          "is_shared": false
+          "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2,
+            "additional_notes": "2 screenshots and IPB rules"
+          },
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "76561198020386807",
+              "winner_username": "eeev",
+              "status": "received",
+              "activated": true
+            }
+          ]
         },
         {
           "name": "My Little Cafe Nightmare",
@@ -51548,7 +51835,8 @@
           "created_timestamp": 1786045923,
           "end_timestamp": 1786712400,
           "required_play": true,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": false
         },
         {
           "name": "Dogpile",
@@ -51559,7 +51847,22 @@
           "created_timestamp": 1786045693,
           "end_timestamp": 1786712400,
           "required_play": true,
-          "is_shared": false
+          "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2,
+            "additional_notes": "2 screenshots and IPB rules"
+          },
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "76561198041749780",
+              "winner_username": "doubleomurfy",
+              "status": "received",
+              "activated": true
+            }
+          ]
         },
         {
           "name": "Koira",
@@ -51570,7 +51873,21 @@
           "created_timestamp": 1786155404,
           "end_timestamp": 1786712400,
           "required_play": true,
-          "is_shared": false
+          "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2,
+            "additional_notes": "2 screenshots and IPB rules"
+          },
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "Cattails: Wildwood Story",
@@ -51581,7 +51898,15 @@
           "created_timestamp": 1786167154,
           "end_timestamp": 1786712400,
           "required_play": true,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "Amber Isle",
@@ -51592,7 +51917,21 @@
           "created_timestamp": 1786167123,
           "end_timestamp": 1786712400,
           "required_play": true,
-          "is_shared": false
+          "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2,
+            "additional_notes": "2 screenshots and IPB rules"
+          },
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "Siralim Ultimate",
@@ -51603,7 +51942,22 @@
           "created_timestamp": 1786167101,
           "end_timestamp": 1786712400,
           "required_play": true,
-          "is_shared": false
+          "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2,
+            "additional_notes": "2 screenshots and IPB rules"
+          },
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "76561198411996697",
+              "winner_username": "RaitorHaitor",
+              "status": "received",
+              "activated": true
+            }
+          ]
         },
         {
           "name": "A Castle Full of Cats",
@@ -51614,7 +51968,22 @@
           "created_timestamp": 1786167071,
           "end_timestamp": 1786712400,
           "required_play": true,
-          "is_shared": false
+          "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2,
+            "additional_notes": "2 screenshots and IPB rules"
+          },
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "76561198020386807",
+              "winner_username": "eeev",
+              "status": "received",
+              "activated": true
+            }
+          ]
         },
         {
           "name": "A Building Full of Cats 2",
@@ -51625,7 +51994,21 @@
           "created_timestamp": 1786167046,
           "end_timestamp": 1786712400,
           "required_play": true,
-          "is_shared": false
+          "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2,
+            "additional_notes": "2 screenshots and IPB rules"
+          },
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "Monster Hunter Stories",
@@ -51636,7 +52019,8 @@
           "created_timestamp": 1786157297,
           "end_timestamp": 1786712400,
           "required_play": true,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": false
         },
         {
           "name": "Journey",
@@ -51647,7 +52031,21 @@
           "created_timestamp": 1786156875,
           "end_timestamp": 1786712400,
           "required_play": true,
-          "is_shared": false
+          "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2,
+            "additional_notes": "2 screenshots and IPB rules"
+          },
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "The House of Da Vinci 2",
@@ -51658,7 +52056,21 @@
           "created_timestamp": 1786461662,
           "end_timestamp": 1786712400,
           "required_play": true,
-          "is_shared": false
+          "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2,
+            "additional_notes": "2 screenshots and IPB rules"
+          },
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "ONE PIECE ODYSSEY",
@@ -51669,7 +52081,22 @@
           "created_timestamp": 1786449504,
           "end_timestamp": 1786712400,
           "required_play": true,
-          "is_shared": false
+          "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2,
+            "additional_notes": "2 screenshots and IPB rules"
+          },
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "76561198411996697",
+              "winner_username": "RaitorHaitor",
+              "status": "received",
+              "activated": true
+            }
+          ]
         },
         {
           "name": "STEINS;GATE 0",
@@ -51680,7 +52107,21 @@
           "created_timestamp": 1786449002,
           "end_timestamp": 1786712400,
           "required_play": true,
-          "is_shared": false
+          "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2,
+            "additional_notes": "2 screenshots and IPB rules"
+          },
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "Gorogoa",
@@ -51691,7 +52132,22 @@
           "created_timestamp": 1786448207,
           "end_timestamp": 1786712400,
           "required_play": true,
-          "is_shared": false
+          "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2,
+            "additional_notes": "2 screenshots and IPB rules"
+          },
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "76561198069420656",
+              "winner_username": "Metalhead8489",
+              "status": "received",
+              "activated": true
+            }
+          ]
         },
         {
           "name": "Gears 5",
@@ -51703,6 +52159,12 @@
           "end_timestamp": 1786280400,
           "required_play": true,
           "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2,
+            "additional_notes": "2 screenshots and IPB rules"
+          },
           "had_winners": true,
           "winners": [
             {
@@ -51723,6 +52185,11 @@
           "end_timestamp": 1786107600,
           "required_play": true,
           "is_shared": true,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -51743,6 +52210,12 @@
           "end_timestamp": 1786107600,
           "required_play": true,
           "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2,
+            "additional_notes": "2 screenshots and IPB rules"
+          },
           "had_winners": true,
           "winners": [
             {
@@ -51763,6 +52236,12 @@
           "end_timestamp": 1786107600,
           "required_play": true,
           "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2,
+            "additional_notes": "2 screenshots and IPB rules"
+          },
           "had_winners": true,
           "winners": [
             {
@@ -51783,6 +52262,12 @@
           "end_timestamp": 1786107600,
           "required_play": true,
           "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2,
+            "additional_notes": "2 screenshots and IPB rules"
+          },
           "had_winners": true,
           "winners": [
             {
@@ -51841,6 +52326,12 @@
           "end_timestamp": 1785502800,
           "required_play": true,
           "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2,
+            "additional_notes": "2 screenshots and IPB rules"
+          },
           "had_winners": true,
           "winners": [
             {
@@ -51861,6 +52352,12 @@
           "end_timestamp": 1785502800,
           "required_play": true,
           "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2,
+            "additional_notes": "2 screenshots and IPB rules"
+          },
           "had_winners": true,
           "winners": [
             {
@@ -51881,6 +52378,12 @@
           "end_timestamp": 1785502800,
           "required_play": true,
           "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2,
+            "additional_notes": "2 screenshots and IPB rules"
+          },
           "had_winners": true,
           "winners": [
             {
@@ -51901,6 +52404,12 @@
           "end_timestamp": 1785502800,
           "required_play": true,
           "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2,
+            "additional_notes": "2 screenshots and IPB rules"
+          },
           "had_winners": true,
           "winners": [
             {
@@ -52287,8 +52796,13 @@
           "copies": 1,
           "created_timestamp": 1780845221,
           "end_timestamp": 1781269200,
-          "required_play": false,
+          "required_play": true,
           "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -54181,6 +54695,11 @@
           "end_timestamp": 1785974400,
           "required_play": true,
           "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -54283,7 +54802,7 @@
           "cv_status": "FULL_CV",
           "status": "received",
           "end_timestamp": 1784412000,
-          "required_play": false,
+          "required_play": true,
           "is_shared": true,
           "steam_play_data": {
             "owned": true,
@@ -54295,6 +54814,10 @@
             "never_played": true,
             "is_playtime_private": false,
             "last_checked": 1786678757771
+          },
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
           }
         },
         {
@@ -56374,7 +56897,7 @@
           "name": "UnMetal",
           "link": "EUxvT/unmetal",
           "cv_status": "REDUCED_CV",
-          "entries": 54,
+          "entries": 55,
           "copies": 1,
           "created_timestamp": 1786151670,
           "end_timestamp": 1786766400,
@@ -56385,7 +56908,7 @@
           "name": "Astebreed: Definitive Edition",
           "link": "kFHgd/astebreed-definitive-edition",
           "cv_status": "REDUCED_CV",
-          "entries": 45,
+          "entries": 44,
           "copies": 1,
           "created_timestamp": 1786238309,
           "end_timestamp": 1786852800,
@@ -56407,7 +56930,7 @@
           "name": "Once Upon a Jester",
           "link": "CZ1bL/once-upon-a-jester",
           "cv_status": "REDUCED_CV",
-          "entries": 67,
+          "entries": 68,
           "copies": 2,
           "created_timestamp": 1786411545,
           "end_timestamp": 1787025600,
@@ -56418,7 +56941,7 @@
           "name": "Sakura Swim Club",
           "link": "bIRu0/sakura-swim-club",
           "cv_status": "REDUCED_CV",
-          "entries": 24,
+          "entries": 26,
           "copies": 1,
           "created_timestamp": 1786586271,
           "end_timestamp": 1787198400,
@@ -56429,7 +56952,7 @@
           "name": "Sakura MMO",
           "link": "qey6Q/sakura-mmo",
           "cv_status": "REDUCED_CV",
-          "entries": 16,
+          "entries": 23,
           "copies": 1,
           "created_timestamp": 1786666346,
           "end_timestamp": 1787284800,
@@ -60261,26 +60784,26 @@
       "avatar_url": "https://avatars.steamstatic.com/18155785c7658e3f03329130e10dc2f18c18f342_medium.jpg",
       "steam_id": "76561198042896883",
       "stats": {
-        "total_sent_count": 12.6,
-        "total_sent_value": 309.34,
+        "total_sent_count": 13.6,
+        "total_sent_value": 329.33,
         "total_received_count": 6,
         "total_received_value": 154.94,
-        "total_gift_difference": 6.6,
-        "total_value_difference": 154.4,
-        "fcv_sent_count": 7,
+        "total_gift_difference": 7.6,
+        "total_value_difference": 174.39,
+        "fcv_sent_count": 8,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
         "fcv_received_count": 6,
         "rcv_received_count": 0,
         "ncv_received_count": 0,
-        "fcv_gift_difference": 1,
-        "real_total_sent_value": 180.93,
+        "fcv_gift_difference": 2,
+        "real_total_sent_value": 200.92,
         "real_total_received_value": 184.94,
-        "real_total_value_difference": -4.01,
-        "real_total_sent_count": 7,
+        "real_total_value_difference": 15.98,
+        "real_total_sent_count": 8,
         "real_total_received_count": 6,
-        "real_total_gift_difference": 1,
-        "giveaway_ratio": 5,
+        "real_total_gift_difference": 2,
+        "giveaway_ratio": 6,
         "shared_sent_count": 26,
         "shared_received_count": 0,
         "giveaways_created": 34,
@@ -60429,7 +60952,16 @@
           "created_timestamp": 1786101706,
           "end_timestamp": 1786701600,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "76561198453663783",
+              "winner_username": "Almostn33t",
+              "status": "received",
+              "activated": true
+            }
+          ]
         },
         {
           "name": "RimWorld",
@@ -61206,6 +61738,11 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1786680537698
+          },
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 3,
+            "additional_notes": "Ya Gotta Keep Livin' achievement"
           }
         },
         {
@@ -61445,8 +61982,7 @@
       ],
       "registered_at": 1744926458,
       "warnings": [
-        "required_plays_need_review",
-        "required_play_deadline_within_15_days"
+        "required_plays_need_review"
       ]
     },
     "76561198117390871": {
@@ -61542,8 +62078,13 @@
           "copies": 1,
           "created_timestamp": 1782158892,
           "end_timestamp": 1782633720,
-          "required_play": false,
+          "required_play": true,
           "is_shared": true,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -61562,8 +62103,13 @@
           "copies": 1,
           "created_timestamp": 1782158028,
           "end_timestamp": 1782633720,
-          "required_play": false,
+          "required_play": true,
           "is_shared": true,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -61582,8 +62128,13 @@
           "copies": 1,
           "created_timestamp": 1782157345,
           "end_timestamp": 1782633720,
-          "required_play": false,
+          "required_play": true,
           "is_shared": true,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -61604,6 +62155,11 @@
           "end_timestamp": 1781474520,
           "required_play": true,
           "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -62430,8 +62986,14 @@
           "copies": 1,
           "created_timestamp": 1786209731,
           "end_timestamp": 1786456800,
-          "required_play": false,
+          "required_play": true,
           "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline": "31.12.2026",
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -63263,8 +63825,7 @@
             }
           ]
         }
-      ],
-      "registered_at": 1321200933
+      ]
     },
     "76561198413978177": {
       "username": "Markox21",
@@ -64127,6 +64688,11 @@
           "end_timestamp": 1784599200,
           "required_play": true,
           "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -64283,7 +64849,8 @@
             }
           ]
         }
-      ]
+      ],
+      "registered_at": 1656204651
     },
     "76561198010863049": {
       "username": "MedinaRoscoe",
@@ -64481,30 +65048,30 @@
       "stats": {
         "total_sent_count": 18.4,
         "total_sent_value": 419.65,
-        "total_received_count": 27.7,
-        "total_received_value": 780.49,
-        "total_gift_difference": -9.3,
-        "total_value_difference": -360.84,
+        "total_received_count": 28.7,
+        "total_received_value": 795.48,
+        "total_gift_difference": -10.3,
+        "total_value_difference": -375.83,
         "fcv_sent_count": 14,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
-        "fcv_received_count": 21,
+        "fcv_received_count": 22,
         "rcv_received_count": 2,
         "ncv_received_count": 0,
-        "fcv_gift_difference": -7,
+        "fcv_gift_difference": -8,
         "real_total_sent_value": 297.86,
-        "real_total_received_value": 606.79,
-        "real_total_value_difference": -308.93,
+        "real_total_received_value": 621.78,
+        "real_total_value_difference": -323.92,
         "real_total_sent_count": 14,
-        "real_total_received_count": 21,
-        "real_total_gift_difference": -7,
-        "giveaway_ratio": 8.67,
+        "real_total_received_count": 22,
+        "real_total_gift_difference": -8,
+        "giveaway_ratio": 8.33,
         "shared_sent_count": 15,
         "shared_received_count": 10,
         "giveaways_created": 30,
         "giveaways_with_no_entries": 2,
         "last_giveaway_created_at": 1786525115,
-        "last_giveaway_won_at": 1786456800,
+        "last_giveaway_won_at": 1786712400,
         "first_seen_at": 1749682838,
         "total_achievements_percentage": 49,
         "average_achievements_percentage": 47,
@@ -64515,6 +65082,20 @@
       "steam_profile_is_private": false,
       "country_code": "gr",
       "giveaways_won": [
+        {
+          "name": "Gorogoa",
+          "link": "4z2uu/gorogoa",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1786712400,
+          "required_play": true,
+          "is_shared": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2,
+            "additional_notes": "2 screenshots and IPB rules"
+          }
+        },
         {
           "name": "Pepper Grinder",
           "link": "ZLZyW/pepper-grinder",
@@ -64573,6 +65154,10 @@
             "never_played": true,
             "is_playtime_private": false,
             "last_checked": 1786679122568
+          },
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
           }
         },
         {
@@ -65240,6 +65825,11 @@
           "end_timestamp": 1783717140,
           "required_play": true,
           "is_shared": true,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -65260,6 +65850,11 @@
           "end_timestamp": 1782939540,
           "required_play": true,
           "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 3
+          },
           "had_winners": true,
           "winners": [
             {
@@ -65280,6 +65875,11 @@
           "end_timestamp": 1781989140,
           "required_play": true,
           "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 3
+          },
           "had_winners": true,
           "winners": [
             {
@@ -65300,6 +65900,11 @@
           "end_timestamp": 1781125140,
           "required_play": true,
           "is_shared": true,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -66058,7 +66663,11 @@
           ]
         }
       ],
-      "registered_at": 1396356781
+      "registered_at": 1396356781,
+      "warnings": [
+        "unplayed_required_play_giveaways",
+        "illegal_entered_required_play_giveaways"
+      ]
     },
     "76561198452519450": {
       "username": "MikeWithAnI",
@@ -68355,6 +68964,11 @@
           "end_timestamp": 1786460820,
           "required_play": true,
           "is_shared": true,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -68375,6 +68989,11 @@
           "end_timestamp": 1786289940,
           "required_play": true,
           "is_shared": true,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -68395,6 +69014,11 @@
           "end_timestamp": 1786030200,
           "required_play": true,
           "is_shared": true,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -68415,6 +69039,11 @@
           "end_timestamp": 1784388540,
           "required_play": true,
           "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 3
+          },
           "had_winners": true,
           "winners": [
             {
@@ -68435,6 +69064,11 @@
           "end_timestamp": 1784042160,
           "required_play": true,
           "is_shared": true,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -68455,6 +69089,11 @@
           "end_timestamp": 1783699080,
           "required_play": true,
           "is_shared": true,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -68475,6 +69114,11 @@
           "end_timestamp": 1783698780,
           "required_play": true,
           "is_shared": true,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -68523,6 +69167,11 @@
           "end_timestamp": 1782403020,
           "required_play": true,
           "is_shared": true,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -68557,6 +69206,11 @@
           "end_timestamp": 1780845840,
           "required_play": true,
           "is_shared": true,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -68577,6 +69231,11 @@
           "end_timestamp": 1780845660,
           "required_play": true,
           "is_shared": true,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -70818,6 +71477,10 @@
             "never_played": true,
             "is_playtime_private": false,
             "last_checked": 1786680198893
+          },
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
           }
         },
         {
@@ -76104,6 +76767,10 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1786679294207
+          },
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2
           }
         },
         {
@@ -76146,7 +76813,7 @@
             "last_checked": 1786679296503
           },
           "required_play_meta": {
-            "requirements_met": true,
+            "requirements_met": false,
             "deadline_in_months": 2
           }
         },
@@ -76695,6 +77362,11 @@
           "end_timestamp": 1784858400,
           "required_play": true,
           "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -76715,6 +77387,11 @@
           "end_timestamp": 1783713120,
           "required_play": true,
           "is_shared": true,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -76735,6 +77412,11 @@
           "end_timestamp": 1781899320,
           "required_play": true,
           "is_shared": true,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -76755,6 +77437,12 @@
           "end_timestamp": 1781186400,
           "required_play": true,
           "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 3,
+            "additional_notes": "Still Wakes the Deep achievement"
+          },
           "had_winners": true,
           "winners": [
             {
@@ -77815,7 +78503,8 @@
       ],
       "registered_at": 1641833598,
       "warnings": [
-        "required_plays_need_review"
+        "required_plays_need_review",
+        "required_play_deadline_within_15_days"
       ]
     },
     "76561197994025244": {
@@ -77878,6 +78567,11 @@
             "never_played": true,
             "is_playtime_private": false,
             "last_checked": 1786679208910
+          },
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2,
+            "additional_notes": "2 screenshots and IPB rules"
           }
         },
         {
@@ -77918,6 +78612,11 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1786679211185
+          },
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2,
+            "additional_notes": "2 screenshots and IPB rules"
           }
         },
         {
@@ -78799,12 +79498,7 @@
           ]
         }
       ],
-      "registered_at": 1470063563,
-      "warnings": [
-        "unplayed_required_play_giveaways",
-        "illegal_entered_required_play_giveaways",
-        "required_plays_need_review"
-      ]
+      "registered_at": 1470063563
     },
     "76561198069567036": {
       "username": "puninup",
@@ -82395,30 +83089,30 @@
       "stats": {
         "total_sent_count": 12.5,
         "total_sent_value": 231.38,
-        "total_received_count": 11,
-        "total_received_value": 173.89,
-        "total_gift_difference": 1.5,
-        "total_value_difference": 57.49,
+        "total_received_count": 13,
+        "total_received_value": 233.87,
+        "total_gift_difference": -0.5,
+        "total_value_difference": -2.5,
         "fcv_sent_count": 9,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
-        "fcv_received_count": 10,
+        "fcv_received_count": 12,
         "rcv_received_count": 1,
         "ncv_received_count": 0,
-        "fcv_gift_difference": -1,
+        "fcv_gift_difference": -3,
         "real_total_sent_value": 168.91,
-        "real_total_received_value": 156.9,
-        "real_total_value_difference": 12.01,
+        "real_total_received_value": 216.88,
+        "real_total_value_difference": -47.97,
         "real_total_sent_count": 9,
-        "real_total_received_count": 10,
-        "real_total_gift_difference": -1,
-        "giveaway_ratio": 5.67,
+        "real_total_received_count": 12,
+        "real_total_gift_difference": -3,
+        "giveaway_ratio": 5,
         "shared_sent_count": 7,
         "shared_received_count": 0,
         "giveaways_created": 14,
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1785664877,
-        "last_giveaway_won_at": 1786665600,
+        "last_giveaway_won_at": 1786712400,
         "first_seen_at": 1781102258,
         "total_achievements_percentage": 34,
         "average_achievements_percentage": 43,
@@ -82430,6 +83124,34 @@
       "steam_profile_is_private": false,
       "country_code": null,
       "giveaways_won": [
+        {
+          "name": "Siralim Ultimate",
+          "link": "vAqCe/siralim-ultimate",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1786712400,
+          "required_play": true,
+          "is_shared": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2,
+            "additional_notes": "2 screenshots and IPB rules"
+          }
+        },
+        {
+          "name": "ONE PIECE ODYSSEY",
+          "link": "UFKcY/one-piece-odyssey",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1786712400,
+          "required_play": true,
+          "is_shared": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2,
+            "additional_notes": "2 screenshots and IPB rules"
+          }
+        },
         {
           "name": "Crossing Souls",
           "link": "mAavv/crossing-souls",
@@ -82476,7 +83198,7 @@
           "cv_status": "FULL_CV",
           "status": "received",
           "end_timestamp": 1786456800,
-          "required_play": false,
+          "required_play": true,
           "is_shared": false,
           "steam_play_data": {
             "owned": true,
@@ -82488,6 +83210,11 @@
             "never_played": true,
             "is_playtime_private": false,
             "last_checked": 1786680272724
+          },
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2,
+            "deadline": "31.12.2026"
           }
         },
         {
@@ -82528,6 +83255,10 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1786680275149
+          },
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2
           }
         },
         {
@@ -82702,6 +83433,11 @@
           "end_timestamp": 1785862800,
           "required_play": true,
           "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -82722,6 +83458,11 @@
           "end_timestamp": 1785862800,
           "required_play": true,
           "is_shared": true,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -82742,6 +83483,11 @@
           "end_timestamp": 1785862800,
           "required_play": true,
           "is_shared": true,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -82768,6 +83514,11 @@
           "end_timestamp": 1785754800,
           "required_play": true,
           "is_shared": true,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -82786,8 +83537,13 @@
           "copies": 1,
           "created_timestamp": 1783681935,
           "end_timestamp": 1783875600,
-          "required_play": false,
+          "required_play": true,
           "is_shared": true,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -82806,8 +83562,13 @@
           "copies": 1,
           "created_timestamp": 1783682794,
           "end_timestamp": 1783875600,
-          "required_play": false,
+          "required_play": true,
           "is_shared": true,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -82952,7 +83713,8 @@
       ],
       "registered_at": 1769544921,
       "warnings": [
-        "required_plays_need_review"
+        "unplayed_required_play_giveaways",
+        "illegal_entered_any_giveaways"
       ]
     },
     "76561198075742770": {
@@ -83019,8 +83781,7 @@
           },
           "required_play_meta": {
             "requirements_met": true,
-            "deadline_in_months": 2,
-            "additional_notes": "Xal’Goroth Defeated achievement"
+            "deadline_in_months": 2
           }
         }
       ],
@@ -83035,6 +83796,12 @@
           "end_timestamp": 1786206420,
           "required_play": true,
           "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 1,
+            "additional_notes": "Xal’Goroth Defeated achievement"
+          },
           "had_winners": true,
           "winners": [
             {
@@ -84953,6 +85720,10 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1786679672782
+          },
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 3
           }
         },
         {
@@ -86596,6 +87367,11 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1786679910726
+          },
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2,
+            "additional_notes": "2 screenshots and IPB rules"
           }
         },
         {
@@ -86616,6 +87392,10 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1786679915522
+          },
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
           }
         },
         {
@@ -86992,8 +87772,13 @@
           "copies": 1,
           "created_timestamp": 1785542088,
           "end_timestamp": 1786024800,
-          "required_play": false,
+          "required_play": true,
           "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -87478,7 +88263,6 @@
       ],
       "registered_at": 1717718902,
       "warnings": [
-        "unplayed_required_play_giveaways",
         "required_plays_need_review"
       ]
     },
@@ -87725,6 +88509,11 @@
           "end_timestamp": 1783015200,
           "required_play": true,
           "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 6
+          },
           "had_winners": true,
           "winners": [
             {
@@ -88192,6 +88981,10 @@
             "never_played": false,
             "is_playtime_private": true,
             "last_checked": 1786680692682
+          },
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2
           }
         },
         {
@@ -88529,10 +89322,7 @@
           ]
         }
       ],
-      "registered_at": 1671939321,
-      "warnings": [
-        "required_plays_need_review"
-      ]
+      "registered_at": 1671939321
     },
     "76561198329577355": {
       "username": "shandyseggs",
@@ -88632,12 +89422,12 @@
       "avatar_url": "https://avatars.steamstatic.com/abca22400ae6c9fdb2dd3da78b468bbe69896149_medium.jpg",
       "steam_id": "76561198399974062",
       "stats": {
-        "total_sent_count": 10.1,
-        "total_sent_value": 194.07,
+        "total_sent_count": 11.1,
+        "total_sent_value": 229.06,
         "total_received_count": 9,
         "total_received_value": 289.91,
-        "total_gift_difference": 1.1,
-        "total_value_difference": -95.84,
+        "total_gift_difference": 2.1,
+        "total_value_difference": -60.85,
         "fcv_sent_count": 8,
         "rcv_sent_count": 1,
         "ncv_sent_count": 0,
@@ -88652,7 +89442,7 @@
         "real_total_received_count": 8,
         "real_total_gift_difference": 0,
         "giveaway_ratio": 6.33,
-        "shared_sent_count": 4,
+        "shared_sent_count": 5,
         "shared_received_count": 0,
         "giveaways_created": 14,
         "giveaways_with_no_entries": 0,
@@ -88876,9 +89666,10 @@
           "had_winners": true,
           "winners": [
             {
-              "name": null,
-              "status": "awaiting_feedback",
-              "activated": false
+              "name": "76561198113581790",
+              "winner_username": "damianea103",
+              "status": "received",
+              "activated": true
             }
           ]
         },
@@ -89207,6 +89998,11 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1786679989827
+          },
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2,
+            "additional_notes": "2 screenshots and IPB rules"
           }
         },
         {
@@ -90162,10 +90958,7 @@
           ]
         }
       ],
-      "registered_at": 1749495173,
-      "warnings": [
-        "required_plays_need_review"
-      ]
+      "registered_at": 1749495173
     },
     "76561198081010034": {
       "username": "SirSage",
@@ -91486,8 +92279,13 @@
           "copies": 1,
           "created_timestamp": 1781705737,
           "end_timestamp": 1782450000,
-          "required_play": false,
+          "required_play": true,
           "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -92497,7 +93295,7 @@
           "cv_status": "FULL_CV",
           "status": "received",
           "end_timestamp": 1785924000,
-          "required_play": false,
+          "required_play": true,
           "is_shared": true,
           "steam_play_data": {
             "owned": true,
@@ -92509,6 +93307,10 @@
             "never_played": true,
             "is_playtime_private": false,
             "last_checked": 1786680484646
+          },
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 6
           }
         },
         {
@@ -92790,7 +93592,7 @@
           "cv_status": "FULL_CV",
           "status": "received",
           "end_timestamp": 1784412000,
-          "required_play": false,
+          "required_play": true,
           "is_shared": false,
           "steam_play_data": {
             "owned": true,
@@ -92802,6 +93604,10 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1786678806002
+          },
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
           }
         },
         {
@@ -93641,6 +94447,12 @@
           "end_timestamp": 1786144200,
           "required_play": true,
           "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 3,
+            "additional_notes": "15 hours"
+          },
           "had_winners": true,
           "winners": [
             {
@@ -93936,7 +94748,10 @@
           ]
         }
       ],
-      "registered_at": 1367891169
+      "registered_at": 1367891169,
+      "warnings": [
+        "required_plays_need_review"
+      ]
     },
     "76561198048238310": {
       "username": "TheGr3atUnknown",
@@ -94106,6 +94921,11 @@
           "end_timestamp": 1786138560,
           "required_play": true,
           "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -94271,8 +95091,21 @@
           "copies": 1,
           "created_timestamp": 1786431113,
           "end_timestamp": 1786721400,
-          "required_play": false,
-          "is_shared": false
+          "required_play": true,
+          "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 3
+          },
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "DOOM",
@@ -94391,6 +95224,10 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1786679249254
+          },
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2
           }
         },
         {
@@ -95254,11 +96091,7 @@
           ]
         }
       ],
-      "registered_at": 1322064486,
-      "warnings": [
-        "required_plays_need_review",
-        "required_play_deadline_within_15_days"
-      ]
+      "registered_at": 1322064486
     },
     "76561198140258141": {
       "username": "thoughtfulhippo",
@@ -96489,6 +97322,11 @@
             "has_no_available_stats": true,
             "no_stats_reason": "not_in_library",
             "last_checked": 1786507013410
+          },
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 1,
+            "additional_notes": "Xal’Goroth Defeated achievement"
           }
         },
         {
@@ -96509,6 +97347,10 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1786679360352
+          },
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2
           }
         },
         {
@@ -97695,12 +98537,7 @@
           ]
         }
       ],
-      "registered_at": 1465889473,
-      "warnings": [
-        "unplayed_required_play_giveaways",
-        "illegal_entered_required_play_giveaways",
-        "required_plays_need_review"
-      ]
+      "registered_at": 1465889473
     },
     "76561198067436079": {
       "username": "UnknownEAK",
@@ -97875,8 +98712,13 @@
           "copies": 1,
           "created_timestamp": 1783233934,
           "end_timestamp": 1783364100,
-          "required_play": false,
+          "required_play": true,
           "is_shared": true,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -98142,8 +98984,13 @@
           "copies": 1,
           "created_timestamp": 1785150181,
           "end_timestamp": 1785924000,
-          "required_play": false,
+          "required_play": true,
           "is_shared": true,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 6
+          },
           "had_winners": true,
           "winners": [
             {
@@ -98504,6 +99351,10 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1786679559327
+          },
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2
           }
         },
         {
@@ -99459,11 +100310,7 @@
           ]
         }
       ],
-      "registered_at": 1663370083,
-      "warnings": [
-        "required_plays_need_review",
-        "required_play_deadline_within_15_days"
-      ]
+      "registered_at": 1663370083
     },
     "76561198185630581": {
       "username": "Vexterion",
@@ -100765,6 +101612,10 @@
             "never_played": true,
             "is_playtime_private": false,
             "last_checked": 1786679431664
+          },
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
           }
         },
         {
@@ -101416,8 +102267,14 @@
           "copies": 1,
           "created_timestamp": 1785885123,
           "end_timestamp": 1786144800,
-          "required_play": false,
+          "required_play": true,
           "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2,
+            "additional_notes": "2 hours"
+          },
           "had_winners": true,
           "winners": [
             {
@@ -102767,6 +103624,10 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1786679466636
+          },
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2
           }
         },
         {
@@ -103221,7 +104082,7 @@
           "name": "Moncage",
           "link": "rFBM4/moncage",
           "cv_status": "FULL_CV",
-          "entries": 12,
+          "entries": 13,
           "copies": 1,
           "created_timestamp": 1786381353,
           "end_timestamp": 1786816800,
@@ -103896,11 +104757,7 @@
           ]
         }
       ],
-      "registered_at": 1632496809,
-      "warnings": [
-        "required_plays_need_review",
-        "required_play_deadline_within_15_days"
-      ]
+      "registered_at": 1632496809
     },
     "76561198116836855": {
       "username": "Waxlor",
@@ -106104,6 +106961,11 @@
           "end_timestamp": 1783008480,
           "required_play": true,
           "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -106734,6 +107596,11 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1786679491924
+          },
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2,
+            "additional_notes": "2 screenshots and IPB rules"
           }
         },
         {
@@ -106754,6 +107621,11 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1786679493105
+          },
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 3,
+            "additional_notes": "Still Wakes the Deep achievement"
           }
         },
         {
@@ -107928,13 +108800,7 @@
           ]
         }
       ],
-      "registered_at": 1703103274,
-      "warnings": [
-        "unplayed_required_play_giveaways",
-        "illegal_entered_required_play_giveaways",
-        "required_plays_need_review",
-        "required_play_deadline_expired"
-      ]
+      "registered_at": 1703103274
     },
     "76561198183406253": {
       "username": "Yukisuna",
