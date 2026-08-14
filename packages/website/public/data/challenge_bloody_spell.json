@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1785542400,
   "totalAchievements": 60,
-  "generatedAt": 1786740990153,
+  "generatedAt": 1786744224905,
   "challengeOver": false,
   "winnerUsername": "Foxpile",
   "participants": [
@@ -3305,14 +3305,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 208,
-      "playtime_2weeks_minutes": 208,
+      "playtime_total_minutes": 268,
+      "playtime_2weeks_minutes": 268,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 208,
+      "playtime_challenge_minutes": 268,
       "achievements_total": 60,
-      "achievements_unlocked_total": 28,
+      "achievements_unlocked_total": 30,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 28,
+      "achievements_since_baseline": 30,
       "challenge_achievements": [
         {
           "apiname": "a30003",
@@ -3481,9 +3481,21 @@
           "displayName": "Skilled craftsmen",
           "description": "Successfully upgrade equipment 9 times in the mini-game.",
           "unlocktime": 1786738880
+        },
+        {
+          "apiname": "a20027",
+          "displayName": "BOSS XiaoLi",
+          "description": "Defeat BOSS XiaoLi.",
+          "unlocktime": 1786741696
+        },
+        {
+          "apiname": "a20028",
+          "displayName": "BOSS SuYejin",
+          "description": "Defeat BOSS SuYejin.",
+          "unlocktime": 1786741748
         }
       ],
-      "challenge_achievement_count": 28,
+      "challenge_achievement_count": 30,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
