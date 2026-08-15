@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1786728633055,
+  "lastUpdated": 1786759848748,
   "users": {
     "76561198359284432": {
       "username": "a10i",
@@ -762,6 +762,8 @@
           "end_timestamp": 1785556740,
           "required_play": true,
           "is_shared": false,
+          "unreleased": true,
+          "release_date": "Sep 24, 2026",
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 0,
@@ -1364,7 +1366,7 @@
           "name": "The Last Gas Station",
           "link": "Vua6z/the-last-gas-station",
           "cv_status": "FULL_CV",
-          "entries": 15,
+          "entries": 16,
           "copies": 1,
           "created_timestamp": 1785864048,
           "end_timestamp": 1787137200,
@@ -2051,6 +2053,8 @@
           "end_timestamp": 1782666000,
           "required_play": true,
           "is_shared": false,
+          "unreleased": true,
+          "release_date": "Oct 14, 2026",
           "steam_play_data": {
             "owned": true,
             "playtime_minutes": 0,
@@ -2698,10 +2702,7 @@
           ]
         }
       ],
-      "registered_at": 1693165401,
-      "warnings": [
-        "required_play_deadline_within_15_days"
-      ]
+      "registered_at": 1693165401
     },
     "76561198075940587": {
       "username": "Alpha2749",
@@ -2884,9 +2885,9 @@
         "giveaway_ratio": 5,
         "shared_sent_count": 0,
         "shared_received_count": 1,
-        "giveaways_created": 6,
+        "giveaways_created": 7,
         "giveaways_with_no_entries": 0,
-        "last_giveaway_created_at": 1780006613,
+        "last_giveaway_created_at": 1786742547,
         "last_giveaway_won_at": 1761854400,
         "first_seen_at": 1750623746,
         "total_achievements_percentage": 27,
@@ -2981,6 +2982,17 @@
         }
       ],
       "giveaways_created": [
+        {
+          "name": "Gears of War: Reloaded",
+          "link": "DuRXS/gears-of-war-reloaded",
+          "cv_status": "FULL_CV",
+          "entries": 4,
+          "copies": 1,
+          "created_timestamp": 1786742547,
+          "end_timestamp": 1786917600,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "UNCHARTED: Legacy of Thieves Collection",
           "link": "CKTdF/uncharted-legacy-of-thieves-collection",
@@ -5252,9 +5264,9 @@
         "giveaway_ratio": 14.67,
         "shared_sent_count": 3,
         "shared_received_count": 2,
-        "giveaways_created": 21,
+        "giveaways_created": 22,
         "giveaways_with_no_entries": 0,
-        "last_giveaway_created_at": 1778737919,
+        "last_giveaway_created_at": 1786736811,
         "last_giveaway_won_at": 1782939540,
         "first_seen_at": 1749689275,
         "total_achievements_percentage": 42,
@@ -5611,6 +5623,17 @@
         }
       ],
       "giveaways_created": [
+        {
+          "name": "Duskfade",
+          "link": "Fsazo/duskfade",
+          "cv_status": "FULL_CV",
+          "entries": 11,
+          "copies": 2,
+          "created_timestamp": 1786736811,
+          "end_timestamp": 1787119200,
+          "required_play": true,
+          "is_shared": false
+        },
         {
           "name": "Bleak Sword DX",
           "link": "7osUc/bleak-sword-dx",
@@ -6080,31 +6103,31 @@
       "avatar_url": "https://avatars.steamstatic.com/2679dda82e5aec96953f7456b999f84714b1a4a5_medium.jpg",
       "steam_id": "76561198351673664",
       "stats": {
-        "total_sent_count": 48.7,
-        "total_sent_value": 875.85,
+        "total_sent_count": 51.7,
+        "total_sent_value": 898.82,
         "total_received_count": 23.5,
         "total_received_value": 497.77,
-        "total_gift_difference": 25.2,
-        "total_value_difference": 378.08,
-        "fcv_sent_count": 44,
-        "rcv_sent_count": 2,
+        "total_gift_difference": 28.2,
+        "total_value_difference": 401.05,
+        "fcv_sent_count": 46,
+        "rcv_sent_count": 3,
         "ncv_sent_count": 0,
         "fcv_received_count": 23,
         "rcv_received_count": 0,
         "ncv_received_count": 0,
-        "fcv_gift_difference": 21,
-        "real_total_sent_value": 794.76,
+        "fcv_gift_difference": 23,
+        "real_total_sent_value": 803.29,
         "real_total_received_value": 482.77,
-        "real_total_value_difference": 311.99,
-        "real_total_sent_count": 44,
+        "real_total_value_difference": 320.52,
+        "real_total_sent_count": 46,
         "real_total_received_count": 23,
-        "real_total_gift_difference": 21,
-        "giveaway_ratio": 36.33,
+        "real_total_gift_difference": 23,
+        "giveaway_ratio": 38.33,
         "shared_sent_count": 8,
         "shared_received_count": 1,
-        "giveaways_created": 60,
-        "giveaways_with_no_entries": 1,
-        "last_giveaway_created_at": 1786137095,
+        "giveaways_created": 59,
+        "giveaways_with_no_entries": 2,
+        "last_giveaway_created_at": 1786136987,
         "last_giveaway_won_at": 1785003900,
         "first_seen_at": 1750122500,
         "total_achievements_percentage": 14,
@@ -6623,59 +6646,16 @@
       ],
       "giveaways_created": [
         {
-          "name": "Islands & Trains",
-          "link": "XQLp5/islands-trains",
+          "name": "Spirit City: Lofi Sessions",
+          "link": "1LKGD/spirit-city-lofi-sessions",
           "cv_status": "FULL_CV",
-          "entries": 3,
+          "entries": 0,
           "copies": 1,
-          "created_timestamp": 1786136678,
-          "end_timestamp": 1786744980,
+          "created_timestamp": 1786137095,
+          "end_timestamp": 1786745460,
           "required_play": false,
-          "is_shared": false
-        },
-        {
-          "name": "Cozy Caravan",
-          "link": "S8GTR/cozy-caravan",
-          "cv_status": "FULL_CV",
-          "entries": 5,
-          "copies": 1,
-          "created_timestamp": 1786136610,
-          "end_timestamp": 1786744980,
-          "required_play": false,
-          "is_shared": false
-        },
-        {
-          "name": "MakeRoom",
-          "link": "FMbvH/makeroom",
-          "cv_status": "FULL_CV",
-          "entries": 3,
-          "copies": 1,
-          "created_timestamp": 1786136753,
-          "end_timestamp": 1786745100,
-          "required_play": false,
-          "is_shared": false
-        },
-        {
-          "name": "Wild Woods",
-          "link": "AC40u/wild-woods",
-          "cv_status": "FULL_CV",
-          "entries": 3,
-          "copies": 1,
-          "created_timestamp": 1786136850,
-          "end_timestamp": 1786745160,
-          "required_play": false,
-          "is_shared": false
-        },
-        {
-          "name": "Tailside: Cozy Cafe Sim",
-          "link": "GBw57/tailside-cozy-cafe-sim",
-          "cv_status": "FULL_CV",
-          "entries": 5,
-          "copies": 1,
-          "created_timestamp": 1786136802,
-          "end_timestamp": 1786745160,
-          "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": false
         },
         {
           "name": "Spilled!",
@@ -6686,23 +6666,118 @@
           "created_timestamp": 1786136987,
           "end_timestamp": 1786745340,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "76561198832209109",
+              "winner_username": "Slenderpoop00",
+              "status": "received",
+              "activated": true
+            }
+          ]
         },
         {
-          "name": "Spirit City: Lofi Sessions",
-          "link": "1LKGD/spirit-city-lofi-sessions",
+          "name": "Wild Woods",
+          "link": "AC40u/wild-woods",
           "cv_status": "FULL_CV",
-          "entries": 0,
+          "entries": 3,
           "copies": 1,
-          "created_timestamp": 1786137095,
-          "end_timestamp": 1786745460,
+          "created_timestamp": 1786136850,
+          "end_timestamp": 1786745160,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
+        },
+        {
+          "name": "Tailside: Cozy Cafe Sim",
+          "link": "GBw57/tailside-cozy-cafe-sim",
+          "cv_status": "FULL_CV",
+          "entries": 5,
+          "copies": 1,
+          "created_timestamp": 1786136802,
+          "end_timestamp": 1786745160,
+          "required_play": false,
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "76561198411996697",
+              "winner_username": "RaitorHaitor",
+              "status": "received",
+              "activated": true
+            }
+          ]
+        },
+        {
+          "name": "MakeRoom",
+          "link": "FMbvH/makeroom",
+          "cv_status": "FULL_CV",
+          "entries": 3,
+          "copies": 1,
+          "created_timestamp": 1786136753,
+          "end_timestamp": 1786745100,
+          "required_play": false,
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
+        },
+        {
+          "name": "Islands & Trains",
+          "link": "XQLp5/islands-trains",
+          "cv_status": "FULL_CV",
+          "entries": 3,
+          "copies": 1,
+          "created_timestamp": 1786136678,
+          "end_timestamp": 1786744980,
+          "required_play": false,
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "76561198048462370",
+              "winner_username": "QuinlanLJ",
+              "status": "received",
+              "activated": true
+            }
+          ]
+        },
+        {
+          "name": "Cozy Caravan",
+          "link": "S8GTR/cozy-caravan",
+          "cv_status": "FULL_CV",
+          "entries": 5,
+          "copies": 1,
+          "created_timestamp": 1786136610,
+          "end_timestamp": 1786744980,
+          "required_play": false,
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "Paper Ghost Stories: Third Eye Open",
           "link": "4a7uO/paper-ghost-stories-third-eye-open",
-          "cv_status": "FULL_CV",
+          "cv_status": "REDUCED_CV",
           "entries": 4,
           "copies": 1,
           "created_timestamp": 1784869363,
@@ -12684,7 +12759,7 @@
           "name": "Bad Bitch Blasters",
           "link": "QVaif/bad-bitch-blasters",
           "cv_status": "FULL_CV",
-          "entries": 12,
+          "entries": 17,
           "copies": 1,
           "created_timestamp": 1786705076,
           "end_timestamp": 1786881360,
@@ -18721,30 +18796,30 @@
       "stats": {
         "total_sent_count": 29,
         "total_sent_value": 1070.71,
-        "total_received_count": 67.6,
-        "total_received_value": 1283.24,
-        "total_gift_difference": -38.6,
-        "total_value_difference": -212.53,
+        "total_received_count": 68.6,
+        "total_received_value": 1301.23,
+        "total_gift_difference": -39.6,
+        "total_value_difference": -230.52,
         "fcv_sent_count": 29,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
-        "fcv_received_count": 61,
+        "fcv_received_count": 62,
         "rcv_received_count": 1,
         "ncv_received_count": 0,
-        "fcv_gift_difference": -32,
+        "fcv_gift_difference": -33,
         "real_total_sent_value": 1097.79,
-        "real_total_received_value": 1168.39,
-        "real_total_value_difference": -70.6,
+        "real_total_received_value": 1186.38,
+        "real_total_value_difference": -88.59,
         "real_total_sent_count": 29,
-        "real_total_received_count": 61,
-        "real_total_gift_difference": -32,
-        "giveaway_ratio": 11.67,
+        "real_total_received_count": 62,
+        "real_total_gift_difference": -33,
+        "giveaway_ratio": 11.33,
         "shared_sent_count": 0,
         "shared_received_count": 10,
         "giveaways_created": 29,
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1785528146,
-        "last_giveaway_won_at": 1786655820,
+        "last_giveaway_won_at": 1786712400,
         "first_seen_at": 1749697803,
         "total_achievements_percentage": 15,
         "average_achievements_percentage": 16,
@@ -18755,6 +18830,15 @@
       "steam_profile_is_private": false,
       "country_code": "pl",
       "giveaways_won": [
+        {
+          "name": "Koira",
+          "link": "y8kyY/koira",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1786712400,
+          "required_play": true,
+          "is_shared": false
+        },
         {
           "name": "Moonlight Peaks",
           "link": "ywdqC/moonlight-peaks",
@@ -18804,7 +18888,7 @@
             "last_checked": 1786592580758
           },
           "required_play_meta": {
-            "requirements_met": false,
+            "requirements_met": true,
             "deadline_in_months": 2,
             "additional_notes": "2 screenshots and IPB rules"
           }
@@ -20853,10 +20937,7 @@
           ]
         }
       ],
-      "registered_at": 1459450873,
-      "warnings": [
-        "required_plays_need_review"
-      ]
+      "registered_at": 1459450873
     },
     "76561198066598689": {
       "username": "DancingVaquinha",
@@ -21499,9 +21580,9 @@
         "giveaway_ratio": 4.33,
         "shared_sent_count": 5,
         "shared_received_count": 1,
-        "giveaways_created": 13,
+        "giveaways_created": 14,
         "giveaways_with_no_entries": 0,
-        "last_giveaway_created_at": 1786263018,
+        "last_giveaway_created_at": 1786738478,
         "last_giveaway_won_at": 1786606620,
         "first_seen_at": 1780687737,
         "total_achievements_percentage": 0,
@@ -21650,7 +21731,7 @@
           "name": "Resonance: A Plague Tale Legacy",
           "link": "OpjY6/resonance-a-plague-tale-legacy",
           "cv_status": "FULL_CV",
-          "entries": 24,
+          "entries": 22,
           "copies": 1,
           "created_timestamp": 1785971189,
           "end_timestamp": 1786766340,
@@ -21661,12 +21742,23 @@
           "name": "Touhou Luna Nights",
           "link": "O0Kwr/touhou-luna-nights",
           "cv_status": "FULL_CV",
-          "entries": 37,
+          "entries": 38,
           "copies": 1,
           "created_timestamp": 1786263018,
           "end_timestamp": 1788148740,
           "required_play": true,
           "is_shared": true
+        },
+        {
+          "name": "Nioh 3",
+          "link": "nNJRR/nioh-3",
+          "cv_status": "FULL_CV",
+          "entries": 2,
+          "copies": 1,
+          "created_timestamp": 1786738478,
+          "end_timestamp": 1789185540,
+          "required_play": true,
+          "is_shared": false
         },
         {
           "name": "Assassin's Creed Black Flag Resynced",
@@ -23612,7 +23704,15 @@
           "created_timestamp": 1785526136,
           "end_timestamp": 1786744800,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "Gothic 1 Remake",
@@ -25377,7 +25477,7 @@
           "name": "KINGDOM HEARTS -HD 1.5+2.5 ReMIX-",
           "link": "5FJJp/kingdom-hearts-hd-1525-remix",
           "cv_status": "FULL_CV",
-          "entries": 6,
+          "entries": 8,
           "copies": 1,
           "created_timestamp": 1786701846,
           "end_timestamp": 1787058000,
@@ -25388,7 +25488,7 @@
           "name": "Age of Mythology: Retold Premium Edition",
           "link": "rSLB6/age-of-mythology-retold-premium-edition",
           "cv_status": "FULL_CV",
-          "entries": 6,
+          "entries": 7,
           "copies": 1,
           "created_timestamp": 1786700985,
           "end_timestamp": 1787058000,
@@ -28591,7 +28691,7 @@
           "name": "Herdling",
           "link": "clhJJ/herdling",
           "cv_status": "FULL_CV",
-          "entries": 8,
+          "entries": 10,
           "copies": 1,
           "created_timestamp": 1786715309,
           "end_timestamp": 1786977960,
@@ -33439,7 +33539,7 @@
           "name": "Sprout Valley",
           "link": "LEbtv/sprout-valley",
           "cv_status": "FULL_CV",
-          "entries": 50,
+          "entries": 52,
           "copies": 1,
           "created_timestamp": 1786632215,
           "end_timestamp": 1787212800,
@@ -35412,7 +35512,7 @@
             "last_checked": 1786592780480
           },
           "required_play_meta": {
-            "requirements_met": false,
+            "requirements_met": true,
             "deadline_in_months": 6
           }
         },
@@ -36594,515 +36694,7 @@
       ],
       "registered_at": 1740325672,
       "warnings": [
-        "unplayed_required_play_giveaways",
-        "illegal_entered_required_play_giveaways",
-        "required_plays_need_review",
         "low_play_rate_many_wins"
-      ]
-    },
-    "76561198029751126": {
-      "username": "Griske14",
-      "profile_url": "/user/Griske14",
-      "avatar_url": "https://avatars.steamstatic.com/200bf58f2ce33667cde8ae453a1d35ae25a065b3_medium.jpg",
-      "steam_id": "76561198029751126",
-      "stats": {
-        "total_sent_count": 5,
-        "total_sent_value": 149.95,
-        "total_received_count": 13.3,
-        "total_received_value": 541.76,
-        "total_gift_difference": -8.3,
-        "total_value_difference": -391.81,
-        "fcv_sent_count": 5,
-        "rcv_sent_count": 0,
-        "ncv_sent_count": 0,
-        "fcv_received_count": 10,
-        "rcv_received_count": 1,
-        "ncv_received_count": 0,
-        "fcv_gift_difference": -5,
-        "real_total_sent_value": 149.95,
-        "real_total_received_value": 459.59,
-        "real_total_value_difference": -309.64,
-        "real_total_sent_count": 5,
-        "real_total_received_count": 10,
-        "real_total_gift_difference": -5,
-        "giveaway_ratio": 3,
-        "shared_sent_count": 0,
-        "shared_received_count": 4,
-        "giveaways_created": 5,
-        "giveaways_with_no_entries": 0,
-        "last_giveaway_created_at": 1768695083,
-        "last_giveaway_won_at": 1781269200,
-        "first_seen_at": 1749758089,
-        "total_achievements_percentage": 50,
-        "average_achievements_percentage": 46,
-        "real_total_achievements_percentage": 55,
-        "real_average_achievements_percentage": 53,
-        "has_missing_achievements_data": true
-      },
-      "steam_profile_is_private": false,
-      "country_code": "lt",
-      "giveaways_won": [
-        {
-          "name": "Blue Prince",
-          "link": "KwwUs/blue-prince",
-          "cv_status": "FULL_CV",
-          "status": "received",
-          "end_timestamp": 1781269200,
-          "required_play": true,
-          "is_shared": false,
-          "steam_play_data": {
-            "owned": true,
-            "playtime_minutes": 1869,
-            "playtime_formatted": "31 hours 9 minutes",
-            "achievements_unlocked": 4,
-            "achievements_total": 16,
-            "achievements_percentage": 25,
-            "never_played": false,
-            "is_playtime_private": false,
-            "last_checked": 1786680120580,
-            "is_potentially_idling": false
-          },
-          "required_play_meta": {
-            "requirements_met": false,
-            "deadline_in_months": 2
-          }
-        },
-        {
-          "name": "RACCOON CITY EDITION",
-          "link": "CuVeI/raccoon-city-edition",
-          "cv_status": "FULL_CV",
-          "status": "received",
-          "end_timestamp": 1775026800,
-          "required_play": false,
-          "is_shared": false,
-          "steam_play_data": {
-            "owned": true,
-            "playtime_minutes": 1695,
-            "playtime_formatted": "28 hours 15 minutes",
-            "achievements_unlocked": 31,
-            "achievements_total": 127,
-            "achievements_percentage": 24.4,
-            "never_played": false,
-            "is_playtime_private": false,
-            "games_breakdown": [
-              {
-                "app_id": 883710,
-                "name": "Resident Evil 2",
-                "owned": true,
-                "playtime_minutes": 1695,
-                "playtime_formatted": "28 hours 15 minutes",
-                "achievements_unlocked": 31,
-                "achievements_total": 44,
-                "achievements_percentage": 70.5
-              },
-              {
-                "app_id": 952060,
-                "name": "Resident Evil 3",
-                "owned": true,
-                "playtime_minutes": 0,
-                "playtime_formatted": "0 minutes",
-                "achievements_unlocked": 0,
-                "achievements_total": 32,
-                "achievements_percentage": 0
-              },
-              {
-                "app_id": 952070,
-                "name": "RESIDENT EVIL RESISTANCE",
-                "owned": true,
-                "playtime_minutes": 0,
-                "playtime_formatted": "0 minutes",
-                "achievements_unlocked": 0,
-                "achievements_total": 51,
-                "achievements_percentage": 0
-              }
-            ],
-            "last_checked": 1786680125564
-          }
-        },
-        {
-          "name": "No, I'm not a Human",
-          "link": "oiJFV/no-im-not-a-human",
-          "cv_status": "FULL_CV",
-          "status": "received",
-          "end_timestamp": 1772892000,
-          "required_play": false,
-          "is_shared": false,
-          "steam_play_data": {
-            "owned": true,
-            "playtime_minutes": 225,
-            "playtime_formatted": "3 hours 45 minutes",
-            "achievements_unlocked": 14,
-            "achievements_total": 60,
-            "achievements_percentage": 23.3,
-            "never_played": false,
-            "is_playtime_private": false,
-            "last_checked": 1786680126688
-          }
-        },
-        {
-          "name": "LIBERATED",
-          "link": "QJuZG/liberated",
-          "cv_status": "REDUCED_CV",
-          "status": "received",
-          "end_timestamp": 1761170820,
-          "required_play": false,
-          "is_shared": true,
-          "steam_play_data": {
-            "owned": true,
-            "playtime_minutes": 251,
-            "playtime_formatted": "4 hours 11 minutes",
-            "achievements_unlocked": 9,
-            "achievements_total": 18,
-            "achievements_percentage": 50,
-            "never_played": false,
-            "is_playtime_private": false,
-            "last_checked": 1786680127874
-          }
-        },
-        {
-          "name": "Beyond: Two Souls",
-          "link": "LDPFI/beyond-two-souls",
-          "cv_status": "REDUCED_CV",
-          "status": "received",
-          "end_timestamp": 1760990160,
-          "required_play": false,
-          "is_shared": true,
-          "steam_play_data": {
-            "owned": true,
-            "playtime_minutes": 0,
-            "playtime_formatted": "0 minutes",
-            "achievements_unlocked": 0,
-            "achievements_total": 45,
-            "achievements_percentage": 0,
-            "never_played": true,
-            "is_playtime_private": false,
-            "last_checked": 1786680128975
-          }
-        },
-        {
-          "name": "Choo-Choo Charles",
-          "link": "Xv3D5/choo-choo-charles",
-          "cv_status": "FULL_CV",
-          "status": "received",
-          "end_timestamp": 1758126420,
-          "required_play": false,
-          "is_shared": false,
-          "steam_play_data": {
-            "owned": true,
-            "playtime_minutes": 286,
-            "playtime_formatted": "4 hours 46 minutes",
-            "achievements_unlocked": 24,
-            "achievements_total": 25,
-            "achievements_percentage": 96,
-            "never_played": false,
-            "is_playtime_private": false,
-            "last_checked": 1786680130103
-          },
-          "i_played_bro": true
-        },
-        {
-          "name": "Sniper Elite 3",
-          "link": "CPEOp/sniper-elite-3",
-          "cv_status": "REDUCED_CV",
-          "status": "received",
-          "end_timestamp": 1755013800,
-          "required_play": true,
-          "is_shared": true,
-          "steam_play_data": {
-            "owned": true,
-            "playtime_minutes": 1457,
-            "playtime_formatted": "24 hours 17 minutes",
-            "achievements_unlocked": 60,
-            "achievements_total": 77,
-            "achievements_percentage": 77.9,
-            "never_played": false,
-            "is_playtime_private": false,
-            "last_checked": 1786680131223
-          },
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 2
-          }
-        },
-        {
-          "name": "Placid Plastic Duck Simulator",
-          "link": "VHEGc/placid-plastic-duck-simulator",
-          "cv_status": "FULL_CV",
-          "status": "received",
-          "end_timestamp": 1753293600,
-          "required_play": false,
-          "is_shared": true,
-          "steam_play_data": {
-            "owned": true,
-            "playtime_minutes": 287,
-            "playtime_formatted": "4 hours 47 minutes",
-            "achievements_unlocked": 14,
-            "achievements_total": 48,
-            "achievements_percentage": 29.2,
-            "never_played": false,
-            "is_playtime_private": false,
-            "last_checked": 1786680132395
-          }
-        },
-        {
-          "name": "Red Dead Redemption 2: Ultimate Edition",
-          "link": "56qKw/red-dead-redemption-2-ultimate-edition",
-          "cv_status": "FULL_CV",
-          "status": "received",
-          "end_timestamp": 1753092240,
-          "required_play": true,
-          "is_shared": false,
-          "steam_play_data": {
-            "owned": true,
-            "playtime_minutes": 10428,
-            "playtime_formatted": "173 hours 48 minutes",
-            "achievements_unlocked": 34,
-            "achievements_total": 51,
-            "achievements_percentage": 66.7,
-            "never_played": false,
-            "is_playtime_private": false,
-            "last_checked": 1786680134751
-          },
-          "i_played_bro": true,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 2
-          }
-        },
-        {
-          "name": "A Plague Tale: Requiem",
-          "link": "n30mN/a-plague-tale-requiem",
-          "cv_status": "REDUCED_CV",
-          "status": "received",
-          "end_timestamp": 1752604500,
-          "required_play": false,
-          "is_shared": false,
-          "steam_play_data": {
-            "owned": true,
-            "playtime_minutes": 0,
-            "playtime_formatted": "0 minutes",
-            "achievements_unlocked": 0,
-            "achievements_total": 35,
-            "achievements_percentage": 0,
-            "never_played": true,
-            "is_playtime_private": false,
-            "last_checked": 1786680136407
-          }
-        },
-        {
-          "name": "RESIDENT EVIL 7 biohazard Gold Edition",
-          "link": "aBKAj/resident-evil-7-biohazard-gold-edition",
-          "cv_status": "FULL_CV",
-          "status": "received",
-          "end_timestamp": 1752433200,
-          "required_play": false,
-          "is_shared": false,
-          "steam_play_data": {
-            "owned": true,
-            "playtime_minutes": 1443,
-            "playtime_formatted": "24 hours 3 minutes",
-            "achievements_unlocked": 34,
-            "achievements_total": 58,
-            "achievements_percentage": 58.6,
-            "never_played": false,
-            "is_playtime_private": false,
-            "last_checked": 1786680137625
-          },
-          "i_played_bro": true
-        },
-        {
-          "name": "Resident Evil Village",
-          "link": "9pOph/resident-evil-village",
-          "cv_status": "FULL_CV",
-          "status": "received",
-          "end_timestamp": 1752433200,
-          "required_play": false,
-          "is_shared": false,
-          "steam_play_data": {
-            "owned": true,
-            "playtime_minutes": 1727,
-            "playtime_formatted": "28 hours 47 minutes",
-            "achievements_unlocked": 37,
-            "achievements_total": 56,
-            "achievements_percentage": 66.1,
-            "never_played": false,
-            "is_playtime_private": false,
-            "last_checked": 1786680138792
-          }
-        },
-        {
-          "name": "Dead Space",
-          "link": "1wC1x/dead-space",
-          "cv_status": "FULL_CV",
-          "status": "received",
-          "end_timestamp": 1751625900,
-          "required_play": false,
-          "is_shared": false,
-          "steam_play_data": {
-            "owned": true,
-            "playtime_minutes": 1537,
-            "playtime_formatted": "25 hours 37 minutes",
-            "achievements_unlocked": 39,
-            "achievements_total": 47,
-            "achievements_percentage": 83,
-            "never_played": false,
-            "is_playtime_private": false,
-            "last_checked": 1786680140086
-          }
-        },
-        {
-          "name": "Sniper Elite 5 Deluxe",
-          "link": "1ZBeU/sniper-elite-5-deluxe",
-          "cv_status": "FULL_CV",
-          "status": "received",
-          "end_timestamp": 1751299200,
-          "required_play": false,
-          "is_shared": false,
-          "steam_play_data": {
-            "owned": true,
-            "playtime_minutes": 3412,
-            "playtime_formatted": "56 hours 52 minutes",
-            "achievements_unlocked": 64,
-            "achievements_total": 71,
-            "achievements_percentage": 90.1,
-            "never_played": false,
-            "is_playtime_private": false,
-            "last_checked": 1786680142428
-          },
-          "i_played_bro": true
-        },
-        {
-          "name": "Liar's Bar",
-          "link": "27b7F/liars-bar",
-          "cv_status": "FULL_CV",
-          "status": "received",
-          "end_timestamp": 1751183940,
-          "required_play": false,
-          "is_shared": false,
-          "steam_play_data": {
-            "owned": true,
-            "playtime_minutes": 175,
-            "playtime_formatted": "2 hours 55 minutes",
-            "achievements_unlocked": 0,
-            "achievements_total": 0,
-            "achievements_percentage": 0,
-            "never_played": false,
-            "is_playtime_private": false,
-            "has_no_available_stats": true,
-            "no_stats_reason": "no_steam_stats",
-            "last_checked": 1786507721786
-          }
-        }
-      ],
-      "giveaways_created": [
-        {
-          "name": "Please, Touch The Artwork",
-          "link": "1xDFh/please-touch-the-artwork",
-          "cv_status": "FULL_CV",
-          "entries": 9,
-          "copies": 1,
-          "created_timestamp": 1768695083,
-          "end_timestamp": 1768893060,
-          "required_play": false,
-          "is_shared": false,
-          "had_winners": true,
-          "winners": [
-            {
-              "name": "76561198113581790",
-              "winner_username": "damianea103",
-              "status": "received",
-              "activated": true
-            }
-          ]
-        },
-        {
-          "name": "Choo-Choo Charles",
-          "link": "U3hdW/choo-choo-charles",
-          "cv_status": "FULL_CV",
-          "entries": 5,
-          "copies": 1,
-          "created_timestamp": 1758131021,
-          "end_timestamp": 1758311100,
-          "required_play": false,
-          "is_shared": false,
-          "had_winners": true,
-          "winners": [
-            {
-              "name": "76561198193799379",
-              "winner_username": "SteamKeyGiveaway",
-              "status": "received",
-              "activated": true
-            }
-          ]
-        },
-        {
-          "name": "Resident Evil Village",
-          "link": "Ch6as/resident-evil-village",
-          "cv_status": "FULL_CV",
-          "entries": 6,
-          "copies": 1,
-          "created_timestamp": 1752762026,
-          "end_timestamp": 1752999420,
-          "required_play": false,
-          "is_shared": false,
-          "i_played_bro": true,
-          "had_winners": true,
-          "winners": [
-            {
-              "name": "76561198089973992",
-              "winner_username": "TwixClub",
-              "status": "received",
-              "activated": true
-            }
-          ]
-        },
-        {
-          "name": "What Remains of Edith Finch",
-          "link": "GT6zT/what-remains-of-edith-finch",
-          "cv_status": "FULL_CV",
-          "entries": 6,
-          "copies": 1,
-          "created_timestamp": 1752020464,
-          "end_timestamp": 1752220800,
-          "required_play": false,
-          "is_shared": false,
-          "i_played_bro": true,
-          "had_winners": true,
-          "winners": [
-            {
-              "name": "76561198047981011",
-              "winner_username": "Foxmonster",
-              "status": "received",
-              "activated": true
-            }
-          ]
-        },
-        {
-          "name": "Dead Space",
-          "link": "Mvvh7/dead-space",
-          "cv_status": "FULL_CV",
-          "entries": 23,
-          "copies": 1,
-          "created_timestamp": 1751242749,
-          "end_timestamp": 1751569200,
-          "required_play": false,
-          "is_shared": false,
-          "had_winners": true,
-          "winners": [
-            {
-              "name": "76561198185630581",
-              "winner_username": "Dexter999",
-              "status": "received",
-              "activated": true
-            }
-          ]
-        }
-      ],
-      "registered_at": 1735055786,
-      "warnings": [
-        "required_plays_need_review",
-        "required_play_deadline_expired",
-        "no_giveaway_created_in_6_months"
       ]
     },
     "76561199644864244": {
@@ -40578,7 +40170,7 @@
           "name": "Echoes of the End: Enhanced Edition",
           "link": "aTPtm/echoes-of-the-end-enhanced-edition",
           "cv_status": "FULL_CV",
-          "entries": 5,
+          "entries": 7,
           "copies": 1,
           "created_timestamp": 1786643852,
           "end_timestamp": 1786824000,
@@ -41578,23 +41170,23 @@
         "fcv_sent_count": 24,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
-        "fcv_received_count": 24,
+        "fcv_received_count": 25,
         "rcv_received_count": 0,
         "ncv_received_count": 0,
-        "fcv_gift_difference": 0,
+        "fcv_gift_difference": -1,
         "real_total_sent_value": 543.75,
-        "real_total_received_value": 537.77,
-        "real_total_value_difference": 5.98,
+        "real_total_received_value": 544.76,
+        "real_total_value_difference": -1.01,
         "real_total_sent_count": 24,
-        "real_total_received_count": 24,
-        "real_total_gift_difference": 0,
-        "giveaway_ratio": 20.67,
+        "real_total_received_count": 25,
+        "real_total_gift_difference": -1,
+        "giveaway_ratio": 20.33,
         "shared_sent_count": 7,
         "shared_received_count": 1,
         "giveaways_created": 29,
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1778819186,
-        "last_giveaway_won_at": 1786564800,
+        "last_giveaway_won_at": 1786712400,
         "first_seen_at": 1749701886,
         "total_achievements_percentage": 51,
         "average_achievements_percentage": 53,
@@ -41606,6 +41198,20 @@
       "steam_profile_is_private": false,
       "country_code": "ca",
       "giveaways_won": [
+        {
+          "name": "A Building Full of Cats 2",
+          "link": "cKbdV/a-building-full-of-cats-2",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1786712400,
+          "required_play": true,
+          "is_shared": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2,
+            "additional_notes": "2 screenshots and IPB rules"
+          }
+        },
         {
           "name": "ReStory: Chill Electronics Repairs",
           "link": "7aYOZ/restory-chill-electronics-repairs",
@@ -42836,7 +42442,11 @@
           ]
         }
       ],
-      "registered_at": 1454506455
+      "registered_at": 1454506455,
+      "warnings": [
+        "unplayed_required_play_giveaways",
+        "illegal_entered_required_play_giveaways"
+      ]
     },
     "76561198076863473": {
       "username": "iHoriZonT",
@@ -48405,164 +48015,6 @@
         "no_giveaway_created_in_6_months"
       ]
     },
-    "76561198403826603": {
-      "username": "Keny88",
-      "profile_url": "/user/Keny88",
-      "avatar_url": "https://avatars.steamstatic.com/d4ef144fe363132bd8ed41dace72316f951c5754_medium.jpg",
-      "steam_id": "76561198403826603",
-      "stats": {
-        "total_sent_count": 3,
-        "total_sent_value": 57.97,
-        "total_received_count": 2,
-        "total_received_value": 59.98,
-        "total_gift_difference": 1,
-        "total_value_difference": -2.01,
-        "fcv_sent_count": 3,
-        "rcv_sent_count": 0,
-        "ncv_sent_count": 0,
-        "fcv_received_count": 2,
-        "rcv_received_count": 0,
-        "ncv_received_count": 0,
-        "fcv_gift_difference": 1,
-        "real_total_sent_value": 52.97,
-        "real_total_received_value": 59.98,
-        "real_total_value_difference": -7.01,
-        "real_total_sent_count": 3,
-        "real_total_received_count": 2,
-        "real_total_gift_difference": 1,
-        "giveaway_ratio": 2.33,
-        "shared_sent_count": 0,
-        "shared_received_count": 0,
-        "giveaways_created": 3,
-        "giveaways_with_no_entries": 0,
-        "last_giveaway_created_at": 1759422690,
-        "last_giveaway_won_at": 1758359160,
-        "first_seen_at": 1750695939,
-        "total_achievements_percentage": 32,
-        "average_achievements_percentage": 24,
-        "real_total_achievements_percentage": 32,
-        "real_average_achievements_percentage": 24,
-        "has_missing_achievements_data": false
-      },
-      "steam_profile_url": "https://steamcommunity.com/profiles/76561198403826603",
-      "steam_profile_is_private": false,
-      "country_code": "pl",
-      "giveaways_won": [
-        {
-          "name": "Blue Prince",
-          "link": "QUfSl/blue-prince",
-          "cv_status": "FULL_CV",
-          "status": "received",
-          "end_timestamp": 1758359160,
-          "required_play": false,
-          "is_shared": false,
-          "steam_play_data": {
-            "owned": true,
-            "playtime_minutes": 1124,
-            "playtime_formatted": "18 hours 44 minutes",
-            "achievements_unlocked": 0,
-            "achievements_total": 16,
-            "achievements_percentage": 0,
-            "never_played": true,
-            "is_playtime_private": false,
-            "last_checked": 1786680709297,
-            "is_potentially_idling": true
-          }
-        },
-        {
-          "name": "SteamWorld Heist II",
-          "link": "lXpTJ/steamworld-heist-ii",
-          "cv_status": "FULL_CV",
-          "status": "received",
-          "end_timestamp": 1754481600,
-          "required_play": true,
-          "is_shared": false,
-          "steam_play_data": {
-            "owned": true,
-            "playtime_minutes": 1466,
-            "playtime_formatted": "24 hours 26 minutes",
-            "achievements_unlocked": 16,
-            "achievements_total": 34,
-            "achievements_percentage": 47.1,
-            "never_played": false,
-            "is_playtime_private": false,
-            "last_checked": 1786680710427
-          },
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 2
-          }
-        }
-      ],
-      "giveaways_created": [
-        {
-          "name": "Mouthwashing",
-          "link": "B7DTA/mouthwashing",
-          "cv_status": "FULL_CV",
-          "entries": 26,
-          "copies": 1,
-          "created_timestamp": 1759422690,
-          "end_timestamp": 1759598760,
-          "required_play": false,
-          "is_shared": false,
-          "i_played_bro": true,
-          "had_winners": true,
-          "winners": [
-            {
-              "name": "76561198236260938",
-              "winner_username": "HUMoonlight",
-              "status": "received",
-              "activated": true
-            }
-          ]
-        },
-        {
-          "name": "9 Kings",
-          "link": "fUuiJ/9-kings",
-          "cv_status": "FULL_CV",
-          "entries": 15,
-          "copies": 1,
-          "created_timestamp": 1754493392,
-          "end_timestamp": 1754727540,
-          "required_play": false,
-          "is_shared": false,
-          "had_winners": true,
-          "winners": [
-            {
-              "name": "76561198444468770",
-              "winner_username": "mourinhos86",
-              "status": "received",
-              "activated": true
-            }
-          ]
-        },
-        {
-          "name": "Outer Wilds",
-          "link": "1jEDV/outer-wilds",
-          "cv_status": "FULL_CV",
-          "entries": 18,
-          "copies": 1,
-          "created_timestamp": 1751576648,
-          "end_timestamp": 1751752140,
-          "required_play": false,
-          "is_shared": false,
-          "i_played_bro": true,
-          "had_winners": true,
-          "winners": [
-            {
-              "name": "76561198049128535",
-              "winner_username": "yannbz",
-              "status": "received",
-              "activated": true
-            }
-          ]
-        }
-      ],
-      "registered_at": 1712919847,
-      "warnings": [
-        "no_giveaway_created_in_6_months"
-      ]
-    },
     "76561198376004004": {
       "username": "Kirouse",
       "profile_url": "/user/Kirouse",
@@ -49050,9 +48502,9 @@
         "giveaway_ratio": 2.33,
         "shared_sent_count": 0,
         "shared_received_count": 1,
-        "giveaways_created": 4,
+        "giveaways_created": 5,
         "giveaways_with_no_entries": 0,
-        "last_giveaway_created_at": 1785955972,
+        "last_giveaway_created_at": 1786742686,
         "last_giveaway_won_at": 1786255140,
         "first_seen_at": 1784367874,
         "total_achievements_percentage": 28,
@@ -49189,6 +48641,17 @@
         }
       ],
       "giveaways_created": [
+        {
+          "name": "Camper Van: Make it Home",
+          "link": "wuX0U/camper-van-make-it-home",
+          "cv_status": "FULL_CV",
+          "entries": 2,
+          "copies": 1,
+          "created_timestamp": 1786742686,
+          "end_timestamp": 1786954800,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "Untitled Goose Game",
           "link": "gkMtL/untitled-goose-game",
@@ -51231,29 +50694,29 @@
       "avatar_url": "https://avatars.steamstatic.com/2ff660b2bd1850c391838a8649cf5e02924ca828_medium.jpg",
       "steam_id": "76561197968806363",
       "stats": {
-        "total_sent_count": 67,
-        "total_sent_value": 1285.5,
+        "total_sent_count": 68,
+        "total_sent_value": 1303.49,
         "total_received_count": 26,
         "total_received_value": 624.74,
-        "total_gift_difference": 41,
-        "total_value_difference": 660.76,
-        "fcv_sent_count": 61,
+        "total_gift_difference": 42,
+        "total_value_difference": 678.75,
+        "fcv_sent_count": 63,
         "rcv_sent_count": 2,
         "ncv_sent_count": 0,
         "fcv_received_count": 26,
         "rcv_received_count": 0,
         "ncv_received_count": 0,
-        "fcv_gift_difference": 35,
-        "real_total_sent_value": 1187.44,
+        "fcv_gift_difference": 37,
+        "real_total_sent_value": 1212.42,
         "real_total_received_value": 624.74,
-        "real_total_value_difference": 562.7,
-        "real_total_sent_count": 61,
+        "real_total_value_difference": 587.68,
+        "real_total_sent_count": 63,
         "real_total_received_count": 26,
-        "real_total_gift_difference": 35,
-        "giveaway_ratio": 53,
+        "real_total_gift_difference": 37,
+        "giveaway_ratio": 55,
         "shared_sent_count": 4,
         "shared_received_count": 0,
-        "giveaways_created": 72,
+        "giveaways_created": 71,
         "giveaways_with_no_entries": 30,
         "last_giveaway_created_at": 1786461662,
         "last_giveaway_won_at": 1785222000,
@@ -51883,9 +51346,10 @@
           "had_winners": true,
           "winners": [
             {
-              "name": null,
-              "status": "awaiting_feedback",
-              "activated": false
+              "name": "76561198113581790",
+              "winner_username": "damianea103",
+              "status": "received",
+              "activated": true
             }
           ]
         },
@@ -52004,9 +51468,10 @@
           "had_winners": true,
           "winners": [
             {
-              "name": null,
-              "status": "awaiting_feedback",
-              "activated": false
+              "name": "76561197984532155",
+              "winner_username": "Ignition365",
+              "status": "received",
+              "activated": true
             }
           ]
         },
@@ -52032,6 +51497,8 @@
           "end_timestamp": 1786712400,
           "required_play": true,
           "is_shared": false,
+          "deleted": true,
+          "deleted_reason": "Region Restricted Gift",
           "i_played_bro": false,
           "required_play_meta": {
             "requirements_met": false,
@@ -52380,7 +51847,7 @@
           "is_shared": false,
           "i_played_bro": false,
           "required_play_meta": {
-            "requirements_met": false,
+            "requirements_met": true,
             "deadline_in_months": 2,
             "additional_notes": "2 screenshots and IPB rules"
           },
@@ -56753,9 +56220,9 @@
         "giveaway_ratio": 0.67,
         "shared_sent_count": 202,
         "shared_received_count": 2,
-        "giveaways_created": 190,
+        "giveaways_created": 191,
         "giveaways_with_no_entries": 0,
-        "last_giveaway_created_at": 1786666346,
+        "last_giveaway_created_at": 1786750705,
         "last_giveaway_won_at": 1764944580,
         "first_seen_at": 1749687895,
         "total_achievements_percentage": 44,
@@ -56897,7 +56364,7 @@
           "name": "UnMetal",
           "link": "EUxvT/unmetal",
           "cv_status": "REDUCED_CV",
-          "entries": 55,
+          "entries": 56,
           "copies": 1,
           "created_timestamp": 1786151670,
           "end_timestamp": 1786766400,
@@ -56930,7 +56397,7 @@
           "name": "Once Upon a Jester",
           "link": "CZ1bL/once-upon-a-jester",
           "cv_status": "REDUCED_CV",
-          "entries": 68,
+          "entries": 67,
           "copies": 2,
           "created_timestamp": 1786411545,
           "end_timestamp": 1787025600,
@@ -56941,7 +56408,7 @@
           "name": "Sakura Swim Club",
           "link": "bIRu0/sakura-swim-club",
           "cv_status": "REDUCED_CV",
-          "entries": 26,
+          "entries": 29,
           "copies": 1,
           "created_timestamp": 1786586271,
           "end_timestamp": 1787198400,
@@ -56952,10 +56419,21 @@
           "name": "Sakura MMO",
           "link": "qey6Q/sakura-mmo",
           "cv_status": "REDUCED_CV",
-          "entries": 23,
+          "entries": 31,
           "copies": 1,
           "created_timestamp": 1786666346,
           "end_timestamp": 1787284800,
+          "required_play": false,
+          "is_shared": true
+        },
+        {
+          "name": "Sakura Knight 3",
+          "link": "sNxFa/sakura-knight-3",
+          "cv_status": "REDUCED_CV",
+          "entries": 5,
+          "copies": 1,
+          "created_timestamp": 1786750705,
+          "end_timestamp": 1787371200,
           "required_play": false,
           "is_shared": true
         },
@@ -62013,9 +61491,9 @@
         "giveaway_ratio": 0.67,
         "shared_sent_count": 4,
         "shared_received_count": 0,
-        "giveaways_created": 5,
+        "giveaways_created": 6,
         "giveaways_with_no_entries": 0,
-        "last_giveaway_created_at": 1785316597,
+        "last_giveaway_created_at": 1786739243,
         "last_giveaway_won_at": 1781627880,
         "first_seen_at": 1781298660,
         "total_achievements_percentage": 64,
@@ -62050,6 +61528,17 @@
         }
       ],
       "giveaways_created": [
+        {
+          "name": "Spilled!",
+          "link": "Fl6Mv/spilled",
+          "cv_status": "FULL_CV",
+          "entries": 2,
+          "copies": 1,
+          "created_timestamp": 1786739243,
+          "end_timestamp": 1787401320,
+          "required_play": true,
+          "is_shared": false
+        },
         {
           "name": "Spirit City: Lofi Sessions",
           "link": "YPoTU/spirit-city-lofi-sessions",
@@ -63825,7 +63314,8 @@
             }
           ]
         }
-      ]
+      ],
+      "registered_at": 1321200933
     },
     "76561198413978177": {
       "username": "Markox21",
@@ -64543,6 +64033,7 @@
           ]
         }
       ],
+      "registered_at": 1638148152,
       "warnings": [
         "no_giveaway_created_in_6_months"
       ]
@@ -79806,30 +79297,30 @@
       "stats": {
         "total_sent_count": 71.3,
         "total_sent_value": 1714.12,
-        "total_received_count": 63.7,
-        "total_received_value": 1664.36,
-        "total_gift_difference": 7.7,
-        "total_value_difference": 49.76,
+        "total_received_count": 64.7,
+        "total_received_value": 1671.35,
+        "total_gift_difference": 6.7,
+        "total_value_difference": 42.77,
         "fcv_sent_count": 70,
         "rcv_sent_count": 1,
         "ncv_sent_count": 0,
-        "fcv_received_count": 60,
+        "fcv_received_count": 61,
         "rcv_received_count": 2,
         "ncv_received_count": 0,
-        "fcv_gift_difference": 10,
+        "fcv_gift_difference": 9,
         "real_total_sent_value": 1682.25,
-        "real_total_received_value": 1600.35,
-        "real_total_value_difference": 81.9,
+        "real_total_received_value": 1607.34,
+        "real_total_value_difference": 74.91,
         "real_total_sent_count": 70,
-        "real_total_received_count": 60,
-        "real_total_gift_difference": 10,
-        "giveaway_ratio": 52,
+        "real_total_received_count": 61,
+        "real_total_gift_difference": 9,
+        "giveaway_ratio": 51.67,
         "shared_sent_count": 1,
         "shared_received_count": 2,
         "giveaways_created": 65,
         "giveaways_with_no_entries": 1,
         "last_giveaway_created_at": 1785575742,
-        "last_giveaway_won_at": 1786222800,
+        "last_giveaway_won_at": 1786744980,
         "first_seen_at": 1749666257,
         "total_achievements_percentage": 21,
         "average_achievements_percentage": 27,
@@ -79841,6 +79332,15 @@
       "steam_profile_is_private": false,
       "country_code": "si",
       "giveaways_won": [
+        {
+          "name": "Islands & Trains",
+          "link": "XQLp5/islands-trains",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1786744980,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "This Bed We Made",
           "link": "OQt6x/this-bed-we-made",
@@ -83089,30 +82589,30 @@
       "stats": {
         "total_sent_count": 12.5,
         "total_sent_value": 231.38,
-        "total_received_count": 13,
-        "total_received_value": 233.87,
-        "total_gift_difference": -0.5,
-        "total_value_difference": -2.5,
+        "total_received_count": 14,
+        "total_received_value": 243.86,
+        "total_gift_difference": -1.5,
+        "total_value_difference": -12.49,
         "fcv_sent_count": 9,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
-        "fcv_received_count": 12,
+        "fcv_received_count": 13,
         "rcv_received_count": 1,
         "ncv_received_count": 0,
-        "fcv_gift_difference": -3,
+        "fcv_gift_difference": -4,
         "real_total_sent_value": 168.91,
-        "real_total_received_value": 216.88,
-        "real_total_value_difference": -47.97,
+        "real_total_received_value": 226.87,
+        "real_total_value_difference": -57.96,
         "real_total_sent_count": 9,
-        "real_total_received_count": 12,
-        "real_total_gift_difference": -3,
-        "giveaway_ratio": 5,
+        "real_total_received_count": 13,
+        "real_total_gift_difference": -4,
+        "giveaway_ratio": 4.67,
         "shared_sent_count": 7,
         "shared_received_count": 0,
-        "giveaways_created": 14,
+        "giveaways_created": 18,
         "giveaways_with_no_entries": 0,
-        "last_giveaway_created_at": 1785664877,
-        "last_giveaway_won_at": 1786712400,
+        "last_giveaway_created_at": 1786756238,
+        "last_giveaway_won_at": 1786745160,
         "first_seen_at": 1781102258,
         "total_achievements_percentage": 34,
         "average_achievements_percentage": 43,
@@ -83124,6 +82624,15 @@
       "steam_profile_is_private": false,
       "country_code": null,
       "giveaways_won": [
+        {
+          "name": "Tailside: Cozy Cafe Sim",
+          "link": "GBw57/tailside-cozy-cafe-sim",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1786745160,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "Siralim Ultimate",
           "link": "vAqCe/siralim-ultimate",
@@ -83383,6 +82892,50 @@
         }
       ],
       "giveaways_created": [
+        {
+          "name": "Your Big, Cute Monster Farm",
+          "link": "wmaAa/your-big-cute-monster-farm",
+          "cv_status": "FULL_CV",
+          "entries": 0,
+          "copies": 1,
+          "created_timestamp": 1786756238,
+          "end_timestamp": 1786986000,
+          "required_play": false,
+          "is_shared": false
+        },
+        {
+          "name": "inbento",
+          "link": "rvTH9/inbento",
+          "cv_status": "FULL_CV",
+          "entries": 0,
+          "copies": 1,
+          "created_timestamp": 1786756164,
+          "end_timestamp": 1786986000,
+          "required_play": false,
+          "is_shared": false
+        },
+        {
+          "name": "Later Alligator",
+          "link": "Tcotu/later-alligator",
+          "cv_status": "FULL_CV",
+          "entries": 1,
+          "copies": 2,
+          "created_timestamp": 1786728574,
+          "end_timestamp": 1786986000,
+          "required_play": false,
+          "is_shared": false
+        },
+        {
+          "name": "That's not my Neighbor",
+          "link": "VSZ8g/thats-not-my-neighbor",
+          "cv_status": "FULL_CV",
+          "entries": 3,
+          "copies": 1,
+          "created_timestamp": 1786728489,
+          "end_timestamp": 1786986000,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "I Am Dead",
           "link": "7vbZV/i-am-dead",
@@ -87757,7 +87310,7 @@
           "name": "Atelier Marie Remake: The Alchemist o...",
           "link": "7umFJ/atelier-marie-remake-the-alchemist-of-salburg",
           "cv_status": "FULL_CV",
-          "entries": 9,
+          "entries": 10,
           "copies": 1,
           "created_timestamp": 1786494273,
           "end_timestamp": 1787148000,
@@ -91359,30 +90912,30 @@
       "stats": {
         "total_sent_count": 3,
         "total_sent_value": 119.97,
-        "total_received_count": 1.3,
-        "total_received_value": 18.32,
-        "total_gift_difference": 1.7,
-        "total_value_difference": 101.65,
+        "total_received_count": 2.3,
+        "total_received_value": 24.31,
+        "total_gift_difference": 0.7,
+        "total_value_difference": 95.66,
         "fcv_sent_count": 3,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
-        "fcv_received_count": 1,
+        "fcv_received_count": 2,
         "rcv_received_count": 0,
         "ncv_received_count": 0,
-        "fcv_gift_difference": 2,
+        "fcv_gift_difference": 1,
         "real_total_sent_value": 159.97,
-        "real_total_received_value": 9.99,
-        "real_total_value_difference": 149.98,
+        "real_total_received_value": 15.98,
+        "real_total_value_difference": 143.99,
         "real_total_sent_count": 3,
-        "real_total_received_count": 1,
-        "real_total_gift_difference": 2,
-        "giveaway_ratio": 2.67,
+        "real_total_received_count": 2,
+        "real_total_gift_difference": 1,
+        "giveaway_ratio": 2.33,
         "shared_sent_count": 0,
         "shared_received_count": 1,
-        "giveaways_created": 3,
+        "giveaways_created": 5,
         "giveaways_with_no_entries": 0,
-        "last_giveaway_created_at": 1780624001,
-        "last_giveaway_won_at": 1784484000,
+        "last_giveaway_created_at": 1786750784,
+        "last_giveaway_won_at": 1786745340,
         "first_seen_at": 1753915680,
         "total_achievements_percentage": 68,
         "average_achievements_percentage": 71,
@@ -91394,6 +90947,15 @@
       "steam_profile_is_private": false,
       "country_code": "us",
       "giveaways_won": [
+        {
+          "name": "Spilled!",
+          "link": "HIQh6/spilled",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1786745340,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "Scale the Depths",
           "link": "hNF6V/scale-the-depths",
@@ -91436,6 +90998,28 @@
         }
       ],
       "giveaways_created": [
+        {
+          "name": "ILA: A Frosty Glide",
+          "link": "eeNA5/ila-a-frosty-glide",
+          "cv_status": "FULL_CV",
+          "entries": 1,
+          "copies": 1,
+          "created_timestamp": 1786750784,
+          "end_timestamp": 1787222100,
+          "required_play": false,
+          "is_shared": false
+        },
+        {
+          "name": "Enigma of Fear",
+          "link": "Nmvht/enigma-of-fear",
+          "cv_status": "FULL_CV",
+          "entries": 2,
+          "copies": 1,
+          "created_timestamp": 1786750779,
+          "end_timestamp": 1787222100,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "Dragon's Dogma 2",
           "link": "DfcUW/dragons-dogma-2",
@@ -102742,767 +102326,6 @@
       ],
       "registered_at": 1440921686
     },
-    "76561198982150416": {
-      "username": "vlbastos",
-      "profile_url": "/user/vlbastos",
-      "avatar_url": "https://avatars.steamstatic.com/f24baa6657376c314e2985372b0d7580bbcde6f2_medium.jpg",
-      "steam_id": "76561198982150416",
-      "stats": {
-        "total_sent_count": 19.3,
-        "total_sent_value": 486.95,
-        "total_received_count": 12,
-        "total_received_value": 539.88,
-        "total_gift_difference": 7.3,
-        "total_value_difference": -52.93,
-        "fcv_sent_count": 19,
-        "rcv_sent_count": 0,
-        "ncv_sent_count": 0,
-        "fcv_received_count": 11,
-        "rcv_received_count": 1,
-        "ncv_received_count": 0,
-        "fcv_gift_difference": 8,
-        "real_total_sent_value": 476.81,
-        "real_total_received_value": 508.64,
-        "real_total_value_difference": -31.83,
-        "real_total_sent_count": 19,
-        "real_total_received_count": 11,
-        "real_total_gift_difference": 8,
-        "giveaway_ratio": 16.33,
-        "shared_sent_count": 2,
-        "shared_received_count": 0,
-        "giveaways_created": 17,
-        "giveaways_with_no_entries": 2,
-        "last_giveaway_created_at": 1784679183,
-        "last_giveaway_won_at": 1783886400,
-        "first_seen_at": 1749692598,
-        "total_achievements_percentage": 18,
-        "average_achievements_percentage": 20,
-        "real_total_achievements_percentage": 19,
-        "real_average_achievements_percentage": 21,
-        "has_missing_achievements_data": false
-      },
-      "steam_profile_url": "https://steamcommunity.com/profiles/76561198982150416",
-      "steam_profile_is_private": false,
-      "country_code": "br",
-      "giveaways_won": [
-        {
-          "name": "Lords of the Fallen Deluxe Edition",
-          "link": "FPUIh/lords-of-the-fallen-deluxe-edition",
-          "cv_status": "FULL_CV",
-          "status": "received",
-          "end_timestamp": 1783886400,
-          "required_play": false,
-          "is_shared": false,
-          "steam_play_data": {
-            "owned": true,
-            "playtime_minutes": 260,
-            "playtime_formatted": "4 hours 20 minutes",
-            "achievements_unlocked": 0,
-            "achievements_total": 77,
-            "achievements_percentage": 0,
-            "never_played": true,
-            "is_playtime_private": false,
-            "last_checked": 1786680216671,
-            "is_potentially_idling": true
-          }
-        },
-        {
-          "name": "Dying Light 2 Stay Human: Reloaded Ed...",
-          "link": "FCjCW/dying-light-2-stay-human-reloaded-edition",
-          "cv_status": "FULL_CV",
-          "status": "received",
-          "end_timestamp": 1781955000,
-          "required_play": false,
-          "is_shared": false,
-          "steam_play_data": {
-            "owned": true,
-            "playtime_minutes": 0,
-            "playtime_formatted": "0 minutes",
-            "achievements_unlocked": 0,
-            "achievements_total": 65,
-            "achievements_percentage": 0,
-            "never_played": true,
-            "is_playtime_private": false,
-            "last_checked": 1786680217778
-          }
-        },
-        {
-          "name": "Hogwarts Legacy",
-          "link": "hnidO/hogwarts-legacy",
-          "cv_status": "FULL_CV",
-          "status": "received",
-          "end_timestamp": 1764114600,
-          "required_play": false,
-          "is_shared": false,
-          "steam_play_data": {
-            "owned": true,
-            "playtime_minutes": 117,
-            "playtime_formatted": "1 hour 57 minutes",
-            "achievements_unlocked": 1,
-            "achievements_total": 45,
-            "achievements_percentage": 2.2,
-            "never_played": false,
-            "is_playtime_private": false,
-            "last_checked": 1786680218972
-          }
-        },
-        {
-          "name": "Gear.Club Unlimited 2 - Ultimate Edition",
-          "link": "Y2Pmm/gearclub-unlimited-2-ultimate-edition",
-          "cv_status": "REDUCED_CV",
-          "status": "received",
-          "end_timestamp": 1762565760,
-          "required_play": false,
-          "is_shared": false,
-          "steam_play_data": {
-            "owned": true,
-            "playtime_minutes": 128,
-            "playtime_formatted": "2 hours 8 minutes",
-            "achievements_unlocked": 1,
-            "achievements_total": 42,
-            "achievements_percentage": 2.4,
-            "never_played": false,
-            "is_playtime_private": false,
-            "last_checked": 1786680220155
-          }
-        },
-        {
-          "name": "Black Myth: Wukong",
-          "link": "Pbsvv/black-myth-wukong",
-          "cv_status": "FULL_CV",
-          "status": "received",
-          "end_timestamp": 1756371600,
-          "required_play": false,
-          "is_shared": false,
-          "steam_play_data": {
-            "owned": true,
-            "playtime_minutes": 586,
-            "playtime_formatted": "9 hours 46 minutes",
-            "achievements_unlocked": 1,
-            "achievements_total": 81,
-            "achievements_percentage": 1.2,
-            "never_played": false,
-            "is_playtime_private": false,
-            "last_checked": 1786680221271
-          }
-        },
-        {
-          "name": "EARTH DEFENSE FORCE 5",
-          "link": "Fv7jE/earth-defense-force-5",
-          "cv_status": "FULL_CV",
-          "status": "received",
-          "end_timestamp": 1755944460,
-          "required_play": false,
-          "is_shared": false,
-          "steam_play_data": {
-            "owned": true,
-            "playtime_minutes": 1152,
-            "playtime_formatted": "19 hours 12 minutes",
-            "achievements_unlocked": 0,
-            "achievements_total": 39,
-            "achievements_percentage": 0,
-            "never_played": true,
-            "is_playtime_private": false,
-            "last_checked": 1786680222385,
-            "is_potentially_idling": true
-          }
-        },
-        {
-          "name": "Stray",
-          "link": "Bp636/stray",
-          "cv_status": "FULL_CV",
-          "status": "received",
-          "end_timestamp": 1755878400,
-          "required_play": false,
-          "is_shared": false,
-          "steam_play_data": {
-            "owned": true,
-            "playtime_minutes": 446,
-            "playtime_formatted": "7 hours 26 minutes",
-            "achievements_unlocked": 10,
-            "achievements_total": 24,
-            "achievements_percentage": 41.7,
-            "never_played": false,
-            "is_playtime_private": false,
-            "last_checked": 1786680223494
-          }
-        },
-        {
-          "name": "Tales of Arise",
-          "link": "TFou0/tales-of-arise",
-          "cv_status": "FULL_CV",
-          "status": "received",
-          "end_timestamp": 1754229600,
-          "required_play": false,
-          "is_shared": false,
-          "steam_play_data": {
-            "owned": true,
-            "playtime_minutes": 6335,
-            "playtime_formatted": "105 hours 35 minutes",
-            "achievements_unlocked": 38,
-            "achievements_total": 58,
-            "achievements_percentage": 65.5,
-            "never_played": false,
-            "is_playtime_private": false,
-            "last_checked": 1786680224757
-          },
-          "i_played_bro": true
-        },
-        {
-          "name": "Viewfinder",
-          "link": "pu18X/viewfinder",
-          "cv_status": "FULL_CV",
-          "status": "received",
-          "end_timestamp": 1751947200,
-          "required_play": true,
-          "is_shared": false,
-          "steam_play_data": {
-            "owned": true,
-            "playtime_minutes": 428,
-            "playtime_formatted": "7 hours 8 minutes",
-            "achievements_unlocked": 22,
-            "achievements_total": 46,
-            "achievements_percentage": 47.8,
-            "never_played": false,
-            "is_playtime_private": false,
-            "last_checked": 1786680225904
-          },
-          "i_played_bro": true,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 2,
-            "additional_notes": "Beat the game"
-          }
-        },
-        {
-          "name": "The Medium",
-          "link": "A1GpI/the-medium",
-          "cv_status": "FULL_CV",
-          "status": "received",
-          "end_timestamp": 1751846700,
-          "required_play": false,
-          "is_shared": false,
-          "steam_play_data": {
-            "owned": true,
-            "playtime_minutes": 220,
-            "playtime_formatted": "3 hours 40 minutes",
-            "achievements_unlocked": 16,
-            "achievements_total": 39,
-            "achievements_percentage": 41,
-            "never_played": false,
-            "is_playtime_private": false,
-            "last_checked": 1786680227067
-          }
-        },
-        {
-          "name": "Clash: Artifacts of Chaos",
-          "link": "2SJor/clash-artifacts-of-chaos",
-          "cv_status": "FULL_CV",
-          "status": "received",
-          "end_timestamp": 1750262400,
-          "required_play": false,
-          "is_shared": false,
-          "steam_play_data": {
-            "owned": true,
-            "playtime_minutes": 151,
-            "playtime_formatted": "2 hours 31 minutes",
-            "achievements_unlocked": 1,
-            "achievements_total": 21,
-            "achievements_percentage": 4.8,
-            "never_played": false,
-            "is_playtime_private": false,
-            "last_checked": 1786680228209
-          }
-        },
-        {
-          "name": "Red Dead Redemption",
-          "link": "r7xuN/red-dead-redemption",
-          "cv_status": "FULL_CV",
-          "status": "received",
-          "end_timestamp": 1750028400,
-          "required_play": false,
-          "is_shared": false,
-          "steam_play_data": {
-            "owned": true,
-            "playtime_minutes": 1499,
-            "playtime_formatted": "24 hours 59 minutes",
-            "achievements_unlocked": 14,
-            "achievements_total": 51,
-            "achievements_percentage": 27.5,
-            "never_played": false,
-            "is_playtime_private": false,
-            "last_checked": 1786680229327
-          },
-          "i_played_bro": true
-        }
-      ],
-      "giveaways_created": [
-        {
-          "name": "Blanc",
-          "link": "sA9Td/blanc",
-          "cv_status": "REDUCED_CV",
-          "entries": 180,
-          "copies": 1,
-          "created_timestamp": 1784679183,
-          "end_timestamp": 1785027600,
-          "required_play": false,
-          "is_shared": true,
-          "had_winners": true,
-          "winners": [
-            {
-              "name": "fernandopa",
-              "winner_username": "fernandopa",
-              "status": "received",
-              "activated": true
-            }
-          ]
-        },
-        {
-          "name": "X-Force Under Attack",
-          "link": "PbzhE/x-force-under-attack",
-          "cv_status": "FULL_CV",
-          "entries": 44,
-          "copies": 1,
-          "created_timestamp": 1784424558,
-          "end_timestamp": 1784768400,
-          "required_play": false,
-          "is_shared": true,
-          "deleted": true,
-          "deleted_reason": "Selected Incorrect Game or Information",
-          "had_winners": false
-        },
-        {
-          "name": "X-Force Under Attack",
-          "link": "aWoAY/x-force-under-attack",
-          "cv_status": "FULL_CV",
-          "entries": 0,
-          "copies": 1,
-          "created_timestamp": 1782450208,
-          "end_timestamp": 1782864000,
-          "required_play": false,
-          "is_shared": false,
-          "had_winners": false
-        },
-        {
-          "name": "The Medium",
-          "link": "TxPVF/the-medium",
-          "cv_status": "FULL_CV",
-          "entries": 1,
-          "copies": 1,
-          "created_timestamp": 1782007331,
-          "end_timestamp": 1782306000,
-          "required_play": false,
-          "is_shared": false,
-          "deleted": true,
-          "deleted_reason": "Accident",
-          "had_winners": false
-        },
-        {
-          "name": "Turbo Overkill",
-          "link": "rvBVe/turbo-overkill",
-          "cv_status": "FULL_CV",
-          "entries": 1,
-          "copies": 1,
-          "created_timestamp": 1780265736,
-          "end_timestamp": 1780794000,
-          "required_play": false,
-          "is_shared": false,
-          "deleted": true,
-          "deleted_reason": "Accident",
-          "had_winners": false
-        },
-        {
-          "name": "RoboCop: Rogue City",
-          "link": "01LQ2/robocop-rogue-city",
-          "cv_status": "REDUCED_CV",
-          "entries": 29,
-          "copies": 1,
-          "created_timestamp": 1776024491,
-          "end_timestamp": 1776301200,
-          "required_play": false,
-          "is_shared": true,
-          "had_winners": true,
-          "winners": [
-            {
-              "name": "dkiller23brow",
-              "winner_username": "dkiller23brow",
-              "status": "received",
-              "activated": true
-            }
-          ]
-        },
-        {
-          "name": "The Medium",
-          "link": "1iy2V/the-medium",
-          "cv_status": "FULL_CV",
-          "entries": 8,
-          "copies": 1,
-          "created_timestamp": 1769772192,
-          "end_timestamp": 1770422400,
-          "required_play": false,
-          "is_shared": false,
-          "had_winners": true,
-          "winners": [
-            {
-              "name": "76561198089693705",
-              "winner_username": "VinroyIsViral",
-              "status": "received",
-              "activated": true
-            }
-          ]
-        },
-        {
-          "name": "Dead Space 3",
-          "link": "7KOw2/dead-space-3",
-          "cv_status": "FULL_CV",
-          "entries": 6,
-          "copies": 1,
-          "created_timestamp": 1759286588,
-          "end_timestamp": 1759536000,
-          "required_play": false,
-          "is_shared": false,
-          "had_winners": true,
-          "winners": [
-            {
-              "name": "76561198048462370",
-              "winner_username": "QuinlanLJ",
-              "status": "received",
-              "activated": true
-            }
-          ]
-        },
-        {
-          "name": "RESIDENT EVIL 7 biohazard Gold Edition",
-          "link": "XU4tY/resident-evil-7-biohazard-gold-edition",
-          "cv_status": "FULL_CV",
-          "entries": 3,
-          "copies": 1,
-          "created_timestamp": 1757818103,
-          "end_timestamp": 1758412800,
-          "required_play": false,
-          "is_shared": false,
-          "deleted": true,
-          "deleted_reason": "Accident",
-          "had_winners": false
-        },
-        {
-          "name": "Resident Evil 3",
-          "link": "30Jxs/resident-evil-3",
-          "cv_status": "FULL_CV",
-          "entries": 5,
-          "copies": 1,
-          "created_timestamp": 1757818029,
-          "end_timestamp": 1758412800,
-          "required_play": false,
-          "is_shared": false,
-          "had_winners": true,
-          "winners": [
-            {
-              "name": "76561198352113526",
-              "winner_username": "yugimax",
-              "status": "received",
-              "activated": true
-            }
-          ]
-        },
-        {
-          "name": "Resident Evil Village",
-          "link": "G9Zde/resident-evil-village",
-          "cv_status": "FULL_CV",
-          "entries": 1,
-          "copies": 1,
-          "created_timestamp": 1757817941,
-          "end_timestamp": 1758412800,
-          "required_play": false,
-          "is_shared": false,
-          "deleted": true,
-          "deleted_reason": "Accident",
-          "had_winners": false
-        },
-        {
-          "name": "The Great Ace Attorney Chronicles",
-          "link": "eX8Qq/the-great-ace-attorney-chronicles",
-          "cv_status": "FULL_CV",
-          "entries": 15,
-          "copies": 1,
-          "created_timestamp": 1757817816,
-          "end_timestamp": 1758412800,
-          "required_play": false,
-          "is_shared": false,
-          "had_winners": true,
-          "winners": [
-            {
-              "name": "76561198020386807",
-              "winner_username": "eeev",
-              "status": "received",
-              "activated": true
-            }
-          ]
-        },
-        {
-          "name": "Potion Craft: Alchemist Simulator",
-          "link": "Jh5bG/potion-craft-alchemist-simulator",
-          "cv_status": "FULL_CV",
-          "entries": 2,
-          "copies": 1,
-          "created_timestamp": 1754194786,
-          "end_timestamp": 1754521200,
-          "required_play": false,
-          "is_shared": false,
-          "i_played_bro": true,
-          "had_winners": true,
-          "winners": [
-            {
-              "name": "76561198164999453",
-              "winner_username": "Krystie",
-              "status": "received",
-              "activated": true
-            }
-          ]
-        },
-        {
-          "name": "9 Monkeys of Shaolin",
-          "link": "rcOwj/9-monkeys-of-shaolin",
-          "cv_status": "FULL_CV",
-          "entries": 1,
-          "copies": 1,
-          "created_timestamp": 1754152938,
-          "end_timestamp": 1754434800,
-          "required_play": false,
-          "is_shared": false,
-          "i_played_bro": true,
-          "had_winners": true,
-          "winners": [
-            {
-              "name": "76561198046203998",
-              "winner_username": "Tsukurai",
-              "status": "received",
-              "activated": true
-            }
-          ]
-        },
-        {
-          "name": "Sherlock Holmes The Awakened",
-          "link": "ZkzQt/sherlock-holmes-the-awakened",
-          "cv_status": "FULL_CV",
-          "entries": 9,
-          "copies": 1,
-          "created_timestamp": 1754151694,
-          "end_timestamp": 1754434800,
-          "required_play": false,
-          "is_shared": false,
-          "had_winners": true,
-          "winners": [
-            {
-              "name": "76561197968806363",
-              "winner_username": "lext",
-              "status": "received",
-              "activated": true
-            }
-          ]
-        },
-        {
-          "name": "Psychonauts 2",
-          "link": "IKKLg/psychonauts-2",
-          "cv_status": "FULL_CV",
-          "entries": 11,
-          "copies": 1,
-          "created_timestamp": 1754150671,
-          "end_timestamp": 1754434800,
-          "required_play": false,
-          "is_shared": false,
-          "had_winners": true,
-          "winners": [
-            {
-              "name": "76561198049128535",
-              "winner_username": "yannbz",
-              "status": "received",
-              "activated": true
-            }
-          ]
-        },
-        {
-          "name": "Green Hell",
-          "link": "t3f6M/green-hell",
-          "cv_status": "FULL_CV",
-          "entries": 0,
-          "copies": 1,
-          "created_timestamp": 1753926832,
-          "end_timestamp": 1754262000,
-          "required_play": false,
-          "is_shared": false,
-          "had_winners": false
-        },
-        {
-          "name": "FixFox",
-          "link": "8WE21/fixfox",
-          "cv_status": "FULL_CV",
-          "entries": 7,
-          "copies": 1,
-          "created_timestamp": 1750714902,
-          "end_timestamp": 1750816800,
-          "required_play": false,
-          "is_shared": false,
-          "had_winners": true,
-          "winners": [
-            {
-              "name": "76561198104259281",
-              "winner_username": "Fraden",
-              "status": "received",
-              "activated": true
-            }
-          ]
-        },
-        {
-          "name": "Martha Is Dead",
-          "link": "JgMHI/martha-is-dead",
-          "cv_status": "FULL_CV",
-          "entries": 6,
-          "copies": 1,
-          "created_timestamp": 1750714833,
-          "end_timestamp": 1750816800,
-          "required_play": false,
-          "is_shared": false,
-          "had_winners": true,
-          "winners": [
-            {
-              "name": "EKAROSS",
-              "winner_username": "EKAROSS",
-              "status": "received",
-              "activated": true
-            }
-          ]
-        },
-        {
-          "name": "The Pedestrian",
-          "link": "ADJIp/the-pedestrian",
-          "cv_status": "FULL_CV",
-          "entries": 9,
-          "copies": 2,
-          "created_timestamp": 1750613032,
-          "end_timestamp": 1750719600,
-          "required_play": false,
-          "is_shared": false,
-          "i_played_bro": true,
-          "had_winners": true,
-          "winners": [
-            {
-              "name": "76561198072364553",
-              "winner_username": "MarvashMagalli",
-              "status": "received",
-              "activated": true
-            },
-            {
-              "name": "76561197996608804",
-              "winner_username": "Tyln",
-              "status": "received",
-              "activated": true
-            }
-          ]
-        },
-        {
-          "name": "Rain on Your Parade",
-          "link": "iq7jO/rain-on-your-parade",
-          "cv_status": "FULL_CV",
-          "entries": 8,
-          "copies": 2,
-          "created_timestamp": 1750612931,
-          "end_timestamp": 1750719600,
-          "required_play": false,
-          "is_shared": false,
-          "i_played_bro": true,
-          "had_winners": true,
-          "winners": [
-            {
-              "name": "76561198055569704",
-              "winner_username": "CuteEnby",
-              "status": "received",
-              "activated": true
-            },
-            {
-              "name": "76561197981107149",
-              "winner_username": "ithamore",
-              "status": "received",
-              "activated": true
-            }
-          ]
-        },
-        {
-          "name": "Manifold Garden",
-          "link": "Cj6Ac/manifold-garden",
-          "cv_status": "FULL_CV",
-          "entries": 7,
-          "copies": 3,
-          "created_timestamp": 1750612799,
-          "end_timestamp": 1750719600,
-          "required_play": false,
-          "is_shared": false,
-          "i_played_bro": true,
-          "had_winners": true,
-          "winners": [
-            {
-              "name": "76561197981107149",
-              "winner_username": "ithamore",
-              "status": "received",
-              "activated": true
-            },
-            {
-              "name": "76561198070041813",
-              "winner_username": "Tucs",
-              "status": "received",
-              "activated": true
-            },
-            {
-              "name": "76561198077347875",
-              "winner_username": "Vin3",
-              "status": "received",
-              "activated": true
-            }
-          ]
-        },
-        {
-          "name": "inbento",
-          "link": "UVtfL/inbento",
-          "cv_status": "FULL_CV",
-          "entries": 11,
-          "copies": 1,
-          "created_timestamp": 1749968540,
-          "end_timestamp": 1750287600,
-          "required_play": false,
-          "is_shared": false,
-          "had_winners": true,
-          "winners": [
-            {
-              "name": "76561198015261565",
-              "winner_username": "imminiman",
-              "status": "received",
-              "activated": true
-            }
-          ]
-        },
-        {
-          "name": "Alone in the Dark: The New Nightmare",
-          "link": "XXanT/alone-in-the-dark-the-new-nightmare",
-          "cv_status": "FULL_CV",
-          "entries": 1,
-          "copies": 1,
-          "created_timestamp": 1749968291,
-          "end_timestamp": 1750287600,
-          "required_play": false,
-          "is_shared": false,
-          "had_winners": true,
-          "winners": [
-            {
-              "name": "76561198315443582",
-              "winner_username": "Patxxv",
-              "status": "received",
-              "activated": true
-            }
-          ]
-        }
-      ],
-      "registered_at": 1670637994
-    },
     "76561199141726712": {
       "username": "vot4ol",
       "profile_url": "/user/vot4ol",
@@ -107048,7 +105871,7 @@
           "is_shared": false,
           "i_played_bro": false,
           "required_play_meta": {
-            "requirements_met": false,
+            "requirements_met": true,
             "deadline_in_months": 6
           },
           "had_winners": true,
@@ -109158,143 +107981,6 @@
         }
       ],
       "registered_at": 1317338226,
-      "warnings": [
-        "no_giveaway_created_in_6_months"
-      ]
-    },
-    "76561199409730396": {
-      "username": "zolof",
-      "profile_url": "/user/zolof",
-      "avatar_url": "https://avatars.steamstatic.com/e035fcec6814ac29bc4df115cb2d1f5edb26aa1c_medium.jpg",
-      "steam_id": "76561199409730396",
-      "stats": {
-        "total_sent_count": 2,
-        "total_sent_value": 49.98,
-        "total_received_count": 2,
-        "total_received_value": 72.98,
-        "total_gift_difference": 0,
-        "total_value_difference": -23,
-        "fcv_sent_count": 2,
-        "rcv_sent_count": 0,
-        "ncv_sent_count": 0,
-        "fcv_received_count": 2,
-        "rcv_received_count": 0,
-        "ncv_received_count": 0,
-        "fcv_gift_difference": 0,
-        "real_total_sent_value": 49.98,
-        "real_total_received_value": 72.98,
-        "real_total_value_difference": -23,
-        "real_total_sent_count": 2,
-        "real_total_received_count": 2,
-        "real_total_gift_difference": 0,
-        "giveaway_ratio": 1.67,
-        "shared_sent_count": 0,
-        "shared_received_count": 0,
-        "giveaways_created": 2,
-        "giveaways_with_no_entries": 0,
-        "last_giveaway_created_at": 1760613981,
-        "last_giveaway_won_at": 1769623200,
-        "first_seen_at": 1749683891,
-        "total_achievements_percentage": 44,
-        "average_achievements_percentage": 55,
-        "real_total_achievements_percentage": 44,
-        "real_average_achievements_percentage": 55,
-        "has_missing_achievements_data": false
-      },
-      "steam_profile_url": "https://steamcommunity.com/profiles/76561199409730396",
-      "steam_profile_is_private": false,
-      "country_code": "my",
-      "giveaways_won": [
-        {
-          "name": "Rana Card",
-          "link": "iJ2gl/rana-card",
-          "cv_status": "FULL_CV",
-          "status": "received",
-          "end_timestamp": 1769623200,
-          "required_play": false,
-          "is_shared": false,
-          "steam_play_data": {
-            "owned": true,
-            "playtime_minutes": 189,
-            "playtime_formatted": "3 hours 9 minutes",
-            "achievements_unlocked": 6,
-            "achievements_total": 55,
-            "achievements_percentage": 10.9,
-            "never_played": false,
-            "is_playtime_private": false,
-            "last_checked": 1786680721505
-          }
-        },
-        {
-          "name": "OCTOPATH TRAVELER II",
-          "link": "GkpqO/octopath-traveler-ii",
-          "cv_status": "FULL_CV",
-          "status": "received",
-          "end_timestamp": 1758794400,
-          "required_play": true,
-          "is_shared": false,
-          "steam_play_data": {
-            "owned": true,
-            "playtime_minutes": 5693,
-            "playtime_formatted": "94 hours 53 minutes",
-            "achievements_unlocked": 33,
-            "achievements_total": 33,
-            "achievements_percentage": 100,
-            "never_played": false,
-            "is_playtime_private": false,
-            "last_checked": 1786680722632
-          },
-          "i_played_bro": true,
-          "required_play_meta": {
-            "requirements_met": true,
-            "deadline_in_months": 5
-          }
-        }
-      ],
-      "giveaways_created": [
-        {
-          "name": "Enigma of Fear",
-          "link": "r9MFT/enigma-of-fear",
-          "cv_status": "FULL_CV",
-          "entries": 13,
-          "copies": 1,
-          "created_timestamp": 1760613981,
-          "end_timestamp": 1760889540,
-          "required_play": false,
-          "is_shared": false,
-          "had_winners": true,
-          "winners": [
-            {
-              "name": "76561198838843963",
-              "winner_username": "philipdick",
-              "status": "received",
-              "activated": true
-            }
-          ]
-        },
-        {
-          "name": "Potion Craft: Alchemist Simulator",
-          "link": "6u6Uh/potion-craft-alchemist-simulator",
-          "cv_status": "FULL_CV",
-          "entries": 17,
-          "copies": 1,
-          "created_timestamp": 1749683891,
-          "end_timestamp": 1749916740,
-          "required_play": false,
-          "is_shared": false,
-          "i_played_bro": true,
-          "had_winners": true,
-          "winners": [
-            {
-              "name": "Yamaraus",
-              "winner_username": "Yamaraus",
-              "status": "received",
-              "activated": true
-            }
-          ]
-        }
-      ],
-      "registered_at": 1731526897,
       "warnings": [
         "no_giveaway_created_in_6_months"
       ]
