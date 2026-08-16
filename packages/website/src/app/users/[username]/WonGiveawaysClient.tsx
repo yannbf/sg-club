@@ -310,23 +310,6 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData, 
                             </span>
                             <span className="text-xs text-muted-foreground">
                               Won <FormattedDate timestamp={game.end_timestamp} />
-                              {authorName && (
-                                <>
-                                  {' · by '}
-                                  <UserLink
-                                    username={authorName}
-                                    className="inline-flex items-center align-middle font-medium text-foreground hover:text-accent hover:underline"
-                                  >
-                                    {authorAvatar && (
-                                      <UserAvatar
-                                        src={authorAvatar}
-                                        username={authorName}
-                                      />
-                                    )}
-                                    {authorName}
-                                  </UserLink>
-                                </>
-                              )}
                               {!game.i_played_bro && game.cv_status === 'FULL_CV' && (
                                 <DeadlineStatus
                                   endTimestamp={game.end_timestamp}
@@ -387,6 +370,30 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData, 
                       </div>
                     </div>
                   </div>
+
+                  {authorName && (
+                    <div className="px-4 pb-4">
+                      <div className="pt-3 border-t border-card-border">
+                        <div className="text-sm">
+                          <span className="text-muted-foreground">Created by:</span>
+                          <div className="mt-1">
+                            <UserLink
+                              username={authorName}
+                              className="text-accent hover:underline mr-2 inline-flex items-center"
+                            >
+                              {authorAvatar && (
+                                <UserAvatar
+                                  src={authorAvatar}
+                                  username={authorName}
+                                />
+                              )}
+                              {authorName}
+                            </UserLink>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
 
                   {hasUnavailableStats && (
                     <div className="bg-background/50 p-4 border-t border-card-border">
