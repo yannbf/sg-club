@@ -334,6 +334,24 @@ export default function UserDetailPageClient({
     }
   }, [])
 
+  // Keep the selected tab shareable: reflect it into ?tab= without adding
+  // history entries. The default tab keeps a clean URL.
+  const handleTabChange = (tab: string) => {
+    setActiveTab(tab)
+    const params = new URLSearchParams(window.location.search)
+    if (tab === 'created') {
+      params.delete('tab')
+    } else {
+      params.set('tab', tab)
+    }
+    const query = params.toString()
+    window.history.replaceState(
+      null,
+      '',
+      `${window.location.pathname}${query ? `?${query}` : ''}${window.location.hash}`,
+    )
+  }
+
   // Resolve creator fields through steam_id_map: handles renamed users
   // (creator stored under an old username) and deleted SG accounts (creator
   // stored as a raw username string because it never resolved to a steam_id).
@@ -902,7 +920,7 @@ export default function UserDetailPageClient({
         )}
 
       {/* Tabs: Created / Won / Entered / Leavers */}
-      <Tabs value={activeTab} onValueChange={setActiveTab}>
+      <Tabs value={activeTab} onValueChange={handleTabChange}>
         <TabsList className="flex flex-wrap">
           <TabsTrigger value="created" className="gap-1.5">
             <Gift className="h-3.5 w-3.5" /> Created
@@ -957,6 +975,7 @@ export default function UserDetailPageClient({
               wonGiveaways={user.giveaways_won}
               gameData={gameData}
               user={user}
+              steamIdMap={steamIdMap}
               initialFilterPlayRequired={deepLinkPlayRequired}
             />
           </TabsContent>

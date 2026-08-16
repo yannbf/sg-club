@@ -1,7 +1,8 @@
 'use client'
 
-import { Giveaway, GameData, User, GameBreakdownEntry, noStatsReasonLabel } from '@/types'
+import { Giveaway, GameData, User, GameBreakdownEntry, SteamIdMap, noStatsReasonLabel } from '@/types'
 import { getCVBadgeColor, getCVLabel, formatPlaytime } from '@/lib/data'
+import { createCreatorResolver } from '@/lib/creator-resolver'
 import GameImage from '@/components/GameImage'
 import { useGameData, useDebounce } from '@/lib/hooks'
 import FormattedDate from '@/components/FormattedDate'
@@ -9,12 +10,16 @@ import { useCallback, useState, useMemo } from 'react'
 import Tooltip from '@/components/Tooltip'
 import { DeadlineStatus } from '@/components/DeadlineStatus'
 import { CvStatusIndicator } from '@/components/CvStatusIndicator'
+import { UserLink } from '@/components/UserLink'
 
 interface Props {
   giveaways: Giveaway[]
   wonGiveaways: NonNullable<User['giveaways_won']>
   gameData: GameData[]
   user: User
+  /** Resolves giveaway creator fields (steam_id or stale username) to the
+   *  current display name for the "by <author>" line on each card. */
+  steamIdMap: SteamIdMap
   /** Pre-enables the "Play required" filter (deep links from the Discord bot). */
   initialFilterPlayRequired?: boolean
 }
@@ -66,8 +71,9 @@ function GamesBreakdown({ games, steamId }: { games: GameBreakdownEntry[]; steam
   )
 }
 
-export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData, user, initialFilterPlayRequired }: Props) {
+export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData, user, steamIdMap, initialFilterPlayRequired }: Props) {
   const { getGameData } = useGameData(gameData)
+  const creatorResolver = useMemo(() => createCreatorResolver(steamIdMap), [steamIdMap])
   const [searchTerm, setSearchTerm] = useState('')
   const debouncedSearchTerm = useDebounce(searchTerm, 300)
   const [filterCV, setFilterCV] = useState<'all' | 'FULL_CV' | 'REDUCED_CV' | 'NO_CV'>('all')
@@ -251,6 +257,15 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData, 
 
               const needsReview = !!(game.required_play && !game.required_play_meta?.requirements_met && (hasHalfAchievements || hasPotentiallyCompletedMainStory || hasOver15HoursPlaytime))
 
+              const resolvedAuthor = creatorResolver.displayName(
+                matchingGiveaway?.creator ?? matchingGiveaway?.creator_username,
+              )
+              // displayName echoes unmapped values back; a raw steam_id is
+              // useless on screen, so prefer the scraped username then.
+              const authorName = /^\d{17}$/.test(resolvedAuthor)
+                ? (matchingGiveaway?.creator_username ?? '')
+                : resolvedAuthor
+
               return (
                 <div key={index} className="border border-card-border rounded-lg overflow-hidden">
                   <div className="flex">
@@ -289,6 +304,17 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData, 
                             </span>
                             <span className="text-xs text-muted-foreground">
                               Won <FormattedDate timestamp={game.end_timestamp} />
+                              {authorName && (
+                                <>
+                                  {' · by '}
+                                  <UserLink
+                                    username={authorName}
+                                    className="font-medium text-foreground hover:text-accent hover:underline"
+                                  >
+                                    {authorName}
+                                  </UserLink>
+                                </>
+                              )}
                               {!game.i_played_bro && game.cv_status === 'FULL_CV' && (
                                 <DeadlineStatus
                                   endTimestamp={game.end_timestamp}
