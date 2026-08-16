@@ -1,14 +1,79 @@
-import { writeFileSync } from 'node:fs'
+import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { scrapeGroupWishlist } from '../scrapers/group-wishlist'
+import type { WishlistEntry } from '../scrapers/group-wishlist'
 import { logError } from '../utils/log-error'
+
+export interface WishlistData {
+  last_updated: string
+  entries: WishlistEntry[]
+}
+
+/** SteamGifts re-sorts the group wishlist between page requests (tied counts
+ *  have no stable tiebreaker), so a single crawl misses entries that shift
+ *  across page boundaries mid-scrape. Entries from the previous snapshot that
+ *  the current crawl didn't see are carried over while their last sighting is
+ *  within this window — long enough to survive one missed biweekly scrape,
+ *  short enough that games actually removed from the wishlist age out. */
+export const CARRY_OVER_MS = 21 * 24 * 60 * 60 * 1000
+
+function entryKey(e: WishlistEntry): string {
+  if (e.app_id != null) return `app:${e.app_id}`
+  if (e.package_id != null) return `sub:${e.package_id}`
+  return `name:${e.name.toLowerCase()}`
+}
+
+export function mergeWithPreviousSnapshot(
+  scraped: WishlistEntry[],
+  previous: WishlistData | null,
+  now: Date,
+): WishlistEntry[] {
+  const nowIso = now.toISOString()
+  const merged = new Map<string, WishlistEntry>()
+
+  for (const entry of scraped) {
+    merged.set(entryKey(entry), { ...entry, last_seen: nowIso })
+  }
+
+  for (const entry of previous?.entries ?? []) {
+    const key = entryKey(entry)
+    if (merged.has(key)) continue
+    // Snapshots from before last_seen existed date every entry at the
+    // snapshot's own last_updated.
+    const lastSeen = entry.last_seen ?? previous!.last_updated
+    const age = now.getTime() - new Date(lastSeen).getTime()
+    if (Number.isNaN(age) || age > CARRY_OVER_MS) continue
+    merged.set(key, { ...entry, last_seen: lastSeen })
+  }
+
+  return Array.from(merged.values()).sort(
+    (a, b) => b.wishlist_count - a.wishlist_count,
+  )
+}
 
 export async function generateWishlistData(): Promise<void> {
   const filename = '../website/public/data/wishlist.json'
 
   try {
     console.log('🚀 Starting wishlist scraping...')
-    const entries = await scrapeGroupWishlist()
+
+    let previous: WishlistData | null = null
+    if (existsSync(filename)) {
+      try {
+        previous = JSON.parse(readFileSync(filename, 'utf-8'))
+      } catch (error) {
+        console.warn('⚠️  Could not read previous wishlist snapshot:', error)
+      }
+    }
+
+    const scraped = await scrapeGroupWishlist()
+    const entries = mergeWithPreviousSnapshot(scraped, previous, new Date())
+    const carried = entries.length - scraped.length
+    if (carried > 0) {
+      console.log(
+        `♻️  Carried over ${carried} entries the scrape missed (unstable SG pagination)`,
+      )
+    }
 
     const data = {
       last_updated: new Date().toISOString(),

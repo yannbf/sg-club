@@ -301,6 +301,10 @@ export interface WishlistEntry {
   steam_url: string
   image_url: string | null
   wishlist_count: number
+  /** ISO timestamp of the last scrape that actually saw this entry; entries
+   *  missing from a scrape are carried over from the previous snapshot for a
+   *  limited window because SG's wishlist pagination is unstable. */
+  last_seen?: string
 }
 
 export interface WishlistData {

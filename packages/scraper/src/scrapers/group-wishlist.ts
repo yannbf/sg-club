@@ -9,6 +9,9 @@ export interface WishlistEntry {
   steam_url: string
   image_url: string | null
   wishlist_count: number
+  /** ISO timestamp of the last scrape that actually saw this entry. Absent
+   *  only in snapshots written before carry-over merging existed. */
+  last_seen?: string
 }
 
 const BASE_URL = 'https://www.steamgifts.com'
