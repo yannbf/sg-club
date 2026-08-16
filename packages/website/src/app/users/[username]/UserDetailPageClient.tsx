@@ -976,6 +976,7 @@ export default function UserDetailPageClient({
               gameData={gameData}
               user={user}
               steamIdMap={steamIdMap}
+              userAvatars={userAvatars}
               initialFilterPlayRequired={deepLinkPlayRequired}
             />
           </TabsContent>

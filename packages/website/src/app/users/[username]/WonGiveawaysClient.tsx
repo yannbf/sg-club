@@ -11,6 +11,7 @@ import Tooltip from '@/components/Tooltip'
 import { DeadlineStatus } from '@/components/DeadlineStatus'
 import { CvStatusIndicator } from '@/components/CvStatusIndicator'
 import { UserLink } from '@/components/UserLink'
+import UserAvatar from '@/components/UserAvatar'
 
 interface Props {
   giveaways: Giveaway[]
@@ -20,6 +21,8 @@ interface Props {
   /** Resolves giveaway creator fields (steam_id or stale username) to the
    *  current display name for the "by <author>" line on each card. */
   steamIdMap: SteamIdMap
+  /** steam_id → avatar_url, for the author avatar on each card. */
+  userAvatars: Map<string, string>
   /** Pre-enables the "Play required" filter (deep links from the Discord bot). */
   initialFilterPlayRequired?: boolean
 }
@@ -71,7 +74,7 @@ function GamesBreakdown({ games, steamId }: { games: GameBreakdownEntry[]; steam
   )
 }
 
-export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData, user, steamIdMap, initialFilterPlayRequired }: Props) {
+export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData, user, steamIdMap, userAvatars, initialFilterPlayRequired }: Props) {
   const { getGameData } = useGameData(gameData)
   const creatorResolver = useMemo(() => createCreatorResolver(steamIdMap), [steamIdMap])
   const [searchTerm, setSearchTerm] = useState('')
@@ -265,6 +268,9 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData, 
               const authorName = /^\d{17}$/.test(resolvedAuthor)
                 ? (matchingGiveaway?.creator_username ?? '')
                 : resolvedAuthor
+              const authorAvatar = userAvatars.get(
+                creatorResolver.canonicalSteamId(matchingGiveaway?.creator),
+              )
 
               return (
                 <div key={index} className="border border-card-border rounded-lg overflow-hidden">
@@ -309,8 +315,14 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData, 
                                   {' · by '}
                                   <UserLink
                                     username={authorName}
-                                    className="font-medium text-foreground hover:text-accent hover:underline"
+                                    className="inline-flex items-center align-middle font-medium text-foreground hover:text-accent hover:underline"
                                   >
+                                    {authorAvatar && (
+                                      <UserAvatar
+                                        src={authorAvatar}
+                                        username={authorName}
+                                      />
+                                    )}
                                     {authorName}
                                   </UserLink>
                                 </>
