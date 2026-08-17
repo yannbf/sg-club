@@ -12,6 +12,11 @@ import { useGameData, useDebounce } from '@/lib/hooks'
 import FormattedDate from '@/components/FormattedDate'
 import Tooltip from '@/components/Tooltip'
 import { CvStatusIndicator } from '@/components/CvStatusIndicator'
+import { WinnerPlayProgress } from '@/components/WinnerPlayProgress'
+import {
+  winnerPlayStatsKey,
+  type WinnerPlayStats,
+} from '@/lib/winner-play-stats'
 
 interface Props {
   giveaways: Giveaway[]
@@ -19,10 +24,12 @@ interface Props {
   userNames?: Map<string, string>
   /** steam_ids of ex-members — distinguishes "(ex member)" from non-group winners. */
   exMemberIds?: Set<string>
+  /** Winner play stats keyed by winnerPlayStatsKey(winner, giveaway link). */
+  playStatsByWin?: Record<string, WinnerPlayStats>
   gameData: GameData[]
 }
 
-export default function GivenGiveawaysClient({ giveaways, userAvatars, userNames, exMemberIds, gameData }: Props) {
+export default function GivenGiveawaysClient({ giveaways, userAvatars, userNames, exMemberIds, playStatsByWin, gameData }: Props) {
   const getDisplayName = (steamIdOrUsername: string) =>
     userNames?.get(steamIdOrUsername) || steamIdOrUsername
   const { getGameData } = useGameData(gameData)
@@ -346,6 +353,9 @@ export default function GivenGiveawaysClient({ giveaways, userAvatars, userNames
                           <div className="mt-1">
                             {giveaway.winners.map((winner, index) => {
                               const displayName = winner.name ? getDisplayName(winner.name) : null
+                              const playStats = winner.name
+                                ? playStatsByWin?.[winnerPlayStatsKey(winner.name, giveaway.link)]
+                                : undefined
                               return (
                               !winner.name ? <p key={index}>Awaiting feedback</p> : userAvatars.get(winner.name) ? (
                                 <UserLink
@@ -358,6 +368,9 @@ export default function GivenGiveawaysClient({ giveaways, userAvatars, userNames
                                     username={displayName!}
                                   />
                                   {displayName}
+                                  {playStats && (
+                                    <WinnerPlayProgress stats={playStats} className="ml-1.5" />
+                                  )}
                                 </UserLink>
                               ) : (
                                 <a
@@ -375,6 +388,9 @@ export default function GivenGiveawaysClient({ giveaways, userAvatars, userNames
                                   {exMemberIds?.has(winner.name)
                                     ? '(ex member)'
                                     : '(non-group member)'}
+                                  {playStats && (
+                                    <WinnerPlayProgress stats={playStats} className="ml-1.5" />
+                                  )}
                                 </a>
                               ))
                             })}

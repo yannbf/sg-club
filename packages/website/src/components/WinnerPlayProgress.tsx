@@ -1,0 +1,117 @@
+'use client'
+
+import { Check, Clock3, Trophy } from 'lucide-react'
+import type { WinnerPlayStats } from '@/lib/winner-play-stats'
+import { useIsAdmin } from '@/lib/auth'
+import { formatPlaytime } from '@/lib/data'
+import { cn } from '@/lib/cn'
+
+/** Hours at chip scale: minutes under an hour, one decimal below 10h, else whole hours. */
+function compactPlaytime(minutes: number): string {
+  if (minutes < 60) return `${minutes}m`
+  const hours = minutes / 60
+  if (hours < 10) return `${Number(hours.toFixed(1))}h`
+  return `${Math.round(hours)}h`
+}
+
+function Tag({
+  label,
+  verified,
+  title,
+}: {
+  label: string
+  verified: boolean
+  title: string
+}) {
+  return (
+    <span
+      title={title}
+      className={cn(
+        'inline-flex items-center gap-0.5 rounded-full bg-card-background px-1 text-[9px] font-medium uppercase tracking-wide',
+        verified ? 'text-success-foreground' : 'text-subtle',
+      )}
+    >
+      {label}
+      {verified && <Check className="h-2 w-2" aria-hidden />}
+    </span>
+  )
+}
+
+/**
+ * What a winner did with the game they won, shown inline in the winner chip:
+ * playtime, achievements, and whether play was attested ("I played, bro!") or
+ * signed off against a play requirement. Admin-only — how much a member played
+ * their wins is member-sensitive, same bar as the rest of the admin sections.
+ *
+ * Renders nothing when there is nothing to say — private playtime hides the
+ * clock, an achievement-less game hides the trophy.
+ */
+export function WinnerPlayProgress({
+  stats,
+  className,
+}: {
+  stats: WinnerPlayStats
+  className?: string
+}) {
+  const isAdmin = useIsAdmin()
+  if (!isAdmin) return null
+
+  const showPlaytime =
+    stats.playtime_minutes != null && !stats.is_playtime_private
+  const showAchievements = (stats.achievements_total ?? 0) > 0
+  if (
+    !showPlaytime &&
+    !showAchievements &&
+    !stats.attested &&
+    !stats.required_play
+  )
+    return null
+
+  const completed =
+    showAchievements && stats.achievements_unlocked === stats.achievements_total
+
+  return (
+    <span
+      className={cn(
+        'tabular-nums-strict inline-flex items-center gap-1.5 text-[10px] text-subtle',
+        className,
+      )}
+    >
+      {showPlaytime && (
+        <span
+          className="inline-flex items-center gap-0.5"
+          title={`${formatPlaytime(stats.playtime_minutes!)} played`}
+        >
+          <Clock3 className="h-2.5 w-2.5" aria-hidden />
+          {compactPlaytime(stats.playtime_minutes!)}
+        </span>
+      )}
+      {showAchievements && (
+        <span
+          className={cn(
+            'inline-flex items-center gap-0.5',
+            completed && 'text-success-foreground',
+          )}
+          title={`${stats.achievements_unlocked} of ${stats.achievements_total} achievements`}
+        >
+          <Trophy className="h-2.5 w-2.5" aria-hidden />
+          {stats.achievements_unlocked}/{stats.achievements_total}
+        </span>
+      )}
+      {stats.attested && (
+        <Tag label="IPB" verified title={'Marked "I played, bro!"'} />
+      )}
+      {stats.required_play && (
+        <Tag
+          label="PR"
+          verified={Boolean(stats.requirements_met)}
+          title={
+            stats.requirements_met
+              ? 'Play required — proof of play accepted'
+              : 'Play required — no proof of play yet'
+          }
+        />
+      )}
+    </span>
+  )
+}

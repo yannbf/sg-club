@@ -17,6 +17,7 @@ import {
 } from 'lucide-react'
 import { formatPlaytime } from '@/lib/data'
 import { createCreatorResolver } from '@/lib/creator-resolver'
+import type { WinnerPlayStats } from '@/lib/winner-play-stats'
 import GivenGiveawaysClient from './GivenGiveawaysClient'
 import WonGiveawaysClient from './WonGiveawaysClient'
 import type { User, UserGroupData, UserEntry, SteamIdMap } from '@/types'
@@ -61,6 +62,8 @@ interface Props {
   isExMember?: boolean
   /** steam_ids of ex-members — distinguishes "(ex member)" from non-group winners. */
   exMemberIds?: string[]
+  /** Winner play stats for this user's own giveaways, keyed by winnerPlayStatsKey. */
+  playStatsByWin?: Record<string, WinnerPlayStats>
 }
 
 type UserWarning = {
@@ -305,6 +308,7 @@ export default function UserDetailPageClient({
   steamIdMap,
   isExMember,
   exMemberIds,
+  playStatsByWin,
 }: Props) {
   const isAdmin = useIsAdmin()
   const [showOriginalStats, setShowOriginalStats] = useState(false)
@@ -964,6 +968,7 @@ export default function UserDetailPageClient({
             userAvatars={userAvatars}
             userNames={userNames}
             exMemberIds={exMemberSet}
+            playStatsByWin={playStatsByWin}
             gameData={gameData}
           />
         </TabsContent>

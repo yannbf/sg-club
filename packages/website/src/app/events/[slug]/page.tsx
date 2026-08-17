@@ -17,6 +17,7 @@ import {
   isCountedGiveaway,
   selectEventGiveaways,
 } from '@/lib/events'
+import { buildWinnerPlayStats } from '@/lib/winner-play-stats'
 import type { GameData, Giveaway, UserGroupData } from '@/types'
 import EventDetailClient, { type EventLeader } from './EventDetailClient'
 import ChallengeClient from './ChallengeClient'
@@ -174,6 +175,11 @@ export default async function EventDetailPage(props: {
       resolver,
     )
     const gameById = buildGameMap(windowGiveaways, gameData)
+    const playStatsByWin = buildWinnerPlayStats(
+      windowGiveaways,
+      [allUsers, exMembers],
+      resolver,
+    )
 
     return (
       <SpecialEventClient
@@ -184,6 +190,7 @@ export default async function EventDetailPage(props: {
         nameByRaw={nameByRaw}
         avatarByRaw={avatarByRaw}
         exByRaw={exByRaw}
+        playStatsByWin={playStatsByWin}
         gameById={gameById}
       />
     )
@@ -251,6 +258,11 @@ export default async function EventDetailPage(props: {
     resolver,
   )
   const gameById = buildGameMap(eventGiveaways, gameData)
+  const playStatsByWin = buildWinnerPlayStats(
+    eventGiveaways,
+    [allUsers, exMembers],
+    resolver,
+  )
 
   // Aggregate stats
   const starts = eventGiveaways
@@ -343,6 +355,7 @@ export default async function EventDetailPage(props: {
       nameByRaw={nameByRaw}
       avatarByRaw={avatarByRaw}
       exByRaw={exByRaw}
+      playStatsByWin={playStatsByWin}
       gameById={gameById}
     />
   )

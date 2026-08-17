@@ -1,5 +1,7 @@
 // page.tsx
 import { getUser, getAllGiveaways, getAllUsers, getExMembers, getGameData, getUserEntries, getSteamIdMap } from '@/lib/data'
+import { createCreatorResolver } from '@/lib/creator-resolver'
+import { buildWinnerPlayStats } from '@/lib/winner-play-stats'
 import { notFound } from 'next/navigation'
 import UserDetailPageClient from './UserDetailPageClient'
 import { AdminGate } from '@/components/AdminGate'
@@ -116,6 +118,18 @@ export default async function UserDetailPage(
   // Convert gameData from object to array
   const gameData = Object.entries(gameDataObj).map(([, data]) => data)
 
+  // Playtime/achievements each winner has on the games this user gave away.
+  // Scoped to their own giveaways so the map stays small on every user page.
+  const resolver = createCreatorResolver(steamIdMap)
+  const createdGiveaways = giveaways.filter(
+    (giveaway) => resolver.canonicalSteamId(giveaway.creator) === user.steam_id,
+  )
+  const playStatsByWin = buildWinnerPlayStats(
+    createdGiveaways,
+    [allUsers, exMembersData],
+    resolver,
+  )
+
   return (
     <AdminGate>
       <UserDetailPageClient
@@ -129,6 +143,7 @@ export default async function UserDetailPage(
         steamIdMap={steamIdMap}
         isExMember={isExMember}
         exMemberIds={Object.keys(exMembersData?.users ?? {})}
+        playStatsByWin={playStatsByWin}
       />
     </AdminGate>
   )

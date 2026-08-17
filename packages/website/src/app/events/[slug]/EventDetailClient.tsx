@@ -13,6 +13,10 @@ import {
 import type { EventMeta } from '@/lib/events'
 import type { GameData, Giveaway } from '@/types'
 import { GiveawayCard, getGameImageUrl } from '@/components/GiveawayCard'
+import {
+  winnerPlayStatsKey,
+  type WinnerPlayStats,
+} from '@/lib/winner-play-stats'
 import { StatCard } from '@/components/StatCard'
 import { Card } from '@/components/ui/Card'
 import { EventPageHeader } from './EventPageHeader'
@@ -90,6 +94,7 @@ export default function EventDetailClient({
   nameByRaw,
   avatarByRaw,
   exByRaw,
+  playStatsByWin,
   gameById,
 }: {
   meta: EventMeta
@@ -100,6 +105,7 @@ export default function EventDetailClient({
   nameByRaw: Record<string, string>
   avatarByRaw: Record<string, string>
   exByRaw: Record<string, boolean>
+  playStatsByWin: Record<string, WinnerPlayStats>
   gameById: Record<string, GameData>
 }) {
   const now = Date.now() / 1000
@@ -120,6 +126,9 @@ export default function EventDetailClient({
         resolveWinnerName={(raw) => nameByRaw[raw] ?? raw}
         resolveWinnerAvatar={(raw) => avatarByRaw[raw]}
         resolveWinnerIsEx={(raw) => exByRaw[raw] ?? false}
+        resolveWinnerPlayStats={(raw) =>
+          playStatsByWin[winnerPlayStatsKey(raw, g.link)]
+        }
         game={key != null ? gameById[key] : undefined}
       />
     )

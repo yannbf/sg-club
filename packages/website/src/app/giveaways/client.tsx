@@ -32,6 +32,11 @@ import { LastUpdated } from '@/components/LastUpdated'
 import { useGameData, useDebounce } from '@/lib/hooks'
 import FormattedDate, { TimeDifference } from '@/components/FormattedDate'
 import { CvStatusIndicator } from '@/components/CvStatusIndicator'
+import { WinnerPlayProgress } from '@/components/WinnerPlayProgress'
+import {
+  winnerPlayStatsKey,
+  type WinnerPlayStats,
+} from '@/lib/winner-play-stats'
 import { Card } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
@@ -61,6 +66,8 @@ interface Props {
   userNames?: Map<string, string>
   /** steam_ids of ex-members — distinguishes "(ex)" from non-group winners. */
   exMemberIds?: Set<string>
+  /** Winner play stats keyed by winnerPlayStatsKey(winner, giveaway link). */
+  playStatsByWin?: Record<string, WinnerPlayStats>
   gameData: GameData[]
   defaultGiveawayStatus?: 'open' | 'ended' | 'all'
 }
@@ -154,6 +161,7 @@ export default function GiveawaysClient({
   userAvatars,
   userNames,
   exMemberIds,
+  playStatsByWin,
   gameData,
   defaultGiveawayStatus = 'open',
 }: Props) {
@@ -1013,6 +1021,10 @@ export default function GiveawaysClient({
                             </Badge>
                           )
                         }
+                        const playStats =
+                          playStatsByWin?.[
+                            winnerPlayStatsKey(winner.name, giveaway.link)
+                          ]
                         return userAvatars.get(winner.name) ? (
                           <UserLink
                             key={index}
@@ -1027,6 +1039,12 @@ export default function GiveawaysClient({
                               username={winnerDisplayName!}
                             />
                             <span>{winnerDisplayName}</span>
+                            {playStats && (
+                              <WinnerPlayProgress
+                                stats={playStats}
+                                className="border-l border-card-border pl-1.5"
+                              />
+                            )}
                           </UserLink>
                         ) : (
                           <a
@@ -1048,6 +1066,12 @@ export default function GiveawaysClient({
                                 ? '(ex)'
                                 : '(non-group member)'}
                             </span>
+                            {playStats && (
+                              <WinnerPlayProgress
+                                stats={playStats}
+                                className="border-l border-card-border pl-1.5"
+                              />
+                            )}
                           </a>
                         )
                       })}

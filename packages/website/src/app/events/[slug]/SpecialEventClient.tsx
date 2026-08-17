@@ -15,6 +15,10 @@ import type { EventMeta } from '@/lib/events'
 import type { GameData, Giveaway } from '@/types'
 import { Card } from '@/components/ui/Card'
 import { GiveawayCard } from '@/components/GiveawayCard'
+import {
+  winnerPlayStatsKey,
+  type WinnerPlayStats,
+} from '@/lib/winner-play-stats'
 import { UserLink } from '@/components/UserLink'
 import { cn } from '@/lib/cn'
 import { EventPageHeader } from './EventPageHeader'
@@ -35,6 +39,7 @@ interface GiveawayProps {
   nameByRaw?: Record<string, string>
   avatarByRaw?: Record<string, string>
   exByRaw?: Record<string, boolean>
+  playStatsByWin?: Record<string, WinnerPlayStats>
   gameById?: Record<string, GameData>
   testimonials?: ResolvedTestimonial[]
 }
@@ -144,6 +149,7 @@ export default function SpecialEventClient({
   nameByRaw = {},
   avatarByRaw = {},
   exByRaw = {},
+  playStatsByWin = {},
   gameById = {},
   testimonials,
 }: { meta: EventMeta } & GiveawayProps) {
@@ -344,6 +350,9 @@ export default function SpecialEventClient({
                   resolveWinnerName={(raw) => nameByRaw[raw] ?? raw}
                   resolveWinnerAvatar={(raw) => avatarByRaw[raw]}
                   resolveWinnerIsEx={(raw) => exByRaw[raw] ?? false}
+                  resolveWinnerPlayStats={(raw) =>
+                    playStatsByWin[winnerPlayStatsKey(raw, g.link)]
+                  }
                   game={key != null ? gameById[key] : undefined}
                 />
               )

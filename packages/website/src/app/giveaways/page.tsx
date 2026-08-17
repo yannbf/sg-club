@@ -1,4 +1,6 @@
 import { getAllGiveaways, getLastUpdated, getAllUsers, getExMembers, getGameData, getSteamIdMap } from '@/lib/data'
+import { createCreatorResolver } from '@/lib/creator-resolver'
+import { buildWinnerPlayStats } from '@/lib/winner-play-stats'
 import GiveawaysClient from './client'
 
 export default async function GiveawaysPage() {
@@ -28,12 +30,20 @@ export default async function GiveawaysPage() {
     Object.entries(steamIdMap).map(([steamId, entry]) => [steamId, entry.current])
   )
 
+  // Playtime/achievements/proof-of-play a winner has on the game they won.
+  const playStatsByWin = buildWinnerPlayStats(
+    giveaways,
+    [allUsers, exMembers],
+    createCreatorResolver(steamIdMap),
+  )
+
   return <GiveawaysClient
     giveaways={giveaways}
     lastUpdated={lastUpdated}
     userAvatars={userAvatars}
     userNames={userNames}
     exMemberIds={exMemberIds}
+    playStatsByWin={playStatsByWin}
     gameData={gameData}
   />
 } 

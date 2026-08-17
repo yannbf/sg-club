@@ -17,6 +17,8 @@ import UserAvatar from '@/components/UserAvatar'
 import { UserLink } from '@/components/UserLink'
 import FormattedDate from '@/components/FormattedDate'
 import { CvStatusIndicator } from '@/components/CvStatusIndicator'
+import { WinnerPlayProgress } from '@/components/WinnerPlayProgress'
+import type { WinnerPlayStats } from '@/lib/winner-play-stats'
 import { cn } from '@/lib/cn'
 
 const PLACEHOLDER_IMAGE =
@@ -100,6 +102,8 @@ export interface GiveawayCardProps {
   resolveWinnerAvatar?: (raw: string) => string | undefined
   /** Whether a winner is an ex-member (shows an "ex" tag instead of a tomb icon). */
   resolveWinnerIsEx?: (raw: string) => boolean
+  /** A winner's playtime/achievements on this giveaway's game, if known. */
+  resolveWinnerPlayStats?: (raw: string) => WinnerPlayStats | undefined
   game?: GameData
 }
 
@@ -115,6 +119,7 @@ export function GiveawayCard({
   resolveWinnerName,
   resolveWinnerAvatar,
   resolveWinnerIsEx,
+  resolveWinnerPlayStats,
   game,
 }: GiveawayCardProps) {
   const [imageFailed, setImageFailed] = React.useState(false)
@@ -278,6 +283,7 @@ export function GiveawayCard({
                   : winner.name
                 const avatar = resolveWinnerAvatar?.(winner.name)
                 const isEx = resolveWinnerIsEx?.(winner.name) ?? false
+                const playStats = resolveWinnerPlayStats?.(winner.name)
                 return (
                   <UserLink
                     key={index}
@@ -290,6 +296,12 @@ export function GiveawayCard({
                       <span className="rounded-full bg-card-background px-1 text-[9px] font-medium uppercase tracking-wide text-subtle">
                         ex
                       </span>
+                    )}
+                    {playStats && (
+                      <WinnerPlayProgress
+                        stats={playStats}
+                        className="border-l border-card-border pl-1.5"
+                      />
                     )}
                   </UserLink>
                 )
