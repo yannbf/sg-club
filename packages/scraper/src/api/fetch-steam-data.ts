@@ -152,7 +152,11 @@ export class SteamGameChecker {
   private async getOwnedGames(
     steamId: string,
   ): Promise<SteamGameInfo[] | null> {
-    const endpoint = `/IPlayerService/GetOwnedGames/v0001/?key=${this.apiKey}&steamid=${steamId}&format=json&include_appinfo=1&include_played_free_games=0`
+    // `skip_unvetted_apps` defaults to true and silently drops apps Steam has
+    // not vetted — small, recent releases, which is exactly what the group
+    // gives away. Those wins came back as `not_in_library` and read as never
+    // played even when the member had hours on them.
+    const endpoint = `/IPlayerService/GetOwnedGames/v0001/?key=${this.apiKey}&steamid=${steamId}&format=json&include_appinfo=1&include_played_free_games=0&skip_unvetted_apps=false`
 
     try {
       const data: OwnedGamesResponse = await this.fetchSteamAPI(endpoint)

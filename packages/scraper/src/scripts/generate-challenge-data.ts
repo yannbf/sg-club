@@ -322,7 +322,10 @@ async function getOwnedGame(
   steamId: string,
   appId: number,
 ): Promise<{ owned: boolean; total: number; twoWeeks: number }> {
-  const url = `${BASE}/IPlayerService/GetOwnedGames/v0001/?key=${API_KEY}&steamid=${steamId}&format=json&include_appinfo=0&include_played_free_games=1`
+  // Without skip_unvetted_apps=false Steam omits apps it hasn't vetted — a
+  // challenge game can be one of them, and the participant reads as not owning
+  // it however long they play.
+  const url = `${BASE}/IPlayerService/GetOwnedGames/v0001/?key=${API_KEY}&steamid=${steamId}&format=json&include_appinfo=0&include_played_free_games=1&skip_unvetted_apps=false`
   try {
     const data = await getJson(url)
     const resp = data.response ?? {}

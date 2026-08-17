@@ -157,7 +157,9 @@ async function fetchSteamJson(url: string, label: string): Promise<any | null> {
 }
 
 async function fetchOwnedGames(steamId: string): Promise<Set<number> | null> {
-  const url = `${STEAM_BASE}/IPlayerService/GetOwnedGames/v0001/?key=${API_KEY}&steamid=${steamId}&format=json`
+  // Without skip_unvetted_apps=false Steam omits apps it hasn't vetted, and a
+  // member who owns one reads as not owning it.
+  const url = `${STEAM_BASE}/IPlayerService/GetOwnedGames/v0001/?key=${API_KEY}&steamid=${steamId}&format=json&skip_unvetted_apps=false`
   const data = await fetchSteamJson(url, `owned games (${steamId})`)
   const games = data?.response?.games
   if (!Array.isArray(games) || games.length === 0) return null
