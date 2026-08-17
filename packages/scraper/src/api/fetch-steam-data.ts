@@ -24,6 +24,7 @@ import {
   normalizeGameName,
 } from '../utils/common.js'
 import { logError } from '../utils/log-error.js'
+import { isGamePlayed } from '../utils/played.js'
 
 const currentDir = dirname(fileURLToPath(import.meta.url))
 const rootEnvPath = resolve(currentDir, '../../../../.env')
@@ -516,7 +517,6 @@ export class SteamGameChecker {
     let totalAchievements = 0
     let ownedAny = false
     let anyStats = false
-    let anyPlayed = false
 
     for (const { appId, name } of games) {
       const gameInfo = ownedGames.find((g) => g.appid === appId)
@@ -537,11 +537,6 @@ export class SteamGameChecker {
           entryTotal = achievements.length
           totalUnlocked += entryUnlocked
           totalAchievements += entryTotal
-          // Preserve existing semantics: with achievement stats, "played"
-          // means at least one achievement unlocked; without, it's playtime.
-          if (entryUnlocked > 0) anyPlayed = true
-        } else if (playtime > 0) {
-          anyPlayed = true
         }
       }
 
@@ -580,7 +575,14 @@ export class SteamGameChecker {
       achievements_unlocked: totalUnlocked,
       achievements_total: totalAchievements,
       achievements_percentage: percentage,
-      never_played: !anyPlayed,
+      // HLTB length isn't known here, so the playtime branch falls back to the
+      // short-game bar; `applyPlayedThresholds` re-derives this with the game's
+      // HLTB hours once the win is matched back to its giveaway.
+      never_played: !isGamePlayed({
+        playtime_minutes: totalPlaytime,
+        achievements_unlocked: totalUnlocked,
+        achievements_total: totalAchievements,
+      }),
       is_playtime_private: totalPlaytime === 0 && totalUnlocked > 0,
     }
 

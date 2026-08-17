@@ -14,6 +14,7 @@ import type {
 import { steamChecker, type GamePlayData } from '../api/fetch-steam-data.js'
 import { delay, isRateLimitedHtml } from '../utils/common.js'
 import { logError } from '../utils/log-error.js'
+import { isGamePlayed } from '../utils/played.js'
 import { GiveawayPointsManager } from '../api/fetch-proof-of-play.js'
 import type { GiveawayData } from '../api/fetch-proof-of-play.js'
 import {
@@ -293,8 +294,57 @@ export function mergePlayData(
     merged.achievements_total = fresh.achievements_total || prev.achievements_total
     merged.achievements_percentage = prev.achievements_percentage
   }
-  merged.never_played = merged.playtime_minutes === 0 && merged.achievements_unlocked === 0
+  // HLTB length isn't available here; `applyPlayedThresholds` re-derives this
+  // for every win once the game data is joined in.
+  merged.never_played = !isGamePlayed(merged)
   return merged
+}
+
+/**
+ * Re-derive `never_played` for every stored win against the play thresholds,
+ * this time with the game's HLTB main-story length in hand.
+ *
+ * Steam pulls are budgeted, so most wins are not refetched on a given run;
+ * sweeping all of them keeps one definition of "played" across the dataset
+ * instead of leaving untouched wins on whatever rule was current when they
+ * were last fetched. Wins with no stats stay `never_played` — there is nothing
+ * to measure.
+ */
+export function applyPlayedThresholds(
+  users: Map<string, User>,
+  giveaways: Giveaway[],
+): number {
+  const gameDataByKey = new Map<string, GamePrice>()
+  for (const game of getGameData()) {
+    if (game.app_id) gameDataByKey.set(`app/${game.app_id}`, game)
+    if (game.package_id) gameDataByKey.set(`sub/${game.package_id}`, game)
+  }
+
+  const hltbByLink = new Map<string, number | null>()
+  for (const giveaway of giveaways) {
+    const game =
+      (giveaway.app_id
+        ? gameDataByKey.get(`app/${giveaway.app_id}`)
+        : undefined) ??
+      (giveaway.package_id
+        ? gameDataByKey.get(`sub/${giveaway.package_id}`)
+        : undefined)
+    hltbByLink.set(giveaway.link, game?.hltb_main_story_hours ?? null)
+  }
+
+  let changed = 0
+  for (const user of users.values()) {
+    for (const won of user.giveaways_won ?? []) {
+      const play = won.steam_play_data
+      if (!play || play.has_no_available_stats) continue
+      const neverPlayed = !isGamePlayed(play, hltbByLink.get(won.link))
+      if (play.never_played !== neverPlayed) {
+        play.never_played = neverPlayed
+        changed++
+      }
+    }
+  }
+  return changed
 }
 
 function countPendingWins(
@@ -1126,7 +1176,10 @@ export class SteamGiftsUserFetcher {
       )
     }
 
+    const rescored = applyPlayedThresholds(users, giveaways)
+
     console.log(`🎮 Steam data update complete (mode=${mode}):`)
+    console.log(`  • Played re-scored:   ${rescored}`)
     console.log(`  • Users processed:    ${processedUsers}/${totalUsers}`)
     console.log(`  • Wins checked:       ${steamCheckedCount}`)
     console.log(`  • Wins deferred:      ${steamSkippedCount}`)
