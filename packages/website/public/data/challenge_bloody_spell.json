@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1785542400,
   "totalAchievements": 60,
-  "generatedAt": 1786967428532,
+  "generatedAt": 1786972602460,
   "challengeOver": false,
   "winnerUsername": "Foxpile",
   "participants": [
@@ -822,7 +822,7 @@
       "review_recommendationid": "232300992",
       "review_url": "https://steamcommunity.com/profiles/76561197994025244/recommended/992300",
       "playtime_total_minutes": 1125,
-      "playtime_2weeks_minutes": 906,
+      "playtime_2weeks_minutes": 898,
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 1125,
       "achievements_total": 60,
@@ -3389,14 +3389,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 201,
-      "playtime_2weeks_minutes": 201,
+      "playtime_total_minutes": 291,
+      "playtime_2weeks_minutes": 291,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 201,
+      "playtime_challenge_minutes": 291,
       "achievements_total": 60,
-      "achievements_unlocked_total": 28,
+      "achievements_unlocked_total": 33,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 28,
+      "achievements_since_baseline": 33,
       "challenge_achievements": [
         {
           "apiname": "a30003",
@@ -3565,9 +3565,39 @@
           "displayName": "Skilled craftsmen",
           "description": "Successfully upgrade equipment 9 times in the mini-game.",
           "unlocktime": 1786966552
+        },
+        {
+          "apiname": "a20027",
+          "displayName": "BOSS XiaoLi",
+          "description": "Defeat BOSS XiaoLi.",
+          "unlocktime": 1786969260
+        },
+        {
+          "apiname": "a20028",
+          "displayName": "BOSS SuYejin",
+          "description": "Defeat BOSS SuYejin.",
+          "unlocktime": 1786969302
+        },
+        {
+          "apiname": "a20021",
+          "displayName": "Big Demon",
+          "description": "Kill 30 Big Demon.",
+          "unlocktime": 1786969857
+        },
+        {
+          "apiname": "a10015",
+          "displayName": "Marksman",
+          "description": "Nest 9 utensils in the ferrule mini-game.",
+          "unlocktime": 1786971075
+        },
+        {
+          "apiname": "a20029",
+          "displayName": "BOSS Guard",
+          "description": "Defeat BOSS Guard.",
+          "unlocktime": 1786972165
         }
       ],
-      "challenge_achievement_count": 28,
+      "challenge_achievement_count": 33,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
