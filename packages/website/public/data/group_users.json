@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1786933011927,
+  "lastUpdated": 1786934605287,
   "users": {
     "76561198359284432": {
       "username": "a10i",
@@ -786,7 +786,7 @@
             "is_playtime_private": false,
             "has_no_available_stats": true,
             "no_stats_reason": "no_steam_stats",
-            "last_checked": 1786761680152
+            "last_checked": 1786934563093
           },
           "required_play_meta": {
             "requirements_met": false,
@@ -1359,7 +1359,7 @@
             "is_playtime_private": false,
             "has_no_available_stats": true,
             "no_stats_reason": "no_steam_stats",
-            "last_checked": 1786761702079
+            "last_checked": 1786934564487
           }
         },
         {
@@ -4021,7 +4021,50 @@
           "status": "received",
           "end_timestamp": 1786894980,
           "required_play": true,
-          "is_shared": false
+          "is_shared": false,
+          "steam_play_data": {
+            "owned": true,
+            "playtime_minutes": 0,
+            "playtime_formatted": "0 minutes",
+            "achievements_unlocked": 0,
+            "achievements_total": 317,
+            "achievements_percentage": 0,
+            "never_played": true,
+            "is_playtime_private": false,
+            "games_breakdown": [
+              {
+                "app_id": 2552430,
+                "name": "KINGDOM HEARTS -HD 1.5+2.5 ReMIX-",
+                "owned": true,
+                "playtime_minutes": 0,
+                "playtime_formatted": "0 minutes",
+                "achievements_unlocked": 0,
+                "achievements_total": 197,
+                "achievements_percentage": 0
+              },
+              {
+                "app_id": 2552440,
+                "name": "KINGDOM HEARTS HD 2.8 Final Chapter Prologue",
+                "owned": true,
+                "playtime_minutes": 0,
+                "playtime_formatted": "0 minutes",
+                "achievements_unlocked": 0,
+                "achievements_total": 69,
+                "achievements_percentage": 0
+              },
+              {
+                "app_id": 2552450,
+                "name": "KINGDOM HEARTS III + Re Mind (DLC)",
+                "owned": true,
+                "playtime_minutes": 0,
+                "playtime_formatted": "0 minutes",
+                "achievements_unlocked": 0,
+                "achievements_total": 51,
+                "achievements_percentage": 0
+              }
+            ],
+            "last_checked": 1786934569386
+          }
         },
         {
           "name": "Sephiria",
@@ -13249,7 +13292,7 @@
             "is_playtime_private": false,
             "has_no_available_stats": true,
             "no_stats_reason": "no_steam_stats",
-            "last_checked": 1786761703479
+            "last_checked": 1786934570604
           }
         },
         {
@@ -15864,7 +15907,7 @@
             "is_playtime_private": false,
             "has_no_available_stats": true,
             "no_stats_reason": "not_in_library",
-            "last_checked": 1786761704790
+            "last_checked": 1786934571773
           }
         },
         {
@@ -16749,7 +16792,7 @@
             "is_playtime_private": false,
             "has_no_available_stats": true,
             "no_stats_reason": "no_steam_stats",
-            "last_checked": 1786761706335
+            "last_checked": 1786934573060
           }
         },
         {
@@ -21762,7 +21805,7 @@
             "is_playtime_private": false,
             "has_no_available_stats": true,
             "no_stats_reason": "not_in_library",
-            "last_checked": 1786680501453
+            "last_checked": 1786934574260
           }
         },
         {
@@ -22353,7 +22396,7 @@
             "is_playtime_private": false,
             "has_no_available_stats": true,
             "no_stats_reason": "no_steam_stats",
-            "last_checked": 1786761707784
+            "last_checked": 1786934575605
           }
         },
         {
@@ -24359,7 +24402,18 @@
           "status": "received",
           "end_timestamp": 1786827300,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "steam_play_data": {
+            "owned": true,
+            "playtime_minutes": 0,
+            "playtime_formatted": "0 minutes",
+            "achievements_unlocked": 0,
+            "achievements_total": 121,
+            "achievements_percentage": 0,
+            "never_played": true,
+            "is_playtime_private": false,
+            "last_checked": 1786934576976
+          }
         },
         {
           "name": "Dogpile",
@@ -27328,7 +27382,7 @@
             "is_playtime_private": false,
             "has_no_available_stats": true,
             "no_stats_reason": "not_in_library",
-            "last_checked": 1786761709197
+            "last_checked": 1786934578393
           },
           "i_played_bro": true
         }
@@ -31668,7 +31722,7 @@
             "is_playtime_private": false,
             "has_no_available_stats": true,
             "no_stats_reason": "no_steam_stats",
-            "last_checked": 1786761687584
+            "last_checked": 1786934579808
           }
         },
         {
@@ -33277,7 +33331,7 @@
             "is_playtime_private": false,
             "has_no_available_stats": true,
             "no_stats_reason": "not_in_library",
-            "last_checked": 1786761710566
+            "last_checked": 1786934581086
           },
           "i_played_bro": true
         },
@@ -36933,8 +36987,8 @@
           "is_shared": false,
           "steam_play_data": {
             "owned": true,
-            "playtime_minutes": 95,
-            "playtime_formatted": "1 hour 35 minutes",
+            "playtime_minutes": 130,
+            "playtime_formatted": "2 hours 10 minutes",
             "achievements_unlocked": 0,
             "achievements_total": 0,
             "achievements_percentage": 0,
@@ -36942,7 +36996,7 @@
             "is_playtime_private": false,
             "has_no_available_stats": true,
             "no_stats_reason": "no_steam_stats",
-            "last_checked": 1786761671594
+            "last_checked": 1786934582372
           }
         },
         {
@@ -37686,7 +37740,8 @@
           ]
         }
       ],
-      "registered_at": 1718174609
+      "registered_at": 1718174609,
+      "last_played_at": 1786934583373
     },
     "76561198013734355": {
       "username": "gus09",
@@ -38010,7 +38065,7 @@
             "is_playtime_private": false,
             "has_no_available_stats": true,
             "no_stats_reason": "no_steam_stats",
-            "last_checked": 1786761689064
+            "last_checked": 1786934551103
           }
         },
         {
@@ -38032,7 +38087,7 @@
             "is_playtime_private": false,
             "has_no_available_stats": true,
             "no_stats_reason": "no_steam_stats",
-            "last_checked": 1786761690175
+            "last_checked": 1786934552168
           },
           "required_play_meta": {
             "requirements_met": true,
@@ -43593,7 +43648,7 @@
             "is_playtime_private": false,
             "has_no_available_stats": true,
             "no_stats_reason": "not_in_library",
-            "last_checked": 1786761691667
+            "last_checked": 1786934553437
           },
           "i_played_bro": true
         },
@@ -43657,7 +43712,7 @@
             "is_playtime_private": false,
             "has_no_available_stats": true,
             "no_stats_reason": "not_in_library",
-            "last_checked": 1786761692668
+            "last_checked": 1786934554438
           },
           "i_played_bro": true
         },
@@ -44652,7 +44707,7 @@
             "is_playtime_private": false,
             "has_no_available_stats": true,
             "no_stats_reason": "no_steam_stats",
-            "last_checked": 1786761714229
+            "last_checked": 1786934584063
           },
           "i_played_bro": true
         },
@@ -47943,7 +47998,7 @@
             "is_playtime_private": false,
             "has_no_available_stats": true,
             "no_stats_reason": "no_steam_stats",
-            "last_checked": 1786761715815
+            "last_checked": 1786934585373
           }
         },
         {
@@ -48700,7 +48755,7 @@
             "is_playtime_private": false,
             "has_no_available_stats": true,
             "no_stats_reason": "not_in_library",
-            "last_checked": 1786761717306
+            "last_checked": 1786934586575
           }
         },
         {
@@ -50277,7 +50332,7 @@
             "is_playtime_private": false,
             "has_no_available_stats": true,
             "no_stats_reason": "not_in_library",
-            "last_checked": 1786761694088
+            "last_checked": 1786934555659
           },
           "required_play_meta": {
             "requirements_met": true,
@@ -50303,7 +50358,7 @@
             "is_playtime_private": false,
             "has_no_available_stats": true,
             "no_stats_reason": "no_steam_stats",
-            "last_checked": 1786761695205
+            "last_checked": 1786934556749
           }
         },
         {
@@ -54995,7 +55050,7 @@
             "is_playtime_private": false,
             "has_no_available_stats": true,
             "no_stats_reason": "package_delisted",
-            "last_checked": 1786761718950
+            "last_checked": 1786934587951
           }
         },
         {
@@ -56538,7 +56593,7 @@
             "is_playtime_private": false,
             "has_no_available_stats": true,
             "no_stats_reason": "not_in_library",
-            "last_checked": 1786761720663
+            "last_checked": 1786934589403
           }
         },
         {
@@ -62057,7 +62112,7 @@
             "is_playtime_private": false,
             "has_no_available_stats": true,
             "no_stats_reason": "no_steam_stats",
-            "last_checked": 1786761722285
+            "last_checked": 1786934590887
           }
         },
         {
@@ -63812,7 +63867,7 @@
             "is_playtime_private": false,
             "has_no_available_stats": true,
             "no_stats_reason": "no_steam_stats",
-            "last_checked": 1786761723760
+            "last_checked": 1786934592227
           }
         },
         {
@@ -64844,7 +64899,18 @@
           "status": "received",
           "end_timestamp": 1786917600,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "steam_play_data": {
+            "owned": true,
+            "playtime_minutes": 0,
+            "playtime_formatted": "0 minutes",
+            "achievements_unlocked": 0,
+            "achievements_total": 56,
+            "achievements_percentage": 0,
+            "never_played": true,
+            "is_playtime_private": false,
+            "last_checked": 1786934558138
+          }
         },
         {
           "name": "Echoes of the End: Enhanced Edition",
@@ -65506,7 +65572,7 @@
             "is_playtime_private": false,
             "has_no_available_stats": true,
             "no_stats_reason": "not_in_library",
-            "last_checked": 1786761697827
+            "last_checked": 1786934559139
           }
         },
         {
@@ -71420,7 +71486,7 @@
             "is_playtime_private": false,
             "has_no_available_stats": true,
             "no_stats_reason": "no_steam_stats",
-            "last_checked": 1786761725302
+            "last_checked": 1786934593552
           }
         },
         {
@@ -76809,7 +76875,7 @@
             "is_playtime_private": false,
             "has_no_available_stats": true,
             "no_stats_reason": "no_steam_stats",
-            "last_checked": 1786761726806
+            "last_checked": 1786934594899
           }
         },
         {
@@ -78485,7 +78551,7 @@
             "is_playtime_private": false,
             "has_no_available_stats": true,
             "no_stats_reason": "no_steam_stats",
-            "last_checked": 1786761728701
+            "last_checked": 1786934596319
           }
         },
         {
@@ -86408,7 +86474,18 @@
           "status": "received",
           "end_timestamp": 1786829940,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "steam_play_data": {
+            "owned": true,
+            "playtime_minutes": 39,
+            "playtime_formatted": "39 minutes",
+            "achievements_unlocked": 11,
+            "achievements_total": 110,
+            "achievements_percentage": 10,
+            "never_played": false,
+            "is_playtime_private": false,
+            "last_checked": 1786934597730
+          }
         },
         {
           "name": "Split Fiction",
@@ -87278,7 +87355,8 @@
           ]
         }
       ],
-      "registered_at": 1592258916
+      "registered_at": 1592258916,
+      "last_played_at": 1786934598730
     },
     "76561198054324521": {
       "username": "Sakakino",
@@ -93886,7 +93964,7 @@
             "is_playtime_private": false,
             "has_no_available_stats": true,
             "no_stats_reason": "not_in_library",
-            "last_checked": 1786761699253
+            "last_checked": 1786934560562
           }
         },
         {
@@ -94175,7 +94253,7 @@
             "is_playtime_private": false,
             "has_no_available_stats": true,
             "no_stats_reason": "package_delisted",
-            "last_checked": 1786761700536
+            "last_checked": 1786934561702
           }
         },
         {
@@ -97338,7 +97416,7 @@
             "is_playtime_private": false,
             "has_no_available_stats": true,
             "no_stats_reason": "not_in_library",
-            "last_checked": 1786761731715
+            "last_checked": 1786934598998
           },
           "required_play_meta": {
             "requirements_met": false,
@@ -101001,7 +101079,7 @@
             "is_playtime_private": false,
             "has_no_available_stats": true,
             "no_stats_reason": "no_steam_stats",
-            "last_checked": 1786761733159
+            "last_checked": 1786934600345
           },
           "i_played_bro": true
         }
@@ -102719,7 +102797,7 @@
             "is_playtime_private": false,
             "has_no_available_stats": true,
             "no_stats_reason": "not_in_library",
-            "last_checked": 1786761734758
+            "last_checked": 1786934601596
           }
         },
         {
@@ -104847,7 +104925,7 @@
             "is_playtime_private": false,
             "has_no_available_stats": true,
             "no_stats_reason": "no_steam_stats",
-            "last_checked": 1786761736324
+            "last_checked": 1786934603018
           }
         },
         {
@@ -105230,7 +105308,7 @@
             "is_playtime_private": false,
             "has_no_available_stats": true,
             "no_stats_reason": "no_steam_stats",
-            "last_checked": 1786761737979
+            "last_checked": 1786934604286
           }
         },
         {
