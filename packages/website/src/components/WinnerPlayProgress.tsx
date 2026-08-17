@@ -27,12 +27,14 @@ function Tag({
     <span
       title={title}
       className={cn(
-        'inline-flex items-center gap-0.5 rounded-full bg-card-background px-1 text-[9px] font-medium uppercase tracking-wide',
-        verified ? 'text-success-foreground' : 'text-subtle',
+        'inline-flex items-center gap-0.5 rounded-full px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide',
+        verified
+          ? 'bg-success-light text-success-foreground'
+          : 'bg-card-background text-muted-foreground ring-1 ring-card-border',
       )}
     >
       {label}
-      {verified && <Check className="h-2 w-2" aria-hidden />}
+      {verified && <Check className="h-2.5 w-2.5" aria-hidden />}
     </span>
   )
 }
@@ -73,7 +75,7 @@ export function WinnerPlayProgress({
   return (
     <span
       className={cn(
-        'tabular-nums-strict inline-flex items-center gap-1.5 text-[10px] text-subtle',
+        'tabular-nums-strict inline-flex items-center gap-1.5 text-[11px] font-medium text-muted-foreground',
         className,
       )}
     >
@@ -82,7 +84,7 @@ export function WinnerPlayProgress({
           className="inline-flex items-center gap-0.5"
           title={`${formatPlaytime(stats.playtime_minutes!)} played`}
         >
-          <Clock3 className="h-2.5 w-2.5" aria-hidden />
+          <Clock3 className="h-3 w-3" aria-hidden />
           {compactPlaytime(stats.playtime_minutes!)}
         </span>
       )}
@@ -90,11 +92,12 @@ export function WinnerPlayProgress({
         <span
           className={cn(
             'inline-flex items-center gap-0.5',
-            completed && 'text-success-foreground',
+            // Gold for a full clear; the trophy is the reward, not a status.
+            completed && 'font-semibold text-[var(--accent-yellow)]',
           )}
           title={`${stats.achievements_unlocked} of ${stats.achievements_total} achievements`}
         >
-          <Trophy className="h-2.5 w-2.5" aria-hidden />
+          <Trophy className="h-3 w-3" aria-hidden />
           {stats.achievements_unlocked}/{stats.achievements_total}
         </span>
       )}
