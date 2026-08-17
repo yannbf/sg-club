@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1785542400,
   "totalAchievements": 60,
-  "generatedAt": 1786957753193,
+  "generatedAt": 1786961188585,
   "challengeOver": false,
   "winnerUsername": "Foxpile",
   "participants": [
@@ -3584,14 +3584,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 150,
-      "playtime_2weeks_minutes": 150,
+      "playtime_total_minutes": 171,
+      "playtime_2weeks_minutes": 171,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 150,
+      "playtime_challenge_minutes": 171,
       "achievements_total": 60,
-      "achievements_unlocked_total": 24,
+      "achievements_unlocked_total": 26,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 24,
+      "achievements_since_baseline": 26,
       "challenge_achievements": [
         {
           "apiname": "a30003",
@@ -3736,9 +3736,21 @@
           "displayName": "Ore Collector",
           "description": "Collect 10 Iron Ore.",
           "unlocktime": 1786956558
+        },
+        {
+          "apiname": "a10006",
+          "displayName": "Treasure Hunter",
+          "description": "Open 15 chests.",
+          "unlocktime": 1786957861
+        },
+        {
+          "apiname": "a20010",
+          "displayName": "Boss Tinghan Lu",
+          "description": "Defeat Boss Tinghan Lu.",
+          "unlocktime": 1786958341
         }
       ],
-      "challenge_achievement_count": 24,
+      "challenge_achievement_count": 26,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
