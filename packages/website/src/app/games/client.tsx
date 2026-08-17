@@ -301,6 +301,7 @@ export default function GamesClient({
               <GameImage
                 appId={game.app_id ?? undefined}
                 packageId={game.package_id ?? undefined}
+                fallbackUrl={game.header_image_url}
                 name={game.name}
                 fillWidth
               />

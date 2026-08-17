@@ -251,6 +251,13 @@ export interface GameData {
   coming_soon?: boolean | null
   release_date?: string | null
   release_checked_at?: string | null
+  /**
+   * Store art from appdetails. The flat CDN path GameImage builds from an app
+   * id 404s for apps behind a per-app content hash, and this is the only URL
+   * that resolves for them — pass it as GameImage's `fallbackUrl`.
+   */
+  header_image_url?: string | null
+  header_image_checked_at?: string | null
 }
 
 export interface InsightData {

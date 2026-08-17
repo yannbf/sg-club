@@ -24,7 +24,15 @@ const PLACEHOLDER_IMAGE =
 const FALLBACK_AVATAR =
   'https://images.icon-icons.com/2550/PNG/512/question_mark_circle_icon_152550.png'
 
-export function getGameImageUrl(giveaway: Giveaway): string {
+/**
+ * Steam serves the art of newer apps from a path carrying a per-app content
+ * hash, where the id-only URL below 404s. `header_image_url` is that hashed URL
+ * as appdetails reports it, so it wins whenever the game data carries one.
+ */
+export function getGameImageUrl(giveaway: Giveaway, game?: GameData): string {
+  if (game?.header_image_url) {
+    return game.header_image_url
+  }
   if (giveaway.app_id) {
     return `https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/${giveaway.app_id}/header.jpg`
   }
@@ -113,7 +121,9 @@ export function GiveawayCard({
   const now = Date.now() / 1000
   const isEnded = giveaway.end_timestamp < now
   const isFuture = giveaway.start_timestamp > now
-  const imageUrl = imageFailed ? PLACEHOLDER_IMAGE : getGameImageUrl(giveaway)
+  const imageUrl = imageFailed
+    ? PLACEHOLDER_IMAGE
+    : getGameImageUrl(giveaway, game)
   const hltb =
     game && 'hltb_main_story_hours' in game ? game.hltb_main_story_hours : null
 

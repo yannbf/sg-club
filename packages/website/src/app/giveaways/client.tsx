@@ -68,7 +68,15 @@ interface Props {
 const PLACEHOLDER_IMAGE =
   'https://steamplayercount.com/theme/img/placeholder.svg'
 
-export function getGameImageUrl(giveaway: Giveaway): string {
+/**
+ * Steam serves the art of newer apps from a path carrying a per-app content
+ * hash, where the id-only URL below 404s. `header_image_url` is that hashed URL
+ * as appdetails reports it, so it wins whenever the game data carries one.
+ */
+export function getGameImageUrl(giveaway: Giveaway, game?: GameData | null): string {
+  if (game?.header_image_url) {
+    return game.header_image_url
+  }
   if (giveaway.app_id) {
     return `https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/${giveaway.app_id}/header.jpg`
   }
@@ -714,11 +722,11 @@ export default function GiveawaysClient({
         render={({ data: giveaway }) => {
           const isEnded = giveaway.end_timestamp < Date.now() / 1000
           const isFuture = giveaway.start_timestamp > Date.now() / 1000
-          const imageUrl = failedImages.has(giveaway.id)
-            ? PLACEHOLDER_IMAGE
-            : getGameImageUrl(giveaway)
           const accent = getCardAccent(giveaway)
           const game = getGameData(giveaway.app_id ?? giveaway.package_id)
+          const imageUrl = failedImages.has(giveaway.id)
+            ? PLACEHOLDER_IMAGE
+            : getGameImageUrl(giveaway, game)
 
           if (compactView) {
             return (

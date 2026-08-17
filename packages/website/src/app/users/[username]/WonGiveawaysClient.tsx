@@ -279,6 +279,7 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData, 
                     <GameImage
                       appId={matchingGiveaway?.app_id?.toString()}
                       packageId={matchingGiveaway?.package_id?.toString()}
+                      fallbackUrl={gameData?.header_image_url}
                       name={game.name}
                     />
 

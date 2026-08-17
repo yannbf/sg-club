@@ -301,4 +301,7 @@ export interface GamePrice {
   coming_soon?: boolean | null
   release_date?: string | null
   release_checked_at?: string | null
+  /** Store art resolved from appdetails, for apps whose flat CDN path 404s. */
+  header_image_url?: string | null
+  header_image_checked_at?: string | null
 }

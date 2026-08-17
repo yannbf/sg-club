@@ -247,6 +247,7 @@ export default function GivenGiveawaysClient({ giveaways, userAvatars, userNames
                     <GameImage
                       appId={giveaway.app_id?.toString()}
                       packageId={giveaway.package_id?.toString()}
+                      fallbackUrl={gameData?.header_image_url}
                       name={giveaway.name}
                     />
 

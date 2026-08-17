@@ -206,7 +206,7 @@ export default function EventDetailClient({
               >
                 <div className="relative aspect-[460/215] overflow-hidden rounded-lg bg-card-background-hover ring-1 ring-card-border transition-all group-hover/mini:ring-card-border-strong">
                   <Image
-                    src={getGameImageUrl(g)}
+                    src={getGameImageUrl(g, gameById[g.app_id ?? g.package_id ?? ''])}
                     alt={g.name || 'Game'}
                     fill
                     unoptimized

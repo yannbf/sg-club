@@ -51,6 +51,13 @@ interface GameData {
   coming_soon: boolean | null
   release_date: string | null
   release_checked_at: string | null
+  // Steam's own store art URL. The flat
+  // `store_item_assets/steam/apps/<id>/header.jpg` path the site builds from an
+  // app id 404s for apps Steam has moved behind a per-app content hash — new
+  // releases, mostly, which is most of what gets given away. appdetails is the
+  // only place that hash is published, so it's resolved here and stored.
+  header_image_url: string | null
+  header_image_checked_at: string | null
 }
 
 interface ApiResponse {
@@ -94,6 +101,9 @@ interface Stats {
   releasesFetched: number
   releasesFailed: number
   releasesDeferred: number
+  headerArtFetched: number
+  headerArtFailed: number
+  headerArtDeferred: number
 }
 
 const DELAY_BETWEEN_REQUESTS = 1000 // 1 second delay between requests
@@ -111,6 +121,12 @@ const RELEASE_DELAY_MS = 1500
 // that slips or lands needs to be picked up within a day or two, since it
 // decides whether the win starts counting against its owner.
 const RELEASE_STALE_MS = 2 * 24 * 60 * 60 * 1000 // 2 days
+// Art moves only when a developer replaces it, so a resolved URL is trusted for
+// a month. A miss is retried after a week: an app with no store page today
+// (unreleased, delisted, region-locked) may well have one next week.
+const HEADER_ART_STALE_MS = 30 * 24 * 60 * 60 * 1000 // 30 days
+const HEADER_ART_RETRY_MS = 7 * 24 * 60 * 60 * 1000 // 7 days
+const HEADER_ART_DELAY_MS = 1500
 // How long a null HLTB result is trusted before we ask again. Most nulls are
 // games HLTB will never have, so retrying often is pure wasted wallclock.
 const HLTB_NULL_RETRY_MS = 30 * 24 * 60 * 60 * 1000 // 30 days
@@ -139,6 +155,13 @@ function getReviewsPerRunCap(): number {
 /** How many stale/missing release statuses get fetched in a single run. */
 function getReleasesPerRunCap(): number {
   const raw = process.env.GAME_DATA_RELEASE_PER_RUN
+  const parsed = raw !== undefined ? Number(raw) : NaN
+  return Number.isFinite(parsed) && parsed >= 0 ? parsed : 200
+}
+
+/** How many stale/missing store-art URLs get resolved in a single run. */
+function getHeaderArtPerRunCap(): number {
+  const raw = process.env.GAME_DATA_HEADER_ART_PER_RUN
   const parsed = raw !== undefined ? Number(raw) : NaN
   return Number.isFinite(parsed) && parsed >= 0 ? parsed : 200
 }
@@ -421,6 +444,86 @@ async function fetchReleaseStatus(
  * unreleased — are checked in the first run instead of waiting behind
  * thousands of long-released back-catalogue titles.
  */
+/**
+ * Resolve a game's store header art. `filters=basic` is the smallest appdetails
+ * slice that still carries `header_image`, and its URL embeds the content hash
+ * that the flat CDN path lacks. Falls back to the capsule when a store page
+ * carries no header.
+ *
+ * Returns null on failure or `success: false`; `'rate_limited'` stops the pass
+ * for the same reason `fetchReleaseStatus` does.
+ */
+async function fetchHeaderArt(
+  appId: number,
+  attempts = 3,
+): Promise<string | null | 'rate_limited'> {
+  const url =
+    `https://store.steampowered.com/api/appdetails/?appids=${appId}` +
+    `&filters=basic&cc=us&l=en`
+
+  let lastErr: unknown
+  for (let attempt = 1; attempt <= attempts; attempt++) {
+    try {
+      const response = await fetch(url)
+      if (response.status === 429) return 'rate_limited'
+      if (response.status >= 500) {
+        throw new Error(`Retryable ${response.status} ${response.statusText}`)
+      }
+      if (!response.ok) {
+        console.warn(
+          `⚠️ Header art fetch failed for appid ${appId}: ${response.status} ${response.statusText}`
+        )
+        return null
+      }
+      const data = (await response.json()) as Record<
+        string,
+        {
+          success?: boolean
+          data?: { header_image?: string; capsule_image?: string }
+        }
+      >
+      const entry = data[String(appId)]
+      if (!entry?.success) return null
+      return entry.data?.header_image || entry.data?.capsule_image || null
+    } catch (error) {
+      lastErr = error
+      if (attempt < attempts) await setTimeout(attempt * 1000)
+    }
+  }
+
+  console.warn(`⚠️ Header art fetch failed for appid ${appId}:`, lastErr)
+  return null
+}
+
+/**
+ * Games whose store art is missing or old enough to re-resolve, never-checked
+ * first and then oldest-checked. A game that already has a URL is only revisited
+ * once it passes HEADER_ART_STALE_MS; one that came back empty waits out the
+ * shorter HEADER_ART_RETRY_MS.
+ */
+export function selectHeaderArtCandidates(
+  games: GameData[],
+  now: number
+): GameData[] {
+  const appIdOf = (game: GameData) => game.app_id || game.app_id_for_package_id || 0
+
+  return games
+    .filter((game) => {
+      if (!appIdOf(game)) return false
+      if (!game.header_image_checked_at) return true
+      const age = now - new Date(game.header_image_checked_at).getTime()
+      return age > (game.header_image_url ? HEADER_ART_STALE_MS : HEADER_ART_RETRY_MS)
+    })
+    .sort((a, b) => {
+      const aChecked = a.header_image_checked_at
+      const bChecked = b.header_image_checked_at
+      if (!aChecked && !bChecked) return appIdOf(b) - appIdOf(a)
+      if (!aChecked) return -1
+      if (!bChecked) return 1
+      return new Date(aChecked).getTime() - new Date(bChecked).getTime()
+    })
+}
+
 export function selectReleaseCandidates(
   games: GameData[],
   now: number
@@ -458,6 +561,9 @@ function formatStats(stats: Stats): string {
 🗓️  Release statuses fetched: ${stats.releasesFetched}
 ⚠️  Release fetches failed: ${stats.releasesFailed}
 ⏳ Release fetches deferred (cap reached): ${stats.releasesDeferred}
+🖼️  Store art resolved: ${stats.headerArtFetched}
+⚠️  Store art lookups failed: ${stats.headerArtFailed}
+⏳ Store art lookups deferred (cap reached): ${stats.headerArtDeferred}
 ❌ Errors: ${stats.errors}
 ⏭️  Skipped (no ID): ${stats.skipped}
 ------------------------
@@ -479,6 +585,9 @@ export async function generateGamePrices() {
     releasesFetched: 0,
     releasesFailed: 0,
     releasesDeferred: 0,
+    headerArtFetched: 0,
+    headerArtFailed: 0,
+    headerArtDeferred: 0,
   }
 
   try {
@@ -623,6 +732,8 @@ export async function generateGamePrices() {
         coming_soon: existingGame?.coming_soon ?? null,
         release_date: existingGame?.release_date ?? null,
         release_checked_at: existingGame?.release_checked_at ?? null,
+        header_image_url: existingGame?.header_image_url ?? null,
+        header_image_checked_at: existingGame?.header_image_checked_at ?? null,
       }
 
       if (
@@ -773,6 +884,41 @@ export async function generateGamePrices() {
         stats.releasesFailed++
       }
       await setTimeout(RELEASE_DELAY_MS)
+    }
+
+    // --- Incremental store-art pass ---
+    const headerArtPerRunCap = getHeaderArtPerRunCap()
+    const headerArtCandidates = selectHeaderArtCandidates(
+      Array.from(existingGamesMap.values()),
+      Date.now()
+    )
+    const headerArtToFetch = headerArtCandidates.slice(0, headerArtPerRunCap)
+    stats.headerArtDeferred = headerArtCandidates.length - headerArtToFetch.length
+
+    console.log(
+      `\n🖼️ Resolving store art for ${headerArtToFetch.length} game(s) (cap ${headerArtPerRunCap}, ${stats.headerArtDeferred} deferred)...\n`
+    )
+
+    for (const game of headerArtToFetch) {
+      const appId = game.app_id || game.app_id_for_package_id
+      if (!appId) continue // TypeScript safety
+      const art = await fetchHeaderArt(appId)
+      if (art === 'rate_limited') {
+        console.warn(
+          `⚠️ Steam rate-limited the store-art pass — stopping here, the next run resumes from this point.`
+        )
+        break
+      }
+      // A null answer is stamped too: it's a real "this app has no store page"
+      // for most candidates, and HEADER_ART_RETRY_MS decides when to ask again.
+      game.header_image_url = art
+      game.header_image_checked_at = new Date().toISOString()
+      if (art) {
+        stats.headerArtFetched++
+      } else {
+        stats.headerArtFailed++
+      }
+      await setTimeout(HEADER_ART_DELAY_MS)
     }
 
     // Convert map values back to array for saving

@@ -1,5 +1,8 @@
 import { describe, expect, it } from 'vitest'
-import { selectReleaseCandidates } from './fetch-game-prices'
+import {
+  selectHeaderArtCandidates,
+  selectReleaseCandidates,
+} from './fetch-game-prices'
 
 const NOW = new Date('2026-08-14T12:00:00Z').getTime()
 const daysAgo = (days: number) =>
@@ -22,8 +25,76 @@ const game = (fields: Record<string, unknown>) =>
     coming_soon: null,
     release_date: null,
     release_checked_at: null,
+    header_image_url: null,
+    header_image_checked_at: null,
     ...fields,
   }) as Parameters<typeof selectReleaseCandidates>[0][number]
+
+describe('selectHeaderArtCandidates', () => {
+  it('includes every game whose art has never been looked up', () => {
+    const candidates = selectHeaderArtCandidates(
+      [game({ app_id: 1, name: 'unchecked' })],
+      NOW
+    )
+    expect(candidates.map((g) => g.name)).toEqual(['unchecked'])
+  })
+
+  it('keeps a resolved URL for a month before re-resolving it', () => {
+    const fresh = game({
+      app_id: 1,
+      name: 'fresh',
+      header_image_url: 'https://example/a/header.jpg',
+      header_image_checked_at: daysAgo(10),
+    })
+    const stale = game({
+      app_id: 2,
+      name: 'stale',
+      header_image_url: 'https://example/b/header.jpg',
+      header_image_checked_at: daysAgo(40),
+    })
+    expect(
+      selectHeaderArtCandidates([fresh, stale], NOW).map((g) => g.name)
+    ).toEqual(['stale'])
+  })
+
+  it('retries a game with no art after a week', () => {
+    const recentMiss = game({
+      app_id: 1,
+      name: 'recent-miss',
+      header_image_checked_at: daysAgo(3),
+    })
+    const oldMiss = game({
+      app_id: 2,
+      name: 'old-miss',
+      header_image_checked_at: daysAgo(10),
+    })
+    expect(
+      selectHeaderArtCandidates([recentMiss, oldMiss], NOW).map((g) => g.name)
+    ).toEqual(['old-miss'])
+  })
+
+  it('resolves package-only entries through their backing app id', () => {
+    const candidates = selectHeaderArtCandidates(
+      [
+        game({ app_id: null, package_id: 5, name: 'no-app' }),
+        game({ app_id: null, package_id: 6, app_id_for_package_id: 99, name: 'sub' }),
+      ],
+      NOW
+    )
+    expect(candidates.map((g) => g.name)).toEqual(['sub'])
+  })
+
+  it('puts never-checked games ahead of ones with a stale stamp', () => {
+    const candidates = selectHeaderArtCandidates(
+      [
+        game({ app_id: 1, name: 'stale', header_image_checked_at: daysAgo(30) }),
+        game({ app_id: 2, name: 'never' }),
+      ],
+      NOW
+    )
+    expect(candidates.map((g) => g.name)).toEqual(['never', 'stale'])
+  })
+})
 
 describe('selectReleaseCandidates', () => {
   it('includes every game whose release status has never been checked', () => {
