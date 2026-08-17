@@ -580,8 +580,8 @@ export class SteamGameChecker {
       achievements_total: totalAchievements,
       achievements_percentage: percentage,
       // HLTB length isn't known here, so the playtime branch falls back to the
-      // short-game bar; `applyPlayedThresholds` re-derives this with the game's
-      // HLTB hours once the win is matched back to its giveaway.
+      // unknown-length bar; `applyPlayedThresholds` re-derives this with the
+      // game's HLTB hours once the win is matched back to its giveaway.
       never_played: !isGamePlayed({
         playtime_minutes: totalPlaytime,
         achievements_unlocked: totalUnlocked,

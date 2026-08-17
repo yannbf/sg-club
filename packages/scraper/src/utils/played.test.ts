@@ -27,15 +27,20 @@ describe('isGamePlayed', () => {
   })
 
   describe('game without achievements', () => {
-    it('needs 20% of a main story longer than 4h', () => {
-      expect(isGamePlayed(play(119), 10)).toBe(false)
-      expect(isGamePlayed(play(120), 10)).toBe(true)
+    it('needs a quarter of the main story', () => {
+      expect(isGamePlayed(play(149), 10)).toBe(false)
+      expect(isGamePlayed(play(150), 10)).toBe(true)
     })
 
-    it('needs 2h for a main story of 4h or less', () => {
-      expect(isGamePlayed(play(119), 3)).toBe(false)
-      expect(isGamePlayed(play(120), 3)).toBe(true)
-      expect(isGamePlayed(play(120), 4)).toBe(true)
+    it('scales down with a short main story', () => {
+      expect(isGamePlayed(play(44), 3)).toBe(false)
+      expect(isGamePlayed(play(45), 3)).toBe(true)
+    })
+
+    it('caps the bar at 15h however long the main story is', () => {
+      expect(isGamePlayed(play(60 * 15 - 1), 200)).toBe(false)
+      expect(isGamePlayed(play(60 * 15), 200)).toBe(true)
+      expect(isGamePlayed(play(60 * 15), 60)).toBe(true)
     })
 
     it('falls back to the 2h bar when HLTB is unknown', () => {

@@ -5,19 +5,19 @@
  * is not enough. Evidence is graded by what Steam can prove:
  *
  * - The game has achievements → at least 10% of them unlocked.
- * - No achievements, and HowLongToBeat's main story is over 4h → at least 20%
- *   of that main story played.
- * - No achievements, and a short (or unknown-length) game → at least 2h played.
+ * - No achievements → at least 25% of HowLongToBeat's main story played,
+ *   capped at 15h so an epic-length game can't put the bar out of reach.
+ * - No achievements and no HLTB length → at least 2h played.
  *
- * An unknown HLTB length falls back to the short-game bar: 2h is the lowest
- * threshold the rules define, so a missing lookup can never make the check
- * stricter than the data supports.
+ * An unknown HLTB length falls back to the 2h bar, the loosest threshold the
+ * rules define, so a missing lookup can never make the check stricter than the
+ * data supports.
  */
 
 export const PLAYED_ACHIEVEMENT_PERCENT = 10
-export const PLAYED_HLTB_FRACTION = 0.2
-export const SHORT_GAME_HLTB_HOURS = 4
-export const SHORT_GAME_PLAYED_MINUTES = 2 * 60
+export const PLAYED_HLTB_FRACTION = 0.25
+export const PLAYED_HLTB_CAP_MINUTES = 15 * 60
+export const UNKNOWN_LENGTH_PLAYED_MINUTES = 2 * 60
 
 export interface PlayEvidence {
   playtime_minutes: number
@@ -35,11 +35,13 @@ export function isGamePlayed(
     return percentage >= PLAYED_ACHIEVEMENT_PERCENT
   }
 
-  if (hltbMainStoryHours && hltbMainStoryHours > SHORT_GAME_HLTB_HOURS) {
-    return (
-      play.playtime_minutes >= hltbMainStoryHours * 60 * PLAYED_HLTB_FRACTION
+  if (hltbMainStoryHours) {
+    const required = Math.min(
+      hltbMainStoryHours * 60 * PLAYED_HLTB_FRACTION,
+      PLAYED_HLTB_CAP_MINUTES,
     )
+    return play.playtime_minutes >= required
   }
 
-  return play.playtime_minutes >= SHORT_GAME_PLAYED_MINUTES
+  return play.playtime_minutes >= UNKNOWN_LENGTH_PLAYED_MINUTES
 }
