@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1786958832826,
+  "lastUpdated": 1786986885349,
   "users": {
     "76561198359284432": {
       "username": "a10i",
@@ -1388,7 +1388,7 @@
           "name": "The Last Gas Station",
           "link": "Vua6z/the-last-gas-station",
           "cv_status": "FULL_CV",
-          "entries": 16,
+          "entries": 17,
           "copies": 1,
           "created_timestamp": 1785864048,
           "end_timestamp": 1787137200,
@@ -4512,7 +4512,7 @@
           "name": "Sort Them Ducks",
           "link": "dByXr/sort-them-ducks",
           "cv_status": "FULL_CV",
-          "entries": 4,
+          "entries": 5,
           "copies": 1,
           "created_timestamp": 1786779002,
           "end_timestamp": 1787025600,
@@ -4523,7 +4523,7 @@
           "name": "Esoteric Ebb",
           "link": "pGky4/esoteric-ebb",
           "cv_status": "FULL_CV",
-          "entries": 9,
+          "entries": 16,
           "copies": 1,
           "created_timestamp": 1786940051,
           "end_timestamp": 1787455800,
@@ -5752,7 +5752,7 @@
           "name": "Duskfade",
           "link": "Fsazo/duskfade",
           "cv_status": "FULL_CV",
-          "entries": 17,
+          "entries": 18,
           "copies": 2,
           "created_timestamp": 1786736811,
           "end_timestamp": 1787119200,
@@ -21535,7 +21535,15 @@
           "created_timestamp": 1786365417,
           "end_timestamp": 1786973700,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "Esoteric Ebb",
@@ -21762,10 +21770,10 @@
       "stats": {
         "total_sent_count": 8.7,
         "total_sent_value": 363.25,
-        "total_received_count": 5.5,
-        "total_received_value": 144.95,
-        "total_gift_difference": 3.2,
-        "total_value_difference": 218.3,
+        "total_received_count": 6.5,
+        "total_received_value": 149.94,
+        "total_gift_difference": 2.2,
+        "total_value_difference": 213.31,
         "fcv_sent_count": 7,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
@@ -23908,7 +23916,7 @@
           "name": "Fable",
           "link": "2ZUCD/fable",
           "cv_status": "FULL_CV",
-          "entries": 49,
+          "entries": 50,
           "copies": 1,
           "created_timestamp": 1786893076,
           "end_timestamp": 1787954400,
@@ -25740,7 +25748,7 @@
           "name": "Age of Mythology: Retold Premium Edition",
           "link": "rSLB6/age-of-mythology-retold-premium-edition",
           "cv_status": "FULL_CV",
-          "entries": 8,
+          "entries": 9,
           "copies": 1,
           "created_timestamp": 1786700985,
           "end_timestamp": 1787058000,
@@ -28989,12 +28997,20 @@
           "name": "Herdling",
           "link": "clhJJ/herdling",
           "cv_status": "FULL_CV",
-          "entries": 17,
+          "entries": 18,
           "copies": 1,
           "created_timestamp": 1786715309,
           "end_timestamp": 1786977960,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "Zanki Zero: Last Beginning",
@@ -32434,7 +32450,7 @@
           "name": "Waterpark Simulator",
           "link": "cHMCO/waterpark-simulator",
           "cv_status": "FULL_CV",
-          "entries": 1,
+          "entries": 3,
           "copies": 1,
           "created_timestamp": 1786812809,
           "end_timestamp": 1787075340,
@@ -36358,7 +36374,7 @@
           "name": "Black Myth: Wukong",
           "link": "hYenN/black-myth-wukong",
           "cv_status": "FULL_CV",
-          "entries": 28,
+          "entries": 29,
           "copies": 1,
           "created_timestamp": 1786494307,
           "end_timestamp": 1787468400,
@@ -49870,7 +49886,7 @@
           "name": "Denshattack!",
           "link": "f6ErA/denshattack",
           "cv_status": "FULL_CV",
-          "entries": 9,
+          "entries": 8,
           "copies": 1,
           "created_timestamp": 1786871932,
           "end_timestamp": 1787131680,
@@ -49881,7 +49897,7 @@
           "name": "Dispatch",
           "link": "gxhVq/dispatch",
           "cv_status": "FULL_CV",
-          "entries": 30,
+          "entries": 31,
           "copies": 1,
           "created_timestamp": 1786871536,
           "end_timestamp": 1787131680,
@@ -56642,7 +56658,7 @@
           "name": "Once Upon a Jester",
           "link": "CZ1bL/once-upon-a-jester",
           "cv_status": "REDUCED_CV",
-          "entries": 71,
+          "entries": 72,
           "copies": 2,
           "created_timestamp": 1786411545,
           "end_timestamp": 1787025600,
@@ -56675,7 +56691,7 @@
           "name": "Sakura Knight 3",
           "link": "sNxFa/sakura-knight-3",
           "cv_status": "REDUCED_CV",
-          "entries": 50,
+          "entries": 51,
           "copies": 1,
           "created_timestamp": 1786750705,
           "end_timestamp": 1787371200,
@@ -56686,7 +56702,7 @@
           "name": "Sakura MMO 3",
           "link": "6oayl/sakura-mmo-3",
           "cv_status": "REDUCED_CV",
-          "entries": 32,
+          "entries": 35,
           "copies": 1,
           "created_timestamp": 1786855388,
           "end_timestamp": 1787457600,
@@ -64807,7 +64823,7 @@
           "name": "The Last Gas Station",
           "link": "TWyHQ/the-last-gas-station",
           "cv_status": "FULL_CV",
-          "entries": 5,
+          "entries": 6,
           "copies": 1,
           "created_timestamp": 1786799497,
           "end_timestamp": 1787371200,
@@ -68867,7 +68883,7 @@
           "name": "Hell is Us",
           "link": "4obH0/hell-is-us",
           "cv_status": "FULL_CV",
-          "entries": 7,
+          "entries": 11,
           "copies": 1,
           "created_timestamp": 1786920572,
           "end_timestamp": 1787326860,
@@ -70276,7 +70292,7 @@
           "name": "Rauniot",
           "link": "In5AK/rauniot",
           "cv_status": "FULL_CV",
-          "entries": 23,
+          "entries": 26,
           "copies": 1,
           "created_timestamp": 1786878834,
           "end_timestamp": 1787055000,
@@ -83056,12 +83072,12 @@
       "avatar_url": "https://avatars.steamstatic.com/91843436b24806cd9620d7c4df0dab606ffd9286_medium.jpg",
       "steam_id": "76561198411996697",
       "stats": {
-        "total_sent_count": 12.5,
-        "total_sent_value": 231.38,
+        "total_sent_count": 13.5,
+        "total_sent_value": 236.37,
         "total_received_count": 14,
         "total_received_value": 243.86,
-        "total_gift_difference": -1.5,
-        "total_value_difference": -12.49,
+        "total_gift_difference": -0.5,
+        "total_value_difference": -7.5,
         "fcv_sent_count": 9,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
@@ -83079,7 +83095,7 @@
         "shared_sent_count": 7,
         "shared_received_count": 0,
         "giveaways_created": 18,
-        "giveaways_with_no_entries": 0,
+        "giveaways_with_no_entries": 4,
         "last_giveaway_created_at": 1786756238,
         "last_giveaway_won_at": 1786745160,
         "first_seen_at": 1781102258,
@@ -83403,7 +83419,8 @@
           "created_timestamp": 1786756238,
           "end_timestamp": 1786986000,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": false
         },
         {
           "name": "inbento",
@@ -83414,18 +83431,20 @@
           "created_timestamp": 1786756164,
           "end_timestamp": 1786986000,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": false
         },
         {
           "name": "Later Alligator",
           "link": "Tcotu/later-alligator",
           "cv_status": "FULL_CV",
-          "entries": 2,
+          "entries": 1,
           "copies": 2,
           "created_timestamp": 1786728574,
           "end_timestamp": 1786986000,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": false
         },
         {
           "name": "That's not my Neighbor",
@@ -83436,7 +83455,8 @@
           "created_timestamp": 1786728489,
           "end_timestamp": 1786986000,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": false
         },
         {
           "name": "I Am Dead",
@@ -106085,7 +106105,7 @@
           "name": "Haste",
           "link": "GdAeE/haste",
           "cv_status": "FULL_CV",
-          "entries": 1,
+          "entries": 2,
           "copies": 1,
           "created_timestamp": 1786877384,
           "end_timestamp": 1787497200,
@@ -107256,7 +107276,7 @@
           "name": "Cat Chess",
           "link": "G7vYm/cat-chess",
           "cv_status": "FULL_CV",
-          "entries": 15,
+          "entries": 17,
           "copies": 1,
           "created_timestamp": 1786850714,
           "end_timestamp": 1787328000,
