@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1785542400,
   "totalAchievements": 60,
-  "generatedAt": 1787032518258,
+  "generatedAt": 1787037338709,
   "challengeOver": false,
   "winnerUsername": "Foxpile",
   "participants": [
@@ -2922,7 +2922,7 @@
       "review_recommendationid": "232126826",
       "review_url": "https://steamcommunity.com/profiles/76561197989280149/recommended/992300",
       "playtime_total_minutes": 667,
-      "playtime_2weeks_minutes": 231,
+      "playtime_2weeks_minutes": 172,
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 667,
       "achievements_total": 60,
@@ -4213,9 +4213,9 @@
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 187,
       "achievements_total": 60,
-      "achievements_unlocked_total": 17,
+      "achievements_unlocked_total": 23,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 17,
+      "achievements_since_baseline": 23,
       "challenge_achievements": [
         {
           "apiname": "a30003",
@@ -4318,9 +4318,45 @@
           "displayName": "Secret base",
           "description": "Enter YiLong studio.",
           "unlocktime": 1787009275
+        },
+        {
+          "apiname": "a10004",
+          "displayName": "Soul Envoy",
+          "description": "Collect 10 Torn Page of the Soul Pact.",
+          "unlocktime": 1787035744
+        },
+        {
+          "apiname": "a10011",
+          "displayName": "Ore Collector",
+          "description": "Collect 10 Iron Ore.",
+          "unlocktime": 1787035837
+        },
+        {
+          "apiname": "a10012",
+          "displayName": "Drink a toast",
+          "description": "Collect 5 bottles of wine.",
+          "unlocktime": 1787036250
+        },
+        {
+          "apiname": "a10013",
+          "displayName": "Catch mice",
+          "description": "Destroy 9 mice in the mini-game.",
+          "unlocktime": 1787036796
+        },
+        {
+          "apiname": "a20002",
+          "displayName": "Silent Executioner",
+          "description": "Kill 20 enemies with Blood Sniff.",
+          "unlocktime": 1787037085
+        },
+        {
+          "apiname": "a10007",
+          "displayName": "The No.1 Thief",
+          "description": "Open 5 big treasure chests.",
+          "unlocktime": 1787037300
         }
       ],
-      "challenge_achievement_count": 17,
+      "challenge_achievement_count": 23,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
