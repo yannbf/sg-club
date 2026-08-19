@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1785542400,
   "totalAchievements": 60,
-  "generatedAt": 1787161884296,
+  "generatedAt": 1787166316553,
   "challengeOver": false,
   "winnerUsername": "Foxpile",
   "participants": [
@@ -4481,14 +4481,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 111,
-      "playtime_2weeks_minutes": 111,
+      "playtime_total_minutes": 171,
+      "playtime_2weeks_minutes": 171,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 111,
+      "playtime_challenge_minutes": 171,
       "achievements_total": 60,
-      "achievements_unlocked_total": 15,
+      "achievements_unlocked_total": 21,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 15,
+      "achievements_since_baseline": 21,
       "challenge_achievements": [
         {
           "apiname": "a30003",
@@ -4579,9 +4579,45 @@
           "displayName": "Boss Void",
           "description": "Defeat Boss Void.",
           "unlocktime": 1786236377
+        },
+        {
+          "apiname": "a10012",
+          "displayName": "Drink a toast",
+          "description": "Collect 5 bottles of wine.",
+          "unlocktime": 1787162268
+        },
+        {
+          "apiname": "a10004",
+          "displayName": "Soul Envoy",
+          "description": "Collect 10 Torn Page of the Soul Pact.",
+          "unlocktime": 1787163040
+        },
+        {
+          "apiname": "a20001",
+          "displayName": "Walking Shadow",
+          "description": "Succeed to evade enemy attack for 20 times in a row.",
+          "unlocktime": 1787164194
+        },
+        {
+          "apiname": "a20008",
+          "displayName": "Boss Bloodthirsty",
+          "description": "Defeat Bloodthirster.",
+          "unlocktime": 1787164868
+        },
+        {
+          "apiname": "a40003",
+          "displayName": "Secret base",
+          "description": "Enter YiLong studio.",
+          "unlocktime": 1787164890
+        },
+        {
+          "apiname": "a10011",
+          "displayName": "Ore Collector",
+          "description": "Collect 10 Iron Ore.",
+          "unlocktime": 1787165734
         }
       ],
-      "challenge_achievement_count": 15,
+      "challenge_achievement_count": 21,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
@@ -4592,7 +4628,7 @@
       "story_after_deadline": false,
       "win_tier": null,
       "qualified_at": null,
-      "meets_playtime": false,
+      "meets_playtime": true,
       "meets_review": false,
       "is_winner": false
     },
