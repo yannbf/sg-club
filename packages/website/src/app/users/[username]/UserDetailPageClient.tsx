@@ -19,6 +19,7 @@ import {
 import { formatPlaytime } from '@/lib/data'
 import { createCreatorResolver } from '@/lib/creator-resolver'
 import type { WinnerPlayStats } from '@/lib/winner-play-stats'
+import { isConfirmedPlayed } from '@/lib/play-status'
 import GivenGiveawaysClient from './GivenGiveawaysClient'
 import WonGiveawaysClient from './WonGiveawaysClient'
 import type { User, UserGroupData, UserEntry, SteamIdMap } from '@/types'
@@ -628,6 +629,7 @@ export default function UserDetailPageClient({
         achievementsUnlocked: g.steam_play_data?.achievements_unlocked,
         achievementsTotal: g.steam_play_data?.achievements_total,
         neverPlayed: status === 'never_played',
+        confirmedPlayed: isConfirmedPlayed(g),
         unreleased: status === 'unreleased',
       }
       pushRow(wonByMonth, monthLabelOf(g.end_timestamp), row)

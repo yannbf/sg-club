@@ -121,22 +121,12 @@ export function UserStatsCharts({
     },
   ].filter((part): part is { count: number; label: string } => Boolean(part))
 
-  // Ordered month-label axes for the prev/next drill-down controls — each
-  // chart's own x-axis order, skipping months where every section the modal
-  // would show is empty.
-  const giftsMonths = giftsCumulative
-    .map((r) => String(r.label))
-    .filter(
-      (label) => (sentByMonth.get(label)?.length ?? 0) > 0 || (wonByMonth.get(label)?.length ?? 0) > 0,
-    )
-  const cvMonths = cvCumulative
-    .map((r) => String(r.label))
-    .filter(
-      (label) => (sentByMonth.get(label)?.length ?? 0) > 0 || (wonByMonth.get(label)?.length ?? 0) > 0,
-    )
-  const enteredMonths = enteredPerMonth
-    .map((r) => String(r.label))
-    .filter((label) => (enteredByMonth.get(label)?.length ?? 0) > 0)
+  // Ordered month-label axes for the prev/next drill-down controls — every
+  // month each chart's x-axis shows, including empty ones, so navigation
+  // never skips or dead-ends on a month with no activity.
+  const giftsMonths = giftsCumulative.map((r) => String(r.label))
+  const cvMonths = cvCumulative.map((r) => String(r.label))
+  const enteredMonths = enteredPerMonth.map((r) => String(r.label))
 
   const monthsForKind = (kind: MonthModalKind): string[] => {
     if (kind === 'gifts') return giftsMonths
@@ -165,6 +155,7 @@ export function UserStatsCharts({
     if (monthModal.kind === 'gifts') {
       return {
         title: label,
+        emptyMessage: `No giveaways sent or won in ${label}.`,
         sections: [
           {
             heading: `Sent (${(sentByMonth.get(label) ?? []).length})`,
@@ -179,6 +170,7 @@ export function UserStatsCharts({
       return {
         title: label,
         description: 'CV values shown per giveaway.',
+        emptyMessage: `No CV sent or received in ${label}.`,
         sections: [
           { heading: `Sent (${(sentByMonth.get(label) ?? []).length})`, rows: sentByMonth.get(label) ?? [] },
           { heading: `Received (${(wonByMonth.get(label) ?? []).length})`, rows: wonByMonth.get(label) ?? [] },
@@ -189,6 +181,7 @@ export function UserStatsCharts({
     const wonCount = rows.filter((row) => row.won).length
     return {
       title: label,
+      emptyMessage: `No giveaways entered in ${label}.`,
       sections: [
         {
           heading: wonCount > 0 ? `Entered (${rows.length} · ${wonCount} won)` : `Entered (${rows.length})`,
@@ -469,6 +462,7 @@ export function UserStatsCharts({
           description={monthModalProps.description}
           sections={monthModalProps.sections}
           nav={monthNav}
+          emptyMessage={monthModalProps.emptyMessage}
         />
       )}
 

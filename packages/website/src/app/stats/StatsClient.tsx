@@ -8,7 +8,7 @@ import {
   type ContributorDatum,
   type MonthDatum,
 } from '@/components/charts/GroupStatsCharts'
-import type { DrilldownMemberRow } from '@/components/charts/StatsDrilldownModal'
+import type { DrilldownMemberRow, DrilldownGameRow } from '@/components/charts/StatsDrilldownModal'
 import { formatUsd } from '@/components/charts/chart-theme'
 
 interface StatsClientProps {
@@ -25,6 +25,15 @@ interface StatsClientProps {
   /** "Mon YY" label -> ex-members who left that month, sorted by left_at_timestamp, for the members chart's drill-down modal. */
   membersLeftByMonth: Record<string, DrilldownMemberRow[]>
   topContributors: ContributorDatum[]
+  /** "Mon YY" label -> that month's counted giveaways, newest first, for the giveaways-created chart's drill-down modal. */
+  giveawaysCreatedByMonth: Record<string, DrilldownGameRow[]>
+  /** "Mon YY" label -> that month's counted giveaways, highest CV first, for the CV-sent chart's drill-down modal. */
+  cvSentByMonth: Record<string, DrilldownGameRow[]>
+  /** username -> that contributor's own counted giveaways, newest first (top 10 contributors only). */
+  contributorGiveaways: Record<string, DrilldownGameRow[]>
+  hoursPerMonth: MonthDatum[]
+  /** "Mon YY" label -> that month's won games with play data, highest playtime first. */
+  hoursByMonth: Record<string, DrilldownGameRow[]>
   lastUpdated: string | null
 }
 
@@ -42,6 +51,11 @@ export default function StatsClient({
   membersJoinedByMonth,
   membersLeftByMonth,
   topContributors,
+  giveawaysCreatedByMonth,
+  cvSentByMonth,
+  contributorGiveaways,
+  hoursPerMonth,
+  hoursByMonth,
   lastUpdated,
 }: StatsClientProps) {
   return (
@@ -96,6 +110,11 @@ export default function StatsClient({
         membersJoinedByMonth={membersJoinedByMonth}
         membersLeftByMonth={membersLeftByMonth}
         topContributors={topContributors}
+        giveawaysCreatedByMonth={giveawaysCreatedByMonth}
+        cvSentByMonth={cvSentByMonth}
+        contributorGiveaways={contributorGiveaways}
+        hoursPerMonth={hoursPerMonth}
+        hoursByMonth={hoursByMonth}
       />
     </div>
   )

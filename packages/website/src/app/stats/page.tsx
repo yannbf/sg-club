@@ -1,33 +1,47 @@
 import {
   getAllGiveaways,
+  getAllUsers,
   getAllUsersAsArray,
   getExMembers,
   getGameData,
   getLastUpdated,
+  getSteamIdMap,
 } from '@/lib/data'
 import { isCountedGiveaway } from '@/lib/events'
 import {
   buildGameDataIndex,
   combineMonthlySeries,
+  findGameData,
   giveawayCvValue,
   monthKey,
   monthLabel,
   monthlyAggregate,
   withCumulative,
 } from '@/lib/chart-data'
+import { createCreatorResolver } from '@/lib/creator-resolver'
+import { buildWinnerPlayStats, winnerPlayStatsKey } from '@/lib/winner-play-stats'
+import { isConfirmedPlayed } from '@/lib/play-status'
 import type { MonthDatum, ContributorDatum } from '@/components/charts/GroupStatsCharts'
-import type { DrilldownMemberRow } from '@/components/charts/StatsDrilldownModal'
+import type {
+  DrilldownMemberRow,
+  DrilldownGameRow,
+  DrilldownWinner,
+} from '@/components/charts/StatsDrilldownModal'
+import type { Giveaway } from '@/types'
 import StatsClient from './StatsClient'
 import { AdminGate } from '@/components/AdminGate'
 
 export default async function StatsPage() {
-  const [allGiveaways, users, exMembersData, gameData, lastUpdated] = await Promise.all([
-    getAllGiveaways(),
-    getAllUsersAsArray(),
-    getExMembers(),
-    getGameData(),
-    getLastUpdated(),
-  ])
+  const [allGiveaways, users, exMembersData, gameData, lastUpdated, allUsersGroup, steamIdMap] =
+    await Promise.all([
+      getAllGiveaways(),
+      getAllUsersAsArray(),
+      getExMembers(),
+      getGameData(),
+      getLastUpdated(),
+      getAllUsers(),
+      getSteamIdMap(),
+    ])
   const exMembers = exMembersData ? Object.values(exMembersData.users) : []
 
   // Deleted and ended-with-zero-entries giveaways are kept in the data for
@@ -133,10 +147,13 @@ export default async function StatsPage() {
     net: Number(row.joined_cumulative) - Number(row.left_cumulative),
   }))
 
-  const topContributors: ContributorDatum[] = [...users]
+  const topContributorUsers = [...users]
     .sort((a, b) => b.stats.real_total_sent_value - a.stats.real_total_sent_value)
     .slice(0, 10)
-    .map((u) => ({ username: u.username, value: u.stats.real_total_sent_value }))
+  const topContributors: ContributorDatum[] = topContributorUsers.map((u) => ({
+    username: u.username,
+    value: u.stats.real_total_sent_value,
+  }))
 
   const totalGiveaways = giveaways.length
   const totalCvSent = giveaways.reduce(
@@ -145,6 +162,168 @@ export default async function StatsPage() {
   )
   const totalMembers = users.length
   const totalEntries = giveaways.reduce((sum, g) => sum + (g.entry_count ?? 0), 0)
+
+  // --- Drill-down row builders shared by the "giveaways created", "CV
+  // sent", "top contributors", and "hours played" charts below. Identity is
+  // resolved once, server-side, so the client only ever receives the small
+  // per-month/per-contributor row lists these charts actually render — never
+  // the full user/steam-id-map data those lookups are built from.
+  const resolver = createCreatorResolver(steamIdMap)
+  const playStatsByWin = buildWinnerPlayStats(giveaways, [allUsersGroup, exMembersData], resolver)
+  const userAvatars = new Map<string, string>()
+  for (const u of Object.values(allUsersGroup?.users ?? {})) userAvatars.set(u.steam_id, u.avatar_url)
+  for (const u of Object.values(exMembersData?.users ?? {})) {
+    if (!userAvatars.has(u.steam_id)) userAvatars.set(u.steam_id, u.avatar_url)
+  }
+  const userNames = new Map<string, string>()
+  for (const [steamId, entry] of Object.entries(steamIdMap)) userNames.set(steamId, entry.current)
+
+  const fallbackUrlFor = (ga: Pick<Giveaway, 'app_id' | 'package_id'> | undefined) =>
+    findGameData(ga?.app_id, ga?.package_id, gameDataIndex)?.header_image_url
+
+  const creatorInfoFor = (g: Giveaway): DrilldownGameRow['creator'] => {
+    const steamId = resolver.canonicalSteamId(g.creator)
+    return {
+      displayName: userNames.get(steamId) || g.creator_username || g.creator,
+      avatarUrl: userAvatars.get(steamId),
+    }
+  }
+
+  const winnersFor = (g: Giveaway): DrilldownWinner[] | undefined => {
+    const winners = g.winners?.filter((w) => w.name)
+    if (!winners || winners.length === 0) return undefined
+    return winners.map((w): DrilldownWinner => {
+      const steamId = resolver.canonicalSteamId(w.name)
+      const avatarUrl = userAvatars.get(steamId)
+      return {
+        steamId: w.name,
+        displayName: userNames.get(steamId) || w.winner_username || w.name,
+        avatarUrl,
+        isGroupMember: Boolean(avatarUrl),
+        playStats: playStatsByWin[winnerPlayStatsKey(w.name, g.link)],
+      }
+    })
+  }
+
+  const pushRow = (map: Record<string, DrilldownGameRow[]>, key: string, row: DrilldownGameRow) => {
+    const arr = map[key]
+    if (arr) arr.push(row)
+    else map[key] = [row]
+  }
+
+  // "Giveaways created per month" drill-down: every counted giveaway, newest
+  // first within its month.
+  const giveawaysCreatedByMonth: Record<string, DrilldownGameRow[]> = {}
+  for (const g of giveaways) {
+    pushRow(giveawaysCreatedByMonth, monthLabel(monthKey(g.created_timestamp)), {
+      link: g.link,
+      name: g.name,
+      timestamp: g.created_timestamp,
+      appId: g.app_id,
+      packageId: g.package_id,
+      giveaway: g,
+      fallbackUrl: fallbackUrlFor(g),
+      creator: creatorInfoFor(g),
+      winners: winnersFor(g),
+    })
+  }
+  for (const rows of Object.values(giveawaysCreatedByMonth)) {
+    rows.sort((a, b) => b.timestamp - a.timestamp)
+  }
+
+  // "CV sent per month" drill-down: every counted giveaway, highest CV value
+  // first within its month.
+  const cvSentByMonth: Record<string, DrilldownGameRow[]> = {}
+  for (const g of giveaways) {
+    pushRow(cvSentByMonth, monthLabel(monthKey(g.created_timestamp)), {
+      link: g.link,
+      name: g.name,
+      timestamp: g.created_timestamp,
+      appId: g.app_id,
+      packageId: g.package_id,
+      giveaway: g,
+      fallbackUrl: fallbackUrlFor(g),
+      cvValue: giveawayCvValue(g, gameDataIndex),
+      creator: creatorInfoFor(g),
+    })
+  }
+  for (const rows of Object.values(cvSentByMonth)) {
+    rows.sort((a, b) => (b.cvValue ?? 0) - (a.cvValue ?? 0))
+  }
+
+  // "Top 10 contributors" drill-down: each contributor's own counted
+  // giveaways, newest first.
+  const contributorGiveaways: Record<string, DrilldownGameRow[]> = {}
+  for (const u of topContributorUsers) {
+    const rows = giveaways
+      .filter((g) => resolver.canonicalSteamId(g.creator) === u.steam_id)
+      .map(
+        (g): DrilldownGameRow => ({
+          link: g.link,
+          name: g.name,
+          timestamp: g.created_timestamp,
+          appId: g.app_id,
+          packageId: g.package_id,
+          giveaway: g,
+          fallbackUrl: fallbackUrlFor(g),
+          winners: winnersFor(g),
+        }),
+      )
+      .sort((a, b) => b.timestamp - a.timestamp)
+    contributorGiveaways[u.username] = rows
+  }
+
+  // "Hours played on won games" chart: every counted won giveaway across all
+  // members (current + ex) with Steam play data, bucketed by the win's END
+  // month. Playtime snapshots are current-state, not historical, so this
+  // reflects hours logged as of the last data refresh, grouped by when the
+  // game was won.
+  const giveawayByLink = new Map(giveaways.map((g) => [g.link, g]))
+  const hoursByMonth: Record<string, DrilldownGameRow[]> = {}
+  const hoursRecords: { end_timestamp: number; minutes: number }[] = []
+  for (const [group, isGroupMember] of [
+    [allUsersGroup, true],
+    [exMembersData, false],
+  ] as const) {
+    for (const u of Object.values(group?.users ?? {})) {
+      for (const win of u.giveaways_won ?? []) {
+        if (win.deleted || !win.steam_play_data || win.steam_play_data.has_no_available_stats) continue
+        const ga = giveawayByLink.get(win.link)
+        const minutes = win.steam_play_data.playtime_minutes
+        hoursRecords.push({ end_timestamp: win.end_timestamp, minutes })
+        pushRow(hoursByMonth, monthLabel(monthKey(win.end_timestamp)), {
+          link: win.link,
+          name: win.name,
+          timestamp: win.end_timestamp,
+          appId: ga?.app_id,
+          packageId: ga?.package_id,
+          giveaway: ga,
+          fallbackUrl: fallbackUrlFor(ga),
+          playtimeMinutes: minutes,
+          achievementsUnlocked: win.steam_play_data.achievements_unlocked,
+          achievementsTotal: win.steam_play_data.achievements_total,
+          confirmedPlayed: isConfirmedPlayed(win),
+          winners: [
+            {
+              steamId: u.steam_id,
+              displayName: u.username,
+              avatarUrl: u.avatar_url,
+              isGroupMember,
+            },
+          ],
+        })
+      }
+    }
+  }
+  for (const rows of Object.values(hoursByMonth)) {
+    rows.sort((a, b) => (b.playtimeMinutes ?? 0) - (a.playtimeMinutes ?? 0))
+  }
+  const hoursPerMonthMap = monthlyAggregate(
+    hoursRecords,
+    (r) => r.end_timestamp,
+    (r) => r.minutes / 60,
+  )
+  const hoursPerMonth: MonthDatum[] = combineMonthlySeries({ hours: hoursPerMonthMap })
 
   return (
     <AdminGate>
@@ -160,6 +339,11 @@ export default async function StatsPage() {
       membersJoinedByMonth={membersJoinedByMonth}
       membersLeftByMonth={membersLeftByMonth}
       topContributors={topContributors}
+      giveawaysCreatedByMonth={giveawaysCreatedByMonth}
+      cvSentByMonth={cvSentByMonth}
+      contributorGiveaways={contributorGiveaways}
+      hoursPerMonth={hoursPerMonth}
+      hoursByMonth={hoursByMonth}
       lastUpdated={lastUpdated}
       />
     </AdminGate>

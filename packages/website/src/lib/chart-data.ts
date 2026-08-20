@@ -1,4 +1,5 @@
 import type { Giveaway, GameData } from '@/types'
+import { isConfirmedPlayed, type ConfirmedPlaySignal } from './play-status'
 
 /**
  * Month-bucketing and CV-value-join helpers shared by the group stats page
@@ -200,27 +201,36 @@ export type WinPlayStatus = 'finished' | 'played' | 'never_played' | 'unreleased
 /**
  * Buckets a won giveaway by play evidence for the wins-breakdown donut.
  * `unreleased` wins are never counted as played or unplayed (nobody can play
- * a game that hasn't shipped, per the group's play-requirement rules).
- * "Finished" means every achievement has been unlocked; everything else with
- * recorded playtime is "played", and everything else is "never played"
- * (including missing/private Steam data, since there's no evidence either way).
+ * a game that hasn't shipped, per the group's play-requirement rules). A
+ * mod-confirmed "I played, bro" or proof-of-play sign-off (`isConfirmedPlayed`)
+ * always counts as at least "played", regardless of what Steam shows — Steam
+ * may show it unplayed when it was played elsewhere or the profile is
+ * private. "Finished" means every achievement has been *actually* unlocked;
+ * everything else with recorded playtime is "played", and everything else is
+ * "never played" (including missing/private Steam data, since there's no
+ * evidence either way).
  */
-export function classifyWinPlayStatus(win: {
-  unreleased?: boolean
-  steam_play_data?: {
-    never_played: boolean
-    playtime_minutes: number
-    achievements_unlocked: number
-    achievements_total: number
-  }
-}): WinPlayStatus {
+export function classifyWinPlayStatus(
+  win: ConfirmedPlaySignal & {
+    unreleased?: boolean
+    steam_play_data?: {
+      never_played: boolean
+      playtime_minutes: number
+      achievements_unlocked: number
+      achievements_total: number
+    }
+  },
+): WinPlayStatus {
   if (win.unreleased) return 'unreleased'
   const play = win.steam_play_data
+  const finished =
+    !!play &&
+    play.achievements_total > 0 &&
+    play.achievements_unlocked >= play.achievements_total
+  if (finished) return 'finished'
+  if (isConfirmedPlayed(win)) return 'played'
   if (!play || play.never_played || play.playtime_minutes <= 0) {
     return 'never_played'
-  }
-  if (play.achievements_total > 0 && play.achievements_unlocked >= play.achievements_total) {
-    return 'finished'
   }
   return 'played'
 }

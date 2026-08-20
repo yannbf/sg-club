@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react'
 import { formatDistanceToNow } from 'date-fns'
-import { ChevronLeft, ChevronRight, Gamepad2, Trophy } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Gamepad2, Trophy, Inbox } from 'lucide-react'
 import {
   Dialog,
   DialogContent,
@@ -53,10 +53,21 @@ export interface DrilldownGameRow {
   cvValue?: number
   /** Winners of this giveaway (sent rows only). */
   winners?: DrilldownWinner[]
+  /** The giveaway's creator — group charts' drill-downs only (a user's own modals imply the creator). */
+  creator?: {
+    displayName: string
+    avatarUrl?: string
+  }
   playtimeMinutes?: number
   achievementsUnlocked?: number
   achievementsTotal?: number
   neverPlayed?: boolean
+  /**
+   * Mod-confirmed "I played, bro" or proof-of-play sign-off — shown as a
+   * "Confirmed played" chip in place of playtime when Steam has no hours on
+   * file, so the row doesn't read as bare/unplayed.
+   */
+  confirmedPlayed?: boolean
   unreleased?: boolean
   /** True when the giveaway hasn't ended yet — created/sent rows only. */
   isOpen?: boolean
@@ -129,6 +140,12 @@ interface StatsDrilldownModalProps {
   description?: string
   sections: DrilldownSection[]
   nav?: DrilldownNav
+  /**
+   * Shown instead of the generic empty state when every section is empty —
+   * e.g. "No giveaways sent or won in Mar 24." Lets a month with no activity
+   * still be navigated to (via `nav`) without reading as broken.
+   */
+  emptyMessage?: string
 }
 
 function giveawayUrl(link: string): string {
@@ -148,11 +165,14 @@ function DrilldownRow({
   const achievementsCompleted =
     hasAchievements && (row.achievementsUnlocked ?? 0) >= row.achievementsTotal!
   const showNeverPlayedBadge = row.neverPlayed && !row.unreleased && !hideNeverPlayedBadge
+  const showConfirmedPlayedBadge =
+    row.confirmedPlayed && row.playtimeMinutes == null && !row.unreleased
 
   const hasOwnPlayInfo =
     row.playtimeMinutes != null ||
     hasAchievements ||
     showNeverPlayedBadge ||
+    showConfirmedPlayedBadge ||
     row.unreleased ||
     showWonRelativeTime
 
@@ -209,6 +229,21 @@ function DrilldownRow({
           )}
         </div>
 
+        {row.creator && (
+          <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1">
+            <UserLink
+              username={row.creator.displayName}
+              className="inline-flex min-w-0 items-center gap-1 text-[11px] text-muted-foreground hover:text-[var(--primary-hi)] hover:underline"
+            >
+              <UserAvatar
+                src={row.creator.avatarUrl || FALLBACK_AVATAR}
+                username={row.creator.displayName}
+              />
+              <span className="truncate">by {row.creator.displayName}</span>
+            </UserLink>
+          </div>
+        )}
+
         {row.winners && row.winners.length > 0 && (
           <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1">
             {row.winners.map((winner) => (
@@ -243,6 +278,15 @@ function DrilldownRow({
             {showNeverPlayedBadge && (
               <Badge variant="error" size="sm">
                 Never played
+              </Badge>
+            )}
+            {showConfirmedPlayedBadge && (
+              <Badge
+                variant="success"
+                size="sm"
+                title='Mod-confirmed "I played, bro" or proof of play — Steam shows no hours, likely played elsewhere or on a private profile.'
+              >
+                Confirmed played
               </Badge>
             )}
             {row.playtimeMinutes != null && (
@@ -311,6 +355,7 @@ export function StatsDrilldownModal({
   description,
   sections,
   nav,
+  emptyMessage,
 }: StatsDrilldownModalProps) {
   const nonEmptySections = sections.filter((section) => section.rows.length > 0)
 
@@ -399,7 +444,10 @@ export function StatsDrilldownModal({
               </div>
             ))
           ) : (
-            <p className="px-4 py-2 text-sm text-muted-foreground">Nothing here.</p>
+            <div className="flex h-full flex-col items-center justify-center gap-2 px-4 py-8 text-center text-muted-foreground">
+              <Inbox className="h-6 w-6 opacity-50" />
+              <p className="text-sm">{emptyMessage ?? 'Nothing here.'}</p>
+            </div>
           )}
         </div>
       </DialogContent>

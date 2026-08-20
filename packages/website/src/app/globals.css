@@ -185,20 +185,28 @@
     outline-offset: 2px;
     border-radius: 4px;
   }
+}
 
-  /*
-   * Recharts (v3) makes the chart svg/surface focusable, which draws the
-   * default focus ring on every click since click and focus land together.
-   * These charts' drill-down is mouse-oriented, so the visual ring on the
-   * svg itself is suppressed; focus-visible still shows on any real
-   * interactive control inside the chart (ticks, legend, etc).
-   */
-  .recharts-wrapper:focus,
-  .recharts-wrapper:focus-visible,
-  .recharts-surface:focus,
-  .recharts-surface:focus-visible {
-    outline: none;
-  }
+/*
+ * Recharts (v3) makes the chart svg/surface — and its inner shapes (bars,
+ * pie sectors, etc) — focusable, which draws the default focus ring on
+ * every click since click and focus land together. These selectors live
+ * outside any @layer block: Tailwind's content-based purge only inspects
+ * ./src/**\/*.{js,ts,jsx,tsx,mdx} for class-name substrings, and
+ * "recharts-*" only ever appears inside the recharts package under
+ * node_modules, so a rule targeting it placed inside @layer base gets
+ * silently purged from the production/dev build. Charts' drill-down is
+ * mouse-oriented, so the visual ring on the svg itself is suppressed;
+ * focus-visible still shows on any real interactive control inside the
+ * chart (ticks, legend, etc).
+ */
+.recharts-wrapper:focus,
+.recharts-wrapper:focus-visible,
+.recharts-surface:focus,
+.recharts-surface:focus-visible,
+.recharts-wrapper *:focus,
+.recharts-wrapper *:focus-visible {
+  outline: none;
 }
 
 @layer utilities {

@@ -1,4 +1,5 @@
 import { User } from "@/types"
+import { isConfirmedPlayed } from "@/lib/play-status"
 import Tooltip from "./Tooltip"
 
 export const getUnplayedGamesStats = (user: User) => {
@@ -10,8 +11,7 @@ export const getUnplayedGamesStats = (user: User) => {
   const unplayed = wins.filter(game =>
     // "I played, bro" / proof-of-play attestations always count as played,
     // regardless of what Steam data says (played elsewhere, private, etc.).
-    !game.i_played_bro &&
-    !game.required_play_meta?.requirements_met &&
+    !isConfirmedPlayed(game) &&
     (!game.steam_play_data || game.steam_play_data.never_played || game.steam_play_data.has_no_available_stats)
   ).length
   const played = total - unplayed

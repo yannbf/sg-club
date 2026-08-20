@@ -5,10 +5,12 @@ import type {
   UserEntry,
   WishlistData,
 } from '@/types'
+import { isConfirmedPlayed } from './play-status'
 
-// NOTE: this module is deliberately kept free of runtime `@/` imports (types
-// are `import type`, erased at build) so it can also run from a plain Node
-// script — see scripts/freeze-spring-cleaning.ts.
+// NOTE: this module is deliberately kept free of runtime `@/`-aliased imports
+// (types are `import type`, erased at build; `./play-status` is a relative
+// import that resolves without the `@/` alias) so it can also run from a
+// plain Node script — see scripts/freeze-spring-cleaning.ts.
 
 /**
  * "Spring cleaning" analysis — surfaces members an admin may want to warn or
@@ -391,8 +393,7 @@ export function computePlayRate(user: User): PlayRate {
     (g) =>
       // "I played, bro" / proof-of-play attestations count as played
       // regardless of Steam data (played elsewhere, private profile...).
-      g.i_played_bro ||
-      g.required_play_meta?.requirements_met ||
+      isConfirmedPlayed(g) ||
       (g.steam_play_data &&
         !g.steam_play_data.never_played &&
         !g.steam_play_data.has_no_available_stats),
@@ -686,7 +687,7 @@ function analyzeUser(
       if (wc < QUALITY_WISHLIST_MIN) return false
       // Attested games ("I played, bro" / proof of play) are never accused —
       // Steam may show them unplayed when they were played elsewhere.
-      if (g.i_played_bro || g.required_play_meta?.requirements_met) return false
+      if (isConfirmedPlayed(g)) return false
       if (g.unreleased) return false
       const sp = g.steam_play_data
       // Only accuse when Steam actually proves it unplayed (stats must exist).

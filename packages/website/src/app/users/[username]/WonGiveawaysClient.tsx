@@ -2,6 +2,7 @@
 
 import { Giveaway, GameData, User, GameBreakdownEntry, SteamIdMap, noStatsReasonLabel } from '@/types'
 import { getCVBadgeColor, getCVLabel, formatPlaytime, formatPlaytimeCompact } from '@/lib/data'
+import { isConfirmedPlayed } from '@/lib/play-status'
 import { createCreatorResolver } from '@/lib/creator-resolver'
 import GameImage from '@/components/GameImage'
 import { useGameData, useDebounce } from '@/lib/hooks'
@@ -192,7 +193,7 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData, 
 
       // "I played, bro" / proof-of-play attestations count as played
       // regardless of Steam data.
-      const isAttested = Boolean(game.i_played_bro || game.required_play_meta?.requirements_met)
+      const isAttested = isConfirmedPlayed(game)
       const matchesPlayFilter =
         playFilter === 'all' ||
         (playFilter === 'played' && (isAttested || (game.steam_play_data && !game.steam_play_data.never_played))) ||
@@ -329,6 +330,7 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData, 
               )
 
               const play = game.steam_play_data
+              const confirmedPlayed = isConfirmedPlayed(game)
               const ipbroDeadline =
                 !game.i_played_bro && game.cv_status === 'FULL_CV'
                   ? getDeadlineData(game.end_timestamp)
@@ -366,6 +368,10 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData, 
                         }
                       >
                         No stats
+                      </LedgerChip>
+                    ) : play.never_played && confirmedPlayed ? (
+                      <LedgerChip tone="ok" title="Mod-confirmed play (I played, bro / proof of play) — Steam shows no playtime, likely played elsewhere or on a private profile.">
+                        Confirmed played
                       </LedgerChip>
                     ) : (
                       <LedgerChip tone={play.never_played ? 'bad' : 'ok'}>
@@ -586,8 +592,19 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData, 
                       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-sm">
                         <div>
                           <span className="text-muted-foreground">Status:</span>
-                          <span className={`ml-1 font-medium ${game.steam_play_data.never_played ? 'text-error-foreground' : 'text-success-foreground'}`}>
-                            {game.steam_play_data.never_played ? 'Never Played' : 'Played'}
+                          <span
+                            className={`ml-1 font-medium ${game.steam_play_data.never_played && !confirmedPlayed ? 'text-error-foreground' : 'text-success-foreground'}`}
+                            title={
+                              game.steam_play_data.never_played && confirmedPlayed
+                                ? 'Mod-confirmed play (I played, bro / proof of play) — Steam shows no playtime, likely played elsewhere or on a private profile.'
+                                : undefined
+                            }
+                          >
+                            {game.steam_play_data.never_played
+                              ? confirmedPlayed
+                                ? 'Confirmed Played'
+                                : 'Never Played'
+                              : 'Played'}
                           </span>
                         </div>
                         <div>
