@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import {
   Area,
   AreaChart,
@@ -36,6 +37,9 @@ import {
   type DrilldownMemberRow,
   type DrilldownNav,
 } from './StatsDrilldownModal'
+import { useIsAdmin } from '@/lib/auth'
+import { steamGiftsProfile } from '@/components/UserLink'
+import { cn } from '@/lib/cn'
 
 export interface MonthDatum {
   month: string
@@ -65,6 +69,50 @@ function truncateUsername(value: string): string {
   return value.length > 14 ? `${value.slice(0, 13)}…` : value
 }
 
+interface RechartsTickProps {
+  x?: number
+  y?: number
+  payload?: { value: string }
+}
+
+/**
+ * Custom YAxis tick for the top-contributors chart: renders the username as
+ * a clickable label routing to the member's profile, same admin-aware
+ * routing as UserLink (internal /users/[username] for admins, the
+ * SteamGifts profile otherwise) — a plain <text> can't be wrapped in
+ * next/link, so the navigation is done by hand in onClick.
+ */
+function ContributorYAxisTick({ x, y, payload }: RechartsTickProps) {
+  const isAdmin = useIsAdmin()
+  const router = useRouter()
+  if (!payload) return null
+  const username = payload.value
+
+  const handleClick = () => {
+    if (isAdmin) {
+      router.push(`/users/${username}`)
+    } else {
+      window.open(steamGiftsProfile(username), '_blank', 'noopener,noreferrer')
+    }
+  }
+
+  return (
+    <text
+      x={x}
+      y={y}
+      dy={4}
+      textAnchor="end"
+      fontSize={12}
+      fill="var(--muted-foreground)"
+      className="cursor-pointer transition-colors hover:fill-[var(--primary-hi)] hover:underline"
+      onClick={handleClick}
+    >
+      {truncateUsername(username)}
+      <title>{username}</title>
+    </text>
+  )
+}
+
 export function GroupStatsCharts({
   giveawaysPerMonth,
   cvPerMonth,
@@ -75,6 +123,7 @@ export function GroupStatsCharts({
   topContributors,
 }: GroupStatsChartsProps) {
   const [membersMonth, setMembersMonth] = useState<string | null>(null)
+  const [showLeft, setShowLeft] = useState(false)
 
   // Months with at least one joiner or leaver, in chart-axis order, for the
   // drill-down modal's prev/next controls.
@@ -263,7 +312,7 @@ export function GroupStatsCharts({
 
       <ChartCard
         title="Members joined per month"
-        description="Joined and left (bars) and net membership (line)"
+        description="Joined (bar) and net membership (line) — toggle to add left"
         summary={
           <>
             <ChartStat>{formatNumber(netMembers)}</ChartStat> members ·{' '}
@@ -274,6 +323,20 @@ export function GroupStatsCharts({
           </>
         }
         icon={Users}
+        actions={
+          <button
+            type="button"
+            onClick={() => setShowLeft((v) => !v)}
+            className={cn(
+              'shrink-0 rounded-full border px-2.5 py-1 text-xs font-medium transition-colors',
+              showLeft
+                ? 'border-[var(--accent-red)] bg-[color-mix(in_oklab,var(--accent-red)_12%,transparent)] text-[var(--accent-red)]'
+                : 'border-card-border bg-transparent text-muted-foreground hover:bg-card-background-hover',
+            )}
+          >
+            {showLeft ? 'Hide left' : 'Show left'}
+          </button>
+        }
       >
         <div className="h-72 w-full">
           <ResponsiveContainer width="100%" height="100%">
@@ -318,14 +381,17 @@ export function GroupStatsCharts({
                 radius={[4, 4, 0, 0]}
                 cursor="pointer"
               />
-              <Bar
-                yAxisId="left"
-                dataKey="left"
-                name="Left"
-                fill={chartColors.red}
-                radius={[4, 4, 0, 0]}
-                cursor="pointer"
-              />
+              {showLeft && (
+                <Bar
+                  yAxisId="left"
+                  dataKey="left"
+                  name="Left"
+                  fill={chartColors.red}
+                  radius={[4, 4, 0, 0]}
+                  cursor="pointer"
+                  isAnimationActive
+                />
+              )}
               <Line
                 yAxisId="right"
                 type="monotone"
@@ -372,7 +438,7 @@ export function GroupStatsCharts({
                 dataKey="username"
                 {...axisProps}
                 width={130}
-                tickFormatter={truncateUsername}
+                tick={<ContributorYAxisTick />}
               />
               <Tooltip
                 contentStyle={tooltipContentStyle}

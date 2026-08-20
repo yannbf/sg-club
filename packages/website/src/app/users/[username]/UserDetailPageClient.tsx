@@ -1227,7 +1227,7 @@ export default function UserDetailPageClient({
 
       {/* Tabs: Created / Won / Entered / Leavers */}
       <Tabs value={activeTab} onValueChange={handleTabChange}>
-        <TabsList className="flex flex-wrap">
+        <TabsList className="flex w-full max-w-full flex-nowrap justify-start gap-1 overflow-x-auto sm:flex-wrap sm:overflow-visible [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           <TabsTrigger value="created" className="gap-1.5">
             <Gift className="h-3.5 w-3.5" /> Created
             {createdGiveaways > 0 && (

@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
+import { formatDistanceToNow } from 'date-fns'
 import { ChevronLeft, ChevronRight, Gamepad2, Trophy } from 'lucide-react'
 import {
   Dialog,
@@ -17,6 +18,7 @@ import { CvStatusIndicator } from '@/components/CvStatusIndicator'
 import { WinnerPlayProgress } from '@/components/WinnerPlayProgress'
 import type { WinnerPlayStats } from '@/lib/winner-play-stats'
 import { formatPlaytimeCompact } from '@/lib/data'
+import { getFullDate } from '@/components/FormattedDate'
 import { formatUsd } from './chart-theme'
 import { cn } from '@/lib/cn'
 import type { Giveaway } from '@/types'
@@ -90,6 +92,18 @@ export interface DrilldownGameSection {
    * section counts.
    */
   notCountedRows?: DrilldownGameRow[]
+  /**
+   * Suppresses the "Never played" badge on every row — used only by the
+   * "never played" wins-bucket modal, where every row is never-played and
+   * the badge would just repeat the section heading.
+   */
+  hideNeverPlayedBadge?: boolean
+  /**
+   * Shows a muted "N months/years ago" relative time (from `row.timestamp`)
+   * on each row — used by the wins-bucket modals, where `timestamp` is the
+   * win's end_timestamp.
+   */
+  showWonRelativeTime?: boolean
 }
 
 export interface DrilldownMemberSection {
@@ -121,13 +135,26 @@ function giveawayUrl(link: string): string {
   return `https://www.steamgifts.com/giveaway/${link}`
 }
 
-function DrilldownRow({ row }: { row: DrilldownGameRow }) {
+function DrilldownRow({
+  row,
+  hideNeverPlayedBadge,
+  showWonRelativeTime,
+}: {
+  row: DrilldownGameRow
+  hideNeverPlayedBadge?: boolean
+  showWonRelativeTime?: boolean
+}) {
   const hasAchievements = Boolean(row.achievementsTotal && row.achievementsTotal > 0)
   const achievementsCompleted =
     hasAchievements && (row.achievementsUnlocked ?? 0) >= row.achievementsTotal!
+  const showNeverPlayedBadge = row.neverPlayed && !row.unreleased && !hideNeverPlayedBadge
 
   const hasOwnPlayInfo =
-    row.playtimeMinutes != null || hasAchievements || row.neverPlayed || row.unreleased
+    row.playtimeMinutes != null ||
+    hasAchievements ||
+    showNeverPlayedBadge ||
+    row.unreleased ||
+    showWonRelativeTime
 
   return (
     <li
@@ -185,9 +212,10 @@ function DrilldownRow({ row }: { row: DrilldownGameRow }) {
         {row.winners && row.winners.length > 0 && (
           <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1">
             {row.winners.map((winner) => (
-              <div
+              <UserLink
                 key={winner.steamId}
-                className="inline-flex min-w-0 items-center gap-1 text-[11px] text-muted-foreground"
+                username={winner.displayName}
+                className="inline-flex min-w-0 items-center gap-1 text-[11px] text-muted-foreground hover:text-[var(--primary-hi)] hover:underline"
               >
                 <UserAvatar
                   src={winner.avatarUrl || FALLBACK_AVATAR}
@@ -200,7 +228,7 @@ function DrilldownRow({ row }: { row: DrilldownGameRow }) {
                   </span>
                 )}
                 {winner.playStats && <WinnerPlayProgress stats={winner.playStats} />}
-              </div>
+              </UserLink>
             ))}
           </div>
         )}
@@ -212,7 +240,7 @@ function DrilldownRow({ row }: { row: DrilldownGameRow }) {
                 Unreleased
               </Badge>
             )}
-            {row.neverPlayed && !row.unreleased && (
+            {showNeverPlayedBadge && (
               <Badge variant="error" size="sm">
                 Never played
               </Badge>
@@ -236,6 +264,14 @@ function DrilldownRow({ row }: { row: DrilldownGameRow }) {
                 {row.achievementsUnlocked ?? 0}/{row.achievementsTotal}
               </span>
             )}
+            {showWonRelativeTime && (
+              <span
+                className="text-[11px] text-muted-foreground"
+                title={getFullDate(row.timestamp)}
+              >
+                Won {formatDistanceToNow(new Date(row.timestamp * 1000), { addSuffix: true })}
+              </span>
+            )}
           </div>
         )}
       </div>
@@ -251,11 +287,11 @@ function DrilldownRow({ row }: { row: DrilldownGameRow }) {
 function DrilldownMemberRowItem({ row }: { row: DrilldownMemberRow }) {
   return (
     <li className="flex items-center gap-1.5 px-4 py-2">
-      <UserAvatar src={row.avatarUrl || FALLBACK_AVATAR} username={row.username} />
       <UserLink
         username={row.username}
-        className="truncate text-sm font-medium text-foreground hover:text-[var(--primary-hi)] hover:underline"
+        className="flex min-w-0 items-center gap-1.5 truncate text-sm font-medium text-foreground hover:text-[var(--primary-hi)] hover:underline"
       >
+        <UserAvatar src={row.avatarUrl || FALLBACK_AVATAR} username={row.username} />
         {row.username}
       </UserLink>
       {row.isExMember && (
@@ -338,7 +374,12 @@ export function StatsDrilldownModal({
                         <DrilldownMemberRowItem key={`${section.heading}-${row.username}`} row={row} />
                       ))
                     : section.rows.map((row) => (
-                        <DrilldownRow key={`${section.heading}-${row.link}`} row={row} />
+                        <DrilldownRow
+                          key={`${section.heading}-${row.link}`}
+                          row={row}
+                          hideNeverPlayedBadge={section.hideNeverPlayedBadge}
+                          showWonRelativeTime={section.showWonRelativeTime}
+                        />
                       ))}
                 </ul>
                 {section.kind !== 'member' &&

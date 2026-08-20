@@ -185,6 +185,20 @@
     outline-offset: 2px;
     border-radius: 4px;
   }
+
+  /*
+   * Recharts (v3) makes the chart svg/surface focusable, which draws the
+   * default focus ring on every click since click and focus land together.
+   * These charts' drill-down is mouse-oriented, so the visual ring on the
+   * svg itself is suppressed; focus-visible still shows on any real
+   * interactive control inside the chart (ticks, legend, etc).
+   */
+  .recharts-wrapper:focus,
+  .recharts-wrapper:focus-visible,
+  .recharts-surface:focus,
+  .recharts-surface:focus-visible {
+    outline: none;
+  }
 }
 
 @layer utilities {

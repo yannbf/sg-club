@@ -9,6 +9,8 @@ interface ChartCardProps {
   /** At-a-glance headline numbers, rendered under the description. Build with <ChartStat> for emphasis. */
   summary?: React.ReactNode
   icon?: LucideIcon
+  /** Extra controls (e.g. a toggle pill) rendered on the right of the title row. */
+  actions?: React.ReactNode
   className?: string
   children: React.ReactNode
 }
@@ -19,16 +21,20 @@ export function ChartCard({
   description,
   summary,
   icon: Icon,
+  actions,
   className,
   children,
 }: ChartCardProps) {
   return (
     <Card className={cn('overflow-hidden', className)}>
       <CardHeader className="pb-2">
-        <CardTitle className="flex items-center gap-2 text-base">
-          {Icon && <Icon className="h-4 w-4 text-muted-foreground" />}
-          {title}
-        </CardTitle>
+        <div className="flex items-center justify-between gap-2">
+          <CardTitle className="flex items-center gap-2 text-base">
+            {Icon && <Icon className="h-4 w-4 text-muted-foreground" />}
+            {title}
+          </CardTitle>
+          {actions}
+        </div>
         {description && <CardDescription>{description}</CardDescription>}
         {summary && (
           <p className="text-xs text-muted-foreground">{summary}</p>

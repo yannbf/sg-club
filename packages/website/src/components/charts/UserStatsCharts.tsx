@@ -477,7 +477,14 @@ export function UserStatsCharts({
           open={winsBucket != null}
           onOpenChange={(open) => !open && setWinsBucket(null)}
           title={`${winBucketLabels[winsBucket]} (${winsModalRows.length})`}
-          sections={[{ heading: winBucketLabels[winsBucket], rows: winsModalRows }]}
+          sections={[
+            {
+              heading: winBucketLabels[winsBucket],
+              rows: winsModalRows,
+              hideNeverPlayedBadge: winsBucket === 'never_played',
+              showWonRelativeTime: true,
+            },
+          ]}
           nav={winsNav}
         />
       )}
