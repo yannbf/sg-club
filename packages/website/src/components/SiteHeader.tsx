@@ -9,6 +9,7 @@ import {
   Gamepad2,
   Gift,
   Heart,
+  LineChart,
   LogIn,
   LogOut,
   Menu,
@@ -34,9 +35,10 @@ const NAV: NavItem[] = [
   { href: '/giveaways', label: 'Giveaways', icon: Gift },
   { href: '/events', label: 'Events', icon: CalendarDays },
   { href: '/wishlist', label: 'Wishlist', icon: Heart },
+  { href: '/stats', label: 'Stats', icon: LineChart, adminOnly: true },
   { href: '/users', label: 'Users', icon: Users, adminOnly: true },
   { href: '/ex-members', label: 'Ex members', icon: LogOut, adminOnly: true },
-  { href: '/stats', label: 'Leavers', icon: BarChart3, adminOnly: true },
+  { href: '/leavers', label: 'Leavers', icon: BarChart3, adminOnly: true },
   // Spring Cleaning is intentionally not listed — it's reachable only by URL
   // (/spring-cleaning), still behind the admin gate.
 ]

@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import Image from 'next/image'
 import {
+  Activity,
   AlertTriangle,
   Award,
   Coins,
@@ -35,6 +36,7 @@ import {
 import Tooltip from '@/components/Tooltip'
 import { getDeadlineData } from '@/components/DeadlineStatus'
 import { isUnfulfilledRequiredPlay } from '../../../../api/_lib/required-play'
+import { isCountedGiveaway, isValidRatioGiveaway } from '@/lib/events'
 import {
   getUserRatio,
   buildValidFcvLinks,
@@ -49,13 +51,38 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
 import { DiscordBadge } from '@/components/DiscordBadge'
 import { useIsAdmin } from '@/lib/auth'
 import { cn } from '@/lib/cn'
+import {
+  UserStatsCharts,
+  type WinsBreakdownDatum,
+  type UserStatsSummary,
+} from '@/components/charts/UserStatsCharts'
+import type {
+  DrilldownGameRow,
+  DrilldownWinner,
+} from '@/components/charts/StatsDrilldownModal'
+import type { MonthDatum } from '@/components/charts/GroupStatsCharts'
+import { chartColors } from '@/components/charts/chart-theme'
+import {
+  buildGameDataIndex,
+  classifyWinPlayStatus,
+  combineMonthlySeries,
+  cvValueForLink,
+  findGameData,
+  monthKey,
+  monthLabel,
+  monthlyAggregate,
+  withCumulative,
+  type WinPlayStatus,
+} from '@/lib/chart-data'
+import { winnerPlayStatsKey } from '@/lib/winner-play-stats'
 
 interface Props {
   user: User
   allUsers: UserGroupData | null
   giveaways: Giveaway[]
   gameData: GameData[]
-  userEntries: UserEntry | null
+  /** This user's entries only (scoped server-side — user_entries.json is large). */
+  userEntries: UserEntry[string]
   lastUpdated: number | null
   leavers: GiveawayLeaver[]
   steamIdMap: SteamIdMap
@@ -69,6 +96,28 @@ interface Props {
 type UserWarning = {
   description: string
   severity: 'problem' | 'warning' | 'info'
+}
+
+type StatsCvFilter = 'all' | 'FULL_CV' | 'REDUCED_CV' | 'NO_CV' | 'RATIO_VALID'
+
+/**
+ * Whether the giveaway a stats-tab record (created/won/entry) points at
+ * passes the Stats tab's global CV filter. Mirrors the CV filter on the
+ * Created tab (GivenGiveawaysClient): 'RATIO_VALID' requires both
+ * isValidRatioGiveaway and isCountedGiveaway, 'all' keeps everything but
+ * deleted giveaways, and a specific CV status matches cv_status (also
+ * excluding deleted). A link with no resolved giveaway only passes 'all'.
+ */
+function matchesStatsCvFilter(
+  giveaway: Giveaway | undefined,
+  filter: StatsCvFilter,
+): boolean {
+  if (filter === 'all') return !giveaway?.deleted
+  if (!giveaway || giveaway.deleted) return false
+  if (filter === 'RATIO_VALID') {
+    return isValidRatioGiveaway(giveaway) && isCountedGiveaway(giveaway)
+  }
+  return giveaway.cv_status === filter
 }
 
 const getLink = (link: string) => {
@@ -312,6 +361,7 @@ export default function UserDetailPageClient({
 }: Props) {
   const isAdmin = useIsAdmin()
   const [showOriginalStats, setShowOriginalStats] = useState(false)
+  const [statsFilterCV, setStatsFilterCV] = useState<StatsCvFilter>('RATIO_VALID')
 
   // Deep links (e.g. the Discord bot's mod report / weekly digest) can
   // preselect a tab and pre-enable a filter via query params:
@@ -327,7 +377,7 @@ export default function UserDetailPageClient({
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
     const tab = params.get('tab')
-    if (tab && ['created', 'won', 'entered', 'leavers'].includes(tab)) {
+    if (tab && ['created', 'won', 'entered', 'stats', 'leavers'].includes(tab)) {
       setActiveTab(tab)
     }
     if (params.get('filter') === 'play-required') {
@@ -363,7 +413,7 @@ export default function UserDetailPageClient({
   const userGiveaways = giveaways.filter(
     (g) => creatorResolver.canonicalSteamId(g.creator) === user.steam_id,
   )
-  const enteredGiveawayData = userEntries?.[user.steam_id] || []
+  const enteredGiveawayData = userEntries
   const enteredGiveaways = enteredGiveawayData
     .map((g) => giveaways.find((ga) => ga.link === g.link))
     .filter((g) => g !== undefined)
@@ -371,17 +421,25 @@ export default function UserDetailPageClient({
     (a, b) => b.joined_at - a.joined_at,
   )[0]
 
-  const userAvatars = new Map(
-    Object.values(allUsers?.users || {}).map((u) => [
-      u.steam_id,
-      u.avatar_url,
-    ]),
+  const userAvatars = useMemo(
+    () =>
+      new Map(
+        Object.values(allUsers?.users || {}).map((u) => [
+          u.steam_id,
+          u.avatar_url,
+        ]),
+      ),
+    [allUsers],
   )
-  const userNames = new Map(
-    Object.entries(steamIdMap).map(([steamId, entry]) => [
-      steamId,
-      entry.current,
-    ]),
+  const userNames = useMemo(
+    () =>
+      new Map(
+        Object.entries(steamIdMap).map(([steamId, entry]) => [
+          steamId,
+          entry.current,
+        ]),
+      ),
+    [steamIdMap],
   )
   const exMemberSet = useMemo(
     () => new Set(exMemberIds ?? []),
@@ -405,6 +463,247 @@ export default function UserDetailPageClient({
       isCountedGa(g, deletedGaLinks) &&
       !(g.end_timestamp < nowSec && (g.entries ?? 0) === 0),
   )
+
+  const giveawayByLink = useMemo(
+    () => new Map(giveaways.map((g) => [g.link, g])),
+    [giveaways],
+  )
+  const gameDataIndex = useMemo(() => buildGameDataIndex(gameData), [gameData])
+
+  const statsCharts = useMemo(() => {
+    const filteredCreated = countedCreated.filter((g) =>
+      matchesStatsCvFilter(giveawayByLink.get(g.link), statsFilterCV),
+    )
+    const filteredWon = countedWon.filter((g) =>
+      matchesStatsCvFilter(giveawayByLink.get(g.link), statsFilterCV),
+    )
+    const filteredEntries = userEntries.filter((e) =>
+      matchesStatsCvFilter(giveawayByLink.get(e.link), statsFilterCV),
+    )
+
+    const sentMap = monthlyAggregate(filteredCreated, (g) => g.created_timestamp)
+    const wonMap = monthlyAggregate(filteredWon, (g) => g.end_timestamp)
+    const giftsCumulative: MonthDatum[] = withCumulative(
+      combineMonthlySeries({ sent: sentMap, won: wonMap }),
+      ['sent', 'won'],
+    )
+
+    const enteredMap = monthlyAggregate(filteredEntries, (e) => e.joined_at)
+    const enteredPerMonth: MonthDatum[] = combineMonthlySeries({
+      count: enteredMap,
+    })
+
+    const cvSentMap = monthlyAggregate(
+      filteredCreated,
+      (g) => g.created_timestamp,
+      (g) =>
+        cvValueForLink(g.link, g.cv_status, g.copies, giveawayByLink, gameDataIndex),
+    )
+    const cvReceivedMap = monthlyAggregate(
+      filteredWon,
+      (g) => g.end_timestamp,
+      (g) => cvValueForLink(g.link, g.cv_status, 1, giveawayByLink, gameDataIndex),
+    )
+    const cvCumulative: MonthDatum[] = withCumulative(
+      combineMonthlySeries({ sent: cvSentMap, received: cvReceivedMap }),
+      ['sent', 'received'],
+    )
+
+    const winStatusCounts: UserStatsSummary['winCounts'] = {
+      finished: 0,
+      played: 0,
+      never_played: 0,
+      unreleased: 0,
+    }
+    for (const win of filteredWon) {
+      winStatusCounts[classifyWinPlayStatus(win)]++
+    }
+    const winsBreakdown: WinsBreakdownDatum[] = [
+      { name: 'Finished', value: winStatusCounts.finished, color: chartColors.green, bucket: 'finished' as const },
+      { name: 'Played', value: winStatusCounts.played, color: chartColors.blue, bucket: 'played' as const },
+      { name: 'Never played', value: winStatusCounts.never_played, color: chartColors.red, bucket: 'never_played' as const },
+      { name: 'Unreleased', value: winStatusCounts.unreleased, color: chartColors.orange, bucket: 'unreleased' as const },
+    ].filter((d) => d.value > 0)
+
+    // Per-month/per-bucket record lists for the charts' click-to-drill-down
+    // modals — keyed by the same "Mon YY" label the x-axis renders, so a
+    // click's activeLabel is usable as a map key without a lookup step.
+    const monthLabelOf = (ts: number) => monthLabel(monthKey(ts))
+    const pushRow = (map: Map<string, DrilldownGameRow[]>, key: string, row: DrilldownGameRow) => {
+      const arr = map.get(key)
+      if (arr) arr.push(row)
+      else map.set(key, [row])
+    }
+    const fallbackUrlFor = (ga: Giveaway | undefined) =>
+      findGameData(ga?.app_id, ga?.package_id, gameDataIndex)?.header_image_url
+
+    // Winners of a created giveaway, resolved the same way the Created tab
+    // resolves them (steam_id -> display name/avatar, ex/non-group fallback),
+    // for the stats modal's sent-giveaway rows.
+    const buildWinners = (ga: Giveaway | undefined): DrilldownWinner[] | undefined => {
+      if (!ga) return undefined
+      const winners = ga.winners?.filter((w) => w.name)
+      if (!winners || winners.length === 0) return undefined
+      return winners.map((w): DrilldownWinner => {
+        const avatarUrl = userAvatars.get(w.name)
+        return {
+          steamId: w.name,
+          displayName: userNames.get(w.name) || w.winner_username || w.name,
+          avatarUrl,
+          isGroupMember: Boolean(avatarUrl),
+          playStats: playStatsByWin?.[winnerPlayStatsKey(w.name, ga.link)],
+        }
+      })
+    }
+
+    const sentByMonth = new Map<string, DrilldownGameRow[]>()
+    for (const g of filteredCreated) {
+      const ga = giveawayByLink.get(g.link)
+      pushRow(sentByMonth, monthLabelOf(g.created_timestamp), {
+        link: g.link,
+        name: g.name,
+        timestamp: g.created_timestamp,
+        appId: ga?.app_id,
+        packageId: ga?.package_id,
+        giveaway: ga,
+        fallbackUrl: fallbackUrlFor(ga),
+        cvValue: cvValueForLink(g.link, g.cv_status, g.copies, giveawayByLink, gameDataIndex),
+        winners: buildWinners(ga),
+        isOpen: (ga?.end_timestamp ?? g.end_timestamp) > nowSec,
+      })
+    }
+
+    // Created giveaways this user has that don't count toward any stat
+    // (deleted, or ended with zero entries) — surfaced as a muted subsection
+    // under "Sent" in the gifts sent & won modal only, never mixed into
+    // sentByMonth so they can't affect the chart series or section counts.
+    const notCountedByMonth = new Map<string, DrilldownGameRow[]>()
+    const matchesNotCountedCvFilter = (
+      cvStatus: string | undefined,
+      filter: StatsCvFilter,
+    ) => filter === 'all' || filter === 'RATIO_VALID' || cvStatus === filter
+    for (const g of user.giveaways_created ?? []) {
+      const ga = giveawayByLink.get(g.link)
+      const deleted = ga?.deleted ?? g.deleted ?? false
+      const endTs = ga?.end_timestamp ?? g.end_timestamp
+      const entryCount = ga?.entry_count ?? g.entries
+      const noEntries = !deleted && endTs < nowSec && (entryCount ?? 0) === 0
+      if (!deleted && !noEntries) continue
+      if (!matchesNotCountedCvFilter(ga?.cv_status ?? g.cv_status, statsFilterCV)) continue
+      pushRow(notCountedByMonth, monthLabelOf(g.created_timestamp), {
+        link: g.link,
+        name: g.name,
+        timestamp: g.created_timestamp,
+        appId: ga?.app_id,
+        packageId: ga?.package_id,
+        giveaway: ga,
+        fallbackUrl: fallbackUrlFor(ga),
+        notCounted: {
+          reason: deleted ? 'deleted' : 'no_entries',
+          deletedReason: ga?.deleted_reason ?? g.deleted_reason,
+        },
+      })
+    }
+
+    const wonByMonth = new Map<string, DrilldownGameRow[]>()
+    const winsByBucket: Record<WinPlayStatus, DrilldownGameRow[]> = {
+      finished: [],
+      played: [],
+      never_played: [],
+      unreleased: [],
+    }
+    for (const g of filteredWon) {
+      const ga = giveawayByLink.get(g.link)
+      const status = classifyWinPlayStatus(g)
+      const row: DrilldownGameRow = {
+        link: g.link,
+        name: g.name,
+        timestamp: g.end_timestamp,
+        appId: ga?.app_id,
+        packageId: ga?.package_id,
+        giveaway: ga,
+        fallbackUrl: fallbackUrlFor(ga),
+        cvValue: cvValueForLink(g.link, g.cv_status, 1, giveawayByLink, gameDataIndex),
+        playtimeMinutes: g.steam_play_data?.playtime_minutes,
+        achievementsUnlocked: g.steam_play_data?.achievements_unlocked,
+        achievementsTotal: g.steam_play_data?.achievements_total,
+        neverPlayed: status === 'never_played',
+        unreleased: status === 'unreleased',
+      }
+      pushRow(wonByMonth, monthLabelOf(g.end_timestamp), row)
+      winsByBucket[status].push(row)
+    }
+
+    // Links of giveaways this user actually won — used to flag "Won" entries
+    // in the Entered modal.
+    const wonLinks = new Set((user.giveaways_won ?? []).map((g) => g.link))
+
+    const enteredByMonth = new Map<string, DrilldownGameRow[]>()
+    for (const e of filteredEntries) {
+      const ga = giveawayByLink.get(e.link)
+      pushRow(enteredByMonth, monthLabelOf(e.joined_at), {
+        link: e.link,
+        name: ga?.name ?? e.link,
+        timestamp: e.joined_at,
+        appId: ga?.app_id,
+        packageId: ga?.package_id,
+        giveaway: ga,
+        fallbackUrl: fallbackUrlFor(ga),
+        won: wonLinks.has(e.link),
+      })
+    }
+
+    const byDateDesc = (a: DrilldownGameRow, b: DrilldownGameRow) => b.timestamp - a.timestamp
+    // Entered rows show the ones the user actually won first, then by date
+    // within each group — winners are the more interesting half of the list.
+    const byWonThenDateDesc = (a: DrilldownGameRow, b: DrilldownGameRow) =>
+      Number(b.won ?? false) - Number(a.won ?? false) || byDateDesc(a, b)
+    for (const arr of sentByMonth.values()) arr.sort(byDateDesc)
+    for (const arr of wonByMonth.values()) arr.sort(byDateDesc)
+    for (const arr of enteredByMonth.values()) arr.sort(byWonThenDateDesc)
+    for (const arr of notCountedByMonth.values()) arr.sort(byDateDesc)
+    for (const arr of Object.values(winsByBucket)) arr.sort(byDateDesc)
+
+    const lastGifts = giftsCumulative.at(-1)
+    const lastEntered = enteredPerMonth.at(-1)
+    const lastCv = cvCumulative.at(-1)
+    const summary: UserStatsSummary = {
+      giftsSent: Number(lastGifts?.sent_cumulative ?? 0),
+      giftsWon: Number(lastGifts?.won_cumulative ?? 0),
+      enteredTotal: filteredEntries.length,
+      enteredLatest: Number(lastEntered?.count ?? 0),
+      enteredLatestLabel: lastEntered?.label,
+      cvSentTotal: Number(lastCv?.sent_cumulative ?? 0),
+      cvReceivedTotal: Number(lastCv?.received_cumulative ?? 0),
+      winCounts: winStatusCounts,
+    }
+
+    return {
+      giftsCumulative,
+      enteredPerMonth,
+      cvCumulative,
+      winsBreakdown,
+      summary,
+      sentByMonth,
+      wonByMonth,
+      enteredByMonth,
+      notCountedByMonth,
+      winsByBucket,
+    }
+  }, [
+    countedCreated,
+    countedWon,
+    userEntries,
+    giveawayByLink,
+    gameDataIndex,
+    statsFilterCV,
+    userAvatars,
+    userNames,
+    playStatsByWin,
+    user.giveaways_created,
+    user.giveaways_won,
+    nowSec,
+  ])
 
   const getTotalPlaytime = () =>
     countedWon.reduce(
@@ -434,11 +733,7 @@ export default function UserDetailPageClient({
   ).length
 
   const handleCopyWarningMessage = async () => {
-    const message = generateWarningMessage(
-      user,
-      userEntries?.[user.steam_id] ?? [],
-      giveaways,
-    )
+    const message = generateWarningMessage(user, userEntries, giveaways)
     if (message) {
       try {
         await navigator.clipboard.writeText(message)
@@ -447,6 +742,13 @@ export default function UserDetailPageClient({
       }
     }
   }
+
+  // Some users have a numeric steam_id but no stored profile URL, so derive it.
+  const steamProfileUrl =
+    user.steam_profile_url ??
+    (/^\d+$/.test(user.steam_id)
+      ? `https://steamcommunity.com/profiles/${user.steam_id}`
+      : null)
 
   const previousNames = (() => {
     const prev = steamIdMap[user.steam_id]?.previous
@@ -575,9 +877,9 @@ export default function UserDetailPageClient({
                 </span>
               </p>
             )}
-            {user.steam_profile_url && (
+            {steamProfileUrl && (
               <a
-                href={user.steam_profile_url}
+                href={steamProfileUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-2 inline-flex items-center gap-1 text-sm text-accent hover:underline"
@@ -952,6 +1254,9 @@ export default function UserDetailPageClient({
               </span>
             )}
           </TabsTrigger>
+          <TabsTrigger value="stats" className="gap-1.5">
+            <Activity className="h-3.5 w-3.5" /> Stats
+          </TabsTrigger>
           {isAdmin && leavers.length > 0 && (
             <TabsTrigger value="leavers" className="gap-1.5">
               <UsersIcon className="h-3.5 w-3.5" /> Leavers
@@ -996,6 +1301,37 @@ export default function UserDetailPageClient({
             gameData={gameData}
             lastUpdated={null}
             defaultGiveawayStatus={deepLinkEnteredOpen ? 'open' : 'all'}
+          />
+        </TabsContent>
+
+        <TabsContent value="stats" className="mt-6">
+          <div className="flex items-center gap-2 mb-4">
+            <label htmlFor="stats-cv-filter" className="text-sm font-medium">CV:</label>
+            <select
+              id="stats-cv-filter"
+              value={statsFilterCV}
+              onChange={(e) => setStatsFilterCV(e.target.value as StatsCvFilter)}
+              className="px-3 py-2 border border-card-border rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-accent text-sm"
+            >
+              <option value="all">All</option>
+              <option value="RATIO_VALID">Ratio Valid</option>
+              <option value="FULL_CV">Full</option>
+              <option value="REDUCED_CV">Reduced</option>
+              <option value="NO_CV">No CV</option>
+            </select>
+          </div>
+          <UserStatsCharts
+            key={statsFilterCV}
+            giftsCumulative={statsCharts.giftsCumulative}
+            enteredPerMonth={statsCharts.enteredPerMonth}
+            cvCumulative={statsCharts.cvCumulative}
+            winsBreakdown={statsCharts.winsBreakdown}
+            summary={statsCharts.summary}
+            sentByMonth={statsCharts.sentByMonth}
+            wonByMonth={statsCharts.wonByMonth}
+            enteredByMonth={statsCharts.enteredByMonth}
+            notCountedByMonth={statsCharts.notCountedByMonth}
+            winsByBucket={statsCharts.winsByBucket}
           />
         </TabsContent>
 

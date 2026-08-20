@@ -464,6 +464,14 @@ export function formatPlaytime(minutes: number): string {
   return `${hours}h ${remainingMinutes}m`
 }
 
+/** Playtime at chip scale: minutes under an hour, one decimal below 10h, else whole hours. */
+export function formatPlaytimeCompact(minutes: number): string {
+  if (minutes < 60) return `${minutes}m`
+  const hours = minutes / 60
+  if (hours < 10) return `${Number(hours.toFixed(1))}h`
+  return `${Math.round(hours)}h`
+}
+
 export function getCVBadgeColor(
   cvStatus: string,
   hasDecreasedRatio?: boolean

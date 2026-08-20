@@ -13,6 +13,17 @@ import FormattedDate from '@/components/FormattedDate'
 import Tooltip from '@/components/Tooltip'
 import { CvStatusIndicator } from '@/components/CvStatusIndicator'
 import { WinnerPlayProgress } from '@/components/WinnerPlayProgress'
+import { Clock3 } from 'lucide-react'
+import {
+  LedgerRow,
+  LedgerLine,
+  LedgerChip,
+  LedgerStats,
+  LedgerSep,
+  LedgerAttrs,
+  LedgerWhen,
+  type LedgerAttr,
+} from '@/components/LedgerRow'
 import {
   winnerPlayStatsKey,
   type WinnerPlayStats,
@@ -27,6 +38,22 @@ interface Props {
   /** Winner play stats keyed by winnerPlayStatsKey(winner, giveaway link). */
   playStatsByWin?: Record<string, WinnerPlayStats>
   gameData: GameData[]
+}
+
+const FALLBACK_AVATAR =
+  'https://images.icon-icons.com/2550/PNG/512/question_mark_circle_icon_152550.png'
+
+/** The giveaway's own attributes, as the icon cluster the phone row collapses them into. */
+function giveawayAttrs(giveaway: Giveaway): LedgerAttr[] {
+  return [
+    giveaway.region_restricted && { emoji: '🌍', label: 'Region restricted' },
+    (giveaway.required_play || giveaway.required_play_meta) && {
+      emoji: '🎮',
+      label: giveaway.required_play_meta?.additional_notes || 'Play required',
+    },
+    giveaway.is_shared && { emoji: '👥', label: 'Shared giveaway' },
+    giveaway.whitelist && { emoji: '🩵', label: 'Whitelist' },
+  ].filter(Boolean) as LedgerAttr[]
 }
 
 export default function GivenGiveawaysClient({ giveaways, userAvatars, userNames, exMemberIds, playStatsByWin, gameData }: Props) {
@@ -249,7 +276,101 @@ export default function GivenGiveawaysClient({ giveaways, userAvatars, userNames
               const gameData = getGameData(giveaway.app_id ?? giveaway.package_id)
 
               return (
-                <div key={giveaway.id ?? giveaway.package_id} className={`border rounded-lg overflow-hidden ${status.borderColor} ${status.backgroundColor}`}>
+                <div key={giveaway.id ?? giveaway.package_id}>
+                <LedgerRow
+                  className="md:hidden"
+                  name={giveaway.name}
+                  link={giveaway.link}
+                  points={giveaway.points}
+                  appId={giveaway.app_id}
+                  packageId={giveaway.package_id}
+                  fallbackUrl={gameData?.header_image_url}
+                  titleSuffix={<CvStatusIndicator giveaway={giveaway} />}
+                  muted={giveaway.deleted}
+                >
+                  <LedgerLine>
+                    <LedgerChip dot={status.statusDot}>
+                      {status.statusText}
+                      {status.notValid && <span className="font-normal opacity-75">· Not valid</span>}
+                    </LedgerChip>
+                    <LedgerStats>
+                      {giveaway.entry_count} entries
+                      {/* One copy is the default; only a multi-copy giveaway is worth the width. */}
+                      {giveaway.copies !== 1 && (
+                        <>
+                          <LedgerSep />
+                          {giveaway.copies} copies
+                        </>
+                      )}
+                      {gameData?.hltb_main_story_hours != null && (
+                        <>
+                          <LedgerSep />
+                          <span
+                            className="inline-flex items-center gap-1"
+                            title="HowLongToBeat main story"
+                          >
+                            <Clock3 className="h-3 w-3" aria-hidden />
+                            {gameData.hltb_main_story_hours}h
+                          </span>
+                        </>
+                      )}
+                    </LedgerStats>
+                    <LedgerWhen timestamp={giveaway.end_timestamp} />
+                  </LedgerLine>
+                  {(giveaway.cv_status && giveaway.cv_status !== 'FULL_CV') ||
+                  giveaway.deleted ||
+                  giveawayAttrs(giveaway).length > 0 ? (
+                    <LedgerLine>
+                      {giveaway.cv_status && giveaway.cv_status !== 'FULL_CV' && (
+                        <LedgerChip tone="warn">
+                          {getCVLabel(giveaway.cv_status, !!giveaway.decreased_ratio_info)}
+                        </LedgerChip>
+                      )}
+                      {giveaway.deleted && (
+                        <LedgerChip tone="bad" title={giveaway.deleted_reason || 'Giveaway was deleted'}>
+                          Deleted
+                        </LedgerChip>
+                      )}
+                      <LedgerAttrs attrs={giveawayAttrs(giveaway)} />
+                    </LedgerLine>
+                  ) : null}
+                  {!giveaway.deleted && giveaway.winners && giveaway.winners.length > 0 && (
+                    <LedgerLine className="border-t border-card-border pt-1.5">
+                      {giveaway.winners.map((winner, index) => {
+                        if (!winner.name) {
+                          return (
+                            <LedgerChip key={index} tone="warn">
+                              Awaiting feedback
+                            </LedgerChip>
+                          )
+                        }
+                        const displayName = getDisplayName(winner.name)
+                        const playStats =
+                          playStatsByWin?.[winnerPlayStatsKey(winner.name, giveaway.link)]
+                        return (
+                          <UserLink
+                            key={index}
+                            username={displayName}
+                            className="inline-flex min-w-0 items-center gap-1.5 text-xs text-accent hover:underline"
+                          >
+                            <UserAvatar
+                              src={userAvatars.get(winner.name) || FALLBACK_AVATAR}
+                              username={displayName}
+                            />
+                            <span className="truncate">{displayName}</span>
+                            {!userAvatars.get(winner.name) && (
+                              <span className="flex-none text-[10px] uppercase tracking-wide text-subtle">
+                                {exMemberIds?.has(winner.name) ? 'ex' : 'non-group'}
+                              </span>
+                            )}
+                            {playStats && <WinnerPlayProgress stats={playStats} />}
+                          </UserLink>
+                        )
+                      })}
+                    </LedgerLine>
+                  )}
+                </LedgerRow>
+                <div className={`hidden md:block border rounded-lg overflow-hidden ${status.borderColor} ${status.backgroundColor}`}>
                   <div className="flex">
                     <GameImage
                       appId={giveaway.app_id?.toString()}
@@ -399,6 +520,7 @@ export default function GivenGiveawaysClient({ giveaways, userAvatars, userNames
                       </div>
                     </div>
                   )}
+                </div>
                 </div>
               )
             })}

@@ -94,7 +94,8 @@ These are set in `.env` locally and as GitHub Actions secrets for CI.
 | `/giveaways` | Searchable/filterable giveaway table (virtualized) |
 | `/users` | User directory sorted by contribution metrics |
 | `/users/[username]` | Individual user profile with detailed stats |
-| `/stats` | Leaver/activity investigation data |
+| `/stats` | Public group stats & charts (giveaways, CV, entries, members, top contributors) |
+| `/leavers` | Leaver/activity investigation data (admin-only) |
 
 ## CI/CD
 
@@ -103,6 +104,20 @@ GitHub Actions workflow (`.github/workflows/deploy.yml`) runs every 8 hours:
 2. **playtime-data job:** Enriches with Steam playtime data (depends on job 1), commits to repo
 
 Both jobs auto-commit to the current branch if data changed.
+
+## Scope
+
+This repo is **only** about The Giveaways Club: scraping its SteamGifts data,
+analysing its members, and serving the dashboard. Two things live elsewhere:
+
+- **Tampermonkey userscripts** (train inspector, wins inspector, region-restriction
+  checker, other-group tooling) live in the sibling repo `sg-scripts`
+  (`~/Dev/sg-scripts`). Nothing here loads them, and a browser-side helper belongs
+  there even when it touches SteamGifts.
+- **SteamGifts DOM/URL field notes** — selectors, pagination, the Cloudflare
+  rate-limit recipe, CV and Value Difference semantics — live in
+  `sg-scripts/docs/steamgifts-page-structures.md`. The Cheerio scrapers here read
+  the same pages, so consult it before re-deriving a selector.
 
 ## Key Patterns
 

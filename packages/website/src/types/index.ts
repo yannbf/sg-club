@@ -48,6 +48,12 @@ export interface User {
   username: string
   profile_url: string
   avatar_url: string
+  /**
+   * Unix milliseconds (not seconds, unlike every other timestamp on this
+   * type) when the member left the group. Only ever set on ex-members
+   * (public/data/ex_members.json).
+   */
+  left_at_timestamp?: number
   warnings?: string[]
   stats: {
     total_sent_count: number

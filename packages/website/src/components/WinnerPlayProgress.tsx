@@ -3,16 +3,8 @@
 import { Check, Clock3, Trophy } from 'lucide-react'
 import type { WinnerPlayStats } from '@/lib/winner-play-stats'
 import { useIsAdmin } from '@/lib/auth'
-import { formatPlaytime } from '@/lib/data'
+import { formatPlaytime, formatPlaytimeCompact } from '@/lib/data'
 import { cn } from '@/lib/cn'
-
-/** Hours at chip scale: minutes under an hour, one decimal below 10h, else whole hours. */
-function compactPlaytime(minutes: number): string {
-  if (minutes < 60) return `${minutes}m`
-  const hours = minutes / 60
-  if (hours < 10) return `${Number(hours.toFixed(1))}h`
-  return `${Math.round(hours)}h`
-}
 
 function Tag({
   label,
@@ -85,7 +77,7 @@ export function WinnerPlayProgress({
           title={`${formatPlaytime(stats.playtime_minutes!)} played`}
         >
           <Clock3 className="h-3 w-3" aria-hidden />
-          {compactPlaytime(stats.playtime_minutes!)}
+          {formatPlaytimeCompact(stats.playtime_minutes!)}
         </span>
       )}
       {showAchievements && (

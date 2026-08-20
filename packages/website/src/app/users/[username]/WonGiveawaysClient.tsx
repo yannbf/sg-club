@@ -1,17 +1,29 @@
 'use client'
 
 import { Giveaway, GameData, User, GameBreakdownEntry, SteamIdMap, noStatsReasonLabel } from '@/types'
-import { getCVBadgeColor, getCVLabel, formatPlaytime } from '@/lib/data'
+import { getCVBadgeColor, getCVLabel, formatPlaytime, formatPlaytimeCompact } from '@/lib/data'
 import { createCreatorResolver } from '@/lib/creator-resolver'
 import GameImage from '@/components/GameImage'
 import { useGameData, useDebounce } from '@/lib/hooks'
-import FormattedDate from '@/components/FormattedDate'
+import FormattedDate, { getFullDate } from '@/components/FormattedDate'
 import { useCallback, useState, useMemo } from 'react'
 import Tooltip from '@/components/Tooltip'
-import { DeadlineStatus } from '@/components/DeadlineStatus'
+import { DeadlineStatus, getDeadlineData } from '@/components/DeadlineStatus'
 import { CvStatusIndicator } from '@/components/CvStatusIndicator'
 import { UserLink } from '@/components/UserLink'
 import UserAvatar from '@/components/UserAvatar'
+import { Clock3, Trophy } from 'lucide-react'
+import {
+  LedgerRow,
+  LedgerLine,
+  LedgerChip,
+  LedgerStats,
+  LedgerSep,
+  LedgerAttrs,
+  LedgerWhen,
+  type LedgerAttr,
+} from '@/components/LedgerRow'
+import { DEADLINE_WARNING_DAYS } from '../../../../api/_lib/required-play'
 
 interface Props {
   giveaways: Giveaway[]
@@ -25,6 +37,50 @@ interface Props {
   userAvatars: Map<string, string>
   /** Pre-enables the "Play required" filter (deep links from the Discord bot). */
   initialFilterPlayRequired?: boolean
+}
+
+type WonGiveaway = NonNullable<User['giveaways_won']>[number]
+
+/**
+ * A win's attributes, as the icon cluster the phone row collapses them into.
+ * Anything without a number lives here; only deadlines, which carry days, are
+ * spelled out as chips.
+ */
+function wonAttrs(game: WonGiveaway, giveaway?: Partial<Giveaway>): LedgerAttr[] {
+  return [
+    game.i_played_bro && { emoji: '⭐', label: 'Marked "I played, bro!"' },
+    game.required_play_meta?.requirements_met && { emoji: '✅', label: 'Proof of play accepted' },
+    giveaway?.region_restricted && { emoji: '🌍', label: 'Region restricted' },
+    (giveaway?.required_play || giveaway?.required_play_meta) && {
+      emoji: '🎮',
+      label: giveaway?.required_play_meta?.additional_notes || 'Play required',
+    },
+    giveaway?.is_shared && { emoji: '👥', label: 'Shared giveaway' },
+    giveaway?.whitelist && { emoji: '🩵', label: 'Whitelist' },
+    game.steam_play_data?.is_potentially_idling && { emoji: '💤', label: 'Potentially idling' },
+  ].filter(Boolean) as LedgerAttr[]
+}
+
+/**
+ * A live deadline keeps its number — that's what makes it actionable — while an
+ * expired one keeps only the fact, since "expired 258 days ago" and "expired"
+ * call for the same thing. The exact count stays in the tooltip.
+ */
+function deadlineChip(label: string, daysRemaining: number, deadlineDate: Date) {
+  const expired = daysRemaining < 0
+  const on = getFullDate(deadlineDate.getTime() / 1000)
+  return (
+    <LedgerChip
+      tone={expired ? 'bad' : daysRemaining <= DEADLINE_WARNING_DAYS ? 'warn' : 'neutral'}
+      title={
+        expired
+          ? `Expired ${Math.abs(daysRemaining)} days ago, on ${on}`
+          : `${daysRemaining} days left — due ${on}`
+      }
+    >
+      {label} {expired ? 'expired' : `${daysRemaining}d`}
+    </LedgerChip>
+  )
 }
 
 function GamesBreakdown({ games, steamId }: { games: GameBreakdownEntry[]; steamId: string }) {
@@ -272,8 +328,121 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData, 
                 creatorResolver.canonicalSteamId(matchingGiveaway?.creator),
               )
 
+              const play = game.steam_play_data
+              const ipbroDeadline =
+                !game.i_played_bro && game.cv_status === 'FULL_CV'
+                  ? getDeadlineData(game.end_timestamp)
+                  : null
+              const preqDeadline =
+                game.required_play && game.required_play_meta && !game.required_play_meta.requirements_met
+                  ? getDeadlineData(
+                      game.end_timestamp,
+                      game.required_play_meta.deadline_in_months,
+                      game.required_play_meta.deadline,
+                    )
+                  : null
+
               return (
-                <div key={index} className="border border-card-border rounded-lg overflow-hidden">
+                <div key={index}>
+                <LedgerRow
+                  className="md:hidden"
+                  name={game.name}
+                  link={game.link}
+                  points={matchingGiveaway?.points}
+                  appId={matchingGiveaway?.app_id}
+                  packageId={matchingGiveaway?.package_id}
+                  fallbackUrl={gameData?.header_image_url}
+                  titleSuffix={matchingGiveaway ? <CvStatusIndicator giveaway={matchingGiveaway} /> : undefined}
+                  muted={game.deleted}
+                >
+                  <LedgerLine>
+                    {!play || play.has_no_available_stats || !play.owned ? (
+                      <LedgerChip
+                        tone="neutral"
+                        title={
+                          !play
+                            ? "This game hasn't been checked against Steam yet."
+                            : noStatsReasonLabel(play.no_stats_reason)
+                        }
+                      >
+                        No stats
+                      </LedgerChip>
+                    ) : (
+                      <LedgerChip tone={play.never_played ? 'bad' : 'ok'}>
+                        {play.never_played ? 'Never played' : 'Played'}
+                      </LedgerChip>
+                    )}
+                    {play?.owned && !play.has_no_available_stats && (
+                      <LedgerStats>
+                        <span
+                          className="inline-flex items-center gap-1"
+                          title={play.is_playtime_private ? undefined : `${formatPlaytime(play.playtime_minutes)} played`}
+                        >
+                          <Clock3 className="h-3 w-3" aria-hidden />
+                          {play.is_playtime_private ? 'private' : formatPlaytimeCompact(play.playtime_minutes)}
+                          {gameData?.hltb_main_story_hours != null && (
+                            <span className="text-subtle">/{gameData.hltb_main_story_hours}h</span>
+                          )}
+                        </span>
+                        {play.achievements_total > 0 && (
+                          <>
+                            <LedgerSep />
+                            <span
+                              className={`inline-flex items-center gap-1 ${play.achievements_percentage === 100 ? 'font-semibold text-[var(--accent-yellow)]' : ''}`}
+                            >
+                              <Trophy className="h-3 w-3" aria-hidden />
+                              {play.achievements_unlocked}/{play.achievements_total}
+                            </span>
+                          </>
+                        )}
+                      </LedgerStats>
+                    )}
+                  </LedgerLine>
+                  <LedgerLine>
+                    {game.unreleased && (
+                      <LedgerChip tone="neutral" title={game.release_date || 'Not released yet'}>
+                        Unreleased
+                      </LedgerChip>
+                    )}
+                    {!game.unreleased &&
+                      ipbroDeadline &&
+                      deadlineChip('IpBro', ipbroDeadline.daysRemaining, ipbroDeadline.deadlineDate)}
+                    {!game.unreleased &&
+                      preqDeadline &&
+                      deadlineChip('PReq', preqDeadline.daysRemaining, preqDeadline.deadlineDate)}
+                    {needsReview && (
+                      <LedgerChip tone="warn" title="Playtime or achievements suggest this play requirement is met — needs review">
+                        🔍 Review
+                      </LedgerChip>
+                    )}
+                    <LedgerAttrs attrs={wonAttrs(game, giveawayInfo)} />
+                    {authorName && (
+                      <UserLink
+                        username={authorName}
+                        className="min-w-0 max-w-[90px] truncate text-[11px] text-muted-foreground hover:text-foreground"
+                      >
+                        {authorName}
+                      </UserLink>
+                    )}
+                    <LedgerWhen timestamp={game.end_timestamp} />
+                  </LedgerLine>
+                  {play?.games_breakdown && play.games_breakdown.length > 1 && (
+                    <LedgerLine>
+                      <LedgerChip
+                        tone="neutral"
+                        title={play.games_breakdown
+                          .map(
+                            (entry) =>
+                              `${entry.name} — ${entry.playtime_formatted}, ${entry.achievements_unlocked}/${entry.achievements_total}`,
+                          )
+                          .join('\n')}
+                      >
+                        Bundles {play.games_breakdown.length} games
+                      </LedgerChip>
+                    </LedgerLine>
+                  )}
+                </LedgerRow>
+                <div className="hidden md:block border border-card-border rounded-lg overflow-hidden">
                   <div className="flex">
                     {/* Game Image */}
                     <GameImage
@@ -455,6 +624,7 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData, 
                         )}
                     </div>
                   )}
+                </div>
                 </div>
               )
 

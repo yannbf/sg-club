@@ -95,6 +95,11 @@ export default async function UserDetailPage(
 
   const { user, isExMember } = userResult
 
+  // The full user_entries.json is large (every entry, every user) — this page
+  // only ever needs one user's slice of it, so scope it down before it
+  // crosses the server/client boundary.
+  const userEntriesForUser = userEntries?.[user.steam_id] ?? []
+
   // Leavers are keyed by steam_id
   const userLeavers = leavers[user.steam_id] || [];
   const userLeaversWithGaData: GiveawayLeaver[] = userLeavers.map((leaver) => {
@@ -137,7 +142,7 @@ export default async function UserDetailPage(
         allUsers={allUsers}
         giveaways={giveaways}
         gameData={gameData}
-        userEntries={userEntries}
+        userEntries={userEntriesForUser}
         lastUpdated={lastUpdated}
         leavers={userLeaversWithGaData}
         steamIdMap={steamIdMap}
