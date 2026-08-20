@@ -4,6 +4,7 @@ import { groupGiveawaysScraper } from '../scrapers/group-giveaways'
 import { delay } from '../utils/common'
 import type { Giveaway, SteamIdMap } from '../types/steamgifts'
 import { logError } from '../utils/log-error'
+import { applyGiveawayExceptions } from '../utils/giveaway-exceptions'
 import { GiveawayPointsManager } from '../api/fetch-proof-of-play'
 import { fileURLToPath } from 'node:url'
 
@@ -462,6 +463,8 @@ export async function generateGiveawaysData(): Promise<void> {
           }
         }
       }
+
+      applyGiveawayExceptions(updatedGiveaways)
 
       // Save to file with timestamp
       const dataWithTimestamp = {
