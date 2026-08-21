@@ -37,6 +37,31 @@ interface SchemaOrgEvent {
   }
 }
 
+// A giveaway requires play when a line of its description starts with
+// "play required" (block elements and <br> count as line breaks), ignoring
+// case and surrounding punctuation. The rest of the line must be empty
+// ("PLAY REQUIRED!!", "[Play Required]") or separated by punctuation
+// ("PLAY REQUIRED: at least 1 hour"). Lines where the sentence merely
+// continues ("not play required", "play required for 3 months") do not match.
+export function detectPlayRequired(descriptionHtml: string): boolean {
+  const withLineBreaks = descriptionHtml.replace(
+    /<(?:br\b[^>]*|\/(?:p|div|h[1-6]|li|blockquote|tr))>/gi,
+    '$&\n',
+  )
+  return load(withLineBreaks)
+    .root()
+    .text()
+    .split('\n')
+    .some((line) => {
+      const match = line
+        .trim()
+        .match(/^[^a-z0-9]*play[^a-z0-9]+required([^a-z0-9]*)(.*)$/i)
+      if (!match) return false
+      const [, trailing, rest] = match
+      return rest === '' || /[:\-–—!.;|]/.test(trailing)
+    })
+}
+
 interface GiveawayDetailedInfo {
   required_play: boolean
   is_shared: boolean
@@ -427,9 +452,9 @@ export class SteamGiftsHTMLScraper {
   ): Promise<GiveawayDetailedInfo> {
     const $ = load(html)
 
-    // Check if play is required by looking for text in the description
-    const description = $('.page__description').text().trim()
-    const required_play = description.includes('PLAY REQUIRED')
+    const descriptionEl = $('.page__description')
+    const description = descriptionEl.text().trim()
+    const required_play = detectPlayRequired(descriptionEl.html() ?? '')
 
     let event_type = undefined
     if (description.includes('RPG AUGUST')) {

@@ -1,6 +1,50 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { loadMockHtml } from '../test-utils/load-mock-html'
-import { SteamGiftsHTMLScraper } from './group-giveaways'
+import { SteamGiftsHTMLScraper, detectPlayRequired } from './group-giveaways'
+
+describe('detectPlayRequired', () => {
+  it('matches "play required" as a standalone line regardless of case and punctuation', () => {
+    expect(detectPlayRequired('<p>PLAY REQUIRED!!</p>')).toBe(true)
+    expect(detectPlayRequired('<p>[Play Required]</p>')).toBe(true)
+    expect(detectPlayRequired('<p>*** play required ***</p>')).toBe(true)
+  })
+
+  it('does not match when the sentence continues without a separator', () => {
+    expect(detectPlayRequired('<p>Not play required</p>')).toBe(false)
+    expect(detectPlayRequired('<p>play required for 3 months</p>')).toBe(false)
+    expect(detectPlayRequired('<p>NOT PLAY REQUIRED: 1 month</p>')).toBe(false)
+    expect(detectPlayRequired('<p>No play required here!</p>')).toBe(false)
+  })
+
+  it('matches when details follow a punctuation separator', () => {
+    expect(
+      detectPlayRequired('<p>PLAY REQUIRED: at least 1 hour</p>'),
+    ).toBe(true)
+    expect(
+      detectPlayRequired('<p>Play required - beat the game</p>'),
+    ).toBe(true)
+  })
+
+  it('treats block elements and <br> as line breaks', () => {
+    const html = `<div class="markdown markdown--resize-body"><p>Bingo hype!</p>
+<p>I was lucky in the previous month - won 4 games in our group and 2 more in <em>Xmas Year Round</em>, so it's a payback time</p>
+<h3>Play Required</h3>
+<p>Winner should obtain <em>Inheritance Trophy</em> achievement (Reach Room 46) in the next <strong>4</strong> months. How much you are going to play after that is up to you, but that should be only the beginning of your headaches :D</p></div>`
+    expect(detectPlayRequired(html)).toBe(true)
+
+    expect(detectPlayRequired('<p>Good luck<br>play required!</p>')).toBe(true)
+    expect(
+      detectPlayRequired('<p>this is not play required<br>good luck</p>'),
+    ).toBe(false)
+  })
+
+  it('does not match text merged across inline formatting only', () => {
+    expect(detectPlayRequired('<p><strong>Play</strong> Required</p>')).toBe(
+      true,
+    )
+    expect(detectPlayRequired('<p>no requirements here</p>')).toBe(false)
+  })
+})
 
 describe('SteamGiftsHTMLScraper', () => {
   let scraper: SteamGiftsHTMLScraper
