@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1785542400,
   "totalAchievements": 60,
-  "generatedAt": 1787331791621,
+  "generatedAt": 1787334985676,
   "challengeOver": false,
   "winnerUsername": "Foxpile",
   "participants": [
@@ -3437,14 +3437,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 706,
-      "playtime_2weeks_minutes": 706,
+      "playtime_total_minutes": 736,
+      "playtime_2weeks_minutes": 736,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 706,
+      "playtime_challenge_minutes": 736,
       "achievements_total": 60,
-      "achievements_unlocked_total": 58,
+      "achievements_unlocked_total": 59,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 58,
+      "achievements_since_baseline": 59,
       "challenge_achievements": [
         {
           "apiname": "a30003",
@@ -3793,9 +3793,15 @@
           "displayName": "You are strong",
           "description": "Clear the blood palace mode.",
           "unlocktime": 1787115420
+        },
+        {
+          "apiname": "a40004",
+          "displayName": "Visitors from Outer Space",
+          "description": "Found the lost anti-epidemic medical staff.",
+          "unlocktime": 1787332943
         }
       ],
-      "challenge_achievement_count": 58,
+      "challenge_achievement_count": 59,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
@@ -4505,14 +4511,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 244,
-      "playtime_2weeks_minutes": 244,
+      "playtime_total_minutes": 304,
+      "playtime_2weeks_minutes": 304,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 244,
+      "playtime_challenge_minutes": 304,
       "achievements_total": 60,
-      "achievements_unlocked_total": 23,
+      "achievements_unlocked_total": 26,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 23,
+      "achievements_since_baseline": 26,
       "challenge_achievements": [
         {
           "apiname": "a30003",
@@ -4651,9 +4657,27 @@
           "displayName": "Catch mice",
           "description": "Destroy 9 mice in the mini-game.",
           "unlocktime": 1787167013
+        },
+        {
+          "apiname": "a40007",
+          "displayName": "Photographer",
+          "description": "Press F12 in photo mode to take 5 pictures.",
+          "unlocktime": 1787331913
+        },
+        {
+          "apiname": "a20010",
+          "displayName": "Boss Tinghan Lu",
+          "description": "Defeat Boss Tinghan Lu.",
+          "unlocktime": 1787332252
+        },
+        {
+          "apiname": "a20026",
+          "displayName": "Boss Stone",
+          "description": "Defeat Boss Stone.",
+          "unlocktime": 1787332689
         }
       ],
-      "challenge_achievement_count": 23,
+      "challenge_achievement_count": 26,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
