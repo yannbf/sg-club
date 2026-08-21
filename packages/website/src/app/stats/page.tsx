@@ -9,7 +9,7 @@ import {
   getSteamIdMap,
   getUserEntries,
 } from '@/lib/data'
-import { isCountedGiveaway } from '@/lib/events'
+import { getGiveawayEventMeta, isCountedGiveaway } from '@/lib/events'
 import {
   accumulatePlaytimeDeltas,
   buildGameDataIndex,
@@ -139,6 +139,26 @@ export default async function StatsPage() {
     const arr = membersLeftByMonth[label]
     if (arr) arr.push(row)
     else membersLeftByMonth[label] = [row]
+  }
+
+  // Months in which each monthly giveaway event was active, from the
+  // event_type tags on counted giveaways (bucketed by creation month, same
+  // axis as the giveaways-created chart). The client merges these with the
+  // date-windowed special events for the "show event data" overlay.
+  const giveawayEventNamesByMonth: Record<string, string[]> = {}
+  {
+    const seen = new Set<string>()
+    for (const g of giveaways) {
+      if (!g.event_type) continue
+      const name = getGiveawayEventMeta(g.event_type).name
+      const label = monthLabel(monthKey(g.created_timestamp))
+      const key = `${label}::${name}`
+      if (seen.has(key)) continue
+      seen.add(key)
+      const arr = giveawayEventNamesByMonth[label]
+      if (arr) arr.push(name)
+      else giveawayEventNamesByMonth[label] = [name]
+    }
   }
 
   const giveawaysPerMonth: MonthDatum[] = combineMonthlySeries({
@@ -547,6 +567,7 @@ export default async function StatsPage() {
       membersLeftByMonth={membersLeftByMonth}
       topContributors={topContributors}
       giveawaysCreatedByMonth={giveawaysCreatedByMonth}
+      giveawayEventNamesByMonth={giveawayEventNamesByMonth}
       cvSentByMonth={cvSentByMonth}
       contributorGiveaways={contributorGiveaways}
       hoursPerMonth={hoursPerMonth}

@@ -67,6 +67,8 @@ interface GroupStatsChartsProps {
   topContributors: ContributorDatum[]
   /** "Mon YY" label -> that month's counted giveaways, newest first, for the giveaways-created chart's drill-down modal. */
   giveawaysCreatedByMonth: Record<string, DrilldownGameRow[]>
+  /** "Mon YY" label -> monthly giveaway events active that month (from event_type tags). */
+  giveawayEventNamesByMonth: Record<string, string[]>
   /** "Mon YY" label -> that month's counted giveaways, highest CV first, for the CV-sent chart's drill-down modal. */
   cvSentByMonth: Record<string, DrilldownGameRow[]>
   /** username -> that contributor's own counted giveaways, newest first (top 10 contributors only). */
@@ -245,6 +247,7 @@ export function GroupStatsCharts({
   membersLeftByMonth,
   topContributors,
   giveawaysCreatedByMonth,
+  giveawayEventNamesByMonth,
   cvSentByMonth,
   contributorGiveaways,
   hoursPerMonth,
@@ -322,23 +325,29 @@ export function GroupStatsCharts({
       }))
   }, [giveawaysPerMonth, giveawaysMonths])
 
-  // Event names active in each month, derived from the bands above — an
-  // event spanning several months gets an entry (and a dot) in every one of
-  // them, not just its start month.
+  // Event names active in each month: the monthly giveaway events (from
+  // event_type tags, computed server-side) merged with the date-windowed
+  // special events' bands. An event spanning several months gets an entry
+  // (and a dot) in every one of them, not just its start month.
   const eventNamesByMonth = useMemo(() => {
     const map: Record<string, string[]> = {}
+    const monthSet = new Set(giveawaysMonths)
+    for (const [m, names] of Object.entries(giveawayEventNamesByMonth)) {
+      if (monthSet.has(m)) map[m] = [...names]
+    }
     for (const band of eventBands) {
       const startIdx = giveawaysMonths.indexOf(band.x1)
       const endIdx = giveawaysMonths.indexOf(band.x2)
       if (startIdx === -1 || endIdx === -1) continue
       for (const m of giveawaysMonths.slice(startIdx, endIdx + 1)) {
         const arr = map[m]
-        if (arr) arr.push(band.name)
-        else map[m] = [band.name]
+        if (arr) {
+          if (!arr.includes(band.name)) arr.push(band.name)
+        } else map[m] = [band.name]
       }
     }
     return map
-  }, [eventBands, giveawaysMonths])
+  }, [eventBands, giveawaysMonths, giveawayEventNamesByMonth])
 
   // Giveaways-chart data augmented with an `eventDot` field (the month's
   // count, or null) for the event-dot Scatter series. Scatter must read this

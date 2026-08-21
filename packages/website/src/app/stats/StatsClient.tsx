@@ -27,6 +27,8 @@ interface StatsClientProps {
   topContributors: ContributorDatum[]
   /** "Mon YY" label -> that month's counted giveaways, newest first, for the giveaways-created chart's drill-down modal. */
   giveawaysCreatedByMonth: Record<string, DrilldownGameRow[]>
+  /** "Mon YY" label -> monthly giveaway events active that month (from event_type tags). */
+  giveawayEventNamesByMonth: Record<string, string[]>
   /** "Mon YY" label -> that month's counted giveaways, highest CV first, for the CV-sent chart's drill-down modal. */
   cvSentByMonth: Record<string, DrilldownGameRow[]>
   /** username -> that contributor's own counted giveaways, newest first (top 10 contributors only). */
@@ -62,6 +64,7 @@ export default function StatsClient({
   membersLeftByMonth,
   topContributors,
   giveawaysCreatedByMonth,
+  giveawayEventNamesByMonth,
   cvSentByMonth,
   contributorGiveaways,
   hoursPerMonth,
@@ -127,6 +130,7 @@ export default function StatsClient({
         membersLeftByMonth={membersLeftByMonth}
         topContributors={topContributors}
         giveawaysCreatedByMonth={giveawaysCreatedByMonth}
+        giveawayEventNamesByMonth={giveawayEventNamesByMonth}
         cvSentByMonth={cvSentByMonth}
         contributorGiveaways={contributorGiveaways}
         hoursPerMonth={hoursPerMonth}
