@@ -117,10 +117,12 @@ function UserRanking({ users, emptyLabel = 'No data yet.' }: UserRankingProps) {
 export type InsightData = {
   topCreators: { user: User; value: number }[]
   topWinners: { user: User; value: number }[]
-  topGamers: { user: User; value: string }[]
-  topAchievementHunters: { user: User; value: number }[]
-  topAchievementHuntersByPercentage: { user: User; value: string }[]
+  topGamers?: { user: User; value: string }[]
+  topAchievementHunters?: { user: User; value: number }[]
+  topAchievementHuntersByPercentage?: { user: User; value: string }[]
   topGames: { game: GameData; count: number }[]
+  /** Human date the playtime-since rankings were measured from, e.g. "Jul 31". */
+  playtimeSince?: string | null
 }
 
 function InsightPanel({
@@ -178,38 +180,72 @@ function InsightPanel({
         ))}
       </div>
 
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-5">
-        <RankingCard
-          icon={Gift}
-          accent="text-primary-hi"
-          title="Top creators"
-          users={data.topCreators}
-        />
-        <RankingCard
-          icon={Trophy}
-          accent="text-accent-yellow"
-          title="Top winners"
-          users={data.topWinners}
-        />
-        <RankingCard
-          icon={Gamepad2}
-          accent="text-accent-blue"
-          title="Top playtime"
-          users={data.topGamers}
-        />
-        <RankingCard
-          icon={Award}
-          accent="text-accent-green"
-          title="Top achievements"
-          users={data.topAchievementHunters}
-        />
-        <RankingCard
-          icon={Target}
-          accent="text-accent-rose"
-          title="Top achievement %"
-          users={data.topAchievementHuntersByPercentage}
-        />
-      </div>
+      {(() => {
+        const cards: React.ReactNode[] = [
+          <RankingCard
+            key="creators"
+            icon={Gift}
+            accent="text-primary-hi"
+            title="Top creators"
+            users={data.topCreators}
+          />,
+          <RankingCard
+            key="winners"
+            icon={Trophy}
+            accent="text-accent-yellow"
+            title="Top winners"
+            users={data.topWinners}
+          />,
+        ]
+        if (data.topGamers) {
+          cards.push(
+            <RankingCard
+              key="gamers"
+              icon={Gamepad2}
+              accent="text-accent-blue"
+              title="Top playtime"
+              subtitle={data.playtimeSince ? `since ${data.playtimeSince}` : undefined}
+              users={data.topGamers}
+            />
+          )
+        }
+        if (data.topAchievementHunters) {
+          cards.push(
+            <RankingCard
+              key="achievements"
+              icon={Award}
+              accent="text-accent-green"
+              title="Top achievements"
+              subtitle={data.playtimeSince ? `since ${data.playtimeSince}` : undefined}
+              users={data.topAchievementHunters}
+            />
+          )
+        }
+        if (data.topAchievementHuntersByPercentage) {
+          cards.push(
+            <RankingCard
+              key="achievement-percentage"
+              icon={Target}
+              accent="text-accent-rose"
+              title="Top achievement %"
+              users={data.topAchievementHuntersByPercentage}
+            />
+          )
+        }
+
+        const xlColsClass = {
+          2: 'xl:grid-cols-2',
+          3: 'xl:grid-cols-3',
+          4: 'xl:grid-cols-4',
+          5: 'xl:grid-cols-5',
+        }[cards.length] ?? 'xl:grid-cols-5'
+
+        return (
+          <div className={cn('grid grid-cols-1 gap-4 md:grid-cols-2', xlColsClass)}>
+            {cards}
+          </div>
+        )
+      })()}
     </div>
   )
 }
@@ -218,11 +254,13 @@ function RankingCard({
   icon: Icon,
   accent,
   title,
+  subtitle,
   users,
 }: {
   icon: React.ComponentType<{ className?: string }>
   accent: string
   title: string
+  subtitle?: string
   users: { user: User; value: string | number }[]
 }) {
   return (
@@ -230,6 +268,9 @@ function RankingCard({
       <div className="mb-3 flex items-center gap-2 text-sm font-semibold">
         <Icon className={cn('h-4 w-4', accent)} />
         {title}
+        {subtitle && (
+          <span className="font-normal text-xs text-muted-foreground">{subtitle}</span>
+        )}
       </div>
       <UserRanking users={users} />
     </Card>

@@ -1,6 +1,7 @@
-import { getAllGiveaways, getAllUsers, getExMembers, getGameData, getSteamIdMap, getUserEntries } from '@/lib/data'
+import { getAllGiveaways, getAllUsers, getExMembers, getGameData, getPlaytimeSnapshots, getSteamIdMap, getUserEntries, PlaytimeSnapshotFile } from '@/lib/data'
 import { GameData, Giveaway, User, UserEntry } from '@/types'
 import { createCreatorResolver, CreatorResolver } from '@/lib/creator-resolver'
+import { accumulatePlaytimeDeltas, giveawayIdFromLink } from '@/lib/chart-data'
 import { getEventSummaries } from '@/lib/event-data'
 import { isCountedGiveaway } from '@/lib/events'
 import { OngoingEventsBanner } from '@/components/OngoingEventsBanner'
@@ -102,6 +103,58 @@ function calculateInsights(
         return { game, count }
       })
       .filter(item => item.game) as { game: GameData; count: number }[]
+  }
+}
+
+/**
+ * Ranks users by playtime/achievements gained since the current month's
+ * playtime-snapshot baseline, rather than by all-time totals on giveaways
+ * created in a period (which conflates "won a while ago" with "played
+ * recently"). Falls back to no rankings when no baseline snapshot exists.
+ */
+function calculatePlaytimeSinceBaseline(
+  users: User[],
+  baseline: PlaytimeSnapshotFile | null
+): {
+  topGamers: { user: User; value: string }[]
+  topAchievementHunters: { user: User; value: number }[]
+} {
+  const gamers: { user: User; value: number }[] = []
+  const achievementHunters: { user: User; value: number }[] = []
+
+  for (const user of users) {
+    const after: Record<string, [number, number]> = {}
+    for (const win of user.giveaways_won || []) {
+      if (!win.steam_play_data) continue
+      after[giveawayIdFromLink(win.link)] = [
+        win.steam_play_data.playtime_minutes || 0,
+        win.steam_play_data.achievements_unlocked || 0,
+      ]
+    }
+
+    const before = baseline?.members[user.steam_id] ?? {}
+
+    let achievementsGained = 0
+    const minutesGained = accumulatePlaytimeDeltas(before, after, (_gaId, _minutes, achievements) => {
+      achievementsGained += achievements
+    })
+
+    if (minutesGained > 0) {
+      gamers.push({ user, value: minutesGained })
+    }
+    if (achievementsGained > 0) {
+      achievementHunters.push({ user, value: achievementsGained })
+    }
+  }
+
+  return {
+    topGamers: gamers
+      .sort((a, b) => b.value - a.value)
+      .slice(0, 10)
+      .map(g => ({ ...g, value: `${Math.floor(g.value / 60)}h` })),
+    topAchievementHunters: achievementHunters
+      .sort((a, b) => b.value - a.value)
+      .slice(0, 10),
   }
 }
 
@@ -215,7 +268,8 @@ function computeStats(
   allGameData: GameData[],
   memberLabel: string,
   userEntries: UserEntry,
-  resolver: CreatorResolver
+  resolver: CreatorResolver,
+  playtimeBaseline: PlaytimeSnapshotFile | null
 ): DashboardStats {
   const memberCount = users.length
 
@@ -253,6 +307,11 @@ function computeStats(
   const sevenDaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000
   const last7DaysGiveaways = giveaways.filter(ga => ga.end_timestamp * 1000 > sevenDaysAgo)
 
+  const playtimeSince = playtimeBaseline
+    ? new Date(playtimeBaseline.captured_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'UTC' })
+    : null
+  const sinceBaseline = calculatePlaytimeSinceBaseline(users, playtimeBaseline)
+
   return {
     memberCount,
     memberLabel,
@@ -269,8 +328,19 @@ function computeStats(
     usersWithWarningsCount,
     usersWithWarningsPercentage,
     allTimeInsights: calculateInsights(giveaways, users, userMap, allGameData, resolver),
-    last30DaysInsights: calculateInsights(recentGiveaways, users, userMap, allGameData, resolver),
-    last7DaysInsights: calculateInsights(last7DaysGiveaways, users, userMap, allGameData, resolver),
+    last30DaysInsights: {
+      ...calculateInsights(recentGiveaways, users, userMap, allGameData, resolver),
+      topGamers: playtimeBaseline ? sinceBaseline.topGamers : undefined,
+      topAchievementHunters: playtimeBaseline ? sinceBaseline.topAchievementHunters : undefined,
+      topAchievementHuntersByPercentage: undefined,
+      playtimeSince,
+    },
+    last7DaysInsights: {
+      ...calculateInsights(last7DaysGiveaways, users, userMap, allGameData, resolver),
+      topGamers: undefined,
+      topAchievementHunters: undefined,
+      topAchievementHuntersByPercentage: undefined,
+    },
     luckRankings: calculateLuckRankings(
       users,
       allGiveaways.filter(ga => isCountedGiveaway(ga)),
@@ -289,6 +359,8 @@ export default async function Home() {
   const allGameData = await getGameData()
   const userEntries = await getUserEntries()
   const steamIdMap = await getSteamIdMap()
+  const playtimeSnapshots = await getPlaytimeSnapshots()
+  const playtimeBaseline = playtimeSnapshots.length > 0 ? playtimeSnapshots[playtimeSnapshots.length - 1] : null
 
   if (!userData) {
     return (
@@ -308,8 +380,8 @@ export default async function Home() {
   const entries = userEntries || {}
   const resolver = createCreatorResolver(steamIdMap)
 
-  const activeStats = computeStats(activeUsers, allGiveaways, giveaways, activeUserMap, allGameData, 'Active Members', entries, resolver)
-  const allStats = computeStats(allUsers, allGiveaways, giveaways, allUserMap, allGameData, 'Total Members', entries, resolver)
+  const activeStats = computeStats(activeUsers, allGiveaways, giveaways, activeUserMap, allGameData, 'Active Members', entries, resolver, playtimeBaseline)
+  const allStats = computeStats(allUsers, allGiveaways, giveaways, allUserMap, allGameData, 'Total Members', entries, resolver, playtimeBaseline)
 
   const lastUpdated = userData.lastUpdated ? new Date(userData.lastUpdated).toISOString() : null
 
