@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1785542400,
   "totalAchievements": 60,
-  "generatedAt": 1787348919231,
+  "generatedAt": 1787352612389,
   "challengeOver": false,
   "winnerUsername": "Foxpile",
   "participants": [
@@ -822,7 +822,7 @@
       "review_recommendationid": "232300992",
       "review_url": "https://steamcommunity.com/profiles/76561197994025244/recommended/992300",
       "playtime_total_minutes": 1125,
-      "playtime_2weeks_minutes": 308,
+      "playtime_2weeks_minutes": 290,
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 1125,
       "achievements_total": 60,
@@ -3836,14 +3836,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 690,
-      "playtime_2weeks_minutes": 690,
+      "playtime_total_minutes": 710,
+      "playtime_2weeks_minutes": 710,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 690,
+      "playtime_challenge_minutes": 710,
       "achievements_total": 60,
-      "achievements_unlocked_total": 55,
+      "achievements_unlocked_total": 56,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 55,
+      "achievements_since_baseline": 56,
       "challenge_achievements": [
         {
           "apiname": "a30003",
@@ -4174,9 +4174,15 @@
           "displayName": "Priestess Phantom",
           "description": "Kill 20 Priestess Phantom.",
           "unlocktime": 1787348038
+        },
+        {
+          "apiname": "a20025",
+          "displayName": "Sombra",
+          "description": "Kill 5 Sombra.",
+          "unlocktime": 1787349194
         }
       ],
-      "challenge_achievement_count": 55,
+      "challenge_achievement_count": 56,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
