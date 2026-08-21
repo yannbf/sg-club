@@ -596,7 +596,6 @@ export function GroupStatsCharts({
           )
         }
         icon={Trophy}
-        className="lg:col-span-2"
       >
         <div className="h-96 w-full">
           <ResponsiveContainer width="100%" height="100%">
@@ -657,9 +656,8 @@ export function GroupStatsCharts({
           </>
         }
         icon={Clock}
-        className="lg:col-span-2"
       >
-        <div className="h-72 w-full">
+        <div className="h-96 w-full">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart
               data={hoursPerMonth}
