@@ -35,6 +35,8 @@
     "get-entries": "tsx src/scripts/get-entries.ts",
     "check-ex-member-entries": "tsx src/scripts/check-ex-member-entries.ts",
     "monthly-progress": "tsx src/scripts/compare-monthly-progress.ts",
+    "snapshot-playtime": "tsx src/scripts/snapshot-playtime.ts",
+    "backfill-playtime-snapshots": "tsx src/scripts/backfill-playtime-snapshots.ts",
     "discord:close-signups": "tsx src/scripts/discord-close-signups.ts",
     "discord:congrats": "tsx src/scripts/discord-challenge-congrats.ts",
     "discord:milestones": "tsx src/scripts/discord-challenge-milestones.ts",

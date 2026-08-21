@@ -32,8 +32,8 @@ export interface DrilldownWinner {
   steamId: string
   displayName: string
   avatarUrl?: string
-  /** False when the winner isn't a current group member (ex-member or non-group). */
-  isGroupMember: boolean
+  /** "ex member" / "non-member" badge text, or undefined for a current member — see `classifyPerson` in `@/lib/person`. */
+  badgeText?: string
   playStats?: WinnerPlayStats
 }
 
@@ -61,6 +61,14 @@ export interface DrilldownGameRow {
   playtimeMinutes?: number
   achievementsUnlocked?: number
   achievementsTotal?: number
+  /**
+   * Minutes of playtime gained during one specific month (hours-per-month
+   * chart's drill-down only) — a delta, not the game's total playtime.
+   * Shown with a "+" prefix instead of `playtimeMinutes`.
+   */
+  minutesGained?: number
+  /** Achievements unlocked during that same month — a delta, not a total. */
+  achievementsGained?: number
   neverPlayed?: boolean
   /**
    * Mod-confirmed "I played, bro" or proof-of-play sign-off — shown as a
@@ -90,6 +98,14 @@ export interface DrilldownMemberRow {
   avatarUrl?: string
   /** True when this member has left the group — shown as a muted "ex member" badge. */
   isExMember?: boolean
+  /**
+   * Overrides the default "ex member" badge text (e.g. "former member" for
+   * pre-tracking members with no record in either the current or ex-member
+   * files). Only rendered when `isExMember` is also set.
+   */
+  badgeText?: string
+  /** Optional compact subtitle shown under the username, e.g. "14 entered · 1 created · 2 won". */
+  detail?: string
 }
 
 export interface DrilldownGameSection {
@@ -115,6 +131,15 @@ export interface DrilldownGameSection {
    * win's end_timestamp.
    */
   showWonRelativeTime?: boolean
+  /**
+   * Prefixes the creator/winner lines with small muted "created by"/"won by"
+   * labels — the group stats page's giveaways-created, CV-sent, and
+   * top-contributors modals, where a row can show both a creator and
+   * winners and the relationship isn't otherwise obvious. Left off
+   * elsewhere (e.g. a user page's own "sent" rows, where the winners are
+   * implicitly winners of that user's giveaway).
+   */
+  showCreatedWonLabels?: boolean
 }
 
 export interface DrilldownMemberSection {
@@ -156,10 +181,12 @@ function DrilldownRow({
   row,
   hideNeverPlayedBadge,
   showWonRelativeTime,
+  showCreatedWonLabels,
 }: {
   row: DrilldownGameRow
   hideNeverPlayedBadge?: boolean
   showWonRelativeTime?: boolean
+  showCreatedWonLabels?: boolean
 }) {
   const hasAchievements = Boolean(row.achievementsTotal && row.achievementsTotal > 0)
   const achievementsCompleted =
@@ -170,6 +197,7 @@ function DrilldownRow({
 
   const hasOwnPlayInfo =
     row.playtimeMinutes != null ||
+    row.minutesGained != null ||
     hasAchievements ||
     showNeverPlayedBadge ||
     showConfirmedPlayedBadge ||
@@ -231,6 +259,9 @@ function DrilldownRow({
 
         {row.creator && (
           <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1">
+            {showCreatedWonLabels && (
+              <span className="text-[11px] text-muted-foreground">created by</span>
+            )}
             <UserLink
               username={row.creator.displayName}
               className="inline-flex min-w-0 items-center gap-1 text-[11px] text-muted-foreground hover:text-[var(--primary-hi)] hover:underline"
@@ -239,13 +270,18 @@ function DrilldownRow({
                 src={row.creator.avatarUrl || FALLBACK_AVATAR}
                 username={row.creator.displayName}
               />
-              <span className="truncate">by {row.creator.displayName}</span>
+              <span className="truncate">
+                {showCreatedWonLabels ? row.creator.displayName : `by ${row.creator.displayName}`}
+              </span>
             </UserLink>
           </div>
         )}
 
         {row.winners && row.winners.length > 0 && (
           <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1">
+            {showCreatedWonLabels && (
+              <span className="text-[11px] text-muted-foreground">won by</span>
+            )}
             {row.winners.map((winner) => (
               <UserLink
                 key={winner.steamId}
@@ -257,9 +293,9 @@ function DrilldownRow({
                   username={winner.displayName}
                 />
                 <span className="truncate">{winner.displayName}</span>
-                {!winner.isGroupMember && (
+                {winner.badgeText && (
                   <span className="flex-none text-[10px] uppercase tracking-wide text-subtle">
-                    non-group
+                    {winner.badgeText}
                   </span>
                 )}
                 {winner.playStats && <WinnerPlayProgress stats={winner.playStats} />}
@@ -293,6 +329,16 @@ function DrilldownRow({
               <span className="inline-flex items-center gap-1 text-[11px] text-muted-foreground">
                 <Gamepad2 className="h-3 w-3" />
                 {formatPlaytimeCompact(row.playtimeMinutes)}
+              </span>
+            )}
+            {row.minutesGained != null && (
+              <span className="inline-flex items-center gap-1 text-[11px] text-muted-foreground">
+                <Gamepad2 className="h-3 w-3" />+{formatPlaytimeCompact(row.minutesGained)}
+              </span>
+            )}
+            {row.achievementsGained != null && row.achievementsGained > 0 && (
+              <span className="inline-flex items-center gap-1 text-[11px] text-muted-foreground">
+                <Trophy className="h-3 w-3" />+{row.achievementsGained}
               </span>
             )}
             {hasAchievements && (
@@ -330,19 +376,26 @@ function DrilldownRow({
 
 function DrilldownMemberRowItem({ row }: { row: DrilldownMemberRow }) {
   return (
-    <li className="flex items-center gap-1.5 px-4 py-2">
-      <UserLink
-        username={row.username}
-        className="flex min-w-0 items-center gap-1.5 truncate text-sm font-medium text-foreground hover:text-[var(--primary-hi)] hover:underline"
-      >
-        <UserAvatar src={row.avatarUrl || FALLBACK_AVATAR} username={row.username} />
-        {row.username}
-      </UserLink>
-      {row.isExMember && (
-        <span className="flex-none text-[10px] uppercase tracking-wide text-subtle">
-          ex member
-        </span>
-      )}
+    <li className="flex items-center gap-3 px-4 py-2">
+      <UserAvatar src={row.avatarUrl || FALLBACK_AVATAR} username={row.username} />
+      <div className="min-w-0 flex-1">
+        <div className="flex items-center gap-1.5">
+          <UserLink
+            username={row.username}
+            className="min-w-0 truncate text-sm font-medium text-foreground hover:text-[var(--primary-hi)] hover:underline"
+          >
+            {row.username}
+          </UserLink>
+          {row.isExMember && (
+            <span className="flex-none text-[10px] uppercase tracking-wide text-subtle">
+              {row.badgeText ?? 'ex member'}
+            </span>
+          )}
+        </div>
+        {row.detail && (
+          <div className="truncate text-[11px] text-muted-foreground">{row.detail}</div>
+        )}
+      </div>
     </li>
   )
 }
@@ -420,10 +473,11 @@ export function StatsDrilldownModal({
                       ))
                     : section.rows.map((row) => (
                         <DrilldownRow
-                          key={`${section.heading}-${row.link}`}
+                          key={`${section.heading}-${row.link}-${row.winners?.[0]?.steamId ?? ''}`}
                           row={row}
                           hideNeverPlayedBadge={section.hideNeverPlayedBadge}
                           showWonRelativeTime={section.showWonRelativeTime}
+                          showCreatedWonLabels={section.showCreatedWonLabels}
                         />
                       ))}
                 </ul>

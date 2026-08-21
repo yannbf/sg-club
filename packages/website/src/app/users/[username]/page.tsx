@@ -1,5 +1,5 @@
 // page.tsx
-import { getUser, getAllGiveaways, getAllUsers, getExMembers, getGameData, getUserEntries, getSteamIdMap } from '@/lib/data'
+import { getUser, getAllGiveaways, getAllUsers, getExMembers, getGameData, getUserEntries, getSteamIdMap, getPlaytimeSnapshots } from '@/lib/data'
 import { createCreatorResolver } from '@/lib/creator-resolver'
 import { buildWinnerPlayStats } from '@/lib/winner-play-stats'
 import { notFound } from 'next/navigation'
@@ -8,6 +8,9 @@ import { AdminGate } from '@/components/AdminGate'
 import leaversData from '@/../investigation/giveaway_leavers.json';
 import { GiveawayLeaver } from '@/types/stats';
 import { Giveaway } from '@/types';
+import { accumulatePlaytimeDeltas, giveawayIdFromLink, monthLabel } from '@/lib/chart-data'
+import type { MonthDatum } from '@/components/charts/GroupStatsCharts'
+import type { DrilldownGameRow } from '@/components/charts/StatsDrilldownModal'
 // import { Metadata } from 'next'
 
 export async function generateStaticParams() {
@@ -78,7 +81,7 @@ export default async function UserDetailPage(
 ) {
   const params = await props.params;
   const { username } = params
-  const [userResult, allUsers, exMembersData, giveaways, userEntries, gameDataObj, steamIdMap] = await Promise.all([
+  const [userResult, allUsers, exMembersData, giveaways, userEntries, gameDataObj, steamIdMap, playtimeSnapshots] = await Promise.all([
     getUser(decodeURIComponent(username)),
     getAllUsers(),
     getExMembers(),
@@ -86,6 +89,7 @@ export default async function UserDetailPage(
     getUserEntries(),
     getGameData(),
     getSteamIdMap(),
+    getPlaytimeSnapshots(),
   ])
   const lastUpdated = allUsers?.lastUpdated ?? null
 
@@ -135,6 +139,75 @@ export default async function UserDetailPage(
     resolver,
   )
 
+  // "Hours played per month": per-game playtime/achievement deltas between
+  // consecutive start-of-month snapshots, summed per month, for this user's
+  // own won games. The final (current) month compares the latest snapshot to
+  // this user's live steam_play_data instead of a following snapshot, since
+  // that month hasn't finished yet.
+  const giveawayByLinkForHours = new Map(giveaways.map((g) => [g.link, g]))
+  const wonByGaId = new Map(
+    (user.giveaways_won ?? []).map((g) => [giveawayIdFromLink(g.link), g]),
+  )
+  const pushHoursRow = (map: Map<string, DrilldownGameRow[]>, key: string, row: DrilldownGameRow) => {
+    const arr = map.get(key)
+    if (arr) arr.push(row)
+    else map.set(key, [row])
+  }
+  const hoursGamesByMonth = new Map<string, DrilldownGameRow[]>()
+  // Walks the shared per-pair delta algorithm for this user into
+  // `monthKeyStr`'s bucket.
+  const accumulateDelta = (
+    before: Record<string, [number, number]>,
+    after: Record<string, [number, number]>,
+    monthKeyStr: string,
+  ): number =>
+    accumulatePlaytimeDeltas(before, after, (gaId, minutesGained, achievementsGained) => {
+      const won = wonByGaId.get(gaId)
+      const link = won?.link ?? gaId
+      const ga = won ? giveawayByLinkForHours.get(won.link) : undefined
+      pushHoursRow(hoursGamesByMonth, monthLabel(monthKeyStr), {
+        link,
+        name: won?.name ?? gaId,
+        timestamp: ga?.end_timestamp ?? won?.end_timestamp ?? 0,
+        appId: ga?.app_id,
+        packageId: ga?.package_id,
+        giveaway: ga,
+        minutesGained,
+        achievementsGained: achievementsGained > 0 ? achievementsGained : undefined,
+      })
+    })
+
+  const hoursMonthRows: MonthDatum[] = []
+  for (let i = 0; i < playtimeSnapshots.length - 1; i++) {
+    const before = playtimeSnapshots[i].members[user.steam_id] ?? {}
+    const after = playtimeSnapshots[i + 1].members[user.steam_id] ?? {}
+    const monthKeyStr = playtimeSnapshots[i].month
+    const minutes = accumulateDelta(before, after, monthKeyStr)
+    hoursMonthRows.push({ month: monthKeyStr, label: monthLabel(monthKeyStr), hours: minutes / 60 })
+  }
+  if (playtimeSnapshots.length > 0) {
+    const latest = playtimeSnapshots[playtimeSnapshots.length - 1]
+    const before = latest.members[user.steam_id] ?? {}
+    const after: Record<string, [number, number]> = {}
+    for (const g of user.giveaways_won ?? []) {
+      if (!g.steam_play_data) continue
+      after[giveawayIdFromLink(g.link)] = [
+        g.steam_play_data.playtime_minutes,
+        g.steam_play_data.achievements_unlocked,
+      ]
+    }
+    const minutes = accumulateDelta(before, after, latest.month)
+    hoursMonthRows.push({ month: latest.month, label: monthLabel(latest.month), hours: minutes / 60 })
+  }
+  for (const rows of hoursGamesByMonth.values()) {
+    rows.sort((a, b) => (b.minutesGained ?? 0) - (a.minutesGained ?? 0))
+  }
+  // Skip leading months with no playtime gained, so the axis starts at this
+  // member's first activity instead of a long flat run of empty months.
+  const firstActiveIdx = hoursMonthRows.findIndex((r) => Number(r.hours) > 0)
+  const hoursPerMonth = firstActiveIdx >= 0 ? hoursMonthRows.slice(firstActiveIdx) : []
+  const hoursByMonth = Object.fromEntries(hoursGamesByMonth)
+
   return (
     <AdminGate>
       <UserDetailPageClient
@@ -149,6 +222,8 @@ export default async function UserDetailPage(
         isExMember={isExMember}
         exMemberIds={Object.keys(exMembersData?.users ?? {})}
         playStatsByWin={playStatsByWin}
+        hoursPerMonth={hoursPerMonth}
+        hoursByMonth={hoursByMonth}
       />
     </AdminGate>
   )

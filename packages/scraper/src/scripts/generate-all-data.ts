@@ -8,6 +8,7 @@ import { existsSync, readFileSync } from 'node:fs'
 import path from 'node:path'
 import { checkDeletedGiveaways } from './check-deleted-giveaways'
 import { checkExMemberEntries } from './check-ex-member-entries'
+import { captureMonthlySnapshotIfMissing } from './snapshot-playtime'
 
 // perhaps we will use this later.
 async function maybeCommitAndPush() {
@@ -82,6 +83,9 @@ async function generateAllData(): Promise<void> {
   // Skip playtime enrichment during member data generation when splitting jobs
   process.env.SKIP_STEAM_PLAYTIME = 'true'
   await generateMembersData()
+  // First pipeline run of a new month captures that month's playtime
+  // baseline; every later run this month is a no-op (file already exists).
+  captureMonthlySnapshotIfMissing()
   // Flag ex-members who still have entries in active giveaways (SteamGifts
   // membership sync delay lets them keep entering/winning after leaving)
   checkExMemberEntries()

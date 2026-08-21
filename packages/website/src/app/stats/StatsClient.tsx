@@ -32,8 +32,18 @@ interface StatsClientProps {
   /** username -> that contributor's own counted giveaways, newest first (top 10 contributors only). */
   contributorGiveaways: Record<string, DrilldownGameRow[]>
   hoursPerMonth: MonthDatum[]
-  /** "Mon YY" label -> that month's won games with play data, highest playtime first. */
+  /** "Mon YY" label -> that month's games with hours gained, highest gain first, capped at top 50. */
   hoursByMonth: Record<string, DrilldownGameRow[]>
+  /** "Mon YY" label -> that month's true row count before the top-50 cap. */
+  hoursByMonthCount: Record<string, number>
+  activeMembersPerMonth: MonthDatum[]
+  /** "Mon YY" label -> members active that month (entered/created/won), sorted by total actions desc. */
+  activeMembersByMonth: Record<string, DrilldownMemberRow[]>
+  achievementsPerMonth: MonthDatum[]
+  /** "Mon YY" label -> that month's games with achievements gained, highest gain first, capped at top 50. */
+  achievementsByMonth: Record<string, DrilldownGameRow[]>
+  /** "Mon YY" label -> that month's true row count before the top-50 cap. */
+  achievementsByMonthCount: Record<string, number>
   lastUpdated: string | null
 }
 
@@ -56,6 +66,12 @@ export default function StatsClient({
   contributorGiveaways,
   hoursPerMonth,
   hoursByMonth,
+  hoursByMonthCount,
+  activeMembersPerMonth,
+  activeMembersByMonth,
+  achievementsPerMonth,
+  achievementsByMonth,
+  achievementsByMonthCount,
   lastUpdated,
 }: StatsClientProps) {
   return (
@@ -115,6 +131,12 @@ export default function StatsClient({
         contributorGiveaways={contributorGiveaways}
         hoursPerMonth={hoursPerMonth}
         hoursByMonth={hoursByMonth}
+        hoursByMonthCount={hoursByMonthCount}
+        activeMembersPerMonth={activeMembersPerMonth}
+        activeMembersByMonth={activeMembersByMonth}
+        achievementsPerMonth={achievementsPerMonth}
+        achievementsByMonth={achievementsByMonth}
+        achievementsByMonthCount={achievementsByMonthCount}
       />
     </div>
   )

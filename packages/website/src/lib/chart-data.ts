@@ -194,6 +194,43 @@ export function cvValueForLink(
   return cvUnitPrice(cvStatus, game) * (copies || 1)
 }
 
+/**
+ * The short id playtime_snapshots files key members' won games by — the
+ * giveaway link's segment before the slash (e.g. "abc123" from
+ * "abc123/some-game-name").
+ */
+export function giveawayIdFromLink(link: string): string {
+  return link.split('/')[0]
+}
+
+// --- Playtime snapshot delta walk (shared by the per-user and group "hours played per month" charts) ---
+
+/**
+ * Sums per-game [minutes, achievements] deltas between two playtime snapshots
+ * for one member, clamping negatives to 0 and treating a game missing from
+ * `before` as starting at [0, 0] (so it counts its full value the month it
+ * first appears). Calls `onDelta` for every game with a nonzero delta and
+ * returns the total minutes gained across all of them.
+ */
+export function accumulatePlaytimeDeltas(
+  before: Record<string, [number, number]>,
+  after: Record<string, [number, number]>,
+  onDelta: (giveawayId: string, minutesGained: number, achievementsGained: number) => void,
+): number {
+  const gaIds = new Set([...Object.keys(before), ...Object.keys(after)])
+  let totalMinutes = 0
+  for (const gaId of gaIds) {
+    const [beforeMin, beforeAch] = before[gaId] ?? [0, 0]
+    const [afterMin, afterAch] = after[gaId] ?? [0, 0]
+    const minutesGained = Math.max(0, afterMin - beforeMin)
+    const achievementsGained = Math.max(0, afterAch - beforeAch)
+    if (minutesGained === 0 && achievementsGained === 0) continue
+    totalMinutes += minutesGained
+    onDelta(gaId, minutesGained, achievementsGained)
+  }
+  return totalMinutes
+}
+
 // --- Win play-status classification (for the per-user wins breakdown donut) ---
 
 export type WinPlayStatus = 'finished' | 'played' | 'never_played' | 'unreleased'

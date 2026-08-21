@@ -28,12 +28,13 @@ import {
   winnerPlayStatsKey,
   type WinnerPlayStats,
 } from '@/lib/winner-play-stats'
+import { classifyPerson } from '@/lib/person'
 
 interface Props {
   giveaways: Giveaway[]
   userAvatars: Map<string, string>
   userNames?: Map<string, string>
-  /** steam_ids of ex-members — distinguishes "(ex member)" from non-group winners. */
+  /** steam_ids of ex-members — distinguishes "(ex member)" from "(non-member)" winners on shared/whitelist giveaways. */
   exMemberIds?: Set<string>
   /** Winner play stats keyed by winnerPlayStatsKey(winner, giveaway link). */
   playStatsByWin?: Record<string, WinnerPlayStats>
@@ -360,7 +361,13 @@ export default function GivenGiveawaysClient({ giveaways, userAvatars, userNames
                             <span className="truncate">{displayName}</span>
                             {!userAvatars.get(winner.name) && (
                               <span className="flex-none text-[10px] uppercase tracking-wide text-subtle">
-                                {exMemberIds?.has(winner.name) ? 'ex' : 'non-group'}
+                                {classifyPerson({
+                                  isCurrentMember: false,
+                                  isExMember: exMemberIds?.has(winner.name) ?? false,
+                                  isSharedOrWhitelist: Boolean(giveaway.is_shared || giveaway.whitelist),
+                                }) === 'non-member'
+                                  ? 'non-member'
+                                  : 'ex'}
                               </span>
                             )}
                             {playStats && <WinnerPlayProgress stats={playStats} />}
@@ -506,9 +513,13 @@ export default function GivenGiveawaysClient({ giveaways, userAvatars, userNames
                                     username={displayName!}
                                   />
                                   {displayName}{' '}
-                                  {exMemberIds?.has(winner.name)
-                                    ? '(ex member)'
-                                    : '(non-group member)'}
+                                  {classifyPerson({
+                                    isCurrentMember: false,
+                                    isExMember: exMemberIds?.has(winner.name) ?? false,
+                                    isSharedOrWhitelist: Boolean(giveaway.is_shared || giveaway.whitelist),
+                                  }) === 'non-member'
+                                    ? '(non-member)'
+                                    : '(ex member)'}
                                   {playStats && (
                                     <WinnerPlayProgress stats={playStats} className="ml-1.5" />
                                   )}

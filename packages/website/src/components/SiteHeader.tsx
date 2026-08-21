@@ -35,7 +35,7 @@ const NAV: NavItem[] = [
   { href: '/giveaways', label: 'Giveaways', icon: Gift },
   { href: '/events', label: 'Events', icon: CalendarDays },
   { href: '/wishlist', label: 'Wishlist', icon: Heart },
-  { href: '/stats', label: 'Stats', icon: LineChart, adminOnly: true },
+  { href: '/stats', label: 'Stats', icon: LineChart },
   { href: '/users', label: 'Users', icon: Users, adminOnly: true },
   { href: '/ex-members', label: 'Ex members', icon: LogOut, adminOnly: true },
   { href: '/leavers', label: 'Leavers', icon: BarChart3, adminOnly: true },

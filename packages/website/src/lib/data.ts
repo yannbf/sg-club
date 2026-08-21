@@ -634,6 +634,48 @@ export async function getChallengeData(
   }
 }
 
+export interface PlaytimeSnapshotFile {
+  /** "YYYY-MM" — the calendar month this snapshot is the START-of-month baseline for. */
+  month: string
+  captured_at: string
+  /** steam_id -> giveawayId (link segment before the slash) -> [playtime_minutes, achievements_unlocked]. */
+  members: Record<string, Record<string, [number, number]>>
+}
+
+let buildTimePlaytimeSnapshots: PlaytimeSnapshotFile[] | null = null
+
+/**
+ * Loads every monthly playtime snapshot from
+ * public/data/playtime_snapshots/YYYY-MM.json, sorted oldest to newest. Each
+ * file is the start-of-month baseline of every member's playtime/achievements
+ * per won giveaway, so charting hours played per month is the delta between
+ * consecutive snapshots (the last file is the baseline for the current,
+ * still-in-progress month).
+ */
+export async function getPlaytimeSnapshots(): Promise<PlaytimeSnapshotFile[]> {
+  if (buildTimePlaytimeSnapshots) return buildTimePlaytimeSnapshots
+  try {
+    const { readFileSync, readdirSync } = await import('fs')
+    const { join } = await import('path')
+    const dir = join(process.cwd(), 'public', 'data', 'playtime_snapshots')
+    const files = readdirSync(dir)
+      .filter((f) => /^\d{4}-\d{2}\.json$/.test(f))
+      .sort()
+    buildTimePlaytimeSnapshots = files.map((file) => {
+      const raw = JSON.parse(readFileSync(join(dir, file), 'utf8'))
+      return {
+        month: file.replace('.json', ''),
+        captured_at: raw.captured_at,
+        members: raw.members || {},
+      }
+    })
+    return buildTimePlaytimeSnapshots
+  } catch (error) {
+    console.error('Error loading playtime snapshots:', error)
+    return []
+  }
+}
+
 export async function getLastUpdated(): Promise<string | null> {
   if (typeof window !== 'undefined' || process.env.NODE_ENV === 'development') {
     // Client-side or development - use fetch

@@ -5,14 +5,18 @@ import {
   getExMembers,
   getGameData,
   getLastUpdated,
+  getPlaytimeSnapshots,
   getSteamIdMap,
+  getUserEntries,
 } from '@/lib/data'
 import { isCountedGiveaway } from '@/lib/events'
 import {
+  accumulatePlaytimeDeltas,
   buildGameDataIndex,
   combineMonthlySeries,
   findGameData,
   giveawayCvValue,
+  giveawayIdFromLink,
   monthKey,
   monthLabel,
   monthlyAggregate,
@@ -20,7 +24,7 @@ import {
 } from '@/lib/chart-data'
 import { createCreatorResolver } from '@/lib/creator-resolver'
 import { buildWinnerPlayStats, winnerPlayStatsKey } from '@/lib/winner-play-stats'
-import { isConfirmedPlayed } from '@/lib/play-status'
+import { classifyPerson, personBadgeText } from '@/lib/person'
 import type { MonthDatum, ContributorDatum } from '@/components/charts/GroupStatsCharts'
 import type {
   DrilldownMemberRow,
@@ -29,19 +33,29 @@ import type {
 } from '@/components/charts/StatsDrilldownModal'
 import type { Giveaway } from '@/types'
 import StatsClient from './StatsClient'
-import { AdminGate } from '@/components/AdminGate'
 
 export default async function StatsPage() {
-  const [allGiveaways, users, exMembersData, gameData, lastUpdated, allUsersGroup, steamIdMap] =
-    await Promise.all([
-      getAllGiveaways(),
-      getAllUsersAsArray(),
-      getExMembers(),
-      getGameData(),
-      getLastUpdated(),
-      getAllUsers(),
-      getSteamIdMap(),
-    ])
+  const [
+    allGiveaways,
+    users,
+    exMembersData,
+    gameData,
+    lastUpdated,
+    allUsersGroup,
+    steamIdMap,
+    playtimeSnapshots,
+    userEntries,
+  ] = await Promise.all([
+    getAllGiveaways(),
+    getAllUsersAsArray(),
+    getExMembers(),
+    getGameData(),
+    getLastUpdated(),
+    getAllUsers(),
+    getSteamIdMap(),
+    getPlaytimeSnapshots(),
+    getUserEntries(),
+  ])
   const exMembers = exMembersData ? Object.values(exMembersData.users) : []
 
   // Deleted and ended-with-zero-entries giveaways are kept in the data for
@@ -177,6 +191,89 @@ export default async function StatsPage() {
   }
   const userNames = new Map<string, string>()
   for (const [steamId, entry] of Object.entries(steamIdMap)) userNames.set(steamId, entry.current)
+  const currentMemberIds = new Set(Object.keys(allUsersGroup?.users ?? {}))
+  const knownExMemberIds = new Set(Object.keys(exMembersData?.users ?? {}))
+
+  // "Active members per month": distinct members who entered, created, or won
+  // a giveaway that month. Per-steam-id action counts are tallied alongside
+  // the distinct-member sets so the drill-down can show what each member did
+  // ("14 entered · 1 created · 2 won") without a second pass over the data.
+  interface ActivityCounts {
+    entered: number
+    created: number
+    won: number
+  }
+  const activityByMonth = new Map<string, Map<string, ActivityCounts>>()
+  const bumpActivity = (monthKeyStr: string, steamId: string, field: keyof ActivityCounts) => {
+    if (!steamId) return
+    let monthMap = activityByMonth.get(monthKeyStr)
+    if (!monthMap) {
+      monthMap = new Map()
+      activityByMonth.set(monthKeyStr, monthMap)
+    }
+    let counts = monthMap.get(steamId)
+    if (!counts) {
+      counts = { entered: 0, created: 0, won: 0 }
+      monthMap.set(steamId, counts)
+    }
+    counts[field] += 1
+  }
+
+  for (const [steamId, entries] of Object.entries(userEntries ?? {})) {
+    for (const entry of entries) {
+      bumpActivity(monthKey(entry.joined_at), steamId, 'entered')
+    }
+  }
+  for (const g of giveaways) {
+    bumpActivity(monthKey(g.created_timestamp), resolver.canonicalSteamId(g.creator), 'created')
+  }
+  // Shared/whitelist giveaways can be won by non-group-members outside this
+  // audience entirely, so "won" only counts a winner as active here for
+  // giveaways where the whole group could actually enter — mirrors
+  // isValidRatioGiveaway's audience rule.
+  for (const g of endedGiveaways) {
+    if (g.is_shared || g.whitelist) continue
+    for (const w of g.winners ?? []) {
+      if (!w.name) continue
+      bumpActivity(monthKey(g.end_timestamp), resolver.canonicalSteamId(w.name), 'won')
+    }
+  }
+
+  const activeMembersPerMonthMap = new Map<string, number>()
+  for (const [monthKeyStr, monthMap] of activityByMonth) {
+    activeMembersPerMonthMap.set(monthKeyStr, monthMap.size)
+  }
+  const activeMembersPerMonth: MonthDatum[] = combineMonthlySeries({
+    count: activeMembersPerMonthMap,
+  })
+
+  const activeMembersByMonth: Record<string, DrilldownMemberRow[]> = {}
+  for (const [monthKeyStr, monthMap] of activityByMonth) {
+    const rows: DrilldownMemberRow[] = Array.from(monthMap.entries())
+      .map(([steamId, counts]) => {
+        const parts: string[] = []
+        if (counts.entered > 0) parts.push(`${counts.entered} entered`)
+        if (counts.created > 0) parts.push(`${counts.created} created`)
+        if (counts.won > 0) parts.push(`${counts.won} won`)
+        // Shared/whitelist winners are already excluded from this chart (see
+        // the bumpActivity loop above), so an untracked id here is always an
+        // ex-member — someone who left before ex-member tracking began.
+        const isCurrentMember = currentMemberIds.has(steamId)
+        return {
+          steamId,
+          total: counts.entered + counts.created + counts.won,
+          row: {
+            username: userNames.get(steamId) || steamId,
+            avatarUrl: userAvatars.get(steamId),
+            isExMember: !isCurrentMember,
+            detail: parts.join(' · '),
+          } as DrilldownMemberRow,
+        }
+      })
+      .sort((a, b) => b.total - a.total)
+      .map((entry) => entry.row)
+    activeMembersByMonth[monthLabel(monthKeyStr)] = rows
+  }
 
   const fallbackUrlFor = (ga: Pick<Giveaway, 'app_id' | 'package_id'> | undefined) =>
     findGameData(ga?.app_id, ga?.package_id, gameDataIndex)?.header_image_url
@@ -192,14 +289,19 @@ export default async function StatsPage() {
   const winnersFor = (g: Giveaway): DrilldownWinner[] | undefined => {
     const winners = g.winners?.filter((w) => w.name)
     if (!winners || winners.length === 0) return undefined
+    const isSharedOrWhitelist = Boolean(g.is_shared || g.whitelist)
     return winners.map((w): DrilldownWinner => {
       const steamId = resolver.canonicalSteamId(w.name)
-      const avatarUrl = userAvatars.get(steamId)
+      const kind = classifyPerson({
+        isCurrentMember: currentMemberIds.has(steamId),
+        isExMember: knownExMemberIds.has(steamId),
+        isSharedOrWhitelist,
+      })
       return {
         steamId: w.name,
         displayName: userNames.get(steamId) || w.winner_username || w.name,
-        avatarUrl,
-        isGroupMember: Boolean(avatarUrl),
+        avatarUrl: userAvatars.get(steamId),
+        badgeText: personBadgeText(kind),
         playStats: playStatsByWin[winnerPlayStatsKey(w.name, g.link)],
       }
     })
@@ -273,61 +375,166 @@ export default async function StatsPage() {
     contributorGiveaways[u.username] = rows
   }
 
-  // "Hours played on won games" chart: every counted won giveaway across all
-  // members (current + ex) with Steam play data, bucketed by the win's END
-  // month. Playtime snapshots are current-state, not historical, so this
-  // reflects hours logged as of the last data refresh, grouped by when the
-  // game was won.
+  // "Hours played per month" chart: per-game playtime/achievement deltas
+  // between consecutive start-of-month snapshots, summed across every member
+  // (current + ex), same delta walk the per-user page runs for one member.
+  // The final (current) month compares the latest snapshot to each member's
+  // live steam_play_data instead of a following snapshot, since that month
+  // hasn't finished yet.
   const giveawayByLink = new Map(giveaways.map((g) => [g.link, g]))
-  const hoursByMonth: Record<string, DrilldownGameRow[]> = {}
-  const hoursRecords: { end_timestamp: number; minutes: number }[] = []
-  for (const [group, isGroupMember] of [
-    [allUsersGroup, true],
-    [exMembersData, false],
-  ] as const) {
+  const wonByGaId = new Map<string, { link: string; name: string }>()
+  for (const group of [allUsersGroup, exMembersData]) {
     for (const u of Object.values(group?.users ?? {})) {
       for (const win of u.giveaways_won ?? []) {
-        if (win.deleted || !win.steam_play_data || win.steam_play_data.has_no_available_stats) continue
-        const ga = giveawayByLink.get(win.link)
-        const minutes = win.steam_play_data.playtime_minutes
-        hoursRecords.push({ end_timestamp: win.end_timestamp, minutes })
-        pushRow(hoursByMonth, monthLabel(monthKey(win.end_timestamp)), {
-          link: win.link,
-          name: win.name,
-          timestamp: win.end_timestamp,
-          appId: ga?.app_id,
-          packageId: ga?.package_id,
-          giveaway: ga,
-          fallbackUrl: fallbackUrlFor(ga),
-          playtimeMinutes: minutes,
-          achievementsUnlocked: win.steam_play_data.achievements_unlocked,
-          achievementsTotal: win.steam_play_data.achievements_total,
-          confirmedPlayed: isConfirmedPlayed(win),
-          winners: [
-            {
-              steamId: u.steam_id,
-              displayName: u.username,
-              avatarUrl: u.avatar_url,
-              isGroupMember,
-            },
-          ],
-        })
+        wonByGaId.set(giveawayIdFromLink(win.link), { link: win.link, name: win.name })
       }
     }
   }
-  for (const rows of Object.values(hoursByMonth)) {
-    rows.sort((a, b) => (b.playtimeMinutes ?? 0) - (a.playtimeMinutes ?? 0))
+
+  const hoursGamesByMonth: Record<string, DrilldownGameRow[]> = {}
+  const pushHoursRow = (monthKeyStr: string, row: DrilldownGameRow) =>
+    pushRow(hoursGamesByMonth, monthLabel(monthKeyStr), row)
+
+  const memberRowFor = (
+    steamId: string,
+    displayName: string,
+    avatarUrl: string | undefined,
+    isGroupMember: boolean,
+    gaId: string,
+    minutesGained: number,
+    achievementsGained: number,
+  ): DrilldownGameRow => {
+    const won = wonByGaId.get(gaId)
+    const link = won?.link ?? gaId
+    const ga = won ? giveawayByLink.get(won.link) : undefined
+    return {
+      link,
+      name: won?.name ?? gaId,
+      timestamp: ga?.end_timestamp ?? 0,
+      appId: ga?.app_id,
+      packageId: ga?.package_id,
+      giveaway: ga,
+      fallbackUrl: fallbackUrlFor(ga),
+      minutesGained,
+      achievementsGained: achievementsGained > 0 ? achievementsGained : undefined,
+      // Always a known member or ex-member (never an unknown/non-member id),
+      // so the badge is a plain current/ex-member check.
+      winners: [{ steamId, displayName, avatarUrl, badgeText: isGroupMember ? undefined : 'ex member' }],
+    }
   }
-  const hoursPerMonthMap = monthlyAggregate(
-    hoursRecords,
-    (r) => r.end_timestamp,
-    (r) => r.minutes / 60,
-  )
+
+  const hoursPerMonthMinutes = new Map<string, number>()
+  const achievementsPerMonthMap = new Map<string, number>()
+
+  for (let i = 0; i < playtimeSnapshots.length - 1; i++) {
+    const beforeSnap = playtimeSnapshots[i].members
+    const afterSnap = playtimeSnapshots[i + 1].members
+    const monthKeyStr = playtimeSnapshots[i].month
+    const steamIds = new Set([...Object.keys(beforeSnap), ...Object.keys(afterSnap)])
+    let monthMinutes = 0
+    let monthAchievements = 0
+    for (const steamId of steamIds) {
+      const before = beforeSnap[steamId] ?? {}
+      const after = afterSnap[steamId] ?? {}
+      const member = userNames.get(steamId)
+        ? { displayName: userNames.get(steamId)!, avatarUrl: userAvatars.get(steamId) }
+        : undefined
+      monthMinutes += accumulatePlaytimeDeltas(before, after, (gaId, minutesGained, achievementsGained) => {
+        monthAchievements += achievementsGained
+        pushHoursRow(
+          monthKeyStr,
+          memberRowFor(
+            steamId,
+            member?.displayName ?? steamId,
+            member?.avatarUrl,
+            Boolean(allUsersGroup?.users?.[steamId]),
+            gaId,
+            minutesGained,
+            achievementsGained,
+          ),
+        )
+      })
+    }
+    hoursPerMonthMinutes.set(monthKeyStr, monthMinutes)
+    achievementsPerMonthMap.set(monthKeyStr, monthAchievements)
+  }
+
+  if (playtimeSnapshots.length > 0) {
+    const latest = playtimeSnapshots[playtimeSnapshots.length - 1]
+    let monthMinutes = 0
+    let monthAchievements = 0
+    for (const [group, isGroupMember] of [
+      [allUsersGroup, true],
+      [exMembersData, false],
+    ] as const) {
+      for (const u of Object.values(group?.users ?? {})) {
+        const before = latest.members[u.steam_id] ?? {}
+        const after: Record<string, [number, number]> = {}
+        for (const g of u.giveaways_won ?? []) {
+          if (!g.steam_play_data) continue
+          after[giveawayIdFromLink(g.link)] = [
+            g.steam_play_data.playtime_minutes,
+            g.steam_play_data.achievements_unlocked,
+          ]
+        }
+        monthMinutes += accumulatePlaytimeDeltas(before, after, (gaId, minutesGained, achievementsGained) => {
+          monthAchievements += achievementsGained
+          pushHoursRow(
+            latest.month,
+            memberRowFor(
+              u.steam_id,
+              u.username,
+              u.avatar_url,
+              isGroupMember,
+              gaId,
+              minutesGained,
+              achievementsGained,
+            ),
+          )
+        })
+      }
+    }
+    hoursPerMonthMinutes.set(latest.month, monthMinutes)
+    achievementsPerMonthMap.set(latest.month, monthAchievements)
+  }
+
+  // Sort each month's rows by hours gained, highest first, and cap at the
+  // top 50 — mostly 0h/privacy-noise entries beyond that, and the full lists
+  // would add roughly a megabyte to this static page. The pre-cap row count
+  // is kept alongside so the drill-down modal can say how many were cut.
+  const DRILLDOWN_ROW_CAP = 50
+  const hoursByMonth: Record<string, DrilldownGameRow[]> = {}
+  const hoursByMonthCount: Record<string, number> = {}
+  for (const [label, rows] of Object.entries(hoursGamesByMonth)) {
+    rows.sort((a, b) => (b.minutesGained ?? 0) - (a.minutesGained ?? 0))
+    hoursByMonthCount[label] = rows.length
+    hoursByMonth[label] = rows.slice(0, DRILLDOWN_ROW_CAP)
+  }
+
+  const hoursPerMonthMap = new Map<string, number>()
+  for (const [monthKeyStr, minutes] of hoursPerMonthMinutes) {
+    hoursPerMonthMap.set(monthKeyStr, minutes / 60)
+  }
   const hoursPerMonth: MonthDatum[] = combineMonthlySeries({ hours: hoursPerMonthMap })
 
+  // "Achievements per month" chart: same per-game delta rows as the hours
+  // chart above, filtered to the ones that gained an achievement and
+  // re-sorted highest-first, so no second snapshot walk is needed.
+  const achievementsByMonth: Record<string, DrilldownGameRow[]> = {}
+  const achievementsByMonthCount: Record<string, number> = {}
+  for (const [label, rows] of Object.entries(hoursGamesByMonth)) {
+    const achRows = rows.filter((r) => (r.achievementsGained ?? 0) > 0)
+    if (achRows.length === 0) continue
+    achRows.sort((a, b) => (b.achievementsGained ?? 0) - (a.achievementsGained ?? 0))
+    achievementsByMonthCount[label] = achRows.length
+    achievementsByMonth[label] = achRows.slice(0, DRILLDOWN_ROW_CAP)
+  }
+  const achievementsPerMonth: MonthDatum[] = combineMonthlySeries({
+    achievements: achievementsPerMonthMap,
+  })
+
   return (
-    <AdminGate>
-      <StatsClient
+    <StatsClient
       totalGiveaways={totalGiveaways}
       totalCvSent={totalCvSent}
       totalMembers={totalMembers}
@@ -344,8 +551,13 @@ export default async function StatsPage() {
       contributorGiveaways={contributorGiveaways}
       hoursPerMonth={hoursPerMonth}
       hoursByMonth={hoursByMonth}
+      hoursByMonthCount={hoursByMonthCount}
+      activeMembersPerMonth={activeMembersPerMonth}
+      activeMembersByMonth={activeMembersByMonth}
+      achievementsPerMonth={achievementsPerMonth}
+      achievementsByMonth={achievementsByMonth}
+      achievementsByMonthCount={achievementsByMonthCount}
       lastUpdated={lastUpdated}
-      />
-    </AdminGate>
+    />
   )
 }

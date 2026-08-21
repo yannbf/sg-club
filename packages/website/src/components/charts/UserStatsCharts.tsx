@@ -28,7 +28,7 @@ import {
   tooltipItemStyle,
   tooltipLabelStyle,
 } from './chart-theme'
-import { TrendingUp, Heart, Coins, PieChart as PieChartIcon } from 'lucide-react'
+import { TrendingUp, Heart, Coins, PieChart as PieChartIcon, Clock } from 'lucide-react'
 import type { MonthDatum } from './GroupStatsCharts'
 import {
   StatsDrilldownModal,
@@ -57,14 +57,19 @@ export interface UserStatsSummary {
 
 interface UserStatsChartsProps {
   giftsCumulative: MonthDatum[]
-  enteredPerMonth: MonthDatum[]
+  /** Entered (bars) + created/won (lines) per month — the "Activity per month" chart. */
+  activityPerMonth: MonthDatum[]
   cvCumulative: MonthDatum[]
+  /** Hours gained per month on this member's own won games, from playtime snapshot deltas. */
+  hoursPerMonth: MonthDatum[]
   winsBreakdown: WinsBreakdownDatum[]
   summary: UserStatsSummary
   /** Month label ("Mar 24", matching the chart's x-axis) -> that month's records, for the drill-down modals. */
   sentByMonth: Map<string, DrilldownGameRow[]>
   wonByMonth: Map<string, DrilldownGameRow[]>
   enteredByMonth: Map<string, DrilldownGameRow[]>
+  /** Month label -> that month's games with playtime/achievement gains, highest hours first. Server-computed, so a plain Record rather than a Map. */
+  hoursByMonth: Record<string, DrilldownGameRow[]>
   /** Not-counted created giveaways (deleted / zero-entry) — gifts sent & won modal only. */
   notCountedByMonth: Map<string, DrilldownGameRow[]>
   winsByBucket: Record<WinPlayStatus, DrilldownGameRow[]>
@@ -77,7 +82,7 @@ const winBucketLabels: Record<WinPlayStatus, string> = {
   unreleased: 'Unreleased',
 }
 
-type MonthModalKind = 'gifts' | 'cv' | 'entered'
+type MonthModalKind = 'gifts' | 'cv' | 'activity' | 'hours'
 
 interface MonthModalState {
   kind: MonthModalKind
@@ -87,17 +92,20 @@ interface MonthModalState {
 
 export function UserStatsCharts({
   giftsCumulative,
-  enteredPerMonth,
+  activityPerMonth,
   cvCumulative,
+  hoursPerMonth,
   winsBreakdown,
   summary,
   sentByMonth,
   wonByMonth,
   enteredByMonth,
+  hoursByMonth,
   notCountedByMonth,
   winsByBucket,
 }: UserStatsChartsProps) {
   const hasWinsData = winsBreakdown.some((d) => d.value > 0)
+  const hasHoursData = hoursPerMonth.length > 0
   const [monthModal, setMonthModal] = useState<MonthModalState | null>(null)
   const [winsBucket, setWinsBucket] = useState<WinPlayStatus | null>(null)
 
@@ -126,12 +134,14 @@ export function UserStatsCharts({
   // never skips or dead-ends on a month with no activity.
   const giftsMonths = giftsCumulative.map((r) => String(r.label))
   const cvMonths = cvCumulative.map((r) => String(r.label))
-  const enteredMonths = enteredPerMonth.map((r) => String(r.label))
+  const activityMonths = activityPerMonth.map((r) => String(r.label))
+  const hoursMonths = hoursPerMonth.map((r) => String(r.label))
 
   const monthsForKind = (kind: MonthModalKind): string[] => {
     if (kind === 'gifts') return giftsMonths
     if (kind === 'cv') return cvMonths
-    return enteredMonths
+    if (kind === 'hours') return hoursMonths
+    return activityMonths
   }
 
   const handleGiftsClick = (state: { activeLabel?: string | number }) => {
@@ -144,9 +154,14 @@ export function UserStatsCharts({
     setMonthModal({ kind: 'cv', label: String(state.activeLabel) })
   }
 
-  const handleEnteredClick = (state: { activeLabel?: string | number }) => {
+  const handleActivityClick = (state: { activeLabel?: string | number }) => {
     if (state?.activeLabel == null) return
-    setMonthModal({ kind: 'entered', label: String(state.activeLabel) })
+    setMonthModal({ kind: 'activity', label: String(state.activeLabel) })
+  }
+
+  const handleHoursClick = (state: { activeLabel?: string | number }) => {
+    if (state?.activeLabel == null) return
+    setMonthModal({ kind: 'hours', label: String(state.activeLabel) })
   }
 
   const monthModalProps = (() => {
@@ -177,16 +192,30 @@ export function UserStatsCharts({
         ],
       }
     }
-    const rows = enteredByMonth.get(label) ?? []
-    const wonCount = rows.filter((row) => row.won).length
+    if (monthModal.kind === 'hours') {
+      const rows = hoursByMonth[label] ?? []
+      return {
+        title: label,
+        description: 'Sorted by hours gained, highest first.',
+        emptyMessage: `No playtime gained in ${label}.`,
+        sections: [{ heading: `Games (${rows.length})`, rows }],
+      }
+    }
+    const enteredRows = enteredByMonth.get(label) ?? []
+    const createdRows = sentByMonth.get(label) ?? []
+    const wonRows = wonByMonth.get(label) ?? []
+    const wonCount = enteredRows.filter((row) => row.won).length
     return {
       title: label,
-      emptyMessage: `No giveaways entered in ${label}.`,
+      emptyMessage: `No activity in ${label}.`,
       sections: [
         {
-          heading: wonCount > 0 ? `Entered (${rows.length} · ${wonCount} won)` : `Entered (${rows.length})`,
-          rows,
+          heading:
+            wonCount > 0 ? `Entered (${enteredRows.length} · ${wonCount} won)` : `Entered (${enteredRows.length})`,
+          rows: enteredRows,
         },
+        { heading: `Created (${createdRows.length})`, rows: createdRows },
+        { heading: `Won (${wonRows.length})`, rows: wonRows },
       ],
     }
   })()
@@ -290,31 +319,44 @@ export function UserStatsCharts({
       </ChartCard>
 
       <ChartCard
-        title="Giveaways entered"
-        description="Entries per month"
-        summary={
-          <>
-            <ChartStat>{formatNumber(summary.enteredTotal)}</ChartStat> total ·{' '}
-            <ChartStat>{formatNumber(summary.enteredLatest)}</ChartStat> in{' '}
-            {summary.enteredLatestLabel ?? 'the latest month'}{' '}
-            <span className="text-muted-foreground">· click a bar for details</span>
-          </>
-        }
+        title="Activity per month"
+        description="Giveaways entered, created, and won per month"
+        summary={(() => {
+          const last = activityPerMonth.at(-1)
+          return (
+            <>
+              <ChartStat>{formatNumber(Number(last?.entered ?? 0))}</ChartStat> entered ·{' '}
+              <ChartStat>{formatNumber(Number(last?.created ?? 0))}</ChartStat> created ·{' '}
+              <ChartStat>{formatNumber(Number(last?.won ?? 0))}</ChartStat> won in{' '}
+              {last?.label ?? 'the latest month'}{' '}
+              <span className="text-muted-foreground">· click a month for details</span>
+            </>
+          )
+        })()}
         icon={Heart}
       >
         <div className="h-72 w-full">
           <ResponsiveContainer width="100%" height="100%">
             <ComposedChart
-              data={enteredPerMonth}
+              data={activityPerMonth}
               margin={{ left: 0, right: 8, top: 8 }}
-              onClick={handleEnteredClick}
+              onClick={handleActivityClick}
               className="cursor-pointer"
             >
               <CartesianGrid {...gridProps} />
               <XAxis dataKey="label" {...axisProps} />
               <YAxis
+                yAxisId="left"
                 {...axisProps}
                 width={44}
+                allowDecimals={false}
+                tickFormatter={(v: number) => formatCompactNumber(v)}
+              />
+              <YAxis
+                yAxisId="right"
+                orientation="right"
+                {...axisProps}
+                width={36}
                 allowDecimals={false}
                 tickFormatter={(v: number) => formatCompactNumber(v)}
               />
@@ -324,15 +366,100 @@ export function UserStatsCharts({
                 itemStyle={tooltipItemStyle}
                 cursor={{ fill: 'color-mix(in oklab, var(--accent-rose) 10%, transparent)' }}
               />
+              <Legend wrapperStyle={{ fontSize: 12, color: 'var(--muted-foreground)' }} />
               <Bar
-                dataKey="count"
-                name="Entries"
+                yAxisId="left"
+                dataKey="entered"
+                name="Entered"
                 fill={chartColors.rose}
                 radius={[4, 4, 0, 0]}
                 cursor="pointer"
               />
+              <Line
+                yAxisId="right"
+                type="monotone"
+                dataKey="created"
+                name="Created"
+                stroke={chartColors.blue}
+                strokeWidth={2}
+                dot={{ r: 3, cursor: 'pointer' }}
+                activeDot={{ r: 5, cursor: 'pointer' }}
+              />
+              <Line
+                yAxisId="right"
+                type="monotone"
+                dataKey="won"
+                name="Won"
+                stroke={chartColors.green}
+                strokeWidth={2}
+                dot={{ r: 3, cursor: 'pointer' }}
+                activeDot={{ r: 5, cursor: 'pointer' }}
+              />
             </ComposedChart>
           </ResponsiveContainer>
+        </div>
+      </ChartCard>
+
+      <ChartCard
+        title="Hours played per month"
+        description="Hours gained each month on this member's own won games, from periodic playtime snapshots — not affected by the CV filter above"
+        summary={
+          hasHoursData ? (
+            (() => {
+              const totalHours = hoursPerMonth.reduce((sum, r) => sum + Number(r.hours ?? 0), 0)
+              const latest = hoursPerMonth.at(-1)
+              return (
+                <>
+                  <ChartStat>{formatNumber(Math.round(totalHours))}</ChartStat> hours total across{' '}
+                  <ChartStat>{hoursPerMonth.length}</ChartStat> months ·{' '}
+                  <ChartStat>{formatNumber(Math.round(Number(latest?.hours ?? 0)))}</ChartStat> in{' '}
+                  {latest?.label ?? 'the latest month'}{' '}
+                  <span className="text-muted-foreground">· click a bar for details</span>
+                </>
+              )
+            })()
+          ) : undefined
+        }
+        icon={Clock}
+      >
+        <div className="h-72 w-full">
+          {hasHoursData ? (
+            <ResponsiveContainer width="100%" height="100%">
+              <ComposedChart
+                data={hoursPerMonth}
+                margin={{ left: 0, right: 8, top: 8 }}
+                onClick={handleHoursClick}
+                className="cursor-pointer"
+              >
+                <CartesianGrid {...gridProps} />
+                <XAxis dataKey="label" {...axisProps} />
+                <YAxis
+                  {...axisProps}
+                  width={44}
+                  allowDecimals={false}
+                  tickFormatter={(v: number) => `${formatCompactNumber(v)}h`}
+                />
+                <Tooltip
+                  contentStyle={tooltipContentStyle}
+                  labelStyle={tooltipLabelStyle}
+                  itemStyle={tooltipItemStyle}
+                  formatter={(value) => `${formatNumber(Math.round(Number(value)))}h`}
+                  cursor={{ fill: 'color-mix(in oklab, var(--accent-purple) 10%, transparent)' }}
+                />
+                <Bar
+                  dataKey="hours"
+                  name="Hours"
+                  fill={chartColors.purple}
+                  radius={[4, 4, 0, 0]}
+                  cursor="pointer"
+                />
+              </ComposedChart>
+            </ResponsiveContainer>
+          ) : (
+            <div className="flex h-full items-center justify-center text-sm text-muted-foreground">
+              No playtime data yet.
+            </div>
+          )}
         </div>
       </ChartCard>
 

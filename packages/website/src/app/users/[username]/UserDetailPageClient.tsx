@@ -38,6 +38,7 @@ import Tooltip from '@/components/Tooltip'
 import { getDeadlineData } from '@/components/DeadlineStatus'
 import { isUnfulfilledRequiredPlay } from '../../../../api/_lib/required-play'
 import { isCountedGiveaway, isValidRatioGiveaway } from '@/lib/events'
+import { classifyPerson, personBadgeText } from '@/lib/person'
 import {
   getUserRatio,
   buildValidFcvLinks,
@@ -88,10 +89,14 @@ interface Props {
   leavers: GiveawayLeaver[]
   steamIdMap: SteamIdMap
   isExMember?: boolean
-  /** steam_ids of ex-members — distinguishes "(ex member)" from non-group winners. */
+  /** steam_ids of ex-members — distinguishes "ex member" from "non-member" winners on shared/whitelist giveaways. */
   exMemberIds?: string[]
   /** Winner play stats for this user's own giveaways, keyed by winnerPlayStatsKey. */
   playStatsByWin?: Record<string, WinnerPlayStats>
+  /** Hours gained per month on this user's own won games, computed server-side from playtime snapshot deltas. */
+  hoursPerMonth: MonthDatum[]
+  /** "Mon YY" label -> that month's games with playtime/achievement gains, highest hours first. */
+  hoursByMonth: Record<string, DrilldownGameRow[]>
 }
 
 type UserWarning = {
@@ -359,6 +364,8 @@ export default function UserDetailPageClient({
   isExMember,
   exMemberIds,
   playStatsByWin,
+  hoursPerMonth,
+  hoursByMonth,
 }: Props) {
   const isAdmin = useIsAdmin()
   const [showOriginalStats, setShowOriginalStats] = useState(false)
@@ -493,6 +500,14 @@ export default function UserDetailPageClient({
     const enteredPerMonth: MonthDatum[] = combineMonthlySeries({
       count: enteredMap,
     })
+    // "Activity per month" combines entered (bars) with created/won (lines) —
+    // entered/created reuse the same monthly maps as the gifts/entered charts
+    // above so the three series stay consistent with each other.
+    const activityPerMonth: MonthDatum[] = combineMonthlySeries({
+      entered: enteredMap,
+      created: sentMap,
+      won: wonMap,
+    })
 
     const cvSentMap = monthlyAggregate(
       filteredCreated,
@@ -539,19 +554,24 @@ export default function UserDetailPageClient({
       findGameData(ga?.app_id, ga?.package_id, gameDataIndex)?.header_image_url
 
     // Winners of a created giveaway, resolved the same way the Created tab
-    // resolves them (steam_id -> display name/avatar, ex/non-group fallback),
-    // for the stats modal's sent-giveaway rows.
+    // resolves them (steam_id -> display name/avatar, ex-member/non-member
+    // fallback), for the stats modal's sent-giveaway rows.
     const buildWinners = (ga: Giveaway | undefined): DrilldownWinner[] | undefined => {
       if (!ga) return undefined
       const winners = ga.winners?.filter((w) => w.name)
       if (!winners || winners.length === 0) return undefined
+      const isSharedOrWhitelist = Boolean(ga.is_shared || ga.whitelist)
       return winners.map((w): DrilldownWinner => {
-        const avatarUrl = userAvatars.get(w.name)
+        const kind = classifyPerson({
+          isCurrentMember: userAvatars.has(w.name),
+          isExMember: exMemberSet.has(w.name),
+          isSharedOrWhitelist,
+        })
         return {
           steamId: w.name,
           displayName: userNames.get(w.name) || w.winner_username || w.name,
-          avatarUrl,
-          isGroupMember: Boolean(avatarUrl),
+          avatarUrl: userAvatars.get(w.name),
+          badgeText: personBadgeText(kind),
           playStats: playStatsByWin?.[winnerPlayStatsKey(w.name, ga.link)],
         }
       })
@@ -683,6 +703,7 @@ export default function UserDetailPageClient({
     return {
       giftsCumulative,
       enteredPerMonth,
+      activityPerMonth,
       cvCumulative,
       winsBreakdown,
       summary,
@@ -701,6 +722,7 @@ export default function UserDetailPageClient({
     statsFilterCV,
     userAvatars,
     userNames,
+    exMemberSet,
     playStatsByWin,
     user.giveaways_created,
     user.giveaways_won,
@@ -1325,13 +1347,15 @@ export default function UserDetailPageClient({
           <UserStatsCharts
             key={statsFilterCV}
             giftsCumulative={statsCharts.giftsCumulative}
-            enteredPerMonth={statsCharts.enteredPerMonth}
+            activityPerMonth={statsCharts.activityPerMonth}
             cvCumulative={statsCharts.cvCumulative}
+            hoursPerMonth={hoursPerMonth}
             winsBreakdown={statsCharts.winsBreakdown}
             summary={statsCharts.summary}
             sentByMonth={statsCharts.sentByMonth}
             wonByMonth={statsCharts.wonByMonth}
             enteredByMonth={statsCharts.enteredByMonth}
+            hoursByMonth={hoursByMonth}
             notCountedByMonth={statsCharts.notCountedByMonth}
             winsByBucket={statsCharts.winsByBucket}
           />

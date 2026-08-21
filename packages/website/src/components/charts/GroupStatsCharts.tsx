@@ -31,7 +31,7 @@ import {
   tooltipItemStyle,
   tooltipLabelStyle,
 } from './chart-theme'
-import { Gift, Coins, Target, Users, Trophy, Clock } from 'lucide-react'
+import { Gift, Coins, Target, Users, Trophy, Clock, Activity, Award } from 'lucide-react'
 import {
   StatsDrilldownModal,
   type DrilldownGameRow,
@@ -72,8 +72,18 @@ interface GroupStatsChartsProps {
   /** username -> that contributor's own counted giveaways, newest first (top 10 contributors only). */
   contributorGiveaways: Record<string, DrilldownGameRow[]>
   hoursPerMonth: MonthDatum[]
-  /** "Mon YY" label -> that month's won games with play data, highest playtime first. */
+  /** "Mon YY" label -> that month's games with hours gained, highest gain first, capped at top 50. */
   hoursByMonth: Record<string, DrilldownGameRow[]>
+  /** "Mon YY" label -> that month's true row count before the top-50 cap. */
+  hoursByMonthCount: Record<string, number>
+  activeMembersPerMonth: MonthDatum[]
+  /** "Mon YY" label -> members active that month (entered/created/won), sorted by total actions desc. */
+  activeMembersByMonth: Record<string, DrilldownMemberRow[]>
+  achievementsPerMonth: MonthDatum[]
+  /** "Mon YY" label -> that month's games with achievements gained, highest gain first, capped at top 50. */
+  achievementsByMonth: Record<string, DrilldownGameRow[]>
+  /** "Mon YY" label -> that month's true row count before the top-50 cap. */
+  achievementsByMonthCount: Record<string, number>
 }
 
 /** Truncates a username tick label so long names don't blow out the axis width. */
@@ -239,6 +249,12 @@ export function GroupStatsCharts({
   contributorGiveaways,
   hoursPerMonth,
   hoursByMonth,
+  hoursByMonthCount,
+  activeMembersPerMonth,
+  activeMembersByMonth,
+  achievementsPerMonth,
+  achievementsByMonth,
+  achievementsByMonthCount,
 }: GroupStatsChartsProps) {
   const [membersMonth, setMembersMonth] = useState<string | null>(null)
   const [giveawaysMonth, setGiveawaysMonth] = useState<string | null>(null)
@@ -246,6 +262,8 @@ export function GroupStatsCharts({
   const [cvMonth, setCvMonth] = useState<string | null>(null)
   const [contributorUser, setContributorUser] = useState<string | null>(null)
   const [hoursMonth, setHoursMonth] = useState<string | null>(null)
+  const [activeMembersMonth, setActiveMembersMonth] = useState<string | null>(null)
+  const [achievementsMonth, setAchievementsMonth] = useState<string | null>(null)
 
   // Every month each chart's x-axis shows, in order, for the drill-down
   // modals' prev/next controls — including empty months, so navigation never
@@ -254,12 +272,16 @@ export function GroupStatsCharts({
   const giveawaysMonths = giveawaysPerMonth.map((r) => String(r.label))
   const cvMonths = cvPerMonth.map((r) => String(r.label))
   const hoursMonths = hoursPerMonth.map((r) => String(r.label))
+  const activeMembersMonths = activeMembersPerMonth.map((r) => String(r.label))
+  const achievementsMonths = achievementsPerMonth.map((r) => String(r.label))
   const contributorUsernames = topContributors.map((c) => c.username)
 
   const membersNav = buildNav(membersMonths, membersMonth, setMembersMonth)
   const giveawaysNav = buildNav(giveawaysMonths, giveawaysMonth, setGiveawaysMonth)
   const cvNav = buildNav(cvMonths, cvMonth, setCvMonth)
   const hoursNav = buildNav(hoursMonths, hoursMonth, setHoursMonth)
+  const activeMembersNav = buildNav(activeMembersMonths, activeMembersMonth, setActiveMembersMonth)
+  const achievementsNav = buildNav(achievementsMonths, achievementsMonth, setAchievementsMonth)
   const contributorNav = buildNav(contributorUsernames, contributorUser, setContributorUser)
 
   const membersJoinedRows = membersMonth ? membersJoinedByMonth[membersMonth] ?? [] : []
@@ -268,6 +290,8 @@ export function GroupStatsCharts({
   const cvRows = cvMonth ? cvSentByMonth[cvMonth] ?? [] : []
   const contributorRows = contributorUser ? contributorGiveaways[contributorUser] ?? [] : []
   const hoursRows = hoursMonth ? hoursByMonth[hoursMonth] ?? [] : []
+  const activeMembersRows = activeMembersMonth ? activeMembersByMonth[activeMembersMonth] ?? [] : []
+  const achievementsRows = achievementsMonth ? achievementsByMonth[achievementsMonth] ?? [] : []
 
   // Community-event bands for the "show event data" overlay — special events
   // only (community goals, Secret Santa, etc); gaming challenges are
@@ -360,6 +384,20 @@ export function GroupStatsCharts({
   const totalHours = hoursPerMonth.reduce((sum, r) => sum + Number(r.hours ?? 0), 0)
   const latestHours = Number(latestHoursMonth?.hours ?? 0)
 
+  const latestActiveMembersMonth = activeMembersPerMonth.at(-1)
+  const latestActiveMembersCount = Number(latestActiveMembersMonth?.count ?? 0)
+  const avgActiveMembers = activeMembersPerMonth.length
+    ? activeMembersPerMonth.reduce((sum, r) => sum + Number(r.count ?? 0), 0) /
+      activeMembersPerMonth.length
+    : 0
+
+  const latestAchievementsMonth = achievementsPerMonth.at(-1)
+  const totalAchievements = achievementsPerMonth.reduce(
+    (sum, r) => sum + Number(r.achievements ?? 0),
+    0,
+  )
+  const latestAchievements = Number(latestAchievementsMonth?.achievements ?? 0)
+
   return (
     <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
       <ChartCard
@@ -434,56 +472,6 @@ export function GroupStatsCharts({
               />
               {showEvents && <Scatter dataKey="eventDot" name="Events" shape={EventDot} />}
             </ComposedChart>
-          </ResponsiveContainer>
-        </div>
-      </ChartCard>
-
-      <ChartCard
-        title="CV sent per month"
-        description="Total contribution value of giveaways created, by month"
-        summary={
-          <>
-            <ChartStat>{formatUsd(totalCv)}</ChartStat> total ·{' '}
-            <ChartStat>{formatUsd(latestCv)}</ChartStat> in{' '}
-            {latestCvMonth?.label ?? 'the latest month'}{' '}
-            <span className="text-muted-foreground">· click a month for details</span>
-          </>
-        }
-        icon={Coins}
-      >
-        <div className="h-72 w-full">
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart
-              data={cvPerMonth}
-              margin={{ left: 0, right: 8, top: 8 }}
-              onClick={(state: { activeLabel?: string | number }) => {
-                if (state?.activeLabel == null) return
-                setCvMonth(String(state.activeLabel))
-              }}
-              className="cursor-pointer"
-            >
-              <CartesianGrid {...gridProps} />
-              <XAxis dataKey="label" {...axisProps} />
-              <YAxis
-                {...axisProps}
-                width={52}
-                tickFormatter={(v: number) => formatCompactCurrency(v)}
-              />
-              <Tooltip
-                contentStyle={tooltipContentStyle}
-                labelStyle={tooltipLabelStyle}
-                itemStyle={tooltipItemStyle}
-                formatter={(value) => formatUsd(Number(value))}
-                cursor={{ fill: 'color-mix(in oklab, var(--accent-green) 10%, transparent)' }}
-              />
-              <Bar
-                dataKey="cv"
-                name="CV sent"
-                fill={chartColors.green}
-                radius={[4, 4, 0, 0]}
-                cursor="pointer"
-              />
-            </BarChart>
           </ResponsiveContainer>
         </div>
       </ChartCard>
@@ -584,6 +572,211 @@ export function GroupStatsCharts({
       </ChartCard>
 
       <ChartCard
+        title="Active members per month"
+        description="Distinct members who entered, created, or won a giveaway that month — early months include former members who left before member tracking began, so they can exceed the membership line"
+        summary={
+          <>
+            <ChartStat>{formatNumber(latestActiveMembersCount)}</ChartStat> active in{' '}
+            {latestActiveMembersMonth?.label ?? 'the latest month'} ·{' '}
+            <ChartStat>{avgActiveMembers.toFixed(1)}</ChartStat> avg{' '}
+            <span className="text-muted-foreground">· click a month for details</span>
+          </>
+        }
+        icon={Activity}
+      >
+        <div className="h-72 w-full">
+          <ResponsiveContainer width="100%" height="100%">
+            <ComposedChart
+              data={activeMembersPerMonth}
+              margin={{ left: 0, right: 8, top: 8 }}
+              onClick={(state: { activeLabel?: string | number }) => {
+                if (state?.activeLabel == null) return
+                setActiveMembersMonth(String(state.activeLabel))
+              }}
+              className="cursor-pointer"
+            >
+              <CartesianGrid {...gridProps} />
+              <XAxis dataKey="label" {...axisProps} />
+              <YAxis
+                {...axisProps}
+                width={44}
+                allowDecimals={false}
+                tickFormatter={(v: number) => formatCompactNumber(v)}
+              />
+              <Tooltip
+                contentStyle={tooltipContentStyle}
+                labelStyle={tooltipLabelStyle}
+                itemStyle={tooltipItemStyle}
+                formatter={(value) => formatNumber(Number(value))}
+                cursor={{ stroke: 'var(--card-border-strong)' }}
+              />
+              <Line
+                type="monotone"
+                dataKey="count"
+                name="Active members"
+                stroke={chartColors.blue}
+                strokeWidth={2}
+                dot={false}
+                activeDot={{ r: 5, cursor: 'pointer' }}
+              />
+            </ComposedChart>
+          </ResponsiveContainer>
+        </div>
+      </ChartCard>
+
+      <ChartCard
+        title="Hours played per month"
+        description="Hours members put into their won games each month (from monthly playtime snapshots)"
+        summary={
+          <>
+            <ChartStat>{formatNumber(Math.round(totalHours))}</ChartStat> hours total ·{' '}
+            <ChartStat>{formatNumber(Math.round(latestHours))}</ChartStat> in{' '}
+            {latestHoursMonth?.label ?? 'the latest month'}{' '}
+            <span className="text-muted-foreground">· click a month for details</span>
+          </>
+        }
+        icon={Clock}
+      >
+        <div className="h-96 w-full">
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart
+              data={hoursPerMonth}
+              margin={{ left: 0, right: 8, top: 8 }}
+              onClick={(state: { activeLabel?: string | number }) => {
+                if (state?.activeLabel == null) return
+                setHoursMonth(String(state.activeLabel))
+              }}
+              className="cursor-pointer"
+            >
+              <CartesianGrid {...gridProps} />
+              <XAxis dataKey="label" {...axisProps} />
+              <YAxis
+                {...axisProps}
+                width={44}
+                allowDecimals={false}
+                tickFormatter={(v: number) => `${formatCompactNumber(v)}h`}
+              />
+              <Tooltip
+                contentStyle={tooltipContentStyle}
+                labelStyle={tooltipLabelStyle}
+                itemStyle={tooltipItemStyle}
+                formatter={(value) => `${formatNumber(Math.round(Number(value)))}h`}
+                cursor={{ fill: 'color-mix(in oklab, var(--accent-purple) 10%, transparent)' }}
+              />
+              <Bar
+                dataKey="hours"
+                name="Hours"
+                fill={chartColors.purple}
+                radius={[4, 4, 0, 0]}
+                cursor="pointer"
+              />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      </ChartCard>
+
+      <ChartCard
+        title="Achievements per month"
+        description="Achievements members unlocked on their won games each month (from monthly playtime snapshots)"
+        summary={
+          <>
+            <ChartStat>{formatNumber(totalAchievements)}</ChartStat> total ·{' '}
+            <ChartStat>{formatNumber(latestAchievements)}</ChartStat> in{' '}
+            {latestAchievementsMonth?.label ?? 'the latest month'}{' '}
+            <span className="text-muted-foreground">· click a month for details</span>
+          </>
+        }
+        icon={Award}
+      >
+        <div className="h-96 w-full">
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart
+              data={achievementsPerMonth}
+              margin={{ left: 0, right: 8, top: 8 }}
+              onClick={(state: { activeLabel?: string | number }) => {
+                if (state?.activeLabel == null) return
+                setAchievementsMonth(String(state.activeLabel))
+              }}
+              className="cursor-pointer"
+            >
+              <CartesianGrid {...gridProps} />
+              <XAxis dataKey="label" {...axisProps} />
+              <YAxis
+                {...axisProps}
+                width={44}
+                allowDecimals={false}
+                tickFormatter={(v: number) => formatCompactNumber(v)}
+              />
+              <Tooltip
+                contentStyle={tooltipContentStyle}
+                labelStyle={tooltipLabelStyle}
+                itemStyle={tooltipItemStyle}
+                formatter={(value) => formatNumber(Number(value))}
+                cursor={{ fill: 'color-mix(in oklab, var(--accent-yellow) 10%, transparent)' }}
+              />
+              <Bar
+                dataKey="achievements"
+                name="Achievements"
+                fill={chartColors.yellow}
+                radius={[4, 4, 0, 0]}
+                cursor="pointer"
+              />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      </ChartCard>
+
+      <ChartCard
+        title="CV sent per month"
+        description="Total contribution value of giveaways created, by month"
+        summary={
+          <>
+            <ChartStat>{formatUsd(totalCv)}</ChartStat> total ·{' '}
+            <ChartStat>{formatUsd(latestCv)}</ChartStat> in{' '}
+            {latestCvMonth?.label ?? 'the latest month'}{' '}
+            <span className="text-muted-foreground">· click a month for details</span>
+          </>
+        }
+        icon={Coins}
+      >
+        <div className="h-96 w-full">
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart
+              data={cvPerMonth}
+              margin={{ left: 0, right: 8, top: 8 }}
+              onClick={(state: { activeLabel?: string | number }) => {
+                if (state?.activeLabel == null) return
+                setCvMonth(String(state.activeLabel))
+              }}
+              className="cursor-pointer"
+            >
+              <CartesianGrid {...gridProps} />
+              <XAxis dataKey="label" {...axisProps} />
+              <YAxis
+                {...axisProps}
+                width={52}
+                tickFormatter={(v: number) => formatCompactCurrency(v)}
+              />
+              <Tooltip
+                contentStyle={tooltipContentStyle}
+                labelStyle={tooltipLabelStyle}
+                itemStyle={tooltipItemStyle}
+                formatter={(value) => formatUsd(Number(value))}
+                cursor={{ fill: 'color-mix(in oklab, var(--accent-green) 10%, transparent)' }}
+              />
+              <Bar
+                dataKey="cv"
+                name="CV sent"
+                fill={chartColors.green}
+                radius={[4, 4, 0, 0]}
+                cursor="pointer"
+              />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      </ChartCard>
+
+      <ChartCard
         title="Top 10 contributors"
         description="By real (post-return) value sent"
         summary={
@@ -644,57 +837,6 @@ export function GroupStatsCharts({
         </div>
       </ChartCard>
 
-      <ChartCard
-        title="Playtime on games won each month"
-        description="Total hours winners have put (to date) into the games won that month — not hours played during the month"
-        summary={
-          <>
-            <ChartStat>{formatNumber(Math.round(totalHours))}</ChartStat> hours (to date) total ·{' '}
-            <ChartStat>{formatNumber(Math.round(latestHours))}</ChartStat> in{' '}
-            {latestHoursMonth?.label ?? 'the latest month'}{' '}
-            <span className="text-muted-foreground">· click a month for details</span>
-          </>
-        }
-        icon={Clock}
-      >
-        <div className="h-96 w-full">
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart
-              data={hoursPerMonth}
-              margin={{ left: 0, right: 8, top: 8 }}
-              onClick={(state: { activeLabel?: string | number }) => {
-                if (state?.activeLabel == null) return
-                setHoursMonth(String(state.activeLabel))
-              }}
-              className="cursor-pointer"
-            >
-              <CartesianGrid {...gridProps} />
-              <XAxis dataKey="label" {...axisProps} />
-              <YAxis
-                {...axisProps}
-                width={44}
-                allowDecimals={false}
-                tickFormatter={(v: number) => formatCompactNumber(v)}
-              />
-              <Tooltip
-                contentStyle={tooltipContentStyle}
-                labelStyle={tooltipLabelStyle}
-                itemStyle={tooltipItemStyle}
-                formatter={(value) => `${formatNumber(Math.round(Number(value)))}h`}
-                cursor={{ fill: 'color-mix(in oklab, var(--accent-purple) 10%, transparent)' }}
-              />
-              <Bar
-                dataKey="hours"
-                name="Hours (to date)"
-                fill={chartColors.purple}
-                radius={[4, 4, 0, 0]}
-                cursor="pointer"
-              />
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
-      </ChartCard>
-
       {membersMonth && (
         <StatsDrilldownModal
           open={membersMonth != null}
@@ -723,7 +865,11 @@ export function GroupStatsCharts({
           onOpenChange={(open) => !open && setGiveawaysMonth(null)}
           title={giveawaysMonth}
           sections={[
-            { heading: `Giveaways created (${giveawaysRows.length})`, rows: giveawaysRows },
+            {
+              heading: `Giveaways created (${giveawaysRows.length})`,
+              rows: giveawaysRows,
+              showCreatedWonLabels: true,
+            },
           ]}
           nav={giveawaysNav}
           emptyMessage={`No giveaways created in ${giveawaysMonth}.`}
@@ -736,7 +882,9 @@ export function GroupStatsCharts({
           onOpenChange={(open) => !open && setCvMonth(null)}
           title={cvMonth}
           description="Sorted by CV value, highest first."
-          sections={[{ heading: `CV sent (${cvRows.length})`, rows: cvRows }]}
+          sections={[
+            { heading: `CV sent (${cvRows.length})`, rows: cvRows, showCreatedWonLabels: true },
+          ]}
           nav={cvNav}
           emptyMessage={`No CV sent in ${cvMonth}.`}
         />
@@ -748,7 +896,11 @@ export function GroupStatsCharts({
           onOpenChange={(open) => !open && setContributorUser(null)}
           title={contributorUser}
           sections={[
-            { heading: `Giveaways created (${contributorRows.length})`, rows: contributorRows },
+            {
+              heading: `Giveaways created (${contributorRows.length})`,
+              rows: contributorRows,
+              showCreatedWonLabels: true,
+            },
           ]}
           nav={contributorNav}
           emptyMessage={`No giveaways created by ${contributorUser}.`}
@@ -760,10 +912,49 @@ export function GroupStatsCharts({
           open={hoursMonth != null}
           onOpenChange={(open) => !open && setHoursMonth(null)}
           title={hoursMonth}
-          description="Sorted by playtime, highest first."
-          sections={[{ heading: `Won games (${hoursRows.length})`, rows: hoursRows }]}
+          description={
+            (hoursByMonthCount[hoursMonth] ?? hoursRows.length) > hoursRows.length
+              ? `Showing top 50 out of ${hoursByMonthCount[hoursMonth]} games`
+              : 'Sorted by hours gained, highest first.'
+          }
+          sections={[{ heading: `Games (${hoursRows.length})`, rows: hoursRows }]}
           nav={hoursNav}
-          emptyMessage={`No wins with play data in ${hoursMonth}.`}
+          emptyMessage={`No playtime gained in ${hoursMonth}.`}
+        />
+      )}
+
+      {activeMembersMonth && (
+        <StatsDrilldownModal
+          open={activeMembersMonth != null}
+          onOpenChange={(open) => !open && setActiveMembersMonth(null)}
+          title={activeMembersMonth}
+          description="Sorted by total actions, highest first."
+          sections={[
+            {
+              kind: 'member',
+              heading: `Active members (${activeMembersRows.length})`,
+              rows: activeMembersRows,
+            },
+          ]}
+          nav={activeMembersNav}
+          emptyMessage={`No active members in ${activeMembersMonth}.`}
+        />
+      )}
+
+      {achievementsMonth && (
+        <StatsDrilldownModal
+          open={achievementsMonth != null}
+          onOpenChange={(open) => !open && setAchievementsMonth(null)}
+          title={achievementsMonth}
+          description={
+            (achievementsByMonthCount[achievementsMonth] ?? achievementsRows.length) >
+            achievementsRows.length
+              ? `Showing top 50 out of ${achievementsByMonthCount[achievementsMonth]} games`
+              : 'Sorted by achievements gained, highest first.'
+          }
+          sections={[{ heading: `Games (${achievementsRows.length})`, rows: achievementsRows }]}
+          nav={achievementsNav}
+          emptyMessage={`No achievements gained in ${achievementsMonth}.`}
         />
       )}
     </div>
