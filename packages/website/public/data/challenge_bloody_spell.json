@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1785542400,
   "totalAchievements": 60,
-  "generatedAt": 1787341702346,
+  "generatedAt": 1787345373192,
   "challengeOver": false,
   "winnerUsername": "Foxpile",
   "participants": [
@@ -423,7 +423,7 @@
       "review_recommendationid": "232298869",
       "review_url": "https://steamcommunity.com/profiles/76561198027027643/recommended/992300",
       "playtime_total_minutes": 1025,
-      "playtime_2weeks_minutes": 87,
+      "playtime_2weeks_minutes": 26,
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 1025,
       "achievements_total": 60,
@@ -3189,7 +3189,7 @@
       "review_recommendationid": "232296081",
       "review_url": "https://steamcommunity.com/profiles/76561198048462370/recommended/992300",
       "playtime_total_minutes": 365,
-      "playtime_2weeks_minutes": 27,
+      "playtime_2weeks_minutes": 0,
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 365,
       "achievements_total": 60,
@@ -3836,14 +3836,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 570,
-      "playtime_2weeks_minutes": 570,
+      "playtime_total_minutes": 630,
+      "playtime_2weeks_minutes": 630,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 570,
+      "playtime_challenge_minutes": 630,
       "achievements_total": 60,
-      "achievements_unlocked_total": 42,
+      "achievements_unlocked_total": 44,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 42,
+      "achievements_since_baseline": 44,
       "challenge_achievements": [
         {
           "apiname": "a30003",
@@ -4096,9 +4096,21 @@
           "displayName": "No desire",
           "description": "Push Uncle Li's chair in the clearance scene away from the desk.",
           "unlocktime": 1787341327
+        },
+        {
+          "apiname": "a10017",
+          "displayName": "Master",
+          "description": "Clear the main storyline on hard difficulty.",
+          "unlocktime": 1787341931
+        },
+        {
+          "apiname": "a20006",
+          "displayName": "Ordinary void",
+          "description": "Kill 80 Ordinary void.",
+          "unlocktime": 1787344825
         }
       ],
-      "challenge_achievement_count": 42,
+      "challenge_achievement_count": 44,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
