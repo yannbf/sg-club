@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1787367003852,
+  "lastUpdated": 1787389810360,
   "users": {
     "76561198359284432": {
       "username": "a10i",
@@ -5384,8 +5384,7 @@
       "registered_at": 1733753264,
       "warnings": [
         "required_plays_need_review"
-      ],
-      "last_played_at": 1787366241592
+      ]
     },
     "76561198055181554": {
       "username": "Bainsol",
@@ -12753,26 +12752,26 @@
       "avatar_url": "https://avatars.steamstatic.com/a7551363c6eb1d68b4751c34777cecd6cf1657d4_medium.jpg",
       "steam_id": "76561198224589020",
       "stats": {
-        "total_sent_count": 12.7,
-        "total_sent_value": 279.47,
+        "total_sent_count": 13.7,
+        "total_sent_value": 287.46,
         "total_received_count": 6.3,
         "total_received_value": 110.44,
-        "total_gift_difference": 6.4,
-        "total_value_difference": 169.04,
-        "fcv_sent_count": 10,
+        "total_gift_difference": 7.4,
+        "total_value_difference": 177.03,
+        "fcv_sent_count": 11,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
         "fcv_received_count": 5,
         "rcv_received_count": 0,
         "ncv_received_count": 0,
-        "fcv_gift_difference": 5,
+        "fcv_gift_difference": 6,
         "real_total_sent_value": 186.4,
         "real_total_received_value": 82.95,
         "real_total_value_difference": 103.45,
-        "real_total_sent_count": 10,
+        "real_total_sent_count": 11,
         "real_total_received_count": 5,
-        "real_total_gift_difference": 5,
-        "giveaway_ratio": 8.67,
+        "real_total_gift_difference": 6,
+        "giveaway_ratio": 9.67,
         "shared_sent_count": 5,
         "shared_received_count": 3,
         "giveaways_created": 16,
@@ -12780,10 +12779,10 @@
         "last_giveaway_created_at": 1787185744,
         "last_giveaway_won_at": 1783274400,
         "first_seen_at": 1760962956,
-        "total_achievements_percentage": 27,
+        "total_achievements_percentage": 29,
         "average_achievements_percentage": 39,
-        "real_total_achievements_percentage": 22,
-        "real_average_achievements_percentage": 32,
+        "real_total_achievements_percentage": 23,
+        "real_average_achievements_percentage": 33,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198224589020",
@@ -12966,9 +12965,10 @@
           "had_winners": true,
           "winners": [
             {
-              "name": null,
-              "status": "awaiting_feedback",
-              "activated": false
+              "name": "76561198035801987",
+              "winner_username": "makki",
+              "status": "received",
+              "activated": true
             }
           ]
         },
@@ -13297,8 +13297,7 @@
           ]
         }
       ],
-      "registered_at": 1600605500,
-      "last_played_at": 1787366746958
+      "registered_at": 1600605500
     },
     "76561197982025537": {
       "username": "Casino0",
@@ -21966,8 +21965,7 @@
           ]
         }
       ],
-      "registered_at": 1389297430,
-      "last_played_at": 1787366344105
+      "registered_at": 1389297430
     },
     "76561199434715535": {
       "username": "DancingXmas",
@@ -21975,12 +21973,12 @@
       "avatar_url": "https://avatars.steamstatic.com/b4a6e85d168221fed770f14086d3824250ac373c_medium.jpg",
       "steam_id": "76561199434715535",
       "stats": {
-        "total_sent_count": 8.7,
-        "total_sent_value": 363.25,
+        "total_sent_count": 9.3,
+        "total_sent_value": 369.91,
         "total_received_count": 8.5,
         "total_received_value": 175.92,
-        "total_gift_difference": 0.2,
-        "total_value_difference": 187.33,
+        "total_gift_difference": 0.8,
+        "total_value_difference": 194,
         "fcv_sent_count": 7,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
@@ -21995,7 +21993,7 @@
         "real_total_received_count": 7,
         "real_total_gift_difference": 0,
         "giveaway_ratio": 4.67,
-        "shared_sent_count": 5,
+        "shared_sent_count": 7,
         "shared_received_count": 2,
         "giveaways_created": 16,
         "giveaways_with_no_entries": 0,
@@ -22203,28 +22201,6 @@
       ],
       "giveaways_created": [
         {
-          "name": "Doloc Town",
-          "link": "5C17R/doloc-town",
-          "cv_status": "FULL_CV",
-          "entries": 30,
-          "copies": 1,
-          "created_timestamp": 1787162918,
-          "end_timestamp": 1787371140,
-          "required_play": true,
-          "is_shared": true
-        },
-        {
-          "name": "Puppergeist",
-          "link": "9ITPy/puppergeist",
-          "cv_status": "FULL_CV",
-          "entries": 26,
-          "copies": 1,
-          "created_timestamp": 1787261775,
-          "end_timestamp": 1787371140,
-          "required_play": true,
-          "is_shared": true
-        },
-        {
           "name": "Touhou Luna Nights",
           "link": "O0Kwr/touhou-luna-nights",
           "cv_status": "FULL_CV",
@@ -22245,6 +22221,46 @@
           "end_timestamp": 1789185540,
           "required_play": true,
           "is_shared": false
+        },
+        {
+          "name": "Doloc Town",
+          "link": "5C17R/doloc-town",
+          "cv_status": "FULL_CV",
+          "entries": 30,
+          "copies": 1,
+          "created_timestamp": 1787162918,
+          "end_timestamp": 1787371140,
+          "required_play": true,
+          "is_shared": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "yoshietta",
+              "winner_username": "yoshietta",
+              "status": "received",
+              "activated": true
+            }
+          ]
+        },
+        {
+          "name": "Puppergeist",
+          "link": "9ITPy/puppergeist",
+          "cv_status": "FULL_CV",
+          "entries": 27,
+          "copies": 1,
+          "created_timestamp": 1787261775,
+          "end_timestamp": 1787371140,
+          "required_play": true,
+          "is_shared": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "lino1000",
+              "winner_username": "lino1000",
+              "status": "received",
+              "activated": true
+            }
+          ]
         },
         {
           "name": "Resonance: A Plague Tale Legacy",
@@ -22536,8 +22552,7 @@
       ],
       "registered_at": 1742791493,
       "warnings": [
-        "unplayed_required_play_giveaways",
-        "illegal_entered_required_play_giveaways"
+        "unplayed_required_play_giveaways"
       ]
     },
     "76561198053885117": {
@@ -26820,9 +26835,9 @@
         "giveaway_ratio": 3.67,
         "shared_sent_count": 0,
         "shared_received_count": 0,
-        "giveaways_created": 6,
+        "giveaways_created": 7,
         "giveaways_with_no_entries": 0,
-        "last_giveaway_created_at": 1786029614,
+        "last_giveaway_created_at": 1787387658,
         "last_giveaway_won_at": 1786721400,
         "first_seen_at": 1778486142,
         "total_achievements_percentage": 42,
@@ -26989,6 +27004,17 @@
         }
       ],
       "giveaways_created": [
+        {
+          "name": "Coffee Talk Tokyo",
+          "link": "cGl4D/coffee-talk-tokyo",
+          "cv_status": "FULL_CV",
+          "entries": 1,
+          "copies": 1,
+          "created_timestamp": 1787387658,
+          "end_timestamp": 1788300000,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "Slay the Princess — The Pristine Cut",
           "link": "lDBfZ/slay-the-princess-the-pristine-cut",
@@ -30482,7 +30508,7 @@
           "name": "Master of Magic",
           "link": "mploo/master-of-magic",
           "cv_status": "REDUCED_CV",
-          "entries": 1,
+          "entries": 5,
           "copies": 1,
           "created_timestamp": 1787343232,
           "end_timestamp": 1787857200,
@@ -30504,7 +30530,7 @@
           "name": "STUFFED",
           "link": "tpjyW/stuffed",
           "cv_status": "REDUCED_CV",
-          "entries": 1,
+          "entries": 4,
           "copies": 1,
           "created_timestamp": 1787342967,
           "end_timestamp": 1787857200,
@@ -30515,7 +30541,7 @@
           "name": "Pike and Shot : Campaigns",
           "link": "JvzgF/pike-and-shot-campaigns",
           "cv_status": "REDUCED_CV",
-          "entries": 1,
+          "entries": 3,
           "copies": 1,
           "created_timestamp": 1787342886,
           "end_timestamp": 1787857200,
@@ -32080,9 +32106,9 @@
         "total_sent_count": 27.4,
         "total_sent_value": 491.89,
         "total_received_count": 32.2,
-        "total_received_value": 802.43,
+        "total_received_value": 799.1,
         "total_gift_difference": -4.8,
-        "total_value_difference": -310.54,
+        "total_value_difference": -307.2,
         "fcv_sent_count": 21,
         "rcv_sent_count": 1,
         "ncv_sent_count": 0,
@@ -34287,10 +34313,10 @@
         "last_giveaway_created_at": 1786632215,
         "last_giveaway_won_at": 1786144200,
         "first_seen_at": 1780240343,
-        "total_achievements_percentage": 9,
-        "average_achievements_percentage": 7,
-        "real_total_achievements_percentage": 9,
-        "real_average_achievements_percentage": 7,
+        "total_achievements_percentage": 10,
+        "average_achievements_percentage": 8,
+        "real_total_achievements_percentage": 10,
+        "real_average_achievements_percentage": 8,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561197967055456",
@@ -35136,8 +35162,7 @@
           ]
         }
       ],
-      "registered_at": 1647551922,
-      "last_played_at": 1787366958489
+      "registered_at": 1647551922
     },
     "76561198036424003": {
       "username": "GeekDoesStuff",
@@ -40947,7 +40972,7 @@
           "is_shared": false,
           "i_played_bro": false,
           "required_play_meta": {
-            "requirements_met": false,
+            "requirements_met": true,
             "deadline_in_months": 2
           },
           "had_winners": true,
@@ -42041,7 +42066,7 @@
             "last_checked": 1787281417204
           },
           "required_play_meta": {
-            "requirements_met": false,
+            "requirements_met": true,
             "deadline_in_months": 2
           }
         },
@@ -43251,12 +43276,7 @@
           ]
         }
       ],
-      "registered_at": 1454506455,
-      "warnings": [
-        "unplayed_required_play_giveaways",
-        "illegal_entered_required_play_giveaways",
-        "required_plays_need_review"
-      ]
+      "registered_at": 1454506455
     },
     "76561198076863473": {
       "username": "iHoriZonT",
@@ -48770,10 +48790,10 @@
         "last_giveaway_created_at": 1784659709,
         "last_giveaway_won_at": 1782144000,
         "first_seen_at": 1749734315,
-        "total_achievements_percentage": 91,
-        "average_achievements_percentage": 87,
-        "real_total_achievements_percentage": 91,
-        "real_average_achievements_percentage": 87,
+        "total_achievements_percentage": 97,
+        "average_achievements_percentage": 96,
+        "real_total_achievements_percentage": 97,
+        "real_average_achievements_percentage": 96,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198376004004",
@@ -49194,8 +49214,7 @@
           ]
         }
       ],
-      "registered_at": 1716588938,
-      "last_played_at": 1787366919357
+      "registered_at": 1716588938
     },
     "76561198040188513": {
       "username": "kiseli",
@@ -51524,9 +51543,9 @@
         "giveaway_ratio": 55.67,
         "shared_sent_count": 4,
         "shared_received_count": 0,
-        "giveaways_created": 71,
+        "giveaways_created": 72,
         "giveaways_with_no_entries": 32,
-        "last_giveaway_created_at": 1787001846,
+        "last_giveaway_created_at": 1787380717,
         "last_giveaway_won_at": 1786819620,
         "first_seen_at": 1749738189,
         "total_achievements_percentage": 11,
@@ -52091,6 +52110,17 @@
         }
       ],
       "giveaways_created": [
+        {
+          "name": "Void Pachinko",
+          "link": "KNN6Z/void-pachinko",
+          "cv_status": "FULL_CV",
+          "entries": 0,
+          "copies": 1,
+          "created_timestamp": 1787380717,
+          "end_timestamp": 1787749200,
+          "required_play": true,
+          "is_shared": false
+        },
         {
           "name": "Scarlet Maiden",
           "link": "JnX0a/scarlet-maiden",
@@ -54528,10 +54558,10 @@
         "last_giveaway_created_at": 1781132486,
         "last_giveaway_won_at": 1787131680,
         "first_seen_at": 1749680816,
-        "total_achievements_percentage": 44,
-        "average_achievements_percentage": 46,
-        "real_total_achievements_percentage": 44,
-        "real_average_achievements_percentage": 46,
+        "total_achievements_percentage": 50,
+        "average_achievements_percentage": 54,
+        "real_total_achievements_percentage": 50,
+        "real_average_achievements_percentage": 54,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198002504847",
@@ -54976,8 +55006,7 @@
           ]
         }
       ],
-      "registered_at": 1723065508,
-      "last_played_at": 1787366766857
+      "registered_at": 1723065508
     },
     "76561199028503777": {
       "username": "Lilyhia",
@@ -57262,21 +57291,10 @@
       ],
       "giveaways_created": [
         {
-          "name": "Sakura Knight 3",
-          "link": "sNxFa/sakura-knight-3",
-          "cv_status": "REDUCED_CV",
-          "entries": 56,
-          "copies": 1,
-          "created_timestamp": 1786750705,
-          "end_timestamp": 1787371200,
-          "required_play": false,
-          "is_shared": true
-        },
-        {
           "name": "Sakura MMO 3",
           "link": "6oayl/sakura-mmo-3",
           "cv_status": "REDUCED_CV",
-          "entries": 46,
+          "entries": 47,
           "copies": 1,
           "created_timestamp": 1786855388,
           "end_timestamp": 1787457600,
@@ -57331,12 +57349,31 @@
           "name": "Sakura Succubus 8",
           "link": "OMp37/sakura-succubus-8",
           "cv_status": "REDUCED_CV",
-          "entries": 76,
+          "entries": 78,
           "copies": 1,
           "created_timestamp": 1787098932,
           "end_timestamp": 1787976000,
           "required_play": false,
           "is_shared": true
+        },
+        {
+          "name": "Sakura Knight 3",
+          "link": "sNxFa/sakura-knight-3",
+          "cv_status": "REDUCED_CV",
+          "entries": 55,
+          "copies": 1,
+          "created_timestamp": 1786750705,
+          "end_timestamp": 1787371200,
+          "required_play": false,
+          "is_shared": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "Sakura MMO",
@@ -62754,30 +62791,30 @@
       "stats": {
         "total_sent_count": 40,
         "total_sent_value": 1371.6,
-        "total_received_count": 35,
-        "total_received_value": 856.65,
-        "total_gift_difference": 5,
-        "total_value_difference": 514.95,
+        "total_received_count": 36,
+        "total_received_value": 864.64,
+        "total_gift_difference": 4,
+        "total_value_difference": 506.96,
         "fcv_sent_count": 40,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
-        "fcv_received_count": 35,
+        "fcv_received_count": 36,
         "rcv_received_count": 0,
         "ncv_received_count": 0,
-        "fcv_gift_difference": 5,
+        "fcv_gift_difference": 4,
         "real_total_sent_value": 1376.6,
         "real_total_received_value": 890.65,
         "real_total_value_difference": 485.95,
         "real_total_sent_count": 40,
-        "real_total_received_count": 35,
-        "real_total_gift_difference": 5,
-        "giveaway_ratio": 32.67,
+        "real_total_received_count": 36,
+        "real_total_gift_difference": 4,
+        "giveaway_ratio": 32.33,
         "shared_sent_count": 0,
         "shared_received_count": 0,
         "giveaways_created": 37,
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1786209735,
-        "last_giveaway_won_at": 1785726000,
+        "last_giveaway_won_at": 1787361960,
         "first_seen_at": 1749695850,
         "total_achievements_percentage": 80,
         "average_achievements_percentage": 78,
@@ -62789,6 +62826,15 @@
       "steam_profile_is_private": false,
       "country_code": "rs",
       "giveaways_won": [
+        {
+          "name": "Servant of the Lake",
+          "link": "Cj0Bf/servant-of-the-lake",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1787361960,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "MOUSE: P.I. For Hire",
           "link": "Pvwk8/mouse-pi-for-hire",
@@ -65561,7 +65607,15 @@
           "created_timestamp": 1786799497,
           "end_timestamp": 1787371200,
           "required_play": true,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "A Game About Digging A Hole",
@@ -66465,7 +66519,7 @@
           "name": "The Last Gas Station",
           "link": "zbCtx/the-last-gas-station",
           "cv_status": "FULL_CV",
-          "entries": 11,
+          "entries": 10,
           "copies": 1,
           "created_timestamp": 1787047543,
           "end_timestamp": 1788209940,
@@ -77510,8 +77564,8 @@
         "last_giveaway_created_at": 1784798294,
         "last_giveaway_won_at": 1787326860,
         "first_seen_at": 1749675553,
-        "total_achievements_percentage": 81,
-        "average_achievements_percentage": 81,
+        "total_achievements_percentage": 78,
+        "average_achievements_percentage": 79,
         "real_total_achievements_percentage": 81,
         "real_average_achievements_percentage": 81,
         "has_missing_achievements_data": true
@@ -84723,10 +84777,8 @@
       ],
       "registered_at": 1769544921,
       "warnings": [
-        "unplayed_required_play_giveaways",
-        "illegal_entered_required_play_giveaways"
-      ],
-      "last_played_at": 1787366569192
+        "unplayed_required_play_giveaways"
+      ]
     },
     "76561198075742770": {
       "username": "Realtione",
@@ -84979,7 +85031,7 @@
         "last_giveaway_created_at": 1781275336,
         "last_giveaway_won_at": 1783008480,
         "first_seen_at": 1749677436,
-        "total_achievements_percentage": 22,
+        "total_achievements_percentage": 23,
         "average_achievements_percentage": 24,
         "real_total_achievements_percentage": 17,
         "real_average_achievements_percentage": 19,
@@ -85618,8 +85670,7 @@
           ]
         }
       ],
-      "registered_at": 1320937373,
-      "last_played_at": 1787366804662
+      "registered_at": 1320937373
     },
     "76561198076648919": {
       "username": "RGVS",
@@ -89345,8 +89396,7 @@
       "registered_at": 1717718902,
       "warnings": [
         "required_plays_need_review"
-      ],
-      "last_played_at": 1787366414623
+      ]
     },
     "76561198001969728": {
       "username": "schmoan",
@@ -92323,7 +92373,15 @@
           "created_timestamp": 1787187757,
           "end_timestamp": 1787367600,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "OCTOPATH TRAVELER",
@@ -93161,9 +93219,9 @@
         "last_giveaway_won_at": 1787274000,
         "first_seen_at": 1750431442,
         "total_achievements_percentage": 56,
-        "average_achievements_percentage": 81,
+        "average_achievements_percentage": 76,
         "real_total_achievements_percentage": 56,
-        "real_average_achievements_percentage": 81,
+        "real_average_achievements_percentage": 76,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561197991280042",
@@ -94382,8 +94440,7 @@
           ]
         }
       ],
-      "registered_at": 1332615851,
-      "last_played_at": 1787366599247
+      "registered_at": 1332615851
     },
     "76561198036591983": {
       "username": "Sumnium",
@@ -98495,8 +98552,7 @@
             }
           ]
         }
-      ],
-      "registered_at": 1501332856
+      ]
     },
     "76561198089973992": {
       "username": "TwixClub",
@@ -100146,10 +100202,10 @@
         "last_giveaway_created_at": 1787103752,
         "last_giveaway_won_at": 1784710800,
         "first_seen_at": 1754506200,
-        "total_achievements_percentage": 55,
-        "average_achievements_percentage": 61,
-        "real_total_achievements_percentage": 67,
-        "real_average_achievements_percentage": 76,
+        "total_achievements_percentage": 59,
+        "average_achievements_percentage": 65,
+        "real_total_achievements_percentage": 68,
+        "real_average_achievements_percentage": 77,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198080362358",
@@ -101276,8 +101332,7 @@
           ]
         }
       ],
-      "registered_at": 1663370083,
-      "last_played_at": 1787366211821
+      "registered_at": 1663370083
     },
     "76561198185630581": {
       "username": "Vexterion",
@@ -107884,7 +107939,7 @@
         "last_giveaway_created_at": 1786850714,
         "last_giveaway_won_at": 1786107600,
         "first_seen_at": 1749819626,
-        "total_achievements_percentage": 76,
+        "total_achievements_percentage": 77,
         "average_achievements_percentage": 89,
         "real_total_achievements_percentage": 75,
         "real_average_achievements_percentage": 88,
@@ -109137,7 +109192,9 @@
         }
       ],
       "registered_at": 1703103274,
-      "last_played_at": 1787366180387
+      "warnings": [
+        "required_plays_need_review"
+      ]
     },
     "76561198183406253": {
       "username": "Yukisuna",
