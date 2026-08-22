@@ -1,25 +1,6 @@
 {
-  "last_updated": "2026-08-21T17:10:08.829Z",
+  "last_updated": "2026-08-22T02:08:10.789Z",
   "giveaways": [
-    {
-      "id": "Cj0Bf",
-      "name": "Servant of the Lake",
-      "points": 8,
-      "copies": 1,
-      "app_id": 3636770,
-      "package_id": null,
-      "link": "Cj0Bf/servant-of-the-lake",
-      "created_timestamp": 1787185744,
-      "start_timestamp": 1787185744,
-      "end_timestamp": 1787361960,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 6,
-      "creator": "76561198224589020",
-      "cv_status": "FULL_CV",
-      "creator_username": "Carrei",
-      "deleted": false
-    },
     {
       "id": "hQpqG",
       "name": "Persona 3 Reload",
@@ -34,7 +15,7 @@
       "region_restricted": true,
       "group": true,
       "comment_count": 1,
-      "entry_count": 15,
+      "entry_count": 17,
       "creator": "76561198081010034",
       "cv_status": "FULL_CV",
       "creator_username": "SirSage",
@@ -53,7 +34,7 @@
       "end_timestamp": 1787371140,
       "group": true,
       "comment_count": 3,
-      "entry_count": 28,
+      "entry_count": 30,
       "creator": "76561199434715535",
       "required_play": true,
       "is_shared": true,
@@ -74,7 +55,7 @@
       "end_timestamp": 1787371140,
       "group": true,
       "comment_count": 3,
-      "entry_count": 21,
+      "entry_count": 26,
       "creator": "76561199434715535",
       "required_play": true,
       "is_shared": true,
@@ -96,7 +77,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 58,
+      "entry_count": 56,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -118,6 +99,7 @@
       "comment_count": 0,
       "entry_count": 10,
       "creator": "76561198010863049",
+      "required_play": true,
       "cv_status": "FULL_CV",
       "creator_username": "MedinaRoscoe",
       "deleted": false
@@ -137,7 +119,6 @@
       "comment_count": 0,
       "entry_count": 5,
       "creator": "76561198117390871",
-      "required_play": true,
       "cv_status": "FULL_CV",
       "creator_username": "Mahry",
       "deleted": false
@@ -195,7 +176,7 @@
       "end_timestamp": 1787468400,
       "group": true,
       "comment_count": 3,
-      "entry_count": 29,
+      "entry_count": 30,
       "creator": "76561198066957402",
       "cv_status": "FULL_CV",
       "creator_username": "Gooberdragon",
@@ -369,7 +350,7 @@
       "end_timestamp": 1787500800,
       "group": true,
       "comment_count": 0,
-      "entry_count": 17,
+      "entry_count": 18,
       "creator": "76561198079289651",
       "cv_status": "FULL_CV",
       "creator_username": "Patzl",
@@ -427,7 +408,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 62,
+      "entry_count": 64,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -468,7 +449,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 60,
+      "entry_count": 61,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -509,7 +490,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 74,
+      "entry_count": 75,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -536,6 +517,90 @@
       "deleted": false
     },
     {
+      "id": "mploo",
+      "name": "Master of Magic",
+      "points": 40,
+      "copies": 1,
+      "app_id": 1623070,
+      "package_id": null,
+      "link": "mploo/master-of-magic",
+      "created_timestamp": 1787343232,
+      "start_timestamp": 1787343232,
+      "end_timestamp": 1787857200,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 1,
+      "creator": "76561198051248084",
+      "is_shared": true,
+      "cv_status": "REDUCED_CV",
+      "creator_username": "Eindirk",
+      "deleted": false
+    },
+    {
+      "id": "lrOJ3",
+      "name": "Pumpkin Jack",
+      "points": 30,
+      "copies": 1,
+      "app_id": 1186640,
+      "package_id": null,
+      "link": "lrOJ3/pumpkin-jack",
+      "created_timestamp": 1787343170,
+      "start_timestamp": 1787343170,
+      "end_timestamp": 1787857200,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 1,
+      "creator": "76561198051248084",
+      "is_shared": true,
+      "cv_status": "REDUCED_CV",
+      "creator_username": "Eindirk",
+      "deleted": false
+    },
+    {
+      "id": "tpjyW",
+      "name": "STUFFED",
+      "points": 13,
+      "copies": 1,
+      "app_id": 1243200,
+      "package_id": null,
+      "link": "tpjyW/stuffed",
+      "created_timestamp": 1787342967,
+      "start_timestamp": 1787342967,
+      "end_timestamp": 1787857200,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 1,
+      "creator": "76561198051248084",
+      "is_shared": true,
+      "cv_status": "REDUCED_CV",
+      "creator_username": "Eindirk",
+      "deleted": false
+    },
+    {
+      "id": "JvzgF",
+      "name": "Pike and Shot : Campaigns",
+      "points": 40,
+      "copies": 1,
+      "app_id": 377520,
+      "package_id": null,
+      "link": "JvzgF/pike-and-shot-campaigns",
+      "created_timestamp": 1787342886,
+      "start_timestamp": 1787342886,
+      "end_timestamp": 1787857200,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 1,
+      "creator": "76561198051248084",
+      "is_shared": true,
+      "cv_status": "REDUCED_CV",
+      "creator_username": "Eindirk",
+      "deleted": false
+    },
+    {
       "id": "jX3jZ",
       "name": "Sakura Bunny Girls",
       "points": 10,
@@ -549,7 +614,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 73,
+      "entry_count": 74,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -589,11 +654,31 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 75,
+      "entry_count": 76,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
       "creator_username": "lockcjwen",
+      "deleted": false
+    },
+    {
+      "id": "IRf8n",
+      "name": "One-Eyed Likho",
+      "points": 20,
+      "copies": 1,
+      "app_id": 2346840,
+      "package_id": null,
+      "link": "IRf8n/one-eyed-likho",
+      "created_timestamp": 1787358501,
+      "start_timestamp": 1787358501,
+      "end_timestamp": 1788112800,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 0,
+      "creator": "76561198118726910",
+      "required_play": true,
+      "cv_status": "FULL_CV",
+      "creator_username": "Ivannes",
       "deleted": false
     },
     {
@@ -609,7 +694,7 @@
       "end_timestamp": 1788148740,
       "group": true,
       "comment_count": 1,
-      "entry_count": 40,
+      "entry_count": 41,
       "creator": "76561199434715535",
       "required_play": true,
       "is_shared": true,
@@ -691,7 +776,6 @@
       "comment_count": 0,
       "entry_count": 11,
       "creator": "76561198053065013",
-      "required_play": true,
       "cv_status": "FULL_CV",
       "creator_username": "aez76",
       "deleted": false
@@ -737,6 +821,32 @@
       "deleted": false
     },
     {
+      "id": "Cj0Bf",
+      "name": "Servant of the Lake",
+      "points": 8,
+      "copies": 1,
+      "app_id": 3636770,
+      "package_id": null,
+      "link": "Cj0Bf/servant-of-the-lake",
+      "created_timestamp": 1787185744,
+      "start_timestamp": 1787185744,
+      "end_timestamp": 1787361960,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 6,
+      "creator": "76561198224589020",
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "FULL_CV",
+      "creator_username": "Carrei",
+      "deleted": false
+    },
+    {
       "id": "G7vYm",
       "name": "Cat Chess",
       "points": 7,
@@ -777,7 +887,7 @@
       "end_timestamp": 1787326860,
       "region_restricted": true,
       "group": true,
-      "comment_count": 1,
+      "comment_count": 2,
       "entry_count": 19,
       "creator": "76561197994770037",
       "required_play": true,
@@ -834,20 +944,20 @@
       "end_timestamp": 1787284800,
       "whitelist": true,
       "group": true,
-      "comment_count": 0,
+      "comment_count": 2,
       "entry_count": 42,
       "creator": "76561198234142828",
       "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "LaurentSydney",
+          "status": "received",
+          "winner_username": "LaurentSydney"
         }
       ],
       "cv_status": "REDUCED_CV",
-      "creator_username": "lockcjwen",
-      "deleted": false
+      "creator_username": "lockcjwen"
     },
     {
       "id": "qArQc",
@@ -1230,7 +1340,7 @@
       "start_timestamp": 1786871536,
       "end_timestamp": 1787131680,
       "group": true,
-      "comment_count": 18,
+      "comment_count": 19,
       "entry_count": 41,
       "creator": "76561197961485346",
       "hasWinners": true,
@@ -1627,7 +1737,7 @@
       "start_timestamp": 1786715309,
       "end_timestamp": 1786977960,
       "group": true,
-      "comment_count": 5,
+      "comment_count": 6,
       "entry_count": 18,
       "creator": "76561198020386807",
       "hasWinners": true,
@@ -3019,6 +3129,7 @@
       "comment_count": 2,
       "entry_count": 0,
       "creator": "76561198453663783",
+      "required_play": true,
       "hasWinners": false,
       "winners": [],
       "cv_status": "FULL_CV",
@@ -3688,7 +3799,6 @@
       "comment_count": 15,
       "entry_count": 20,
       "creator": "76561198359284432",
-      "required_play": true,
       "hasWinners": true,
       "winners": [
         {
@@ -3697,6 +3807,7 @@
           "winner_username": "DancingVaquinha"
         }
       ],
+      "required_play": true,
       "cv_status": "FULL_CV",
       "creator_username": "a10i"
     },
@@ -3904,7 +4015,6 @@
       "comment_count": 13,
       "entry_count": 1,
       "creator": "76561198075742770",
-      "required_play": true,
       "hasWinners": true,
       "winners": [
         {
@@ -3913,6 +4023,7 @@
           "winner_username": "TwixClub"
         }
       ],
+      "required_play": true,
       "cv_status": "FULL_CV",
       "creator_username": "Realtione"
     },
@@ -4193,6 +4304,7 @@
       "comment_count": 4,
       "entry_count": 6,
       "creator": "76561198089693705",
+      "required_play": true,
       "hasWinners": true,
       "winners": [
         {
@@ -4201,7 +4313,6 @@
           "winner_username": "BorjaGRouco"
         }
       ],
-      "required_play": true,
       "cv_status": "FULL_CV",
       "creator_username": "VinroyIsViral"
     },
@@ -5577,7 +5688,6 @@
       "comment_count": 7,
       "entry_count": 43,
       "creator": "76561199434715535",
-      "required_play": true,
       "hasWinners": true,
       "winners": [
         {
@@ -5586,6 +5696,7 @@
           "winner_username": "aez76"
         }
       ],
+      "required_play": true,
       "cv_status": "FULL_CV",
       "creator_username": "DancingXmas"
     },
@@ -6781,7 +6892,6 @@
       "comment_count": 5,
       "entry_count": 11,
       "creator": "76561198027595057",
-      "required_play": true,
       "hasWinners": true,
       "winners": [
         {
@@ -6790,6 +6900,7 @@
           "winner_username": "RaitorHaitor"
         }
       ],
+      "required_play": true,
       "cv_status": "FULL_CV",
       "creator_username": "PoeticKatana"
     },
@@ -7352,7 +7463,6 @@
       "comment_count": 3,
       "entry_count": 14,
       "creator": "76561197994770037",
-      "required_play": true,
       "hasWinners": true,
       "winners": [
         {
@@ -7361,6 +7471,7 @@
           "winner_username": "Rinocap"
         }
       ],
+      "required_play": true,
       "cv_status": "FULL_CV",
       "creator_username": "NateSCC"
     },
@@ -7571,7 +7682,6 @@
       "comment_count": 2,
       "entry_count": 12,
       "creator": "76561198061381176",
-      "required_play": true,
       "hasWinners": true,
       "winners": [
         {
@@ -7580,6 +7690,7 @@
           "winner_username": "TwixClub"
         }
       ],
+      "required_play": true,
       "cv_status": "FULL_CV",
       "creator_username": "Ch1cWolf"
     },
@@ -8760,6 +8871,7 @@
       "comment_count": 7,
       "entry_count": 30,
       "creator": "76561198053065013",
+      "required_play": true,
       "hasWinners": true,
       "winners": [
         {
@@ -8768,7 +8880,6 @@
           "winner_username": "Realtione"
         }
       ],
-      "required_play": true,
       "cv_status": "FULL_CV",
       "creator_username": "aez76"
     },
@@ -10291,7 +10402,6 @@
       "comment_count": 4,
       "entry_count": 35,
       "creator": "76561199434715535",
-      "required_play": true,
       "hasWinners": true,
       "winners": [
         {
@@ -10300,6 +10410,7 @@
           "winner_username": "Almostn33t"
         }
       ],
+      "required_play": true,
       "cv_status": "FULL_CV",
       "creator_username": "DancingXmas"
     },
