@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1785542400,
   "totalAchievements": 60,
-  "generatedAt": 1787356093275,
+  "generatedAt": 1787363945679,
   "challengeOver": false,
   "winnerUsername": "Foxpile",
   "participants": [
@@ -822,7 +822,7 @@
       "review_recommendationid": "232300992",
       "review_url": "https://steamcommunity.com/profiles/76561197994025244/recommended/992300",
       "playtime_total_minutes": 1125,
-      "playtime_2weeks_minutes": 232,
+      "playtime_2weeks_minutes": 101,
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 1125,
       "achievements_total": 60,
@@ -1221,7 +1221,7 @@
       "review_recommendationid": "232073576",
       "review_url": "https://steamcommunity.com/profiles/76561198352113526/recommended/992300",
       "playtime_total_minutes": 1133,
-      "playtime_2weeks_minutes": 473,
+      "playtime_2weeks_minutes": 342,
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 1133,
       "achievements_total": 60,
@@ -4649,14 +4649,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 613,
-      "playtime_2weeks_minutes": 617,
+      "playtime_total_minutes": 703,
+      "playtime_2weeks_minutes": 707,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 613,
+      "playtime_challenge_minutes": 703,
       "achievements_total": 60,
-      "achievements_unlocked_total": 26,
+      "achievements_unlocked_total": 27,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 26,
+      "achievements_since_baseline": 27,
       "challenge_achievements": [
         {
           "apiname": "a30003",
@@ -4813,9 +4813,15 @@
           "displayName": "Catch mice",
           "description": "Destroy 9 mice in the mini-game.",
           "unlocktime": 1786606038
+        },
+        {
+          "apiname": "a20002",
+          "displayName": "Silent Executioner",
+          "description": "Kill 20 enemies with Blood Sniff.",
+          "unlocktime": 1787363549
         }
       ],
-      "challenge_achievement_count": 26,
+      "challenge_achievement_count": 27,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
