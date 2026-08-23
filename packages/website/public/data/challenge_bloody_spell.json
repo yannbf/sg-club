@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1785542400,
   "totalAchievements": 60,
-  "generatedAt": 1787503914668,
+  "generatedAt": 1787507131110,
   "challengeOver": false,
   "winnerUsername": "Foxpile",
   "participants": [
@@ -4230,11 +4230,11 @@
       "is_guest": false,
       "owned": true,
       "stats_available": true,
-      "wrote_review": false,
-      "review_voted_up": null,
-      "review_timestamp": null,
-      "review_recommendationid": null,
-      "review_url": null,
+      "wrote_review": true,
+      "review_voted_up": true,
+      "review_timestamp": 1787502545,
+      "review_recommendationid": "233525248",
+      "review_url": "https://steamcommunity.com/profiles/76561198066598689/recommended/992300",
       "playtime_total_minutes": 409,
       "playtime_2weeks_minutes": 286,
       "baseline_playtime_minutes": 0,
@@ -4500,11 +4500,11 @@
       "story_unlocked": true,
       "story_unlocktime": 1787499340,
       "story_after_deadline": false,
-      "win_tier": null,
-      "qualified_at": null,
+      "win_tier": "story",
+      "qualified_at": 1787499340,
       "meets_playtime": true,
-      "meets_review": false,
-      "is_winner": false
+      "meets_review": true,
+      "is_winner": true
     },
     {
       "username": "LieEater",
@@ -5431,7 +5431,8 @@
     "Tucs",
     "TheGr3atUnknown",
     "Thexder",
-    "QuinlanLJ"
+    "QuinlanLJ",
+    "DancingVaquinha"
   ],
   "storyAchievement": {
     "apiname": "a10016",
