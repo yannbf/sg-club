@@ -46,6 +46,7 @@ on:
     - cron: '15 6 1,15 * *'    # wishlist, 1st + 15th of the month (~biweekly)
     - cron: '25 * * * *'       # gaming challenge leaderboard (active), hourly
     - cron: '40 6 1,15 * *'    # all challenges incl. dormant (~biweekly)
+    - cron: '20 1,9,17 * * *'  # verification data (IPB Discord + beaten), 3×/day
   workflow_dispatch:
     inputs:
       job:
@@ -59,6 +60,7 @@ on:
           - playtime
           - playtime-all
           - challenge
+          - verification
 
 permissions:
   contents: write
@@ -325,6 +327,91 @@ jobs:
             echo "No changes to commit"
           else
             git commit -m "🏆 Update challenge leaderboard - $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
+            # Another staggered job may have pushed while we ran — rebase onto
+            # the latest and retry rather than failing the whole run.
+            for attempt in 1 2 3 4 5; do
+              if git push origin ${{ github.ref_name }}; then
+                echo "Pushed on attempt $attempt"; break
+              fi
+              if [ "$attempt" = "5" ]; then
+                echo "Push still rejected after 5 attempts"; exit 1
+              fi
+              echo "Push rejected (attempt $attempt) — rebasing on latest and retrying"
+              # The data step can leave modified files outside the staged
+              # paths; they'd make the rebase abort with "unstaged changes".
+              git checkout -- .
+              git pull --rebase origin ${{ github.ref_name }}
+              sleep 5
+            done
+          fi
+
+  verification:
+    # Verification data for the /verification admin page, in two steps:
+    #   1. ipb-discord — matches "i-play-bro" Discord forum threads to wins
+    #      (starter-message giveaway/store/review links). Discord user and
+    #      thread lookups are permanently cached, so steady-state runs only
+    #      fetch threads created since the last run.
+    #   2. beaten — per-game "beaten marker" achievements + per-winner unlock
+    #      checks. Markers come from the committed Steam Hunters tags file
+    #      (the live pages are Cloudflare-gated from CI; refresh the file
+    #      locally via a browser session when new games need tags) with a
+    #      description heuristic as fallback. Marker and player-check caches
+    #      are committed, so steady-state runs touch only new wins and the
+    #      7-day re-checks of not-yet-beaten markers.
+    # Runs an hour after the website-data job so it sees fresh giveaway/member
+    # flags. Worst case is bounded by the scripts' per-run fetch caps
+    # (200 markers / 500 player checks, deferring the rest to the next run),
+    # which keeps a cold-cache run around 20 min; steady state is a few
+    # minutes. timeout-minutes is the backstop on top of that.
+    if: |
+      github.event.schedule == '20 1,9,17 * * *' ||
+      (github.event_name == 'workflow_dispatch' && github.event.inputs.job == 'verification')
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      STEAM_API_KEY: ${{ secrets.STEAM_API_KEY }}
+      DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
+      SKIP_STEAMHUNTERS: '1'
+      STEAMHUNTERS_TAGS_FILE: ${{ github.workspace }}/packages/scraper/data/steamhunters-tags.json
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Sync branch with latest changes
+        run: git pull --rebase origin ${{ github.ref_name }} || true
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Match I Play Bro Discord submissions
+        run: pnpm --filter scraper run ipb-discord
+
+      - name: Generate beaten-games data
+        run: pnpm --filter scraper run beaten
+
+      - name: Commit and push verification data changes
+        run: |
+          git config --global user.name 'GitHub Action'
+          git config --global user.email 'action@github.com'
+          git add packages/website/public/data/beaten_games.json \
+                  packages/website/public/data/ipb_discord.json \
+                  packages/scraper/data/
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "🕵️ Update verification data - $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
             # Another staggered job may have pushed while we ran — rebase onto
             # the latest and retry rather than failing the whole run.
             for attempt in 1 2 3 4 5; do
