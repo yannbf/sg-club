@@ -1,25 +1,6 @@
 {
-  "last_updated": "2026-08-24T02:14:35.433Z",
+  "last_updated": "2026-08-24T09:20:24.019Z",
   "giveaways": [
-    {
-      "id": "T24cC",
-      "name": "Children of the Sun",
-      "points": 15,
-      "copies": 1,
-      "app_id": 1309950,
-      "package_id": null,
-      "link": "T24cC/children-of-the-sun",
-      "created_timestamp": 1786768430,
-      "start_timestamp": 1786768430,
-      "end_timestamp": 1787551140,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 8,
-      "creator": "76561198080362358",
-      "cv_status": "FULL_CV",
-      "creator_username": "VenomousNyx",
-      "deleted": false
-    },
     {
       "id": "eEfbz",
       "name": "Strange Horticulture",
@@ -155,7 +136,7 @@
       "end_timestamp": 1787749200,
       "group": true,
       "comment_count": 0,
-      "entry_count": 1,
+      "entry_count": 2,
       "creator": "76561197968806363",
       "required_play": true,
       "cv_status": "FULL_CV",
@@ -300,7 +281,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 79,
+      "entry_count": 80,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -321,7 +302,7 @@
       "region_restricted": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 0,
+      "entry_count": 1,
       "creator": "76561197968806363",
       "required_play": true,
       "cv_status": "FULL_CV",
@@ -340,8 +321,8 @@
       "start_timestamp": 1786893076,
       "end_timestamp": 1787954400,
       "group": true,
-      "comment_count": 5,
-      "entry_count": 59,
+      "comment_count": 6,
+      "entry_count": 60,
       "creator": "76561199014836450",
       "cv_status": "FULL_CV",
       "creator_username": "Dobke",
@@ -361,7 +342,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 83,
+      "entry_count": 84,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -382,7 +363,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 64,
+      "entry_count": 65,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -481,7 +462,7 @@
       "end_timestamp": 1788209940,
       "group": true,
       "comment_count": 0,
-      "entry_count": 2,
+      "entry_count": 5,
       "creator": "76561198069420656",
       "cv_status": "FULL_CV",
       "creator_username": "Metalhead8489",
@@ -500,7 +481,7 @@
       "end_timestamp": 1788300000,
       "group": true,
       "comment_count": 5,
-      "entry_count": 10,
+      "entry_count": 11,
       "creator": "76561198408001048",
       "cv_status": "FULL_CV",
       "creator_username": "dramainfouracts",
@@ -520,7 +501,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 9,
+      "entry_count": 11,
       "creator": "76561197975099685",
       "is_shared": true,
       "cv_status": "FULL_CV",
@@ -605,6 +586,32 @@
       "creator": "76561198042896883",
       "cv_status": "FULL_CV",
       "creator_username": "Lontaz",
+      "deleted": false
+    },
+    {
+      "id": "T24cC",
+      "name": "Children of the Sun",
+      "points": 15,
+      "copies": 1,
+      "app_id": 1309950,
+      "package_id": null,
+      "link": "T24cC/children-of-the-sun",
+      "created_timestamp": 1786768430,
+      "start_timestamp": 1786768430,
+      "end_timestamp": 1787551140,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 8,
+      "creator": "76561198080362358",
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "FULL_CV",
+      "creator_username": "VenomousNyx",
       "deleted": false
     },
     {
@@ -723,19 +730,19 @@
       "start_timestamp": 1786877385,
       "end_timestamp": 1787497200,
       "group": true,
-      "comment_count": 26,
+      "comment_count": 27,
       "entry_count": 17,
       "creator": "76561198049128535",
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "76561198001969728",
+          "status": "received",
+          "winner_username": "schmoan"
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "yannbz",
-      "deleted": false
+      "creator_username": "yannbz"
     },
     {
       "id": "r8fzW",
