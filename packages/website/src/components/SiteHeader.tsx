@@ -14,6 +14,7 @@ import {
   LogOut,
   Menu,
   Shield,
+  ShieldCheck,
   Users,
   X,
 } from 'lucide-react'
@@ -39,6 +40,7 @@ const NAV: NavItem[] = [
   { href: '/users', label: 'Users', icon: Users, adminOnly: true },
   { href: '/ex-members', label: 'Ex members', icon: LogOut, adminOnly: true },
   { href: '/leavers', label: 'Leavers', icon: BarChart3, adminOnly: true },
+  { href: '/verification', label: 'Verification', icon: ShieldCheck, adminOnly: true },
   // Spring Cleaning is intentionally not listed — it's reachable only by URL
   // (/spring-cleaning), still behind the admin gate.
 ]

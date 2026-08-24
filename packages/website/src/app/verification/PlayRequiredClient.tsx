@@ -1,0 +1,1021 @@
+'use client'
+
+import { useEffect, useMemo, useState } from 'react'
+import { formatDistanceToNow } from 'date-fns'
+import {
+  AlertTriangle,
+  Ban,
+  CheckCircle2,
+  Clock,
+  ExternalLink,
+  Eye,
+  Gamepad2,
+  HelpCircle,
+  MessageSquare,
+  Search,
+  ShieldCheck,
+  Trophy,
+  XCircle,
+} from 'lucide-react'
+import type { IpbSummary, PlayRequiredRow, PlayRequiredSummary, StatusFilter } from '@/lib/beaten'
+import { BEATEN_VERDICT_ORDER, matchesStatusFilter } from '@/lib/beaten'
+import type { IpbDiscordUnmatchedThread } from '@/types/ipb-discord'
+import { formatPlaytimeCompact } from '@/lib/data'
+import { UserLink } from '@/components/UserLink'
+import UserAvatar from '@/components/UserAvatar'
+import GameImage from '@/components/GameImage'
+import FormattedDate from '@/components/FormattedDate'
+import Tooltip from '@/components/Tooltip'
+import { LastUpdated } from '@/components/LastUpdated'
+import { DeadlineStatus } from '@/components/DeadlineStatus'
+import { StatCard } from '@/components/StatCard'
+import { Card } from '@/components/ui/Card'
+import { Badge } from '@/components/ui/Badge'
+import { Input } from '@/components/ui/Input'
+import { Toolbar } from '@/components/ui/Toolbar'
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/ToggleGroup'
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/Tabs'
+import { useDebounce } from '@/lib/hooks'
+import { cn } from '@/lib/cn'
+
+interface Props {
+  rows: PlayRequiredRow[]
+  summary: PlayRequiredSummary
+  ipbSummary: IpbSummary
+  beatenDataAvailable: boolean
+  beatenLastUpdated: string | null
+  lastUpdated: string | null
+  unmatchedDiscordThreads: IpbDiscordUnmatchedThread[]
+}
+
+type Tab = 'play_required' | 'ipb'
+
+/** Maps the internal tab id to/from the `?tab=` query param value. */
+const TAB_TO_PARAM: Record<Tab, string> = { play_required: 'play-required', ipb: 'ipb' }
+const PARAM_TO_TAB: Record<string, Tab> = { 'play-required': 'play_required', ipb: 'ipb' }
+
+/** Reads the current tab from `window.location.search`; missing/invalid falls back to `ipb`. */
+function readTabFromLocation(): Tab {
+  if (typeof window === 'undefined') return 'ipb'
+  const raw = new URLSearchParams(window.location.search).get('tab')
+  return (raw && PARAM_TO_TAB[raw]) || 'ipb'
+}
+
+type SortKey =
+  | 'game'
+  | 'winner'
+  | 'won'
+  | 'submitted'
+  | 'playtime'
+  | 'achievements'
+  | 'beaten'
+  | 'signoff'
+  | 'status'
+type SortDir = 'asc' | 'desc'
+
+const IPB_STATUS_ORDER: readonly PlayRequiredRow['ipbStatus'][] = [
+  'verified',
+  'submitted',
+  'not_submitted',
+]
+
+const STATUS_FILTERS: { id: StatusFilter; label: string }[] = [
+  { id: 'all', label: 'All' },
+  { id: 'not_verified', label: 'Not verified yet' },
+  { id: 'likely_not_signed_off', label: 'Likely beaten, not signed off' },
+  { id: 'beaten_verified', label: 'Beaten (verified)' },
+  { id: 'no_evidence', label: 'No evidence' },
+  { id: 'unverifiable', label: 'Unverifiable' },
+]
+
+const typeLabel: Record<PlayRequiredRow['type'], string> = {
+  required_play: 'Play Required',
+  i_played_bro: 'I Played Bro',
+  both: 'PR + IPB',
+}
+
+const typeVariant: Record<PlayRequiredRow['type'], 'primary' | 'purple' | 'amber'> = {
+  required_play: 'primary',
+  i_played_bro: 'purple',
+  both: 'amber',
+}
+
+function sgGiveawayUrl(link: string) {
+  return `https://www.steamgifts.com/giveaway/${link}`
+}
+
+function steamAchievementsUrl(steamId: string, appId: number) {
+  return `https://steamcommunity.com/profiles/${steamId}/stats/${appId}/achievements`
+}
+
+/**
+ * App id to use for the winner's Steam achievements page — the beaten-games
+ * pipeline's resolved base-game app id when the giveaway's app id is a DLC,
+ * otherwise the giveaway's own app id.
+ */
+function achievementsAppId(row: PlayRequiredRow): number | null {
+  return row.beaten.resolvedAppId ?? row.game.appId
+}
+
+/** Wraps `children` in a link to the winner's Steam achievements page, when the app id is known. */
+function AchievementsLink({
+  row,
+  children,
+}: {
+  row: PlayRequiredRow
+  children: React.ReactNode
+}) {
+  const appId = achievementsAppId(row)
+  if (appId == null) return <>{children}</>
+  return (
+    <a
+      href={steamAchievementsUrl(row.winner.steamId, appId)}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="inline-block hover:opacity-80"
+    >
+      {children}
+    </a>
+  )
+}
+
+/** "Stats last checked X ago" tooltip content for the Playtime/Achievements cells. */
+function lastCheckedTooltip(lastChecked: number | undefined): string | null {
+  if (!lastChecked) return null
+  return `Stats last checked ${formatDistanceToNow(new Date(lastChecked), { addSuffix: true })}`
+}
+
+function BeatenBadge({ row }: { row: PlayRequiredRow }) {
+  const { beaten } = row
+  switch (beaten.verdict) {
+    case 'beaten_verified':
+      return (
+        <div className="space-y-0.5">
+          <AchievementsLink row={row}>
+            <Badge variant="success" size="sm">
+              <CheckCircle2 className="h-3 w-3" />
+              Beaten — {beaten.marker?.name}
+              {beaten.marker?.global_percent != null && (
+                <span className="text-subtle">
+                  {' '}
+                  ({beaten.marker.global_percent.toFixed(1)}%)
+                </span>
+              )}
+            </Badge>
+          </AchievementsLink>
+          {beaten.unlockTime != null && (
+            <p className="text-[11px] text-muted-foreground">
+              unlocked <FormattedDate timestamp={beaten.unlockTime} />
+            </p>
+          )}
+        </div>
+      )
+    case 'not_beaten':
+      return (
+        <AchievementsLink row={row}>
+          <Badge variant="error" size="sm">
+            <XCircle className="h-3 w-3" />
+            Marker not unlocked
+          </Badge>
+        </AchievementsLink>
+      )
+    case 'no_marker':
+      return (
+        <Tooltip content={`Reason: ${beaten.noMarkerReason ?? 'unknown'}`}>
+          <Badge variant="outline" size="sm">
+            Couldn&apos;t automatically check
+          </Badge>
+        </Tooltip>
+      )
+    case 'no_data':
+      return (
+        <Tooltip content={`Reason: ${beaten.noDataReason ?? 'unknown'}`}>
+          <Badge variant="outline" size="sm">
+            <HelpCircle className="h-3 w-3" />
+            Couldn&apos;t read player data
+          </Badge>
+        </Tooltip>
+      )
+    case 'package_only':
+      return (
+        <Badge variant="outline" size="sm">
+          Package — not supported
+        </Badge>
+      )
+    case 'pending':
+    default:
+      return (
+        <Badge variant="outline" size="sm">
+          Pending
+        </Badge>
+      )
+  }
+}
+
+function IpbStatusBadge({ status }: { status: PlayRequiredRow['ipbStatus'] }) {
+  switch (status) {
+    case 'verified':
+      return (
+        <Badge variant="success" size="sm">
+          <ShieldCheck className="h-3 w-3" />
+          Verified
+        </Badge>
+      )
+    case 'submitted':
+      return (
+        <Badge variant="warning" size="sm">
+          <Clock className="h-3 w-3" />
+          Submitted
+        </Badge>
+      )
+    case 'not_submitted':
+      return (
+        <Badge variant="outline" size="sm">
+          <AlertTriangle className="h-3 w-3" />
+          Not submitted
+        </Badge>
+      )
+  }
+}
+
+function LinksCell({ row }: { row: PlayRequiredRow }) {
+  if (!row.discord) return <span className="text-xs text-subtle">—</span>
+  return (
+    <div className="flex flex-wrap items-center gap-2">
+      <a
+        href={row.discord.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-flex items-center gap-1 text-[11px] font-medium text-[#5865F2] hover:underline dark:text-[#A5AEFF]"
+      >
+        <MessageSquare className="h-3 w-3" />
+        Discord
+      </a>
+      {row.discord.review_url && (
+        <a
+          href={row.discord.review_url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1 text-[11px] font-medium text-accent hover:underline"
+        >
+          <ExternalLink className="h-3 w-3" />
+          Review
+        </a>
+      )}
+    </div>
+  )
+}
+
+function SignOffCell({ row }: { row: PlayRequiredRow }) {
+  const { attestation, discord } = row
+  if (attestation.confirmed) {
+    const parts: string[] = []
+    if (attestation.iPlayedBro) parts.push('I played, bro')
+    if (attestation.requirementsMet) parts.push('play requirement met')
+    return (
+      <Badge variant="success" size="sm">
+        <ShieldCheck className="h-3 w-3" />
+        Verified{parts.length > 0 ? ` — ${parts.join(', ')}` : ''}
+      </Badge>
+    )
+  }
+  return (
+    <div className="space-y-1">
+      <Badge variant="warning" size="sm">
+        <AlertTriangle className="h-3 w-3" />
+        Not verified
+      </Badge>
+      {attestation.requiredPlay && (
+        <div>
+          <DeadlineStatus
+            endTimestamp={row.endTimestamp}
+            deadlineInMonths={attestation.deadlineInMonths}
+            deadline={attestation.deadline}
+            tagLabel="deadline"
+          />
+        </div>
+      )}
+      {discord && (
+        <div className="flex flex-wrap items-center gap-2">
+          <a
+            href={discord.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1 text-[11px] font-medium text-[#5865F2] hover:underline dark:text-[#A5AEFF]"
+          >
+            <MessageSquare className="h-3 w-3" />
+            Discord
+          </a>
+          {discord.review_url && (
+            <a
+              href={discord.review_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 text-[11px] font-medium text-accent hover:underline"
+            >
+              <ExternalLink className="h-3 w-3" />
+              Review
+            </a>
+          )}
+        </div>
+      )}
+    </div>
+  )
+}
+
+function GameCell({ row }: { row: PlayRequiredRow }) {
+  return (
+    <div className="flex items-center gap-3">
+      <GameImage
+        appId={row.game.appId}
+        packageId={row.game.packageId}
+        fallbackUrl={row.game.headerImageUrl}
+        name={row.game.name}
+        width={92}
+        height={43}
+        className="!w-[92px] flex-shrink-0"
+        rounded
+        link={false}
+      />
+      <div className="min-w-0">
+        <a
+          href={sgGiveawayUrl(row.giveawayLink)}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block truncate text-sm font-medium text-foreground hover:text-accent hover:underline"
+        >
+          {row.game.name}
+        </a>
+        <div className="mt-0.5 flex flex-wrap items-center gap-1.5">
+          {row.game.hltbMainStoryHours != null && (
+            <p className="text-[11px] text-muted-foreground">
+              HLTB main story: {row.game.hltbMainStoryHours}h
+            </p>
+          )}
+          {row.game.unreleased && (
+            <Tooltip
+              content={
+                row.game.releaseDate
+                  ? `Announced release: ${row.game.releaseDate}`
+                  : 'No release date announced'
+              }
+            >
+              <Badge variant="amber" size="sm">
+                Unreleased
+              </Badge>
+            </Tooltip>
+          )}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function WinnerCell({ row }: { row: PlayRequiredRow }) {
+  return (
+    <div className="flex items-center gap-2">
+      <UserLink
+        username={row.winner.username}
+        className="flex items-center gap-1.5 text-sm font-medium text-foreground hover:text-accent hover:underline"
+      >
+        {row.winner.avatarUrl && (
+          <UserAvatar src={row.winner.avatarUrl} username={row.winner.username} />
+        )}
+        {row.winner.username}
+      </UserLink>
+      {row.winner.isExMember && (
+        <Badge variant="outline" size="sm">
+          ex-member
+        </Badge>
+      )}
+    </div>
+  )
+}
+
+function PlaytimeCell({ row }: { row: PlayRequiredRow }) {
+  const { steam, game } = row
+  const checkedTooltip = lastCheckedTooltip(steam.lastChecked)
+
+  if (steam.hasNoAvailableStats) {
+    return (
+      <span className="text-xs text-muted-foreground">
+        {steam.noStatsReason ?? 'no stats'}
+      </span>
+    )
+  }
+  if (steam.isPlaytimePrivate) {
+    const content = [
+      "Playtime is hidden by the user's privacy settings; achievements may still be readable",
+      checkedTooltip,
+    ]
+      .filter(Boolean)
+      .join(' — ')
+    return (
+      <Tooltip content={content}>
+        <span className="text-xs text-muted-foreground">Private</span>
+      </Tooltip>
+    )
+  }
+  if (steam.playtimeMinutes == null) {
+    return <span className="text-xs text-subtle">—</span>
+  }
+  const meetsHltb =
+    game.hltbMainStoryHours != null &&
+    game.hltbMainStoryHours > 0 &&
+    steam.playtimeMinutes >= game.hltbMainStoryHours * 60
+  const cellContent = (
+    <div className="text-xs">
+      <span
+        className={cn(
+          'font-medium tabular-nums-strict',
+          meetsHltb ? 'text-success-foreground' : 'text-foreground',
+        )}
+      >
+        {formatPlaytimeCompact(steam.playtimeMinutes)}
+      </span>
+      {game.hltbMainStoryHours != null && (
+        <span className="text-muted-foreground"> / {game.hltbMainStoryHours}h</span>
+      )}
+      {steam.isPotentiallyIdling && (
+        <p className="text-[10px] text-warning-foreground">possibly idling</p>
+      )}
+    </div>
+  )
+  return checkedTooltip ? <Tooltip content={checkedTooltip}>{cellContent}</Tooltip> : cellContent
+}
+
+function AchievementsCell({ row }: { row: PlayRequiredRow }) {
+  const { steam } = row
+  const checkedTooltip = lastCheckedTooltip(steam.lastChecked)
+
+  if (steam.hasNoAvailableStats || steam.achievementsTotal == null) {
+    return <span className="text-xs text-subtle">—</span>
+  }
+  const value = (
+    <span
+      className={cn(
+        'text-xs font-medium tabular-nums-strict',
+        steam.achievementsPercentage === 100
+          ? 'text-success-foreground'
+          : 'text-foreground',
+      )}
+    >
+      {steam.achievementsUnlocked}/{steam.achievementsTotal} (
+      {Math.round(steam.achievementsPercentage ?? 0)}%)
+    </span>
+  )
+  const withTooltip = checkedTooltip ? <Tooltip content={checkedTooltip}>{value}</Tooltip> : value
+  return <AchievementsLink row={row}>{withTooltip}</AchievementsLink>
+}
+
+function PlayRequiredRowView({ row }: { row: PlayRequiredRow }) {
+  return (
+    <tr className="border-b border-card-border last:border-0">
+      <td className="py-2.5 pr-3">
+        <GameCell row={row} />
+      </td>
+      <td className="py-2.5 pr-3">
+        <WinnerCell row={row} />
+      </td>
+      <td className="py-2.5 pr-3">
+        <p className="text-xs text-muted-foreground">
+          <FormattedDate timestamp={row.endTimestamp} />
+        </p>
+      </td>
+      <td className="py-2.5 pr-3">
+        <Badge variant={typeVariant[row.type]} size="sm">
+          {typeLabel[row.type]}
+        </Badge>
+      </td>
+      <td className="py-2.5 pr-3">
+        <PlaytimeCell row={row} />
+      </td>
+      <td className="py-2.5 pr-3">
+        <AchievementsCell row={row} />
+      </td>
+      <td className="py-2.5 pr-3">
+        <BeatenBadge row={row} />
+        {row.likelyBeaten.isLikely && row.beaten.verdict !== 'beaten_verified' && (
+          <p className="mt-1 text-[11px] text-accent-yellow">
+            Likely beaten
+            {row.likelyBeaten.reason === 'playtime_ge_hltb'
+              ? ' (playtime ≥ HLTB)'
+              : ' (100% achievements)'}
+          </p>
+        )}
+      </td>
+      <td className="py-2.5">
+        <SignOffCell row={row} />
+      </td>
+    </tr>
+  )
+}
+
+function IpbRowView({ row }: { row: PlayRequiredRow }) {
+  const submittedAt = row.discord?.thread_created_at
+  return (
+    <tr className="border-b border-card-border last:border-0">
+      <td className="py-2.5 pr-3">
+        <GameCell row={row} />
+      </td>
+      <td className="py-2.5 pr-3">
+        <WinnerCell row={row} />
+      </td>
+      <td className="py-2.5 pr-3">
+        <p className="text-xs text-muted-foreground">
+          <FormattedDate timestamp={row.endTimestamp} />
+        </p>
+      </td>
+      <td className="py-2.5 pr-3">
+        {submittedAt ? (
+          <p className="text-xs text-muted-foreground">
+            <FormattedDate timestamp={Math.floor(new Date(submittedAt).getTime() / 1000)} />
+          </p>
+        ) : (
+          <span className="text-xs text-subtle">—</span>
+        )}
+      </td>
+      <td className="py-2.5 pr-3">
+        <PlaytimeCell row={row} />
+      </td>
+      <td className="py-2.5 pr-3">
+        <AchievementsCell row={row} />
+      </td>
+      <td className="py-2.5 pr-3">
+        <BeatenBadge row={row} />
+        {row.likelyBeaten.isLikely && row.beaten.verdict !== 'beaten_verified' && (
+          <p className="mt-1 text-[11px] text-accent-yellow">
+            Likely beaten
+            {row.likelyBeaten.reason === 'playtime_ge_hltb'
+              ? ' (playtime ≥ HLTB)'
+              : ' (100% achievements)'}
+          </p>
+        )}
+      </td>
+      <td className="py-2.5 pr-3">
+        <IpbStatusBadge status={row.ipbStatus} />
+      </td>
+      <td className="py-2.5">
+        <LinksCell row={row} />
+      </td>
+    </tr>
+  )
+}
+
+function sortValue(row: PlayRequiredRow, key: SortKey): number | string | null {
+  switch (key) {
+    case 'game':
+      return row.game.name.toLowerCase()
+    case 'winner':
+      return row.winner.username.toLowerCase()
+    case 'won':
+      return row.endTimestamp
+    case 'submitted':
+      return row.discord?.thread_created_at
+        ? new Date(row.discord.thread_created_at).getTime()
+        : null
+    case 'playtime':
+      return row.steam.playtimeMinutes ?? null
+    case 'achievements':
+      return row.steam.achievementsPercentage ?? null
+    case 'beaten':
+      return BEATEN_VERDICT_ORDER.indexOf(row.beaten.verdict)
+    case 'signoff':
+      return row.attestation.confirmed ? 1 : 0
+    case 'status':
+      return IPB_STATUS_ORDER.indexOf(row.ipbStatus)
+  }
+}
+
+/** Missing values (null) always sort last, regardless of direction. */
+function compareRows(a: PlayRequiredRow, b: PlayRequiredRow, key: SortKey, dir: SortDir): number {
+  const dirMult = dir === 'asc' ? 1 : -1
+  const av = sortValue(a, key)
+  const bv = sortValue(b, key)
+  const aMissing = av == null
+  const bMissing = bv == null
+  if (aMissing && bMissing) return 0
+  if (aMissing) return 1
+  if (bMissing) return -1
+  if (typeof av === 'string' && typeof bv === 'string') {
+    return av.localeCompare(bv) * dirMult
+  }
+  return ((av as number) - (bv as number)) * dirMult
+}
+
+function SortableHeader({
+  label,
+  sortKey,
+  activeKey,
+  dir,
+  onSort,
+  className,
+}: {
+  label: string
+  sortKey: SortKey
+  activeKey: SortKey
+  dir: SortDir
+  onSort: (key: SortKey) => void
+  className?: string
+}) {
+  const active = sortKey === activeKey
+  return (
+    <th
+      className={cn(
+        'cursor-pointer select-none px-3 py-2 hover:text-foreground',
+        active && 'text-foreground',
+        className,
+      )}
+      onClick={() => onSort(sortKey)}
+    >
+      <span className="inline-flex items-center gap-1">
+        {label}
+        <span className="w-2.5 text-[9px]">
+          {active ? (dir === 'asc' ? '▲' : '▼') : ''}
+        </span>
+      </span>
+    </th>
+  )
+}
+
+export default function PlayRequiredClient({
+  rows,
+  summary,
+  ipbSummary,
+  beatenDataAvailable,
+  beatenLastUpdated,
+  lastUpdated,
+  unmatchedDiscordThreads,
+}: Props) {
+  const [tab, setTab] = useState<Tab>('ipb')
+  const [search, setSearch] = useState('')
+  const debouncedSearch = useDebounce(search, 200)
+  const [statusFilter, setStatusFilter] = useState<StatusFilter>('all')
+  const [showVerified, setShowVerified] = useState(false)
+  const [showExMembers, setShowExMembers] = useState(false)
+  const [prSort, setPrSort] = useState<{ key: SortKey; dir: SortDir }>({
+    key: 'playtime',
+    dir: 'desc',
+  })
+  const [ipbSort, setIpbSort] = useState<{ key: SortKey; dir: SortDir }>({
+    key: 'submitted',
+    dir: 'desc',
+  })
+
+  // Static export: the tab can't be read from the server-rendered URL, so
+  // sync it from window.location once mounted and keep it in sync from then on.
+  useEffect(() => {
+    setTab(readTabFromLocation())
+  }, [])
+
+  const handleTabChange = (next: Tab) => {
+    setTab(next)
+    const params = new URLSearchParams(window.location.search)
+    params.set('tab', TAB_TO_PARAM[next])
+    window.history.replaceState(
+      null,
+      '',
+      `${window.location.pathname}?${params.toString()}${window.location.hash}`,
+    )
+  }
+
+  const handleSort = (current: { key: SortKey; dir: SortDir }, setter: (v: { key: SortKey; dir: SortDir }) => void) =>
+    (key: SortKey) => {
+      if (key === current.key) {
+        setter({ key, dir: current.dir === 'asc' ? 'desc' : 'asc' })
+      } else {
+        setter({ key, dir: 'asc' })
+      }
+    }
+
+  const prRows = useMemo(() => rows.filter((r) => r.isPlayRequired), [rows])
+  const ipbRows = useMemo(() => rows.filter((r) => r.isIpb), [rows])
+
+  const term = debouncedSearch.trim().toLowerCase()
+
+  const filteredPrRows = useMemo(
+    () =>
+      prRows.filter((row) => {
+        if (!matchesStatusFilter(row, statusFilter)) return false
+        if (!showVerified && row.attestation.confirmed) return false
+        if (!showExMembers && row.winner.isExMember) return false
+        if (!term) return true
+        return (
+          row.game.name.toLowerCase().includes(term) ||
+          row.winner.username.toLowerCase().includes(term)
+        )
+      }),
+    [prRows, statusFilter, showVerified, showExMembers, term],
+  )
+  const filteredIpbRows = useMemo(
+    () =>
+      ipbRows.filter((row) => {
+        if (!matchesStatusFilter(row, statusFilter)) return false
+        if (!showVerified && row.ipbStatus === 'verified') return false
+        if (!showExMembers && row.winner.isExMember) return false
+        if (!term) return true
+        return (
+          row.game.name.toLowerCase().includes(term) ||
+          row.winner.username.toLowerCase().includes(term)
+        )
+      }),
+    [ipbRows, statusFilter, showVerified, showExMembers, term],
+  )
+
+  const sortedPrRows = useMemo(
+    () => [...filteredPrRows].sort((a, b) => compareRows(a, b, prSort.key, prSort.dir)),
+    [filteredPrRows, prSort],
+  )
+  const sortedIpbRows = useMemo(
+    () => [...filteredIpbRows].sort((a, b) => compareRows(a, b, ipbSort.key, ipbSort.dir)),
+    [filteredIpbRows, ipbSort],
+  )
+
+  const activeBaseRows = tab === 'play_required' ? prRows : ipbRows
+  const activeSortedRows = tab === 'play_required' ? sortedPrRows : sortedIpbRows
+
+  return (
+    <div className="space-y-6">
+      <div>
+        <h1 className="font-display text-3xl font-bold tracking-tight">
+          Play Required
+        </h1>
+        <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
+          Ongoing Play Required and I Play Bro wins — which games have truly
+          been beaten (Steam-verified), which are signed off by a mod
+          (self-reported attestation), and which are still unverified.
+        </p>
+        {lastUpdated && (
+          <div className="mt-1 text-sm text-muted-foreground">
+            <LastUpdated lastUpdatedDate={lastUpdated} />
+          </div>
+        )}
+        {!beatenDataAvailable && (
+          <div className="mt-3 flex items-center gap-2 rounded-md border border-warning bg-warning-light px-3 py-2 text-xs text-warning-foreground">
+            <AlertTriangle className="h-3.5 w-3.5 flex-shrink-0" />
+            Beaten-games data hasn&apos;t been generated yet — the &quot;Beaten&quot;
+            column will show every row as pending until it runs.
+          </div>
+        )}
+        {beatenDataAvailable && beatenLastUpdated && (
+          <p className="mt-1 text-xs text-subtle">
+            Beaten-games data last checked{' '}
+            <FormattedDate timestamp={Math.floor(new Date(beatenLastUpdated).getTime() / 1000)} />
+          </p>
+        )}
+      </div>
+
+      <Tabs value={tab} onValueChange={(v) => handleTabChange(v as Tab)}>
+        <TabsList>
+          <TabsTrigger value="play_required">Play Required</TabsTrigger>
+          <TabsTrigger value="ipb">I Play Bro</TabsTrigger>
+        </TabsList>
+      </Tabs>
+
+      {tab === 'play_required' ? (
+        <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+          <StatCard icon={Gamepad2} label="Play Required wins" value={summary.totalRequiredPlay} accent="primary" />
+          <StatCard icon={CheckCircle2} label="Verified beaten (Steam)" value={summary.verifiedBeaten} accent="green" />
+          <StatCard icon={ShieldCheck} label="Signed off" value={summary.signedOff} accent="blue" />
+          <StatCard icon={AlertTriangle} label="Unverified" value={summary.unverified} accent="amber" />
+        </div>
+      ) : (
+        <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+          <StatCard icon={Clock} label="Submitted" value={ipbSummary.submitted} accent="amber" />
+          <StatCard icon={ShieldCheck} label="Verified" value={ipbSummary.verified} accent="green" />
+          <StatCard icon={Ban} label="Not submitted" value={ipbSummary.notSubmitted} accent="rose" />
+          <StatCard icon={Trophy} label="Verified beaten (Steam)" value={ipbSummary.verifiedBeaten} accent="purple" />
+        </div>
+      )}
+
+      <Toolbar>
+        <div className="relative min-w-0 flex-1">
+          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-subtle" />
+          <Input
+            type="search"
+            placeholder="Search game or winner…"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="pl-9"
+          />
+        </div>
+        <ToggleGroup
+          type="multiple"
+          value={[
+            ...(showVerified ? ['verified'] : []),
+            ...(showExMembers ? ['exMembers'] : []),
+          ]}
+          onValueChange={(v) => {
+            setShowVerified(v.includes('verified'))
+            setShowExMembers(v.includes('exMembers'))
+          }}
+          size="sm"
+        >
+          <ToggleGroupItem value="verified">
+            <Eye className="h-3.5 w-3.5" />
+            Show verified
+          </ToggleGroupItem>
+          <ToggleGroupItem value="exMembers">
+            <Eye className="h-3.5 w-3.5" />
+            Show ex-members
+          </ToggleGroupItem>
+        </ToggleGroup>
+      </Toolbar>
+
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <div className="flex flex-wrap gap-1.5">
+          {STATUS_FILTERS.map((f) => (
+            <button
+              key={f.id}
+              onClick={() => setStatusFilter(f.id)}
+              className={cn(
+                'inline-flex items-center rounded-full border px-3 py-1 text-xs font-medium transition-colors',
+                statusFilter === f.id
+                  ? 'border-transparent bg-card-background-hover text-foreground'
+                  : 'border-card-border bg-card-background text-muted-foreground hover:border-card-border-strong hover:text-foreground',
+              )}
+            >
+              {f.label}
+            </button>
+          ))}
+        </div>
+        <p className="whitespace-nowrap text-xs text-subtle">
+          Showing {activeSortedRows.length} of {activeBaseRows.length} wins.
+        </p>
+      </div>
+
+      <Card className="overflow-hidden">
+        {activeSortedRows.length === 0 ? (
+          <div className="flex flex-col items-center gap-3 p-12 text-center">
+            <Clock className="h-8 w-8 text-subtle" />
+            <p className="text-sm text-muted-foreground">
+              No wins match this filter.
+            </p>
+          </div>
+        ) : tab === 'play_required' ? (
+          <div className="overflow-x-auto">
+            <table className="w-full text-left">
+              <thead>
+                <tr className="border-b border-card-border text-[11px] font-medium uppercase tracking-wide text-muted-foreground">
+                  <SortableHeader
+                    label="Game"
+                    sortKey="game"
+                    activeKey={prSort.key}
+                    dir={prSort.dir}
+                    onSort={handleSort(prSort, setPrSort)}
+                    className="sm:pl-6"
+                  />
+                  <SortableHeader
+                    label="Winner"
+                    sortKey="winner"
+                    activeKey={prSort.key}
+                    dir={prSort.dir}
+                    onSort={handleSort(prSort, setPrSort)}
+                  />
+                  <SortableHeader
+                    label="Won"
+                    sortKey="won"
+                    activeKey={prSort.key}
+                    dir={prSort.dir}
+                    onSort={handleSort(prSort, setPrSort)}
+                  />
+                  <th className="px-3 py-2">Type</th>
+                  <SortableHeader
+                    label="Playtime"
+                    sortKey="playtime"
+                    activeKey={prSort.key}
+                    dir={prSort.dir}
+                    onSort={handleSort(prSort, setPrSort)}
+                  />
+                  <SortableHeader
+                    label="Achievements"
+                    sortKey="achievements"
+                    activeKey={prSort.key}
+                    dir={prSort.dir}
+                    onSort={handleSort(prSort, setPrSort)}
+                  />
+                  <SortableHeader
+                    label="Beaten"
+                    sortKey="beaten"
+                    activeKey={prSort.key}
+                    dir={prSort.dir}
+                    onSort={handleSort(prSort, setPrSort)}
+                  />
+                  <SortableHeader
+                    label="Sign-off"
+                    sortKey="signoff"
+                    activeKey={prSort.key}
+                    dir={prSort.dir}
+                    onSort={handleSort(prSort, setPrSort)}
+                    className="sm:pr-6"
+                  />
+                </tr>
+              </thead>
+              <tbody className="px-3">
+                {sortedPrRows.map((row) => (
+                  <PlayRequiredRowView key={row.key} row={row} />
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full text-left">
+              <thead>
+                <tr className="border-b border-card-border text-[11px] font-medium uppercase tracking-wide text-muted-foreground">
+                  <SortableHeader
+                    label="Game"
+                    sortKey="game"
+                    activeKey={ipbSort.key}
+                    dir={ipbSort.dir}
+                    onSort={handleSort(ipbSort, setIpbSort)}
+                    className="sm:pl-6"
+                  />
+                  <SortableHeader
+                    label="Winner"
+                    sortKey="winner"
+                    activeKey={ipbSort.key}
+                    dir={ipbSort.dir}
+                    onSort={handleSort(ipbSort, setIpbSort)}
+                  />
+                  <SortableHeader
+                    label="Won"
+                    sortKey="won"
+                    activeKey={ipbSort.key}
+                    dir={ipbSort.dir}
+                    onSort={handleSort(ipbSort, setIpbSort)}
+                  />
+                  <SortableHeader
+                    label="Submitted"
+                    sortKey="submitted"
+                    activeKey={ipbSort.key}
+                    dir={ipbSort.dir}
+                    onSort={handleSort(ipbSort, setIpbSort)}
+                  />
+                  <SortableHeader
+                    label="Playtime"
+                    sortKey="playtime"
+                    activeKey={ipbSort.key}
+                    dir={ipbSort.dir}
+                    onSort={handleSort(ipbSort, setIpbSort)}
+                  />
+                  <SortableHeader
+                    label="Achievements"
+                    sortKey="achievements"
+                    activeKey={ipbSort.key}
+                    dir={ipbSort.dir}
+                    onSort={handleSort(ipbSort, setIpbSort)}
+                  />
+                  <SortableHeader
+                    label="Beaten"
+                    sortKey="beaten"
+                    activeKey={ipbSort.key}
+                    dir={ipbSort.dir}
+                    onSort={handleSort(ipbSort, setIpbSort)}
+                  />
+                  <SortableHeader
+                    label="Status"
+                    sortKey="status"
+                    activeKey={ipbSort.key}
+                    dir={ipbSort.dir}
+                    onSort={handleSort(ipbSort, setIpbSort)}
+                  />
+                  <th className="px-3 py-2 sm:pr-6">Links</th>
+                </tr>
+              </thead>
+              <tbody className="px-3">
+                {sortedIpbRows.map((row) => (
+                  <IpbRowView key={row.key} row={row} />
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </Card>
+
+      {tab === 'ipb' && unmatchedDiscordThreads.length > 0 && (
+        <details className="rounded-xl border border-card-border bg-card-background p-3 text-sm">
+          <summary className="cursor-pointer select-none font-medium text-muted-foreground">
+            Unmatched Discord submission threads ({unmatchedDiscordThreads.length})
+          </summary>
+          <ul className="mt-3 space-y-1.5">
+            {unmatchedDiscordThreads.map((t) => (
+              <li key={t.thread_id} className="flex flex-wrap items-center gap-2 text-xs">
+                <a
+                  href={t.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 font-medium text-[#5865F2] hover:underline dark:text-[#A5AEFF]"
+                >
+                  <MessageSquare className="h-3 w-3" />
+                  {t.name}
+                </a>
+                <span className="text-muted-foreground">by {t.owner_discord_name}</span>
+              </li>
+            ))}
+          </ul>
+        </details>
+      )}
+    </div>
+  )
+}

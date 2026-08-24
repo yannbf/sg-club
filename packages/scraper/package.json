@@ -22,6 +22,7 @@
     "get-playtime-data": "tsx src/scripts/get-playtime-data.ts",
     "challenge": "tsx src/scripts/generate-challenge-data.ts",
     "game-insights": "tsx src/scripts/generate-game-insights-data.ts",
+    "beaten": "tsx src/scripts/generate-beaten-data.ts",
     "get-html-page": "tsx src/utils/get-html-page.ts",
     "generate-insights": "tsx src/utils/generate-insights.ts",
     "data": "tsx src/scripts/generate-all-data.ts",
@@ -41,7 +42,8 @@
     "discord:congrats": "tsx src/scripts/discord-challenge-congrats.ts",
     "discord:milestones": "tsx src/scripts/discord-challenge-milestones.ts",
     "discord:warn-digest": "tsx src/scripts/discord-warn-digest.ts",
-    "discord:register": "tsx src/scripts/discord-register-commands.ts"
+    "discord:register": "tsx src/scripts/discord-register-commands.ts",
+    "ipb-discord": "tsx src/scripts/generate-ipb-discord-data.ts"
   },
   "dependencies": {
     "@types/cheerio": "^0.22.35",

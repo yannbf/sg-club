@@ -722,6 +722,88 @@ export class SteamGameChecker {
     }
   }
 
+  /** Public wrapper around the schema lookup, for callers that only need the
+   *  achievement list/descriptions (e.g. beaten-marker detection). */
+  public async getSchemaAchievements(
+    appId: number,
+  ): Promise<SteamGameSchema['availableGameStats']['achievements'] | null> {
+    const schema = await this.getGameSchema(appId)
+    return schema?.availableGameStats?.achievements ?? null
+  }
+
+  /** Public wrapper around the player-achievements lookup. Returns null for
+   *  the expected "no stats" / "profile not public" states, [] on other
+   *  failures, matching {@link getPlayerAchievements}'s contract. */
+  public async getPlayerAchievementsForApp(
+    steamId: string,
+    appId: number,
+  ): Promise<SteamAchievement[] | null> {
+    return this.getPlayerAchievements(steamId, appId)
+  }
+
+  /** Global unlock-rate percentages for every achievement in a game. No API
+   *  key required. Returns null on failure (game has no achievements, or the
+   *  request failed). */
+  public async getGlobalAchievementPercentages(
+    appId: number,
+  ): Promise<Record<string, number> | null> {
+    const url = `${this.baseUrl}/ISteamUserStats/GetGlobalAchievementPercentagesForApp/v2/?gameid=${appId}&format=json`
+    try {
+      const response = await fetch(url)
+      if (!response.ok) {
+        return null
+      }
+      const data = (await response.json()) as {
+        achievementpercentages?: {
+          // Steam returns `percent` as a numeric string, not a JSON number.
+          achievements?: Array<{ name: string; percent: string | number }>
+        }
+      }
+      const achievements = data.achievementpercentages?.achievements
+      if (!Array.isArray(achievements) || achievements.length === 0) return null
+      const result: Record<string, number> = {}
+      for (const a of achievements) result[a.name] = Number(a.percent)
+      return result
+    } catch (error) {
+      logError(error, `Failed to get global achievement percentages for appId ${appId}`)
+      return null
+    }
+  }
+
+  /**
+   * Basic app-details lookup (store API, no key) — used to resolve a DLC or
+   * soundtrack appId to the base game it belongs to. DLCs have no
+   * achievement schema of their own and never appear in GetOwnedGames, so
+   * play evidence for one has to be read off its base game instead.
+   */
+  public async getAppDetails(appId: number): Promise<{
+    type: string
+    fullgameAppId: number | null
+    fullgameName: string | null
+  } | null> {
+    const url = `https://store.steampowered.com/api/appdetails?appids=${appId}&filters=basic`
+    try {
+      const response = await fetch(url)
+      if (!response.ok) return null
+      const data = (await response.json()) as SteamAppDetailsResponse
+      const entry = data[String(appId)]
+      if (!entry?.success || !entry.data) return null
+      const fullgame = entry.data.fullgame
+      const fullgameAppId =
+        fullgame?.appid != null && Number.isFinite(Number(fullgame.appid))
+          ? Number(fullgame.appid)
+          : null
+      return {
+        type: entry.data.type,
+        fullgameAppId,
+        fullgameName: fullgame?.name ?? null,
+      }
+    } catch (error) {
+      logError(error, `Failed to get app details for appId ${appId}`)
+      return null
+    }
+  }
+
   public async setHasNoAvailableStats(appId: number): Promise<void> {
     this.noStatsCache.set(appId, { ts: Date.now(), reason: 'no_steam_stats' })
     console.log(
