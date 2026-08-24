@@ -1,25 +1,6 @@
 {
-  "last_updated": "2026-08-23T17:00:24.673Z",
+  "last_updated": "2026-08-24T02:14:35.433Z",
   "giveaways": [
-    {
-      "id": "7jRgP",
-      "name": "Peripeteia",
-      "points": 25,
-      "copies": 1,
-      "app_id": 1437760,
-      "package_id": null,
-      "link": "7jRgP/peripeteia",
-      "created_timestamp": 1787054376,
-      "start_timestamp": 1787054376,
-      "end_timestamp": 1787533680,
-      "group": true,
-      "comment_count": 4,
-      "entry_count": 3,
-      "creator": "76561197981107149",
-      "cv_status": "FULL_CV",
-      "creator_username": "ithamore",
-      "deleted": false
-    },
     {
       "id": "T24cC",
       "name": "Children of the Sun",
@@ -53,7 +34,7 @@
       "region_restricted": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 4,
+      "entry_count": 5,
       "creator": "76561197984532155",
       "cv_status": "FULL_CV",
       "creator_username": "Ignition365",
@@ -134,7 +115,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 67,
+      "entry_count": 66,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -155,7 +136,7 @@
       "region_restricted": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 4,
+      "entry_count": 5,
       "creator": "76561198047330685",
       "cv_status": "FULL_CV",
       "creator_username": "akfas",
@@ -195,7 +176,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 82,
+      "entry_count": 81,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -360,7 +341,7 @@
       "end_timestamp": 1787954400,
       "group": true,
       "comment_count": 5,
-      "entry_count": 58,
+      "entry_count": 59,
       "creator": "76561199014836450",
       "cv_status": "FULL_CV",
       "creator_username": "Dobke",
@@ -401,7 +382,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 57,
+      "entry_count": 64,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -441,7 +422,7 @@
       "end_timestamp": 1788148740,
       "group": true,
       "comment_count": 1,
-      "entry_count": 42,
+      "entry_count": 43,
       "creator": "76561199434715535",
       "required_play": true,
       "is_shared": true,
@@ -500,7 +481,7 @@
       "end_timestamp": 1788209940,
       "group": true,
       "comment_count": 0,
-      "entry_count": 1,
+      "entry_count": 2,
       "creator": "76561198069420656",
       "cv_status": "FULL_CV",
       "creator_username": "Metalhead8489",
@@ -518,7 +499,7 @@
       "start_timestamp": 1787387658,
       "end_timestamp": 1788300000,
       "group": true,
-      "comment_count": 4,
+      "comment_count": 5,
       "entry_count": 10,
       "creator": "76561198408001048",
       "cv_status": "FULL_CV",
@@ -539,7 +520,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 3,
+      "entry_count": 9,
       "creator": "76561197975099685",
       "is_shared": true,
       "cv_status": "FULL_CV",
@@ -600,7 +581,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 21,
+      "entry_count": 22,
       "creator": "76561198042896883",
       "is_shared": true,
       "cv_status": "FULL_CV",
@@ -624,6 +605,32 @@
       "creator": "76561198042896883",
       "cv_status": "FULL_CV",
       "creator_username": "Lontaz",
+      "deleted": false
+    },
+    {
+      "id": "7jRgP",
+      "name": "Peripeteia",
+      "points": 25,
+      "copies": 1,
+      "app_id": 1437760,
+      "package_id": null,
+      "link": "7jRgP/peripeteia",
+      "created_timestamp": 1787054376,
+      "start_timestamp": 1787054376,
+      "end_timestamp": 1787533680,
+      "group": true,
+      "comment_count": 4,
+      "entry_count": 4,
+      "creator": "76561197981107149",
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "FULL_CV",
+      "creator_username": "ithamore",
       "deleted": false
     },
     {
@@ -664,19 +671,19 @@
       "start_timestamp": 1786877385,
       "end_timestamp": 1787497200,
       "group": true,
-      "comment_count": 0,
+      "comment_count": 2,
       "entry_count": 5,
       "creator": "76561198049128535",
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "76561198113581790",
+          "status": "received",
+          "winner_username": "damianea103"
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "yannbz",
-      "deleted": false
+      "creator_username": "yannbz"
     },
     {
       "id": "HEj22",
@@ -690,19 +697,19 @@
       "start_timestamp": 1786877385,
       "end_timestamp": 1787497200,
       "group": true,
-      "comment_count": 0,
+      "comment_count": 2,
       "entry_count": 5,
       "creator": "76561198049128535",
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "76561198080362358",
+          "status": "received",
+          "winner_username": "VenomousNyx"
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "yannbz",
-      "deleted": false
+      "creator_username": "yannbz"
     },
     {
       "id": "fDAip",
@@ -716,7 +723,7 @@
       "start_timestamp": 1786877385,
       "end_timestamp": 1787497200,
       "group": true,
-      "comment_count": 25,
+      "comment_count": 26,
       "entry_count": 17,
       "creator": "76561198049128535",
       "hasWinners": true,
@@ -768,19 +775,19 @@
       "start_timestamp": 1786877384,
       "end_timestamp": 1787497200,
       "group": true,
-      "comment_count": 1,
+      "comment_count": 2,
       "entry_count": 2,
       "creator": "76561198049128535",
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "76561198041749780",
+          "status": "received",
+          "winner_username": "doubleomurfy"
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "yannbz",
-      "deleted": false
+      "creator_username": "yannbz"
     },
     {
       "id": "fsbt3",
@@ -794,19 +801,19 @@
       "start_timestamp": 1786631853,
       "end_timestamp": 1787472000,
       "group": true,
-      "comment_count": 0,
+      "comment_count": 2,
       "entry_count": 9,
       "creator": "76561197967055456",
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "76561198080362358",
+          "status": "received",
+          "winner_username": "VenomousNyx"
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "Foxpile",
-      "deleted": false
+      "creator_username": "Foxpile"
     },
     {
       "id": "q7mTd",
@@ -1064,7 +1071,7 @@
       "start_timestamp": 1787261775,
       "end_timestamp": 1787371140,
       "group": true,
-      "comment_count": 3,
+      "comment_count": 4,
       "entry_count": 27,
       "creator": "76561199434715535",
       "required_play": true,
@@ -2024,7 +2031,7 @@
       "start_timestamp": 1786715309,
       "end_timestamp": 1786977960,
       "group": true,
-      "comment_count": 6,
+      "comment_count": 7,
       "entry_count": 18,
       "creator": "76561198020386807",
       "hasWinners": true,
@@ -2988,7 +2995,7 @@
       "start_timestamp": 1786461662,
       "end_timestamp": 1786712400,
       "group": true,
-      "comment_count": 3,
+      "comment_count": 4,
       "entry_count": 4,
       "creator": "76561197968806363",
       "required_play": true,
@@ -5762,7 +5769,7 @@
       "start_timestamp": 1785503860,
       "end_timestamp": 1785693600,
       "group": true,
-      "comment_count": 1,
+      "comment_count": 3,
       "entry_count": 4,
       "creator": "76561198024970451",
       "hasWinners": true,
