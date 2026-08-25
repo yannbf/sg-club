@@ -20,6 +20,15 @@ const GIVEAWAYS = {
       points: 10,
       winners: [],
     },
+    {
+      id: 'TF7Vk',
+      name: 'Gorogoa',
+      points: 15,
+      winners: [
+        { name: 'steamFirst', winner_username: 'dramainfouracts', status: 'won' },
+        { name: 'steamSecond', winner_username: 'lext', status: 'won' },
+      ],
+    },
   ],
 }
 
@@ -407,5 +416,92 @@ describe('POST /api/verify', () => {
       (c) => c.url.includes('/values/') && !c.url.includes(':append') && c.init?.method !== 'PUT',
     )
     expect(valuesGetCall?.url).toContain(encodeURIComponent("'Hoja 1 renamed by a mod'!A:Z"))
+  })
+
+  it('rejects a multi-winner giveaway verify with 400 when winnerSteamId is missing', async () => {
+    const values = [['ID', 'GAME', 'WINNER', 'COMPLETE PLAYING', 'EXTRA POINTS']]
+    mockGoogleFlow('I play bro', values)
+    const req = fakeRequest({ password: ADMIN_PASSWORD, type: 'ipb', giveawayId: 'TF7Vk' })
+    const res = fakeResponse()
+    await handler(req, res)
+
+    expect(res.statusCode).toBe(400)
+  })
+
+  it('verifying a multi-winner giveaway with winnerSteamId picks the right winner', async () => {
+    const values = [['ID', 'GAME', 'WINNER', 'COMPLETE PLAYING', 'EXTRA POINTS']]
+    const { calls } = mockGoogleFlow('I play bro', values)
+    const req = fakeRequest({
+      password: ADMIN_PASSWORD,
+      type: 'ipb',
+      giveawayId: 'TF7Vk',
+      winnerSteamId: 'steamSecond',
+    })
+    const res = fakeResponse()
+    await handler(req, res)
+
+    expect(res.statusCode).toBe(200)
+    expect(res.body).toMatchObject({ ok: true, action: 'appended' })
+
+    const appendCall = calls.find((c) => c.url.includes(':append'))
+    expect(appendCall).toBeTruthy()
+    expect(JSON.parse(appendCall!.init!.body as string)).toMatchObject({
+      values: [['TF7Vk', 'Gorogoa', 'lext', 'YES', '15']],
+    })
+  })
+
+  it('skips a same-ID row belonging to a different winner and appends a second row', async () => {
+    const values = [
+      ['ID', 'GAME', 'WINNER', 'COMPLETE PLAYING', 'EXTRA POINTS'],
+      ['TF7Vk', 'Gorogoa', 'dramainfouracts', 'YES', '15'],
+    ]
+    const { calls } = mockGoogleFlow('I play bro', values)
+    const req = fakeRequest({
+      password: ADMIN_PASSWORD,
+      type: 'ipb',
+      giveawayId: 'TF7Vk',
+      winnerSteamId: 'steamSecond',
+    })
+    const res = fakeResponse()
+    await handler(req, res)
+
+    expect(res.statusCode).toBe(200)
+    expect(res.body).toMatchObject({ ok: true, action: 'appended' })
+
+    const appendCall = calls.find((c) => c.url.includes(':append'))
+    expect(appendCall).toBeTruthy()
+    expect(JSON.parse(appendCall!.init!.body as string)).toMatchObject({
+      values: [['TF7Vk', 'Gorogoa', 'lext', 'YES', '15']],
+    })
+    expect(calls.some((c) => c.init?.method === 'PUT')).toBe(false)
+  })
+
+  it('unverify matches the right winner among two rows sharing the same giveaway id', async () => {
+    const values = [
+      ['ID', 'GAME', 'WINNER', 'COMPLETE PLAYING', 'EXTRA POINTS'],
+      ['TF7Vk', 'Gorogoa', 'dramainfouracts', 'YES', '15'],
+      ['TF7Vk', 'Gorogoa', 'lext', 'YES', '15'],
+    ]
+    const { calls } = mockGoogleFlow('I play bro', values)
+    const req = fakeRequest({
+      password: ADMIN_PASSWORD,
+      type: 'ipb',
+      action: 'unverify',
+      giveawayId: 'TF7Vk',
+      winnerSteamId: 'steamSecond',
+    })
+    const res = fakeResponse()
+    await handler(req, res)
+
+    expect(res.statusCode).toBe(200)
+    expect(res.body).toMatchObject({ ok: true, action: 'unverified' })
+
+    const putCalls = calls.filter((c) => c.init?.method === 'PUT')
+    expect(putCalls.length).toBe(2)
+    // Row 3 (lext) must be the one updated, not row 2 (dramainfouracts).
+    expect(putCalls[0].url).toContain(encodeURIComponent("'I play bro'!D3"))
+    expect(JSON.parse(putCalls[0].init!.body as string)).toMatchObject({ values: [['NO']] })
+    expect(putCalls[1].url).toContain(encodeURIComponent("'I play bro'!E3"))
+    expect(JSON.parse(putCalls[1].init!.body as string)).toMatchObject({ values: [['']] })
   })
 })

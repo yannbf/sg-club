@@ -1282,6 +1282,7 @@ export default function PlayRequiredClient({
             action,
             giveawayId: row.giveawayLink.slice(0, 5),
             discordThreadId: row.discord?.thread_id,
+            winnerSteamId: row.winner.steamId,
           }),
         })
         const data = await res.json().catch(() => ({}))

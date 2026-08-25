@@ -32,6 +32,13 @@ interface VerifyRequestBody {
   action?: VerifyAction
   giveawayId?: string
   discordThreadId?: string
+  winnerSteamId?: string
+}
+
+interface Winner {
+  name: string
+  winner_username?: string
+  status: string
 }
 
 interface GiveawaysData {
@@ -39,7 +46,7 @@ interface GiveawaysData {
     id: string
     name: string
     points: number
-    winners?: { name: string; winner_username?: string; status: string }[]
+    winners?: Winner[]
   }[]
 }
 
@@ -161,6 +168,64 @@ function columnIndex(headerRow: string[], name: string): number {
   return headerRow.findIndex((h) => h.trim() === name)
 }
 
+/**
+ * Picks the giveaway winner a request applies to. A multi-copy giveaway has
+ * several winners sharing one giveaway id, so `winnerSteamId` disambiguates
+ * which one; without it, the request only succeeds when the giveaway has
+ * exactly one winner.
+ */
+function resolveWinner(
+  giveaway: GiveawaysData['giveaways'][number] | undefined,
+  winnerSteamId: string | undefined,
+  giveawayId: string,
+): { winner: Winner } | { error: { status: number; message: string } } {
+  if (!giveaway || !giveaway.winners || giveaway.winners.length === 0) {
+    return { error: { status: 404, message: `No giveaway with a winner found for id ${giveawayId}` } }
+  }
+  if (winnerSteamId) {
+    const winner = giveaway.winners.find((w) => w.name === winnerSteamId)
+    if (!winner) {
+      return {
+        error: {
+          status: 404,
+          message: `No winner with Steam id ${winnerSteamId} found on giveaway ${giveawayId}`,
+        },
+      }
+    }
+    return { winner }
+  }
+  if (giveaway.winners.length === 1) {
+    return { winner: giveaway.winners[0] }
+  }
+  return {
+    error: {
+      status: 400,
+      message: `Giveaway ${giveawayId} has multiple winners — winnerSteamId is required to pick one`,
+    },
+  }
+}
+
+/**
+ * Finds a sheet row matching both the giveaway id and the winner's username
+ * (case-insensitive, trimmed) — a multi-copy giveaway legitimately produces
+ * one row per winner sharing the same id, so id alone isn't a unique key.
+ */
+function findRowIndex(
+  values: string[][],
+  idCol: number,
+  winnerCol: number,
+  giveawayId: string,
+  winnerUsername: string,
+): number {
+  const normalizedWinner = winnerUsername.trim().toLowerCase()
+  return values.findIndex(
+    (row, i) =>
+      i > 0 &&
+      (row[idCol] ?? '').trim() === giveawayId &&
+      (row[winnerCol] ?? '').trim().toLowerCase() === normalizedWinner,
+  )
+}
+
 function columnLetter(index: number): string {
   return String.fromCharCode('A'.charCodeAt(0) + index)
 }
@@ -262,7 +327,7 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
     return
   }
 
-  const { password, type, giveawayId, discordThreadId } = body
+  const { password, type, giveawayId, discordThreadId, winnerSteamId } = body
   const action: VerifyAction =
     body.action === 'unverify' ? 'unverify' : body.action === 'register' ? 'register' : 'verify'
 
@@ -290,20 +355,25 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
     const gid = type === 'ipb' ? IPB_SHEET_GID : PLAY_REQUIRED_SHEET_GID
     const title = await resolveTabTitle(accessToken, gid)
 
-    if (action === 'register') {
-      const giveawaysData = await loadDataFile<GiveawaysData>('giveaways.json', req.headers.host)
-      const giveaway = giveawaysData.giveaways.find((g) => g.id === giveawayId)
-      const winner = giveaway?.winners?.[0]
-      if (!giveaway || !winner) {
-        respondJson(res, 404, { error: `No giveaway with a winner found for id ${giveawayId}` })
-        return
-      }
-      const winnerUsername = winner.winner_username ?? winner.name
+    // Resolving the winner up front — for all three actions — is what makes
+    // sheet-row matching winner-aware below: a multi-copy giveaway shares one
+    // id across several winners' rows, so every lookup needs both.
+    const giveawaysData = await loadDataFile<GiveawaysData>('giveaways.json', req.headers.host)
+    const giveaway = giveawaysData.giveaways.find((g) => g.id === giveawayId)
+    const winnerResult = resolveWinner(giveaway, winnerSteamId, giveawayId)
+    if ('error' in winnerResult) {
+      respondJson(res, winnerResult.error.status, { error: winnerResult.error.message })
+      return
+    }
+    const winner = winnerResult.winner
+    const winnerUsername = winner.winner_username ?? winner.name
 
+    if (action === 'register') {
       const values = await readTabValues(accessToken, title)
       const headerRow = values[0] ?? []
       const idCol = columnIndex(headerRow, 'ID')
-      const rowIndex = values.findIndex((row, i) => i > 0 && (row[idCol] ?? '').trim() === giveawayId)
+      const winnerCol = columnIndex(headerRow, 'WINNER')
+      const rowIndex = findRowIndex(values, idCol, winnerCol, giveawayId!, winnerUsername)
 
       if (rowIndex !== -1) {
         respondJson(res, 200, { ok: true, action: 'registered', already: true })
@@ -315,11 +385,10 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
       // EMPTY for a mod to fill in; NOTES gets a TODO marker so an
       // unregistered-turned-registered row is unmistakable in the sheet.
       const gameCol = columnIndex(headerRow, 'GAME')
-      const winnerCol = columnIndex(headerRow, 'WINNER')
       const notesCol = columnIndex(headerRow, 'NOTES')
       const row = new Array(headerRow.length).fill('')
       if (idCol !== -1) row[idCol] = giveawayId
-      if (gameCol !== -1) row[gameCol] = giveaway.name
+      if (gameCol !== -1) row[gameCol] = giveaway!.name
       if (winnerCol !== -1) row[winnerCol] = winnerUsername
       if (notesCol !== -1) row[notesCol] = REGISTER_TODO_NOTE
       await appendRow(accessToken, title, row)
@@ -331,7 +400,8 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
       const values = await readTabValues(accessToken, title)
       const headerRow = values[0] ?? []
       const idCol = columnIndex(headerRow, 'ID')
-      const rowIndex = values.findIndex((row, i) => i > 0 && (row[idCol] ?? '').trim() === giveawayId)
+      const winnerCol = columnIndex(headerRow, 'WINNER')
+      const rowIndex = findRowIndex(values, idCol, winnerCol, giveawayId!, winnerUsername)
 
       if (type === 'ipb') {
         const completeCol = columnIndex(headerRow, IPB_COLUMNS[3])
@@ -374,19 +444,11 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
     }
 
     // action === 'verify'
-    const giveawaysData = await loadDataFile<GiveawaysData>('giveaways.json', req.headers.host)
-    const giveaway = giveawaysData.giveaways.find((g) => g.id === giveawayId)
-    const winner = giveaway?.winners?.[0]
-    if (!giveaway || !winner) {
-      respondJson(res, 404, { error: `No giveaway with a winner found for id ${giveawayId}` })
-      return
-    }
-    const winnerUsername = winner.winner_username ?? winner.name
-
     const values = await readTabValues(accessToken, title)
     const headerRow = values[0] ?? []
     const idCol = columnIndex(headerRow, 'ID')
-    const rowIndex = values.findIndex((row, i) => i > 0 && (row[idCol] ?? '').trim() === giveawayId)
+    const winnerCol = columnIndex(headerRow, 'WINNER')
+    const rowIndex = findRowIndex(values, idCol, winnerCol, giveawayId!, winnerUsername)
 
     if (type === 'ipb') {
       const completeCol = columnIndex(headerRow, IPB_COLUMNS[3])
@@ -394,11 +456,11 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
 
       if (rowIndex === -1) {
         await appendRow(accessToken, title, [
-          giveawayId,
-          giveaway.name,
+          giveawayId!,
+          giveaway!.name,
           winnerUsername,
           'YES',
-          String(giveaway.points),
+          String(giveaway!.points),
         ])
         const discord = discordThreadId ? await addVerifiedReaction(discordThreadId) : 'skipped'
         respondJson(res, 200, { ok: true, action: 'appended', discord })
@@ -412,7 +474,7 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
         return
       }
       await updateCell(accessToken, title, rowNumber, completeCol, 'YES')
-      await updateCell(accessToken, title, rowNumber, pointsCol, String(giveaway.points))
+      await updateCell(accessToken, title, rowNumber, pointsCol, String(giveaway!.points))
       const discord = discordThreadId ? await addVerifiedReaction(discordThreadId) : 'skipped'
       respondJson(res, 200, { ok: true, action: 'updated', discord })
       return
