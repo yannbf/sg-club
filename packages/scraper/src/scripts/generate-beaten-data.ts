@@ -16,6 +16,7 @@ import type {
   BeatenWinEntry,
   NoBeatenDataReason,
   NoMarkerReason,
+  PackageResolutionEntry,
 } from '../types/beaten.js'
 import type { Giveaway, User } from '../types/steamgifts.js'
 import { delay } from '../utils/common.js'
@@ -206,10 +207,20 @@ interface PlayerCheckCacheEntry {
   no_data_reason: NoBeatenDataReason | null
 }
 
+/** Package (sub) -> game-app resolution (store packagedetails). Permanent
+ *  once determined: `app_id: null` means "checked, unresolvable", not "not
+ *  yet checked". */
+interface PackageResolutionCacheEntry {
+  fetched_at: string
+  app_id: number | null
+  app_name?: string
+}
+
 interface BeatenCache {
   markers: Record<string, MarkerCacheEntry>
   player_checks: Record<string, PlayerCheckCacheEntry>
   app_resolutions: Record<string, AppResolutionCacheEntry>
+  package_resolutions: Record<string, PackageResolutionCacheEntry>
 }
 
 function loadCache(): BeatenCache {
@@ -220,12 +231,13 @@ function loadCache(): BeatenCache {
         markers: raw.markers ?? {},
         player_checks: raw.player_checks ?? {},
         app_resolutions: raw.app_resolutions ?? {},
+        package_resolutions: raw.package_resolutions ?? {},
       }
     } catch (error) {
       console.warn('⚠️  Could not parse existing beaten cache, starting fresh:', error)
     }
   }
-  return { markers: {}, player_checks: {}, app_resolutions: {} }
+  return { markers: {}, player_checks: {}, app_resolutions: {}, package_resolutions: {} }
 }
 
 function saveCache(cache: BeatenCache): void {
@@ -504,6 +516,93 @@ async function detectMarkerWithResolution(
   }
 }
 
+// --- Package -> game app resolution ---
+
+// Edition/format suffixes stripped when matching a package's name against
+// its bundled apps' names — "Resident Evil 4 Gold Edition" and "Resident
+// Evil 4" should match past this alone.
+const EDITION_SUFFIX_PATTERN =
+  /\b(game of the year|goty|digital deluxe|deluxe|complete|ultimate|premium|definitive|enhanced|remastered|standard|special|collector'?s?|anniversary|extended|gold|bundle|collection)\s*(edition)?\b/gi
+
+function normalizeGameTitle(name: string): string {
+  return name
+    .toLowerCase()
+    .replace(EDITION_SUFFIX_PATTERN, ' ')
+    .replace(/[^a-z0-9]+/g, ' ')
+    .trim()
+}
+
+/**
+ * Picks the main game app out of a package's bundled apps. A single app is
+ * the obvious pick; with several, prefer the one whose (edition-suffix
+ * stripped) name best overlaps the package's own name — the package's name
+ * is usually the base game's plus an edition suffix — falling back to the
+ * first app when nothing matches well enough to tell them apart.
+ */
+function pickMainApp(
+  packageName: string,
+  apps: { id: number; name: string }[],
+): { id: number; name: string } {
+  if (apps.length === 1) return apps[0]
+
+  const packageNorm = normalizeGameTitle(packageName)
+  let best: { id: number; name: string } | null = null
+  let bestScore = -1
+  for (const app of apps) {
+    const appNorm = normalizeGameTitle(app.name)
+    if (!appNorm) continue
+    const matches = packageNorm.startsWith(appNorm) || packageNorm.includes(appNorm)
+    if (!matches) continue
+    // Prefer the longest matching app name — the most specific overlap.
+    if (appNorm.length > bestScore) {
+      best = app
+      bestScore = appNorm.length
+    }
+  }
+  return best ?? apps[0]
+}
+
+/**
+ * Resolves a package (sub) appearing on a giveaway with only `package_id`
+ * (no `app_id`) to the game app it bundles, via the Steam store
+ * packagedetails endpoint. Result is cached permanently (including negative
+ * results) since the answer never changes. `getGameAppsForSubId` already
+ * does something similar for playtime tracking across every game a package
+ * bundles; this instead needs a single "main" app to run marker detection
+ * against.
+ */
+async function resolvePackageToApp(
+  packageId: number,
+  checker: SteamGameChecker,
+  cache: BeatenCache,
+): Promise<PackageResolutionCacheEntry> {
+  const key = String(packageId)
+  const cached = cache.package_resolutions[key]
+  if (cached) return cached
+
+  let entry: PackageResolutionCacheEntry
+  if (SKIP_STEAM_API) {
+    entry = { fetched_at: new Date().toISOString(), app_id: null }
+  } else {
+    const details = await checker.getPackageDetails(packageId)
+    await delay(APPDETAILS_DELAY_MS)
+
+    if (!details || details.apps.length === 0) {
+      entry = { fetched_at: new Date().toISOString(), app_id: null }
+    } else {
+      const mainApp = pickMainApp(details.name, details.apps)
+      entry = {
+        fetched_at: new Date().toISOString(),
+        app_id: mainApp.id,
+        app_name: mainApp.name,
+      }
+    }
+  }
+
+  cache.package_resolutions[key] = entry
+  return entry
+}
+
 // --- Player check ---
 
 async function checkPlayerBeaten(
@@ -587,7 +686,7 @@ export async function generateBeatenData(): Promise<void> {
   // --- Build target set: (steamId, appId) pairs from qualifying wins ---
   const targetWins: TargetWin[] = []
   const targetAppIds = new Set<number>()
-  const packageOnlyAppIds = new Set<string>() // links that resolved to package-only, for logging
+  const packageOnlyWins: { steamId: string; link: string; packageId: number }[] = []
 
   for (const [steamId, user] of Object.entries(allUsers)) {
     for (const win of user.giveaways_won ?? []) {
@@ -601,16 +700,53 @@ export async function generateBeatenData(): Promise<void> {
       if (giveaway.app_id != null) {
         targetWins.push({ steamId, appId: giveaway.app_id, link: win.link })
         targetAppIds.add(giveaway.app_id)
-      } else {
-        // package_id-only wins: no marker detection in v1.
-        packageOnlyAppIds.add(win.link)
+      } else if (giveaway.package_id != null) {
+        packageOnlyWins.push({ steamId, link: win.link, packageId: giveaway.package_id })
       }
     }
   }
 
   console.log(
-    `🎯 Target wins: ${targetWins.length} (${targetAppIds.size} distinct app_id games); ${packageOnlyAppIds.size} package-only wins skipped`,
+    `🎯 Target wins (direct app_id): ${targetWins.length} (${targetAppIds.size} distinct games); ${packageOnlyWins.length} package-only wins to resolve`,
   )
+
+  const cache = loadCache()
+  const checker = new SteamGameChecker()
+
+  // --- Resolve package-only wins to the game app they bundle ---
+  const packageResolutions: Record<string, PackageResolutionEntry> = {}
+  const uniquePackageIds = Array.from(new Set(packageOnlyWins.map((w) => w.packageId)))
+  let packageResolvedCount = 0
+  let packageUnresolvedCount = 0
+  console.log(`📦 Resolving ${uniquePackageIds.length} distinct package(s)...`)
+  for (const packageId of uniquePackageIds) {
+    try {
+      const resolution = await resolvePackageToApp(packageId, checker, cache)
+      if (resolution.app_id != null) {
+        packageResolvedCount++
+        packageResolutions[String(packageId)] = {
+          app_id: resolution.app_id,
+          ...(resolution.app_name ? { app_name: resolution.app_name } : {}),
+        }
+      } else {
+        packageUnresolvedCount++
+      }
+    } catch (error) {
+      logError(error, `Failed to resolve package ${packageId}`)
+      packageUnresolvedCount++
+    }
+  }
+  saveCache(cache)
+  console.log(
+    `✅ Package resolution complete — ${packageResolvedCount} resolved, ${packageUnresolvedCount} unresolved`,
+  )
+
+  for (const { steamId, link, packageId } of packageOnlyWins) {
+    const resolvedAppId = packageResolutions[String(packageId)]?.app_id
+    if (resolvedAppId == null) continue
+    targetWins.push({ steamId, appId: resolvedAppId, link })
+    targetAppIds.add(resolvedAppId)
+  }
 
   let uniqueAppIds = Array.from(targetAppIds)
   const beatenLimit = Number(process.env.BEATEN_LIMIT)
@@ -619,9 +755,6 @@ export async function generateBeatenData(): Promise<void> {
     console.log(`🔧 BEATEN_LIMIT set — processing first ${uniqueAppIds.length} games for marker detection`)
   }
   const uniqueAppIdSet = new Set(uniqueAppIds)
-
-  const cache = loadCache()
-  const checker = new SteamGameChecker()
 
   // --- Phase 1: marker detection (cached per appId) ---
   const games: Record<string, BeatenGameEntry> = {}
@@ -820,6 +953,7 @@ export async function generateBeatenData(): Promise<void> {
     last_updated: new Date().toISOString(),
     games,
     wins,
+    package_resolutions: packageResolutions,
   }
 
   writeFileSync(outputPath, JSON.stringify(output, null, 2))

@@ -3,8 +3,8 @@ export type BeatenMarkerSource = 'steamhunters' | 'heuristic'
 
 /**
  * Why no beaten-marker achievement could be determined for a game.
- * "package" — the win only has a package_id (no app_id); marker detection is
- * not attempted for packages in v1.
+ * "package" — the win only has a package_id (no app_id) and it could not be
+ * resolved to a game app via the store packagedetails endpoint.
  */
 export type NoMarkerReason =
   | 'package'
@@ -63,8 +63,17 @@ export interface BeatenWinEntry {
   checked_at: string
 }
 
+/** A package (sub) resolved to the game app it bundles, via the store
+ *  packagedetails endpoint. Only successful resolutions are recorded —
+ *  packages that couldn't be resolved carry no entry. */
+export interface PackageResolutionEntry {
+  app_id: number
+  app_name?: string
+}
+
 export interface BeatenGamesData {
   last_updated: string
   games: Record<string, BeatenGameEntry>
   wins: Record<string, BeatenWinEntry>
+  package_resolutions: Record<string, PackageResolutionEntry>
 }

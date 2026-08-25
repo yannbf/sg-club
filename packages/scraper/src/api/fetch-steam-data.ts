@@ -804,6 +804,30 @@ export class SteamGameChecker {
     }
   }
 
+  /**
+   * Basic package-details lookup (store API, no key) — used to resolve a
+   * Steam package (sub) to the game app(s) it bundles, so a giveaway that
+   * only carries a `package_id` (no `app_id`) can still be checked for a
+   * beaten marker.
+   */
+  public async getPackageDetails(packageId: number): Promise<{
+    name: string
+    apps: { id: number; name: string }[]
+  } | null> {
+    const url = `https://store.steampowered.com/api/packagedetails?packageids=${packageId}`
+    try {
+      const response = await fetch(url)
+      if (!response.ok) return null
+      const data = (await response.json()) as SteamPackageDetailsResponse
+      const entry = data[String(packageId)]
+      if (!entry?.success || !entry.data) return null
+      return { name: entry.data.name, apps: entry.data.apps }
+    } catch (error) {
+      logError(error, `Failed to get package details for packageId ${packageId}`)
+      return null
+    }
+  }
+
   public async setHasNoAvailableStats(appId: number): Promise<void> {
     this.noStatsCache.set(appId, { ts: Date.now(), reason: 'no_steam_stats' })
     console.log(
