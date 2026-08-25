@@ -406,6 +406,6 @@ describe('POST /api/verify', () => {
     const valuesGetCall = calls.find(
       (c) => c.url.includes('/values/') && !c.url.includes(':append') && c.init?.method !== 'PUT',
     )
-    expect(valuesGetCall?.url).toContain(encodeURIComponent("'Hoja 1 renamed by a mod'!A:E"))
+    expect(valuesGetCall?.url).toContain(encodeURIComponent("'Hoja 1 renamed by a mod'!A:Z"))
   })
 })
