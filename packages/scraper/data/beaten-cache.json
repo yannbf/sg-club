@@ -168,17 +168,18 @@
       "story_tag_count": 8
     },
     "379430": {
-      "fetched_at": "2026-08-25T11:05:26.943Z",
+      "fetched_at": "2026-08-25T11:10:21.494Z",
       "marker": {
         "apiname": "TheEnd",
         "name": "The End",
         "description": "Complete the main story line.",
         "global_percent": 13.3,
-        "source": "heuristic",
+        "source": "steamhunters",
+        "filtered": true,
         "sh_achievement_id": 37
       },
       "no_marker_reason": null,
-      "story_tag_count": 0
+      "story_tag_count": 10
     },
     "427520": {
       "fetched_at": "2026-08-24T20:06:15.667Z",
@@ -357,17 +358,18 @@
       "story_tag_count": 9
     },
     "552520": {
-      "fetched_at": "2026-08-25T11:05:20.903Z",
+      "fetched_at": "2026-08-25T11:10:12.084Z",
       "marker": {
-        "apiname": "FC5_Ach_1",
-        "name": "The Spark",
-        "description": "Complete the game intro by liberating Dutch’s island (Solo Campaign only).",
-        "global_percent": 28.9,
-        "source": "heuristic",
-        "sh_achievement_id": 1
+        "apiname": "FC5_Ach_6",
+        "name": "Together Forever",
+        "description": "Get to the End (Solo Campaign only).",
+        "global_percent": 10.1,
+        "source": "steamhunters",
+        "filtered": true,
+        "sh_achievement_id": 6
       },
       "no_marker_reason": null,
-      "story_tag_count": 0
+      "story_tag_count": 16
     },
     "553420": {
       "fetched_at": "2026-08-24T20:05:27.762Z",
@@ -438,10 +440,18 @@
       "story_tag_count": 15
     },
     "582160": {
-      "fetched_at": "2026-08-25T11:05:17.449Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-08-25T11:10:08.956Z",
+      "marker": {
+        "apiname": "011",
+        "name": "The End",
+        "description": "Complete the last Main Quest.",
+        "global_percent": 28.2,
+        "source": "steamhunters",
+        "filtered": true,
+        "sh_achievement_id": 11
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 14
     },
     "588650": {
       "fetched_at": "2026-08-24T18:00:42.858Z",
@@ -617,10 +627,18 @@
       "story_tag_count": 0
     },
     "775500": {
-      "fetched_at": "2026-08-25T11:05:22.180Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-08-25T11:10:15.223Z",
+      "marker": {
+        "apiname": "Trophy_Title_05",
+        "name": "Red Strings for Two",
+        "description": "Reached the ending of both Yuito's and Kasane's story.",
+        "global_percent": 5.3,
+        "source": "steamhunters",
+        "filtered": true,
+        "sh_achievement_id": 6
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 7
     },
     "785790": {
       "fetched_at": "2026-08-24T20:09:51.246Z",
@@ -765,10 +783,18 @@
       "story_tag_count": 5
     },
     "860510": {
-      "fetched_at": "2026-08-25T11:05:10.555Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-08-25T11:10:02.470Z",
+      "marker": {
+        "apiname": "CompleteTransmission",
+        "name": "Signal interruption",
+        "description": "It's all over now",
+        "global_percent": 37.6,
+        "source": "steamhunters",
+        "filtered": true,
+        "sh_achievement_id": 6
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 6
     },
     "867210": {
       "fetched_at": "2026-08-24T16:52:01.890Z",
@@ -795,10 +821,18 @@
       "story_tag_count": 0
     },
     "883710": {
-      "fetched_at": "2026-08-25T11:05:32.595Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-08-25T11:10:30.952Z",
+      "marker": {
+        "apiname": "NEW_ACHIEVEMENT_1_6",
+        "name": "A Great Need for a Shower",
+        "description": "Escape from the sewers.",
+        "global_percent": 58,
+        "source": "steamhunters",
+        "filtered": true,
+        "sh_achievement_id": 6
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 4
     },
     "885150": {
       "fetched_at": "2026-08-24T17:08:57.695Z",
@@ -1000,10 +1034,18 @@
       "story_tag_count": 0
     },
     "1029690": {
-      "fetched_at": "2026-08-25T11:05:33.844Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-08-25T11:10:34.077Z",
+      "marker": {
+        "apiname": "REWARD_11_GAME_SUBTITLE",
+        "name": "Liberté",
+        "description": "Complete the campaign.",
+        "global_percent": 37.2,
+        "source": "steamhunters",
+        "filtered": true,
+        "sh_achievement_id": 11
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 14
     },
     "1030300": {
       "fetched_at": "2026-08-24T20:05:03.325Z",
@@ -1292,10 +1334,18 @@
       "story_tag_count": 11
     },
     "1174180": {
-      "fetched_at": "2026-08-25T11:05:23.445Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-08-25T11:10:18.351Z",
+      "marker": {
+        "apiname": "Achievement10",
+        "name": "Endless Summer",
+        "description": "Complete the Epilogue.",
+        "global_percent": 20.4,
+        "source": "steamhunters",
+        "filtered": true,
+        "sh_achievement_id": 10
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 10
     },
     "1179080": {
       "fetched_at": "2026-08-24T18:00:23.822Z",
@@ -1597,10 +1647,18 @@
       "story_tag_count": 7
     },
     "1265920": {
-      "fetched_at": "2026-08-25T11:05:28.494Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-08-25T11:10:24.618Z",
+      "marker": {
+        "apiname": "49",
+        "name": "Polarized",
+        "description": "Finish Episode 5: Polarized",
+        "global_percent": 39.7,
+        "source": "steamhunters",
+        "filtered": true,
+        "sh_achievement_id": 48
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 5
     },
     "1271400": {
       "fetched_at": "2026-08-24T18:00:47.413Z",
@@ -3946,10 +4004,18 @@
       "story_tag_count": 0
     },
     "2515020": {
-      "fetched_at": "2026-08-25T11:05:29.745Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-08-25T11:10:27.796Z",
+      "marker": {
+        "apiname": "1012",
+        "name": "Falling Star",
+        "description": "Fulfill a legacy.",
+        "global_percent": 31.1,
+        "source": "steamhunters",
+        "filtered": true,
+        "sh_achievement_id": 13
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 20
     },
     "2525310": {
       "fetched_at": "2026-08-24T17:02:51.979Z",
@@ -3976,10 +4042,18 @@
       "story_tag_count": 0
     },
     "2552430": {
-      "fetched_at": "2026-08-25T11:05:15.892Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-08-25T11:10:05.649Z",
+      "marker": {
+        "apiname": "ACH_031",
+        "name": "End of the World",
+        "description": "Seal the keyhole in Hollow Bastion.",
+        "global_percent": 24.6,
+        "source": "steamhunters",
+        "filtered": true,
+        "sh_achievement_id": 31
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 8
     },
     "2564520": {
       "fetched_at": "2026-08-24T16:51:50.331Z",
@@ -8302,10 +8376,10 @@
       "no_data_reason": null
     },
     "76561197990462722::552520": {
-      "fetched_at": "2026-08-25T11:05:36.404Z",
-      "marker_apiname": "FC5_Ach_1",
+      "fetched_at": "2026-08-25T11:10:38.936Z",
+      "marker_apiname": "FC5_Ach_6",
       "beaten": true,
-      "unlock_time": 1751989638,
+      "unlock_time": 1754839171,
       "no_data_reason": null
     },
     "76561198056789339::379430": {
@@ -8334,6 +8408,132 @@
       "marker_apiname": "Ql27ENDGAME",
       "beaten": true,
       "unlock_time": 1752884690,
+      "no_data_reason": null
+    },
+    "76561198047330685::860510": {
+      "fetched_at": "2026-08-25T11:10:35.273Z",
+      "marker_apiname": "CompleteTransmission",
+      "beaten": true,
+      "unlock_time": 1765211185,
+      "no_data_reason": null
+    },
+    "76561199036747433::2552430": {
+      "fetched_at": "2026-08-25T11:10:36.493Z",
+      "marker_apiname": "ACH_031",
+      "beaten": true,
+      "unlock_time": 1787463630,
+      "no_data_reason": null
+    },
+    "76561199036747433::582160": {
+      "fetched_at": "2026-08-25T11:10:37.684Z",
+      "marker_apiname": "011",
+      "beaten": true,
+      "unlock_time": 1768135655,
+      "no_data_reason": null
+    },
+    "76561198041749780::775500": {
+      "fetched_at": "2026-08-25T11:10:40.135Z",
+      "marker_apiname": "Trophy_Title_05",
+      "beaten": false,
+      "unlock_time": null,
+      "no_data_reason": null
+    },
+    "76561198051248084::1174180": {
+      "fetched_at": "2026-08-25T11:10:41.355Z",
+      "marker_apiname": "Achievement10",
+      "beaten": false,
+      "unlock_time": null,
+      "no_data_reason": null
+    },
+    "76561198013734355::860510": {
+      "fetched_at": "2026-08-25T11:10:42.558Z",
+      "marker_apiname": "CompleteTransmission",
+      "beaten": true,
+      "unlock_time": 1753297931,
+      "no_data_reason": null
+    },
+    "76561198236260938::1174180": {
+      "fetched_at": "2026-08-25T11:10:43.922Z",
+      "marker_apiname": "Achievement10",
+      "beaten": true,
+      "unlock_time": 1769967029,
+      "no_data_reason": null
+    },
+    "76561198452519450::775500": {
+      "fetched_at": "2026-08-25T11:10:45.278Z",
+      "marker_apiname": "Trophy_Title_05",
+      "beaten": false,
+      "unlock_time": null,
+      "no_data_reason": null
+    },
+    "76561198069567036::1265920": {
+      "fetched_at": "2026-08-25T11:10:46.501Z",
+      "marker_apiname": "49",
+      "beaten": true,
+      "unlock_time": 1756767870,
+      "no_data_reason": null
+    },
+    "76561198054324521::2515020": {
+      "fetched_at": "2026-08-25T11:10:47.716Z",
+      "marker_apiname": "1012",
+      "beaten": false,
+      "unlock_time": null,
+      "no_data_reason": null
+    },
+    "76561198048238310::860510": {
+      "fetched_at": "2026-08-25T11:10:48.966Z",
+      "marker_apiname": "CompleteTransmission",
+      "beaten": true,
+      "unlock_time": 1751573134,
+      "no_data_reason": null
+    },
+    "76561197989280149::1265920": {
+      "fetched_at": "2026-08-25T11:10:50.172Z",
+      "marker_apiname": "49",
+      "beaten": true,
+      "unlock_time": 1773558769,
+      "no_data_reason": null
+    },
+    "76561198089693705::582160": {
+      "fetched_at": "2026-08-25T11:10:51.392Z",
+      "marker_apiname": "011",
+      "beaten": true,
+      "unlock_time": 1763972472,
+      "no_data_reason": null
+    },
+    "76561198057642029::2552430": {
+      "fetched_at": "2026-08-25T11:10:52.608Z",
+      "marker_apiname": "ACH_031",
+      "beaten": false,
+      "unlock_time": null,
+      "no_data_reason": null
+    },
+    "76561198065466175::1265920": {
+      "fetched_at": "2026-08-25T11:10:53.957Z",
+      "marker_apiname": "49",
+      "beaten": false,
+      "unlock_time": null,
+      "no_data_reason": null
+    },
+    "76561198029751126::883710": {
+      "fetched_at": "2026-08-25T11:10:55.175Z",
+      "marker_apiname": "NEW_ACHIEVEMENT_1_6",
+      "beaten": true,
+      "unlock_time": 1781177027,
+      "no_data_reason": null
+    },
+    "76561198029751126::1174180": {
+      "fetched_at": "2026-08-25T11:10:56.452Z",
+      "marker_apiname": "Achievement10",
+      "beaten": true,
+      "unlock_time": 1755457885,
+      "no_data_reason": null
+    },
+    "76561198029751126::1029690": {
+      "fetched_at": "2026-08-25T11:10:57.651Z",
+      "marker_apiname": "REWARD_11_GAME_SUBTITLE",
+      "beaten": true,
+      "unlock_time": 1752493689,
       "no_data_reason": null
     }
   },
