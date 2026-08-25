@@ -315,6 +315,81 @@ describe('POST /api/verify', () => {
     expect(JSON.parse(putCalls[0].init!.body as string)).toMatchObject({ values: [['NO']] })
   })
 
+  it('appends a Play Required row with empty deadline/requirements cells when registering', async () => {
+    const values = [
+      [
+        'ID',
+        'GAME',
+        'WINNER',
+        'PLAY REQUIREMENTS MET',
+        'DEADLINE (dd-mm-yyyy)',
+        'DEADLINE (IN MONTHS)',
+        'REQUIREMENTS',
+      ],
+    ]
+    const { calls } = mockGoogleFlow('Play Required', values)
+    const req = fakeRequest({
+      password: ADMIN_PASSWORD,
+      type: 'play_required',
+      action: 'register',
+      giveawayId: 'abc12',
+    })
+    const res = fakeResponse()
+    await handler(req, res)
+
+    expect(res.statusCode).toBe(200)
+    expect(res.body).toMatchObject({ ok: true, action: 'registered' })
+
+    const appendCall = calls.find((c) => c.url.includes(':append'))
+    expect(appendCall).toBeTruthy()
+    expect(JSON.parse(appendCall!.init!.body as string)).toMatchObject({
+      values: [
+        [
+          'abc12',
+          'Some Game',
+          'winnerName',
+          'NO',
+          '',
+          '',
+          'TODO: Needs manual verification on requirements',
+        ],
+      ],
+    })
+  })
+
+  it('reports already registered when a Play Required row already exists', async () => {
+    const values = [
+      ['ID', 'GAME', 'WINNER', 'PLAY REQUIREMENTS MET'],
+      ['abc12', 'Some Game', 'winnerName', 'NO'],
+    ]
+    const { calls } = mockGoogleFlow('Play Required', values)
+    const req = fakeRequest({
+      password: ADMIN_PASSWORD,
+      type: 'play_required',
+      action: 'register',
+      giveawayId: 'abc12',
+    })
+    const res = fakeResponse()
+    await handler(req, res)
+
+    expect(res.statusCode).toBe(200)
+    expect(res.body).toMatchObject({ ok: true, action: 'registered', already: true })
+    expect(calls.some((c) => c.url.includes(':append'))).toBe(false)
+  })
+
+  it('rejects register for type ipb with 400', async () => {
+    const req = fakeRequest({
+      password: ADMIN_PASSWORD,
+      type: 'ipb',
+      action: 'register',
+      giveawayId: 'abc12',
+    })
+    const res = fakeResponse()
+    await handler(req, res)
+
+    expect(res.statusCode).toBe(400)
+  })
+
   it('resolves the tab title by gid rather than assuming a fixed name', async () => {
     const values = [
       ['ID', 'GAME', 'WINNER', 'COMPLETE PLAYING', 'EXTRA POINTS'],

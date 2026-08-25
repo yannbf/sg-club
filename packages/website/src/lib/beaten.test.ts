@@ -27,6 +27,7 @@ function makeRow(overrides: Partial<PlayRequiredRow> = {}): PlayRequiredRow {
     discord: null,
     type: 'required_play',
     isPlayRequired: true,
+    prRegistered: true,
     isIpb: false,
     ipbStatus: 'not_submitted',
     steam: {},
@@ -117,6 +118,26 @@ describe('applyVerifyOverrides', () => {
     expect(nextWithoutDiscord).toBe(withoutDiscord) // untouched: wrong key
     expect(nextWithoutDiscord2.ipbStatus).toBe('not_submitted')
   })
+
+  it('sets prRegistered for a registered override, without touching attestation.confirmed', () => {
+    const row = makeRow({ prRegistered: false })
+    const overrides: VerifyOverrideMap = {
+      [verifyOverrideKey(row.key, 'play_required')]: { state: 'registered', at: new Date().toISOString() },
+    }
+    const [next] = applyVerifyOverrides([row], overrides)
+    expect(next.prRegistered).toBe(true)
+    expect(next.attestation.confirmed).toBe(false)
+  })
+
+  it('a verified play_required override also implies prRegistered', () => {
+    const row = makeRow({ prRegistered: false })
+    const overrides: VerifyOverrideMap = {
+      [verifyOverrideKey(row.key, 'play_required')]: { state: 'verified', at: new Date().toISOString() },
+    }
+    const [next] = applyVerifyOverrides([row], overrides)
+    expect(next.prRegistered).toBe(true)
+    expect(next.attestation.confirmed).toBe(true)
+  })
 })
 
 describe('pruneVerifyOverrides', () => {
@@ -150,5 +171,21 @@ describe('pruneVerifyOverrides', () => {
       'gone::gone/game:play_required': { state: 'verified', at: new Date().toISOString() },
     }
     expect(pruneVerifyOverrides(overrides, [])).toEqual(overrides)
+  })
+
+  it('drops a registered override once the row is already registered', () => {
+    const row = makeRow({ prRegistered: true })
+    const overrides: VerifyOverrideMap = {
+      [verifyOverrideKey(row.key, 'play_required')]: { state: 'registered', at: new Date().toISOString() },
+    }
+    expect(pruneVerifyOverrides(overrides, [row])).toEqual({})
+  })
+
+  it('keeps a registered override the row still disagrees with', () => {
+    const row = makeRow({ prRegistered: false })
+    const overrides: VerifyOverrideMap = {
+      [verifyOverrideKey(row.key, 'play_required')]: { state: 'registered', at: new Date().toISOString() },
+    }
+    expect(pruneVerifyOverrides(overrides, [row])).toEqual(overrides)
   })
 })

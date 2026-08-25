@@ -20,9 +20,11 @@ const PLAY_REQUIRED_SHEET_GID = 2065024481
 
 const IPB_COLUMNS = ['ID', 'GAME', 'WINNER', 'COMPLETE PLAYING', 'EXTRA POINTS'] as const
 const PLAY_REQUIRED_STATUS_COLUMN = 'PLAY REQUIREMENTS MET'
+/** Marks a freshly-registered Play Required row's REQUIREMENTS cell so it's obvious a mod still needs to fill in the deadline and requirements. */
+const REQUIREMENTS_TODO_NOTE = 'TODO: Needs manual verification on requirements'
 
 type VerifyType = 'ipb' | 'play_required'
-type VerifyAction = 'verify' | 'unverify'
+type VerifyAction = 'verify' | 'unverify' | 'register'
 
 interface VerifyRequestBody {
   password?: string
@@ -259,7 +261,8 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
   }
 
   const { password, type, giveawayId, discordThreadId } = body
-  const action: VerifyAction = body.action === 'unverify' ? 'unverify' : 'verify'
+  const action: VerifyAction =
+    body.action === 'unverify' ? 'unverify' : body.action === 'register' ? 'register' : 'verify'
 
   const expectedHash = process.env.ADMIN_PASSWORD_HASH
   if (!expectedHash || !password || sha256Hex(password) !== expectedHash) {
@@ -275,11 +278,54 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
     respondJson(res, 400, { error: 'giveawayId is required' })
     return
   }
+  if (action === 'register' && type !== 'play_required') {
+    respondJson(res, 400, { error: 'register is only valid for type "play_required"' })
+    return
+  }
 
   try {
     const accessToken = await getGoogleAccessToken()
     const gid = type === 'ipb' ? IPB_SHEET_GID : PLAY_REQUIRED_SHEET_GID
     const title = await resolveTabTitle(accessToken, gid)
+
+    if (action === 'register') {
+      const giveawaysData = await loadDataFile<GiveawaysData>('giveaways.json', req.headers.host)
+      const giveaway = giveawaysData.giveaways.find((g) => g.id === giveawayId)
+      const winner = giveaway?.winners?.[0]
+      if (!giveaway || !winner) {
+        respondJson(res, 404, { error: `No giveaway with a winner found for id ${giveawayId}` })
+        return
+      }
+      const winnerUsername = winner.winner_username ?? winner.name
+
+      const values = await readTabValues(accessToken, title)
+      const headerRow = values[0] ?? []
+      const idCol = columnIndex(headerRow, 'ID')
+      const rowIndex = values.findIndex((row, i) => i > 0 && (row[idCol] ?? '').trim() === giveawayId)
+
+      if (rowIndex !== -1) {
+        respondJson(res, 200, { ok: true, action: 'registered', already: true })
+        return
+      }
+
+      // Padded to the header width so untouched columns (deadline, requirements)
+      // line up rather than shifting later ones. The deadline columns stay
+      // empty for a mod to fill in; REQUIREMENTS gets a TODO marker so an
+      // unregistered-turned-registered row is unmistakable in the sheet.
+      const gameCol = columnIndex(headerRow, 'GAME')
+      const winnerCol = columnIndex(headerRow, 'WINNER')
+      const statusCol = columnIndex(headerRow, PLAY_REQUIRED_STATUS_COLUMN)
+      const requirementsCol = columnIndex(headerRow, 'REQUIREMENTS')
+      const row = new Array(headerRow.length).fill('')
+      if (idCol !== -1) row[idCol] = giveawayId
+      if (gameCol !== -1) row[gameCol] = giveaway.name
+      if (winnerCol !== -1) row[winnerCol] = winnerUsername
+      if (statusCol !== -1) row[statusCol] = 'NO'
+      if (requirementsCol !== -1) row[requirementsCol] = REQUIREMENTS_TODO_NOTE
+      await appendRow(accessToken, title, row)
+      respondJson(res, 200, { ok: true, action: 'registered' })
+      return
+    }
 
     if (action === 'unverify') {
       const values = await readTabValues(accessToken, title)

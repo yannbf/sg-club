@@ -9,6 +9,7 @@ import {
   Clock,
   ExternalLink,
   Eye,
+  FileSpreadsheet,
   Gamepad2,
   HelpCircle,
   Loader2,
@@ -123,6 +124,7 @@ const IPB_STATUS_ORDER: readonly PlayRequiredRow['ipbStatus'][] = [
 
 const STATUS_FILTERS: { id: StatusFilter; label: string }[] = [
   { id: 'all', label: 'All' },
+  { id: 'not_registered', label: 'Not in sheet' },
   { id: 'not_verified', label: 'Not verified yet' },
   { id: 'likely_not_signed_off', label: 'Likely beaten, not signed off' },
   { id: 'beaten_verified', label: 'Beaten (verified)' },
@@ -145,6 +147,9 @@ const typeVariant: Record<PlayRequiredRow['type'], 'primary' | 'purple' | 'amber
 function sgGiveawayUrl(link: string) {
   return `https://www.steamgifts.com/giveaway/${link}`
 }
+
+const PLAY_REQUIRED_SHEET_URL =
+  'https://docs.google.com/spreadsheets/d/1h20q3RPeYTDwL_hl3uWEq6SSRbSlsHJW3VhN538oP3A/edit#gid=2065024481'
 
 function steamAchievementsUrl(steamId: string, appId: number) {
   return `https://steamcommunity.com/profiles/${steamId}/stats/${appId}/achievements`
@@ -401,6 +406,115 @@ function SignOffCell({ row, pendingSync }: { row: PlayRequiredRow; pendingSync?:
   )
 }
 
+/**
+ * Sign-off cell for a Play Required row that has no PLAY_REQUIRED sheet row
+ * yet (`!row.prRegistered`) — the site's verify flow has nothing to update
+ * until a mod adds one, so this replaces the usual Verify button with an
+ * "Add to sheet" action that appends the identity columns only.
+ */
+function NotInSheetCell({
+  row,
+  state,
+  onRegister,
+}: {
+  row: PlayRequiredRow
+  state: VerifyState | undefined
+  onRegister: (row: PlayRequiredRow) => void
+}) {
+  if (state?.status === 'verifying' && state.action === 'register') {
+    return (
+      <div className="space-y-1.5">
+        <Badge variant="outline" size="sm">
+          <FileSpreadsheet className="h-3 w-3" />
+          Not in sheet
+        </Badge>
+        <Button size="sm" variant="outline" disabled>
+          <Loader2 className="h-3 w-3 animate-spin" />
+          Adding…
+        </Button>
+      </div>
+    )
+  }
+  return (
+    <div className="space-y-1.5">
+      <Badge variant="outline" size="sm">
+        <FileSpreadsheet className="h-3 w-3" />
+        Not in sheet
+      </Badge>
+      <div>
+        <Button size="sm" variant="outline" onClick={() => onRegister(row)}>
+          <FileSpreadsheet className="h-3 w-3" />
+          Add to sheet
+        </Button>
+      </div>
+      {state?.status === 'error' && state.action === 'register' && (
+        <p className="max-w-[16rem] text-[11px] text-error-foreground">{state.message}</p>
+      )}
+    </div>
+  )
+}
+
+/**
+ * Renders the Play Required sign-off cell: the "Add to sheet" flow for a
+ * row not yet in the PLAY_REQUIRED tab, otherwise the usual sign-off badge
+ * plus Verify/Unverify controls, with a one-time "just registered" note
+ * layered on top when this session is what registered it.
+ */
+function PlayRequiredSignOffColumn({
+  row,
+  verifyStates,
+  verifyOverrides,
+  onAction,
+}: {
+  row: PlayRequiredRow
+  verifyStates: Record<string, VerifyState>
+  verifyOverrides: VerifyOverrideMap
+  onAction: (row: PlayRequiredRow, type: 'ipb' | 'play_required', action: VerifyActionKind) => void
+}) {
+  const stateKey = verifyStateKey(row, 'play_required')
+  const state = verifyStates[stateKey]
+  const registerState = state?.action === 'register' ? state : undefined
+  const verifyOrUnverifyState = state?.action !== 'register' ? state : undefined
+  const pendingSync = verifyOverrides[verifyOverrideKey(row.key, 'play_required')]?.state
+
+  if (!row.prRegistered) {
+    return (
+      <NotInSheetCell
+        row={row}
+        state={registerState}
+        onRegister={(r) => onAction(r, 'play_required', 'register')}
+      />
+    )
+  }
+
+  return (
+    <>
+      {registerState?.status === 'done' && (
+        <p className="mb-1 max-w-[16rem] text-[11px] text-success-foreground">
+          {registerState.message}{' '}
+          <a
+            href={PLAY_REQUIRED_SHEET_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline"
+          >
+            Open the sheet
+          </a>
+          .
+        </p>
+      )}
+      <SignOffCell row={row} pendingSync={pendingSync === 'registered' ? undefined : pendingSync} />
+      <VerifiedControls
+        row={row}
+        type="play_required"
+        isVerified={row.attestation.confirmed}
+        state={verifyOrUnverifyState}
+        onAction={onAction}
+      />
+    </>
+  )
+}
+
 function GameCell({ row }: { row: PlayRequiredRow }) {
   return (
     <div className="flex items-center gap-3">
@@ -546,7 +660,7 @@ function AchievementsCell({ row }: { row: PlayRequiredRow }) {
   return <AchievementsLink row={row}>{withTooltip}</AchievementsLink>
 }
 
-type VerifyActionKind = 'verify' | 'unverify'
+type VerifyActionKind = 'verify' | 'unverify' | 'register'
 
 /** In-flight/result state for one row's verify/unverify action, keyed by `${row.key}:${type}`. */
 type VerifyState =
@@ -675,8 +789,6 @@ function PlayRequiredRowView({
   verifyOverrides: VerifyOverrideMap
   onAction: (row: PlayRequiredRow, type: 'ipb' | 'play_required', action: VerifyActionKind) => void
 }) {
-  const prState = verifyStates[verifyStateKey(row, 'play_required')]
-  const prPendingSync = verifyOverrides[verifyOverrideKey(row.key, 'play_required')]?.state
   return (
     <tr className="border-b border-card-border last:border-0">
       <td className="py-2.5 pr-3">
@@ -713,12 +825,10 @@ function PlayRequiredRowView({
         )}
       </td>
       <td className="py-2.5">
-        <SignOffCell row={row} pendingSync={prPendingSync} />
-        <VerifiedControls
+        <PlayRequiredSignOffColumn
           row={row}
-          type="play_required"
-          isVerified={row.attestation.confirmed}
-          state={prState}
+          verifyStates={verifyStates}
+          verifyOverrides={verifyOverrides}
           onAction={onAction}
         />
       </td>
@@ -984,6 +1094,24 @@ export default function PlayRequiredClient({
           throw new Error(typeof data.error === 'string' ? data.error : `Request failed (${res.status})`)
         }
 
+        if (action === 'register') {
+          setVerifyOverrides((prev) => {
+            const next: VerifyOverrideMap = {
+              ...prev,
+              [stateKey]: { state: 'registered', at: new Date().toISOString() },
+            }
+            try {
+              window.localStorage.setItem(VERIFY_OVERRIDES_STORAGE_KEY, JSON.stringify(next))
+            } catch {}
+            return next
+          })
+          const message = data.already
+            ? 'Already registered.'
+            : 'Registered with a TODO note — set deadline/requirements in the sheet.'
+          setVerifyStates((prev) => ({ ...prev, [stateKey]: { status: 'done', action, message } }))
+          return
+        }
+
         const verified = action === 'verify'
         setVerifyOverrides((prev) => {
           const next: VerifyOverrideMap = {
@@ -1107,6 +1235,11 @@ export default function PlayRequiredClient({
 
   const activeBaseRows = tab === 'play_required' ? prRows : ipbRows
   const activeSortedRows = tab === 'play_required' ? sortedPrRows : sortedIpbRows
+  // "Not in sheet" only means anything against Play Required rows.
+  const visibleStatusFilters = useMemo(
+    () => (tab === 'play_required' ? STATUS_FILTERS : STATUS_FILTERS.filter((f) => f.id !== 'not_registered')),
+    [tab],
+  )
 
   return (
     <div className="space-y-6">
@@ -1147,8 +1280,9 @@ export default function PlayRequiredClient({
       </Tabs>
 
       {tab === 'play_required' ? (
-        <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-4 lg:grid-cols-5">
           <StatCard icon={Gamepad2} label="Play Required wins" value={summaryState.totalRequiredPlay} accent="primary" />
+          <StatCard icon={FileSpreadsheet} label="Not in sheet" value={summaryState.notRegistered} accent="rose" />
           <StatCard icon={CheckCircle2} label="Verified beaten (Steam)" value={summaryState.verifiedBeaten} accent="green" />
           <StatCard icon={ShieldCheck} label="Signed off" value={summaryState.signedOff} accent="blue" />
           <StatCard icon={AlertTriangle} label="Unverified" value={summaryState.unverified} accent="amber" />
@@ -1198,7 +1332,7 @@ export default function PlayRequiredClient({
 
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div className="flex flex-wrap gap-1.5">
-          {STATUS_FILTERS.map((f) => (
+          {visibleStatusFilters.map((f) => (
             <button
               key={f.id}
               onClick={() => setStatusFilter(f.id)}

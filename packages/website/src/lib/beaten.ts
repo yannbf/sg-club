@@ -88,6 +88,13 @@ export interface PlayRequiredRow {
   type: WinType
   /** `required_play` flag set on the win. */
   isPlayRequired: boolean
+  /**
+   * Whether this win has a row in the Google Sheet's manually-maintained
+   * PLAY_REQUIRED tab (`won.required_play_meta` exists). Only meaningful for
+   * `isPlayRequired` rows — a detected-but-unregistered win has no sheet row
+   * yet, so the site's verify flow has nothing to update until one is added.
+   */
+  prRegistered: boolean
   /** `i_played_bro` flag set on the win, or a Discord submission exists for it. */
   isIpb: boolean
   /**
@@ -152,6 +159,7 @@ export type StatusFilter =
   | 'beaten_verified'
   | 'no_evidence'
   | 'unverifiable'
+  | 'not_registered'
 
 export function matchesStatusFilter(
   row: PlayRequiredRow,
@@ -160,6 +168,8 @@ export function matchesStatusFilter(
   switch (filter) {
     case 'all':
       return true
+    case 'not_registered':
+      return row.isPlayRequired && !row.prRegistered
     case 'not_verified':
       return !row.attestation.confirmed
     case 'likely_not_signed_off':
@@ -363,6 +373,7 @@ export function buildPlayRequiredRows(params: {
         discord,
         type,
         isPlayRequired: Boolean(won.required_play),
+        prRegistered: won.required_play_meta != null,
         isIpb: Boolean(won.i_played_bro) || discord != null,
         ipbStatus,
         steam: play
@@ -408,6 +419,8 @@ export interface PlayRequiredSummary {
   signedOff: number
   unverified: number
   noData: number
+  /** Play Required wins with no PLAY_REQUIRED sheet row yet — see `PlayRequiredRow.prRegistered`. */
+  notRegistered: number
 }
 
 export function summarizeRows(rows: PlayRequiredRow[]): PlayRequiredSummary {
@@ -417,6 +430,7 @@ export function summarizeRows(rows: PlayRequiredRow[]): PlayRequiredSummary {
   let signedOff = 0
   let unverified = 0
   let noData = 0
+  let notRegistered = 0
 
   for (const row of rows) {
     if (row.attestation.requiredPlay) totalRequiredPlay++
@@ -425,9 +439,10 @@ export function summarizeRows(rows: PlayRequiredRow[]): PlayRequiredSummary {
     if (row.attestation.confirmed) signedOff++
     else unverified++
     if (row.beaten.verdict === 'no_data' || row.beaten.verdict === 'no_marker') noData++
+    if (row.isPlayRequired && !row.prRegistered) notRegistered++
   }
 
-  return { totalRequiredPlay, totalIPlayedBro, verifiedBeaten, signedOff, unverified, noData }
+  return { totalRequiredPlay, totalIPlayedBro, verifiedBeaten, signedOff, unverified, noData, notRegistered }
 }
 
 /**
@@ -445,7 +460,12 @@ export interface IpbSummary {
 
 /** Which of a row's two independent verify actions an override applies to. */
 export type VerifyOverrideType = 'ipb' | 'play_required'
-export type VerifyOverrideState = 'verified' | 'unverified'
+/**
+ * `registered` only applies to the `play_required` type — it records a
+ * successful `/api/verify` `register` call (a PLAY_REQUIRED sheet row now
+ * exists), independently of `verified`/`unverified` sign-off state.
+ */
+export type VerifyOverrideState = 'verified' | 'unverified' | 'registered'
 
 export interface VerifyOverride {
   state: VerifyOverrideState
@@ -487,7 +507,8 @@ export function parseVerifyOverrides(raw: string | null | undefined): VerifyOver
       value &&
       typeof value === 'object' &&
       ((value as VerifyOverride).state === 'verified' ||
-        (value as VerifyOverride).state === 'unverified') &&
+        (value as VerifyOverride).state === 'unverified' ||
+        (value as VerifyOverride).state === 'registered') &&
       typeof (value as VerifyOverride).at === 'string'
     ) {
       result[key] = { state: (value as VerifyOverride).state, at: (value as VerifyOverride).at }
@@ -506,6 +527,7 @@ function overrideTypeFromKey(key: string): { rowKey: string; type: VerifyOverrid
 
 /** Whether `row`'s current JSON-derived status for `type` already matches `state`. */
 function overrideMatchesRow(row: PlayRequiredRow, type: VerifyOverrideType, state: VerifyOverrideState): boolean {
+  if (state === 'registered') return row.prRegistered
   const verified = type === 'play_required' ? row.attestation.confirmed : row.ipbStatus === 'verified'
   return verified === (state === 'verified')
 }
@@ -551,8 +573,16 @@ export function applyVerifyOverrides(
     let next = row
 
     const prOverride = overrides[verifyOverrideKey(row.key, 'play_required')]
-    if (prOverride) {
-      next = { ...next, attestation: { ...next.attestation, confirmed: prOverride.state === 'verified' } }
+    if (prOverride?.state === 'registered') {
+      next = { ...next, prRegistered: true }
+    } else if (prOverride) {
+      // A play_required verify/unverify only ever succeeds against an
+      // existing sheet row, so `verified` implies the row is registered too.
+      next = {
+        ...next,
+        attestation: { ...next.attestation, confirmed: prOverride.state === 'verified' },
+        prRegistered: prOverride.state === 'verified' ? true : next.prRegistered,
+      }
     }
 
     const ipbOverride = overrides[verifyOverrideKey(row.key, 'ipb')]
