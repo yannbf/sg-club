@@ -497,14 +497,21 @@ function AchievementsCell({ row }: { row: PlayRequiredRow }) {
   return <AchievementsLink row={row}>{withTooltip}</AchievementsLink>
 }
 
-/** In-flight/result state for one row's verify action, keyed by `${row.key}:${type}`. */
+type VerifyActionKind = 'verify' | 'unverify'
+
+/** In-flight/result state for one row's verify/unverify action, keyed by `${row.key}:${type}`. */
 type VerifyState =
-  | { status: 'verifying' }
-  | { status: 'done'; message: string }
-  | { status: 'error'; message: string }
+  | { status: 'verifying'; action: VerifyActionKind }
+  | { status: 'done'; action: VerifyActionKind; message: string }
+  | { status: 'error'; action: VerifyActionKind; message: string }
 
 function verifyStateKey(row: PlayRequiredRow, type: 'ipb' | 'play_required'): string {
   return `${row.key}:${type}`
+}
+
+/** A giveaway link to derive a SteamGifts giveaway id from — see handleAction's giveawayId. */
+function hasGiveawayCode(row: PlayRequiredRow): boolean {
+  return row.giveawayLink.length > 0
 }
 
 function VerifyControl({
@@ -518,7 +525,7 @@ function VerifyControl({
   state: VerifyState | undefined
   onVerify: (row: PlayRequiredRow, type: 'ipb' | 'play_required') => void
 }) {
-  if (state?.status === 'verifying') {
+  if (state?.status === 'verifying' && state.action === 'verify') {
     return (
       <Button size="sm" variant="outline" disabled className="mt-1.5">
         <Loader2 className="h-3 w-3 animate-spin" />
@@ -532,7 +539,76 @@ function VerifyControl({
         <ShieldCheck className="h-3 w-3" />
         Verify
       </Button>
-      {state?.status === 'error' && (
+      {state?.status === 'error' && state.action === 'verify' && (
+        <p className="max-w-[16rem] text-[11px] text-error-foreground">{state.message}</p>
+      )}
+      {state?.status === 'done' && state.action === 'unverify' && (
+        <p className="max-w-[16rem] text-[11px] text-success-foreground">{state.message}</p>
+      )}
+    </div>
+  )
+}
+
+/**
+ * Renders the verify/unverify affordances for a row's status cell:
+ *  - not verified: the Verify button (plus any leftover unverify result note).
+ *  - verified this session (an in-memory 'done' verify result): the success
+ *    note with an inline "Undo" link.
+ *  - verified from persisted data: a small, subdued "Unverify" link.
+ */
+function VerifiedControls({
+  row,
+  type,
+  isVerified,
+  state,
+  onAction,
+}: {
+  row: PlayRequiredRow
+  type: 'ipb' | 'play_required'
+  isVerified: boolean
+  state: VerifyState | undefined
+  onAction: (row: PlayRequiredRow, type: 'ipb' | 'play_required', action: VerifyActionKind) => void
+}) {
+  if (!isVerified) {
+    return <VerifyControl row={row} type={type} state={state} onVerify={(r, t) => onAction(r, t, 'verify')} />
+  }
+
+  if (state?.status === 'done' && state.action === 'verify') {
+    return (
+      <div className="mt-1 space-y-0.5">
+        <p className="max-w-[16rem] text-[11px] text-success-foreground">{state.message}</p>
+        <button
+          type="button"
+          onClick={() => onAction(row, type, 'unverify')}
+          className="text-[11px] text-muted-foreground underline decoration-dotted hover:text-foreground"
+        >
+          Undo
+        </button>
+      </div>
+    )
+  }
+
+  if (state?.status === 'verifying' && state.action === 'unverify') {
+    return (
+      <Button size="sm" variant="outline" disabled className="mt-1.5">
+        <Loader2 className="h-3 w-3 animate-spin" />
+        Unverifying…
+      </Button>
+    )
+  }
+
+  return (
+    <div className="mt-1 space-y-1">
+      {hasGiveawayCode(row) && (
+        <button
+          type="button"
+          onClick={() => onAction(row, type, 'unverify')}
+          className="text-[11px] text-muted-foreground underline decoration-dotted hover:text-foreground"
+        >
+          Unverify
+        </button>
+      )}
+      {state?.status === 'error' && state.action === 'unverify' && (
         <p className="max-w-[16rem] text-[11px] text-error-foreground">{state.message}</p>
       )}
     </div>
@@ -542,11 +618,11 @@ function VerifyControl({
 function PlayRequiredRowView({
   row,
   verifyStates,
-  onVerify,
+  onAction,
 }: {
   row: PlayRequiredRow
   verifyStates: Record<string, VerifyState>
-  onVerify: (row: PlayRequiredRow, type: 'ipb' | 'play_required') => void
+  onAction: (row: PlayRequiredRow, type: 'ipb' | 'play_required', action: VerifyActionKind) => void
 }) {
   const prState = verifyStates[verifyStateKey(row, 'play_required')]
   return (
@@ -586,15 +662,13 @@ function PlayRequiredRowView({
       </td>
       <td className="py-2.5">
         <SignOffCell row={row} />
-        {!row.attestation.confirmed ? (
-          <VerifyControl row={row} type="play_required" state={prState} onVerify={onVerify} />
-        ) : (
-          prState?.status === 'done' && (
-            <p className="mt-1 max-w-[16rem] text-[11px] text-success-foreground">
-              {prState.message}
-            </p>
-          )
-        )}
+        <VerifiedControls
+          row={row}
+          type="play_required"
+          isVerified={row.attestation.confirmed}
+          state={prState}
+          onAction={onAction}
+        />
       </td>
     </tr>
   )
@@ -603,11 +677,11 @@ function PlayRequiredRowView({
 function IpbRowView({
   row,
   verifyStates,
-  onVerify,
+  onAction,
 }: {
   row: PlayRequiredRow
   verifyStates: Record<string, VerifyState>
-  onVerify: (row: PlayRequiredRow, type: 'ipb' | 'play_required') => void
+  onAction: (row: PlayRequiredRow, type: 'ipb' | 'play_required', action: VerifyActionKind) => void
 }) {
   const submittedAt = row.discord?.thread_created_at
   const ipbState = verifyStates[verifyStateKey(row, 'ipb')]
@@ -652,15 +726,13 @@ function IpbRowView({
       </td>
       <td className="py-2.5 pr-3">
         <IpbStatusBadge status={row.ipbStatus} />
-        {row.ipbStatus !== 'verified' ? (
-          <VerifyControl row={row} type="ipb" state={ipbState} onVerify={onVerify} />
-        ) : (
-          ipbState?.status === 'done' && (
-            <p className="mt-1 max-w-[16rem] text-[11px] text-success-foreground">
-              {ipbState.message}
-            </p>
-          )
-        )}
+        <VerifiedControls
+          row={row}
+          type="ipb"
+          isVerified={row.ipbStatus === 'verified'}
+          state={ipbState}
+          onAction={onAction}
+        />
       </td>
       <td className="py-2.5">
         <LinksCell row={row} />
@@ -773,56 +845,92 @@ export default function PlayRequiredClient({
   // in place (optimistic update) without waiting for the next static build.
   const [localRows, setLocalRows] = useState(rows)
   const [verifyStates, setVerifyStates] = useState<Record<string, VerifyState>>({})
+  // Rows verified this session stay visible even when "Show verified" is off,
+  // so their inline Undo affordance remains reachable.
+  const [justVerifiedKeys, setJustVerifiedKeys] = useState<Set<string>>(new Set())
 
-  const handleVerify = useCallback(async (row: PlayRequiredRow, type: 'ipb' | 'play_required') => {
-    const password = await getAdminPassword()
-    if (!password) return
+  /** Best-effort human-readable note for the request's `discord` reaction-toggle result. */
+  function discordNoteFor(discordResult: unknown, action: VerifyActionKind): string {
+    if (discordResult === 'reacted') return ' Discord thread reacted with ✅.'
+    if (discordResult === 'unreacted') return ' Discord ✅ reaction removed.'
+    if (discordResult === 'failed') {
+      return action === 'verify'
+        ? ' (Discord reaction failed — react manually.)'
+        : ' (Discord un-reaction failed — remove it manually.)'
+    }
+    return ''
+  }
 
-    const stateKey = verifyStateKey(row, type)
-    setVerifyStates((prev) => ({ ...prev, [stateKey]: { status: 'verifying' } }))
-
-    try {
-      const res = await fetch('/api/verify', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          password,
-          type,
-          giveawayId: row.giveawayLink.slice(0, 5),
-          discordThreadId: row.discord?.thread_id,
-        }),
-      })
-      const data = await res.json().catch(() => ({}))
-      if (!res.ok) {
-        throw new Error(typeof data.error === 'string' ? data.error : `Request failed (${res.status})`)
+  const handleAction = useCallback(
+    async (row: PlayRequiredRow, type: 'ipb' | 'play_required', action: VerifyActionKind) => {
+      if (action === 'unverify') {
+        const confirmed = window.confirm(`Unverify ${row.game.name} for ${row.winner.username}?`)
+        if (!confirmed) return
       }
 
-      setLocalRows((prev) =>
-        prev.map((r) =>
-          r.key === row.key
-            ? type === 'ipb'
-              ? { ...r, ipbStatus: 'verified' }
-              : { ...r, attestation: { ...r.attestation, confirmed: true } }
-            : r,
-        ),
-      )
-      const discordNote =
-        data.discord === 'replied_archived'
-          ? ' Discord thread replied and archived.'
-          : data.discord === 'failed'
-            ? ' (Discord thread close-out failed — archive it manually.)'
-            : ''
-      const message = `${data.already ? 'Already verified.' : 'Verified.'}${discordNote}`
-      setVerifyStates((prev) => ({ ...prev, [stateKey]: { status: 'done', message } }))
-    } catch (err) {
-      const raw = err instanceof Error ? err.message : 'Verification failed.'
-      const message =
-        raw === 'Failed to fetch' || raw.includes('NetworkError')
-          ? "Can't reach /api/verify — this endpoint only runs when deployed on Vercel, not in local dev."
-          : raw
-      setVerifyStates((prev) => ({ ...prev, [stateKey]: { status: 'error', message } }))
-    }
-  }, [])
+      const password = await getAdminPassword()
+      if (!password) return
+
+      const stateKey = verifyStateKey(row, type)
+      setVerifyStates((prev) => ({ ...prev, [stateKey]: { status: 'verifying', action } }))
+
+      try {
+        const res = await fetch('/api/verify', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            password,
+            type,
+            action,
+            giveawayId: row.giveawayLink.slice(0, 5),
+            discordThreadId: row.discord?.thread_id,
+          }),
+        })
+        const data = await res.json().catch(() => ({}))
+        if (!res.ok) {
+          throw new Error(typeof data.error === 'string' ? data.error : `Request failed (${res.status})`)
+        }
+
+        const verified = action === 'verify'
+        setLocalRows((prev) =>
+          prev.map((r) =>
+            r.key === row.key
+              ? type === 'ipb'
+                ? { ...r, ipbStatus: verified ? 'verified' : r.discord ? 'submitted' : 'not_submitted' }
+                : { ...r, attestation: { ...r.attestation, confirmed: verified } }
+              : r,
+          ),
+        )
+        setJustVerifiedKeys((prev) => {
+          const next = new Set(prev)
+          if (verified) next.add(stateKey)
+          else next.delete(stateKey)
+          return next
+        })
+
+        const discordNote = discordNoteFor(data.discord, action)
+        const already = data.already
+          ? action === 'verify'
+            ? 'Already verified.'
+            : 'Already unverified.'
+          : action === 'verify'
+            ? 'Verified.'
+            : 'Unverified.'
+        setVerifyStates((prev) => ({
+          ...prev,
+          [stateKey]: { status: 'done', action, message: `${already}${discordNote}` },
+        }))
+      } catch (err) {
+        const raw = err instanceof Error ? err.message : 'Request failed.'
+        const message =
+          raw === 'Failed to fetch' || raw.includes('NetworkError')
+            ? "Can't reach /api/verify — this endpoint only runs when deployed on Vercel, not in local dev."
+            : raw
+        setVerifyStates((prev) => ({ ...prev, [stateKey]: { status: 'error', action, message } }))
+      }
+    },
+    [],
+  )
 
   // Static export: the tab can't be read from the server-rendered URL, so
   // sync it from window.location once mounted and keep it in sync from then on.
@@ -859,7 +967,12 @@ export default function PlayRequiredClient({
     () =>
       prRows.filter((row) => {
         if (!matchesStatusFilter(row, statusFilter)) return false
-        if (!showVerified && row.attestation.confirmed) return false
+        if (
+          !showVerified &&
+          row.attestation.confirmed &&
+          !justVerifiedKeys.has(verifyStateKey(row, 'play_required'))
+        )
+          return false
         if (!showExMembers && row.winner.isExMember) return false
         if (!term) return true
         return (
@@ -867,13 +980,18 @@ export default function PlayRequiredClient({
           row.winner.username.toLowerCase().includes(term)
         )
       }),
-    [prRows, statusFilter, showVerified, showExMembers, term],
+    [prRows, statusFilter, showVerified, showExMembers, term, justVerifiedKeys],
   )
   const filteredIpbRows = useMemo(
     () =>
       ipbRows.filter((row) => {
         if (!matchesStatusFilter(row, statusFilter)) return false
-        if (!showVerified && row.ipbStatus === 'verified') return false
+        if (
+          !showVerified &&
+          row.ipbStatus === 'verified' &&
+          !justVerifiedKeys.has(verifyStateKey(row, 'ipb'))
+        )
+          return false
         if (!showExMembers && row.winner.isExMember) return false
         if (!term) return true
         return (
@@ -881,7 +999,7 @@ export default function PlayRequiredClient({
           row.winner.username.toLowerCase().includes(term)
         )
       }),
-    [ipbRows, statusFilter, showVerified, showExMembers, term],
+    [ipbRows, statusFilter, showVerified, showExMembers, term, justVerifiedKeys],
   )
 
   const sortedPrRows = useMemo(
@@ -1079,7 +1197,7 @@ export default function PlayRequiredClient({
                     key={row.key}
                     row={row}
                     verifyStates={verifyStates}
-                    onVerify={handleVerify}
+                    onAction={handleAction}
                   />
                 ))}
               </tbody>
@@ -1156,7 +1274,7 @@ export default function PlayRequiredClient({
                     key={row.key}
                     row={row}
                     verifyStates={verifyStates}
-                    onVerify={handleVerify}
+                    onAction={handleAction}
                   />
                 ))}
               </tbody>

@@ -1,13 +1,14 @@
 // Vercel serverless function — plain /api directory support (see
 // api/discord/interactions.ts for why: the site is a static export, so this
 // rides Vercel's generic Node.js Function support rather than Next.js
-// routing). Marks a win as verified in the group's Google Sheet from the
-// /verification admin page's "Verify" button.
+// routing). Marks a win as verified — or reverts a mistaken verification —
+// in the group's Google Sheet from the /verification admin page's
+// Verify/Unverify controls.
 
 import type { IncomingMessage, ServerResponse } from 'node:http'
 import { createHash, createSign } from 'node:crypto'
 import { loadDataFile } from './_lib/data.js'
-import { createMessage, editChannel } from './_lib/discord-rest.js'
+import { addReaction, removeReaction } from './_lib/discord-rest.js'
 
 export const config = {
   maxDuration: 30,
@@ -21,10 +22,12 @@ const IPB_COLUMNS = ['ID', 'GAME', 'WINNER', 'COMPLETE PLAYING', 'EXTRA POINTS']
 const PLAY_REQUIRED_STATUS_COLUMN = 'PLAY REQUIREMENTS MET'
 
 type VerifyType = 'ipb' | 'play_required'
+type VerifyAction = 'verify' | 'unverify'
 
 interface VerifyRequestBody {
   password?: string
   type?: VerifyType
+  action?: VerifyAction
   giveawayId?: string
   discordThreadId?: string
 }
@@ -175,14 +178,30 @@ async function appendRow(accessToken: string, title: string, row: string[]): Pro
   )
 }
 
-/** Best-effort close-out of the Discord submission thread — never fails the request. */
-async function closeDiscordThread(threadId: string): Promise<'replied_archived' | 'failed'> {
+const VERIFIED_REACTION_EMOJI = '✅'
+
+/**
+ * Best-effort ✅ reaction on the submission thread's starter message — never
+ * fails the request. In a forum thread the starter message id equals the
+ * thread id.
+ */
+async function addVerifiedReaction(threadId: string): Promise<'reacted' | 'failed'> {
   try {
-    await createMessage(threadId, { content: '✅ Verified via the TGC website' })
-    await editChannel(threadId, { archived: true })
-    return 'replied_archived'
+    await addReaction(threadId, threadId, VERIFIED_REACTION_EMOJI)
+    return 'reacted'
   } catch (err) {
-    console.error('verify: Discord close-out failed', err)
+    console.error('verify: Discord reaction failed', err)
+    return 'failed'
+  }
+}
+
+/** Best-effort removal of the ✅ reaction after an unverify — never fails the request. */
+async function removeVerifiedReaction(threadId: string): Promise<'unreacted' | 'failed'> {
+  try {
+    await removeReaction(threadId, threadId, VERIFIED_REACTION_EMOJI)
+    return 'unreacted'
+  } catch (err) {
+    console.error('verify: Discord un-reaction failed', err)
     return 'failed'
   }
 }
@@ -202,6 +221,7 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
   }
 
   const { password, type, giveawayId, discordThreadId } = body
+  const action: VerifyAction = body.action === 'unverify' ? 'unverify' : 'verify'
 
   const expectedHash = process.env.ADMIN_PASSWORD_HASH
   if (!expectedHash || !password || sha256Hex(password) !== expectedHash) {
@@ -219,6 +239,57 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
   }
 
   try {
+    const accessToken = await getGoogleAccessToken()
+    const gid = type === 'ipb' ? IPB_SHEET_GID : PLAY_REQUIRED_SHEET_GID
+    const title = await resolveTabTitle(accessToken, gid)
+
+    if (action === 'unverify') {
+      const values = await readTabValues(accessToken, title)
+      const headerRow = values[0] ?? []
+      const idCol = columnIndex(headerRow, 'ID')
+      const rowIndex = values.findIndex((row, i) => i > 0 && (row[idCol] ?? '').trim() === giveawayId)
+
+      if (type === 'ipb') {
+        const completeCol = columnIndex(headerRow, IPB_COLUMNS[3])
+        const pointsCol = columnIndex(headerRow, IPB_COLUMNS[4])
+
+        if (rowIndex === -1) {
+          respondJson(res, 404, { error: `No IPB row found for id ${giveawayId} — nothing to unverify` })
+          return
+        }
+        const rowNumber = rowIndex + 1
+        const currentStatus = (values[rowIndex]?.[completeCol] ?? '').trim().toUpperCase()
+        if (currentStatus !== 'YES') {
+          respondJson(res, 200, { ok: true, action: 'unverified', already: true, discord: 'skipped' })
+          return
+        }
+        await updateCell(accessToken, title, rowNumber, completeCol, 'NO')
+        await updateCell(accessToken, title, rowNumber, pointsCol, '')
+        const discord = discordThreadId ? await removeVerifiedReaction(discordThreadId) : 'skipped'
+        respondJson(res, 200, { ok: true, action: 'unverified', discord })
+        return
+      }
+
+      // type === 'play_required'
+      if (rowIndex === -1) {
+        respondJson(res, 404, {
+          error: `No Play Required row found for id ${giveawayId} — nothing to unverify`,
+        })
+        return
+      }
+      const statusCol = columnIndex(headerRow, PLAY_REQUIRED_STATUS_COLUMN)
+      const rowNumber = rowIndex + 1
+      const currentStatus = (values[rowIndex]?.[statusCol] ?? '').trim().toUpperCase()
+      if (currentStatus !== 'YES') {
+        respondJson(res, 200, { ok: true, action: 'unverified', already: true, discord: 'skipped' })
+        return
+      }
+      await updateCell(accessToken, title, rowNumber, statusCol, 'NO')
+      respondJson(res, 200, { ok: true, action: 'unverified', discord: 'skipped' })
+      return
+    }
+
+    // action === 'verify'
     const giveawaysData = await loadDataFile<GiveawaysData>('giveaways.json', req.headers.host)
     const giveaway = giveawaysData.giveaways.find((g) => g.id === giveawayId)
     const winner = giveaway?.winners?.[0]
@@ -228,9 +299,6 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
     }
     const winnerUsername = winner.winner_username ?? winner.name
 
-    const accessToken = await getGoogleAccessToken()
-    const gid = type === 'ipb' ? IPB_SHEET_GID : PLAY_REQUIRED_SHEET_GID
-    const title = await resolveTabTitle(accessToken, gid)
     const values = await readTabValues(accessToken, title)
     const headerRow = values[0] ?? []
     const idCol = columnIndex(headerRow, 'ID')
@@ -248,7 +316,7 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
           'YES',
           String(giveaway.points),
         ])
-        const discord = discordThreadId ? await closeDiscordThread(discordThreadId) : 'skipped'
+        const discord = discordThreadId ? await addVerifiedReaction(discordThreadId) : 'skipped'
         respondJson(res, 200, { ok: true, action: 'appended', discord })
         return
       }
@@ -261,7 +329,7 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
       }
       await updateCell(accessToken, title, rowNumber, completeCol, 'YES')
       await updateCell(accessToken, title, rowNumber, pointsCol, String(giveaway.points))
-      const discord = discordThreadId ? await closeDiscordThread(discordThreadId) : 'skipped'
+      const discord = discordThreadId ? await addVerifiedReaction(discordThreadId) : 'skipped'
       respondJson(res, 200, { ok: true, action: 'updated', discord })
       return
     }

@@ -79,6 +79,22 @@ export async function editChannel(
   })
 }
 
+/** PUT /channels/{id}/messages/{id}/reactions/{emoji}/@me — adds the bot's own reaction to a message. */
+export async function addReaction(channelId: string, messageId: string, emoji: string): Promise<void> {
+  await discordFetch(
+    `/channels/${channelId}/messages/${messageId}/reactions/${encodeURIComponent(emoji)}/@me`,
+    { method: 'PUT' }
+  )
+}
+
+/** DELETE /channels/{id}/messages/{id}/reactions/{emoji}/@me — removes the bot's own reaction from a message. */
+export async function removeReaction(channelId: string, messageId: string, emoji: string): Promise<void> {
+  await discordFetch(
+    `/channels/${channelId}/messages/${messageId}/reactions/${encodeURIComponent(emoji)}/@me`,
+    { method: 'DELETE' }
+  )
+}
+
 export interface DiscordEmoji {
   id: string
   name: string

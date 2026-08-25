@@ -28,11 +28,11 @@ vi.mock('./_lib/data.js', () => ({
 }))
 
 vi.mock('./_lib/discord-rest.js', () => ({
-  createMessage: vi.fn(async () => ({})),
-  editChannel: vi.fn(async () => {}),
+  addReaction: vi.fn(async () => {}),
+  removeReaction: vi.fn(async () => {}),
 }))
 
-import { createMessage, editChannel } from './_lib/discord-rest.js'
+import { addReaction, removeReaction } from './_lib/discord-rest.js'
 
 /** Builds a fake IncomingMessage carrying a JSON body, for handler(req, res). */
 function fakeRequest(body: unknown, method = 'POST'): IncomingMessage {
@@ -181,13 +181,35 @@ describe('POST /api/verify', () => {
     expect(res.statusCode).toBe(404)
   })
 
-  it('does not fail the request when the Discord close-out fails', async () => {
+  it('adds a ✅ reaction to the thread on verify', async () => {
     const values = [
       ['ID', 'GAME', 'WINNER', 'COMPLETE PLAYING', 'EXTRA POINTS'],
       ['abc12', 'Some Game', 'winnerName', 'NO', ''],
     ]
     mockGoogleFlow('I play bro', values)
-    vi.mocked(createMessage).mockRejectedValueOnce(new Error('discord is down'))
+
+    const req = fakeRequest({
+      password: ADMIN_PASSWORD,
+      type: 'ipb',
+      giveawayId: 'abc12',
+      discordThreadId: 'thread1',
+    })
+    const res = fakeResponse()
+    await handler(req, res)
+
+    expect(res.statusCode).toBe(200)
+    expect(res.body).toMatchObject({ ok: true, discord: 'reacted' })
+    expect(addReaction).toHaveBeenCalledWith('thread1', 'thread1', '✅')
+    expect(removeReaction).not.toHaveBeenCalled()
+  })
+
+  it('does not fail the request when the Discord reaction fails', async () => {
+    const values = [
+      ['ID', 'GAME', 'WINNER', 'COMPLETE PLAYING', 'EXTRA POINTS'],
+      ['abc12', 'Some Game', 'winnerName', 'NO', ''],
+    ]
+    mockGoogleFlow('I play bro', values)
+    vi.mocked(addReaction).mockRejectedValueOnce(new Error('discord is down'))
 
     const req = fakeRequest({
       password: ADMIN_PASSWORD,
@@ -200,7 +222,97 @@ describe('POST /api/verify', () => {
 
     expect(res.statusCode).toBe(200)
     expect(res.body).toMatchObject({ ok: true, discord: 'failed' })
-    expect(editChannel).not.toHaveBeenCalled()
+  })
+
+  it('unverifies an IPB row: sets COMPLETE PLAYING to NO and clears EXTRA POINTS', async () => {
+    const values = [
+      ['ID', 'GAME', 'WINNER', 'COMPLETE PLAYING', 'EXTRA POINTS'],
+      ['abc12', 'Some Game', 'winnerName', 'YES', '25'],
+    ]
+    const { calls } = mockGoogleFlow('I play bro', values)
+    const req = fakeRequest({
+      password: ADMIN_PASSWORD,
+      type: 'ipb',
+      action: 'unverify',
+      giveawayId: 'abc12',
+      discordThreadId: 'thread1',
+    })
+    const res = fakeResponse()
+    await handler(req, res)
+
+    expect(res.statusCode).toBe(200)
+    expect(res.body).toMatchObject({ ok: true, action: 'unverified', discord: 'unreacted' })
+
+    const putCalls = calls.filter((c) => c.init?.method === 'PUT')
+    expect(putCalls.length).toBe(2)
+    expect(putCalls[0].url).toContain(encodeURIComponent("'I play bro'!D2"))
+    expect(JSON.parse(putCalls[0].init!.body as string)).toMatchObject({ values: [['NO']] })
+    expect(putCalls[1].url).toContain(encodeURIComponent("'I play bro'!E2"))
+    expect(JSON.parse(putCalls[1].init!.body as string)).toMatchObject({ values: [['']] })
+
+    expect(removeReaction).toHaveBeenCalledWith('thread1', 'thread1', '✅')
+    expect(addReaction).not.toHaveBeenCalled()
+  })
+
+  it('returns 404 unverifying an IPB row that does not exist', async () => {
+    const values = [['ID', 'GAME', 'WINNER', 'COMPLETE PLAYING', 'EXTRA POINTS']]
+    mockGoogleFlow('I play bro', values)
+    const req = fakeRequest({
+      password: ADMIN_PASSWORD,
+      type: 'ipb',
+      action: 'unverify',
+      giveawayId: 'abc12',
+    })
+    const res = fakeResponse()
+    await handler(req, res)
+
+    expect(res.statusCode).toBe(404)
+  })
+
+  it('does not fail the unverify request when removing the Discord reaction fails', async () => {
+    const values = [
+      ['ID', 'GAME', 'WINNER', 'COMPLETE PLAYING', 'EXTRA POINTS'],
+      ['abc12', 'Some Game', 'winnerName', 'YES', '25'],
+    ]
+    mockGoogleFlow('I play bro', values)
+    vi.mocked(removeReaction).mockRejectedValueOnce(new Error('discord is down'))
+
+    const req = fakeRequest({
+      password: ADMIN_PASSWORD,
+      type: 'ipb',
+      action: 'unverify',
+      giveawayId: 'abc12',
+      discordThreadId: 'thread1',
+    })
+    const res = fakeResponse()
+    await handler(req, res)
+
+    expect(res.statusCode).toBe(200)
+    expect(res.body).toMatchObject({ ok: true, action: 'unverified', discord: 'failed' })
+  })
+
+  it('unverifies a play_required row: sets PLAY REQUIREMENTS MET to NO', async () => {
+    const values = [
+      ['ID', 'GAME', 'WINNER', 'PLAY REQUIREMENTS MET'],
+      ['abc12', 'Some Game', 'winnerName', 'YES'],
+    ]
+    const { calls } = mockGoogleFlow('Play Required', values)
+    const req = fakeRequest({
+      password: ADMIN_PASSWORD,
+      type: 'play_required',
+      action: 'unverify',
+      giveawayId: 'abc12',
+    })
+    const res = fakeResponse()
+    await handler(req, res)
+
+    expect(res.statusCode).toBe(200)
+    expect(res.body).toMatchObject({ ok: true, action: 'unverified', discord: 'skipped' })
+
+    const putCalls = calls.filter((c) => c.init?.method === 'PUT')
+    expect(putCalls.length).toBe(1)
+    expect(putCalls[0].url).toContain(encodeURIComponent("'Play Required'!D2"))
+    expect(JSON.parse(putCalls[0].init!.body as string)).toMatchObject({ values: [['NO']] })
   })
 
   it('resolves the tab title by gid rather than assuming a fixed name', async () => {
