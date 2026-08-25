@@ -38,6 +38,10 @@ import { logError } from '../utils/log-error.js'
 const DISCORD_API_BASE = 'https://discord.com/api/v10'
 const GUILD_ID = '1385346341848350810'
 const IPB_CHANNEL_ID = '1511044179910856977'
+/** Meta threads in the forum that are not play-verification submissions. */
+const EXCLUDED_THREAD_IDS = new Set([
+  '1511044651703074857', // "I Play, Bro Archive" — pinned index thread
+])
 const DISCORD_REQUEST_DELAY_MS = 300
 
 const currentDir = dirname(fileURLToPath(import.meta.url))
@@ -526,6 +530,7 @@ export async function generateIpbDiscordData(): Promise<void> {
   >()
 
   for (const thread of allThreads) {
+    if (EXCLUDED_THREAD_IDS.has(thread.id)) continue
     const url = `https://discord.com/channels/${GUILD_ID}/${thread.id}`
     const ownerUsername = usersCache[thread.owner_id]?.username
 
