@@ -218,6 +218,60 @@ function resolveBudgetMinutes(): number | null {
   return Number.isFinite(n) && n > 0 ? n : null
 }
 
+// ---------- Leaver-classification plausibility guard ----------
+
+export interface LeaverGuardOptions {
+  /** Absolute override for the drop threshold (env LEAVER_GUARD_MAX_DROP). */
+  maxDropOverride?: number | null
+  /** Disables the guard entirely (env SKIP_LEAVER_GUARD=1). */
+  disabled?: boolean
+}
+
+export interface LeaverGuardResult {
+  /** True when the scrape looks unreliable and leaver classification should be skipped. */
+  guarded: boolean
+  previousCount: number
+  scrapedCount: number
+  drop: number
+  threshold: number
+}
+
+/**
+ * A Cloudflare block that survives fetchPage's retries can still leave
+ * pagination short of the real member list (see the pagination hard-error
+ * below for the more common case). This is a second line of defense: even
+ * if a truncated list slips through, comparing its size against the
+ * previous roster catches the same failure mode before anyone gets
+ * misclassified as having left.
+ *
+ * The threshold scales with roster size (5%, floor of 3) so it stays tight
+ * for a ~130-member group without tripping on ordinary single-digit
+ * attrition between runs.
+ */
+export function evaluateLeaverGuard(
+  previousCount: number,
+  scrapedCount: number,
+  options: LeaverGuardOptions = {},
+): LeaverGuardResult {
+  const drop = previousCount - scrapedCount
+  const threshold =
+    options.maxDropOverride != null && Number.isFinite(options.maxDropOverride)
+      ? options.maxDropOverride
+      : Math.max(3, Math.ceil(previousCount * 0.05))
+  const guarded = !options.disabled && drop > threshold
+  return { guarded, previousCount, scrapedCount, drop, threshold }
+}
+
+function resolveLeaverGuardOptions(): LeaverGuardOptions {
+  const disabled = process.env.SKIP_LEAVER_GUARD === '1'
+  const raw = process.env.LEAVER_GUARD_MAX_DROP
+  const parsed = raw != null && raw !== '' ? Number(raw) : null
+  return {
+    disabled,
+    maxDropOverride: parsed != null && Number.isFinite(parsed) ? parsed : null,
+  }
+}
+
 type WonGame = NonNullable<User['giveaways_won']>[number]
 
 /**
@@ -1502,11 +1556,18 @@ export class SteamGiftsUserFetcher {
         html = await this.fetchPage(currentPath)
         pagesFetched++
       } catch (error) {
-        console.warn(
-          `⚠️  Failed to fetch page: ${this.baseUrl}${currentPath}:`,
-          error,
+        // fetchPage already retries 403/429/503 up to 3 times before
+        // throwing, so a throw here means the block persisted. Silently
+        // ending pagination at that point would hand back a truncated
+        // member list indistinguishable from a real end-of-list, and
+        // downstream logic would misclassify the missing members as
+        // having left the group. Fail the run instead.
+        const errorMessage = `Failed to fetch page ${pagesFetched + 1} while scraping group members: ${this.baseUrl}${currentPath}`
+        console.error(`❌ ${errorMessage}:`, error)
+        logError(error, errorMessage)
+        throw new Error(
+          `${errorMessage} (fetched ${allScrapedUsers.length} users across ${pagesFetched} pages before failing): ${error instanceof Error ? error.message : String(error)}`,
         )
-        break
       }
 
       const usersOnPage = this.parseUsers(html)
@@ -1704,12 +1765,28 @@ export class SteamGiftsUserFetcher {
     try {
       // Load existing users
       const existingUsers = this.loadExistingUsers(filename)
+      const previousRosterCount = existingUsers.size
 
       console.log('🚀 Fetching group users...')
 
       let allScrapedUsers: User[] = usersList ?? []
       if (!usersList) {
         allScrapedUsers = await this._fetchAllUsersFromPages()
+      }
+
+      const leaverGuard = evaluateLeaverGuard(
+        previousRosterCount,
+        allScrapedUsers.length,
+        resolveLeaverGuardOptions(),
+      )
+      if (leaverGuard.guarded) {
+        console.warn(
+          `🚨 LEAVER GUARD TRIPPED: scraped ${leaverGuard.scrapedCount} members vs a previous roster of ${leaverGuard.previousCount} ` +
+            `(dropped ${leaverGuard.drop}, threshold ${leaverGuard.threshold}). This looks like a truncated scrape ` +
+            `(e.g. a Cloudflare block cutting pagination short), not real departures. Skipping leaver classification ` +
+            `for this run — no one will be moved to ex_members.json; members that WERE scraped still get updated normally. ` +
+            `Set LEAVER_GUARD_MAX_DROP=<n> to override the threshold, or SKIP_LEAVER_GUARD=1 to disable this check entirely.`,
+        )
       }
 
       let newUsersCount = 0
@@ -1824,16 +1901,20 @@ export class SteamGiftsUserFetcher {
       }
 
       // Temporarily track removed users — we'll reconcile after Steam info fetch
-      // in case any "removed" user is actually a rename we couldn't detect yet
+      // in case any "removed" user is actually a rename we couldn't detect yet.
+      // Skipped entirely when the leaver guard tripped above: an unreliable
+      // scrape must not classify anyone as having left.
       let removedUsers: User[] = []
-      for (const [username, user] of existingUsers) {
-        if (!currentGroupSteamIds.has(user.steam_id)) {
-          const userWithTimestamp = {
-            ...user,
-            left_at_timestamp: Date.now(),
+      if (!leaverGuard.guarded) {
+        for (const [username, user] of existingUsers) {
+          if (!currentGroupSteamIds.has(user.steam_id)) {
+            const userWithTimestamp = {
+              ...user,
+              left_at_timestamp: Date.now(),
+            }
+            existingUsers.delete(username)
+            removedUsers.push(userWithTimestamp)
           }
-          existingUsers.delete(username)
-          removedUsers.push(userWithTimestamp)
         }
       }
 

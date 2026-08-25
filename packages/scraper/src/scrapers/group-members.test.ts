@@ -1,6 +1,10 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { readFileSync } from 'node:fs'
-import { SteamGiftsUserFetcher, mergePlayData } from './group-members'
+import {
+  SteamGiftsUserFetcher,
+  mergePlayData,
+  evaluateLeaverGuard,
+} from './group-members'
 import type { User, GamePrice, Giveaway } from '../types/steamgifts'
 
 vi.mock('node:fs')
@@ -498,5 +502,47 @@ describe('mergePlayData', () => {
     const merged = mergePlayData(proven, progressed)
     expect(merged.playtime_minutes).toBe(2000)
     expect(merged.achievements_unlocked).toBe(40)
+  })
+})
+
+describe('evaluateLeaverGuard', () => {
+  it('does not guard ordinary attrition below the threshold', () => {
+    // 130 -> 128: drop of 2, threshold is max(3, 5% of 130) = 6.
+    const result = evaluateLeaverGuard(130, 128)
+    expect(result.guarded).toBe(false)
+    expect(result.threshold).toBe(7)
+    expect(result.drop).toBe(2)
+  })
+
+  it('guards a truncated scrape that drops far more than the threshold', () => {
+    // The incident this guards against: 130 -> 100, 30 missing.
+    const result = evaluateLeaverGuard(130, 100)
+    expect(result.guarded).toBe(true)
+    expect(result.drop).toBe(30)
+    expect(result.threshold).toBe(7)
+  })
+
+  it('floors the threshold at 3 for small rosters', () => {
+    const result = evaluateLeaverGuard(10, 6)
+    expect(result.threshold).toBe(3)
+    expect(result.drop).toBe(4)
+    expect(result.guarded).toBe(true)
+  })
+
+  it('never guards when the scrape grew or held steady', () => {
+    expect(evaluateLeaverGuard(130, 130).guarded).toBe(false)
+    expect(evaluateLeaverGuard(130, 140).guarded).toBe(false)
+  })
+
+  it('respects an absolute override threshold', () => {
+    // Deliberate mass-removal: a 30-member drop is expected, override to allow it.
+    const result = evaluateLeaverGuard(130, 100, { maxDropOverride: 40 })
+    expect(result.guarded).toBe(false)
+    expect(result.threshold).toBe(40)
+  })
+
+  it('is disabled entirely when asked, even on an extreme drop', () => {
+    const result = evaluateLeaverGuard(130, 10, { disabled: true })
+    expect(result.guarded).toBe(false)
   })
 })
