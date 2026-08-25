@@ -43,6 +43,7 @@ function makeRow(overrides: Partial<PlayRequiredRow> = {}): PlayRequiredRow {
       noMarkerReason: null,
       beaten: null,
       unlockTime: null,
+      checkedAt: null,
       noDataReason: null,
       resolvedAppId: null,
     },

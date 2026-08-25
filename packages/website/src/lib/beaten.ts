@@ -141,6 +141,8 @@ export interface PlayRequiredRow {
      * Steam achievements link whenever it's set.
      */
     resolvedAppId: number | null
+    /** When the winner's beaten status was last checked (ISO), null if never. */
+    checkedAt: string | null
   }
   /**
    * Heuristic evidence of completion shown SEPARATELY from the Steam-verified
@@ -200,7 +202,14 @@ function beatenVerdictFor(
   beatenGames: BeatenGamesData | null,
 ): Pick<
   PlayRequiredRow['beaten'],
-  'verdict' | 'marker' | 'noMarkerReason' | 'beaten' | 'unlockTime' | 'noDataReason' | 'resolvedAppId'
+  | 'verdict'
+  | 'marker'
+  | 'noMarkerReason'
+  | 'beaten'
+  | 'unlockTime'
+  | 'noDataReason'
+  | 'resolvedAppId'
+  | 'checkedAt'
 > {
   const empty = {
     marker: null as BeatenGameMarker | null,
@@ -209,6 +218,7 @@ function beatenVerdictFor(
     unlockTime: null as number | null,
     noDataReason: null as NoDataReason | null,
     resolvedAppId: null as number | null,
+    checkedAt: null as string | null,
   }
 
   if (appId == null) {
@@ -246,6 +256,7 @@ function beatenVerdictFor(
       unlockTime: winEntry.unlock_time,
       noDataReason: null,
       resolvedAppId,
+      checkedAt: winEntry.checked_at ?? null,
     }
   }
   if (winEntry.beaten === false) {
@@ -257,6 +268,7 @@ function beatenVerdictFor(
       unlockTime: null,
       noDataReason: null,
       resolvedAppId,
+      checkedAt: winEntry.checked_at ?? null,
     }
   }
   return {
@@ -267,6 +279,7 @@ function beatenVerdictFor(
     unlockTime: null,
     noDataReason: winEntry.no_data_reason,
     resolvedAppId,
+    checkedAt: winEntry.checked_at ?? null,
   }
 }
 

@@ -218,7 +218,11 @@ function BeatenBadge({ row }: { row: PlayRequiredRow }) {
               beaten.marker?.global_percent != null
                 ? `, unlocked by ${beaten.marker.global_percent.toFixed(1)}% of players`
                 : ''
-            }. Click to open their achievements page.`}
+            }. Click to open their achievements page.${
+              beaten.checkedAt
+                ? ` Checked ${formatDistanceToNow(new Date(beaten.checkedAt), { addSuffix: true })} — a very recent unlock may not show yet.`
+                : ''
+            }`}
           >
             <Badge variant="error" size="sm">
               <XCircle className="h-3 w-3" />

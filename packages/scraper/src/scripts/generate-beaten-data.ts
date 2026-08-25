@@ -75,7 +75,10 @@ const cachePath = resolve(cacheDir, 'beaten-cache.json')
 
 const MARKER_FETCH_CAP = parseInt(process.env.MARKER_FETCH_CAP ?? '200', 10)
 const PLAYER_CHECK_CAP = 500
-const PLAYER_RECHECK_STALE_MS = 7 * 24 * 60 * 60 * 1000 // 7 days
+// Reviewers act on fresh submissions, and members often finish a game hours
+// after submitting — a not-yet-beaten verdict older than this is re-checked
+// each run (achieved verdicts stay cached forever).
+const PLAYER_RECHECK_STALE_MS = 12 * 60 * 60 * 1000 // 12 hours
 const STEAM_API_DELAY_MS = 1000
 // appdetails is aggressively rate-limited (~200 req/5min) even without a key.
 const APPDETAILS_DELAY_MS = 1500
