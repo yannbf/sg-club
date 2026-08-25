@@ -346,11 +346,23 @@ function matchThread(
   ownerCandidateWins: CandidateWin[] | undefined,
   giveawayByLink: Map<string, Giveaway>,
 ): ThreadMatch[] {
-  // 1. Giveaway link — exact, resolves the winner independent of the owner mapping.
+  // 1. Giveaway link — exact, resolves the winner independent of the owner
+  //    mapping. Multi-copy giveaways share one link across several winners,
+  //    so with more than one hit the thread attaches only to the win whose
+  //    winner IS the thread owner — otherwise verifying one winner's row
+  //    would react on another winner's thread.
   for (const code of signals.giveawayCodes) {
     const hits = codeToWins.get(code)
     if (hits && hits.length > 0) {
-      return hits.map((h) => ({ steamId: h.steamId, link: h.link, matchedBy: 'giveaway_link' }))
+      if (hits.length === 1) {
+        return [{ steamId: hits[0].steamId, link: hits[0].link, matchedBy: 'giveaway_link' }]
+      }
+      const ownerHit = ownerSteamId ? hits.find((h) => h.steamId === ownerSteamId) : undefined
+      if (ownerHit) {
+        return [{ steamId: ownerHit.steamId, link: ownerHit.link, matchedBy: 'giveaway_link' }]
+      }
+      // Ambiguous (multiple winners, owner not among them or unresolvable):
+      // fall through to the owner-scoped signals below rather than guessing.
     }
   }
 
