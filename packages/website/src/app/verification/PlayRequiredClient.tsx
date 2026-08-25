@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { formatDistanceToNow } from 'date-fns'
 import {
   AlertTriangle,
@@ -11,6 +11,7 @@ import {
   Eye,
   Gamepad2,
   HelpCircle,
+  Loader2,
   MessageSquare,
   Search,
   ShieldCheck,
@@ -21,6 +22,7 @@ import type { IpbSummary, PlayRequiredRow, PlayRequiredSummary, StatusFilter } f
 import { BEATEN_VERDICT_ORDER, matchesStatusFilter } from '@/lib/beaten'
 import type { IpbDiscordUnmatchedThread } from '@/types/ipb-discord'
 import { formatPlaytimeCompact } from '@/lib/data'
+import { verifyAdminPasswordHash } from '@/lib/auth'
 import { UserLink } from '@/components/UserLink'
 import UserAvatar from '@/components/UserAvatar'
 import GameImage from '@/components/GameImage'
@@ -31,6 +33,7 @@ import { DeadlineStatus } from '@/components/DeadlineStatus'
 import { StatCard } from '@/components/StatCard'
 import { Card } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
+import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import { Toolbar } from '@/components/ui/Toolbar'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/ToggleGroup'
@@ -59,6 +62,32 @@ function readTabFromLocation(): Tab {
   if (typeof window === 'undefined') return 'ipb'
   const raw = new URLSearchParams(window.location.search).get('tab')
   return (raw && PARAM_TO_TAB[raw]) || 'ipb'
+}
+
+const VERIFY_PASSWORD_STORAGE_KEY = 'sg-club-verify-password'
+
+/**
+ * Returns the admin password for /api/verify calls — from sessionStorage if
+ * already entered this tab session, otherwise prompts for it and checks it
+ * against the client-side hash before storing/returning it. Returns null if
+ * the user cancels or the password is wrong.
+ */
+async function getAdminPassword(): Promise<string | null> {
+  try {
+    const stored = sessionStorage.getItem(VERIFY_PASSWORD_STORAGE_KEY)
+    if (stored) return stored
+  } catch {}
+
+  const entered = window.prompt('Enter the admin password to verify this win:')
+  if (!entered) return null
+  if (!(await verifyAdminPasswordHash(entered))) {
+    window.alert('Incorrect password.')
+    return null
+  }
+  try {
+    sessionStorage.setItem(VERIFY_PASSWORD_STORAGE_KEY, entered)
+  } catch {}
+  return entered
 }
 
 type SortKey =
@@ -468,7 +497,58 @@ function AchievementsCell({ row }: { row: PlayRequiredRow }) {
   return <AchievementsLink row={row}>{withTooltip}</AchievementsLink>
 }
 
-function PlayRequiredRowView({ row }: { row: PlayRequiredRow }) {
+/** In-flight/result state for one row's verify action, keyed by `${row.key}:${type}`. */
+type VerifyState =
+  | { status: 'verifying' }
+  | { status: 'done'; message: string }
+  | { status: 'error'; message: string }
+
+function verifyStateKey(row: PlayRequiredRow, type: 'ipb' | 'play_required'): string {
+  return `${row.key}:${type}`
+}
+
+function VerifyControl({
+  row,
+  type,
+  state,
+  onVerify,
+}: {
+  row: PlayRequiredRow
+  type: 'ipb' | 'play_required'
+  state: VerifyState | undefined
+  onVerify: (row: PlayRequiredRow, type: 'ipb' | 'play_required') => void
+}) {
+  if (state?.status === 'verifying') {
+    return (
+      <Button size="sm" variant="outline" disabled className="mt-1.5">
+        <Loader2 className="h-3 w-3 animate-spin" />
+        Verifying…
+      </Button>
+    )
+  }
+  return (
+    <div className="mt-1.5 space-y-1">
+      <Button size="sm" variant="outline" onClick={() => onVerify(row, type)}>
+        <ShieldCheck className="h-3 w-3" />
+        Verify
+      </Button>
+      {state?.status === 'error' && (
+        <p className="max-w-[16rem] text-[11px] text-error-foreground">{state.message}</p>
+      )}
+    </div>
+  )
+}
+
+function PlayRequiredRowView({
+  row,
+  verifyStates,
+  onVerify,
+}: {
+  row: PlayRequiredRow
+  verifyStates: Record<string, VerifyState>
+  onVerify: (row: PlayRequiredRow, type: 'ipb' | 'play_required') => void
+}) {
+  const prState = verifyStates[verifyStateKey(row, 'play_required')]
   return (
     <tr className="border-b border-card-border last:border-0">
       <td className="py-2.5 pr-3">
@@ -506,13 +586,31 @@ function PlayRequiredRowView({ row }: { row: PlayRequiredRow }) {
       </td>
       <td className="py-2.5">
         <SignOffCell row={row} />
+        {!row.attestation.confirmed ? (
+          <VerifyControl row={row} type="play_required" state={prState} onVerify={onVerify} />
+        ) : (
+          prState?.status === 'done' && (
+            <p className="mt-1 max-w-[16rem] text-[11px] text-success-foreground">
+              {prState.message}
+            </p>
+          )
+        )}
       </td>
     </tr>
   )
 }
 
-function IpbRowView({ row }: { row: PlayRequiredRow }) {
+function IpbRowView({
+  row,
+  verifyStates,
+  onVerify,
+}: {
+  row: PlayRequiredRow
+  verifyStates: Record<string, VerifyState>
+  onVerify: (row: PlayRequiredRow, type: 'ipb' | 'play_required') => void
+}) {
   const submittedAt = row.discord?.thread_created_at
+  const ipbState = verifyStates[verifyStateKey(row, 'ipb')]
   return (
     <tr className="border-b border-card-border last:border-0">
       <td className="py-2.5 pr-3">
@@ -554,6 +652,15 @@ function IpbRowView({ row }: { row: PlayRequiredRow }) {
       </td>
       <td className="py-2.5 pr-3">
         <IpbStatusBadge status={row.ipbStatus} />
+        {row.ipbStatus !== 'verified' ? (
+          <VerifyControl row={row} type="ipb" state={ipbState} onVerify={onVerify} />
+        ) : (
+          ipbState?.status === 'done' && (
+            <p className="mt-1 max-w-[16rem] text-[11px] text-success-foreground">
+              {ipbState.message}
+            </p>
+          )
+        )}
       </td>
       <td className="py-2.5">
         <LinksCell row={row} />
@@ -662,6 +769,61 @@ export default function PlayRequiredClient({
     dir: 'desc',
   })
 
+  // Local copy so a successful /api/verify call can flip a row's status
+  // in place (optimistic update) without waiting for the next static build.
+  const [localRows, setLocalRows] = useState(rows)
+  const [verifyStates, setVerifyStates] = useState<Record<string, VerifyState>>({})
+
+  const handleVerify = useCallback(async (row: PlayRequiredRow, type: 'ipb' | 'play_required') => {
+    const password = await getAdminPassword()
+    if (!password) return
+
+    const stateKey = verifyStateKey(row, type)
+    setVerifyStates((prev) => ({ ...prev, [stateKey]: { status: 'verifying' } }))
+
+    try {
+      const res = await fetch('/api/verify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          password,
+          type,
+          giveawayId: row.giveawayLink.slice(0, 5),
+          discordThreadId: row.discord?.thread_id,
+        }),
+      })
+      const data = await res.json().catch(() => ({}))
+      if (!res.ok) {
+        throw new Error(typeof data.error === 'string' ? data.error : `Request failed (${res.status})`)
+      }
+
+      setLocalRows((prev) =>
+        prev.map((r) =>
+          r.key === row.key
+            ? type === 'ipb'
+              ? { ...r, ipbStatus: 'verified' }
+              : { ...r, attestation: { ...r.attestation, confirmed: true } }
+            : r,
+        ),
+      )
+      const discordNote =
+        data.discord === 'replied_archived'
+          ? ' Discord thread replied and archived.'
+          : data.discord === 'failed'
+            ? ' (Discord thread close-out failed — archive it manually.)'
+            : ''
+      const message = `${data.already ? 'Already verified.' : 'Verified.'}${discordNote}`
+      setVerifyStates((prev) => ({ ...prev, [stateKey]: { status: 'done', message } }))
+    } catch (err) {
+      const raw = err instanceof Error ? err.message : 'Verification failed.'
+      const message =
+        raw === 'Failed to fetch' || raw.includes('NetworkError')
+          ? "Can't reach /api/verify — this endpoint only runs when deployed on Vercel, not in local dev."
+          : raw
+      setVerifyStates((prev) => ({ ...prev, [stateKey]: { status: 'error', message } }))
+    }
+  }, [])
+
   // Static export: the tab can't be read from the server-rendered URL, so
   // sync it from window.location once mounted and keep it in sync from then on.
   useEffect(() => {
@@ -688,8 +850,8 @@ export default function PlayRequiredClient({
       }
     }
 
-  const prRows = useMemo(() => rows.filter((r) => r.isPlayRequired), [rows])
-  const ipbRows = useMemo(() => rows.filter((r) => r.isIpb), [rows])
+  const prRows = useMemo(() => localRows.filter((r) => r.isPlayRequired), [localRows])
+  const ipbRows = useMemo(() => localRows.filter((r) => r.isIpb), [localRows])
 
   const term = debouncedSearch.trim().toLowerCase()
 
@@ -913,7 +1075,12 @@ export default function PlayRequiredClient({
               </thead>
               <tbody className="px-3">
                 {sortedPrRows.map((row) => (
-                  <PlayRequiredRowView key={row.key} row={row} />
+                  <PlayRequiredRowView
+                    key={row.key}
+                    row={row}
+                    verifyStates={verifyStates}
+                    onVerify={handleVerify}
+                  />
                 ))}
               </tbody>
             </table>
@@ -985,7 +1152,12 @@ export default function PlayRequiredClient({
               </thead>
               <tbody className="px-3">
                 {sortedIpbRows.map((row) => (
-                  <IpbRowView key={row.key} row={row} />
+                  <IpbRowView
+                    key={row.key}
+                    row={row}
+                    verifyStates={verifyStates}
+                    onVerify={handleVerify}
+                  />
                 ))}
               </tbody>
             </table>

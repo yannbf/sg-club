@@ -87,3 +87,8 @@ export function useAuth(): AuthContextValue {
 export function useIsAdmin(): boolean {
   return useAuth().isAdmin
 }
+
+/** Checks a password against the known client-side admin hash, to fail fast before a server round-trip. */
+export async function verifyAdminPasswordHash(password: string): Promise<boolean> {
+  return (await sha256(password)) === ADMIN_PASSWORD_HASH
+}

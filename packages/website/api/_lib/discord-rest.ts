@@ -68,6 +68,17 @@ export async function getMessage(channelId: string, messageId: string): Promise<
   return (await res.json()) as DiscordMessage
 }
 
+/** PATCH /channels/{id} — used to archive a forum/thread channel after verification. */
+export async function editChannel(
+  channelId: string,
+  payload: Record<string, unknown>
+): Promise<void> {
+  await discordFetch(`/channels/${channelId}`, {
+    method: 'PATCH',
+    body: JSON.stringify(payload),
+  })
+}
+
 export interface DiscordEmoji {
   id: string
   name: string
