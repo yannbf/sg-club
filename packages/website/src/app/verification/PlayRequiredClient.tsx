@@ -18,8 +18,25 @@ import {
   Trophy,
   XCircle,
 } from 'lucide-react'
-import type { IpbSummary, PlayRequiredRow, PlayRequiredSummary, StatusFilter } from '@/lib/beaten'
-import { BEATEN_VERDICT_ORDER, matchesStatusFilter } from '@/lib/beaten'
+import type {
+  IpbSummary,
+  PlayRequiredRow,
+  PlayRequiredSummary,
+  StatusFilter,
+  VerifyOverrideMap,
+  VerifyOverrideState,
+} from '@/lib/beaten'
+import {
+  applyVerifyOverrides,
+  BEATEN_VERDICT_ORDER,
+  matchesStatusFilter,
+  parseVerifyOverrides,
+  pruneVerifyOverrides,
+  summarizeIpbRows,
+  summarizeRows,
+  VERIFY_OVERRIDES_STORAGE_KEY,
+  verifyOverrideKey,
+} from '@/lib/beaten'
 import type { IpbDiscordUnmatchedThread } from '@/types/ipb-discord'
 import { formatPlaytimeCompact } from '@/lib/data'
 import { getStoredAdminPassword, verifyAdminPasswordHash } from '@/lib/auth'
@@ -237,30 +254,46 @@ function BeatenBadge({ row }: { row: PlayRequiredRow }) {
   }
 }
 
-function IpbStatusBadge({ status }: { status: PlayRequiredRow['ipbStatus'] }) {
-  switch (status) {
-    case 'verified':
-      return (
-        <Badge variant="success" size="sm">
-          <ShieldCheck className="h-3 w-3" />
-          Verified
-        </Badge>
-      )
-    case 'submitted':
-      return (
-        <Badge variant="warning" size="sm">
-          <Clock className="h-3 w-3" />
-          Submitted
-        </Badge>
-      )
-    case 'not_submitted':
-      return (
-        <Badge variant="outline" size="sm">
-          <AlertTriangle className="h-3 w-3" />
-          Not submitted
-        </Badge>
-      )
-  }
+/** "Verified just now — site data refreshes within a few hours" cue for a row whose badge reflects a pending localStorage override rather than the committed JSON yet. */
+function pendingSyncTooltip(state: VerifyOverrideState): string {
+  return state === 'verified'
+    ? 'Verified just now — site data refreshes within a few hours'
+    : 'Unverified just now — site data refreshes within a few hours'
+}
+
+function IpbStatusBadge({
+  status,
+  pendingSync,
+}: {
+  status: PlayRequiredRow['ipbStatus']
+  pendingSync?: VerifyOverrideState
+}) {
+  const badge = (() => {
+    switch (status) {
+      case 'verified':
+        return (
+          <Badge variant="success" size="sm">
+            <ShieldCheck className="h-3 w-3" />
+            Verified
+          </Badge>
+        )
+      case 'submitted':
+        return (
+          <Badge variant="warning" size="sm">
+            <Clock className="h-3 w-3" />
+            Submitted
+          </Badge>
+        )
+      case 'not_submitted':
+        return (
+          <Badge variant="outline" size="sm">
+            <AlertTriangle className="h-3 w-3" />
+            Not submitted
+          </Badge>
+        )
+    }
+  })()
+  return pendingSync ? <Tooltip content={pendingSyncTooltip(pendingSync)}>{badge}</Tooltip> : badge
 }
 
 function LinksCell({ row }: { row: PlayRequiredRow }) {
@@ -291,25 +324,35 @@ function LinksCell({ row }: { row: PlayRequiredRow }) {
   )
 }
 
-function SignOffCell({ row }: { row: PlayRequiredRow }) {
+function SignOffCell({ row, pendingSync }: { row: PlayRequiredRow; pendingSync?: VerifyOverrideState }) {
   const { attestation, discord } = row
   if (attestation.confirmed) {
     const parts: string[] = []
     if (attestation.iPlayedBro) parts.push('I played, bro')
     if (attestation.requirementsMet) parts.push('play requirement met')
-    return (
+    const badge = (
       <Badge variant="success" size="sm">
         <ShieldCheck className="h-3 w-3" />
         Verified{parts.length > 0 ? ` — ${parts.join(', ')}` : ''}
       </Badge>
     )
+    return pendingSync ? <Tooltip content={pendingSyncTooltip(pendingSync)}>{badge}</Tooltip> : badge
   }
   return (
     <div className="space-y-1">
-      <Badge variant="warning" size="sm">
-        <AlertTriangle className="h-3 w-3" />
-        Not verified
-      </Badge>
+      {pendingSync ? (
+        <Tooltip content={pendingSyncTooltip(pendingSync)}>
+          <Badge variant="warning" size="sm">
+            <AlertTriangle className="h-3 w-3" />
+            Not verified
+          </Badge>
+        </Tooltip>
+      ) : (
+        <Badge variant="warning" size="sm">
+          <AlertTriangle className="h-3 w-3" />
+          Not verified
+        </Badge>
+      )}
       {attestation.requiredPlay && (
         <div>
           <DeadlineStatus
@@ -614,13 +657,16 @@ function VerifiedControls({
 function PlayRequiredRowView({
   row,
   verifyStates,
+  verifyOverrides,
   onAction,
 }: {
   row: PlayRequiredRow
   verifyStates: Record<string, VerifyState>
+  verifyOverrides: VerifyOverrideMap
   onAction: (row: PlayRequiredRow, type: 'ipb' | 'play_required', action: VerifyActionKind) => void
 }) {
   const prState = verifyStates[verifyStateKey(row, 'play_required')]
+  const prPendingSync = verifyOverrides[verifyOverrideKey(row.key, 'play_required')]?.state
   return (
     <tr className="border-b border-card-border last:border-0">
       <td className="py-2.5 pr-3">
@@ -657,7 +703,7 @@ function PlayRequiredRowView({
         )}
       </td>
       <td className="py-2.5">
-        <SignOffCell row={row} />
+        <SignOffCell row={row} pendingSync={prPendingSync} />
         <VerifiedControls
           row={row}
           type="play_required"
@@ -673,14 +719,17 @@ function PlayRequiredRowView({
 function IpbRowView({
   row,
   verifyStates,
+  verifyOverrides,
   onAction,
 }: {
   row: PlayRequiredRow
   verifyStates: Record<string, VerifyState>
+  verifyOverrides: VerifyOverrideMap
   onAction: (row: PlayRequiredRow, type: 'ipb' | 'play_required', action: VerifyActionKind) => void
 }) {
   const submittedAt = row.discord?.thread_created_at
   const ipbState = verifyStates[verifyStateKey(row, 'ipb')]
+  const ipbPendingSync = verifyOverrides[verifyOverrideKey(row.key, 'ipb')]?.state
   return (
     <tr className="border-b border-card-border last:border-0">
       <td className="py-2.5 pr-3">
@@ -721,7 +770,7 @@ function IpbRowView({
         )}
       </td>
       <td className="py-2.5 pr-3">
-        <IpbStatusBadge status={row.ipbStatus} />
+        <IpbStatusBadge status={row.ipbStatus} pendingSync={ipbPendingSync} />
         <VerifiedControls
           row={row}
           type="ipb"
@@ -815,8 +864,6 @@ function SortableHeader({
 
 export default function PlayRequiredClient({
   rows,
-  summary,
-  ipbSummary,
   beatenDataAvailable,
   beatenLastUpdated,
   lastUpdated,
@@ -837,13 +884,53 @@ export default function PlayRequiredClient({
     dir: 'desc',
   })
 
-  // Local copy so a successful /api/verify call can flip a row's status
-  // in place (optimistic update) without waiting for the next static build.
-  const [localRows, setLocalRows] = useState(rows)
+  // A successful /api/verify call records an override here — applied on top
+  // of `rows` below — instead of mutating row state directly. That's what
+  // lets the same flip survive a refresh: overrides are also persisted to
+  // localStorage (VERIFY_OVERRIDES_STORAGE_KEY) and reloaded/reconciled on
+  // mount, so a page reload and the rest of this session render identically
+  // until the next static build regenerates `rows` and the override is
+  // pruned as redundant.
+  const [verifyOverrides, setVerifyOverrides] = useState<VerifyOverrideMap>({})
+  const localRows = useMemo(() => applyVerifyOverrides(rows, verifyOverrides), [rows, verifyOverrides])
   const [verifyStates, setVerifyStates] = useState<Record<string, VerifyState>>({})
-  // Rows verified this session stay visible even when "Show verified" is off,
-  // so their inline Undo affordance remains reachable.
+  // Rows verified this session (or via a reloaded override) stay visible
+  // even when "Show verified" is off, so their inline Undo affordance
+  // remains reachable.
   const [justVerifiedKeys, setJustVerifiedKeys] = useState<Set<string>>(new Set())
+
+  // On mount: reload persisted overrides, drop any that are stale (the
+  // committed JSON already agrees) or older than 7 days, and persist the
+  // pruned set back — see pruneVerifyOverrides.
+  useEffect(() => {
+    let stored: VerifyOverrideMap
+    try {
+      stored = parseVerifyOverrides(window.localStorage.getItem(VERIFY_OVERRIDES_STORAGE_KEY))
+    } catch {
+      stored = {}
+    }
+    const pruned = pruneVerifyOverrides(stored, rows)
+    try {
+      window.localStorage.setItem(VERIFY_OVERRIDES_STORAGE_KEY, JSON.stringify(pruned))
+    } catch {}
+    setVerifyOverrides(pruned)
+    setJustVerifiedKeys((prev) => {
+      const next = new Set(prev)
+      for (const [key, override] of Object.entries(pruned)) {
+        if (override.state === 'verified') next.add(key)
+      }
+      return next
+    })
+  }, [rows])
+
+  // Mirrors how the server page derives `summary`/`ipbSummary` from `rows`
+  // (src/app/verification/page.tsx) — recomputed from `localRows` so the
+  // tiles reflect overridden verify/unverify state too.
+  const summaryState = useMemo(
+    () => summarizeRows(localRows.filter((r) => r.isPlayRequired)),
+    [localRows],
+  )
+  const ipbSummaryState = useMemo(() => summarizeIpbRows(localRows), [localRows])
 
   /** Best-effort human-readable note for the request's `discord` reaction-toggle result. */
   function discordNoteFor(discordResult: unknown, action: VerifyActionKind): string {
@@ -888,15 +975,16 @@ export default function PlayRequiredClient({
         }
 
         const verified = action === 'verify'
-        setLocalRows((prev) =>
-          prev.map((r) =>
-            r.key === row.key
-              ? type === 'ipb'
-                ? { ...r, ipbStatus: verified ? 'verified' : r.discord ? 'submitted' : 'not_submitted' }
-                : { ...r, attestation: { ...r.attestation, confirmed: verified } }
-              : r,
-          ),
-        )
+        setVerifyOverrides((prev) => {
+          const next: VerifyOverrideMap = {
+            ...prev,
+            [stateKey]: { state: verified ? 'verified' : 'unverified', at: new Date().toISOString() },
+          }
+          try {
+            window.localStorage.setItem(VERIFY_OVERRIDES_STORAGE_KEY, JSON.stringify(next))
+          } catch {}
+          return next
+        })
         setJustVerifiedKeys((prev) => {
           const next = new Set(prev)
           if (verified) next.add(stateKey)
@@ -1050,17 +1138,17 @@ export default function PlayRequiredClient({
 
       {tab === 'play_required' ? (
         <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-          <StatCard icon={Gamepad2} label="Play Required wins" value={summary.totalRequiredPlay} accent="primary" />
-          <StatCard icon={CheckCircle2} label="Verified beaten (Steam)" value={summary.verifiedBeaten} accent="green" />
-          <StatCard icon={ShieldCheck} label="Signed off" value={summary.signedOff} accent="blue" />
-          <StatCard icon={AlertTriangle} label="Unverified" value={summary.unverified} accent="amber" />
+          <StatCard icon={Gamepad2} label="Play Required wins" value={summaryState.totalRequiredPlay} accent="primary" />
+          <StatCard icon={CheckCircle2} label="Verified beaten (Steam)" value={summaryState.verifiedBeaten} accent="green" />
+          <StatCard icon={ShieldCheck} label="Signed off" value={summaryState.signedOff} accent="blue" />
+          <StatCard icon={AlertTriangle} label="Unverified" value={summaryState.unverified} accent="amber" />
         </div>
       ) : (
         <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-          <StatCard icon={Clock} label="Submitted" value={ipbSummary.submitted} accent="amber" />
-          <StatCard icon={ShieldCheck} label="Verified" value={ipbSummary.verified} accent="green" />
-          <StatCard icon={Ban} label="Not submitted" value={ipbSummary.notSubmitted} accent="rose" />
-          <StatCard icon={Trophy} label="Verified beaten (Steam)" value={ipbSummary.verifiedBeaten} accent="purple" />
+          <StatCard icon={Clock} label="Submitted" value={ipbSummaryState.submitted} accent="amber" />
+          <StatCard icon={ShieldCheck} label="Verified" value={ipbSummaryState.verified} accent="green" />
+          <StatCard icon={Ban} label="Not submitted" value={ipbSummaryState.notSubmitted} accent="rose" />
+          <StatCard icon={Trophy} label="Verified beaten (Steam)" value={ipbSummaryState.verifiedBeaten} accent="purple" />
         </div>
       )}
 
@@ -1193,6 +1281,7 @@ export default function PlayRequiredClient({
                     key={row.key}
                     row={row}
                     verifyStates={verifyStates}
+                    verifyOverrides={verifyOverrides}
                     onAction={handleAction}
                   />
                 ))}
@@ -1270,6 +1359,7 @@ export default function PlayRequiredClient({
                     key={row.key}
                     row={row}
                     verifyStates={verifyStates}
+                    verifyOverrides={verifyOverrides}
                     onAction={handleAction}
                   />
                 ))}

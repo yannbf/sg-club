@@ -443,6 +443,131 @@ export interface IpbSummary {
   verifiedBeaten: number
 }
 
+/** Which of a row's two independent verify actions an override applies to. */
+export type VerifyOverrideType = 'ipb' | 'play_required'
+export type VerifyOverrideState = 'verified' | 'unverified'
+
+export interface VerifyOverride {
+  state: VerifyOverrideState
+  /** ISO timestamp of when the override was recorded. */
+  at: string
+}
+
+/** Keyed by `verifyOverrideKey(row.key, type)`. */
+export type VerifyOverrideMap = Record<string, VerifyOverride>
+
+export const VERIFY_OVERRIDES_STORAGE_KEY = 'sg-club-verify-overrides'
+
+const VERIFY_OVERRIDE_MAX_AGE_MS = 7 * 24 * 60 * 60 * 1000
+
+/**
+ * A local /api/verify result outlives the page it was made on (localStorage,
+ * see `VERIFY_OVERRIDES_STORAGE_KEY`), so a refresh can show the same
+ * verified/unverified state as the session that made the call, without
+ * waiting for the next scraper run to regenerate `PlayRequiredRow[]`.
+ */
+export function verifyOverrideKey(rowKey: string, type: VerifyOverrideType): string {
+  return `${rowKey}:${type}`
+}
+
+/** Parses a `VERIFY_OVERRIDES_STORAGE_KEY` payload, dropping anything malformed. */
+export function parseVerifyOverrides(raw: string | null | undefined): VerifyOverrideMap {
+  if (!raw) return {}
+  let parsed: unknown
+  try {
+    parsed = JSON.parse(raw)
+  } catch {
+    return {}
+  }
+  if (!parsed || typeof parsed !== 'object') return {}
+
+  const result: VerifyOverrideMap = {}
+  for (const [key, value] of Object.entries(parsed as Record<string, unknown>)) {
+    if (
+      value &&
+      typeof value === 'object' &&
+      ((value as VerifyOverride).state === 'verified' ||
+        (value as VerifyOverride).state === 'unverified') &&
+      typeof (value as VerifyOverride).at === 'string'
+    ) {
+      result[key] = { state: (value as VerifyOverride).state, at: (value as VerifyOverride).at }
+    }
+  }
+  return result
+}
+
+function overrideTypeFromKey(key: string): { rowKey: string; type: VerifyOverrideType } | null {
+  const lastColon = key.lastIndexOf(':')
+  if (lastColon === -1) return null
+  const type = key.slice(lastColon + 1)
+  if (type !== 'ipb' && type !== 'play_required') return null
+  return { rowKey: key.slice(0, lastColon), type }
+}
+
+/** Whether `row`'s current JSON-derived status for `type` already matches `state`. */
+function overrideMatchesRow(row: PlayRequiredRow, type: VerifyOverrideType, state: VerifyOverrideState): boolean {
+  const verified = type === 'play_required' ? row.attestation.confirmed : row.ipbStatus === 'verified'
+  return verified === (state === 'verified')
+}
+
+/**
+ * Drops overrides that have served their purpose (the underlying JSON has
+ * caught up and already agrees with them) and ones older than
+ * `VERIFY_OVERRIDE_MAX_AGE_MS` — a safety valve for a row that never gets
+ * regenerated (e.g. renamed/removed upstream).
+ */
+export function pruneVerifyOverrides(
+  overrides: VerifyOverrideMap,
+  rows: PlayRequiredRow[],
+  now: number = Date.now(),
+): VerifyOverrideMap {
+  const rowsByKey = new Map(rows.map((r) => [r.key, r]))
+  const next: VerifyOverrideMap = {}
+  for (const [key, override] of Object.entries(overrides)) {
+    const age = now - new Date(override.at).getTime()
+    if (!Number.isFinite(age) || age > VERIFY_OVERRIDE_MAX_AGE_MS) continue
+
+    const parsedKey = overrideTypeFromKey(key)
+    const row = parsedKey ? rowsByKey.get(parsedKey.rowKey) : undefined
+    if (row && parsedKey && overrideMatchesRow(row, parsedKey.type, override.state)) continue
+
+    next[key] = override
+  }
+  return next
+}
+
+/**
+ * Applies `overrides` on top of `rows`, flipping `attestation.confirmed` /
+ * `ipbStatus` (and therefore every badge/filter/summary derived from them)
+ * exactly like a successful `/api/verify` call does — refresh and in-session
+ * behave identically because both go through this function.
+ */
+export function applyVerifyOverrides(
+  rows: PlayRequiredRow[],
+  overrides: VerifyOverrideMap,
+): PlayRequiredRow[] {
+  if (Object.keys(overrides).length === 0) return rows
+  return rows.map((row) => {
+    let next = row
+
+    const prOverride = overrides[verifyOverrideKey(row.key, 'play_required')]
+    if (prOverride) {
+      next = { ...next, attestation: { ...next.attestation, confirmed: prOverride.state === 'verified' } }
+    }
+
+    const ipbOverride = overrides[verifyOverrideKey(row.key, 'ipb')]
+    if (ipbOverride) {
+      const verified = ipbOverride.state === 'verified'
+      next = {
+        ...next,
+        ipbStatus: verified ? 'verified' : next.discord ? 'submitted' : 'not_submitted',
+      }
+    }
+
+    return next
+  })
+}
+
 export function summarizeIpbRows(rows: PlayRequiredRow[]): IpbSummary {
   let submitted = 0
   let verified = 0
