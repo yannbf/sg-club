@@ -99,11 +99,37 @@ These are set in `.env` locally and as GitHub Actions secrets for CI.
 
 ## CI/CD
 
-GitHub Actions workflow (`.github/workflows/deploy.yml`) runs every 8 hours:
-1. **website-data job:** Generates giveaway/user/game data, commits to repo
-2. **playtime-data job:** Enriches with Steam playtime data (depends on job 1), commits to repo
+GitHub Actions workflow (`.github/workflows/deploy.yml`) runs staggered scheduled
+jobs, each auto-committing to `main` when data changed:
 
-Both jobs auto-commit to the current branch if data changed.
+- **website-data** — every 8h: giveaways, members, game prices/HLTB/reviews
+- **playtime** — daily: Steam playtime enrichment (45-min budget cap)
+- **wishlist** — 1st + 15th: group wishlist + game-insights
+- **challenge** — hourly (active) / biweekly (incl. dormant)
+- **verification** — 3×/day: `ipb-discord` (Discord submission matching) then
+  `beaten` (beaten-marker detection + player checks); commits both the
+  `public/data` outputs and the `packages/scraper/data/` caches
+
+## Git workflow
+
+The CI bots push data commits to `main` around the clock (hourly at worst), so
+local pushes are routinely rejected. Learned the hard way:
+
+- **Always `git pull --rebase origin main` immediately before pushing.** If the
+  working tree has leftovers that block the rebase, stash → rebase → push →
+  `stash pop`, and stage/commit *narrowly* (list files explicitly).
+- **Never use broad stashes (`git stash -u`) while anything else may be editing
+  the tree** — a parallel agent or watcher can lose in-flight work to the
+  stash/pop cycle. Prefer stashing only your own named leftovers.
+- **Never run `pnpm build` at the repo or package level to verify the website**
+  — it triggers full data regeneration (long scraper runs against live
+  services). Use `pnpm --filter website exec next build`. Note a production
+  build clobbers `.next`, breaking any running dev server until restarted.
+- **Never stage:** `MIGRATION.md`, `PLAN.md`, `steamgifts-tgc-club-*.json`
+  (Google service-account key), `.next/`, `packages/website/investigation/`.
+- **Commit generated data with its code.** When a scraper change alters
+  `public/data/*.json` or `packages/scraper/data/*` caches, commit them in the
+  same change so CI resumes from the new state instead of re-fetching.
 
 ## Scope
 
