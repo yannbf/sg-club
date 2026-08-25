@@ -1,27 +1,6 @@
 {
-  "last_updated": "2026-08-25T02:10:02.240Z",
+  "last_updated": "2026-08-25T09:15:57.198Z",
   "giveaways": [
-    {
-      "id": "wxvUr",
-      "name": "Sakura Succubus 4",
-      "points": 10,
-      "copies": 1,
-      "app_id": 1466690,
-      "package_id": null,
-      "link": "wxvUr/sakura-succubus-4",
-      "created_timestamp": 1787010681,
-      "start_timestamp": 1787010681,
-      "end_timestamp": 1787630400,
-      "whitelist": true,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 64,
-      "creator": "76561198234142828",
-      "is_shared": true,
-      "cv_status": "REDUCED_CV",
-      "creator_username": "lockcjwen",
-      "deleted": false
-    },
     {
       "id": "RPaiG",
       "name": "The Last of Us Part I",
@@ -259,7 +238,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 9,
+      "entry_count": 10,
       "creator": "76561198051248084",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -343,7 +322,7 @@
       "end_timestamp": 1787947200,
       "group": true,
       "comment_count": 0,
-      "entry_count": 2,
+      "entry_count": 5,
       "creator": "76561198082023389",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -363,7 +342,7 @@
       "end_timestamp": 1787947200,
       "group": true,
       "comment_count": 0,
-      "entry_count": 0,
+      "entry_count": 4,
       "creator": "76561198082023389",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -383,7 +362,7 @@
       "end_timestamp": 1787947200,
       "group": true,
       "comment_count": 0,
-      "entry_count": 4,
+      "entry_count": 9,
       "creator": "76561198082023389",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -402,8 +381,8 @@
       "start_timestamp": 1786893076,
       "end_timestamp": 1787954400,
       "group": true,
-      "comment_count": 6,
-      "entry_count": 60,
+      "comment_count": 7,
+      "entry_count": 61,
       "creator": "76561199014836450",
       "cv_status": "FULL_CV",
       "creator_username": "Dobke",
@@ -423,7 +402,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 86,
+      "entry_count": 87,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -444,7 +423,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 71,
+      "entry_count": 73,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -543,10 +522,30 @@
       "end_timestamp": 1788209940,
       "group": true,
       "comment_count": 0,
-      "entry_count": 4,
+      "entry_count": 5,
       "creator": "76561198069420656",
       "cv_status": "FULL_CV",
       "creator_username": "Metalhead8489",
+      "deleted": false
+    },
+    {
+      "id": "Ympol",
+      "name": "IRON NEST: Heavy Turret Simulator",
+      "points": 20,
+      "copies": 1,
+      "app_id": 2950790,
+      "package_id": null,
+      "link": "Ympol/iron-nest-heavy-turret-simulator",
+      "created_timestamp": 1787629174,
+      "start_timestamp": 1787629174,
+      "end_timestamp": 1788235140,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 31,
+      "creator": "76561199434715535",
+      "is_shared": true,
+      "cv_status": "FULL_CV",
+      "creator_username": "DancingXmas",
       "deleted": false
     },
     {
@@ -563,7 +562,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 1,
+      "entry_count": 10,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -629,7 +628,8 @@
       "required_play": true,
       "cv_status": "FULL_CV",
       "creator_username": "DancingXmas",
-      "deleted": false
+      "deleted": true,
+      "deleted_reason": "Selected Incorrect Game or Information"
     },
     {
       "id": "skebL",
@@ -691,6 +691,34 @@
       "deleted": false
     },
     {
+      "id": "wxvUr",
+      "name": "Sakura Succubus 4",
+      "points": 10,
+      "copies": 1,
+      "app_id": 1466690,
+      "package_id": null,
+      "link": "wxvUr/sakura-succubus-4",
+      "created_timestamp": 1787010681,
+      "start_timestamp": 1787010681,
+      "end_timestamp": 1787630400,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 64,
+      "creator": "76561198234142828",
+      "is_shared": true,
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "REDUCED_CV",
+      "creator_username": "lockcjwen",
+      "deleted": false
+    },
+    {
       "id": "eEfbz",
       "name": "Strange Horticulture",
       "points": 16,
@@ -703,19 +731,19 @@
       "end_timestamp": 1787588520,
       "region_restricted": true,
       "group": true,
-      "comment_count": 0,
+      "comment_count": 1,
       "entry_count": 5,
       "creator": "76561197984532155",
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "76561198453663783",
+          "status": "received",
+          "winner_username": "Almostn33t"
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "Ignition365",
-      "deleted": false
+      "creator_username": "Ignition365"
     },
     {
       "id": "T24cC",
@@ -6712,7 +6740,7 @@
       "start_timestamp": 1785081190,
       "end_timestamp": 1785261600,
       "group": true,
-      "comment_count": 10,
+      "comment_count": 11,
       "entry_count": 13,
       "creator": "76561198040188513",
       "hasWinners": true,
@@ -17599,7 +17627,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "mourinhos86"
+      "creator_username": "mourinhos86",
+      "required_play": false
     },
     {
       "id": "Xrdza",
@@ -19392,7 +19421,8 @@
       ],
       "cv_status": "FULL_CV",
       "event_type": "may_event_2026",
-      "creator_username": "Tucs"
+      "creator_username": "Tucs",
+      "required_play": false
     },
     {
       "id": "OLM88",
