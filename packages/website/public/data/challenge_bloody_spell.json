@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1785542400,
   "totalAchievements": 60,
-  "generatedAt": 1787637436125,
+  "generatedAt": 1787642761141,
   "challengeOver": false,
   "winnerUsername": "Foxpile",
   "participants": [
@@ -4520,14 +4520,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 1259,
-      "playtime_2weeks_minutes": 1263,
+      "playtime_total_minutes": 1349,
+      "playtime_2weeks_minutes": 1353,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 1259,
+      "playtime_challenge_minutes": 1349,
       "achievements_total": 60,
-      "achievements_unlocked_total": 37,
+      "achievements_unlocked_total": 40,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 37,
+      "achievements_since_baseline": 40,
       "challenge_achievements": [
         {
           "apiname": "a30003",
@@ -4750,9 +4750,27 @@
           "displayName": "Marksman",
           "description": "Nest 9 utensils in the ferrule mini-game.",
           "unlocktime": 1787635292
+        },
+        {
+          "apiname": "a20029",
+          "displayName": "BOSS Guard",
+          "description": "Defeat BOSS Guard.",
+          "unlocktime": 1787639391
+        },
+        {
+          "apiname": "a20024",
+          "displayName": "Priestess Phantom",
+          "description": "Kill 20 Priestess Phantom.",
+          "unlocktime": 1787641830
+        },
+        {
+          "apiname": "a40005",
+          "displayName": "Inflatable Toys",
+          "description": "Find all inflatable weapons in the main map.",
+          "unlocktime": 1787642025
         }
       ],
-      "challenge_achievement_count": 37,
+      "challenge_achievement_count": 40,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
