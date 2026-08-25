@@ -20,8 +20,8 @@ const PLAY_REQUIRED_SHEET_GID = 2065024481
 
 const IPB_COLUMNS = ['ID', 'GAME', 'WINNER', 'COMPLETE PLAYING', 'EXTRA POINTS'] as const
 const PLAY_REQUIRED_STATUS_COLUMN = 'PLAY REQUIREMENTS MET'
-/** Marks a freshly-registered Play Required row's REQUIREMENTS cell so it's obvious a mod still needs to fill in the deadline and requirements. */
-const REQUIREMENTS_TODO_NOTE = 'TODO: Needs manual verification on requirements'
+/** Marks a freshly-registered Play Required row's NOTES cell so it's obvious a mod still needs to fill in the deadline and requirements. */
+const REGISTER_TODO_NOTE = 'TODO: Add proper requirements or delete this'
 
 type VerifyType = 'ipb' | 'play_required'
 type VerifyAction = 'verify' | 'unverify' | 'register'
@@ -308,20 +308,18 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
         return
       }
 
-      // Padded to the header width so untouched columns (deadline, requirements)
-      // line up rather than shifting later ones. The deadline columns stay
-      // empty for a mod to fill in; REQUIREMENTS gets a TODO marker so an
+      // Padded to the header width so untouched columns line up rather than
+      // shifting later ones. Status, deadline and requirements columns stay
+      // EMPTY for a mod to fill in; NOTES gets a TODO marker so an
       // unregistered-turned-registered row is unmistakable in the sheet.
       const gameCol = columnIndex(headerRow, 'GAME')
       const winnerCol = columnIndex(headerRow, 'WINNER')
-      const statusCol = columnIndex(headerRow, PLAY_REQUIRED_STATUS_COLUMN)
-      const requirementsCol = columnIndex(headerRow, 'REQUIREMENTS')
+      const notesCol = columnIndex(headerRow, 'NOTES')
       const row = new Array(headerRow.length).fill('')
       if (idCol !== -1) row[idCol] = giveawayId
       if (gameCol !== -1) row[gameCol] = giveaway.name
       if (winnerCol !== -1) row[winnerCol] = winnerUsername
-      if (statusCol !== -1) row[statusCol] = 'NO'
-      if (requirementsCol !== -1) row[requirementsCol] = REQUIREMENTS_TODO_NOTE
+      if (notesCol !== -1) row[notesCol] = REGISTER_TODO_NOTE
       await appendRow(accessToken, title, row)
       respondJson(res, 200, { ok: true, action: 'registered' })
       return

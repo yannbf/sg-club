@@ -315,7 +315,7 @@ describe('POST /api/verify', () => {
     expect(JSON.parse(putCalls[0].init!.body as string)).toMatchObject({ values: [['NO']] })
   })
 
-  it('appends a Play Required row with empty deadline/requirements cells when registering', async () => {
+  it('appends a Play Required row with empty status/deadline/requirements cells when registering', async () => {
     const values = [
       [
         'ID',
@@ -325,6 +325,7 @@ describe('POST /api/verify', () => {
         'DEADLINE (dd-mm-yyyy)',
         'DEADLINE (IN MONTHS)',
         'REQUIREMENTS',
+        'NOTES',
       ],
     ]
     const { calls } = mockGoogleFlow('Play Required', values)
@@ -348,10 +349,11 @@ describe('POST /api/verify', () => {
           'abc12',
           'Some Game',
           'winnerName',
-          'NO',
           '',
           '',
-          'TODO: Needs manual verification on requirements',
+          '',
+          '',
+          'TODO: Add proper requirements or delete this',
         ],
       ],
     })
