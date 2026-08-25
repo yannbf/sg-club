@@ -7,6 +7,7 @@ import {
   fetchSteamHuntersAchievements,
   fetchSteamHuntersTags,
   STEAMHUNTERS_DELAY_MS,
+  type SteamHuntersAchievement,
 } from '../api/fetch-steamhunters-data.js'
 import type {
   BeatenGameEntry,
@@ -55,6 +56,10 @@ import { logError } from '../utils/log-error.js'
  *  - SKIP_STEAM_API=1 — skip all Steam Web API calls (schema, global %,
  *    player achievements); nothing new can be determined, existing cache
  *    entries are still used.
+ *  - MARKER_ENRICH_CAP=N — cap the number of cached markers backfilled with
+ *    sh_achievement_id per run (default 300). Unaffected by
+ *    SKIP_STEAMHUNTERS, since the achievement id comes from the JSON API,
+ *    not the Cloudflare-gated HTML page.
  *
  * Run with: pnpm --filter scraper beaten
  */
@@ -74,6 +79,10 @@ const cacheDir = resolve(currentDir, '../../data')
 const cachePath = resolve(cacheDir, 'beaten-cache.json')
 
 const MARKER_FETCH_CAP = parseInt(process.env.MARKER_FETCH_CAP ?? '200', 10)
+// Caps the per-run count of SH achievement id backfills for cached markers
+// that predate sh_achievement_id, keeping a fresh run within the same
+// budget spirit as MARKER_FETCH_CAP without competing for its slots.
+const MARKER_ENRICH_CAP = parseInt(process.env.MARKER_ENRICH_CAP ?? '300', 10)
 const PLAYER_CHECK_CAP = 500
 // Reviewers act on fresh submissions, and members often finish a game hours
 // after submitting — a not-yet-beaten verdict older than this is re-checked
@@ -263,6 +272,28 @@ function selectStoryCandidates(
   return { survivors: dlcFiltered, filtered: false }
 }
 
+/**
+ * Resolves a marker's apiname to Steam Hunters' numeric achievementId via
+ * the JSON achievements API, for deep-linking to the achievement's page.
+ * Independent of SKIP_STEAMHUNTERS (which only gates the Cloudflare-behind
+ * HTML tags page) — this endpoint isn't Cloudflare-gated. Reuses an
+ * already-fetched achievements list when the caller has one, to avoid a
+ * duplicate request for the same appId. Returns undefined on any failure or
+ * when the apiname isn't found, never throwing.
+ */
+async function resolveShAchievementId(
+  appId: number,
+  apiname: string,
+  preFetched?: SteamHuntersAchievement[] | null,
+): Promise<number | undefined> {
+  let shAchievements = preFetched
+  if (shAchievements === undefined) {
+    shAchievements = await fetchSteamHuntersAchievements(appId)
+    await delay(STEAMHUNTERS_DELAY_MS)
+  }
+  return shAchievements?.find((a) => a.apiName === apiname)?.achievementId
+}
+
 async function detectMarker(
   appId: number,
   checker: SteamGameChecker,
@@ -320,12 +351,13 @@ async function detectMarker(
     // usable even when the tags themselves came from an offline file)
     // exposes those descriptions — fetch them when any candidate is hidden.
     let hiddenDescriptions: Map<string, string> | undefined
+    let shAchievements: SteamHuntersAchievement[] | null | undefined
     const hasHidden = storyCandidates.some((c) => {
       const schemaAch = achievements.find((a) => a.name === c.apiname)
       return schemaAch != null && !schemaAch.description
     })
     if (hasHidden) {
-      const shAchievements = await fetchSteamHuntersAchievements(appId)
+      shAchievements = await fetchSteamHuntersAchievements(appId)
       await delay(STEAMHUNTERS_DELAY_MS)
       if (shAchievements) {
         hiddenDescriptions = new Map(
@@ -348,6 +380,7 @@ async function detectMarker(
     }
     if (best) {
       const schemaAch = achievements.find((a) => a.name === best!.apiname)
+      const shAchievementId = await resolveShAchievementId(appId, best.apiname, shAchievements)
       return {
         marker: {
           apiname: best.apiname,
@@ -357,6 +390,7 @@ async function detectMarker(
           global_percent: best.percent,
           source: 'steamhunters',
           filtered,
+          ...(shAchievementId != null ? { sh_achievement_id: shAchievementId } : {}),
         },
         no_marker_reason: null,
         story_tag_count: storyCandidates.length,
@@ -381,6 +415,7 @@ async function detectMarker(
   }
 
   if (best) {
+    const shAchievementId = await resolveShAchievementId(appId, best.apiname)
     return {
       marker: {
         apiname: best.apiname,
@@ -388,6 +423,7 @@ async function detectMarker(
         description: best.description,
         global_percent: best.percent,
         source: 'heuristic',
+        ...(shAchievementId != null ? { sh_achievement_id: shAchievementId } : {}),
       },
       no_marker_reason: null,
       story_tag_count: 0,
@@ -591,6 +627,8 @@ export async function generateBeatenData(): Promise<void> {
   const games: Record<string, BeatenGameEntry> = {}
   let markerFetchCount = 0
   let deferredMarkers = 0
+  let markerEnrichCount = 0
+  let deferredEnrichments = 0
   const sourceCounts = { steamhunters: 0, heuristic: 0, none: 0 }
 
   console.log(`🏅 Detecting beaten markers for ${uniqueAppIds.length} game(s)...`)
@@ -611,6 +649,34 @@ export async function generateBeatenData(): Promise<void> {
       !(appResolution != null && appResolution.resolved_app_id == null)
 
     if (cached && !staleUnresolved) {
+      // A cached marker written before sh_achievement_id existed needs only
+      // a SH id backfill, not a full re-detection — the marker choice
+      // itself is unaffected.
+      if (cached.marker && cached.marker.sh_achievement_id == null) {
+        if (markerEnrichCount < MARKER_ENRICH_CAP) {
+          const enrichAppId = cached.resolved_app_id ?? appId
+          try {
+            const shAchievementId = await resolveShAchievementId(
+              enrichAppId,
+              cached.marker.apiname,
+            )
+            if (shAchievementId != null) {
+              cached.marker = { ...cached.marker, sh_achievement_id: shAchievementId }
+              cache.markers[String(appId)] = cached
+            }
+          } catch (error) {
+            logError(error, `Failed to backfill SH achievement id for appId ${appId}`)
+          }
+          markerEnrichCount++
+          if (markerEnrichCount % 50 === 0) {
+            saveCache(cache)
+            console.log(`💾 Cache checkpoint saved (${markerEnrichCount} SH id backfills so far)`)
+          }
+        } else {
+          deferredEnrichments++
+        }
+      }
+
       games[String(appId)] = {
         marker: cached.marker,
         no_marker_reason: cached.no_marker_reason,
@@ -655,6 +721,9 @@ export async function generateBeatenData(): Promise<void> {
   saveCache(cache)
   console.log(
     `✅ Marker detection complete — ${markerFetchCount} fresh fetches, ${sourceCounts.steamhunters} steamhunters, ${sourceCounts.heuristic} heuristic, ${sourceCounts.none} undetermined${deferredMarkers > 0 ? `, ${deferredMarkers} deferred to next run` : ''}`,
+  )
+  console.log(
+    `🔗 SH achievement id backfill — ${markerEnrichCount} enriched${deferredEnrichments > 0 ? `, ${deferredEnrichments} deferred to next run` : ''}`,
   )
 
   // --- Phase 2: player checks (cached per steamId::appId) ---

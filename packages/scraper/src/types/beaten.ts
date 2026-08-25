@@ -31,6 +31,13 @@ export interface BeatenMarker {
    * fallback pick. Absent for heuristic-sourced markers.
    */
   filtered?: boolean
+  /**
+   * Steam Hunters' numeric achievement id for this marker, resolved via the
+   * `/api/apps/{appId}/achievements` JSON endpoint by matching `apiname`.
+   * Powers a deep link to `https://steamhunters.com/apps/{appId}/achievements/{sh_achievement_id}`.
+   * Absent when the lookup failed or the apiname wasn't found there.
+   */
+  sh_achievement_id?: number
 }
 
 export interface BeatenGameEntry {
