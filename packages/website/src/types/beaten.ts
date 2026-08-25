@@ -35,6 +35,8 @@ export interface BeatenGameEntry {
    * the giveaway's app id wherever the Steam achievements page is linked.
    */
   resolved_app_id?: number
+  /** Display name of `resolved_app_id`'s game, when set. */
+  resolved_app_name?: string
 }
 
 /** Why a specific win couldn't be checked against its game's marker. */
@@ -57,6 +59,13 @@ export interface BeatenGamesData {
   games: Record<string, BeatenGameEntry>
   /** Keyed by `<steamId>::<appId>`. */
   wins: Record<string, BeatenWinEntry>
+  /**
+   * Package-only giveaways (no app id) resolved to a single game, keyed by
+   * package id (as a string). `games`/`wins` entries for these live under
+   * the resolved app id, as if it were the giveaway's own app id. Absent for
+   * older data — unresolved packages degrade to `package_only`.
+   */
+  package_resolutions?: Record<string, { app_id: number; app_name?: string }>
 }
 
 /** Lookup key for `BeatenGamesData['wins']`. */

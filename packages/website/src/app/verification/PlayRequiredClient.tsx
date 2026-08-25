@@ -221,25 +221,92 @@ function lastCheckedTooltip(lastChecked: number | undefined): string | null {
   return `Stats last checked ${formatDistanceToNow(new Date(lastChecked), { addSuffix: true })}`
 }
 
+/** Muted "via {resolvedAppName}" line shown in a Beaten badge tooltip when the verdict was computed against a resolved app. */
+function ViaResolvedAppLine({ resolvedAppName }: { resolvedAppName: string | null }) {
+  if (!resolvedAppName) return null
+  return <p className="text-muted-foreground">via {resolvedAppName}</p>
+}
+
+function NotBeatenTooltipContent({ row }: { row: PlayRequiredRow }) {
+  const { beaten } = row
+  return (
+    <div className="max-w-xs space-y-1">
+      <p>
+        The winner has not unlocked &quot;{beaten.marker?.name}&quot;
+        {beaten.marker?.description && (
+          <span className="block text-muted-foreground">{beaten.marker.description}</span>
+        )}
+      </p>
+      <p>
+        This achievement marks finishing the game
+        {beaten.marker?.global_percent != null &&
+          ` — unlocked by ${beaten.marker.global_percent.toFixed(1)}% of players.`}
+      </p>
+      {beaten.checkedAt && (
+        <p className="text-muted-foreground">
+          Checked {formatDistanceToNow(new Date(beaten.checkedAt), { addSuffix: true })} — a very
+          recent unlock may not show yet.
+        </p>
+      )}
+      <p className="text-muted-foreground">Click to open their achievements page.</p>
+      <ViaResolvedAppLine resolvedAppName={beaten.resolvedAppName} />
+    </div>
+  )
+}
+
+/** Human-readable explanation for `NoMarkerReason`, with the raw code kept for debugging. */
+function noMarkerReasonText(reason: PlayRequiredRow['beaten']['noMarkerReason']): string {
+  switch (reason) {
+    case 'no_marker_found':
+      return 'There might not be a specific "game beaten" achievement for this game — manual verification is needed.'
+    case 'no_achievements':
+      return 'This game has no Steam achievements — manual verification is needed.'
+    case 'schema_unavailable':
+      return "Steam doesn't expose achievement data for this app — manual verification is needed."
+    case 'package':
+      return "This giveaway is for a Steam package — beaten detection couldn't map it to a game."
+    default:
+      return 'Manual verification is needed.'
+  }
+}
+
+function NoMarkerTooltipContent({ reason }: { reason: PlayRequiredRow['beaten']['noMarkerReason'] }) {
+  return (
+    <div className="max-w-xs space-y-1">
+      <p>{noMarkerReasonText(reason)}</p>
+      <p className="text-muted-foreground">Reason: {reason ?? 'unknown'}</p>
+    </div>
+  )
+}
+
 function BeatenBadge({ row }: { row: PlayRequiredRow }) {
   const { beaten } = row
   switch (beaten.verdict) {
-    case 'beaten_verified':
+    case 'beaten_verified': {
+      const badge = (
+        <AchievementsLink row={row}>
+          <Badge variant="success" size="sm">
+            <CheckCircle2 className="h-3 w-3" />
+            Beaten — {beaten.marker?.name}
+            {beaten.marker?.global_percent != null && (
+              <span className="text-subtle">
+                {' '}
+                ({beaten.marker.global_percent.toFixed(1)}%)
+              </span>
+            )}
+          </Badge>
+        </AchievementsLink>
+      )
       return (
         <div className="space-y-0.5">
           <div className="flex items-center">
-            <AchievementsLink row={row}>
-              <Badge variant="success" size="sm">
-                <CheckCircle2 className="h-3 w-3" />
-                Beaten — {beaten.marker?.name}
-                {beaten.marker?.global_percent != null && (
-                  <span className="text-subtle">
-                    {' '}
-                    ({beaten.marker.global_percent.toFixed(1)}%)
-                  </span>
-                )}
-              </Badge>
-            </AchievementsLink>
+            {beaten.resolvedAppName ? (
+              <Tooltip content={<ViaResolvedAppLine resolvedAppName={beaten.resolvedAppName} />}>
+                {badge}
+              </Tooltip>
+            ) : (
+              badge
+            )}
             <SteamHuntersLink row={row} />
           </div>
           {beaten.unlockTime != null && (
@@ -249,23 +316,12 @@ function BeatenBadge({ row }: { row: PlayRequiredRow }) {
           )}
         </div>
       )
+    }
     case 'not_beaten':
       return (
         <div className="flex items-center">
           <AchievementsLink row={row}>
-            <Tooltip
-              content={`The winner has not unlocked "${beaten.marker?.name}"${
-                beaten.marker?.description ? ` (${beaten.marker.description})` : ''
-              } — the achievement that marks finishing this game${
-                beaten.marker?.global_percent != null
-                  ? `, unlocked by ${beaten.marker.global_percent.toFixed(1)}% of players`
-                  : ''
-              }. Click to open their achievements page.${
-                beaten.checkedAt
-                  ? ` Checked ${formatDistanceToNow(new Date(beaten.checkedAt), { addSuffix: true })} — a very recent unlock may not show yet.`
-                  : ''
-              }`}
-            >
+            <Tooltip content={<NotBeatenTooltipContent row={row} />}>
               <Badge variant="error" size="sm">
                 <XCircle className="h-3 w-3" />
                 Marker not unlocked
@@ -278,7 +334,7 @@ function BeatenBadge({ row }: { row: PlayRequiredRow }) {
     case 'no_marker':
       return (
         <div className="flex items-center">
-          <Tooltip content={`Reason: ${beaten.noMarkerReason ?? 'unknown'}`}>
+          <Tooltip content={<NoMarkerTooltipContent reason={beaten.noMarkerReason} />}>
             <Badge variant="outline" size="sm">
               Couldn&apos;t automatically check
             </Badge>
@@ -546,15 +602,24 @@ function PlayRequiredSignOffColumn({
         </p>
       )}
       <SignOffCell row={row} pendingSync={pendingSync === 'registered' ? undefined : pendingSync} />
-      <VerifiedControls
-        row={row}
-        type="play_required"
-        isVerified={row.attestation.confirmed}
-        state={verifyOrUnverifyState}
-        onAction={onAction}
-      />
+      {row.game.unreleased && !row.attestation.confirmed ? (
+        <UnreleasedVerifyNote />
+      ) : (
+        <VerifiedControls
+          row={row}
+          type="play_required"
+          isVerified={row.attestation.confirmed}
+          state={verifyOrUnverifyState}
+          onAction={onAction}
+        />
+      )}
     </>
   )
+}
+
+/** Replaces the Verify button for a win whose game hasn't released yet — nobody could have played it. */
+function UnreleasedVerifyNote() {
+  return <p className="mt-1.5 text-[11px] text-subtle">Unreleased — can&apos;t verify play yet.</p>
 }
 
 function GameCell({ row }: { row: PlayRequiredRow }) {
@@ -642,15 +707,23 @@ function WinnerCell({ row }: { row: PlayRequiredRow }) {
 }
 
 function PlaytimeCell({ row }: { row: PlayRequiredRow }) {
-  const { steam, game } = row
+  const { steam, game, beaten } = row
   const checkedTooltip = lastCheckedTooltip(steam.lastChecked)
 
   if (steam.hasNoAvailableStats) {
-    return (
-      <span className="text-xs text-muted-foreground">
-        {steam.noStatsReason ?? 'no stats'}
-      </span>
-    )
+    const noStatsLabel = <span className="text-xs text-muted-foreground">{steam.noStatsReason ?? 'no stats'}</span>
+    if (steam.noStatsReason === 'not_in_library' && beaten.resolvedAppId != null) {
+      return (
+        <Tooltip
+          content={`This DLC/package doesn't appear in Steam libraries — the beaten check ran against ${
+            beaten.resolvedAppName ?? 'the resolved game'
+          }.`}
+        >
+          {noStatsLabel}
+        </Tooltip>
+      )
+    }
+    return noStatsLabel
   }
   if (steam.isPlaytimePrivate) {
     const content = [
@@ -1008,13 +1081,17 @@ function IpbRowView({
       </td>
       <td className="py-2.5 pr-3">
         <IpbStatusBadge status={row.ipbStatus} pendingSync={ipbPendingSync} />
-        <VerifiedControls
-          row={row}
-          type="ipb"
-          isVerified={row.ipbStatus === 'verified'}
-          state={ipbState}
-          onAction={onAction}
-        />
+        {row.game.unreleased && row.ipbStatus !== 'verified' ? (
+          <UnreleasedVerifyNote />
+        ) : (
+          <VerifiedControls
+            row={row}
+            type="ipb"
+            isVerified={row.ipbStatus === 'verified'}
+            state={ipbState}
+            onAction={onAction}
+          />
+        )}
       </td>
       <td className="py-2.5">
         <LinksCell row={row} />

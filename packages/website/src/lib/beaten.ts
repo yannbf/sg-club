@@ -136,11 +136,14 @@ export interface PlayRequiredRow {
     unlockTime: number | null
     noDataReason: NoDataReason | null
     /**
-     * Base-game app id, when the giveaway's app id is a DLC resolved to its
-     * base game's achievements. Use this instead of `game.appId` for the
-     * Steam achievements link whenever it's set.
+     * Base-game app id the verdict was actually computed against, when it
+     * differs from `game.appId` — either a DLC resolved to its base game's
+     * achievements, or a package resolved to a single game. Use this instead
+     * of `game.appId` for the Steam achievements link whenever it's set.
      */
     resolvedAppId: number | null
+    /** Display name of `resolvedAppId`'s game, when set. */
+    resolvedAppName: string | null
     /** When the winner's beaten status was last checked (ISO), null if never. */
     checkedAt: string | null
   }
@@ -205,6 +208,7 @@ function beatenVerdictFor(
   | 'unlockTime'
   | 'noDataReason'
   | 'resolvedAppId'
+  | 'resolvedAppName'
   | 'checkedAt'
 > {
   const empty = {
@@ -214,33 +218,59 @@ function beatenVerdictFor(
     unlockTime: null as number | null,
     noDataReason: null as NoDataReason | null,
     resolvedAppId: null as number | null,
+    resolvedAppName: null as string | null,
     checkedAt: null as string | null,
   }
 
-  if (appId == null) {
-    return { verdict: 'package_only', ...empty }
+  // A package-only giveaway (no app id) can still be checked when the
+  // scraper resolved its package to a single game — proceed as if that
+  // resolved app id were the giveaway's own, falling back to package_only
+  // when there's no resolution (or no app id and no package id at all).
+  let effectiveAppId = appId
+  let packageResolvedName: string | null = null
+  if (effectiveAppId == null) {
+    const resolution =
+      packageId != null ? beatenGames?.package_resolutions?.[String(packageId)] : undefined
+    if (!resolution) {
+      return { verdict: 'package_only', ...empty }
+    }
+    effectiveAppId = resolution.app_id
+    packageResolvedName = resolution.app_name ?? null
   }
+
   if (!beatenGames) {
     return { verdict: 'pending', ...empty }
   }
 
-  const gameEntry = beatenGames.games[String(appId)]
+  const gameEntry = beatenGames.games[String(effectiveAppId)]
   if (!gameEntry) {
     return { verdict: 'pending', ...empty }
   }
-  const resolvedAppId = gameEntry.resolved_app_id ?? null
+  // A DLC entry's own resolved_app_id/name take precedence — it names the
+  // base game the marker was actually checked against. Otherwise, when the
+  // giveaway itself had no app id, resolvedAppId/Name surface the package's
+  // resolved game so achievement/thumbnail/SH links work.
+  const resolvedAppId = gameEntry.resolved_app_id ?? (appId == null ? effectiveAppId : null)
+  const resolvedAppName = gameEntry.resolved_app_name ?? (appId == null ? packageResolvedName : null)
   if (!gameEntry.marker) {
     return {
       verdict: 'no_marker',
       ...empty,
       noMarkerReason: gameEntry.no_marker_reason,
       resolvedAppId,
+      resolvedAppName,
     }
   }
 
-  const winEntry = beatenGames.wins[beatenWinKey(steamId, appId)]
+  const winEntry = beatenGames.wins[beatenWinKey(steamId, effectiveAppId)]
   if (!winEntry) {
-    return { verdict: 'pending', ...empty, marker: gameEntry.marker, resolvedAppId }
+    return {
+      verdict: 'pending',
+      ...empty,
+      marker: gameEntry.marker,
+      resolvedAppId,
+      resolvedAppName,
+    }
   }
 
   if (winEntry.beaten === true) {
@@ -252,6 +282,7 @@ function beatenVerdictFor(
       unlockTime: winEntry.unlock_time,
       noDataReason: null,
       resolvedAppId,
+      resolvedAppName,
       checkedAt: winEntry.checked_at ?? null,
     }
   }
@@ -264,6 +295,7 @@ function beatenVerdictFor(
       unlockTime: null,
       noDataReason: null,
       resolvedAppId,
+      resolvedAppName,
       checkedAt: winEntry.checked_at ?? null,
     }
   }
@@ -275,6 +307,7 @@ function beatenVerdictFor(
     unlockTime: null,
     noDataReason: winEntry.no_data_reason,
     resolvedAppId,
+    resolvedAppName,
     checkedAt: winEntry.checked_at ?? null,
   }
 }

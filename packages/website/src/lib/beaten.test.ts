@@ -1,12 +1,15 @@
 import { describe, expect, it } from 'vitest'
 import {
   applyVerifyOverrides,
+  buildPlayRequiredRows,
   parseVerifyOverrides,
   pruneVerifyOverrides,
   verifyOverrideKey,
   type PlayRequiredRow,
   type VerifyOverrideMap,
 } from '@/lib/beaten'
+import type { BeatenGamesData } from '@/types/beaten'
+import type { Giveaway, User } from '@/types'
 
 function makeRow(overrides: Partial<PlayRequiredRow> = {}): PlayRequiredRow {
   return {
@@ -46,6 +49,7 @@ function makeRow(overrides: Partial<PlayRequiredRow> = {}): PlayRequiredRow {
       checkedAt: null,
       noDataReason: null,
       resolvedAppId: null,
+      resolvedAppName: null,
     },
     likelyBeaten: { isLikely: false },
     ...overrides,
@@ -188,5 +192,157 @@ describe('pruneVerifyOverrides', () => {
       [verifyOverrideKey(row.key, 'play_required')]: { state: 'registered', at: new Date().toISOString() },
     }
     expect(pruneVerifyOverrides(overrides, [row])).toEqual(overrides)
+  })
+})
+
+function makeUser(overrides: Partial<User> = {}): User {
+  return {
+    username: 'winner',
+    profile_url: '',
+    avatar_url: '',
+    stats: {
+      total_sent_count: 0,
+      total_sent_value: 0,
+      total_received_count: 0,
+      total_received_value: 0,
+      total_gift_difference: 0,
+      total_value_difference: 0,
+      fcv_sent_count: 0,
+      rcv_sent_count: 0,
+      ncv_sent_count: 0,
+      fcv_received_count: 0,
+      rcv_received_count: 0,
+      ncv_received_count: 0,
+      fcv_gift_difference: 0,
+      real_total_sent_count: 0,
+      real_total_sent_value: 0,
+      real_total_received_count: 0,
+      real_total_received_value: 0,
+      real_total_gift_difference: 0,
+      real_total_value_difference: 0,
+      shared_sent_count: 0,
+      shared_received_count: 0,
+      last_giveaway_created_at: null,
+      last_giveaway_won_at: null,
+    },
+    steam_id: 'steam1',
+    ...overrides,
+  }
+}
+
+function makeGiveaway(overrides: Partial<Giveaway> = {}): Giveaway {
+  return {
+    id: 'abcde',
+    name: 'Game',
+    points: 1,
+    copies: 1,
+    app_id: 0,
+    link: 'abcde/game',
+    created_timestamp: 0,
+    start_timestamp: 0,
+    end_timestamp: 0,
+    region_restricted: false,
+    invite_only: false,
+    whitelist: false,
+    group: true,
+    contributor_level: 0,
+    comment_count: 0,
+    entry_count: 1,
+    creator: 'creator',
+    cv_status: 'FULL_CV',
+    ...overrides,
+  }
+}
+
+describe('buildPlayRequiredRows — beatenVerdictFor via package_resolutions', () => {
+  it('resolves a package-only giveaway to its resolved app id/name instead of package_only', () => {
+    const giveaway = makeGiveaway({ app_id: undefined as unknown as number, package_id: 999 })
+    const user = makeUser({
+      giveaways_won: [{ name: 'Game', link: giveaway.link, cv_status: 'FULL_CV', status: 'won', end_timestamp: 0, required_play: true }],
+    })
+    const beatenGames: BeatenGamesData = {
+      last_updated: '2026-01-01T00:00:00.000Z',
+      games: {
+        '123': {
+          marker: { apiname: 'WIN', name: 'Finished', global_percent: 10, source: 'test' },
+          no_marker_reason: null,
+          checked_at: '2026-01-01T00:00:00.000Z',
+        },
+      },
+      wins: {
+        'steam1::123': { beaten: true, unlock_time: 1000, no_data_reason: null, checked_at: '2026-01-01T00:00:00.000Z' },
+      },
+      package_resolutions: { '999': { app_id: 123, app_name: 'Resolved Game' } },
+    }
+
+    const rows = buildPlayRequiredRows({
+      memberUsers: [user],
+      exMemberUsers: [],
+      giveaways: [giveaway],
+      gameData: [],
+      beatenGames,
+    })
+
+    expect(rows).toHaveLength(1)
+    expect(rows[0].beaten.verdict).toBe('beaten_verified')
+    expect(rows[0].beaten.resolvedAppId).toBe(123)
+    expect(rows[0].beaten.resolvedAppName).toBe('Resolved Game')
+  })
+
+  it('falls back to package_only when the package has no resolution', () => {
+    const giveaway = makeGiveaway({ app_id: undefined as unknown as number, package_id: 111 })
+    const user = makeUser({
+      giveaways_won: [{ name: 'Game', link: giveaway.link, cv_status: 'FULL_CV', status: 'won', end_timestamp: 0, required_play: true }],
+    })
+    const beatenGames: BeatenGamesData = {
+      last_updated: '2026-01-01T00:00:00.000Z',
+      games: {},
+      wins: {},
+    }
+
+    const rows = buildPlayRequiredRows({
+      memberUsers: [user],
+      exMemberUsers: [],
+      giveaways: [giveaway],
+      gameData: [],
+      beatenGames,
+    })
+
+    expect(rows[0].beaten.verdict).toBe('package_only')
+    expect(rows[0].beaten.resolvedAppId).toBeNull()
+  })
+
+  it('surfaces a DLC entry resolved_app_name alongside resolved_app_id', () => {
+    const giveaway = makeGiveaway({ app_id: 456 })
+    const user = makeUser({
+      giveaways_won: [{ name: 'DLC', link: giveaway.link, cv_status: 'FULL_CV', status: 'won', end_timestamp: 0, required_play: true }],
+    })
+    const beatenGames: BeatenGamesData = {
+      last_updated: '2026-01-01T00:00:00.000Z',
+      games: {
+        '456': {
+          marker: { apiname: 'WIN', name: 'Finished', global_percent: 10, source: 'test' },
+          no_marker_reason: null,
+          checked_at: '2026-01-01T00:00:00.000Z',
+          resolved_app_id: 42,
+          resolved_app_name: 'Base Game',
+        },
+      },
+      wins: {
+        'steam1::456': { beaten: false, unlock_time: null, no_data_reason: null, checked_at: '2026-01-01T00:00:00.000Z' },
+      },
+    }
+
+    const rows = buildPlayRequiredRows({
+      memberUsers: [user],
+      exMemberUsers: [],
+      giveaways: [giveaway],
+      gameData: [],
+      beatenGames,
+    })
+
+    expect(rows[0].beaten.verdict).toBe('not_beaten')
+    expect(rows[0].beaten.resolvedAppId).toBe(42)
+    expect(rows[0].beaten.resolvedAppName).toBe('Base Game')
   })
 })
