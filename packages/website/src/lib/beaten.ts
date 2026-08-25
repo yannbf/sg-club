@@ -152,44 +152,44 @@ export interface PlayRequiredRow {
   }
 }
 
-export type StatusFilter =
-  | 'all'
-  | 'not_verified'
-  | 'likely_not_signed_off'
-  | 'beaten_verified'
-  | 'no_evidence'
-  | 'unverifiable'
-  | 'not_registered'
+/**
+ * Summary-card filters for the Play Required tab. Each id names a StatCard
+ * on that tab; `all` is the "clear filter" card (the Play Required wins
+ * total).
+ */
+export type PrCardId = 'all' | 'not_in_sheet' | 'verified_beaten' | 'signed_off' | 'pending_verification'
 
-export function matchesStatusFilter(
-  row: PlayRequiredRow,
-  filter: StatusFilter,
-): boolean {
-  switch (filter) {
+/**
+ * Summary-card filters for the I Play Bro tab. Each id names a StatCard on
+ * that tab; `all` is the "clear filter" card (the IPB wins total).
+ */
+export type IpbCardId = 'all' | 'pending_verification' | 'verified' | 'verified_beaten'
+
+export function matchesPrCard(row: PlayRequiredRow, card: PrCardId): boolean {
+  switch (card) {
     case 'all':
       return true
-    case 'not_registered':
-      return row.isPlayRequired && !row.prRegistered
-    case 'not_verified':
-      return !row.attestation.confirmed
-    case 'likely_not_signed_off':
-      return (
-        (row.beaten.verdict === 'beaten_verified' || row.likelyBeaten.isLikely) &&
-        !row.attestation.confirmed
-      )
-    case 'beaten_verified':
+    case 'not_in_sheet':
+      return !row.prRegistered
+    case 'verified_beaten':
       return row.beaten.verdict === 'beaten_verified'
-    case 'no_evidence':
-      return (
-        !row.attestation.confirmed &&
-        !row.likelyBeaten.isLikely &&
-        row.beaten.verdict !== 'beaten_verified' &&
-        !row.steam.hasNoAvailableStats &&
-        (row.steam.playtimeMinutes ?? 0) === 0 &&
-        (row.steam.achievementsUnlocked ?? 0) === 0
-      )
-    case 'unverifiable':
-      return row.beaten.verdict === 'no_data' || row.beaten.verdict === 'no_marker'
+    case 'signed_off':
+      return row.attestation.confirmed
+    case 'pending_verification':
+      return !row.attestation.confirmed && row.prRegistered
+  }
+}
+
+export function matchesIpbCard(row: PlayRequiredRow, card: IpbCardId): boolean {
+  switch (card) {
+    case 'all':
+      return true
+    case 'pending_verification':
+      return row.ipbStatus === 'submitted'
+    case 'verified':
+      return row.ipbStatus === 'verified'
+    case 'verified_beaten':
+      return row.beaten.verdict === 'beaten_verified'
   }
 }
 
@@ -417,7 +417,8 @@ export interface PlayRequiredSummary {
   totalIPlayedBro: number
   verifiedBeaten: number
   signedOff: number
-  unverified: number
+  /** Not signed off, but registered in the PLAY_REQUIRED sheet — see `matchesPrCard('pending_verification')`. */
+  pendingVerification: number
   noData: number
   /** Play Required wins with no PLAY_REQUIRED sheet row yet — see `PlayRequiredRow.prRegistered`. */
   notRegistered: number
@@ -428,7 +429,7 @@ export function summarizeRows(rows: PlayRequiredRow[]): PlayRequiredSummary {
   let totalIPlayedBro = 0
   let verifiedBeaten = 0
   let signedOff = 0
-  let unverified = 0
+  let pendingVerification = 0
   let noData = 0
   let notRegistered = 0
 
@@ -437,12 +438,12 @@ export function summarizeRows(rows: PlayRequiredRow[]): PlayRequiredSummary {
     if (row.attestation.iPlayedBro) totalIPlayedBro++
     if (row.beaten.verdict === 'beaten_verified') verifiedBeaten++
     if (row.attestation.confirmed) signedOff++
-    else unverified++
+    else if (row.prRegistered) pendingVerification++
     if (row.beaten.verdict === 'no_data' || row.beaten.verdict === 'no_marker') noData++
     if (row.isPlayRequired && !row.prRegistered) notRegistered++
   }
 
-  return { totalRequiredPlay, totalIPlayedBro, verifiedBeaten, signedOff, unverified, noData, notRegistered }
+  return { totalRequiredPlay, totalIPlayedBro, verifiedBeaten, signedOff, pendingVerification, noData, notRegistered }
 }
 
 /**
@@ -452,9 +453,10 @@ export function summarizeRows(rows: PlayRequiredRow[]): PlayRequiredSummary {
  * tiles.
  */
 export interface IpbSummary {
+  /** All IPB-eligible rows (`row.isIpb`), regardless of status — the tab's "clear filter" total. */
+  total: number
   submitted: number
   verified: number
-  notSubmitted: number
   verifiedBeaten: number
 }
 
@@ -599,18 +601,18 @@ export function applyVerifyOverrides(
 }
 
 export function summarizeIpbRows(rows: PlayRequiredRow[]): IpbSummary {
+  let total = 0
   let submitted = 0
   let verified = 0
-  let notSubmitted = 0
   let verifiedBeaten = 0
 
   for (const row of rows) {
     if (!row.isIpb) continue
+    total++
     if (row.ipbStatus === 'submitted') submitted++
     else if (row.ipbStatus === 'verified') verified++
-    else notSubmitted++
     if (row.beaten.verdict === 'beaten_verified') verifiedBeaten++
   }
 
-  return { submitted, verified, notSubmitted, verifiedBeaten }
+  return { total, submitted, verified, verifiedBeaten }
 }

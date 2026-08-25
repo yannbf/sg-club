@@ -4,7 +4,6 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { formatDistanceToNow } from 'date-fns'
 import {
   AlertTriangle,
-  Ban,
   CheckCircle2,
   Clock,
   ExternalLink,
@@ -20,17 +19,19 @@ import {
   XCircle,
 } from 'lucide-react'
 import type {
+  IpbCardId,
   IpbSummary,
   PlayRequiredRow,
   PlayRequiredSummary,
-  StatusFilter,
+  PrCardId,
   VerifyOverrideMap,
   VerifyOverrideState,
 } from '@/lib/beaten'
 import {
   applyVerifyOverrides,
   BEATEN_VERDICT_ORDER,
-  matchesStatusFilter,
+  matchesIpbCard,
+  matchesPrCard,
   parseVerifyOverrides,
   pruneVerifyOverrides,
   summarizeIpbRows,
@@ -122,16 +123,6 @@ const IPB_STATUS_ORDER: readonly PlayRequiredRow['ipbStatus'][] = [
   'not_submitted',
 ]
 
-const STATUS_FILTERS: { id: StatusFilter; label: string }[] = [
-  { id: 'all', label: 'All' },
-  { id: 'not_registered', label: 'Not in sheet' },
-  { id: 'not_verified', label: 'Not verified yet' },
-  { id: 'likely_not_signed_off', label: 'Likely beaten, not signed off' },
-  { id: 'beaten_verified', label: 'Beaten (verified)' },
-  { id: 'no_evidence', label: 'No evidence' },
-  { id: 'unverifiable', label: 'Unverifiable' },
-]
-
 const typeLabel: Record<PlayRequiredRow['type'], string> = {
   required_play: 'Play Required',
   i_played_bro: 'I Played Bro',
@@ -219,22 +210,22 @@ function BeatenBadge({ row }: { row: PlayRequiredRow }) {
       )
     case 'not_beaten':
       return (
-        <Tooltip
-          content={`The winner has not unlocked "${beaten.marker?.name}"${
-            beaten.marker?.description ? ` (${beaten.marker.description})` : ''
-          } — the achievement that marks finishing this game${
-            beaten.marker?.global_percent != null
-              ? `, unlocked by ${beaten.marker.global_percent.toFixed(1)}% of players`
-              : ''
-          }. Click to open their achievements page.`}
-        >
-          <AchievementsLink row={row}>
+        <AchievementsLink row={row}>
+          <Tooltip
+            content={`The winner has not unlocked "${beaten.marker?.name}"${
+              beaten.marker?.description ? ` (${beaten.marker.description})` : ''
+            } — the achievement that marks finishing this game${
+              beaten.marker?.global_percent != null
+                ? `, unlocked by ${beaten.marker.global_percent.toFixed(1)}% of players`
+                : ''
+            }. Click to open their achievements page.`}
+          >
             <Badge variant="error" size="sm">
               <XCircle className="h-3 w-3" />
               Marker not unlocked
             </Badge>
-          </AchievementsLink>
-        </Tooltip>
+          </Tooltip>
+        </AchievementsLink>
       )
     case 'no_marker':
       return (
@@ -677,6 +668,66 @@ function hasGiveawayCode(row: PlayRequiredRow): boolean {
   return row.giveawayLink.length > 0
 }
 
+function searchMatches(row: PlayRequiredRow, term: string): boolean {
+  if (!term) return true
+  return (
+    row.game.name.toLowerCase().includes(term) || row.winner.username.toLowerCase().includes(term)
+  )
+}
+
+function isRowVerified(row: PlayRequiredRow, type: 'ipb' | 'play_required'): boolean {
+  return type === 'play_required' ? row.attestation.confirmed : row.ipbStatus === 'verified'
+}
+
+interface TabVisibility {
+  filtered: PlayRequiredRow[]
+  /** Rows hidden only by the "Show verified" toggle — flipping it alone would reveal them. */
+  hiddenByVerified: number
+  /** Rows hidden only by the "Show ex-members" toggle — flipping it alone would reveal them. */
+  hiddenByExMembers: number
+}
+
+/**
+ * Applies the card filter, search, and the two visibility toggles in one
+ * pass, tracking — separately from the filtered set — how many rows each
+ * toggle alone is hiding, so the UI can hint "N hidden — show X" without
+ * silently dropping rows a mod might be looking for.
+ */
+function computeTabVisibility(params: {
+  rows: PlayRequiredRow[]
+  matchesCard: (row: PlayRequiredRow) => boolean
+  term: string
+  showVerified: boolean
+  showExMembers: boolean
+  verifyType: 'ipb' | 'play_required'
+  justVerifiedKeys: Set<string>
+}): TabVisibility {
+  const { rows, matchesCard, term, showVerified, showExMembers, verifyType, justVerifiedKeys } = params
+  const filtered: PlayRequiredRow[] = []
+  let hiddenByVerified = 0
+  let hiddenByExMembers = 0
+
+  for (const row of rows) {
+    if (!matchesCard(row) || !searchMatches(row, term)) continue
+
+    const verified = isRowVerified(row, verifyType)
+    const justVerified = justVerifiedKeys.has(verifyStateKey(row, verifyType))
+    const passesVerifiedGate = showVerified || !verified || justVerified
+    const passesExMemberGate = showExMembers || !row.winner.isExMember
+
+    if (passesVerifiedGate && passesExMemberGate) {
+      filtered.push(row)
+    } else if (passesExMemberGate) {
+      hiddenByVerified++
+    } else if (passesVerifiedGate) {
+      hiddenByExMembers++
+    }
+    // Hidden by both toggles: flipping either one alone wouldn't reveal it, so it counts toward neither hint.
+  }
+
+  return { filtered, hiddenByVerified, hiddenByExMembers }
+}
+
 function VerifyControl({
   row,
   type,
@@ -992,7 +1043,8 @@ export default function PlayRequiredClient({
   const [tab, setTab] = useState<Tab>('ipb')
   const [search, setSearch] = useState('')
   const debouncedSearch = useDebounce(search, 200)
-  const [statusFilter, setStatusFilter] = useState<StatusFilter>('all')
+  const [prCard, setPrCard] = useState<PrCardId>('all')
+  const [ipbCard, setIpbCard] = useState<IpbCardId>('all')
   const [showVerified, setShowVerified] = useState(false)
   const [showExMembers, setShowExMembers] = useState(false)
   const [prSort, setPrSort] = useState<{ key: SortKey; dir: SortDir }>({
@@ -1185,61 +1237,50 @@ export default function PlayRequiredClient({
 
   const term = debouncedSearch.trim().toLowerCase()
 
-  const filteredPrRows = useMemo(
+  const prVisibility = useMemo(
     () =>
-      prRows.filter((row) => {
-        if (!matchesStatusFilter(row, statusFilter)) return false
-        if (
-          !showVerified &&
-          row.attestation.confirmed &&
-          !justVerifiedKeys.has(verifyStateKey(row, 'play_required'))
-        )
-          return false
-        if (!showExMembers && row.winner.isExMember) return false
-        if (!term) return true
-        return (
-          row.game.name.toLowerCase().includes(term) ||
-          row.winner.username.toLowerCase().includes(term)
-        )
+      computeTabVisibility({
+        rows: prRows,
+        matchesCard: (row) => matchesPrCard(row, prCard),
+        term,
+        showVerified,
+        showExMembers,
+        verifyType: 'play_required',
+        justVerifiedKeys,
       }),
-    [prRows, statusFilter, showVerified, showExMembers, term, justVerifiedKeys],
+    [prRows, prCard, term, showVerified, showExMembers, justVerifiedKeys],
   )
-  const filteredIpbRows = useMemo(
+  const ipbVisibility = useMemo(
     () =>
-      ipbRows.filter((row) => {
-        if (!matchesStatusFilter(row, statusFilter)) return false
-        if (
-          !showVerified &&
-          row.ipbStatus === 'verified' &&
-          !justVerifiedKeys.has(verifyStateKey(row, 'ipb'))
-        )
-          return false
-        if (!showExMembers && row.winner.isExMember) return false
-        if (!term) return true
-        return (
-          row.game.name.toLowerCase().includes(term) ||
-          row.winner.username.toLowerCase().includes(term)
-        )
+      computeTabVisibility({
+        rows: ipbRows,
+        matchesCard: (row) => matchesIpbCard(row, ipbCard),
+        term,
+        showVerified,
+        showExMembers,
+        verifyType: 'ipb',
+        justVerifiedKeys,
       }),
-    [ipbRows, statusFilter, showVerified, showExMembers, term, justVerifiedKeys],
+    [ipbRows, ipbCard, term, showVerified, showExMembers, justVerifiedKeys],
   )
 
   const sortedPrRows = useMemo(
-    () => [...filteredPrRows].sort((a, b) => compareRows(a, b, prSort.key, prSort.dir)),
-    [filteredPrRows, prSort],
+    () => [...prVisibility.filtered].sort((a, b) => compareRows(a, b, prSort.key, prSort.dir)),
+    [prVisibility, prSort],
   )
   const sortedIpbRows = useMemo(
-    () => [...filteredIpbRows].sort((a, b) => compareRows(a, b, ipbSort.key, ipbSort.dir)),
-    [filteredIpbRows, ipbSort],
+    () => [...ipbVisibility.filtered].sort((a, b) => compareRows(a, b, ipbSort.key, ipbSort.dir)),
+    [ipbVisibility, ipbSort],
   )
 
   const activeBaseRows = tab === 'play_required' ? prRows : ipbRows
   const activeSortedRows = tab === 'play_required' ? sortedPrRows : sortedIpbRows
-  // "Not in sheet" only means anything against Play Required rows.
-  const visibleStatusFilters = useMemo(
-    () => (tab === 'play_required' ? STATUS_FILTERS : STATUS_FILTERS.filter((f) => f.id !== 'not_registered')),
-    [tab],
-  )
+  const activeVisibility = tab === 'play_required' ? prVisibility : ipbVisibility
+
+  /** Toggles `id` on if it isn't already the active card, otherwise clears back to "all". */
+  function toggleCard<T extends string>(id: T, current: T, setter: (v: T) => void) {
+    setter(current === id ? ('all' as T) : id)
+  }
 
   return (
     <div className="space-y-6">
@@ -1281,18 +1322,81 @@ export default function PlayRequiredClient({
 
       {tab === 'play_required' ? (
         <div className="grid grid-cols-2 gap-4 lg:grid-cols-5">
-          <StatCard icon={Gamepad2} label="Play Required wins" value={summaryState.totalRequiredPlay} accent="primary" />
-          <StatCard icon={FileSpreadsheet} label="Not in sheet" value={summaryState.notRegistered} accent="rose" />
-          <StatCard icon={CheckCircle2} label="Verified beaten (Steam)" value={summaryState.verifiedBeaten} accent="green" />
-          <StatCard icon={ShieldCheck} label="Signed off" value={summaryState.signedOff} accent="blue" />
-          <StatCard icon={AlertTriangle} label="Unverified" value={summaryState.unverified} accent="amber" />
+          <StatCard
+            icon={Gamepad2}
+            label="Play Required wins"
+            value={summaryState.totalRequiredPlay}
+            accent="primary"
+            selected={prCard === 'all'}
+            onClick={() => toggleCard('all', prCard, setPrCard)}
+          />
+          <StatCard
+            icon={FileSpreadsheet}
+            label="Not in sheet"
+            value={summaryState.notRegistered}
+            accent="rose"
+            selected={prCard === 'not_in_sheet'}
+            onClick={() => toggleCard('not_in_sheet', prCard, setPrCard)}
+          />
+          <StatCard
+            icon={CheckCircle2}
+            label="Verified beaten (Steam)"
+            value={summaryState.verifiedBeaten}
+            accent="green"
+            selected={prCard === 'verified_beaten'}
+            onClick={() => toggleCard('verified_beaten', prCard, setPrCard)}
+          />
+          <StatCard
+            icon={ShieldCheck}
+            label="Signed off"
+            value={summaryState.signedOff}
+            accent="blue"
+            selected={prCard === 'signed_off'}
+            onClick={() => toggleCard('signed_off', prCard, setPrCard)}
+          />
+          <StatCard
+            icon={AlertTriangle}
+            label="Pending verification"
+            value={summaryState.pendingVerification}
+            accent="amber"
+            selected={prCard === 'pending_verification'}
+            onClick={() => toggleCard('pending_verification', prCard, setPrCard)}
+          />
         </div>
       ) : (
         <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-          <StatCard icon={Clock} label="Submitted" value={ipbSummaryState.submitted} accent="amber" />
-          <StatCard icon={ShieldCheck} label="Verified" value={ipbSummaryState.verified} accent="green" />
-          <StatCard icon={Ban} label="Not submitted" value={ipbSummaryState.notSubmitted} accent="rose" />
-          <StatCard icon={Trophy} label="Verified beaten (Steam)" value={ipbSummaryState.verifiedBeaten} accent="purple" />
+          <StatCard
+            icon={Gamepad2}
+            label="IPB wins"
+            value={ipbSummaryState.total}
+            accent="primary"
+            selected={ipbCard === 'all'}
+            onClick={() => toggleCard('all', ipbCard, setIpbCard)}
+          />
+          <StatCard
+            icon={Clock}
+            label="Pending verification"
+            value={ipbSummaryState.submitted}
+            accent="amber"
+            selected={ipbCard === 'pending_verification'}
+            onClick={() => toggleCard('pending_verification', ipbCard, setIpbCard)}
+          />
+          <StatCard
+            icon={ShieldCheck}
+            label="Verified"
+            value={ipbSummaryState.verified}
+            accent="green"
+            selected={ipbCard === 'verified'}
+            onClick={() => toggleCard('verified', ipbCard, setIpbCard)}
+          />
+          <StatCard
+            icon={Trophy}
+            label="Verified beaten (Steam)"
+            value={ipbSummaryState.verifiedBeaten}
+            accent="purple"
+            selected={ipbCard === 'verified_beaten'}
+            onClick={() => toggleCard('verified_beaten', ipbCard, setIpbCard)}
+          />
         </div>
       )}
 
@@ -1330,26 +1434,28 @@ export default function PlayRequiredClient({
         </ToggleGroup>
       </Toolbar>
 
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <div className="flex flex-wrap gap-1.5">
-          {visibleStatusFilters.map((f) => (
-            <button
-              key={f.id}
-              onClick={() => setStatusFilter(f.id)}
-              className={cn(
-                'inline-flex items-center rounded-full border px-3 py-1 text-xs font-medium transition-colors',
-                statusFilter === f.id
-                  ? 'border-transparent bg-card-background-hover text-foreground'
-                  : 'border-card-border bg-card-background text-muted-foreground hover:border-card-border-strong hover:text-foreground',
-              )}
-            >
-              {f.label}
-            </button>
-          ))}
-        </div>
+      <div className="flex flex-wrap items-center justify-end gap-x-3 gap-y-1">
         <p className="whitespace-nowrap text-xs text-subtle">
           Showing {activeSortedRows.length} of {activeBaseRows.length} wins.
         </p>
+        {activeVisibility.hiddenByExMembers > 0 && (
+          <button
+            type="button"
+            onClick={() => setShowExMembers(true)}
+            className="whitespace-nowrap text-xs text-accent underline decoration-dotted hover:text-accent-hover"
+          >
+            {activeVisibility.hiddenByExMembers} hidden — show ex-members
+          </button>
+        )}
+        {activeVisibility.hiddenByVerified > 0 && (
+          <button
+            type="button"
+            onClick={() => setShowVerified(true)}
+            className="whitespace-nowrap text-xs text-accent underline decoration-dotted hover:text-accent-hover"
+          >
+            {activeVisibility.hiddenByVerified} hidden — show verified
+          </button>
+        )}
       </div>
 
       <Card className="overflow-hidden">
