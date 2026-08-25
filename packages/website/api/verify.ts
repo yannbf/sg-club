@@ -8,7 +8,7 @@
 import type { IncomingMessage, ServerResponse } from 'node:http'
 import { createHash, createSign } from 'node:crypto'
 import { loadDataFile } from './_lib/data.js'
-import { addReaction, removeReaction } from './_lib/discord-rest.js'
+import { addReaction, editChannel, removeReaction } from './_lib/discord-rest.js'
 
 export const config = {
   maxDuration: 30,
@@ -194,9 +194,36 @@ const VERIFIED_REACTION_EMOJI = '✅'
  * fails the request. In a forum thread the starter message id equals the
  * thread id.
  */
+/**
+ * Discord rejects reactions in archived threads, and IPB submission threads
+ * auto-archive after their inactivity window — so on failure, unarchive the
+ * thread, retry, and try to re-archive. Re-archiving needs the Manage
+ * Threads permission the bot may not have; that failure is ignored (the
+ * thread simply auto-archives again later).
+ */
+async function withUnarchivedRetry(
+  threadId: string,
+  action: () => Promise<void>,
+): Promise<void> {
+  try {
+    await action()
+    return
+  } catch {
+    await editChannel(threadId, { archived: false })
+    await action()
+    try {
+      await editChannel(threadId, { archived: true })
+    } catch {
+      // Missing Manage Threads — auto-archive will take care of it.
+    }
+  }
+}
+
 async function addVerifiedReaction(threadId: string): Promise<'reacted' | 'failed'> {
   try {
-    await addReaction(threadId, threadId, VERIFIED_REACTION_EMOJI)
+    await withUnarchivedRetry(threadId, () =>
+      addReaction(threadId, threadId, VERIFIED_REACTION_EMOJI),
+    )
     return 'reacted'
   } catch (err) {
     console.error('verify: Discord reaction failed', err)
@@ -207,7 +234,9 @@ async function addVerifiedReaction(threadId: string): Promise<'reacted' | 'faile
 /** Best-effort removal of the ✅ reaction after an unverify — never fails the request. */
 async function removeVerifiedReaction(threadId: string): Promise<'unreacted' | 'failed'> {
   try {
-    await removeReaction(threadId, threadId, VERIFIED_REACTION_EMOJI)
+    await withUnarchivedRetry(threadId, () =>
+      removeReaction(threadId, threadId, VERIFIED_REACTION_EMOJI),
+    )
     return 'unreacted'
   } catch (err) {
     console.error('verify: Discord un-reaction failed', err)

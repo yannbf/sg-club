@@ -214,12 +214,22 @@ function BeatenBadge({ row }: { row: PlayRequiredRow }) {
       )
     case 'not_beaten':
       return (
-        <AchievementsLink row={row}>
-          <Badge variant="error" size="sm">
-            <XCircle className="h-3 w-3" />
-            Marker not unlocked
-          </Badge>
-        </AchievementsLink>
+        <Tooltip
+          content={`The winner has not unlocked "${beaten.marker?.name}"${
+            beaten.marker?.description ? ` (${beaten.marker.description})` : ''
+          } — the achievement that marks finishing this game${
+            beaten.marker?.global_percent != null
+              ? `, unlocked by ${beaten.marker.global_percent.toFixed(1)}% of players`
+              : ''
+          }. Click to open their achievements page.`}
+        >
+          <AchievementsLink row={row}>
+            <Badge variant="error" size="sm">
+              <XCircle className="h-3 w-3" />
+              Marker not unlocked
+            </Badge>
+          </AchievementsLink>
+        </Tooltip>
       )
     case 'no_marker':
       return (
