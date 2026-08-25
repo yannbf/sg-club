@@ -13,6 +13,8 @@ export interface BeatenGameMarker {
   /** Percent of all Steam owners who have unlocked this achievement. */
   global_percent: number
   source: string
+  /** Steam Hunters' id for this achievement, when matched — links directly to it instead of the game's achievements page. */
+  sh_achievement_id?: number
 }
 
 /** Why no story marker could be established for a game. */

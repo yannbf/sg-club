@@ -15,7 +15,6 @@ import {
   MessageSquare,
   Search,
   ShieldCheck,
-  Trophy,
   XCircle,
 } from 'lucide-react'
 import type {
@@ -40,6 +39,7 @@ import {
   verifyOverrideKey,
 } from '@/lib/beaten'
 import type { IpbDiscordUnmatchedThread } from '@/types/ipb-discord'
+import type { BeatenGameMarker } from '@/types/beaten'
 import { formatPlaytimeCompact } from '@/lib/data'
 import { getStoredAdminPassword, verifyAdminPasswordHash } from '@/lib/auth'
 import { UserLink } from '@/components/UserLink'
@@ -139,11 +139,32 @@ function sgGiveawayUrl(link: string) {
   return `https://www.steamgifts.com/giveaway/${link}`
 }
 
+/** Discord's snowflake epoch (2015-01-01T00:00:00.000Z) baked into every id — see discordSnowflakeDate. */
+const DISCORD_EPOCH_MS = BigInt(1420070400000)
+
+/** Extracts the creation timestamp embedded in a Discord snowflake id. */
+function discordSnowflakeDate(id: string): Date {
+  return new Date(Number((BigInt(id) >> BigInt(22)) + DISCORD_EPOCH_MS))
+}
+
 const PLAY_REQUIRED_SHEET_URL =
   'https://docs.google.com/spreadsheets/d/1h20q3RPeYTDwL_hl3uWEq6SSRbSlsHJW3VhN538oP3A/edit#gid=2065024481'
 
 function steamAchievementsUrl(steamId: string, appId: number) {
   return `https://steamcommunity.com/profiles/${steamId}/stats/${appId}/achievements`
+}
+
+/** The game's global achievement stats page (unlock rates across all Steam owners). */
+function steamGlobalStatsUrl(appId: number) {
+  return `https://steamcommunity.com/stats/${appId}/achievements`
+}
+
+/** Steam Hunters' achievements page for a game, or the specific marker achievement when known. */
+function steamHuntersUrl(appId: number, marker: BeatenGameMarker | null) {
+  if (marker?.sh_achievement_id != null) {
+    return `https://steamhunters.com/apps/${appId}/achievements/${marker.sh_achievement_id}`
+  }
+  return `https://steamhunters.com/apps/${appId}/achievements`
 }
 
 /**
@@ -177,6 +198,23 @@ function AchievementsLink({
   )
 }
 
+/** Small "(?)" link to the marker (or game) achievements page on Steam Hunters, next to a Beaten badge. */
+function SteamHuntersLink({ row }: { row: PlayRequiredRow }) {
+  const appId = achievementsAppId(row)
+  if (appId == null) return null
+  return (
+    <a
+      href={steamHuntersUrl(appId, row.beaten.marker)}
+      target="_blank"
+      rel="noopener noreferrer"
+      title="View on Steam Hunters"
+      className="ml-1 inline-flex items-center text-subtle hover:text-accent"
+    >
+      <HelpCircle className="h-3 w-3" />
+    </a>
+  )
+}
+
 /** "Stats last checked X ago" tooltip content for the Playtime/Achievements cells. */
 function lastCheckedTooltip(lastChecked: number | undefined): string | null {
   if (!lastChecked) return null
@@ -189,18 +227,21 @@ function BeatenBadge({ row }: { row: PlayRequiredRow }) {
     case 'beaten_verified':
       return (
         <div className="space-y-0.5">
-          <AchievementsLink row={row}>
-            <Badge variant="success" size="sm">
-              <CheckCircle2 className="h-3 w-3" />
-              Beaten — {beaten.marker?.name}
-              {beaten.marker?.global_percent != null && (
-                <span className="text-subtle">
-                  {' '}
-                  ({beaten.marker.global_percent.toFixed(1)}%)
-                </span>
-              )}
-            </Badge>
-          </AchievementsLink>
+          <div className="flex items-center">
+            <AchievementsLink row={row}>
+              <Badge variant="success" size="sm">
+                <CheckCircle2 className="h-3 w-3" />
+                Beaten — {beaten.marker?.name}
+                {beaten.marker?.global_percent != null && (
+                  <span className="text-subtle">
+                    {' '}
+                    ({beaten.marker.global_percent.toFixed(1)}%)
+                  </span>
+                )}
+              </Badge>
+            </AchievementsLink>
+            <SteamHuntersLink row={row} />
+          </div>
           {beaten.unlockTime != null && (
             <p className="text-[11px] text-muted-foreground">
               unlocked <FormattedDate timestamp={beaten.unlockTime} />
@@ -210,34 +251,40 @@ function BeatenBadge({ row }: { row: PlayRequiredRow }) {
       )
     case 'not_beaten':
       return (
-        <AchievementsLink row={row}>
-          <Tooltip
-            content={`The winner has not unlocked "${beaten.marker?.name}"${
-              beaten.marker?.description ? ` (${beaten.marker.description})` : ''
-            } — the achievement that marks finishing this game${
-              beaten.marker?.global_percent != null
-                ? `, unlocked by ${beaten.marker.global_percent.toFixed(1)}% of players`
-                : ''
-            }. Click to open their achievements page.${
-              beaten.checkedAt
-                ? ` Checked ${formatDistanceToNow(new Date(beaten.checkedAt), { addSuffix: true })} — a very recent unlock may not show yet.`
-                : ''
-            }`}
-          >
-            <Badge variant="error" size="sm">
-              <XCircle className="h-3 w-3" />
-              Marker not unlocked
-            </Badge>
-          </Tooltip>
-        </AchievementsLink>
+        <div className="flex items-center">
+          <AchievementsLink row={row}>
+            <Tooltip
+              content={`The winner has not unlocked "${beaten.marker?.name}"${
+                beaten.marker?.description ? ` (${beaten.marker.description})` : ''
+              } — the achievement that marks finishing this game${
+                beaten.marker?.global_percent != null
+                  ? `, unlocked by ${beaten.marker.global_percent.toFixed(1)}% of players`
+                  : ''
+              }. Click to open their achievements page.${
+                beaten.checkedAt
+                  ? ` Checked ${formatDistanceToNow(new Date(beaten.checkedAt), { addSuffix: true })} — a very recent unlock may not show yet.`
+                  : ''
+              }`}
+            >
+              <Badge variant="error" size="sm">
+                <XCircle className="h-3 w-3" />
+                Marker not unlocked
+              </Badge>
+            </Tooltip>
+          </AchievementsLink>
+          <SteamHuntersLink row={row} />
+        </div>
       )
     case 'no_marker':
       return (
-        <Tooltip content={`Reason: ${beaten.noMarkerReason ?? 'unknown'}`}>
-          <Badge variant="outline" size="sm">
-            Couldn&apos;t automatically check
-          </Badge>
-        </Tooltip>
+        <div className="flex items-center">
+          <Tooltip content={`Reason: ${beaten.noMarkerReason ?? 'unknown'}`}>
+            <Badge variant="outline" size="sm">
+              Couldn&apos;t automatically check
+            </Badge>
+          </Tooltip>
+          <SteamHuntersLink row={row} />
+        </div>
       )
     case 'no_data':
       return (
@@ -511,19 +558,34 @@ function PlayRequiredSignOffColumn({
 }
 
 function GameCell({ row }: { row: PlayRequiredRow }) {
+  const statsAppId = achievementsAppId(row)
+  const image = (
+    <GameImage
+      appId={row.game.appId}
+      packageId={row.game.packageId}
+      fallbackUrl={row.game.headerImageUrl}
+      name={row.game.name}
+      width={92}
+      height={43}
+      className="!w-[92px] flex-shrink-0"
+      rounded
+      link={false}
+    />
+  )
   return (
     <div className="flex items-center gap-3">
-      <GameImage
-        appId={row.game.appId}
-        packageId={row.game.packageId}
-        fallbackUrl={row.game.headerImageUrl}
-        name={row.game.name}
-        width={92}
-        height={43}
-        className="!w-[92px] flex-shrink-0"
-        rounded
-        link={false}
-      />
+      {statsAppId != null ? (
+        <a
+          href={steamGlobalStatsUrl(statsAppId)}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex-shrink-0 hover:opacity-80"
+        >
+          {image}
+        </a>
+      ) : (
+        image
+      )}
       <div className="min-w-0">
         <a
           href={sgGiveawayUrl(row.giveawayLink)}
@@ -1325,7 +1387,7 @@ export default function PlayRequiredClient({
       </Tabs>
 
       {tab === 'play_required' ? (
-        <div className="grid grid-cols-2 gap-4 lg:grid-cols-5">
+        <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
           <StatCard
             icon={Gamepad2}
             label="Play Required wins"
@@ -1343,22 +1405,6 @@ export default function PlayRequiredClient({
             onClick={() => toggleCard('not_in_sheet', prCard, setPrCard)}
           />
           <StatCard
-            icon={CheckCircle2}
-            label="Verified beaten (Steam)"
-            value={summaryState.verifiedBeaten}
-            accent="green"
-            selected={prCard === 'verified_beaten'}
-            onClick={() => toggleCard('verified_beaten', prCard, setPrCard)}
-          />
-          <StatCard
-            icon={ShieldCheck}
-            label="Signed off"
-            value={summaryState.signedOff}
-            accent="blue"
-            selected={prCard === 'signed_off'}
-            onClick={() => toggleCard('signed_off', prCard, setPrCard)}
-          />
-          <StatCard
             icon={AlertTriangle}
             label="Pending verification"
             value={summaryState.pendingVerification}
@@ -1366,9 +1412,17 @@ export default function PlayRequiredClient({
             selected={prCard === 'pending_verification'}
             onClick={() => toggleCard('pending_verification', prCard, setPrCard)}
           />
+          <StatCard
+            icon={ShieldCheck}
+            label="Verified"
+            value={summaryState.signedOff}
+            accent="blue"
+            selected={prCard === 'signed_off'}
+            onClick={() => toggleCard('signed_off', prCard, setPrCard)}
+          />
         </div>
       ) : (
-        <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-4 lg:grid-cols-3">
           <StatCard
             icon={Gamepad2}
             label="IPB wins"
@@ -1392,14 +1446,6 @@ export default function PlayRequiredClient({
             accent="green"
             selected={ipbCard === 'verified'}
             onClick={() => toggleCard('verified', ipbCard, setIpbCard)}
-          />
-          <StatCard
-            icon={Trophy}
-            label="Verified beaten (Steam)"
-            value={ipbSummaryState.verifiedBeaten}
-            accent="purple"
-            selected={ipbCard === 'verified_beaten'}
-            onClick={() => toggleCard('verified_beaten', ipbCard, setIpbCard)}
           />
         </div>
       )}
@@ -1628,6 +1674,10 @@ export default function PlayRequiredClient({
           <summary className="cursor-pointer select-none font-medium text-muted-foreground">
             Unmatched Discord submission threads ({unmatchedDiscordThreads.length})
           </summary>
+          <p className="mt-2 text-xs text-muted-foreground">
+            These reports couldn&apos;t be automatically checked because they didn&apos;t contain
+            enough info, or members might have reported invite-only GA wins or similar.
+          </p>
           <ul className="mt-3 space-y-1.5">
             {unmatchedDiscordThreads.map((t) => (
               <li key={t.thread_id} className="flex flex-wrap items-center gap-2 text-xs">
@@ -1641,6 +1691,9 @@ export default function PlayRequiredClient({
                   {t.name}
                 </a>
                 <span className="text-muted-foreground">by {t.owner_discord_name}</span>
+                <span className="text-subtle">
+                  · {formatDistanceToNow(discordSnowflakeDate(t.thread_id), { addSuffix: true })}
+                </span>
               </li>
             ))}
           </ul>
