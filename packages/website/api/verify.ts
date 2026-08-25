@@ -21,7 +21,7 @@ const PLAY_REQUIRED_SHEET_GID = 2065024481
 const IPB_COLUMNS = ['ID', 'GAME', 'WINNER', 'COMPLETE PLAYING', 'EXTRA POINTS'] as const
 const PLAY_REQUIRED_STATUS_COLUMN = 'PLAY REQUIREMENTS MET'
 /** Marks a freshly-registered Play Required row's NOTES cell so it's obvious a mod still needs to fill in the deadline and requirements. */
-const REGISTER_TODO_NOTE = 'TODO: Add proper requirements or delete this'
+const REGISTER_TODO_NOTE = 'TODO: Add proper requirements or delete this note'
 
 type VerifyType = 'ipb' | 'play_required'
 type VerifyAction = 'verify' | 'unverify' | 'register'
@@ -149,7 +149,9 @@ async function resolveTabTitle(accessToken: string, gid: number): Promise<string
 }
 
 async function readTabValues(accessToken: string, title: string): Promise<string[][]> {
-  const range = encodeURIComponent(`'${title}'!A:E`)
+  // A:Z, not A:E — the Play Required tab has 8 columns (through NOTES);
+  // values.get only returns the used columns anyway.
+  const range = encodeURIComponent(`'${title}'!A:Z`)
   const res = await sheetsFetch(accessToken, `/values/${range}`)
   const json = (await res.json()) as { values?: string[][] }
   return json.values ?? []
@@ -178,7 +180,7 @@ async function updateCell(
 }
 
 async function appendRow(accessToken: string, title: string, row: string[]): Promise<void> {
-  const range = encodeURIComponent(`'${title}'!A:E`)
+  const range = encodeURIComponent(`'${title}'!A:Z`)
   await sheetsFetch(
     accessToken,
     `/values/${range}:append?valueInputOption=RAW&insertDataOption=INSERT_ROWS`,

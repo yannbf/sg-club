@@ -353,7 +353,7 @@ describe('POST /api/verify', () => {
           '',
           '',
           '',
-          'TODO: Add proper requirements or delete this',
+          'TODO: Add proper requirements or delete this note',
         ],
       ],
     })
