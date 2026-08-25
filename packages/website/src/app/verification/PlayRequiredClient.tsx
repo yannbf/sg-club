@@ -22,7 +22,7 @@ import type { IpbSummary, PlayRequiredRow, PlayRequiredSummary, StatusFilter } f
 import { BEATEN_VERDICT_ORDER, matchesStatusFilter } from '@/lib/beaten'
 import type { IpbDiscordUnmatchedThread } from '@/types/ipb-discord'
 import { formatPlaytimeCompact } from '@/lib/data'
-import { verifyAdminPasswordHash } from '@/lib/auth'
+import { getStoredAdminPassword, verifyAdminPasswordHash } from '@/lib/auth'
 import { UserLink } from '@/components/UserLink'
 import UserAvatar from '@/components/UserAvatar'
 import GameImage from '@/components/GameImage'
@@ -64,19 +64,15 @@ function readTabFromLocation(): Tab {
   return (raw && PARAM_TO_TAB[raw]) || 'ipb'
 }
 
-const VERIFY_PASSWORD_STORAGE_KEY = 'sg-club-verify-password'
-
 /**
- * Returns the admin password for /api/verify calls — from sessionStorage if
- * already entered this tab session, otherwise prompts for it and checks it
- * against the client-side hash before storing/returning it. Returns null if
- * the user cancels or the password is wrong.
+ * Returns the admin password for /api/verify calls — captured at admin login,
+ * so a logged-in admin is never re-prompted. Falls back to a one-time prompt
+ * (validated against the client-side hash, then stored for the session) for
+ * sessions that logged in before the password started being kept.
  */
 async function getAdminPassword(): Promise<string | null> {
-  try {
-    const stored = sessionStorage.getItem(VERIFY_PASSWORD_STORAGE_KEY)
-    if (stored) return stored
-  } catch {}
+  const stored = getStoredAdminPassword()
+  if (stored) return stored
 
   const entered = window.prompt('Enter the admin password to verify this win:')
   if (!entered) return null
@@ -85,7 +81,7 @@ async function getAdminPassword(): Promise<string | null> {
     return null
   }
   try {
-    sessionStorage.setItem(VERIFY_PASSWORD_STORAGE_KEY, entered)
+    localStorage.setItem('sg-club-admin-secret', entered)
   } catch {}
   return entered
 }

@@ -13,6 +13,21 @@ const ADMIN_USERNAME_HASH =
 const ADMIN_PASSWORD_HASH =
   'a3c0df4870927ec0a94a01dcc9f3734db646cee09f9342ad5839dd8d8e2fe2cd'
 const STORAGE_KEY = 'sg-club-admin'
+const ADMIN_SECRET_STORAGE_KEY = 'sg-club-admin-secret'
+
+/**
+ * The admin password captured at login, for endpoints that verify it
+ * server-side (/api/verify). Null when the user logged in before this was
+ * introduced or storage is unavailable — callers should fall back to
+ * prompting.
+ */
+export function getStoredAdminPassword(): string | null {
+  try {
+    return localStorage.getItem(ADMIN_SECRET_STORAGE_KEY)
+  } catch {
+    return null
+  }
+}
 
 async function sha256(value: string): Promise<string> {
   const bytes = new TextEncoder().encode(value)
@@ -50,6 +65,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (userHash === ADMIN_USERNAME_HASH && passHash === ADMIN_PASSWORD_HASH) {
       try {
         localStorage.setItem(STORAGE_KEY, '1')
+        // Kept so server-verified actions (/api/verify) can authenticate
+        // without re-prompting while the admin session lasts.
+        localStorage.setItem(ADMIN_SECRET_STORAGE_KEY, password)
       } catch {}
       setIsAdmin(true)
       return true
@@ -60,6 +78,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const logout = useCallback(() => {
     try {
       localStorage.removeItem(STORAGE_KEY)
+      localStorage.removeItem(ADMIN_SECRET_STORAGE_KEY)
     } catch {}
     setIsAdmin(false)
   }, [])

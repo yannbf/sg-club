@@ -121,7 +121,16 @@ async function sheetsFetch(
   })
   if (!res.ok) {
     const body = await res.text().catch(() => '')
-    throw new Error(`Google Sheets API ${init.method ?? 'GET'} ${path} failed: ${res.status} ${body}`)
+    // Google answers 404 (not 403) for a spreadsheet the caller cannot see,
+    // so a 404 here almost always means the sheet isn't shared with the
+    // service account.
+    const hint =
+      res.status === 404
+        ? ' (Google returns 404 when the spreadsheet is not shared with the service account — check the share settings)'
+        : ''
+    throw new Error(
+      `Google Sheets API ${init.method ?? 'GET'} ${path} failed: ${res.status}${hint} ${body}`,
+    )
   }
   return res
 }
