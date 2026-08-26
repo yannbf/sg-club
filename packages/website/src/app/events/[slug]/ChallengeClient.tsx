@@ -652,6 +652,62 @@ function LeaderboardRow({
   )
 }
 
+/**
+ * Sign-up-phase ownership preview: every group member who already owns the
+ * challenge game, with their current playtime/achievements/review state.
+ * Sorted by total playtime (most engaged first), then username.
+ */
+function AlreadyOwnGame({ participants }: { participants: ChallengeParticipant[] }) {
+  const sorted = [...participants].sort(
+    (a, b) =>
+      b.playtime_total_minutes - a.playtime_total_minutes ||
+      a.username.localeCompare(b.username),
+  )
+  return (
+    <section className="space-y-3">
+      <h2 className="text-sm font-semibold text-muted-foreground">
+        {sorted.length} member{sorted.length === 1 ? '' : 's'} already own
+        {sorted.length === 1 ? 's' : ''} the game
+      </h2>
+      <div className="grid grid-cols-1 gap-1.5 sm:grid-cols-2 lg:grid-cols-3">
+        {sorted.map((p) => (
+          <div
+            key={p.steam_id}
+            className="flex items-center gap-2.5 rounded-lg border border-card-border bg-card-background px-2.5 py-1.5"
+          >
+            <Avatar src={p.avatar_url} username={p.username} size={28} />
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center gap-1">
+                <ParticipantName
+                  p={p}
+                  className="block truncate text-sm font-medium text-foreground hover:text-accent hover:underline"
+                />
+                {p.is_guest && <GuestTag />}
+                <ReviewBadge p={p} />
+              </div>
+              {p.stats_available ? (
+                <span className="text-[11px] text-muted-foreground">
+                  {fmtMinutes(p.playtime_total_minutes)} played
+                  {p.achievements_total > 0 &&
+                    ` · ${p.achievements_unlocked_total}/${p.achievements_total} achievements`}
+                </span>
+              ) : (
+                <span className="text-[11px] italic text-subtle">
+                  stats private
+                </span>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+      <p className="text-xs text-muted-foreground">
+        Who already owns the game before the challenge starts — stats update
+        hourly.
+      </p>
+    </section>
+  )
+}
+
 /** Highlights the challenge's game, linking to its Steam store page. */
 function GameSpotlight({
   appId,
@@ -726,12 +782,17 @@ export default function ChallengeClient({
   data: ChallengeData | null
   game?: GameData | null
 }) {
-  if (!data) {
-    // A future-start challenge with no data file yet is in sign-up phase —
-    // registrations are open, but the challenge (and its leaderboard) hasn't
-    // begun. Render a proper landing page instead of the "no data" dev message.
+  if (!data || data.signup_phase) {
+    // A future-start challenge with no data file yet, or one whose file is a
+    // sign-up-phase ownership preview (`signup_phase: true`), is in sign-up
+    // phase — registrations are open, but the challenge (and its leaderboard)
+    // hasn't begun. Render a proper landing page instead of the "no data" dev
+    // message.
     const signupPhase =
-      meta.startTimestamp != null && Date.now() / 1000 < meta.startTimestamp
+      data?.signup_phase === true ||
+      (data == null &&
+        meta.startTimestamp != null &&
+        Date.now() / 1000 < meta.startTimestamp)
     if (signupPhase) {
       const endDisplay =
         meta.endTimestamp != null ? meta.endTimestamp - 43200 : null
@@ -788,6 +849,12 @@ export default function ChallengeClient({
               {fmtUtcMoment(meta.endTimestamp - 1)} (UTC). The countdown above
               follows your local clock.
             </p>
+          )}
+
+          {/* Ownership preview — only present once the scraper has generated
+              a signup_phase data file. */}
+          {data && data.participants.length > 0 && (
+            <AlreadyOwnGame participants={data.participants} />
           )}
         </div>
       )

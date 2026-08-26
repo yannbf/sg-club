@@ -531,6 +531,13 @@ export interface ChallengeData {
   /** True once the challenge window has closed (deadline passed). */
   challengeOver?: boolean
   /**
+   * A fixed-roster challenge that hasn't started yet: `participants` is an
+   * ownership preview (every group member who owns the game, not a roster),
+   * and any `is_winner`/qualification fields describe who'd qualify today,
+   * not an actual result.
+   */
+  signup_phase?: boolean
+  /**
    * Completion challenges: the frozen set of winner steam_ids, captured when the
    * challenge ended. Once set, the qualified list no longer changes.
    */

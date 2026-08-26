@@ -41,6 +41,16 @@ import { config as loadEnv } from 'dotenv'
  * (CHALLENGE=neo_cab or `… challenge neo_cab`) to run just that one, dormant
  * or not, or set INCLUDE_DORMANT=true to refresh everything (the biweekly CI
  * run).
+ *
+ * A `fixed`-roster challenge whose start hasn't arrived yet and has no
+ * `roster` block in its data file is in **sign-up phase**: instead of
+ * erroring, the run generates a preview over every group member (like an
+ * `open` challenge), drops non-owners, and marks the file `signup_phase:
+ * true`. Every member's baseline is their current total playtime, since
+ * everything played before the real challenge starts is pre-challenge
+ * progress. The output carries no `roster`, so adding one later switches the
+ * challenge to normal fixed-roster mode and clears `signup_phase` on the
+ * next run.
  */
 
 const currentDir = dirname(fileURLToPath(import.meta.url))
@@ -787,8 +797,8 @@ async function generateChallenge(config: ChallengeConfig): Promise<void> {
     priorReviewById.set(p.steam_id, p)
 
   // --- Resolve who competes ---
+  const nowSeconds = Math.floor(Date.now() / 1000)
   let roster: { participants: RosterEntry[]; guests: RosterEntry[] } | null = null
-  let resolved: ResolvedParticipant[]
   if (config.roster === 'fixed') {
     roster = prior?.roster ?? null
     if (!roster && existsSync(legacyParticipantsPath)) {
@@ -796,16 +806,22 @@ async function generateChallenge(config: ChallengeConfig): Promise<void> {
       roster = { participants: legacy.participants ?? [], guests: legacy.guests ?? [] }
       console.log('   Migrated roster from legacy challenge_participants.json')
     }
-    if (!roster) {
-      console.error(
-        `❌ No roster found. Add a "roster": { "participants": [...], "guests": [...] } block to ${outPath}`,
-      )
-      return
-    }
-    resolved = await resolveFixedRoster(roster, bySteamId, byUsername)
-  } else {
-    // Open challenge: every group member is a candidate; non-owners are dropped
-    // after the ownership fetch below.
+  }
+  // Sign-up phase: a fixed-roster challenge with no roster yet, before its
+  // declared start — generate an ownership preview instead of erroring.
+  const signupPreview =
+    config.roster === 'fixed' && !roster && nowSeconds < config.startTimestamp
+  if (config.roster === 'fixed' && !roster && !signupPreview) {
+    console.error(
+      `❌ No roster found. Add a "roster": { "participants": [...], "guests": [...] } block to ${outPath}`,
+    )
+    return
+  }
+
+  let resolved: ResolvedParticipant[]
+  if (config.roster === 'open' || signupPreview) {
+    // Open challenge, or a sign-up-phase preview: every group member is a
+    // candidate; non-owners are dropped after the ownership fetch below.
     resolved = members.map((m) => ({
       steam_id: m.steam_id,
       display_name: m.username,
@@ -815,6 +831,8 @@ async function generateChallenge(config: ChallengeConfig): Promise<void> {
         m.steam_profile_url ?? `https://steamcommunity.com/profiles/${m.steam_id}`,
       is_guest: false,
     }))
+  } else {
+    resolved = await resolveFixedRoster(roster!, bySteamId, byUsername)
   }
 
   const schema = await getGameSchema(config.appId)
@@ -836,8 +854,9 @@ async function generateChallenge(config: ChallengeConfig): Promise<void> {
       `\r   roster [${i}/${resolved.length}] ${r.display_name.padEnd(22)}`,
     )
     const p = await fetchPlayer(r.steam_id, config, schema, schemaTotal)
-    // In an open challenge you can only compete if you own the game.
-    if (config.roster === 'open' && !p.game.owned) continue
+    // In an open challenge, or a sign-up-phase preview, you only show up if
+    // you own the game.
+    if ((config.roster === 'open' || signupPreview) && !p.game.owned) continue
 
     // Progress is monotonic. Steam intermittently hides a member's playtime or
     // achievements when their game-details privacy is toggled (e.g. Tucs during
@@ -868,9 +887,15 @@ async function generateChallenge(config: ChallengeConfig): Promise<void> {
       }
     }
 
-    const baseline = priorBaselines.has(r.steam_id)
-      ? priorBaselines.get(r.steam_id)!
-      : Math.max(0, p.game.total - p.game.twoWeeks) // seed: play before the recent window
+    // In a sign-up-phase preview, everything played so far IS pre-challenge
+    // play — freezing it as the baseline now means it already equals
+    // playtime-at-start once the real challenge begins, more accurate than
+    // the total-minus-2weeks seed a normal first run uses.
+    const baseline = signupPreview
+      ? p.game.total
+      : priorBaselines.has(r.steam_id)
+        ? priorBaselines.get(r.steam_id)!
+        : Math.max(0, p.game.total - p.game.twoWeeks) // seed: play before the recent window
 
     const playtimeChallengeMinutes = Math.max(0, p.game.total - baseline)
     const achievementsSinceBaseline = Math.max(
@@ -1106,6 +1131,10 @@ async function generateChallenge(config: ChallengeConfig): Promise<void> {
     participants,
     nonParticipants,
   }
+  // Sign-up-phase preview flag. Deliberately not carried forward from `prior`
+  // — a normal run over the same file (once a roster is added) rebuilds the
+  // output fresh and simply never sets this, clearing it.
+  if (signupPreview) output.signup_phase = true
   // Persist the frozen qualified set (completion challenges past their deadline).
   if (frozenWinnerIds) output.frozenWinnerIds = frozenWinnerIds
   if (frozenWinnerTiers) output.frozenWinnerTiers = frozenWinnerTiers

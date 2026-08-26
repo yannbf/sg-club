@@ -32,18 +32,24 @@ interface ChallengeFile {
   /** True once the file was generated after the challenge deadline — the
    * frozen-results signal the ended admin nudge reports. */
   challengeOver?: boolean
+  /** Sign-up-phase ownership preview — no challenge has started yet. */
+  signup_phase?: boolean
 }
 
 /**
  * Reads every local challenge_*.json, regardless of `challengeOver` — unlike
  * discord-challenge-congrats.ts, which skips already-closed challenges (it
  * only cares about newly-qualifying participants), milestones needs the
- * qualified count for a challenge right up to and past its end date.
+ * qualified count for a challenge right up to and past its end date. A
+ * sign-up-phase preview file is excluded either way: its `participants` list
+ * is who already owns the game, not a real qualified count, and it can never
+ * be within 24h of an end date it hasn't started counting down to.
  */
 function loadChallengeFiles(): ChallengeFile[] {
   return readdirSync(dataDir)
     .filter((file) => file.startsWith('challenge_') && file.endsWith('.json'))
     .map((file) => JSON.parse(readFileSync(path.join(dataDir, file), 'utf-8')) as ChallengeFile)
+    .filter((challenge) => challenge.signup_phase !== true)
 }
 
 /**

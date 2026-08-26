@@ -7,12 +7,30 @@ import {
   buildTieredCongratsMessage,
   diffNewCompletions,
   diffTierAnnouncements,
+  isActiveChallengeFile,
   joinNamesWithAnd,
   pickCongratsChannel,
   qualifyingUsernames,
   resolveCongratsChannel,
   type TierAnnouncement,
 } from './discord-challenge-congrats'
+
+describe('isActiveChallengeFile', () => {
+  it('is active when the challenge is not over and not a sign-up preview', () => {
+    expect(isActiveChallengeFile({ challengeOver: false, signup_phase: undefined })).toBe(true)
+  })
+
+  it('excludes a sign-up-phase ownership preview even though challengeOver is false', () => {
+    // A preview's is_winner reflects who'd already qualify today (e.g. a
+    // member who owns the game, is 100%, and already reviewed it) — that
+    // must not trigger a congrats before the challenge has actually begun.
+    expect(isActiveChallengeFile({ challengeOver: false, signup_phase: true })).toBe(false)
+  })
+
+  it('excludes a challenge that has ended', () => {
+    expect(isActiveChallengeFile({ challengeOver: true, signup_phase: false })).toBe(false)
+  })
+})
 
 describe('qualifyingUsernames', () => {
   it('includes exactly the participants the site marks as winners (is_winner)', () => {

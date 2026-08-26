@@ -45,7 +45,22 @@ interface ChallengeFile {
   slug: string
   gameName: string
   challengeOver: boolean
+  /** Sign-up-phase ownership preview — no challenge has started yet. */
+  signup_phase?: boolean
   participants: Participant[]
+}
+
+/**
+ * A challenge file is active for congrats purposes when the challenge hasn't
+ * ended AND isn't still a sign-up-phase preview: a preview's `is_winner`
+ * reflects who would already qualify if the challenge started today (e.g. a
+ * member who owns the game, is 100%, and already reviewed it), which must
+ * not trigger a congrats before the challenge has actually begun.
+ */
+export function isActiveChallengeFile(
+  challenge: Pick<ChallengeFile, 'challengeOver' | 'signup_phase'>,
+): boolean {
+  return challenge.challengeOver === false && challenge.signup_phase !== true
 }
 
 export interface AnnounceState {
@@ -123,7 +138,7 @@ function findActiveChallengeFiles(): ChallengeFile[] {
   return readdirSync(dataDir)
     .filter((file) => file.startsWith('challenge_') && file.endsWith('.json'))
     .map((file) => JSON.parse(readFileSync(path.join(dataDir, file), 'utf-8')) as ChallengeFile)
-    .filter((challenge) => challenge.challengeOver === false)
+    .filter(isActiveChallengeFile)
 }
 
 const PANDA_EMOJI_NAME = 'pandaparty'

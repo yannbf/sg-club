@@ -32,12 +32,17 @@ export async function getEventSummaries(): Promise<EventSummary[]> {
     // achievement challenges a winner recorded) — it then lingers in "Happening
     // now" with an "Ended" badge until the linger window closes.
     let naturalEndPassed: boolean
-    // Sign-up phase: no data file yet and the challenge's declared start is
-    // still in the future — registrations are open but nothing has begun. If
-    // a data file exists, its own dates/winner state drive the logic instead
-    // (even if `meta.startTimestamp` is technically still in the future).
+    // Sign-up phase: no data file yet, or an ownership-preview file
+    // (`signup_phase: true`, generated for a fixed-roster challenge with no
+    // roster yet), and the challenge's declared start is still in the
+    // future — registrations are open but nothing has begun. Once a real
+    // (non-preview) data file exists, its own dates/winner state drive the
+    // logic instead (even if `meta.startTimestamp` is technically still in
+    // the future).
     const signupPhase =
-      data == null && meta.startTimestamp != null && now < meta.startTimestamp
+      (data == null || data.signup_phase === true) &&
+      meta.startTimestamp != null &&
+      now < meta.startTimestamp
     if (signupPhase) {
       isOngoing = true
       naturalEndPassed = false
