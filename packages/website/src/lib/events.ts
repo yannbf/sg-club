@@ -340,6 +340,34 @@ export const CHALLENGE_EVENTS: EventMeta[] = [
     // Keep it highlighted in "Happening now" for a week after the deadline.
     keepLiveForDays: 7,
   },
+  {
+    slug: 'gaming-challenge-5-escape-from-mystwood-mansion',
+    name: 'Gaming Challenge #5 — Escape From Mystwood Mansion',
+    tagline: 'Something strange is waiting inside',
+    description:
+      'Something strange is waiting inside Mystwood Mansion… 🕯️ Our September challenge locks you inside Escape From Mystwood Mansion — a first-person escape-room adventure full of puzzles, secrets and surprises.\n\n' +
+      "Already own the game? Perfect — you're ready to go. Don't own it? No problem: we have 18 Steam keys available. Request one on our Discord before August 31 and we'll send your key on September 1, when the challenge begins. If more people request a key than we have available, we'll hold a raffle to decide who gets the keys.\n\n" +
+      'The mission: play Escape From Mystwood Mansion, complete it 100% (unlock all the achievements) during September, and leave a Steam review. With ~3 hours for the main story and ~4 hours for 100%, even the mansion won\'t have enough time to scare you away.\n\n' +
+      'Everyone who completes the challenge enters the same draw — no different prize pools, just one winner and one €15 Steam Gift Card waiting at the end. 18 keys. 4 hours for 100%. 30 days to escape. Will you solve the mystery… or will Mystwood Mansion keep you trapped? Good luck, detectives! 🗝️',
+    websiteUrl: null,
+    kind: 'challenge',
+    monthly: false,
+    accent: 'var(--accent-purple)',
+    emoji: '🗝️',
+    imageUrl:
+      'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2292650/header.jpg',
+    bannerUrl: '/events/game_challenge_5.png',
+    challengeSlug: 'mystwood-mansion',
+    appId: 2292650,
+    gameName: 'Escape From Mystwood Mansion',
+    // Sign-up window: requests on Discord until Aug 31, keys delivered and
+    // the challenge starts Sept 1. Window is Sept 1 - Sept 30, exclusive
+    // Oct 1 cutoff (same convention as the scraper configs).
+    startTimestamp: Date.UTC(2026, 8, 1) / 1000,
+    endTimestamp: Date.UTC(2026, 9, 1) / 1000,
+    // Keep it highlighted in "Happening now" for a week after the deadline.
+    keepLiveForDays: 7,
+  },
 ]
 
 /** Standalone, non-giveaway "link" events (e.g. the anniversary train). */

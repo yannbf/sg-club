@@ -230,6 +230,23 @@ const CHALLENGES: ChallengeConfig[] = [
       excludeAchievements: ['a30008'], // Master of Magic
     },
   },
+  {
+    slug: 'gaming-challenge-5-escape-from-mystwood-mansion',
+    dataSlug: 'mystwood_mansion',
+    appId: 2292650,
+    gameName: 'Escape From Mystwood Mansion',
+    startTimestamp: Date.UTC(2026, 8, 1) / 1000, // midnight 2026-09-01 UTC
+    roster: 'fixed',
+    win: {
+      type: 'completion',
+      // Challenge window: Sept 1 – Sept 30. The cutoff is Oct 1 00:00 UTC
+      // (exclusive); the site displays the deadline as "30 Sep".
+      deadline: Date.UTC(2026, 9, 1) / 1000,
+      // Single tier: 100% completion plus a Steam review. No playtime floor —
+      // pre-challenge completions only need the review (€15 draw for everyone).
+      requireReview: true,
+    },
+  },
 ]
 
 interface Member {
