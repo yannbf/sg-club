@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1787990987375,
+  "lastUpdated": 1788012612911,
   "users": {
     "76561198359284432": {
       "username": "a10i",
@@ -731,9 +731,9 @@
         "giveaway_ratio": 4.33,
         "shared_sent_count": 2,
         "shared_received_count": 1,
-        "giveaways_created": 9,
+        "giveaways_created": 8,
         "giveaways_with_no_entries": 0,
-        "last_giveaway_created_at": 1787961831,
+        "last_giveaway_created_at": 1786774305,
         "last_giveaway_won_at": 1786687200,
         "first_seen_at": 1777712040,
         "total_achievements_percentage": 30,
@@ -826,7 +826,9 @@
           "created_timestamp": 1787961831,
           "end_timestamp": 1788141420,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "deleted": true,
+          "deleted_reason": "Selected Incorrect Game or Information"
         },
         {
           "name": "Gears of War: E-Day",
@@ -2525,6 +2527,11 @@
           "end_timestamp": 1786894980,
           "required_play": true,
           "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 12
+          },
           "had_winners": true,
           "winners": [
             {
@@ -4208,6 +4215,10 @@
               }
             ],
             "last_checked": 1787924349795
+          },
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 12
           }
         },
         {
@@ -5924,6 +5935,11 @@
           "end_timestamp": 1787119200,
           "required_play": true,
           "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -9055,6 +9071,10 @@
             "never_played": true,
             "is_playtime_private": false,
             "last_checked": 1787923167688
+          },
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
           }
         },
         {
@@ -9075,6 +9095,11 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1787923168818
+          },
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2,
+            "additional_notes": "2 screenshots and IPB rules"
           }
         },
         {
@@ -11446,6 +11471,11 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1787924375703
+          },
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2,
+            "additional_notes": "2 screenshots and IPB rules"
           }
         },
         {
@@ -22476,7 +22506,7 @@
           "name": "Touhou Luna Nights",
           "link": "O0Kwr/touhou-luna-nights",
           "cv_status": "FULL_CV",
-          "entries": 45,
+          "entries": 47,
           "copies": 1,
           "created_timestamp": 1786263018,
           "end_timestamp": 1788148740,
@@ -22487,7 +22517,7 @@
           "name": "IRON NEST: Heavy Turret Simulator",
           "link": "Ympol/iron-nest-heavy-turret-simulator",
           "cv_status": "FULL_CV",
-          "entries": 94,
+          "entries": 97,
           "copies": 1,
           "created_timestamp": 1787629174,
           "end_timestamp": 1788235140,
@@ -37977,9 +38007,9 @@
         "giveaway_ratio": -0.33,
         "shared_sent_count": 10,
         "shared_received_count": 2,
-        "giveaways_created": 16,
+        "giveaways_created": 17,
         "giveaways_with_no_entries": 1,
-        "last_giveaway_created_at": 1786480942,
+        "last_giveaway_created_at": 1787991293,
         "last_giveaway_won_at": 1787137200,
         "first_seen_at": 1749877001,
         "total_achievements_percentage": 9,
@@ -38405,6 +38435,17 @@
         }
       ],
       "giveaways_created": [
+        {
+          "name": "Mina the Hollower",
+          "link": "7tQev/mina-the-hollower",
+          "cv_status": "FULL_CV",
+          "entries": 6,
+          "copies": 1,
+          "created_timestamp": 1787991293,
+          "end_timestamp": 1788599400,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "Katanaut",
           "link": "5ZrNN/katanaut",
@@ -42629,6 +42670,10 @@
             "never_played": true,
             "is_playtime_private": false,
             "last_checked": 1787923999154
+          },
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
           }
         },
         {
@@ -52837,6 +52882,12 @@
           "end_timestamp": 1787749200,
           "required_play": true,
           "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2,
+            "additional_notes": "2 screenshots and IPB rules"
+          },
           "had_winners": true,
           "winners": [
             {
@@ -52857,6 +52908,12 @@
           "end_timestamp": 1787317200,
           "required_play": true,
           "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2,
+            "additional_notes": "2 screenshots and IPB rules"
+          },
           "had_winners": true,
           "winners": [
             {
@@ -57857,12 +57914,12 @@
       "avatar_url": "https://avatars.steamstatic.com/8d53cbce9f9a1893ea00e1025b014d7abba576cd_medium.jpg",
       "steam_id": "76561198234142828",
       "stats": {
-        "total_sent_count": 39,
-        "total_sent_value": 675.03,
+        "total_sent_count": 39.2,
+        "total_sent_value": 676.69,
         "total_received_count": 4.8,
         "total_received_value": 54.29,
-        "total_gift_difference": 34.2,
-        "total_value_difference": 620.74,
+        "total_gift_difference": 34.4,
+        "total_value_difference": 622.41,
         "fcv_sent_count": 2,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
@@ -58023,7 +58080,7 @@
           "name": "Sakura Succubus 7",
           "link": "P7K1O/sakura-succubus-7",
           "cv_status": "REDUCED_CV",
-          "entries": 87,
+          "entries": 86,
           "copies": 1,
           "created_timestamp": 1787463711,
           "end_timestamp": 1788062400,
@@ -58045,7 +58102,7 @@
           "name": "Kingsgrave",
           "link": "gaxfT/kingsgrave",
           "cv_status": "REDUCED_CV",
-          "entries": 26,
+          "entries": 38,
           "copies": 1,
           "created_timestamp": 1787964200,
           "end_timestamp": 1788580800,
@@ -63118,6 +63175,10 @@
             "never_played": true,
             "is_playtime_private": false,
             "last_checked": 1787925116591
+          },
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
           }
         },
         {
@@ -65323,7 +65384,8 @@
             }
           ]
         }
-      ]
+      ],
+      "registered_at": 1321200933
     },
     "76561198413978177": {
       "username": "Markox21",
@@ -66041,6 +66103,7 @@
           ]
         }
       ],
+      "registered_at": 1638148152,
       "warnings": [
         "no_giveaway_created_in_6_months"
       ]
@@ -66485,6 +66548,11 @@
           "end_timestamp": 1787371200,
           "required_play": true,
           "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -66678,6 +66746,10 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1787923566272
+          },
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
           }
         },
         {
@@ -67516,6 +67588,12 @@
           "end_timestamp": 1787259540,
           "required_play": true,
           "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 3,
+            "additional_notes": "25% of all achievements and post some steam screenshot"
+          },
           "had_winners": true,
           "winners": [
             {
@@ -68440,6 +68518,11 @@
             "never_played": false,
             "is_playtime_private": true,
             "last_checked": 1787924315042
+          },
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 3,
+            "additional_notes": "25% of all achievements and post some steam screenshot"
           }
         },
         {
@@ -68938,7 +69021,7 @@
           "name": "Underspace",
           "link": "yuiHC/underspace",
           "cv_status": "FULL_CV",
-          "entries": 2,
+          "entries": 3,
           "copies": 1,
           "created_timestamp": 1787909094,
           "end_timestamp": 1788094800,
@@ -69508,7 +69591,7 @@
           "name": "Isle of Jura",
           "link": "6q9rz/isle-of-jura",
           "cv_status": "FULL_CV",
-          "entries": 4,
+          "entries": 3,
           "copies": 1,
           "created_timestamp": 1787844959,
           "end_timestamp": 1788280140,
@@ -70655,8 +70738,7 @@
             }
           ]
         }
-      ],
-      "registered_at": 1468451334
+      ]
     },
     "76561197994770037": {
       "username": "NateSCC",
@@ -70759,6 +70841,11 @@
           "end_timestamp": 1787326860,
           "required_play": true,
           "is_shared": true,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -73824,10 +73911,10 @@
         "last_giveaway_won_at": 1787954400,
         "first_seen_at": 1749693391,
         "total_achievements_percentage": 53,
-        "average_achievements_percentage": 63,
+        "average_achievements_percentage": 57,
         "real_total_achievements_percentage": 53,
-        "real_average_achievements_percentage": 63,
-        "has_missing_achievements_data": false
+        "real_average_achievements_percentage": 57,
+        "has_missing_achievements_data": true
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198061661987",
       "steam_profile_is_private": false,
@@ -78653,6 +78740,10 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1787923930416
+          },
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
           }
         },
         {
@@ -83151,6 +83242,11 @@
           "end_timestamp": 1787472000,
           "required_play": true,
           "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": false,
+            "deadline_in_months": 2
+          },
           "had_winners": true,
           "winners": [
             {
@@ -100902,9 +100998,9 @@
         "giveaway_ratio": 7,
         "shared_sent_count": 16,
         "shared_received_count": 5,
-        "giveaways_created": 29,
+        "giveaways_created": 30,
         "giveaways_with_no_entries": 0,
-        "last_giveaway_created_at": 1787103752,
+        "last_giveaway_created_at": 1787990880,
         "last_giveaway_won_at": 1787497200,
         "first_seen_at": 1754506200,
         "total_achievements_percentage": 54,
@@ -101452,6 +101548,17 @@
         }
       ],
       "giveaways_created": [
+        {
+          "name": "Wavekin",
+          "link": "p1Zpk/wavekin",
+          "cv_status": "FULL_CV",
+          "entries": 1,
+          "copies": 1,
+          "created_timestamp": 1787990880,
+          "end_timestamp": 1788242340,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "Moonlighter 2: The Endless Vault",
           "link": "FHLe0/moonlighter-2-the-endless-vault",
