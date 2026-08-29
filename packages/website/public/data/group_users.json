@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1787949199750,
+  "lastUpdated": 1787988072916,
   "users": {
     "76561198359284432": {
       "username": "a10i",
@@ -731,9 +731,9 @@
         "giveaway_ratio": 4.33,
         "shared_sent_count": 2,
         "shared_received_count": 1,
-        "giveaways_created": 8,
+        "giveaways_created": 9,
         "giveaways_with_no_entries": 0,
-        "last_giveaway_created_at": 1786774305,
+        "last_giveaway_created_at": 1787961831,
         "last_giveaway_won_at": 1786687200,
         "first_seen_at": 1777712040,
         "total_achievements_percentage": 30,
@@ -818,10 +818,21 @@
       ],
       "giveaways_created": [
         {
+          "name": "FBC: Firebreak",
+          "link": "2j5uu/fbc-firebreak",
+          "cv_status": "FULL_CV",
+          "entries": 0,
+          "copies": 1,
+          "created_timestamp": 1787961831,
+          "end_timestamp": 1788141420,
+          "required_play": false,
+          "is_shared": false
+        },
+        {
           "name": "Gears of War: E-Day",
           "link": "skebL/gears-of-war-e-day",
           "cv_status": "FULL_CV",
-          "entries": 13,
+          "entries": 14,
           "copies": 1,
           "created_timestamp": 1786774305,
           "end_timestamp": 1789283160,
@@ -3537,7 +3548,7 @@
           "is_shared": false,
           "i_played_bro": false,
           "required_play_meta": {
-            "requirements_met": false,
+            "requirements_met": true,
             "deadline_in_months": 3,
             "additional_notes": "Ya Gotta Keep Livin' achievement"
           },
@@ -9146,7 +9157,7 @@
             "last_checked": 1787923173493
           },
           "required_play_meta": {
-            "requirements_met": false,
+            "requirements_met": true,
             "deadline_in_months": 2,
             "additional_notes": "2 hours"
           }
@@ -11370,7 +11381,7 @@
       "registered_at": 1372709126,
       "warnings": [
         "unplayed_required_play_giveaways",
-        "illegal_entered_any_giveaways",
+        "illegal_entered_required_play_giveaways",
         "required_plays_need_review"
       ]
     },
@@ -20893,7 +20904,7 @@
           "name": "Project Hospital",
           "link": "E96fN/project-hospital",
           "cv_status": "FULL_CV",
-          "entries": 1,
+          "entries": 2,
           "copies": 1,
           "created_timestamp": 1787851384,
           "end_timestamp": 1788074340,
@@ -22231,7 +22242,7 @@
     "76561199434715535": {
       "username": "DancingXmas",
       "profile_url": "/user/DancingXmas",
-      "avatar_url": "https://avatars.steamstatic.com/1519628e26a505cd4aa0774462c4fd06c432c0f5_medium.jpg",
+      "avatar_url": "https://avatars.steamstatic.com/b9fcf17b26c64ad917ae873b49c58eb56f57112b_medium.jpg",
       "steam_id": "76561199434715535",
       "stats": {
         "total_sent_count": 9.3,
@@ -22465,7 +22476,7 @@
           "name": "Touhou Luna Nights",
           "link": "O0Kwr/touhou-luna-nights",
           "cv_status": "FULL_CV",
-          "entries": 44,
+          "entries": 45,
           "copies": 1,
           "created_timestamp": 1786263018,
           "end_timestamp": 1788148740,
@@ -22476,7 +22487,7 @@
           "name": "IRON NEST: Heavy Turret Simulator",
           "link": "Ympol/iron-nest-heavy-turret-simulator",
           "cv_status": "FULL_CV",
-          "entries": 87,
+          "entries": 94,
           "copies": 1,
           "created_timestamp": 1787629174,
           "end_timestamp": 1788235140,
@@ -23903,9 +23914,9 @@
         "giveaway_ratio": 14.67,
         "shared_sent_count": 2,
         "shared_received_count": 0,
-        "giveaways_created": 26,
+        "giveaways_created": 28,
         "giveaways_with_no_entries": 0,
-        "last_giveaway_created_at": 1787860745,
+        "last_giveaway_created_at": 1787951462,
         "last_giveaway_won_at": 1768158000,
         "first_seen_at": 1750020844,
         "total_achievements_percentage": 6,
@@ -24067,7 +24078,7 @@
           "name": "Cronos: The New Dawn",
           "link": "MBap6/cronos-the-new-dawn",
           "cv_status": "FULL_CV",
-          "entries": 25,
+          "entries": 26,
           "copies": 1,
           "created_timestamp": 1787775097,
           "end_timestamp": 1788383100,
@@ -24137,6 +24148,28 @@
           "copies": 1,
           "created_timestamp": 1787860745,
           "end_timestamp": 1788469080,
+          "required_play": false,
+          "is_shared": false
+        },
+        {
+          "name": "Children of the Sun",
+          "link": "rH9od/children-of-the-sun",
+          "cv_status": "FULL_CV",
+          "entries": 5,
+          "copies": 1,
+          "created_timestamp": 1787950928,
+          "end_timestamp": 1788472800,
+          "required_play": false,
+          "is_shared": false
+        },
+        {
+          "name": "ASTRONEER",
+          "link": "A6cKE/astroneer",
+          "cv_status": "FULL_CV",
+          "entries": 1,
+          "copies": 1,
+          "created_timestamp": 1787951462,
+          "end_timestamp": 1788473400,
           "required_play": false,
           "is_shared": false
         },
@@ -24533,25 +24566,25 @@
       "avatar_url": "https://avatars.steamstatic.com/1e5d84965fc270e8da364c77e03b790e404eb5c9_medium.jpg",
       "steam_id": "76561199014836450",
       "stats": {
-        "total_sent_count": 20,
-        "total_sent_value": 1019.8,
+        "total_sent_count": 21,
+        "total_sent_value": 1089.79,
         "total_received_count": 0,
         "total_received_value": 0,
-        "total_gift_difference": 20,
-        "total_value_difference": 1019.8,
-        "fcv_sent_count": 7,
+        "total_gift_difference": 21,
+        "total_value_difference": 1089.79,
+        "fcv_sent_count": 8,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
         "fcv_received_count": 0,
         "rcv_received_count": 0,
         "ncv_received_count": 0,
         "fcv_gift_difference": 0,
-        "real_total_sent_value": 379.93,
+        "real_total_sent_value": 449.92,
         "real_total_received_value": 0,
-        "real_total_value_difference": 379.93,
-        "real_total_sent_count": 7,
+        "real_total_value_difference": 449.92,
+        "real_total_sent_count": 8,
         "real_total_received_count": 0,
-        "real_total_gift_difference": 7,
+        "real_total_gift_difference": 8,
         "giveaway_ratio": 0,
         "shared_sent_count": 15,
         "shared_received_count": 0,
@@ -24574,7 +24607,16 @@
           "created_timestamp": 1786893076,
           "end_timestamp": 1787954400,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "76561198061661987",
+              "winner_username": "Orionid",
+              "status": "received",
+              "activated": true
+            }
+          ]
         },
         {
           "name": "Fable",
@@ -41041,12 +41083,12 @@
       "avatar_url": "https://avatars.steamstatic.com/0b2febdead253dbeed26c68930af541034d003d8_medium.jpg",
       "steam_id": "76561198082023389",
       "stats": {
-        "total_sent_count": 34,
-        "total_sent_value": 833.66,
+        "total_sent_count": 36.5,
+        "total_sent_value": 862.14,
         "total_received_count": 15,
         "total_received_value": 350.85,
-        "total_gift_difference": 19,
-        "total_value_difference": 482.81,
+        "total_gift_difference": 21.5,
+        "total_value_difference": 511.29,
         "fcv_sent_count": 29,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
@@ -41061,7 +41103,7 @@
         "real_total_received_count": 15,
         "real_total_gift_difference": 14,
         "giveaway_ratio": 28,
-        "shared_sent_count": 10,
+        "shared_sent_count": 15,
         "shared_received_count": 0,
         "giveaways_created": 41,
         "giveaways_with_no_entries": 1,
@@ -41455,9 +41497,10 @@
           "had_winners": true,
           "winners": [
             {
-              "name": null,
-              "status": "awaiting_feedback",
-              "activated": false
+              "name": "76561198043319008",
+              "winner_username": "tuvshadow",
+              "status": "received",
+              "activated": true
             }
           ]
         },
@@ -41474,14 +41517,10 @@
           "had_winners": true,
           "winners": [
             {
-              "name": null,
-              "status": "awaiting_feedback",
-              "activated": false
-            },
-            {
-              "name": null,
-              "status": "awaiting_feedback",
-              "activated": false
+              "name": "chaotickonfuzion",
+              "winner_username": "chaotickonfuzion",
+              "status": "received",
+              "activated": true
             }
           ]
         },
@@ -41498,14 +41537,16 @@
           "had_winners": true,
           "winners": [
             {
-              "name": null,
-              "status": "awaiting_feedback",
-              "activated": false
+              "name": "cassioht",
+              "winner_username": "cassioht",
+              "status": "received",
+              "activated": true
             },
             {
-              "name": null,
-              "status": "awaiting_feedback",
-              "activated": false
+              "name": "76561198043319008",
+              "winner_username": "tuvshadow",
+              "status": "received",
+              "activated": true
             }
           ]
         },
@@ -41522,9 +41563,10 @@
           "had_winners": true,
           "winners": [
             {
-              "name": null,
-              "status": "awaiting_feedback",
-              "activated": false
+              "name": "BakaUsagi",
+              "winner_username": "BakaUsagi",
+              "status": "received",
+              "activated": true
             }
           ]
         },
@@ -43946,7 +43988,7 @@
           "name": "Hogwarts Legacy",
           "link": "oA3xo/hogwarts-legacy",
           "cv_status": "FULL_CV",
-          "entries": 6,
+          "entries": 7,
           "copies": 1,
           "created_timestamp": 1787920195,
           "end_timestamp": 1788170400,
@@ -53135,7 +53177,7 @@
           "is_shared": false,
           "i_played_bro": false,
           "required_play_meta": {
-            "requirements_met": false,
+            "requirements_met": true,
             "deadline_in_months": 2,
             "additional_notes": "2 screenshots and IPB rules"
           },
@@ -57837,9 +57879,9 @@
         "giveaway_ratio": 0.67,
         "shared_sent_count": 215,
         "shared_received_count": 2,
-        "giveaways_created": 199,
+        "giveaways_created": 200,
         "giveaways_with_no_entries": 0,
-        "last_giveaway_created_at": 1787614044,
+        "last_giveaway_created_at": 1787964200,
         "last_giveaway_won_at": 1764944580,
         "first_seen_at": 1749687895,
         "total_achievements_percentage": 43,
@@ -57978,21 +58020,10 @@
       ],
       "giveaways_created": [
         {
-          "name": "Sakura Succubus 8",
-          "link": "OMp37/sakura-succubus-8",
-          "cv_status": "REDUCED_CV",
-          "entries": 90,
-          "copies": 1,
-          "created_timestamp": 1787098932,
-          "end_timestamp": 1787976000,
-          "required_play": false,
-          "is_shared": true
-        },
-        {
           "name": "Sakura Succubus 7",
           "link": "P7K1O/sakura-succubus-7",
           "cv_status": "REDUCED_CV",
-          "entries": 86,
+          "entries": 87,
           "copies": 1,
           "created_timestamp": 1787463711,
           "end_timestamp": 1788062400,
@@ -58003,12 +58034,42 @@
           "name": "The Falconeer: Revolution R...",
           "link": "Llman/the-falconeer-revolution-remaster",
           "cv_status": "REDUCED_CV",
-          "entries": 27,
+          "entries": 28,
           "copies": 2,
           "created_timestamp": 1787614044,
           "end_timestamp": 1788235200,
           "required_play": false,
           "is_shared": true
+        },
+        {
+          "name": "Kingsgrave",
+          "link": "gaxfT/kingsgrave",
+          "cv_status": "REDUCED_CV",
+          "entries": 26,
+          "copies": 1,
+          "created_timestamp": 1787964200,
+          "end_timestamp": 1788580800,
+          "required_play": false,
+          "is_shared": true
+        },
+        {
+          "name": "Sakura Succubus 8",
+          "link": "OMp37/sakura-succubus-8",
+          "cv_status": "REDUCED_CV",
+          "entries": 94,
+          "copies": 1,
+          "created_timestamp": 1787098932,
+          "end_timestamp": 1787976000,
+          "required_play": false,
+          "is_shared": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "Sakura Bunny Girls",
@@ -63099,7 +63160,7 @@
             "last_checked": 1787925118876
           },
           "required_play_meta": {
-            "requirements_met": false,
+            "requirements_met": true,
             "deadline_in_months": 3,
             "additional_notes": "Ya Gotta Keep Livin' achievement"
           }
@@ -63339,11 +63400,7 @@
           ]
         }
       ],
-      "registered_at": 1744926458,
-      "warnings": [
-        "unplayed_required_play_giveaways",
-        "required_plays_need_review"
-      ]
+      "registered_at": 1744926458
     },
     "76561198117390871": {
       "username": "Mahry",
@@ -65266,8 +65323,7 @@
             }
           ]
         }
-      ],
-      "registered_at": 1321200933
+      ]
     },
     "76561198413978177": {
       "username": "Markox21",
@@ -65985,7 +66041,6 @@
           ]
         }
       ],
-      "registered_at": 1638148152,
       "warnings": [
         "no_giveaway_created_in_6_months"
       ]
@@ -67402,7 +67457,7 @@
           "name": "The Last Gas Station",
           "link": "zbCtx/the-last-gas-station",
           "cv_status": "FULL_CV",
-          "entries": 11,
+          "entries": 12,
           "copies": 1,
           "created_timestamp": 1787047543,
           "end_timestamp": 1788209940,
@@ -68861,7 +68916,7 @@
           "name": "A Quiet Place: The Road Ahead",
           "link": "azFv1/a-quiet-place-the-road-ahead",
           "cv_status": "FULL_CV",
-          "entries": 1,
+          "entries": 2,
           "copies": 1,
           "created_timestamp": 1787909160,
           "end_timestamp": 1788094800,
@@ -68872,7 +68927,7 @@
           "name": "Pronty",
           "link": "BOHZE/pronty",
           "cv_status": "FULL_CV",
-          "entries": 6,
+          "entries": 8,
           "copies": 1,
           "created_timestamp": 1787909108,
           "end_timestamp": 1788094800,
@@ -69453,7 +69508,7 @@
           "name": "Isle of Jura",
           "link": "6q9rz/isle-of-jura",
           "cv_status": "FULL_CV",
-          "entries": 3,
+          "entries": 4,
           "copies": 1,
           "created_timestamp": 1787844959,
           "end_timestamp": 1788280140,
@@ -73743,30 +73798,30 @@
       "stats": {
         "total_sent_count": 14,
         "total_sent_value": 403.86,
-        "total_received_count": 10,
-        "total_received_value": 314.9,
-        "total_gift_difference": 4,
-        "total_value_difference": 88.96,
+        "total_received_count": 11,
+        "total_received_value": 384.89,
+        "total_gift_difference": 3,
+        "total_value_difference": 18.97,
         "fcv_sent_count": 14,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
-        "fcv_received_count": 10,
+        "fcv_received_count": 11,
         "rcv_received_count": 0,
         "ncv_received_count": 0,
-        "fcv_gift_difference": 4,
+        "fcv_gift_difference": 3,
         "real_total_sent_value": 408.86,
-        "real_total_received_value": 314.9,
-        "real_total_value_difference": 93.96,
+        "real_total_received_value": 384.89,
+        "real_total_value_difference": 23.97,
         "real_total_sent_count": 14,
-        "real_total_received_count": 10,
-        "real_total_gift_difference": 4,
-        "giveaway_ratio": 11,
+        "real_total_received_count": 11,
+        "real_total_gift_difference": 3,
+        "giveaway_ratio": 10.67,
         "shared_sent_count": 0,
         "shared_received_count": 0,
         "giveaways_created": 14,
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1785683168,
-        "last_giveaway_won_at": 1782682680,
+        "last_giveaway_won_at": 1787954400,
         "first_seen_at": 1749693391,
         "total_achievements_percentage": 53,
         "average_achievements_percentage": 63,
@@ -73778,6 +73833,17 @@
       "steam_profile_is_private": false,
       "country_code": "id",
       "giveaways_won": [
+        {
+          "name": "Fable",
+          "link": "2ZUCD/fable",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1787954400,
+          "required_play": false,
+          "is_shared": false,
+          "unreleased": true,
+          "release_date": "Feb 23, 2027"
+        },
         {
           "name": "Anxiety Puppy",
           "link": "vkcHL/anxiety-puppy",
@@ -85135,7 +85201,7 @@
             "last_checked": 1787924849455
           },
           "required_play_meta": {
-            "requirements_met": false,
+            "requirements_met": true,
             "deadline_in_months": 2,
             "additional_notes": "2 screenshots and IPB rules"
           }
@@ -85790,11 +85856,7 @@
           ]
         }
       ],
-      "registered_at": 1769544921,
-      "warnings": [
-        "unplayed_required_play_giveaways",
-        "required_plays_need_review"
-      ]
+      "registered_at": 1769544921
     },
     "76561198075742770": {
       "username": "Realtione",
@@ -103981,7 +104043,7 @@
           "is_shared": false,
           "i_played_bro": false,
           "required_play_meta": {
-            "requirements_met": false,
+            "requirements_met": true,
             "deadline_in_months": 2,
             "additional_notes": "2 hours"
           },
