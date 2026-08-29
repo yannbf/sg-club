@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1785542400,
   "totalAchievements": 60,
-  "generatedAt": 1787943341983,
+  "generatedAt": 1787970191962,
   "challengeOver": false,
   "winnerUsername": "Foxpile",
   "participants": [
@@ -2418,7 +2418,7 @@
       "review_recommendationid": "233375914",
       "review_url": "https://steamcommunity.com/profiles/76561199141726712/recommended/992300",
       "playtime_total_minutes": 828,
-      "playtime_2weeks_minutes": 679,
+      "playtime_2weeks_minutes": 485,
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 828,
       "achievements_total": 60,
@@ -4781,14 +4781,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 1619,
-      "playtime_2weeks_minutes": 1005,
+      "playtime_total_minutes": 1744,
+      "playtime_2weeks_minutes": 1130,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 1619,
+      "playtime_challenge_minutes": 1744,
       "achievements_total": 60,
-      "achievements_unlocked_total": 51,
+      "achievements_unlocked_total": 52,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 51,
+      "achievements_since_baseline": 52,
       "challenge_achievements": [
         {
           "apiname": "a30003",
@@ -5095,9 +5095,15 @@
           "displayName": "Great merit",
           "description": "Donate protective clothing as prompted.",
           "unlocktime": 1787807221
+        },
+        {
+          "apiname": "a40006",
+          "displayName": "Chaos' ultimate weapon",
+          "description": "Find all Chaos weapons in the main map.",
+          "unlocktime": 1787950535
         }
       ],
-      "challenge_achievement_count": 51,
+      "challenge_achievement_count": 52,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
