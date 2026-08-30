@@ -2415,7 +2415,7 @@ export class SteamGiftsUserFetcher {
 
       // Detect members kicked from the Steam group who haven't synced off
       // SteamGifts yet (SG group membership lags the Steam group).
-      console.log(`\n🏴‍☠️ Checking Steam group membership for kick-sync detection...`)
+      console.log(`\n☠️ Checking Steam group membership for kick-sync detection...`)
       const steamGroupIds = await fetchSteamGroupMemberIds()
       if (steamGroupIds) {
         const kickSyncGuard = evaluateKickSyncGuard(
@@ -2435,7 +2435,7 @@ export class SteamGiftsUserFetcher {
           for (const decision of decisions) {
             const user = existingUsers.get(decision.username)!
             if (decision.action === 'flag') {
-              console.log(`🏴‍☠️ Kicked (pending SG sync): ${user.username}`)
+              console.log(`☠️ Kicked (pending SG sync): ${user.username}`)
               existingUsers.set(decision.username, {
                 ...user,
                 kicked_pending_sync: true,

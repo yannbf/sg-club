@@ -853,9 +853,9 @@ export default function UserDetailPageClient({
                 {user.username}
               </a>
               {user.kicked_pending_sync && (
-                <Tooltip content="Left the group but hasn't synced on SteamGifts yet">
-                  <span aria-hidden="true" className="text-2xl">🏴‍☠️</span>
-                </Tooltip>
+                <span className="whitespace-nowrap text-base font-bold text-error-foreground">
+                  ☠️ Left the group — hasn&apos;t synced on SG yet
+                </span>
               )}
               <CountryFlag countryCode={user.country_code} />
               <DiscordBadge

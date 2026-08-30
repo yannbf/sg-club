@@ -11,8 +11,11 @@ on:
     - cron: '0 13 * * 5'  # weekly mod digest, Friday 13:00 UTC
     # Hourly, staggered after deploy.yml's :25 challenge-data refresh so
     # congrats/milestones see fresh completion data.
-    - cron: '45 * * * *'  # congrats: announce new challenge completions; kick-sync-alert reuses this schedule
+    - cron: '45 * * * *'  # congrats: announce new challenge completions
     - cron: '50 * * * *'  # milestones: 24h warning + challenge-over notices
+    # Twice daily, after deploy.yml's 8h website-data refresh (0/8/16 :15) so
+    # kick-sync flags are at most a few hours old when checked.
+    - cron: '0 9,21 * * *'  # kick-sync-alert: kicked members with new GA entries
   workflow_dispatch:
     inputs:
       job:
@@ -188,13 +191,13 @@ jobs:
 
   kick-sync-alert:
     if: |
-      github.event.schedule == '45 * * * *' ||
+      github.event.schedule == '0 9,21 * * *' ||
       (github.event_name == 'workflow_dispatch' && github.event.inputs.job == 'kick-sync-alert')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     env:
       DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
-      ADMIN_CHANNEL_ID: '1385350331327582208' # #admin-stuff
+      WARN_CHANNEL_ID: '1388638737411473498' # #warns
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -229,7 +232,7 @@ jobs:
           if git diff --staged --quiet; then
             echo "No changes to commit"
           else
-            git commit -m "🏴‍☠️ Update kick-sync alert state - $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
+            git commit -m "☠️ Update kick-sync alert state - $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
             # Another job may have pushed while we ran — rebase onto the
             # latest and retry rather than failing the whole run.
             for attempt in 1 2 3 4 5; do

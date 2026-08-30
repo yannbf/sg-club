@@ -3,7 +3,7 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 // Cross-package relative import — see discord-close-signups.ts / DISCORD-BOT.md.
 import { createMessage } from '../../../website/api/_lib/discord-rest.js'
-import { getAdminChannelId } from '../../../website/api/_lib/constants.js'
+import { TEST_ANNOUNCE_CHANNEL_ID } from '../../../website/api/_lib/constants.js'
 import { checkExMemberEntries, type FlaggedExMember } from './check-ex-member-entries.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -66,7 +66,7 @@ export function buildKickSyncAlertMessage(pending: PendingAlert[]): string {
       .map((link) => `<${BASE_URL}/${link}/>`)
       .join(', ')
     const count = member.active_entries.length
-    return `🏴‍☠️ **${member.username}** (${status}) — ${count} active entr${count === 1 ? 'y' : 'ies'} total, new: ${linkList}`
+    return `☠️ **${member.username}** (${status}) — ${count} active entr${count === 1 ? 'y' : 'ies'} total, new: ${linkList}`
   })
   return ['**Kick-sync alert — members entered in group giveaways they no longer qualify for**', ...lines].join('\n')
 }
@@ -88,7 +88,10 @@ export async function postKickSyncAlert(): Promise<void> {
     return
   }
 
-  await createMessage(getAdminChannelId(), {
+  // Same pattern as discord-warn-digest: the workflow sets WARN_CHANNEL_ID to
+  // #warns in production; local/manual runs fall back to #bot-test.
+  const channelId = process.env.WARN_CHANNEL_ID ?? TEST_ANNOUNCE_CHANNEL_ID
+  await createMessage(channelId, {
     content: buildKickSyncAlertMessage(pending),
     flags: 4,
   })
@@ -101,7 +104,7 @@ export async function postKickSyncAlert(): Promise<void> {
   saveState(state)
 
   console.log(
-    `🏴‍☠️ Posted kick-sync alert for ${pending.length} member(s).`,
+    `☠️ Posted kick-sync alert for ${pending.length} member(s).`,
   )
 }
 

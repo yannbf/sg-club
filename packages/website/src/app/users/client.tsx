@@ -574,9 +574,9 @@ function UserCard({
                 {user.username}
               </UserLink>
               {user.kicked_pending_sync && (
-                <Tooltip content="Left the group but hasn't synced on SteamGifts yet">
-                  <span aria-hidden="true">🏴‍☠️</span>
-                </Tooltip>
+                <span className="whitespace-nowrap text-xs font-bold text-error-foreground">
+                  ☠️ Left group — not synced
+                </span>
               )}
             </div>
             <div className="flex items-center gap-1 text-muted-foreground">
