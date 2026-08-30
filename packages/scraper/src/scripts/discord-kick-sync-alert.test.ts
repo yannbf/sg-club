@@ -82,7 +82,7 @@ describe('buildKickSyncAlertMessage', () => {
     expect(message).toContain('kickedUser')
     expect(message).toContain('kicked, not yet synced')
     expect(message).toContain('leftUser')
-    expect(message).toContain('left (synced)')
+    expect(message).toContain('ex-member, already synced')
     expect(message).toContain('<https://www.steamgifts.com/giveaway/abc123/>')
     expect(message).toContain('<https://www.steamgifts.com/giveaway/def456/>')
   })

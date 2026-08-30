@@ -61,7 +61,7 @@ export function buildKickSyncAlertMessage(pending: PendingAlert[]): string {
   const lines = pending.map(({ member, newLinks }) => {
     const status = member.pending_sync
       ? 'kicked, not yet synced'
-      : 'left (synced)'
+      : 'ex-member, already synced'
     const linkList = newLinks
       .map((link) => `<${BASE_URL}/${link}/>`)
       .join(', ')
