@@ -1,14 +1,25 @@
-import { getAllUsers, getExMembers, getAllGiveaways } from '@/lib/data'
+import {
+  getAllUsers,
+  getExMembers,
+  getAllGiveaways,
+  getUserEntries,
+} from '@/lib/data'
 import UsersClient from './client'
 import { AdminGate } from '@/components/AdminGate'
-import { buildDeletedGaLinks, buildValidFcvLinks } from './util'
+import {
+  buildDeletedGaLinks,
+  buildLastEnteredBySteamId,
+  buildValidFcvLinks,
+} from './util'
 
 export default async function UsersPage() {
   const userData = await getAllUsers()
   const exData = await getExMembers()
   const giveaways = await getAllGiveaways()
+  const userEntries = await getUserEntries()
   const validFcvLinks = [...buildValidFcvLinks(giveaways)]
   const deletedGaLinks = [...buildDeletedGaLinks(giveaways)]
+  const lastEnteredBySteamId = buildLastEnteredBySteamId(userEntries)
   const lastUpdated = userData?.lastUpdated
 
   if (!userData) {
@@ -31,6 +42,7 @@ export default async function UsersPage() {
         lastUpdated={lastUpdated}
         validFcvLinks={validFcvLinks}
         deletedGaLinks={deletedGaLinks}
+        lastEnteredBySteamId={lastEnteredBySteamId}
       />
     </AdminGate>
   )

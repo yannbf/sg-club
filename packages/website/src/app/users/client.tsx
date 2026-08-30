@@ -19,7 +19,7 @@ import { DiscordIcon } from '@/components/icons/DiscordIcon'
 import { DiscordBadge } from '@/components/DiscordBadge'
 import { formatPlaytime } from '@/lib/data'
 import { User } from '@/types'
-import FormattedDate from '@/components/FormattedDate'
+import FormattedDate, { FormattedDay } from '@/components/FormattedDate'
 import { LastUpdated } from '@/components/LastUpdated'
 import {
   getUnplayedGamesStats,
@@ -55,6 +55,8 @@ interface Props {
   validFcvLinks?: string[]
   /** Links of deleted giveaways — excluded from every count shown here. */
   deletedGaLinks?: string[]
+  /** steam_id -> latest giveaway-entry joined_at (unix seconds), for the "Active on TGC" sort/date. */
+  lastEnteredBySteamId?: Record<string, number>
 }
 
 type SortKey =
@@ -69,6 +71,8 @@ type SortKey =
   | 'last_won'
   | 'play_rate'
   | 'achievements'
+  | 'active_sg'
+  | 'active_tgc'
 
 type SortDir = 'asc' | 'desc'
 
@@ -101,6 +105,19 @@ function getTotalAchievements(user: User, deletedGaLinks?: Set<string>) {
         total + (game.steam_play_data?.achievements_unlocked || 0),
       0,
     )
+}
+
+/** Latest of GA created/won and giveaway-entry joined_at — TGC-side activity, unix seconds. */
+function lastTgcActivityAt(
+  user: User,
+  lastEnteredBySteamId?: Record<string, number>,
+): number | null {
+  const values = [
+    user.stats.last_giveaway_created_at,
+    user.stats.last_giveaway_won_at,
+    user.steam_id ? lastEnteredBySteamId?.[user.steam_id] : undefined,
+  ].filter((v): v is number => typeof v === 'number')
+  return values.length > 0 ? Math.max(...values) : null
 }
 
 function getLastFcvCreatedAt(
@@ -169,6 +186,7 @@ export default function UsersClient({
   description,
   validFcvLinks,
   deletedGaLinks,
+  lastEnteredBySteamId,
 }: Props) {
   const isAdmin = useIsAdmin()
   const validFcvSet = useMemo(
@@ -269,12 +287,28 @@ export default function UsersClient({
             (b.stats.real_total_achievements_percentage ?? 0) -
             (a.stats.real_total_achievements_percentage ?? 0)
           break
+        case 'active_sg':
+          comparison = (b.last_online_at || 0) - (a.last_online_at || 0)
+          break
+        case 'active_tgc':
+          comparison =
+            (lastTgcActivityAt(b, lastEnteredBySteamId) || 0) -
+            (lastTgcActivityAt(a, lastEnteredBySteamId) || 0)
+          break
       }
       return sortDirection === 'asc' ? -comparison : comparison
     })
 
     return filtered
-  }, [allUsers, searchTerm, sortBy, sortDirection, filterTags, deletedGaSet])
+  }, [
+    allUsers,
+    searchTerm,
+    sortBy,
+    sortDirection,
+    filterTags,
+    deletedGaSet,
+    lastEnteredBySteamId,
+  ])
 
   const activeFilters =
     (searchTerm ? 1 : 0) + filterTags.length
@@ -344,6 +378,8 @@ export default function UsersClient({
               <SelectItem value="username">Username</SelectItem>
               <SelectItem value="last_created">Last GA created</SelectItem>
               <SelectItem value="last_won">Last GA won</SelectItem>
+              <SelectItem value="active_sg">Last active on SG</SelectItem>
+              <SelectItem value="active_tgc">Last active on TGC</SelectItem>
             </SelectContent>
           </Select>
           <Button
@@ -431,6 +467,7 @@ export default function UsersClient({
             isAdmin={isAdmin}
             validFcvSet={validFcvSet}
             deletedGaSet={deletedGaSet}
+            lastEnteredBySteamId={lastEnteredBySteamId}
           />
         ))}
       </div>
@@ -455,11 +492,13 @@ function UserCard({
   isAdmin,
   validFcvSet,
   deletedGaSet,
+  lastEnteredBySteamId,
 }: {
   user: User
   isAdmin: boolean
   validFcvSet: Set<string>
   deletedGaSet: Set<string>
+  lastEnteredBySteamId?: Record<string, number>
 }) {
   const ratio = user.stats.giveaway_ratio ?? 0
   const ratioCategory = getUserRatio(ratio)
@@ -641,6 +680,16 @@ function UserCard({
           label="Last GA won"
           ts={user.stats.last_giveaway_won_at}
         />
+        <DateBlock
+          label="Active on SG"
+          ts={user.last_online_at}
+          granularity="day"
+        />
+        <DateBlock
+          label="Active on TGC"
+          ts={lastTgcActivityAt(user, lastEnteredBySteamId)}
+          granularity="day"
+        />
       </dl>
 
       {user.steam_id &&
@@ -725,14 +774,18 @@ function Stat({
 function DateBlock({
   label,
   ts,
+  granularity,
 }: {
   label: string
   ts?: number | null
+  /** 'day' shows "today"/"yesterday"/"N days ago" instead of the default precise relative time. */
+  granularity?: 'day'
 }) {
+  const DateComponent = granularity === 'day' ? FormattedDay : FormattedDate
   return (
     <div className="text-center">
       <div className="font-medium text-foreground">
-        {ts ? <FormattedDate timestamp={ts} /> : (
+        {ts ? <DateComponent timestamp={ts} /> : (
           <span className="text-muted-foreground">Never</span>
         )}
       </div>

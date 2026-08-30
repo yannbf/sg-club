@@ -1,4 +1,16 @@
-import type { Giveaway, User } from '@/types'
+import type { Giveaway, User, UserEntry } from '@/types'
+
+/** steam_id → latest giveaway-entry joined_at (unix seconds), for the "Active on TGC" sort/date. */
+export function buildLastEnteredBySteamId(
+  userEntries: UserEntry | null
+): Record<string, number> {
+  const result: Record<string, number> = {}
+  for (const [steamId, entries] of Object.entries(userEntries ?? {})) {
+    if (entries.length === 0) continue
+    result[steamId] = entries.reduce((max, e) => Math.max(max, e.joined_at), 0)
+  }
+  return result
+}
 
 export const getUserRatio = (
   ratio = 0
