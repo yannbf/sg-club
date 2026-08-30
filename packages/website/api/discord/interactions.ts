@@ -375,8 +375,9 @@ async function handleChallengeSetup(
         },
         {
           type: ComponentType.LABEL,
-          label: 'Dates (UTC)',
-          description: 'August 1 to August 30 - also today to August 4, or just "August"',
+          label: 'Challenge run dates (UTC), not signup window',
+          description:
+            'September 1 to September 30 (runs through the end date), or just "September"',
           component: {
             type: 4,
             custom_id: 'dates',
@@ -428,6 +429,7 @@ async function finishChallengeSetupFromModal(interaction: DiscordInteraction): P
     const datesResult = validateChallengeDates({
       start: rangeResult.start,
       end: rangeResult.end,
+      endExclusive: rangeResult.endExclusive,
       // The setup modal no longer asks for a signup deadline — the default
       // rule applies (the start for future challenges, the end for
       // immediate starts); /challenge-edit can still adjust it afterwards.
@@ -859,8 +861,8 @@ async function handleChallengeEditSelect(
         },
         {
           type: ComponentType.LABEL,
-          label: 'Dates (UTC)',
-          description: 'e.g. August 1 to August 30 — empty keeps current',
+          label: 'Run dates (UTC), not signup window',
+          description: 'September 1 to September 30 (runs through end) — empty keeps current',
           component: {
             type: 4,
             custom_id: 'dates',
@@ -971,6 +973,7 @@ export function resolveChallengeEdit(
       {
         start: rangeResult.start,
         end: rangeResult.end,
+        endExclusive: rangeResult.endExclusive,
         signupDeadline: deadlineGiven ? inputs.signupDeadline : undefined,
       },
       now

@@ -252,32 +252,57 @@ describe('parseDateRangeField', () => {
 
   it('month-only shorthand: a future month means the whole month', () => {
     const result = parseDateRangeField('August', NOW)
-    expect(result).toEqual({ ok: true, start: 'august 1 2026', end: 'september 1 2026' })
+    expect(result).toEqual({
+      ok: true,
+      start: 'august 1 2026',
+      end: 'september 1 2026',
+      endExclusive: true,
+    })
   })
 
   it('month-only shorthand: accepts ≥3-letter prefixes', () => {
     const result = parseDateRangeField('aug', NOW)
-    expect(result).toEqual({ ok: true, start: 'august 1 2026', end: 'september 1 2026' })
+    expect(result).toEqual({
+      ok: true,
+      start: 'august 1 2026',
+      end: 'september 1 2026',
+      endExclusive: true,
+    })
   })
 
   it('month-only shorthand: the current month starts today (its 1st is already past)', () => {
     const result = parseDateRangeField('July', NOW)
-    expect(result).toEqual({ ok: true, start: 'today', end: 'august 1 2026' })
+    expect(result).toEqual({ ok: true, start: 'today', end: 'august 1 2026', endExclusive: true })
   })
 
   it('month-only shorthand: a month earlier in the calendar resolves to next year', () => {
     const result = parseDateRangeField('March', NOW)
-    expect(result).toEqual({ ok: true, start: 'march 1 2027', end: 'april 1 2027' })
+    expect(result).toEqual({
+      ok: true,
+      start: 'march 1 2027',
+      end: 'april 1 2027',
+      endExclusive: true,
+    })
   })
 
   it('month-only shorthand: December wraps the end into January of the next year', () => {
     const result = parseDateRangeField('December', NOW)
-    expect(result).toEqual({ ok: true, start: 'december 1 2026', end: 'january 1 2027' })
+    expect(result).toEqual({
+      ok: true,
+      start: 'december 1 2026',
+      end: 'january 1 2027',
+      endExclusive: true,
+    })
   })
 
   it('month-only shorthand: an explicit year is honored', () => {
     const result = parseDateRangeField('August 2027', NOW)
-    expect(result).toEqual({ ok: true, start: 'august 1 2027', end: 'september 1 2027' })
+    expect(result).toEqual({
+      ok: true,
+      start: 'august 1 2027',
+      end: 'september 1 2027',
+      endExclusive: true,
+    })
   })
 
   it('month-only shorthand: a non-month single word still errors', () => {
@@ -392,7 +417,12 @@ describe('validateChallengeDates', () => {
   })
 
   it('rejects start >= end', () => {
-    const result = validateChallengeDates({ start: '2026-03-01', end: '2026-03-01' }, BEFORE_FIXTURES)
+    // Non-midnight times so the inclusive-end bump doesn't apply here — this
+    // test is about the start/end ordering check, not date-only ends.
+    const result = validateChallengeDates(
+      { start: '2026-03-01 12:00', end: '2026-03-01 12:00' },
+      BEFORE_FIXTURES
+    )
     expect(result).toEqual({ ok: false, error: 'Start date must be before the end date.' })
   })
 
@@ -421,7 +451,9 @@ describe('validateChallengeDates', () => {
       expect(result.ok).toBe(true)
       if (result.ok) {
         expect(result.dates.start).toBe(Date.UTC(2026, 7, 1) / 1000)
-        expect(result.dates.end).toBe(Date.UTC(2026, 7, 31) / 1000)
+        // "+30d" off Aug 1 lands on Aug 31 midnight, a date-only end, so it
+        // gets bumped forward a day to Sep 1.
+        expect(result.dates.end).toBe(Date.UTC(2026, 8, 1) / 1000)
       }
     })
 
@@ -471,7 +503,9 @@ describe('validateChallengeDates', () => {
       expect(result.ok).toBe(true)
       if (result.ok) {
         expect(result.dates.start).toBe(Date.UTC(2026, 6, 19) / 1000)
-        expect(result.dates.end).toBe(Date.UTC(2026, 7, 31) / 1000)
+        // "august 31" is a date-only end, so it runs through Aug 31 and the
+        // stored (exclusive) cutoff bumps forward to Sep 1.
+        expect(result.dates.end).toBe(Date.UTC(2026, 8, 1) / 1000)
       }
     })
 
@@ -484,7 +518,8 @@ describe('validateChallengeDates', () => {
       expect(result.ok).toBe(true)
       if (result.ok) {
         expect(result.dates.start).toBe(Date.UTC(2026, 6, 20) / 1000)
-        expect(result.dates.end).toBe(Date.UTC(2026, 6, 21) / 1000)
+        // "July 21" is a date-only end, runs through July 21, cutoff is July 22.
+        expect(result.dates.end).toBe(Date.UTC(2026, 6, 22) / 1000)
       }
     })
 
@@ -497,7 +532,9 @@ describe('validateChallengeDates', () => {
       expect(result.ok).toBe(true)
       if (result.ok) {
         expect(result.dates.start).toBe(Date.UTC(2026, 6, 19, 10, 0) / 1000)
-        expect(result.dates.end).toBe(Date.UTC(2026, 7, 31) / 1000)
+        // Date-only end bumped from Aug 31 to Sep 1; the defaulted deadline
+        // follows the bumped value.
+        expect(result.dates.end).toBe(Date.UTC(2026, 8, 1) / 1000)
         expect(result.dates.signupDeadline).toBe(result.dates.end)
       }
     })
@@ -541,6 +578,43 @@ describe('validateChallengeDates', () => {
         ok: false,
         error: 'Signup deadline must be at or before the start date.',
       })
+    })
+  })
+
+  describe('inclusive end dates', () => {
+    const NOW = Date.UTC(2026, 7, 1, 12, 0) // 2026-08-01
+
+    it('"September 1 to September 30" runs through Sep 30, storing an Oct 1 cutoff', () => {
+      const range = parseDateRangeField('September 1 to September 30')
+      expect(range.ok).toBe(true)
+      if (!range.ok) return
+      const result = validateChallengeDates(range, NOW)
+      expect(result.ok).toBe(true)
+      if (result.ok) {
+        expect(result.dates.end).toBe(Date.UTC(2026, 9, 1) / 1000)
+      }
+    })
+
+    it('month shorthand "September" also stores an Oct 1 cutoff, without a double bump', () => {
+      const range = parseDateRangeField('September')
+      expect(range.ok).toBe(true)
+      if (!range.ok) return
+      const result = validateChallengeDates(range, NOW)
+      expect(result.ok).toBe(true)
+      if (result.ok) {
+        expect(result.dates.end).toBe(Date.UTC(2026, 9, 1) / 1000)
+      }
+    })
+
+    it('an end with an explicit time of day is used as-is, not bumped', () => {
+      const range = parseDateRangeField('September 1 to September 30 at 18:00')
+      expect(range.ok).toBe(true)
+      if (!range.ok) return
+      const result = validateChallengeDates(range, NOW)
+      expect(result.ok).toBe(true)
+      if (result.ok) {
+        expect(result.dates.end).toBe(Date.UTC(2026, 8, 30, 18, 0) / 1000)
+      }
     })
   })
 })

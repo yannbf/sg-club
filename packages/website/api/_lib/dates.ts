@@ -252,7 +252,7 @@ function parseMonthDayMatch(
 }
 
 export type DateRangeSplitResult =
-  | { ok: true; start: string; end: string }
+  | { ok: true; start: string; end: string; endExclusive?: boolean }
   | { ok: false; error: string }
 
 const DATE_RANGE_SEPARATOR = /\s+(?:→|->|to|till|until)\s+/i
@@ -297,6 +297,7 @@ export function parseDateRangeField(input: string, now: number = Date.now()): Da
         ok: true,
         start: isCurrentMonth ? 'today' : `${MONTH_NAMES[month]} 1 ${year}`,
         end: `${MONTH_NAMES[(month + 1) % 12]} 1 ${endYear}`,
+        endExclusive: true,
       }
     }
   }
@@ -353,9 +354,18 @@ export type ChallengeDatesResult =
  * already-running challenge (owner-approved). An explicit signupDeadline is
  * always validated against the old `deadline <= start` ordering rule
  * regardless of immediate-start-ness.
+ *
+ * The stored end is always an exclusive cutoff (the challenge runs up to but
+ * not including that instant). When `endExclusive` is not set and the parsed
+ * end lands exactly on a UTC midnight, the input is treated as a date-only
+ * end meant inclusively — e.g. "September 30" means the challenge runs
+ * through all of September 30 — so a day is added to land on the next
+ * midnight. An end with an explicit time of day is used as-is. Callers that
+ * already resolved an exclusive cutoff (the bare-month shorthand in
+ * `parseDateRangeField`) pass `endExclusive: true` to skip the bump.
  */
 export function validateChallengeDates(
-  input: { start: string; end: string; signupDeadline?: string },
+  input: { start: string; end: string; signupDeadline?: string; endExclusive?: boolean },
   now: number = Date.now()
 ): ChallengeDatesResult {
   const startResult = parseAdminDate(input.start, now)
@@ -365,7 +375,11 @@ export function validateChallengeDates(
   if (!endResult.ok) return { ok: false, error: `end: ${endResult.error}` }
 
   const { epochSeconds: start } = startResult
-  const { epochSeconds: end } = endResult
+  const ONE_DAY_SECONDS = 86400
+  const end =
+    !input.endExclusive && endResult.epochSeconds % ONE_DAY_SECONDS === 0
+      ? endResult.epochSeconds + ONE_DAY_SECONDS
+      : endResult.epochSeconds
   const nowSeconds = Math.floor(now / 1000)
   const startOfTodaySeconds = Math.floor(startOfUtcDay(now) / 1000)
 
@@ -375,16 +389,16 @@ export function validateChallengeDates(
 
   const isImmediateStart = start <= nowSeconds
   const deadlineGiven = Boolean(input.signupDeadline)
-  const deadlineResult = deadlineGiven
-    ? parseAdminDate(input.signupDeadline!, now)
-    : isImmediateStart
-      ? endResult
-      : startResult
-  if (!deadlineResult.ok) {
+  const deadlineResult = deadlineGiven ? parseAdminDate(input.signupDeadline!, now) : null
+  if (deadlineResult && !deadlineResult.ok) {
     return { ok: false, error: `signup_deadline: ${deadlineResult.error}` }
   }
 
-  const { epochSeconds: signupDeadline } = deadlineResult
+  const signupDeadline = deadlineResult
+    ? deadlineResult.epochSeconds
+    : isImmediateStart
+      ? end
+      : start
 
   if (deadlineGiven && signupDeadline > start) {
     return { ok: false, error: 'Signup deadline must be at or before the start date.' }

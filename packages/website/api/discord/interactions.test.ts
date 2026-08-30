@@ -235,7 +235,9 @@ describe('resolveChallengeEdit', () => {
     expect(result.ok).toBe(true)
     if (!result.ok) return
     expect(result.resolved.start).toBe(Math.floor(Date.UTC(2026, 7, 1) / 1000))
-    expect(result.resolved.end).toBe(Math.floor(Date.UTC(2026, 7, 30) / 1000))
+    // "Aug 30 2026" is a date-only end, so it runs through Aug 30 and the
+    // stored cutoff bumps forward to Aug 31.
+    expect(result.resolved.end).toBe(Math.floor(Date.UTC(2026, 7, 31) / 1000))
     expect(result.resolved.deadline).toBe(Math.floor(Date.UTC(2026, 6, 28) / 1000))
     // Providing both dates and a deadline together still counts as one
     // "dates" change, not two — the deadline just rides along.
