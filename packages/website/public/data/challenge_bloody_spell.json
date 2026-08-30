@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1785542400,
   "totalAchievements": 60,
-  "generatedAt": 1788124830099,
+  "generatedAt": 1788133272181,
   "challengeOver": false,
   "winnerUsername": "Foxpile",
   "participants": [
@@ -2817,7 +2817,7 @@
       "review_recommendationid": "233463612",
       "review_url": "https://steamcommunity.com/profiles/76561198077347875/recommended/992300",
       "playtime_total_minutes": 801,
-      "playtime_2weeks_minutes": 657,
+      "playtime_2weeks_minutes": 627,
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 801,
       "achievements_total": 60,
@@ -5454,19 +5454,19 @@
       "is_guest": false,
       "owned": true,
       "stats_available": true,
-      "wrote_review": false,
-      "review_voted_up": null,
-      "review_timestamp": null,
-      "review_recommendationid": null,
-      "review_url": null,
-      "playtime_total_minutes": 551,
-      "playtime_2weeks_minutes": 426,
+      "wrote_review": true,
+      "review_voted_up": false,
+      "review_timestamp": 1788128509,
+      "review_recommendationid": "234119394",
+      "review_url": "https://steamcommunity.com/profiles/76561198055181554/recommended/992300",
+      "playtime_total_minutes": 614,
+      "playtime_2weeks_minutes": 489,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 551,
+      "playtime_challenge_minutes": 614,
       "achievements_total": 60,
-      "achievements_unlocked_total": 33,
+      "achievements_unlocked_total": 40,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 33,
+      "achievements_since_baseline": 40,
       "challenge_achievements": [
         {
           "apiname": "a30003",
@@ -5665,22 +5665,64 @@
           "displayName": "Marksman",
           "description": "Nest 9 utensils in the ferrule mini-game.",
           "unlocktime": 1788123333
+        },
+        {
+          "apiname": "a20021",
+          "displayName": "Big Demon",
+          "description": "Kill 30 Big Demon.",
+          "unlocktime": 1788124893
+        },
+        {
+          "apiname": "a20029",
+          "displayName": "BOSS Guard",
+          "description": "Defeat BOSS Guard.",
+          "unlocktime": 1788125098
+        },
+        {
+          "apiname": "a40005",
+          "displayName": "Inflatable Toys",
+          "description": "Find all inflatable weapons in the main map.",
+          "unlocktime": 1788126791
+        },
+        {
+          "apiname": "a20030",
+          "displayName": "BOSS Priestess",
+          "description": "Defeat BOSS Priestess.",
+          "unlocktime": 1788127775
+        },
+        {
+          "apiname": "a20031",
+          "displayName": "BOSS Faceless",
+          "description": "Defeat BOSS Faceless.",
+          "unlocktime": 1788128178
+        },
+        {
+          "apiname": "a10016",
+          "displayName": "Departure",
+          "description": "Clear the main storyline.",
+          "unlocktime": 1788128232
+        },
+        {
+          "apiname": "a40008",
+          "displayName": "No desire",
+          "description": "Push Uncle Li's chair in the clearance scene away from the desk.",
+          "unlocktime": 1788128295
         }
       ],
-      "challenge_achievement_count": 33,
+      "challenge_achievement_count": 40,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
       "completed_before_start": false,
       "completed_after_deadline": false,
-      "story_unlocked": false,
-      "story_unlocktime": null,
+      "story_unlocked": true,
+      "story_unlocktime": 1788128232,
       "story_after_deadline": false,
-      "win_tier": null,
-      "qualified_at": null,
+      "win_tier": "story",
+      "qualified_at": 1788128232,
       "meets_playtime": true,
-      "meets_review": false,
-      "is_winner": false
+      "meets_review": true,
+      "is_winner": true
     },
     {
       "username": "lockcjwen",
@@ -5915,7 +5957,8 @@
     "QuinlanLJ",
     "LieEater",
     "DancingVaquinha",
-    "Ignition365"
+    "Ignition365",
+    "Bainsol"
   ],
   "storyAchievement": {
     "apiname": "a10016",
