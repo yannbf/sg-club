@@ -126,6 +126,10 @@ export interface User {
   registered_at?: number
   /** SteamGifts contributor level (typically 0–10, can have decimals). */
   contributor_level?: number
+  /** Unix seconds — when the user was last online on SteamGifts (from their SG profile page). */
+  last_online_at?: number | null
+  /** Unix ms — when last_online_at was last fetched (Date.now() at fetch time), for gating the refresh pass. */
+  last_online_checked_at?: number
   /**
    * Unix ms — most recent time we observed the member's total playtime
    * increase on ANY tracked game (set by the daily playtime job). Best-effort

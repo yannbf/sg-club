@@ -43,7 +43,8 @@
     "discord:milestones": "tsx src/scripts/discord-challenge-milestones.ts",
     "discord:warn-digest": "tsx src/scripts/discord-warn-digest.ts",
     "discord:register": "tsx src/scripts/discord-register-commands.ts",
-    "ipb-discord": "tsx src/scripts/generate-ipb-discord-data.ts"
+    "ipb-discord": "tsx src/scripts/generate-ipb-discord-data.ts",
+    "refresh-last-online": "tsx src/scripts/refresh-last-online.ts"
   },
   "dependencies": {
     "@types/cheerio": "^0.22.35",

@@ -104,6 +104,10 @@ export interface User {
   registered_at?: number
   /** SteamGifts contributor level (typically 0–10, can have decimals). */
   contributor_level?: number
+  /** Unix seconds — when the user was last online on SteamGifts (from their SG profile page). */
+  last_online_at?: number | null
+  /** Unix ms — when last_online_at was last fetched, for gating the scraper's refresh pass. */
+  last_online_checked_at?: number
   /**
    * Whether this user is in the community Discord server. Sourced from the
    * manually-maintained public/data/discord_members.json map (keyed by SG

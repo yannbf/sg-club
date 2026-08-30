@@ -102,6 +102,33 @@ function parseRegisteredAt($: CheerioAPI): number | null {
 }
 
 /**
+ * SG profile pages list "Last Online" in the .featured__table sidebar with a
+ * <span data-timestamp="..."> containing the exact unix-seconds value — except
+ * for users who are online at fetch time, whose cell is just
+ * <span class="featured__online-now">Online Now</span> with no timestamp;
+ * those resolve to the fetch time itself.
+ */
+function parseLastOnlineAt($: CheerioAPI): number | null {
+  let lastOnlineAt: number | null = null
+  $('.featured__table__row').each((_, el) => {
+    const $row = $(el)
+    const label = $row.find('.featured__table__row__left').text().trim()
+    if (label.toLowerCase() !== 'last online') return
+    const $right = $row.find('.featured__table__row__right')
+    if ($right.find('.featured__online-now').length > 0) {
+      lastOnlineAt = Math.floor(Date.now() / 1000)
+      return
+    }
+    const ts = parseInt(
+      $right.find('span[data-timestamp]').first().attr('data-timestamp') || '',
+      10,
+    )
+    if (Number.isFinite(ts) && ts > 0) lastOnlineAt = ts
+  })
+  return lastOnlineAt
+}
+
+/**
  * The generated JSON files are read lazily and memoized, never at module
  * scope: importing this module must not touch the filesystem, so it can be
  * imported by tests (and by any consumer that only wants a pure helper)
@@ -646,13 +673,14 @@ export class SteamGiftsUserFetcher {
     return null
   }
 
-  private async fetchUserSteamInfo(
+  public async fetchUserSteamInfo(
     user: User,
   ): Promise<{
     steam_id: string | null
     steam_profile_url: string | null
     registered_at: number | null
     contributor_level: number | null
+    last_online_at: number | null
   }> {
     try {
       const html = await this.fetchPage(user.profile_url)
@@ -682,8 +710,15 @@ export class SteamGiftsUserFetcher {
 
       const registered_at = parseRegisteredAt($)
       const contributor_level = parseContributorLevel($)
+      const last_online_at = parseLastOnlineAt($)
 
-      return { steam_id, steam_profile_url, registered_at, contributor_level }
+      return {
+        steam_id,
+        steam_profile_url,
+        registered_at,
+        contributor_level,
+        last_online_at,
+      }
     } catch (error) {
       const errorMessage = `Error fetching Steam info for ${user.username}`
       console.warn(`⚠️  ${errorMessage}:`, error)
@@ -693,6 +728,7 @@ export class SteamGiftsUserFetcher {
         steam_profile_url: null,
         registered_at: null,
         contributor_level: null,
+        last_online_at: null,
       }
     }
   }
@@ -1966,12 +2002,16 @@ export class SteamGiftsUserFetcher {
                   ...(steamInfo.contributor_level != null && {
                     contributor_level: steamInfo.contributor_level,
                   }),
+                  ...(steamInfo.last_online_at != null && {
+                    last_online_at: steamInfo.last_online_at,
+                  }),
                 }
                 existingUsers.set(user.username, updatedUser)
                 steamInfoFetched++
               } else if (
                 steamInfo.registered_at != null ||
-                steamInfo.contributor_level != null
+                steamInfo.contributor_level != null ||
+                steamInfo.last_online_at != null
               ) {
                 // No Steam profile linked, but we still got SG profile metadata
                 existingUsers.set(user.username, {
@@ -1981,6 +2021,9 @@ export class SteamGiftsUserFetcher {
                   }),
                   ...(steamInfo.contributor_level != null && {
                     contributor_level: steamInfo.contributor_level,
+                  }),
+                  ...(steamInfo.last_online_at != null && {
+                    last_online_at: steamInfo.last_online_at,
                   }),
                 })
 
@@ -2038,6 +2081,7 @@ export class SteamGiftsUserFetcher {
               const patch: Partial<User> = {}
               if (info.registered_at != null) patch.registered_at = info.registered_at
               if (info.contributor_level != null) patch.contributor_level = info.contributor_level
+              if (info.last_online_at != null) patch.last_online_at = info.last_online_at
               if (Object.keys(patch).length > 0) {
                 existingUsers.set(user.username, { ...user, ...patch })
               }
@@ -2046,6 +2090,60 @@ export class SteamGiftsUserFetcher {
               console.warn(`⚠️  Error backfilling ${user.username}:`, error)
             }
           }
+        }
+
+        // Refresh last_online_at (and opportunistically registered_at /
+        // contributor_level, since the fetch sees the same page anyway) for
+        // every user whose profile hasn't been checked in the last 20 hours.
+        // The members job runs every 8h, so this yields an effectively daily
+        // refresh without refetching all ~150 profiles every run.
+        const REFRESH_INTERVAL_MS = 20 * 60 * 60 * 1000
+        const usersNeedingLastOnlineRefresh = Array.from(
+          existingUsers.values(),
+        ).filter(
+          (user) =>
+            user.profile_url &&
+            (user.last_online_checked_at == null ||
+              Date.now() - user.last_online_checked_at > REFRESH_INTERVAL_MS),
+        )
+
+        if (usersNeedingLastOnlineRefresh.length > 0) {
+          console.log(
+            `📋 Found ${usersNeedingLastOnlineRefresh.length} users due for a "last online" refresh`,
+          )
+          let refreshCounter = 0
+          let refreshedCount = 0
+          for (const user of usersNeedingLastOnlineRefresh) {
+            refreshCounter++
+            try {
+              console.log(
+                `[${refreshCounter}/${usersNeedingLastOnlineRefresh.length}] 🕒 Refreshing last online for: ${user.username}`,
+              )
+              const info = await this.fetchUserSteamInfo(user)
+              // fetchUserSteamInfo swallows fetch errors and returns nulls, so
+              // a successfully parsed last_online_at is the only reliable
+              // success signal. Stamp last_online_checked_at only then — a
+              // rate-limited or blocked fetch stays unstamped and the next
+              // run retries instead of skipping the user for 20h.
+              const patch: Partial<User> = {}
+              if (info.last_online_at != null) {
+                patch.last_online_at = info.last_online_at
+                patch.last_online_checked_at = Date.now()
+                refreshedCount++
+              }
+              if (info.registered_at != null) patch.registered_at = info.registered_at
+              if (info.contributor_level != null) patch.contributor_level = info.contributor_level
+              if (Object.keys(patch).length > 0) {
+                existingUsers.set(user.username, { ...user, ...patch })
+              }
+              await delay(400)
+            } catch (error) {
+              console.warn(`⚠️  Error refreshing last online for ${user.username}:`, error)
+            }
+          }
+          console.log(
+            `✅ Refreshed "last online" for ${refreshedCount}/${usersNeedingLastOnlineRefresh.length} users`,
+          )
         }
 
         const usersNeedingCountryCodeInfo = Array.from(

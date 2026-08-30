@@ -24,7 +24,7 @@ import GivenGiveawaysClient from './GivenGiveawaysClient'
 import WonGiveawaysClient from './WonGiveawaysClient'
 import type { User, UserGroupData, UserEntry, SteamIdMap } from '@/types'
 import type { Giveaway, GameData } from '@/types'
-import FormattedDate from '@/components/FormattedDate'
+import FormattedDate, { FormattedDay } from '@/components/FormattedDate'
 import GiveawaysClient from '@/app/giveaways/client'
 import CountryFlag from '@/components/CountryFlag'
 import { LastUpdated } from '@/components/LastUpdated'
@@ -938,6 +938,14 @@ export default function UserDetailPageClient({
                   </dt>
                   <dd className="text-foreground">
                     <FormattedDate timestamp={user.stats.first_seen_at} />
+                  </dd>
+                </div>
+              )}
+              {user.last_online_at != null && (
+                <div className="flex items-baseline gap-2">
+                  <dt className="text-muted-foreground">Last active on SG</dt>
+                  <dd className="text-foreground">
+                    <FormattedDay timestamp={user.last_online_at} />
                   </dd>
                 </div>
               )}
