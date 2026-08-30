@@ -131,6 +131,16 @@ export interface User {
   /** Unix ms — when last_online_at was last fetched (Date.now() at fetch time), for gating the refresh pass. */
   last_online_checked_at?: number
   /**
+   * True when the member is missing from the Steam group's member list but
+   * still present in SteamGifts group data — SG group membership sync lags
+   * the Steam group, so a kicked member can still enter group-exclusive
+   * giveaways until SG catches up. Cleared once the member reappears in the
+   * Steam group (they were re-added, or the absence was transient).
+   */
+  kicked_pending_sync?: boolean
+  /** Unix ms — when we first observed this member missing from the Steam group. Stable across runs once set; cleared alongside kicked_pending_sync. */
+  kick_detected_at?: number
+  /**
    * Unix ms — most recent time we observed the member's total playtime
    * increase on ANY tracked game (set by the daily playtime job). Best-effort
    * proxy for "last time the member actually played something". Only populated

@@ -109,6 +109,15 @@ export interface User {
   /** Unix ms — when last_online_at was last fetched, for gating the scraper's refresh pass. */
   last_online_checked_at?: number
   /**
+   * True when the member is missing from the Steam group's member list but
+   * still present in SteamGifts group data — SG group membership sync lags
+   * the Steam group, so a kicked member can still enter group-exclusive
+   * giveaways until SG catches up.
+   */
+  kicked_pending_sync?: boolean
+  /** Unix ms — when we first observed this member missing from the Steam group. */
+  kick_detected_at?: number
+  /**
    * Whether this user is in the community Discord server. Sourced from the
    * manually-maintained public/data/discord_members.json map (keyed by SG
    * username) and merged in at load time. `undefined` means "not yet classified".

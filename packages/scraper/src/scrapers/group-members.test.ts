@@ -4,6 +4,9 @@ import {
   SteamGiftsUserFetcher,
   mergePlayData,
   evaluateLeaverGuard,
+  parseSteamGroupMemberIds,
+  evaluateKickSyncGuard,
+  computeKickSyncDecisions,
 } from './group-members'
 import type { User, GamePrice, Giveaway } from '../types/steamgifts'
 
@@ -544,5 +547,88 @@ describe('evaluateLeaverGuard', () => {
   it('is disabled entirely when asked, even on an extreme drop', () => {
     const result = evaluateLeaverGuard(130, 10, { disabled: true })
     expect(result.guarded).toBe(false)
+  })
+})
+
+describe('parseSteamGroupMemberIds', () => {
+  it('extracts every steamID64 from the members XML', () => {
+    const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<memberList>
+  <groupID64>103582791429521408</groupID64>
+  <members>
+    <steamID64>76561198000000001</steamID64>
+    <steamID64>76561198000000002</steamID64>
+  </members>
+</memberList>`
+    const ids = parseSteamGroupMemberIds(xml)
+    expect(ids).toEqual(
+      new Set(['76561198000000001', '76561198000000002']),
+    )
+  })
+
+  it('returns an empty set when there are no members', () => {
+    expect(parseSteamGroupMemberIds('<memberList></memberList>').size).toBe(0)
+  })
+})
+
+describe('evaluateKickSyncGuard', () => {
+  it('does not guard when the Steam group roughly matches the SG roster', () => {
+    expect(evaluateKickSyncGuard(130, 127).guarded).toBe(false)
+  })
+
+  it('guards when the Steam group looks truncated or blocked', () => {
+    // 130 SG members, only 40 came back from the Steam group XML.
+    const result = evaluateKickSyncGuard(130, 40)
+    expect(result.guarded).toBe(true)
+    expect(result.sgRosterSize).toBe(130)
+    expect(result.steamGroupSize).toBe(40)
+  })
+
+  it('does not guard at exactly half (only fewer than half trips it)', () => {
+    expect(evaluateKickSyncGuard(130, 65).guarded).toBe(false)
+  })
+})
+
+describe('computeKickSyncDecisions', () => {
+  const steamGroupIds = new Set(['1', '2'])
+
+  it('flags a real-steam_id user missing from the Steam group', () => {
+    const decisions = computeKickSyncDecisions(
+      [{ username: 'kicked', steam_id: '3' }],
+      steamGroupIds,
+    )
+    expect(decisions).toEqual([{ username: 'kicked', action: 'flag' }])
+  })
+
+  it('does not re-flag a user already marked kicked_pending_sync', () => {
+    const decisions = computeKickSyncDecisions(
+      [{ username: 'kicked', steam_id: '3', kicked_pending_sync: true }],
+      steamGroupIds,
+    )
+    expect(decisions).toEqual([])
+  })
+
+  it('clears a user who reappears in the Steam group', () => {
+    const decisions = computeKickSyncDecisions(
+      [{ username: 'back', steam_id: '1', kicked_pending_sync: true }],
+      steamGroupIds,
+    )
+    expect(decisions).toEqual([{ username: 'back', action: 'clear' }])
+  })
+
+  it('leaves a present, un-flagged user untouched', () => {
+    const decisions = computeKickSyncDecisions(
+      [{ username: 'fine', steam_id: '1' }],
+      steamGroupIds,
+    )
+    expect(decisions).toEqual([])
+  })
+
+  it('skips users with a synthetic steam_id', () => {
+    const decisions = computeKickSyncDecisions(
+      [{ username: 'nosteam', steam_id: 'username:nosteam' }],
+      steamGroupIds,
+    )
+    expect(decisions).toEqual([])
   })
 })

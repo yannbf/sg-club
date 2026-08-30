@@ -14,6 +14,11 @@ interface ExMembersData {
   users: Record<string, User>
 }
 
+interface GroupUsersData {
+  lastUpdated: number
+  users: Record<string, User>
+}
+
 interface GiveawaysData {
   giveaways: Giveaway[]
 }
@@ -39,6 +44,54 @@ export interface FlaggedExMember {
   profile_url: string
   left_at_timestamp: number
   active_entries: ActiveEntry[]
+  // true for a member who was kicked from the Steam group but hasn't synced
+  // off SteamGifts yet (see kicked_pending_sync on User); false for a real
+  // ex-member SG has already synced out
+  pending_sync: boolean
+}
+
+interface ExMemberCandidate {
+  steam_id: string
+  user: User
+  // left_at_timestamp for a real ex-member, kick_detected_at for a
+  // kicked-but-not-yet-synced one — both unix ms, so they compare the same
+  // way against entry.joined_at
+  effective_left_at: number
+  pending_sync: boolean
+}
+
+/**
+ * Combines real ex-members with users who are still in SG's group data but
+ * were kicked from the Steam group and are just waiting for SG to sync them
+ * out. Both cases carry the same exploit — a user shouldn't be in
+ * group-exclusive giveaways — so they're checked together.
+ */
+export function buildExMemberCandidates(
+  exMembers: Record<string, User>,
+  groupUsers: Record<string, User>,
+): ExMemberCandidate[] {
+  const candidates: ExMemberCandidate[] = []
+
+  for (const [steamId, user] of Object.entries(exMembers)) {
+    candidates.push({
+      steam_id: steamId,
+      user,
+      effective_left_at: user.left_at_timestamp ?? 0,
+      pending_sync: false,
+    })
+  }
+
+  for (const [steamId, user] of Object.entries(groupUsers)) {
+    if (!user.kicked_pending_sync) continue
+    candidates.push({
+      steam_id: steamId,
+      user,
+      effective_left_at: user.kick_detected_at ?? 0,
+      pending_sync: true,
+    })
+  }
+
+  return candidates
 }
 
 const BASE_URL = 'https://www.steamgifts.com/giveaway'
@@ -60,6 +113,9 @@ export function checkExMemberEntries(
   const exMembers: ExMembersData = JSON.parse(
     readFileSync(path.join(dataDir, 'ex_members.json'), 'utf-8'),
   )
+  const groupUsers: GroupUsersData = JSON.parse(
+    readFileSync(path.join(dataDir, 'group_users.json'), 'utf-8'),
+  )
   const giveawaysData: GiveawaysData = JSON.parse(
     readFileSync(path.join(dataDir, 'giveaways.json'), 'utf-8'),
   )
@@ -72,9 +128,14 @@ export function checkExMemberEntries(
     giveawaysData.giveaways.map((ga) => [ga.link, ga]),
   )
 
+  const candidates = buildExMemberCandidates(
+    exMembers.users,
+    groupUsers.users,
+  )
+
   const flagged: FlaggedExMember[] = []
 
-  for (const [steamId, user] of Object.entries(exMembers.users)) {
+  for (const { steam_id: steamId, user, effective_left_at, pending_sync } of candidates) {
     const activeEntries: ActiveEntry[] = []
 
     for (const [link, entries] of Object.entries(userEntries)) {
@@ -96,8 +157,7 @@ export function checkExMemberEntries(
         end_timestamp: giveaway.end_timestamp,
         joined_at: joinedAt,
         entered_after_leaving:
-          user.left_at_timestamp != null &&
-          joinedAt * 1000 > user.left_at_timestamp,
+          effective_left_at > 0 && joinedAt * 1000 > effective_left_at,
       })
     }
 
@@ -108,8 +168,9 @@ export function checkExMemberEntries(
       steam_id: steamId,
       username: user.username,
       profile_url: user.profile_url,
-      left_at_timestamp: user.left_at_timestamp ?? 0,
+      left_at_timestamp: effective_left_at,
       active_entries: activeEntries,
+      pending_sync,
     })
   }
 
@@ -124,8 +185,11 @@ export function checkExMemberEntries(
       `🚨 ${flagged.length} ex-member(s) still have ${totalEntries} entr${totalEntries === 1 ? 'y' : 'ies'} in active group-exclusive giveaways:`,
     )
     for (const member of flagged) {
+      const label = member.pending_sync
+        ? ' (kicked, not yet synced on SG)'
+        : ''
       console.log(
-        `   - ${member.username}: ${member.active_entries.map((e) => e.link).join(', ')}`,
+        `   - ${member.username}${label}: ${member.active_entries.map((e) => e.link).join(', ')}`,
       )
     }
     console.log(
@@ -212,10 +276,13 @@ export function buildChaseUpMessage(member: FlaggedExMember): string {
     )
     .join('\n')
   const count = member.active_entries.length
+  const departureLine = member.pending_sync
+    ? `Our records show you were removed from the group on ${formatDate(member.left_at_timestamp / 1000)}`
+    : `Our records show you left the group on ${formatDate(member.left_at_timestamp / 1000)}`
 
   return `Hi ${member.username},
 
-Our records show you left the group on ${formatDate(member.left_at_timestamp / 1000)}, but you still have entries in ${count} active group giveaway${count === 1 ? '' : 's'}. Since group giveaways are reserved for current members, please remove your entries from the following:
+${departureLine}, but you still have entries in ${count} active group giveaway${count === 1 ? '' : 's'}. Since group giveaways are reserved for current members, please remove your entries from the following:
 
 ${gaLines}
 
@@ -248,8 +315,11 @@ async function runCli(): Promise<void> {
     ).length
     const exploitTag =
       exploiting > 0 ? ` 🚨 ${exploiting} entered AFTER leaving` : ''
+    const statusLabel = member.pending_sync
+      ? `kicked, not yet synced on SG, detected ${formatDate(member.left_at_timestamp / 1000)}`
+      : `left ${formatDate(member.left_at_timestamp / 1000)}`
     console.log(
-      `${member.username} (left ${formatDate(member.left_at_timestamp / 1000)}) — ${member.active_entries.length} active entr${member.active_entries.length === 1 ? 'y' : 'ies'}${exploitTag}`,
+      `${member.username} (${statusLabel}) — ${member.active_entries.length} active entr${member.active_entries.length === 1 ? 'y' : 'ies'}${exploitTag}`,
     )
     for (const entry of member.active_entries) {
       const marker = entry.entered_after_leaving ? '🚨' : '  '

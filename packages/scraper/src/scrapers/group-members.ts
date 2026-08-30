@@ -299,6 +299,98 @@ function resolveLeaverGuardOptions(): LeaverGuardOptions {
   }
 }
 
+const STEAM_GROUP_MEMBERS_XML_URL =
+  'https://steamcommunity.com/groups/TheGiveawaysClub/memberslistxml/?xml=1'
+
+/**
+ * Extracts every steamID64 from the Steam group's members XML feed. The feed
+ * is a single unauthenticated page, so no pagination or cookie handling is
+ * needed.
+ */
+export function parseSteamGroupMemberIds(xml: string): Set<string> {
+  const ids = new Set<string>()
+  const regex = /<steamID64>(\d+)<\/steamID64>/g
+  let match: RegExpExecArray | null
+  while ((match = regex.exec(xml))) {
+    ids.add(match[1])
+  }
+  return ids
+}
+
+export interface KickSyncGuardResult {
+  guarded: boolean
+  sgRosterSize: number
+  steamGroupSize: number
+}
+
+/**
+ * Mirrors `evaluateLeaverGuard`'s spirit for the Steam-group-XML side: if the
+ * feed comes back truncated or blocked, it can look like a mass kick when
+ * really the request just failed to return the full list. Guard whenever the
+ * Steam group looks like fewer than half the current SG roster.
+ */
+export function evaluateKickSyncGuard(
+  sgRosterSize: number,
+  steamGroupSize: number,
+): KickSyncGuardResult {
+  const guarded = steamGroupSize < sgRosterSize / 2
+  return { guarded, sgRosterSize, steamGroupSize }
+}
+
+export interface KickSyncDecision {
+  username: string
+  action: 'flag' | 'clear'
+}
+
+/**
+ * Pure diff between the current SG roster and the Steam group's member list.
+ * Users with a synthetic (`username:`-prefixed) steam_id are skipped — we
+ * have no real Steam ID to look up in the Steam group feed for them.
+ */
+export function computeKickSyncDecisions(
+  users: Array<Pick<User, 'username' | 'steam_id' | 'kicked_pending_sync'>>,
+  steamGroupIds: Set<string>,
+): KickSyncDecision[] {
+  const decisions: KickSyncDecision[] = []
+  for (const user of users) {
+    if (!user.steam_id || user.steam_id.startsWith('username:')) continue
+    const inSteamGroup = steamGroupIds.has(user.steam_id)
+    if (!inSteamGroup && !user.kicked_pending_sync) {
+      decisions.push({ username: user.username, action: 'flag' })
+    } else if (inSteamGroup && user.kicked_pending_sync) {
+      decisions.push({ username: user.username, action: 'clear' })
+    }
+  }
+  return decisions
+}
+
+/**
+ * Fetches and parses the Steam group's member list. Returns null (rather
+ * than throwing) on any fetch/parse failure so the caller can skip the
+ * kick-sync pass entirely instead of acting on bad data.
+ */
+async function fetchSteamGroupMemberIds(): Promise<Set<string> | null> {
+  try {
+    const response = await fetch(STEAM_GROUP_MEMBERS_XML_URL, {
+      headers: {
+        'User-Agent':
+          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+      },
+    })
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`)
+    }
+    const xml = await response.text()
+    return parseSteamGroupMemberIds(xml)
+  } catch (error) {
+    console.warn(
+      `⚠️  Could not fetch Steam group member list, skipping kick-sync detection:`,
+      error,
+    )
+    return null
+  }
+}
+
 type WonGame = NonNullable<User['giveaways_won']>[number]
 
 /**
@@ -2318,6 +2410,46 @@ export class SteamGiftsUserFetcher {
           )
         } else {
           await this.updateSteamPlayData(existingUsers, giveaways)
+        }
+      }
+
+      // Detect members kicked from the Steam group who haven't synced off
+      // SteamGifts yet (SG group membership lags the Steam group).
+      console.log(`\n🏴‍☠️ Checking Steam group membership for kick-sync detection...`)
+      const steamGroupIds = await fetchSteamGroupMemberIds()
+      if (steamGroupIds) {
+        const kickSyncGuard = evaluateKickSyncGuard(
+          existingUsers.size,
+          steamGroupIds.size,
+        )
+        if (kickSyncGuard.guarded) {
+          console.warn(
+            `🚨 KICK-SYNC GUARD TRIPPED: Steam group XML returned ${kickSyncGuard.steamGroupSize} members vs an SG roster of ${kickSyncGuard.sgRosterSize} ` +
+              `— this looks like a truncated or blocked response, not a real drop in Steam group membership. Skipping kick-sync detection for this run.`,
+          )
+        } else {
+          const decisions = computeKickSyncDecisions(
+            Array.from(existingUsers.values()),
+            steamGroupIds,
+          )
+          for (const decision of decisions) {
+            const user = existingUsers.get(decision.username)!
+            if (decision.action === 'flag') {
+              console.log(`🏴‍☠️ Kicked (pending SG sync): ${user.username}`)
+              existingUsers.set(decision.username, {
+                ...user,
+                kicked_pending_sync: true,
+                kick_detected_at: user.kick_detected_at ?? Date.now(),
+              })
+            } else {
+              console.log(`✅ Back in Steam group: ${user.username}`)
+              const { kicked_pending_sync, kick_detected_at, ...rest } = user
+              existingUsers.set(decision.username, rest as User)
+            }
+          }
+          if (decisions.length === 0) {
+            console.log(`✅ No kick-sync changes detected`)
+          }
         }
       }
 

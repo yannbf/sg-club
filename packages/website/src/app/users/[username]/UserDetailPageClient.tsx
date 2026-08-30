@@ -843,10 +843,20 @@ export default function UserDetailPageClient({
                 href={`https://www.steamgifts.com/user/${user.username}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-display text-3xl font-bold tracking-tight text-foreground hover:text-accent hover:underline"
+                className={cn(
+                  'font-display text-3xl font-bold tracking-tight hover:underline',
+                  user.kicked_pending_sync
+                    ? 'text-error-foreground hover:text-error-foreground'
+                    : 'text-foreground hover:text-accent',
+                )}
               >
                 {user.username}
               </a>
+              {user.kicked_pending_sync && (
+                <Tooltip content="Left the group but hasn't synced on SteamGifts yet">
+                  <span aria-hidden="true" className="text-2xl">🏴‍☠️</span>
+                </Tooltip>
+              )}
               <CountryFlag countryCode={user.country_code} />
               <DiscordBadge
                 member={user.discord_member}

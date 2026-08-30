@@ -11,7 +11,7 @@ on:
     - cron: '0 13 * * 5'  # weekly mod digest, Friday 13:00 UTC
     # Hourly, staggered after deploy.yml's :25 challenge-data refresh so
     # congrats/milestones see fresh completion data.
-    - cron: '45 * * * *'  # congrats: announce new challenge completions
+    - cron: '45 * * * *'  # congrats: announce new challenge completions; kick-sync-alert reuses this schedule
     - cron: '50 * * * *'  # milestones: 24h warning + challenge-over notices
   workflow_dispatch:
     inputs:
@@ -25,6 +25,7 @@ on:
           - milestones
           - warn-digest
           - register-commands
+          - kick-sync-alert
 
 permissions:
   contents: write
@@ -170,6 +171,65 @@ jobs:
             echo "No changes to commit"
           else
             git commit -m "🎉 Update Discord congrats state - $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
+            # Another job may have pushed while we ran — rebase onto the
+            # latest and retry rather than failing the whole run.
+            for attempt in 1 2 3 4 5; do
+              if git push origin ${{ github.ref_name }}; then
+                echo "Pushed on attempt $attempt"; break
+              fi
+              if [ "$attempt" = "5" ]; then
+                echo "Push still rejected after 5 attempts"; exit 1
+              fi
+              echo "Push rejected (attempt $attempt) — rebasing on latest and retrying"
+              git pull --rebase origin ${{ github.ref_name }}
+              sleep 5
+            done
+          fi
+
+  kick-sync-alert:
+    if: |
+      github.event.schedule == '45 * * * *' ||
+      (github.event_name == 'workflow_dispatch' && github.event.inputs.job == 'kick-sync-alert')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
+      ADMIN_CHANNEL_ID: '1385350331327582208' # #admin-stuff
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Sync branch with latest changes
+        run: git pull --rebase origin ${{ github.ref_name }} || true
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Alert admins on kicked-but-not-synced members with active entries
+        run: pnpm --filter scraper run discord:kick-sync-alert
+
+      - name: Commit and push kick-sync-alert state changes
+        run: |
+          git config --global user.name 'GitHub Action'
+          git config --global user.email 'action@github.com'
+          git add packages/website/public/data/discord_kick_alert_state.json
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "🏴‍☠️ Update kick-sync alert state - $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
             # Another job may have pushed while we ran — rebase onto the
             # latest and retry rather than failing the whole run.
             for attempt in 1 2 3 4 5; do

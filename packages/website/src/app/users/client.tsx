@@ -561,12 +561,24 @@ function UserCard({
         </a>
         <div className="flex-1 min-w-0">
           <div className="flex items-start justify-between gap-2">
-            <UserLink
-              username={user.username}
-              className="truncate text-base font-semibold text-foreground hover:text-accent hover:underline"
-            >
-              {user.username}
-            </UserLink>
+            <div className="flex min-w-0 items-center gap-1">
+              <UserLink
+                username={user.username}
+                className={cn(
+                  'truncate text-base font-semibold hover:underline',
+                  user.kicked_pending_sync
+                    ? 'text-error-foreground hover:text-error-foreground'
+                    : 'text-foreground hover:text-accent',
+                )}
+              >
+                {user.username}
+              </UserLink>
+              {user.kicked_pending_sync && (
+                <Tooltip content="Left the group but hasn't synced on SteamGifts yet">
+                  <span aria-hidden="true">🏴‍☠️</span>
+                </Tooltip>
+              )}
+            </div>
             <div className="flex items-center gap-1 text-muted-foreground">
               {user.steam_id && !user.steam_profile_is_private && (
                 <Tooltip content="Steam account connected">
