@@ -83,7 +83,16 @@ describe('buildKickSyncAlertMessage', () => {
     expect(message).toContain('kicked, not yet synced')
     expect(message).toContain('leftUser')
     expect(message).toContain('ex-member, already synced')
-    expect(message).toContain('<https://www.steamgifts.com/giveaway/abc123/>')
-    expect(message).toContain('<https://www.steamgifts.com/giveaway/def456/>')
+    expect(message).toContain('\n- <https://www.steamgifts.com/giveaway/abc123/>')
+    expect(message).toContain('\n- <https://www.steamgifts.com/giveaway/def456/>')
+  })
+
+  it('explains what "new" means and separates member blocks with a blank line', () => {
+    const message = buildKickSyncAlertMessage([
+      { member: kickedMember, newLinks: ['abc123'] },
+      { member: exMember, newLinks: ['def456'] },
+    ])
+    expect(message).toContain('"New" lists only entries not alerted on before')
+    expect(message.split('\n\n')).toHaveLength(3)
   })
 })

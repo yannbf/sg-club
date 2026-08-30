@@ -50,25 +50,32 @@ export function diffNewLinks(
     .filter((pending) => pending.newLinks.length > 0)
 }
 
+const ALERT_HEADER =
+  '**Kick-sync alert — members entered in group giveaways they no longer qualify for**\n' +
+  '"New" lists only entries not alerted on before — each giveaway appears here once.'
+
 /**
  * Builds one plain-markdown message covering every member with new links to
- * alert on. Each line distinguishes a kicked-but-not-yet-synced member from
- * a real ex-member SG has already synced out, and links only the entries
- * that haven't been alerted on before — angle brackets suppress link
- * previews so the message stays short.
+ * alert on: a header with a one-line explainer (same shape as the warn
+ * digest), then one block per member with their giveaway links as bullet
+ * lines. Each block distinguishes a kicked-but-not-yet-synced member from a
+ * real ex-member SG has already synced out, and lists only the entries that
+ * haven't been alerted on before — angle brackets suppress link previews so
+ * the message stays short.
  */
 export function buildKickSyncAlertMessage(pending: PendingAlert[]): string {
-  const lines = pending.map(({ member, newLinks }) => {
+  const blocks = pending.map(({ member, newLinks }) => {
     const status = member.pending_sync
       ? 'kicked, not yet synced'
       : 'ex-member, already synced'
-    const linkList = newLinks
-      .map((link) => `<${BASE_URL}/${link}/>`)
-      .join(', ')
     const count = member.active_entries.length
-    return `☠️ **${member.username}** (${status}) — ${count} active entr${count === 1 ? 'y' : 'ies'} total, new: ${linkList}`
+    const linkLines = newLinks.map((link) => `- <${BASE_URL}/${link}/>`)
+    return [
+      `☠️ **${member.username}** (${status}) — ${count} active entr${count === 1 ? 'y' : 'ies'} total, new:`,
+      ...linkLines,
+    ].join('\n')
   })
-  return ['**Kick-sync alert — members entered in group giveaways they no longer qualify for**', ...lines].join('\n')
+  return [ALERT_HEADER, ...blocks].join('\n\n')
 }
 
 /**
