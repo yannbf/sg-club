@@ -1093,6 +1093,57 @@ export class SteamGiftsHTMLScraper {
     return giveaways
   }
 
+  /**
+   * September 2026 community event (The Forge): a giveaway counts when it is
+   * created from the group's wishlist for a game at least 10 members are
+   * wishing for. Tags FULL_CV non-shared giveaways ending in September 2026
+   * whose game has a group wishlist count of 10 or more.
+   *
+   * Description-based tags (handled in parseGiveawayDetails) always take
+   * precedence. Self-correcting like the May tag: a previously-tagged
+   * giveaway that no longer meets the rule (game dropped off the wishlist,
+   * wishlist count fell below 10, CV recomputed, shared flag flipped) is
+   * untagged.
+   *
+   * Mutates the giveaways in place and returns them for chaining.
+   */
+  public applySeptember2026EventTag(
+    giveaways: Giveaway[],
+    wishlistCountByAppId: Map<number, number>,
+  ): Giveaway[] {
+    const OWNED_TAG = 'september_event_2026'
+    let tagged = 0
+    let untagged = 0
+    for (const g of giveaways) {
+      // Skip giveaways whose tag we don't own (description-based events).
+      if (g.event_type && g.event_type !== OWNED_TAG) continue
+
+      const wishlistCount =
+        g.app_id != null ? wishlistCountByAppId.get(g.app_id) ?? 0 : 0
+      const eligible =
+        g.cv_status === 'FULL_CV' &&
+        !g.is_shared &&
+        wishlistCount >= 10 &&
+        this.endedInUtcMonth(g.end_timestamp, 2026, 8 /* September */)
+
+      if (eligible) {
+        if (g.event_type !== OWNED_TAG) {
+          g.event_type = OWNED_TAG
+          tagged++
+        }
+      } else if (g.event_type === OWNED_TAG) {
+        delete g.event_type
+        untagged++
+      }
+    }
+    if (tagged > 0 || untagged > 0) {
+      console.log(
+        `🔥 september_event_2026 — tagged ${tagged}, untagged ${untagged}`,
+      )
+    }
+    return giveaways
+  }
+
   public async updateCVStatus(
     giveaways: Giveaway[],
     isWonGiveaways: boolean = false,

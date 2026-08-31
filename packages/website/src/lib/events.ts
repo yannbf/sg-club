@@ -161,6 +161,21 @@ export function compareGiveawaysByDate(
 
 /** Per-event descriptive metadata, keyed by `event_type`. */
 const GIVEAWAY_EVENT_META: Record<string, Omit<EventMeta, 'slug' | 'kind'>> = {
+  september_event_2026: {
+    eventType: 'september_event_2026',
+    name: 'September Event',
+    tagline: 'The Forge',
+    description:
+      "Welcome to The Forge — this month, we're building something together. Every click on the Forge adds power to the community and helps us unlock rewards throughout the event. 🔥\n\n" +
+      '⚒️ Any member of The Giveaways Club can take part — every click counts! The only requirement is a valid account that belongs to the group. All those clicks contribute to our shared Forge progress: as the community keeps hammering away, we unlock reward tiers and work our way towards the Legendary Weapon.\n\n' +
+      '🎟️ Raffle tickets for the final prize draw: create a giveaway from the group\'s wishlist for a game at least 10 people are wishing for (1 ticket), and the Top 3 players on the Forge Click Leaderboard each earn 1 additional ticket — awarded whether or not they have a valid giveaway. So yes… even without a giveaway, you can still fight your way onto the leaderboard and earn a ticket! 😈\n\n' +
+      '🏆 Grand prize: the ⚔️ Legendary Weapon — a 🎁 €30 Steam Gift Card — with additional rewards unlocked along the way. The event ends with the final Forge session and prize draw on Saturday, September 27th at 18:00 UTC. Every click matters. Forge together. Win together.',
+    websiteUrl: null,
+    monthly: true,
+    accent: 'var(--warning)',
+    emoji: '🔥',
+    bannerUrl: '/events/september_2026.png',
+  },
   may_event_2026: {
     eventType: 'may_event_2026',
     name: 'May Event',

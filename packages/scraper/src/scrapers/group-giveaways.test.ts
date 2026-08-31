@@ -334,6 +334,114 @@ describe('SteamGiftsHTMLScraper', () => {
     })
   })
 
+  describe('applySeptember2026EventTag', () => {
+    const sep15Noon2026 = Math.floor(Date.UTC(2026, 8, 15, 12, 0, 0) / 1000)
+    const aug15Noon2026 = Math.floor(Date.UTC(2026, 7, 15, 12, 0, 0) / 1000)
+
+    function makeGA(overrides: Partial<{
+      cv_status: 'FULL_CV' | 'REDUCED_CV' | 'NO_CV'
+      app_id: number | null
+      end_timestamp: number
+      event_type: string
+      is_shared: boolean
+    }>) {
+      return {
+        id: 'x',
+        name: 'Test',
+        points: 10,
+        copies: 1,
+        link: 'x/test',
+        created_timestamp: 0,
+        start_timestamp: 0,
+        end_timestamp: sep15Noon2026,
+        entry_count: 10,
+        region_restricted: false,
+        invite_only: false,
+        whitelist: false,
+        group: true,
+        contributor_level: 0,
+        comment_count: 0,
+        creator: 'tester',
+        app_id: 1,
+        cv_status: 'FULL_CV' as const,
+        ...overrides,
+      } as unknown as Parameters<
+        typeof scraper.applySeptember2026EventTag
+      >[0][number]
+    }
+
+    // App 1 has 10 wishers, app 2 has 9.
+    const wishlist = new Map([
+      [1, 10],
+      [2, 9],
+    ])
+
+    it('tags a FULL_CV September 2026 giveaway for a game with at least 10 wishers', () => {
+      const ga = makeGA({})
+      scraper.applySeptember2026EventTag([ga], wishlist)
+      expect(ga.event_type).toBe('september_event_2026')
+    })
+
+    it('does NOT tag a game with fewer than 10 wishers', () => {
+      const ga = makeGA({ app_id: 2 })
+      scraper.applySeptember2026EventTag([ga], wishlist)
+      expect(ga.event_type).toBeUndefined()
+    })
+
+    it('does NOT tag a game that is not on the group wishlist', () => {
+      const ga = makeGA({ app_id: 999 })
+      scraper.applySeptember2026EventTag([ga], wishlist)
+      expect(ga.event_type).toBeUndefined()
+    })
+
+    it('does NOT tag a giveaway without an app id (packages)', () => {
+      const ga = makeGA({ app_id: null })
+      scraper.applySeptember2026EventTag([ga], wishlist)
+      expect(ga.event_type).toBeUndefined()
+    })
+
+    it('does NOT tag a non-FULL_CV giveaway, even if otherwise eligible', () => {
+      const reduced = makeGA({ cv_status: 'REDUCED_CV' })
+      const none = makeGA({ cv_status: 'NO_CV' })
+      scraper.applySeptember2026EventTag([reduced, none], wishlist)
+      expect(reduced.event_type).toBeUndefined()
+      expect(none.event_type).toBeUndefined()
+    })
+
+    it('does NOT tag a shared giveaway, even if otherwise eligible', () => {
+      const ga = makeGA({ is_shared: true })
+      scraper.applySeptember2026EventTag([ga], wishlist)
+      expect(ga.event_type).toBeUndefined()
+    })
+
+    it('does NOT tag a giveaway that ends outside September 2026', () => {
+      const ga = makeGA({ end_timestamp: aug15Noon2026 })
+      scraper.applySeptember2026EventTag([ga], wishlist)
+      expect(ga.event_type).toBeUndefined()
+    })
+
+    it('leaves a description-based event_type untouched', () => {
+      const ga = makeGA({ event_type: 'rpg_august' })
+      scraper.applySeptember2026EventTag([ga], wishlist)
+      expect(ga.event_type).toBe('rpg_august')
+    })
+
+    it('removes the tag when the game drops below 10 wishers', () => {
+      const ga = makeGA({ app_id: 2, event_type: 'september_event_2026' })
+      scraper.applySeptember2026EventTag([ga], wishlist)
+      expect(ga.event_type).toBeUndefined()
+    })
+
+    it('removes the tag when cv_status is no longer FULL_CV', () => {
+      const ga = makeGA({
+        cv_status: 'REDUCED_CV',
+        event_type: 'september_event_2026',
+      })
+      scraper.applySeptember2026EventTag([ga], wishlist)
+      expect(ga.event_type).toBeUndefined()
+    })
+  })
+
   describe('getNextPage', () => {
     it('should correctly parse next page link when available', () => {
       const html = loadMockHtml('sg-group-giveaways-page.html')
