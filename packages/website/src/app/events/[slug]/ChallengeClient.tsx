@@ -5,6 +5,7 @@ import Image from 'next/image'
 import {
   Award,
   BadgeCheck,
+  BadgeX,
   Clock,
   Crown,
   ExternalLink,
@@ -67,7 +68,10 @@ function ParticipantName({
   )
 }
 
-/** Small checkmark linking to a member's Steam review, shown when they wrote one. */
+/**
+ * Small badge linking to a member's Steam review, shown when they wrote one:
+ * a green check normally, a red cross when the review is "not recommended".
+ */
 function ReviewBadge({
   p,
 }: {
@@ -78,12 +82,14 @@ function ReviewBadge({
   }
 }) {
   if (!p.wrote_review || !p.review_url) return null
+  const notRecommended = p.review_voted_up === false
   const vote =
     p.review_voted_up === true
       ? ' (recommended)'
-      : p.review_voted_up === false
+      : notRecommended
         ? ' (not recommended)'
         : ''
+  const Icon = notRecommended ? BadgeX : BadgeCheck
   return (
     <Tooltip content={`Wrote a Steam review${vote}`}>
       <a
@@ -91,9 +97,13 @@ function ReviewBadge({
         target="_blank"
         rel="noopener noreferrer"
         aria-label={`Wrote a Steam review${vote}`}
-        className="shrink-0 text-[var(--accent-green)] transition hover:opacity-80"
+        className={`shrink-0 transition hover:opacity-80 ${
+          notRecommended
+            ? 'text-[var(--error)]'
+            : 'text-[var(--accent-green)]'
+        }`}
       >
-        <BadgeCheck className="h-4 w-4" />
+        <Icon className="h-4 w-4" />
       </a>
     </Tooltip>
   )
