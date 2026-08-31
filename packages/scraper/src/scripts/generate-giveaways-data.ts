@@ -341,22 +341,7 @@ export async function generateGiveawaysData(): Promise<void> {
       // Tag data-driven events (e.g. may_event_2026) now that cv_status
       // is known — these only apply to FULL_CV giveaways.
       groupGiveawaysScraper.applyMay2026EventTag(updatedGiveaways)
-      // September 2026 (The Forge): giveaways from the group wishlist for
-      // games at least 10 members are wishing for.
-      const wishlistFilename = '../website/public/data/wishlist.json'
-      const wishlistCountByAppId = new Map<number, number>()
-      if (existsSync(wishlistFilename)) {
-        const wishlistData = JSON.parse(readFileSync(wishlistFilename, 'utf-8'))
-        for (const entry of wishlistData.entries ?? []) {
-          if (entry.app_id != null) {
-            wishlistCountByAppId.set(entry.app_id, entry.wishlist_count ?? 0)
-          }
-        }
-      }
-      groupGiveawaysScraper.applySeptember2026EventTag(
-        updatedGiveaways,
-        wishlistCountByAppId
-      )
+      groupGiveawaysScraper.applySeptember2026EventTag(updatedGiveaways)
       const now = Date.now() / 1000
       const activeCount = updatedGiveaways.filter(
         (g) => g.end_timestamp > now

@@ -175,6 +175,11 @@ const GIVEAWAY_EVENT_META: Record<string, Omit<EventMeta, 'slug' | 'kind'>> = {
     accent: 'var(--warning)',
     emoji: '🔥',
     bannerUrl: '/events/september_2026.png',
+    // Fixed calendar-month window: the header shows September 1–30 rather
+    // than the tagged giveaways' min-start/max-end span. Noon UTC keeps the
+    // rendered dates on the right day in every timezone.
+    startTimestamp: Date.UTC(2026, 8, 1, 12) / 1000,
+    endTimestamp: Date.UTC(2026, 8, 30, 12) / 1000,
   },
   may_event_2026: {
     eventType: 'may_event_2026',
@@ -684,8 +689,12 @@ export function buildGiveawayEventSummaries(
     if (list.length === 0) continue
     const starts = list.map((g) => g.start_timestamp).filter(Boolean)
     const ends = list.map((g) => g.end_timestamp).filter(Boolean)
-    const startTimestamp = starts.length ? Math.min(...starts) : null
-    const endTimestamp = ends.length ? Math.max(...ends) : null
+    // Fixed dates on the meta (e.g. a calendar-month event window) win over
+    // the span derived from the tagged giveaways.
+    const startTimestamp =
+      meta.startTimestamp ?? (starts.length ? Math.min(...starts) : null)
+    const endTimestamp =
+      meta.endTimestamp ?? (ends.length ? Math.max(...ends) : null)
     const creators = new Set(list.map((g) => g.creator).filter(Boolean))
     const winnersCount = list.reduce(
       (sum, g) => sum + (g.winners?.length ?? 0),

@@ -271,7 +271,10 @@ export default async function EventDetailPage(props: {
   const ends = eventGiveaways
     .map((g) => g.end_timestamp)
     .filter(Boolean) as number[]
-  const endTimestamp = ends.length ? Math.max(...ends) : null
+  // Fixed dates on the meta (e.g. a calendar-month event window) win over
+  // the span derived from the tagged giveaways.
+  const endTimestamp =
+    event.endTimestamp ?? (ends.length ? Math.max(...ends) : null)
 
   // Most prolific creator (by GAs created) and most decorated winner (by wins),
   // collapsed to canonical steam ids so renames don't fragment the count.
@@ -312,7 +315,8 @@ export default async function EventDetailPage(props: {
       (s: number, g: Giveaway) => s + (g.winners?.length ?? 0),
       0,
     ),
-    startTimestamp: starts.length ? Math.min(...starts) : null,
+    startTimestamp:
+      event.startTimestamp ?? (starts.length ? Math.min(...starts) : null),
     endTimestamp,
     topCreator: topOf(creatorCounts),
     topWinner: topOf(winnerCounts),
