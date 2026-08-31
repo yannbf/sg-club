@@ -689,25 +689,35 @@ export function buildGiveawayEventSummaries(
     if (list.length === 0) continue
     const starts = list.map((g) => g.start_timestamp).filter(Boolean)
     const ends = list.map((g) => g.end_timestamp).filter(Boolean)
+    const derivedStart = starts.length ? Math.min(...starts) : null
+    const derivedEnd = ends.length ? Math.max(...ends) : null
     // Fixed dates on the meta (e.g. a calendar-month event window) win over
     // the span derived from the tagged giveaways.
-    const startTimestamp =
-      meta.startTimestamp ?? (starts.length ? Math.min(...starts) : null)
-    const endTimestamp =
-      meta.endTimestamp ?? (ends.length ? Math.max(...ends) : null)
+    const startTimestamp = meta.startTimestamp ?? derivedStart
+    const endTimestamp = meta.endTimestamp ?? derivedEnd
+    // Liveness spans the union of the fixed window and the giveaways' actual
+    // span: an event whose giveaways are already running is live even before
+    // its fixed window formally opens, and stays live until both have passed.
+    const liveFrom = Math.min(
+      startTimestamp ?? Infinity,
+      derivedStart ?? Infinity,
+    )
+    const liveUntil = Math.max(
+      endTimestamp ?? -Infinity,
+      derivedEnd ?? -Infinity,
+    )
     const creators = new Set(list.map((g) => g.creator).filter(Boolean))
     const winnersCount = list.reduce(
       (sum, g) => sum + (g.winners?.length ?? 0),
       0,
     )
     const isOngoing =
-      startTimestamp != null &&
-      endTimestamp != null &&
-      now >= startTimestamp &&
-      now <= eventLingerUntil(endTimestamp, meta)
+      Number.isFinite(liveFrom) &&
+      Number.isFinite(liveUntil) &&
+      now >= liveFrom &&
+      now <= eventLingerUntil(liveUntil, meta)
     // Past its real end but still lingering in "Happening now".
-    const hasEnded =
-      isOngoing && endTimestamp != null && now > endTimestamp
+    const hasEnded = isOngoing && now > liveUntil
 
     summaries.push({
       meta,
