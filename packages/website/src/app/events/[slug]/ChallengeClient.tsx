@@ -6,7 +6,9 @@ import {
   Award,
   BadgeCheck,
   BadgeX,
+  Check,
   Clock,
+  Copy,
   Crown,
   ExternalLink,
   Flag,
@@ -34,6 +36,7 @@ import { LastUpdated } from '@/components/LastUpdated'
 import Tooltip from '@/components/Tooltip'
 import { EventPageHeader } from './EventPageHeader'
 import { cn } from '@/lib/cn'
+import { useIsAdmin } from '@/lib/auth'
 
 const FALLBACK_AVATAR =
   'https://images.icon-icons.com/2550/PNG/512/question_mark_circle_icon_152550.png'
@@ -231,6 +234,82 @@ function tierTextClass(p: { win_tier?: 'completion' | 'story' | null }): string 
   return p.win_tier === 'story'
     ? 'text-[var(--subtle)]'
     : 'text-[var(--accent-yellow)]'
+}
+
+/**
+ * Admin-only: copies the winner list to the clipboard, for pasting into the
+ * prize-draw announcement. Tiered challenges get one section per tier;
+ * single-tier challenges get a flat comma-separated list.
+ */
+function CopyWinnersButton({
+  winners,
+  tiered,
+}: {
+  winners: { username: string; win_tier?: 'completion' | 'story' | null }[]
+  tiered: boolean
+}) {
+  const isAdmin = useIsAdmin()
+  const [copied, setCopied] = React.useState(false)
+  const timer = React.useRef<ReturnType<typeof setTimeout> | null>(null)
+  React.useEffect(() => {
+    return () => {
+      if (timer.current) clearTimeout(timer.current)
+    }
+  }, [])
+
+  if (!isAdmin || winners.length === 0) return null
+
+  const buildText = () => {
+    if (!tiered) return winners.map((p) => p.username).join(', ')
+    const full = winners.filter((p) => p.win_tier !== 'story')
+    const story = winners.filter((p) => p.win_tier === 'story')
+    const sections: string[] = []
+    if (full.length > 0) {
+      sections.push(
+        `Tier 1 (full completion)\n${full.map((p) => p.username).join(', ')}`,
+      )
+    }
+    if (story.length > 0) {
+      sections.push(
+        `Tier 2 (story clear)\n${story.map((p) => p.username).join(', ')}`,
+      )
+    }
+    return sections.join('\n\n')
+  }
+
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(buildText())
+    } catch {
+      // Clipboard is unavailable outside a secure context; leave the button
+      // unchanged rather than claiming a copy that didn't happen.
+      return
+    }
+    setCopied(true)
+    if (timer.current) clearTimeout(timer.current)
+    timer.current = setTimeout(() => setCopied(false), 2000)
+  }
+
+  return (
+    <button
+      type="button"
+      onClick={() => void copy()}
+      className="ml-auto inline-flex flex-shrink-0 items-center gap-1.5 rounded-md border border-card-border px-2 py-1 text-xs font-medium text-muted-foreground transition-colors hover:bg-card-background-hover hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-yellow)]"
+      aria-label="Copy winner list to clipboard"
+    >
+      {copied ? (
+        <>
+          <Check className="h-3.5 w-3.5 text-[var(--accent-green)]" />
+          Copied!
+        </>
+      ) : (
+        <>
+          <Copy className="h-3.5 w-3.5" />
+          Copy winners
+        </>
+      )}
+    </button>
+  )
 }
 
 /** Small "Guest" badge for non-member participants. */
@@ -961,6 +1040,14 @@ export default function ChallengeClient({
   // The challenge's natural end: deadline reached (completion) or a winner
   // recorded (achievement). It then lingers with an "Ended" badge.
   const hasEnded = isCompletion ? deadlinePassed : Boolean(data.winnerUsername)
+  // The moment the challenge ended: the deadline (completion) or the winning
+  // unlock (achievement). For the first 24h after that, data still refreshes
+  // on the normal daily cadence (final results are settling), so only
+  // advertise the slow 14-day cadence once that grace period has passed.
+  const endedTs = isCompletion ? data.deadline : data.winnerUnlocktime
+  const onSlowCadence =
+    hasEnded &&
+    (endedTs == null || Date.now() / 1000 >= endedTs + 24 * 60 * 60)
   // Inclusive last day for display ("30 Jun"), robust across timezones.
   const deadlineDisplay = deadlineDisplayTs(data.deadline)
 
@@ -985,6 +1072,7 @@ export default function ChallengeClient({
                   ({fullTierCount} full completion · {storyTierCount} story)
                 </span>
               )}
+              <CopyWinnersButton winners={winners} tiered={tiered} />
             </div>
           )
         ) : (
@@ -1246,7 +1334,7 @@ export default function ChallengeClient({
           <h2 className="text-lg font-semibold text-foreground">Leaderboard</h2>
           <LastUpdated
             lastUpdatedDate={generatedIso}
-            updateIntervalDays={hasEnded ? 14 : undefined}
+            updateIntervalDays={onSlowCadence ? 14 : undefined}
           />
         </div>
 
