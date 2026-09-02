@@ -209,25 +209,27 @@ export interface UpdatePlayDataOptions {
   budgetMinutes?: number | null
 }
 
-const DAY_MS = 24 * 60 * 60 * 1000
-
 /**
- * How stale a win has to be before we refetch it. Daily, regardless of
- * win age — recent wins still gain playtime, and old wins occasionally
- * do too (e.g. user replays months later), so we refresh everyone
- * every day.
+ * How stale a win has to be before we refetch it — regardless of win age,
+ * since recent wins still gain playtime and old ones occasionally do too
+ * (e.g. a replay months later).
  *
- * Projection against today's data (146 users × ~1875 wins, ~1.3 s/win):
- *   • Full daily refresh: ~1700 calls, ≈ 37 min
- *   • Steam quota: ~1.9 % of the 100 k/day per-key limit
+ * Deliberately shorter than the daily cron period. At a full 24 h, a win
+ * checked during yesterday's run is still minutes short of the threshold when
+ * today's run builds its queue, so its owner scores zero pending wins, drops
+ * out of the queue entirely, and isn't looked at again until the day after.
+ * That left half the group two days stale at any moment. The four-hour margin
+ * absorbs cron drift in both directions.
+ *
+ * Projection against today's data (~120 users × ~2000 wins, ~1.3 s/win):
+ *   • Full daily refresh: ~2000 calls, ≈ 42 min
+ *   • Steam quota: ~2 % of the 100 k/day per-key limit
  *
  * Tiered staleness (1d / 7d / 30d by age) used to live here; it made
  * recently-played-after-a-long-gap wins look untouched for weeks.
  * yannbz / DOOM was the case that surfaced it.
  */
-function refreshAfterDaysFor(_ageDays: number): number {
-  return 1
-}
+const REFRESH_AFTER_MS = 20 * 60 * 60 * 1000
 
 export function resolvePlaytimeMode(): PlaytimeMode {
   const raw = process.env.PLAYTIME_MODE?.toLowerCase()
@@ -397,16 +399,13 @@ type WonGame = NonNullable<User['giveaways_won']>[number]
  * Decide whether a single win should be (re-)fetched.
  *
  *   `all`   → always
- *   `daily` → missing data, or last_checked older than the win's age tier
- *             allows.
+ *   `daily` → missing data, or last_checked older than REFRESH_AFTER_MS.
  */
 export function shouldFetchWin(won: WonGame, mode: PlaytimeMode): boolean {
   if (mode === 'all') return true
   if (won.steam_play_data == null) return true
-  const ageDays = (Date.now() / 1000 - won.end_timestamp) / 86400
   const lastChecked = won.steam_play_data.last_checked ?? 0
-  const stalenessDays = (Date.now() - lastChecked) / DAY_MS
-  return stalenessDays >= refreshAfterDaysFor(ageDays)
+  return Date.now() - lastChecked >= REFRESH_AFTER_MS
 }
 
 /**
@@ -533,6 +532,25 @@ function countPendingWins(
     if (shouldFetchWin(w, mode)) n++
   }
   return n
+}
+
+/**
+ * When was the member's stalest pending win last looked at? 0 means a win has
+ * never been checked, which is the strongest claim on the run's budget.
+ */
+export function oldestPendingCheck(
+  user: User,
+  giveawayByLink: Map<string, Giveaway>,
+  mode: PlaytimeMode,
+): number {
+  let oldest = Number.POSITIVE_INFINITY
+  for (const w of user.giveaways_won ?? []) {
+    const ga = giveawayByLink.get(w.link)
+    if (!ga?.app_id && !ga?.package_id) continue
+    if (!shouldFetchWin(w, mode)) continue
+    oldest = Math.min(oldest, w.steam_play_data?.last_checked ?? 0)
+  }
+  return oldest === Number.POSITIVE_INFINITY ? 0 : oldest
 }
 
 // ---------------------------------------------------
@@ -1166,20 +1184,25 @@ export class SteamGiftsUserFetcher {
 
     const giveawayByLink = new Map(giveaways.map((g) => [g.link, g]))
 
-    // Score every candidate user by how many of their wins need attention
-    // under this mode's policy. Users with the biggest backlog are
-    // processed first so each run dents the queue, no matter where we
-    // run out of API budget.
-    type ScoredUser = { user: User; pendingCount: number }
+    // Queue every candidate user whose wins need attention under this mode's
+    // policy, longest-unchecked first so the member whose data has gone
+    // stalest is served before one refreshed yesterday. Backlog size only
+    // breaks ties: ordering by it alone is effectively a fixed order (a
+    // member's win count barely moves), so once a run starts stopping partway
+    // down the queue, the same tail never gets reached again.
+    type ScoredUser = { user: User; pendingCount: number; oldestCheck: number }
     const scoredUsers: ScoredUser[] = []
     for (const user of users.values()) {
       if (!user.steam_id || user.steam_id.startsWith('username:')) continue
       if (!user.giveaways_won?.length) continue
       const pendingCount = countPendingWins(user, giveawayByLink, mode)
       if (pendingCount === 0) continue
-      scoredUsers.push({ user, pendingCount })
+      const oldestCheck = oldestPendingCheck(user, giveawayByLink, mode)
+      scoredUsers.push({ user, pendingCount, oldestCheck })
     }
-    scoredUsers.sort((a, b) => b.pendingCount - a.pendingCount)
+    scoredUsers.sort(
+      (a, b) => a.oldestCheck - b.oldestCheck || b.pendingCount - a.pendingCount,
+    )
 
     const totalUsers = scoredUsers.length
     let processedUsers = 0

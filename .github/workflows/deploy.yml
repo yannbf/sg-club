@@ -9,9 +9,9 @@ name: Update Website and Playtime Data
 #                                    with prices since both iterate the same
 #                                    giveaways ∪ wishlist game set).
 #   • Daily 01:00 UTC               → playtime data (Steam Web API),
-#                                    mode=daily, 45-min budget cap.
-#                                    Refreshes every win older than 1
-#                                    day so stats stay current.
+#                                    mode=daily, 55-min budget cap.
+#                                    Refreshes every win older than 20h
+#                                    so stats stay current.
 #   • 1st + 15th, 06:15 UTC        → group wishlist scrape (≈ every 2
 #                                    weeks, to save compute), isolated
 #                                    so it doesn't run alongside the
@@ -24,13 +24,13 @@ name: Update Website and Playtime Data
 #                                    dormant (finished) challenges; the
 #                                    hourly run covers active ones only.
 #
-# Projections (146 users × ~1875 wins, ~1.3 s/win observed locally):
-#   • Full daily refresh: ~1700 calls, ≈ 37 min wallclock
-#   • Steam quota:        ~1.9% of the 100 k/day per-key limit
+# Projections (~120 users × ~2000 wins, ~1.3 s/win observed in CI):
+#   • Full daily refresh: ~2000 calls, ≈ 42 min wallclock
+#   • Steam quota:        ~2% of the 100 k/day per-key limit
 #
-# The 45-min PLAYTIME_BUDGET_MINUTES cap is a safety net only; if the
-# run is interrupted, the priority queue picks up missing/stale items
-# first on the next run.
+# The 55-min PLAYTIME_BUDGET_MINUTES cap is a safety net only; if the
+# run is interrupted, the priority queue picks up the longest-unchecked
+# members first on the next run.
 #
 # Cron minutes are intentionally staggered OFF the top of the hour. Two reasons:
 #   1. GitHub's scheduled-event queue is most congested at minute :00, so runs
@@ -253,19 +253,21 @@ jobs:
       (github.event_name == 'workflow_dispatch' &&
         (github.event.inputs.job == 'playtime' || github.event.inputs.job == 'playtime-all'))
     runs-on: ubuntu-latest
-    # PLAYTIME_BUDGET_MINUTES=45 is the soft cap (exits cleanly, commits
-    # partial progress, defers leftover wins to tomorrow). This 60-min
-    # runner timeout is the hard backstop if a fetch() gets stuck and the
-    # budget check never gets a chance to run.
-    timeout-minutes: 60
+    # PLAYTIME_BUDGET_MINUTES=55 is the soft cap (exits cleanly, commits
+    # partial progress, defers leftover wins to tomorrow). It has to clear the
+    # ~42 min a full refresh of every member takes, or the tail of the queue
+    # is cut off on every run. This 75-min runner timeout is the hard backstop
+    # if a fetch() gets stuck and the budget check never gets a chance to run.
+    timeout-minutes: 75
     env:
       STEAM_API_KEY: ${{ secrets.STEAM_API_KEY }}
       SG_TOKEN: ${{ secrets.SG_TOKEN }}
       SG_COOKIE: ${{ secrets.SG_COOKIE }}
       # Safety net: cap a single run so a stalled call can't burn the
       # whole CI hour. Anything still pending rolls into tomorrow's run
-      # automatically (priority queue surfaces missing/stale wins first).
-      PLAYTIME_BUDGET_MINUTES: '45'
+      # automatically (priority queue surfaces the longest-unchecked
+      # members first).
+      PLAYTIME_BUDGET_MINUTES: '55'
       PLAYTIME_MODE: >-
         ${{
           (github.event.inputs.job == 'playtime-all' && 'all') ||

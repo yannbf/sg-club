@@ -7,6 +7,8 @@ import {
   parseSteamGroupMemberIds,
   evaluateKickSyncGuard,
   computeKickSyncDecisions,
+  shouldFetchWin,
+  oldestPendingCheck,
 } from './group-members'
 import type { User, GamePrice, Giveaway } from '../types/steamgifts'
 
@@ -630,5 +632,83 @@ describe('computeKickSyncDecisions', () => {
       steamGroupIds,
     )
     expect(decisions).toEqual([])
+  })
+})
+
+describe('shouldFetchWin', () => {
+  const HOUR = 60 * 60 * 1000
+  const win = (lastChecked?: number) =>
+    ({
+      name: 'Game A',
+      link: 'abc/a',
+      end_timestamp: 1_700_000_000,
+      ...(lastChecked === undefined
+        ? {}
+        : { steam_play_data: { last_checked: lastChecked } }),
+    }) as any
+
+  it('fetches a win that has never been checked', () => {
+    expect(shouldFetchWin(win(), 'daily')).toBe(true)
+  })
+
+  it('fetches a win checked in yesterday\'s run, even short of 24h', () => {
+    // The daily cron drifts, so a run can start before the previous run's
+    // checks turn a full day old. At a 24h threshold those members scored
+    // zero pending wins and sat out an entire extra day.
+    expect(shouldFetchWin(win(Date.now() - 23 * HOUR), 'daily')).toBe(true)
+  })
+
+  it('leaves a win checked a few hours ago alone', () => {
+    expect(shouldFetchWin(win(Date.now() - 6 * HOUR), 'daily')).toBe(false)
+  })
+
+  it('fetches everything in all mode', () => {
+    expect(shouldFetchWin(win(Date.now()), 'all')).toBe(true)
+  })
+})
+
+describe('oldestPendingCheck', () => {
+  const HOUR = 60 * 60 * 1000
+  const giveawayByLink = new Map<string, any>([
+    ['abc/a', { link: 'abc/a', app_id: 1 }],
+    ['def/b', { link: 'def/b', app_id: 2 }],
+    ['ghi/c', { link: 'ghi/c' }],
+  ])
+  const win = (link: string, lastChecked?: number) =>
+    ({
+      name: link,
+      link,
+      end_timestamp: 1_700_000_000,
+      ...(lastChecked === undefined
+        ? {}
+        : { steam_play_data: { last_checked: lastChecked } }),
+    }) as any
+
+  it('reports the stalest pending win, not the freshest', () => {
+    const stalest = Date.now() - 3 * 24 * HOUR
+    const user = {
+      username: 'u',
+      steam_id: '1',
+      giveaways_won: [win('abc/a', Date.now() - 22 * HOUR), win('def/b', stalest)],
+    } as any
+    expect(oldestPendingCheck(user, giveawayByLink, 'daily')).toBe(stalest)
+  })
+
+  it('reports 0 when a win has never been checked', () => {
+    const user = {
+      username: 'u',
+      steam_id: '1',
+      giveaways_won: [win('abc/a', Date.now() - 22 * HOUR), win('def/b')],
+    } as any
+    expect(oldestPendingCheck(user, giveawayByLink, 'daily')).toBe(0)
+  })
+
+  it('ignores wins that are not due and giveaways with no Steam id', () => {
+    const user = {
+      username: 'u',
+      steam_id: '1',
+      giveaways_won: [win('abc/a', Date.now() - HOUR), win('ghi/c')],
+    } as any
+    expect(oldestPendingCheck(user, giveawayByLink, 'daily')).toBe(0)
   })
 })
