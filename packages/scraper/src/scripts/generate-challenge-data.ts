@@ -291,10 +291,9 @@ export async function getJson(url: string): Promise<any> {
 }
 
 /**
- * `getJson` with linear backoff for transient failures. The public store review
- * feed intermittently 429s or returns a short read; retrying usually clears it
- * and avoids handing back a partial review map that would look like people
- * un-reviewed. Throws only once every attempt has failed.
+ * `getJson` with linear backoff for transient failures. Steam's public JSON
+ * endpoints intermittently 429 or return a short read; retrying usually clears
+ * it. Throws only once every attempt has failed.
  */
 export async function getJsonWithRetry(url: string, attempts = 4): Promise<any> {
   let lastErr: unknown
@@ -405,52 +404,122 @@ export interface ReviewFields {
   review_url: string | null
 }
 
+const MONTH_ABBREVIATIONS = [
+  'jan',
+  'feb',
+  'mar',
+  'apr',
+  'may',
+  'jun',
+  'jul',
+  'aug',
+  'sep',
+  'oct',
+  'nov',
+  'dec',
+]
+
 /**
- * Fetch every Steam review for a game and key them by the reviewer's 64-bit
- * steam_id. Uses the public store appreviews endpoint (no API key) with cursor
- * pagination over all languages/types. A user can only have one review per game,
- * so the map is steam_id → review. Reviews from accounts whose profile/review
- * visibility is private won't appear in the public feed — a missing entry means
- * "no public review", not a guaranteed "never reviewed".
+ * Parse the `Posted: <day> <month>[, <year>] @ <h>:<mm><am|pm>` text on a
+ * review page into epoch seconds (UTC). The year is omitted for reviews
+ * posted within roughly the last twelve months, so a missing year defaults to
+ * the current year and rolls back one year if that would land in the future.
+ * Returns 0 when the text can't be parsed.
  */
-async function fetchGameReviews(appId: number): Promise<Map<string, ReviewInfo>> {
-  const map = new Map<string, ReviewInfo>()
-  let cursor = '*'
-  const seenCursors = new Set<string>()
-  for (let page = 0; page < 200; page++) {
-    const url =
-      `https://store.steampowered.com/appreviews/${appId}?json=1` +
-      `&filter=recent&language=all&num_per_page=100` +
-      `&purchase_type=all&review_type=all&cursor=${encodeURIComponent(cursor)}`
-    let data: any
-    try {
-      data = await getJsonWithRetry(url)
-    } catch (e) {
-      // A page that still fails after retries can leave the map incomplete.
-      // That's tolerated: reviews are applied with a sticky floor
-      // (stickyReviewFields), so anyone recorded as a reviewer in a prior run
-      // is carried forward rather than downgraded by a short read here.
-      console.warn('⚠️  Review fetch failed after retries:', String(e))
-      break
-    }
-    const reviews: any[] = data.reviews ?? []
-    if (reviews.length === 0) break
-    for (const r of reviews) {
-      const sid: string | undefined = r.author?.steamid
-      if (!sid || map.has(sid)) continue
-      map.set(sid, {
-        voted_up: Boolean(r.voted_up),
-        timestamp_created: r.timestamp_created ?? 0,
-        recommendationid: String(r.recommendationid ?? ''),
-      })
-    }
-    const next: string | undefined = data.cursor
-    if (!next || seenCursors.has(next)) break
-    seenCursors.add(next)
-    cursor = next
-    await new Promise((res) => setTimeout(res, 250)) // be polite to the store endpoint
+function parsePostedTimestamp(html: string): number {
+  const match =
+    /Posted:\s*(\d{1,2})\s+([A-Za-z]+)(?:,?\s*(\d{4}))?\s*@\s*(\d{1,2}):(\d{2})\s*([ap]m)/i.exec(
+      html,
+    )
+  if (!match) return 0
+  const [, dayStr, monthStr, yearStr, hourStr, minuteStr, ampm] = match
+  const monthIndex = MONTH_ABBREVIATIONS.indexOf(monthStr.slice(0, 3).toLowerCase())
+  if (monthIndex === -1) return 0
+  const day = Number(dayStr)
+  const minute = Number(minuteStr)
+  let hour = Number(hourStr) % 12
+  if (ampm.toLowerCase() === 'pm') hour += 12
+
+  const now = new Date()
+  const year = yearStr ? Number(yearStr) : now.getUTCFullYear()
+  let ts = Date.UTC(year, monthIndex, day, hour, minute) / 1000
+  if (!yearStr && ts > Date.now() / 1000)
+    ts = Date.UTC(year - 1, monthIndex, day, hour, minute) / 1000
+  return Number.isFinite(ts) ? ts : 0
+}
+
+/**
+ * Parse a fetched Steam Community `/profiles/<id>/recommended/<appid>` page
+ * into a `ReviewInfo`, or null when the member has no review for that app.
+ * Steam doesn't 404 for "no review" — it redirects to the member's review
+ * list (or, for a private profile, to their profile root) — so the caller's
+ * post-redirect URL (`finalUrl`) must still point at this app, and the page
+ * title must still read as a review page, for a review to be recognized.
+ * Only the `id="ReviewTitle"` block is inspected for the recommendation
+ * (thumbs up/down) and its vote-button id; a member's other reviews are
+ * listed in a sidebar further down the page and are ignored.
+ */
+export function parseReviewPage(
+  html: string,
+  finalUrl: string,
+  appId: number,
+): ReviewInfo | null {
+  const finalPath = finalUrl.split('?')[0].replace(/\/+$/, '')
+  if (!finalPath.endsWith(`/recommended/${appId}`)) return null
+  if (!/<title>[^<]*Review for/i.test(html)) return null
+
+  const titleIdx = html.indexOf('id="ReviewTitle"')
+  if (titleIdx === -1) return null
+
+  const afterTitle = html.slice(titleIdx)
+  const btnMatch = /RecommendationVoteUpBtn(\d+)/.exec(afterTitle)
+  const recommendationid = btnMatch ? btnMatch[1] : ''
+  const reviewBlock = btnMatch ? afterTitle.slice(0, btnMatch.index) : afterTitle
+
+  return {
+    voted_up: reviewBlock.includes('icon_thumbsUp'),
+    timestamp_created: parsePostedTimestamp(reviewBlock),
+    recommendationid,
   }
-  return map
+}
+
+/**
+ * Check whether a member has a Steam review for a game by fetching their
+ * review page directly, following redirects, and handing the result to
+ * `parseReviewPage`. Retries transient failures with linear backoff; once
+ * every attempt is exhausted it logs a warning and returns null rather than
+ * throwing, so a page fetched with a null review can be carried forward by
+ * `stickyReviewFields` rather than treated as a confirmed "no review".
+ * A private profile redirects away like a missing review does, so null here
+ * means "no visible review", not a guaranteed "never reviewed".
+ */
+export async function fetchUserReview(
+  steamId: string,
+  appId: number,
+  attempts = 4,
+): Promise<ReviewInfo | null> {
+  const url = `https://steamcommunity.com/profiles/${steamId}/recommended/${appId}`
+  let lastErr: unknown
+  for (let attempt = 1; attempt <= attempts; attempt++) {
+    try {
+      const res = await fetch(url, {
+        redirect: 'follow',
+        headers: { 'User-Agent': 'Mozilla/5.0' },
+      })
+      if (!res.ok) throw new Error(`${res.status} ${res.statusText}`)
+      const html = await res.text()
+      return parseReviewPage(html, res.url, appId)
+    } catch (e) {
+      lastErr = e
+      if (attempt < attempts)
+        await new Promise((res) => setTimeout(res, 500 * attempt))
+    }
+  }
+  console.warn(
+    `⚠️  Review fetch failed after retries for ${steamId}:`,
+    String(lastErr),
+  )
+  return null
 }
 
 /** Review fields for a participant, derived from the game-wide review map. */
@@ -475,9 +544,10 @@ export function reviewFields(
  * Review detection is sticky, mirroring the monotonic playtime/achievement
  * floor: once a member is on record as having reviewed, a later run that fails
  * to see their review must not flip them back to "no review" and knock them off
- * the leaderboard. Steam's public appreviews feed is eventually-consistent and
- * intermittently drops individual reviews from a read — that's what briefly
- * un-qualified members on the Neo Cab board. When the fresh fetch finds a review
+ * the leaderboard. A per-user review-page fetch can fail outright (a network
+ * error, a rate limit) after every retry, or the page can be temporarily
+ * inaccessible — that's what briefly un-qualified members on the Neo Cab
+ * board. When the fresh fetch finds a review
  * we take it (it's the most current — e.g. a thumbs-down the member later
  * flipped to thumbs-up); otherwise we carry forward whatever the prior run
  * recorded. Like the playtime/achievement floor, this trades away detecting a
@@ -884,9 +954,16 @@ async function generateChallenge(config: ChallengeConfig): Promise<void> {
   const schemaTotal = Object.keys(schema).length || 0
   const rosterIds = new Set(resolved.map((r) => r.steam_id))
 
-  // Game-wide Steam reviews, keyed by reviewer steam_id, to flag who reviewed.
-  const reviews = await fetchGameReviews(config.appId)
-  console.log(`   Reviews: ${reviews.size} public reviewer(s) on Steam`)
+  // Steam reviews for the roster, keyed by steam_id, to flag who reviewed.
+  // Checked per-member against their own review page rather than paged from
+  // the game-wide feed, so a popular game's reviewer count can't cap it out.
+  const reviews = new Map<string, ReviewInfo>()
+  for (const r of resolved) {
+    const review = await fetchUserReview(r.steam_id, config.appId)
+    if (review) reviews.set(r.steam_id, review)
+    await new Promise((res) => setTimeout(res, 250)) // be polite to the profile pages
+  }
+  console.log(`   Reviews: ${reviews.size} of ${resolved.length} roster member(s) reviewed`)
 
   // --- Participants ---
   // Rows mix the achievement- and completion-shape win fields (plus the
@@ -1011,6 +1088,8 @@ async function generateChallenge(config: ChallengeConfig): Promise<void> {
       )
       const p = await fetchPlayer(m.steam_id, config, schema, schemaTotal)
       if (!p.game.owned || p.game.total <= 0) continue // only those who actually played
+      const review = await fetchUserReview(m.steam_id, config.appId)
+      if (review) reviews.set(m.steam_id, review)
       nonParticipants.push({
         username: m.username,
         steam_id: m.steam_id,

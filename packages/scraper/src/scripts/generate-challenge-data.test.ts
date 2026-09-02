@@ -2,6 +2,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 import {
   completionWinFields,
   getJsonWithRetry,
+  parseReviewPage,
   reviewFields,
   stickyReviewFields,
   type ReviewFields,
@@ -101,6 +102,90 @@ describe('stickyReviewFields', () => {
       stickyReviewFields(SID, APP, reviewMap(), { wrote_review: false })
         .wrote_review,
     ).toBe(false)
+  })
+})
+
+const reviewPage = ({
+  thumbs = 'icon_thumbsUp',
+  summary = 'Recommended',
+  posted = 'Posted: 21 Aug @ 9:46pm',
+  recommendationId = '233397091',
+  title = `Review for Some Game`,
+  trailer = '',
+}: {
+  thumbs?: string
+  summary?: string
+  posted?: string
+  recommendationId?: string
+  title?: string
+  trailer?: string
+} = {}) => `
+  <html><head><title>${title}</title></head><body>
+    <div class="ratingSummaryBlock" id="ReviewTitle">
+      <img src="https://community.akamai.steamstatic.com/public/images/${thumbs}.png">
+      <div class="ratingSummary">${summary}</div>
+      <div class="recommendation_date">${posted}</div>
+      <div class="review_body">Great game, would play again.</div>
+    </div>
+    <div id="RecommendationVoteUpBtn${recommendationId}">Yes</div>
+    <div id="RecommendationVoteDownBtn${recommendationId}">No</div>
+    ${trailer}
+  </body></html>
+`
+
+describe('parseReviewPage', () => {
+  it('parses a recommended review with a no-year date', () => {
+    const html = reviewPage()
+    const out = parseReviewPage(html, URL, APP)
+    expect(out).not.toBeNull()
+    expect(out!.voted_up).toBe(true)
+    expect(out!.recommendationid).toBe('233397091')
+    const d = new Date(out!.timestamp_created * 1000)
+    expect(d.getUTCMonth()).toBe(7) // August
+    expect(d.getUTCDate()).toBe(21)
+    expect(d.getUTCHours()).toBe(21)
+    expect(d.getUTCMinutes()).toBe(46)
+  })
+
+  it('parses a not-recommended review with a year in the date', () => {
+    const html = reviewPage({
+      thumbs: 'icon_thumbsDown',
+      summary: 'Not Recommended',
+      posted: 'Posted: 21 August, 2024 @ 9:46pm',
+    })
+    const out = parseReviewPage(html, URL, APP)
+    expect(out).not.toBeNull()
+    expect(out!.voted_up).toBe(false)
+    const d = new Date(out!.timestamp_created * 1000)
+    expect(d.getUTCFullYear()).toBe(2024)
+    expect(d.getUTCMonth()).toBe(7)
+    expect(d.getUTCDate()).toBe(21)
+  })
+
+  it('returns null when the final URL was redirected away (no review)', () => {
+    const html = reviewPage()
+    const redirectedUrl = `https://steamcommunity.com/profiles/${SID}/recommended/`
+    expect(parseReviewPage(html, redirectedUrl, APP)).toBeNull()
+  })
+
+  it("returns null when the final URL matches but the title lacks 'Review for'", () => {
+    const html = reviewPage({ title: "Some Member's Profile" })
+    expect(parseReviewPage(html, URL, APP)).toBeNull()
+  })
+
+  it("ignores a sidebar thumbs-down that follows the main review's block", () => {
+    const html = reviewPage({
+      trailer:
+        '<div class="review_box"><img src="https://x/icon_thumbsDown.png"></div>',
+    })
+    const out = parseReviewPage(html, URL, APP)
+    expect(out!.voted_up).toBe(true)
+  })
+
+  it('takes the recommendation id from the first vote button after ReviewTitle', () => {
+    const html = reviewPage({ recommendationId: '111' })
+    const out = parseReviewPage(html, URL, APP)
+    expect(out!.recommendationid).toBe('111')
   })
 })
 
