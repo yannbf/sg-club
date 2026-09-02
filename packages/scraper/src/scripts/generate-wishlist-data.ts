@@ -1,8 +1,17 @@
 import { existsSync, readFileSync, writeFileSync } from 'node:fs'
+import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { config as loadEnv } from 'dotenv'
 import { scrapeGroupWishlist } from '../scrapers/group-wishlist'
 import type { WishlistEntry } from '../scrapers/group-wishlist'
 import { logError } from '../utils/log-error'
+
+// Without SG_COOKIE the scrape gets a Cloudflare challenge on the very first
+// page, which surfaces as a rate-limit failure after every back-off. CI passes
+// the credentials as real env vars, which dotenv leaves alone.
+const currentDir = dirname(fileURLToPath(import.meta.url))
+const rootEnvPath = resolve(currentDir, '../../../../.env')
+loadEnv({ path: existsSync(rootEnvPath) ? rootEnvPath : undefined })
 
 export interface WishlistData {
   last_updated: string

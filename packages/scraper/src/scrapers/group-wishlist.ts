@@ -23,12 +23,16 @@ const START_PATH = '/group/WlYTQ/thegiveawaysclub/wishlist'
 // long single-wisher tail (which runs 500+ pages).
 const MAX_PAGES = 120
 const MIN_COUNT = 10
-// SteamGifts re-sorts the wishlist between page requests (tied counts have no
-// stable tiebreaker), so a single crawl skips entries that shift across a page
-// boundary while it is walking. Crawling more than once and unioning the
-// results turns those misses into a coin flip per pass; the loop stops early
-// once a pass finds nothing new.
-const PASSES = parseInt(process.env.WISHLIST_PASSES ?? '2', 10)
+// SteamGifts re-sorts the wishlist between page requests, and with hundreds of
+// games tied on the same wisher count the order inside a tie bucket is
+// effectively random per request — so offset pagination both repeats and skips
+// entries. One crawl of ~78 pages returns ~1950 rows but only ~1400 distinct
+// games; a second pass adds ~390 more, a third ~110. Passes union together and
+// the loop stops early once one finds nothing new. Coverage still isn't
+// complete after three, which is why carry-over from the previous snapshot
+// (see mergeWithPreviousSnapshot) remains the backstop, and why anything that
+// must not miss a game looks it up directly (see lookupWishlistEntries).
+const PASSES = parseInt(process.env.WISHLIST_PASSES ?? '3', 10)
 
 function buildHeaders(): Record<string, string> {
   const cookie = process.env.SG_COOKIE
