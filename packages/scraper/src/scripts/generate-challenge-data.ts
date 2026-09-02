@@ -2,6 +2,7 @@ import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { config as loadEnv } from 'dotenv'
+import type { SteamIdMap } from '../types/steamgifts.js'
 
 /**
  * Generates the data files that power the gaming-challenge leaderboards under
@@ -67,6 +68,7 @@ const BASE = 'https://api.steampowered.com'
 const dataDir = resolve(currentDir, '../../../website/public/data')
 const usersPath = resolve(dataDir, 'group_users.json')
 const legacyParticipantsPath = resolve(dataDir, 'challenge_participants.json')
+const steamIdMapPath = resolve(dataDir, 'steam_id_map.json')
 
 type RosterEntry =
   | string
@@ -689,32 +691,67 @@ export function completionWinFields(
   }
 }
 
+/**
+ * Username → steam_id over everyone the group has ever recorded, current and
+ * former, including names they have since changed away from.
+ *
+ * A challenge roster is a historical record: it names who competed at the time,
+ * and those results stay valid after someone leaves the group or renames. The
+ * live member list therefore cannot be the only way to resolve a roster name —
+ * a leaver would silently drop off the leaderboards they earned a place on.
+ */
+function loadHistoricalIdIndex(): Map<string, string> {
+  const index = new Map<string, string>()
+  if (!existsSync(steamIdMapPath)) return index
+  let map: SteamIdMap
+  try {
+    map = JSON.parse(readFileSync(steamIdMapPath, 'utf-8'))
+  } catch {
+    return index
+  }
+  for (const [steamId, entry] of Object.entries(map)) {
+    const names = [
+      entry?.current,
+      ...(entry?.previous ?? []).map((p) => p.username),
+    ]
+    for (const name of names) {
+      if (typeof name === 'string' && name) index.set(name.toLowerCase(), steamId)
+    }
+  }
+  return index
+}
+
 /** Resolve a fixed roster (participants + guests) to concrete steam identities. */
 async function resolveFixedRoster(
   roster: { participants: RosterEntry[]; guests: RosterEntry[] },
   bySteamId: Map<string, Member>,
   byUsername: Map<string, Member>,
+  historicalIds: Map<string, string>,
 ): Promise<ResolvedParticipant[]> {
-  const rawEntries: RosterEntry[] = [
-    ...(roster.participants ?? []),
-    ...(roster.guests ?? []),
+  // Guest-ness is a property of which list an entry was written into, not of
+  // whether they are a member today — otherwise every member who later left
+  // would be retroactively relabelled a guest on challenges they competed in.
+  const rawEntries: { entry: RosterEntry; isGuest: boolean }[] = [
+    ...(roster.participants ?? []).map((entry) => ({ entry, isGuest: false })),
+    ...(roster.guests ?? []).map((entry) => ({ entry, isGuest: true })),
   ]
   const resolved: ResolvedParticipant[] = []
   const seen = new Set<string>()
-  for (const entry of rawEntries) {
+  for (const { entry, isGuest } of rawEntries) {
     let steamId: string | undefined
     let displayName: string | undefined
     let usernameHint: string | undefined
 
     if (typeof entry === 'string') {
       usernameHint = entry
-      steamId = byUsername.get(entry.toLowerCase())?.steam_id
     } else {
       steamId = entry.steam_id
       displayName = entry.displayName
       usernameHint = entry.username
-      if (!steamId && entry.username)
-        steamId = byUsername.get(entry.username.toLowerCase())?.steam_id
+    }
+    if (!steamId && usernameHint) {
+      const key = usernameHint.toLowerCase()
+      steamId = byUsername.get(key)?.steam_id ?? historicalIds.get(key)
     }
 
     if (!steamId) {
@@ -736,18 +773,21 @@ async function resolveFixedRoster(
         profile_url:
           member.steam_profile_url ??
           `https://steamcommunity.com/profiles/${steamId}`,
-        is_guest: false,
+        is_guest: isGuest,
       })
     } else {
+      // Former member or a guest who was never in the group: Steam still has
+      // their name and avatar, and the id map still has the username they
+      // competed under.
       const summary = await getPlayerSummary(steamId)
       resolved.push({
         steam_id: steamId,
-        display_name: displayName ?? summary?.name ?? steamId,
-        sg_username: null,
+        display_name: displayName ?? summary?.name ?? usernameHint ?? steamId,
+        sg_username: usernameHint ?? null,
         avatar_url: summary?.avatar ?? '',
         profile_url:
           summary?.profile ?? `https://steamcommunity.com/profiles/${steamId}`,
-        is_guest: true,
+        is_guest: isGuest,
       })
     }
   }
@@ -832,7 +872,12 @@ async function generateChallenge(config: ChallengeConfig): Promise<void> {
       is_guest: false,
     }))
   } else {
-    resolved = await resolveFixedRoster(roster!, bySteamId, byUsername)
+    resolved = await resolveFixedRoster(
+      roster!,
+      bySteamId,
+      byUsername,
+      loadHistoricalIdIndex(),
+    )
   }
 
   const schema = await getGameSchema(config.appId)
