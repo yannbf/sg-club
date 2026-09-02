@@ -39,6 +39,13 @@ name: Update Website and Playtime Data
 #   2. Distinct minutes mean no two jobs fire in the same minute, so they don't
 #      race to push. The rebase-retry loop in each push step is the backstop for
 #      the case where a delayed run still overlaps another.
+#
+# Off-peak minutes reduce the delays but do not remove them: the daily playtime
+# cron has landed as much as 5h late, and the hourly challenge cron produces
+# 10-15 runs a day rather than 24. The `plan` job therefore re-checks every
+# dataset on every fire and revives whichever are stale, so each job runs on its
+# own cron OR when it is overdue. Staleness is then bounded by the gap between
+# fires (an hour or two) instead of by the cron period.
 on:
   schedule:
     - cron: '15 0,8,16 * * *'  # website data, every 8 hours
@@ -64,11 +71,42 @@ on:
 
 permissions:
   contents: write
+  actions: read
 
 jobs:
+  # GitHub's scheduled-event queue delays and drops fires, so the crons above
+  # are a best effort rather than a guarantee. This job runs on every fire and
+  # reports which datasets have gone stale; each job below then runs on its own
+  # cron OR when this says it is overdue, so a dropped slot is picked up by the
+  # next fire instead of waiting a full cron period.
+  plan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      website_due: ${{ steps.check.outputs.website_due }}
+      playtime_due: ${{ steps.check.outputs.playtime_due }}
+      wishlist_due: ${{ steps.check.outputs.wishlist_due }}
+      challenge_due: ${{ steps.check.outputs.challenge_due }}
+      challenge_all_due: ${{ steps.check.outputs.challenge_all_due }}
+      verification_due: ${{ steps.check.outputs.verification_due }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Check which datasets are stale
+        id: check
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: bash .github/scripts/check-stale-data.sh
+
   website-data:
+    needs: plan
     if: |
       github.event.schedule == '15 0,8,16 * * *' ||
+      needs.plan.outputs.website_due == 'true' ||
       (github.event_name == 'workflow_dispatch' && github.event.inputs.job == 'website') ||
       github.event_name == 'push'
     runs-on: ubuntu-latest
@@ -136,8 +174,10 @@ jobs:
           fi
 
   wishlist:
+    needs: plan
     if: |
       github.event.schedule == '15 6 1,15 * *' ||
+      needs.plan.outputs.wishlist_due == 'true' ||
       (github.event_name == 'workflow_dispatch' && github.event.inputs.job == 'wishlist')
     runs-on: ubuntu-latest
     # ~40 pages × 2.5s + room for 5 retries × up to 480s back-off ≈ 25 min
@@ -205,8 +245,10 @@ jobs:
           fi
 
   playtime:
+    needs: plan
     if: |
       github.event.schedule == '30 1 * * *' ||
+      needs.plan.outputs.playtime_due == 'true' ||
       (github.event_name == 'workflow_dispatch' &&
         (github.event.inputs.job == 'playtime' || github.event.inputs.job == 'playtime-all'))
     runs-on: ubuntu-latest
@@ -286,16 +328,19 @@ jobs:
     # the 1st/15th cron re-runs everything including dormant challenges so
     # their review/playtime stats don't go permanently stale. Light (a few
     # hundred Steam calls total), so it stays clear of the SteamGifts-heavy jobs.
+    needs: plan
     if: |
       github.event.schedule == '25 * * * *' ||
       github.event.schedule == '40 6 1,15 * *' ||
+      needs.plan.outputs.challenge_due == 'true' ||
+      needs.plan.outputs.challenge_all_due == 'true' ||
       (github.event_name == 'workflow_dispatch' && github.event.inputs.job == 'challenge')
     runs-on: ubuntu-latest
     timeout-minutes: 20
     env:
       STEAM_API_KEY: ${{ secrets.STEAM_API_KEY }}
       # The biweekly schedule refreshes dormant (finished) challenges too.
-      INCLUDE_DORMANT: ${{ github.event.schedule == '40 6 1,15 * *' && 'true' || 'false' }}
+      INCLUDE_DORMANT: ${{ (github.event.schedule == '40 6 1,15 * *' || needs.plan.outputs.challenge_all_due == 'true') && 'true' || 'false' }}
 
     steps:
       - name: Checkout repository
@@ -366,8 +411,10 @@ jobs:
     # (200 markers / 500 player checks, deferring the rest to the next run),
     # which keeps a cold-cache run around 20 min; steady state is a few
     # minutes. timeout-minutes is the backstop on top of that.
+    needs: plan
     if: |
       github.event.schedule == '20 1,9,17 * * *' ||
+      needs.plan.outputs.verification_due == 'true' ||
       (github.event_name == 'workflow_dispatch' && github.event.inputs.job == 'verification')
     runs-on: ubuntu-latest
     timeout-minutes: 30
