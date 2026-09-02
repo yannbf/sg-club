@@ -7,9 +7,14 @@ import type {
   CVStatus,
 } from '../types/steamgifts.js'
 import { delay, isRateLimitedHtml } from '../utils/common.js'
+import type { WishlistEntry } from './group-wishlist.js'
 import { logError } from '../utils/log-error.js'
 
 type Creator = string
+
+/** Minimum group-wishlist wishers a game needs for its giveaway to be part of
+ *  the September 2026 event. Giveaways below the bar still count for ratio. */
+export const SEPTEMBER_EVENT_MIN_WISHERS = 10
 
 interface ScrapingStats {
   totalGiveaways: number
@@ -1094,20 +1099,60 @@ export class SteamGiftsHTMLScraper {
   }
 
   /**
-   * September 2026 community event (The Forge): every FULL_CV non-shared
-   * giveaway ending in September 2026 is implicitly an event entry. (The
-   * 10-wishers group-wishlist rule only gates raffle tickets, not event
-   * membership.)
+   * September 2026 community event (The Forge): a FULL_CV non-shared giveaway
+   * ending in September 2026 belongs to the event only when its game is on the
+   * group wishlist with at least SEPTEMBER_EVENT_MIN_WISHERS wishers. A
+   * giveaway that misses the wishlist bar still counts towards its creator's
+   * ratio — it just isn't part of the event.
    *
    * Description-based tags (handled in parseGiveawayDetails) always take
-   * precedence. Self-correcting like the May tag: a previously-tagged
-   * giveaway that no longer meets the rule (CV recomputed, shared flag
-   * flipped) is untagged.
+   * precedence. Self-correcting like the May tag: a previously-tagged giveaway
+   * that no longer meets the rule (CV recomputed, shared flag flipped, wisher
+   * count dropped below the bar) is untagged.
+   *
+   * The pass is skipped entirely when no wishlist entries are supplied, so a
+   * missing or failed wishlist scrape leaves existing tags alone instead of
+   * wiping the whole event.
    *
    * Mutates the giveaways in place and returns them for chaining.
    */
-  public applySeptember2026EventTag(giveaways: Giveaway[]): Giveaway[] {
+  public applySeptember2026EventTag(
+    giveaways: Giveaway[],
+    wishlistEntries: WishlistEntry[],
+  ): Giveaway[] {
     const OWNED_TAG = 'september_event_2026'
+    if (wishlistEntries.length === 0) {
+      console.log(
+        `⚠️ ${OWNED_TAG} — no wishlist entries available, leaving tags untouched`,
+      )
+      return giveaways
+    }
+
+    const appWishers = new Map<number, number>()
+    const packageWishers = new Map<number, number>()
+    for (const entry of wishlistEntries) {
+      if (entry.app_id != null) {
+        appWishers.set(
+          entry.app_id,
+          Math.max(appWishers.get(entry.app_id) ?? 0, entry.wishlist_count),
+        )
+      } else if (entry.package_id != null) {
+        packageWishers.set(
+          entry.package_id,
+          Math.max(
+            packageWishers.get(entry.package_id) ?? 0,
+            entry.wishlist_count,
+          ),
+        )
+      }
+    }
+
+    const wishers = (g: Giveaway): number => {
+      if (g.app_id != null) return appWishers.get(g.app_id) ?? 0
+      if (g.package_id != null) return packageWishers.get(g.package_id) ?? 0
+      return 0
+    }
+
     let tagged = 0
     let untagged = 0
     for (const g of giveaways) {
@@ -1117,7 +1162,8 @@ export class SteamGiftsHTMLScraper {
       const eligible =
         g.cv_status === 'FULL_CV' &&
         !g.is_shared &&
-        this.endedInUtcMonth(g.end_timestamp, 2026, 8 /* September */)
+        this.endedInUtcMonth(g.end_timestamp, 2026, 8 /* September */) &&
+        wishers(g) >= SEPTEMBER_EVENT_MIN_WISHERS
 
       if (eligible) {
         if (g.event_type !== OWNED_TAG) {

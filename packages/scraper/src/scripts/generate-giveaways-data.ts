@@ -3,16 +3,26 @@ import { dirname } from 'node:path'
 import { groupGiveawaysScraper } from '../scrapers/group-giveaways'
 import { delay } from '../utils/common'
 import type { Giveaway, SteamIdMap } from '../types/steamgifts'
+import type { WishlistEntry } from '../scrapers/group-wishlist'
 import { logError } from '../utils/log-error'
 import { applyGiveawayExceptions } from '../utils/giveaway-exceptions'
 import { GiveawayPointsManager } from '../api/fetch-proof-of-play'
 import { fileURLToPath } from 'node:url'
+
+/** Group-wishlist entries used to gate September 2026 event membership.
+ *  Returns an empty list when the snapshot is missing, which makes the
+ *  tagging pass leave existing tags alone. */
+function readWishlistEntries(filename: string): WishlistEntry[] {
+  if (!existsSync(filename)) return []
+  return JSON.parse(readFileSync(filename, 'utf-8')).entries ?? []
+}
 
 export async function generateGiveawaysData(): Promise<void> {
   const filename = '../website/public/data/giveaways.json'
   const entriesFilename = '../website/public/data/user_entries.json'
   const investigationFilename = '../website/investigation/giveaway_leavers.json'
   const groupUsersFilename = '../website/public/data/group_users.json'
+  const wishlistFilename = '../website/public/data/wishlist.json'
 
   try {
     console.log('🚀 Starting giveaway scraping...')
@@ -341,7 +351,10 @@ export async function generateGiveawaysData(): Promise<void> {
       // Tag data-driven events (e.g. may_event_2026) now that cv_status
       // is known — these only apply to FULL_CV giveaways.
       groupGiveawaysScraper.applyMay2026EventTag(updatedGiveaways)
-      groupGiveawaysScraper.applySeptember2026EventTag(updatedGiveaways)
+      groupGiveawaysScraper.applySeptember2026EventTag(
+        updatedGiveaways,
+        readWishlistEntries(wishlistFilename)
+      )
       const now = Date.now() / 1000
       const activeCount = updatedGiveaways.filter(
         (g) => g.end_timestamp > now
