@@ -10,11 +10,12 @@ export interface WishlistData {
 }
 
 /** SteamGifts re-sorts the group wishlist between page requests (tied counts
- *  have no stable tiebreaker), so a single crawl misses entries that shift
- *  across page boundaries mid-scrape. Entries from the previous snapshot that
- *  the current crawl didn't see are carried over while their last sighting is
- *  within this window — long enough to survive one missed biweekly scrape,
- *  short enough that games actually removed from the wishlist age out. */
+ *  have no stable tiebreaker), so a crawl misses entries that shift across page
+ *  boundaries mid-scrape. scrapeGroupWishlist crawls repeatedly to narrow that;
+ *  entries from the previous snapshot that no pass saw are carried over while
+ *  their last sighting is within this window — long enough to survive one
+ *  missed biweekly scrape, short enough that games actually removed from the
+ *  wishlist age out. */
 export const CARRY_OVER_MS = 21 * 24 * 60 * 60 * 1000
 
 function entryKey(e: WishlistEntry): string {

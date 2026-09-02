@@ -180,11 +180,12 @@ jobs:
       needs.plan.outputs.wishlist_due == 'true' ||
       (github.event_name == 'workflow_dispatch' && github.event.inputs.job == 'wishlist')
     runs-on: ubuntu-latest
-    # ~40 pages × 2.5s + room for 5 retries × up to 480s back-off ≈ 25 min
-    # worst-case for the wishlist scrape, plus ~2-5 min steady-state for the
-    # game-insights step (bundled-status cache keeps reruns cheap; a fresh
-    # CI run inherits the locally-committed cache so it isn't starting cold).
-    timeout-minutes: 35
+    # ~80 pages × 2.5s × 2 crawl passes ≈ 7 min steady state, plus room for
+    # 5 retries × up to 480s back-off ≈ 30 min worst-case for the wishlist
+    # scrape, plus ~2-5 min steady-state for the game-insights step
+    # (bundled-status cache keeps reruns cheap; a fresh CI run inherits the
+    # locally-committed cache so it isn't starting cold).
+    timeout-minutes: 45
     env:
       STEAM_API_KEY: ${{ secrets.STEAM_API_KEY }}
       SG_TOKEN: ${{ secrets.SG_TOKEN }}

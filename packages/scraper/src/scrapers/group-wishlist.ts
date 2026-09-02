@@ -23,6 +23,12 @@ const START_PATH = '/group/WlYTQ/thegiveawaysclub/wishlist'
 // long single-wisher tail (which runs 500+ pages).
 const MAX_PAGES = 120
 const MIN_COUNT = 10
+// SteamGifts re-sorts the wishlist between page requests (tied counts have no
+// stable tiebreaker), so a single crawl skips entries that shift across a page
+// boundary while it is walking. Crawling more than once and unioning the
+// results turns those misses into a coin flip per pass; the loop stops early
+// once a pass finds nothing new.
+const PASSES = parseInt(process.env.WISHLIST_PASSES ?? '2', 10)
 
 function buildHeaders(): Record<string, string> {
   const cookie = process.env.SG_COOKIE
@@ -153,8 +159,19 @@ function getNextPage(html: string): string | null {
   return $next.length ? $next.attr('href') || null : null
 }
 
-export async function scrapeGroupWishlist(): Promise<WishlistEntry[]> {
-  const all: WishlistEntry[] = []
+/** Stable identity for a wishlist entry across crawls. */
+function entryKey(entry: WishlistEntry): string {
+  if (entry.app_id != null) return `app:${entry.app_id}`
+  if (entry.package_id != null) return `sub:${entry.package_id}`
+  return `name:${entry.name.toLowerCase()}`
+}
+
+/** One top-to-bottom crawl of the wishlist, down to MIN_COUNT wishers. */
+async function crawlWishlist(): Promise<{
+  entries: WishlistEntry[]
+  pages: number
+}> {
+  const entries: WishlistEntry[] = []
   let currentPath: string | null = START_PATH
   let pages = 0
 
@@ -162,15 +179,15 @@ export async function scrapeGroupWishlist(): Promise<WishlistEntry[]> {
     const html = await fetchPage(currentPath)
     pages++
 
-    const entries = parseWishlistPage(html)
-    if (entries.length === 0) {
+    const pageEntries = parseWishlistPage(html)
+    if (pageEntries.length === 0) {
       console.log('📭 No entries on page, stopping')
       break
     }
 
-    all.push(...entries)
+    entries.push(...pageEntries)
 
-    const lastCount = entries[entries.length - 1].wishlist_count
+    const lastCount = pageEntries[pageEntries.length - 1].wishlist_count
     if (lastCount < MIN_COUNT) {
       console.log(
         `✅ Reached entries with count < ${MIN_COUNT}, stopping pagination`,
@@ -184,20 +201,34 @@ export async function scrapeGroupWishlist(): Promise<WishlistEntry[]> {
     if (currentPath) await delay(2500)
   }
 
-  // Dedupe by app_id / package_id / name (SG occasionally returns the same
-  // entry on multiple pages). Keep the entry with the highest wishlist_count.
+  return { entries, pages }
+}
+
+export async function scrapeGroupWishlist(): Promise<WishlistEntry[]> {
+  // Dedupe by app_id / package_id / name (SG returns the same entry on
+  // several pages when the list re-sorts). Keep the highest count seen.
   const seen = new Map<string, WishlistEntry>()
-  for (const entry of all) {
-    const key =
-      entry.app_id != null
-        ? `app:${entry.app_id}`
-        : entry.package_id != null
-          ? `sub:${entry.package_id}`
-          : `name:${entry.name.toLowerCase()}`
-    const existing = seen.get(key)
-    if (!existing || entry.wishlist_count > existing.wishlist_count) {
-      seen.set(key, entry)
+  let pagesFetched = 0
+
+  for (let pass = 1; pass <= PASSES; pass++) {
+    const before = seen.size
+    const { entries, pages } = await crawlWishlist()
+    pagesFetched += pages
+
+    for (const entry of entries) {
+      const key = entryKey(entry)
+      const existing = seen.get(key)
+      if (!existing || entry.wishlist_count > existing.wishlist_count) {
+        seen.set(key, entry)
+      }
     }
+
+    const added = seen.size - before
+    console.log(`🔁 Pass ${pass}/${PASSES}: ${added} entries not seen before`)
+    // A pass that adds nothing means the previous one already saw the whole
+    // list — further passes would only re-fetch it.
+    if (pass > 1 && added === 0) break
+    if (pass < PASSES) await delay(5000)
   }
 
   // Filter out singletons and sort
@@ -206,7 +237,7 @@ export async function scrapeGroupWishlist(): Promise<WishlistEntry[]> {
     .sort((a, b) => b.wishlist_count - a.wishlist_count)
 
   console.log(
-    `📊 Wishlist: ${filtered.length} entries with ≥${MIN_COUNT} wishers (${pages} pages fetched)`,
+    `📊 Wishlist: ${filtered.length} entries with ≥${MIN_COUNT} wishers (${pagesFetched} pages fetched)`,
   )
 
   return filtered
