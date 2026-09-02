@@ -211,3 +211,56 @@ export async function scrapeGroupWishlist(): Promise<WishlistEntry[]> {
 
   return filtered
 }
+
+/** A game to look up on the group wishlist, as carried by a giveaway. */
+export interface WishlistLookupGame {
+  name: string
+  app_id: number | null
+  package_id: number | null
+}
+
+/**
+ * The group wishlist filtered to a search query. Lets a single game's wisher
+ * count be checked without crawling the whole list — which matters because the
+ * crawl silently drops entries when SteamGifts re-sorts between page requests
+ * (see mergeWithPreviousSnapshot), so "absent from the snapshot" does not mean
+ * "not on the wishlist".
+ */
+export async function searchGroupWishlist(
+  query: string,
+): Promise<WishlistEntry[]> {
+  const html = await fetchPage(`${START_PATH}?q=${encodeURIComponent(query)}`)
+  return parseWishlistPage(html)
+}
+
+/**
+ * Wisher counts for specific games, one search per game. Results are matched
+ * back by app/package id, so a search that returns DLC or a same-named game
+ * can't be mistaken for the game asked about. A lookup that fails (rate limit,
+ * network) is logged and skipped rather than failing the whole batch.
+ */
+export async function lookupWishlistEntries(
+  games: WishlistLookupGame[],
+): Promise<WishlistEntry[]> {
+  const found: WishlistEntry[] = []
+  for (const [index, game] of games.entries()) {
+    if (index > 0) await delay(2500)
+    try {
+      const rows = await searchGroupWishlist(game.name)
+      const match = rows.find((row) =>
+        game.app_id != null
+          ? row.app_id === game.app_id
+          : game.package_id != null
+            ? row.package_id === game.package_id
+            : false,
+      )
+      if (match) found.push({ ...match, last_seen: new Date().toISOString() })
+    } catch (error) {
+      logError(error, `Failed wishlist lookup for ${game.name}`)
+    }
+  }
+  console.log(
+    `🔎 Wishlist lookups: ${found.length}/${games.length} games resolved`,
+  )
+  return found
+}

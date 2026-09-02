@@ -16,6 +16,8 @@ type Creator = string
  *  the September 2026 event. Giveaways below the bar still count for ratio. */
 export const SEPTEMBER_EVENT_MIN_WISHERS = 10
 
+const SEPTEMBER_EVENT_TAG = 'september_event_2026'
+
 interface ScrapingStats {
   totalGiveaways: number
   newGiveaways: number
@@ -1099,35 +1101,12 @@ export class SteamGiftsHTMLScraper {
   }
 
   /**
-   * September 2026 community event (The Forge): a FULL_CV non-shared giveaway
-   * ending in September 2026 belongs to the event only when its game is on the
-   * group wishlist with at least SEPTEMBER_EVENT_MIN_WISHERS wishers. A
-   * giveaway that misses the wishlist bar still counts towards its creator's
-   * ratio — it just isn't part of the event.
-   *
-   * Description-based tags (handled in parseGiveawayDetails) always take
-   * precedence. Self-correcting like the May tag: a previously-tagged giveaway
-   * that no longer meets the rule (CV recomputed, shared flag flipped, wisher
-   * count dropped below the bar) is untagged.
-   *
-   * The pass is skipped entirely when no wishlist entries are supplied, so a
-   * missing or failed wishlist scrape leaves existing tags alone instead of
-   * wiping the whole event.
-   *
-   * Mutates the giveaways in place and returns them for chaining.
+   * Wisher count per app/package from a group-wishlist snapshot, as a lookup
+   * over giveaways. A game the snapshot doesn't cover reads as 0 wishers.
    */
-  public applySeptember2026EventTag(
-    giveaways: Giveaway[],
+  private buildWisherIndex(
     wishlistEntries: WishlistEntry[],
-  ): Giveaway[] {
-    const OWNED_TAG = 'september_event_2026'
-    if (wishlistEntries.length === 0) {
-      console.log(
-        `⚠️ ${OWNED_TAG} — no wishlist entries available, leaving tags untouched`,
-      )
-      return giveaways
-    }
-
+  ): (g: Giveaway) => number {
     const appWishers = new Map<number, number>()
     const packageWishers = new Map<number, number>()
     for (const entry of wishlistEntries) {
@@ -1146,38 +1125,110 @@ export class SteamGiftsHTMLScraper {
         )
       }
     }
-
-    const wishers = (g: Giveaway): number => {
+    return (g: Giveaway) => {
       if (g.app_id != null) return appWishers.get(g.app_id) ?? 0
       if (g.package_id != null) return packageWishers.get(g.package_id) ?? 0
       return 0
     }
+  }
 
+  /** Everything the September 2026 event asks of a giveaway except the
+   *  wisher bar, which needs wishlist data to check. */
+  private isSeptember2026Candidate(g: Giveaway): boolean {
+    // A tag we don't own (description-based events) always wins.
+    if (g.event_type && g.event_type !== SEPTEMBER_EVENT_TAG) return false
+    return (
+      g.cv_status === 'FULL_CV' &&
+      !g.is_shared &&
+      this.endedInUtcMonth(g.end_timestamp, 2026, 8 /* September */)
+    )
+  }
+
+  /**
+   * September 2026 giveaways whose game the wishlist snapshot doesn't place at
+   * or above the wisher bar. The snapshot is not proof of absence — the crawl
+   * drops entries whenever SteamGifts re-sorts the list between page requests —
+   * so these games need a targeted per-game lookup (`lookupWishlistEntries`)
+   * before the tag can be trusted. Deduplicated by app/package id, since a
+   * game can have several giveaways.
+   */
+  public september2026WishlistGaps(
+    giveaways: Giveaway[],
+    wishlistEntries: WishlistEntry[],
+  ): Giveaway[] {
+    const wishers = this.buildWisherIndex(wishlistEntries)
+    const seen = new Set<string>()
+    const gaps: Giveaway[] = []
+    for (const g of giveaways) {
+      if (!this.isSeptember2026Candidate(g)) continue
+      if (wishers(g) >= SEPTEMBER_EVENT_MIN_WISHERS) continue
+      const key =
+        g.app_id != null
+          ? `app:${g.app_id}`
+          : g.package_id != null
+            ? `sub:${g.package_id}`
+            : null
+      if (!key || seen.has(key)) continue
+      seen.add(key)
+      gaps.push(g)
+    }
+    return gaps
+  }
+
+  /**
+   * September 2026 community event (The Forge): a FULL_CV non-shared giveaway
+   * ending in September 2026 belongs to the event only when its game is on the
+   * group wishlist with at least SEPTEMBER_EVENT_MIN_WISHERS wishers. A
+   * giveaway that misses the wishlist bar still counts towards its creator's
+   * ratio — it just isn't part of the event.
+   *
+   * Callers should top `wishlistEntries` up with lookups for
+   * `september2026WishlistGaps` first, otherwise a game the snapshot's crawl
+   * happened to drop is read as having no wishers at all.
+   *
+   * Description-based tags (handled in parseGiveawayDetails) always take
+   * precedence. Self-correcting like the May tag: a previously-tagged giveaway
+   * that no longer meets the rule (CV recomputed, shared flag flipped, wisher
+   * count dropped below the bar) is untagged.
+   *
+   * The pass is skipped entirely when no wishlist entries are supplied, so a
+   * missing or failed wishlist scrape leaves existing tags alone instead of
+   * wiping the whole event.
+   *
+   * Mutates the giveaways in place and returns them for chaining.
+   */
+  public applySeptember2026EventTag(
+    giveaways: Giveaway[],
+    wishlistEntries: WishlistEntry[],
+  ): Giveaway[] {
+    if (wishlistEntries.length === 0) {
+      console.log(
+        `⚠️ ${SEPTEMBER_EVENT_TAG} — no wishlist entries available, leaving tags untouched`,
+      )
+      return giveaways
+    }
+
+    const wishers = this.buildWisherIndex(wishlistEntries)
     let tagged = 0
     let untagged = 0
     for (const g of giveaways) {
-      // Skip giveaways whose tag we don't own (description-based events).
-      if (g.event_type && g.event_type !== OWNED_TAG) continue
-
       const eligible =
-        g.cv_status === 'FULL_CV' &&
-        !g.is_shared &&
-        this.endedInUtcMonth(g.end_timestamp, 2026, 8 /* September */) &&
+        this.isSeptember2026Candidate(g) &&
         wishers(g) >= SEPTEMBER_EVENT_MIN_WISHERS
 
       if (eligible) {
-        if (g.event_type !== OWNED_TAG) {
-          g.event_type = OWNED_TAG
+        if (g.event_type !== SEPTEMBER_EVENT_TAG) {
+          g.event_type = SEPTEMBER_EVENT_TAG
           tagged++
         }
-      } else if (g.event_type === OWNED_TAG) {
+      } else if (g.event_type === SEPTEMBER_EVENT_TAG) {
         delete g.event_type
         untagged++
       }
     }
     if (tagged > 0 || untagged > 0) {
       console.log(
-        `🔥 september_event_2026 — tagged ${tagged}, untagged ${untagged}`,
+        `🔥 ${SEPTEMBER_EVENT_TAG} — tagged ${tagged}, untagged ${untagged}`,
       )
     }
     return giveaways

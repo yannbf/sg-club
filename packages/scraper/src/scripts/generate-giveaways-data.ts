@@ -3,6 +3,7 @@ import { dirname } from 'node:path'
 import { groupGiveawaysScraper } from '../scrapers/group-giveaways'
 import { delay } from '../utils/common'
 import type { Giveaway, SteamIdMap } from '../types/steamgifts'
+import { lookupWishlistEntries } from '../scrapers/group-wishlist'
 import type { WishlistEntry } from '../scrapers/group-wishlist'
 import { logError } from '../utils/log-error'
 import { applyGiveawayExceptions } from '../utils/giveaway-exceptions'
@@ -351,9 +352,22 @@ export async function generateGiveawaysData(): Promise<void> {
       // Tag data-driven events (e.g. may_event_2026) now that cv_status
       // is known — these only apply to FULL_CV giveaways.
       groupGiveawaysScraper.applyMay2026EventTag(updatedGiveaways)
+      // The wishlist snapshot's crawl drops entries, so games it doesn't
+      // cover are looked up one by one before the event tag trusts it.
+      const wishlistEntries = readWishlistEntries(wishlistFilename)
+      const wishlistGaps = groupGiveawaysScraper.september2026WishlistGaps(
+        updatedGiveaways,
+        wishlistEntries
+      )
+      if (wishlistGaps.length > 0) {
+        console.log(
+          `🔎 Looking up ${wishlistGaps.length} September games missing from the wishlist snapshot...`
+        )
+        wishlistEntries.push(...(await lookupWishlistEntries(wishlistGaps)))
+      }
       groupGiveawaysScraper.applySeptember2026EventTag(
         updatedGiveaways,
-        readWishlistEntries(wishlistFilename)
+        wishlistEntries
       )
       const now = Date.now() / 1000
       const activeCount = updatedGiveaways.filter(

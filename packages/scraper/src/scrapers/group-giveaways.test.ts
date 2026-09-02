@@ -467,6 +467,48 @@ describe('SteamGiftsHTMLScraper', () => {
       scraper.applySeptember2026EventTag([ga], wishlist)
       expect(ga.event_type).toBeUndefined()
     })
+
+    describe('september2026WishlistGaps', () => {
+      it('reports September games the snapshot puts below the bar', () => {
+        const below = makeGA({ app_id: 2 })
+        const absent = makeGA({ app_id: 3 })
+        const covered = makeGA({ app_id: 1 })
+        const gaps = scraper.september2026WishlistGaps(
+          [below, absent, covered],
+          wishlist,
+        )
+        expect(gaps.map((g) => g.app_id)).toEqual([2, 3])
+      })
+
+      it('reports a game once however many giveaways it has', () => {
+        const gaps = scraper.september2026WishlistGaps(
+          [makeGA({ app_id: 3 }), makeGA({ app_id: 3 })],
+          wishlist,
+        )
+        expect(gaps).toHaveLength(1)
+      })
+
+      it('ignores giveaways that fail the event rules for other reasons', () => {
+        const gaps = scraper.september2026WishlistGaps(
+          [
+            makeGA({ app_id: 3, cv_status: 'REDUCED_CV' }),
+            makeGA({ app_id: 3, is_shared: true }),
+            makeGA({ app_id: 3, end_timestamp: aug15Noon2026 }),
+            makeGA({ app_id: 3, event_type: 'rpg_august' }),
+          ],
+          wishlist,
+        )
+        expect(gaps).toEqual([])
+      })
+
+      it('reports every September game when the snapshot is empty', () => {
+        const gaps = scraper.september2026WishlistGaps(
+          [makeGA({ app_id: 1 })],
+          [] as unknown as WishlistArg,
+        )
+        expect(gaps).toHaveLength(1)
+      })
+    })
   })
 
   describe('getNextPage', () => {
