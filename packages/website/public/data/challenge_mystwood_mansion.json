@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1788220800,
   "totalAchievements": 20,
-  "generatedAt": 1788375304650,
+  "generatedAt": 1788378744601,
   "challengeOver": false,
   "winnerUsername": "Mahry",
   "participants": [
@@ -1098,11 +1098,11 @@
       "is_guest": false,
       "owned": true,
       "stats_available": true,
-      "wrote_review": false,
-      "review_voted_up": null,
-      "review_timestamp": null,
-      "review_recommendationid": null,
-      "review_url": null,
+      "wrote_review": true,
+      "review_voted_up": true,
+      "review_timestamp": 1788371730,
+      "review_recommendationid": "234319751",
+      "review_url": "https://steamcommunity.com/profiles/76561198159198291/recommended/2292650",
       "playtime_total_minutes": 178,
       "playtime_2weeks_minutes": 178,
       "baseline_playtime_minutes": 0,
@@ -1239,8 +1239,8 @@
       "completed_before_start": false,
       "completed_after_deadline": false,
       "meets_playtime": true,
-      "meets_review": false,
-      "is_winner": false
+      "meets_review": true,
+      "is_winner": true
     },
     {
       "username": "Tucs",
@@ -2909,7 +2909,8 @@
     "MrOuiOui",
     "Ch1cWolf",
     "SoullessSoup",
-    "Almostn33t"
+    "Almostn33t",
+    "DanielStoSve"
   ],
   "roster": {
     "participants": [
