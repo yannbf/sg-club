@@ -154,6 +154,14 @@ function getCardAccent(g: Giveaway): string {
   return 'before:bg-[var(--warning)]'
 }
 
+type SearchField = 'game' | 'creator' | 'winner'
+
+const SEARCH_PLACEHOLDERS: Record<SearchField, string> = {
+  game: 'Search games...',
+  creator: 'Search creators...',
+  winner: 'Search winners...',
+}
+
 export default function GiveawaysClient({
   heading = 'All Giveaways',
   giveaways,
@@ -174,6 +182,7 @@ export default function GiveawaysClient({
 
   const [searchTerm, setSearchTerm] = useState('')
   const debouncedSearchTerm = useDebounce(searchTerm, 300)
+  const [searchField, setSearchField] = useState<SearchField>('game')
   const [sortBy, setSortBy] = useState<
     'date' | 'author' | 'name' | 'cv' | 'points' | 'entries'
   >('date')
@@ -338,8 +347,23 @@ export default function GiveawaysClient({
         debouncedSearchTerm.length === 5 &&
         giveaway.link.split('/')[0] === debouncedSearchTerm
       const matchesSearch =
-        giveaway.name.toLowerCase().includes(searchTermLower) ||
-        getDisplayName(giveaway.creator).toLowerCase().includes(searchTermLower)
+        searchTermLower === '' ||
+        (searchField === 'game'
+          ? giveaway.name.toLowerCase().includes(searchTermLower)
+          : searchField === 'creator'
+            ? getDisplayName(giveaway.creator)
+                .toLowerCase()
+                .includes(searchTermLower)
+            : // A winner is stored by steam_id, so match the name they go by
+              // now and the one they won under — a rename shouldn't hide a win.
+              (giveaway.winners ?? []).some((winner) =>
+                [
+                  winner.name ? getDisplayName(winner.name) : '',
+                  winner.winner_username ?? '',
+                ].some((name) =>
+                  name.toLowerCase().includes(searchTermLower),
+                ),
+              ))
 
       const matchesCV =
         filterCV === 'all' ||
@@ -435,6 +459,7 @@ export default function GiveawaysClient({
   }, [
     giveaways,
     debouncedSearchTerm,
+    searchField,
     sortBy,
     sortDirection,
     filterCV,
@@ -512,15 +537,30 @@ export default function GiveawaysClient({
       </div>
 
       <Toolbar>
-        <div className="relative flex-1 min-w-0">
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-subtle" />
-          <Input
-            type="search"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="Search games or creators..."
-            className="pl-9"
-          />
+        <div className="flex flex-1 min-w-0 items-center gap-2">
+          <Select
+            value={searchField}
+            onValueChange={(v) => setSearchField(v as SearchField)}
+          >
+            <SelectTrigger className="w-[120px] shrink-0" aria-label="Search by">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="game">Game</SelectItem>
+              <SelectItem value="creator">Creator</SelectItem>
+              <SelectItem value="winner">Winner</SelectItem>
+            </SelectContent>
+          </Select>
+          <div className="relative flex-1 min-w-0">
+            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-subtle" />
+            <Input
+              type="search"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              placeholder={SEARCH_PLACEHOLDERS[searchField]}
+              className="pl-9"
+            />
+          </div>
         </div>
         <div className="flex flex-wrap items-center gap-2">
           <Select
