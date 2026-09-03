@@ -368,6 +368,9 @@ function SortableHeader({
   )
 }
 
+/** The luck ranking is computed but not rendered; flip this to show it on the dashboard. */
+const SHOW_LUCK_RANKING = false
+
 function LuckRankingSection({ rankings }: { rankings: UserLuckData[] }) {
   const [search, setSearch] = useState('')
   const [minEntries, setMinEntries] = useState('10')
@@ -902,7 +905,7 @@ export default function DashboardClient({
         </CardContent>
       </Card>
 
-      <LuckRankingSection rankings={stats.luckRankings} />
+      {SHOW_LUCK_RANKING && <LuckRankingSection rankings={stats.luckRankings} />}
     </div>
   )
 }
