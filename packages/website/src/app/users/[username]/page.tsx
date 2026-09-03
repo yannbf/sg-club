@@ -209,7 +209,7 @@ export default async function UserDetailPage(
   const hoursByMonth = Object.fromEntries(hoursGamesByMonth)
 
   return (
-    <ProfileGate ownerSteamId={user.steam_id}>
+    <ProfileGate ownerSteamId={user.steam_id} ownerUsername={user.username}>
       <UserDetailPageClient
         user={user}
         allUsers={allUsers}
