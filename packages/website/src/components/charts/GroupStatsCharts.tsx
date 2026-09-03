@@ -39,7 +39,7 @@ import {
   type DrilldownNav,
 } from './StatsDrilldownModal'
 import { monthKey, monthLabel } from '@/lib/chart-data'
-import { SPECIAL_EVENTS } from '@/lib/events'
+import { SPECIAL_EVENTS, isValidRatioGiveaway } from '@/lib/events'
 import { useIsAdmin } from '@/lib/auth'
 import { steamGiftsProfile } from '@/components/UserLink'
 import { cn } from '@/lib/cn'
@@ -57,8 +57,12 @@ export interface ContributorDatum {
 
 interface GroupStatsChartsProps {
   giveawaysPerMonth: MonthDatum[]
+  /** Same series restricted to group-exclusive giveaways (isValidRatioGiveaway), for the "Group exclusive only" toggle. */
+  giveawaysPerMonthExclusive: MonthDatum[]
   cvPerMonth: MonthDatum[]
   avgEntriesPerMonth: MonthDatum[]
+  /** Same series restricted to group-exclusive giveaways (isValidRatioGiveaway), for the "Group exclusive only" toggle. */
+  avgEntriesPerMonthExclusive: MonthDatum[]
   membersPerMonth: MonthDatum[]
   /** "Mon YY" label -> members (current + ex) who joined that month, for the members chart's drill-down modal. */
   membersJoinedByMonth: Record<string, DrilldownMemberRow[]>
@@ -240,8 +244,10 @@ function buildNav<T>(
 
 export function GroupStatsCharts({
   giveawaysPerMonth,
+  giveawaysPerMonthExclusive,
   cvPerMonth,
   avgEntriesPerMonth,
+  avgEntriesPerMonthExclusive,
   membersPerMonth,
   membersJoinedByMonth,
   membersLeftByMonth,
@@ -262,6 +268,10 @@ export function GroupStatsCharts({
   const [membersMonth, setMembersMonth] = useState<string | null>(null)
   const [giveawaysMonth, setGiveawaysMonth] = useState<string | null>(null)
   const [showEvents, setShowEvents] = useState(false)
+  // Shared by the "Giveaways created per month" and "Average entries per
+  // giveaway" cards: restricts both charts to group-exclusive giveaways
+  // (isValidRatioGiveaway) when on.
+  const [exclusiveOnly, setExclusiveOnly] = useState(false)
   const [cvMonth, setCvMonth] = useState<string | null>(null)
   const [contributorUser, setContributorUser] = useState<string | null>(null)
   const [hoursMonth, setHoursMonth] = useState<string | null>(null)
@@ -271,8 +281,12 @@ export function GroupStatsCharts({
   // Every month each chart's x-axis shows, in order, for the drill-down
   // modals' prev/next controls — including empty months, so navigation never
   // skips or dead-ends on a month with no activity.
+  // The two series driven by the "Group exclusive only" toggle.
+  const activeGiveawaysPerMonth = exclusiveOnly ? giveawaysPerMonthExclusive : giveawaysPerMonth
+  const activeAvgEntriesPerMonth = exclusiveOnly ? avgEntriesPerMonthExclusive : avgEntriesPerMonth
+
   const membersMonths = membersPerMonth.map((r) => String(r.label))
-  const giveawaysMonths = giveawaysPerMonth.map((r) => String(r.label))
+  const giveawaysMonths = activeGiveawaysPerMonth.map((r) => String(r.label))
   const cvMonths = cvPerMonth.map((r) => String(r.label))
   const hoursMonths = hoursPerMonth.map((r) => String(r.label))
   const activeMembersMonths = activeMembersPerMonth.map((r) => String(r.label))
@@ -289,7 +303,11 @@ export function GroupStatsCharts({
 
   const membersJoinedRows = membersMonth ? membersJoinedByMonth[membersMonth] ?? [] : []
   const membersLeftRows = membersMonth ? membersLeftByMonth[membersMonth] ?? [] : []
-  const giveawaysRows = giveawaysMonth ? giveawaysCreatedByMonth[giveawaysMonth] ?? [] : []
+  const giveawaysRows = giveawaysMonth
+    ? (giveawaysCreatedByMonth[giveawaysMonth] ?? []).filter(
+        (row) => !exclusiveOnly || (row.giveaway != null && isValidRatioGiveaway(row.giveaway)),
+      )
+    : []
   const cvRows = cvMonth ? cvSentByMonth[cvMonth] ?? [] : []
   const contributorRows = contributorUser ? contributorGiveaways[contributorUser] ?? [] : []
   const hoursRows = hoursMonth ? hoursByMonth[hoursMonth] ?? [] : []
@@ -302,7 +320,7 @@ export function GroupStatsCharts({
   // moment to correlate against giveaway volume). Clipped to the chart's own
   // month range so a stray/future event can't stretch the x-axis.
   const eventBands = useMemo(() => {
-    if (giveawaysPerMonth.length === 0) return []
+    if (activeGiveawaysPerMonth.length === 0) return []
     const monthSet = new Set(giveawaysMonths)
     const firstMonth = giveawaysMonths[0]
     const lastMonth = giveawaysMonths[giveawaysMonths.length - 1]
@@ -323,7 +341,7 @@ export function GroupStatsCharts({
         x1: monthSet.has(b.x1) ? b.x1 : firstMonth,
         x2: monthSet.has(b.x2) ? b.x2 : lastMonth,
       }))
-  }, [giveawaysPerMonth, giveawaysMonths])
+  }, [activeGiveawaysPerMonth, giveawaysMonths])
 
   // Event names active in each month: the monthly giveaway events (from
   // event_type tags, computed server-side) merged with the date-windowed
@@ -356,15 +374,15 @@ export function GroupStatsCharts({
   // for a category axis, even when every label value is already present.
   const giveawaysChartData = useMemo(
     () =>
-      giveawaysPerMonth.map((r) => ({
+      activeGiveawaysPerMonth.map((r) => ({
         ...r,
         eventDot: eventNamesByMonth[String(r.label)] ? r.count : null,
       })),
-    [giveawaysPerMonth, eventNamesByMonth],
+    [activeGiveawaysPerMonth, eventNamesByMonth],
   )
 
-  const latestGiveawaysMonth = giveawaysPerMonth.at(-1)
-  const totalGiveaways = giveawaysPerMonth.reduce(
+  const latestGiveawaysMonth = activeGiveawaysPerMonth.at(-1)
+  const totalGiveaways = activeGiveawaysPerMonth.reduce(
     (sum, r) => sum + Number(r.count ?? 0),
     0,
   )
@@ -374,8 +392,8 @@ export function GroupStatsCharts({
   const totalCv = cvPerMonth.reduce((sum, r) => sum + Number(r.cv ?? 0), 0)
   const latestCv = Number(latestCvMonth?.cv ?? 0)
 
-  const latestAvgEntriesMonth = avgEntriesPerMonth.at(-1)
-  const nonZeroAvgRows = avgEntriesPerMonth.filter((r) => Number(r.avgEntries ?? 0) > 0)
+  const latestAvgEntriesMonth = activeAvgEntriesPerMonth.at(-1)
+  const nonZeroAvgRows = activeAvgEntriesPerMonth.filter((r) => Number(r.avgEntries ?? 0) > 0)
   const overallAvgEntries = nonZeroAvgRows.length
     ? nonZeroAvgRows.reduce((sum, r) => sum + Number(r.avgEntries ?? 0), 0) /
       nonZeroAvgRows.length
@@ -388,6 +406,23 @@ export function GroupStatsCharts({
   const latestLeft = Number(latestMembersMonth?.left ?? 0)
 
   const topContributor = topContributors[0]
+
+  // Shared by both cards driven by `exclusiveOnly` — flipping either instance
+  // flips the same state.
+  const exclusiveOnlyToggle = (
+    <button
+      type="button"
+      onClick={() => setExclusiveOnly((v) => !v)}
+      className={cn(
+        'shrink-0 rounded-full border px-2.5 py-1 text-xs font-medium transition-colors',
+        exclusiveOnly
+          ? 'border-[var(--primary)] bg-[color-mix(in_oklab,var(--primary)_12%,transparent)] text-[var(--primary)]'
+          : 'border-card-border bg-transparent text-muted-foreground hover:bg-card-background-hover',
+      )}
+    >
+      Group exclusive only
+    </button>
+  )
 
   const latestHoursMonth = hoursPerMonth.at(-1)
   const totalHours = hoursPerMonth.reduce((sum, r) => sum + Number(r.hours ?? 0), 0)
@@ -422,18 +457,21 @@ export function GroupStatsCharts({
         }
         icon={Gift}
         actions={
-          <button
-            type="button"
-            onClick={() => setShowEvents((v) => !v)}
-            className={cn(
-              'shrink-0 rounded-full border px-2.5 py-1 text-xs font-medium transition-colors',
-              showEvents
-                ? 'border-[var(--primary)] bg-[color-mix(in_oklab,var(--primary)_12%,transparent)] text-[var(--primary)]'
-                : 'border-card-border bg-transparent text-muted-foreground hover:bg-card-background-hover',
-            )}
-          >
-            {showEvents ? 'Hide event data' : 'Show event data'}
-          </button>
+          <div className="flex shrink-0 items-center gap-2">
+            {exclusiveOnlyToggle}
+            <button
+              type="button"
+              onClick={() => setShowEvents((v) => !v)}
+              className={cn(
+                'shrink-0 rounded-full border px-2.5 py-1 text-xs font-medium transition-colors',
+                showEvents
+                  ? 'border-[var(--primary)] bg-[color-mix(in_oklab,var(--primary)_12%,transparent)] text-[var(--primary)]'
+                  : 'border-card-border bg-transparent text-muted-foreground hover:bg-card-background-hover',
+              )}
+            >
+              {showEvents ? 'Hide event data' : 'Show event data'}
+            </button>
+          </div>
         }
       >
         <div className="h-72 w-full">
@@ -496,10 +534,11 @@ export function GroupStatsCharts({
           </>
         }
         icon={Target}
+        actions={exclusiveOnlyToggle}
       >
         <div className="h-72 w-full">
           <ResponsiveContainer width="100%" height="100%">
-            <ComposedChart data={avgEntriesPerMonth} margin={{ left: 0, right: 8, top: 8 }}>
+            <ComposedChart data={activeAvgEntriesPerMonth} margin={{ left: 0, right: 8, top: 8 }}>
               <CartesianGrid {...gridProps} />
               <XAxis dataKey="label" {...axisProps} />
               <YAxis

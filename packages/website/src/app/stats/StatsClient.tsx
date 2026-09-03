@@ -17,8 +17,12 @@ interface StatsClientProps {
   totalMembers: number
   totalEntries: number
   giveawaysPerMonth: MonthDatum[]
+  /** Same series restricted to group-exclusive giveaways (isValidRatioGiveaway), for the "Group exclusive only" toggle. */
+  giveawaysPerMonthExclusive: MonthDatum[]
   cvPerMonth: MonthDatum[]
   avgEntriesPerMonth: MonthDatum[]
+  /** Same series restricted to group-exclusive giveaways (isValidRatioGiveaway), for the "Group exclusive only" toggle. */
+  avgEntriesPerMonthExclusive: MonthDatum[]
   membersPerMonth: MonthDatum[]
   /** "Mon YY" label -> members (current + ex) who joined that month, sorted by first_seen_at, for the members chart's drill-down modal. */
   membersJoinedByMonth: Record<string, DrilldownMemberRow[]>
@@ -57,8 +61,10 @@ export default function StatsClient({
   totalMembers,
   totalEntries,
   giveawaysPerMonth,
+  giveawaysPerMonthExclusive,
   cvPerMonth,
   avgEntriesPerMonth,
+  avgEntriesPerMonthExclusive,
   membersPerMonth,
   membersJoinedByMonth,
   membersLeftByMonth,
@@ -123,8 +129,10 @@ export default function StatsClient({
 
       <GroupStatsCharts
         giveawaysPerMonth={giveawaysPerMonth}
+        giveawaysPerMonthExclusive={giveawaysPerMonthExclusive}
         cvPerMonth={cvPerMonth}
         avgEntriesPerMonth={avgEntriesPerMonth}
+        avgEntriesPerMonthExclusive={avgEntriesPerMonthExclusive}
         membersPerMonth={membersPerMonth}
         membersJoinedByMonth={membersJoinedByMonth}
         membersLeftByMonth={membersLeftByMonth}

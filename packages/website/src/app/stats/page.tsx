@@ -9,7 +9,7 @@ import {
   getSteamIdMap,
   getUserEntries,
 } from '@/lib/data'
-import { getGiveawayEventMeta, isCountedGiveaway } from '@/lib/events'
+import { getGiveawayEventMeta, isCountedGiveaway, isValidRatioGiveaway } from '@/lib/events'
 import {
   accumulatePlaytimeDeltas,
   buildGameDataIndex,
@@ -80,6 +80,21 @@ export default async function StatsPage() {
   )
   const avgEntriesPerMonthMap = monthlyAggregate(
     endedGiveaways,
+    (g) => g.end_timestamp,
+    (g) => g.entry_count ?? 0,
+    'avg',
+  )
+  // "Group exclusive only" toggle on the stats page: the same two series
+  // restricted to giveaways passing isValidRatioGiveaway (not shared, not
+  // whitelist, FULL_CV, no decreased-ratio info).
+  const exclusiveGiveaways = giveaways.filter((g) => isValidRatioGiveaway(g))
+  const exclusiveEndedGiveaways = endedGiveaways.filter((g) => isValidRatioGiveaway(g))
+  const giveawaysPerMonthExclusiveMap = monthlyAggregate(
+    exclusiveGiveaways,
+    (g) => g.created_timestamp,
+  )
+  const avgEntriesPerMonthExclusiveMap = monthlyAggregate(
+    exclusiveEndedGiveaways,
     (g) => g.end_timestamp,
     (g) => g.entry_count ?? 0,
     'avg',
@@ -169,6 +184,12 @@ export default async function StatsPage() {
   })
   const avgEntriesPerMonth: MonthDatum[] = combineMonthlySeries({
     avgEntries: avgEntriesPerMonthMap,
+  })
+  const giveawaysPerMonthExclusive: MonthDatum[] = combineMonthlySeries({
+    count: giveawaysPerMonthExclusiveMap,
+  })
+  const avgEntriesPerMonthExclusive: MonthDatum[] = combineMonthlySeries({
+    avgEntries: avgEntriesPerMonthExclusiveMap,
   })
   // Net membership: cumulative joins (current + ex) minus cumulative leaves,
   // so the line stays truthful and lands on the current member count instead
@@ -560,8 +581,10 @@ export default async function StatsPage() {
       totalMembers={totalMembers}
       totalEntries={totalEntries}
       giveawaysPerMonth={giveawaysPerMonth}
+      giveawaysPerMonthExclusive={giveawaysPerMonthExclusive}
       cvPerMonth={cvPerMonth}
       avgEntriesPerMonth={avgEntriesPerMonth}
+      avgEntriesPerMonthExclusive={avgEntriesPerMonthExclusive}
       membersPerMonth={membersPerMonth}
       membersJoinedByMonth={membersJoinedByMonth}
       membersLeftByMonth={membersLeftByMonth}
