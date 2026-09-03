@@ -29,6 +29,7 @@ import {
   type LedgerAttr,
 } from '@/components/LedgerRow'
 import { DEADLINE_WARNING_DAYS } from '../../../../api/_lib/required-play'
+import { FilterSelect } from '@/components/ui/FilterSelect'
 
 interface Props {
   giveaways: Giveaway[]
@@ -236,32 +237,32 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData, 
               {/* CV Filter */}
               <div className="flex items-center gap-2">
                 <label htmlFor="cv-filter-won" className="text-sm font-medium">CV:</label>
-                <select
+                <FilterSelect
                   id="cv-filter-won"
                   value={filterCV}
-                  onChange={(e) => setFilterCV(e.target.value as 'all' | 'FULL_CV' | 'REDUCED_CV' | 'NO_CV')}
-                  className="px-3 py-2 border border-card-border rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-accent text-sm"
-                >
-                  <option value="all">All</option>
-                  <option value="FULL_CV">Full</option>
-                  <option value="REDUCED_CV">Reduced</option>
-                  <option value="NO_CV">No CV</option>
-                </select>
+                  onValueChange={setFilterCV}
+                  options={[
+                    { value: 'all', label: 'All' },
+                    { value: 'FULL_CV', label: 'Full' },
+                    { value: 'REDUCED_CV', label: 'Reduced' },
+                    { value: 'NO_CV', label: 'No CV' },
+                  ]}
+                />
               </div>
               {isAdmin && (
               <div className="flex items-center gap-2">
                 <label htmlFor="play-filter-won" className="text-sm font-medium">Play:</label>
-                <select
+                <FilterSelect
                   id="play-filter-won"
                   value={playFilter}
-                  onChange={(e) => setPlayFilter(e.target.value as 'all' | 'played' | 'never_played' | 'unplayed_required')}
-                  className="px-3 py-2 border border-card-border rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-accent text-sm"
-                >
-                  <option value="all">All</option>
-                  <option value="played">Played</option>
-                  <option value="never_played">Never Played</option>
-                  <option value="unplayed_required">Unplayed Required</option>
-                </select>
+                  onValueChange={setPlayFilter}
+                  options={[
+                    { value: 'all', label: 'All' },
+                    { value: 'played', label: 'Played' },
+                    { value: 'never_played', label: 'Never Played' },
+                    { value: 'unplayed_required', label: 'Unplayed Required' },
+                  ]}
+                />
               </div>
               )}
             </div>

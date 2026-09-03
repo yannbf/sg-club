@@ -29,6 +29,7 @@ import {
   type WinnerPlayStats,
 } from '@/lib/winner-play-stats'
 import { classifyPerson } from '@/lib/person'
+import { FilterSelect } from '@/components/ui/FilterSelect'
 
 interface Props {
   giveaways: Giveaway[]
@@ -200,33 +201,33 @@ export default function GivenGiveawaysClient({ giveaways, userAvatars, userNames
               {/* CV Filter */}
               <div className="flex items-center gap-2">
                 <label htmlFor="cv-filter" className="text-sm font-medium">CV:</label>
-                <select
+                <FilterSelect
                   id="cv-filter"
                   value={filterCV}
-                  onChange={(e) => setFilterCV(e.target.value as 'all' | 'FULL_CV' | 'REDUCED_CV' | 'NO_CV' | 'RATIO_VALID')}
-                  className="px-3 py-2 border border-card-border rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-accent text-sm"
-                >
-                  <option value="all">All</option>
-                  <option value="RATIO_VALID">Ratio Valid</option>
-                  <option value="FULL_CV">Full</option>
-                  <option value="REDUCED_CV">Reduced</option>
-                  <option value="NO_CV">No CV</option>
-                </select>
+                  onValueChange={setFilterCV}
+                  options={[
+                    { value: 'all', label: 'All' },
+                    { value: 'RATIO_VALID', label: 'Group exclusive' },
+                    { value: 'FULL_CV', label: 'Full' },
+                    { value: 'REDUCED_CV', label: 'Reduced' },
+                    { value: 'NO_CV', label: 'No CV' },
+                  ]}
+                />
               </div>
 
               {/* Sort Controls */}
               <div className="flex items-center gap-2">
                 <label htmlFor="sort-by" className="text-sm font-medium">Sort by:</label>
-                <select
+                <FilterSelect
                   id="sort-by"
                   value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value as 'date' | 'entries' | 'points')}
-                  className="px-3 py-2 border border-card-border rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-accent text-sm"
-                >
-                  <option value="date">End Date</option>
-                  <option value="entries">Entries</option>
-                  <option value="points">Points</option>
-                </select>
+                  onValueChange={setSortBy}
+                  options={[
+                    { value: 'date', label: 'End Date' },
+                    { value: 'entries', label: 'Entries' },
+                    { value: 'points', label: 'Points' },
+                  ]}
+                />
                 <button
                   onClick={() => setSortDirection(prev => prev === 'asc' ? 'desc' : 'asc')}
                   className="px-3 py-2 border border-card-border rounded-md bg-transparent hover:bg-accent/10 focus:outline-none focus:ring-2 focus:ring-accent"

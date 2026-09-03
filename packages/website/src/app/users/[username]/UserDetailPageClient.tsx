@@ -77,6 +77,7 @@ import {
   type WinPlayStatus,
 } from '@/lib/chart-data'
 import { winnerPlayStatsKey } from '@/lib/winner-play-stats'
+import { FilterSelect } from '@/components/ui/FilterSelect'
 
 interface Props {
   user: User
@@ -109,7 +110,7 @@ type StatsCvFilter = 'all' | 'FULL_CV' | 'REDUCED_CV' | 'NO_CV' | 'RATIO_VALID'
 /**
  * Whether the giveaway a stats-tab record (created/won/entry) points at
  * passes the Stats tab's global CV filter. Mirrors the CV filter on the
- * Created tab (GivenGiveawaysClient): 'RATIO_VALID' requires both
+ * Created tab (GivenGiveawaysClient): 'RATIO_VALID' ("Group exclusive" in the UI) requires both
  * isValidRatioGiveaway and isCountedGiveaway, 'all' keeps everything but
  * deleted giveaways, and a specific CV status matches cv_status (also
  * excluding deleted). A link with no resolved giveaway only passes 'all'.
@@ -1080,7 +1081,11 @@ export default function UserDetailPageClient({
       )}
 
       {/* Real Totals */}
-      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+      <p className="text-xs text-muted-foreground">
+        These numbers count only group-exclusive Full CV giveaways. The unfiltered
+        SteamGifts totals are under &ldquo;Original SteamGifts stats&rdquo; below.
+      </p>
+      <div className={cn('grid grid-cols-2 gap-4', isAdmin ? 'lg:grid-cols-4' : 'lg:grid-cols-3')}>
         <SimpleStat
           label="Sent"
           value={user.stats.real_total_sent_count}
@@ -1116,17 +1121,19 @@ export default function UserDetailPageClient({
           hint={`${user.stats.real_total_value_difference > 0 ? '+' : ''}$${user.stats.real_total_value_difference.toFixed(2)}`}
           icon={Coins}
         />
-        <SimpleStat
-          label="CV ratio"
-          value={
-            <Tooltip
-              content={`Sent / Received ($${user.stats.real_total_sent_value} / $${user.stats.real_total_received_value}) = ${realCvRatio}`}
-            >
-              <span className="cursor-help">{realCvRatio}</span>
-            </Tooltip>
-          }
-          icon={Scale}
-        />
+        {isAdmin && (
+          <SimpleStat
+            label="CV ratio"
+            value={
+              <Tooltip
+                content={`Sent / Received ($${user.stats.real_total_sent_value} / $${user.stats.real_total_received_value}) = ${realCvRatio}`}
+              >
+                <span className="cursor-help">{realCvRatio}</span>
+              </Tooltip>
+            }
+            icon={Scale}
+          />
+        )}
       </div>
 
       {/* Original stats toggle */}
@@ -1364,18 +1371,18 @@ export default function UserDetailPageClient({
         <TabsContent value="stats" className="mt-6">
           <div className="flex items-center gap-2 mb-4">
             <label htmlFor="stats-cv-filter" className="text-sm font-medium">CV:</label>
-            <select
+            <FilterSelect
               id="stats-cv-filter"
               value={statsFilterCV}
-              onChange={(e) => setStatsFilterCV(e.target.value as StatsCvFilter)}
-              className="px-3 py-2 border border-card-border rounded-md bg-transparent focus:outline-none focus:ring-2 focus:ring-accent text-sm"
-            >
-              <option value="all">All</option>
-              <option value="RATIO_VALID">Ratio Valid</option>
-              <option value="FULL_CV">Full</option>
-              <option value="REDUCED_CV">Reduced</option>
-              <option value="NO_CV">No CV</option>
-            </select>
+              onValueChange={setStatsFilterCV}
+              options={[
+                { value: 'all', label: 'All' },
+                { value: 'RATIO_VALID', label: 'Group exclusive' },
+                { value: 'FULL_CV', label: 'Full' },
+                { value: 'REDUCED_CV', label: 'Reduced' },
+                { value: 'NO_CV', label: 'No CV' },
+              ]}
+            />
           </div>
           <UserStatsCharts
             key={statsFilterCV}
