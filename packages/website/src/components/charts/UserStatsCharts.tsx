@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useIsAdmin } from '@/lib/auth'
 import {
   CartesianGrid,
   ComposedChart,
@@ -57,7 +58,7 @@ export interface UserStatsSummary {
 
 interface UserStatsChartsProps {
   giftsCumulative: MonthDatum[]
-  /** Entered (bars) + created/won (lines) per month — the "Activity per month" chart. */
+  /** Entered per month — the "Activity per month" chart. Created/won stay in the data for the month drill-down. */
   activityPerMonth: MonthDatum[]
   cvCumulative: MonthDatum[]
   /** Hours gained per month on this member's own won games, from playtime snapshot deltas. */
@@ -104,6 +105,7 @@ export function UserStatsCharts({
   notCountedByMonth,
   winsByBucket,
 }: UserStatsChartsProps) {
+  const isAdmin = useIsAdmin()
   const hasWinsData = winsBreakdown.some((d) => d.value > 0)
   const hasHoursData = hoursPerMonth.length > 0
   const [monthModal, setMonthModal] = useState<MonthModalState | null>(null)
@@ -320,14 +322,12 @@ export function UserStatsCharts({
 
       <ChartCard
         title="Activity per month"
-        description="Giveaways entered, created, and won per month"
+        description="Giveaways entered per month"
         summary={(() => {
           const last = activityPerMonth.at(-1)
           return (
             <>
-              <ChartStat>{formatNumber(Number(last?.entered ?? 0))}</ChartStat> entered ·{' '}
-              <ChartStat>{formatNumber(Number(last?.created ?? 0))}</ChartStat> created ·{' '}
-              <ChartStat>{formatNumber(Number(last?.won ?? 0))}</ChartStat> won in{' '}
+              <ChartStat>{formatNumber(Number(last?.entered ?? 0))}</ChartStat> entered in{' '}
               {last?.label ?? 'the latest month'}{' '}
               <span className="text-muted-foreground">· click a month for details</span>
             </>
@@ -352,14 +352,6 @@ export function UserStatsCharts({
                 allowDecimals={false}
                 tickFormatter={(v: number) => formatCompactNumber(v)}
               />
-              <YAxis
-                yAxisId="right"
-                orientation="right"
-                {...axisProps}
-                width={36}
-                allowDecimals={false}
-                tickFormatter={(v: number) => formatCompactNumber(v)}
-              />
               <Tooltip
                 contentStyle={tooltipContentStyle}
                 labelStyle={tooltipLabelStyle}
@@ -374,26 +366,6 @@ export function UserStatsCharts({
                 fill={chartColors.rose}
                 radius={[4, 4, 0, 0]}
                 cursor="pointer"
-              />
-              <Line
-                yAxisId="right"
-                type="monotone"
-                dataKey="created"
-                name="Created"
-                stroke={chartColors.blue}
-                strokeWidth={2}
-                dot={{ r: 3, cursor: 'pointer' }}
-                activeDot={{ r: 5, cursor: 'pointer' }}
-              />
-              <Line
-                yAxisId="right"
-                type="monotone"
-                dataKey="won"
-                name="Won"
-                stroke={chartColors.green}
-                strokeWidth={2}
-                dot={{ r: 3, cursor: 'pointer' }}
-                activeDot={{ r: 5, cursor: 'pointer' }}
               />
             </ComposedChart>
           </ResponsiveContainer>
@@ -521,6 +493,7 @@ export function UserStatsCharts({
         </div>
       </ChartCard>
 
+      {isAdmin && (
       <ChartCard
         title="Wins breakdown"
         description="How won games have been played"
@@ -580,6 +553,7 @@ export function UserStatsCharts({
           )}
         </div>
       </ChartCard>
+      )}
 
       {monthModalProps && (
         <StatsDrilldownModal

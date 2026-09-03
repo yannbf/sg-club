@@ -41,7 +41,6 @@ import {
 import type { IpbDiscordUnmatchedThread } from '@/types/ipb-discord'
 import type { BeatenGameMarker } from '@/types/beaten'
 import { formatPlaytimeCompact } from '@/lib/data'
-import { getStoredAdminPassword, verifyAdminPasswordHash } from '@/lib/auth'
 import { UserLink } from '@/components/UserLink'
 import UserAvatar from '@/components/UserAvatar'
 import GameImage from '@/components/GameImage'
@@ -81,28 +80,6 @@ function readTabFromLocation(): Tab {
   if (typeof window === 'undefined') return 'ipb'
   const raw = new URLSearchParams(window.location.search).get('tab')
   return (raw && PARAM_TO_TAB[raw]) || 'ipb'
-}
-
-/**
- * Returns the admin password for /api/verify calls — captured at admin login,
- * so a logged-in admin is never re-prompted. Falls back to a one-time prompt
- * (validated against the client-side hash, then stored for the session) for
- * sessions that logged in before the password started being kept.
- */
-async function getAdminPassword(): Promise<string | null> {
-  const stored = getStoredAdminPassword()
-  if (stored) return stored
-
-  const entered = window.prompt('Enter the admin password to verify this win:')
-  if (!entered) return null
-  if (!(await verifyAdminPasswordHash(entered))) {
-    window.alert('Incorrect password.')
-    return null
-  }
-  try {
-    localStorage.setItem('sg-club-admin-secret', entered)
-  } catch {}
-  return entered
 }
 
 type SortKey =
@@ -1266,18 +1243,15 @@ export default function PlayRequiredClient({
         if (!confirmed) return
       }
 
-      const password = await getAdminPassword()
-      if (!password) return
-
       const stateKey = verifyStateKey(row, type)
       setVerifyStates((prev) => ({ ...prev, [stateKey]: { status: 'verifying', action } }))
 
       try {
         const res = await fetch('/api/verify', {
           method: 'POST',
+          credentials: 'same-origin',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            password,
             type,
             action,
             giveawayId: row.giveawayLink.slice(0, 5),
@@ -1286,6 +1260,12 @@ export default function PlayRequiredClient({
           }),
         })
         const data = await res.json().catch(() => ({}))
+        if (res.status === 401) {
+          throw new Error('Your Steam session expired — sign in again.')
+        }
+        if (res.status === 403) {
+          throw new Error('Admin only.')
+        }
         if (!res.ok) {
           throw new Error(typeof data.error === 'string' ? data.error : `Request failed (${res.status})`)
         }
@@ -1342,7 +1322,7 @@ export default function PlayRequiredClient({
         const raw = err instanceof Error ? err.message : 'Request failed.'
         const message =
           raw === 'Failed to fetch' || raw.includes('NetworkError')
-            ? "Can't reach /api/verify — this endpoint only runs when deployed on Vercel, not in local dev."
+            ? "Can't reach /api/verify — the /api endpoints only run when deployed on Vercel, not in local dev."
             : raw
         setVerifyStates((prev) => ({ ...prev, [stateKey]: { status: 'error', action, message } }))
       }

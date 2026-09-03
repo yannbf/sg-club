@@ -1,10 +1,11 @@
 import type { IncomingMessage, ServerResponse } from 'node:http'
-import { createHash, generateKeyPairSync } from 'node:crypto'
+import { generateKeyPairSync } from 'node:crypto'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import handler from './verify.js'
+import { signSession } from './_lib/session.js'
 
-const ADMIN_PASSWORD = 'hunter2'
-const ADMIN_PASSWORD_HASH = createHash('sha256').update(ADMIN_PASSWORD).digest('hex')
+const ADMIN_STEAM_ID = '76561198000000001'
+const NON_ADMIN_STEAM_ID = '76561198000000002'
 
 const GIVEAWAYS = {
   giveaways: [
@@ -44,16 +45,25 @@ vi.mock('./_lib/discord-rest.js', () => ({
 import { addReaction, removeReaction } from './_lib/discord-rest.js'
 
 /** Builds a fake IncomingMessage carrying a JSON body, for handler(req, res). */
-function fakeRequest(body: unknown, method = 'POST'): IncomingMessage {
+function fakeRequest(
+  body: unknown,
+  method = 'POST',
+  headers: Record<string, string> = {}
+): IncomingMessage {
   const raw = JSON.stringify(body)
   const req = {
     method,
-    headers: { host: 'sg-club.vercel.app' },
+    headers: { host: 'sg-club.vercel.app', ...headers },
     async *[Symbol.asyncIterator]() {
       yield Buffer.from(raw)
     },
   }
   return req as unknown as IncomingMessage
+}
+
+/** Builds the Cookie header for a signed-in admin request. */
+function adminRequest(body: unknown, method = 'POST'): IncomingMessage {
+  return fakeRequest(body, method, { cookie: `sg_session=${signSession(ADMIN_STEAM_ID)}` })
 }
 
 function fakeResponse(): ServerResponse & { statusCode: number; body: unknown } {
@@ -114,7 +124,8 @@ function jsonResponse(body: unknown): Response {
 beforeEach(() => {
   vi.clearAllMocks()
   vi.unstubAllGlobals()
-  process.env.ADMIN_PASSWORD_HASH = ADMIN_PASSWORD_HASH
+  process.env.SESSION_SECRET = 'test-session-secret'
+  process.env.ADMIN_STEAM_IDS = ADMIN_STEAM_ID
   process.env.GOOGLE_SA_EMAIL = 'sa@example.com'
   process.env.GOOGLE_SA_PRIVATE_KEY = FAKE_PRIVATE_KEY
 })
@@ -128,11 +139,22 @@ const { privateKey: FAKE_PRIVATE_KEY } = generateKeyPairSync('rsa', {
 })
 
 describe('POST /api/verify', () => {
-  it('rejects a wrong password with 401', async () => {
-    const req = fakeRequest({ password: 'wrong', type: 'ipb', giveawayId: 'abc12' })
+  it('rejects a request with no session with 401', async () => {
+    const req = fakeRequest({ type: 'ipb', giveawayId: 'abc12' })
     const res = fakeResponse()
     await handler(req, res)
     expect(res.statusCode).toBe(401)
+  })
+
+  it('rejects a signed-in non-admin with 403', async () => {
+    const req = fakeRequest(
+      { type: 'ipb', giveawayId: 'abc12' },
+      'POST',
+      { cookie: `sg_session=${signSession(NON_ADMIN_STEAM_ID)}` }
+    )
+    const res = fakeResponse()
+    await handler(req, res)
+    expect(res.statusCode).toBe(403)
   })
 
   it('rejects non-POST requests with 405', async () => {
@@ -148,7 +170,7 @@ describe('POST /api/verify', () => {
       ['abc12', 'Some Game', 'winnerName', 'NO', ''],
     ]
     const { calls } = mockGoogleFlow('I play bro', values)
-    const req = fakeRequest({ password: ADMIN_PASSWORD, type: 'ipb', giveawayId: 'abc12' })
+    const req = adminRequest({ type: 'ipb', giveawayId: 'abc12' })
     const res = fakeResponse()
     await handler(req, res)
 
@@ -166,7 +188,7 @@ describe('POST /api/verify', () => {
   it('appends a new row when the giveaway has no IPB sheet row yet', async () => {
     const values = [['ID', 'GAME', 'WINNER', 'COMPLETE PLAYING', 'EXTRA POINTS']]
     const { calls } = mockGoogleFlow('I play bro', values)
-    const req = fakeRequest({ password: ADMIN_PASSWORD, type: 'ipb', giveawayId: 'abc12' })
+    const req = adminRequest({ type: 'ipb', giveawayId: 'abc12' })
     const res = fakeResponse()
     await handler(req, res)
 
@@ -183,7 +205,7 @@ describe('POST /api/verify', () => {
   it('returns 404 for a play_required giveaway with no sheet row', async () => {
     const values = [['ID', 'GAME', 'WINNER', 'PLAY REQUIREMENTS MET']]
     mockGoogleFlow('Play Required', values)
-    const req = fakeRequest({ password: ADMIN_PASSWORD, type: 'play_required', giveawayId: 'abc12' })
+    const req = adminRequest({ type: 'play_required', giveawayId: 'abc12' })
     const res = fakeResponse()
     await handler(req, res)
 
@@ -197,8 +219,7 @@ describe('POST /api/verify', () => {
     ]
     mockGoogleFlow('I play bro', values)
 
-    const req = fakeRequest({
-      password: ADMIN_PASSWORD,
+    const req = adminRequest({
       type: 'ipb',
       giveawayId: 'abc12',
       discordThreadId: 'thread1',
@@ -220,8 +241,7 @@ describe('POST /api/verify', () => {
     mockGoogleFlow('I play bro', values)
     vi.mocked(addReaction).mockRejectedValueOnce(new Error('discord is down'))
 
-    const req = fakeRequest({
-      password: ADMIN_PASSWORD,
+    const req = adminRequest({
       type: 'ipb',
       giveawayId: 'abc12',
       discordThreadId: 'thread1',
@@ -239,8 +259,7 @@ describe('POST /api/verify', () => {
       ['abc12', 'Some Game', 'winnerName', 'YES', '25'],
     ]
     const { calls } = mockGoogleFlow('I play bro', values)
-    const req = fakeRequest({
-      password: ADMIN_PASSWORD,
+    const req = adminRequest({
       type: 'ipb',
       action: 'unverify',
       giveawayId: 'abc12',
@@ -266,8 +285,7 @@ describe('POST /api/verify', () => {
   it('returns 404 unverifying an IPB row that does not exist', async () => {
     const values = [['ID', 'GAME', 'WINNER', 'COMPLETE PLAYING', 'EXTRA POINTS']]
     mockGoogleFlow('I play bro', values)
-    const req = fakeRequest({
-      password: ADMIN_PASSWORD,
+    const req = adminRequest({
       type: 'ipb',
       action: 'unverify',
       giveawayId: 'abc12',
@@ -286,8 +304,7 @@ describe('POST /api/verify', () => {
     mockGoogleFlow('I play bro', values)
     vi.mocked(removeReaction).mockRejectedValueOnce(new Error('discord is down'))
 
-    const req = fakeRequest({
-      password: ADMIN_PASSWORD,
+    const req = adminRequest({
       type: 'ipb',
       action: 'unverify',
       giveawayId: 'abc12',
@@ -306,8 +323,7 @@ describe('POST /api/verify', () => {
       ['abc12', 'Some Game', 'winnerName', 'YES'],
     ]
     const { calls } = mockGoogleFlow('Play Required', values)
-    const req = fakeRequest({
-      password: ADMIN_PASSWORD,
+    const req = adminRequest({
       type: 'play_required',
       action: 'unverify',
       giveawayId: 'abc12',
@@ -338,8 +354,7 @@ describe('POST /api/verify', () => {
       ],
     ]
     const { calls } = mockGoogleFlow('Play Required', values)
-    const req = fakeRequest({
-      password: ADMIN_PASSWORD,
+    const req = adminRequest({
       type: 'play_required',
       action: 'register',
       giveawayId: 'abc12',
@@ -374,8 +389,7 @@ describe('POST /api/verify', () => {
       ['abc12', 'Some Game', 'winnerName', 'NO'],
     ]
     const { calls } = mockGoogleFlow('Play Required', values)
-    const req = fakeRequest({
-      password: ADMIN_PASSWORD,
+    const req = adminRequest({
       type: 'play_required',
       action: 'register',
       giveawayId: 'abc12',
@@ -389,8 +403,7 @@ describe('POST /api/verify', () => {
   })
 
   it('rejects register for type ipb with 400', async () => {
-    const req = fakeRequest({
-      password: ADMIN_PASSWORD,
+    const req = adminRequest({
       type: 'ipb',
       action: 'register',
       giveawayId: 'abc12',
@@ -407,7 +420,7 @@ describe('POST /api/verify', () => {
       ['abc12', 'Some Game', 'winnerName', 'NO', ''],
     ]
     const { calls } = mockGoogleFlow('Hoja 1 renamed by a mod', values)
-    const req = fakeRequest({ password: ADMIN_PASSWORD, type: 'ipb', giveawayId: 'abc12' })
+    const req = adminRequest({ type: 'ipb', giveawayId: 'abc12' })
     const res = fakeResponse()
     await handler(req, res)
 
@@ -421,7 +434,7 @@ describe('POST /api/verify', () => {
   it('rejects a multi-winner giveaway verify with 400 when winnerSteamId is missing', async () => {
     const values = [['ID', 'GAME', 'WINNER', 'COMPLETE PLAYING', 'EXTRA POINTS']]
     mockGoogleFlow('I play bro', values)
-    const req = fakeRequest({ password: ADMIN_PASSWORD, type: 'ipb', giveawayId: 'TF7Vk' })
+    const req = adminRequest({ type: 'ipb', giveawayId: 'TF7Vk' })
     const res = fakeResponse()
     await handler(req, res)
 
@@ -431,8 +444,7 @@ describe('POST /api/verify', () => {
   it('verifying a multi-winner giveaway with winnerSteamId picks the right winner', async () => {
     const values = [['ID', 'GAME', 'WINNER', 'COMPLETE PLAYING', 'EXTRA POINTS']]
     const { calls } = mockGoogleFlow('I play bro', values)
-    const req = fakeRequest({
-      password: ADMIN_PASSWORD,
+    const req = adminRequest({
       type: 'ipb',
       giveawayId: 'TF7Vk',
       winnerSteamId: 'steamSecond',
@@ -456,8 +468,7 @@ describe('POST /api/verify', () => {
       ['TF7Vk', 'Gorogoa', 'dramainfouracts', 'YES', '15'],
     ]
     const { calls } = mockGoogleFlow('I play bro', values)
-    const req = fakeRequest({
-      password: ADMIN_PASSWORD,
+    const req = adminRequest({
       type: 'ipb',
       giveawayId: 'TF7Vk',
       winnerSteamId: 'steamSecond',
@@ -483,8 +494,7 @@ describe('POST /api/verify', () => {
       ['TF7Vk', 'Gorogoa', 'lext', 'YES', '15'],
     ]
     const { calls } = mockGoogleFlow('I play bro', values)
-    const req = fakeRequest({
-      password: ADMIN_PASSWORD,
+    const req = adminRequest({
       type: 'ipb',
       action: 'unverify',
       giveawayId: 'TF7Vk',

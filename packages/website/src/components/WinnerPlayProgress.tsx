@@ -6,7 +6,8 @@ import { useIsAdmin } from '@/lib/auth'
 import { formatPlaytime, formatPlaytimeCompact } from '@/lib/data'
 import { cn } from '@/lib/cn'
 
-function Tag({
+/** Compact attestation pill — the label, plus a check once it's verified. Shared by the winner chip and the mobile won-games ledger. */
+export function PlayTag({
   label,
   verified,
   title,
@@ -94,10 +95,10 @@ export function WinnerPlayProgress({
         </span>
       )}
       {stats.attested && (
-        <Tag label="IPB" verified title={'Marked "I played, bro!"'} />
+        <PlayTag label="IPB" verified title={'Marked "I played, bro!"'} />
       )}
       {stats.required_play && (
-        <Tag
+        <PlayTag
           label="PR"
           verified={Boolean(stats.requirements_met)}
           title={

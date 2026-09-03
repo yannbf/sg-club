@@ -175,7 +175,7 @@ export function LedgerAttrs({ attrs }: { attrs: LedgerAttr[] }) {
 }
 
 /**
- * Right-aligned age of the row: "2mo", "in 1d". Deliberately terse — at 267px
+ * Right-aligned age of the row: "2mo ago", "in 1d". Deliberately terse — at 267px
  * of usable width, "about 2 months ago" is the difference between one line and
  * two. The full date is one press away.
  */
@@ -192,7 +192,7 @@ export function LedgerWhen({ timestamp }: { timestamp: number }) {
   return (
     <Tooltip content={getFullDate(timestamp)}>
       <span className="tabular-nums-strict ml-auto whitespace-nowrap text-[11px] text-subtle">
-        {future ? `in ${distance}` : distance}
+        {future ? `in ${distance}` : `${distance} ago`}
       </span>
     </Tooltip>
   )
