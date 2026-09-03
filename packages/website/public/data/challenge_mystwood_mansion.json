@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1788220800,
   "totalAchievements": 20,
-  "generatedAt": 1788409318557,
+  "generatedAt": 1788411357536,
   "challengeOver": false,
   "winnerUsername": "Mahry",
   "participants": [
@@ -1637,14 +1637,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 174,
-      "playtime_2weeks_minutes": 174,
+      "playtime_total_minutes": 201,
+      "playtime_2weeks_minutes": 201,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 174,
+      "playtime_challenge_minutes": 201,
       "achievements_total": 20,
-      "achievements_unlocked_total": 14,
+      "achievements_unlocked_total": 18,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 14,
+      "achievements_since_baseline": 18,
       "challenge_achievements": [
         {
           "apiname": "ACH_A_ENTR_COMPL",
@@ -1729,9 +1729,33 @@
           "displayName": "No Loose Ends",
           "description": "Solve the wire puzzle in the office without any \"loose ends\" of the wire with electricity running through it.",
           "unlocktime": 1788329361
+        },
+        {
+          "apiname": "ACH_O_LIB_SCREW_ESC_P1",
+          "displayName": "Thinking Outside the Box",
+          "description": "Escape library part 1 in an unconventional way.",
+          "unlocktime": 1788409791
+        },
+        {
+          "apiname": "ACH_X_DELIV_PACK",
+          "displayName": "Dedicated",
+          "description": "Deliver the package.",
+          "unlocktime": 1788409819
+        },
+        {
+          "apiname": "ACH_Y_SAFE_DELIV",
+          "displayName": "Handled With Care",
+          "description": "Deliver the package without dropping or throwing it.",
+          "unlocktime": 1788409819
+        },
+        {
+          "apiname": "ACH_P_TRANSL_MELL",
+          "displayName": "The Translator",
+          "description": "Translate the last password of the library from elvish.",
+          "unlocktime": 1788409835
         }
       ],
-      "challenge_achievement_count": 14,
+      "challenge_achievement_count": 18,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
