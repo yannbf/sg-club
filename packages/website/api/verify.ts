@@ -3,12 +3,15 @@
 // rides Vercel's generic Node.js Function support rather than Next.js
 // routing). Marks a win as verified — or reverts a mistaken verification —
 // in the group's Google Sheet from the /verification admin page's
-// Verify/Unverify controls.
+// Verify/Unverify controls. Restricted to admins, identified by the
+// ADMIN_STEAM_IDS allowlist via the Steam-login session cookie.
 
 import type { IncomingMessage, ServerResponse } from 'node:http'
-import { createHash, createSign } from 'node:crypto'
+import { createSign } from 'node:crypto'
 import { loadDataFile } from './_lib/data.js'
 import { addReaction, editChannel, removeReaction } from './_lib/discord-rest.js'
+import { getSessionSteamId } from './_lib/session.js'
+import { isAdminSteamId } from './_lib/constants.js'
 
 export const config = {
   maxDuration: 30,
@@ -27,7 +30,6 @@ type VerifyType = 'ipb' | 'play_required'
 type VerifyAction = 'verify' | 'unverify' | 'register'
 
 interface VerifyRequestBody {
-  password?: string
   type?: VerifyType
   action?: VerifyAction
   giveawayId?: string
@@ -63,10 +65,6 @@ function respondJson(res: ServerResponse, statusCode: number, body: unknown): vo
   res.statusCode = statusCode
   res.setHeader('Content-Type', 'application/json')
   res.end(JSON.stringify(body))
-}
-
-function sha256Hex(value: string): string {
-  return createHash('sha256').update(value).digest('hex')
 }
 
 function base64url(input: Buffer | string): string {
@@ -327,13 +325,17 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
     return
   }
 
-  const { password, type, giveawayId, discordThreadId, winnerSteamId } = body
+  const { type, giveawayId, discordThreadId, winnerSteamId } = body
   const action: VerifyAction =
     body.action === 'unverify' ? 'unverify' : body.action === 'register' ? 'register' : 'verify'
 
-  const expectedHash = process.env.ADMIN_PASSWORD_HASH
-  if (!expectedHash || !password || sha256Hex(password) !== expectedHash) {
-    respondJson(res, 401, { error: 'Unauthorized' })
+  const steamId = getSessionSteamId(req)
+  if (!steamId) {
+    respondJson(res, 401, { error: 'Not signed in' })
+    return
+  }
+  if (!isAdminSteamId(steamId)) {
+    respondJson(res, 403, { error: 'Admin only' })
     return
   }
 

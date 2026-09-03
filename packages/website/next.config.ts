@@ -16,6 +16,11 @@ const nextConfig: NextConfig = {
         hostname: 'steamplayercount.com',
         pathname: '/theme/img/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'avatars.steamstatic.com',
+        pathname: '/**',
+      },
     ],
   },
   // Disable server-side features for static export

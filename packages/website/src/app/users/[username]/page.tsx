@@ -4,7 +4,7 @@ import { createCreatorResolver } from '@/lib/creator-resolver'
 import { buildWinnerPlayStats } from '@/lib/winner-play-stats'
 import { notFound } from 'next/navigation'
 import UserDetailPageClient from './UserDetailPageClient'
-import { AdminGate } from '@/components/AdminGate'
+import { ProfileGate } from '@/components/ProfileGate'
 import leaversData from '@/../investigation/giveaway_leavers.json';
 import { GiveawayLeaver } from '@/types/stats';
 import { Giveaway } from '@/types';
@@ -209,7 +209,7 @@ export default async function UserDetailPage(
   const hoursByMonth = Object.fromEntries(hoursGamesByMonth)
 
   return (
-    <AdminGate>
+    <ProfileGate ownerSteamId={user.steam_id}>
       <UserDetailPageClient
         user={user}
         allUsers={allUsers}
@@ -225,6 +225,6 @@ export default async function UserDetailPage(
         hoursPerMonth={hoursPerMonth}
         hoursByMonth={hoursByMonth}
       />
-    </AdminGate>
+    </ProfileGate>
   )
 } 
