@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1788220800,
   "totalAchievements": 20,
-  "generatedAt": 1788439917120,
+  "generatedAt": 1788446626881,
   "challengeOver": false,
   "winnerUsername": "Mahry",
   "participants": [
@@ -1920,14 +1920,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 241,
-      "playtime_2weeks_minutes": 241,
+      "playtime_total_minutes": 297,
+      "playtime_2weeks_minutes": 297,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 241,
+      "playtime_challenge_minutes": 297,
       "achievements_total": 20,
-      "achievements_unlocked_total": 9,
+      "achievements_unlocked_total": 14,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 9,
+      "achievements_since_baseline": 14,
       "challenge_achievements": [
         {
           "apiname": "ACH_F_THROW_PACKAGE",
@@ -1982,9 +1982,39 @@
           "displayName": "Botanical Breakout",
           "description": " Escape the Winter Garden level.",
           "unlocktime": 1788437973
+        },
+        {
+          "apiname": "ACH_X_DELIV_PACK",
+          "displayName": "Dedicated",
+          "description": "Deliver the package.",
+          "unlocktime": 1788440307
+        },
+        {
+          "apiname": "ACH_Y_SAFE_DELIV",
+          "displayName": "Handled With Care",
+          "description": "Deliver the package without dropping or throwing it.",
+          "unlocktime": 1788440307
+        },
+        {
+          "apiname": "ACH_E_LIB_COMPL",
+          "displayName": "Literary Escapee",
+          "description": "Escape the Library level.",
+          "unlocktime": 1788446402
+        },
+        {
+          "apiname": "ACH_R_MANSIONESCAPE",
+          "displayName": "Mansion Escape",
+          "description": "Escape the Mansion.",
+          "unlocktime": 1788446490
+        },
+        {
+          "apiname": "ACH_S_NO_HINTS",
+          "displayName": "Look Ma, No Hints!",
+          "description": "Complete the game without using any hints.",
+          "unlocktime": 1788446490
         }
       ],
-      "challenge_achievement_count": 9,
+      "challenge_achievement_count": 14,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
