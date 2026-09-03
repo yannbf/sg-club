@@ -15,6 +15,7 @@ import {
   Menu,
   Shield,
   ShieldCheck,
+  User,
   Users,
   X,
 } from 'lucide-react'
@@ -22,6 +23,13 @@ import * as React from 'react'
 import { ThemeToggle } from '@/components/ThemeToggle'
 import { useAuth } from '@/lib/auth'
 import { cn } from '@/lib/cn'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/DropdownMenu'
 
 interface NavItem {
   href: string
@@ -50,10 +58,29 @@ function isActive(pathname: string, href: string) {
   return pathname === href || pathname.startsWith(href + '/')
 }
 
+function UserAvatarIcon({ avatarUrl, className }: { avatarUrl: string | null; className?: string }) {
+  if (avatarUrl) {
+    return (
+      <Image
+        width={24}
+        height={24}
+        src={avatarUrl}
+        alt=""
+        className={cn('h-6 w-6 rounded-full object-cover ring-1 ring-card-border', className)}
+      />
+    )
+  }
+  return (
+    <span className="flex h-6 w-6 items-center justify-center rounded-full bg-card-background-hover">
+      <User className="h-3.5 w-3.5 text-muted-foreground" />
+    </span>
+  )
+}
+
 export function SiteHeader() {
   const pathname = usePathname() ?? '/'
   const [open, setOpen] = React.useState(false)
-  const { isAdmin, isReady, logout } = useAuth()
+  const { user, isAdmin, isReady, logout } = useAuth()
 
   const visibleNav = NAV.filter((item) => !item.adminOnly || isAdmin)
 
@@ -116,17 +143,34 @@ export function SiteHeader() {
 
         <div className="ml-auto flex items-center gap-2 lg:ml-0">
           {isReady &&
-            (isAdmin ? (
-              <button
-                type="button"
-                onClick={logout}
-                title="Sign out of admin"
-                className="hidden h-9 items-center gap-1.5 rounded-md border border-card-border bg-card-background px-2.5 text-xs font-medium text-muted-foreground transition-colors hover:bg-card-background-hover hover:text-foreground sm:inline-flex"
-              >
-                <Shield className="h-3.5 w-3.5 text-primary-hi" />
-                Admin
-                <LogOut className="h-3.5 w-3.5" />
-              </button>
+            (user ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button
+                    type="button"
+                    className="hidden h-9 items-center gap-1.5 rounded-md border border-card-border bg-card-background px-2 text-xs font-medium text-muted-foreground transition-colors hover:bg-card-background-hover hover:text-foreground sm:inline-flex"
+                  >
+                    <UserAvatarIcon avatarUrl={user.avatarUrl} />
+                    {user.username ?? user.steamId}
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuItem asChild>
+                    <Link href="/me/">My profile</Link>
+                  </DropdownMenuItem>
+                  {isAdmin && (
+                    <DropdownMenuItem disabled className="text-primary-hi">
+                      <Shield className="h-3.5 w-3.5" />
+                      Admin
+                    </DropdownMenuItem>
+                  )}
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onSelect={() => logout()}>
+                    <LogOut className="h-3.5 w-3.5" />
+                    Sign out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             ) : (
               <Link
                 href="/login"
@@ -179,18 +223,34 @@ export function SiteHeader() {
           })}
           {isReady && (
             <div className="mt-2 border-t border-card-border pt-2">
-              {isAdmin ? (
-                <button
-                  type="button"
-                  onClick={() => {
-                    logout()
-                    setOpen(false)
-                  }}
-                  className="inline-flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-card-background-hover hover:text-foreground"
-                >
-                  <LogOut className="h-4 w-4" />
-                  Sign out of admin
-                </button>
+              {user ? (
+                <>
+                  <Link
+                    href="/me/"
+                    onClick={() => setOpen(false)}
+                    className="inline-flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-card-background-hover hover:text-foreground"
+                  >
+                    <UserAvatarIcon avatarUrl={user.avatarUrl} />
+                    My profile
+                  </Link>
+                  {isAdmin && (
+                    <div className="inline-flex w-full items-center gap-2 px-3 py-2 text-sm font-medium text-primary-hi">
+                      <Shield className="h-4 w-4" />
+                      Admin
+                    </div>
+                  )}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      logout()
+                      setOpen(false)
+                    }}
+                    className="inline-flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-card-background-hover hover:text-foreground"
+                  >
+                    <LogOut className="h-4 w-4" />
+                    Sign out
+                  </button>
+                </>
               ) : (
                 <Link
                   href="/login"
@@ -198,7 +258,7 @@ export function SiteHeader() {
                   className="inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-card-background-hover hover:text-foreground"
                 >
                   <LogIn className="h-4 w-4" />
-                  Admin sign in
+                  Sign in with Steam
                 </Link>
               )}
             </div>

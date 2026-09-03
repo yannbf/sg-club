@@ -82,8 +82,23 @@ pnpm --filter scraper check-deleted-giveaways
 | `SG_COOKIE` | SteamGifts session cookie (`PHPSESSID=...`) for authenticated scraping |
 | `SG_TOKEN` | SteamGifts XSRF/form token |
 | `STEAM_API_KEY` | Steam Web API key for playtime and achievement data |
+| `SESSION_SECRET` | Signs the Steam login session cookie issued by `/api/auth/*` |
+| `ADMIN_STEAM_IDS` | Comma-separated SteamID64 allowlist granting admin status on sign-in |
+| `SITE_ORIGIN` | (optional) Overrides the origin used to build the Steam OpenID return URL |
+| `NEXT_PUBLIC_DEV_STEAM_ID` | (dev-only) Fakes a signed-in Steam user under `next dev`, where `/api/auth/*` doesn't run |
+| `NEXT_PUBLIC_DEV_USERNAME` | (dev-only) Display name for the faked dev user |
+| `NEXT_PUBLIC_DEV_ADMIN` | (dev-only) Set to `1` to also fake admin status |
 
 These are set in `.env` locally and as GitHub Actions secrets for CI.
+
+## Auth
+
+Sign-in is Steam OpenID via `/api/auth/*` (login, callback, logout, me),
+which sets an HttpOnly session cookie identifying the SteamID. Admins are the
+SteamIDs listed in `ADMIN_STEAM_IDS`; a member's own profile page is visible
+to that member and to admins. Gating (`AdminGate`, `ProfileGate`) is
+client-side only — the underlying `/data/*.json` files are public static
+assets, so gating controls page UX, not data access.
 
 ## Pages
 
@@ -93,7 +108,8 @@ These are set in `.env` locally and as GitHub Actions secrets for CI.
 | `/games` | Game analytics grid (masonry layout) with playtime/achievement stats |
 | `/giveaways` | Searchable/filterable giveaway table (virtualized) |
 | `/users` | User directory sorted by contribution metrics |
-| `/users/[username]` | Individual user profile with detailed stats |
+| `/users/[username]` | Individual user profile with detailed stats (admin or the profile owner) |
+| `/me` | Redirects to the signed-in user's own profile |
 | `/stats` | Public group stats & charts (giveaways, CV, entries, members, top contributors) |
 | `/leavers` | Leaver/activity investigation data (admin-only) |
 

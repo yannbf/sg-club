@@ -50,6 +50,28 @@ export function getDataBaseUrl(): string | undefined {
   return process.env.DATA_BASE_URL
 }
 
+/** HMAC secret for signing `sg_session` cookies (see api/_lib/session.ts). */
+export function getSessionSecret(): string {
+  const secret = process.env.SESSION_SECRET
+  if (!secret) throw new Error('SESSION_SECRET is not set')
+  return secret
+}
+
+/** Comma-separated 64-bit Steam ids allowed to use the admin-only endpoints. */
+export function getAdminSteamIds(): Set<string> {
+  const raw = process.env.ADMIN_STEAM_IDS ?? ''
+  return new Set(
+    raw
+      .split(',')
+      .map((id) => id.trim())
+      .filter((id) => id.length > 0)
+  )
+}
+
+export function isAdminSteamId(id: string): boolean {
+  return getAdminSteamIds().has(id)
+}
+
 /**
  * Production announce-channel override for /challenge-setup. While `null`
  * (test phase), the announcement posts in whatever channel the command was

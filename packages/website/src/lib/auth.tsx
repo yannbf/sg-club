@@ -8,96 +8,123 @@ import {
   useState,
 } from 'react'
 
-const ADMIN_USERNAME_HASH =
-  '27b98bbff3b5691b6b9624ddf4d36721c5e9e26c630bb0e6f79c714b2c309990'
-const ADMIN_PASSWORD_HASH =
-  'a3c0df4870927ec0a94a01dcc9f3734db646cee09f9342ad5839dd8d8e2fe2cd'
-const STORAGE_KEY = 'sg-club-admin'
-const ADMIN_SECRET_STORAGE_KEY = 'sg-club-admin-secret'
+const LEGACY_STORAGE_KEY = 'sg-club-admin'
+const LEGACY_ADMIN_SECRET_STORAGE_KEY = 'sg-club-admin-secret'
 
-/**
- * The admin password captured at login, for endpoints that verify it
- * server-side (/api/verify). Null when the user logged in before this was
- * introduced or storage is unavailable — callers should fall back to
- * prompting.
- */
-export function getStoredAdminPassword(): string | null {
-  try {
-    return localStorage.getItem(ADMIN_SECRET_STORAGE_KEY)
-  } catch {
-    return null
-  }
-}
-
-async function sha256(value: string): Promise<string> {
-  const bytes = new TextEncoder().encode(value)
-  const digest = await crypto.subtle.digest('SHA-256', bytes)
-  return Array.from(new Uint8Array(digest))
-    .map((b) => b.toString(16).padStart(2, '0'))
-    .join('')
+export type SteamUser = {
+  steamId: string
+  username: string | null
+  avatarUrl: string | null
+  isMember: boolean
+  isExMember: boolean
+  isAdmin: boolean
 }
 
 type AuthContextValue = {
+  user: SteamUser | null
   isAdmin: boolean
   isReady: boolean
-  login: (username: string, password: string) => Promise<boolean>
-  logout: () => void
+  apiUnavailable: boolean
+  loginWithSteam: (next?: string) => void
+  logout: () => Promise<void>
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null)
 
+/**
+ * Synthesizes a signed-in user under `next dev`, where `/api/auth/*` doesn't
+ * run (those functions are Vercel-only), so admin/profile pages stay
+ * viewable locally. Controlled by three env vars, all optional:
+ * - NEXT_PUBLIC_DEV_STEAM_ID: enables the fallback when set
+ * - NEXT_PUBLIC_DEV_USERNAME: display name (defaults to null)
+ * - NEXT_PUBLIC_DEV_ADMIN: '1' to also fake admin status
+ */
+function devFallbackUser(): SteamUser | null {
+  if (process.env.NODE_ENV !== 'development') return null
+  const steamId = process.env.NEXT_PUBLIC_DEV_STEAM_ID
+  if (!steamId) return null
+  return {
+    steamId,
+    username: process.env.NEXT_PUBLIC_DEV_USERNAME ?? null,
+    avatarUrl: null,
+    isMember: true,
+    isExMember: false,
+    isAdmin: process.env.NEXT_PUBLIC_DEV_ADMIN === '1',
+  }
+}
+
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [isAdmin, setIsAdmin] = useState(false)
+  const [user, setUser] = useState<SteamUser | null>(null)
   const [isReady, setIsReady] = useState(false)
+  const [apiUnavailable, setApiUnavailable] = useState(false)
 
   useEffect(() => {
     try {
-      setIsAdmin(localStorage.getItem(STORAGE_KEY) === '1')
+      localStorage.removeItem(LEGACY_STORAGE_KEY)
+      localStorage.removeItem(LEGACY_ADMIN_SECRET_STORAGE_KEY)
     } catch {}
-    setIsReady(true)
-  }, [])
 
-  const login = useCallback(async (username: string, password: string) => {
-    const [userHash, passHash] = await Promise.all([
-      sha256(username),
-      sha256(password),
-    ])
-    if (userHash === ADMIN_USERNAME_HASH && passHash === ADMIN_PASSWORD_HASH) {
+    let cancelled = false
+
+    async function loadUser() {
       try {
-        localStorage.setItem(STORAGE_KEY, '1')
-        // Kept so server-verified actions (/api/verify) can authenticate
-        // without re-prompting while the admin session lasts.
-        localStorage.setItem(ADMIN_SECRET_STORAGE_KEY, password)
-      } catch {}
-      setIsAdmin(true)
-      return true
+        const res = await fetch('/api/auth/me', {
+          credentials: 'same-origin',
+          cache: 'no-store',
+        })
+        if (!res.ok) throw new Error(`Request failed (${res.status})`)
+        const data = await res.json()
+        if (cancelled) return
+        setUser(data.user ?? null)
+      } catch {
+        if (cancelled) return
+        setApiUnavailable(true)
+        setUser(devFallbackUser())
+      } finally {
+        if (!cancelled) setIsReady(true)
+      }
     }
-    return false
+
+    loadUser()
+    return () => {
+      cancelled = true
+    }
   }, [])
 
-  const logout = useCallback(() => {
+  const loginWithSteam = useCallback((next?: string) => {
+    const target = next ?? window.location.pathname
+    window.location.assign('/api/auth/steam/login?next=' + encodeURIComponent(target))
+  }, [])
+
+  const logout = useCallback(async () => {
     try {
-      localStorage.removeItem(STORAGE_KEY)
-      localStorage.removeItem(ADMIN_SECRET_STORAGE_KEY)
+      await fetch('/api/auth/logout', { method: 'POST', credentials: 'same-origin' })
     } catch {}
-    setIsAdmin(false)
+    setUser(null)
   }, [])
 
-  return (
-    <AuthContext.Provider value={{ isAdmin, isReady, login, logout }}>
-      {children}
-    </AuthContext.Provider>
-  )
+  const value: AuthContextValue = {
+    user,
+    isAdmin: user?.isAdmin ?? false,
+    isReady,
+    apiUnavailable,
+    loginWithSteam,
+    logout,
+  }
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
 
 export function useAuth(): AuthContextValue {
   const ctx = useContext(AuthContext)
   if (!ctx) {
     return {
+      user: null,
       isAdmin: false,
       isReady: false,
-      login: async () => false,
-      logout: () => {},
+      apiUnavailable: false,
+      loginWithSteam: () => {},
+      logout: async () => {},
     }
   }
   return ctx
@@ -107,7 +134,6 @@ export function useIsAdmin(): boolean {
   return useAuth().isAdmin
 }
 
-/** Checks a password against the known client-side admin hash, to fail fast before a server round-trip. */
-export async function verifyAdminPasswordHash(password: string): Promise<boolean> {
-  return (await sha256(password)) === ADMIN_PASSWORD_HASH
+export function useSteamUser(): SteamUser | null {
+  return useAuth().user
 }
