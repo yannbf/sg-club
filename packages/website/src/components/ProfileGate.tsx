@@ -2,19 +2,22 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Lock } from 'lucide-react'
+import { Eye, Lock } from 'lucide-react'
 import { useAuth } from '@/lib/auth'
 import { Card } from '@/components/ui/Card'
+import { Button } from '@/components/ui/Button'
 import { SteamSignInButton } from '@/components/SteamSignInButton'
 
 export function ProfileGate({
   ownerSteamId,
+  ownerUsername,
   children,
 }: {
   ownerSteamId: string
+  ownerUsername: string
   children: React.ReactNode
 }) {
-  const { user, isAdmin, isReady, apiUnavailable } = useAuth()
+  const { user, isAdmin, isRealAdmin, isReady, apiUnavailable, viewAs, setViewAs } = useAuth()
   const pathname = usePathname() ?? '/'
 
   if (!isReady) {
@@ -63,5 +66,23 @@ export function ProfileGate({
     )
   }
 
-  return <>{children}</>
+  return (
+    <>
+      {isRealAdmin && !viewAs && (
+        <div className="mb-3 flex justify-end">
+          <Button
+            type="button"
+            variant="secondary"
+            size="sm"
+            onClick={() => setViewAs({ steamId: ownerSteamId, username: ownerUsername })}
+            title="Render this page the way this member sees it"
+          >
+            <Eye className="h-3.5 w-3.5" />
+            View as {ownerUsername}
+          </Button>
+        </div>
+      )}
+      {children}
+    </>
+  )
 }

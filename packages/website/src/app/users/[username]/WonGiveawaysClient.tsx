@@ -51,12 +51,12 @@ type WonGiveaway = NonNullable<User['giveaways_won']>[number]
  * Anything without a number lives here; only deadlines, which carry days, are
  * spelled out as chips.
  */
-function wonAttrs(game: WonGiveaway, giveaway?: Partial<Giveaway>): LedgerAttr[] {
+function wonAttrs(game: WonGiveaway, giveaway: Partial<Giveaway> | undefined, isAdmin: boolean): LedgerAttr[] {
   return [
     giveaway?.region_restricted && { emoji: '🌍', label: 'Region restricted' },
     giveaway?.is_shared && { emoji: '👥', label: 'Shared giveaway' },
     giveaway?.whitelist && { emoji: '🩵', label: 'Whitelist' },
-    game.steam_play_data?.is_potentially_idling && { emoji: '💤', label: 'Potentially idling' },
+    isAdmin && game.steam_play_data?.is_potentially_idling && { emoji: '💤', label: 'Potentially idling' },
   ].filter(Boolean) as LedgerAttr[]
 }
 
@@ -428,12 +428,12 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData, 
                           title={game.required_play_meta?.additional_notes || 'Play required'}
                         />
                       )}
-                    {needsReview && (
+                    {isAdmin && needsReview && (
                       <LedgerChip tone="warn" title="Playtime or achievements suggest this play requirement is met — needs review">
                         🔍 Review
                       </LedgerChip>
                     )}
-                    <LedgerAttrs attrs={wonAttrs(game, giveawayInfo)} />
+                    <LedgerAttrs attrs={wonAttrs(game, giveawayInfo, isAdmin)} />
                     {authorName && (
                       <UserLink
                         username={authorName}
@@ -533,7 +533,7 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData, 
                                     🌍 Restricted
                                   </span>
                                 )}
-                                {game.steam_play_data?.is_potentially_idling && (
+                                {isAdmin && game.steam_play_data?.is_potentially_idling && (
                                   <span className="text-xs font-medium px-2 py-1 bg-error-light text-error-foreground rounded-full">
                                     💤 Potentially Idling
                                   </span>
@@ -545,7 +545,7 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData, 
                                     </span>
                                   </Tooltip>
                                 )}
-                                {needsReview && (
+                                {isAdmin && needsReview && (
                                   <span className="text-xs font-medium px-2 py-1 bg-orange-500 text-white rounded-full">
                                     🔍 Needs Play Required Review
                                   </span>

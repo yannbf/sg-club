@@ -11,6 +11,7 @@ import {
   DialogDescription,
 } from '@/components/ui/Dialog'
 import { Badge } from '@/components/ui/Badge'
+import { useIsAdmin } from '@/lib/auth'
 import GameImage from '@/components/GameImage'
 import UserAvatar from '@/components/UserAvatar'
 import { UserLink } from '@/components/UserLink'
@@ -188,10 +189,14 @@ function DrilldownRow({
   showWonRelativeTime?: boolean
   showCreatedWonLabels?: boolean
 }) {
+  const isAdmin = useIsAdmin()
   const hasAchievements = Boolean(row.achievementsTotal && row.achievementsTotal > 0)
   const achievementsCompleted =
     hasAchievements && (row.achievementsUnlocked ?? 0) >= row.achievementsTotal!
-  const showNeverPlayedBadge = row.neverPlayed && !row.unreleased && !hideNeverPlayedBadge
+  // "Never played" is a verdict on the member, so only admins see it; the
+  // playtime and achievement facts on the row stay for everyone.
+  const showNeverPlayedBadge =
+    isAdmin && row.neverPlayed && !row.unreleased && !hideNeverPlayedBadge
   const showConfirmedPlayedBadge =
     row.confirmedPlayed && row.playtimeMinutes == null && !row.unreleased
 

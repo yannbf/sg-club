@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation'
 import {
   BarChart3,
   CalendarDays,
+  Eye,
   Gamepad2,
   Gift,
   Heart,
@@ -80,12 +81,25 @@ function UserAvatarIcon({ avatarUrl, className }: { avatarUrl: string | null; cl
 export function SiteHeader() {
   const pathname = usePathname() ?? '/'
   const [open, setOpen] = React.useState(false)
-  const { user, isAdmin, isReady, logout } = useAuth()
+  const { user, isAdmin, isReady, logout, viewAs, setViewAs } = useAuth()
 
   const visibleNav = NAV.filter((item) => !item.adminOnly || isAdmin)
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-card-border bg-background/85 backdrop-blur supports-[backdrop-filter]:bg-background/65">
+      {viewAs && (
+        <div className="flex items-center justify-center gap-3 bg-warning-light px-4 py-1.5 text-xs font-medium text-warning-foreground">
+          <Eye className="h-3.5 w-3.5" />
+          Viewing as {viewAs.username} — admin-only content is hidden
+          <button
+            type="button"
+            onClick={() => setViewAs(null)}
+            className="rounded-md border border-current px-2 py-0.5 font-semibold transition-colors hover:bg-warning-foreground/10"
+          >
+            Exit
+          </button>
+        </div>
+      )}
       <div className="mx-auto flex h-14 max-w-screen-2xl items-center gap-4 px-4">
         <a
           href="https://www.steamgifts.com/group/WlYTQ/thegiveawaysclub"
