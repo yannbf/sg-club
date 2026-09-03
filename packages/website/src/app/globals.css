@@ -186,58 +186,20 @@
     border-radius: 4px;
   }
 
-  /* Printing always uses the light palette: browsers drop page backgrounds by
-     default, which leaves the dark theme's light text on white paper. Card and
-     badge fills are kept so the printout still reads like the page. */
+  /* Printing keeps the active theme. Browsers skip page backgrounds by
+     default, which would leave dark mode's light text on white paper, so
+     backgrounds and fills are forced to print as displayed. */
   @media print {
-    :root,
-    [data-theme='dark'],
-    :root:not([data-theme]) {
-      color-scheme: light;
-      --background: #f8f9fc;
-      --background-elevated: #ffffff;
-      --foreground: #0f172a;
-      --card-background: #ffffff;
-      --card-background-hover: #f8fafc;
-      --card-border: #e5e7eb;
-      --card-border-strong: #cbd5e1;
-      --card-border-problem: #ef4444;
-      --card-border-warning: #f59e0b;
-      --card-border-info: #3b82f6;
-      --muted: #6b7280;
-      --muted-foreground: #475569;
-      --subtle: #94a3b8;
-      --primary: #7c3aed;
-      --primary-foreground: #ffffff;
-      --primary-hi: #a78bfa;
-      --accent: #7c3aed;
-      --accent-foreground: #ffffff;
-      --accent-hover: #6d28d9;
-      --accent-blue: #3b82f6;
-      --accent-purple: #8b5cf6;
-      --accent-green: #16a34a;
-      --accent-yellow: #ca8a04;
-      --accent-red: #dc2626;
-      --accent-orange: #ea580c;
-      --accent-rose: #f43f5e;
-      --success: #16a34a;
-      --success-foreground: #166534;
-      --success-light: #dcfce7;
-      --warning: #d97706;
-      --warning-foreground: #854d0e;
-      --warning-light: #fef3c7;
-      --error: #dc2626;
-      --error-foreground: #991b1b;
-      --error-light: #fee2e2;
-      --info: #2563eb;
-      --info-foreground: #1e3a8a;
-      --info-light: #dbeafe;
+    html,
+    body {
+      background: var(--background);
     }
 
-    body {
+    * {
       -webkit-print-color-adjust: exact;
       print-color-adjust: exact;
     }
+  }
   }
 }
 
