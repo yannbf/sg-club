@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-09-03T05:14:26.821Z",
+  "last_updated": "2026-09-03T10:21:44.231Z",
   "giveaways": [
     {
       "id": "WlgqJ",
@@ -56,7 +56,7 @@
       "end_timestamp": 1788458400,
       "group": true,
       "comment_count": 0,
-      "entry_count": 14,
+      "entry_count": 15,
       "creator": "76561198024970451",
       "cv_status": "FULL_CV",
       "event_type": "september_event_2026",
@@ -178,7 +178,7 @@
       "end_timestamp": 1788465600,
       "group": true,
       "comment_count": 2,
-      "entry_count": 13,
+      "entry_count": 14,
       "creator": "76561198082023389",
       "cv_status": "FULL_CV",
       "event_type": "september_event_2026",
@@ -198,7 +198,7 @@
       "end_timestamp": 1788468240,
       "group": true,
       "comment_count": 0,
-      "entry_count": 14,
+      "entry_count": 15,
       "creator": "76561198113581790",
       "cv_status": "FULL_CV",
       "event_type": "september_event_2026",
@@ -218,7 +218,7 @@
       "end_timestamp": 1788468780,
       "group": true,
       "comment_count": 0,
-      "entry_count": 12,
+      "entry_count": 13,
       "creator": "76561198025834664",
       "cv_status": "FULL_CV",
       "event_type": "september_event_2026",
@@ -339,8 +339,8 @@
       "end_timestamp": 1788512400,
       "whitelist": true,
       "group": true,
-      "comment_count": 0,
-      "entry_count": 13,
+      "comment_count": 2,
+      "entry_count": 20,
       "creator": "76561197967055456",
       "is_shared": true,
       "cv_status": "FULL_CV",
@@ -361,7 +361,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 2,
-      "entry_count": 14,
+      "entry_count": 22,
       "creator": "76561197967055456",
       "is_shared": true,
       "cv_status": "FULL_CV",
@@ -381,7 +381,7 @@
       "end_timestamp": 1788570000,
       "group": true,
       "comment_count": 11,
-      "entry_count": 21,
+      "entry_count": 22,
       "creator": "76561198044300922",
       "cv_status": "FULL_CV",
       "event_type": "september_event_2026",
@@ -581,7 +581,7 @@
       "end_timestamp": 1788652800,
       "group": true,
       "comment_count": 0,
-      "entry_count": 2,
+      "entry_count": 5,
       "creator": "76561199028503777",
       "cv_status": "FULL_CV",
       "event_type": "september_event_2026",
@@ -722,7 +722,7 @@
       "end_timestamp": 1788775200,
       "group": true,
       "comment_count": 0,
-      "entry_count": 8,
+      "entry_count": 9,
       "creator": "76561198055569704",
       "required_play": true,
       "cv_status": "FULL_CV",
@@ -1123,6 +1123,25 @@
       "deleted": false
     },
     {
+      "id": "KZ30C",
+      "name": "Bloodshed",
+      "points": 13,
+      "copies": 1,
+      "app_id": 2747550,
+      "package_id": null,
+      "link": "KZ30C/bloodshed",
+      "created_timestamp": 1788419173,
+      "start_timestamp": 1788419173,
+      "end_timestamp": 1789146240,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 0,
+      "creator": "76561199644864244",
+      "cv_status": "FULL_CV",
+      "creator_username": "Grogglz",
+      "deleted": false
+    },
+    {
       "id": "nNJRR",
       "name": "Nioh 3",
       "points": 50,
@@ -1300,7 +1319,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 159,
+      "entry_count": 158,
       "creator": "76561198042896883",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -1382,21 +1401,21 @@
       "end_timestamp": 1788386400,
       "region_restricted": true,
       "group": true,
-      "comment_count": 6,
+      "comment_count": 9,
       "entry_count": 35,
       "creator": "76561199434715535",
       "required_play": true,
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "76561198129984336",
+          "status": "received",
+          "winner_username": "vampiresska"
         }
       ],
       "cv_status": "FULL_CV",
       "event_type": "september_event_2026",
-      "creator_username": "DancingXmas",
-      "deleted": false
+      "creator_username": "DancingXmas"
     },
     {
       "id": "eZjpB",
@@ -11060,7 +11079,8 @@
       "hasWinners": false,
       "winners": [],
       "cv_status": "FULL_CV",
-      "creator_username": "lext"
+      "creator_username": "lext",
+      "deleted": false
     },
     {
       "id": "l3IW2",
