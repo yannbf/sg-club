@@ -834,7 +834,7 @@ export default function DashboardClient({
             <Row
               label={
                 <span title="Keys actually delivered to winners (status = received).">
-                  Giveaways successfully sent
+                  Games successfully sent
                 </span>
               }
               value={fmt(stats.totalGiveawaysWon)}
@@ -853,7 +853,7 @@ export default function DashboardClient({
             <Row
               label={
                 <>
-                  <span className="font-semibold">Full CV</span> giveaways
+                  <span className="font-semibold">Full CV</span> games
                   successfully sent
                 </>
               }

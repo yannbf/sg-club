@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import {
   ArrowDown,
   ArrowUp,
@@ -56,6 +56,8 @@ type SortKey = 'name' | 'giveaways' | 'copies' | 'winners'
 type SortDir = 'asc' | 'desc'
 type StateFilter = 'all' | 'has_open' | 'all_ended' | 'no_entries'
 
+const PAGE_SIZE = 60
+
 export default function GamesClient({
   giveaways,
   gameData,
@@ -68,6 +70,11 @@ export default function GamesClient({
   const [sortBy, setSortBy] = useState<SortKey>('giveaways')
   const [sortDirection, setSortDirection] = useState<SortDir>('desc')
   const [stateFilter, setStateFilter] = useState<StateFilter>('all')
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE)
+
+  useEffect(() => {
+    setVisibleCount(PAGE_SIZE)
+  }, [debouncedSearch, sortBy, sortDirection, stateFilter])
 
   const summaries = useMemo<GameSummary[]>(() => {
     const gameMap = new Map<string | number, GameSummary>()
@@ -175,6 +182,27 @@ export default function GamesClient({
     return list
   }, [summaries, debouncedSearch, stateFilter, sortBy, sortDirection])
 
+  const visible = useMemo(
+    () => filtered.slice(0, visibleCount),
+    [filtered, visibleCount],
+  )
+
+  const sentinelRef = useRef<HTMLDivElement | null>(null)
+  useEffect(() => {
+    const node = sentinelRef.current
+    if (!node) return
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0]?.isIntersecting) {
+          setVisibleCount((c) => Math.min(c + PAGE_SIZE, filtered.length))
+        }
+      },
+      { rootMargin: '600px' },
+    )
+    observer.observe(node)
+    return () => observer.disconnect()
+  }, [filtered.length])
+
   const resetFilters = () => {
     setSearchTerm('')
     setSortBy('giveaways')
@@ -258,17 +286,20 @@ export default function GamesClient({
       <p className="text-sm text-muted-foreground">
         Showing{' '}
         <span className="font-medium text-foreground tabular-nums-strict">
-          {filtered.length.toLocaleString()}
+          {visible.length.toLocaleString()}
         </span>{' '}
         of{' '}
         <span className="font-medium text-foreground tabular-nums-strict">
-          {summaries.length.toLocaleString()}
+          {filtered.length.toLocaleString()}
         </span>{' '}
         games
+        {filtered.length !== summaries.length && (
+          <> (out of {summaries.length.toLocaleString()})</>
+        )}
       </p>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        {filtered.map((row) => {
+        {visible.map((row) => {
           const {
             key,
             game,
@@ -414,6 +445,19 @@ export default function GamesClient({
           )
         })}
       </div>
+
+      {visibleCount < filtered.length && (
+        <div ref={sentinelRef} className="flex justify-center py-8">
+          <Button
+            variant="outline"
+            onClick={() =>
+              setVisibleCount((c) => Math.min(c + PAGE_SIZE, filtered.length))
+            }
+          >
+            Load more ({filtered.length - visibleCount} remaining)
+          </Button>
+        </div>
+      )}
 
       {filtered.length === 0 && (
         <Card className="flex flex-col items-center gap-3 p-12 text-center">
