@@ -21,7 +21,7 @@ export type SteamUser = {
 }
 
 /** A member an admin is impersonating on screen, so the UI renders as that member would see it. */
-export type ViewAs = { steamId: string; username: string }
+export type ViewAs = { steamId: string; username: string; avatarUrl: string | null }
 
 type AuthContextValue = {
   /** The effective user — the impersonated member while `viewAs` is set. */
@@ -46,7 +46,11 @@ function readStoredViewAs(): ViewAs | null {
     if (!raw) return null
     const parsed = JSON.parse(raw)
     if (typeof parsed?.steamId === 'string' && typeof parsed?.username === 'string') {
-      return { steamId: parsed.steamId, username: parsed.username }
+      return {
+        steamId: parsed.steamId,
+        username: parsed.username,
+        avatarUrl: typeof parsed.avatarUrl === 'string' ? parsed.avatarUrl : null,
+      }
     }
   } catch {}
   return null
@@ -145,7 +149,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     ? {
         steamId: activeViewAs.steamId,
         username: activeViewAs.username,
-        avatarUrl: null,
+        avatarUrl: activeViewAs.avatarUrl,
         isMember: true,
         isExMember: false,
         isAdmin: false,

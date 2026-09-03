@@ -11,10 +11,12 @@ import { SteamSignInButton } from '@/components/SteamSignInButton'
 export function ProfileGate({
   ownerSteamId,
   ownerUsername,
+  ownerAvatarUrl,
   children,
 }: {
   ownerSteamId: string
   ownerUsername: string
+  ownerAvatarUrl: string | null
   children: React.ReactNode
 }) {
   const { user, isAdmin, isRealAdmin, isReady, apiUnavailable, viewAs, setViewAs } = useAuth()
@@ -74,7 +76,9 @@ export function ProfileGate({
             type="button"
             variant="secondary"
             size="sm"
-            onClick={() => setViewAs({ steamId: ownerSteamId, username: ownerUsername })}
+            onClick={() =>
+              setViewAs({ steamId: ownerSteamId, username: ownerUsername, avatarUrl: ownerAvatarUrl })
+            }
             title="Render this page the way this member sees it"
           >
             <Eye className="h-3.5 w-3.5" />
