@@ -1,8 +1,12 @@
 'use client'
 
+import Image from 'next/image'
+
 import { Giveaway, GameData, User, GameBreakdownEntry, SteamIdMap, noStatsReasonLabel } from '@/types'
 import { getCVBadgeColor, getCVLabel, formatPlaytime, formatPlaytimeCompact } from '@/lib/data'
 import { isConfirmedPlayed } from '@/lib/play-status'
+import { useIsAdmin } from '@/lib/auth'
+import { PlayTag } from '@/components/WinnerPlayProgress'
 import { createCreatorResolver } from '@/lib/creator-resolver'
 import GameImage from '@/components/GameImage'
 import { useGameData, useDebounce } from '@/lib/hooks'
@@ -49,13 +53,7 @@ type WonGiveaway = NonNullable<User['giveaways_won']>[number]
  */
 function wonAttrs(game: WonGiveaway, giveaway?: Partial<Giveaway>): LedgerAttr[] {
   return [
-    game.i_played_bro && { emoji: '⭐', label: 'Marked "I played, bro!"' },
-    game.required_play_meta?.requirements_met && { emoji: '✅', label: 'Proof of play accepted' },
     giveaway?.region_restricted && { emoji: '🌍', label: 'Region restricted' },
-    (giveaway?.required_play || giveaway?.required_play_meta) && {
-      emoji: '🎮',
-      label: giveaway?.required_play_meta?.additional_notes || 'Play required',
-    },
     giveaway?.is_shared && { emoji: '👥', label: 'Shared giveaway' },
     giveaway?.whitelist && { emoji: '🩵', label: 'Whitelist' },
     game.steam_play_data?.is_potentially_idling && { emoji: '💤', label: 'Potentially idling' },
@@ -132,6 +130,7 @@ function GamesBreakdown({ games, steamId }: { games: GameBreakdownEntry[]; steam
 }
 
 export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData, user, steamIdMap, userAvatars, initialFilterPlayRequired }: Props) {
+  const isAdmin = useIsAdmin()
   const { getGameData } = useGameData(gameData)
   const creatorResolver = useMemo(() => createCreatorResolver(steamIdMap), [steamIdMap])
   const [searchTerm, setSearchTerm] = useState('')
@@ -249,6 +248,7 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData, 
                   <option value="NO_CV">No CV</option>
                 </select>
               </div>
+              {isAdmin && (
               <div className="flex items-center gap-2">
                 <label htmlFor="play-filter-won" className="text-sm font-medium">Play:</label>
                 <select
@@ -263,6 +263,7 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData, 
                   <option value="unplayed_required">Unplayed Required</option>
                 </select>
               </div>
+              )}
             </div>
             <div className="text-sm text-muted-foreground">
               Showing {filteredWonGiveaways.length} of {wonGiveaways.length}
@@ -369,15 +370,11 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData, 
                       >
                         No stats
                       </LedgerChip>
-                    ) : play.never_played && confirmedPlayed ? (
-                      <LedgerChip tone="ok" title="Mod-confirmed play (I played, bro / proof of play) — Steam shows no playtime, likely played elsewhere or on a private profile.">
-                        Confirmed played
-                      </LedgerChip>
-                    ) : (
+                    ) : isAdmin ? (
                       <LedgerChip tone={play.never_played ? 'bad' : 'ok'}>
                         {play.never_played ? 'Never played' : 'Played'}
                       </LedgerChip>
-                    )}
+                    ) : null}
                     {play?.owned && !play.has_no_available_stats && (
                       <LedgerStats>
                         <span
@@ -410,12 +407,27 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData, 
                         Unreleased
                       </LedgerChip>
                     )}
+                    {game.i_played_bro && (
+                      <PlayTag label="IpBro" verified title='Marked "I played, bro!"' />
+                    )}
+                    {game.required_play_meta?.requirements_met && (
+                      <PlayTag label="PReq" verified title="Proof of play accepted" />
+                    )}
                     {!game.unreleased &&
                       ipbroDeadline &&
                       deadlineChip('IpBro', ipbroDeadline.daysRemaining, ipbroDeadline.deadlineDate)}
                     {!game.unreleased &&
                       preqDeadline &&
                       deadlineChip('PReq', preqDeadline.daysRemaining, preqDeadline.deadlineDate)}
+                    {(game.required_play || game.required_play_meta) &&
+                      !game.required_play_meta?.requirements_met &&
+                      !preqDeadline && (
+                        <PlayTag
+                          label="PReq"
+                          verified={false}
+                          title={game.required_play_meta?.additional_notes || 'Play required'}
+                        />
+                      )}
                     {needsReview && (
                       <LedgerChip tone="warn" title="Playtime or achievements suggest this play requirement is met — needs review">
                         🔍 Review
@@ -425,9 +437,18 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData, 
                     {authorName && (
                       <UserLink
                         username={authorName}
-                        className="min-w-0 max-w-[90px] truncate text-[11px] text-muted-foreground hover:text-foreground"
+                        className="inline-flex min-w-0 max-w-[120px] items-center gap-1 text-[11px] text-muted-foreground hover:text-foreground"
                       >
-                        {authorName}
+                        {authorAvatar && (
+                          <Image
+                            src={authorAvatar}
+                            alt=""
+                            width={16}
+                            height={16}
+                            className="h-4 w-4 flex-none rounded-full"
+                          />
+                        )}
+                        <span className="truncate">{authorName}</span>
                       </UserLink>
                     )}
                     <LedgerWhen timestamp={game.end_timestamp} />
@@ -590,6 +611,7 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData, 
                   {game.steam_play_data && game.steam_play_data.owned && (
                     <div className="bg-background/50 p-4 border-t border-card-border">
                       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-sm">
+                        {isAdmin && (
                         <div>
                           <span className="text-muted-foreground">Status:</span>
                           <span
@@ -607,6 +629,7 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData, 
                               : 'Played'}
                           </span>
                         </div>
+                        )}
                         <div>
                           <span className="text-muted-foreground">Playtime:</span>
                           <span className="ml-1 font-medium">

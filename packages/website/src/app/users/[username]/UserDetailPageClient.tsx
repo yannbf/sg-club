@@ -500,9 +500,9 @@ export default function UserDetailPageClient({
     const enteredPerMonth: MonthDatum[] = combineMonthlySeries({
       count: enteredMap,
     })
-    // "Activity per month" combines entered (bars) with created/won (lines) —
-    // entered/created reuse the same monthly maps as the gifts/entered charts
-    // above so the three series stay consistent with each other.
+    // "Activity per month" charts entered; created/won ride along in the same
+    // rows for the month drill-down, reusing the monthly maps from the
+    // gifts/entered charts above so the three series stay consistent.
     const activityPerMonth: MonthDatum[] = combineMonthlySeries({
       entered: enteredMap,
       created: sentMap,
@@ -740,6 +740,14 @@ export default function UserDetailPageClient({
       0,
     )
   const getOwnedGames = () => countedWon.length
+  /** Mean playtime over won games with readable Steam playtime, so private profiles don't drag the average down. */
+  const getAveragePlaytime = () => {
+    const readable = countedWon.filter(
+      (game) => game.steam_play_data && !game.steam_play_data.is_playtime_private,
+    )
+    if (readable.length === 0) return 0
+    return Math.round(getTotalPlaytime() / readable.length)
+  }
 
   const realCvRatio =
     user.stats.real_total_received_value === 0
@@ -882,13 +890,15 @@ export default function UserDetailPageClient({
                   {ratio.label}
                 </Badge>
               )}
-              <Badge variant="outline" size="md">
-                <Scale className="h-3 w-3" />
-                <span className="tabular-nums-strict">
-                  {(user.stats.giveaway_ratio ?? 0).toFixed(2)}
-                </span>{' '}
-                ratio
-              </Badge>
+              {isAdmin && (
+                <Badge variant="outline" size="md">
+                  <Scale className="h-3 w-3" />
+                  <span className="tabular-nums-strict">
+                    {(user.stats.giveaway_ratio ?? 0).toFixed(2)}
+                  </span>{' '}
+                  ratio
+                </Badge>
+              )}
               {isAdmin && user.warnings && user.warnings.length > 0 && (
                 <Badge
                   variant={
@@ -1090,11 +1100,13 @@ export default function UserDetailPageClient({
           value={
             <span
               className={
-                user.stats.real_total_gift_difference > 0
-                  ? 'text-success-foreground'
-                  : user.stats.real_total_gift_difference < 0
-                    ? 'text-error-foreground'
-                    : 'text-muted-foreground'
+                !isAdmin
+                  ? 'text-foreground'
+                  : user.stats.real_total_gift_difference > 0
+                    ? 'text-success-foreground'
+                    : user.stats.real_total_gift_difference < 0
+                      ? 'text-error-foreground'
+                      : 'text-muted-foreground'
               }
             >
               {user.stats.real_total_gift_difference > 0 ? '+' : ''}
@@ -1237,7 +1249,7 @@ export default function UserDetailPageClient({
               </div>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+              <div className={cn('grid grid-cols-2 gap-4', isAdmin ? 'lg:grid-cols-4' : 'lg:grid-cols-3')}>
                 <SimpleStat
                   label="Activated games"
                   value={getOwnedGames()}
@@ -1249,6 +1261,7 @@ export default function UserDetailPageClient({
                   value={
                     getTotalPlaytime() === 0 ? 'Unavailable' : formatPlaytime(getTotalPlaytime())
                   }
+                  hint={getTotalPlaytime() === 0 ? undefined : `${formatPlaytime(getAveragePlaytime())} avg`}
                   icon={Gamepad2}
                   accent="text-accent-blue"
                 />
@@ -1259,9 +1272,11 @@ export default function UserDetailPageClient({
                   icon={Award}
                   accent="text-accent-yellow"
                 />
-                <div className="rounded-lg border border-card-border bg-card-background-hover/40 p-4 text-center">
-                  <UnplayedGamesStats user={user} size="large" />
-                </div>
+                {isAdmin && (
+                  <div className="rounded-lg border border-card-border bg-card-background-hover/40 p-4 text-center">
+                    <UnplayedGamesStats user={user} size="large" />
+                  </div>
+                )}
               </div>
             </CardContent>
           </Card>
