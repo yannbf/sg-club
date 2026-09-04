@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1788220800,
   "totalAchievements": 20,
-  "generatedAt": 1788496308323,
+  "generatedAt": 1788497968662,
   "challengeOver": false,
   "winnerUsername": "Mahry",
   "participants": [
@@ -2078,14 +2078,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 418,
-      "playtime_2weeks_minutes": 150,
+      "playtime_total_minutes": 448,
+      "playtime_2weeks_minutes": 180,
       "baseline_playtime_minutes": 268,
-      "playtime_challenge_minutes": 150,
+      "playtime_challenge_minutes": 180,
       "achievements_total": 20,
-      "achievements_unlocked_total": 9,
+      "achievements_unlocked_total": 11,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 9,
+      "achievements_since_baseline": 11,
       "challenge_achievements": [
         {
           "apiname": "ACH_A_ENTR_COMPL",
@@ -2140,9 +2140,21 @@
           "displayName": "Organized",
           "description": "Clean up in the Winter Garden level.",
           "unlocktime": 1788496012
+        },
+        {
+          "apiname": "ACH_D_WG_COMPL",
+          "displayName": "Botanical Breakout",
+          "description": " Escape the Winter Garden level.",
+          "unlocktime": 1788496751
+        },
+        {
+          "apiname": "ACH_O_LIB_SCREW_ESC_P1",
+          "displayName": "Thinking Outside the Box",
+          "description": "Escape library part 1 in an unconventional way.",
+          "unlocktime": 1788497741
         }
       ],
-      "challenge_achievement_count": 9,
+      "challenge_achievement_count": 11,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
