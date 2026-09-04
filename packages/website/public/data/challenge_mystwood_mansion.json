@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1788220800,
   "totalAchievements": 20,
-  "generatedAt": 1788497968662,
+  "generatedAt": 1788501925126,
   "challengeOver": false,
   "winnerUsername": "Mahry",
   "participants": [
@@ -2078,14 +2078,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 448,
-      "playtime_2weeks_minutes": 180,
+      "playtime_total_minutes": 508,
+      "playtime_2weeks_minutes": 240,
       "baseline_playtime_minutes": 268,
-      "playtime_challenge_minutes": 180,
+      "playtime_challenge_minutes": 240,
       "achievements_total": 20,
-      "achievements_unlocked_total": 11,
+      "achievements_unlocked_total": 17,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 11,
+      "achievements_since_baseline": 17,
       "challenge_achievements": [
         {
           "apiname": "ACH_A_ENTR_COMPL",
@@ -2152,9 +2152,45 @@
           "displayName": "Thinking Outside the Box",
           "description": "Escape library part 1 in an unconventional way.",
           "unlocktime": 1788497741
+        },
+        {
+          "apiname": "ACH_P_TRANSL_MELL",
+          "displayName": "The Translator",
+          "description": "Translate the last password of the library from elvish.",
+          "unlocktime": 1788498924
+        },
+        {
+          "apiname": "ACH_E_LIB_COMPL",
+          "displayName": "Literary Escapee",
+          "description": "Escape the Library level.",
+          "unlocktime": 1788498934
+        },
+        {
+          "apiname": "ACH_R_MANSIONESCAPE",
+          "displayName": "Mansion Escape",
+          "description": "Escape the Mansion.",
+          "unlocktime": 1788498956
+        },
+        {
+          "apiname": "ACH_S_NO_HINTS",
+          "displayName": "Look Ma, No Hints!",
+          "description": "Complete the game without using any hints.",
+          "unlocktime": 1788498956
+        },
+        {
+          "apiname": "ACH_F_THROW_PACKAGE",
+          "displayName": "Wait...  Did that say fragile?",
+          "description": "Throw the package.",
+          "unlocktime": 1788499060
+        },
+        {
+          "apiname": "ACH_K_NO_LOOSE_ENDS",
+          "displayName": "No Loose Ends",
+          "description": "Solve the wire puzzle in the office without any \"loose ends\" of the wire with electricity running through it.",
+          "unlocktime": 1788500097
         }
       ],
-      "challenge_achievement_count": 11,
+      "challenge_achievement_count": 17,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
