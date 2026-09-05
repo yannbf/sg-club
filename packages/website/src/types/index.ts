@@ -342,6 +342,9 @@ export interface WishlistData {
  *  Review data (rating_percent, review_count, review_score_desc) now lives on GameData. */
 export interface GameInsight {
   bundled: boolean | null
+  /** CV a giveaway of this game would earn if created now. Null when the
+   *  bundle status hasn't been fetched for it yet. */
+  cv_status?: 'FULL_CV' | 'REDUCED_CV' | 'NO_CV' | null
   /** steam_id strings of group members who own the game. */
   owners: string[]
   /** steam_id strings of group members who have it wishlisted/wanted. */

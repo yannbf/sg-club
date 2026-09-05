@@ -2,16 +2,16 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { config as loadEnv } from 'dotenv'
-import type { BundleGamesResponse } from '../types/steamgifts.js'
+import type { BundleGamesResponse, CVStatus } from '../types/steamgifts.js'
 import { delay, isRateLimitedHtml } from '../utils/common.js'
 import { logError } from '../utils/log-error.js'
 
 /**
  * Generates per-game "insights" for every game on the group wishlist (an
  * app_id-having entry in wishlist.json): which group members OWN it (Steam
- * library), which members WANT it (Steam wishlist), and whether it's
- * "bundled" on SteamGifts (i.e. appears in the bundle-games search — a
- * signal that it may be reduced/no-CV). Feeds a website tooltip.
+ * library), which members WANT it (Steam wishlist), whether it's "bundled"
+ * on SteamGifts (i.e. appears in the bundle-games search), and the CV a
+ * giveaway of it would earn today. Feeds the wishlist cards and tooltip.
  *
  * Steam review summaries are NOT fetched here — they're collected once by
  * the website-data job (packages/scraper/src/api/fetch-game-prices.ts),
@@ -79,6 +79,10 @@ interface Member {
 
 export interface GameInsight {
   bundled: boolean | null
+  /** CV a giveaway of this game would earn if created now, or null when the
+   *  bundle status hasn't been fetched yet (or was cached before CV
+   *  timestamps were recorded). */
+  cv_status: CVStatus | null
   owners: string[]
   wanters: string[]
 }
@@ -94,6 +98,13 @@ export interface GameInsightsData {
 interface CacheBundledEntry {
   fetched_at: string
   bundled: boolean
+  /** SteamGifts' reduced-CV and no-CV cutoffs for the game (unix seconds),
+   *  both null for a game that isn't bundled. Stored raw rather than as a CV
+   *  status because the status depends on when it is read: a cutoff in the
+   *  future only takes effect once it passes. Absent on entries cached
+   *  before CV tracking existed, which forces a refetch. */
+  reduced_value_timestamp?: number | null
+  no_value_timestamp?: number | null
 }
 
 interface InsightsCache {
@@ -236,10 +247,50 @@ async function fetchBundleGames(
   return JSON.parse(text) as BundleGamesResponse
 }
 
-async function checkBundled(appId: number): Promise<boolean> {
+interface BundleStatus {
+  bundled: boolean
+  reduced_value_timestamp: number | null
+  no_value_timestamp: number | null
+}
+
+async function fetchBundleStatus(appId: number): Promise<BundleStatus> {
+  const unbundled: BundleStatus = {
+    bundled: false,
+    reduced_value_timestamp: null,
+    no_value_timestamp: null,
+  }
   const data = await fetchBundleGames(appId)
-  if (!data.success || !data.results?.length) return false
-  return data.results.some((g) => g.app_id === appId)
+  if (!data.success || !data.results?.length) return unbundled
+  const match = data.results.find((g) => g.app_id === appId)
+  if (!match) return unbundled
+  return {
+    bundled: true,
+    reduced_value_timestamp: match.reduced_value_timestamp,
+    no_value_timestamp: match.no_value_timestamp,
+  }
+}
+
+/** CV a giveaway of this game would earn if created now. A game absent from
+ *  the bundle-games list is full CV; otherwise the latest cutoff that has
+ *  already passed wins. Returns null for a cache entry predating CV
+ *  timestamps, so the UI can say "unknown" instead of guessing full CV. */
+export function cvStatusFromCache(
+  entry: CacheBundledEntry | undefined,
+  nowSeconds: number,
+): CVStatus | null {
+  if (!entry) return null
+  if (!entry.bundled) return 'FULL_CV'
+  if (entry.reduced_value_timestamp === undefined) return null
+  if (entry.no_value_timestamp != null && entry.no_value_timestamp < nowSeconds) {
+    return 'NO_CV'
+  }
+  if (
+    entry.reduced_value_timestamp != null &&
+    entry.reduced_value_timestamp < nowSeconds
+  ) {
+    return 'REDUCED_CV'
+  }
+  return 'FULL_CV'
 }
 
 // --- Main pipeline ---
@@ -335,6 +386,7 @@ export async function generateGameInsightsData(): Promise<void> {
   const cache = loadCache()
   const skipBundled = process.env.SKIP_BUNDLED === '1'
   const now = Date.now()
+  const nowSeconds = Math.floor(now / 1000)
 
   const games: Record<string, GameInsight> = {}
   let fetchCount = 0
@@ -345,12 +397,15 @@ export async function generateGameInsightsData(): Promise<void> {
     const appId = targetAppIds[i]
 
     // Bundled: true is permanent; false refetches after 90 days; missing
-    // entries are skipped entirely when SKIP_BUNDLED=1. Fetches are capped
-    // per run; anything over the cap keeps its cached value (or null) and
-    // waits for the next run.
+    // entries are skipped entirely when SKIP_BUNDLED=1. A bundled entry
+    // without CV timestamps also refetches, since its CV status is unknown
+    // until they're recorded. Fetches are capped per run; anything over the
+    // cap keeps its cached value (or null) and waits for the next run.
     let bundledEntry = cache.bundled[appId]
     const bundledStale =
       !bundledEntry ||
+      (bundledEntry.bundled === true &&
+        bundledEntry.reduced_value_timestamp === undefined) ||
       (bundledEntry.bundled === false &&
         now - new Date(bundledEntry.fetched_at).getTime() >
           BUNDLED_FALSE_STALE_MS)
@@ -358,8 +413,8 @@ export async function generateGameInsightsData(): Promise<void> {
       deferredBundled++
     } else if (bundledStale && !(skipBundled && !cache.bundled[appId])) {
       try {
-        const bundled = await checkBundled(appId)
-        bundledEntry = { fetched_at: new Date().toISOString(), bundled }
+        const status = await fetchBundleStatus(appId)
+        bundledEntry = { fetched_at: new Date().toISOString(), ...status }
         cache.bundled[appId] = bundledEntry
         fetchCount++
       } catch (error) {
@@ -373,6 +428,7 @@ export async function generateGameInsightsData(): Promise<void> {
 
     games[String(appId)] = {
       bundled: bundledEntry ? bundledEntry.bundled : null,
+      cv_status: cvStatusFromCache(bundledEntry, nowSeconds),
       owners: Array.from(ownerSet),
       wanters: Array.from(wanterSet),
     }

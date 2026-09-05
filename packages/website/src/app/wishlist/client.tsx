@@ -17,6 +17,7 @@ import {
 import { GameData, GameInsightsData, WishlistEntry } from '@/types'
 import { LastUpdated } from '@/components/LastUpdated'
 import { useDebounce } from '@/lib/hooks'
+import { getCVBadgeColor, getCVLabel } from '@/lib/data'
 import { Card } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
@@ -88,6 +89,20 @@ function reviewToneClass(desc: string | null | undefined): string {
   return 'text-muted-foreground'
 }
 
+/** Text color for a CV badge sitting on top of game art, where the tinted
+ *  backgrounds `getCVBadgeColor` produces would wash out. Full CV is the
+ *  common case and stays quiet so reduced/no CV stand out. */
+function cvToneClass(cvStatus: 'FULL_CV' | 'REDUCED_CV' | 'NO_CV'): string {
+  switch (cvStatus) {
+    case 'REDUCED_CV':
+      return 'text-accent-yellow'
+    case 'NO_CV':
+      return 'text-accent-red'
+    default:
+      return 'text-accent-green/80'
+  }
+}
+
 /** Renders a wrapped, comma-separated list of member usernames, or a muted fallback when empty. */
 function MemberList({
   steamIds,
@@ -148,6 +163,7 @@ function GameInsightsPopover({
   const ownsTotal = insights?.members_with_library_data ?? totalMembers
   const wantsTotal = insights?.members_with_wishlist_data ?? totalMembers
 
+  const cvStatus = insight?.cv_status ?? null
   const priceText = formatPriceCents(gameData?.price_usd_full)
   const hasReview =
     gameData != null &&
@@ -229,6 +245,21 @@ function GameInsightsPopover({
               </p>
             )
           )}
+
+          {cvStatus != null && (
+            <p>
+              <span className="font-semibold text-foreground">CV:</span>{' '}
+              <span
+                className={cn(
+                  'rounded-full px-1.5 py-0.5 font-semibold',
+                  getCVBadgeColor(cvStatus),
+                )}
+              >
+                {getCVLabel(cvStatus)}
+              </span>{' '}
+              if given now
+            </p>
+          )}
         </div>
 
         {insight ? (
@@ -290,8 +321,14 @@ type SortKey =
   | 'most_owned'
 type SortDir = 'asc' | 'desc'
 type GivenFilter = 'all' | 'never_given' | 'given'
+type CVFilter = 'all' | 'FULL_CV' | 'REDUCED_CV' | 'NO_CV'
 
 const PAGE_SIZE = 60
+
+/** The wishlist scraper only records games with at least this many group
+ *  wishers (MIN_COUNT in scrapers/group-wishlist.ts), so a lower floor here
+ *  would filter nothing. */
+const MIN_WISHERS = 10
 
 function getStatsKey(entry: WishlistEntry): string {
   if (entry.app_id != null) return `app:${entry.app_id}`
@@ -317,6 +354,15 @@ function getInsightForEntry(
   return entry.app_id != null
     ? insights?.games[String(entry.app_id)]
     : undefined
+}
+
+/** CV a giveaway of this game would earn today, or null when SteamGifts'
+ *  bundle status hasn't been fetched for it yet. */
+function getCVStatusForEntry(
+  entry: WishlistEntry,
+  insights: GameInsightsData | null,
+): 'FULL_CV' | 'REDUCED_CV' | 'NO_CV' | null {
+  return getInsightForEntry(entry, insights)?.cv_status ?? null
 }
 
 interface RowData {
@@ -370,22 +416,23 @@ export default function WishlistClient({
   // string so the user can edit freely (clear it, type multiple digits) without
   // mid-keystroke clamping corrupting what they typed. The numeric value is
   // clamped for filtering; the text is normalized on blur.
-  const [minCount, setMinCount] = useState(1)
-  const [minCountText, setMinCountText] = useState('1')
+  const [minCount, setMinCount] = useState(MIN_WISHERS)
+  const [minCountText, setMinCountText] = useState(String(MIN_WISHERS))
 
   const applyMinCount = (text: string) => {
     setMinCountText(text)
     if (text.trim() === '') {
-      setMinCount(1)
+      setMinCount(MIN_WISHERS)
       return
     }
     const raw = parseInt(text, 10)
     if (Number.isNaN(raw)) return
-    setMinCount(Math.max(1, Math.min(maxWishes, raw)))
+    setMinCount(Math.max(MIN_WISHERS, Math.min(maxWishes, raw)))
   }
   const [sortKey, setSortKey] = useState<SortKey>('wishes')
   const [sortDir, setSortDir] = useState<SortDir>('desc')
   const [givenFilter, setGivenFilter] = useState<GivenFilter>('all')
+  const [cvFilter, setCvFilter] = useState<CVFilter>('all')
   /** Default ON: hide shared/whitelist giveaways from the per-game
    *  stats (count + avg entries). Click the toggle to include them. */
   const [excludeShared, setExcludeShared] = useState(true)
@@ -393,7 +440,15 @@ export default function WishlistClient({
 
   useEffect(() => {
     setVisibleCount(PAGE_SIZE)
-  }, [debouncedSearch, minCount, sortKey, sortDir, givenFilter, excludeShared])
+  }, [
+    debouncedSearch,
+    minCount,
+    sortKey,
+    sortDir,
+    givenFilter,
+    cvFilter,
+    excludeShared,
+  ])
 
   const activeStats = excludeShared
     ? giveawayStats.exclusive
@@ -422,6 +477,14 @@ export default function WishlistClient({
       if (term && !row.entry.name.toLowerCase().includes(term)) return false
       if (givenFilter === 'never_given' && row.giveawayCount > 0) return false
       if (givenFilter === 'given' && row.giveawayCount === 0) return false
+      // Games whose CV status hasn't been fetched yet are excluded from every
+      // specific CV filter rather than assumed full CV.
+      if (
+        cvFilter !== 'all' &&
+        getCVStatusForEntry(row.entry, insights) !== cvFilter
+      ) {
+        return false
+      }
       return true
     })
 
@@ -484,6 +547,7 @@ export default function WishlistClient({
     debouncedSearch,
     minCount,
     givenFilter,
+    cvFilter,
     sortKey,
     sortDir,
     gameDataByAppId,
@@ -520,16 +584,18 @@ export default function WishlistClient({
 
   const activeFilters =
     (debouncedSearch ? 1 : 0) +
-    (minCount > 1 ? 1 : 0) +
-    (givenFilter !== 'all' ? 1 : 0)
+    (minCount > MIN_WISHERS ? 1 : 0) +
+    (givenFilter !== 'all' ? 1 : 0) +
+    (cvFilter !== 'all' ? 1 : 0)
 
   const resetFilters = () => {
     setSearchTerm('')
-    setMinCount(1)
-    setMinCountText('1')
+    setMinCount(MIN_WISHERS)
+    setMinCountText(String(MIN_WISHERS))
     setSortKey('wishes')
     setSortDir('desc')
     setGivenFilter('all')
+    setCvFilter('all')
   }
 
   return (
@@ -610,6 +676,21 @@ export default function WishlistClient({
             <ToggleGroupItem value="given">Already given</ToggleGroupItem>
           </ToggleGroup>
 
+          <Select
+            value={cvFilter}
+            onValueChange={(v) => setCvFilter(v as CVFilter)}
+          >
+            <SelectTrigger className="w-[150px]" aria-label="Filter by CV">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Any CV</SelectItem>
+              <SelectItem value="FULL_CV">Full CV</SelectItem>
+              <SelectItem value="REDUCED_CV">Reduced CV</SelectItem>
+              <SelectItem value="NO_CV">No CV</SelectItem>
+            </SelectContent>
+          </Select>
+
           <div className="flex items-center gap-1.5 rounded-md border border-card-border bg-background-elevated px-2 h-9">
             <Heart className="h-4 w-4 text-subtle" />
             <span className="text-xs text-muted-foreground whitespace-nowrap">
@@ -617,7 +698,7 @@ export default function WishlistClient({
             </span>
             <Input
               type="number"
-              min={1}
+              min={MIN_WISHERS}
               max={maxWishes}
               step={1}
               value={minCountText}
@@ -684,6 +765,7 @@ export default function WishlistClient({
           const neverGiven = giveawayCount === 0
           const cardGameData = getGameDataForEntry(entry, gameDataByAppId)
           const cardInsight = getInsightForEntry(entry, insights)
+          const cardCVStatus = getCVStatusForEntry(entry, insights)
           const cardPriceText = formatPriceCents(cardGameData?.price_usd_full)
           const cardHasRating =
             cardGameData?.review_score_desc != null ||
@@ -717,13 +799,24 @@ export default function WishlistClient({
                     #{rank}
                   </span>
                 </div>
-                {neverGiven && (
-                  <div className="absolute top-2 left-2">
+                <div className="absolute top-2 left-2 flex flex-wrap items-center gap-1">
+                  {neverGiven && (
                     <span className="inline-flex items-center gap-1 rounded-full bg-[var(--accent-rose)] px-2 py-0.5 text-[10px] font-semibold text-white shadow-md ring-1 ring-white/20">
                       Never given
                     </span>
-                  </div>
-                )}
+                  )}
+                  {cardCVStatus && (
+                    <span
+                      title={`A giveaway of this game created now would earn ${getCVLabel(cardCVStatus)} on SteamGifts`}
+                      className={cn(
+                        'inline-flex items-center rounded-full bg-[#0b0b14] px-2 py-0.5 text-[10px] font-semibold shadow-md ring-1 ring-white/20',
+                        cvToneClass(cardCVStatus),
+                      )}
+                    >
+                      {getCVLabel(cardCVStatus)}
+                    </span>
+                  )}
+                </div>
                 <div
                   className={cn(
                     'absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-card-background to-transparent',
