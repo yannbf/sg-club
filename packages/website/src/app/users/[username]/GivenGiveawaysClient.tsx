@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { UserLink } from '@/components/UserLink'
 import { Giveaway, GameData } from '@/types'
 import { getCVBadgeColor, getCVLabel } from '@/lib/data'
+import { useIsAdmin } from '@/lib/auth'
 import { isCountedGiveaway, isValidRatioGiveaway } from '@/lib/events'
 import GameImage from '@/components/GameImage'
 import UserAvatar from '@/components/UserAvatar'
@@ -62,6 +63,9 @@ export default function GivenGiveawaysClient({ giveaways, userAvatars, userNames
   const getDisplayName = (steamIdOrUsername: string) =>
     userNames?.get(steamIdOrUsername) || steamIdOrUsername
   const { getGameData } = useGameData(gameData)
+  // Decreased-ratio notes are moderation-sensitive, so the label stays
+  // admin-only even on a profile its owner can see. Matches CvStatusIndicator.
+  const isAdmin = useIsAdmin()
   const [sortBy, setSortBy] = useState<'date' | 'entries' | 'points'>('date')
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc')
   const [searchTerm, setSearchTerm] = useState('')
@@ -325,7 +329,7 @@ export default function GivenGiveawaysClient({ giveaways, userAvatars, userNames
                     <LedgerLine>
                       {giveaway.cv_status && giveaway.cv_status !== 'FULL_CV' && (
                         <LedgerChip tone="warn">
-                          {getCVLabel(giveaway.cv_status, !!giveaway.decreased_ratio_info)}
+                          {getCVLabel(giveaway.cv_status, isAdmin && !!giveaway.decreased_ratio_info)}
                         </LedgerChip>
                       )}
                       {giveaway.deleted && (
@@ -411,8 +415,8 @@ export default function GivenGiveawaysClient({ giveaways, userAvatars, userNames
                             </span>
                           </div>
                           <div className="flex items-center mt-1 space-x-4">
-                            <span className={`px-2 py-1 text-xs font-semibold rounded-full ${getCVBadgeColor(giveaway.cv_status || 'FULL_CV', !!giveaway.decreased_ratio_info)}`}>
-                              {getCVLabel(giveaway.cv_status || 'FULL_CV', !!giveaway.decreased_ratio_info)}
+                            <span className={`px-2 py-1 text-xs font-semibold rounded-full ${getCVBadgeColor(giveaway.cv_status || 'FULL_CV', isAdmin && !!giveaway.decreased_ratio_info)}`}>
+                              {getCVLabel(giveaway.cv_status || 'FULL_CV', isAdmin && !!giveaway.decreased_ratio_info)}
                             </span>
                             <span className="text-sm text-muted-foreground">
                               {giveaway.copies} {giveaway.copies === 1 ? 'copy' : 'copies'}

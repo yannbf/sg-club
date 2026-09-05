@@ -25,6 +25,7 @@ import {
   X,
 } from 'lucide-react'
 import { getCVBadgeColor, getCVLabel } from '@/lib/data'
+import { useIsAdmin } from '@/lib/auth'
 import { compareGiveawaysByDate } from '@/lib/events'
 import { Giveaway, GameData } from '@/types'
 import UserAvatar from '@/components/UserAvatar'
@@ -180,6 +181,11 @@ export default function GiveawaysClient({
   )
   const { getGameData } = useGameData(gameData)
 
+  // Decreased-ratio notes are moderation-sensitive, so every surface that
+  // could reveal one — the CV badge, the filter option, the CSV export — is
+  // admin-only, matching CvStatusIndicator.
+  const isAdmin = useIsAdmin()
+
   const [searchTerm, setSearchTerm] = useState('')
   const debouncedSearchTerm = useDebounce(searchTerm, 300)
   const [searchField, setSearchField] = useState<SearchField>('game')
@@ -287,7 +293,7 @@ export default function GiveawaysClient({
         key: 'cv' as const,
         label: 'CV type',
         get: (g: Giveaway) =>
-          getCVLabel(g.cv_status || 'FULL_CV', !!g.decreased_ratio_info),
+          getCVLabel(g.cv_status || 'FULL_CV', isAdmin && !!g.decreased_ratio_info),
       },
       {
         key: 'points' as const,
@@ -336,7 +342,7 @@ export default function GiveawaysClient({
         get: (g: Giveaway) => g.deleted_reason || '',
       },
     ],
-    [getDisplayName],
+    [getDisplayName, isAdmin],
   )
 
   const filteredAndSortedGiveaways = useMemo(() => {
@@ -368,7 +374,7 @@ export default function GiveawaysClient({
       const matchesCV =
         filterCV === 'all' ||
         (filterCV === 'DECREASED_RATIO'
-          ? !!giveaway.decreased_ratio_info
+          ? isAdmin && !!giveaway.decreased_ratio_info
           : giveaway.cv_status === filterCV)
       const now = Date.now() / 1000
       const isEnded = giveaway.end_timestamp < now
@@ -439,7 +445,7 @@ export default function GiveawaysClient({
           break
         case 'cv': {
           const lab = (g: Giveaway) =>
-            g.decreased_ratio_info
+            g.decreased_ratio_info && isAdmin
               ? 'Decreased Ratio'
               : getCVLabel(g.cv_status || 'FULL_CV')
           comparison = lab(a).localeCompare(lab(b))
@@ -458,6 +464,7 @@ export default function GiveawaysClient({
     return filtered
   }, [
     giveaways,
+    isAdmin,
     debouncedSearchTerm,
     searchField,
     sortBy,
@@ -604,7 +611,9 @@ export default function GiveawaysClient({
               <SelectItem value="FULL_CV">Full CV</SelectItem>
               <SelectItem value="REDUCED_CV">Reduced CV</SelectItem>
               <SelectItem value="NO_CV">No CV</SelectItem>
-              <SelectItem value="DECREASED_RATIO">Decreased Ratio</SelectItem>
+              {isAdmin && (
+                <SelectItem value="DECREASED_RATIO">Decreased Ratio</SelectItem>
+              )}
             </SelectContent>
           </Select>
           <Select
@@ -1033,13 +1042,13 @@ export default function GiveawaysClient({
                       'text-xs font-bold px-2 py-1 rounded-full',
                       getCVBadgeColor(
                         giveaway.cv_status || 'FULL_CV',
-                        !!giveaway.decreased_ratio_info,
+                        isAdmin && !!giveaway.decreased_ratio_info,
                       ),
                     )}
                   >
                     {getCVLabel(
                       giveaway.cv_status || 'FULL_CV',
-                      !!giveaway.decreased_ratio_info,
+                      isAdmin && !!giveaway.decreased_ratio_info,
                     )}
                   </span>
                 </div>
