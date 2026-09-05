@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1788220800,
   "totalAchievements": 20,
-  "generatedAt": 1788558022417,
+  "generatedAt": 1788567394002,
   "challengeOver": false,
   "winnerUsername": "Mahry",
   "participants": [
@@ -2288,6 +2288,64 @@
       "is_winner": false
     },
     {
+      "username": "Sakakino",
+      "sg_username": "Sakakino",
+      "steam_id": "76561198054324521",
+      "avatar_url": "https://avatars.steamstatic.com/72a94b818dd139586d964d7ce96db3dc3e3dbe3d_medium.jpg",
+      "profile_url": "https://steamcommunity.com/profiles/76561198054324521",
+      "is_guest": false,
+      "owned": true,
+      "stats_available": true,
+      "wrote_review": false,
+      "review_voted_up": null,
+      "review_timestamp": null,
+      "review_recommendationid": null,
+      "review_url": null,
+      "playtime_total_minutes": 109,
+      "playtime_2weeks_minutes": 109,
+      "baseline_playtime_minutes": 0,
+      "playtime_challenge_minutes": 109,
+      "achievements_total": 20,
+      "achievements_unlocked_total": 4,
+      "achievements_before_challenge": 0,
+      "achievements_since_baseline": 4,
+      "challenge_achievements": [
+        {
+          "apiname": "ACH_A_ENTR_COMPL",
+          "displayName": "Let the Escape Begin",
+          "description": "Escape  the Entrance level.",
+          "unlocktime": 1788298928
+        },
+        {
+          "apiname": "ACH_K_NO_LOOSE_ENDS",
+          "displayName": "No Loose Ends",
+          "description": "Solve the wire puzzle in the office without any \"loose ends\" of the wire with electricity running through it.",
+          "unlocktime": 1788558439
+        },
+        {
+          "apiname": "ACH_B_OFFI_COMPL",
+          "displayName": "Out of Office",
+          "description": "Escape the Office level.",
+          "unlocktime": 1788558462
+        },
+        {
+          "apiname": "ACH_T_OBSERVANT",
+          "displayName": "Observant",
+          "description": "Find the secret in the Wine Cellar.",
+          "unlocktime": 1788559116
+        }
+      ],
+      "challenge_achievement_count": 4,
+      "has_started": true,
+      "is_complete": false,
+      "completed_at": null,
+      "completed_before_start": false,
+      "completed_after_deadline": false,
+      "meets_playtime": true,
+      "meets_review": false,
+      "is_winner": false
+    },
+    {
       "username": "LieEater",
       "sg_username": "LieEater",
       "steam_id": "76561198067727574",
@@ -2376,46 +2434,6 @@
         }
       ],
       "challenge_achievement_count": 2,
-      "has_started": true,
-      "is_complete": false,
-      "completed_at": null,
-      "completed_before_start": false,
-      "completed_after_deadline": false,
-      "meets_playtime": true,
-      "meets_review": false,
-      "is_winner": false
-    },
-    {
-      "username": "Sakakino",
-      "sg_username": "Sakakino",
-      "steam_id": "76561198054324521",
-      "avatar_url": "https://avatars.steamstatic.com/72a94b818dd139586d964d7ce96db3dc3e3dbe3d_medium.jpg",
-      "profile_url": "https://steamcommunity.com/profiles/76561198054324521",
-      "is_guest": false,
-      "owned": true,
-      "stats_available": true,
-      "wrote_review": false,
-      "review_voted_up": null,
-      "review_timestamp": null,
-      "review_recommendationid": null,
-      "review_url": null,
-      "playtime_total_minutes": 54,
-      "playtime_2weeks_minutes": 54,
-      "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 54,
-      "achievements_total": 20,
-      "achievements_unlocked_total": 1,
-      "achievements_before_challenge": 0,
-      "achievements_since_baseline": 1,
-      "challenge_achievements": [
-        {
-          "apiname": "ACH_A_ENTR_COMPL",
-          "displayName": "Let the Escape Begin",
-          "description": "Escape  the Entrance level.",
-          "unlocktime": 1788298928
-        }
-      ],
-      "challenge_achievement_count": 1,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
