@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1788220800,
   "totalAchievements": 20,
-  "generatedAt": 1788633101575,
+  "generatedAt": 1788643780845,
   "challengeOver": false,
   "winnerUsername": "Mahry",
   "participants": [
@@ -2696,14 +2696,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 154,
-      "playtime_2weeks_minutes": 154,
+      "playtime_total_minutes": 231,
+      "playtime_2weeks_minutes": 231,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 154,
+      "playtime_challenge_minutes": 231,
       "achievements_total": 20,
-      "achievements_unlocked_total": 7,
+      "achievements_unlocked_total": 11,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 7,
+      "achievements_since_baseline": 11,
       "challenge_achievements": [
         {
           "apiname": "ACH_A_ENTR_COMPL",
@@ -2746,9 +2746,33 @@
           "displayName": "Cellar Conqueror",
           "description": "Escape the Wine Cellar level.",
           "unlocktime": 1788631754
+        },
+        {
+          "apiname": "ACH_M_FOOD_CIRCLE",
+          "displayName": "Food Chain Expertise",
+          "description": "Turn the food chain statues before opening the door to the greenhouse.",
+          "unlocktime": 1788641818
+        },
+        {
+          "apiname": "ACH_N_NOSEY",
+          "displayName": "Nosy",
+          "description": "Flip the blackboard in the greenhouse until it has had enough...",
+          "unlocktime": 1788642676
+        },
+        {
+          "apiname": "ACH_V_OCD",
+          "displayName": "Organized",
+          "description": "Clean up in the Winter Garden level.",
+          "unlocktime": 1788643370
+        },
+        {
+          "apiname": "ACH_D_WG_COMPL",
+          "displayName": "Botanical Breakout",
+          "description": " Escape the Winter Garden level.",
+          "unlocktime": 1788643674
         }
       ],
-      "challenge_achievement_count": 7,
+      "challenge_achievement_count": 11,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
