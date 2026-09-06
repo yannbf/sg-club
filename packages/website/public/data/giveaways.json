@@ -1,27 +1,6 @@
 {
-  "last_updated": "2026-09-06T01:30:02.383Z",
+  "last_updated": "2026-09-06T04:53:33.158Z",
   "giveaways": [
-    {
-      "id": "SX5OE",
-      "name": "Troublemaker",
-      "points": 20,
-      "copies": 1,
-      "app_id": 1498740,
-      "package_id": null,
-      "link": "SX5OE/troublemaker",
-      "created_timestamp": 1788069754,
-      "start_timestamp": 1788069754,
-      "end_timestamp": 1788667200,
-      "whitelist": true,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 43,
-      "creator": "76561198234142828",
-      "is_shared": true,
-      "cv_status": "REDUCED_CV",
-      "creator_username": "lockcjwen",
-      "deleted": false
-    },
     {
       "id": "9yO8N",
       "name": "One Turn Kill",
@@ -218,7 +197,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 23,
+      "entry_count": 24,
       "creator": "76561198067727574",
       "is_shared": true,
       "cv_status": "FULL_CV",
@@ -825,6 +804,27 @@
       "deleted": false
     },
     {
+      "id": "DFmCi",
+      "name": "Death Noodle Delivery",
+      "points": 5,
+      "copies": 1,
+      "app_id": 2014420,
+      "package_id": null,
+      "link": "DFmCi/death-noodle-delivery",
+      "created_timestamp": 1788657866,
+      "start_timestamp": 1788657866,
+      "end_timestamp": 1789272000,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 8,
+      "creator": "76561198234142828",
+      "is_shared": true,
+      "cv_status": "FULL_CV",
+      "creator_username": "lockcjwen",
+      "deleted": false
+    },
+    {
       "id": "skebL",
       "name": "Gears of War: E-Day",
       "points": 50,
@@ -1090,6 +1090,34 @@
       "deleted": false
     },
     {
+      "id": "SX5OE",
+      "name": "Troublemaker",
+      "points": 20,
+      "copies": 1,
+      "app_id": 1498740,
+      "package_id": null,
+      "link": "SX5OE/troublemaker",
+      "created_timestamp": 1788069754,
+      "start_timestamp": 1788069754,
+      "end_timestamp": 1788667200,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 44,
+      "creator": "76561198234142828",
+      "is_shared": true,
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "REDUCED_CV",
+      "creator_username": "lockcjwen",
+      "deleted": false
+    },
+    {
       "id": "kOvxc",
       "name": "Escape from Ever After",
       "points": 25,
@@ -1128,20 +1156,20 @@
       "start_timestamp": 1788204050,
       "end_timestamp": 1788645600,
       "group": true,
-      "comment_count": 1,
+      "comment_count": 2,
       "entry_count": 6,
       "creator": "76561197975099685",
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "76561198411996697",
+          "status": "received",
+          "winner_username": "RaitorHaitor"
         }
       ],
       "cv_status": "FULL_CV",
       "event_type": "september_event_2026",
-      "creator_username": "MrOuiOui",
-      "deleted": false
+      "creator_username": "MrOuiOui"
     },
     {
       "id": "kS39Z",
