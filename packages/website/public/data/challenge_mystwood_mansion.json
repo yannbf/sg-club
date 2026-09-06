@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1788220800,
   "totalAchievements": 20,
-  "generatedAt": 1788669376765,
+  "generatedAt": 1788674548763,
   "challengeOver": false,
   "winnerUsername": "Mahry",
   "participants": [
@@ -2696,14 +2696,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 231,
-      "playtime_2weeks_minutes": 231,
+      "playtime_total_minutes": 291,
+      "playtime_2weeks_minutes": 291,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 231,
+      "playtime_challenge_minutes": 291,
       "achievements_total": 20,
-      "achievements_unlocked_total": 11,
+      "achievements_unlocked_total": 17,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 11,
+      "achievements_since_baseline": 17,
       "challenge_achievements": [
         {
           "apiname": "ACH_A_ENTR_COMPL",
@@ -2770,9 +2770,44 @@
           "displayName": "Botanical Breakout",
           "description": " Escape the Winter Garden level.",
           "unlocktime": 1788643674
+        },
+        {
+          "apiname": "ACH_X_DELIV_PACK",
+          "displayName": "Dedicated",
+          "description": "Deliver the package.",
+          "unlocktime": 1788672555
+        },
+        {
+          "apiname": "ACH_Y_SAFE_DELIV",
+          "displayName": "Handled With Care",
+          "description": "Deliver the package without dropping or throwing it.",
+          "unlocktime": 1788672555
+        },
+        {
+          "apiname": "ACH_E_LIB_COMPL",
+          "displayName": "Literary Escapee",
+          "description": "Escape the Library level.",
+          "unlocktime": 1788673580
+        },
+        {
+          "apiname": "ACH_S_NO_HINTS",
+          "displayName": "Look Ma, No Hints!",
+          "description": "Complete the game without using any hints.",
+          "unlocktime": 1788674268
+        },
+        {
+          "apiname": "ACH_Z_OVERSEER",
+          "displayName": "First Day On Your New Job!",
+          "unlocktime": 1788674268
+        },
+        {
+          "apiname": "ACH_O_LIB_SCREW_ESC_P1",
+          "displayName": "Thinking Outside the Box",
+          "description": "Escape library part 1 in an unconventional way.",
+          "unlocktime": 1788674504
         }
       ],
-      "challenge_achievement_count": 11,
+      "challenge_achievement_count": 17,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
