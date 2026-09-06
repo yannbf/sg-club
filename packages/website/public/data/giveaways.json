@@ -1,46 +1,6 @@
 {
-  "last_updated": "2026-09-05T18:35:48.883Z",
+  "last_updated": "2026-09-06T01:30:02.383Z",
   "giveaways": [
-    {
-      "id": "ewwiC",
-      "name": "Yaoling: Mythical Journey",
-      "points": 20,
-      "copies": 1,
-      "app_id": 2816950,
-      "package_id": null,
-      "link": "ewwiC/yaoling-mythical-journey",
-      "created_timestamp": 1788204050,
-      "start_timestamp": 1788204050,
-      "end_timestamp": 1788645600,
-      "group": true,
-      "comment_count": 1,
-      "entry_count": 6,
-      "creator": "76561197975099685",
-      "cv_status": "FULL_CV",
-      "event_type": "september_event_2026",
-      "creator_username": "MrOuiOui",
-      "deleted": false
-    },
-    {
-      "id": "kOvxc",
-      "name": "Escape from Ever After",
-      "points": 25,
-      "copies": 1,
-      "app_id": 1996390,
-      "package_id": null,
-      "link": "kOvxc/escape-from-ever-after",
-      "created_timestamp": 1788393109,
-      "start_timestamp": 1788393109,
-      "end_timestamp": 1788652800,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 11,
-      "creator": "76561199028503777",
-      "cv_status": "FULL_CV",
-      "event_type": "september_event_2026",
-      "creator_username": "Lilyhia",
-      "deleted": false
-    },
     {
       "id": "SX5OE",
       "name": "Troublemaker",
@@ -55,7 +15,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 40,
+      "entry_count": 43,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -135,7 +95,7 @@
       "end_timestamp": 1788717600,
       "group": true,
       "comment_count": 0,
-      "entry_count": 12,
+      "entry_count": 11,
       "creator": "76561199141726712",
       "required_play": true,
       "cv_status": "FULL_CV",
@@ -258,7 +218,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 12,
+      "entry_count": 23,
       "creator": "76561198067727574",
       "is_shared": true,
       "cv_status": "FULL_CV",
@@ -278,7 +238,7 @@
       "end_timestamp": 1788782400,
       "group": true,
       "comment_count": 0,
-      "entry_count": 1,
+      "entry_count": 0,
       "creator": "76561198067727574",
       "decreased_ratio_info": {
         "notes": "Free curator copy"
@@ -301,12 +261,33 @@
       "region_restricted": true,
       "group": true,
       "comment_count": 1,
-      "entry_count": 4,
+      "entry_count": 3,
       "creator": "76561197968806363",
       "required_play": true,
       "cv_status": "FULL_CV",
       "event_type": "september_event_2026",
       "creator_username": "lext",
+      "deleted": false
+    },
+    {
+      "id": "yjpL6",
+      "name": "VOIN",
+      "points": 20,
+      "copies": 1,
+      "app_id": 2464530,
+      "package_id": null,
+      "link": "yjpL6/voin",
+      "created_timestamp": 1788655891,
+      "start_timestamp": 1788655891,
+      "end_timestamp": 1788811200,
+      "region_restricted": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 0,
+      "creator": "76561198082023389",
+      "cv_status": "FULL_CV",
+      "event_type": "september_event_2026",
+      "creator_username": "herbesdeprovence",
       "deleted": false
     },
     {
@@ -425,7 +406,7 @@
       "end_timestamp": 1788892200,
       "group": true,
       "comment_count": 0,
-      "entry_count": 3,
+      "entry_count": 6,
       "creator": "76561198044300922",
       "cv_status": "FULL_CV",
       "event_type": "september_event_2026",
@@ -713,7 +694,7 @@
       "end_timestamp": 1789120800,
       "group": true,
       "comment_count": 0,
-      "entry_count": 22,
+      "entry_count": 23,
       "creator": "76561198089973992",
       "is_shared": true,
       "cv_status": "FULL_CV",
@@ -836,7 +817,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 5,
+      "entry_count": 8,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -1019,7 +1000,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 166,
+      "entry_count": 164,
       "creator": "76561198042896883",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -1109,6 +1090,60 @@
       "deleted": false
     },
     {
+      "id": "kOvxc",
+      "name": "Escape from Ever After",
+      "points": 25,
+      "copies": 1,
+      "app_id": 1996390,
+      "package_id": null,
+      "link": "kOvxc/escape-from-ever-after",
+      "created_timestamp": 1788393109,
+      "start_timestamp": 1788393109,
+      "end_timestamp": 1788652800,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 11,
+      "creator": "76561199028503777",
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "FULL_CV",
+      "event_type": "september_event_2026",
+      "creator_username": "Lilyhia",
+      "deleted": false
+    },
+    {
+      "id": "ewwiC",
+      "name": "Yaoling: Mythical Journey",
+      "points": 20,
+      "copies": 1,
+      "app_id": 2816950,
+      "package_id": null,
+      "link": "ewwiC/yaoling-mythical-journey",
+      "created_timestamp": 1788204050,
+      "start_timestamp": 1788204050,
+      "end_timestamp": 1788645600,
+      "group": true,
+      "comment_count": 1,
+      "entry_count": 6,
+      "creator": "76561197975099685",
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "FULL_CV",
+      "event_type": "september_event_2026",
+      "creator_username": "MrOuiOui",
+      "deleted": false
+    },
+    {
       "id": "kS39Z",
       "name": "Rewind 99",
       "points": 12,
@@ -1141,20 +1176,20 @@
       "start_timestamp": 1788013293,
       "end_timestamp": 1788621600,
       "group": true,
-      "comment_count": 2,
+      "comment_count": 3,
       "entry_count": 8,
       "creator": "76561198025834664",
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "76561198076648919",
+          "status": "received",
+          "winner_username": "RGVS"
         }
       ],
       "cv_status": "FULL_CV",
       "event_type": "september_event_2026",
-      "creator_username": "decipherer",
-      "deleted": false
+      "creator_username": "decipherer"
     },
     {
       "id": "Y2WSC",
@@ -1168,20 +1203,20 @@
       "start_timestamp": 1788013250,
       "end_timestamp": 1788621480,
       "group": true,
-      "comment_count": 0,
+      "comment_count": 1,
       "entry_count": 2,
       "creator": "76561198025834664",
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "76561197994025244",
+          "status": "received",
+          "winner_username": "PsychoApeMan"
         }
       ],
       "cv_status": "FULL_CV",
       "event_type": "september_event_2026",
-      "creator_username": "decipherer",
-      "deleted": false
+      "creator_username": "decipherer"
     },
     {
       "id": "OZglp",
@@ -1508,20 +1543,20 @@
       "start_timestamp": 1787950928,
       "end_timestamp": 1788472800,
       "group": true,
-      "comment_count": 0,
+      "comment_count": 1,
       "entry_count": 6,
       "creator": "76561198025834664",
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "76561198020386807",
+          "status": "received",
+          "winner_username": "eeev"
         }
       ],
       "cv_status": "FULL_CV",
       "event_type": "september_event_2026",
-      "creator_username": "decipherer",
-      "deleted": false
+      "creator_username": "decipherer"
     },
     {
       "id": "fuN1d",
@@ -2053,7 +2088,7 @@
       "end_timestamp": 1788280140,
       "whitelist": true,
       "group": true,
-      "comment_count": 0,
+      "comment_count": 1,
       "entry_count": 3,
       "creator": "76561197975099685",
       "is_shared": true,
