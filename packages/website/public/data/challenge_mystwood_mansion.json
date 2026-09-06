@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1788220800,
   "totalAchievements": 20,
-  "generatedAt": 1788657122731,
+  "generatedAt": 1788669376765,
   "challengeOver": false,
   "winnerUsername": "Mahry",
   "participants": [
@@ -2923,6 +2923,70 @@
       "is_winner": false
     },
     {
+      "username": "RePlayBe",
+      "sg_username": "RePlayBe",
+      "steam_id": "76561197960990984",
+      "avatar_url": "https://avatars.steamstatic.com/2e67b212447070741b311b445497f4bd8b6ef8b9_medium.jpg",
+      "profile_url": "https://steamcommunity.com/profiles/76561197960990984",
+      "is_guest": false,
+      "owned": true,
+      "stats_available": true,
+      "wrote_review": false,
+      "review_voted_up": null,
+      "review_timestamp": null,
+      "review_recommendationid": null,
+      "review_url": null,
+      "playtime_total_minutes": 281,
+      "playtime_2weeks_minutes": 85,
+      "baseline_playtime_minutes": 196,
+      "playtime_challenge_minutes": 85,
+      "achievements_total": 20,
+      "achievements_unlocked_total": 5,
+      "achievements_before_challenge": 0,
+      "achievements_since_baseline": 5,
+      "challenge_achievements": [
+        {
+          "apiname": "ACH_F_THROW_PACKAGE",
+          "displayName": "Wait...  Did that say fragile?",
+          "description": "Throw the package.",
+          "unlocktime": 1788229507
+        },
+        {
+          "apiname": "ACH_A_ENTR_COMPL",
+          "displayName": "Let the Escape Begin",
+          "description": "Escape  the Entrance level.",
+          "unlocktime": 1788230048
+        },
+        {
+          "apiname": "ACH_H_FIRE_LOG",
+          "displayName": "Log-ical Fueling",
+          "description": "Add two logs to the fireplace in the office.",
+          "unlocktime": 1788660092
+        },
+        {
+          "apiname": "ACH_K_NO_LOOSE_ENDS",
+          "displayName": "No Loose Ends",
+          "description": "Solve the wire puzzle in the office without any \"loose ends\" of the wire with electricity running through it.",
+          "unlocktime": 1788663260
+        },
+        {
+          "apiname": "ACH_B_OFFI_COMPL",
+          "displayName": "Out of Office",
+          "description": "Escape the Office level.",
+          "unlocktime": 1788663302
+        }
+      ],
+      "challenge_achievement_count": 5,
+      "has_started": true,
+      "is_complete": false,
+      "completed_at": null,
+      "completed_before_start": false,
+      "completed_after_deadline": false,
+      "meets_playtime": true,
+      "meets_review": false,
+      "is_winner": false
+    },
+    {
       "username": "LieEater",
       "sg_username": "LieEater",
       "steam_id": "76561198067727574",
@@ -2965,52 +3029,6 @@
         }
       ],
       "challenge_achievement_count": 3,
-      "has_started": true,
-      "is_complete": false,
-      "completed_at": null,
-      "completed_before_start": false,
-      "completed_after_deadline": false,
-      "meets_playtime": true,
-      "meets_review": false,
-      "is_winner": false
-    },
-    {
-      "username": "RePlayBe",
-      "sg_username": "RePlayBe",
-      "steam_id": "76561197960990984",
-      "avatar_url": "https://avatars.steamstatic.com/2e67b212447070741b311b445497f4bd8b6ef8b9_medium.jpg",
-      "profile_url": "https://steamcommunity.com/profiles/76561197960990984",
-      "is_guest": false,
-      "owned": true,
-      "stats_available": true,
-      "wrote_review": false,
-      "review_voted_up": null,
-      "review_timestamp": null,
-      "review_recommendationid": null,
-      "review_url": null,
-      "playtime_total_minutes": 216,
-      "playtime_2weeks_minutes": 20,
-      "baseline_playtime_minutes": 196,
-      "playtime_challenge_minutes": 20,
-      "achievements_total": 20,
-      "achievements_unlocked_total": 2,
-      "achievements_before_challenge": 0,
-      "achievements_since_baseline": 2,
-      "challenge_achievements": [
-        {
-          "apiname": "ACH_F_THROW_PACKAGE",
-          "displayName": "Wait...  Did that say fragile?",
-          "description": "Throw the package.",
-          "unlocktime": 1788229507
-        },
-        {
-          "apiname": "ACH_A_ENTR_COMPL",
-          "displayName": "Let the Escape Begin",
-          "description": "Escape  the Entrance level.",
-          "unlocktime": 1788230048
-        }
-      ],
-      "challenge_achievement_count": 2,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
