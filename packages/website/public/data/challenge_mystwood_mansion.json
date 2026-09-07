@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1788220800,
   "totalAchievements": 20,
-  "generatedAt": 1788811193572,
+  "generatedAt": 1788813885880,
   "challengeOver": false,
   "winnerUsername": "Mahry",
   "participants": [
@@ -2922,11 +2922,11 @@
       "is_guest": false,
       "owned": true,
       "stats_available": true,
-      "wrote_review": false,
-      "review_voted_up": null,
-      "review_timestamp": null,
-      "review_recommendationid": null,
-      "review_url": null,
+      "wrote_review": true,
+      "review_voted_up": true,
+      "review_timestamp": 0,
+      "review_recommendationid": "234723051",
+      "review_url": "https://steamcommunity.com/profiles/76561198048462370/recommended/2292650",
       "playtime_total_minutes": 309,
       "playtime_2weeks_minutes": 309,
       "baseline_playtime_minutes": 0,
@@ -3063,8 +3063,8 @@
       "completed_before_start": false,
       "completed_after_deadline": false,
       "meets_playtime": true,
-      "meets_review": false,
-      "is_winner": false
+      "meets_review": true,
+      "is_winner": true
     },
     {
       "username": "Tucs",
@@ -4373,7 +4373,8 @@
     "dramainfouracts",
     "Thexder",
     "adam1224",
-    "TwixClub"
+    "TwixClub",
+    "QuinlanLJ"
   ],
   "roster": {
     "participants": [
