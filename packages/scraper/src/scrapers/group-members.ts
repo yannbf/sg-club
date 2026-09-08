@@ -319,6 +319,27 @@ export function parseSteamGroupMemberIds(xml: string): Set<string> {
   return ids
 }
 
+/**
+ * Member fields that only the kick-sync pass and the Steam playtime pass
+ * write. The SteamGifts roster scrape never sees them, so merging a fresh
+ * scrape over an existing record must copy them across.
+ */
+export function pickPersistedFields(
+  existing: User,
+): Pick<User, 'kicked_pending_sync' | 'kick_detected_at' | 'last_played_at'> {
+  const out: Pick<
+    User,
+    'kicked_pending_sync' | 'kick_detected_at' | 'last_played_at'
+  > = {}
+  if (existing.kicked_pending_sync !== undefined)
+    out.kicked_pending_sync = existing.kicked_pending_sync
+  if (existing.kick_detected_at !== undefined)
+    out.kick_detected_at = existing.kick_detected_at
+  if (existing.last_played_at !== undefined)
+    out.last_played_at = existing.last_played_at
+  return out
+}
+
 export interface KickSyncGuardResult {
   guarded: boolean
   sgRosterSize: number
@@ -366,31 +387,52 @@ export function computeKickSyncDecisions(
   return decisions
 }
 
+const STEAM_GROUP_XML_ATTEMPTS = 4
+const STEAM_GROUP_XML_BACKOFF_MS = 15_000
+
 /**
- * Fetches and parses the Steam group's member list. Returns null (rather
- * than throwing) on any fetch/parse failure so the caller can skip the
+ * Fetches and parses the Steam group's member list. Steam rate-limits this
+ * feed (HTTP 429) intermittently for shared CI runner IPs, so transient
+ * failures are retried with a growing backoff before giving up. Returns null
+ * (rather than throwing) once every attempt fails so the caller can skip the
  * kick-sync pass entirely instead of acting on bad data.
  */
-async function fetchSteamGroupMemberIds(): Promise<Set<string> | null> {
-  try {
-    const response = await fetch(STEAM_GROUP_MEMBERS_XML_URL, {
-      headers: {
-        'User-Agent':
-          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-      },
-    })
-    if (!response.ok) {
-      throw new Error(`HTTP ${response.status}`)
+export async function fetchSteamGroupMemberIds(
+  fetchImpl: typeof fetch = fetch,
+  attempts = STEAM_GROUP_XML_ATTEMPTS,
+): Promise<Set<string> | null> {
+  let lastError: unknown
+  for (let attempt = 1; attempt <= attempts; attempt++) {
+    try {
+      const response = await fetchImpl(STEAM_GROUP_MEMBERS_XML_URL, {
+        headers: {
+          'User-Agent':
+            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        },
+      })
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`)
+      }
+      const xml = await response.text()
+      return parseSteamGroupMemberIds(xml)
+    } catch (error) {
+      lastError = error
+      if (attempt < attempts) {
+        const waitMs = STEAM_GROUP_XML_BACKOFF_MS * attempt
+        console.warn(
+          `⚠️  Steam group member list fetch failed (attempt ${attempt}/${attempts}): ${
+            error instanceof Error ? error.message : error
+          } — retrying in ${waitMs / 1000}s`,
+        )
+        await delay(waitMs)
+      }
     }
-    const xml = await response.text()
-    return parseSteamGroupMemberIds(xml)
-  } catch (error) {
-    console.warn(
-      `⚠️  Could not fetch Steam group member list, skipping kick-sync detection:`,
-      error,
-    )
-    return null
   }
+  console.warn(
+    `⚠️  Could not fetch Steam group member list after ${attempts} attempts, skipping kick-sync detection:`,
+    lastError,
+  )
+  return null
 }
 
 type WonGame = NonNullable<User['giveaways_won']>[number]
@@ -1980,9 +2022,12 @@ export class SteamGiftsUserFetcher {
         steamIdToOldUsername.set(user.steam_id, username)
       }
 
-      // Helper to merge scraped user with existing data
+      // Helper to merge scraped user with existing data. Fields the roster
+      // scrape cannot see (kick-sync state, play recency) must be carried
+      // over explicitly or they vanish on every run.
       const mergeWithExisting = (user: User, existingUser: User): User => ({
         ...user,
+        ...pickPersistedFields(existingUser),
         steam_id: existingUser.steam_id,
         steam_profile_url: existingUser.steam_profile_url,
         steam_profile_is_private: existingUser.steam_profile_is_private,

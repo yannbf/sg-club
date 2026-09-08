@@ -7,6 +7,8 @@ import {
   parseSteamGroupMemberIds,
   evaluateKickSyncGuard,
   computeKickSyncDecisions,
+  fetchSteamGroupMemberIds,
+  pickPersistedFields,
   shouldFetchWin,
   oldestPendingCheck,
 } from './group-members'
@@ -710,5 +712,52 @@ describe('oldestPendingCheck', () => {
       giveaways_won: [win('abc/a', Date.now() - HOUR), win('ghi/c')],
     } as any
     expect(oldestPendingCheck(user, giveawayByLink, 'daily')).toBe(0)
+  })
+})
+
+describe('pickPersistedFields', () => {
+  const base = { username: 'u', steam_id: '1', stats: {} } as unknown as User
+
+  it('copies kick-sync state and play recency from the existing record', () => {
+    expect(
+      pickPersistedFields({
+        ...base,
+        kicked_pending_sync: true,
+        kick_detected_at: 123,
+        last_played_at: 456,
+      }),
+    ).toEqual({
+      kicked_pending_sync: true,
+      kick_detected_at: 123,
+      last_played_at: 456,
+    })
+  })
+
+  it('returns nothing when the existing record has none of them', () => {
+    expect(pickPersistedFields(base)).toEqual({})
+  })
+})
+
+describe('fetchSteamGroupMemberIds', () => {
+  const ok = (body: string) =>
+    ({ ok: true, status: 200, text: async () => body }) as Response
+  const status = (code: number) =>
+    ({ ok: false, status: code, text: async () => '' }) as Response
+
+  it('retries after a 429 and returns the ids once the feed responds', async () => {
+    const fetchImpl = vi
+      .fn()
+      .mockResolvedValueOnce(status(429))
+      .mockResolvedValueOnce(ok('<steamID64>1</steamID64><steamID64>2</steamID64>'))
+    const ids = await fetchSteamGroupMemberIds(fetchImpl, 3)
+    expect(ids).toEqual(new Set(['1', '2']))
+    expect(fetchImpl).toHaveBeenCalledTimes(2)
+  })
+
+  it('returns null once every attempt fails', async () => {
+    const fetchImpl = vi.fn().mockResolvedValue(status(429))
+    const ids = await fetchSteamGroupMemberIds(fetchImpl, 3)
+    expect(ids).toBeNull()
+    expect(fetchImpl).toHaveBeenCalledTimes(3)
   })
 })
