@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1788220800,
   "totalAchievements": 20,
-  "generatedAt": 1788872119965,
+  "generatedAt": 1788878639016,
   "challengeOver": false,
   "winnerUsername": "Mahry",
   "participants": [
@@ -3734,9 +3734,9 @@
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 42,
       "achievements_total": 20,
-      "achievements_unlocked_total": 2,
+      "achievements_unlocked_total": 3,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 2,
+      "achievements_since_baseline": 3,
       "challenge_achievements": [
         {
           "apiname": "ACH_F_THROW_PACKAGE",
@@ -3749,9 +3749,15 @@
           "displayName": "Let the Escape Begin",
           "description": "Escape  the Entrance level.",
           "unlocktime": 1788822524
+        },
+        {
+          "apiname": "ACH_H_FIRE_LOG",
+          "displayName": "Log-ical Fueling",
+          "description": "Add two logs to the fireplace in the office.",
+          "unlocktime": 1788878299
         }
       ],
-      "challenge_achievement_count": 2,
+      "challenge_achievement_count": 3,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
