@@ -916,6 +916,11 @@ export function analyzeSpringCleaning(
   const analyzed: AnalyzedUser[] = []
   let eligibleCount = 0
   for (const user of users) {
+    // Members already kicked from the Steam group are on their way out;
+    // SteamGifts just hasn't synced them off the roster yet. Warning them
+    // would be noise, so they are neither analyzed nor counted as eligible.
+    if (user.kicked_pending_sync) continue
+
     // Only spring-clean members who have been around long enough. A known
     // join date within the window excludes them; unknown dates are allowed
     // through (most are long-standing members predating the field).
