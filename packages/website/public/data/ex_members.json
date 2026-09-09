@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1788791898153,
+  "lastUpdated": 1788930154411,
   "users": {
     "76561198343020214": {
       "username": "thesodaer",
@@ -31476,6 +31476,90 @@
       "kicked_pending_sync": true,
       "kick_detected_at": 1788778673826,
       "left_at_timestamp": 1788791765503
+    },
+    "76561198064970339": {
+      "username": "TheSowut",
+      "profile_url": "/user/TheSowut",
+      "avatar_url": "https://avatars.steamstatic.com/bb3ef3a7103423dbfe4947ad72c6a43a84b53fa9_medium.jpg",
+      "steam_id": "76561198064970339",
+      "stats": {
+        "total_sent_count": 1,
+        "total_sent_value": 4.99,
+        "total_received_count": 0,
+        "total_received_value": 0,
+        "total_gift_difference": 1,
+        "total_value_difference": 4.99,
+        "fcv_sent_count": 1,
+        "rcv_sent_count": 0,
+        "ncv_sent_count": 0,
+        "fcv_received_count": 0,
+        "rcv_received_count": 0,
+        "ncv_received_count": 0,
+        "fcv_gift_difference": 0,
+        "real_total_sent_value": 4.99,
+        "real_total_received_value": 0,
+        "real_total_value_difference": 4.99,
+        "real_total_sent_count": 1,
+        "real_total_received_count": 0,
+        "real_total_gift_difference": 1,
+        "giveaway_ratio": 0,
+        "shared_sent_count": 0,
+        "shared_received_count": 0,
+        "giveaways_created": 1,
+        "giveaways_with_no_entries": 0,
+        "last_giveaway_created_at": 1786431113,
+        "last_giveaway_won_at": null,
+        "first_seen_at": 1785833939
+      },
+      "steam_profile_url": "https://steamcommunity.com/profiles/76561198064970339",
+      "country_code": "bg",
+      "giveaways_created": [
+        {
+          "name": "Kabuto Park",
+          "link": "HL2Sv/kabuto-park",
+          "cv_status": "FULL_CV",
+          "entries": 3,
+          "copies": 1,
+          "created_timestamp": 1786431113,
+          "end_timestamp": 1786721400,
+          "required_play": true,
+          "is_shared": false,
+          "i_played_bro": false,
+          "required_play_meta": {
+            "requirements_met": true,
+            "deadline_in_months": 3
+          },
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "76561198408001048",
+              "winner_username": "dramainfouracts",
+              "status": "received",
+              "activated": true
+            }
+          ]
+        },
+        {
+          "name": "DOOM",
+          "link": "GfiAn/doom",
+          "cv_status": "FULL_CV",
+          "entries": 1,
+          "copies": 1,
+          "created_timestamp": 1785833939,
+          "end_timestamp": 1786352400,
+          "required_play": true,
+          "is_shared": false,
+          "deleted": true,
+          "deleted_reason": "Selected Incorrect Game or Information",
+          "had_winners": false
+        }
+      ],
+      "registered_at": 1375201255,
+      "last_online_at": 1788856503,
+      "last_online_checked_at": 1788895000487,
+      "kicked_pending_sync": true,
+      "kick_detected_at": 1788895012039,
+      "left_at_timestamp": 1788929955178
     }
   }
 }
