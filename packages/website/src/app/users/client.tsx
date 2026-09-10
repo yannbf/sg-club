@@ -96,6 +96,13 @@ function getTotalPlaytime(user: User, deletedGaLinks?: Set<string>) {
     )
 }
 
+/** Same thresholds as the play-rate colour in UnplayedGamesStats. */
+function getRateColor(percentage: number) {
+  if (percentage >= 66) return 'text-success-foreground'
+  if (percentage >= 33) return 'text-accent-yellow'
+  return 'text-error-foreground'
+}
+
 function getTotalAchievements(user: User, deletedGaLinks?: Set<string>) {
   if (!user.giveaways_won) return 0
   return user.giveaways_won
@@ -510,6 +517,8 @@ function UserCard({
     totalPlaytime === 0 && totalAchievements > 0
       ? 'Unavailable'
       : formatPlaytime(totalPlaytime)
+  const achievementsTotal = user.stats.real_total_achievements_percentage ?? 0
+  const achievementsAvg = user.stats.real_average_achievements_percentage ?? 0
   const recentWins = getRecentWins(user, deletedGaSet)
   const noEntryGAs = getNoEntryGiveaways(user, deletedGaSet)
   const accentClass = !isAdmin
@@ -717,8 +726,15 @@ function UserCard({
             />
             <SmallStat
               label="Achievements"
-              value={`${user.stats.real_total_achievements_percentage ?? 0}%`}
-              accent="text-accent-yellow"
+              value={
+                <>
+                  <span>{achievementsTotal}%</span>
+                  <span className="text-xs font-normal text-muted-foreground">
+                    · {achievementsAvg}% avg
+                  </span>
+                </>
+              }
+              accent={getRateColor(achievementsTotal)}
               icon={Trophy}
               extra={
                 user.stats.has_missing_achievements_data ? (
