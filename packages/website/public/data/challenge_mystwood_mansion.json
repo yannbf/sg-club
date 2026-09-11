@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1788220800,
   "totalAchievements": 20,
-  "generatedAt": 1789152306259,
+  "generatedAt": 1789163492841,
   "challengeOver": false,
   "winnerUsername": "Mahry",
   "participants": [
@@ -3303,11 +3303,11 @@
       "is_guest": false,
       "owned": true,
       "stats_available": true,
-      "wrote_review": false,
-      "review_voted_up": null,
-      "review_timestamp": null,
-      "review_recommendationid": null,
-      "review_url": null,
+      "wrote_review": true,
+      "review_voted_up": true,
+      "review_timestamp": 0,
+      "review_recommendationid": "235038766",
+      "review_url": "https://steamcommunity.com/profiles/76561197960990984/recommended/2292650",
       "playtime_total_minutes": 574,
       "playtime_2weeks_minutes": 378,
       "baseline_playtime_minutes": 196,
@@ -3444,8 +3444,8 @@
       "completed_before_start": false,
       "completed_after_deadline": false,
       "meets_playtime": true,
-      "meets_review": false,
-      "is_winner": false
+      "meets_review": true,
+      "is_winner": true
     },
     {
       "username": "puninup",
@@ -3999,6 +3999,58 @@
       "is_winner": false
     },
     {
+      "username": "quinnix",
+      "sg_username": "quinnix",
+      "steam_id": "76561198117650232",
+      "avatar_url": "https://avatars.steamstatic.com/54c74b60699bdc79c8c660da18203a0df72369e7_medium.jpg",
+      "profile_url": "https://steamcommunity.com/profiles/76561198117650232",
+      "is_guest": false,
+      "owned": true,
+      "stats_available": true,
+      "wrote_review": false,
+      "review_voted_up": null,
+      "review_timestamp": null,
+      "review_recommendationid": null,
+      "review_url": null,
+      "playtime_total_minutes": 30,
+      "playtime_2weeks_minutes": 30,
+      "baseline_playtime_minutes": 0,
+      "playtime_challenge_minutes": 30,
+      "achievements_total": 20,
+      "achievements_unlocked_total": 3,
+      "achievements_before_challenge": 0,
+      "achievements_since_baseline": 3,
+      "challenge_achievements": [
+        {
+          "apiname": "ACH_A_ENTR_COMPL",
+          "displayName": "Let the Escape Begin",
+          "description": "Escape  the Entrance level.",
+          "unlocktime": 1789161782
+        },
+        {
+          "apiname": "ACH_H_FIRE_LOG",
+          "displayName": "Log-ical Fueling",
+          "description": "Add two logs to the fireplace in the office.",
+          "unlocktime": 1789162812
+        },
+        {
+          "apiname": "ACH_K_NO_LOOSE_ENDS",
+          "displayName": "No Loose Ends",
+          "description": "Solve the wire puzzle in the office without any \"loose ends\" of the wire with electricity running through it.",
+          "unlocktime": 1789163468
+        }
+      ],
+      "challenge_achievement_count": 3,
+      "has_started": true,
+      "is_complete": false,
+      "completed_at": null,
+      "completed_before_start": false,
+      "completed_after_deadline": false,
+      "meets_playtime": true,
+      "meets_review": false,
+      "is_winner": false
+    },
+    {
       "username": "DancingVaquinha",
       "sg_username": "DancingVaquinha",
       "steam_id": "76561198066598689",
@@ -4362,39 +4414,6 @@
       "is_winner": false
     },
     {
-      "username": "quinnix",
-      "sg_username": "quinnix",
-      "steam_id": "76561198117650232",
-      "avatar_url": "https://avatars.steamstatic.com/54c74b60699bdc79c8c660da18203a0df72369e7_medium.jpg",
-      "profile_url": "https://steamcommunity.com/profiles/76561198117650232",
-      "is_guest": false,
-      "owned": true,
-      "stats_available": true,
-      "wrote_review": false,
-      "review_voted_up": null,
-      "review_timestamp": null,
-      "review_recommendationid": null,
-      "review_url": null,
-      "playtime_total_minutes": 0,
-      "playtime_2weeks_minutes": 0,
-      "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 0,
-      "achievements_total": 20,
-      "achievements_unlocked_total": 0,
-      "achievements_before_challenge": 0,
-      "achievements_since_baseline": 0,
-      "challenge_achievements": [],
-      "challenge_achievement_count": 0,
-      "has_started": false,
-      "is_complete": false,
-      "completed_at": null,
-      "completed_before_start": false,
-      "completed_after_deadline": false,
-      "meets_playtime": true,
-      "meets_review": false,
-      "is_winner": false
-    },
-    {
       "username": "MikeWithAnI",
       "sg_username": "MikeWithAnI",
       "steam_id": "76561198452519450",
@@ -4681,7 +4700,8 @@
     "adam1224",
     "TwixClub",
     "QuinlanLJ",
-    "Casino0"
+    "Casino0",
+    "RePlayBe"
   ],
   "roster": {
     "participants": [
