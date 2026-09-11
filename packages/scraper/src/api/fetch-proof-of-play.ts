@@ -29,6 +29,14 @@ interface DecreasedRatioRow {
   WIN_WEIGHT: string
 }
 
+interface BeatenOverrideRow {
+  'STEAM LINK': string
+  GAME: string
+  ACHIEVEMENT: string
+  'STEAMHUNTERS LINK': string
+  NOTES: string
+}
+
 interface PlayRequirementData {
   id: string
   game: string
@@ -58,6 +66,17 @@ export interface DecreasedRatioData {
   notes?: string
 }
 
+/** One row of the BEATEN_OVERRIDES sheet tab, trimmed but otherwise unresolved —
+ *  the beaten-games pipeline resolves STEAM LINK/ACHIEVEMENT/STEAMHUNTERS LINK
+ *  against Steam and Steam Hunters. */
+export interface BeatenOverrideData {
+  steamLink: string
+  game: string
+  achievement: string
+  steamHuntersLink?: string
+  notes?: string
+}
+
 interface GiveawayDataMap {
   [id: string]: {
     game: string
@@ -80,6 +99,7 @@ export class GiveawayPointsManager {
     GIVEAWAYS: '0', // proof of play tab
     PLAY_REQUIRED: '2065024481', // play required tab
     INVALID_RATIO: '1029246486', // invalid ratio tab
+    BEATEN_OVERRIDES: '1687932623', // beaten marker overrides tab
   }
 
   private readonly CACHE_DURATION = 25 * 60 * 1000 // 25 min
@@ -95,6 +115,11 @@ export class GiveawayPointsManager {
   private decreasedRatioCache: DecreasedRatioData[] | null = null
   private decreasedRatioLastFetch = 0
   private decreasedRatioFetchPromise: Promise<DecreasedRatioData[]> | null =
+    null
+
+  private beatenOverrideCache: BeatenOverrideData[] | null = null
+  private beatenOverrideLastFetch = 0
+  private beatenOverrideFetchPromise: Promise<BeatenOverrideData[]> | null =
     null
 
   private constructor() {}
@@ -343,5 +368,50 @@ export class GiveawayPointsManager {
     const rows = await this.fetchDecreasedRatios()
     const matches = rows.filter((r) => r.id === id)
     return matches.length > 0 ? matches : null
+  }
+
+  // ─── Beaten Marker Overrides Logic ──────────────────────────────────
+
+  private parseBeatenOverrideRow(row: BeatenOverrideRow): BeatenOverrideData {
+    const steamHuntersLink = (row['STEAMHUNTERS LINK'] || '').trim()
+    const notes = (row.NOTES || '').trim()
+    return {
+      steamLink: row['STEAM LINK'].trim(),
+      game: row.GAME.trim(),
+      achievement: row.ACHIEVEMENT.trim(),
+      steamHuntersLink: steamHuntersLink === '' ? undefined : steamHuntersLink,
+      notes: notes === '' ? undefined : notes,
+    }
+  }
+
+  public async fetchBeatenOverrides(): Promise<BeatenOverrideData[]> {
+    if (this.beatenOverrideFetchPromise) return this.beatenOverrideFetchPromise
+
+    const now = Date.now()
+    if (
+      this.beatenOverrideCache &&
+      now - this.beatenOverrideLastFetch < this.CACHE_DURATION
+    ) {
+      return this.beatenOverrideCache
+    }
+
+    this.beatenOverrideFetchPromise = this.fetchCsvData<BeatenOverrideRow>(
+      this.GID.BEATEN_OVERRIDES
+    )
+      .then((rows) =>
+        rows
+          .filter((row) => row['STEAM LINK'] && row.ACHIEVEMENT)
+          .map((row) => this.parseBeatenOverrideRow(row))
+      )
+      .then((data) => {
+        this.beatenOverrideCache = data
+        this.beatenOverrideLastFetch = Date.now()
+        return data
+      })
+      .finally(() => {
+        this.beatenOverrideFetchPromise = null
+      })
+
+    return this.beatenOverrideFetchPromise
   }
 }

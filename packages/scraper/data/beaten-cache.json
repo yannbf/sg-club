@@ -2442,18 +2442,18 @@
       "story_tag_count": 0
     },
     "1462040": {
-      "fetched_at": "2026-08-24T20:05:17.447Z",
+      "fetched_at": "2026-09-11T14:50:45.212Z",
       "marker": {
-        "apiname": "ACH_55",
-        "name": "Out of Darkness's Clutches",
-        "description": "Complete Chapter 2 of INTERmission.",
-        "global_percent": 17.2,
-        "source": "steamhunters",
-        "filtered": true,
-        "sh_achievement_id": 56
+        "apiname": "ACH_18",
+        "name": "Destiny's Crossroads",
+        "description": "",
+        "global_percent": 33.1,
+        "source": "override",
+        "sh_achievement_id": 19
       },
       "no_marker_reason": null,
-      "story_tag_count": 26
+      "story_tag_count": 0,
+      "override_key": "1462040:ACH_18"
     },
     "1462570": {
       "fetched_at": "2026-08-24T20:11:01.870Z",
@@ -7143,13 +7143,6 @@
       "unlock_time": 1756481478,
       "no_data_reason": null
     },
-    "76561198055181554::1462040": {
-      "fetched_at": "2026-09-11T12:25:27.885Z",
-      "marker_apiname": "ACH_55",
-      "beaten": false,
-      "unlock_time": null,
-      "no_data_reason": null
-    },
     "76561198055181554::990080": {
       "fetched_at": "2026-08-24T17:40:50.366Z",
       "marker_apiname": "PFA_14",
@@ -7491,13 +7484,6 @@
       "marker_apiname": "Complete_HAX",
       "beaten": true,
       "unlock_time": 1767780569,
-      "no_data_reason": null
-    },
-    "76561198054649894::1462040": {
-      "fetched_at": "2026-08-24T17:42:18.400Z",
-      "marker_apiname": "ACH_55",
-      "beaten": true,
-      "unlock_time": 1785790689,
       "no_data_reason": null
     },
     "76561198054649894::851850": {
@@ -10431,6 +10417,20 @@
       "marker_apiname": "ach1",
       "beaten": true,
       "unlock_time": 1759745919,
+      "no_data_reason": null
+    },
+    "76561198055181554::1462040": {
+      "fetched_at": "2026-09-11T14:50:46.485Z",
+      "marker_apiname": "ACH_18",
+      "beaten": true,
+      "unlock_time": 1785122656,
+      "no_data_reason": null
+    },
+    "76561198054649894::1462040": {
+      "fetched_at": "2026-09-11T14:50:47.704Z",
+      "marker_apiname": "ACH_18",
+      "beaten": true,
+      "unlock_time": 1785619823,
       "no_data_reason": null
     }
   },

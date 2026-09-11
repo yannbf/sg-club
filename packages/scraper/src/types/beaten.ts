@@ -1,16 +1,21 @@
-/** Where a game's beaten-marker achievement was determined from. */
-export type BeatenMarkerSource = 'steamhunters' | 'heuristic'
+/** Where a game's beaten-marker achievement was determined from.
+ *  "override" — set from the BEATEN_OVERRIDES sheet tab, which beats every
+ *  other signal. */
+export type BeatenMarkerSource = 'steamhunters' | 'heuristic' | 'override'
 
 /**
  * Why no beaten-marker achievement could be determined for a game.
  * "package" — the win only has a package_id (no app_id) and it could not be
  * resolved to a game app via the store packagedetails endpoint.
+ * "override_none" — the BEATEN_OVERRIDES sheet tab names this game's
+ * ACHIEVEMENT as `NONE`: it has no valid ending achievement.
  */
 export type NoMarkerReason =
   | 'package'
   | 'no_achievements'
   | 'no_marker_found'
   | 'schema_unavailable'
+  | 'override_none'
 
 /** Why a winner's beaten status could not be determined. */
 export type NoBeatenDataReason =
@@ -38,6 +43,12 @@ export interface BeatenMarker {
    * Absent when the lookup failed or the apiname wasn't found there.
    */
   sh_achievement_id?: number
+  /**
+   * Alternative apinames that also count as beaten, for an override naming
+   * several achievements with `|`. `apiname` is the first alternative when
+   * set; absent for a single-apiname marker.
+   */
+  any_of_apinames?: string[]
 }
 
 export interface BeatenGameEntry {

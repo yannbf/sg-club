@@ -242,6 +242,8 @@ function noMarkerReasonText(reason: PlayRequiredRow['beaten']['noMarkerReason'])
       return "Steam doesn't expose achievement data for this app — manual verification is needed."
     case 'package':
       return "This giveaway is for a Steam package — beaten detection couldn't map it to a game."
+    case 'override_none':
+      return 'A mod override marks this game as having no valid ending achievement.'
     default:
       return 'Manual verification is needed.'
   }

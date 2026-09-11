@@ -15,14 +15,19 @@ export interface BeatenGameMarker {
   source: string
   /** Steam Hunters' id for this achievement, when matched — links directly to it instead of the game's achievements page. */
   sh_achievement_id?: number
+  /** Alternative apinames that also count as beaten, for a manual override naming several achievements. */
+  any_of_apinames?: string[]
 }
 
-/** Why no story marker could be established for a game. */
+/** Why no story marker could be established for a game.
+ *  "override_none" — a mod override names this game as having no valid
+ *  ending achievement. */
 export type NoMarkerReason =
   | 'package'
   | 'no_achievements'
   | 'no_marker_found'
   | 'schema_unavailable'
+  | 'override_none'
 
 export interface BeatenGameEntry {
   marker: BeatenGameMarker | null

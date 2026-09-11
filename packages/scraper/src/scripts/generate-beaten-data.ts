@@ -2,6 +2,10 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { config as loadEnv } from 'dotenv'
+import {
+  GiveawayPointsManager,
+  type BeatenOverrideData,
+} from '../api/fetch-proof-of-play.js'
 import { SteamGameChecker } from '../api/fetch-steam-data.js'
 import {
   fetchSteamHuntersAchievements,
@@ -31,9 +35,11 @@ import { logError } from '../utils/log-error.js'
  * was actually completed, independent of self-reported attestation.
  *
  * Two phases:
- *  1. Marker detection (per app_id, cached ~forever): Steam Hunters'
- *     community "Main Storyline" tag is the primary signal; a description
- *     heuristic over the Steam achievement schema is the fallback.
+ *  1. Marker detection (per app_id, cached ~forever): a manual override from
+ *     the BEATEN_OVERRIDES sheet tab beats every other signal when present;
+ *     otherwise Steam Hunters' community "Main Storyline" tag is the primary
+ *     signal, with a description heuristic over the Steam achievement schema
+ *     as the fallback.
  *  2. Player checks (per steam_id::app_id, cached with a re-check window):
  *     has this winner unlocked the marker achievement?
  *
@@ -56,7 +62,9 @@ import { logError } from '../utils/log-error.js'
  *    SKIP_STEAMHUNTERS is set).
  *  - SKIP_STEAM_API=1 — skip all Steam Web API calls (schema, global %,
  *    player achievements); nothing new can be determined, existing cache
- *    entries are still used.
+ *    entries are still used. The BEATEN_OVERRIDES sheet tab is also skipped
+ *    (applying an override needs the achievement schema), so a cached
+ *    marker is kept even if its override row changed.
  *  - MARKER_ENRICH_CAP=N — cap the number of cached markers backfilled with
  *    sh_achievement_id per run (default 300). Unaffected by
  *    SKIP_STEAMHUNTERS, since the achievement id comes from the JSON API,
@@ -185,6 +193,14 @@ interface MarkerCacheEntry {
   story_tag_count: number
   resolved_app_id?: number
   resolved_app_name?: string
+  /**
+   * Signature of the BEATEN_OVERRIDES row applied when this entry was
+   * written (resolved app id + sorted apinames, or "<appId>:NONE") — see
+   * {@link buildOverrideKey}. Absent when no override applied. A mismatch
+   * against the current override state (row changed, or removed) means this
+   * entry is stale and marker detection must re-run for the app.
+   */
+  override_key?: string
 }
 
 /** DLC/soundtrack -> base-game appId resolution (store appdetails). Permanent
@@ -304,6 +320,259 @@ async function resolveShAchievementId(
     await delay(STEAMHUNTERS_DELAY_MS)
   }
   return shAchievements?.find((a) => a.apiName === apiname)?.achievementId
+}
+
+// --- Beaten marker overrides ---
+
+/** A resolved BEATEN_OVERRIDES sheet row for one app, ready to apply as a marker. */
+type ResolvedOverride =
+  | { none: true }
+  | { apinames: string[]; sh_achievement_id?: number }
+
+/** Achievement fields needed to resolve an override's ACHIEVEMENT column against a schema. */
+interface SchemaAchievementLike {
+  name: string
+  displayName?: string
+}
+
+/**
+ * Parses a BEATEN_OVERRIDES STEAM LINK into the app or package it names.
+ * Accepts a store app/sub URL, a steamcommunity.com app URL, or a bare app
+ * id; anything after the id is ignored. Returns null for anything else.
+ */
+export function parseOverrideSteamLink(
+  raw: string,
+): { kind: 'app'; appId: number } | { kind: 'sub'; packageId: number } | null {
+  const trimmed = raw.trim()
+  if (/^\d+$/.test(trimmed)) {
+    return { kind: 'app', appId: Number(trimmed) }
+  }
+  const subMatch = trimmed.match(/steampowered\.com\/sub\/(\d+)/i)
+  if (subMatch) return { kind: 'sub', packageId: Number(subMatch[1]) }
+  const appMatch = trimmed.match(/(?:steampowered\.com\/app|steamcommunity\.com\/app)\/(\d+)/i)
+  if (appMatch) return { kind: 'app', appId: Number(appMatch[1]) }
+  return null
+}
+
+/**
+ * Resolves a BEATEN_OVERRIDES ACHIEVEMENT column against a game's Steam
+ * achievement schema, matched case-insensitively by displayName first then
+ * apiname. `|` separates alternatives ("any of these counts as beaten"); the
+ * special value `NONE` means the game has no valid ending achievement.
+ * Returns null when any alternative can't be resolved.
+ */
+export function resolveOverrideAchievement(
+  achievementField: string,
+  achievements: SchemaAchievementLike[],
+): ResolvedOverride | null {
+  const trimmed = achievementField.trim()
+  if (trimmed.toUpperCase() === 'NONE') return { none: true }
+
+  const alternatives = trimmed
+    .split('|')
+    .map((s) => s.trim())
+    .filter(Boolean)
+  if (alternatives.length === 0) return null
+
+  const apinames: string[] = []
+  for (const alt of alternatives) {
+    const lower = alt.toLowerCase()
+    const match =
+      achievements.find((a) => (a.displayName ?? '').toLowerCase() === lower) ??
+      achievements.find((a) => a.name.toLowerCase() === lower)
+    if (!match) return null
+    apinames.push(match.name)
+  }
+  return { apinames }
+}
+
+/**
+ * Parses a `steamhunters.com/apps/<appId>/achievements/<achievementId>` URL
+ * from the BEATEN_OVERRIDES STEAMHUNTERS LINK column. Returns null for
+ * anything else.
+ */
+export function parseOverrideSteamHuntersLink(
+  raw: string,
+): { appId: number; achievementId: number } | null {
+  const match = raw.match(/steamhunters\.com\/apps\/(\d+)\/achievements\/(\d+)/i)
+  if (!match) return null
+  return { appId: Number(match[1]), achievementId: Number(match[2]) }
+}
+
+/** Stable signature of an applied override, for cache invalidation. */
+export function buildOverrideKey(appId: number, resolved: ResolvedOverride): string {
+  if ('none' in resolved) return `${appId}:NONE`
+  return `${appId}:${[...resolved.apinames].sort().join(',')}`
+}
+
+/**
+ * Combines an override's name-resolved apinames with a Steam Hunters link's
+ * resolved apiname, when both are present: the link wins on disagreement
+ * (it replaces the whole set with just itself), since it names one specific
+ * achievement rather than matching by display text.
+ */
+export function applyShLinkPrecedence(
+  apinames: string[],
+  shApiname: string | undefined,
+): { apinames: string[]; disagreed: boolean } {
+  if (!shApiname || apinames.includes(shApiname)) {
+    return { apinames, disagreed: false }
+  }
+  return { apinames: [shApiname], disagreed: true }
+}
+
+/**
+ * Resolves Steam Hunters' numeric achievement id (from a STEAMHUNTERS LINK)
+ * to its apiname via the JSON achievements API — the reverse of
+ * {@link resolveShAchievementId}. Returns undefined on any failure or when
+ * the id isn't found.
+ */
+async function resolveApinameForShAchievementId(
+  appId: number,
+  achievementId: number,
+): Promise<string | undefined> {
+  const shAchievements = await fetchSteamHuntersAchievements(appId)
+  await delay(STEAMHUNTERS_DELAY_MS)
+  return shAchievements?.find((a) => a.achievementId === achievementId)?.apiName
+}
+
+/**
+ * Fetches and resolves the BEATEN_OVERRIDES sheet tab into a per-app map
+ * ready to apply as markers. A sheet fetch failure, or SKIP_STEAM_API (an
+ * override needs the achievement schema), yields an empty map — existing
+ * cached markers are used as if no overrides existed. Each row is resolved
+ * independently; a row that can't be resolved is skipped with a warning
+ * rather than failing the run.
+ */
+async function buildOverridesByAppId(
+  checker: SteamGameChecker,
+  cache: BeatenCache,
+): Promise<Map<number, ResolvedOverride>> {
+  const overridesByAppId = new Map<number, ResolvedOverride>()
+  if (SKIP_STEAM_API) return overridesByAppId
+
+  let rows: BeatenOverrideData[]
+  try {
+    rows = await GiveawayPointsManager.getInstance().fetchBeatenOverrides()
+  } catch (error) {
+    logError(error, 'Failed to fetch BEATEN_OVERRIDES sheet tab')
+    console.warn('⚠️  Could not fetch beaten marker overrides, continuing with none')
+    return overridesByAppId
+  }
+
+  for (const row of rows) {
+    const rowLabel = `"${row.game}" (${row.steamLink})`
+    const parsedLink = parseOverrideSteamLink(row.steamLink)
+    if (!parsedLink) {
+      console.warn(`⚠️  Override row ${rowLabel}: could not parse STEAM LINK, skipping`)
+      continue
+    }
+
+    let appId: number
+    if (parsedLink.kind === 'sub') {
+      const resolution = await resolvePackageToApp(parsedLink.packageId, checker, cache)
+      if (resolution.app_id == null) {
+        console.warn(
+          `⚠️  Override row ${rowLabel}: could not resolve package ${parsedLink.packageId} to a game app, skipping`,
+        )
+        continue
+      }
+      appId = resolution.app_id
+    } else {
+      appId = parsedLink.appId
+    }
+
+    const achievements = await checker.getSchemaAchievements(appId)
+    if (!achievements) {
+      console.warn(`⚠️  Override row ${rowLabel}: achievement schema unavailable for appId ${appId}, skipping`)
+      continue
+    }
+
+    const resolvedAchievement = resolveOverrideAchievement(row.achievement, achievements)
+    if (resolvedAchievement == null) {
+      console.warn(
+        `⚠️  Override row ${rowLabel}: could not resolve ACHIEVEMENT "${row.achievement}" against the schema, skipping`,
+      )
+      continue
+    }
+
+    let resolved: ResolvedOverride
+    if ('none' in resolvedAchievement) {
+      resolved = { none: true }
+    } else {
+      let apinames = resolvedAchievement.apinames
+      let shAchievementId: number | undefined
+
+      const parsedShLink = row.steamHuntersLink ? parseOverrideSteamHuntersLink(row.steamHuntersLink) : null
+      if (parsedShLink) {
+        if (parsedShLink.appId !== appId) {
+          console.warn(
+            `⚠️  Override row ${rowLabel}: STEAMHUNTERS LINK app id ${parsedShLink.appId} differs from resolved app id ${appId}, ignoring the link`,
+          )
+        } else {
+          const shApiname = await resolveApinameForShAchievementId(parsedShLink.appId, parsedShLink.achievementId)
+          if (shApiname) {
+            shAchievementId = parsedShLink.achievementId
+            const precedence = applyShLinkPrecedence(apinames, shApiname)
+            apinames = precedence.apinames
+            if (precedence.disagreed) {
+              console.warn(
+                `⚠️  Override row ${rowLabel}: STEAMHUNTERS LINK achievement disagrees with ACHIEVEMENT, using the link`,
+              )
+            }
+          }
+        }
+      }
+
+      resolved = { apinames, ...(shAchievementId != null ? { sh_achievement_id: shAchievementId } : {}) }
+    }
+
+    if (overridesByAppId.has(appId)) {
+      console.warn(`⚠️  Override row ${rowLabel}: duplicate override for appId ${appId}, replacing the earlier row`)
+    }
+    overridesByAppId.set(appId, resolved)
+  }
+
+  return overridesByAppId
+}
+
+/**
+ * Builds a marker directly from a resolved override, bypassing Steam
+ * Hunters and the heuristic entirely. Global percent still comes from
+ * {@link SteamGameChecker.getGlobalAchievementPercentages}, same as every
+ * other marker source.
+ */
+async function applyOverrideMarker(
+  appId: number,
+  checker: SteamGameChecker,
+  override: ResolvedOverride,
+): Promise<{
+  marker: BeatenMarker | null
+  no_marker_reason: NoMarkerReason | null
+  story_tag_count: number
+}> {
+  if ('none' in override) {
+    return { marker: null, no_marker_reason: 'override_none', story_tag_count: 0 }
+  }
+
+  const [primary, ...alternatives] = override.apinames
+  const achievements = await checker.getSchemaAchievements(appId)
+  const globalPercentages = await checker.getGlobalAchievementPercentages(appId)
+  const schemaAch = achievements?.find((a) => a.name === primary)
+
+  return {
+    marker: {
+      apiname: primary,
+      name: schemaAch?.displayName ?? primary,
+      description: schemaAch?.description ?? '',
+      global_percent: globalPercentages?.[primary] ?? 0,
+      source: 'override',
+      ...(alternatives.length > 0 ? { any_of_apinames: override.apinames } : {}),
+      ...(override.sh_achievement_id != null ? { sh_achievement_id: override.sh_achievement_id } : {}),
+    },
+    no_marker_reason: null,
+    story_tag_count: 0,
+  }
 }
 
 async function detectMarker(
@@ -492,6 +761,7 @@ async function detectMarkerWithResolution(
   appId: number,
   checker: SteamGameChecker,
   cache: BeatenCache,
+  override?: ResolvedOverride,
 ): Promise<{
   marker: BeatenMarker | null
   no_marker_reason: NoMarkerReason | null
@@ -499,6 +769,10 @@ async function detectMarkerWithResolution(
   resolved_app_id?: number
   resolved_app_name?: string
 }> {
+  if (override) {
+    return applyOverrideMarker(appId, checker, override)
+  }
+
   const direct = await detectMarker(appId, checker)
 
   if (direct.no_marker_reason !== 'schema_unavailable' && direct.no_marker_reason !== 'no_achievements') {
@@ -605,6 +879,39 @@ async function resolvePackageToApp(
 
 // --- Player check ---
 
+/** Achievement fields needed to check whether a marker was unlocked. */
+interface PlayerAchievementLike {
+  apiname: string
+  achieved: number
+  unlocktime: number
+}
+
+/**
+ * Checks a marker's apinames against a player's achievement list: beaten
+ * when ANY of them is unlocked (a single-apiname marker is the `[apiname]`
+ * case), using the earliest unlock time among the unlocked ones. Returns
+ * `found: false` when none of the apinames appear in the player's data at
+ * all, distinct from appearing but locked.
+ */
+export function checkAnyOfApinamesBeaten(
+  achievements: PlayerAchievementLike[],
+  apinames: string[],
+): { found: boolean; beaten: boolean; unlock_time: number | null } {
+  let found = false
+  let earliestUnlock: number | null = null
+
+  for (const apiname of apinames) {
+    const match = achievements.find((a) => a.apiname === apiname)
+    if (!match) continue
+    found = true
+    if (match.achieved === 1 && (earliestUnlock == null || match.unlocktime < earliestUnlock)) {
+      earliestUnlock = match.unlocktime
+    }
+  }
+
+  return { found, beaten: earliestUnlock != null, unlock_time: earliestUnlock }
+}
+
 async function checkPlayerBeaten(
   steamId: string,
   appId: number,
@@ -634,16 +941,13 @@ async function checkPlayerBeaten(
     return { beaten: null, unlock_time: null, no_data_reason: 'no_stats' }
   }
 
-  const found = achievements.find((a) => a.apiname === marker.apiname)
-  if (!found) {
+  const apinames = marker.any_of_apinames ?? [marker.apiname]
+  const result = checkAnyOfApinamesBeaten(achievements, apinames)
+  if (!result.found) {
     return { beaten: null, unlock_time: null, no_data_reason: 'marker_missing_from_player_data' }
   }
 
-  return {
-    beaten: found.achieved === 1,
-    unlock_time: found.achieved === 1 ? found.unlocktime : null,
-    no_data_reason: null,
-  }
+  return { beaten: result.beaten, unlock_time: result.unlock_time, no_data_reason: null }
 }
 
 // --- Main pipeline ---
@@ -756,18 +1060,30 @@ export async function generateBeatenData(): Promise<void> {
   }
   const uniqueAppIdSet = new Set(uniqueAppIds)
 
+  // --- Beaten marker overrides ---
+  const overridesByAppId = await buildOverridesByAppId(checker, cache)
+  console.log(`🔧 Resolved ${overridesByAppId.size} beaten marker override(s)`)
+
   // --- Phase 1: marker detection (cached per appId) ---
   const games: Record<string, BeatenGameEntry> = {}
   let markerFetchCount = 0
   let deferredMarkers = 0
   let markerEnrichCount = 0
   let deferredEnrichments = 0
-  const sourceCounts = { steamhunters: 0, heuristic: 0, none: 0 }
+  let overridesAppliedCount = 0
+  const sourceCounts = { steamhunters: 0, heuristic: 0, override: 0, none: 0 }
 
   console.log(`🏅 Detecting beaten markers for ${uniqueAppIds.length} game(s)...`)
   for (let i = 0; i < uniqueAppIds.length; i++) {
     const appId = uniqueAppIds[i]
     const cached = cache.markers[String(appId)]
+
+    const override = overridesByAppId.get(appId)
+    const overrideKey = override ? buildOverrideKey(appId, override) : undefined
+    // An override applies or changes, or a previously-overridden app's row
+    // was removed — either way the cached override_key no longer matches
+    // the current override state, so detection must re-run.
+    const overrideStale = overrideKey !== cached?.override_key
 
     // A cached "no schema"/"no achievements" verdict predates DLC
     // resolution unless an app_resolutions entry for it already exists and
@@ -781,7 +1097,7 @@ export async function generateBeatenData(): Promise<void> {
       cached.resolved_app_id == null &&
       !(appResolution != null && appResolution.resolved_app_id == null)
 
-    if (cached && !staleUnresolved) {
+    if (cached && !staleUnresolved && !overrideStale) {
       // A cached marker written before sh_achievement_id existed needs only
       // a SH id backfill, not a full re-detection — the marker choice
       // itself is unaffected.
@@ -829,13 +1145,34 @@ export async function generateBeatenData(): Promise<void> {
     }
 
     try {
-      const result = await detectMarkerWithResolution(appId, checker, cache)
+      const result = await detectMarkerWithResolution(appId, checker, cache, override)
       const fetchedAt = new Date().toISOString()
-      cache.markers[String(appId)] = { fetched_at: fetchedAt, ...result }
+      cache.markers[String(appId)] = {
+        fetched_at: fetchedAt,
+        ...result,
+        ...(overrideKey !== undefined ? { override_key: overrideKey } : {}),
+      }
       games[String(appId)] = { ...result, checked_at: fetchedAt }
       if (result.marker) sourceCounts[result.marker.source]++
       else sourceCounts.none++
       markerFetchCount++
+
+      if (override) {
+        overridesAppliedCount++
+        console.log(
+          `🔧 Override applied — ${appId}: ${result.marker ? `${result.marker.name} (${result.marker.apiname})` : 'no valid ending achievement (NONE)'}`,
+        )
+      }
+
+      // The app's beaten status may have just changed underneath any cached
+      // player checks — re-check winners against the new marker this run
+      // rather than serving a stale verdict computed against the old one.
+      if (overrideStale) {
+        const suffix = `::${appId}`
+        for (const key of Object.keys(cache.player_checks)) {
+          if (key.endsWith(suffix)) delete cache.player_checks[key]
+        }
+      }
     } catch (error) {
       logError(error, `Failed to detect beaten marker for appId ${appId}`)
       console.warn(`⚠️  Failed to detect marker for appid ${appId}:`, String(error))
@@ -853,7 +1190,7 @@ export async function generateBeatenData(): Promise<void> {
   }
   saveCache(cache)
   console.log(
-    `✅ Marker detection complete — ${markerFetchCount} fresh fetches, ${sourceCounts.steamhunters} steamhunters, ${sourceCounts.heuristic} heuristic, ${sourceCounts.none} undetermined${deferredMarkers > 0 ? `, ${deferredMarkers} deferred to next run` : ''}`,
+    `✅ Marker detection complete — ${markerFetchCount} fresh fetches, ${sourceCounts.steamhunters} steamhunters, ${sourceCounts.heuristic} heuristic, ${overridesAppliedCount} overrides, ${sourceCounts.none} undetermined${deferredMarkers > 0 ? `, ${deferredMarkers} deferred to next run` : ''}`,
   )
   console.log(
     `🔗 SH achievement id backfill — ${markerEnrichCount} enriched${deferredEnrichments > 0 ? `, ${deferredEnrichments} deferred to next run` : ''}`,
