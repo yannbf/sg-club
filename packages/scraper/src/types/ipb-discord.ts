@@ -19,6 +19,12 @@ export type IpbSubmissionSource = 'discord' | 'steam_forum'
  * equivalents: `thread_id` is the Steam comment id, `url` the comment
  * permalink, `thread_name` the game name, `owner_discord_name` the poster's
  * Steam display name and `thread_created_at` the post time.
+ *
+ * For `source: 'discord'` from the archived-channel backfill (messages from
+ * before the forum-thread channel existed) the fields hold the archived
+ * message's equivalents: `thread_id` is the Discord message id, `url` the
+ * message permalink, `thread_name` the game name, `owner_discord_name` the
+ * poster's Discord username and `thread_created_at` the message time.
  */
 export interface IpbDiscordWinEntry {
   /** Absent means `discord`. */

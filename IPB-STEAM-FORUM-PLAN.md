@@ -1,4 +1,4 @@
-# Plan: backfill "I Play Bro" submissions from the Steam forum thread
+# Plan: backfill "I Play Bro" submissions from the Steam forum thread and the archived Discord channel
 
 ## Context
 
@@ -87,6 +87,35 @@ Keep one verification-submission file and one row type; add a `source` discrimin
      **Submitted** rows with Steam links.
    - Mods then verify rows from the site as usual; verifying writes the IPB sheet tab, after which
      `win_flagged` flips and the row becomes **Verified**.
+
+## Second legacy source: the archived Discord channel
+
+Before the forum-thread channel, members posted in the `i-play-bro-archive` text channel
+(`1385400003127803995`). Every message after the last verified report
+([message 1460313124178624703](https://discord.com/channels/1385346341848350810/1385400003127803995/1460313124178624703),
+12 Jan 2026) up to the channel's last message (1 Jun 2026) was swept with the bot token.
+
+| Bucket | Count |
+|---|---|
+| Messages after the last verified report | 146 |
+| Group wins matched (poster resolved via the Discord handle map, giveaway or store link matched to their own win) | 97 |
+| … already flagged `i_played_bro` or already in the list | 0 |
+| Skipped: not group giveaways (Discord key-drop gifts, Secret Santa, invite-only or whitelist GAs) | 11 |
+| Skipped: replies, quotes and follow-ups with no link | 38 |
+
+Seed data: [`packages/scraper/data/ipb-discord-archive.json`](packages/scraper/data/ipb-discord-archive.json),
+same entry shape as the forum seed, `source: 'discord'`, `url` = message permalink. Both seeds are
+merged by the generator; a live Discord-thread match wins on any key collision, then the forum seed,
+then the archive seed.
+
+The 12 skipped messages that carried a link are listed on the verification page under
+"Unmatched submissions that need extra verification" (from the seed's `unmatched` list):
+- Jztr, STAR WARS Jedi: Fallen Order (16 Jan) — no giveaway link and Jztr is not a winner of the linked giveaway's copies.
+- VinroyIsViral, Assassin's Creed Origins (7 Feb) — store link only; no matching group win.
+- Vin3: Amanda the Adventurer, Frog Detective 1 & 2, EMPTY SHELL, XIII, Papetura — Discord key drops or non-group giveaways.
+- DanielStoSve, God of War (15 Jan) — Discord key-drop event.
+- Sakakino, ENDER LILIES (18 Feb) — Secret Santa.
+- Thexder, Wonderputt Forever (`JBBQS`); SoullessSoup, Astroneer (`6s8vg`); vampiresska, COCOON (`rEk42`) — not group giveaways.
 
 ## Decisions
 
@@ -243,3 +272,106 @@ Keep one verification-submission file and one row type; add a `source` discrimin
 | PoeticKatana | Mina the Hollower | oEs0E/mina-the-hollower | 45 hours 38 minutes / 60% ach | [27 Aug 12:53am](https://steamcommunity.com/groups/TheGiveawaysClub/discussions/1/597404744772814603/?ctp=32#c588436064418527014) |
 | Metalhead8489 | Duskfade | Fsazo/duskfade | 26 hours 7 minutes / 100% ach | [30 Aug 1:23pm](https://steamcommunity.com/groups/TheGiveawaysClub/discussions/1/597404744772814603/?ctp=33#c588436355615446020) |
 | Metalhead8489 | NINJA GAIDEN: Ragebound | p3wZW/ninja-gaiden-ragebound | 11 hours 44 minutes / 61.1% ach | [7 Sep 3:26am](https://steamcommunity.com/groups/TheGiveawaysClub/discussions/1/597404744772814603/?ctp=33#c588437021425583792) |
+
+## Appendix C — 97 wins from the archived Discord channel, pending I Play Bro
+
+| Poster | Game | Giveaway | Playtime / achievements | Discord message |
+|---|---|---|---|---|
+| damianea103 (SG: damianea103) | Chants of Sennaar | GyLLW/chants-of-sennaar | 12 hours 31 minutes / 100% ach | [2026-01-13](https://discord.com/channels/1385346341848350810/1385400003127803995/1460706829561626785) |
+| shofuking (SG: TwixClub) | BALL x PIT | aGeHO/ball-x-pit | 24 hours 12 minutes / 63.5% ach | [2026-01-14](https://discord.com/channels/1385346341848350810/1385400003127803995/1460985603536584845) |
+| legolas0041 (SG: mourinhos86(EX)) | Many Nights a Whisper | oHf9d/many-nights-a-whisper | 3 hours 36 minutes / 100% ach | [2026-01-15](https://discord.com/channels/1385346341848350810/1385400003127803995/1461201913986158734) |
+| notvini (SG: Vini1) | Days Gone | A1QCm/days-gone | 53 hours 11 minutes / 67.2% ach | [2026-01-15](https://discord.com/channels/1385346341848350810/1385400003127803995/1461347554175488143) |
+| tikkachanceonme (SG: SunnySideVp) | Hades | gVX47/hades | 14 hours 59 minutes / 57.1% ach | [2026-01-16](https://discord.com/channels/1385346341848350810/1385400003127803995/1461630942698410088) |
+| puninup (SG: puninup) | Detroit: Become Human | vFkSK/detroit-become-human | 29 hours 12 minutes / 100% ach | [2026-01-17](https://discord.com/channels/1385346341848350810/1385400003127803995/1461890319724314737) |
+| soullesssoup (SG: SoullessSoup) | Distant Bloom | e0HH7/distant-bloom | 11 hours 56 minutes / 100% ach | [2026-01-21](https://discord.com/channels/1385346341848350810/1385400003127803995/1463628886154678461) |
+| thexder. (SG: Thexder) | The Evil Within 2 | N0eBD/the-evil-within-2 | 33 hours 51 minutes / 68.6% ach | [2026-01-22](https://discord.com/channels/1385346341848350810/1385400003127803995/1463998987580215570) |
+| psychoapeman (SG: PsychoApeMan) | Lost in Play | lfRFO/lost-in-play | 4 hours 26 minutes / 100% ach | [2026-01-22](https://discord.com/channels/1385346341848350810/1385400003127803995/1464004339998789642) |
+| foxmonstrous (SG: Foxmonster) | Heart of the Woods | bHEYl/heart-of-the-woods | 0 minutes / 100% ach | [2026-01-24](https://discord.com/channels/1385346341848350810/1385400003127803995/1464463507469631608) |
+| patzl (SG: Patzl) | Pilo and the Holobook | i0c8M/pilo-and-the-holobook | 3 hours 26 minutes / 100% ach | [2026-01-24](https://discord.com/channels/1385346341848350810/1385400003127803995/1464608448141328529) |
+| shughes91 (SG: Shughes91) | What Remains of Edith Finch | 5NcQG/what-remains-of-edith-finch | 2 hours 6 minutes / 100% ach | [2026-01-25](https://discord.com/channels/1385346341848350810/1385400003127803995/1464984517319200789) |
+| sakaki_aya (SG: Sakakino) | Absolum | V0zsS/absolum | 21 hours 23 minutes / 100% ach | [2026-01-27](https://discord.com/channels/1385346341848350810/1385400003127803995/1465507903262822504) |
+| thexder. (SG: Thexder) | Tales of Arise | Pgiwm/tales-of-arise | 88 hours 5 minutes / 60.3% ach | [2026-01-28](https://discord.com/channels/1385346341848350810/1385400003127803995/1466202409910014084) |
+| biotagger (SG: Jztr) | A Little to the Left | dm76c/a-little-to-the-left | 8 hours 53 minutes / 47.7% ach | [2026-01-29](https://discord.com/channels/1385346341848350810/1385400003127803995/1466408641052807199) |
+| biotagger (SG: Jztr) | Organized Inside | vdMOz/organized-inside | 9 hours 10 minutes / 59.1% ach | [2026-01-29](https://discord.com/channels/1385346341848350810/1385400003127803995/1466410302659624970) |
+| sakaki_aya (SG: Sakakino) | Dead Island 2 Ultimate Edition | pNKZC/dead-island-2-ultimate-edition | 35 hours 46 minutes / 74.6% ach | [2026-02-03](https://discord.com/channels/1385346341848350810/1385400003127803995/1468125719069724714) |
+| numaya231_72104 (SG: Almostn33t) | Assassin's Creed Valhalla | snaIZ/assassins-creed-valhalla | 109 hours 3 minutes / 41.3% ach | [2026-02-07](https://discord.com/channels/1385346341848350810/1385400003127803995/1469586687498649631) |
+| damianea103 (SG: damianea103) | Please, Touch The Artwork | 1xDFh/please-touch-the-artwork | 2 hours 21 minutes / 100% ach | [2026-02-08](https://discord.com/channels/1385346341848350810/1385400003127803995/1469910655841730685) |
+| ignition365 (SG: Ignition365) | SANABI | 0wfh1/sanabi | 15 hours 49 minutes / 81% ach | [2026-02-16](https://discord.com/channels/1385346341848350810/1385400003127803995/1472774826333569148) |
+| shofuking (SG: TwixClub) | The Talos Principle 2 | aYXIf/the-talos-principle-2 | 32 hours 1 minute / 100% ach | [2026-02-16](https://discord.com/channels/1385346341848350810/1385400003127803995/1472790589828239460) |
+| thexder. (SG: Thexder) | Resident Evil Village | PwHLJ/resident-evil-village | 26 hours 9 minutes / 53.6% ach | [2026-02-17](https://discord.com/channels/1385346341848350810/1385400003127803995/1473386845823041763) |
+| akfas (SG: akfas) | UNCHARTED: Legacy of Thieves Collection | usZTD/uncharted-legacy-of-thieves-collection | 22 hours 16 minutes / 23.8% ach | [2026-02-17](https://discord.com/channels/1385346341848350810/1385400003127803995/1473402176855343396) |
+| psychoapeman (SG: PsychoApeMan) | STAR WARS Jedi: Fallen Order | eb8XB/star-wars-jedi-fallen-order | 28 hours 11 minutes / 59% ach | [2026-02-17](https://discord.com/channels/1385346341848350810/1385400003127803995/1473425006443892883) |
+| randalgrvs (SG: RGVS(EX)) | STAR WARS Jedi: Fallen Order | eb8XB/star-wars-jedi-fallen-order | 15 hours 51 minutes / 51.3% ach | [2026-02-17](https://discord.com/channels/1385346341848350810/1385400003127803995/1473438153745633280) |
+| chusto. (SG: Vin3) | S4U: CITYPUNK 2011 AND LOVE PUNCH | TL20k/s4u-citypunk-2011-and-love-punch | 10 hours 33 minutes / 50% ach | [2026-02-19](https://discord.com/channels/1385346341848350810/1385400003127803995/1474003743103258796) |
+| yannbf (SG: yannbz) | Clair Obscur: Expedition 33 | 4HS8t/clair-obscur-expedition-33 | 80 hours 51 minutes / 81.8% ach | [2026-02-19](https://discord.com/channels/1385346341848350810/1385400003127803995/1474088593399218258) |
+| melxnmancer (SG: TempR) | Creatures of Ava | ZDLck/creatures-of-ava | 23 hours 22 minutes / 100% ach | [2026-02-20](https://discord.com/channels/1385346341848350810/1385400003127803995/1474308137631613129) |
+| shughes91 (SG: Shughes91) | Webbed | v0LgJ/webbed | 9 hours 22 minutes / 94.7% ach | [2026-02-20](https://discord.com/channels/1385346341848350810/1385400003127803995/1474471981653950566) |
+| zarisha (SG: MedinaRoscoe) | Cattails: Wildwood Story | jEe8X/cattails-wildwood-story | 44 hours 16 minutes / 100% ach | [2026-02-21](https://discord.com/channels/1385346341848350810/1385400003127803995/1474868743619219456) |
+| _yukisuna_ (SG: Yukisuna) | The Last Faith | QnjlH/the-last-faith | 25 hours 3 minutes / 100% ach | [2026-02-21](https://discord.com/channels/1385346341848350810/1385400003127803995/1474891952884420792) |
+| shughes91 (SG: Shughes91) | Mouthwashing | a5sXa/mouthwashing | 3 hours 56 minutes / 100% ach | [2026-02-21](https://discord.com/channels/1385346341848350810/1385400003127803995/1474908483332739103) |
+| yannbf (SG: yannbz) | Detroit: Become Human | YAl6F/detroit-become-human | 19 hours 17 minutes / 70.8% ach | [2026-02-22](https://discord.com/channels/1385346341848350810/1385400003127803995/1475224050329714718) |
+| melxnmancer (SG: TempR) | Catto's Post Office | XZg7H/cattos-post-office | 1 hour 12 minutes / 100% ach | [2026-02-24](https://discord.com/channels/1385346341848350810/1385400003127803995/1475690099525161173) |
+| carenard (SG: Carenard) | FINAL FANTASY X/X-2 HD Remaster | 48DZ1/final-fantasy-xx-2-hd-remaster | 66 hours 16 minutes / 34.8% ach | [2026-02-27](https://discord.com/channels/1385346341848350810/1385400003127803995/1476795874104447017) |
+| shofuking (SG: TwixClub) | Escape from Ever After | mckUU/escape-from-ever-after | 30 hours 8 minutes / 100% ach | [2026-02-28](https://discord.com/channels/1385346341848350810/1385400003127803995/1477235662829785120) |
+| thexder. (SG: Thexder) | Child of Light | GLy5A/child-of-light | 16 hours 35 minutes / 0% ach | [2026-02-28](https://discord.com/channels/1385346341848350810/1385400003127803995/1477383329975373886) |
+| shofuking (SG: TwixClub) | Alisa | q41bc/alisa | 6 hours 22 minutes / 48% ach | [2026-03-02](https://discord.com/channels/1385346341848350810/1385400003127803995/1477849769727492287) |
+| beebeecee (SG: VinroyIsViral) | The Medium | 1iy2V/the-medium | 9 hours 40 minutes / 100% ach | [2026-03-02](https://discord.com/channels/1385346341848350810/1385400003127803995/1478106343544979536) |
+| shofuking (SG: TwixClub) | Duck Detective: The Secret Salami | L12sg/duck-detective-the-secret-salami | 2 hours 9 minutes / 100% ach | [2026-03-06](https://discord.com/channels/1385346341848350810/1385400003127803995/1479593502118776864) |
+| ivannes55 (SG: Ivannes) | The 18th Attic - Paranormal Anomaly H... | 8pRCV/the-18th-attic-paranormal-anomaly-hunting-game | 3 hours 19 minutes / 100% ach | [2026-03-08](https://discord.com/channels/1385346341848350810/1385400003127803995/1480190293767884863) |
+| lumpycreature (SG: LumpyCreature) | A Game About Digging A Hole | 4q9Fo/a-game-about-digging-a-hole | 6 hours 4 minutes / 100% ach | [2026-03-08](https://discord.com/channels/1385346341848350810/1385400003127803995/1480337360385478888) |
+| blazinghobgoblin (SG: BorjaGRouco) | Gorogoa | t1xqy/gorogoa | 2 hours / 63.6% ach | [2026-03-09](https://discord.com/channels/1385346341848350810/1385400003127803995/1480550174081290344) |
+| _yukisuna_ (SG: Yukisuna) | Clair Obscur: Expedition 33 | 8pQQQ/clair-obscur-expedition-33 | 96 hours 51 minutes / 100% ach | [2026-03-11](https://discord.com/channels/1385346341848350810/1385400003127803995/1481334372668932286) |
+| desdope (SG: schmoan) | Kingdom Come: Deliverance II | vkdPo/kingdom-come-deliverance-ii | 46 hours 14 minutes / 8.4% ach | [2026-03-12](https://discord.com/channels/1385346341848350810/1385400003127803995/1481554425146511391) |
+| thexder. (SG: Thexder) | Inscryption | v4RGZ/inscryption | 13 hours 24 minutes / 57.5% ach | [2026-03-13](https://discord.com/channels/1385346341848350810/1385400003127803995/1481861651199426743) |
+| sakaki_aya (SG: Sakakino) | Rogue Legacy 2 | syQU2/rogue-legacy-2 | 42 hours 45 minutes / 100% ach | [2026-03-13](https://discord.com/channels/1385346341848350810/1385400003127803995/1481862970635190511) |
+| shivachettri (SG: elysium1988) | ASTRONEER | GbaZI/astroneer | 17 hours 55 minutes / 30.4% ach | [2026-03-13](https://discord.com/channels/1385346341848350810/1385400003127803995/1482153557045149778) |
+| venomousnyx (SG: VenomousNyx) | The Unfinished Swan | yCyEc/the-unfinished-swan | 6 hours 19 minutes / 100% ach | [2026-03-14](https://discord.com/channels/1385346341848350810/1385400003127803995/1482247271881117696) |
+| thexder. (SG: Thexder) | Life is Strange Remastered Collection | yD71f/life-is-strange-remastered-collection | 30 hours 27 minutes / 81.9% ach | [2026-03-16](https://discord.com/channels/1385346341848350810/1385400003127803995/1483226399031427286) |
+| carenard (SG: Carenard) | The Unfinished Swan | vlVj2/the-unfinished-swan | 4 hours 13 minutes / 100% ach | [2026-03-21](https://discord.com/channels/1385346341848350810/1385400003127803995/1484809402610352239) |
+| surlent. (SG: BaconChizBurger) | Staffer Case: A Supernatural Mystery ... | BvcTM/staffer-case-a-supernatural-mystery-adventure | 21 hours 18 minutes / 100% ach | [2026-03-26](https://discord.com/channels/1385346341848350810/1385400003127803995/1486760535633428511) |
+| lumpycreature (SG: LumpyCreature) | Wattam | tVIMH/wattam | 6 hours 11 minutes / 100% ach | [2026-03-29](https://discord.com/channels/1385346341848350810/1385400003127803995/1487718929118924901) |
+| venomousnyx (SG: VenomousNyx) | Gorogoa | YEk8i/gorogoa | 3 hours 38 minutes / 100% ach | [2026-03-30](https://discord.com/channels/1385346341848350810/1385400003127803995/1488093990015336478) |
+| p0ch4cc0. (SG: MikeWithAnI) | Öoo | cRFrA/ooo | 0 minutes / 100% ach | [2026-03-30](https://discord.com/channels/1385346341848350810/1385400003127803995/1488133620810911815) |
+| shofuking (SG: TwixClub) | Teenage Mutant Ninja Turtles: Splinte... | IzHVI/teenage-mutant-ninja-turtles-splintered-fate | 10 hours 32 minutes / 39% ach | [2026-04-01](https://discord.com/channels/1385346341848350810/1385400003127803995/1488958546807882011) |
+| numaya231_72104 (SG: Almostn33t) | Unheard - Voices of Crime | RjTyP/unheard-voices-of-crime | 6 hours 2 minutes / 100% ach | [2026-04-02](https://discord.com/channels/1385346341848350810/1385400003127803995/1489160332294492181) |
+| venomousnyx (SG: VenomousNyx) | Paper Perjury | HIWSi/paper-perjury | 17 hours 46 minutes / 95.8% ach | [2026-04-04](https://discord.com/channels/1385346341848350810/1385400003127803995/1490101623664410635) |
+| puninup (SG: puninup) | STAR WARS Jedi: Survivor | gQcEd/star-wars-jedi-survivor | 72 hours 36 minutes / 100% ach | [2026-04-05](https://discord.com/channels/1385346341848350810/1385400003127803995/1490482064372273153) |
+| rinocap (SG: Rinocap) | Detroit: Become Human | vFkSK/detroit-become-human | 13 hours 3 minutes / 54.2% ach | [2026-04-06](https://discord.com/channels/1385346341848350810/1385400003127803995/1490777845775990887) |
+| modestm005e (SG: Grogglz) | Tall Trails | Rtkl2/tall-trails | 7 hours 29 minutes / 56.3% ach | [2026-04-07](https://discord.com/channels/1385346341848350810/1385400003127803995/1491088750422265938) |
+| desdope (SG: schmoan) | Anxiety Puppy | VnuU9/anxiety-puppy | 1 hour 6 minutes / 100% ach | [2026-04-08](https://discord.com/channels/1385346341848350810/1385400003127803995/1491402878714253423) |
+| chusto. (SG: Vin3) | Nocturnal | pVuN1/nocturnal | 4 hours 2 minutes / 100% ach | [2026-04-14](https://discord.com/channels/1385346341848350810/1385400003127803995/1493546172156219533) |
+| patzl (SG: Patzl) | Ni no Kuni Wrath of the White Witch R... | c7UB8/ni-no-kuni-wrath-of-the-white-witch-remastered | 85 hours 25 minutes / 100% ach | [2026-04-14](https://discord.com/channels/1385346341848350810/1385400003127803995/1493653577556820148) |
+| venomousnyx (SG: VenomousNyx) | Tangle Tower | yHH5g/tangle-tower | 10 hours 58 minutes / 100% ach | [2026-04-14](https://discord.com/channels/1385346341848350810/1385400003127803995/1493683007217995787) |
+| carenard (SG: Carenard) | Star Fire: Eternal Cycle | 1jT5c/star-fire-eternal-cycle | 17 hours 54 minutes / 100% ach | [2026-04-14](https://discord.com/channels/1385346341848350810/1385400003127803995/1493753555088314530) |
+| randalgrvs (SG: RGVS(EX)) | The Case of the Golden Idol | 8OnYg/the-case-of-the-golden-idol | 7 hours 16 minutes / 64.7% ach | [2026-04-15](https://discord.com/channels/1385346341848350810/1385400003127803995/1494029512562708631) |
+| randalgrvs (SG: RGVS(EX)) | The Rise of the Golden Idol | k7dbh/the-rise-of-the-golden-idol | 13 hours 44 minutes / 54.3% ach | [2026-04-15](https://discord.com/channels/1385346341848350810/1385400003127803995/1494029512562708631) |
+| venomousnyx (SG: VenomousNyx) | Bahnsen Knights | az1L2/bahnsen-knights | 4 hours / 100% ach | [2026-04-16](https://discord.com/channels/1385346341848350810/1385400003127803995/1494196420209676358) |
+| blazinghobgoblin (SG: BorjaGRouco) | Dogpile | kSFo4/dogpile | 11 hours 12 minutes / 73.7% ach | [2026-04-17](https://discord.com/channels/1385346341848350810/1385400003127803995/1494724695742746865) |
+| griske14 (SG: Griske14(EX)) | No, I'm not a Human | oiJFV/no-im-not-a-human | 3 hours 45 minutes / 23.3% ach | [2026-04-17](https://discord.com/channels/1385346341848350810/1385400003127803995/1494814244175351948) |
+| quinlanlj (SG: QuinlanLJ) | COCOON | ly6yL/cocoon | 5 hours 26 minutes / 58.8% ach | [2026-04-17](https://discord.com/channels/1385346341848350810/1385400003127803995/1494831278535741530) |
+| venomousnyx (SG: VenomousNyx) | I Am Your Beast | PItmd/i-am-your-beast | 17 hours 47 minutes / 100% ach | [2026-04-19](https://discord.com/channels/1385346341848350810/1385400003127803995/1495360516670099526) |
+| thexder. (SG: Thexder) | Star Trek: Resurgence | DRwPF/star-trek-resurgence | 11 hours 26 minutes / 44.4% ach | [2026-04-23](https://discord.com/channels/1385346341848350810/1385400003127803995/1497020835477717032) |
+| sakaki_aya (SG: Sakakino) | SANABI | wIJRB/sanabi | 22 hours 45 minutes / 100% ach | [2026-04-24](https://discord.com/channels/1385346341848350810/1385400003127803995/1497381904410869781) |
+| carenard (SG: Carenard) | SANABI | HPqD5/sanabi | 11 hours 13 minutes / 76.2% ach | [2026-04-29](https://discord.com/channels/1385346341848350810/1385400003127803995/1498869465599705099) |
+| patzl (SG: Patzl) | Gloomy Eyes | IffkT/gloomy-eyes | 5 hours 3 minutes / 100% ach | [2026-05-04](https://discord.com/channels/1385346341848350810/1385400003127803995/1500946116517036125) |
+| quinlanlj (SG: QuinlanLJ) | Dungeon Clawler | AkdcD/dungeon-clawler | 22 hours 2 minutes / 43.2% ach | [2026-05-05](https://discord.com/channels/1385346341848350810/1385400003127803995/1501292632926588939) |
+| lumpycreature (SG: LumpyCreature) | The Room | xdrlN/the-room | 2 hours 21 minutes / 100% ach | [2026-05-09](https://discord.com/channels/1385346341848350810/1385400003127803995/1502657803733569587) |
+| randalgrvs (SG: RGVS(EX)) | Steve's Warehouse: Physics. Roguelike... | fUGm9/steves-warehouse-physics-roguelike-chaos | 7 hours 15 minutes / 45.5% ach | [2026-05-11](https://discord.com/channels/1385346341848350810/1385400003127803995/1503458200618405978) |
+| chusto. (SG: Vin3) | Picayune Dreams | aEzYc/picayune-dreams | 73 hours 13 minutes / 100% ach | [2026-05-12](https://discord.com/channels/1385346341848350810/1385400003127803995/1503850249385541632) |
+| venomousnyx (SG: VenomousNyx) | Fear the Spotlight | qL2sS/fear-the-spotlight | 7 hours 1 minute / 100% ach | [2026-05-18](https://discord.com/channels/1385346341848350810/1385400003127803995/1505829249242763385) |
+| chusto. (SG: Vin3) | Tails of Iron | RzdWw/tails-of-iron | 18 hours 18 minutes / 97.2% ach | [2026-05-18](https://discord.com/channels/1385346341848350810/1385400003127803995/1505850722250653778) |
+| quinlanlj (SG: QuinlanLJ) | The Inheritance of Crimson Manor | lNvsr/the-inheritance-of-crimson-manor | 4 hours 37 minutes / 100% ach | [2026-05-18](https://discord.com/channels/1385346341848350810/1385400003127803995/1506068946002907316) |
+| numaya231_72104 (SG: Almostn33t) | Danganronpa V3: Killing Harmony | BK013/danganronpa-v3-killing-harmony | 94 hours 54 minutes / 100% ach | [2026-05-19](https://discord.com/channels/1385346341848350810/1385400003127803995/1506191236392816680) |
+| surlent. (SG: BaconChizBurger) | The Last Gas Station | HxJcQ/the-last-gas-station | 13 hours 40 minutes / 73.5% ach | [2026-05-19](https://discord.com/channels/1385346341848350810/1385400003127803995/1506318407572783164) |
+| shofuking (SG: TwixClub) | Mixtape | kamUt/mixtape | 5 hours 10 minutes / 100% ach | [2026-05-19](https://discord.com/channels/1385346341848350810/1385400003127803995/1506384689739595816) |
+| akfas (SG: akfas) | Dispatch | SSpeu/dispatch | 11 hours 45 minutes / 58.3% ach | [2026-05-22](https://discord.com/channels/1385346341848350810/1385400003127803995/1507357232503718010) |
+| blazinghobgoblin (SG: BorjaGRouco) | Hozy | bRKHB/hozy | 3 hours 32 minutes / 100% ach | [2026-05-22](https://discord.com/channels/1385346341848350810/1385400003127803995/1507406680496017618) |
+| quinlanlj (SG: QuinlanLJ) | Still Wakes the Deep | RTfAk/still-wakes-the-deep | 7 hours 5 minutes / 54.2% ach | [2026-05-23](https://discord.com/channels/1385346341848350810/1385400003127803995/1507860566100938803) |
+| venomousnyx (SG: VenomousNyx) | Is this Game Trying to Kill Me? | dWBW0/is-this-game-trying-to-kill-me | 3 hours 45 minutes / 100% ach | [2026-05-26](https://discord.com/channels/1385346341848350810/1385400003127803995/1508747040534953994) |
+| psychoapeman (SG: PsychoApeMan) | Koira | ZWpwQ/koira | 5 hours 48 minutes / 75% ach | [2026-05-27](https://discord.com/channels/1385346341848350810/1385400003127803995/1509028418660991077) |
+| _atro_ (SG: Atro) | Clair Obscur: Expedition 33 | f8WwV/clair-obscur-expedition-33 | 85 hours 12 minutes / 100% ach | [2026-05-27](https://discord.com/channels/1385346341848350810/1385400003127803995/1509336748981878905) |
+| carenard (SG: Carenard) | Neva | KGerm/neva | 6 hours 11 minutes / 100% ach | [2026-05-28](https://discord.com/channels/1385346341848350810/1385400003127803995/1509433560157786233) |
+| toanlish (SG: imminiman) | A Game About Digging A Hole | ul7lp/a-game-about-digging-a-hole | 10 hours 18 minutes / 100% ach | [2026-05-29](https://discord.com/channels/1385346341848350810/1385400003127803995/1509968731818688604) |
+| patzl (SG: Patzl) | Ni no Kuni Wrath of the White Witch R... | c7UB8/ni-no-kuni-wrath-of-the-white-witch-remastered | 85 hours 25 minutes / 100% ach | [2026-05-31](https://discord.com/channels/1385346341848350810/1385400003127803995/1510645613010882621) |
+| vampiresska (SG: vampiresska) | The Talos Principle 2 | hvvAM/the-talos-principle-2 | 43 hours 7 minutes / 62.1% ach | [2026-06-01](https://discord.com/channels/1385346341848350810/1385400003127803995/1510990415799521501) |
+| surlent. (SG: BaconChizBurger) | Tainted Grail: The Fall of Avalon | Yl2od/tainted-grail-the-fall-of-avalon | 67 hours 50 minutes / 75.4% ach | [2026-06-01](https://discord.com/channels/1385346341848350810/1385400003127803995/1511016257468633170) |

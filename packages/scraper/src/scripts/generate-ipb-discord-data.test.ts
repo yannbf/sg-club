@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { mergeSteamForumSeed } from './generate-ipb-discord-data'
-import type { IpbDiscordWinEntry } from '../types/ipb-discord.js'
+import { mergeIpbSeed } from './generate-ipb-discord-data'
+import type { IpbDiscordMatchSource, IpbDiscordWinEntry } from '../types/ipb-discord.js'
 
 const DISCORD_ENTRY: IpbDiscordWinEntry = {
   thread_id: '111',
@@ -12,34 +12,33 @@ const DISCORD_ENTRY: IpbDiscordWinEntry = {
   win_flagged: false,
 }
 
-const seed = (wins: Record<string, unknown>) => ({
-  source: 'steam_forum' as const,
-  thread_url: 'https://steamcommunity.com/groups/TheGiveawaysClub/discussions/1/1',
-  first_comment_id: '1',
-  harvested_at: '2026-09-11',
+const seed = (source: 'steam_forum' | 'discord', wins: Record<string, unknown>) => ({
+  source,
   wins: wins as Record<
     string,
     {
-      comment_id: string
+      id: string
       url: string
       game_name: string
-      steam_poster_name: string
+      poster_name: string
       posted_at: string
+      matched_by: IpbDiscordMatchSource
     }
   >,
 })
 
-describe('mergeSteamForumSeed', () => {
-  it('maps a seed entry to the forum-flavored win fields', () => {
-    const result = mergeSteamForumSeed(
+describe('mergeIpbSeed', () => {
+  it('maps a seed entry to the win fields, tagged with the seed source', () => {
+    const result = mergeIpbSeed(
       {},
-      seed({
+      seed('steam_forum', {
         '76561198069420656::Bunwq/carrion': {
-          comment_id: '673976371230386113',
+          id: '673976371230386113',
           url: 'https://steamcommunity.com/groups/TheGiveawaysClub/discussions/1/1/?ctp=25#c673976371230386113',
           game_name: 'CARRION',
-          steam_poster_name: 'Metalhead8489',
+          poster_name: 'Metalhead8489',
           posted_at: '2025-10-20T22:18:00.000Z',
+          matched_by: 'steam_forum',
         },
       }),
       () => ({ link: 'Bunwq/carrion', name: 'CARRION', giveawayName: 'CARRION', flagged: true }),
@@ -59,16 +58,39 @@ describe('mergeSteamForumSeed', () => {
     })
   })
 
-  it('derives win_flagged as false when the candidate win is unflagged', () => {
-    const result = mergeSteamForumSeed(
+  it('takes source and matched_by from the seed for a discord-archive entry', () => {
+    const result = mergeIpbSeed(
       {},
-      seed({
+      seed('discord', {
         '76561198069420656::Bunwq/carrion': {
-          comment_id: '1',
+          id: '1460706829561626785',
+          url: 'https://discord.com/channels/1385346341848350810/1385400003127803995/1460706829561626785',
+          game_name: 'CARRION',
+          poster_name: 'Metalhead8489',
+          posted_at: '2025-10-20T22:18:00.000Z',
+          matched_by: 'giveaway_link',
+        },
+      }),
+      () => ({ link: 'Bunwq/carrion', name: 'CARRION', giveawayName: 'CARRION', flagged: false }),
+    )
+
+    expect(result.wins['76561198069420656::Bunwq/carrion']).toMatchObject({
+      source: 'discord',
+      matched_by: 'giveaway_link',
+    })
+  })
+
+  it('derives win_flagged as false when the candidate win is unflagged', () => {
+    const result = mergeIpbSeed(
+      {},
+      seed('steam_forum', {
+        '76561198069420656::Bunwq/carrion': {
+          id: '1',
           url: 'https://example.com/1',
           game_name: 'CARRION',
-          steam_poster_name: 'Metalhead8489',
+          poster_name: 'Metalhead8489',
           posted_at: '2025-10-20T22:18:00.000Z',
+          matched_by: 'steam_forum',
         },
       }),
       () => ({ link: 'Bunwq/carrion', name: 'CARRION', giveawayName: undefined, flagged: false }),
@@ -79,15 +101,16 @@ describe('mergeSteamForumSeed', () => {
 
   it('leaves an existing Discord-matched entry untouched on key collision', () => {
     const key = '76561198069420656::Bunwq/carrion'
-    const result = mergeSteamForumSeed(
+    const result = mergeIpbSeed(
       { [key]: DISCORD_ENTRY },
-      seed({
+      seed('steam_forum', {
         [key]: {
-          comment_id: '673976371230386113',
+          id: '673976371230386113',
           url: 'https://example.com/forum',
           game_name: 'CARRION',
-          steam_poster_name: 'Metalhead8489',
+          poster_name: 'Metalhead8489',
           posted_at: '2025-10-20T22:18:00.000Z',
+          matched_by: 'steam_forum',
         },
       }),
       () => ({ link: 'Bunwq/carrion', name: 'CARRION', giveawayName: undefined, flagged: true }),
@@ -98,15 +121,16 @@ describe('mergeSteamForumSeed', () => {
   })
 
   it('skips a seed entry whose win no longer exists in the candidate map', () => {
-    const result = mergeSteamForumSeed(
+    const result = mergeIpbSeed(
       {},
-      seed({
+      seed('steam_forum', {
         '76561198069420656::Bunwq/carrion': {
-          comment_id: '1',
+          id: '1',
           url: 'https://example.com/1',
           game_name: 'CARRION',
-          steam_poster_name: 'Metalhead8489',
+          poster_name: 'Metalhead8489',
           posted_at: '2025-10-20T22:18:00.000Z',
+          matched_by: 'steam_forum',
         },
       }),
       () => undefined,
@@ -115,5 +139,50 @@ describe('mergeSteamForumSeed', () => {
     expect(result.merged).toBe(0)
     expect(result.skipped).toBe(1)
     expect(result.wins).toEqual({})
+  })
+
+  it('keeps the earlier seed entry when a later seed targets the same key (seed order precedence)', () => {
+    const key = '76561198069420656::Bunwq/carrion'
+    const findCandidateWin = () => ({
+      link: 'Bunwq/carrion',
+      name: 'CARRION',
+      giveawayName: undefined,
+      flagged: false,
+    })
+
+    const forumResult = mergeIpbSeed(
+      {},
+      seed('steam_forum', {
+        [key]: {
+          id: 'forum-comment-1',
+          url: 'https://steamcommunity.com/groups/TheGiveawaysClub/discussions/1/1/#c1',
+          game_name: 'CARRION',
+          poster_name: 'Metalhead8489',
+          posted_at: '2025-10-20T22:18:00.000Z',
+          matched_by: 'steam_forum',
+        },
+      }),
+      findCandidateWin,
+    )
+
+    const archiveResult = mergeIpbSeed(
+      forumResult.wins,
+      seed('discord', {
+        [key]: {
+          id: 'archive-message-1',
+          url: 'https://discord.com/channels/1385346341848350810/1385400003127803995/1',
+          game_name: 'CARRION',
+          poster_name: 'someone-else',
+          posted_at: '2025-01-01T00:00:00.000Z',
+          matched_by: 'giveaway_link',
+        },
+      }),
+      findCandidateWin,
+    )
+
+    expect(archiveResult.merged).toBe(0)
+    expect(archiveResult.wins[key]).toEqual(forumResult.wins[key])
+    expect(archiveResult.wins[key].source).toBe('steam_forum')
+    expect(archiveResult.wins[key].thread_id).toBe('forum-comment-1')
   })
 })

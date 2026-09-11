@@ -2,7 +2,13 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { config as loadEnv } from 'dotenv'
-import type { IpbDiscordData, IpbDiscordUnmatchedThread, IpbDiscordWinEntry } from '../types/ipb-discord.js'
+import type {
+  IpbDiscordData,
+  IpbDiscordMatchSource,
+  IpbDiscordUnmatchedThread,
+  IpbDiscordWinEntry,
+  IpbSubmissionSource,
+} from '../types/ipb-discord.js'
 import type { Giveaway, User } from '../types/steamgifts.js'
 import { delay } from '../utils/common.js'
 import { logError } from '../utils/log-error.js'
@@ -58,7 +64,11 @@ const outputPath = resolve(dataDir, 'ipb_discord.json')
 const cacheDir = resolve(currentDir, '../../data')
 const usersCachePath = resolve(cacheDir, 'discord-users-cache.json')
 const threadsCachePath = resolve(cacheDir, 'discord-threads-cache.json')
-const steamForumSeedPath = resolve(cacheDir, 'ipb-steam-forum.json')
+/** Applied in order; a later seed never overwrites a key an earlier seed already filled. */
+const seedPaths = [
+  resolve(cacheDir, 'ipb-steam-forum.json'),
+  resolve(cacheDir, 'ipb-discord-archive.json'),
+]
 
 // --- Discord REST ---
 
@@ -398,43 +408,47 @@ function matchThread(
   return []
 }
 
-// --- Steam forum seed merge ---
+// --- Seed merge ---
 
-interface SteamForumSeedEntry {
-  comment_id: string
+interface IpbSeedEntry {
+  id: string
   url: string
   game_name: string
-  steam_poster_name: string
+  poster_name: string
   posted_at: string
+  matched_by: IpbDiscordMatchSource
 }
 
-interface SteamForumSeed {
-  source: 'steam_forum'
-  thread_url: string
-  first_comment_id: string
-  harvested_at: string
+interface IpbSeed {
+  source: IpbSubmissionSource
   /** Keyed by `${steamId}::${giveawayLink}`, same as IpbDiscordData.wins. */
-  wins: Record<string, SteamForumSeedEntry>
+  wins: Record<string, IpbSeedEntry>
+  /**
+   * Submissions that could not be matched to a group win and need a human
+   * look; surfaced alongside the unmatched live threads.
+   */
+  unmatched?: Array<{ id: string; name: string; url: string; poster_name: string }>
 }
 
-interface SteamForumMergeResult {
+interface SeedMergeResult {
   wins: Record<string, IpbDiscordWinEntry>
   merged: number
   skipped: number
 }
 
 /**
- * Merges the one-time Steam group forum backfill into the Discord-matched
- * wins. Discord entries take precedence on key collision — the forum seed
- * only fills gaps the Discord channel doesn't cover. A seed entry whose win
- * no longer exists in the candidate map (e.g. the win was later deleted) is
- * skipped.
+ * Merges a one-time backfill seed (Steam group forum submissions, or
+ * archived Discord messages that predate the forum-thread channel) into the
+ * Discord-matched wins. Live Discord matches take precedence on key
+ * collision — a seed only fills gaps the live Discord channel doesn't
+ * cover. A seed entry whose win no longer exists in the candidate map (e.g.
+ * the win was later deleted) is skipped.
  */
-export function mergeSteamForumSeed(
+export function mergeIpbSeed(
   wins: Record<string, IpbDiscordWinEntry>,
-  seed: SteamForumSeed,
+  seed: IpbSeed,
   findCandidateWin: (steamId: string, link: string) => CandidateWin | undefined,
-): SteamForumMergeResult {
+): SeedMergeResult {
   const merged: Record<string, IpbDiscordWinEntry> = { ...wins }
   let mergedCount = 0
   let skippedCount = 0
@@ -452,12 +466,12 @@ export function mergeSteamForumSeed(
     }
 
     merged[key] = {
-      source: 'steam_forum',
-      thread_id: entry.comment_id,
+      source: seed.source,
+      thread_id: entry.id,
       url: entry.url,
       thread_name: entry.game_name,
-      matched_by: 'steam_forum',
-      owner_discord_name: entry.steam_poster_name,
+      matched_by: entry.matched_by,
+      owner_discord_name: entry.poster_name,
       thread_created_at: entry.posted_at,
       win_flagged: candidate.flagged,
     }
@@ -694,19 +708,22 @@ export async function generateIpbDiscordData(): Promise<void> {
     }
   }
 
-  // --- Merge the one-time Steam group forum backfill ---
-  let forumMergedCount = 0
-  let forumSkippedCount = 0
+  // --- Merge the one-time backfill seeds ---
+  let totalSeedMergedCount = 0
   let finalWins = wins
-  if (existsSync(steamForumSeedPath)) {
-    const seed: SteamForumSeed = JSON.parse(readFileSync(steamForumSeedPath, 'utf-8'))
-    const result = mergeSteamForumSeed(wins, seed, findCandidateWin)
+  for (const seedPath of seedPaths) {
+    if (!existsSync(seedPath)) continue
+
+    const seed: IpbSeed = JSON.parse(readFileSync(seedPath, 'utf-8'))
+    const result = mergeIpbSeed(finalWins, seed, findCandidateWin)
     finalWins = result.wins
-    forumMergedCount = result.merged
-    forumSkippedCount = result.skipped
-    if (forumSkippedCount > 0) {
-      console.log(`⚠️  Skipped ${forumSkippedCount} Steam forum seed entrie(s) with no matching win`)
+    totalSeedMergedCount += result.merged
+    for (const u of seed.unmatched ?? []) {
+      unmatchedThreads.push({ thread_id: u.id, name: u.name, url: u.url, owner_discord_name: u.poster_name })
     }
+    console.log(
+      `🌱 ${seedPath} — merged ${result.merged}, skipped ${result.skipped} (no matching win)`,
+    )
   }
 
   const output: IpbDiscordData = {
@@ -718,7 +735,7 @@ export async function generateIpbDiscordData(): Promise<void> {
   writeFileSync(outputPath, JSON.stringify(output, null, 2))
 
   console.log(
-    `✅ Done — ${allThreads.length} threads fetched, ${Object.keys(wins).length} wins matched, ${forumMergedCount} merged from the Steam forum seed, ${unmatchedThreads.length} unmatched threads`,
+    `✅ Done — ${allThreads.length} threads fetched, ${Object.keys(wins).length} wins matched, ${totalSeedMergedCount} merged from seeds, ${unmatchedThreads.length} unmatched threads`,
   )
   console.log(
     `   matched_by breakdown — giveaway_link: ${matchCountsByType.giveaway_link}, app_link: ${matchCountsByType.app_link}, review_link: ${matchCountsByType.review_link}, title: ${matchCountsByType.title}, app_link_unique: ${matchCountsByType.app_link_unique}, title_unique: ${matchCountsByType.title_unique}`,

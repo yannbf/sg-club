@@ -1242,7 +1242,9 @@ export default function PlayRequiredClient({
             type,
             action,
             giveawayId: row.giveawayLink.slice(0, 5),
-            discordThreadId: row.discord?.source === 'steam_forum' ? undefined : row.discord?.thread_id,
+            // Seeded backfill entries (any `source`) hold a forum comment id or an archived
+            // message id, not a thread the bot can react in; only live thread matches send one.
+            discordThreadId: row.discord?.source ? undefined : row.discord?.thread_id,
             winnerSteamId: row.winner.steamId,
           }),
         })
@@ -1717,11 +1719,11 @@ export default function PlayRequiredClient({
       {tab === 'ipb' && unmatchedDiscordThreads.length > 0 && (
         <details className="rounded-xl border border-card-border bg-card-background p-3 text-sm">
           <summary className="cursor-pointer select-none font-medium text-muted-foreground">
-            Unmatched Discord submission threads ({unmatchedDiscordThreads.length})
+            Unmatched submissions that need extra verification ({unmatchedDiscordThreads.length})
           </summary>
           <p className="mt-2 text-xs text-muted-foreground">
-            These reports couldn&apos;t be automatically checked because they didn&apos;t contain
-            enough info, or members might have reported invite-only GA wins or similar.
+            These reports couldn&apos;t be matched to a group win automatically: the post lacked a usable
+            link, or the game came from an invite-only giveaway, a key drop or a gift outside the group.
           </p>
           <ul className="mt-3 space-y-1.5">
             {unmatchedDiscordThreads.map((t) => (
