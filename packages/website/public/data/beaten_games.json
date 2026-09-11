@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-09-11T14:50:48.709Z",
+  "last_updated": "2026-09-11T18:41:46.092Z",
   "games": {
     "223810": {
       "marker": {
@@ -2127,17 +2127,20 @@
     },
     "1326470": {
       "marker": {
-        "apiname": "ACH_LEAVE_THE_ISLAND",
-        "name": "FOUGHT DEMONS",
-        "description": "Leave the Island",
-        "global_percent": 13.9,
-        "source": "steamhunters",
-        "filtered": true,
-        "sh_achievement_id": 26
+        "apiname": "ACH_STAY_BEHIND",
+        "name": "FIGHT DEMONS",
+        "description": "",
+        "global_percent": 23,
+        "source": "override",
+        "any_of_apinames": [
+          "ACH_STAY_BEHIND",
+          "ACH_LEAVE_THE_ISLAND",
+          "ACH_FINISH_STORY_WITH_ALL_NPCS"
+        ]
       },
       "no_marker_reason": null,
-      "story_tag_count": 2,
-      "checked_at": "2026-08-24T20:06:18.840Z"
+      "story_tag_count": 0,
+      "checked_at": "2026-09-11T18:41:43.864Z"
     },
     "1328840": {
       "marker": {
@@ -6297,10 +6300,10 @@
       "checked_at": "2026-09-11T12:25:43.273Z"
     },
     "76561199481088028::1326470": {
-      "beaten": false,
-      "unlock_time": null,
+      "beaten": true,
+      "unlock_time": 1763703322,
       "no_data_reason": null,
-      "checked_at": "2026-09-11T12:25:44.497Z"
+      "checked_at": "2026-09-11T18:41:45.087Z"
     },
     "76561199481088028::990080": {
       "beaten": false,
