@@ -3,7 +3,9 @@
 // only) and the on-demand /mod-report slash command (interactions.ts, errors
 // + warnings). Both consume `collectGroupWarningFindings`, which loads
 // group_users.json via loadDataFile — so it works both on Vercel (host mode)
-// and in the scraper (filesystem fallback, no host).
+// and in the scraper (filesystem fallback, no host). Both surfaces render one
+// block per member via `renderMemberBlock`, with per-finding detail strings
+// from `buildFindingDetails` as sub-bullets.
 //
 // Ex-member entry checks are deliberately NOT included here: that detector
 // (check-ex-member-entries.ts) additionally needs giveaways.json and
@@ -25,10 +27,13 @@ export type Severity = 'error' | 'warn'
 export const SEVERITY: Record<string, Severity> = {
   illegal_entered_required_play_giveaways: 'error',
   illegal_entered_any_giveaways: 'error',
-  unplayed_required_play_giveaways: 'error',
   required_play_deadline_expired: 'error',
   zero_play_rate_with_wins: 'error',
   required_plays_need_review: 'warn',
+  // 2 unfulfilled required-play wins is the cap the rules allow, not a
+  // breach — the breach codes are the two illegal_entered_* codes above and
+  // required_play_deadline_expired.
+  unplayed_required_play_giveaways: 'warn',
   required_play_deadline_within_15_days: 'warn',
   low_play_rate_many_wins: 'warn',
   inactive_play_but_active: 'warn',
@@ -54,8 +59,9 @@ export const WARNING_LABELS: Record<string, string> = {
 
 /**
  * Every finding code, most to least important, used by /mod-report to order
- * labels within a combo and combos within a section. Not used by the weekly
- * digest (its per-member rendering is unaffected by this ranking).
+ * a member's finding labels and to order members within a section. Not used
+ * by the weekly digest (its per-member rendering is unaffected by this
+ * ranking).
  *
  * `ex_member_entries` is a pseudo-code for the ex-member-entries check
  * (discord-warn-digest.ts) — it never actually appears in `/mod-report`
@@ -71,7 +77,7 @@ export const IMPORTANCE_ORDER: string[] = [
   'illegal_entered_any_giveaways',
   'illegal_entered_required_play_giveaways',
   'unplayed_required_play_giveaways',
-  // needs-review outranks deadline-expired (Yann: it's more actionable) even
+  // needs-review outranks deadline-expired because it's more actionable even
   // though it's warn-severity — importance and severity are separate axes.
   'required_plays_need_review',
   'required_play_deadline_expired',
@@ -101,7 +107,13 @@ interface WonGiveaway extends RequiredPlayWin {
   steam_play_data?: {
     playtime_minutes?: number
     achievements_percentage?: number
+    /** Set when Steam reports the game as never launched. */
+    never_played?: boolean
+    /** Set when the member's Steam profile/game details are private or otherwise unreadable. */
+    has_no_available_stats?: boolean
   }
+  /** A mod-recorded proof-of-play attestation, counted as played regardless of Steam data. */
+  i_played_bro?: boolean
 }
 
 interface GroupUser {
@@ -109,6 +121,14 @@ interface GroupUser {
   steam_id: string
   warnings?: string[]
   giveaways_won?: WonGiveaway[]
+  stats?: {
+    last_giveaway_created_at?: number | null
+  }
+  /** Milliseconds since epoch; null/absent means no play activity is on record. */
+  last_played_at?: number | null
+  /** Already kicked from the Steam group; the roster entry survives until
+   * SteamGifts' next sync catches up, at which point they drop out entirely. */
+  kicked_pending_sync?: boolean
 }
 
 interface GroupUsersData {
@@ -121,66 +141,102 @@ export interface GroupWarningFinding {
   label: string
   severity: Severity
   /** Optional per-member specifics for the label — the game name(s) behind
-   * the finding, with Discord relative timestamps where a deadline is
-   * involved (e.g. "Sonic Frontiers (deadline <t:…:R>)"). Only rendered by
-   * the weekly digest; /mod-report groups members under shared labels. */
+   * the finding, a play-rate fraction, or a last-activity timestamp, with
+   * Discord relative timestamps where one is involved (e.g. "Sonic Frontiers
+   * (deadline <t:…:R>)"). Rendered by both the weekly digest and
+   * /mod-report as a sub-bullet under the member's finding label. */
   detail?: string
 }
 
 /**
- * Per-code detail strings for one member, derived purely from their
- * `giveaways_won` (already in group_users.json — no extra data needed).
- * Codes whose evidence lives elsewhere (entries, play rate, activity) get no
+ * The play evidence for one won giveaway, as a parenthesized suffix for a
+ * game name: " (not launched)" when there's no recorded playtime, otherwise
+ * " (<X>h played)" with ", <Y>% achievements" appended when known. `extra`
+ * (e.g. a deadline clause) is folded into the same parenthetical rather than
+ * getting its own, so a game with both reads as one clause: "Factorio (1.2h
+ * played, 1% achievements, deadline <t:…:R>)".
+ */
+function playEvidence(g: WonGiveaway, extra?: string): string {
+  const minutes = g.steam_play_data?.playtime_minutes
+  const parts: string[] = []
+  if (!minutes) {
+    parts.push('not launched')
+  } else {
+    parts.push(`${Math.round(minutes / 6) / 10}h played`)
+    const pct = g.steam_play_data?.achievements_percentage
+    if (typeof pct === 'number') parts.push(`${pct}% achievements`)
+  }
+  if (extra) parts.push(extra)
+  return ` (${parts.join(', ')})`
+}
+
+/**
+ * Per-code detail strings for one member, derived from their `giveaways_won`,
+ * `stats`, and `last_played_at` fields (already in group_users.json — no
+ * extra data needed). Codes whose evidence lives elsewhere (entries) get no
  * detail and render as label-only lines.
  */
 export function buildFindingDetails(
   user: GroupUser,
   nowSec: number
 ): Partial<Record<string, string>> {
-  const unmet = (user.giveaways_won ?? []).filter(isUnfulfilledRequiredPlay)
-  if (unmet.length === 0) return {}
-
   const details: Partial<Record<string, string>> = {}
   const named = (games: WonGiveaway[], suffix: (g: WonGiveaway) => string = () => ''): string =>
     games.map((g) => `${g.name}${suffix(g)}`).join(', ')
 
-  details.unplayed_required_play_giveaways = named(unmet)
+  const unmet = (user.giveaways_won ?? []).filter(isUnfulfilledRequiredPlay)
+  if (unmet.length > 0) {
+    details.unplayed_required_play_giveaways = named(unmet, (g) => playEvidence(g))
 
-  const expired = unmet.filter((g) => requiredPlayDeadlineSec(g) < nowSec)
-  if (expired.length > 0) {
-    details.required_play_deadline_expired = named(
-      expired,
-      (g) => ` (deadline <t:${requiredPlayDeadlineSec(g)}:R>)`
-    )
-  }
+    const expired = unmet.filter((g) => requiredPlayDeadlineSec(g) < nowSec)
+    if (expired.length > 0) {
+      details.required_play_deadline_expired = named(expired, (g) =>
+        playEvidence(g, `deadline <t:${requiredPlayDeadlineSec(g)}:R>`)
+      )
+    }
 
-  const dueSoon = unmet.filter((g) => {
-    const deadline = requiredPlayDeadlineSec(g)
-    return (
-      deadline >= nowSec && deadline < nowSec + DEADLINE_WARNING_DAYS * 24 * 60 * 60
-    )
-  })
-  if (dueSoon.length > 0) {
-    details.required_play_deadline_within_15_days = named(
-      dueSoon,
-      (g) => ` (deadline <t:${requiredPlayDeadlineSec(g)}:R>)`
-    )
-  }
-
-  // Approximation of the needs-review signal (≥50% achievements or ≥15h
-  // played); the scraper's third trigger (≥90% of HLTB main story) needs
-  // game data we don't load here, so such a game may be missing from the
-  // detail even though the code itself is present.
-  const needReview = unmet.filter(
-    (g) =>
-      (g.steam_play_data?.achievements_percentage ?? 0) >= 50 ||
-      (g.steam_play_data?.playtime_minutes ?? 0) >= 15 * 60
-  )
-  if (needReview.length > 0) {
-    details.required_plays_need_review = named(needReview, (g) => {
-      const minutes = g.steam_play_data?.playtime_minutes
-      return minutes ? ` (${Math.round(minutes / 6) / 10}h played)` : ''
+    const dueSoon = unmet.filter((g) => {
+      const deadline = requiredPlayDeadlineSec(g)
+      return (
+        deadline >= nowSec && deadline < nowSec + DEADLINE_WARNING_DAYS * 24 * 60 * 60
+      )
     })
+    if (dueSoon.length > 0) {
+      details.required_play_deadline_within_15_days = named(dueSoon, (g) =>
+        playEvidence(g, `deadline <t:${requiredPlayDeadlineSec(g)}:R>`)
+      )
+    }
+
+    // The scraper decides required_plays_need_review from data we don't load
+    // here (HLTB main-story hours), so we can't re-derive which of the
+    // member's unmet wins tripped it — the detail lists all of them with
+    // their play evidence and leaves the judgment call to the mod.
+    details.required_plays_need_review = named(unmet, (g) => playEvidence(g))
+  }
+
+  // Play rate: share of won games (excluding unreleased ones) the member has
+  // evidence of having played. Shared between the two play-rate codes since
+  // only one of them is ever present in a given member's warnings.
+  const wins = (user.giveaways_won ?? []).filter((g) => !g.unreleased)
+  if (wins.length > 0) {
+    const played = wins.filter(
+      (g) =>
+        g.i_played_bro ||
+        g.required_play_meta?.requirements_met ||
+        (g.steam_play_data && !g.steam_play_data.never_played && !g.steam_play_data.has_no_available_stats)
+    )
+    const pct = Math.round((played.length / wins.length) * 100)
+    const playRateDetail = `${played.length} of ${wins.length} wins played (${pct}%)`
+    details.low_play_rate_many_wins = playRateDetail
+    details.zero_play_rate_with_wins = playRateDetail
+  }
+
+  details.no_giveaway_created_in_6_months = user.stats?.last_giveaway_created_at
+    ? `last created <t:${user.stats.last_giveaway_created_at}:R>`
+    : 'never created one'
+
+  if (user.last_played_at != null) {
+    details.inactive_play_but_active = `last played <t:${Math.floor(user.last_played_at / 1000)}:R>`
   }
 
   return details
@@ -198,6 +254,9 @@ export async function collectGroupWarningFindings(host?: string): Promise<GroupW
   const findings: GroupWarningFinding[] = []
   for (const user of Object.values(groupUsers.users)) {
     if (!user.warnings?.length) continue
+    // Already kicked from the Steam group; the roster entry disappears once
+    // SteamGifts' sync catches up, so their warnings are moot until then.
+    if (user.kicked_pending_sync) continue
     const details = buildFindingDetails(user, nowSec)
     for (const code of user.warnings) {
       findings.push({
@@ -242,8 +301,7 @@ const DEEP_LINK_QUERIES: Record<DeepLink, string> = {
 
 /**
  * A member's page link in the `[name](<url>)` no-preview form. Shared by
- * `renderMemberLine` (bulleted, single member) and the /mod-report combo
- * grouping (comma-separated, no bullet). `deepLink` points the link at a
+ * `renderMemberLine` and `renderMemberBlock`. `deepLink` points the link at a
  * pre-filtered tab of the member's page instead of the plain profile.
  */
 function memberLink(username: string, deepLink?: DeepLink): string {
@@ -315,6 +373,7 @@ export function chunkMessage(segments: string[], maxLength = 1990): string[] {
 export interface MemberFinding {
   code: string
   label: string
+  detail?: string
 }
 
 export interface MemberReportEntry {
@@ -324,8 +383,8 @@ export interface MemberReportEntry {
 }
 
 /**
- * Groups findings by member, splitting each member's (code, label) pairs
- * into error vs warn buckets. Sorted alphabetically by username.
+ * Groups findings by member, splitting each member's (code, label, detail)
+ * triples into error vs warn buckets. Sorted alphabetically by username.
  */
 export function groupFindingsByMemberForReport(
   findings: GroupWarningFinding[]
@@ -338,7 +397,7 @@ export function groupFindingsByMemberForReport(
       entry = { username: finding.username, errorFindings: [], warnFindings: [] }
       byUser.set(finding.username, entry)
     }
-    const item: MemberFinding = { code: finding.code, label: finding.label }
+    const item: MemberFinding = { code: finding.code, label: finding.label, detail: finding.detail }
     if (finding.severity === 'error') entry.errorFindings.push(item)
     else entry.warnFindings.push(item)
   }
@@ -355,63 +414,45 @@ interface SectionMember {
   findings: MemberFinding[]
 }
 
-interface FindingCombo {
-  labels: string[]
-  codes: string[]
-  usernames: string[]
-  mostImportantRank: number
-}
-
 /**
- * Groups a section's members by their EXACT set of finding codes, then
- * renders each combo uniformly — including a combo unique to a single
- * member — as a label line followed by a bulleted member list and a
- * trailing blank line:
- *   `<Label A> · <Label B>:\n- [m1], [m2]\n`
- * Labels ordered by importance, members alphabetical (case-insensitive).
- * Lines are ordered by the combo's most important code, then by member
- * count (larger first), then alphabetically by first member.
+ * Renders a section as one block per member (see `renderMemberBlock`).
+ * A member with exactly one finding renders on a single line — the headline
+ * is `<label>: <detail>` (or just `<label>` when there's no detail) and
+ * there are no sub-bullets. A member with 2+ findings keeps the labels
+ * joined with " · " as the headline, with a sub-bullet `<label>: <detail>`
+ * for each finding that has a detail string. Members are ordered by the
+ * importance rank of their most important finding, then by username
+ * (case-insensitive).
  */
 function renderSection(members: SectionMember[]): string[] {
   if (members.length === 0) return ['_none_']
 
-  const combosByKey = new Map<string, { codeLabels: Map<string, string>; usernames: string[] }>()
-  for (const member of members) {
-    // Use each finding's own label (not WARNING_LABELS) so unknown-code
-    // fallbacks and any caller-supplied label stay intact.
-    const codeLabels = new Map(member.findings.map((f) => [f.code, f.label] as const))
-    const key = [...codeLabels.keys()].sort().join('|')
-    let combo = combosByKey.get(key)
-    if (!combo) {
-      combo = { codeLabels, usernames: [] }
-      combosByKey.set(key, combo)
-    }
-    combo.usernames.push(member.username)
-  }
-
-  const combos: FindingCombo[] = [...combosByKey.values()].map(({ codeLabels, usernames }) => {
-    const orderedCodes = [...codeLabels.keys()].sort((a, b) => importanceRank(a) - importanceRank(b))
-    return {
-      labels: orderedCodes.map((code) => codeLabels.get(code)!),
-      codes: orderedCodes,
-      usernames: [...usernames].sort(compareUsernamesCaseInsensitive),
-      mostImportantRank: importanceRank(orderedCodes[0]!),
-    }
+  const sorted = [...members].sort((a, b) => {
+    const rankA = Math.min(...a.findings.map((f) => importanceRank(f.code)))
+    const rankB = Math.min(...b.findings.map((f) => importanceRank(f.code)))
+    if (rankA !== rankB) return rankA - rankB
+    return compareUsernamesCaseInsensitive(a.username, b.username)
   })
 
-  combos.sort((a, b) => {
-    if (a.mostImportantRank !== b.mostImportantRank) return a.mostImportantRank - b.mostImportantRank
-    if (a.usernames.length !== b.usernames.length) return b.usernames.length - a.usernames.length
-    return compareUsernamesCaseInsensitive(a.usernames[0]!, b.usernames[0]!)
-  })
-
-  // Uniform for every combo (including single-member): label line, then a
-  // bulleted member list, then a trailing blank line.
-  return combos.map((combo) => {
-    const deep = combo.codes.some((code) => PLAY_REQUIRED_CODES.has(code))
+  return sorted.map((member) => {
+    const orderedFindings = [...member.findings].sort(
+      (a, b) => importanceRank(a.code) - importanceRank(b.code)
+    )
+    const deepLink = orderedFindings.some((f) => PLAY_REQUIRED_CODES.has(f.code))
       ? ('play-required' as const)
       : undefined
-    return `${combo.labels.join(' · ')}:\n- ${combo.usernames.map((u) => memberLink(u, deep)).join(', ')}\n`
+
+    if (orderedFindings.length === 1) {
+      const finding = orderedFindings[0]!
+      const headline = finding.detail ? `${finding.label}: ${finding.detail}` : finding.label
+      return renderMemberBlock(member.username, headline, [], deepLink)
+    }
+
+    const headline = orderedFindings.map((f) => f.label).join(' · ')
+    const findingTexts = orderedFindings
+      .filter((f) => f.detail)
+      .map((f) => `${f.label}: ${f.detail}`)
+    return renderMemberBlock(member.username, headline, findingTexts, deepLink)
   })
 }
 
@@ -422,9 +463,9 @@ export const EX_MEMBER_NOTE = 'Ex-member entry checks run in the weekly digest o
  * (not yet chunked — pass through `chunkMessage` for that): a header, a
  * **Need attention** section (members with ≥1 error finding, all their
  * findings listed), a **Warnings** section (members whose findings are all
- * warn-level), and a closing note about ex-member checks. Within each
- * section, members sharing the exact same set of finding codes are grouped
- * onto one line — see `renderSection`.
+ * warn-level), and a closing note about ex-member checks. Each section
+ * renders one block per member, with their finding-specific detail strings
+ * as sub-bullets — see `renderSection`.
  *
  * The two section headers carry a leading emoji (‼️/👀, owner request) as
  * the sole exception to the otherwise emoji-free output — everything else

@@ -38,6 +38,12 @@ vi.mock('./data', () => ({
               },
             ],
           },
+          '6': {
+            username: 'frank',
+            steam_id: '6',
+            warnings: ['zero_play_rate_with_wins'],
+            kicked_pending_sync: true,
+          },
         },
       }
     }
@@ -46,11 +52,10 @@ vi.mock('./data', () => ({
 }))
 
 describe('severityFor', () => {
-  it('classifies the five error codes as error', () => {
+  it('classifies the four error codes as error', () => {
     for (const code of [
       'illegal_entered_required_play_giveaways',
       'illegal_entered_any_giveaways',
-      'unplayed_required_play_giveaways',
       'required_play_deadline_expired',
       'zero_play_rate_with_wins',
     ]) {
@@ -58,9 +63,10 @@ describe('severityFor', () => {
     }
   })
 
-  it('classifies the five warn codes as warn', () => {
+  it('classifies the six warn codes as warn', () => {
     for (const code of [
       'required_plays_need_review',
+      'unplayed_required_play_giveaways',
       'required_play_deadline_within_15_days',
       'low_play_rate_many_wins',
       'inactive_play_but_active',
@@ -84,18 +90,21 @@ describe('collectGroupWarningFindings', () => {
       code: 'required_play_deadline_expired',
       label: 'Required-play deadline expired',
       severity: 'error',
+      detail: undefined,
     })
     expect(findings).toContainEqual({
       username: 'alice',
       code: 'no_giveaway_created_in_6_months',
       label: 'No giveaway created in 6 months',
       severity: 'warn',
+      detail: 'never created one',
     })
     expect(findings).toContainEqual({
       username: 'bob',
       code: 'required_plays_need_review',
       label: 'Required-play wins that may already be done',
       severity: 'warn',
+      detail: undefined,
     })
   })
 
@@ -119,7 +128,12 @@ describe('collectGroupWarningFindings', () => {
     const findings = await collectGroupWarningFindings()
     const erin = findings.find((f) => f.username === 'erin')
     expect(erin?.code).toBe('unplayed_required_play_giveaways')
-    expect(erin?.detail).toBe('Sonic Frontiers')
+    expect(erin?.detail).toBe('Sonic Frontiers (not launched)')
+  })
+
+  it('skips members already kicked and pending a SteamGifts sync', async () => {
+    const findings = await collectGroupWarningFindings()
+    expect(findings.some((f) => f.username === 'frank')).toBe(false)
   })
 })
 
@@ -135,33 +149,40 @@ describe('buildFindingDetails', () => {
     required_play_meta: {},
     ...overrides,
   })
-  const userWith = (giveaways_won: object[]) => ({
+  const userWith = (giveaways_won: object[], overrides: object = {}) => ({
     username: 'u',
     steam_id: '1',
     giveaways_won: giveaways_won as never,
+    ...overrides,
   })
 
-  it('returns no details when the member has no unmet required-play wins', () => {
-    expect(buildFindingDetails(userWith([]), END)).toEqual({})
+  it('returns no required-play details when the member has no unmet required-play wins', () => {
+    const details = buildFindingDetails(userWith([]), END)
+    expect(details.unplayed_required_play_giveaways).toBeUndefined()
+    expect(details.required_play_deadline_expired).toBeUndefined()
+    expect(details.required_play_deadline_within_15_days).toBeUndefined()
+    expect(details.required_plays_need_review).toBeUndefined()
+
     expect(
-      buildFindingDetails(
-        userWith([win({ required_play_meta: { requirements_met: true } })]),
-        END
-      )
-    ).toEqual({})
+      buildFindingDetails(userWith([win({ required_play_meta: { requirements_met: true } })]), END)
+        .unplayed_required_play_giveaways
+    ).toBeUndefined()
   })
 
-  it('lists unmet required-play wins by name, joined with commas', () => {
+  it('lists unmet required-play wins by name with play evidence, joined with commas', () => {
     const details = buildFindingDetails(
-      userWith([win({}), win({ name: 'Hollow Knight: Silksong' })]),
+      userWith([
+        win({ steam_play_data: { playtime_minutes: 662, achievements_percentage: 60.4 } }),
+        win({ name: 'Hollow Knight: Silksong' }),
+      ]),
       END
     )
     expect(details.unplayed_required_play_giveaways).toBe(
-      'Sonic Frontiers, Hollow Knight: Silksong'
+      'Sonic Frontiers (11h played, 60.4% achievements), Hollow Knight: Silksong (not launched)'
     )
   })
 
-  it('marks a win as deadline-expired using end date + deadline_in_months (default 2) with a Discord relative timestamp', () => {
+  it('marks a win as deadline-expired using end date + deadline_in_months (default 2), merging play evidence and the deadline into one parenthetical', () => {
     const deadline = new Date(END * 1000)
     deadline.setMonth(deadline.getMonth() + 2)
     const deadlineSec = Math.floor(deadline.getTime() / 1000)
@@ -169,7 +190,7 @@ describe('buildFindingDetails', () => {
     const expiredNow = deadlineSec + 275 * DAY
     const details = buildFindingDetails(userWith([win({})]), expiredNow)
     expect(details.required_play_deadline_expired).toBe(
-      `Sonic Frontiers (deadline <t:${deadlineSec}:R>)`
+      `Sonic Frontiers (not launched, deadline <t:${deadlineSec}:R>)`
     )
     expect(details.required_play_deadline_within_15_days).toBeUndefined()
   })
@@ -181,7 +202,7 @@ describe('buildFindingDetails', () => {
       explicit + DAY
     )
     expect(details.required_play_deadline_expired).toBe(
-      `Sonic Frontiers (deadline <t:${explicit}:R>)`
+      `Sonic Frontiers (not launched, deadline <t:${explicit}:R>)`
     )
   })
 
@@ -195,15 +216,83 @@ describe('buildFindingDetails', () => {
     expect(details.required_play_deadline_expired).toBeUndefined()
   })
 
-  it('flags needs-review games (≥50% achievements or ≥15h) with hours played when known', () => {
+  it('lists ALL unmet required-play wins with play evidence for needs-review, without re-deriving the scraper\'s threshold', () => {
     const details = buildFindingDetails(
       userWith([
         win({ steam_play_data: { playtime_minutes: 662, achievements_percentage: 60.4 } }),
         win({ name: 'Barely Touched', steam_play_data: { playtime_minutes: 30 } }),
+        win({ name: 'Not Launched Yet' }),
       ]),
       END
     )
-    expect(details.required_plays_need_review).toBe('Sonic Frontiers (11h played)')
+    expect(details.required_plays_need_review).toBe(
+      'Sonic Frontiers (11h played, 60.4% achievements), Barely Touched (0.5h played), Not Launched Yet (not launched)'
+    )
+  })
+
+  it('reports "not launched" when there is no recorded playtime, with no achievements clause', () => {
+    const details = buildFindingDetails(userWith([win({})]), END)
+    expect(details.unplayed_required_play_giveaways).toBe('Sonic Frontiers (not launched)')
+  })
+
+  it('omits the achievements clause when the percentage is unknown', () => {
+    const details = buildFindingDetails(
+      userWith([win({ steam_play_data: { playtime_minutes: 120 } })]),
+      END
+    )
+    expect(details.unplayed_required_play_giveaways).toBe('Sonic Frontiers (2h played)')
+  })
+
+  it('computes a play-rate fraction for both play-rate codes, excluding unreleased wins', () => {
+    const details = buildFindingDetails(
+      userWith([
+        // Played: has Steam stats and wasn't never-played.
+        { name: 'Played Game', steam_play_data: {} },
+        // Unplayed: never_played is set.
+        { name: 'Unplayed Game', steam_play_data: { never_played: true } },
+        // Excluded from the total: not released yet.
+        { name: 'Unreleased Game', unreleased: true },
+      ]),
+      END
+    )
+    expect(details.low_play_rate_many_wins).toBe('1 of 2 wins played (50%)')
+    expect(details.zero_play_rate_with_wins).toBe('1 of 2 wins played (50%)')
+  })
+
+  it('counts i_played_bro and requirements_met as played even with no Steam stats', () => {
+    const details = buildFindingDetails(
+      userWith([
+        { name: 'Attested', i_played_bro: true },
+        { name: 'Required play met', required_play_meta: { requirements_met: true } },
+      ]),
+      END
+    )
+    expect(details.zero_play_rate_with_wins).toBe('2 of 2 wins played (100%)')
+  })
+
+  it('omits play-rate details when the member has no wins', () => {
+    const details = buildFindingDetails(userWith([]), END)
+    expect(details.low_play_rate_many_wins).toBeUndefined()
+    expect(details.zero_play_rate_with_wins).toBeUndefined()
+  })
+
+  it('reports the last-created timestamp, or "never created one" when absent', () => {
+    const withStats = buildFindingDetails(
+      userWith([], { stats: { last_giveaway_created_at: 1_700_000_000 } }),
+      END
+    )
+    expect(withStats.no_giveaway_created_in_6_months).toBe('last created <t:1700000000:R>')
+
+    const withoutStats = buildFindingDetails(userWith([]), END)
+    expect(withoutStats.no_giveaway_created_in_6_months).toBe('never created one')
+  })
+
+  it('reports the last-played timestamp (converted from milliseconds) only when set', () => {
+    const withLastPlayed = buildFindingDetails(userWith([], { last_played_at: 1_700_000_000_000 }), END)
+    expect(withLastPlayed.inactive_play_but_active).toBe('last played <t:1700000000:R>')
+
+    const withoutLastPlayed = buildFindingDetails(userWith([]), END)
+    expect(withoutLastPlayed.inactive_play_but_active).toBeUndefined()
   })
 })
 
@@ -283,17 +372,28 @@ describe('groupFindingsByMemberForReport', () => {
   const findings: GroupWarningFinding[] = [
     { username: 'zack', code: 'zero_play_rate_with_wins', label: 'Zero play rate', severity: 'error' },
     { username: 'zack', code: 'low_play_rate_many_wins', label: 'Low play rate', severity: 'warn' },
-    { username: 'amy', code: 'required_plays_need_review', label: 'Needs review', severity: 'warn' },
+    {
+      username: 'amy',
+      code: 'required_plays_need_review',
+      label: 'Needs review',
+      severity: 'warn',
+      detail: 'Some Game',
+    },
   ]
 
-  it('splits each member into error vs warn (code, label) buckets', () => {
+  it('splits each member into error vs warn (code, label, detail) buckets', () => {
     const grouped = groupFindingsByMemberForReport(findings)
     const zack = grouped.find((m) => m.username === 'zack')
     expect(zack).toEqual({
       username: 'zack',
-      errorFindings: [{ code: 'zero_play_rate_with_wins', label: 'Zero play rate' }],
-      warnFindings: [{ code: 'low_play_rate_many_wins', label: 'Low play rate' }],
+      errorFindings: [{ code: 'zero_play_rate_with_wins', label: 'Zero play rate', detail: undefined }],
+      warnFindings: [{ code: 'low_play_rate_many_wins', label: 'Low play rate', detail: undefined }],
     })
+
+    const amy = grouped.find((m) => m.username === 'amy')
+    expect(amy?.warnFindings).toEqual([
+      { code: 'required_plays_need_review', label: 'Needs review', detail: 'Some Game' },
+    ])
   })
 
   it('sorts members alphabetically', () => {
@@ -343,45 +443,130 @@ describe('importanceRank', () => {
 })
 
 describe('buildModReportLines', () => {
-  const findings: GroupWarningFinding[] = [
-    { username: 'zack', code: 'zero_play_rate_with_wins', label: 'Zero play rate', severity: 'error' },
-    { username: 'zack', code: 'low_play_rate_many_wins', label: 'Low play rate', severity: 'warn' },
-    { username: 'amy', code: 'required_plays_need_review', label: 'Needs review', severity: 'warn' },
-  ]
+  it('renders a member with detailed findings as a block: head line + sub-bullets, labels/details in importance order', () => {
+    const findings: GroupWarningFinding[] = [
+      {
+        username: 'zack',
+        code: 'zero_play_rate_with_wins',
+        label: 'Zero play rate',
+        severity: 'error',
+        detail: '0 of 3 wins played (0%)',
+      },
+      {
+        username: 'zack',
+        code: 'illegal_entered_any_giveaways',
+        label: 'Entered while ineligible',
+        severity: 'error',
+      },
+    ]
+    const lines = buildModReportLines(findings)
+    const block = lines.find((l) => l.includes('[zack]'))!.split('\n')
+    expect(block[0]).toBe(
+      '- [zack](<https://sg-club.vercel.app/users/zack/>) — Entered while ineligible · Zero play rate'
+    )
+    expect(block[1]).toBe('  - Zero play rate: 0 of 3 wins played (0%)')
+  })
 
-  it('places a member with any error finding in Need attention, listing labels in importance order', () => {
+  it('renders a member with no detailed findings as a head-only line, no sub-bullets', () => {
+    const findings: GroupWarningFinding[] = [
+      { username: 'amy', code: 'required_plays_need_review', label: 'Needs review', severity: 'warn' },
+    ]
+    const lines = buildModReportLines(findings)
+    const block = lines.find((l) => l.includes('[amy]'))!.split('\n')
+    expect(block).toEqual([
+      '- [amy](<https://sg-club.vercel.app/users/amy/?tab=won&filter=play-required>) — Needs review',
+    ])
+  })
+
+  it('folds a single finding with a detail into one line, "<label>: <detail>", with no sub-bullet', () => {
+    const findings: GroupWarningFinding[] = [
+      {
+        username: 'amy',
+        code: 'required_plays_need_review',
+        label: 'Needs review',
+        severity: 'warn',
+        detail: 'Factorio (1.2h played, 1% achievements)',
+      },
+    ]
+    const lines = buildModReportLines(findings)
+    const block = lines.find((l) => l.includes('[amy]'))!.split('\n')
+    expect(block).toEqual([
+      '- [amy](<https://sg-club.vercel.app/users/amy/?tab=won&filter=play-required>) — Needs review: Factorio (1.2h played, 1% achievements)',
+    ])
+  })
+
+  it('places a member with any error finding in Need attention, and one whose findings are all warn in Warnings', () => {
+    const findings: GroupWarningFinding[] = [
+      { username: 'zack', code: 'zero_play_rate_with_wins', label: 'Zero play rate', severity: 'error' },
+      { username: 'amy', code: 'required_plays_need_review', label: 'Needs review', severity: 'warn' },
+    ]
     const lines = buildModReportLines(findings)
     const needAttentionIdx = lines.findIndex((l) => l.startsWith('‼️ **Need attention**'))
-    const zackLine = lines.find((l) => l.includes('[zack]'))!
-    const zackIdx = lines.indexOf(zackLine)
     const warningsIdx = lines.findIndex((l) => l.startsWith('👀 **Warnings**'))
+    const zackIdx = lines.findIndex((l) => l.includes('[zack]'))
+    const amyIdx = lines.findIndex((l) => l.includes('[amy]'))
 
     expect(zackIdx).toBeGreaterThan(needAttentionIdx)
     expect(zackIdx).toBeLessThan(warningsIdx)
-    expect(zackLine).toBe(
-      'Zero play rate · Low play rate:\n- [zack](<https://sg-club.vercel.app/users/zack/>)\n'
+    expect(amyIdx).toBeGreaterThan(warningsIdx)
+  })
+
+  it('orders members within a section by importance rank of their most important finding, then by username', () => {
+    const findings: GroupWarningFinding[] = [
+      // Least important known code — should sort last.
+      {
+        username: 'zed',
+        code: 'no_giveaway_created_in_6_months',
+        label: 'No giveaway created in 6 months',
+        severity: 'warn',
+      },
+      // More important — should sort first.
+      { username: 'bob', code: 'required_plays_need_review', label: 'Needs review', severity: 'warn' },
+      { username: 'amy', code: 'required_plays_need_review', label: 'Needs review', severity: 'warn' },
+    ]
+    const lines = buildModReportLines(findings)
+    const amyIdx = lines.findIndex((l) => l.includes('[amy]'))
+    const bobIdx = lines.findIndex((l) => l.includes('[bob]'))
+    const zedIdx = lines.findIndex((l) => l.includes('[zed]'))
+
+    expect(amyIdx).toBeLessThan(bobIdx) // same rank, alphabetical
+    expect(bobIdx).toBeLessThan(zedIdx) // higher importance sorts first
+  })
+
+  it('deep-links only members whose findings include a play-required code', () => {
+    const findings: GroupWarningFinding[] = [
+      { username: 'zed', code: 'zero_play_rate_with_wins', label: 'Zero play rate', severity: 'error' },
+      { username: 'pat', code: 'unplayed_required_play_giveaways', label: 'Unplayed', severity: 'warn' },
+    ]
+    const lines = buildModReportLines(findings)
+    expect(lines.find((l) => l.includes('[zed]'))).toBe(
+      '- [zed](<https://sg-club.vercel.app/users/zed/>) — Zero play rate'
+    )
+    expect(lines.find((l) => l.includes('[pat]'))).toBe(
+      '- [pat](<https://sg-club.vercel.app/users/pat/?tab=won&filter=play-required>) — Unplayed'
     )
   })
 
-  it('places a member whose findings are all warn-level in Warnings only', () => {
-    const lines = buildModReportLines(findings)
-    const amyLine = lines.find((l) => l.includes('[amy]'))!
-    const warningsIdx = lines.findIndex((l) => l.startsWith('👀 **Warnings**'))
-    expect(lines.indexOf(amyLine)).toBeGreaterThan(warningsIdx)
-  })
-
   it('reports accurate member counts in each section header', () => {
+    const findings: GroupWarningFinding[] = [
+      { username: 'zack', code: 'zero_play_rate_with_wins', label: 'Zero play rate', severity: 'error' },
+      { username: 'amy', code: 'required_plays_need_review', label: 'Needs review', severity: 'warn' },
+    ]
     const lines = buildModReportLines(findings)
     expect(lines).toContain('‼️ **Need attention** (1 members)')
     expect(lines).toContain('👀 **Warnings** (1 members)')
   })
 
   it('ends with the ex-member note', () => {
-    const lines = buildModReportLines(findings)
+    const lines = buildModReportLines([])
     expect(lines.at(-1)).toBe('Ex-member entry checks run in the weekly digest only.')
   })
 
   it('renders findings/note lines with no emojis, and carries ‼️/👀 only on the two section headers', () => {
+    const findings: GroupWarningFinding[] = [
+      { username: 'zack', code: 'zero_play_rate_with_wins', label: 'Zero play rate', severity: 'error' },
+      { username: 'amy', code: 'required_plays_need_review', label: 'Needs review', severity: 'warn' },
+    ]
     const lines = buildModReportLines(findings)
     const emojiPattern = /[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/u
 
@@ -401,92 +586,5 @@ describe('buildModReportLines', () => {
     expect(lines).toContain('‼️ **Need attention** (0 members)')
     expect(lines).toContain('👀 **Warnings** (0 members)')
     expect(lines.filter((l) => l === '_none_')).toHaveLength(2)
-  })
-
-  describe('combo grouping', () => {
-    it('groups ≥2 members sharing the exact same single-code combo onto a bulleted line', () => {
-      const shared: GroupWarningFinding[] = [
-        { username: 'bob', code: 'required_plays_need_review', label: 'Needs review', severity: 'warn' },
-        { username: 'amy', code: 'required_plays_need_review', label: 'Needs review', severity: 'warn' },
-      ]
-      const lines = buildModReportLines(shared)
-      // Label line, then a bulleted member list; needs-review is a
-      // play-required code so members get the Won-tab deep link.
-      expect(lines).toContain(
-        'Needs review:\n- [amy](<https://sg-club.vercel.app/users/amy/?tab=won&filter=play-required>), [bob](<https://sg-club.vercel.app/users/bob/?tab=won&filter=play-required>)\n'
-      )
-    })
-
-    it('groups ≥2 members sharing the exact same multi-code combo, with labels in importance order', () => {
-      const shared: GroupWarningFinding[] = [
-        { username: 'zack', code: 'low_play_rate_many_wins', label: 'Low play rate', severity: 'warn' },
-        { username: 'zack', code: 'zero_play_rate_with_wins', label: 'Zero play rate', severity: 'error' },
-        { username: 'amy', code: 'zero_play_rate_with_wins', label: 'Zero play rate', severity: 'error' },
-        { username: 'amy', code: 'low_play_rate_many_wins', label: 'Low play rate', severity: 'warn' },
-      ]
-      const lines = buildModReportLines(shared)
-      expect(lines).toContain(
-        'Zero play rate · Low play rate:\n- [amy](<https://sg-club.vercel.app/users/amy/>), [zack](<https://sg-club.vercel.app/users/zack/>)\n'
-      )
-    })
-
-    it('renders a combo unique to 1 member with the same uniform label+bullet+blank-line form', () => {
-      const unique: GroupWarningFinding[] = [
-        { username: 'amy', code: 'required_plays_need_review', label: 'Needs review', severity: 'warn' },
-      ]
-      const lines = buildModReportLines(unique)
-      expect(lines).toContain(
-        'Needs review:\n- [amy](<https://sg-club.vercel.app/users/amy/?tab=won&filter=play-required>)\n'
-      )
-    })
-
-    it('does not group members whose code sets differ even if labels overlap', () => {
-      const different: GroupWarningFinding[] = [
-        { username: 'amy', code: 'required_plays_need_review', label: 'Needs review', severity: 'warn' },
-        { username: 'bob', code: 'required_plays_need_review', label: 'Needs review', severity: 'warn' },
-        { username: 'bob', code: 'inactive_play_but_active', label: 'Inactive', severity: 'warn' },
-      ]
-      const lines = buildModReportLines(different)
-      expect(lines).toContain(
-        'Needs review:\n- [amy](<https://sg-club.vercel.app/users/amy/?tab=won&filter=play-required>)\n'
-      )
-      expect(lines).toContain(
-        'Needs review · Inactive:\n- [bob](<https://sg-club.vercel.app/users/bob/?tab=won&filter=play-required>)\n'
-      )
-    })
-
-    it('deep-links only members whose combo includes a play-required code', () => {
-      const mixed: GroupWarningFinding[] = [
-        { username: 'zed', code: 'zero_play_rate_with_wins', label: 'Zero play rate', severity: 'error' },
-        { username: 'pat', code: 'unplayed_required_play_giveaways', label: 'Unplayed', severity: 'error' },
-      ]
-      const lines = buildModReportLines(mixed)
-      expect(lines).toContain('Zero play rate:\n- [zed](<https://sg-club.vercel.app/users/zed/>)\n')
-      expect(lines).toContain(
-        'Unplayed:\n- [pat](<https://sg-club.vercel.app/users/pat/?tab=won&filter=play-required>)\n'
-      )
-    })
-
-    it('orders combo lines by importance of the most important code, then member count, then first member', () => {
-      const findings: GroupWarningFinding[] = [
-        // Unique, no_giveaway (least important) — should sort last.
-        {
-          username: 'zed',
-          code: 'no_giveaway_created_in_6_months',
-          label: 'No giveaway created in 6 months',
-          severity: 'warn',
-        },
-        // Shared pair, required_plays_need_review (more important) — should sort first.
-        { username: 'amy', code: 'required_plays_need_review', label: 'Needs review', severity: 'warn' },
-        { username: 'bob', code: 'required_plays_need_review', label: 'Needs review', severity: 'warn' },
-      ]
-      const lines = buildModReportLines(findings)
-      const warningsIdx = lines.findIndex((l) => l.startsWith('👀 **Warnings**'))
-      const sharedLineIdx = lines.findIndex((l) => l.startsWith('Needs review:'))
-      const zedLineIdx = lines.findIndex((l) => l.includes('[zed]'))
-
-      expect(sharedLineIdx).toBeGreaterThan(warningsIdx)
-      expect(sharedLineIdx).toBeLessThan(zedLineIdx)
-    })
   })
 })
