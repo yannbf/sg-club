@@ -1,11 +1,19 @@
 {
-  "last_updated": "2026-09-11T13:37:34.791Z",
+  "last_updated": "2026-09-11T13:54:45.315Z",
   "games": {
     "223810": {
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0,
-      "checked_at": "2026-09-11T12:24:20.328Z"
+      "marker": {
+        "apiname": "De-Fact-o",
+        "name": "De-Fact-o",
+        "description": "Complete Ys I on any difficulty.",
+        "global_percent": 30.2,
+        "source": "steamhunters",
+        "filtered": true,
+        "sh_achievement_id": 3
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 1,
+      "checked_at": "2026-09-11T13:53:30.532Z"
     },
     "237630": {
       "marker": {
@@ -87,7 +95,7 @@
       "marker": null,
       "no_marker_reason": "schema_unavailable",
       "story_tag_count": 0,
-      "checked_at": "2026-09-11T13:36:34.503Z"
+      "checked_at": "2026-09-11T13:47:06.894Z"
     },
     "261550": {
       "marker": null,
@@ -109,10 +117,18 @@
       "checked_at": "2026-08-25T11:05:13.908Z"
     },
     "288160": {
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0,
-      "checked_at": "2026-09-11T13:36:20.061Z"
+      "marker": {
+        "apiname": "ACHIEVE_CHAP_5_COMPLETE",
+        "name": "Protégé",
+        "description": "Complete The Room",
+        "global_percent": 64.9,
+        "source": "steamhunters",
+        "filtered": true,
+        "sh_achievement_id": 5
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 5,
+      "checked_at": "2026-09-11T13:53:10.318Z"
     },
     "303790": {
       "marker": null,
@@ -515,16 +531,17 @@
     },
     "601430": {
       "marker": {
-        "apiname": "ach_001",
-        "name": "Rookie",
-        "description": "Completed the game on Casual difficulty or higher.",
-        "global_percent": 43.8,
-        "source": "heuristic",
-        "sh_achievement_id": 1
+        "apiname": "ach_006",
+        "name": "Taken",
+        "description": "Saw a chilling vision.",
+        "global_percent": 59.7,
+        "source": "steamhunters",
+        "filtered": true,
+        "sh_achievement_id": 6
       },
       "no_marker_reason": null,
-      "story_tag_count": 0,
-      "checked_at": "2026-09-11T13:36:37.920Z"
+      "story_tag_count": 2,
+      "checked_at": "2026-09-11T13:53:43.654Z"
     },
     "607080": {
       "marker": null,
@@ -627,10 +644,18 @@
       "checked_at": "2026-08-24T20:06:14.366Z"
     },
     "702680": {
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0,
-      "checked_at": "2026-09-11T13:36:21.206Z"
+      "marker": {
+        "apiname": "Earth",
+        "name": "Welcome Home, Mother.",
+        "description": "Congratulations! This trophy commemorates the return of a long-separated family to a long-abandoned home. Tonight, let us share this table and our stories.",
+        "global_percent": 17.9,
+        "source": "steamhunters",
+        "filtered": true,
+        "sh_achievement_id": 13
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 13,
+      "checked_at": "2026-09-11T13:53:13.526Z"
     },
     "721180": {
       "marker": null,
@@ -902,7 +927,7 @@
       "marker": null,
       "no_marker_reason": "no_marker_found",
       "story_tag_count": 0,
-      "checked_at": "2026-09-11T13:36:15.125Z"
+      "checked_at": "2026-09-11T13:46:45.099Z"
     },
     "851850": {
       "marker": {
@@ -1415,10 +1440,18 @@
       "checked_at": "2026-09-09T19:47:27.406Z"
     },
     "1145350": {
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0,
-      "checked_at": "2026-09-11T12:24:37.105Z"
+      "marker": {
+        "apiname": "AchTrueEnding",
+        "name": "Death to Chronos",
+        "description": "Complete the lifelong task of the Princess of the Underworld",
+        "global_percent": 27,
+        "source": "steamhunters",
+        "filtered": true,
+        "sh_achievement_id": 97
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 9,
+      "checked_at": "2026-09-11T13:53:37.270Z"
     },
     "1145360": {
       "marker": {
@@ -1502,16 +1535,17 @@
     },
     "1170060": {
       "marker": {
-        "apiname": "full_game_speedrun",
-        "name": "Mach X",
-        "description": "Beat the game in under one hour",
-        "global_percent": 2.3,
-        "source": "heuristic",
-        "sh_achievement_id": 28
+        "apiname": "beat_eel",
+        "name": "Vashkatar",
+        "description": "Defeat the guardian at the heart of the scourge",
+        "global_percent": 35.6,
+        "source": "steamhunters",
+        "filtered": true,
+        "sh_achievement_id": 14
       },
       "no_marker_reason": null,
-      "story_tag_count": 0,
-      "checked_at": "2026-09-11T12:24:01.930Z"
+      "story_tag_count": 16,
+      "checked_at": "2026-09-11T13:53:23.805Z"
     },
     "1170570": {
       "marker": {
@@ -1827,10 +1861,18 @@
       "checked_at": "2026-08-24T20:06:57.168Z"
     },
     "1253920": {
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0,
-      "checked_at": "2026-09-11T13:36:26.979Z"
+      "marker": {
+        "apiname": "BossFinalDefeated",
+        "name": "King and Kin",
+        "description": "Defeat the Immortal King.",
+        "global_percent": 20.3,
+        "source": "steamhunters",
+        "filtered": true,
+        "sh_achievement_id": 15
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 8,
+      "checked_at": "2026-09-11T13:53:40.505Z"
     },
     "1259420": {
       "marker": {
@@ -1915,10 +1957,18 @@
       "checked_at": "2026-08-24T20:08:08.667Z"
     },
     "1274600": {
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0,
-      "checked_at": "2026-09-11T13:36:51.138Z"
+      "marker": {
+        "apiname": "FalseGodFelled",
+        "name": "False God Felled",
+        "description": "Defeat Lord Laddak.",
+        "global_percent": 35.7,
+        "source": "steamhunters",
+        "filtered": true,
+        "sh_achievement_id": 16
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 14,
+      "checked_at": "2026-09-11T13:53:53.301Z"
     },
     "1282730": {
       "marker": {
@@ -1935,10 +1985,18 @@
       "checked_at": "2026-08-24T20:06:30.367Z"
     },
     "1283410": {
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0,
-      "checked_at": "2026-09-11T13:36:49.951Z"
+      "marker": {
+        "apiname": "RepairThroneRoom",
+        "name": "Throne Room Fit For A King",
+        "description": "Repair the Throne Room",
+        "global_percent": 40.8,
+        "source": "steamhunters",
+        "filtered": true,
+        "sh_achievement_id": 23
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 6,
+      "checked_at": "2026-09-11T13:53:50.059Z"
     },
     "1286990": {
       "marker": {
@@ -1980,10 +2038,18 @@
       "checked_at": "2026-08-24T16:53:54.750Z"
     },
     "1297900": {
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0,
-      "checked_at": "2026-09-11T12:23:29.928Z"
+      "marker": {
+        "apiname": "ACH_Story_05",
+        "name": "The Sleeper awakens...Not!",
+        "description": "Complete Chapter 6",
+        "global_percent": 30.3,
+        "source": "steamhunters",
+        "filtered": true,
+        "sh_achievement_id": 5
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 6,
+      "checked_at": "2026-09-11T13:52:57.280Z"
     },
     "1299460": {
       "marker": {
@@ -2026,10 +2092,18 @@
       "checked_at": "2026-08-24T16:53:05.341Z"
     },
     "1310410": {
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0,
-      "checked_at": "2026-09-11T12:24:21.784Z"
+      "marker": {
+        "apiname": "ACH_ID_23",
+        "name": "Safe and Sound",
+        "description": "Save New Orleans from the Black Goat",
+        "global_percent": 17.9,
+        "source": "steamhunters",
+        "filtered": true,
+        "sh_achievement_id": 23
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 16,
+      "checked_at": "2026-09-11T13:53:33.896Z"
     },
     "1313140": {
       "marker": {
@@ -2354,7 +2428,7 @@
       },
       "no_marker_reason": null,
       "story_tag_count": 0,
-      "checked_at": "2026-09-11T13:36:30.446Z"
+      "checked_at": "2026-09-11T13:47:02.525Z"
     },
     "1455450": {
       "marker": null,
@@ -2397,10 +2471,18 @@
       "checked_at": "2026-08-24T20:11:01.870Z"
     },
     "1466060": {
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0,
-      "checked_at": "2026-09-11T13:36:06.651Z"
+      "marker": {
+        "apiname": "crownOfAshes",
+        "name": "Crown of Ashes",
+        "description": "Claim the crown that once bent Giants to the King’s will.",
+        "global_percent": 15,
+        "source": "steamhunters",
+        "filtered": true,
+        "sh_achievement_id": 4
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 11,
+      "checked_at": "2026-09-11T13:52:47.251Z"
     },
     "1466230": {
       "marker": {
@@ -2517,7 +2599,7 @@
       "marker": null,
       "no_marker_reason": "no_marker_found",
       "story_tag_count": 0,
-      "checked_at": "2026-09-11T13:36:25.741Z"
+      "checked_at": "2026-09-11T13:46:57.465Z"
     },
     "1554650": {
       "marker": {
@@ -2882,16 +2964,32 @@
       "checked_at": "2026-08-24T20:05:09.311Z"
     },
     "1629520": {
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0,
-      "checked_at": "2026-09-11T13:36:18.842Z"
+      "marker": {
+        "apiname": "ALTTL_CHAPTER5_COMPLETE",
+        "name": "Near Earth Organizer",
+        "description": "Chapter 5 Complete",
+        "global_percent": 40.5,
+        "source": "steamhunters",
+        "filtered": true,
+        "sh_achievement_id": 5
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 6,
+      "checked_at": "2026-09-11T13:53:03.728Z"
     },
     "1634080": {
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0,
-      "checked_at": "2026-09-11T13:36:48.724Z"
+      "marker": {
+        "apiname": "Nocturnal_Achivement_8_End",
+        "name": "A Grim Farewell",
+        "description": "Burn the corpse (complete the game)",
+        "global_percent": 18.4,
+        "source": "steamhunters",
+        "filtered": true,
+        "sh_achievement_id": 8
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 6,
+      "checked_at": "2026-09-11T13:53:46.872Z"
     },
     "1634860": {
       "marker": {
@@ -2910,7 +3008,7 @@
       "marker": null,
       "no_marker_reason": "no_marker_found",
       "story_tag_count": 0,
-      "checked_at": "2026-09-11T13:36:09.047Z"
+      "checked_at": "2026-09-11T13:46:38.639Z"
     },
     "1657630": {
       "marker": {
@@ -3275,10 +3373,18 @@
       "checked_at": "2026-08-24T20:07:23.886Z"
     },
     "1817070": {
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0,
-      "checked_at": "2026-09-11T12:23:51.801Z"
+      "marker": {
+        "apiname": "tombstonetakedown",
+        "name": "Tombstone Takedown",
+        "description": "Defeat Tombstone",
+        "global_percent": 34.3,
+        "source": "steamhunters",
+        "filtered": true,
+        "sh_achievement_id": 28
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 9,
+      "checked_at": "2026-09-11T13:53:07.202Z"
     },
     "1817190": {
       "marker": {
@@ -3327,12 +3433,13 @@
         "name": "The Library of Babel",
         "description": "Complete the story",
         "global_percent": 12.4,
-        "source": "heuristic",
+        "source": "steamhunters",
+        "filtered": true,
         "sh_achievement_id": 31
       },
       "no_marker_reason": null,
-      "story_tag_count": 0,
-      "checked_at": "2026-09-11T12:23:50.196Z"
+      "story_tag_count": 15,
+      "checked_at": "2026-09-11T13:53:00.594Z"
     },
     "1822910": {
       "marker": null,
@@ -3416,7 +3523,7 @@
       "marker": null,
       "no_marker_reason": "no_marker_found",
       "story_tag_count": 0,
-      "checked_at": "2026-09-11T13:36:45.184Z"
+      "checked_at": "2026-09-11T13:47:19.139Z"
     },
     "1882500": {
       "marker": {
@@ -3429,7 +3536,7 @@
       },
       "no_marker_reason": null,
       "story_tag_count": 0,
-      "checked_at": "2026-09-11T13:36:24.582Z"
+      "checked_at": "2026-09-11T13:46:56.026Z"
     },
     "1883260": {
       "marker": null,
@@ -3555,13 +3662,21 @@
       "marker": null,
       "no_marker_reason": "no_marker_found",
       "story_tag_count": 0,
-      "checked_at": "2026-09-11T13:36:47.541Z"
+      "checked_at": "2026-09-11T13:47:21.993Z"
     },
     "1924360": {
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0,
-      "checked_at": "2026-09-11T12:23:27.068Z"
+      "marker": {
+        "apiname": "CompleteLevel11",
+        "name": "The Final Countdown",
+        "description": "Completed Level 11",
+        "global_percent": 28.6,
+        "source": "steamhunters",
+        "filtered": true,
+        "sh_achievement_id": 10
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 10,
+      "checked_at": "2026-09-11T13:52:53.786Z"
     },
     "1924430": {
       "marker": null,
@@ -3599,7 +3714,7 @@
       "marker": null,
       "no_marker_reason": "no_marker_found",
       "story_tag_count": 0,
-      "checked_at": "2026-09-11T13:36:46.381Z"
+      "checked_at": "2026-09-11T13:47:20.550Z"
     },
     "1934680": {
       "marker": {
@@ -3636,22 +3751,23 @@
     },
     "1954200": {
       "marker": {
-        "apiname": "ACH_DIFFICULTY_MASTER",
-        "name": "Master Spirit Guide",
-        "description": "Beat the game on Master difficulty.",
-        "global_percent": 3,
-        "source": "heuristic",
-        "sh_achievement_id": 41
+        "apiname": "ACH_BOSS_ROT_GOD",
+        "name": "Restore Balance",
+        "description": "Defeat the Corrupted Rot God.",
+        "global_percent": 23.7,
+        "source": "steamhunters",
+        "filtered": true,
+        "sh_achievement_id": 21
       },
       "no_marker_reason": null,
-      "story_tag_count": 0,
-      "checked_at": "2026-09-11T12:23:57.020Z"
+      "story_tag_count": 21,
+      "checked_at": "2026-09-11T13:53:20.325Z"
     },
     "1959390": {
       "marker": null,
       "no_marker_reason": "no_marker_found",
       "story_tag_count": 0,
-      "checked_at": "2026-09-11T13:36:44.035Z"
+      "checked_at": "2026-09-11T13:47:17.773Z"
     },
     "1966220": {
       "marker": {
@@ -3771,7 +3887,7 @@
       "marker": null,
       "no_marker_reason": "no_marker_found",
       "story_tag_count": 0,
-      "checked_at": "2026-09-11T13:36:41.610Z"
+      "checked_at": "2026-09-11T13:47:14.725Z"
     },
     "1999520": {
       "marker": {
@@ -4025,7 +4141,7 @@
       "marker": null,
       "no_marker_reason": "no_marker_found",
       "story_tag_count": 0,
-      "checked_at": "2026-09-11T13:36:07.826Z"
+      "checked_at": "2026-09-11T13:46:37.196Z"
     },
     "2132450": {
       "marker": null,
@@ -4073,10 +4189,18 @@
       "checked_at": "2026-08-24T20:12:25.296Z"
     },
     "2208920": {
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0,
-      "checked_at": "2026-09-11T13:36:05.474Z"
+      "marker": {
+        "apiname": "ACValhalla_Ach_11",
+        "name": "England Subdued",
+        "description": "Complete Hamtunscire Arc",
+        "global_percent": 9.1,
+        "source": "steamhunters",
+        "filtered": true,
+        "sh_achievement_id": 11
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 13,
+      "checked_at": "2026-09-11T13:52:44.089Z"
     },
     "2214880": {
       "marker": {
@@ -4676,7 +4800,7 @@
       "marker": null,
       "no_marker_reason": "no_marker_found",
       "story_tag_count": 0,
-      "checked_at": "2026-09-11T13:36:39.118Z"
+      "checked_at": "2026-09-11T13:47:11.885Z"
     },
     "2589500": {
       "marker": null,
@@ -4722,19 +4846,19 @@
       "marker": null,
       "no_marker_reason": "no_marker_found",
       "story_tag_count": 0,
-      "checked_at": "2026-09-11T13:36:40.348Z"
+      "checked_at": "2026-09-11T13:47:13.265Z"
     },
     "2653940": {
       "marker": null,
       "no_marker_reason": "no_marker_found",
       "story_tag_count": 0,
-      "checked_at": "2026-09-11T13:36:31.699Z"
+      "checked_at": "2026-09-11T13:47:03.918Z"
     },
     "2658470": {
       "marker": null,
       "no_marker_reason": "no_marker_found",
       "story_tag_count": 0,
-      "checked_at": "2026-09-11T13:36:42.850Z"
+      "checked_at": "2026-09-11T13:47:16.276Z"
     },
     "2661300": {
       "marker": null,
@@ -4807,10 +4931,18 @@
       "checked_at": "2026-08-24T20:07:02.024Z"
     },
     "2702170": {
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0,
-      "checked_at": "2026-09-11T12:24:12.593Z"
+      "marker": {
+        "apiname": "10_FINAL_ACHIEVEMENT",
+        "name": "Strange Jigsaws",
+        "description": "Solved Strange Jigsaws",
+        "global_percent": 61.1,
+        "source": "steamhunters",
+        "filtered": true,
+        "sh_achievement_id": 8
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 10,
+      "checked_at": "2026-09-11T13:53:27.119Z"
     },
     "2713000": {
       "marker": null,
@@ -4822,7 +4954,7 @@
       "marker": null,
       "no_marker_reason": "no_marker_found",
       "story_tag_count": 0,
-      "checked_at": "2026-09-11T13:36:53.539Z"
+      "checked_at": "2026-09-11T13:47:29.167Z"
     },
     "2717750": {
       "marker": {
@@ -4979,12 +5111,13 @@
         "name": "70K",
         "description": "Beat the game.",
         "global_percent": 62.5,
-        "source": "heuristic",
+        "source": "steamhunters",
+        "filtered": true,
         "sh_achievement_id": 1
       },
       "no_marker_reason": null,
-      "story_tag_count": 0,
-      "checked_at": "2026-09-11T12:25:20.365Z"
+      "story_tag_count": 1,
+      "checked_at": "2026-09-11T13:53:56.638Z"
     },
     "2840250": {
       "marker": {
@@ -5030,7 +5163,7 @@
       "marker": null,
       "no_marker_reason": "no_marker_found",
       "story_tag_count": 0,
-      "checked_at": "2026-09-11T13:36:52.376Z"
+      "checked_at": "2026-09-11T13:47:27.770Z"
     },
     "2908050": {
       "marker": {
@@ -5193,7 +5326,7 @@
       },
       "no_marker_reason": null,
       "story_tag_count": 0,
-      "checked_at": "2026-09-11T13:36:13.837Z"
+      "checked_at": "2026-09-11T13:46:43.654Z"
     },
     "3069810": {
       "marker": null,
@@ -5358,10 +5491,18 @@
       "checked_at": "2026-08-24T20:10:05.205Z"
     },
     "3326230": {
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0,
-      "checked_at": "2026-09-11T13:36:10.284Z"
+      "marker": {
+        "apiname": "LightHouse",
+        "name": "Lighthouse",
+        "description": "Complete the Lighthouse level",
+        "global_percent": 31.2,
+        "source": "steamhunters",
+        "filtered": true,
+        "sh_achievement_id": 9
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 9,
+      "checked_at": "2026-09-11T13:52:50.426Z"
     },
     "3340810": {
       "marker": {
@@ -5445,7 +5586,7 @@
       "marker": null,
       "no_marker_reason": "no_marker_found",
       "story_tag_count": 0,
-      "checked_at": "2026-09-11T13:36:16.338Z"
+      "checked_at": "2026-09-11T13:46:46.542Z"
     },
     "3417120": {
       "marker": null,
@@ -5550,7 +5691,7 @@
       "marker": null,
       "no_marker_reason": "no_marker_found",
       "story_tag_count": 0,
-      "checked_at": "2026-09-11T13:36:17.600Z"
+      "checked_at": "2026-09-11T13:46:48.110Z"
     },
     "3615160": {
       "marker": null,
@@ -5565,10 +5706,18 @@
       "checked_at": "2026-09-11T12:24:08.400Z"
     },
     "3636770": {
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0,
-      "checked_at": "2026-09-11T12:23:53.388Z"
+      "marker": {
+        "apiname": "D3_N_M_CAchievement",
+        "name": "The Departure",
+        "description": "Night, Day 3",
+        "global_percent": 76.3,
+        "source": "steamhunters",
+        "filtered": true,
+        "sh_achievement_id": 48
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 24,
+      "checked_at": "2026-09-11T13:53:16.823Z"
     },
     "3669870": {
       "marker": null,
@@ -5756,7 +5905,7 @@
       "beaten": true,
       "unlock_time": 1779023852,
       "no_data_reason": null,
-      "checked_at": "2026-09-11T13:36:54.642Z"
+      "checked_at": "2026-09-11T13:47:30.388Z"
     },
     "76561198047330685::1659420": {
       "beaten": false,
@@ -5806,6 +5955,12 @@
       "no_data_reason": null,
       "checked_at": "2026-08-24T17:40:30.255Z"
     },
+    "76561198453663783::2208920": {
+      "beaten": true,
+      "unlock_time": 1770445676,
+      "no_data_reason": null,
+      "checked_at": "2026-09-11T13:53:57.862Z"
+    },
     "76561198075940587::835960": {
       "beaten": true,
       "unlock_time": 1760711352,
@@ -5847,6 +6002,12 @@
       "unlock_time": 1751409671,
       "no_data_reason": null,
       "checked_at": "2026-08-24T17:40:38.136Z"
+    },
+    "76561199036747433::1466060": {
+      "beaten": true,
+      "unlock_time": 1780828577,
+      "no_data_reason": null,
+      "checked_at": "2026-09-11T13:53:59.154Z"
     },
     "76561199036747433::1659420": {
       "beaten": false,
@@ -5950,11 +6111,17 @@
       "no_data_reason": null,
       "checked_at": "2026-09-11T12:25:31.670Z"
     },
+    "76561198024970451::3326230": {
+      "beaten": true,
+      "unlock_time": 1779463763,
+      "no_data_reason": null,
+      "checked_at": "2026-09-11T13:54:00.347Z"
+    },
     "76561198024970451::557600": {
       "beaten": true,
       "unlock_time": 1773059671,
       "no_data_reason": null,
-      "checked_at": "2026-09-11T13:36:55.751Z"
+      "checked_at": "2026-09-11T13:47:31.604Z"
     },
     "76561198024970451::1820470": {
       "beaten": false,
@@ -6044,13 +6211,13 @@
       "beaten": true,
       "unlock_time": 1776213527,
       "no_data_reason": null,
-      "checked_at": "2026-09-11T13:36:56.837Z"
+      "checked_at": "2026-09-11T13:47:32.828Z"
     },
     "76561198025173613::1206430": {
       "beaten": true,
       "unlock_time": 1774067408,
       "no_data_reason": null,
-      "checked_at": "2026-09-11T13:36:57.976Z"
+      "checked_at": "2026-09-11T13:47:34.049Z"
     },
     "76561198025173613::1659420": {
       "beaten": false,
@@ -6254,7 +6421,7 @@
       "beaten": true,
       "unlock_time": 1768328485,
       "no_data_reason": null,
-      "checked_at": "2026-09-11T13:36:59.163Z"
+      "checked_at": "2026-09-11T13:47:35.355Z"
     },
     "76561198113581790::3244220": {
       "beaten": true,
@@ -6376,6 +6543,12 @@
       "no_data_reason": null,
       "checked_at": "2026-08-24T17:42:01.078Z"
     },
+    "76561198041749780::1924360": {
+      "beaten": true,
+      "unlock_time": 1775316109,
+      "no_data_reason": null,
+      "checked_at": "2026-09-11T13:54:01.561Z"
+    },
     "76561198041749780::3035120": {
       "beaten": true,
       "unlock_time": 1768680671,
@@ -6477,6 +6650,12 @@
       "unlock_time": 1785790689,
       "no_data_reason": null,
       "checked_at": "2026-08-24T17:42:18.400Z"
+    },
+    "76561198054649894::1297900": {
+      "beaten": true,
+      "unlock_time": 1786867808,
+      "no_data_reason": null,
+      "checked_at": "2026-09-11T13:54:02.777Z"
     },
     "76561198054649894::851850": {
       "beaten": true,
@@ -6830,13 +7009,13 @@
       "beaten": true,
       "unlock_time": 1780056869,
       "no_data_reason": null,
-      "checked_at": "2026-09-11T13:37:00.348Z"
+      "checked_at": "2026-09-11T13:47:36.551Z"
     },
     "76561197981107149::1822030": {
       "beaten": true,
       "unlock_time": 1762297480,
       "no_data_reason": null,
-      "checked_at": "2026-09-11T12:26:36.230Z"
+      "checked_at": "2026-09-11T13:54:04.094Z"
     },
     "76561197981107149::894020": {
       "beaten": false,
@@ -6873,6 +7052,12 @@
       "unlock_time": 1761232801,
       "no_data_reason": null,
       "checked_at": "2026-08-24T17:43:30.380Z"
+    },
+    "76561198347852739::1629520": {
+      "beaten": true,
+      "unlock_time": 1769688750,
+      "no_data_reason": null,
+      "checked_at": "2026-09-11T13:54:05.330Z"
     },
     "76561198347852739::1172380": {
       "beaten": true,
@@ -6976,6 +7161,18 @@
       "no_data_reason": null,
       "checked_at": "2026-08-24T19:33:02.693Z"
     },
+    "76561198002504847::1924360": {
+      "beaten": true,
+      "unlock_time": 1772230203,
+      "no_data_reason": null,
+      "checked_at": "2026-09-11T13:54:06.539Z"
+    },
+    "76561198002504847::1817070": {
+      "beaten": true,
+      "unlock_time": 1768134839,
+      "no_data_reason": null,
+      "checked_at": "2026-09-11T13:54:07.839Z"
+    },
     "76561198002504847::1868140": {
       "beaten": true,
       "unlock_time": 1751731783,
@@ -7036,11 +7233,29 @@
       "no_data_reason": null,
       "checked_at": "2026-08-24T17:44:07.352Z"
     },
+    "76561198143588240::288160": {
+      "beaten": true,
+      "unlock_time": 1778331559,
+      "no_data_reason": null,
+      "checked_at": "2026-09-11T13:54:09.074Z"
+    },
+    "76561198143588240::702680": {
+      "beaten": true,
+      "unlock_time": 1773987364,
+      "no_data_reason": null,
+      "checked_at": "2026-09-11T13:54:10.298Z"
+    },
     "76561198143588240::3244220": {
       "beaten": true,
       "unlock_time": 1772927135,
       "no_data_reason": null,
-      "checked_at": "2026-09-11T13:37:01.425Z"
+      "checked_at": "2026-09-11T13:47:37.790Z"
+    },
+    "76561198035801987::3636770": {
+      "beaten": true,
+      "unlock_time": 1788006590,
+      "no_data_reason": null,
+      "checked_at": "2026-09-11T13:54:11.488Z"
     },
     "76561198035801987::377840": {
       "beaten": true,
@@ -7049,10 +7264,10 @@
       "checked_at": "2026-09-11T12:26:50.254Z"
     },
     "76561198035801987::1954200": {
-      "beaten": false,
-      "unlock_time": null,
+      "beaten": true,
+      "unlock_time": 1783763226,
       "no_data_reason": null,
-      "checked_at": "2026-09-11T12:26:51.506Z"
+      "checked_at": "2026-09-11T13:54:12.687Z"
     },
     "76561198035801987::1313140": {
       "beaten": true,
@@ -7067,10 +7282,10 @@
       "checked_at": "2026-09-11T12:26:53.972Z"
     },
     "76561198035801987::1170060": {
-      "beaten": false,
-      "unlock_time": null,
+      "beaten": true,
+      "unlock_time": 1777889129,
       "no_data_reason": null,
-      "checked_at": "2026-09-11T12:26:55.195Z"
+      "checked_at": "2026-09-11T13:54:13.929Z"
     },
     "76561198035801987::2062430": {
       "beaten": true,
@@ -7089,6 +7304,12 @@
       "unlock_time": 1767814294,
       "no_data_reason": null,
       "checked_at": "2026-09-11T12:26:58.822Z"
+    },
+    "76561198035801987::2702170": {
+      "beaten": true,
+      "unlock_time": 1763250979,
+      "no_data_reason": null,
+      "checked_at": "2026-09-11T13:54:15.172Z"
     },
     "76561198035801987::1693980": {
       "beaten": true,
@@ -7178,7 +7399,7 @@
       "beaten": true,
       "unlock_time": 1771409777,
       "no_data_reason": null,
-      "checked_at": "2026-09-11T13:37:02.525Z"
+      "checked_at": "2026-09-11T13:47:39.056Z"
     },
     "76561198069420656::557600": {
       "beaten": true,
@@ -7246,6 +7467,12 @@
       "no_data_reason": null,
       "checked_at": "2026-09-11T12:27:07.291Z"
     },
+    "76561198069420656::223810": {
+      "beaten": true,
+      "unlock_time": 1762864843,
+      "no_data_reason": null,
+      "checked_at": "2026-09-11T13:54:16.447Z"
+    },
     "76561198069420656::953490": {
       "beaten": true,
       "unlock_time": 1760994935,
@@ -7280,7 +7507,7 @@
       "beaten": true,
       "unlock_time": 1774797469,
       "no_data_reason": null,
-      "checked_at": "2026-09-11T13:37:03.687Z"
+      "checked_at": "2026-09-11T13:47:40.409Z"
     },
     "76561198452519450::1967430": {
       "beaten": true,
@@ -7317,6 +7544,12 @@
       "unlock_time": 1775990309,
       "no_data_reason": null,
       "checked_at": "2026-08-24T17:44:48.103Z"
+    },
+    "76561197975099685::1310410": {
+      "beaten": true,
+      "unlock_time": 1772668253,
+      "no_data_reason": null,
+      "checked_at": "2026-09-11T13:54:17.651Z"
     },
     "76561197975099685::1492680": {
       "beaten": true,
@@ -7508,7 +7741,7 @@
       "beaten": true,
       "unlock_time": 1774198975,
       "no_data_reason": null,
-      "checked_at": "2026-09-11T13:37:04.783Z"
+      "checked_at": "2026-09-11T13:47:41.598Z"
     },
     "76561198079289651::1332010": {
       "beaten": true,
@@ -7527,6 +7760,12 @@
       "unlock_time": 1785243165,
       "no_data_reason": null,
       "checked_at": "2026-08-24T17:45:14.103Z"
+    },
+    "76561198027595057::1145350": {
+      "beaten": true,
+      "unlock_time": 1786483728,
+      "no_data_reason": null,
+      "checked_at": "2026-09-11T13:54:19.005Z"
     },
     "76561198027595057::2420660": {
       "beaten": true,
@@ -7634,7 +7873,7 @@
       "beaten": true,
       "unlock_time": 1769113305,
       "no_data_reason": null,
-      "checked_at": "2026-09-11T13:37:06.014Z"
+      "checked_at": "2026-09-11T13:47:42.794Z"
     },
     "76561197994025244::1172380": {
       "beaten": true,
@@ -7718,13 +7957,13 @@
       "beaten": true,
       "unlock_time": 1776465369,
       "no_data_reason": null,
-      "checked_at": "2026-09-11T13:37:07.098Z"
+      "checked_at": "2026-09-11T13:47:44.016Z"
     },
     "76561198048462370::1622910": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-11T13:37:08.184Z"
+      "checked_at": "2026-09-11T13:47:45.386Z"
     },
     "76561198048462370::1271400": {
       "beaten": true,
@@ -7894,6 +8133,12 @@
       "no_data_reason": null,
       "checked_at": "2026-08-24T17:46:15.794Z"
     },
+    "76561198054324521::1253920": {
+      "beaten": true,
+      "unlock_time": 1772806392,
+      "no_data_reason": null,
+      "checked_at": "2026-09-11T13:54:20.207Z"
+    },
     "76561198054324521::2407270": {
       "beaten": true,
       "unlock_time": 1758725808,
@@ -7922,7 +8167,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-11T13:37:09.384Z"
+      "checked_at": "2026-09-11T13:47:46.639Z"
     },
     "76561198001969728::1332010": {
       "beaten": true,
@@ -7970,13 +8215,13 @@
       "beaten": true,
       "unlock_time": 1771633324,
       "no_data_reason": null,
-      "checked_at": "2026-09-11T13:37:10.520Z"
+      "checked_at": "2026-09-11T13:47:47.841Z"
     },
     "76561198118320246::1390350": {
       "beaten": true,
       "unlock_time": 1771546379,
       "no_data_reason": null,
-      "checked_at": "2026-09-11T13:37:11.596Z"
+      "checked_at": "2026-09-11T13:47:49.048Z"
     },
     "76561198118320246::1622910": {
       "beaten": false,
@@ -8036,7 +8281,7 @@
       "beaten": true,
       "unlock_time": 1769013074,
       "no_data_reason": null,
-      "checked_at": "2026-09-11T13:37:12.694Z"
+      "checked_at": "2026-09-11T13:47:50.233Z"
     },
     "76561197991280042::2725260": {
       "beaten": true,
@@ -8090,7 +8335,7 @@
       "beaten": true,
       "unlock_time": 1768497106,
       "no_data_reason": null,
-      "checked_at": "2026-09-11T13:37:13.785Z"
+      "checked_at": "2026-09-11T13:47:51.436Z"
     },
     "76561199067998064::1574820": {
       "beaten": false,
@@ -8126,7 +8371,7 @@
       "beaten": true,
       "unlock_time": 1771901572,
       "no_data_reason": null,
-      "checked_at": "2026-09-11T13:37:14.875Z"
+      "checked_at": "2026-09-11T13:47:52.650Z"
     },
     "76561198017660760::1819460": {
       "beaten": true,
@@ -8138,7 +8383,7 @@
       "beaten": true,
       "unlock_time": 1771571298,
       "no_data_reason": null,
-      "checked_at": "2026-09-11T13:37:16.015Z"
+      "checked_at": "2026-09-11T13:47:53.850Z"
     },
     "76561198017660760::1623940": {
       "beaten": true,
@@ -8186,13 +8431,13 @@
       "beaten": true,
       "unlock_time": 1773298851,
       "no_data_reason": null,
-      "checked_at": "2026-09-11T13:37:17.094Z"
+      "checked_at": "2026-09-11T13:47:55.172Z"
     },
     "76561197989280149::1196590": {
       "beaten": true,
       "unlock_time": 1771307256,
       "no_data_reason": null,
-      "checked_at": "2026-09-11T13:37:18.182Z"
+      "checked_at": "2026-09-11T13:47:56.419Z"
     },
     "76561197989280149::1373960": {
       "beaten": true,
@@ -8214,9 +8459,9 @@
     },
     "76561197989280149::601430": {
       "beaten": true,
-      "unlock_time": 1769114195,
+      "unlock_time": 1768072728,
       "no_data_reason": null,
-      "checked_at": "2026-09-11T13:37:19.273Z"
+      "checked_at": "2026-09-11T13:54:21.519Z"
     },
     "76561197989280149::1659420": {
       "beaten": false,
@@ -8228,7 +8473,7 @@
       "beaten": true,
       "unlock_time": 1769637429,
       "no_data_reason": null,
-      "checked_at": "2026-09-11T13:37:20.377Z"
+      "checked_at": "2026-09-11T13:47:58.855Z"
     },
     "76561197989280149::894020": {
       "beaten": true,
@@ -8324,13 +8569,13 @@
       "beaten": true,
       "unlock_time": 1771209096,
       "no_data_reason": null,
-      "checked_at": "2026-09-11T13:37:21.526Z"
+      "checked_at": "2026-09-11T13:48:00.080Z"
     },
     "76561198089973992::2062430": {
       "beaten": true,
       "unlock_time": 1768385281,
       "no_data_reason": null,
-      "checked_at": "2026-09-11T13:37:22.667Z"
+      "checked_at": "2026-09-11T13:48:01.300Z"
     },
     "76561198089973992::2475490": {
       "beaten": true,
@@ -8414,19 +8659,19 @@
       "beaten": true,
       "unlock_time": 1774853179,
       "no_data_reason": null,
-      "checked_at": "2026-09-11T13:37:23.842Z"
+      "checked_at": "2026-09-11T13:48:02.489Z"
     },
     "76561198080362358::1206430": {
       "beaten": true,
       "unlock_time": 1773453919,
       "no_data_reason": null,
-      "checked_at": "2026-09-11T13:37:24.974Z"
+      "checked_at": "2026-09-11T13:48:03.821Z"
     },
     "76561198080362358::359510": {
       "beaten": true,
       "unlock_time": 1776153282,
       "no_data_reason": null,
-      "checked_at": "2026-09-11T13:37:26.059Z"
+      "checked_at": "2026-09-11T13:48:05.027Z"
     },
     "76561198080362358::2461850": {
       "beaten": true,
@@ -8444,7 +8689,7 @@
       "beaten": true,
       "unlock_time": 1776627582,
       "no_data_reason": null,
-      "checked_at": "2026-09-11T13:37:27.156Z"
+      "checked_at": "2026-09-11T13:48:06.222Z"
     },
     "76561198077347875::2378620": {
       "beaten": true,
@@ -8476,6 +8721,18 @@
       "no_data_reason": null,
       "checked_at": "2026-09-11T12:27:57.588Z"
     },
+    "76561198077347875::1634080": {
+      "beaten": true,
+      "unlock_time": 1776156652,
+      "no_data_reason": null,
+      "checked_at": "2026-09-11T13:54:22.726Z"
+    },
+    "76561198077347875::1283410": {
+      "beaten": true,
+      "unlock_time": 1778873313,
+      "no_data_reason": null,
+      "checked_at": "2026-09-11T13:54:23.932Z"
+    },
     "76561198077347875::1286990": {
       "beaten": false,
       "unlock_time": null,
@@ -8486,7 +8743,7 @@
       "beaten": true,
       "unlock_time": 1768410234,
       "no_data_reason": null,
-      "checked_at": "2026-09-11T13:37:28.267Z"
+      "checked_at": "2026-09-11T13:48:07.426Z"
     },
     "76561198089693705::3751950": {
       "beaten": false,
@@ -8498,7 +8755,7 @@
       "beaten": true,
       "unlock_time": 1771810549,
       "no_data_reason": null,
-      "checked_at": "2026-09-11T13:37:29.382Z"
+      "checked_at": "2026-09-11T13:48:08.627Z"
     },
     "76561198089693705::433340": {
       "beaten": true,
@@ -8618,7 +8875,7 @@
       "beaten": true,
       "unlock_time": 1771761131,
       "no_data_reason": null,
-      "checked_at": "2026-09-11T13:37:30.509Z"
+      "checked_at": "2026-09-11T13:48:09.843Z"
     },
     "76561198049128535::1903340": {
       "beaten": true,
@@ -8684,7 +8941,13 @@
       "beaten": true,
       "unlock_time": 1770566712,
       "no_data_reason": null,
-      "checked_at": "2026-09-11T13:37:31.590Z"
+      "checked_at": "2026-09-11T13:48:11.166Z"
+    },
+    "76561198183406253::1274600": {
+      "beaten": true,
+      "unlock_time": 1771675722,
+      "no_data_reason": null,
+      "checked_at": "2026-09-11T13:54:25.139Z"
     },
     "76561198343020214::1313140": {
       "beaten": false,
@@ -9170,7 +9433,7 @@
       "beaten": true,
       "unlock_time": 1759745919,
       "no_data_reason": null,
-      "checked_at": "2026-09-11T12:28:56.244Z"
+      "checked_at": "2026-09-11T13:54:26.414Z"
     },
     "76561198067436079::359510": {
       "beaten": true,
@@ -9248,7 +9511,7 @@
       "beaten": true,
       "unlock_time": 1776273157,
       "no_data_reason": null,
-      "checked_at": "2026-09-11T13:37:32.695Z"
+      "checked_at": "2026-09-11T13:48:12.357Z"
     },
     "76561198076648919::1172380": {
       "beaten": true,
@@ -9374,7 +9637,7 @@
       "beaten": true,
       "unlock_time": 1769046914,
       "no_data_reason": null,
-      "checked_at": "2026-09-11T13:37:33.789Z"
+      "checked_at": "2026-09-11T13:48:13.565Z"
     },
     "76561199438702936::1681430": {
       "beaten": true,
