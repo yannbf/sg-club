@@ -4,6 +4,7 @@ import './globals.css'
 import { ThemeProvider } from '@/components/ThemeProvider'
 import { SiteHeader } from '@/components/SiteHeader'
 import { AuthProvider } from '@/lib/auth'
+import { authHintScript } from '@/lib/auth-hint'
 import { Analytics } from '@vercel/analytics/next'
 
 const inter = Inter({
@@ -38,6 +39,7 @@ export default function RootLayout({
       className={`${inter.variable} ${jetbrains.variable}`}
     >
       <body className="min-h-screen bg-background font-sans text-foreground antialiased">
+        <script dangerouslySetInnerHTML={{ __html: authHintScript }} />
         <ThemeProvider
           attribute="data-theme"
           defaultTheme="dark"

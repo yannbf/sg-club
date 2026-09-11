@@ -83,8 +83,6 @@ export function SiteHeader() {
   const [open, setOpen] = React.useState(false)
   const { user, isAdmin, isReady, logout, viewAs, setViewAs } = useAuth()
 
-  const visibleNav = NAV.filter((item) => !item.adminOnly || isAdmin)
-
   return (
     <header className="sticky top-0 z-40 w-full border-b border-card-border bg-background/85 backdrop-blur supports-[backdrop-filter]:bg-background/65">
       {viewAs && (
@@ -129,13 +127,14 @@ export function SiteHeader() {
         </Link>
 
         <nav className="ml-auto hidden items-center gap-1 lg:flex">
-          {visibleNav.map((item) => {
+          {NAV.map((item) => {
             const active = isActive(pathname, item.href)
             const Icon = item.icon
             return (
               <Link
                 key={item.href}
                 href={item.href}
+                {...(item.adminOnly ? { 'data-admin-only': '' } : {})}
                 className={cn(
                   'group inline-flex h-9 items-center gap-1.5 rounded-md px-3 text-sm font-medium transition-colors',
                   active
@@ -156,44 +155,51 @@ export function SiteHeader() {
         </nav>
 
         <div className="ml-auto flex items-center gap-2 lg:ml-0">
-          {isReady &&
-            (user ? (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <button
-                    type="button"
-                    className="hidden h-9 items-center gap-1.5 rounded-md border border-card-border bg-card-background px-2 text-xs font-medium text-muted-foreground transition-colors hover:bg-card-background-hover hover:text-foreground sm:inline-flex"
-                  >
-                    <UserAvatarIcon avatarUrl={user.avatarUrl} />
-                    {user.username ?? user.steamId}
-                  </button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuItem asChild>
-                    <Link href="/me/">My profile</Link>
+          {user ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button
+                  type="button"
+                  data-signed-in-only=""
+                  className="hidden h-9 items-center gap-1.5 rounded-md border border-card-border bg-card-background px-2 text-xs font-medium text-muted-foreground transition-colors hover:bg-card-background-hover hover:text-foreground sm:inline-flex"
+                >
+                  <UserAvatarIcon avatarUrl={user.avatarUrl} />
+                  {user.username ?? user.steamId}
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem asChild>
+                  <Link href="/me/">My profile</Link>
+                </DropdownMenuItem>
+                {isAdmin && (
+                  <DropdownMenuItem disabled className="text-primary-hi">
+                    <Shield className="h-3.5 w-3.5" />
+                    Admin
                   </DropdownMenuItem>
-                  {isAdmin && (
-                    <DropdownMenuItem disabled className="text-primary-hi">
-                      <Shield className="h-3.5 w-3.5" />
-                      Admin
-                    </DropdownMenuItem>
-                  )}
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem onSelect={() => logout()}>
-                    <LogOut className="h-3.5 w-3.5" />
-                    Sign out
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            ) : (
-              <Link
-                href="/login"
-                className="hidden h-9 items-center gap-1.5 rounded-md border border-card-border bg-card-background px-2.5 text-xs font-medium text-muted-foreground transition-colors hover:bg-card-background-hover hover:text-foreground sm:inline-flex"
-              >
-                <LogIn className="h-3.5 w-3.5" />
-                Sign in
-              </Link>
-            ))}
+                )}
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onSelect={() => logout()}>
+                  <LogOut className="h-3.5 w-3.5" />
+                  Sign out
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <span
+              data-signed-in-only=""
+              className="hidden h-9 items-center gap-1.5 rounded-md border border-card-border bg-card-background px-2 text-xs font-medium text-muted-foreground sm:inline-flex"
+            >
+              <UserAvatarIcon avatarUrl={null} />
+            </span>
+          )}
+          <Link
+            href="/login"
+            data-signed-out-only=""
+            className="hidden h-9 items-center gap-1.5 rounded-md border border-card-border bg-card-background px-2.5 text-xs font-medium text-muted-foreground transition-colors hover:bg-card-background-hover hover:text-foreground sm:inline-flex"
+          >
+            <LogIn className="h-3.5 w-3.5" />
+            Sign in
+          </Link>
           <ThemeToggle />
           <button
             type="button"
@@ -215,7 +221,7 @@ export function SiteHeader() {
         )}
       >
         <nav className="mx-auto flex max-w-screen-2xl flex-col gap-1 p-3">
-          {visibleNav.map((item) => {
+          {NAV.map((item) => {
             const active = isActive(pathname, item.href)
             const Icon = item.icon
             return (
@@ -223,6 +229,7 @@ export function SiteHeader() {
                 key={item.href}
                 href={item.href}
                 onClick={() => setOpen(false)}
+                {...(item.adminOnly ? { 'data-admin-only': '' } : {})}
                 className={cn(
                   'inline-flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors',
                   active

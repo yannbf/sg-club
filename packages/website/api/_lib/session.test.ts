@@ -3,6 +3,8 @@ import { beforeEach, describe, expect, it } from 'vitest'
 import {
   appendSetCookie,
   clearedCookie,
+  decodeUiHintFlags,
+  encodeUiHint,
   getSessionSteamId,
   parseCookies,
   serializeCookie,
@@ -137,5 +139,34 @@ describe('getSessionSteamId', () => {
 
   it('returns null with an invalid session', () => {
     expect(getSessionSteamId(fakeRequest('sg_session=garbage'))).toBeNull()
+  })
+})
+
+describe('encodeUiHint / decodeUiHintFlags', () => {
+  it('encodes to 17 lowercase hex characters', () => {
+    const value = encodeUiHint('76561198000000001', false)
+    expect(value).toMatch(/^[0-9a-f]{17}$/)
+  })
+
+  it('round-trips the member flag', () => {
+    const value = encodeUiHint('76561198000000001', false)
+    expect(decodeUiHintFlags(value)).toBe(1)
+  })
+
+  it('round-trips the admin flag', () => {
+    const value = encodeUiHint('76561198000000001', true)
+    expect(decodeUiHintFlags(value)).toBe(3)
+  })
+
+  it('produces different values for different steam ids', () => {
+    const a = encodeUiHint('76561198000000001', false)
+    const b = encodeUiHint('76561198000000002', false)
+    expect(a).not.toBe(b)
+  })
+
+  it('decodes a non-matching string to 0', () => {
+    expect(decodeUiHintFlags('not-a-valid-hint')).toBe(0)
+    expect(decodeUiHintFlags('')).toBe(0)
+    expect(decodeUiHintFlags('abcdef0123456789Z')).toBe(0)
   })
 })

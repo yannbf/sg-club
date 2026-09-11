@@ -2,7 +2,7 @@
 // api/discord/interactions.ts for why). Clears the session cookie.
 
 import type { IncomingMessage, ServerResponse } from 'node:http'
-import { appendSetCookie, clearedSessionCookie } from '../_lib/session.js'
+import { appendSetCookie, clearedSessionCookie, clearedUiHintCookie } from '../_lib/session.js'
 import { isSecureRequest } from '../_lib/site-origin.js'
 
 export default async function handler(req: IncomingMessage, res: ServerResponse): Promise<void> {
@@ -12,7 +12,9 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
     return
   }
 
-  appendSetCookie(res, clearedSessionCookie(isSecureRequest(req)))
+  const secure = isSecureRequest(req)
+  appendSetCookie(res, clearedSessionCookie(secure))
+  appendSetCookie(res, clearedUiHintCookie(secure))
   res.statusCode = 204
   res.end()
 }

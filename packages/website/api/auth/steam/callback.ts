@@ -16,11 +16,13 @@ import {
   NONCE_COOKIE,
   parseCookies,
   sessionCookie,
+  uiHintCookie,
 } from '../../_lib/session.js'
 import { getSiteOrigin, isSecureRequest } from '../../_lib/site-origin.js'
 import { verifySteamCallback } from '../../_lib/steam-openid.js'
 import { sanitizeNextPath } from '../../_lib/next-path.js'
 import { resolveSteamUser } from '../../_lib/auth-user.js'
+import { isAdminSteamId } from '../../_lib/constants.js'
 import { track } from '@vercel/analytics/server'
 
 const ERROR_REDIRECT = '/login/?error=steam'
@@ -92,6 +94,7 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
     await recordLogin(steamId, req.headers.host)
 
     appendSetCookie(res, sessionCookie(steamId, secure))
+    appendSetCookie(res, uiHintCookie(steamId, isAdminSteamId(steamId), secure))
     appendSetCookie(res, clearedCookie(NONCE_COOKIE, secure))
     redirect(res, next)
   } catch (err) {

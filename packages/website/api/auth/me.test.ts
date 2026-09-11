@@ -1,7 +1,7 @@
 import type { IncomingMessage, ServerResponse } from 'node:http'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import handler from './me.js'
-import { signSession } from '../_lib/session.js'
+import { encodeUiHint, signSession, UI_HINT_COOKIE } from '../_lib/session.js'
 
 const ADMIN_STEAM_ID = '76561198000000001'
 const MEMBER_STEAM_ID = '76561198000000002'
@@ -52,19 +52,30 @@ function fakeRequest(cookieHeader?: string): IncomingMessage {
   return { headers: { host: 'sg-club.vercel.app', cookie: cookieHeader } } as unknown as IncomingMessage
 }
 
-function fakeResponse(): ServerResponse & { statusCode: number; body: unknown; headers: Record<string, string> } {
+function fakeResponse(): ServerResponse & {
+  statusCode: number
+  body: unknown
+  headers: Record<string, string | string[]>
+} {
   const res = {
     statusCode: 200,
     body: undefined as unknown,
-    headers: {} as Record<string, string>,
-    setHeader(name: string, value: string) {
+    headers: {} as Record<string, string | string[]>,
+    setHeader(name: string, value: string | string[]) {
       this.headers[name] = value
+    },
+    getHeader(name: string) {
+      return this.headers[name]
     },
     end(chunk?: string) {
       if (chunk) this.body = JSON.parse(chunk)
     },
   }
-  return res as unknown as ServerResponse & { statusCode: number; body: unknown; headers: Record<string, string> }
+  return res as unknown as ServerResponse & {
+    statusCode: number
+    body: unknown
+    headers: Record<string, string | string[]>
+  }
 }
 
 beforeEach(() => {
@@ -137,5 +148,57 @@ describe('GET /api/auth/me', () => {
         isAdmin: false,
       },
     })
+  })
+})
+
+function setCookieHeaders(res: { headers: Record<string, string | string[]> }): string[] {
+  const value = res.headers['Set-Cookie']
+  if (value === undefined) return []
+  return Array.isArray(value) ? value : [value]
+}
+
+describe('GET /api/auth/me — sg_ui hint cookie', () => {
+  it('signed-in with no hint cookie gets a Set-Cookie for sg_ui', async () => {
+    const req = fakeRequest(`sg_session=${signSession(MEMBER_STEAM_ID)}`)
+    const res = fakeResponse()
+    await handler(req, res)
+    const cookies = setCookieHeaders(res)
+    expect(cookies.some((c) => c.startsWith(`${UI_HINT_COOKIE}=`))).toBe(true)
+  })
+
+  it('signed-in with a stale/wrong hint cookie gets it rewritten', async () => {
+    const req = fakeRequest(
+      `sg_session=${signSession(MEMBER_STEAM_ID)}; ${UI_HINT_COOKIE}=00000000000000000`
+    )
+    const res = fakeResponse()
+    await handler(req, res)
+    const cookies = setCookieHeaders(res)
+    expect(cookies.some((c) => c.startsWith(`${UI_HINT_COOKIE}=`))).toBe(true)
+  })
+
+  it('signed-in with the correct hint cookie gets no sg_ui Set-Cookie', async () => {
+    const hint = encodeUiHint(MEMBER_STEAM_ID, false)
+    const req = fakeRequest(`sg_session=${signSession(MEMBER_STEAM_ID)}; ${UI_HINT_COOKIE}=${hint}`)
+    const res = fakeResponse()
+    await handler(req, res)
+    const cookies = setCookieHeaders(res)
+    expect(cookies.some((c) => c.startsWith(`${UI_HINT_COOKIE}=`))).toBe(false)
+  })
+
+  it('signed-out with an sg_ui cookie gets it cleared', async () => {
+    const req = fakeRequest(`${UI_HINT_COOKIE}=deadbeefdeadbeef1`)
+    const res = fakeResponse()
+    await handler(req, res)
+    const cookies = setCookieHeaders(res)
+    const uiCookie = cookies.find((c) => c.startsWith(`${UI_HINT_COOKIE}=`))
+    expect(uiCookie).toBeDefined()
+    expect(uiCookie).toContain('Max-Age=0')
+  })
+
+  it('signed-out with no sg_ui cookie gets no Set-Cookie', async () => {
+    const req = fakeRequest()
+    const res = fakeResponse()
+    await handler(req, res)
+    expect(setCookieHeaders(res)).toEqual([])
   })
 })

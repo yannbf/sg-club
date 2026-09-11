@@ -9,6 +9,7 @@ import { getSessionSecret } from './constants.js'
 
 export const SESSION_COOKIE = 'sg_session'
 export const NONCE_COOKIE = 'sg_oid_nonce'
+export const UI_HINT_COOKIE = 'sg_ui'
 
 const DEFAULT_TTL_SECONDS = 30 * 24 * 60 * 60 // 30 days
 
@@ -156,4 +157,49 @@ export function clearedCookie(name: string, isSecure: boolean): string {
 
 export function clearedSessionCookie(isSecure: boolean): string {
   return clearedCookie(SESSION_COOKIE, isSecure)
+}
+
+/**
+ * Encodes a non-HttpOnly "UI hint" for pre-paint rendering: 17 lowercase hex
+ * chars, digest16 + tail. digest16 is the first 16 hex chars of
+ * HMAC-SHA256(SESSION_SECRET, `ui|${steamId}|${flags}`), where flags is
+ * 1 | (isAdmin ? 2 : 0). tail is flags XOR'd with the digest's first hex
+ * nibble, so the value doesn't end in a constant per role; this is not a
+ * security boundary — /me rewrites the cookie from the real session on
+ * every request where it doesn't match.
+ */
+export function encodeUiHint(steamId: string, isAdmin: boolean): string {
+  const flags = 1 | (isAdmin ? 2 : 0)
+  const digest = createHmac('sha256', getSessionSecret())
+    .update(`ui|${steamId}|${flags}`)
+    .digest('hex')
+  const digest16 = digest.slice(0, 16)
+  const tail = (flags ^ parseInt(digest16[0], 16)).toString(16)
+  return digest16 + tail
+}
+
+/** Inverse of the tail encoding in {@link encodeUiHint}; 0 for anything that doesn't match the expected shape. */
+export function decodeUiHintFlags(value: string): number {
+  if (!/^[0-9a-f]{17}$/.test(value)) return 0
+  return parseInt(value[16], 16) ^ parseInt(value[0], 16)
+}
+
+export function uiHintCookie(steamId: string, isAdmin: boolean, isSecure: boolean): string {
+  return serializeCookie(UI_HINT_COOKIE, encodeUiHint(steamId, isAdmin), {
+    maxAge: DEFAULT_TTL_SECONDS,
+    httpOnly: false,
+    secure: isSecure,
+    sameSite: 'Lax',
+    path: '/',
+  })
+}
+
+export function clearedUiHintCookie(isSecure: boolean): string {
+  return serializeCookie(UI_HINT_COOKIE, '', {
+    maxAge: 0,
+    httpOnly: false,
+    secure: isSecure,
+    sameSite: 'Lax',
+    path: '/',
+  })
 }

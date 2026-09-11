@@ -224,6 +224,24 @@
   outline: none;
 }
 
+/*
+ * The `data-auth-hint` attribute on <html> is stamped pre-paint by the
+ * inline script in the root layout, decoding the `sg_ui` cookie before
+ * AuthProvider's fetch resolves; it is later corrected to the real value
+ * once that fetch completes. Placed outside any @layer, like the recharts
+ * rules above, so `!important` reliably beats the Tailwind
+ * `sm:inline-flex` utilities on the nav/account elements it targets.
+ */
+html:not([data-auth-hint='admin']) [data-admin-only] {
+  display: none !important;
+}
+html[data-auth-hint] [data-signed-out-only] {
+  display: none !important;
+}
+html:not([data-auth-hint]) [data-signed-in-only] {
+  display: none !important;
+}
+
 @layer utilities {
   .glass {
     background: color-mix(in oklab, var(--card-background) 80%, transparent);

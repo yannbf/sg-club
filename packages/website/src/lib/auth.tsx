@@ -7,6 +7,7 @@ import {
   useEffect,
   useState,
 } from 'react'
+import { applyAuthHint, VIEW_AS_STORAGE_KEY } from './auth-hint'
 
 const LEGACY_STORAGE_KEY = 'sg-club-admin'
 const LEGACY_ADMIN_SECRET_STORAGE_KEY = 'sg-club-admin-secret'
@@ -37,8 +38,6 @@ type AuthContextValue = {
   loginWithSteam: (next?: string) => void
   logout: () => Promise<void>
 }
-
-const VIEW_AS_STORAGE_KEY = 'sg-club-view-as'
 
 function readStoredViewAs(): ViewAs | null {
   try {
@@ -156,9 +155,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
     : user
 
+  const isAdmin = effectiveUser?.isAdmin ?? false
+
+  // Authoritative correction of the pre-paint `data-auth-hint` attribute
+  // (see src/lib/auth-hint.ts) once the real session is known; also keeps
+  // it in sync with viewAs changes and logout.
+  const effectiveUserSteamId = effectiveUser?.steamId ?? null
+  useEffect(() => {
+    if (!isReady) return
+    applyAuthHint(isAdmin ? 'admin' : effectiveUserSteamId ? 'member' : null)
+  }, [isReady, isAdmin, effectiveUserSteamId])
+
   const value: AuthContextValue = {
     user: effectiveUser,
-    isAdmin: effectiveUser?.isAdmin ?? false,
+    isAdmin,
     isRealAdmin,
     isReady,
     apiUnavailable,
