@@ -9,6 +9,7 @@ import {
   type VerifyOverrideMap,
 } from '@/lib/beaten'
 import type { BeatenGamesData } from '@/types/beaten'
+import type { IpbDiscordData } from '@/types/ipb-discord'
 import type { Giveaway, User } from '@/types'
 
 function makeRow(overrides: Partial<PlayRequiredRow> = {}): PlayRequiredRow {
@@ -253,6 +254,104 @@ function makeGiveaway(overrides: Partial<Giveaway> = {}): Giveaway {
     ...overrides,
   }
 }
+
+describe('buildPlayRequiredRows — ipbStatus', () => {
+  it('is "submitted", not "verified", for a Play Required sign-off with no i_played_bro', () => {
+    const giveaway = makeGiveaway({ app_id: 1 })
+    const user = makeUser({
+      giveaways_won: [
+        {
+          name: 'Game',
+          link: giveaway.link,
+          cv_status: 'FULL_CV',
+          status: 'won',
+          end_timestamp: 0,
+          required_play: true,
+          required_play_meta: { requirements_met: true },
+        },
+      ],
+    })
+    const ipbDiscord: IpbDiscordData = {
+      last_updated: '2026-01-01T00:00:00.000Z',
+      wins: {
+        'steam1::abcde/game': {
+          thread_id: '1',
+          url: 'https://discord/1',
+          thread_name: 'Game',
+        },
+      },
+      unmatched_threads: [],
+    }
+
+    const rows = buildPlayRequiredRows({
+      memberUsers: [user],
+      exMemberUsers: [],
+      giveaways: [giveaway],
+      gameData: [],
+      beatenGames: null,
+      ipbDiscord,
+    })
+
+    expect(rows).toHaveLength(1)
+    expect(rows[0].attestation.confirmed).toBe(true)
+    expect(rows[0].ipbStatus).toBe('submitted')
+  })
+
+  it('treats a steam_forum submission entry the same as a discord one for submitted/verified', () => {
+    const giveaway = makeGiveaway({ app_id: 1 })
+    const user = makeUser({
+      giveaways_won: [
+        { name: 'Game', link: giveaway.link, cv_status: 'FULL_CV', status: 'won', end_timestamp: 0 },
+      ],
+    })
+    const ipbDiscord: IpbDiscordData = {
+      last_updated: '2026-01-01T00:00:00.000Z',
+      wins: {
+        'steam1::abcde/game': {
+          source: 'steam_forum',
+          thread_id: '123456',
+          url: 'https://steamcommunity.com/comment/1',
+          thread_name: 'Game',
+          owner_discord_name: 'winner',
+        },
+      },
+      unmatched_threads: [],
+    }
+
+    const submittedRows = buildPlayRequiredRows({
+      memberUsers: [user],
+      exMemberUsers: [],
+      giveaways: [giveaway],
+      gameData: [],
+      beatenGames: null,
+      ipbDiscord,
+    })
+    expect(submittedRows[0].ipbStatus).toBe('submitted')
+    expect(submittedRows[0].isIpb).toBe(true)
+
+    const verifiedUser = makeUser({
+      giveaways_won: [
+        {
+          name: 'Game',
+          link: giveaway.link,
+          cv_status: 'FULL_CV',
+          status: 'won',
+          end_timestamp: 0,
+          i_played_bro: true,
+        },
+      ],
+    })
+    const verifiedRows = buildPlayRequiredRows({
+      memberUsers: [verifiedUser],
+      exMemberUsers: [],
+      giveaways: [giveaway],
+      gameData: [],
+      beatenGames: null,
+      ipbDiscord,
+    })
+    expect(verifiedRows[0].ipbStatus).toBe('verified')
+  })
+})
 
 describe('buildPlayRequiredRows — beatenVerdictFor via package_resolutions', () => {
   it('resolves a package-only giveaway to its resolved app id/name instead of package_only', () => {

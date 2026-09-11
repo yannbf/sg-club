@@ -386,22 +386,27 @@ function IpbStatusBadge({
   return pendingSync ? <Tooltip content={pendingSyncTooltip(pendingSync)}>{badge}</Tooltip> : badge
 }
 
-function LinksCell({ row }: { row: PlayRequiredRow }) {
-  if (!row.discord) return <span className="text-xs text-subtle">—</span>
+/** Renders the "Discord"/"Steam" submission link plus an optional "Review" link, for a non-null `row.discord`. */
+function SubmissionLink({ entry }: { entry: NonNullable<PlayRequiredRow['discord']> }) {
+  const isSteamForum = entry.source === 'steam_forum'
   return (
     <div className="flex flex-wrap items-center gap-2">
       <a
-        href={row.discord.url}
+        href={entry.url}
         target="_blank"
         rel="noopener noreferrer"
-        className="inline-flex items-center gap-1 text-[11px] font-medium text-[#5865F2] hover:underline dark:text-[#A5AEFF]"
+        className={
+          isSteamForum
+            ? 'inline-flex items-center gap-1 text-[11px] font-medium text-[#1b2838] hover:underline dark:text-[#c7d5e0]'
+            : 'inline-flex items-center gap-1 text-[11px] font-medium text-[#5865F2] hover:underline dark:text-[#A5AEFF]'
+        }
       >
-        <MessageSquare className="h-3 w-3" />
-        Discord
+        {isSteamForum ? <ExternalLink className="h-3 w-3" /> : <MessageSquare className="h-3 w-3" />}
+        {isSteamForum ? 'Steam' : 'Discord'}
       </a>
-      {row.discord.review_url && (
+      {entry.review_url && (
         <a
-          href={row.discord.review_url}
+          href={entry.review_url}
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-1 text-[11px] font-medium text-accent hover:underline"
@@ -412,6 +417,11 @@ function LinksCell({ row }: { row: PlayRequiredRow }) {
       )}
     </div>
   )
+}
+
+function LinksCell({ row }: { row: PlayRequiredRow }) {
+  if (!row.discord) return <span className="text-xs text-subtle">—</span>
+  return <SubmissionLink entry={row.discord} />
 }
 
 function SignOffCell({ row, pendingSync }: { row: PlayRequiredRow; pendingSync?: VerifyOverrideState }) {
@@ -453,30 +463,7 @@ function SignOffCell({ row, pendingSync }: { row: PlayRequiredRow; pendingSync?:
           />
         </div>
       )}
-      {discord && (
-        <div className="flex flex-wrap items-center gap-2">
-          <a
-            href={discord.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1 text-[11px] font-medium text-[#5865F2] hover:underline dark:text-[#A5AEFF]"
-          >
-            <MessageSquare className="h-3 w-3" />
-            Discord
-          </a>
-          {discord.review_url && (
-            <a
-              href={discord.review_url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-[11px] font-medium text-accent hover:underline"
-            >
-              <ExternalLink className="h-3 w-3" />
-              Review
-            </a>
-          )}
-        </div>
-      )}
+      {discord && <SubmissionLink entry={discord} />}
     </div>
   )
 }
@@ -1255,7 +1242,7 @@ export default function PlayRequiredClient({
             type,
             action,
             giveawayId: row.giveawayLink.slice(0, 5),
-            discordThreadId: row.discord?.thread_id,
+            discordThreadId: row.discord?.source === 'steam_forum' ? undefined : row.discord?.thread_id,
             winnerSteamId: row.winner.steamId,
           }),
         })

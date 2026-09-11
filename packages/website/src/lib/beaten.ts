@@ -95,13 +95,20 @@ export interface PlayRequiredRow {
    * yet, so the site's verify flow has nothing to update until one is added.
    */
   prRegistered: boolean
-  /** `i_played_bro` flag set on the win, or a Discord submission exists for it. */
+  /**
+   * `i_played_bro` flag set on the win, or a submission entry exists for it
+   * (`discord != null`) — whether this win belongs on the "I Play Bro" tab
+   * at all. See `ipbStatus` for its submitted/verified state.
+   */
   isIpb: boolean
   /**
-   * Submitted-vs-verified status for the "I Play Bro" tab:
-   *  - `verified`: attestation.confirmed (i_played_bro or requirements_met set).
-   *  - `submitted`: not confirmed, but a Discord wins entry exists for this win.
-   *  - `not_submitted`: IPB/PR-flagged but neither confirmed nor submitted.
+   * Submitted-vs-verified status for the "I Play Bro" tab. Play Required and
+   * I Play Bro are separate verifications — this is set independently of
+   * `attestation.confirmed`, which also covers Play Required sign-off:
+   *  - `verified`: `won.i_played_bro` is set.
+   *  - `submitted`: not verified, but a submission entry exists (`discord`
+   *    is set, regardless of `source`).
+   *  - `not_submitted`: neither verified nor submitted.
    */
   ipbStatus: 'verified' | 'submitted' | 'not_submitted'
   steam: {
@@ -386,7 +393,7 @@ export function buildPlayRequiredRows(params: {
       )
 
       const confirmed = isConfirmedPlayed(won)
-      const ipbStatus: PlayRequiredRow['ipbStatus'] = confirmed
+      const ipbStatus: PlayRequiredRow['ipbStatus'] = won.i_played_bro
         ? 'verified'
         : discord
           ? 'submitted'

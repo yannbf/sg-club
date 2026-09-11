@@ -3,6 +3,7 @@
 import Image from 'next/image'
 
 import { Giveaway, GameData, User, GameBreakdownEntry, SteamIdMap, noStatsReasonLabel } from '@/types'
+import type { IpbDiscordWinEntry } from '@/types/ipb-discord'
 import { getCVBadgeColor, getCVLabel, formatPlaytime, formatPlaytimeCompact } from '@/lib/data'
 import { isConfirmedPlayed } from '@/lib/play-status'
 import { useIsAdmin } from '@/lib/auth'
@@ -43,6 +44,8 @@ interface Props {
   userAvatars: Map<string, string>
   /** Pre-enables the "Play required" filter (deep links from the Discord bot). */
   initialFilterPlayRequired?: boolean
+  /** This user's own "I Play Bro" submissions, keyed by giveaway link. */
+  ipbSubmissions?: Record<string, IpbDiscordWinEntry>
 }
 
 type WonGiveaway = NonNullable<User['giveaways_won']>[number]
@@ -130,7 +133,7 @@ function GamesBreakdown({ games, steamId }: { games: GameBreakdownEntry[]; steam
   )
 }
 
-export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData, user, steamIdMap, userAvatars, initialFilterPlayRequired }: Props) {
+export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData, user, steamIdMap, userAvatars, initialFilterPlayRequired, ipbSubmissions = {} }: Props) {
   const isAdmin = useIsAdmin()
   const { getGameData } = useGameData(gameData)
   const creatorResolver = useMemo(() => createCreatorResolver(steamIdMap), [steamIdMap])
@@ -333,8 +336,11 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData, 
 
               const play = game.steam_play_data
               const confirmedPlayed = isConfirmedPlayed(game)
+              // A submission awaiting mod verification counts toward the deadline
+              // the same as a verified one — the member has already acted.
+              const ipbSubmission = ipbSubmissions[game.link]
               const ipbroDeadline =
-                !game.i_played_bro && game.cv_status === 'FULL_CV'
+                !game.i_played_bro && !ipbSubmission && game.cv_status === 'FULL_CV'
                   ? getDeadlineData(game.end_timestamp)
                   : null
               const preqDeadline =
@@ -410,6 +416,16 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData, 
                     )}
                     {game.i_played_bro && (
                       <PlayTag label="IpBro" verified title='Marked "I played, bro!"' />
+                    )}
+                    {!game.i_played_bro && ipbSubmission && (
+                      <a href={ipbSubmission.url} target="_blank" rel="noopener noreferrer">
+                        <PlayTag
+                          label="IpBro"
+                          verified={false}
+                          pending
+                          title="I played, bro — pending mod verification"
+                        />
+                      </a>
                     )}
                     {game.required_play_meta?.requirements_met && (
                       <PlayTag label="PReq" verified title="Proof of play accepted" />
@@ -496,6 +512,16 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData, 
                                 ⭐️ I played, bro!
                               </span>
                             )}
+                            {!game.i_played_bro && ipbSubmission && (
+                              <a href={ipbSubmission.url} target="_blank" rel="noopener noreferrer">
+                                <span
+                                  className="px-2 py-1 text-xs font-semibold rounded-full bg-amber-100 text-amber-800"
+                                  title="I played, bro — pending mod verification"
+                                >
+                                  ⏳ I played, bro — pending verification
+                                </span>
+                              </a>
+                            )}
                             {game.required_play_meta?.requirements_met && (
                               <span className="px-2 py-1 text-xs font-semibold rounded-full bg-purple-100 text-purple-800">
                                 ✅ Proof of Play
@@ -508,7 +534,7 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData, 
                             </span>
                             <span className="text-xs text-muted-foreground">
                               Won <FormattedDate timestamp={game.end_timestamp} />
-                              {!game.i_played_bro && game.cv_status === 'FULL_CV' && (
+                              {!game.i_played_bro && !ipbSubmission && game.cv_status === 'FULL_CV' && (
                                 <DeadlineStatus
                                   endTimestamp={game.end_timestamp}
                                   tagLabel="IpBro"

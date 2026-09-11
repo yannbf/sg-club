@@ -6,9 +6,23 @@ export type IpbDiscordMatchSource =
   | 'title'
   | 'app_link_unique'
   | 'title_unique'
+  | 'steam_forum'
 
-/** One "I Play Bro" verification thread matched to a group win. */
+/** Where an "I Play Bro" submission was posted. */
+export type IpbSubmissionSource = 'discord' | 'steam_forum'
+
+/**
+ * One "I Play Bro" submission matched to a group win.
+ *
+ * For `source: 'steam_forum'` (the one-time backfill from the Steam group's
+ * "playtest here" discussion) the Discord-named fields hold the forum
+ * equivalents: `thread_id` is the Steam comment id, `url` the comment
+ * permalink, `thread_name` the game name, `owner_discord_name` the poster's
+ * Steam display name and `thread_created_at` the post time.
+ */
 export interface IpbDiscordWinEntry {
+  /** Absent means `discord`. */
+  source?: IpbSubmissionSource
   thread_id: string
   url: string
   thread_name: string
@@ -18,9 +32,9 @@ export interface IpbDiscordWinEntry {
   owner_discord_name: string
   thread_created_at: string
   /**
-   * Whether this win currently carries `i_played_bro` or `required_play`.
-   * The flag is set by a mod only after verifying, so `false` here means
-   * this thread is a pending verification submission.
+   * Whether this win currently carries `i_played_bro`. The flag is set by
+   * a mod only after verifying, so `false` here means this thread is a
+   * pending verification submission.
    */
   win_flagged: boolean
 }

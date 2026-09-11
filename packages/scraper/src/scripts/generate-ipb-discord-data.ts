@@ -58,6 +58,7 @@ const outputPath = resolve(dataDir, 'ipb_discord.json')
 const cacheDir = resolve(currentDir, '../../data')
 const usersCachePath = resolve(cacheDir, 'discord-users-cache.json')
 const threadsCachePath = resolve(cacheDir, 'discord-threads-cache.json')
+const steamForumSeedPath = resolve(cacheDir, 'ipb-steam-forum.json')
 
 // --- Discord REST ---
 
@@ -275,7 +276,7 @@ interface CandidateWin {
   link: string
   name: string
   giveawayName: string | undefined
-  /** Whether this win already carries `i_played_bro` or `required_play`. */
+  /** Whether this win already carries `i_played_bro`. */
   flagged: boolean
 }
 
@@ -397,6 +398,75 @@ function matchThread(
   return []
 }
 
+// --- Steam forum seed merge ---
+
+interface SteamForumSeedEntry {
+  comment_id: string
+  url: string
+  game_name: string
+  steam_poster_name: string
+  posted_at: string
+}
+
+interface SteamForumSeed {
+  source: 'steam_forum'
+  thread_url: string
+  first_comment_id: string
+  harvested_at: string
+  /** Keyed by `${steamId}::${giveawayLink}`, same as IpbDiscordData.wins. */
+  wins: Record<string, SteamForumSeedEntry>
+}
+
+interface SteamForumMergeResult {
+  wins: Record<string, IpbDiscordWinEntry>
+  merged: number
+  skipped: number
+}
+
+/**
+ * Merges the one-time Steam group forum backfill into the Discord-matched
+ * wins. Discord entries take precedence on key collision — the forum seed
+ * only fills gaps the Discord channel doesn't cover. A seed entry whose win
+ * no longer exists in the candidate map (e.g. the win was later deleted) is
+ * skipped.
+ */
+export function mergeSteamForumSeed(
+  wins: Record<string, IpbDiscordWinEntry>,
+  seed: SteamForumSeed,
+  findCandidateWin: (steamId: string, link: string) => CandidateWin | undefined,
+): SteamForumMergeResult {
+  const merged: Record<string, IpbDiscordWinEntry> = { ...wins }
+  let mergedCount = 0
+  let skippedCount = 0
+
+  for (const [key, entry] of Object.entries(seed.wins)) {
+    if (key in merged) continue
+
+    const separatorIndex = key.indexOf('::')
+    const steamId = key.slice(0, separatorIndex)
+    const link = key.slice(separatorIndex + 2)
+    const candidate = findCandidateWin(steamId, link)
+    if (!candidate) {
+      skippedCount++
+      continue
+    }
+
+    merged[key] = {
+      source: 'steam_forum',
+      thread_id: entry.comment_id,
+      url: entry.url,
+      thread_name: entry.game_name,
+      matched_by: 'steam_forum',
+      owner_discord_name: entry.steam_poster_name,
+      thread_created_at: entry.posted_at,
+      win_flagged: candidate.flagged,
+    }
+    mergedCount++
+  }
+
+  return { wins: merged, merged: mergedCount, skipped: skippedCount }
+}
+
 // --- Main pipeline ---
 
 export async function generateIpbDiscordData(): Promise<void> {
@@ -438,6 +508,8 @@ export async function generateIpbDiscordData(): Promise<void> {
   // steamId -> candidate wins. All non-deleted wins are candidates: the
   // i_played_bro flag is set by a mod only after verifying, so a thread
   // matching an unflagged win is precisely a pending verification.
+  // Play Required and I Play Bro are separate verifications, so only
+  // i_played_bro counts here.
   const allUsers: Record<string, User> = { ...memberUsers, ...exMemberUsers }
   const candidateWinsBySteamId = new Map<string, CandidateWin[]>()
   for (const [steamId, user] of Object.entries(allUsers)) {
@@ -447,7 +519,7 @@ export async function generateIpbDiscordData(): Promise<void> {
         link: w.link,
         name: w.name,
         giveawayName: giveawayByLink.get(w.link)?.name,
-        flagged: Boolean(w.required_play || w.i_played_bro),
+        flagged: Boolean(w.i_played_bro),
       }))
     if (wins.length > 0) candidateWinsBySteamId.set(steamId, wins)
   }
@@ -622,16 +694,31 @@ export async function generateIpbDiscordData(): Promise<void> {
     }
   }
 
+  // --- Merge the one-time Steam group forum backfill ---
+  let forumMergedCount = 0
+  let forumSkippedCount = 0
+  let finalWins = wins
+  if (existsSync(steamForumSeedPath)) {
+    const seed: SteamForumSeed = JSON.parse(readFileSync(steamForumSeedPath, 'utf-8'))
+    const result = mergeSteamForumSeed(wins, seed, findCandidateWin)
+    finalWins = result.wins
+    forumMergedCount = result.merged
+    forumSkippedCount = result.skipped
+    if (forumSkippedCount > 0) {
+      console.log(`⚠️  Skipped ${forumSkippedCount} Steam forum seed entrie(s) with no matching win`)
+    }
+  }
+
   const output: IpbDiscordData = {
     last_updated: new Date().toISOString(),
-    wins,
+    wins: finalWins,
     unmatched_threads: unmatchedThreads,
   }
 
   writeFileSync(outputPath, JSON.stringify(output, null, 2))
 
   console.log(
-    `✅ Done — ${allThreads.length} threads fetched, ${Object.keys(wins).length} wins matched, ${unmatchedThreads.length} unmatched threads`,
+    `✅ Done — ${allThreads.length} threads fetched, ${Object.keys(wins).length} wins matched, ${forumMergedCount} merged from the Steam forum seed, ${unmatchedThreads.length} unmatched threads`,
   )
   console.log(
     `   matched_by breakdown — giveaway_link: ${matchCountsByType.giveaway_link}, app_link: ${matchCountsByType.app_link}, review_link: ${matchCountsByType.review_link}, title: ${matchCountsByType.title}, app_link_unique: ${matchCountsByType.app_link_unique}, title_unique: ${matchCountsByType.title_unique}`,

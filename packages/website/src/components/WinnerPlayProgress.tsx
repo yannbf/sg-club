@@ -1,19 +1,22 @@
 'use client'
 
-import { Check, Clock3, Trophy } from 'lucide-react'
+import { Check, Clock3, Hourglass, Trophy } from 'lucide-react'
 import type { WinnerPlayStats } from '@/lib/winner-play-stats'
 import { useIsAdmin } from '@/lib/auth'
 import { formatPlaytime, formatPlaytimeCompact } from '@/lib/data'
 import { cn } from '@/lib/cn'
 
-/** Compact attestation pill — the label, plus a check once it's verified. Shared by the winner chip and the mobile won-games ledger. */
+/** Compact attestation pill — the label, plus a check once it's verified, or an hourglass while a submission awaits mod verification. Shared by the winner chip and the mobile won-games ledger. */
 export function PlayTag({
   label,
   verified,
+  pending,
   title,
 }: {
   label: string
   verified: boolean
+  /** A submission exists but the sheet flag isn't set yet — ignored once `verified` is true. */
+  pending?: boolean
   title: string
 }) {
   return (
@@ -23,11 +26,14 @@ export function PlayTag({
         'inline-flex items-center gap-0.5 rounded-full px-1.5 py-px text-[10px] font-semibold uppercase tracking-wide',
         verified
           ? 'bg-success-light text-success-foreground'
-          : 'bg-card-background text-muted-foreground ring-1 ring-card-border',
+          : pending
+            ? 'bg-amber-100 text-amber-800 ring-1 ring-amber-300 dark:bg-amber-950 dark:text-amber-300 dark:ring-amber-800'
+            : 'bg-card-background text-muted-foreground ring-1 ring-card-border',
       )}
     >
       {label}
       {verified && <Check className="h-2.5 w-2.5" aria-hidden />}
+      {!verified && pending && <Hourglass className="h-2.5 w-2.5" aria-hidden />}
     </span>
   )
 }

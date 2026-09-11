@@ -24,6 +24,7 @@ import GivenGiveawaysClient from './GivenGiveawaysClient'
 import WonGiveawaysClient from './WonGiveawaysClient'
 import type { User, UserGroupData, UserEntry, SteamIdMap } from '@/types'
 import type { Giveaway, GameData } from '@/types'
+import type { IpbDiscordWinEntry } from '@/types/ipb-discord'
 import FormattedDate, { FormattedDay } from '@/components/FormattedDate'
 import GiveawaysClient from '@/app/giveaways/client'
 import CountryFlag from '@/components/CountryFlag'
@@ -98,6 +99,8 @@ interface Props {
   hoursPerMonth: MonthDatum[]
   /** "Mon YY" label -> that month's games with playtime/achievement gains, highest hours first. */
   hoursByMonth: Record<string, DrilldownGameRow[]>
+  /** This user's own "I Play Bro" submissions, keyed by giveaway link. */
+  ipbSubmissions?: Record<string, IpbDiscordWinEntry>
 }
 
 type UserWarning = {
@@ -367,6 +370,7 @@ export default function UserDetailPageClient({
   playStatsByWin,
   hoursPerMonth,
   hoursByMonth,
+  ipbSubmissions = {},
 }: Props) {
   const isAdmin = useIsAdmin()
   const [showOriginalStats, setShowOriginalStats] = useState(false)
@@ -1352,6 +1356,7 @@ export default function UserDetailPageClient({
               steamIdMap={steamIdMap}
               userAvatars={userAvatars}
               initialFilterPlayRequired={deepLinkPlayRequired}
+              ipbSubmissions={ipbSubmissions}
             />
           </TabsContent>
         )}

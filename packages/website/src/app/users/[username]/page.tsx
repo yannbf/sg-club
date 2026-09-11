@@ -1,5 +1,6 @@
 // page.tsx
-import { getUser, getAllGiveaways, getAllUsers, getExMembers, getGameData, getUserEntries, getSteamIdMap, getPlaytimeSnapshots } from '@/lib/data'
+import { getUser, getAllGiveaways, getAllUsers, getExMembers, getGameData, getUserEntries, getSteamIdMap, getPlaytimeSnapshots, getIpbDiscord } from '@/lib/data'
+import type { IpbDiscordWinEntry } from '@/types/ipb-discord'
 import { createCreatorResolver } from '@/lib/creator-resolver'
 import { buildWinnerPlayStats } from '@/lib/winner-play-stats'
 import { notFound } from 'next/navigation'
@@ -81,7 +82,7 @@ export default async function UserDetailPage(
 ) {
   const params = await props.params;
   const { username } = params
-  const [userResult, allUsers, exMembersData, giveaways, userEntries, gameDataObj, steamIdMap, playtimeSnapshots] = await Promise.all([
+  const [userResult, allUsers, exMembersData, giveaways, userEntries, gameDataObj, steamIdMap, playtimeSnapshots, ipbDiscord] = await Promise.all([
     getUser(decodeURIComponent(username)),
     getAllUsers(),
     getExMembers(),
@@ -90,6 +91,7 @@ export default async function UserDetailPage(
     getGameData(),
     getSteamIdMap(),
     getPlaytimeSnapshots(),
+    getIpbDiscord(),
   ])
   const lastUpdated = allUsers?.lastUpdated ?? null
 
@@ -98,6 +100,17 @@ export default async function UserDetailPage(
   }
 
   const { user, isExMember } = userResult
+
+  // ipb_discord.json's wins are keyed `<steamId>::<giveawayLink>` across all
+  // members — scope down to this user's own submissions, by giveaway link,
+  // before crossing the server/client boundary.
+  const ipbSubmissions: Record<string, IpbDiscordWinEntry> = {}
+  const ipbKeyPrefix = `${user.steam_id}::`
+  for (const [key, entry] of Object.entries(ipbDiscord?.wins ?? {})) {
+    if (key.startsWith(ipbKeyPrefix)) {
+      ipbSubmissions[key.slice(ipbKeyPrefix.length)] = entry
+    }
+  }
 
   // The full user_entries.json is large (every entry, every user) — this page
   // only ever needs one user's slice of it, so scope it down before it
@@ -228,6 +241,7 @@ export default async function UserDetailPage(
         playStatsByWin={playStatsByWin}
         hoursPerMonth={hoursPerMonth}
         hoursByMonth={hoursByMonth}
+        ipbSubmissions={ipbSubmissions}
       />
     </ProfileGate>
   )

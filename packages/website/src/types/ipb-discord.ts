@@ -6,7 +6,19 @@
  * so admins can spot submissions the matcher missed.
  */
 
+/** Where an "I Play Bro" submission was posted. */
+export type IpbSubmissionSource = 'discord' | 'steam_forum'
+
+/**
+ * For `source: 'steam_forum'` (the one-time backfill from the Steam group's
+ * "playtest here" discussion) the Discord-named fields hold the forum
+ * equivalents: `thread_id` is the Steam comment id, `url` the comment
+ * permalink, `thread_name` the game name, `owner_discord_name` the poster's
+ * Steam display name and `thread_created_at` the post time.
+ */
 export interface IpbDiscordWinEntry {
+  /** Absent means `discord`. */
+  source?: IpbSubmissionSource
   thread_id: string
   url: string
   thread_name: string
@@ -18,6 +30,7 @@ export interface IpbDiscordWinEntry {
     | 'title'
     | 'title_unique'
     | 'app_link_unique'
+    | 'steam_forum'
   /** Steam review URL linked in the submission, when present. */
   review_url?: string
   /**
