@@ -917,10 +917,10 @@ describe('APPLICATION_COMMAND mod-report', () => {
     expect(content).toContain('‼️ **Need attention** (1 members)')
     expect(content).toContain('👀 **Warnings** (1 members)')
     expect(content).toContain(
-      'Required-play deadline expired:\n- [alice](<https://sg-club.vercel.app/users/alice/?tab=won&filter=play-required>)\n'
+      '- [alice](<https://sg-club.vercel.app/users/alice/?tab=won&filter=play-required>) — Required-play deadline expired'
     )
     expect(content).toContain(
-      'No giveaway created in 6 months:\n- [bob](<https://sg-club.vercel.app/users/bob/>)\n'
+      '- [bob](<https://sg-club.vercel.app/users/bob/>) — No giveaway created in 6 months'
     )
     expect(content).toContain('Ex-member entry checks run in the weekly digest only.')
   })
