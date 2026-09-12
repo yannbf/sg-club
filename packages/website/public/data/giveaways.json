@@ -1,26 +1,6 @@
 {
-  "last_updated": "2026-09-12T09:52:24.520Z",
+  "last_updated": "2026-09-12T12:33:02.557Z",
   "giveaways": [
-    {
-      "id": "SzFTd",
-      "name": "Timberborn",
-      "points": 35,
-      "copies": 1,
-      "app_id": 1062090,
-      "package_id": null,
-      "link": "SzFTd/timberborn",
-      "created_timestamp": 1788864943,
-      "start_timestamp": 1788864943,
-      "end_timestamp": 1789210800,
-      "group": true,
-      "comment_count": 2,
-      "entry_count": 9,
-      "creator": "76561198070041813",
-      "cv_status": "FULL_CV",
-      "event_type": "september_event_2026",
-      "creator_username": "Tucs",
-      "deleted": false
-    },
     {
       "id": "dJiMO",
       "name": "Luma Island",
@@ -114,7 +94,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 65,
+      "entry_count": 66,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "FULL_CV",
@@ -295,7 +275,7 @@
       "end_timestamp": 1789329600,
       "group": true,
       "comment_count": 3,
-      "entry_count": 8,
+      "entry_count": 10,
       "creator": "76561198082023389",
       "is_shared": true,
       "cv_status": "FULL_CV",
@@ -334,7 +314,7 @@
       "end_timestamp": 1789329600,
       "group": true,
       "comment_count": 0,
-      "entry_count": 14,
+      "entry_count": 15,
       "creator": "76561198082023389",
       "is_shared": true,
       "cv_status": "FULL_CV",
@@ -394,7 +374,7 @@
       "end_timestamp": 1789329600,
       "group": true,
       "comment_count": 0,
-      "entry_count": 10,
+      "entry_count": 11,
       "creator": "76561198082023389",
       "is_shared": true,
       "cv_status": "FULL_CV",
@@ -475,7 +455,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 25,
+      "entry_count": 26,
       "creator": "76561197981107149",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -578,7 +558,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 47,
+      "entry_count": 48,
       "creator": "76561198025173613",
       "required_play": true,
       "is_shared": true,
@@ -781,7 +761,7 @@
       "end_timestamp": 1789498740,
       "group": true,
       "comment_count": 3,
-      "entry_count": 23,
+      "entry_count": 28,
       "creator": "76561199438702936",
       "cv_status": "FULL_CV",
       "event_type": "september_event_2026",
@@ -862,7 +842,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 1,
-      "entry_count": 190,
+      "entry_count": 191,
       "creator": "76561198042896883",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -883,7 +863,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 44,
+      "entry_count": 45,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -925,7 +905,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 3,
+      "entry_count": 4,
       "creator": "76561198017660760",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -985,7 +965,7 @@
       "end_timestamp": 1789785000,
       "group": true,
       "comment_count": 0,
-      "entry_count": 4,
+      "entry_count": 5,
       "creator": "76561198017660760",
       "cv_status": "FULL_CV",
       "event_type": "september_event_2026",
@@ -1065,13 +1045,34 @@
       "start_timestamp": 1789202484,
       "end_timestamp": 1789867800,
       "group": true,
-      "comment_count": 0,
-      "entry_count": 1,
+      "comment_count": 1,
+      "entry_count": 9,
       "creator": "76561198019838591",
       "required_play": true,
       "cv_status": "FULL_CV",
       "event_type": "september_event_2026",
       "creator_username": "jaaydee",
+      "deleted": false
+    },
+    {
+      "id": "wNwUu",
+      "name": "Dagon - The Eldritch Box DLC",
+      "points": 5,
+      "copies": 1,
+      "app_id": 1722010,
+      "package_id": null,
+      "link": "wNwUu/dagon-the-eldritch-box-dlc",
+      "created_timestamp": 1789215004,
+      "start_timestamp": 1789215004,
+      "end_timestamp": 1789876800,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 0,
+      "creator": "76561198234142828",
+      "is_shared": true,
+      "cv_status": "REDUCED_CV",
+      "creator_username": "lockcjwen",
       "deleted": false
     },
     {
@@ -1332,6 +1333,33 @@
       "required_play": true,
       "cv_status": "FULL_CV",
       "creator_username": "Cloverleaf",
+      "deleted": false
+    },
+    {
+      "id": "SzFTd",
+      "name": "Timberborn",
+      "points": 35,
+      "copies": 1,
+      "app_id": 1062090,
+      "package_id": null,
+      "link": "SzFTd/timberborn",
+      "created_timestamp": 1788864943,
+      "start_timestamp": 1788864943,
+      "end_timestamp": 1789210800,
+      "group": true,
+      "comment_count": 2,
+      "entry_count": 9,
+      "creator": "76561198070041813",
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "FULL_CV",
+      "event_type": "september_event_2026",
+      "creator_username": "Tucs",
       "deleted": false
     },
     {
@@ -2444,7 +2472,7 @@
       "start_timestamp": 1788199045,
       "end_timestamp": 1788710400,
       "group": true,
-      "comment_count": 2,
+      "comment_count": 4,
       "entry_count": 28,
       "creator": "76561198054649894",
       "hasWinners": true,
@@ -14624,7 +14652,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "Thexder"
+      "creator_username": "Thexder",
+      "required_play": false
     },
     {
       "id": "ycGpf",
@@ -15287,7 +15316,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "BanjoBearLV"
+      "creator_username": "BanjoBearLV",
+      "required_play": false
     },
     {
       "id": "mxIxo",
@@ -15496,7 +15526,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "DrTenma"
+      "creator_username": "DrTenma",
+      "required_play": false
     },
     {
       "id": "uOpAb",
@@ -23706,7 +23737,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "Patzl"
+      "creator_username": "Patzl",
+      "required_play": false
     },
     {
       "id": "bXoLt",
@@ -24008,7 +24040,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "QuinlanLJ"
+      "creator_username": "QuinlanLJ",
+      "required_play": false
     },
     {
       "id": "YHg86",
@@ -26224,7 +26257,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "MrOuiOui"
+      "creator_username": "MrOuiOui",
+      "required_play": false
     },
     {
       "id": "UM7g6",
@@ -26590,7 +26624,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "schmoan"
+      "creator_username": "schmoan",
+      "required_play": false
     },
     {
       "id": "0XtP0",
@@ -27392,7 +27427,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "Deleted-9752087"
+      "creator_username": "Deleted-9752087",
+      "required_play": false
     },
     {
       "id": "qbPhA",
@@ -27868,7 +27904,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "BorjaGRouco"
+      "creator_username": "BorjaGRouco",
+      "required_play": false
     },
     {
       "id": "zcpgr",
@@ -28040,7 +28077,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "CuteEnby"
+      "creator_username": "CuteEnby",
+      "required_play": false
     },
     {
       "id": "S4T30",
@@ -28114,7 +28152,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "yugimax"
+      "creator_username": "yugimax",
+      "required_play": false
     },
     {
       "id": "KDasl",
@@ -28272,7 +28311,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "DrTenma"
+      "creator_username": "DrTenma",
+      "required_play": false
     },
     {
       "id": "XS1z6",
@@ -29636,7 +29676,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "axlnase"
+      "creator_username": "axlnase",
+      "required_play": false
     },
     {
       "id": "zJPVR",
@@ -29985,7 +30026,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "Vini1"
+      "creator_username": "Vini1",
+      "required_play": false
     },
     {
       "id": "M7USt",
@@ -30345,7 +30387,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "kudomonster"
+      "creator_username": "kudomonster",
+      "required_play": false
     },
     {
       "id": "8OnYg",
@@ -31021,7 +31064,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "Carrei"
+      "creator_username": "Carrei",
+      "required_play": false
     },
     {
       "id": "SZ4kq",
@@ -31129,7 +31173,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "Gooberdragon"
+      "creator_username": "Gooberdragon",
+      "required_play": false
     },
     {
       "id": "yCyEc",
@@ -31156,7 +31201,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "Gooberdragon"
+      "creator_username": "Gooberdragon",
+      "required_play": false
     },
     {
       "id": "N0N9o",
@@ -31546,7 +31592,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "CuteEnby"
+      "creator_username": "CuteEnby",
+      "required_play": false
     },
     {
       "id": "1UQSz",
@@ -31709,7 +31756,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "damianea103"
+      "creator_username": "damianea103",
+      "required_play": false
     },
     {
       "id": "yJvTM",
@@ -31954,7 +32002,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "RePlayBe"
+      "creator_username": "RePlayBe",
+      "required_play": false
     },
     {
       "id": "MGE9Y",
@@ -32065,7 +32114,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "makki"
+      "creator_username": "makki",
+      "required_play": false
     },
     {
       "id": "EstTQ",
@@ -37416,7 +37466,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "Markox21"
+      "creator_username": "Markox21",
+      "required_play": false
     },
     {
       "id": "uvlsU",
@@ -38224,7 +38275,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "decipherer"
+      "creator_username": "decipherer",
+      "required_play": false
     },
     {
       "id": "0qFjW",
@@ -41830,7 +41882,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "herbesdeprovence"
+      "creator_username": "herbesdeprovence",
+      "required_play": false
     },
     {
       "id": "004CN",
@@ -43781,7 +43834,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "Bainsol"
+      "creator_username": "Bainsol",
+      "required_play": false
     },
     {
       "id": "Ew1cL",
@@ -52397,7 +52451,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "herbesdeprovence"
+      "creator_username": "herbesdeprovence",
+      "required_play": false
     },
     {
       "id": "4a4gX",
@@ -54091,7 +54146,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "yugimax"
+      "creator_username": "yugimax",
+      "required_play": false
     },
     {
       "id": "7r2kn",
