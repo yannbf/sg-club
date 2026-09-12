@@ -2619,10 +2619,18 @@
       "story_tag_count": 0
     },
     "1562700": {
-      "fetched_at": "2026-08-24T16:49:20.261Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-09-12T12:09:41.247Z",
+      "marker": {
+        "apiname": "SNB_ACHV_GoodEnding",
+        "name": "Farewell",
+        "description": "",
+        "global_percent": 53,
+        "source": "override",
+        "sh_achievement_id": 13
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0,
+      "override_key": "1562700:SNB_ACHV_GoodEnding"
     },
     "1567020": {
       "fetched_at": "2026-08-24T17:03:02.118Z",
@@ -3377,18 +3385,18 @@
       "story_tag_count": 13
     },
     "1817070": {
-      "fetched_at": "2026-09-11T13:53:07.202Z",
+      "fetched_at": "2026-09-12T12:09:43.599Z",
       "marker": {
-        "apiname": "tombstonetakedown",
-        "name": "Tombstone Takedown",
-        "description": "Defeat Tombstone",
-        "global_percent": 34.3,
-        "source": "steamhunters",
-        "filtered": true,
-        "sh_achievement_id": 28
+        "apiname": "endgame",
+        "name": "End Game",
+        "description": "",
+        "global_percent": 48.5,
+        "source": "override",
+        "sh_achievement_id": 22
       },
       "no_marker_reason": null,
-      "story_tag_count": 9
+      "story_tag_count": 0,
+      "override_key": "1817070:endgame"
     },
     "1817190": {
       "fetched_at": "2026-09-11T12:25:11.930Z",
@@ -3921,6 +3929,12 @@
     },
     "2006140": {
       "fetched_at": "2026-08-24T16:53:20.689Z",
+      "marker": null,
+      "no_marker_reason": "no_marker_found",
+      "story_tag_count": 0
+    },
+    "2008920": {
+      "fetched_at": "2026-09-12T12:09:44.823Z",
       "marker": null,
       "no_marker_reason": "no_marker_found",
       "story_tag_count": 0
@@ -4763,10 +4777,18 @@
       "story_tag_count": 0
     },
     "2544110": {
-      "fetched_at": "2026-08-24T17:03:26.462Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-09-12T12:09:42.469Z",
+      "marker": {
+        "apiname": "BROKEN_SWORD",
+        "name": "Broken Sword",
+        "description": "",
+        "global_percent": 37.4,
+        "source": "override",
+        "sh_achievement_id": 25
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0,
+      "override_key": "2544110:BROKEN_SWORD"
     },
     "2551300": {
       "fetched_at": "2026-08-24T19:49:49.798Z",
@@ -10317,13 +10339,6 @@
       "unlock_time": 1772230203,
       "no_data_reason": null
     },
-    "76561198002504847::1817070": {
-      "fetched_at": "2026-09-11T13:54:07.839Z",
-      "marker_apiname": "tombstonetakedown",
-      "beaten": true,
-      "unlock_time": 1768134839,
-      "no_data_reason": null
-    },
     "76561198143588240::288160": {
       "fetched_at": "2026-09-11T13:54:09.074Z",
       "marker_apiname": "ACHIEVE_CHAP_5_COMPLETE",
@@ -10448,6 +10463,83 @@
       "marker_apiname": "ACH_STAY_BEHIND",
       "beaten": true,
       "unlock_time": 1763703322,
+      "no_data_reason": null
+    },
+    "76561198359284432::1562700": {
+      "fetched_at": "2026-09-12T12:09:45.952Z",
+      "marker_apiname": "SNB_ACHV_GoodEnding",
+      "beaten": true,
+      "unlock_time": 1766354780,
+      "no_data_reason": null
+    },
+    "76561198453663783::2544110": {
+      "fetched_at": "2026-09-12T12:09:47.055Z",
+      "marker_apiname": "BROKEN_SWORD",
+      "beaten": true,
+      "unlock_time": 1785672197,
+      "no_data_reason": null
+    },
+    "76561198025173613::1562700": {
+      "fetched_at": "2026-09-12T12:09:48.178Z",
+      "marker_apiname": "SNB_ACHV_GoodEnding",
+      "beaten": true,
+      "unlock_time": 1777409746,
+      "no_data_reason": null
+    },
+    "76561197984532155::1562700": {
+      "fetched_at": "2026-09-12T12:09:49.332Z",
+      "marker_apiname": "SNB_ACHV_GoodEnding",
+      "beaten": true,
+      "unlock_time": 1771206788,
+      "no_data_reason": null
+    },
+    "76561198002504847::1817070": {
+      "fetched_at": "2026-09-12T12:09:50.440Z",
+      "marker_apiname": "endgame",
+      "beaten": true,
+      "unlock_time": 1768586007,
+      "no_data_reason": null
+    },
+    "76561198002504847::1562700": {
+      "fetched_at": "2026-09-12T12:09:51.567Z",
+      "marker_apiname": "SNB_ACHV_GoodEnding",
+      "beaten": true,
+      "unlock_time": 1750600747,
+      "no_data_reason": null
+    },
+    "76561198035801987::2544110": {
+      "fetched_at": "2026-09-12T12:09:52.716Z",
+      "marker_apiname": "BROKEN_SWORD",
+      "beaten": true,
+      "unlock_time": 1754320165,
+      "no_data_reason": null
+    },
+    "76561198047121855::1562700": {
+      "fetched_at": "2026-09-12T12:09:53.835Z",
+      "marker_apiname": "SNB_ACHV_GoodEnding",
+      "beaten": true,
+      "unlock_time": 1753366451,
+      "no_data_reason": null
+    },
+    "76561198054324521::1562700": {
+      "fetched_at": "2026-09-12T12:09:54.937Z",
+      "marker_apiname": "SNB_ACHV_GoodEnding",
+      "beaten": true,
+      "unlock_time": 1776503637,
+      "no_data_reason": null
+    },
+    "76561198399974062::2515020": {
+      "fetched_at": "2026-09-12T12:09:56.086Z",
+      "marker_apiname": "1012",
+      "beaten": false,
+      "unlock_time": null,
+      "no_data_reason": null
+    },
+    "76561197991280042::1562700": {
+      "fetched_at": "2026-09-12T12:09:57.269Z",
+      "marker_apiname": "SNB_ACHV_GoodEnding",
+      "beaten": true,
+      "unlock_time": 1761639212,
       "no_data_reason": null
     }
   },
