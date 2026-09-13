@@ -4637,10 +4637,18 @@
       "story_tag_count": 8
     },
     "2423270": {
-      "fetched_at": "2026-09-11T12:24:15.411Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-09-13T18:46:53.536Z",
+      "marker": {
+        "apiname": "HOLOBOOK",
+        "name": "Holobook",
+        "description": "Move on to your next adventure.",
+        "global_percent": 42,
+        "source": "override",
+        "sh_achievement_id": 13
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0,
+      "override_key": "2423270:HOLOBOOK"
     },
     "2425010": {
       "fetched_at": "2026-08-24T19:49:28.505Z",
@@ -4829,10 +4837,18 @@
       "story_tag_count": 0
     },
     "2582320": {
-      "fetched_at": "2026-09-11T13:47:11.885Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-09-13T18:46:55.739Z",
+      "marker": {
+        "apiname": "LastSong",
+        "name": "Last Song",
+        "description": "",
+        "global_percent": 55,
+        "source": "override",
+        "sh_achievement_id": 4
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0,
+      "override_key": "2582320:LastSong"
     },
     "2589500": {
       "fetched_at": "2026-08-24T16:50:45.422Z",
@@ -4875,10 +4891,18 @@
       "story_tag_count": 6
     },
     "2637990": {
-      "fetched_at": "2026-09-11T13:47:13.265Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-09-13T18:46:56.809Z",
+      "marker": {
+        "apiname": "Achievement.Quacked",
+        "name": "Quacked the Case",
+        "description": "Solve the mystery of the Secret Salami",
+        "global_percent": 78.7,
+        "source": "override",
+        "sh_achievement_id": 7
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0,
+      "override_key": "2637990:Achievement.Quacked"
     },
     "2653940": {
       "fetched_at": "2026-09-11T13:47:03.918Z",
@@ -5269,10 +5293,18 @@
       "story_tag_count": 0
     },
     "2997230": {
-      "fetched_at": "2026-09-11T12:23:58.452Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-09-13T18:46:51.355Z",
+      "marker": {
+        "apiname": "recovered",
+        "name": "Recovered",
+        "description": "Waking up",
+        "global_percent": 48.1,
+        "source": "override",
+        "sh_achievement_id": 23
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0,
+      "override_key": "2997230:recovered"
     },
     "3000120": {
       "fetched_at": "2026-09-11T12:24:50.320Z",
@@ -5557,10 +5589,18 @@
       "story_tag_count": 6
     },
     "3350190": {
-      "fetched_at": "2026-08-24T19:32:26.405Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-09-13T18:46:54.615Z",
+      "marker": {
+        "apiname": "ACH_THX_FOR_PLAYING",
+        "name": "Thanks for playing!",
+        "description": "Cleared",
+        "global_percent": 64.1,
+        "source": "override",
+        "sh_achievement_id": 11
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0,
+      "override_key": "3350190:ACH_THX_FOR_PLAYING"
     },
     "3357650": {
       "fetched_at": "2026-08-24T20:11:21.280Z",
@@ -5738,10 +5778,18 @@
       "story_tag_count": 0
     },
     "3636620": {
-      "fetched_at": "2026-09-11T12:24:08.400Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-09-13T18:46:52.457Z",
+      "marker": {
+        "apiname": "ACH_20",
+        "name": "Seasoned Detective",
+        "description": "",
+        "global_percent": 46.6,
+        "source": "override",
+        "sh_achievement_id": 20
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0,
+      "override_key": "3636620:ACH_20"
     },
     "3636770": {
       "fetched_at": "2026-09-11T13:53:16.823Z",
@@ -10529,7 +10577,7 @@
       "no_data_reason": null
     },
     "76561198399974062::2515020": {
-      "fetched_at": "2026-09-13T04:42:34.550Z",
+      "fetched_at": "2026-09-13T18:47:04.584Z",
       "marker_apiname": "1012",
       "beaten": false,
       "unlock_time": null,
@@ -10540,6 +10588,62 @@
       "marker_apiname": "SNB_ACHV_GoodEnding",
       "beaten": true,
       "unlock_time": 1761639212,
+      "no_data_reason": null
+    },
+    "76561198035801987::2997230": {
+      "fetched_at": "2026-09-13T18:46:57.896Z",
+      "marker_apiname": "recovered",
+      "beaten": true,
+      "unlock_time": 1778178756,
+      "no_data_reason": null
+    },
+    "76561198035801987::3636620": {
+      "fetched_at": "2026-09-13T18:46:59.071Z",
+      "marker_apiname": "ACH_20",
+      "beaten": true,
+      "unlock_time": 1772983154,
+      "no_data_reason": null
+    },
+    "76561198069420656::2423270": {
+      "fetched_at": "2026-09-13T18:47:00.146Z",
+      "marker_apiname": "HOLOBOOK",
+      "beaten": true,
+      "unlock_time": 1769288541,
+      "no_data_reason": null
+    },
+    "76561198061661987::3350190": {
+      "fetched_at": "2026-09-13T18:47:01.224Z",
+      "marker_apiname": "ACH_THX_FOR_PLAYING",
+      "beaten": true,
+      "unlock_time": 1782742644,
+      "no_data_reason": null
+    },
+    "76561198079289651::2423270": {
+      "fetched_at": "2026-09-13T18:47:02.398Z",
+      "marker_apiname": "HOLOBOOK",
+      "beaten": true,
+      "unlock_time": 1769259976,
+      "no_data_reason": null
+    },
+    "76561198001969728::3350190": {
+      "fetched_at": "2026-09-13T18:47:03.498Z",
+      "marker_apiname": "ACH_THX_FOR_PLAYING",
+      "beaten": true,
+      "unlock_time": 1775647071,
+      "no_data_reason": null
+    },
+    "76561198089973992::2582320": {
+      "fetched_at": "2026-09-13T18:47:05.732Z",
+      "marker_apiname": "LastSong",
+      "beaten": true,
+      "unlock_time": 1779218135,
+      "no_data_reason": null
+    },
+    "76561198089973992::2637990": {
+      "fetched_at": "2026-09-13T18:47:06.801Z",
+      "marker_apiname": "Achievement.Quacked",
+      "beaten": true,
+      "unlock_time": 1772832050,
       "no_data_reason": null
     }
   },

@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-09-13T13:49:41.233Z",
+  "last_updated": "2026-09-13T18:47:07.804Z",
   "games": {
     "223810": {
       "marker": {
@@ -4634,10 +4634,17 @@
       "checked_at": "2026-08-24T20:05:47.554Z"
     },
     "2423270": {
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
+      "marker": {
+        "apiname": "HOLOBOOK",
+        "name": "Holobook",
+        "description": "Move on to your next adventure.",
+        "global_percent": 42,
+        "source": "override",
+        "sh_achievement_id": 13
+      },
+      "no_marker_reason": null,
       "story_tag_count": 0,
-      "checked_at": "2026-09-11T12:24:15.411Z"
+      "checked_at": "2026-09-13T18:46:53.536Z"
     },
     "2425010": {
       "marker": null,
@@ -4825,10 +4832,17 @@
       "checked_at": "2026-09-11T12:23:28.522Z"
     },
     "2582320": {
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
+      "marker": {
+        "apiname": "LastSong",
+        "name": "Last Song",
+        "description": "",
+        "global_percent": 55,
+        "source": "override",
+        "sh_achievement_id": 4
+      },
+      "no_marker_reason": null,
       "story_tag_count": 0,
-      "checked_at": "2026-09-11T13:47:11.885Z"
+      "checked_at": "2026-09-13T18:46:55.739Z"
     },
     "2589500": {
       "marker": null,
@@ -4871,10 +4885,17 @@
       "checked_at": "2026-08-24T20:10:47.455Z"
     },
     "2637990": {
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
+      "marker": {
+        "apiname": "Achievement.Quacked",
+        "name": "Quacked the Case",
+        "description": "Solve the mystery of the Secret Salami",
+        "global_percent": 78.7,
+        "source": "override",
+        "sh_achievement_id": 7
+      },
+      "no_marker_reason": null,
       "story_tag_count": 0,
-      "checked_at": "2026-09-11T13:47:13.265Z"
+      "checked_at": "2026-09-13T18:46:56.809Z"
     },
     "2653940": {
       "marker": null,
@@ -5265,10 +5286,17 @@
       "checked_at": "2026-08-24T19:32:15.953Z"
     },
     "2997230": {
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
+      "marker": {
+        "apiname": "recovered",
+        "name": "Recovered",
+        "description": "Waking up",
+        "global_percent": 48.1,
+        "source": "override",
+        "sh_achievement_id": 23
+      },
+      "no_marker_reason": null,
       "story_tag_count": 0,
-      "checked_at": "2026-09-11T12:23:58.452Z"
+      "checked_at": "2026-09-13T18:46:51.355Z"
     },
     "3000120": {
       "marker": null,
@@ -5553,10 +5581,17 @@
       "checked_at": "2026-08-24T20:09:39.525Z"
     },
     "3350190": {
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
+      "marker": {
+        "apiname": "ACH_THX_FOR_PLAYING",
+        "name": "Thanks for playing!",
+        "description": "Cleared",
+        "global_percent": 64.1,
+        "source": "override",
+        "sh_achievement_id": 11
+      },
+      "no_marker_reason": null,
       "story_tag_count": 0,
-      "checked_at": "2026-08-24T19:32:26.405Z"
+      "checked_at": "2026-09-13T18:46:54.615Z"
     },
     "3357650": {
       "marker": {
@@ -5734,10 +5769,17 @@
       "checked_at": "2026-09-11T12:23:34.494Z"
     },
     "3636620": {
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
+      "marker": {
+        "apiname": "ACH_20",
+        "name": "Seasoned Detective",
+        "description": "",
+        "global_percent": 46.6,
+        "source": "override",
+        "sh_achievement_id": 20
+      },
+      "no_marker_reason": null,
       "story_tag_count": 0,
-      "checked_at": "2026-09-11T12:24:08.400Z"
+      "checked_at": "2026-09-13T18:46:52.457Z"
     },
     "3636770": {
       "marker": {
@@ -7345,6 +7387,12 @@
       "no_data_reason": null,
       "checked_at": "2026-09-13T12:14:47.516Z"
     },
+    "76561198035801987::2997230": {
+      "beaten": true,
+      "unlock_time": 1778178756,
+      "no_data_reason": null,
+      "checked_at": "2026-09-13T18:46:57.896Z"
+    },
     "76561198035801987::1170060": {
       "beaten": true,
       "unlock_time": 1777889129,
@@ -7362,6 +7410,12 @@
       "unlock_time": 1777832266,
       "no_data_reason": null,
       "checked_at": "2026-09-11T12:26:57.578Z"
+    },
+    "76561198035801987::3636620": {
+      "beaten": true,
+      "unlock_time": 1772983154,
+      "no_data_reason": null,
+      "checked_at": "2026-09-13T18:46:59.071Z"
     },
     "76561198035801987::2240080": {
       "beaten": true,
@@ -7512,6 +7566,12 @@
       "unlock_time": 1770122216,
       "no_data_reason": null,
       "checked_at": "2026-08-24T17:44:33.222Z"
+    },
+    "76561198069420656::2423270": {
+      "beaten": true,
+      "unlock_time": 1769288541,
+      "no_data_reason": null,
+      "checked_at": "2026-09-13T18:47:00.146Z"
     },
     "76561198069420656::761600": {
       "beaten": false,
@@ -7753,6 +7813,12 @@
       "no_data_reason": null,
       "checked_at": "2026-09-13T12:14:56.026Z"
     },
+    "76561198061661987::3350190": {
+      "beaten": true,
+      "unlock_time": 1782742644,
+      "no_data_reason": null,
+      "checked_at": "2026-09-13T18:47:01.224Z"
+    },
     "76561198061661987::2420660": {
       "beaten": true,
       "unlock_time": 1788517058,
@@ -7812,6 +7878,12 @@
       "unlock_time": null,
       "no_data_reason": null,
       "checked_at": "2026-09-13T12:14:58.244Z"
+    },
+    "76561198079289651::2423270": {
+      "beaten": true,
+      "unlock_time": 1769259976,
+      "no_data_reason": null,
+      "checked_at": "2026-09-13T18:47:02.398Z"
     },
     "76561198079289651::798460": {
       "beaten": true,
@@ -8245,6 +8317,12 @@
       "no_data_reason": null,
       "checked_at": "2026-08-24T17:46:23.382Z"
     },
+    "76561198001969728::3350190": {
+      "beaten": true,
+      "unlock_time": 1775647071,
+      "no_data_reason": null,
+      "checked_at": "2026-09-13T18:47:03.498Z"
+    },
     "76561198001969728::1771300": {
       "beaten": false,
       "unlock_time": null,
@@ -8273,7 +8351,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-13T04:42:34.550Z"
+      "checked_at": "2026-09-13T18:47:04.584Z"
     },
     "76561198399974062::1262350": {
       "beaten": true,
@@ -8658,6 +8736,18 @@
       "unlock_time": 1786178378,
       "no_data_reason": null,
       "checked_at": "2026-08-24T17:47:19.076Z"
+    },
+    "76561198089973992::2582320": {
+      "beaten": true,
+      "unlock_time": 1779218135,
+      "no_data_reason": null,
+      "checked_at": "2026-09-13T18:47:05.732Z"
+    },
+    "76561198089973992::2637990": {
+      "beaten": true,
+      "unlock_time": 1772832050,
+      "no_data_reason": null,
+      "checked_at": "2026-09-13T18:47:06.801Z"
     },
     "76561198089973992::835960": {
       "beaten": true,
