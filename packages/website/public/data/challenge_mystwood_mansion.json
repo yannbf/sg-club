@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1788220800,
   "totalAchievements": 20,
-  "generatedAt": 1789252124350,
+  "generatedAt": 1789262234400,
   "challengeOver": false,
   "winnerUsername": "Mahry",
   "participants": [
@@ -3772,9 +3772,9 @@
       "baseline_playtime_minutes": 87,
       "playtime_challenge_minutes": 149,
       "achievements_total": 20,
-      "achievements_unlocked_total": 12,
+      "achievements_unlocked_total": 15,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 12,
+      "achievements_since_baseline": 15,
       "challenge_achievements": [
         {
           "apiname": "ACH_F_THROW_PACKAGE",
@@ -3847,9 +3847,27 @@
           "displayName": "Botanical Breakout",
           "description": " Escape the Winter Garden level.",
           "unlocktime": 1789203123
+        },
+        {
+          "apiname": "ACH_O_LIB_SCREW_ESC_P1",
+          "displayName": "Thinking Outside the Box",
+          "description": "Escape library part 1 in an unconventional way.",
+          "unlocktime": 1789261664
+        },
+        {
+          "apiname": "ACH_X_DELIV_PACK",
+          "displayName": "Dedicated",
+          "description": "Deliver the package.",
+          "unlocktime": 1789261821
+        },
+        {
+          "apiname": "ACH_Y_SAFE_DELIV",
+          "displayName": "Handled With Care",
+          "description": "Deliver the package without dropping or throwing it.",
+          "unlocktime": 1789261821
         }
       ],
-      "challenge_achievement_count": 12,
+      "challenge_achievement_count": 15,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
