@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1788220800,
   "totalAchievements": 20,
-  "generatedAt": 1789262234400,
+  "generatedAt": 1789274740217,
   "challengeOver": false,
   "winnerUsername": "Mahry",
   "participants": [
@@ -3762,19 +3762,19 @@
       "is_guest": false,
       "owned": true,
       "stats_available": true,
-      "wrote_review": false,
-      "review_voted_up": null,
-      "review_timestamp": null,
-      "review_recommendationid": null,
-      "review_url": null,
-      "playtime_total_minutes": 236,
-      "playtime_2weeks_minutes": 149,
+      "wrote_review": true,
+      "review_voted_up": true,
+      "review_timestamp": 0,
+      "review_recommendationid": "235157003",
+      "review_url": "https://steamcommunity.com/profiles/76561198080362358/recommended/2292650",
+      "playtime_total_minutes": 306,
+      "playtime_2weeks_minutes": 219,
       "baseline_playtime_minutes": 87,
-      "playtime_challenge_minutes": 149,
+      "playtime_challenge_minutes": 219,
       "achievements_total": 20,
-      "achievements_unlocked_total": 15,
+      "achievements_unlocked_total": 20,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 15,
+      "achievements_since_baseline": 20,
       "challenge_achievements": [
         {
           "apiname": "ACH_F_THROW_PACKAGE",
@@ -3865,17 +3865,46 @@
           "displayName": "Handled With Care",
           "description": "Deliver the package without dropping or throwing it.",
           "unlocktime": 1789261821
+        },
+        {
+          "apiname": "ACH_P_TRANSL_MELL",
+          "displayName": "The Translator",
+          "description": "Translate the last password of the library from elvish.",
+          "unlocktime": 1789263133
+        },
+        {
+          "apiname": "ACH_E_LIB_COMPL",
+          "displayName": "Literary Escapee",
+          "description": "Escape the Library level.",
+          "unlocktime": 1789263369
+        },
+        {
+          "apiname": "ACH_R_MANSIONESCAPE",
+          "displayName": "Mansion Escape",
+          "description": "Escape the Mansion.",
+          "unlocktime": 1789263421
+        },
+        {
+          "apiname": "ACH_S_NO_HINTS",
+          "displayName": "Look Ma, No Hints!",
+          "description": "Complete the game without using any hints.",
+          "unlocktime": 1789263421
+        },
+        {
+          "apiname": "ACH_Z_OVERSEER",
+          "displayName": "First Day On Your New Job!",
+          "unlocktime": 1789264899
         }
       ],
-      "challenge_achievement_count": 15,
+      "challenge_achievement_count": 20,
       "has_started": true,
-      "is_complete": false,
-      "completed_at": null,
+      "is_complete": true,
+      "completed_at": 1789264899,
       "completed_before_start": false,
       "completed_after_deadline": false,
       "meets_playtime": true,
-      "meets_review": false,
-      "is_winner": false
+      "meets_review": true,
+      "is_winner": true
     },
     {
       "username": "yannbz",
@@ -4895,7 +4924,8 @@
     "Casino0",
     "puninup",
     "RePlayBe",
-    "quinnix"
+    "quinnix",
+    "VenomousNyx"
   ],
   "roster": {
     "participants": [
