@@ -2060,18 +2060,18 @@
       "story_tag_count": 0
     },
     "1293160": {
-      "fetched_at": "2026-08-24T20:04:36.877Z",
+      "fetched_at": "2026-09-14T15:56:32.354Z",
       "marker": {
-        "apiname": "Conduit",
-        "name": "Conduit",
-        "description": "Use Spirit Blast to create electricity.",
-        "global_percent": 78.2,
-        "source": "steamhunters",
-        "filtered": true,
-        "sh_achievement_id": 38
+        "apiname": "CantAlwaysSaveEveryone",
+        "name": "Can't Always Save Everyone",
+        "description": "",
+        "global_percent": 36.2,
+        "source": "override",
+        "sh_achievement_id": 13
       },
       "no_marker_reason": null,
-      "story_tag_count": 2
+      "story_tag_count": 0,
+      "override_key": "1293160:CantAlwaysSaveEveryone"
     },
     "1297330": {
       "fetched_at": "2026-08-24T16:53:54.750Z",
@@ -2552,18 +2552,18 @@
       "story_tag_count": 0
     },
     "1492680": {
-      "fetched_at": "2026-08-24T20:10:16.347Z",
+      "fetched_at": "2026-09-14T15:56:48.908Z",
       "marker": {
-        "apiname": "TROP040",
-        "name": "Cleanse the Bear",
-        "description": "Cleanse the Mountain Tundra.",
-        "global_percent": 30.7,
-        "source": "steamhunters",
-        "filtered": true,
-        "sh_achievement_id": 41
+        "apiname": "TROP041",
+        "name": "The Truth is a Pathless Land",
+        "description": "",
+        "global_percent": 29.2,
+        "source": "override",
+        "sh_achievement_id": 42
       },
       "no_marker_reason": null,
-      "story_tag_count": 5
+      "story_tag_count": 0,
+      "override_key": "1492680:TROP041"
     },
     "1493640": {
       "fetched_at": "2026-08-24T20:09:54.636Z",
@@ -2631,7 +2631,8 @@
         "any_of_apinames": [
           "Mindcop",
           "This_doesnt_feel_right"
-        ]
+        ],
+        "sh_achievement_id": 22
       },
       "no_marker_reason": null,
       "story_tag_count": 0,
@@ -3033,18 +3034,22 @@
       "story_tag_count": 6
     },
     "1627720": {
-      "fetched_at": "2026-08-24T20:05:09.311Z",
+      "fetched_at": "2026-09-14T15:56:33.529Z",
       "marker": {
-        "apiname": "LOP_135",
-        "name": "The Awakened God",
-        "description": "Kill the Awakened God Simon Manus.",
-        "global_percent": 42.6,
-        "source": "steamhunters",
-        "filtered": true,
-        "sh_achievement_id": 34
+        "apiname": "LOP_104",
+        "name": "Rise of P",
+        "description": "",
+        "global_percent": 27.4,
+        "source": "override",
+        "any_of_apinames": [
+          "LOP_104",
+          "LOP_103",
+          "LOP_102"
+        ]
       },
       "no_marker_reason": null,
-      "story_tag_count": 14
+      "story_tag_count": 0,
+      "override_key": "1627720:LOP_102,LOP_103,LOP_104"
     },
     "1629520": {
       "fetched_at": "2026-09-11T13:53:03.728Z",
@@ -4013,10 +4018,18 @@
       "story_tag_count": 1
     },
     "1996390": {
-      "fetched_at": "2026-09-11T13:47:14.725Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-09-14T15:56:50.135Z",
+      "marker": {
+        "apiname": "defeat_ceo",
+        "name": "You're Fired",
+        "description": "",
+        "global_percent": 32.2,
+        "source": "override",
+        "sh_achievement_id": 9
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0,
+      "override_key": "1996390:defeat_ceo"
     },
     "1999520": {
       "fetched_at": "2026-08-24T20:05:38.279Z",
@@ -4691,17 +4704,18 @@
       "story_tag_count": 11
     },
     "2406370": {
-      "fetched_at": "2026-09-11T12:23:39.503Z",
+      "fetched_at": "2026-09-14T15:56:41.842Z",
       "marker": {
-        "apiname": "COMPLETEONGAUNTLET",
-        "name": "The Gauntlet",
-        "description": "Complete the game on Gauntlet mode",
-        "global_percent": 3.1,
-        "source": "heuristic",
-        "sh_achievement_id": 1
+        "apiname": "COMPLETEONNORMAL",
+        "name": "Ascendant",
+        "description": "Complete the game on Normal Difficulty",
+        "global_percent": 15.4,
+        "source": "override",
+        "sh_achievement_id": 2
       },
       "no_marker_reason": null,
-      "story_tag_count": 0
+      "story_tag_count": 0,
+      "override_key": "2406370:COMPLETEONNORMAL"
     },
     "2407270": {
       "fetched_at": "2026-08-24T20:11:13.355Z",
@@ -4855,7 +4869,8 @@
           "void",
           "feast",
           "lotus"
-        ]
+        ],
+        "sh_achievement_id": 9
       },
       "no_marker_reason": null,
       "story_tag_count": 0,
@@ -5220,7 +5235,8 @@
         "any_of_apinames": [
           "ach_ending_a",
           "ach_ending_b"
-        ]
+        ],
+        "sh_achievement_id": 39
       },
       "no_marker_reason": null,
       "story_tag_count": 0,
@@ -5453,10 +5469,18 @@
       "story_tag_count": 0
     },
     "2996040": {
-      "fetched_at": "2026-08-24T19:32:15.953Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-09-14T15:56:40.659Z",
+      "marker": {
+        "apiname": "beatShredder_1",
+        "name": "Raze the Rooftops",
+        "description": "Defeat Shredder",
+        "global_percent": 28.9,
+        "source": "override",
+        "sh_achievement_id": 52
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0,
+      "override_key": "2996040:beatShredder_1"
     },
     "2997230": {
       "fetched_at": "2026-09-13T18:46:51.355Z",
@@ -5552,17 +5576,18 @@
       "story_tag_count": 0
     },
     "3067890": {
-      "fetched_at": "2026-09-11T13:46:43.654Z",
+      "fetched_at": "2026-09-14T15:56:34.709Z",
       "marker": {
-        "apiname": "L4_JU_REN_SHA_SHOU",
-        "name": "Giant Slayer",
-        "description": "Kill the final boss within 50 seconds",
-        "global_percent": 32.3,
-        "source": "heuristic",
-        "sh_achievement_id": 39
+        "apiname": "L1_SHANG_HAI_DA_BIAO",
+        "name": "Damage Requirement Met",
+        "description": "Kill the final boss within 300 seconds",
+        "global_percent": 41.8,
+        "source": "override",
+        "sh_achievement_id": 7
       },
       "no_marker_reason": null,
-      "story_tag_count": 0
+      "story_tag_count": 0,
+      "override_key": "3067890:L1_SHANG_HAI_DA_BIAO"
     },
     "3069810": {
       "fetched_at": "2026-08-24T17:05:12.296Z",
@@ -5855,10 +5880,18 @@
       "story_tag_count": 0
     },
     "3403660": {
-      "fetched_at": "2026-09-11T13:46:46.542Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-09-14T15:56:47.693Z",
+      "marker": {
+        "apiname": "FIRST_40",
+        "name": "First 40 Steps",
+        "description": "Make your way to the 40th floor.",
+        "global_percent": 44.1,
+        "source": "override",
+        "sh_achievement_id": 6
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0,
+      "override_key": "3403660:FIRST_40"
     },
     "3417120": {
       "fetched_at": "2026-08-24T19:31:53.756Z",
@@ -6070,7 +6103,8 @@
         "any_of_apinames": [
           "ACH_ROCK_OF_AGES",
           "ACH_PROFESSIONAL"
-        ]
+        ],
+        "sh_achievement_id": 49
       },
       "no_marker_reason": null,
       "story_tag_count": 0,
@@ -7330,13 +7364,6 @@
       "unlock_time": 1753112843,
       "no_data_reason": null
     },
-    "76561198359284432::1293160": {
-      "fetched_at": "2026-08-24T17:40:24.162Z",
-      "marker_apiname": "Conduit",
-      "beaten": true,
-      "unlock_time": 1754492674,
-      "no_data_reason": null
-    },
     "76561198453663783::567640": {
       "fetched_at": "2026-08-24T17:40:30.255Z",
       "marker_apiname": "ID_ALL_CLEAR",
@@ -7370,13 +7397,6 @@
       "marker_apiname": "ACH_JEEP_100",
       "beaten": true,
       "unlock_time": 1752460513,
-      "no_data_reason": null
-    },
-    "76561199036747433::1627720": {
-      "fetched_at": "2026-08-24T17:40:45.497Z",
-      "marker_apiname": "LOP_135",
-      "beaten": true,
-      "unlock_time": 1752325795,
       "no_data_reason": null
     },
     "76561199036747433::1601570": {
@@ -7748,13 +7768,6 @@
       "marker_apiname": "ACH_Ch5Complete",
       "beaten": true,
       "unlock_time": 1758311137,
-      "no_data_reason": null
-    },
-    "76561198020386807::1293160": {
-      "fetched_at": "2026-08-24T17:42:25.817Z",
-      "marker_apiname": "Conduit",
-      "beaten": true,
-      "unlock_time": 1755723309,
       "no_data_reason": null
     },
     "76561198020386807::1497440": {
@@ -8198,13 +8211,6 @@
       "unlock_time": 1784150545,
       "no_data_reason": null
     },
-    "76561198069420656::1627720": {
-      "fetched_at": "2026-08-24T17:44:31.989Z",
-      "marker_apiname": "LOP_135",
-      "beaten": true,
-      "unlock_time": 1773237006,
-      "no_data_reason": null
-    },
     "76561198069420656::1313140": {
       "fetched_at": "2026-08-24T17:44:38.193Z",
       "marker_apiname": "KILL_BOSS_5",
@@ -8231,13 +8237,6 @@
       "marker_apiname": "ACHIEVEMENT_01009",
       "beaten": true,
       "unlock_time": 1753142848,
-      "no_data_reason": null
-    },
-    "76561197975099685::1492680": {
-      "fetched_at": "2026-08-24T17:44:49.306Z",
-      "marker_apiname": "TROP040",
-      "beaten": true,
-      "unlock_time": 1770727564,
       "no_data_reason": null
     },
     "76561197975099685::2019760": {
@@ -8385,13 +8384,6 @@
       "marker_apiname": "ACH_PROG_END",
       "beaten": true,
       "unlock_time": 1751867073,
-      "no_data_reason": null
-    },
-    "76561198027595057::1293160": {
-      "fetched_at": "2026-08-24T17:45:28.723Z",
-      "marker_apiname": "Conduit",
-      "beaten": true,
-      "unlock_time": 1751231919,
       "no_data_reason": null
     },
     "76561197994025244::1172380": {
@@ -8709,13 +8701,6 @@
       "unlock_time": 1755757151,
       "no_data_reason": null
     },
-    "76561197989280149::1293160": {
-      "fetched_at": "2026-08-24T17:47:05.433Z",
-      "marker_apiname": "Conduit",
-      "beaten": true,
-      "unlock_time": 1751256180,
-      "no_data_reason": null
-    },
     "76561197989280149::1222140": {
       "fetched_at": "2026-08-24T17:47:09.126Z",
       "marker_apiname": "46",
@@ -8786,13 +8771,6 @@
       "unlock_time": 1783820386,
       "no_data_reason": null
     },
-    "76561198185630581::1627720": {
-      "fetched_at": "2026-09-14T04:52:34.072Z",
-      "marker_apiname": "LOP_135",
-      "beaten": false,
-      "unlock_time": null,
-      "no_data_reason": null
-    },
     "76561198077347875::2407270": {
       "fetched_at": "2026-08-24T17:47:36.571Z",
       "marker_apiname": "BeatMonster_121002",
@@ -8812,13 +8790,6 @@
       "marker_apiname": "DISCOVERED_MOSS",
       "beaten": true,
       "unlock_time": 1753829480,
-      "no_data_reason": null
-    },
-    "76561198089693705::1492680": {
-      "fetched_at": "2026-09-14T04:52:38.551Z",
-      "marker_apiname": "TROP040",
-      "beaten": false,
-      "unlock_time": null,
       "no_data_reason": null
     },
     "76561198089693705::702670": {
@@ -8875,13 +8846,6 @@
       "marker_apiname": "THE_END",
       "beaten": true,
       "unlock_time": 1771163753,
-      "no_data_reason": null
-    },
-    "76561198049128535::1293160": {
-      "fetched_at": "2026-08-24T17:48:03.762Z",
-      "marker_apiname": "Conduit",
-      "beaten": true,
-      "unlock_time": 1754462381,
       "no_data_reason": null
     },
     "76561198049128535::1382070": {
@@ -9073,13 +9037,6 @@
       "unlock_time": 1754403006,
       "no_data_reason": null
     },
-    "76561198054575805::1492680": {
-      "fetched_at": "2026-08-24T17:49:05.135Z",
-      "marker_apiname": "TROP040",
-      "beaten": true,
-      "unlock_time": 1768451059,
-      "no_data_reason": null
-    },
     "76561198054575805::1999520": {
       "fetched_at": "2026-08-24T17:49:06.394Z",
       "marker_apiname": "MAIN_ACHIEVEMENT_12",
@@ -9113,13 +9070,6 @@
       "marker_apiname": "ACH15",
       "beaten": false,
       "unlock_time": null,
-      "no_data_reason": null
-    },
-    "76561197980988545::1293160": {
-      "fetched_at": "2026-08-24T17:49:12.929Z",
-      "marker_apiname": "Conduit",
-      "beaten": true,
-      "unlock_time": 1751493176,
       "no_data_reason": null
     },
     "76561198070108772::3527290": {
@@ -9724,13 +9674,6 @@
       "unlock_time": 1788517058,
       "no_data_reason": null
     },
-    "76561198061661987::1627720": {
-      "fetched_at": "2026-09-14T04:52:10.292Z",
-      "marker_apiname": "LOP_135",
-      "beaten": false,
-      "unlock_time": null,
-      "no_data_reason": null
-    },
     "76561198359284432::3527290": {
       "fetched_at": "2026-09-07T19:56:39.545Z",
       "marker_apiname": "PeakBadge",
@@ -9820,13 +9763,6 @@
       "marker_apiname": "ACH_CREDITS",
       "beaten": true,
       "unlock_time": 1768292147,
-      "no_data_reason": null
-    },
-    "76561198027027643::2406370": {
-      "fetched_at": "2026-09-11T12:26:24.824Z",
-      "marker_apiname": "COMPLETEONGAUNTLET",
-      "beaten": true,
-      "unlock_time": 1763315892,
       "no_data_reason": null
     },
     "76561197984532155::951750": {
@@ -10004,13 +9940,6 @@
       "unlock_time": 1757780940,
       "no_data_reason": null
     },
-    "76561197960990984::1293160": {
-      "fetched_at": "2026-09-11T12:27:39.241Z",
-      "marker_apiname": "Conduit",
-      "beaten": true,
-      "unlock_time": 1752682045,
-      "no_data_reason": null
-    },
     "76561198025107173::3244220": {
       "fetched_at": "2026-09-11T12:27:42.892Z",
       "marker_apiname": "TREASURE_ACH",
@@ -10095,13 +10024,6 @@
       "unlock_time": 1751645076,
       "no_data_reason": null
     },
-    "76561198010836552::1293160": {
-      "fetched_at": "2026-09-11T12:28:45.232Z",
-      "marker_apiname": "Conduit",
-      "beaten": true,
-      "unlock_time": 1768742233,
-      "no_data_reason": null
-    },
     "76561198010836552::1030300": {
       "fetched_at": "2026-09-11T12:28:46.478Z",
       "marker_apiname": "DEFEATED_LACE_2",
@@ -10130,13 +10052,6 @@
       "unlock_time": 1759930310,
       "no_data_reason": null
     },
-    "76561198089973992::1627720": {
-      "fetched_at": "2026-09-14T04:52:31.824Z",
-      "marker_apiname": "LOP_135",
-      "beaten": false,
-      "unlock_time": null,
-      "no_data_reason": null
-    },
     "76561198047330685::2592160": {
       "fetched_at": "2026-09-11T13:47:30.388Z",
       "marker_apiname": "ACH_LISTEN",
@@ -10149,13 +10064,6 @@
       "marker_apiname": "ACHIEVEMENT_GAME_0",
       "beaten": true,
       "unlock_time": 1773059671,
-      "no_data_reason": null
-    },
-    "76561198025173613::3067890": {
-      "fetched_at": "2026-09-11T13:47:32.828Z",
-      "marker_apiname": "L4_JU_REN_SHA_SHOU",
-      "beaten": true,
-      "unlock_time": 1776213527,
       "no_data_reason": null
     },
     "76561198025173613::1206430": {
@@ -10338,13 +10246,6 @@
       "marker_apiname": "DG1_ACH_11",
       "beaten": true,
       "unlock_time": 1768410234,
-      "no_data_reason": null
-    },
-    "76561198089693705::1293160": {
-      "fetched_at": "2026-09-11T13:48:08.627Z",
-      "marker_apiname": "Conduit",
-      "beaten": true,
-      "unlock_time": 1771810549,
       "no_data_reason": null
     },
     "76561198049128535::1222140": {
@@ -11101,6 +11002,167 @@
       "marker_apiname": "ach_w10end",
       "beaten": true,
       "unlock_time": 1754986340,
+      "no_data_reason": null
+    },
+    "76561198359284432::1293160": {
+      "fetched_at": "2026-09-14T15:56:51.405Z",
+      "marker_apiname": "CantAlwaysSaveEveryone",
+      "beaten": true,
+      "unlock_time": 1755011975,
+      "no_data_reason": null
+    },
+    "76561199036747433::1627720": {
+      "fetched_at": "2026-09-14T15:56:52.531Z",
+      "marker_apiname": "LOP_104",
+      "beaten": true,
+      "unlock_time": 1752326172,
+      "no_data_reason": null
+    },
+    "76561198025173613::3067890": {
+      "fetched_at": "2026-09-14T15:56:53.674Z",
+      "marker_apiname": "L1_SHANG_HAI_DA_BIAO",
+      "beaten": true,
+      "unlock_time": 1776213526,
+      "no_data_reason": null
+    },
+    "76561198020386807::1293160": {
+      "fetched_at": "2026-09-14T15:56:54.816Z",
+      "marker_apiname": "CantAlwaysSaveEveryone",
+      "beaten": false,
+      "unlock_time": null,
+      "no_data_reason": null
+    },
+    "76561198036424003::2996040": {
+      "fetched_at": "2026-09-14T15:56:55.981Z",
+      "marker_apiname": "beatShredder_1",
+      "beaten": true,
+      "unlock_time": 1777456292,
+      "no_data_reason": null
+    },
+    "76561198027027643::2406370": {
+      "fetched_at": "2026-09-14T15:56:57.163Z",
+      "marker_apiname": "COMPLETEONNORMAL",
+      "beaten": true,
+      "unlock_time": 1763059911,
+      "no_data_reason": null
+    },
+    "76561198118726910::3403660": {
+      "fetched_at": "2026-09-14T15:56:58.309Z",
+      "marker_apiname": "FIRST_40",
+      "beaten": true,
+      "unlock_time": 1772932477,
+      "no_data_reason": null
+    },
+    "76561198069420656::1627720": {
+      "fetched_at": "2026-09-14T15:56:59.500Z",
+      "marker_apiname": "LOP_104",
+      "beaten": true,
+      "unlock_time": 1773238165,
+      "no_data_reason": null
+    },
+    "76561197975099685::1492680": {
+      "fetched_at": "2026-09-14T15:57:00.762Z",
+      "marker_apiname": "TROP041",
+      "beaten": true,
+      "unlock_time": 1770742208,
+      "no_data_reason": null
+    },
+    "76561198061661987::1627720": {
+      "fetched_at": "2026-09-14T15:57:01.895Z",
+      "marker_apiname": "LOP_104",
+      "beaten": false,
+      "unlock_time": null,
+      "no_data_reason": null
+    },
+    "76561198027595057::1293160": {
+      "fetched_at": "2026-09-14T15:57:03.025Z",
+      "marker_apiname": "CantAlwaysSaveEveryone",
+      "beaten": true,
+      "unlock_time": 1751307542,
+      "no_data_reason": null
+    },
+    "76561197960990984::1293160": {
+      "fetched_at": "2026-09-14T15:57:04.144Z",
+      "marker_apiname": "CantAlwaysSaveEveryone",
+      "beaten": true,
+      "unlock_time": 1760890955,
+      "no_data_reason": null
+    },
+    "76561197989280149::1293160": {
+      "fetched_at": "2026-09-14T15:57:05.291Z",
+      "marker_apiname": "CantAlwaysSaveEveryone",
+      "beaten": true,
+      "unlock_time": 1751608096,
+      "no_data_reason": null
+    },
+    "76561198089973992::1627720": {
+      "fetched_at": "2026-09-14T15:57:06.568Z",
+      "marker_apiname": "LOP_104",
+      "beaten": false,
+      "unlock_time": null,
+      "no_data_reason": null
+    },
+    "76561198089973992::2996040": {
+      "fetched_at": "2026-09-14T15:57:07.882Z",
+      "marker_apiname": "beatShredder_1",
+      "beaten": true,
+      "unlock_time": 1775045470,
+      "no_data_reason": null
+    },
+    "76561198089973992::1996390": {
+      "fetched_at": "2026-09-14T15:57:09.103Z",
+      "marker_apiname": "defeat_ceo",
+      "beaten": true,
+      "unlock_time": 1772232159,
+      "no_data_reason": null
+    },
+    "76561198185630581::1627720": {
+      "fetched_at": "2026-09-14T15:57:10.261Z",
+      "marker_apiname": "LOP_104",
+      "beaten": false,
+      "unlock_time": null,
+      "no_data_reason": null
+    },
+    "76561198089693705::1293160": {
+      "fetched_at": "2026-09-14T15:57:11.388Z",
+      "marker_apiname": "CantAlwaysSaveEveryone",
+      "beaten": true,
+      "unlock_time": 1771988683,
+      "no_data_reason": null
+    },
+    "76561198089693705::1492680": {
+      "fetched_at": "2026-09-14T15:57:12.597Z",
+      "marker_apiname": "TROP041",
+      "beaten": false,
+      "unlock_time": null,
+      "no_data_reason": null
+    },
+    "76561198049128535::1293160": {
+      "fetched_at": "2026-09-14T15:57:13.737Z",
+      "marker_apiname": "CantAlwaysSaveEveryone",
+      "beaten": true,
+      "unlock_time": 1754834956,
+      "no_data_reason": null
+    },
+    "76561198054575805::1492680": {
+      "fetched_at": "2026-09-14T15:57:14.893Z",
+      "marker_apiname": "TROP041",
+      "beaten": true,
+      "unlock_time": 1768455656,
+      "no_data_reason": null
+    },
+    "76561197980988545::1293160": {
+      "fetched_at": "2026-09-14T15:57:16.025Z",
+      "marker_apiname": "CantAlwaysSaveEveryone",
+      "beaten": true,
+      "unlock_time": 1752047731,
+      "no_data_reason": null
+    },
+    "76561198010836552::1293160": {
+      "fetched_at": "2026-09-14T15:57:17.226Z",
+      "marker_apiname": "CantAlwaysSaveEveryone",
+      "beaten": true,
+      "unlock_time": 1768839848,
       "no_data_reason": null
     }
   },
