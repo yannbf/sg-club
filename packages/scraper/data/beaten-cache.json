@@ -331,10 +331,18 @@
       "story_tag_count": 0
     },
     "501300": {
-      "fetched_at": "2026-08-24T16:52:04.409Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-09-14T14:19:42.712Z",
+      "marker": {
+        "apiname": "AllStories",
+        "name": "The End of Everything",
+        "description": "Finish all stories",
+        "global_percent": 56.8,
+        "source": "override",
+        "sh_achievement_id": 1
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0,
+      "override_key": "501300:AllStories"
     },
     "515960": {
       "fetched_at": "2026-09-11T12:25:16.842Z",
@@ -365,10 +373,18 @@
       "story_tag_count": 19
     },
     "524910": {
-      "fetched_at": "2026-09-11T12:24:09.820Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-09-14T14:19:55.090Z",
+      "marker": {
+        "apiname": "FindAllObjectivesOfAllMaps",
+        "name": "Compulsive Searcher",
+        "description": "Find All Objectives of all maps",
+        "global_percent": 44.6,
+        "source": "override",
+        "sh_achievement_id": 10
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0,
+      "override_key": "524910:FindAllObjectivesOfAllMaps"
     },
     "534380": {
       "fetched_at": "2026-08-24T20:10:09.866Z",
@@ -734,17 +750,18 @@
       "story_tag_count": 0
     },
     "761600": {
-      "fetched_at": "2026-09-11T12:23:43.064Z",
+      "fetched_at": "2026-09-14T14:19:49.463Z",
       "marker": {
-        "apiname": "ACHIEVEMENT_21",
-        "name": "The Ultimate Champion",
-        "description": "Complete the game on Ultimate difficulty.",
-        "global_percent": 4.5,
-        "source": "heuristic",
-        "sh_achievement_id": 21
+        "apiname": "ACHIEVEMENT_11",
+        "name": "Save the Princess",
+        "description": "",
+        "global_percent": 44.6,
+        "source": "override",
+        "sh_achievement_id": 11
       },
       "no_marker_reason": null,
-      "story_tag_count": 0
+      "story_tag_count": 0,
+      "override_key": "761600:ACHIEVEMENT_11"
     },
     "774171": {
       "fetched_at": "2026-08-24T16:50:55.452Z",
@@ -1021,17 +1038,18 @@
       "story_tag_count": 1
     },
     "913850": {
-      "fetched_at": "2026-09-11T12:24:25.510Z",
+      "fetched_at": "2026-09-14T14:19:57.285Z",
       "marker": {
-        "apiname": "FAST_ACHIEVE",
-        "name": "Full throttle",
-        "description": "Complete the game within 30 minutes in one session",
-        "global_percent": 15.6,
-        "source": "heuristic",
-        "sh_achievement_id": 5
+        "apiname": "END_ACHIEVE",
+        "name": "Convicted",
+        "description": "Complete the game",
+        "global_percent": 50.4,
+        "source": "override",
+        "sh_achievement_id": 3
       },
       "no_marker_reason": null,
-      "story_tag_count": 0
+      "story_tag_count": 0,
+      "override_key": "913850:END_ACHIEVE"
     },
     "914020": {
       "fetched_at": "2026-08-24T17:08:43.466Z",
@@ -1054,10 +1072,18 @@
       "story_tag_count": 10
     },
     "923260": {
-      "fetched_at": "2026-08-24T17:05:10.835Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-09-14T14:19:35.987Z",
+      "marker": {
+        "apiname": "ach_w10end",
+        "name": "Dessert",
+        "description": "Complete World 10",
+        "global_percent": 20.3,
+        "source": "override",
+        "sh_achievement_id": 12
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0,
+      "override_key": "923260:ach_w10end"
     },
     "934700": {
       "fetched_at": "2026-08-24T20:10:58.114Z",
@@ -1080,10 +1106,18 @@
       "story_tag_count": 0
     },
     "945710": {
-      "fetched_at": "2026-08-24T19:32:07.078Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-09-14T14:19:47.175Z",
+      "marker": {
+        "apiname": "CHAPTER6",
+        "name": "Snake Charmer",
+        "description": "",
+        "global_percent": 39.5,
+        "source": "override",
+        "sh_achievement_id": 7
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0,
+      "override_key": "945710:CHAPTER6"
     },
     "951750": {
       "fetched_at": "2026-09-11T12:23:46.700Z",
@@ -1175,17 +1209,18 @@
       "story_tag_count": 12
     },
     "990380": {
-      "fetched_at": "2026-08-24T19:32:44.013Z",
+      "fetched_at": "2026-09-14T14:20:08.354Z",
       "marker": {
-        "apiname": "metal_eden_brutal",
-        "name": "METAL EDEN: Brutal",
-        "description": "Complete the game on Brutal",
-        "global_percent": 2.6,
-        "source": "heuristic",
-        "sh_achievement_id": 22
+        "apiname": "metal_eden_normal",
+        "name": "METAL EDEN: Completed",
+        "description": "Complete the game on Easy or Normal",
+        "global_percent": 20.4,
+        "source": "override",
+        "sh_achievement_id": 23
       },
       "no_marker_reason": null,
-      "story_tag_count": 0
+      "story_tag_count": 0,
+      "override_key": "990380:metal_eden_normal"
     },
     "992300": {
       "fetched_at": "2026-08-24T20:12:21.982Z",
@@ -1527,10 +1562,18 @@
       "story_tag_count": 8
     },
     "1164690": {
-      "fetched_at": "2026-09-11T12:25:01.987Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-09-14T14:20:06.078Z",
+      "marker": {
+        "apiname": "ACH_DRAGON_SLAYER",
+        "name": "Dragon Slayer",
+        "description": "Slay Blodwyrt the Red Worm from Heols and the Dark Archon",
+        "global_percent": 6.1,
+        "source": "override",
+        "sh_achievement_id": 1
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0,
+      "override_key": "1164690:ACH_DRAGON_SLAYER"
     },
     "1170060": {
       "fetched_at": "2026-09-11T13:53:23.805Z",
@@ -2475,18 +2518,18 @@
       "story_tag_count": 19
     },
     "1466060": {
-      "fetched_at": "2026-09-11T13:52:47.251Z",
+      "fetched_at": "2026-09-14T14:19:40.556Z",
       "marker": {
-        "apiname": "crownOfAshes",
-        "name": "Crown of Ashes",
-        "description": "Claim the crown that once bent Giants to the King’s will.",
-        "global_percent": 15,
-        "source": "steamhunters",
-        "filtered": true,
-        "sh_achievement_id": 4
+        "apiname": "kingOfAvalon",
+        "name": "King of Avalon",
+        "description": "",
+        "global_percent": 15.3,
+        "source": "override",
+        "sh_achievement_id": 5
       },
       "no_marker_reason": null,
-      "story_tag_count": 11
+      "story_tag_count": 0,
+      "override_key": "1466060:kingOfAvalon"
     },
     "1466230": {
       "fetched_at": "2026-08-24T20:04:40.349Z",
@@ -2564,16 +2607,35 @@
       "story_tag_count": 6
     },
     "1502800": {
-      "fetched_at": "2026-09-11T12:25:00.489Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-09-14T14:20:05.010Z",
+      "marker": {
+        "apiname": "destiny",
+        "name": "Destiny Changer",
+        "description": "Save Capitol city",
+        "global_percent": 79.2,
+        "source": "override",
+        "sh_achievement_id": 6
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0,
+      "override_key": "1502800:destiny"
     },
     "1517180": {
-      "fetched_at": "2026-09-11T12:23:25.613Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-09-14T14:19:45.977Z",
+      "marker": {
+        "apiname": "Mindcop",
+        "name": "Mindcop",
+        "description": "Catch the killer",
+        "global_percent": 33.9,
+        "source": "override",
+        "any_of_apinames": [
+          "Mindcop",
+          "This_doesnt_feel_right"
+        ]
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0,
+      "override_key": "1517180:Mindcop,This_doesnt_feel_right"
     },
     "1525700": {
       "fetched_at": "2026-08-24T16:54:33.672Z",
@@ -2783,10 +2845,18 @@
       "story_tag_count": 0
     },
     "1593030": {
-      "fetched_at": "2026-08-24T17:04:37.689Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-09-14T14:19:56.166Z",
+      "marker": {
+        "apiname": "HundredPercentRestored",
+        "name": "Global Rejuvenation",
+        "description": "Completely restore the planet",
+        "global_percent": 14.6,
+        "source": "override",
+        "sh_achievement_id": 9
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0,
+      "override_key": "1593030:HundredPercentRestored"
     },
     "1593500": {
       "fetched_at": "2026-08-24T20:05:57.543Z",
@@ -2901,17 +2971,18 @@
       "story_tag_count": 0
     },
     "1622910": {
-      "fetched_at": "2026-08-24T18:00:38.433Z",
+      "fetched_at": "2026-09-14T14:19:52.885Z",
       "marker": {
-        "apiname": "SWTD_ACH_033",
-        "name": "Bheir an cuan a chuid fhèin a-mach",
-        "description": "Completed the game in Scottish Gaelic",
-        "global_percent": 2.2,
-        "source": "heuristic",
-        "sh_achievement_id": 33
+        "apiname": "SWTD_ACH_017",
+        "name": "Still Wakes The Deep",
+        "description": "",
+        "global_percent": 49.4,
+        "source": "override",
+        "sh_achievement_id": 17
       },
       "no_marker_reason": null,
-      "story_tag_count": 0
+      "story_tag_count": 0,
+      "override_key": "1622910:SWTD_ACH_017"
     },
     "1623940": {
       "fetched_at": "2026-08-24T20:08:20.097Z",
@@ -2934,18 +3005,18 @@
       "story_tag_count": 0
     },
     "1626620": {
-      "fetched_at": "2026-08-24T20:04:43.680Z",
+      "fetched_at": "2026-09-14T14:19:37.075Z",
       "marker": {
-        "apiname": "ACH_FREE_DOG",
-        "name": "The dog is free!",
-        "description": "Save the dog from the hunters",
-        "global_percent": 47.7,
-        "source": "steamhunters",
-        "filtered": true,
-        "sh_achievement_id": 4
+        "apiname": "ACH_FINISH_GAME",
+        "name": "Never alone",
+        "description": "",
+        "global_percent": 36.1,
+        "source": "override",
+        "sh_achievement_id": 7
       },
       "no_marker_reason": null,
-      "story_tag_count": 2
+      "story_tag_count": 0,
+      "override_key": "1626620:ACH_FINISH_GAME"
     },
     "1627570": {
       "fetched_at": "2026-08-24T20:10:50.970Z",
@@ -3200,10 +3271,18 @@
       "story_tag_count": 0
     },
     "1709580": {
-      "fetched_at": "2026-08-24T19:31:44.375Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-09-14T14:19:38.306Z",
+      "marker": {
+        "apiname": "finnishedstory",
+        "name": "Real Friend",
+        "description": "Finish Story Mode",
+        "global_percent": 44,
+        "source": "override",
+        "sh_achievement_id": 8
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0,
+      "override_key": "1709580:finnishedstory"
     },
     "1709700": {
       "fetched_at": "2026-08-24T16:53:57.784Z",
@@ -3311,10 +3390,18 @@
       "story_tag_count": 0
     },
     "1781010": {
-      "fetched_at": "2026-08-24T17:03:19.080Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-09-14T14:19:53.989Z",
+      "marker": {
+        "apiname": "CLIMB_MOUNTAIN",
+        "name": "Pine Hearts Run Free",
+        "description": "Climb the Mountain",
+        "global_percent": 46.5,
+        "source": "override",
+        "sh_achievement_id": 1
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0,
+      "override_key": "1781010:CLIMB_MOUNTAIN"
     },
     "1796220": {
       "fetched_at": "2026-08-24T20:10:44.846Z",
@@ -3532,10 +3619,18 @@
       "story_tag_count": 3
     },
     "1876590": {
-      "fetched_at": "2026-09-11T13:47:19.139Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-09-14T14:20:02.860Z",
+      "marker": {
+        "apiname": "IAMYOURBEAST",
+        "name": "I Am Your Beast",
+        "description": "Complete all story levels.",
+        "global_percent": 36.4,
+        "source": "override",
+        "sh_achievement_id": 28
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0,
+      "override_key": "1876590:IAMYOURBEAST"
     },
     "1882500": {
       "fetched_at": "2026-09-11T13:46:56.026Z",
@@ -3729,10 +3824,18 @@
       "story_tag_count": 0
     },
     "1933190": {
-      "fetched_at": "2026-09-11T13:47:20.550Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-09-14T14:20:03.925Z",
+      "marker": {
+        "apiname": "bigFinale_bk",
+        "name": "ACTION MOVIE HERO!",
+        "description": "Big finale!",
+        "global_percent": 39.6,
+        "source": "override",
+        "sh_achievement_id": 19
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0,
+      "override_key": "1933190:bigFinale_bk"
     },
     "1934680": {
       "fetched_at": "2026-08-24T18:01:04.524Z",
@@ -3782,10 +3885,18 @@
       "story_tag_count": 21
     },
     "1959390": {
-      "fetched_at": "2026-09-11T13:47:17.773Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-09-14T14:20:01.763Z",
+      "marker": {
+        "apiname": "AMY_COMPLETE_GAME",
+        "name": "Perfect",
+        "description": "",
+        "global_percent": 46.3,
+        "source": "override",
+        "sh_achievement_id": 25
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0,
+      "override_key": "1959390:AMY_COMPLETE_GAME"
     },
     "1966220": {
       "fetched_at": "2026-08-24T20:10:46.178Z",
@@ -4033,10 +4144,18 @@
       "story_tag_count": 0
     },
     "2060590": {
-      "fetched_at": "2026-09-11T12:23:35.996Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-09-14T14:19:48.322Z",
+      "marker": {
+        "apiname": "Season8Complete",
+        "name": "Off On Holiday",
+        "description": "Wilmot completed all the puzzles in season 8.",
+        "global_percent": 44.1,
+        "source": "override",
+        "sh_achievement_id": 8
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0,
+      "override_key": "2060590:Season8Complete"
     },
     "2060790": {
       "fetched_at": "2026-09-11T12:24:11.205Z",
@@ -4193,10 +4312,18 @@
       "story_tag_count": 0
     },
     "2143290": {
-      "fetched_at": "2026-09-11T12:25:03.407Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-09-14T14:20:07.248Z",
+      "marker": {
+        "apiname": "ACHIEVEMENT_HSCR_42_Full",
+        "name": "I LOVE THIS CAT ADVENTURE GAME!",
+        "description": "GET ALL 2nd STAR ACHIEVEMENTS",
+        "global_percent": 31.4,
+        "source": "override",
+        "sh_achievement_id": 42
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0,
+      "override_key": "2143290:ACHIEVEMENT_HSCR_42_Full"
     },
     "2200410": {
       "fetched_at": "2026-08-24T20:12:25.296Z",
@@ -4406,10 +4533,18 @@
       "story_tag_count": 0
     },
     "2318800": {
-      "fetched_at": "2026-08-24T16:53:08.189Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-09-14T14:19:44.886Z",
+      "marker": {
+        "apiname": "ACH_AGGLOMERATIONCOMPLETE",
+        "name": "Future Memories",
+        "description": "Complete the “Future Memories” chapter",
+        "global_percent": 26.9,
+        "source": "override",
+        "sh_achievement_id": 9
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0,
+      "override_key": "2318800:ACH_AGGLOMERATIONCOMPLETE"
     },
     "2322010": {
       "fetched_at": "2026-08-24T20:05:24.173Z",
@@ -4671,10 +4806,18 @@
       "story_tag_count": 10
     },
     "2436940": {
-      "fetched_at": "2026-08-24T16:50:52.541Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-09-14T14:19:39.404Z",
+      "marker": {
+        "apiname": "ENDING",
+        "name": "Journey's End",
+        "description": "",
+        "global_percent": 29.1,
+        "source": "override",
+        "sh_achievement_id": 25
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0,
+      "override_key": "2436940:ENDING"
     },
     "2438680": {
       "fetched_at": "2026-08-24T17:06:44.018Z",
@@ -4701,10 +4844,22 @@
       "story_tag_count": 0
     },
     "2456350": {
-      "fetched_at": "2026-08-24T19:32:19.214Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-09-14T14:19:51.750Z",
+      "marker": {
+        "apiname": "void",
+        "name": "The Void",
+        "description": "",
+        "global_percent": 17.2,
+        "source": "override",
+        "any_of_apinames": [
+          "void",
+          "feast",
+          "lotus"
+        ]
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0,
+      "override_key": "2456350:feast,lotus,void"
     },
     "2461850": {
       "fetched_at": "2026-08-24T20:11:51.901Z",
@@ -4961,10 +5116,18 @@
       "story_tag_count": 0
     },
     "2678990": {
-      "fetched_at": "2026-08-24T17:04:23.439Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-09-14T14:19:59.504Z",
+      "marker": {
+        "apiname": "ACHIEVEMENT_MISSION_5_MAIN",
+        "name": "Blissful Harmony",
+        "description": "Win Mission 5",
+        "global_percent": 39.1,
+        "source": "override",
+        "sh_achievement_id": 5
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0,
+      "override_key": "2678990:ACHIEVEMENT_MISSION_5_MAIN"
     },
     "2679100": {
       "fetched_at": "2026-08-24T19:32:39.684Z",
@@ -5047,18 +5210,21 @@
       "story_tag_count": 12
     },
     "2725260": {
-      "fetched_at": "2026-08-24T20:06:07.632Z",
+      "fetched_at": "2026-09-14T14:19:43.789Z",
       "marker": {
         "apiname": "ach_ending_a",
         "name": "Succession",
-        "description": "View Ending A.",
-        "global_percent": 54.6,
-        "source": "steamhunters",
-        "filtered": true,
-        "sh_achievement_id": 39
+        "description": "",
+        "global_percent": 54.9,
+        "source": "override",
+        "any_of_apinames": [
+          "ach_ending_a",
+          "ach_ending_b"
+        ]
       },
       "no_marker_reason": null,
-      "story_tag_count": 26
+      "story_tag_count": 0,
+      "override_key": "2725260:ach_ending_a,ach_ending_b"
     },
     "2727650": {
       "fetched_at": "2026-08-24T17:06:39.644Z",
@@ -5450,10 +5616,18 @@
       "story_tag_count": 0
     },
     "3198890": {
-      "fetched_at": "2026-08-24T19:32:35.179Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-09-14T14:19:58.378Z",
+      "marker": {
+        "apiname": "SD_FINISH_MAIN_GAME",
+        "name": "Crowning Achievement!",
+        "description": "Finish the main game!",
+        "global_percent": 23,
+        "source": "override",
+        "sh_achievement_id": 17
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0,
+      "override_key": "3198890:SD_FINISH_MAIN_GAME"
     },
     "3204250": {
       "fetched_at": "2026-09-11T12:25:06.881Z",
@@ -5661,10 +5835,18 @@
       "story_tag_count": 5
     },
     "3378330": {
-      "fetched_at": "2026-08-24T17:04:40.686Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-09-14T14:20:00.638Z",
+      "marker": {
+        "apiname": "HEART_FIXED",
+        "name": "The Break of Dawn",
+        "description": "",
+        "global_percent": 18.6,
+        "source": "override",
+        "sh_achievement_id": 15
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0,
+      "override_key": "3378330:HEART_FIXED"
     },
     "3399960": {
       "fetched_at": "2026-08-24T17:05:49.418Z",
@@ -5878,10 +6060,21 @@
       "story_tag_count": 0
     },
     "3812600": {
-      "fetched_at": "2026-08-24T16:55:01.966Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-09-14T14:19:50.592Z",
+      "marker": {
+        "apiname": "ACH_ROCK_OF_AGES",
+        "name": "Rock for the ages!",
+        "description": "",
+        "global_percent": 21.1,
+        "source": "override",
+        "any_of_apinames": [
+          "ACH_ROCK_OF_AGES",
+          "ACH_PROFESSIONAL"
+        ]
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0,
+      "override_key": "3812600:ACH_PROFESSIONAL,ACH_ROCK_OF_AGES"
     },
     "3838290": {
       "fetched_at": "2026-08-24T16:50:53.987Z",
@@ -5921,18 +6114,18 @@
       "story_tag_count": 0
     },
     "4077060": {
-      "fetched_at": "2026-09-11T12:23:10.430Z",
+      "fetched_at": "2026-09-14T14:19:41.684Z",
       "marker": {
-        "apiname": "ACH_14_LAST_NODE_UNLOCKED",
-        "name": "Full Circle",
-        "description": "Face your true self.",
-        "global_percent": 32,
-        "source": "steamhunters",
-        "filtered": true,
-        "sh_achievement_id": 14
+        "apiname": "ACH_15_CREDITS_END",
+        "name": "A new beginning?",
+        "description": "",
+        "global_percent": 31.9,
+        "source": "override",
+        "sh_achievement_id": 15
       },
       "no_marker_reason": null,
-      "story_tag_count": 6
+      "story_tag_count": 0,
+      "override_key": "4077060:ACH_15_CREDITS_END"
     },
     "4231820": {
       "fetched_at": "2026-08-24T19:49:11.025Z",
@@ -6696,13 +6889,6 @@
       "unlock_time": 1752305421,
       "no_data_reason": null
     },
-    "76561198347852739::1622910": {
-      "fetched_at": "2026-09-14T04:51:52.162Z",
-      "marker_apiname": "SWTD_ACH_033",
-      "beaten": false,
-      "unlock_time": null,
-      "no_data_reason": null
-    },
     "76561198148268245::538680": {
       "fetched_at": "2026-08-24T17:43:40.449Z",
       "marker_apiname": "STROPHY_SCENARIO_CLEAR",
@@ -6878,13 +7064,6 @@
       "unlock_time": 1787611731,
       "no_data_reason": null
     },
-    "76561198044604507::1622910": {
-      "fetched_at": "2026-09-14T04:52:22.751Z",
-      "marker_apiname": "SWTD_ACH_033",
-      "beaten": false,
-      "unlock_time": null,
-      "no_data_reason": null
-    },
     "76561198044604507::1681430": {
       "fetched_at": "2026-08-24T17:46:08.270Z",
       "marker_apiname": "Ql27ENDGAME",
@@ -6918,13 +7097,6 @@
       "marker_apiname": "9",
       "beaten": true,
       "unlock_time": 1786057295,
-      "no_data_reason": null
-    },
-    "76561198118320246::1622910": {
-      "fetched_at": "2026-09-14T04:52:24.989Z",
-      "marker_apiname": "SWTD_ACH_033",
-      "beaten": false,
-      "unlock_time": null,
       "no_data_reason": null
     },
     "76561199438702936::2357910": {
@@ -7025,13 +7197,6 @@
       "unlock_time": 1787513734,
       "no_data_reason": null
     },
-    "76561199141726712::1622910": {
-      "fetched_at": "2026-09-14T04:52:39.702Z",
-      "marker_apiname": "SWTD_ACH_033",
-      "beaten": false,
-      "unlock_time": null,
-      "no_data_reason": null
-    },
     "76561199141726712::1823930": {
       "fetched_at": "2026-08-24T17:47:51.266Z",
       "marker_apiname": "ACH_TURNING_THE_TIDE",
@@ -7072,13 +7237,6 @@
       "marker_apiname": "Complete_Head_Boy",
       "beaten": false,
       "unlock_time": null,
-      "no_data_reason": null
-    },
-    "76561198352113526::1622910": {
-      "fetched_at": "2026-08-24T17:48:08.678Z",
-      "marker_apiname": "SWTD_ACH_033",
-      "beaten": true,
-      "unlock_time": 1782205985,
       "no_data_reason": null
     },
     "76561198032315186::1158850": {
@@ -7177,13 +7335,6 @@
       "marker_apiname": "Conduit",
       "beaten": true,
       "unlock_time": 1754492674,
-      "no_data_reason": null
-    },
-    "76561198453663783::1626620": {
-      "fetched_at": "2026-08-24T17:40:29.041Z",
-      "marker_apiname": "ACH_FREE_DOG",
-      "beaten": true,
-      "unlock_time": 1785396010,
       "no_data_reason": null
     },
     "76561198453663783::567640": {
@@ -7340,26 +7491,12 @@
       "unlock_time": 1774030000,
       "no_data_reason": null
     },
-    "76561197962863579::2725260": {
-      "fetched_at": "2026-09-14T04:51:11.464Z",
-      "marker_apiname": "ach_ending_a",
-      "beaten": null,
-      "unlock_time": null,
-      "no_data_reason": "no_stats"
-    },
     "76561197962863579::1222140": {
       "fetched_at": "2026-09-14T04:51:12.668Z",
       "marker_apiname": "46",
       "beaten": null,
       "unlock_time": null,
       "no_data_reason": "no_stats"
-    },
-    "76561198061381176::2725260": {
-      "fetched_at": "2026-08-24T17:41:22.687Z",
-      "marker_apiname": "ach_ending_a",
-      "beaten": true,
-      "unlock_time": 1767452611,
-      "no_data_reason": null
     },
     "76561199481088028::990080": {
       "fetched_at": "2026-09-14T04:51:14.889Z",
@@ -7422,13 +7559,6 @@
       "marker_apiname": "ACH_Ch5Complete",
       "beaten": true,
       "unlock_time": 1750691435,
-      "no_data_reason": null
-    },
-    "76561198113581790::1626620": {
-      "fetched_at": "2026-09-11T12:25:53.103Z",
-      "marker_apiname": "ACH_FREE_DOG",
-      "beaten": true,
-      "unlock_time": 1789087360,
       "no_data_reason": null
     },
     "76561198113581790::3244220": {
@@ -8061,13 +8191,6 @@
       "unlock_time": 1760597526,
       "no_data_reason": null
     },
-    "76561198069420656::1626620": {
-      "fetched_at": "2026-08-24T17:44:29.544Z",
-      "marker_apiname": "ACH_FREE_DOG",
-      "beaten": true,
-      "unlock_time": 1785257288,
-      "no_data_reason": null
-    },
     "76561198069420656::3321460": {
       "fetched_at": "2026-08-24T17:44:30.778Z",
       "marker_apiname": "ExpertStoryteller",
@@ -8269,13 +8392,6 @@
       "marker_apiname": "Conduit",
       "beaten": true,
       "unlock_time": 1751231919,
-      "no_data_reason": null
-    },
-    "76561197994025244::1626620": {
-      "fetched_at": "2026-08-24T17:45:29.970Z",
-      "marker_apiname": "ACH_FREE_DOG",
-      "beaten": true,
-      "unlock_time": 1779569577,
       "no_data_reason": null
     },
     "76561197994025244::1172380": {
@@ -8523,13 +8639,6 @@
       "unlock_time": 1751236160,
       "no_data_reason": null
     },
-    "76561197991280042::2725260": {
-      "fetched_at": "2026-08-24T17:46:40.498Z",
-      "marker_apiname": "ach_ending_a",
-      "beaten": true,
-      "unlock_time": 1765707215,
-      "no_data_reason": null
-    },
     "76561197991280042::1313140": {
       "fetched_at": "2026-08-24T17:46:41.720Z",
       "marker_apiname": "KILL_BOSS_5",
@@ -8633,13 +8742,6 @@
       "marker_apiname": "NEW_ACHIEVEMENT_1_6",
       "beaten": true,
       "unlock_time": 1752169518,
-      "no_data_reason": null
-    },
-    "76561198089973992::2725260": {
-      "fetched_at": "2026-08-24T17:47:19.076Z",
-      "marker_apiname": "ach_ending_a",
-      "beaten": true,
-      "unlock_time": 1786178378,
       "no_data_reason": null
     },
     "76561198089973992::2475490": {
@@ -9076,13 +9178,6 @@
       "unlock_time": 1752401348,
       "no_data_reason": null
     },
-    "76561197996608804::1626620": {
-      "fetched_at": "2026-09-14T04:53:09.788Z",
-      "marker_apiname": "ACH_FREE_DOG",
-      "beaten": false,
-      "unlock_time": null,
-      "no_data_reason": null
-    },
     "76561197996608804::990080": {
       "fetched_at": "2026-09-14T04:53:10.967Z",
       "marker_apiname": "PFA_14",
@@ -9356,13 +9451,6 @@
       "unlock_time": 1785118109,
       "no_data_reason": null
     },
-    "76561198352113526::990380": {
-      "fetched_at": "2026-08-24T19:33:23.864Z",
-      "marker_apiname": "metal_eden_brutal",
-      "beaten": true,
-      "unlock_time": 1776850861,
-      "no_data_reason": null
-    },
     "76561198054373921::1213230": {
       "fetched_at": "2026-08-25T09:42:23.349Z",
       "marker_apiname": "BeatTheGame",
@@ -9594,13 +9682,6 @@
       "unlock_time": 1787721417,
       "no_data_reason": null
     },
-    "76561198017660760::1626620": {
-      "fetched_at": "2026-08-26T09:58:30.151Z",
-      "marker_apiname": "ACH_FREE_DOG",
-      "beaten": true,
-      "unlock_time": 1787698817,
-      "no_data_reason": null
-    },
     "76561198080362358::1097350": {
       "fetched_at": "2026-08-26T09:58:31.317Z",
       "marker_apiname": "ACH_SOMETHING_WICKED_THIS_WAY_COMES",
@@ -9692,13 +9773,6 @@
       "unlock_time": 1787739357,
       "no_data_reason": null
     },
-    "76561198025173613::4077060": {
-      "fetched_at": "2026-09-11T12:25:35.319Z",
-      "marker_apiname": "ACH_14_LAST_NODE_UNLOCKED",
-      "beaten": true,
-      "unlock_time": 1787787133,
-      "no_data_reason": null
-    },
     "76561198025173613::1581040": {
       "fetched_at": "2026-09-11T12:25:36.524Z",
       "marker_apiname": "ACH_TROPHY_12",
@@ -9718,13 +9792,6 @@
       "marker_apiname": "TRANSCENDED",
       "beaten": true,
       "unlock_time": 1781908114,
-      "no_data_reason": null
-    },
-    "76561198041749780::2725260": {
-      "fetched_at": "2026-09-14T04:51:25.047Z",
-      "marker_apiname": "ach_ending_a",
-      "beaten": false,
-      "unlock_time": null,
       "no_data_reason": null
     },
     "76561198041749780::2420660": {
@@ -9760,13 +9827,6 @@
       "marker_apiname": "COMPLETEONGAUNTLET",
       "beaten": true,
       "unlock_time": 1763315892,
-      "no_data_reason": null
-    },
-    "76561198027027643::761600": {
-      "fetched_at": "2026-09-14T04:51:43.147Z",
-      "marker_apiname": "ACHIEVEMENT_21",
-      "beaten": false,
-      "unlock_time": null,
       "no_data_reason": null
     },
     "76561197984532155::951750": {
@@ -9832,25 +9892,11 @@
       "unlock_time": 1777150012,
       "no_data_reason": null
     },
-    "76561198069420656::761600": {
-      "fetched_at": "2026-09-14T04:52:03.470Z",
-      "marker_apiname": "ACHIEVEMENT_21",
-      "beaten": false,
-      "unlock_time": null,
-      "no_data_reason": null
-    },
     "76561198069420656::748490": {
       "fetched_at": "2026-09-14T04:52:04.578Z",
       "marker_apiname": "TROPHY2_CLEAR_HARD",
       "beaten": false,
       "unlock_time": null,
-      "no_data_reason": null
-    },
-    "76561198069420656::1622910": {
-      "fetched_at": "2026-09-11T12:27:07.291Z",
-      "marker_apiname": "SWTD_ACH_033",
-      "beaten": true,
-      "unlock_time": 1761339428,
       "no_data_reason": null
     },
     "76561198069420656::953490": {
@@ -9865,13 +9911,6 @@
       "marker_apiname": "TROPHY_NAME_FINISH_UHARD",
       "beaten": false,
       "unlock_time": null,
-      "no_data_reason": null
-    },
-    "76561197975099685::913850": {
-      "fetched_at": "2026-09-11T12:27:13.340Z",
-      "marker_apiname": "FAST_ACHIEVE",
-      "beaten": true,
-      "unlock_time": 1762603617,
       "no_data_reason": null
     },
     "76561197975099685::1497440": {
@@ -10182,13 +10221,6 @@
       "unlock_time": 1776465369,
       "no_data_reason": null
     },
-    "76561198048462370::1622910": {
-      "fetched_at": "2026-09-14T04:52:18.260Z",
-      "marker_apiname": "SWTD_ACH_033",
-      "beaten": false,
-      "unlock_time": null,
-      "no_data_reason": null
-    },
     "76561198001969728::1771300": {
       "fetched_at": "2026-09-14T04:52:23.867Z",
       "marker_apiname": "21",
@@ -10348,13 +10380,6 @@
       "marker_apiname": "ACValhalla_Ach_11",
       "beaten": true,
       "unlock_time": 1770445676,
-      "no_data_reason": null
-    },
-    "76561199036747433::1466060": {
-      "fetched_at": "2026-09-11T13:53:59.154Z",
-      "marker_apiname": "crownOfAshes",
-      "beaten": true,
-      "unlock_time": 1780828577,
       "no_data_reason": null
     },
     "76561198024970451::3326230": {
@@ -10589,7 +10614,7 @@
       "no_data_reason": null
     },
     "76561198399974062::2515020": {
-      "fetched_at": "2026-09-13T18:47:04.584Z",
+      "fetched_at": "2026-09-14T14:20:55.225Z",
       "marker_apiname": "1012",
       "beaten": false,
       "unlock_time": null,
@@ -10656,6 +10681,426 @@
       "marker_apiname": "Achievement.Quacked",
       "beaten": true,
       "unlock_time": 1772832050,
+      "no_data_reason": null
+    },
+    "76561198453663783::923260": {
+      "fetched_at": "2026-09-14T14:20:09.600Z",
+      "marker_apiname": "ach_w10end",
+      "beaten": true,
+      "unlock_time": 1787855901,
+      "no_data_reason": null
+    },
+    "76561198453663783::1626620": {
+      "fetched_at": "2026-09-14T14:20:10.679Z",
+      "marker_apiname": "ACH_FINISH_GAME",
+      "beaten": true,
+      "unlock_time": 1785405765,
+      "no_data_reason": null
+    },
+    "76561198453663783::1709580": {
+      "fetched_at": "2026-09-14T14:20:12.148Z",
+      "marker_apiname": "finnishedstory",
+      "beaten": true,
+      "unlock_time": 1781331829,
+      "no_data_reason": null
+    },
+    "76561199036747433::2436940": {
+      "fetched_at": "2026-09-14T14:20:13.207Z",
+      "marker_apiname": "ENDING",
+      "beaten": true,
+      "unlock_time": 1786453486,
+      "no_data_reason": null
+    },
+    "76561199036747433::1466060": {
+      "fetched_at": "2026-09-14T14:20:14.276Z",
+      "marker_apiname": "kingOfAvalon",
+      "beaten": true,
+      "unlock_time": 1780894671,
+      "no_data_reason": null
+    },
+    "76561198025173613::4077060": {
+      "fetched_at": "2026-09-14T14:20:15.336Z",
+      "marker_apiname": "ACH_15_CREDITS_END",
+      "beaten": true,
+      "unlock_time": 1787787185,
+      "no_data_reason": null
+    },
+    "76561198025173613::501300": {
+      "fetched_at": "2026-09-14T14:20:17.081Z",
+      "marker_apiname": "AllStories",
+      "beaten": true,
+      "unlock_time": 1751670740,
+      "no_data_reason": null
+    },
+    "76561197962863579::2725260": {
+      "fetched_at": "2026-09-14T14:20:18.425Z",
+      "marker_apiname": "ach_ending_a",
+      "beaten": null,
+      "unlock_time": null,
+      "no_data_reason": "no_stats"
+    },
+    "76561198061381176::2725260": {
+      "fetched_at": "2026-09-14T14:20:19.485Z",
+      "marker_apiname": "ach_ending_a",
+      "beaten": true,
+      "unlock_time": 1767452611,
+      "no_data_reason": null
+    },
+    "76561198113581790::1626620": {
+      "fetched_at": "2026-09-14T14:20:20.823Z",
+      "marker_apiname": "ACH_FINISH_GAME",
+      "beaten": false,
+      "unlock_time": null,
+      "no_data_reason": null
+    },
+    "76561198113581790::2318800": {
+      "fetched_at": "2026-09-14T14:20:22.197Z",
+      "marker_apiname": "ACH_AGGLOMERATIONCOMPLETE",
+      "beaten": true,
+      "unlock_time": 1754431277,
+      "no_data_reason": null
+    },
+    "76561198053885117::501300": {
+      "fetched_at": "2026-09-14T14:20:23.429Z",
+      "marker_apiname": "AllStories",
+      "beaten": true,
+      "unlock_time": 1752124624,
+      "no_data_reason": null
+    },
+    "76561198041749780::2725260": {
+      "fetched_at": "2026-09-14T14:20:25.184Z",
+      "marker_apiname": "ach_ending_a",
+      "beaten": false,
+      "unlock_time": null,
+      "no_data_reason": null
+    },
+    "76561198041749780::1517180": {
+      "fetched_at": "2026-09-14T14:20:26.267Z",
+      "marker_apiname": "Mindcop",
+      "beaten": true,
+      "unlock_time": 1777482494,
+      "no_data_reason": null
+    },
+    "76561198408001048::945710": {
+      "fetched_at": "2026-09-14T14:20:27.405Z",
+      "marker_apiname": "CHAPTER6",
+      "beaten": true,
+      "unlock_time": 1782573547,
+      "no_data_reason": null
+    },
+    "76561198020386807::2060590": {
+      "fetched_at": "2026-09-14T14:20:28.761Z",
+      "marker_apiname": "Season8Complete",
+      "beaten": true,
+      "unlock_time": 1765981182,
+      "no_data_reason": null
+    },
+    "76561198047981011::501300": {
+      "fetched_at": "2026-09-14T14:20:31.167Z",
+      "marker_apiname": "AllStories",
+      "beaten": true,
+      "unlock_time": 1752314039,
+      "no_data_reason": null
+    },
+    "76561198027027643::761600": {
+      "fetched_at": "2026-09-14T14:20:32.228Z",
+      "marker_apiname": "ACHIEVEMENT_11",
+      "beaten": true,
+      "unlock_time": 1762460954,
+      "no_data_reason": null
+    },
+    "76561197984532155::3812600": {
+      "fetched_at": "2026-09-14T14:20:33.304Z",
+      "marker_apiname": "ACH_ROCK_OF_AGES",
+      "beaten": true,
+      "unlock_time": 1787367904,
+      "no_data_reason": null
+    },
+    "76561198118726910::2456350": {
+      "fetched_at": "2026-09-14T14:20:34.600Z",
+      "marker_apiname": "void",
+      "beaten": true,
+      "unlock_time": 1781838286,
+      "no_data_reason": null
+    },
+    "76561198347852739::1622910": {
+      "fetched_at": "2026-09-14T14:20:35.691Z",
+      "marker_apiname": "SWTD_ACH_017",
+      "beaten": true,
+      "unlock_time": 1767195796,
+      "no_data_reason": null
+    },
+    "76561198035801987::1781010": {
+      "fetched_at": "2026-09-14T14:20:36.796Z",
+      "marker_apiname": "CLIMB_MOUNTAIN",
+      "beaten": true,
+      "unlock_time": 1769555597,
+      "no_data_reason": null
+    },
+    "76561198035801987::524910": {
+      "fetched_at": "2026-09-14T14:20:37.868Z",
+      "marker_apiname": "FindAllObjectivesOfAllMaps",
+      "beaten": true,
+      "unlock_time": 1769187542,
+      "no_data_reason": null
+    },
+    "76561198035801987::501300": {
+      "fetched_at": "2026-09-14T14:20:38.985Z",
+      "marker_apiname": "AllStories",
+      "beaten": true,
+      "unlock_time": 1751102120,
+      "no_data_reason": null
+    },
+    "76561198010863049::1593030": {
+      "fetched_at": "2026-09-14T14:20:40.085Z",
+      "marker_apiname": "HundredPercentRestored",
+      "beaten": true,
+      "unlock_time": 1781681322,
+      "no_data_reason": null
+    },
+    "76561198069420656::1626620": {
+      "fetched_at": "2026-09-14T14:20:41.254Z",
+      "marker_apiname": "ACH_FINISH_GAME",
+      "beaten": true,
+      "unlock_time": 1785264831,
+      "no_data_reason": null
+    },
+    "76561198069420656::761600": {
+      "fetched_at": "2026-09-14T14:20:42.495Z",
+      "marker_apiname": "ACHIEVEMENT_11",
+      "beaten": true,
+      "unlock_time": 1769167207,
+      "no_data_reason": null
+    },
+    "76561198069420656::1622910": {
+      "fetched_at": "2026-09-14T14:20:43.772Z",
+      "marker_apiname": "SWTD_ACH_017",
+      "beaten": true,
+      "unlock_time": 1761316101,
+      "no_data_reason": null
+    },
+    "76561197975099685::913850": {
+      "fetched_at": "2026-09-14T14:20:45.092Z",
+      "marker_apiname": "END_ACHIEVE",
+      "beaten": true,
+      "unlock_time": 1762603158,
+      "no_data_reason": null
+    },
+    "76561198079289651::3198890": {
+      "fetched_at": "2026-09-14T14:20:46.233Z",
+      "marker_apiname": "SD_FINISH_MAIN_GAME",
+      "beaten": true,
+      "unlock_time": 1789148482,
+      "no_data_reason": null
+    },
+    "76561198027595057::2678990": {
+      "fetched_at": "2026-09-14T14:20:47.593Z",
+      "marker_apiname": "ACHIEVEMENT_MISSION_5_MAIN",
+      "beaten": true,
+      "unlock_time": 1768832349,
+      "no_data_reason": null
+    },
+    "76561198027595057::2318800": {
+      "fetched_at": "2026-09-14T14:20:48.680Z",
+      "marker_apiname": "ACH_AGGLOMERATIONCOMPLETE",
+      "beaten": true,
+      "unlock_time": 1757114150,
+      "no_data_reason": null
+    },
+    "76561198027595057::1593030": {
+      "fetched_at": "2026-09-14T14:20:49.743Z",
+      "marker_apiname": "HundredPercentRestored",
+      "beaten": false,
+      "unlock_time": null,
+      "no_data_reason": null
+    },
+    "76561197994025244::3378330": {
+      "fetched_at": "2026-09-14T14:20:50.838Z",
+      "marker_apiname": "HEART_FIXED",
+      "beaten": true,
+      "unlock_time": 1787432498,
+      "no_data_reason": null
+    },
+    "76561197994025244::1626620": {
+      "fetched_at": "2026-09-14T14:20:51.955Z",
+      "marker_apiname": "ACH_FINISH_GAME",
+      "beaten": true,
+      "unlock_time": 1779578359,
+      "no_data_reason": null
+    },
+    "76561198048462370::1622910": {
+      "fetched_at": "2026-09-14T14:20:53.021Z",
+      "marker_apiname": "SWTD_ACH_017",
+      "beaten": true,
+      "unlock_time": 1779569119,
+      "no_data_reason": null
+    },
+    "76561198044604507::1622910": {
+      "fetched_at": "2026-09-14T14:20:54.156Z",
+      "marker_apiname": "SWTD_ACH_017",
+      "beaten": true,
+      "unlock_time": 1764457121,
+      "no_data_reason": null
+    },
+    "76561198118320246::501300": {
+      "fetched_at": "2026-09-14T14:20:56.343Z",
+      "marker_apiname": "AllStories",
+      "beaten": true,
+      "unlock_time": 1769304079,
+      "no_data_reason": null
+    },
+    "76561198118320246::1622910": {
+      "fetched_at": "2026-09-14T14:20:57.458Z",
+      "marker_apiname": "SWTD_ACH_017",
+      "beaten": true,
+      "unlock_time": 1759691815,
+      "no_data_reason": null
+    },
+    "76561198832209109::3198890": {
+      "fetched_at": "2026-09-14T14:20:58.731Z",
+      "marker_apiname": "SD_FINISH_MAIN_GAME",
+      "beaten": true,
+      "unlock_time": 1786436606,
+      "no_data_reason": null
+    },
+    "76561197991280042::3812600": {
+      "fetched_at": "2026-09-14T14:20:59.861Z",
+      "marker_apiname": "ACH_ROCK_OF_AGES",
+      "beaten": true,
+      "unlock_time": 1789127486,
+      "no_data_reason": null
+    },
+    "76561197991280042::2725260": {
+      "fetched_at": "2026-09-14T14:21:00.982Z",
+      "marker_apiname": "ach_ending_a",
+      "beaten": true,
+      "unlock_time": 1765707215,
+      "no_data_reason": null
+    },
+    "76561198017660760::1626620": {
+      "fetched_at": "2026-09-14T14:21:02.394Z",
+      "marker_apiname": "ACH_FINISH_GAME",
+      "beaten": true,
+      "unlock_time": 1787713092,
+      "no_data_reason": null
+    },
+    "76561198089973992::2725260": {
+      "fetched_at": "2026-09-14T14:21:04.046Z",
+      "marker_apiname": "ach_ending_a",
+      "beaten": true,
+      "unlock_time": 1786178378,
+      "no_data_reason": null
+    },
+    "76561198089973992::501300": {
+      "fetched_at": "2026-09-14T14:21:05.182Z",
+      "marker_apiname": "AllStories",
+      "beaten": true,
+      "unlock_time": 1755379753,
+      "no_data_reason": null
+    },
+    "76561198080362358::1959390": {
+      "fetched_at": "2026-09-14T14:21:06.273Z",
+      "marker_apiname": "AMY_COMPLETE_GAME",
+      "beaten": true,
+      "unlock_time": 1779085889,
+      "no_data_reason": null
+    },
+    "76561198080362358::1876590": {
+      "fetched_at": "2026-09-14T14:21:07.340Z",
+      "marker_apiname": "IAMYOURBEAST",
+      "beaten": true,
+      "unlock_time": 1776491333,
+      "no_data_reason": null
+    },
+    "76561198080362358::1933190": {
+      "fetched_at": "2026-09-14T14:21:08.573Z",
+      "marker_apiname": "bigFinale_bk",
+      "beaten": true,
+      "unlock_time": 1776310818,
+      "no_data_reason": null
+    },
+    "76561199141726712::1502800": {
+      "fetched_at": "2026-09-14T14:21:10.285Z",
+      "marker_apiname": "destiny",
+      "beaten": true,
+      "unlock_time": 1786117213,
+      "no_data_reason": null
+    },
+    "76561199141726712::1164690": {
+      "fetched_at": "2026-09-14T14:21:11.362Z",
+      "marker_apiname": "ACH_DRAGON_SLAYER",
+      "beaten": true,
+      "unlock_time": 1780765262,
+      "no_data_reason": null
+    },
+    "76561199141726712::2318800": {
+      "fetched_at": "2026-09-14T14:21:12.506Z",
+      "marker_apiname": "ACH_AGGLOMERATIONCOMPLETE",
+      "beaten": true,
+      "unlock_time": 1780189596,
+      "no_data_reason": null
+    },
+    "76561199141726712::1622910": {
+      "fetched_at": "2026-09-14T14:21:13.583Z",
+      "marker_apiname": "SWTD_ACH_017",
+      "beaten": true,
+      "unlock_time": 1779711966,
+      "no_data_reason": null
+    },
+    "76561199141726712::2143290": {
+      "fetched_at": "2026-09-14T14:21:14.991Z",
+      "marker_apiname": "ACHIEVEMENT_HSCR_42_Full",
+      "beaten": true,
+      "unlock_time": 1763830521,
+      "no_data_reason": null
+    },
+    "76561198352113526::1622910": {
+      "fetched_at": "2026-09-14T14:21:16.103Z",
+      "marker_apiname": "SWTD_ACH_017",
+      "beaten": true,
+      "unlock_time": 1781878594,
+      "no_data_reason": null
+    },
+    "76561198352113526::990380": {
+      "fetched_at": "2026-09-14T14:21:17.236Z",
+      "marker_apiname": "metal_eden_normal",
+      "beaten": true,
+      "unlock_time": 1776764616,
+      "no_data_reason": null
+    },
+    "76561198049797350::2678990": {
+      "fetched_at": "2026-09-14T14:21:18.321Z",
+      "marker_apiname": "ACHIEVEMENT_MISSION_5_MAIN",
+      "beaten": true,
+      "unlock_time": 1752363112,
+      "no_data_reason": null
+    },
+    "76561198049797350::501300": {
+      "fetched_at": "2026-09-14T14:21:19.462Z",
+      "marker_apiname": "AllStories",
+      "beaten": true,
+      "unlock_time": 1752611015,
+      "no_data_reason": null
+    },
+    "76561197996608804::1626620": {
+      "fetched_at": "2026-09-14T14:21:20.576Z",
+      "marker_apiname": "ACH_FINISH_GAME",
+      "beaten": false,
+      "unlock_time": null,
+      "no_data_reason": null
+    },
+    "76561198061784823::501300": {
+      "fetched_at": "2026-09-14T14:21:21.670Z",
+      "marker_apiname": "AllStories",
+      "beaten": true,
+      "unlock_time": 1751381958,
+      "no_data_reason": null
+    },
+    "76561198076648919::923260": {
+      "fetched_at": "2026-09-14T14:21:22.782Z",
+      "marker_apiname": "ach_w10end",
+      "beaten": true,
+      "unlock_time": 1754986340,
       "no_data_reason": null
     }
   },
