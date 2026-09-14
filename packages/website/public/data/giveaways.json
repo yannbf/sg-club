@@ -1,28 +1,6 @@
 {
-  "last_updated": "2026-09-14T14:42:05.488Z",
+  "last_updated": "2026-09-14T19:55:13.205Z",
   "giveaways": [
-    {
-      "id": "ksIHi",
-      "name": "RoboCop: Rogue City",
-      "points": 40,
-      "copies": 1,
-      "app_id": 1681430,
-      "package_id": null,
-      "link": "ksIHi/robocop-rogue-city",
-      "created_timestamp": 1788808530,
-      "start_timestamp": 1788808530,
-      "end_timestamp": 1789408800,
-      "whitelist": true,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 56,
-      "creator": "76561198025173613",
-      "required_play": true,
-      "is_shared": true,
-      "cv_status": "REDUCED_CV",
-      "creator_username": "Carenard",
-      "deleted": false
-    },
     {
       "id": "Ycgr8",
       "name": "The Alters",
@@ -218,7 +196,7 @@
       "end_timestamp": 1789498740,
       "group": true,
       "comment_count": 4,
-      "entry_count": 37,
+      "entry_count": 38,
       "creator": "76561199438702936",
       "cv_status": "FULL_CV",
       "event_type": "september_event_2026",
@@ -318,7 +296,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 2,
-      "entry_count": 22,
+      "entry_count": 24,
       "creator": "76561198042896883",
       "is_shared": true,
       "cv_status": "FULL_CV",
@@ -358,7 +336,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 1,
-      "entry_count": 200,
+      "entry_count": 206,
       "creator": "76561198042896883",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -399,7 +377,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 54,
+      "entry_count": 55,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -560,7 +538,7 @@
       "end_timestamp": 1789761600,
       "group": true,
       "comment_count": 0,
-      "entry_count": 12,
+      "entry_count": 11,
       "creator": "76561198082023389",
       "is_shared": true,
       "cv_status": "FULL_CV",
@@ -600,7 +578,7 @@
       "end_timestamp": 1789761600,
       "group": true,
       "comment_count": 1,
-      "entry_count": 8,
+      "entry_count": 9,
       "creator": "76561198082023389",
       "is_shared": true,
       "cv_status": "FULL_CV",
@@ -763,7 +741,7 @@
       "end_timestamp": 1789867380,
       "group": true,
       "comment_count": 0,
-      "entry_count": 3,
+      "entry_count": 4,
       "creator": "76561197975099685",
       "cv_status": "FULL_CV",
       "event_type": "september_event_2026",
@@ -782,7 +760,7 @@
       "start_timestamp": 1789202484,
       "end_timestamp": 1789867800,
       "group": true,
-      "comment_count": 1,
+      "comment_count": 2,
       "entry_count": 18,
       "creator": "76561198019838591",
       "required_play": true,
@@ -969,7 +947,7 @@
       "end_timestamp": 1790194620,
       "group": true,
       "comment_count": 0,
-      "entry_count": 10,
+      "entry_count": 11,
       "creator": "76561197967055456",
       "cv_status": "FULL_CV",
       "event_type": "september_event_2026",
@@ -1114,6 +1092,35 @@
       "deleted": false
     },
     {
+      "id": "ksIHi",
+      "name": "RoboCop: Rogue City",
+      "points": 40,
+      "copies": 1,
+      "app_id": 1681430,
+      "package_id": null,
+      "link": "ksIHi/robocop-rogue-city",
+      "created_timestamp": 1788808530,
+      "start_timestamp": 1788808530,
+      "end_timestamp": 1789408800,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 57,
+      "creator": "76561198025173613",
+      "required_play": true,
+      "is_shared": true,
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "REDUCED_CV",
+      "creator_username": "Carenard",
+      "deleted": false
+    },
+    {
       "id": "lO1ND",
       "name": "No Man's Sky",
       "points": 50,
@@ -1125,20 +1132,20 @@
       "start_timestamp": 1788571116,
       "end_timestamp": 1789365540,
       "group": true,
-      "comment_count": 0,
+      "comment_count": 2,
       "entry_count": 13,
       "creator": "76561198080362358",
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "76561198452519450",
+          "status": "received",
+          "winner_username": "MikeWithAnI"
         }
       ],
       "cv_status": "FULL_CV",
       "event_type": "september_event_2026",
-      "creator_username": "VenomousNyx",
-      "deleted": false
+      "creator_username": "VenomousNyx"
     },
     {
       "id": "UeUJx",
@@ -1290,7 +1297,7 @@
       "start_timestamp": 1788720480,
       "end_timestamp": 1789330500,
       "group": true,
-      "comment_count": 1,
+      "comment_count": 2,
       "entry_count": 6,
       "creator": "76561197960990984",
       "hasWinners": true,
@@ -1317,7 +1324,7 @@
       "start_timestamp": 1789063249,
       "end_timestamp": 1789329600,
       "group": true,
-      "comment_count": 6,
+      "comment_count": 7,
       "entry_count": 13,
       "creator": "76561198082023389",
       "is_shared": true,
@@ -6200,6 +6207,7 @@
           "winner_username": "SoullessSoup"
         }
       ],
+      "required_play": false,
       "cv_status": "FULL_CV",
       "creator_username": "akfas"
     },
@@ -6660,6 +6668,7 @@
           "winner_username": "Slenderpoop00"
         }
       ],
+      "required_play": false,
       "cv_status": "FULL_CV",
       "creator_username": "RaitorHaitor"
     },
@@ -8463,6 +8472,7 @@
           "winner_username": "BorjaGRouco"
         }
       ],
+      "required_play": false,
       "cv_status": "FULL_CV",
       "creator_username": "MrOuiOui"
     },
@@ -9287,6 +9297,7 @@
           "winner_username": "Carenard"
         }
       ],
+      "required_play": false,
       "cv_status": "FULL_CV",
       "creator_username": "Carrei"
     },
@@ -13632,7 +13643,8 @@
         }
       ],
       "cv_status": "REDUCED_CV",
-      "creator_username": "lext"
+      "creator_username": "lext",
+      "required_play": false
     },
     {
       "id": "CKnQx",
@@ -16434,7 +16446,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "CuteEnby"
+      "creator_username": "CuteEnby",
+      "required_play": false
     },
     {
       "id": "s9bmx",
@@ -23115,7 +23128,8 @@
       ],
       "cv_status": "FULL_CV",
       "event_type": "may_event_2026",
-      "creator_username": "MrOuiOui"
+      "creator_username": "MrOuiOui",
+      "required_play": false
     },
     {
       "id": "HSfO8",
@@ -25700,7 +25714,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "doubleomurfy"
+      "creator_username": "doubleomurfy",
+      "required_play": false
     },
     {
       "id": "MSlqc",
@@ -30102,7 +30117,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "QuinlanLJ"
+      "creator_username": "QuinlanLJ",
+      "required_play": false
     },
     {
       "id": "2WzYy",
@@ -31145,7 +31161,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "kudomonster"
+      "creator_username": "kudomonster",
+      "required_play": false
     },
     {
       "id": "8YN39",
@@ -31408,7 +31425,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "Serpentus"
+      "creator_username": "Serpentus",
+      "required_play": false
     },
     {
       "id": "UurBW",
@@ -31934,7 +31952,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "MedinaRoscoe"
+      "creator_username": "MedinaRoscoe",
+      "required_play": false
     },
     {
       "id": "gTaix",
@@ -33292,7 +33311,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "drbeckett"
+      "creator_username": "drbeckett",
+      "required_play": false
     },
     {
       "id": "hM5Ux",
@@ -33503,7 +33523,8 @@
       "creator_username": "elysium1988",
       "decreased_ratio_info": {
         "notes": "Free curator copy"
-      }
+      },
+      "required_play": false
     },
     {
       "id": "Qkq8X",
@@ -33832,7 +33853,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "vot4ol"
+      "creator_username": "vot4ol",
+      "required_play": false
     },
     {
       "id": "lHH6C",
@@ -35195,7 +35217,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "ithamore"
+      "creator_username": "ithamore",
+      "required_play": false
     },
     {
       "id": "b1T6O",
@@ -36046,7 +36069,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "vlbastos"
+      "creator_username": "vlbastos",
+      "required_play": false
     },
     {
       "id": "qezOW",
@@ -37272,7 +37296,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "BanjoBearLV"
+      "creator_username": "BanjoBearLV",
+      "required_play": false
     },
     {
       "id": "baEc8",
@@ -38337,7 +38362,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "LumpyCreature"
+      "creator_username": "LumpyCreature",
+      "required_play": false
     },
     {
       "id": "OJsr4",
@@ -40577,7 +40603,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "z00rox"
+      "creator_username": "z00rox",
+      "required_play": false
     },
     {
       "id": "91EK0",
@@ -41316,7 +41343,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "Swordoffury"
+      "creator_username": "Swordoffury",
+      "required_play": false
     },
     {
       "id": "69jZN",
@@ -41473,7 +41501,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "VinroyIsViral"
+      "creator_username": "VinroyIsViral",
+      "required_play": false
     },
     {
       "id": "fcjNd",
@@ -42487,7 +42516,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "Gooberdragon"
+      "creator_username": "Gooberdragon",
+      "required_play": false
     },
     {
       "id": "qHP5B",
@@ -43205,7 +43235,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "Eindirk"
+      "creator_username": "Eindirk",
+      "required_play": false
     },
     {
       "id": "KsYeF",
@@ -44982,7 +45013,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "BlackbeardXIII"
+      "creator_username": "BlackbeardXIII",
+      "required_play": false
     },
     {
       "id": "M1uMX",
@@ -47249,7 +47281,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "Jztr"
+      "creator_username": "Jztr",
+      "required_play": false
     },
     {
       "id": "LUVLh",
@@ -51055,7 +51088,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "kudomonster"
+      "creator_username": "kudomonster",
+      "required_play": false
     },
     {
       "id": "ihivc",
@@ -63426,7 +63460,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "SteamKeyGiveaway"
+      "creator_username": "SteamKeyGiveaway",
+      "required_play": false
     },
     {
       "id": "kZIAr",
@@ -69728,7 +69763,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "SteamKeyGiveaway"
+      "creator_username": "SteamKeyGiveaway",
+      "required_play": false
     },
     {
       "id": "BTTTG",
