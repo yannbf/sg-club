@@ -1590,17 +1590,18 @@
       "story_tag_count": 16
     },
     "1170570": {
-      "fetched_at": "2026-08-24T19:32:05.524Z",
+      "fetched_at": "2026-09-15T04:52:08.051Z",
       "marker": {
-        "apiname": "Deaths",
-        "name": "Cat Like Reflexes",
-        "description": "Beat the game in 9 lives",
-        "global_percent": 2.8,
-        "source": "heuristic",
-        "sh_achievement_id": 15
+        "apiname": "End",
+        "name": "The Drifter",
+        "description": "Complete the final chapter",
+        "global_percent": 47.5,
+        "source": "override",
+        "sh_achievement_id": 9
       },
       "no_marker_reason": null,
-      "story_tag_count": 0
+      "story_tag_count": 0,
+      "override_key": "1170570:End"
     },
     "1171320": {
       "fetched_at": "2026-08-24T20:12:36.862Z",
@@ -2229,10 +2230,22 @@
       "story_tag_count": 6
     },
     "1335530": {
-      "fetched_at": "2026-09-11T12:25:21.763Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-09-15T04:52:11.538Z",
+      "marker": {
+        "apiname": "HomeSweetHome",
+        "name": "Home sweet home... right?",
+        "description": "",
+        "global_percent": 16.6,
+        "source": "override",
+        "any_of_apinames": [
+          "HomeSweetHome",
+          "TheUnknown",
+          "NewMaster"
+        ]
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0,
+      "override_key": "1335530:HomeSweetHome,NewMaster,TheUnknown"
     },
     "1340480": {
       "fetched_at": "2026-08-24T17:05:15.213Z",
@@ -2880,10 +2893,18 @@
       "story_tag_count": 0
     },
     "1599660": {
-      "fetched_at": "2026-08-24T17:04:16.383Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-09-15T04:52:09.213Z",
+      "marker": {
+        "apiname": "HesGone",
+        "name": "Verified Vex Vanquisher!",
+        "description": "",
+        "global_percent": 11.4,
+        "source": "override",
+        "sh_achievement_id": 7
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0,
+      "override_key": "1599660:HesGone"
     },
     "1599860": {
       "fetched_at": "2026-08-24T17:08:50.559Z",
@@ -4950,10 +4971,21 @@
       "story_tag_count": 0
     },
     "2542120": {
-      "fetched_at": "2026-09-04T05:55:49.215Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-09-15T04:52:10.381Z",
+      "marker": {
+        "apiname": "AC05",
+        "name": "Venom",
+        "description": "Unlock Ending A.",
+        "global_percent": 19.8,
+        "source": "override",
+        "any_of_apinames": [
+          "AC05",
+          "AC06"
+        ]
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0,
+      "override_key": "2542120:AC05,AC06"
     },
     "2544110": {
       "fetched_at": "2026-09-12T12:09:42.469Z",
@@ -5028,18 +5060,18 @@
       "story_tag_count": 0
     },
     "2592160": {
-      "fetched_at": "2026-08-24T20:09:35.224Z",
+      "fetched_at": "2026-09-15T04:52:05.601Z",
       "marker": {
-        "apiname": "ACH_LISTEN",
-        "name": "\"You gonna eat those twinks?\"",
-        "description": "Disobeyed by Invisigal",
-        "global_percent": 90.3,
-        "source": "steamhunters",
-        "filtered": true,
-        "sh_achievement_id": 23
+        "apiname": "ACH_CONVOY",
+        "name": "\"All gas no brakes baby.\"",
+        "description": "",
+        "global_percent": 62.7,
+        "source": "override",
+        "sh_achievement_id": 3
       },
       "no_marker_reason": null,
-      "story_tag_count": 2
+      "story_tag_count": 0,
+      "override_key": "2592160:ACH_CONVOY"
     },
     "2612700": {
       "fetched_at": "2026-08-24T16:50:59.846Z",
@@ -5785,6 +5817,12 @@
       },
       "no_marker_reason": null,
       "story_tag_count": 9
+    },
+    "3330210": {
+      "fetched_at": "2026-09-15T04:52:06.885Z",
+      "marker": null,
+      "no_marker_reason": "no_marker_found",
+      "story_tag_count": 0
     },
     "3340810": {
       "fetched_at": "2026-08-24T20:09:39.525Z",
@@ -8506,13 +8544,6 @@
       "unlock_time": 1771364701,
       "no_data_reason": null
     },
-    "76561198076648919::2592160": {
-      "fetched_at": "2026-08-24T17:45:59.465Z",
-      "marker_apiname": "ACH_LISTEN",
-      "beaten": true,
-      "unlock_time": 1765269339,
-      "no_data_reason": null
-    },
     "76561198076648919::2097230": {
       "fetched_at": "2026-08-24T17:46:00.763Z",
       "marker_apiname": "BOSS_FINAL",
@@ -9248,13 +9279,6 @@
       "unlock_time": 1784303451,
       "no_data_reason": null
     },
-    "76561198041749780::1170570": {
-      "fetched_at": "2026-09-14T19:33:26.510Z",
-      "marker_apiname": "Deaths",
-      "beaten": false,
-      "unlock_time": null,
-      "no_data_reason": null
-    },
     "76561198408001048::557600": {
       "fetched_at": "2026-08-24T19:32:57.760Z",
       "marker_apiname": "ACHIEVEMENT_GAME_0",
@@ -9281,13 +9305,6 @@
       "marker_apiname": "ACHIEVEMENT_GAME_0",
       "beaten": true,
       "unlock_time": 1783145289,
-      "no_data_reason": null
-    },
-    "76561198002504847::2592160": {
-      "fetched_at": "2026-08-24T19:33:02.693Z",
-      "marker_apiname": "ACH_LISTEN",
-      "beaten": true,
-      "unlock_time": 1787247140,
       "no_data_reason": null
     },
     "76561198143588240::2240080": {
@@ -10053,13 +10070,6 @@
       "unlock_time": 1759930310,
       "no_data_reason": null
     },
-    "76561198047330685::2592160": {
-      "fetched_at": "2026-09-11T13:47:30.388Z",
-      "marker_apiname": "ACH_LISTEN",
-      "beaten": true,
-      "unlock_time": 1779023852,
-      "no_data_reason": null
-    },
     "76561198024970451::557600": {
       "fetched_at": "2026-09-11T13:47:31.604Z",
       "marker_apiname": "ACHIEVEMENT_GAME_0",
@@ -10516,7 +10526,7 @@
       "no_data_reason": null
     },
     "76561198399974062::2515020": {
-      "fetched_at": "2026-09-14T14:20:55.225Z",
+      "fetched_at": "2026-09-15T04:52:26.839Z",
       "marker_apiname": "1012",
       "beaten": false,
       "unlock_time": null,
@@ -10635,7 +10645,7 @@
       "no_data_reason": null
     },
     "76561197962863579::2725260": {
-      "fetched_at": "2026-09-14T14:20:18.425Z",
+      "fetched_at": "2026-09-15T04:52:14.074Z",
       "marker_apiname": "ach_ending_a",
       "beaten": null,
       "unlock_time": null,
@@ -10649,10 +10659,10 @@
       "no_data_reason": null
     },
     "76561198113581790::1626620": {
-      "fetched_at": "2026-09-14T14:20:20.823Z",
+      "fetched_at": "2026-09-15T04:52:15.201Z",
       "marker_apiname": "ACH_FINISH_GAME",
-      "beaten": false,
-      "unlock_time": null,
+      "beaten": true,
+      "unlock_time": 1789410527,
       "no_data_reason": null
     },
     "76561198113581790::2318800": {
@@ -10670,7 +10680,7 @@
       "no_data_reason": null
     },
     "76561198041749780::2725260": {
-      "fetched_at": "2026-09-14T14:20:25.184Z",
+      "fetched_at": "2026-09-15T04:52:17.557Z",
       "marker_apiname": "ach_ending_a",
       "beaten": false,
       "unlock_time": null,
@@ -10810,7 +10820,7 @@
       "no_data_reason": null
     },
     "76561198027595057::1593030": {
-      "fetched_at": "2026-09-14T14:20:49.743Z",
+      "fetched_at": "2026-09-15T04:52:25.687Z",
       "marker_apiname": "HundredPercentRestored",
       "beaten": false,
       "unlock_time": null,
@@ -10985,7 +10995,7 @@
       "no_data_reason": null
     },
     "76561197996608804::1626620": {
-      "fetched_at": "2026-09-14T14:21:20.576Z",
+      "fetched_at": "2026-09-15T04:52:32.579Z",
       "marker_apiname": "ACH_FINISH_GAME",
       "beaten": false,
       "unlock_time": null,
@@ -11027,7 +11037,7 @@
       "no_data_reason": null
     },
     "76561198020386807::1293160": {
-      "fetched_at": "2026-09-14T15:56:54.816Z",
+      "fetched_at": "2026-09-15T04:52:18.701Z",
       "marker_apiname": "CantAlwaysSaveEveryone",
       "beaten": false,
       "unlock_time": null,
@@ -11069,7 +11079,7 @@
       "no_data_reason": null
     },
     "76561198061661987::1627720": {
-      "fetched_at": "2026-09-14T15:57:01.895Z",
+      "fetched_at": "2026-09-15T04:52:23.284Z",
       "marker_apiname": "LOP_104",
       "beaten": false,
       "unlock_time": null,
@@ -11097,7 +11107,7 @@
       "no_data_reason": null
     },
     "76561198089973992::1627720": {
-      "fetched_at": "2026-09-14T15:57:06.568Z",
+      "fetched_at": "2026-09-15T04:52:27.986Z",
       "marker_apiname": "LOP_104",
       "beaten": false,
       "unlock_time": null,
@@ -11118,7 +11128,7 @@
       "no_data_reason": null
     },
     "76561198185630581::1627720": {
-      "fetched_at": "2026-09-14T15:57:10.261Z",
+      "fetched_at": "2026-09-15T04:52:30.283Z",
       "marker_apiname": "LOP_104",
       "beaten": false,
       "unlock_time": null,
@@ -11132,7 +11142,7 @@
       "no_data_reason": null
     },
     "76561198089693705::1492680": {
-      "fetched_at": "2026-09-14T15:57:12.597Z",
+      "fetched_at": "2026-09-15T04:52:31.420Z",
       "marker_apiname": "TROP041",
       "beaten": false,
       "unlock_time": null,
@@ -11164,6 +11174,69 @@
       "marker_apiname": "CantAlwaysSaveEveryone",
       "beaten": true,
       "unlock_time": 1768839848,
+      "no_data_reason": null
+    },
+    "76561198047330685::2592160": {
+      "fetched_at": "2026-09-15T04:52:12.709Z",
+      "marker_apiname": "ACH_CONVOY",
+      "beaten": true,
+      "unlock_time": 1779301211,
+      "no_data_reason": null
+    },
+    "76561198041749780::1170570": {
+      "fetched_at": "2026-09-15T04:52:16.352Z",
+      "marker_apiname": "End",
+      "beaten": true,
+      "unlock_time": 1785346852,
+      "no_data_reason": null
+    },
+    "76561198002504847::1599660": {
+      "fetched_at": "2026-09-15T04:52:19.863Z",
+      "marker_apiname": "HesGone",
+      "beaten": true,
+      "unlock_time": 1789410709,
+      "no_data_reason": null
+    },
+    "76561198002504847::2592160": {
+      "fetched_at": "2026-09-15T04:52:21.001Z",
+      "marker_apiname": "ACH_CONVOY",
+      "beaten": true,
+      "unlock_time": 1787337922,
+      "no_data_reason": null
+    },
+    "76561198069420656::2542120": {
+      "fetched_at": "2026-09-15T04:52:22.134Z",
+      "marker_apiname": "AC05",
+      "beaten": true,
+      "unlock_time": 1788775129,
+      "no_data_reason": null
+    },
+    "76561198315443582::1599660": {
+      "fetched_at": "2026-09-15T04:52:24.536Z",
+      "marker_apiname": "HesGone",
+      "beaten": true,
+      "unlock_time": 1766641228,
+      "no_data_reason": null
+    },
+    "76561198089973992::1335530": {
+      "fetched_at": "2026-09-15T04:52:29.114Z",
+      "marker_apiname": "HomeSweetHome",
+      "beaten": true,
+      "unlock_time": 1772403303,
+      "no_data_reason": null
+    },
+    "76561198067436079::1335530": {
+      "fetched_at": "2026-09-15T04:52:33.728Z",
+      "marker_apiname": "HomeSweetHome",
+      "beaten": true,
+      "unlock_time": 1759559372,
+      "no_data_reason": null
+    },
+    "76561198076648919::2592160": {
+      "fetched_at": "2026-09-15T04:52:34.861Z",
+      "marker_apiname": "ACH_CONVOY",
+      "beaten": true,
+      "unlock_time": 1766795631,
       "no_data_reason": null
     }
   },
