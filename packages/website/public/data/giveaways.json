@@ -1,45 +1,6 @@
 {
-  "last_updated": "2026-09-15T05:13:07.113Z",
+  "last_updated": "2026-09-15T12:04:11.205Z",
   "giveaways": [
-    {
-      "id": "48Fbm",
-      "name": "Bionic Bay",
-      "points": 20,
-      "copies": 1,
-      "app_id": 1928690,
-      "package_id": null,
-      "link": "48Fbm/bionic-bay",
-      "created_timestamp": 1788988183,
-      "start_timestamp": 1788988183,
-      "end_timestamp": 1789459200,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 3,
-      "creator": "76561198048462370",
-      "cv_status": "FULL_CV",
-      "event_type": "september_event_2026",
-      "creator_username": "QuinlanLJ",
-      "deleted": false
-    },
-    {
-      "id": "ufSN6",
-      "name": "Luxman Moonlit Market",
-      "points": 14,
-      "copies": 1,
-      "app_id": 3642440,
-      "package_id": null,
-      "link": "ufSN6/luxman-moonlit-market",
-      "created_timestamp": 1789122998,
-      "start_timestamp": 1789122998,
-      "end_timestamp": 1789472100,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 1,
-      "creator": "76561198055569704",
-      "cv_status": "FULL_CV",
-      "creator_username": "CuteEnby",
-      "deleted": false
-    },
     {
       "id": "wSlkg",
       "name": "Coridden",
@@ -79,7 +40,8 @@
       "cv_status": "FULL_CV",
       "event_type": "september_event_2026",
       "creator_username": "akfas",
-      "deleted": false
+      "deleted": true,
+      "deleted_reason": "Accident"
     },
     {
       "id": "XnTES",
@@ -99,7 +61,8 @@
       "cv_status": "FULL_CV",
       "event_type": "september_event_2026",
       "creator_username": "akfas",
-      "deleted": false
+      "deleted": true,
+      "deleted_reason": "Selected Incorrect Game or Information"
     },
     {
       "id": "FBGBP",
@@ -115,7 +78,7 @@
       "region_restricted": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 6,
+      "entry_count": 7,
       "creator": "76561198453663783",
       "cv_status": "FULL_CV",
       "event_type": "september_event_2026",
@@ -135,7 +98,7 @@
       "end_timestamp": 1789498740,
       "group": true,
       "comment_count": 4,
-      "entry_count": 40,
+      "entry_count": 41,
       "creator": "76561199438702936",
       "cv_status": "FULL_CV",
       "event_type": "september_event_2026",
@@ -194,7 +157,7 @@
       "end_timestamp": 1789531140,
       "group": true,
       "comment_count": 2,
-      "entry_count": 29,
+      "entry_count": 30,
       "creator": "76561199434715535",
       "cv_status": "FULL_CV",
       "event_type": "september_event_2026",
@@ -235,7 +198,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 2,
-      "entry_count": 24,
+      "entry_count": 25,
       "creator": "76561198042896883",
       "is_shared": true,
       "cv_status": "FULL_CV",
@@ -275,7 +238,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 1,
-      "entry_count": 209,
+      "entry_count": 213,
       "creator": "76561198042896883",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -294,8 +257,8 @@
       "start_timestamp": 1789423300,
       "end_timestamp": 1789657200,
       "group": true,
-      "comment_count": 1,
-      "entry_count": 1,
+      "comment_count": 2,
+      "entry_count": 2,
       "creator": "76561198040188513",
       "cv_status": "FULL_CV",
       "event_type": "september_event_2026",
@@ -336,11 +299,31 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 58,
+      "entry_count": 60,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
       "creator_username": "lockcjwen",
+      "deleted": false
+    },
+    {
+      "id": "mxeoR",
+      "name": "Chained Echoes",
+      "points": 25,
+      "copies": 1,
+      "app_id": 1229240,
+      "package_id": null,
+      "link": "mxeoR/chained-echoes",
+      "created_timestamp": 1789460319,
+      "start_timestamp": 1789460319,
+      "end_timestamp": 1789718400,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 3,
+      "creator": "76561198049128535",
+      "cv_status": "FULL_CV",
+      "event_type": "september_event_2026",
+      "creator_username": "yannbz",
       "deleted": false
     },
     {
@@ -478,7 +461,7 @@
       "end_timestamp": 1789747200,
       "group": true,
       "comment_count": 0,
-      "entry_count": 11,
+      "entry_count": 12,
       "creator": "76561198117650232",
       "cv_status": "FULL_CV",
       "event_type": "september_event_2026",
@@ -558,7 +541,7 @@
       "end_timestamp": 1789761600,
       "group": true,
       "comment_count": 1,
-      "entry_count": 9,
+      "entry_count": 10,
       "creator": "76561198082023389",
       "is_shared": true,
       "cv_status": "FULL_CV",
@@ -804,7 +787,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 35,
+      "entry_count": 36,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -824,7 +807,7 @@
       "end_timestamp": 1789974000,
       "group": true,
       "comment_count": 0,
-      "entry_count": 5,
+      "entry_count": 6,
       "creator": "76561198066957402",
       "cv_status": "FULL_CV",
       "event_type": "september_event_2026",
@@ -871,6 +854,27 @@
       "cv_status": "FULL_CV",
       "event_type": "september_event_2026",
       "creator_username": "gus09",
+      "deleted": false
+    },
+    {
+      "id": "uOU2P",
+      "name": "TOEM: A Photo Adventure",
+      "points": 20,
+      "copies": 1,
+      "app_id": 1307580,
+      "package_id": null,
+      "link": "uOU2P/toem-a-photo-adventure",
+      "created_timestamp": 1789449571,
+      "start_timestamp": 1789449571,
+      "end_timestamp": 1790049600,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 6,
+      "creator": "76561198234142828",
+      "is_shared": true,
+      "cv_status": "REDUCED_CV",
+      "creator_username": "lockcjwen",
       "deleted": false
     },
     {
@@ -1092,6 +1096,59 @@
       "deleted": false
     },
     {
+      "id": "ufSN6",
+      "name": "Luxman Moonlit Market",
+      "points": 14,
+      "copies": 1,
+      "app_id": 3642440,
+      "package_id": null,
+      "link": "ufSN6/luxman-moonlit-market",
+      "created_timestamp": 1789122998,
+      "start_timestamp": 1789122998,
+      "end_timestamp": 1789472100,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 1,
+      "creator": "76561198055569704",
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "FULL_CV",
+      "creator_username": "CuteEnby",
+      "deleted": false
+    },
+    {
+      "id": "48Fbm",
+      "name": "Bionic Bay",
+      "points": 20,
+      "copies": 1,
+      "app_id": 1928690,
+      "package_id": null,
+      "link": "48Fbm/bionic-bay",
+      "created_timestamp": 1788988183,
+      "start_timestamp": 1788988183,
+      "end_timestamp": 1789459200,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 3,
+      "creator": "76561198048462370",
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "FULL_CV",
+      "event_type": "september_event_2026",
+      "creator_username": "QuinlanLJ",
+      "deleted": false
+    },
+    {
       "id": "Ycgr8",
       "name": "The Alters",
       "points": 35,
@@ -1106,6 +1163,13 @@
       "comment_count": 0,
       "entry_count": 13,
       "creator": "76561197991280042",
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
       "cv_status": "FULL_CV",
       "event_type": "september_event_2026",
       "creator_username": "SoullessSoup",
@@ -1123,13 +1187,20 @@
       "start_timestamp": 1788779779,
       "end_timestamp": 1789448340,
       "group": true,
-      "comment_count": 1,
+      "comment_count": 3,
       "entry_count": 13,
       "creator": "76561197991280042",
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": "76561198118320246",
+          "status": "received",
+          "winner_username": "Shughes91"
+        }
+      ],
       "cv_status": "FULL_CV",
       "event_type": "september_event_2026",
-      "creator_username": "SoullessSoup",
-      "deleted": false
+      "creator_username": "SoullessSoup"
     },
     {
       "id": "ftMJ9",
@@ -1144,9 +1215,16 @@
       "end_timestamp": 1789448340,
       "region_restricted": true,
       "group": true,
-      "comment_count": 5,
+      "comment_count": 8,
       "entry_count": 22,
       "creator": "76561197991280042",
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
       "cv_status": "FULL_CV",
       "event_type": "september_event_2026",
       "creator_username": "SoullessSoup",
@@ -1165,7 +1243,7 @@
       "end_timestamp": 1789408800,
       "whitelist": true,
       "group": true,
-      "comment_count": 0,
+      "comment_count": 1,
       "entry_count": 57,
       "creator": "76561198025173613",
       "required_play": true,
@@ -1173,13 +1251,13 @@
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "xaribda",
+          "status": "received",
+          "winner_username": "xaribda"
         }
       ],
       "cv_status": "REDUCED_CV",
-      "creator_username": "Carenard",
-      "deleted": false
+      "creator_username": "Carenard"
     },
     {
       "id": "lO1ND",
@@ -2014,21 +2092,21 @@
       "start_timestamp": 1788881981,
       "end_timestamp": 1789141500,
       "group": true,
-      "comment_count": 0,
+      "comment_count": 2,
       "entry_count": 16,
       "creator": "76561197962863579",
       "required_play": true,
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "76561198055569704",
+          "status": "received",
+          "winner_username": "CuteEnby"
         }
       ],
       "cv_status": "FULL_CV",
       "event_type": "september_event_2026",
-      "creator_username": "CatzZz",
-      "deleted": false
+      "creator_username": "CatzZz"
     },
     {
       "id": "lZRhN",
@@ -2791,7 +2869,6 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "event_type": "september_event_2026",
       "creator_username": "lext"
     },
     {
@@ -5382,6 +5459,7 @@
           "winner_username": "damianea103"
         }
       ],
+      "required_play": false,
       "cv_status": "FULL_CV",
       "creator_username": "yannbz"
     },
@@ -9963,6 +10041,7 @@
           "winner_username": "PsychoApeMan"
         }
       ],
+      "required_play": false,
       "cv_status": "FULL_CV",
       "creator_username": "iHoriZonT"
     },
@@ -11321,6 +11400,7 @@
           "winner_username": "doubleomurfy"
         }
       ],
+      "required_play": false,
       "cv_status": "FULL_CV",
       "creator_username": "kiseli"
     },
@@ -11347,6 +11427,7 @@
           "winner_username": "PoeticKatana"
         }
       ],
+      "required_play": false,
       "cv_status": "FULL_CV",
       "creator_username": "CuteEnby"
     },
@@ -14408,7 +14489,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "RaitorHaitor"
+      "creator_username": "RaitorHaitor",
+      "required_play": false
     },
     {
       "id": "rAKdX",
@@ -17293,7 +17375,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "doubleomurfy"
+      "creator_username": "doubleomurfy",
+      "required_play": false
     },
     {
       "id": "Lxz8T",
@@ -17929,7 +18012,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "decipherer"
+      "creator_username": "decipherer",
+      "required_play": false
     },
     {
       "id": "DysJq",
@@ -22538,7 +22622,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "Bainsol"
+      "creator_username": "Bainsol",
+      "required_play": false
     },
     {
       "id": "hL6dB",
@@ -32574,7 +32659,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "PoeticKatana"
+      "creator_username": "PoeticKatana",
+      "required_play": false
     },
     {
       "id": "aAoPl",
@@ -32601,7 +32687,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "OndrejVasicek"
+      "creator_username": "OndrejVasicek",
+      "required_play": false
     },
     {
       "id": "hLWVI",
@@ -33673,7 +33760,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "Gooberdragon"
+      "creator_username": "Gooberdragon",
+      "required_play": false
     },
     {
       "id": "Olg30",
@@ -36379,7 +36467,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "LinustheBold"
+      "creator_username": "LinustheBold",
+      "required_play": false
     },
     {
       "id": "hT5NX",

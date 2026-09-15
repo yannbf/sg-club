@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1789455155616,
+  "lastUpdated": 1789474099144,
   "users": {
     "76561198359284432": {
       "username": "a10i",
@@ -704,8 +704,8 @@
         }
       ],
       "registered_at": 1717855880,
-      "last_online_at": 1789429773,
-      "last_online_checked_at": 1789449310588
+      "last_online_at": 1789463642,
+      "last_online_checked_at": 1789473986506
     },
     "76561198053065013": {
       "username": "aez76",
@@ -1079,8 +1079,8 @@
         }
       ],
       "registered_at": 1675845589,
-      "last_online_at": 1789440354,
-      "last_online_checked_at": 1789449311033
+      "last_online_at": 1789466454,
+      "last_online_checked_at": 1789473987027
     },
     "76561198047330685": {
       "username": "akfas",
@@ -1110,8 +1110,8 @@
         "giveaway_ratio": 15.67,
         "shared_sent_count": 6,
         "shared_received_count": 3,
-        "giveaways_created": 28,
-        "giveaways_with_no_entries": 0,
+        "giveaways_created": 26,
+        "giveaways_with_no_entries": 1,
         "last_giveaway_created_at": 1788264207,
         "last_giveaway_won_at": 1789061400,
         "first_seen_at": 1749720354,
@@ -1494,7 +1494,8 @@
           "created_timestamp": 1788264207,
           "end_timestamp": 1789473600,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": false
         },
         {
           "name": "Ravenswatch",
@@ -1505,7 +1506,10 @@
           "created_timestamp": 1788264031,
           "end_timestamp": 1789473600,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "deleted": true,
+          "deleted_reason": "Accident",
+          "had_winners": false
         },
         {
           "name": "Mortal Sin",
@@ -1516,7 +1520,10 @@
           "created_timestamp": 1788263787,
           "end_timestamp": 1789473600,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "deleted": true,
+          "deleted_reason": "Selected Incorrect Game or Information",
+          "had_winners": false
         },
         {
           "name": "RoboCop: Rogue City - Unfinished Busi...",
@@ -2080,8 +2087,8 @@
         }
       ],
       "registered_at": 1387650150,
-      "last_online_at": 1789423026,
-      "last_online_checked_at": 1789449311473
+      "last_online_at": 1789473987,
+      "last_online_checked_at": 1789473987539
     },
     "76561198453663783": {
       "username": "Almostn33t",
@@ -2108,7 +2115,7 @@
         "real_total_sent_count": 16,
         "real_total_received_count": 23,
         "real_total_gift_difference": -7,
-        "giveaway_ratio": 10.67,
+        "giveaway_ratio": 11.33,
         "shared_sent_count": 0,
         "shared_received_count": 2,
         "giveaways_created": 17,
@@ -2287,6 +2294,7 @@
             "is_playtime_private": false,
             "last_checked": 1789453758354
           },
+          "i_played_bro": true,
           "required_play_meta": {
             "requirements_met": true,
             "deadline_in_months": 2
@@ -2405,7 +2413,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1789453763740
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "Tiny Robots Recharged",
@@ -2661,7 +2670,7 @@
           "name": "Diablo IV",
           "link": "FBGBP/diablo-iv",
           "cv_status": "FULL_CV",
-          "entries": 6,
+          "entries": 7,
           "copies": 1,
           "created_timestamp": 1789152375,
           "end_timestamp": 1789476240,
@@ -3089,8 +3098,8 @@
         }
       ],
       "registered_at": 1693165401,
-      "last_online_at": 1789449311,
-      "last_online_checked_at": 1789449311921
+      "last_online_at": 1789473988,
+      "last_online_checked_at": 1789473988078
     },
     "76561198075940587": {
       "username": "Alpha2749",
@@ -3242,7 +3251,7 @@
       ],
       "registered_at": 1461156254,
       "last_online_at": 1785845393,
-      "last_online_checked_at": 1789449312371,
+      "last_online_checked_at": 1789473988598,
       "warnings": [
         "no_giveaway_created_in_6_months"
       ]
@@ -3533,7 +3542,7 @@
       ],
       "registered_at": 1734201280,
       "last_online_at": 1789444099,
-      "last_online_checked_at": 1789449312806
+      "last_online_checked_at": 1789473989107
     },
     "76561198063900528": {
       "username": "Atro",
@@ -3896,8 +3905,8 @@
         }
       ],
       "registered_at": 1686500294,
-      "last_online_at": 1789434386,
-      "last_online_checked_at": 1789449313243
+      "last_online_at": 1789455098,
+      "last_online_checked_at": 1789473989617
     },
     "76561198009116714": {
       "username": "atti",
@@ -3960,7 +3969,7 @@
       ],
       "registered_at": 1329064460,
       "last_online_at": 1789395529,
-      "last_online_checked_at": 1789449313684
+      "last_online_checked_at": 1789473990134
     },
     "76561198025798123": {
       "username": "axlnase",
@@ -4364,8 +4373,8 @@
         }
       ],
       "registered_at": 1564326024,
-      "last_online_at": 1789440574,
-      "last_online_checked_at": 1789449314139,
+      "last_online_at": 1789473990,
+      "last_online_checked_at": 1789473990660,
       "warnings": [
         "low_play_rate_many_wins"
       ]
@@ -5808,8 +5817,8 @@
         }
       ],
       "registered_at": 1733753264,
-      "last_online_at": 1789448085,
-      "last_online_checked_at": 1789449314584,
+      "last_online_at": 1789469647,
+      "last_online_checked_at": 1789473991195,
       "warnings": [
         "required_plays_need_review"
       ]
@@ -6212,7 +6221,7 @@
           "end_timestamp": 1787119200,
           "required_play": true,
           "is_shared": false,
-          "i_played_bro": false,
+          "i_played_bro": true,
           "required_play_meta": {
             "requirements_met": true,
             "deadline_in_months": 2
@@ -6263,6 +6272,7 @@
           "end_timestamp": 1778961600,
           "required_play": false,
           "is_shared": false,
+          "i_played_bro": true,
           "had_winners": true,
           "winners": [
             {
@@ -6698,7 +6708,7 @@
       ],
       "registered_at": 1387216989,
       "last_online_at": 1789442718,
-      "last_online_checked_at": 1789449315043
+      "last_online_checked_at": 1789473991723
     },
     "76561198250732560": {
       "username": "BarbaricGenie",
@@ -7466,7 +7476,7 @@
       ],
       "registered_at": 1462160899,
       "last_online_at": 1789445911,
-      "last_online_checked_at": 1789449315491
+      "last_online_checked_at": 1789473992263
     },
     "76561198024970451": {
       "username": "BorjaGRouco",
@@ -7493,7 +7503,7 @@
         "real_total_sent_count": 50,
         "real_total_received_count": 61,
         "real_total_gift_difference": -11,
-        "giveaway_ratio": 37,
+        "giveaway_ratio": 37.33,
         "shared_sent_count": 1,
         "shared_received_count": 0,
         "giveaways_created": 54,
@@ -7621,6 +7631,7 @@
             "is_playtime_private": false,
             "last_checked": 1789453409141
           },
+          "i_played_bro": true,
           "required_play_meta": {
             "requirements_met": true,
             "deadline_in_months": 2,
@@ -9971,8 +9982,8 @@
         }
       ],
       "registered_at": 1372709126,
-      "last_online_at": 1789439679,
-      "last_online_checked_at": 1789449315945
+      "last_online_at": 1789469611,
+      "last_online_checked_at": 1789473992792
     },
     "76561198025173613": {
       "username": "Carenard",
@@ -9980,12 +9991,12 @@
       "avatar_url": "https://avatars.steamstatic.com/a2a84528e05d23bb5103c1c4684882e70603c39e_medium.jpg",
       "steam_id": "76561198025173613",
       "stats": {
-        "total_sent_count": 24.6,
-        "total_sent_value": 690.5,
+        "total_sent_count": 24.8,
+        "total_sent_value": 697.17,
         "total_received_count": 23,
         "total_received_value": 521.77,
-        "total_gift_difference": 1.6,
-        "total_value_difference": 168.73,
+        "total_gift_difference": 1.8,
+        "total_value_difference": 175.4,
         "fcv_sent_count": 18,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
@@ -10000,7 +10011,7 @@
         "real_total_received_count": 23,
         "real_total_gift_difference": -5,
         "giveaway_ratio": 16.33,
-        "shared_sent_count": 29,
+        "shared_sent_count": 30,
         "shared_received_count": 0,
         "giveaways_created": 45,
         "giveaways_with_no_entries": 0,
@@ -10541,9 +10552,10 @@
           "had_winners": true,
           "winners": [
             {
-              "name": null,
-              "status": "awaiting_feedback",
-              "activated": false
+              "name": "xaribda",
+              "winner_username": "xaribda",
+              "status": "received",
+              "activated": true
             }
           ]
         },
@@ -11617,8 +11629,8 @@
         }
       ],
       "registered_at": 1356926034,
-      "last_online_at": 1789449316,
-      "last_online_checked_at": 1789449316386
+      "last_online_at": 1789450891,
+      "last_online_checked_at": 1789473993306
     },
     "76561198224589020": {
       "username": "Carrei",
@@ -12178,8 +12190,8 @@
         }
       ],
       "registered_at": 1600605500,
-      "last_online_at": 1789449316,
-      "last_online_checked_at": 1789449316815
+      "last_online_at": 1789448997,
+      "last_online_checked_at": 1789473993824
     },
     "76561197982025537": {
       "username": "Casino0",
@@ -12427,8 +12439,8 @@
         }
       ],
       "registered_at": 1357845464,
-      "last_online_at": 1789422899,
-      "last_online_checked_at": 1789449317257
+      "last_online_at": 1789464387,
+      "last_online_checked_at": 1789473994335
     },
     "76561197962863579": {
       "username": "CatzZz",
@@ -12436,26 +12448,26 @@
       "avatar_url": "https://avatars.steamstatic.com/f09cb86cf5773d7432383c33cf351c26bcea5e82_medium.jpg",
       "steam_id": "76561197962863579",
       "stats": {
-        "total_sent_count": 25,
-        "total_sent_value": 492.5,
+        "total_sent_count": 26,
+        "total_sent_value": 517.49,
         "total_received_count": 4.8,
         "total_received_value": 129.04,
-        "total_gift_difference": 20.3,
-        "total_value_difference": 363.46,
-        "fcv_sent_count": 14,
+        "total_gift_difference": 21.3,
+        "total_value_difference": 388.45,
+        "fcv_sent_count": 15,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
         "fcv_received_count": 3,
         "rcv_received_count": 0,
         "ncv_received_count": 0,
-        "fcv_gift_difference": 11,
-        "real_total_sent_value": 323.86,
+        "fcv_gift_difference": 12,
+        "real_total_sent_value": 348.85,
         "real_total_received_value": 94.97,
-        "real_total_value_difference": 228.89,
-        "real_total_sent_count": 14,
+        "real_total_value_difference": 253.88,
+        "real_total_sent_count": 15,
         "real_total_received_count": 3,
-        "real_total_gift_difference": 11,
-        "giveaway_ratio": 14,
+        "real_total_gift_difference": 12,
+        "giveaway_ratio": 15,
         "shared_sent_count": 22,
         "shared_received_count": 5,
         "giveaways_created": 37,
@@ -12671,9 +12683,10 @@
           "had_winners": true,
           "winners": [
             {
-              "name": null,
-              "status": "awaiting_feedback",
-              "activated": false
+              "name": "76561198055569704",
+              "winner_username": "CuteEnby",
+              "status": "received",
+              "activated": true
             }
           ]
         },
@@ -13451,8 +13464,8 @@
         }
       ],
       "registered_at": 1376353375,
-      "last_online_at": 1789435534,
-      "last_online_checked_at": 1789449317712
+      "last_online_at": 1789468159,
+      "last_online_checked_at": 1789473994866
     },
     "76561198061381176": {
       "username": "Ch1cWolf",
@@ -13755,8 +13768,8 @@
         }
       ],
       "registered_at": 1358623585,
-      "last_online_at": 1789442544,
-      "last_online_checked_at": 1789449318154
+      "last_online_at": 1789472542,
+      "last_online_checked_at": 1789473995402
     },
     "76561198424411734": {
       "username": "Cloverleaf",
@@ -14873,7 +14886,7 @@
       ],
       "registered_at": 1679600861,
       "last_online_at": 1789440515,
-      "last_online_checked_at": 1789449318602,
+      "last_online_checked_at": 1789473995917,
       "warnings": [
         "unplayed_required_play_giveaways",
         "required_play_deadline_expired"
@@ -15465,7 +15478,7 @@
       ],
       "registered_at": 1706928212,
       "last_online_at": 1780927501,
-      "last_online_checked_at": 1789449319049,
+      "last_online_checked_at": 1789473996438,
       "warnings": [
         "no_giveaway_created_in_6_months"
       ]
@@ -16145,7 +16158,7 @@
       ],
       "registered_at": 1354213100,
       "last_online_at": 1789412190,
-      "last_online_checked_at": 1789449319489,
+      "last_online_checked_at": 1789473996962,
       "warnings": [
         "no_giveaway_created_in_6_months"
       ]
@@ -16158,30 +16171,30 @@
       "stats": {
         "total_sent_count": 47,
         "total_sent_value": 694.53,
-        "total_received_count": 47.3,
-        "total_received_value": 780.19,
-        "total_gift_difference": -0.3,
-        "total_value_difference": -85.66,
+        "total_received_count": 48.3,
+        "total_received_value": 805.18,
+        "total_gift_difference": -1.3,
+        "total_value_difference": -110.65,
         "fcv_sent_count": 45,
         "rcv_sent_count": 2,
         "ncv_sent_count": 0,
-        "fcv_received_count": 44,
+        "fcv_received_count": 45,
         "rcv_received_count": 1,
         "ncv_received_count": 0,
-        "fcv_gift_difference": 1,
+        "fcv_gift_difference": 0,
         "real_total_sent_value": 660.55,
-        "real_total_received_value": 742.01,
-        "real_total_value_difference": -81.46,
+        "real_total_received_value": 767,
+        "real_total_value_difference": -106.45,
         "real_total_sent_count": 45,
-        "real_total_received_count": 44,
-        "real_total_gift_difference": 1,
-        "giveaway_ratio": 34,
+        "real_total_received_count": 45,
+        "real_total_gift_difference": 0,
+        "giveaway_ratio": 33.67,
         "shared_sent_count": 0,
         "shared_received_count": 3,
         "giveaways_created": 41,
         "giveaways_with_no_entries": 1,
         "last_giveaway_created_at": 1789122998,
-        "last_giveaway_won_at": 1788710400,
+        "last_giveaway_won_at": 1789141500,
         "first_seen_at": 1749683584,
         "total_achievements_percentage": 25,
         "average_achievements_percentage": 23,
@@ -16194,6 +16207,15 @@
       "steam_profile_is_private": false,
       "country_code": "pl",
       "giveaways_won": [
+        {
+          "name": "Absolum",
+          "link": "vatv6/absolum",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1789141500,
+          "required_play": true,
+          "is_shared": false
+        },
         {
           "name": "One Turn Kill",
           "link": "9yO8N/one-turn-kill",
@@ -17199,7 +17221,15 @@
           "created_timestamp": 1789122998,
           "end_timestamp": 1789472100,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "CorgiSpace",
@@ -17296,6 +17326,7 @@
           "end_timestamp": 1785225600,
           "required_play": false,
           "is_shared": false,
+          "i_played_bro": true,
           "had_winners": true,
           "winners": [
             {
@@ -18155,8 +18186,8 @@
         }
       ],
       "registered_at": 1723026742,
-      "last_online_at": 1789415782,
-      "last_online_checked_at": 1789449319931
+      "last_online_at": 1789469684,
+      "last_online_checked_at": 1789473997478
     },
     "76561198113581790": {
       "username": "damianea103",
@@ -18183,7 +18214,7 @@
         "real_total_sent_count": 32,
         "real_total_received_count": 65,
         "real_total_gift_difference": -33,
-        "giveaway_ratio": 14,
+        "giveaway_ratio": 14.33,
         "shared_sent_count": 0,
         "shared_received_count": 12,
         "giveaways_created": 32,
@@ -18191,10 +18222,10 @@
         "last_giveaway_created_at": 1788477111,
         "last_giveaway_won_at": 1789120800,
         "first_seen_at": 1749697803,
-        "total_achievements_percentage": 13,
-        "average_achievements_percentage": 15,
-        "real_total_achievements_percentage": 15,
-        "real_average_achievements_percentage": 18,
+        "total_achievements_percentage": 14,
+        "average_achievements_percentage": 16,
+        "real_total_achievements_percentage": 16,
+        "real_average_achievements_percentage": 19,
         "has_missing_achievements_data": true
       },
       "last_played_at": 1789453147982,
@@ -18304,7 +18335,8 @@
             "is_playtime_private": false,
             "last_checked": 1789453064994,
             "is_potentially_idling": false
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "Koira",
@@ -20519,7 +20551,10 @@
       ],
       "registered_at": 1459450873,
       "last_online_at": 1789440897,
-      "last_online_checked_at": 1789449320388
+      "last_online_checked_at": 1789473998028,
+      "warnings": [
+        "required_plays_need_review"
+      ]
     },
     "76561198066598689": {
       "username": "DancingVaquinha",
@@ -20560,6 +20595,7 @@
         "real_average_achievements_percentage": 10,
         "has_missing_achievements_data": false
       },
+      "last_played_at": 1789454687609,
       "steam_profile_is_private": false,
       "country_code": "pt",
       "giveaways_won": [
@@ -21257,9 +21293,8 @@
         }
       ],
       "registered_at": 1389297430,
-      "last_online_at": 1789433522,
-      "last_online_checked_at": 1789449320824,
-      "last_played_at": 1789454687609
+      "last_online_at": 1789470660,
+      "last_online_checked_at": 1789473998565
     },
     "76561199434715535": {
       "username": "DancingXmas",
@@ -21561,7 +21596,7 @@
           "name": "South of Midnight",
           "link": "WT7wt/south-of-midnight",
           "cv_status": "FULL_CV",
-          "entries": 29,
+          "entries": 30,
           "copies": 1,
           "created_timestamp": 1789270595,
           "end_timestamp": 1789531140,
@@ -22021,8 +22056,8 @@
         }
       ],
       "registered_at": 1742791493,
-      "last_online_at": 1789447180,
-      "last_online_checked_at": 1789449321260,
+      "last_online_at": 1789468871,
+      "last_online_checked_at": 1789473999083,
       "warnings": [
         "unplayed_required_play_giveaways"
       ]
@@ -22743,7 +22778,7 @@
       ],
       "registered_at": 1366039494,
       "last_online_at": 1779480100,
-      "last_online_checked_at": 1789449321701,
+      "last_online_checked_at": 1789473999593,
       "warnings": [
         "no_giveaway_created_in_6_months"
       ]
@@ -23069,8 +23104,8 @@
         }
       ],
       "registered_at": 1683235340,
-      "last_online_at": 1789420595,
-      "last_online_checked_at": 1789449322139
+      "last_online_at": 1789474000,
+      "last_online_checked_at": 1789474000102
     },
     "76561198025834664": {
       "username": "decipherer",
@@ -23632,6 +23667,7 @@
           "end_timestamp": 1781627880,
           "required_play": false,
           "is_shared": false,
+          "i_played_bro": true,
           "had_winners": true,
           "winners": [
             {
@@ -23926,8 +23962,8 @@
         }
       ],
       "registered_at": 1554131200,
-      "last_online_at": 1789449322,
-      "last_online_checked_at": 1789449322587,
+      "last_online_at": 1789474000,
+      "last_online_checked_at": 1789474000641,
       "warnings": [
         "low_play_rate_many_wins"
       ]
@@ -24439,7 +24475,7 @@
       ],
       "registered_at": 1738554041,
       "last_online_at": 1788016990,
-      "last_online_checked_at": 1789449323030
+      "last_online_checked_at": 1789474001181
     },
     "76561198041749780": {
       "username": "doubleomurfy",
@@ -24466,7 +24502,7 @@
         "real_total_sent_count": 33,
         "real_total_received_count": 63,
         "real_total_gift_difference": -30,
-        "giveaway_ratio": 20.67,
+        "giveaway_ratio": 21.33,
         "shared_sent_count": 0,
         "shared_received_count": 0,
         "giveaways_created": 34,
@@ -24627,7 +24663,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1789453155111
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "Arctic Eggs",
@@ -25000,7 +25037,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1789453174995
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "THRESHOLD",
@@ -26007,6 +26045,7 @@
           "end_timestamp": 1781863200,
           "required_play": false,
           "is_shared": false,
+          "i_played_bro": true,
           "had_winners": true,
           "winners": [
             {
@@ -26607,8 +26646,8 @@
         }
       ],
       "registered_at": 1426781554,
-      "last_online_at": 1789449323,
-      "last_online_checked_at": 1789449323486
+      "last_online_at": 1789474001,
+      "last_online_checked_at": 1789474001708
     },
     "76561198408001048": {
       "username": "dramainfouracts",
@@ -27037,8 +27076,8 @@
         }
       ],
       "registered_at": 1767735036,
-      "last_online_at": 1789420818,
-      "last_online_checked_at": 1789449323926
+      "last_online_at": 1789474002,
+      "last_online_checked_at": 1789474002226
     },
     "76561198013676011": {
       "username": "drbeckett",
@@ -27263,8 +27302,8 @@
         }
       ],
       "registered_at": 1332633740,
-      "last_online_at": 1789447747,
-      "last_online_checked_at": 1789449324373,
+      "last_online_at": 1789474002,
+      "last_online_checked_at": 1789474002744,
       "warnings": [
         "no_giveaway_created_in_6_months"
       ]
@@ -28425,8 +28464,8 @@
         }
       ],
       "registered_at": 1516788080,
-      "last_online_at": 1789449324,
-      "last_online_checked_at": 1789449324821
+      "last_online_at": 1789449335,
+      "last_online_checked_at": 1789474003287
     },
     "76561198020386807": {
       "username": "eeev",
@@ -29814,7 +29853,7 @@
       ],
       "registered_at": 1407444209,
       "last_online_at": 1789430875,
-      "last_online_checked_at": 1789449325288,
+      "last_online_checked_at": 1789474003852,
       "warnings": [
         "required_plays_need_review"
       ]
@@ -29853,9 +29892,9 @@
         "last_giveaway_won_at": 1789120800,
         "first_seen_at": 1749668120,
         "total_achievements_percentage": 9,
-        "average_achievements_percentage": 12,
+        "average_achievements_percentage": 13,
         "real_total_achievements_percentage": 9,
-        "real_average_achievements_percentage": 12,
+        "real_average_achievements_percentage": 13,
         "has_missing_achievements_data": false
       },
       "last_played_at": 1789454247851,
@@ -31208,8 +31247,8 @@
         }
       ],
       "registered_at": 1359729643,
-      "last_online_at": 1789411580,
-      "last_online_checked_at": 1789449325752
+      "last_online_at": 1789470464,
+      "last_online_checked_at": 1789474004429
     },
     "76561198002466205": {
       "username": "Ellendyl",
@@ -32198,8 +32237,8 @@
         }
       ],
       "registered_at": 1376654490,
-      "last_online_at": 1789425196,
-      "last_online_checked_at": 1789449326204
+      "last_online_at": 1789471298,
+      "last_online_checked_at": 1789474004966
     },
     "76561198056789339": {
       "username": "elysium1988",
@@ -33730,8 +33769,8 @@
         }
       ],
       "registered_at": 1416691927,
-      "last_online_at": 1789434053,
-      "last_online_checked_at": 1789449326650
+      "last_online_at": 1789458424,
+      "last_online_checked_at": 1789474005481
     },
     "76561198047981011": {
       "username": "Foxmonster",
@@ -34422,7 +34461,7 @@
       ],
       "registered_at": 1332544621,
       "last_online_at": 1788748519,
-      "last_online_checked_at": 1789449327092
+      "last_online_checked_at": 1789474006008
     },
     "76561197967055456": {
       "username": "Foxpile",
@@ -35390,8 +35429,8 @@
         }
       ],
       "registered_at": 1647551922,
-      "last_online_at": 1789406616,
-      "last_online_checked_at": 1789449327536,
+      "last_online_at": 1789472701,
+      "last_online_checked_at": 1789474006543,
       "warnings": [
         "required_plays_need_review"
       ]
@@ -35447,7 +35486,7 @@
       ],
       "registered_at": 1768667870,
       "last_online_at": 1789443974,
-      "last_online_checked_at": 1789449327973
+      "last_online_checked_at": 1789474007050
     },
     "76561198036424003": {
       "username": "GeekDoesStuff",
@@ -36080,7 +36119,7 @@
       ],
       "registered_at": 1704450043,
       "last_online_at": 1789434050,
-      "last_online_checked_at": 1789449328419
+      "last_online_checked_at": 1789474007587
     },
     "76561198066957402": {
       "username": "Gooberdragon",
@@ -36116,7 +36155,7 @@
         "last_giveaway_won_at": 1789120800,
         "first_seen_at": 1766776178,
         "total_achievements_percentage": 3,
-        "average_achievements_percentage": 4,
+        "average_achievements_percentage": 5,
         "real_total_achievements_percentage": 3,
         "real_average_achievements_percentage": 5,
         "has_missing_achievements_data": true
@@ -37248,7 +37287,7 @@
           "name": "Graveyard Keeper 2",
           "link": "QA7Oc/graveyard-keeper-2",
           "cv_status": "FULL_CV",
-          "entries": 5,
+          "entries": 6,
           "copies": 1,
           "created_timestamp": 1789435528,
           "end_timestamp": 1789974000,
@@ -37692,6 +37731,7 @@
           "end_timestamp": 1772006400,
           "required_play": false,
           "is_shared": false,
+          "i_played_bro": true,
           "had_winners": true,
           "winners": [
             {
@@ -37859,8 +37899,8 @@
         }
       ],
       "registered_at": 1740325672,
-      "last_online_at": 1789443321,
-      "last_online_checked_at": 1789449328862,
+      "last_online_at": 1789470335,
+      "last_online_checked_at": 1789474008102,
       "warnings": [
         "required_plays_need_review",
         "required_play_deadline_within_15_days",
@@ -37903,7 +37943,7 @@
         "total_achievements_percentage": 11,
         "average_achievements_percentage": 13,
         "real_total_achievements_percentage": 13,
-        "real_average_achievements_percentage": 15,
+        "real_average_achievements_percentage": 16,
         "has_missing_achievements_data": true
       },
       "last_played_at": 1789453679577,
@@ -38758,8 +38798,8 @@
         }
       ],
       "registered_at": 1718174609,
-      "last_online_at": 1789410254,
-      "last_online_checked_at": 1789449329296
+      "last_online_at": 1789462400,
+      "last_online_checked_at": 1789474008632
     },
     "76561198013734355": {
       "username": "gus09",
@@ -40722,8 +40762,8 @@
         }
       ],
       "registered_at": 1717365021,
-      "last_online_at": 1789412500,
-      "last_online_checked_at": 1789449329738
+      "last_online_at": 1789460637,
+      "last_online_checked_at": 1789474009148
     },
     "76561198027027643": {
       "username": "Hawkingmeister",
@@ -41121,8 +41161,8 @@
         }
       ],
       "registered_at": 1699654104,
-      "last_online_at": 1789431762,
-      "last_online_checked_at": 1789449330178
+      "last_online_at": 1789469522,
+      "last_online_checked_at": 1789474009687
     },
     "76561198082023389": {
       "username": "herbesdeprovence",
@@ -41549,7 +41589,7 @@
           "name": "VOIN",
           "link": "UIbQu/voin",
           "cv_status": "FULL_CV",
-          "entries": 9,
+          "entries": 10,
           "copies": 1,
           "created_timestamp": 1789338844,
           "end_timestamp": 1789761600,
@@ -42044,7 +42084,7 @@
           "end_timestamp": 1777320000,
           "required_play": true,
           "is_shared": false,
-          "i_played_bro": false,
+          "i_played_bro": true,
           "required_play_meta": {
             "requirements_met": true,
             "deadline_in_months": 2
@@ -42700,7 +42740,7 @@
       ],
       "registered_at": 1391665067,
       "last_online_at": 1789435798,
-      "last_online_checked_at": 1789449330616
+      "last_online_checked_at": 1789474010206
     },
     "76561198236260938": {
       "username": "HUMoonlight",
@@ -42863,7 +42903,7 @@
       ],
       "registered_at": 1733586461,
       "last_online_at": 1789241567,
-      "last_online_checked_at": 1789449331060,
+      "last_online_checked_at": 1789474010724,
       "warnings": [
         "no_giveaway_created_in_6_months"
       ]
@@ -44297,8 +44337,8 @@
         }
       ],
       "registered_at": 1454506455,
-      "last_online_at": 1789444666,
-      "last_online_checked_at": 1789449331495
+      "last_online_at": 1789474011,
+      "last_online_checked_at": 1789474011229
     },
     "76561198076863473": {
       "username": "iHoriZonT",
@@ -44366,6 +44406,7 @@
           "end_timestamp": 1785948660,
           "required_play": false,
           "is_shared": true,
+          "i_played_bro": true,
           "had_winners": true,
           "winners": [
             {
@@ -44420,7 +44461,7 @@
       ],
       "registered_at": 1757465596,
       "last_online_at": 1789404257,
-      "last_online_checked_at": 1789449331934
+      "last_online_checked_at": 1789474011744
     },
     "76561198015261565": {
       "username": "imminiman",
@@ -45050,8 +45091,8 @@
         }
       ],
       "registered_at": 1651359002,
-      "last_online_at": 1789445368,
-      "last_online_checked_at": 1789449332377,
+      "last_online_at": 1789474012,
+      "last_online_checked_at": 1789474012255,
       "warnings": [
         "low_play_rate_many_wins"
       ]
@@ -46205,8 +46246,8 @@
         }
       ],
       "registered_at": 1466572312,
-      "last_online_at": 1789442556,
-      "last_online_checked_at": 1789449332821
+      "last_online_at": 1789469235,
+      "last_online_checked_at": 1789474012771
     },
     "76561198118726910": {
       "username": "Ivannes",
@@ -47395,8 +47436,8 @@
         }
       ],
       "registered_at": 1399133452,
-      "last_online_at": 1789440401,
-      "last_online_checked_at": 1789449333267
+      "last_online_at": 1789466328,
+      "last_online_checked_at": 1789474013289
     },
     "76561198019838591": {
       "username": "jaaydee",
@@ -47625,8 +47666,8 @@
         }
       ],
       "registered_at": 1346711062,
-      "last_online_at": 1789418774,
-      "last_online_checked_at": 1789449333699
+      "last_online_at": 1789451995,
+      "last_online_checked_at": 1789474013795
     },
     "76561198347852739": {
       "username": "Jztr",
@@ -48544,7 +48585,7 @@
       ],
       "registered_at": 1516796686,
       "last_online_at": 1777105571,
-      "last_online_checked_at": 1789449334138,
+      "last_online_checked_at": 1789474014316,
       "warnings": [
         "no_giveaway_created_in_6_months"
       ]
@@ -48806,7 +48847,7 @@
       ],
       "registered_at": 1566375833,
       "last_online_at": 1781298397,
-      "last_online_checked_at": 1789449334586,
+      "last_online_checked_at": 1789474014829,
       "warnings": [
         "no_giveaway_created_in_6_months"
       ]
@@ -49271,8 +49312,8 @@
         }
       ],
       "registered_at": 1716588938,
-      "last_online_at": 1789420465,
-      "last_online_checked_at": 1789449335029
+      "last_online_at": 1789471556,
+      "last_online_checked_at": 1789474015369
     },
     "76561198040188513": {
       "username": "kiseli",
@@ -49543,7 +49584,7 @@
           "name": "BOKURA",
           "link": "HgvfE/bokura",
           "cv_status": "FULL_CV",
-          "entries": 1,
+          "entries": 2,
           "copies": 2,
           "created_timestamp": 1789423300,
           "end_timestamp": 1789657200,
@@ -49621,6 +49662,7 @@
           "end_timestamp": 1785261600,
           "required_play": false,
           "is_shared": false,
+          "i_played_bro": true,
           "had_winners": true,
           "winners": [
             {
@@ -49673,8 +49715,8 @@
         }
       ],
       "registered_at": 1353457288,
-      "last_online_at": 1789447546,
-      "last_online_checked_at": 1789449335491
+      "last_online_at": 1789472757,
+      "last_online_checked_at": 1789474015900
     },
     "76561198164999453": {
       "username": "Krystie",
@@ -50004,8 +50046,8 @@
         }
       ],
       "registered_at": 1461923967,
-      "last_online_at": 1789447445,
-      "last_online_checked_at": 1789449335931,
+      "last_online_at": 1789450556,
+      "last_online_checked_at": 1789474016408,
       "warnings": [
         "no_giveaway_created_in_6_months"
       ]
@@ -50044,11 +50086,12 @@
         "last_giveaway_won_at": 1789358340,
         "first_seen_at": 1749717695,
         "total_achievements_percentage": 22,
-        "average_achievements_percentage": 15,
+        "average_achievements_percentage": 16,
         "real_total_achievements_percentage": 22,
-        "real_average_achievements_percentage": 15,
+        "real_average_achievements_percentage": 16,
         "has_missing_achievements_data": true
       },
+      "last_played_at": 1789454079103,
       "steam_profile_url": "https://steamcommunity.com/profiles/76561197961485346",
       "steam_profile_is_private": false,
       "country_code": null,
@@ -51112,9 +51155,8 @@
         }
       ],
       "registered_at": 1687667066,
-      "last_online_at": 1789447038,
-      "last_online_checked_at": 1789449336383,
-      "last_played_at": 1789454079103
+      "last_online_at": 1789458596,
+      "last_online_checked_at": 1789474016930
     },
     "76561199174167338": {
       "username": "legor2d2",
@@ -51771,7 +51813,7 @@
       ],
       "registered_at": 1686060569,
       "last_online_at": 1783108309,
-      "last_online_checked_at": 1789449336824,
+      "last_online_checked_at": 1789474017464,
       "warnings": [
         "required_play_deadline_expired"
       ]
@@ -52567,7 +52609,7 @@
           "end_timestamp": 1787317200,
           "required_play": true,
           "is_shared": false,
-          "i_played_bro": false,
+          "i_played_bro": true,
           "required_play_meta": {
             "requirements_met": true,
             "deadline_in_months": 2,
@@ -53162,7 +53204,7 @@
           "end_timestamp": 1785502800,
           "required_play": true,
           "is_shared": false,
-          "i_played_bro": false,
+          "i_played_bro": true,
           "required_play_meta": {
             "requirements_met": true,
             "deadline_in_months": 2,
@@ -53214,7 +53256,7 @@
           "end_timestamp": 1785502800,
           "required_play": true,
           "is_shared": false,
-          "i_played_bro": false,
+          "i_played_bro": true,
           "required_play_meta": {
             "requirements_met": true,
             "deadline_in_months": 2,
@@ -54631,8 +54673,8 @@
         }
       ],
       "registered_at": 1308478596,
-      "last_online_at": 1789447954,
-      "last_online_checked_at": 1789449337299
+      "last_online_at": 1789471800,
+      "last_online_checked_at": 1789474018009
     },
     "76561198067727574": {
       "username": "LieEater",
@@ -55035,8 +55077,8 @@
         }
       ],
       "registered_at": 1687775579,
-      "last_online_at": 1789407145,
-      "last_online_checked_at": 1789449337742
+      "last_online_at": 1789474018,
+      "last_online_checked_at": 1789474018536
     },
     "76561198002504847": {
       "username": "LightningCount",
@@ -55071,10 +55113,10 @@
         "last_giveaway_created_at": 1781132486,
         "last_giveaway_won_at": 1789120800,
         "first_seen_at": 1749680816,
-        "total_achievements_percentage": 49,
-        "average_achievements_percentage": 52,
-        "real_total_achievements_percentage": 49,
-        "real_average_achievements_percentage": 52,
+        "total_achievements_percentage": 50,
+        "average_achievements_percentage": 53,
+        "real_total_achievements_percentage": 50,
+        "real_average_achievements_percentage": 53,
         "has_missing_achievements_data": false
       },
       "last_played_at": 1789454298003,
@@ -55543,9 +55585,9 @@
           ]
         }
       ],
-      "registered_at": 1723065508,
-      "last_online_at": 1789422453,
-      "last_online_checked_at": 1789449338182
+      "last_online_at": 1789474019,
+      "last_online_checked_at": 1789474019059,
+      "registered_at": 1723065508
     },
     "76561199028503777": {
       "username": "Lilyhia",
@@ -55699,8 +55741,8 @@
         }
       ],
       "registered_at": 1648316716,
-      "last_online_at": 1789447322,
-      "last_online_checked_at": 1789449338620
+      "last_online_at": 1789471336,
+      "last_online_checked_at": 1789474019568
     },
     "76561198000608288": {
       "username": "LinustheBold",
@@ -56907,6 +56949,7 @@
           "end_timestamp": 1770236040,
           "required_play": false,
           "is_shared": false,
+          "i_played_bro": true,
           "had_winners": true,
           "winners": [
             {
@@ -57679,8 +57722,8 @@
         }
       ],
       "registered_at": 1404925351,
-      "last_online_at": 1789420312,
-      "last_online_checked_at": 1789449339091,
+      "last_online_at": 1789456891,
+      "last_online_checked_at": 1789474020146,
       "warnings": [
         "required_play_deadline_within_15_days"
       ]
@@ -57713,9 +57756,9 @@
         "giveaway_ratio": 1.67,
         "shared_sent_count": 225,
         "shared_received_count": 2,
-        "giveaways_created": 209,
+        "giveaways_created": 210,
         "giveaways_with_no_entries": 0,
-        "last_giveaway_created_at": 1789251467,
+        "last_giveaway_created_at": 1789449571,
         "last_giveaway_won_at": 1764944580,
         "first_seen_at": 1749687895,
         "total_achievements_percentage": 43,
@@ -57857,7 +57900,7 @@
           "name": "The end is nahual: If I may say so",
           "link": "GAuGT/the-end-is-nahual-if-i-may-say-so",
           "cv_status": "REDUCED_CV",
-          "entries": 58,
+          "entries": 60,
           "copies": 1,
           "created_timestamp": 1789106521,
           "end_timestamp": 1789704000,
@@ -57890,10 +57933,21 @@
           "name": "Teacup",
           "link": "Ooqdm/teacup",
           "cv_status": "REDUCED_CV",
-          "entries": 35,
+          "entries": 36,
           "copies": 2,
           "created_timestamp": 1789251467,
           "end_timestamp": 1789876800,
+          "required_play": false,
+          "is_shared": true
+        },
+        {
+          "name": "TOEM: A Photo Adventure",
+          "link": "uOU2P/toem-a-photo-adventure",
+          "cv_status": "REDUCED_CV",
+          "entries": 6,
+          "copies": 1,
+          "created_timestamp": 1789449571,
+          "end_timestamp": 1790049600,
           "required_play": false,
           "is_shared": true
         },
@@ -62153,8 +62207,8 @@
         }
       ],
       "registered_at": 1544272259,
-      "last_online_at": 1789438212,
-      "last_online_checked_at": 1789449339595
+      "last_online_at": 1789474020,
+      "last_online_checked_at": 1789474020729
     },
     "76561198042896883": {
       "username": "Lontaz",
@@ -62163,11 +62217,11 @@
       "steam_id": "76561198042896883",
       "stats": {
         "total_sent_count": 13.6,
-        "total_sent_value": 330.33,
+        "total_sent_value": 329.33,
         "total_received_count": 6,
         "total_received_value": 154.94,
         "total_gift_difference": 7.6,
-        "total_value_difference": 175.39,
+        "total_value_difference": 174.39,
         "fcv_sent_count": 8,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
@@ -62325,7 +62379,7 @@
           "name": "Shards of Order",
           "link": "upDwV/shards-of-order",
           "cv_status": "FULL_CV",
-          "entries": 24,
+          "entries": 25,
           "copies": 1,
           "created_timestamp": 1787063473,
           "end_timestamp": 1789639200,
@@ -62347,7 +62401,7 @@
           "name": "Achilles: Legends Untold",
           "link": "2h49M/achilles-legends-untold",
           "cv_status": "REDUCED_CV",
-          "entries": 209,
+          "entries": 213,
           "copies": 1,
           "created_timestamp": 1788029076,
           "end_timestamp": 1789639200,
@@ -63067,8 +63121,8 @@
         }
       ],
       "registered_at": 1527446737,
-      "last_online_at": 1789438136,
-      "last_online_checked_at": 1789449340054
+      "last_online_at": 1789470724,
+      "last_online_checked_at": 1789474021253
     },
     "76561198143588240": {
       "username": "LumpyCreature",
@@ -63447,7 +63501,7 @@
       ],
       "registered_at": 1744926458,
       "last_online_at": 1789301107,
-      "last_online_checked_at": 1789449340484
+      "last_online_checked_at": 1789474021777
     },
     "76561198117390871": {
       "username": "Mahry",
@@ -63474,7 +63528,7 @@
         "real_total_sent_count": 2,
         "real_total_received_count": 3,
         "real_total_gift_difference": -1,
-        "giveaway_ratio": 1,
+        "giveaway_ratio": 1.33,
         "shared_sent_count": 4,
         "shared_received_count": 0,
         "giveaways_created": 6,
@@ -63551,7 +63605,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1789455131762
-          }
+          },
+          "i_played_bro": true
         }
       ],
       "giveaways_created": [
@@ -63698,8 +63753,8 @@
         }
       ],
       "registered_at": 1708252112,
-      "last_online_at": 1789405892,
-      "last_online_checked_at": 1789449340922
+      "last_online_at": 1789467785,
+      "last_online_checked_at": 1789474022292
     },
     "76561198035801987": {
       "username": "makki",
@@ -63734,10 +63789,10 @@
         "last_giveaway_created_at": 1788196489,
         "last_giveaway_won_at": 1789322400,
         "first_seen_at": 1749695850,
-        "total_achievements_percentage": 71,
-        "average_achievements_percentage": 69,
-        "real_total_achievements_percentage": 71,
-        "real_average_achievements_percentage": 69,
+        "total_achievements_percentage": 68,
+        "average_achievements_percentage": 67,
+        "real_total_achievements_percentage": 68,
+        "real_average_achievements_percentage": 67,
         "has_missing_achievements_data": true
       },
       "last_played_at": 1789366968160,
@@ -65545,8 +65600,8 @@
         }
       ],
       "registered_at": 1321200933,
-      "last_online_at": 1789435147,
-      "last_online_checked_at": 1789449341360
+      "last_online_at": 1789474022,
+      "last_online_checked_at": 1789474022806
     },
     "76561197999508776": {
       "username": "mathisgreat",
@@ -65853,8 +65908,8 @@
         }
       ],
       "registered_at": 1656204651,
-      "last_online_at": 1789424393,
-      "last_online_checked_at": 1789449341801
+      "last_online_at": 1789457853,
+      "last_online_checked_at": 1789474023315
     },
     "76561198010863049": {
       "username": "MedinaRoscoe",
@@ -65881,7 +65936,7 @@
         "real_total_sent_count": 4,
         "real_total_received_count": 4,
         "real_total_gift_difference": 0,
-        "giveaway_ratio": 3.67,
+        "giveaway_ratio": 4,
         "shared_sent_count": 0,
         "shared_received_count": 0,
         "giveaways_created": 4,
@@ -65938,7 +65993,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1789455103964
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "Terra Nil",
@@ -66071,9 +66127,9 @@
           ]
         }
       ],
-      "last_online_at": 1789418857,
-      "last_online_checked_at": 1789449342245,
-      "registered_at": 1678282041
+      "registered_at": 1678282041,
+      "last_online_at": 1789464693,
+      "last_online_checked_at": 1789474023829
     },
     "76561198069420656": {
       "username": "Metalhead8489",
@@ -66100,7 +66156,7 @@
         "real_total_sent_count": 19,
         "real_total_received_count": 29,
         "real_total_gift_difference": -10,
-        "giveaway_ratio": 14.67,
+        "giveaway_ratio": 15.33,
         "shared_sent_count": 16,
         "shared_received_count": 11,
         "giveaways_created": 35,
@@ -66241,6 +66297,7 @@
             "is_playtime_private": false,
             "last_checked": 1789453529025
           },
+          "i_played_bro": true,
           "required_play_meta": {
             "requirements_met": true,
             "deadline_in_months": 2
@@ -66541,6 +66598,7 @@
             "is_playtime_private": false,
             "last_checked": 1789453544600
           },
+          "i_played_bro": true,
           "required_play_meta": {
             "requirements_met": true,
             "deadline_in_months": 2
@@ -68009,9 +68067,9 @@
           ]
         }
       ],
-      "last_online_at": 1789429610,
-      "last_online_checked_at": 1789449342736,
-      "registered_at": 1396356781
+      "registered_at": 1396356781,
+      "last_online_at": 1789471168,
+      "last_online_checked_at": 1789474024415
     },
     "76561198452519450": {
       "username": "MikeWithAnI",
@@ -68046,10 +68104,10 @@
         "last_giveaway_created_at": 1787909108,
         "last_giveaway_won_at": 1789365540,
         "first_seen_at": 1749671922,
-        "total_achievements_percentage": 31,
-        "average_achievements_percentage": 38,
-        "real_total_achievements_percentage": 31,
-        "real_average_achievements_percentage": 38,
+        "total_achievements_percentage": 30,
+        "average_achievements_percentage": 36,
+        "real_total_achievements_percentage": 30,
+        "real_average_achievements_percentage": 36,
         "has_missing_achievements_data": false
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198452519450",
@@ -68923,7 +68981,7 @@
       ],
       "registered_at": 1615665668,
       "last_online_at": 1789423113,
-      "last_online_checked_at": 1789449343184
+      "last_online_checked_at": 1789474024930
     },
     "76561197975099685": {
       "username": "MrOuiOui",
@@ -68950,7 +69008,7 @@
         "real_total_sent_count": 35,
         "real_total_received_count": 12,
         "real_total_gift_difference": 23,
-        "giveaway_ratio": 33.33,
+        "giveaway_ratio": 33.67,
         "shared_sent_count": 20,
         "shared_received_count": 0,
         "giveaways_created": 58,
@@ -69051,7 +69109,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1789454174478
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "The Pathless",
@@ -70445,8 +70504,8 @@
         }
       ],
       "registered_at": 1468451334,
-      "last_online_at": 1789433701,
-      "last_online_checked_at": 1789449343631
+      "last_online_at": 1789474025,
+      "last_online_checked_at": 1789474025473
     },
     "76561197994770037": {
       "username": "NateSCC",
@@ -71822,8 +71881,8 @@
         }
       ],
       "registered_at": 1429272664,
-      "last_online_at": 1789437937,
-      "last_online_checked_at": 1789449344090
+      "last_online_at": 1789474026,
+      "last_online_checked_at": 1789474026005
     },
     "76561197989397004": {
       "username": "Noodles91",
@@ -72404,8 +72463,8 @@
         }
       ],
       "registered_at": 1324555348,
-      "last_online_at": 1789445298,
-      "last_online_checked_at": 1789449344530
+      "last_online_at": 1789474026,
+      "last_online_checked_at": 1789474026514
     },
     "76561198047121855": {
       "username": "OlOAyCT",
@@ -73060,7 +73119,7 @@
       ],
       "registered_at": 1457824896,
       "last_online_at": 1787669972,
-      "last_online_checked_at": 1789449344992,
+      "last_online_checked_at": 1789474027066,
       "warnings": [
         "no_giveaway_created_in_6_months"
       ]
@@ -73410,6 +73469,7 @@
           "end_timestamp": 1772572740,
           "required_play": false,
           "is_shared": false,
+          "i_played_bro": true,
           "had_winners": true,
           "winners": [
             {
@@ -73603,8 +73663,8 @@
         }
       ],
       "registered_at": 1420146212,
-      "last_online_at": 1789447063,
-      "last_online_checked_at": 1789449345448
+      "last_online_at": 1789474027,
+      "last_online_checked_at": 1789474027602
     },
     "76561198061661987": {
       "username": "Orionid",
@@ -73639,10 +73699,10 @@
         "last_giveaway_created_at": 1788821728,
         "last_giveaway_won_at": 1788717600,
         "first_seen_at": 1749693391,
-        "total_achievements_percentage": 47,
-        "average_achievements_percentage": 56,
-        "real_total_achievements_percentage": 47,
-        "real_average_achievements_percentage": 56,
+        "total_achievements_percentage": 48,
+        "average_achievements_percentage": 57,
+        "real_total_achievements_percentage": 48,
+        "real_average_achievements_percentage": 57,
         "has_missing_achievements_data": true
       },
       "last_played_at": 1789454046980,
@@ -74213,8 +74273,8 @@
         }
       ],
       "registered_at": 1446802313,
-      "last_online_at": 1789449345,
-      "last_online_checked_at": 1789449345896
+      "last_online_at": 1789474028,
+      "last_online_checked_at": 1789474028131
     },
     "76561198039810488": {
       "username": "Palindrome",
@@ -74297,8 +74357,8 @@
         }
       ],
       "registered_at": 1402341581,
-      "last_online_at": 1789424935,
-      "last_online_checked_at": 1789449346343,
+      "last_online_at": 1789450347,
+      "last_online_checked_at": 1789474028650,
       "warnings": [
         "no_giveaway_created_in_6_months"
       ]
@@ -77662,7 +77722,7 @@
       ],
       "registered_at": 1696956849,
       "last_online_at": 1780096675,
-      "last_online_checked_at": 1789449346805,
+      "last_online_checked_at": 1789474029187,
       "warnings": [
         "low_play_rate_many_wins"
       ]
@@ -78494,7 +78554,7 @@
       ],
       "registered_at": 1501153145,
       "last_online_at": 1789415083,
-      "last_online_checked_at": 1789449347249
+      "last_online_checked_at": 1789474029697
     },
     "76561198027595057": {
       "username": "PoeticKatana",
@@ -78521,7 +78581,7 @@
         "real_total_sent_count": 30,
         "real_total_received_count": 30,
         "real_total_gift_difference": 0,
-        "giveaway_ratio": 28,
+        "giveaway_ratio": 28.33,
         "shared_sent_count": 23,
         "shared_received_count": 1,
         "giveaways_created": 54,
@@ -78622,7 +78682,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1789453956763
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "Mina the Hollower",
@@ -79540,6 +79601,7 @@
           "end_timestamp": 1772621880,
           "required_play": false,
           "is_shared": false,
+          "i_played_bro": true,
           "had_winners": true,
           "winners": [
             {
@@ -79560,7 +79622,7 @@
           "end_timestamp": 1770537720,
           "required_play": true,
           "is_shared": false,
-          "i_played_bro": false,
+          "i_played_bro": true,
           "required_play_meta": {
             "requirements_met": true,
             "deadline_in_months": 2,
@@ -80434,8 +80496,8 @@
         }
       ],
       "registered_at": 1641833598,
-      "last_online_at": 1789449347,
-      "last_online_checked_at": 1789449347697
+      "last_online_at": 1789460378,
+      "last_online_checked_at": 1789474030228
     },
     "76561197994025244": {
       "username": "PsychoApeMan",
@@ -80462,7 +80524,7 @@
         "real_total_sent_count": 15,
         "real_total_received_count": 26,
         "real_total_gift_difference": -11,
-        "giveaway_ratio": 12.67,
+        "giveaway_ratio": 13,
         "shared_sent_count": 0,
         "shared_received_count": 6,
         "giveaways_created": 11,
@@ -80584,7 +80646,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1789453991908
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "CloverPit",
@@ -80605,6 +80668,7 @@
             "is_playtime_private": false,
             "last_checked": 1789453992969
           },
+          "i_played_bro": true,
           "required_play_meta": {
             "requirements_met": true,
             "deadline_in_months": 2,
@@ -81497,8 +81561,8 @@
         }
       ],
       "registered_at": 1470063563,
-      "last_online_at": 1789439907,
-      "last_online_checked_at": 1789449348178
+      "last_online_at": 1789469284,
+      "last_online_checked_at": 1789474030773
     },
     "76561198069567036": {
       "username": "puninup",
@@ -81799,8 +81863,8 @@
         }
       ],
       "registered_at": 1702365852,
-      "last_online_at": 1789427616,
-      "last_online_checked_at": 1789449348616
+      "last_online_at": 1789458665,
+      "last_online_checked_at": 1789474031301
     },
     "76561198048462370": {
       "username": "QuinlanLJ",
@@ -83251,7 +83315,15 @@
           "created_timestamp": 1788988183,
           "end_timestamp": 1789459200,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "Clair Obscur: Expedition 33",
@@ -84720,8 +84792,8 @@
         }
       ],
       "registered_at": 1332784435,
-      "last_online_at": 1789428767,
-      "last_online_checked_at": 1789449349063
+      "last_online_at": 1789470627,
+      "last_online_checked_at": 1789474031816
     },
     "76561198117650232": {
       "username": "quinnix",
@@ -85058,7 +85130,7 @@
           "name": "Crypt Custodian",
           "link": "GXIW3/crypt-custodian",
           "cv_status": "FULL_CV",
-          "entries": 11,
+          "entries": 12,
           "copies": 1,
           "created_timestamp": 1789145271,
           "end_timestamp": 1789747200,
@@ -85320,8 +85392,8 @@
         }
       ],
       "registered_at": 1406661474,
-      "last_online_at": 1789437098,
-      "last_online_checked_at": 1789449349507
+      "last_online_at": 1789470341,
+      "last_online_checked_at": 1789474032335
     },
     "76561198411996697": {
       "username": "RaitorHaitor",
@@ -85356,10 +85428,10 @@
         "last_giveaway_created_at": 1788517156,
         "last_giveaway_won_at": 1789347600,
         "first_seen_at": 1781102258,
-        "total_achievements_percentage": 32,
-        "average_achievements_percentage": 46,
-        "real_total_achievements_percentage": 34,
-        "real_average_achievements_percentage": 49,
+        "total_achievements_percentage": 31,
+        "average_achievements_percentage": 44,
+        "real_total_achievements_percentage": 33,
+        "real_average_achievements_percentage": 46,
         "has_missing_achievements_data": false
       },
       "last_played_at": 1789368612258,
@@ -85941,7 +86013,7 @@
           "end_timestamp": 1785862800,
           "required_play": true,
           "is_shared": false,
-          "i_played_bro": false,
+          "i_played_bro": true,
           "required_play_meta": {
             "requirements_met": true,
             "deadline_in_months": 2
@@ -86128,6 +86200,7 @@
           "end_timestamp": 1783011600,
           "required_play": false,
           "is_shared": false,
+          "i_played_bro": true,
           "had_winners": true,
           "winners": [
             {
@@ -86221,8 +86294,8 @@
         }
       ],
       "registered_at": 1769544921,
-      "last_online_at": 1789448142,
-      "last_online_checked_at": 1789449349947
+      "last_online_at": 1789467083,
+      "last_online_checked_at": 1789474032885
     },
     "76561198075742770": {
       "username": "Realtione",
@@ -86442,7 +86515,7 @@
       ],
       "registered_at": 1358374940,
       "last_online_at": 1787277150,
-      "last_online_checked_at": 1789449350387
+      "last_online_checked_at": 1789474033419
     },
     "76561197960990984": {
       "username": "RePlayBe",
@@ -87140,7 +87213,7 @@
       ],
       "registered_at": 1320937373,
       "last_online_at": 1789440343,
-      "last_online_checked_at": 1789449350833
+      "last_online_checked_at": 1789474033934
     },
     "76561198044604507": {
       "username": "Rinocap",
@@ -87876,8 +87949,8 @@
         }
       ],
       "registered_at": 1597572507,
-      "last_online_at": 1789440656,
-      "last_online_checked_at": 1789449351277
+      "last_online_at": 1789455084,
+      "last_online_checked_at": 1789474034446
     },
     "76561198025107173": {
       "username": "rufioh",
@@ -87918,6 +87991,7 @@
         "real_average_achievements_percentage": 49,
         "has_missing_achievements_data": false
       },
+      "last_played_at": 1789454738883,
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198025107173",
       "steam_profile_is_private": false,
       "country_code": "gb",
@@ -88814,9 +88888,8 @@
         }
       ],
       "registered_at": 1592258916,
-      "last_online_at": 1789422200,
-      "last_online_checked_at": 1789449351730,
-      "last_played_at": 1789454738883
+      "last_online_at": 1789471767,
+      "last_online_checked_at": 1789474034969
     },
     "76561198054324521": {
       "username": "Sakakino",
@@ -88843,7 +88916,7 @@
         "real_total_sent_count": 27,
         "real_total_received_count": 20,
         "real_total_gift_difference": 7,
-        "giveaway_ratio": 24.33,
+        "giveaway_ratio": 25,
         "shared_sent_count": 0,
         "shared_received_count": 1,
         "giveaways_created": 27,
@@ -88851,9 +88924,9 @@
         "last_giveaway_created_at": 1788581816,
         "last_giveaway_won_at": 1789329600,
         "first_seen_at": 1749862585,
-        "total_achievements_percentage": 66,
-        "average_achievements_percentage": 70,
-        "real_total_achievements_percentage": 66,
+        "total_achievements_percentage": 67,
+        "average_achievements_percentage": 71,
+        "real_total_achievements_percentage": 67,
         "real_average_achievements_percentage": 71,
         "has_missing_achievements_data": false
       },
@@ -88941,6 +89014,7 @@
             "is_playtime_private": false,
             "last_checked": 1789454082825
           },
+          "i_played_bro": true,
           "required_play_meta": {
             "requirements_met": true,
             "deadline_in_months": 2,
@@ -89050,7 +89124,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1789454092068
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "Absolum",
@@ -89886,7 +89961,8 @@
         }
       ],
       "registered_at": 1717718902,
-      "last_online_at": 1789449295
+      "last_online_at": 1789468596,
+      "last_online_checked_at": 1789474035486
     },
     "76561198001969728": {
       "username": "schmoan",
@@ -90625,7 +90701,8 @@
         }
       ],
       "registered_at": 1510302093,
-      "last_online_at": 1789383901
+      "last_online_at": 1789471302,
+      "last_online_checked_at": 1789474036001
     },
     "76561198061837588": {
       "username": "Serpentus",
@@ -91041,7 +91118,7 @@
       ],
       "registered_at": 1671939321,
       "last_online_at": 1789447765,
-      "last_online_checked_at": 1789449413214
+      "last_online_checked_at": 1789474036519
     },
     "76561198329577355": {
       "username": "shandyseggs",
@@ -91134,7 +91211,7 @@
       ],
       "registered_at": 1546834452,
       "last_online_at": 1771254914,
-      "last_online_checked_at": 1789449413670,
+      "last_online_checked_at": 1789474037027,
       "warnings": [
         "no_giveaway_created_in_6_months"
       ]
@@ -91680,8 +91757,8 @@
         }
       ],
       "registered_at": 1720719560,
-      "last_online_at": 1789442243,
-      "last_online_checked_at": 1789449414118
+      "last_online_at": 1789453995,
+      "last_online_checked_at": 1789474037552
     },
     "76561198118320246": {
       "username": "Shughes91",
@@ -91691,30 +91768,30 @@
       "stats": {
         "total_sent_count": 25.8,
         "total_sent_value": 914.58,
-        "total_received_count": 17,
-        "total_received_value": 485.83,
-        "total_gift_difference": 8.8,
-        "total_value_difference": 428.75,
+        "total_received_count": 18,
+        "total_received_value": 535.82,
+        "total_gift_difference": 7.8,
+        "total_value_difference": 378.76,
         "fcv_sent_count": 22,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
-        "fcv_received_count": 16,
+        "fcv_received_count": 17,
         "rcv_received_count": 1,
         "ncv_received_count": 0,
-        "fcv_gift_difference": 6,
+        "fcv_gift_difference": 5,
         "real_total_sent_value": 804.78,
-        "real_total_received_value": 478.84,
-        "real_total_value_difference": 325.94,
+        "real_total_received_value": 528.83,
+        "real_total_value_difference": 275.95,
         "real_total_sent_count": 22,
-        "real_total_received_count": 16,
-        "real_total_gift_difference": 6,
-        "giveaway_ratio": 18,
+        "real_total_received_count": 17,
+        "real_total_gift_difference": 5,
+        "giveaway_ratio": 17.67,
         "shared_sent_count": 8,
         "shared_received_count": 0,
         "giveaways_created": 30,
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1785069870,
-        "last_giveaway_won_at": 1785502800,
+        "last_giveaway_won_at": 1789448340,
         "first_seen_at": 1753429697,
         "total_achievements_percentage": 44,
         "average_achievements_percentage": 65,
@@ -91726,6 +91803,15 @@
       "steam_profile_is_private": false,
       "country_code": "ie",
       "giveaways_won": [
+        {
+          "name": "Hell is Us",
+          "link": "eNHzP/hell-is-us",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1789448340,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "Monument Valley 3",
           "link": "r36mW/monument-valley-3",
@@ -92708,8 +92794,8 @@
         }
       ],
       "registered_at": 1749495173,
-      "last_online_at": 1789424847,
-      "last_online_checked_at": 1789449414576
+      "last_online_at": 1789474038,
+      "last_online_checked_at": 1789474038064
     },
     "76561198081010034": {
       "username": "SirSage",
@@ -93122,8 +93208,8 @@
         }
       ],
       "registered_at": 1412485337,
-      "last_online_at": 1789440239,
-      "last_online_checked_at": 1789449415053
+      "last_online_at": 1789474038,
+      "last_online_checked_at": 1789474038602
     },
     "76561198832209109": {
       "username": "Slenderpoop00",
@@ -93376,8 +93462,8 @@
         }
       ],
       "registered_at": 1735112672,
-      "last_online_at": 1789387010,
-      "last_online_checked_at": 1789449415494
+      "last_online_at": 1789472646,
+      "last_online_checked_at": 1789474039111
     },
     "76561199438702936": {
       "username": "snbac",
@@ -93624,7 +93710,7 @@
           "name": "Dispatch",
           "link": "dwiPl/dispatch",
           "cv_status": "FULL_CV",
-          "entries": 40,
+          "entries": 41,
           "copies": 1,
           "created_timestamp": 1789166891,
           "end_timestamp": 1789498740,
@@ -93836,8 +93922,8 @@
         }
       ],
       "registered_at": 1669938150,
-      "last_online_at": 1789416936,
-      "last_online_checked_at": 1789449415943
+      "last_online_at": 1789454446,
+      "last_online_checked_at": 1789474039644
     },
     "76561197991280042": {
       "username": "SoullessSoup",
@@ -93845,30 +93931,30 @@
       "avatar_url": "https://avatars.steamstatic.com/41c49b1521e2b5d011dffdc9fd57962f95c53298_medium.jpg",
       "steam_id": "76561197991280042",
       "stats": {
-        "total_sent_count": 30.2,
-        "total_sent_value": 738.03,
+        "total_sent_count": 31.2,
+        "total_sent_value": 788.02,
         "total_received_count": 13,
         "total_received_value": 264.87,
-        "total_gift_difference": 17.2,
-        "total_value_difference": 473.16,
-        "fcv_sent_count": 24,
+        "total_gift_difference": 18.2,
+        "total_value_difference": 523.15,
+        "fcv_sent_count": 25,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
         "fcv_received_count": 13,
         "rcv_received_count": 0,
         "ncv_received_count": 0,
-        "fcv_gift_difference": 11,
-        "real_total_sent_value": 585.26,
+        "fcv_gift_difference": 12,
+        "real_total_sent_value": 635.25,
         "real_total_received_value": 259.88,
-        "real_total_value_difference": 325.38,
-        "real_total_sent_count": 24,
+        "real_total_value_difference": 375.37,
+        "real_total_sent_count": 25,
         "real_total_received_count": 13,
-        "real_total_gift_difference": 11,
-        "giveaway_ratio": 24,
+        "real_total_gift_difference": 12,
+        "giveaway_ratio": 25,
         "shared_sent_count": 21,
         "shared_received_count": 0,
         "giveaways_created": 48,
-        "giveaways_with_no_entries": 3,
+        "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1788779905,
         "last_giveaway_won_at": 1788710400,
         "first_seen_at": 1750431442,
@@ -94181,7 +94267,14 @@
           "end_timestamp": 1789448340,
           "required_play": false,
           "is_shared": false,
-          "had_winners": false
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "Hell is Us",
@@ -94193,7 +94286,15 @@
           "end_timestamp": 1789448340,
           "required_play": false,
           "is_shared": false,
-          "had_winners": false
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "76561198118320246",
+              "winner_username": "Shughes91",
+              "status": "received",
+              "activated": true
+            }
+          ]
         },
         {
           "name": "Horizon Forbidden West Complete Edition",
@@ -94205,7 +94306,14 @@
           "end_timestamp": 1789448340,
           "required_play": false,
           "is_shared": false,
-          "had_winners": false
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "EVERSPACE 2",
@@ -95162,8 +95270,8 @@
         }
       ],
       "registered_at": 1332615851,
-      "last_online_at": 1789446477,
-      "last_online_checked_at": 1789449416408
+      "last_online_at": 1789474040,
+      "last_online_checked_at": 1789474040184
     },
     "76561198036591983": {
       "username": "Sumnium",
@@ -95247,7 +95355,7 @@
       ],
       "registered_at": 1699976626,
       "last_online_at": 1788482289,
-      "last_online_checked_at": 1789449416849,
+      "last_online_checked_at": 1789474040701,
       "warnings": [
         "no_giveaway_created_in_6_months"
       ]
@@ -95527,7 +95635,7 @@
       ],
       "registered_at": 1673571489,
       "last_online_at": 1789372747,
-      "last_online_checked_at": 1789449417297,
+      "last_online_checked_at": 1789474041212,
       "warnings": [
         "no_giveaway_created_in_6_months"
       ]
@@ -96849,7 +96957,7 @@
       ],
       "registered_at": 1367891169,
       "last_online_at": 1789429960,
-      "last_online_checked_at": 1789449417737
+      "last_online_checked_at": 1789474041721
     },
     "76561198048238310": {
       "username": "TheGr3atUnknown",
@@ -96858,11 +96966,11 @@
       "steam_id": "76561198048238310",
       "stats": {
         "total_sent_count": 6,
-        "total_sent_value": 255.94,
+        "total_sent_value": 253.44,
         "total_received_count": 5,
         "total_received_value": 189.95,
         "total_gift_difference": 1,
-        "total_value_difference": 65.99,
+        "total_value_difference": 63.49,
         "fcv_sent_count": 5,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
@@ -97177,8 +97285,8 @@
         }
       ],
       "registered_at": 1627249031,
-      "last_online_at": 1789421125,
-      "last_online_checked_at": 1789449418179
+      "last_online_at": 1789463612,
+      "last_online_checked_at": 1789474042233
     },
     "76561197989280149": {
       "username": "Thexder",
@@ -98239,8 +98347,8 @@
         }
       ],
       "registered_at": 1322064486,
-      "last_online_at": 1789449418,
-      "last_online_checked_at": 1789449418636,
+      "last_online_at": 1789464856,
+      "last_online_checked_at": 1789474042760,
       "warnings": [
         "required_plays_need_review"
       ]
@@ -98419,7 +98527,7 @@
       ],
       "registered_at": 1449483057,
       "last_online_at": 1762243110,
-      "last_online_checked_at": 1789449419102,
+      "last_online_checked_at": 1789474043290,
       "warnings": [
         "no_giveaway_created_in_6_months"
       ]
@@ -98503,8 +98611,8 @@
         }
       ],
       "registered_at": 1576202378,
-      "last_online_at": 1789449419,
-      "last_online_checked_at": 1789449419541
+      "last_online_at": 1789448440,
+      "last_online_checked_at": 1789474043800
     },
     "76561198070041813": {
       "username": "Tucs",
@@ -99109,8 +99217,8 @@
         }
       ],
       "registered_at": 1501332856,
-      "last_online_at": 1789449420,
-      "last_online_checked_at": 1789449420004
+      "last_online_at": 1789470678,
+      "last_online_checked_at": 1789474044330
     },
     "76561198089973992": {
       "username": "TwixClub",
@@ -99145,10 +99253,10 @@
         "last_giveaway_created_at": 1788212857,
         "last_giveaway_won_at": 1789322400,
         "first_seen_at": 1750023728,
-        "total_achievements_percentage": 46,
-        "average_achievements_percentage": 69,
-        "real_total_achievements_percentage": 46,
-        "real_average_achievements_percentage": 69,
+        "total_achievements_percentage": 41,
+        "average_achievements_percentage": 66,
+        "real_total_achievements_percentage": 41,
+        "real_average_achievements_percentage": 66,
         "has_missing_achievements_data": true
       },
       "steam_profile_url": "https://steamcommunity.com/profiles/76561198089973992",
@@ -100763,8 +100871,8 @@
         }
       ],
       "registered_at": 1465889473,
-      "last_online_at": 1789449420,
-      "last_online_checked_at": 1789449420454
+      "last_online_at": 1789472307,
+      "last_online_checked_at": 1789474044851
     },
     "76561198129984336": {
       "username": "vampiresska",
@@ -101074,8 +101182,8 @@
         }
       ],
       "registered_at": 1501184514,
-      "last_online_at": 1789429943,
-      "last_online_checked_at": 1789449420893
+      "last_online_at": 1789466246,
+      "last_online_checked_at": 1789474045385
     },
     "76561198080362358": {
       "username": "VenomousNyx",
@@ -101102,7 +101210,7 @@
         "real_total_sent_count": 17,
         "real_total_received_count": 25,
         "real_total_gift_difference": -8,
-        "giveaway_ratio": 13.33,
+        "giveaway_ratio": 14.33,
         "shared_sent_count": 16,
         "shared_received_count": 5,
         "giveaways_created": 32,
@@ -101112,7 +101220,7 @@
         "first_seen_at": 1754506200,
         "total_achievements_percentage": 52,
         "average_achievements_percentage": 60,
-        "real_total_achievements_percentage": 56,
+        "real_total_achievements_percentage": 55,
         "real_average_achievements_percentage": 66,
         "has_missing_achievements_data": false
       },
@@ -101306,7 +101414,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1789454452923
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "Kabuto Park",
@@ -101580,7 +101689,8 @@
             "never_played": false,
             "is_playtime_private": false,
             "last_checked": 1789454467932
-          }
+          },
+          "i_played_bro": true
         },
         {
           "name": "Tangle Tower",
@@ -101644,6 +101754,7 @@
             "is_playtime_private": false,
             "last_checked": 1789454471327
           },
+          "i_played_bro": true,
           "required_play_meta": {
             "requirements_met": true,
             "deadline_in_months": 2,
@@ -102461,8 +102572,8 @@
         }
       ],
       "registered_at": 1663370083,
-      "last_online_at": 1789438416,
-      "last_online_checked_at": 1789449421338
+      "last_online_at": 1789455370,
+      "last_online_checked_at": 1789474045898
     },
     "76561198185630581": {
       "username": "Vexterion",
@@ -102718,8 +102829,8 @@
         }
       ],
       "registered_at": 1533376187,
-      "last_online_at": 1789444558,
-      "last_online_checked_at": 1789449421801,
+      "last_online_at": 1789466926,
+      "last_online_checked_at": 1789474046455,
       "warnings": [
         "low_play_rate_many_wins",
         "no_giveaway_created_in_6_months"
@@ -103394,8 +103505,8 @@
         }
       ],
       "registered_at": 1728840791,
-      "last_online_at": 1789449422,
-      "last_online_checked_at": 1789449422243
+      "last_online_at": 1789449175,
+      "last_online_checked_at": 1789474046969
     },
     "76561199261772888": {
       "username": "Vini1",
@@ -103693,7 +103804,7 @@
       ],
       "registered_at": 1732862887,
       "last_online_at": 1783427882,
-      "last_online_checked_at": 1789449422684,
+      "last_online_checked_at": 1789474047475,
       "warnings": [
         "no_giveaway_created_in_6_months"
       ]
@@ -104965,7 +105076,7 @@
       ],
       "registered_at": 1440921686,
       "last_online_at": 1789446755,
-      "last_online_checked_at": 1789449423134,
+      "last_online_checked_at": 1789474048000,
       "warnings": [
         "unplayed_required_play_giveaways",
         "required_plays_need_review"
@@ -106381,8 +106492,8 @@
         }
       ],
       "registered_at": 1632496809,
-      "last_online_at": 1789449423,
-      "last_online_checked_at": 1789449423568
+      "last_online_at": 1789449437,
+      "last_online_checked_at": 1789474048534
     },
     "76561198116836855": {
       "username": "Waxlor",
@@ -107017,7 +107128,7 @@
       ],
       "registered_at": 1401723483,
       "last_online_at": 1789422414,
-      "last_online_checked_at": 1789449424051
+      "last_online_checked_at": 1789474049108
     },
     "76561198057642029": {
       "username": "webdak",
@@ -107380,7 +107491,7 @@
       ],
       "registered_at": 1724767791,
       "last_online_at": 1781797862,
-      "last_online_checked_at": 1789449424492
+      "last_online_checked_at": 1789474049618
     },
     "76561198146290646": {
       "username": "xAlienMaster",
@@ -107421,7 +107532,7 @@
       "country_code": "us",
       "registered_at": 1603435126,
       "last_online_at": 1789425680,
-      "last_online_checked_at": 1789449424932,
+      "last_online_checked_at": 1789474050131,
       "warnings": [
         "no_giveaway_created_in_6_months"
       ]
@@ -107823,8 +107934,8 @@
         }
       ],
       "registered_at": 1688511985,
-      "last_online_at": 1789435800,
-      "last_online_checked_at": 1789449425392,
+      "last_online_at": 1789474050,
+      "last_online_checked_at": 1789474050683,
       "warnings": [
         "no_giveaway_created_in_6_months"
       ]
@@ -107857,9 +107968,9 @@
         "giveaway_ratio": 19,
         "shared_sent_count": 5,
         "shared_received_count": 5,
-        "giveaways_created": 32,
+        "giveaways_created": 33,
         "giveaways_with_no_entries": 0,
-        "last_giveaway_created_at": 1788291550,
+        "last_giveaway_created_at": 1789460319,
         "last_giveaway_won_at": 1788469080,
         "first_seen_at": 1749680649,
         "total_achievements_percentage": 28,
@@ -108654,6 +108765,17 @@
       ],
       "giveaways_created": [
         {
+          "name": "Chained Echoes",
+          "link": "mxeoR/chained-echoes",
+          "cv_status": "FULL_CV",
+          "entries": 3,
+          "copies": 1,
+          "created_timestamp": 1789460319,
+          "end_timestamp": 1789718400,
+          "required_play": false,
+          "is_shared": false
+        },
+        {
           "name": "Hollow Knight: Silksong",
           "link": "ztioO/hollow-knight-silksong",
           "cv_status": "FULL_CV",
@@ -108674,6 +108796,7 @@
           "end_timestamp": 1787497200,
           "required_play": false,
           "is_shared": false,
+          "i_played_bro": true,
           "had_winners": true,
           "winners": [
             {
@@ -109348,8 +109471,8 @@
         }
       ],
       "registered_at": 1375041567,
-      "last_online_at": 1789449425,
-      "last_online_checked_at": 1789449425836,
+      "last_online_at": 1789474051,
+      "last_online_checked_at": 1789474051197,
       "warnings": [
         "required_plays_need_review"
       ]
@@ -110707,7 +110830,7 @@
       ],
       "registered_at": 1703103274,
       "last_online_at": 1789423805,
-      "last_online_checked_at": 1789449426267,
+      "last_online_checked_at": 1789474051726,
       "warnings": [
         "required_plays_need_review"
       ]
@@ -110981,8 +111104,8 @@
         }
       ],
       "registered_at": 1640644736,
-      "last_online_at": 1789427905,
-      "last_online_checked_at": 1789449426710
+      "last_online_at": 1789467685,
+      "last_online_checked_at": 1789474052242
     },
     "76561197983161455": {
       "username": "zeus9860",
@@ -111092,7 +111215,7 @@
       ],
       "registered_at": 1317338226,
       "last_online_at": 1789146654,
-      "last_online_checked_at": 1789449427162,
+      "last_online_checked_at": 1789474052771,
       "warnings": [
         "no_giveaway_created_in_6_months"
       ]
