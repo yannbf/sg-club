@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-09-15T06:13:30.853Z",
+  "last_updated": "2026-09-15T11:45:03.495Z",
   "games": {
     "223810": {
       "marker": {
@@ -1371,17 +1371,19 @@
     },
     "1097350": {
       "marker": {
-        "apiname": "ACH_SOMETHING_WICKED_THIS_WAY_COMES",
-        "name": "Something Wicked This Way Comes…",
-        "description": "Complete the Oneirist Journey",
+        "apiname": "ACH_THERE_IS_HOPE",
+        "name": "There is Hope",
+        "description": "Save the world",
         "global_percent": 12,
-        "source": "steamhunters",
-        "filtered": true,
-        "sh_achievement_id": 7
+        "source": "override",
+        "any_of_apinames": [
+          "ACH_THERE_IS_HOPE",
+          "ACH_IT_ALL_DIES"
+        ]
       },
       "no_marker_reason": null,
-      "story_tag_count": 6,
-      "checked_at": "2026-08-24T20:12:40.102Z"
+      "story_tag_count": 0,
+      "checked_at": "2026-09-15T11:42:21.518Z"
     },
     "1097840": {
       "marker": null,
@@ -1800,10 +1802,17 @@
       "checked_at": "2026-08-24T20:05:34.501Z"
     },
     "1233070": {
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
+      "marker": {
+        "apiname": "SANCTUM_VISITED",
+        "name": "Pathfinder",
+        "description": "Visit the Sanctum.",
+        "global_percent": 46.7,
+        "source": "override",
+        "sh_achievement_id": 1
+      },
+      "no_marker_reason": null,
       "story_tag_count": 0,
-      "checked_at": "2026-08-24T17:06:16.070Z"
+      "checked_at": "2026-09-15T11:42:22.720Z"
     },
     "1237320": {
       "marker": {
@@ -1899,15 +1908,14 @@
       "marker": {
         "apiname": "BossFinalDefeated",
         "name": "King and Kin",
-        "description": "Defeat the Immortal King.",
+        "description": "",
         "global_percent": 20.3,
-        "source": "steamhunters",
-        "filtered": true,
+        "source": "override",
         "sh_achievement_id": 15
       },
       "no_marker_reason": null,
-      "story_tag_count": 8,
-      "checked_at": "2026-09-11T13:53:40.505Z"
+      "story_tag_count": 0,
+      "checked_at": "2026-09-15T11:42:20.343Z"
     },
     "1259420": {
       "marker": {
@@ -2127,17 +2135,19 @@
     },
     "1310410": {
       "marker": {
-        "apiname": "ACH_ID_23",
-        "name": "Safe and Sound",
-        "description": "Save New Orleans from the Black Goat",
-        "global_percent": 17.9,
-        "source": "steamhunters",
-        "filtered": true,
-        "sh_achievement_id": 23
+        "apiname": "ACH_ID_22",
+        "name": "Case Closed",
+        "description": "",
+        "global_percent": 31.7,
+        "source": "override",
+        "any_of_apinames": [
+          "ACH_ID_22",
+          "ACH_ID_23"
+        ]
       },
       "no_marker_reason": null,
-      "story_tag_count": 16,
-      "checked_at": "2026-09-11T13:53:33.896Z"
+      "story_tag_count": 0,
+      "checked_at": "2026-09-15T11:42:16.652Z"
     },
     "1313140": {
       "marker": {
@@ -3369,10 +3379,22 @@
       "checked_at": "2026-08-24T20:06:01.015Z"
     },
     "1772830": {
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
+      "marker": {
+        "apiname": "achi_won_1",
+        "name": "The Queen is Dead",
+        "description": "",
+        "global_percent": 25.1,
+        "source": "override",
+        "any_of_apinames": [
+          "achi_won_1",
+          "achi_won_2",
+          "achi_won_3",
+          "achi_won_4"
+        ]
+      },
+      "no_marker_reason": null,
       "story_tag_count": 0,
-      "checked_at": "2026-08-25T02:31:55.772Z"
+      "checked_at": "2026-09-15T11:42:12.888Z"
     },
     "1774580": {
       "marker": {
@@ -3939,10 +3961,17 @@
       "checked_at": "2026-08-24T16:51:39.080Z"
     },
     "1968840": {
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
+      "marker": {
+        "apiname": "Boss5Defeated",
+        "name": "Sinful Savior",
+        "description": "",
+        "global_percent": 16.2,
+        "source": "override",
+        "sh_achievement_id": 26
+      },
+      "no_marker_reason": null,
       "story_tag_count": 0,
-      "checked_at": "2026-08-24T18:00:21.061Z"
+      "checked_at": "2026-09-15T11:42:09.320Z"
     },
     "1970580": {
       "marker": null,
@@ -4571,10 +4600,17 @@
       "checked_at": "2026-08-24T16:53:15.160Z"
     },
     "2334730": {
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
+      "marker": {
+        "apiname": "Ach_Trophy_Lady",
+        "name": "The Lady Bows Her Head",
+        "description": "Defeat the Lady",
+        "global_percent": 11.6,
+        "source": "override",
+        "sh_achievement_id": 52
+      },
+      "no_marker_reason": null,
       "story_tag_count": 0,
-      "checked_at": "2026-08-24T17:03:36.779Z"
+      "checked_at": "2026-09-15T11:42:15.380Z"
     },
     "2346840": {
       "marker": null,
@@ -4930,10 +4966,17 @@
       "checked_at": "2026-08-24T17:02:51.979Z"
     },
     "2542020": {
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
+      "marker": {
+        "apiname": "11",
+        "name": "Stick with me",
+        "description": "",
+        "global_percent": 17.5,
+        "source": "override",
+        "sh_achievement_id": 11
+      },
+      "no_marker_reason": null,
       "story_tag_count": 0,
-      "checked_at": "2026-08-24T16:54:58.908Z"
+      "checked_at": "2026-09-15T11:42:14.072Z"
     },
     "2542120": {
       "marker": {
@@ -5611,10 +5654,20 @@
       "checked_at": "2026-08-24T20:11:29.465Z"
     },
     "3180070": {
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
+      "marker": {
+        "apiname": "END_LIVE_TILL_END",
+        "name": "The End?",
+        "description": "Survive till the end",
+        "global_percent": 27,
+        "source": "override",
+        "any_of_apinames": [
+          "END_LIVE_TILL_END",
+          "END_IMPOSTERS"
+        ]
+      },
+      "no_marker_reason": null,
       "story_tag_count": 0,
-      "checked_at": "2026-08-24T18:00:28.179Z"
+      "checked_at": "2026-09-15T11:42:10.481Z"
     },
     "3180670": {
       "marker": {
@@ -5703,17 +5756,16 @@
     },
     "3265700": {
       "marker": {
-        "apiname": "Relic_Ovenkilt",
-        "name": "Ovenkilt",
-        "description": "Find the Ovenkilt Relic.",
-        "global_percent": 18.5,
-        "source": "steamhunters",
-        "filtered": true,
-        "sh_achievement_id": 111
+        "apiname": "Unlock_CappellaMagna_01",
+        "name": "Unlock Cappella Magna",
+        "description": "Complete Meany Bridge.",
+        "global_percent": 30.2,
+        "source": "override",
+        "sh_achievement_id": 105
       },
       "no_marker_reason": null,
-      "story_tag_count": 2,
-      "checked_at": "2026-09-11T12:24:45.472Z"
+      "story_tag_count": 0,
+      "checked_at": "2026-09-15T11:42:17.965Z"
     },
     "3274390": {
       "marker": null,
@@ -5734,10 +5786,17 @@
       "checked_at": "2026-08-24T19:49:16.900Z"
     },
     "3314790": {
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
+      "marker": {
+        "apiname": "TheStructure",
+        "name": "The Structure",
+        "description": "Get out of the Room",
+        "global_percent": 31,
+        "source": "override",
+        "sh_achievement_id": 21
+      },
+      "no_marker_reason": null,
       "story_tag_count": 0,
-      "checked_at": "2026-08-24T17:04:42.112Z"
+      "checked_at": "2026-09-15T11:42:19.143Z"
     },
     "3316380": {
       "marker": null,
@@ -5774,10 +5833,17 @@
       "checked_at": "2026-09-11T13:52:50.426Z"
     },
     "3330210": {
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
+      "marker": {
+        "apiname": "NEW_ACHIEVEMENT_1_2",
+        "name": "A Not-So-Grand End",
+        "description": "Clear the game.",
+        "global_percent": 60.9,
+        "source": "override",
+        "sh_achievement_id": 2
+      },
+      "no_marker_reason": null,
       "story_tag_count": 0,
-      "checked_at": "2026-09-15T04:52:06.885Z"
+      "checked_at": "2026-09-15T11:42:11.604Z"
     },
     "3340810": {
       "marker": {
@@ -6230,7 +6296,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:33:04.513Z"
+      "checked_at": "2026-09-15T11:42:23.876Z"
     },
     "76561198047330685::1332010": {
       "beaten": true,
@@ -6284,7 +6350,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:33:05.641Z"
+      "checked_at": "2026-09-15T11:42:25.077Z"
     },
     "76561198453663783::567640": {
       "beaten": true,
@@ -6356,7 +6422,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:33:06.807Z"
+      "checked_at": "2026-09-15T11:42:26.256Z"
     },
     "76561199036747433::983970": {
       "beaten": true,
@@ -6434,7 +6500,13 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:33:07.930Z"
+      "checked_at": "2026-09-15T11:42:27.421Z"
+    },
+    "76561198024970451::1968840": {
+      "beaten": true,
+      "unlock_time": 1788342794,
+      "no_data_reason": null,
+      "checked_at": "2026-09-15T11:42:28.553Z"
     },
     "76561198024970451::471920": {
       "beaten": true,
@@ -6452,7 +6524,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:33:09.045Z"
+      "checked_at": "2026-09-15T11:42:29.710Z"
     },
     "76561198024970451::3326230": {
       "beaten": true,
@@ -6470,7 +6542,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:33:10.167Z"
+      "checked_at": "2026-09-15T11:42:30.874Z"
     },
     "76561198024970451::1231990": {
       "beaten": true,
@@ -6524,7 +6596,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:33:11.276Z"
+      "checked_at": "2026-09-15T11:42:32.017Z"
     },
     "76561198025173613::4077060": {
       "beaten": true,
@@ -6572,7 +6644,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:33:12.407Z"
+      "checked_at": "2026-09-15T11:42:33.152Z"
     },
     "76561198025173613::1299690": {
       "beaten": true,
@@ -6602,7 +6674,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:33:13.520Z"
+      "checked_at": "2026-09-15T11:42:34.452Z"
     },
     "76561197982025537::1774580": {
       "beaten": true,
@@ -6620,7 +6692,7 @@
       "beaten": null,
       "unlock_time": null,
       "no_data_reason": "no_stats",
-      "checked_at": "2026-09-14T19:33:14.839Z"
+      "checked_at": "2026-09-15T11:42:35.830Z"
     },
     "76561198061381176::1574580": {
       "beaten": true,
@@ -6633,6 +6705,12 @@
       "unlock_time": 1767452611,
       "no_data_reason": null,
       "checked_at": "2026-09-14T14:20:19.485Z"
+    },
+    "76561198061381176::3180070": {
+      "beaten": true,
+      "unlock_time": 1761021310,
+      "no_data_reason": null,
+      "checked_at": "2026-09-15T11:42:36.962Z"
     },
     "76561198424411734::3017730": {
       "beaten": true,
@@ -6650,7 +6728,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:33:16.082Z"
+      "checked_at": "2026-09-15T11:42:38.136Z"
     },
     "76561199481088028::1326470": {
       "beaten": true,
@@ -6662,13 +6740,13 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:33:17.276Z"
+      "checked_at": "2026-09-15T11:42:39.306Z"
     },
     "76561199481088028::1091500": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:33:18.388Z"
+      "checked_at": "2026-09-15T11:42:40.461Z"
     },
     "76561197990462722::1092790": {
       "beaten": true,
@@ -6692,7 +6770,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:33:19.552Z"
+      "checked_at": "2026-09-15T11:42:41.658Z"
     },
     "76561197990462722::668580": {
       "beaten": true,
@@ -6716,13 +6794,13 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:33:20.724Z"
+      "checked_at": "2026-09-15T11:42:42.796Z"
     },
     "76561198055569704::1574820": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:33:21.839Z"
+      "checked_at": "2026-09-15T11:42:44.000Z"
     },
     "76561198055569704::2214880": {
       "beaten": true,
@@ -6734,7 +6812,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:33:23.085Z"
+      "checked_at": "2026-09-15T11:42:45.180Z"
     },
     "76561198055569704::1213230": {
       "beaten": true,
@@ -6747,6 +6825,12 @@
       "unlock_time": 1750691435,
       "no_data_reason": null,
       "checked_at": "2026-08-24T17:41:43.643Z"
+    },
+    "76561198113581790::3330210": {
+      "beaten": true,
+      "unlock_time": 1789431823,
+      "no_data_reason": null,
+      "checked_at": "2026-09-15T11:42:46.300Z"
     },
     "76561198113581790::1626620": {
       "beaten": true,
@@ -6771,6 +6855,12 @@
       "unlock_time": 1767211802,
       "no_data_reason": null,
       "checked_at": "2026-08-24T17:41:48.559Z"
+    },
+    "76561198113581790::3180070": {
+      "beaten": true,
+      "unlock_time": 1785974942,
+      "no_data_reason": null,
+      "checked_at": "2026-09-15T11:42:47.432Z"
     },
     "76561198113581790::1931770": {
       "beaten": true,
@@ -6806,7 +6896,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:33:24.254Z"
+      "checked_at": "2026-09-15T11:42:48.557Z"
     },
     "76561198066598689::3244220": {
       "beaten": true,
@@ -6856,6 +6946,12 @@
       "no_data_reason": null,
       "checked_at": "2026-08-24T17:41:59.869Z"
     },
+    "76561198041749780::1772830": {
+      "beaten": true,
+      "unlock_time": 1787432142,
+      "no_data_reason": null,
+      "checked_at": "2026-09-15T11:42:49.767Z"
+    },
     "76561198041749780::2763670": {
       "beaten": true,
       "unlock_time": 1784303451,
@@ -6866,7 +6962,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:33:25.382Z"
+      "checked_at": "2026-09-15T11:42:50.922Z"
     },
     "76561198041749780::1170570": {
       "beaten": true,
@@ -6938,13 +7034,13 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:33:27.628Z"
+      "checked_at": "2026-09-15T11:42:52.098Z"
     },
     "76561198041749780::813780": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:33:28.832Z"
+      "checked_at": "2026-09-15T11:42:53.335Z"
     },
     "76561198041749780::953490": {
       "beaten": true,
@@ -6974,7 +7070,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:33:30.144Z"
+      "checked_at": "2026-09-15T11:42:54.475Z"
     },
     "76561198041749780::1567440": {
       "beaten": true,
@@ -7022,7 +7118,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:33:31.346Z"
+      "checked_at": "2026-09-15T11:42:55.642Z"
     },
     "76561198054649894::1462040": {
       "beaten": true,
@@ -7046,7 +7142,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:33:32.458Z"
+      "checked_at": "2026-09-15T11:42:56.784Z"
     },
     "76561198054649894::1903340": {
       "beaten": true,
@@ -7058,7 +7154,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:33:33.583Z"
+      "checked_at": "2026-09-15T11:42:57.965Z"
     },
     "76561198020386807::2060590": {
       "beaten": true,
@@ -7094,7 +7190,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:33:34.693Z"
+      "checked_at": "2026-09-15T11:42:59.225Z"
     },
     "76561198051248084::377840": {
       "beaten": true,
@@ -7106,7 +7202,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:33:35.829Z"
+      "checked_at": "2026-09-15T11:43:00.368Z"
     },
     "76561198002466205::3244220": {
       "beaten": true,
@@ -7124,13 +7220,13 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:33:36.976Z"
+      "checked_at": "2026-09-15T11:43:01.546Z"
     },
     "76561198056789339::973810": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:33:38.177Z"
+      "checked_at": "2026-09-15T11:43:02.732Z"
     },
     "76561198056789339::1424600": {
       "beaten": true,
@@ -7178,7 +7274,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:33:39.296Z"
+      "checked_at": "2026-09-15T11:43:03.902Z"
     },
     "76561198036424003::2427450": {
       "beaten": true,
@@ -7202,7 +7298,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:33:40.509Z"
+      "checked_at": "2026-09-15T11:43:05.059Z"
     },
     "76561198066957402::1222140": {
       "beaten": true,
@@ -7214,7 +7310,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:33:41.671Z"
+      "checked_at": "2026-09-15T11:43:06.255Z"
     },
     "76561198013734355::953490": {
       "beaten": true,
@@ -7232,7 +7328,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:33:42.786Z"
+      "checked_at": "2026-09-15T11:43:07.418Z"
     },
     "76561198013734355::1693980": {
       "beaten": true,
@@ -7250,7 +7346,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:33:43.900Z"
+      "checked_at": "2026-09-15T11:43:08.604Z"
     },
     "76561198013734355::589360": {
       "beaten": true,
@@ -7274,7 +7370,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:33:45.025Z"
+      "checked_at": "2026-09-15T11:43:09.738Z"
     },
     "76561198082023389::1693980": {
       "beaten": true,
@@ -7304,7 +7400,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:33:46.142Z"
+      "checked_at": "2026-09-15T11:43:10.907Z"
     },
     "76561198082023389::359510": {
       "beaten": true,
@@ -7322,13 +7418,19 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:33:47.316Z"
+      "checked_at": "2026-09-15T11:43:12.165Z"
     },
     "76561198236260938::2475490": {
       "beaten": true,
       "unlock_time": 1759612307,
       "no_data_reason": null,
       "checked_at": "2026-08-24T17:43:09.198Z"
+    },
+    "76561197984532155::2542020": {
+      "beaten": false,
+      "unlock_time": null,
+      "no_data_reason": null,
+      "checked_at": "2026-09-15T11:43:13.310Z"
     },
     "76561197984532155::2810730": {
       "beaten": true,
@@ -7370,7 +7472,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:33:48.456Z"
+      "checked_at": "2026-09-15T11:43:14.594Z"
     },
     "76561197984532155::1989270": {
       "beaten": true,
@@ -7400,13 +7502,13 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:33:49.571Z"
+      "checked_at": "2026-09-15T11:43:15.776Z"
     },
     "76561197984532155::312540": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:33:50.680Z"
+      "checked_at": "2026-09-15T11:43:16.931Z"
     },
     "76561197984532155::1669420": {
       "beaten": true,
@@ -7430,7 +7532,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:33:51.808Z"
+      "checked_at": "2026-09-15T11:43:18.102Z"
     },
     "76561197981107149::1213230": {
       "beaten": true,
@@ -7496,19 +7598,19 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:33:52.944Z"
+      "checked_at": "2026-09-15T11:43:19.254Z"
     },
     "76561197965128191::1222140": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:33:54.086Z"
+      "checked_at": "2026-09-15T11:43:20.406Z"
     },
     "76561197965128191::1903340": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:33:55.216Z"
+      "checked_at": "2026-09-15T11:43:21.559Z"
     },
     "76561198376004004::1203630": {
       "beaten": true,
@@ -7532,7 +7634,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:33:56.358Z"
+      "checked_at": "2026-09-15T11:43:22.728Z"
     },
     "76561198164999453::1887840": {
       "beaten": true,
@@ -7556,7 +7658,7 @@
       "beaten": null,
       "unlock_time": null,
       "no_data_reason": "no_stats",
-      "checked_at": "2026-09-14T19:33:57.724Z"
+      "checked_at": "2026-09-15T11:43:24.073Z"
     },
     "76561197968806363::2717750": {
       "beaten": true,
@@ -7568,13 +7670,19 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:33:58.831Z"
+      "checked_at": "2026-09-15T11:43:25.221Z"
     },
     "76561197968806363::3228590": {
       "beaten": true,
       "unlock_time": 1751221259,
       "no_data_reason": null,
       "checked_at": "2026-08-24T20:12:52.735Z"
+    },
+    "76561198067727574::3180070": {
+      "beaten": true,
+      "unlock_time": 1760477063,
+      "no_data_reason": null,
+      "checked_at": "2026-09-15T11:43:26.364Z"
     },
     "76561198002504847::1599660": {
       "beaten": true,
@@ -7646,13 +7754,13 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:33:59.932Z"
+      "checked_at": "2026-09-15T11:43:27.491Z"
     },
     "76561198143588240::1903340": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:34:01.049Z"
+      "checked_at": "2026-09-15T11:43:28.680Z"
     },
     "76561198143588240::2240080": {
       "beaten": true,
@@ -7684,6 +7792,12 @@
       "no_data_reason": null,
       "checked_at": "2026-09-11T13:47:37.790Z"
     },
+    "76561198117390871::2334730": {
+      "beaten": true,
+      "unlock_time": 1786541672,
+      "no_data_reason": null,
+      "checked_at": "2026-09-15T11:43:29.821Z"
+    },
     "76561198035801987::3636770": {
       "beaten": true,
       "unlock_time": 1788006590,
@@ -7712,7 +7826,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:34:02.305Z"
+      "checked_at": "2026-09-15T11:43:30.962Z"
     },
     "76561198035801987::2997230": {
       "beaten": true,
@@ -7882,6 +7996,12 @@
       "no_data_reason": null,
       "checked_at": "2026-09-15T04:52:22.134Z"
     },
+    "76561198069420656::2542020": {
+      "beaten": true,
+      "unlock_time": 1787877235,
+      "no_data_reason": null,
+      "checked_at": "2026-09-15T11:43:32.099Z"
+    },
     "76561198069420656::557600": {
       "beaten": true,
       "unlock_time": 1786744194,
@@ -7940,13 +8060,13 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:34:03.497Z"
+      "checked_at": "2026-09-15T11:43:33.229Z"
     },
     "76561198069420656::534380": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:34:05.095Z"
+      "checked_at": "2026-09-15T11:43:34.356Z"
     },
     "76561198069420656::1622910": {
       "beaten": true,
@@ -8006,13 +8126,13 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:34:06.379Z"
+      "checked_at": "2026-09-15T11:43:35.510Z"
     },
     "76561198452519450::1273540": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:34:07.556Z"
+      "checked_at": "2026-09-15T11:43:36.665Z"
     },
     "76561198452519450::1623940": {
       "beaten": true,
@@ -8036,7 +8156,7 @@
       "beaten": true,
       "unlock_time": 1772668253,
       "no_data_reason": null,
-      "checked_at": "2026-09-11T13:54:17.651Z"
+      "checked_at": "2026-09-15T11:43:37.833Z"
     },
     "76561197975099685::1492680": {
       "beaten": true,
@@ -8048,7 +8168,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:34:08.710Z"
+      "checked_at": "2026-09-15T11:43:38.965Z"
     },
     "76561197975099685::913850": {
       "beaten": true,
@@ -8210,7 +8330,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:34:09.843Z"
+      "checked_at": "2026-09-15T11:43:40.113Z"
     },
     "76561198061661987::1903340": {
       "beaten": true,
@@ -8240,7 +8360,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:34:10.992Z"
+      "checked_at": "2026-09-15T11:43:41.246Z"
     },
     "76561198079289651::3198890": {
       "beaten": true,
@@ -8387,16 +8507,22 @@
       "checked_at": "2026-09-14T14:20:50.838Z"
     },
     "76561197994025244::3265700": {
-      "beaten": false,
-      "unlock_time": null,
+      "beaten": true,
+      "unlock_time": 1788296684,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:34:12.226Z"
+      "checked_at": "2026-09-15T11:43:42.383Z"
+    },
+    "76561197994025244::3314790": {
+      "beaten": true,
+      "unlock_time": 1785639262,
+      "no_data_reason": null,
+      "checked_at": "2026-09-15T11:43:43.526Z"
     },
     "76561197994025244::3874000": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:34:13.530Z"
+      "checked_at": "2026-09-15T11:43:44.655Z"
     },
     "76561197994025244::1875580": {
       "beaten": true,
@@ -8432,7 +8558,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:34:14.731Z"
+      "checked_at": "2026-09-15T11:43:45.813Z"
     },
     "76561197994025244::1332010": {
       "beaten": true,
@@ -8474,7 +8600,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:34:15.907Z"
+      "checked_at": "2026-09-15T11:43:46.990Z"
     },
     "76561198069567036::1774580": {
       "beaten": true,
@@ -8516,7 +8642,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:34:17.036Z"
+      "checked_at": "2026-09-15T11:43:48.146Z"
     },
     "76561198048462370::1092790": {
       "beaten": true,
@@ -8528,7 +8654,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:34:18.173Z"
+      "checked_at": "2026-09-15T11:43:49.323Z"
     },
     "76561198048462370::934700": {
       "beaten": true,
@@ -8612,7 +8738,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:34:19.285Z"
+      "checked_at": "2026-09-15T11:43:50.500Z"
     },
     "76561198044604507::1222140": {
       "beaten": true,
@@ -8674,6 +8800,12 @@
       "no_data_reason": null,
       "checked_at": "2026-08-24T17:46:15.794Z"
     },
+    "76561198054324521::3180070": {
+      "beaten": true,
+      "unlock_time": 1786141209,
+      "no_data_reason": null,
+      "checked_at": "2026-09-15T11:43:51.671Z"
+    },
     "76561198054324521::1562700": {
       "beaten": true,
       "unlock_time": 1776503637,
@@ -8684,7 +8816,7 @@
       "beaten": true,
       "unlock_time": 1772806392,
       "no_data_reason": null,
-      "checked_at": "2026-09-11T13:54:20.207Z"
+      "checked_at": "2026-09-15T11:43:52.805Z"
     },
     "76561198054324521::2407270": {
       "beaten": true,
@@ -8720,7 +8852,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:34:20.501Z"
+      "checked_at": "2026-09-15T11:43:53.980Z"
     },
     "76561198001969728::1332010": {
       "beaten": true,
@@ -8810,7 +8942,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:34:21.732Z"
+      "checked_at": "2026-09-15T11:43:55.136Z"
     },
     "76561198832209109::2240080": {
       "beaten": true,
@@ -8888,7 +9020,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:34:22.860Z"
+      "checked_at": "2026-09-15T11:43:56.309Z"
     },
     "76561197991280042::1332010": {
       "beaten": true,
@@ -8906,7 +9038,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:34:24.062Z"
+      "checked_at": "2026-09-15T11:43:57.595Z"
     },
     "76561199067998064::2050650": {
       "beaten": true,
@@ -8924,7 +9056,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:34:25.274Z"
+      "checked_at": "2026-09-15T11:43:58.802Z"
     },
     "76561198017660760::2378900": {
       "beaten": true,
@@ -9050,7 +9182,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:34:26.472Z"
+      "checked_at": "2026-09-15T11:43:59.954Z"
     },
     "76561197989280149::740130": {
       "beaten": true,
@@ -9200,7 +9332,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:34:27.711Z"
+      "checked_at": "2026-09-15T11:44:01.101Z"
     },
     "76561198089973992::1693980": {
       "beaten": true,
@@ -9258,9 +9390,9 @@
     },
     "76561198080362358::1097350": {
       "beaten": true,
-      "unlock_time": 1787706405,
+      "unlock_time": 1787706871,
       "no_data_reason": null,
-      "checked_at": "2026-08-26T09:58:31.317Z"
+      "checked_at": "2026-09-15T11:44:02.306Z"
     },
     "76561198080362358::3376990": {
       "beaten": true,
@@ -9310,6 +9442,12 @@
       "no_data_reason": null,
       "checked_at": "2026-09-11T13:48:05.027Z"
     },
+    "76561198080362358::1233070": {
+      "beaten": true,
+      "unlock_time": 1771232487,
+      "no_data_reason": null,
+      "checked_at": "2026-09-15T11:44:03.458Z"
+    },
     "76561198080362358::2461850": {
       "beaten": true,
       "unlock_time": 1770782875,
@@ -9356,7 +9494,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:34:28.992Z"
+      "checked_at": "2026-09-15T11:44:04.597Z"
     },
     "76561198077347875::1634080": {
       "beaten": true,
@@ -9374,7 +9512,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:34:30.251Z"
+      "checked_at": "2026-09-15T11:44:05.759Z"
     },
     "76561199261772888::1259420": {
       "beaten": true,
@@ -9386,7 +9524,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:34:31.446Z"
+      "checked_at": "2026-09-15T11:44:06.910Z"
     },
     "76561198089693705::1293160": {
       "beaten": true,
@@ -9494,7 +9632,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:34:32.684Z"
+      "checked_at": "2026-09-15T11:44:08.097Z"
     },
     "76561199141726712::2378620": {
       "beaten": true,
@@ -9548,7 +9686,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:34:33.877Z"
+      "checked_at": "2026-09-15T11:44:09.254Z"
     },
     "76561198049128535::1293160": {
       "beaten": true,
@@ -9572,7 +9710,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:34:35.157Z"
+      "checked_at": "2026-09-15T11:44:10.408Z"
     },
     "76561198352113526::1622910": {
       "beaten": true,
@@ -9614,13 +9752,13 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:34:36.309Z"
+      "checked_at": "2026-09-15T11:44:11.612Z"
     },
     "76561198343020214::485510": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:34:37.562Z"
+      "checked_at": "2026-09-15T11:44:12.772Z"
     },
     "76561198147598321::1382070": {
       "beaten": true,
@@ -9632,7 +9770,13 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:34:38.735Z"
+      "checked_at": "2026-09-15T11:44:13.942Z"
+    },
+    "76561198147598321::2334730": {
+      "beaten": false,
+      "unlock_time": null,
+      "no_data_reason": null,
+      "checked_at": "2026-09-15T11:44:15.069Z"
     },
     "76561198147598321::1623940": {
       "beaten": true,
@@ -9644,25 +9788,25 @@
       "beaten": null,
       "unlock_time": null,
       "no_data_reason": "no_stats",
-      "checked_at": "2026-09-14T19:34:40.095Z"
+      "checked_at": "2026-09-15T11:44:16.452Z"
     },
     "76561199208110739::920210": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:34:41.232Z"
+      "checked_at": "2026-09-15T11:44:17.786Z"
     },
     "76561199208110739::1222140": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:34:42.396Z"
+      "checked_at": "2026-09-15T11:44:18.932Z"
     },
     "76561199208110739::1493640": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:34:43.521Z"
+      "checked_at": "2026-09-15T11:44:20.088Z"
     },
     "76561198025823574::1868140": {
       "beaten": true,
@@ -9686,7 +9830,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:34:44.655Z"
+      "checked_at": "2026-09-15T11:44:21.243Z"
     },
     "76561198032315186::1359980": {
       "beaten": true,
@@ -9728,19 +9872,19 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:34:45.819Z"
+      "checked_at": "2026-09-15T11:44:22.420Z"
     },
     "76561199125912770::1237950": {
       "beaten": null,
       "unlock_time": null,
       "no_data_reason": "profile_private",
-      "checked_at": "2026-09-14T19:34:47.170Z"
+      "checked_at": "2026-09-15T11:44:23.776Z"
     },
     "76561199125912770::1679210": {
       "beaten": null,
       "unlock_time": null,
       "no_data_reason": "profile_private",
-      "checked_at": "2026-09-14T19:34:48.397Z"
+      "checked_at": "2026-09-15T11:44:25.089Z"
     },
     "76561198979962314::1996010": {
       "beaten": true,
@@ -9770,7 +9914,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:34:49.524Z"
+      "checked_at": "2026-09-15T11:44:26.333Z"
     },
     "76561198193799379::1693980": {
       "beaten": true,
@@ -9782,7 +9926,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:34:50.642Z"
+      "checked_at": "2026-09-15T11:44:27.490Z"
     },
     "76561198193799379::359510": {
       "beaten": true,
@@ -9794,7 +9938,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:34:51.861Z"
+      "checked_at": "2026-09-15T11:44:28.670Z"
     },
     "76561198193799379::3376990": {
       "beaten": true,
@@ -9806,7 +9950,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:34:52.977Z"
+      "checked_at": "2026-09-15T11:44:29.869Z"
     },
     "76561198820509240::2238040": {
       "beaten": true,
@@ -9842,7 +9986,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:34:54.112Z"
+      "checked_at": "2026-09-15T11:44:31.036Z"
     },
     "76561198046203998::992300": {
       "beaten": true,
@@ -9860,7 +10004,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:34:55.225Z"
+      "checked_at": "2026-09-15T11:44:32.179Z"
     },
     "76561198054575805::1492680": {
       "beaten": true,
@@ -9914,7 +10058,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:34:56.417Z"
+      "checked_at": "2026-09-15T11:44:33.312Z"
     },
     "76561197980988545::1293160": {
       "beaten": true,
@@ -9956,25 +10100,25 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:34:57.521Z"
+      "checked_at": "2026-09-15T11:44:34.512Z"
     },
     "76561198303576866::1574820": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:34:58.665Z"
+      "checked_at": "2026-09-15T11:44:35.708Z"
     },
     "76561198303576866::1623940": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:34:59.799Z"
+      "checked_at": "2026-09-15T11:44:36.877Z"
     },
     "76561198065466175::1903340": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:35:00.994Z"
+      "checked_at": "2026-09-15T11:44:38.039Z"
     },
     "76561198072364553::1171320": {
       "beaten": true,
@@ -10008,9 +10152,9 @@
     },
     "76561198010836552::1097350": {
       "beaten": true,
-      "unlock_time": 1752401348,
+      "unlock_time": 1752401584,
       "no_data_reason": null,
-      "checked_at": "2026-08-24T17:49:29.587Z"
+      "checked_at": "2026-09-15T11:44:39.208Z"
     },
     "76561197996608804::1626620": {
       "beaten": false,
@@ -10022,7 +10166,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:35:02.434Z"
+      "checked_at": "2026-09-15T11:44:40.385Z"
     },
     "76561197996608804::1693980": {
       "beaten": true,
@@ -10034,7 +10178,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:35:03.606Z"
+      "checked_at": "2026-09-15T11:44:41.543Z"
     },
     "76561197996608804::466630": {
       "beaten": true,
@@ -10046,19 +10190,25 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:35:04.734Z"
+      "checked_at": "2026-09-15T11:44:42.689Z"
     },
     "76561198444468770::1659420": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:35:06.035Z"
+      "checked_at": "2026-09-15T11:44:43.874Z"
     },
     "76561198444468770::2760790": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:35:07.258Z"
+      "checked_at": "2026-09-15T11:44:45.017Z"
+    },
+    "76561198029751126::3180070": {
+      "beaten": true,
+      "unlock_time": 1776456470,
+      "no_data_reason": null,
+      "checked_at": "2026-09-15T11:44:46.179Z"
     },
     "76561198029751126::238090": {
       "beaten": true,
@@ -10070,7 +10220,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:35:08.378Z"
+      "checked_at": "2026-09-15T11:44:47.354Z"
     },
     "76561198982150416::740130": {
       "beaten": true,
@@ -10154,7 +10304,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:35:09.598Z"
+      "checked_at": "2026-09-15T11:44:48.550Z"
     },
     "76561198148268245::1693980": {
       "beaten": true,
@@ -10172,7 +10322,13 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:35:10.774Z"
+      "checked_at": "2026-09-15T11:44:49.695Z"
+    },
+    "76561198413978177::2334730": {
+      "beaten": false,
+      "unlock_time": null,
+      "no_data_reason": null,
+      "checked_at": "2026-09-15T11:44:50.856Z"
     },
     "76561198413978177::3244220": {
       "beaten": true,
@@ -10268,19 +10424,19 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:35:11.933Z"
+      "checked_at": "2026-09-15T11:44:51.984Z"
     },
     "76561198051248084::1174180": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:35:13.183Z"
+      "checked_at": "2026-09-15T11:44:53.119Z"
     },
     "76561198056789339::379430": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:35:14.416Z"
+      "checked_at": "2026-09-15T11:44:54.246Z"
     },
     "76561198013734355::860510": {
       "beaten": true,
@@ -10298,19 +10454,19 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:35:15.649Z"
+      "checked_at": "2026-09-15T11:44:55.427Z"
     },
     "76561197970969216::2050650": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:35:16.767Z"
+      "checked_at": "2026-09-15T11:44:56.603Z"
     },
     "76561197994025244::1903340": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:35:17.941Z"
+      "checked_at": "2026-09-15T11:44:57.738Z"
     },
     "76561198069567036::1265920": {
       "beaten": true,
@@ -10322,7 +10478,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:35:19.185Z"
+      "checked_at": "2026-09-15T11:44:58.920Z"
     },
     "76561198054324521::934700": {
       "beaten": true,
@@ -10346,7 +10502,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:35:20.308Z"
+      "checked_at": "2026-09-15T11:45:00.069Z"
     },
     "76561197989280149::1265920": {
       "beaten": true,
@@ -10364,13 +10520,13 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:35:21.466Z"
+      "checked_at": "2026-09-15T11:45:01.245Z"
     },
     "76561198065466175::1265920": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-14T19:35:22.588Z"
+      "checked_at": "2026-09-15T11:45:02.492Z"
     },
     "76561198029751126::883710": {
       "beaten": true,
