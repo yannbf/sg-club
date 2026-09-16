@@ -176,10 +176,18 @@
       "story_tag_count": 4
     },
     "359870": {
-      "fetched_at": "2026-08-24T17:02:56.383Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-09-16T11:55:09.345Z",
+      "marker": {
+        "apiname": "ACH_THE_ETERNAL_CALM",
+        "name": "The Eternal Calm",
+        "description": "Defeat Yu Yevon",
+        "global_percent": 18.9,
+        "source": "override",
+        "sh_achievement_id": 33
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0,
+      "override_key": "359870:ACH_THE_ETERNAL_CALM"
     },
     "361420": {
       "fetched_at": "2026-08-24T16:51:14.413Z",
@@ -1868,10 +1876,18 @@
       "story_tag_count": 19
     },
     "1240060": {
-      "fetched_at": "2026-08-24T16:51:12.903Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-09-16T11:55:07.164Z",
+      "marker": {
+        "apiname": "A_ReachedLighthouse",
+        "name": "The Sea!",
+        "description": "Reached the lighthouse",
+        "global_percent": 27.2,
+        "source": "override",
+        "sh_achievement_id": 28
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0,
+      "override_key": "1240060:A_ReachedLighthouse"
     },
     "1244090": {
       "fetched_at": "2026-08-24T20:07:15.462Z",
@@ -2904,10 +2920,23 @@
       "story_tag_count": 11
     },
     "1598780": {
-      "fetched_at": "2026-08-24T17:03:58.665Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-09-16T11:55:10.544Z",
+      "marker": {
+        "apiname": "ACHIEVEMENT_ENDING_SAVE_THIS_WORLD_A",
+        "name": "ENDING SAVE THIS WORLD A",
+        "description": "",
+        "global_percent": 8.5,
+        "source": "override",
+        "any_of_apinames": [
+          "ACHIEVEMENT_ENDING_SAVE_THIS_WORLD_A",
+          "ACHIEVEMENT_ENDING_SAVE_THIS_WORLD_B",
+          "ACHIEVEMENT_ENDING_LEAVE_THIS_WORLD_A",
+          "ACHIEVEMENT_ENDING_LEAVE_THIS_WORLD_B"
+        ]
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0,
+      "override_key": "1598780:ACHIEVEMENT_ENDING_LEAVE_THIS_WORLD_A,ACHIEVEMENT_ENDING_LEAVE_THIS_WORLD_B,ACHIEVEMENT_ENDING_SAVE_THIS_WORLD_A,ACHIEVEMENT_ENDING_SAVE_THIS_WORLD_B"
     },
     "1599660": {
       "fetched_at": "2026-09-15T04:52:09.213Z",
@@ -3158,17 +3187,18 @@
       "story_tag_count": 0
     },
     "1659420": {
-      "fetched_at": "2026-08-24T18:00:17.059Z",
+      "fetched_at": "2026-09-16T11:55:06.057Z",
       "marker": {
-        "apiname": "TROPHY_NAME_FINISH_UHARD",
-        "name": "Charted! - Crushing",
-        "description": "Complete the game in crushing mode",
-        "global_percent": 2.1,
-        "source": "heuristic",
-        "sh_achievement_id": 5
+        "apiname": "TROPHY_NAME_FINISH_NORMAL",
+        "name": "Charted! - Moderate",
+        "description": "Complete the game in moderate mode",
+        "global_percent": 29.9,
+        "source": "override",
+        "sh_achievement_id": 3
       },
       "no_marker_reason": null,
-      "story_tag_count": 0
+      "story_tag_count": 0,
+      "override_key": "1659420:TROPHY_NAME_FINISH_NORMAL"
     },
     "1662480": {
       "fetched_at": "2026-08-24T17:02:14.408Z",
@@ -5164,10 +5194,25 @@
       "override_key": "2637990:Achievement.Quacked"
     },
     "2653940": {
-      "fetched_at": "2026-09-11T13:47:03.918Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-09-16T11:55:11.732Z",
+      "marker": {
+        "apiname": "TheMany",
+        "name": "The Many",
+        "description": "",
+        "global_percent": 28.2,
+        "source": "override",
+        "any_of_apinames": [
+          "TheMany",
+          "TheFew",
+          "IKilledHer",
+          "YouKilledHer",
+          "LetMeSaveYou",
+          "DontForgetMe"
+        ]
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0,
+      "override_key": "2653940:DontForgetMe,IKilledHer,LetMeSaveYou,TheFew,TheMany,YouKilledHer"
     },
     "2658470": {
       "fetched_at": "2026-09-11T13:47:16.276Z",
@@ -6246,10 +6291,18 @@
       "story_tag_count": 0
     },
     "3839300": {
-      "fetched_at": "2026-08-24T16:53:22.097Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-09-16T11:55:08.290Z",
+      "marker": {
+        "apiname": "ACH_WIN_1",
+        "name": "Adequate Dogpiler",
+        "description": "Win a game",
+        "global_percent": 62.7,
+        "source": "override",
+        "sh_achievement_id": 1
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0,
+      "override_key": "3839300:ACH_WIN_1"
     },
     "3862670": {
       "fetched_at": "2026-08-24T16:51:28.880Z",
@@ -6353,13 +6406,6 @@
       "unlock_time": 1752714992,
       "no_data_reason": null
     },
-    "76561198047330685::1659420": {
-      "fetched_at": "2026-09-16T06:06:06.919Z",
-      "marker_apiname": "TROPHY_NAME_FINISH_UHARD",
-      "beaten": false,
-      "unlock_time": null,
-      "no_data_reason": null
-    },
     "76561198453663783::1466230": {
       "fetched_at": "2026-08-24T17:40:27.823Z",
       "marker_apiname": "Crafting_Items",
@@ -6386,13 +6432,6 @@
       "marker_apiname": "COMPLETE",
       "beaten": true,
       "unlock_time": 1751409671,
-      "no_data_reason": null
-    },
-    "76561199036747433::1659420": {
-      "fetched_at": "2026-09-16T06:06:09.136Z",
-      "marker_apiname": "TROPHY_NAME_FINISH_UHARD",
-      "beaten": false,
-      "unlock_time": null,
       "no_data_reason": null
     },
     "76561199036747433::983970": {
@@ -6442,13 +6481,6 @@
       "marker_apiname": "C4_FINISH",
       "beaten": true,
       "unlock_time": 1779938001,
-      "no_data_reason": null
-    },
-    "76561198025173613::1659420": {
-      "fetched_at": "2026-09-16T06:06:15.018Z",
-      "marker_apiname": "TROPHY_NAME_FINISH_UHARD",
-      "beaten": false,
-      "unlock_time": null,
       "no_data_reason": null
     },
     "76561198025173613::2243250": {
@@ -6843,13 +6875,6 @@
       "unlock_time": 1755230419,
       "no_data_reason": null
     },
-    "76561197989280149::1659420": {
-      "fetched_at": "2026-09-16T06:07:24.175Z",
-      "marker_apiname": "TROPHY_NAME_FINISH_UHARD",
-      "beaten": false,
-      "unlock_time": null,
-      "no_data_reason": null
-    },
     "76561197989280149::1693980": {
       "fetched_at": "2026-08-24T17:47:07.917Z",
       "marker_apiname": "ach12",
@@ -6988,13 +7013,6 @@
       "marker_apiname": "ach12",
       "beaten": true,
       "unlock_time": 1752253688,
-      "no_data_reason": null
-    },
-    "76561198444468770::1659420": {
-      "fetched_at": "2026-09-16T06:08:02.561Z",
-      "marker_apiname": "TROPHY_NAME_FINISH_UHARD",
-      "beaten": false,
-      "unlock_time": null,
       "no_data_reason": null
     },
     "76561198403826603::2396240": {
@@ -9902,13 +9920,6 @@
       "unlock_time": 1760994935,
       "no_data_reason": null
     },
-    "76561197975099685::1659420": {
-      "fetched_at": "2026-09-16T06:07:08.555Z",
-      "marker_apiname": "TROPHY_NAME_FINISH_UHARD",
-      "beaten": false,
-      "unlock_time": null,
-      "no_data_reason": null
-    },
     "76561197975099685::1497440": {
       "fetched_at": "2026-09-11T12:27:14.536Z",
       "marker_apiname": "ACH_COMPLETE_GAME",
@@ -10547,7 +10558,7 @@
       "no_data_reason": null
     },
     "76561198399974062::2515020": {
-      "fetched_at": "2026-09-15T18:22:08.118Z",
+      "fetched_at": "2026-09-16T11:55:33.395Z",
       "marker_apiname": "1012",
       "beaten": false,
       "unlock_time": null,
@@ -10666,7 +10677,7 @@
       "no_data_reason": null
     },
     "76561197962863579::2725260": {
-      "fetched_at": "2026-09-15T18:22:02.187Z",
+      "fetched_at": "2026-09-16T11:55:19.665Z",
       "marker_apiname": "ach_ending_a",
       "beaten": null,
       "unlock_time": null,
@@ -10701,7 +10712,7 @@
       "no_data_reason": null
     },
     "76561198041749780::2725260": {
-      "fetched_at": "2026-09-15T18:22:03.307Z",
+      "fetched_at": "2026-09-16T11:55:21.894Z",
       "marker_apiname": "ach_ending_a",
       "beaten": false,
       "unlock_time": null,
@@ -10841,7 +10852,7 @@
       "no_data_reason": null
     },
     "76561198027595057::1593030": {
-      "fetched_at": "2026-09-15T18:22:07.007Z",
+      "fetched_at": "2026-09-16T11:55:31.092Z",
       "marker_apiname": "HundredPercentRestored",
       "beaten": false,
       "unlock_time": null,
@@ -11016,7 +11027,7 @@
       "no_data_reason": null
     },
     "76561197996608804::1626620": {
-      "fetched_at": "2026-09-15T18:22:12.831Z",
+      "fetched_at": "2026-09-16T11:55:43.361Z",
       "marker_apiname": "ACH_FINISH_GAME",
       "beaten": false,
       "unlock_time": null,
@@ -11058,7 +11069,7 @@
       "no_data_reason": null
     },
     "76561198020386807::1293160": {
-      "fetched_at": "2026-09-15T18:22:04.691Z",
+      "fetched_at": "2026-09-16T11:55:24.292Z",
       "marker_apiname": "CantAlwaysSaveEveryone",
       "beaten": false,
       "unlock_time": null,
@@ -11100,7 +11111,7 @@
       "no_data_reason": null
     },
     "76561198061661987::1627720": {
-      "fetched_at": "2026-09-15T18:22:05.890Z",
+      "fetched_at": "2026-09-16T11:55:29.949Z",
       "marker_apiname": "LOP_104",
       "beaten": false,
       "unlock_time": null,
@@ -11128,7 +11139,7 @@
       "no_data_reason": null
     },
     "76561198089973992::1627720": {
-      "fetched_at": "2026-09-15T18:22:09.434Z",
+      "fetched_at": "2026-09-16T11:55:37.764Z",
       "marker_apiname": "LOP_104",
       "beaten": false,
       "unlock_time": null,
@@ -11149,7 +11160,7 @@
       "no_data_reason": null
     },
     "76561198185630581::1627720": {
-      "fetched_at": "2026-09-15T18:22:10.578Z",
+      "fetched_at": "2026-09-16T11:55:38.865Z",
       "marker_apiname": "LOP_104",
       "beaten": false,
       "unlock_time": null,
@@ -11163,7 +11174,7 @@
       "no_data_reason": null
     },
     "76561198089693705::1492680": {
-      "fetched_at": "2026-09-15T18:22:11.715Z",
+      "fetched_at": "2026-09-16T11:55:39.955Z",
       "marker_apiname": "TROP041",
       "beaten": false,
       "unlock_time": null,
@@ -11396,6 +11407,139 @@
     "76561198413978177::2334730": {
       "fetched_at": "2026-09-16T06:08:08.276Z",
       "marker_apiname": "Ach_Trophy_Lady",
+      "beaten": false,
+      "unlock_time": null,
+      "no_data_reason": null
+    },
+    "76561198047330685::1659420": {
+      "fetched_at": "2026-09-16T11:55:12.822Z",
+      "marker_apiname": "TROPHY_NAME_FINISH_NORMAL",
+      "beaten": false,
+      "unlock_time": null,
+      "no_data_reason": null
+    },
+    "76561199036747433::1659420": {
+      "fetched_at": "2026-09-16T11:55:13.929Z",
+      "marker_apiname": "TROPHY_NAME_FINISH_NORMAL",
+      "beaten": true,
+      "unlock_time": 1764341833,
+      "no_data_reason": null
+    },
+    "76561198055181554::1240060": {
+      "fetched_at": "2026-09-16T11:55:15.030Z",
+      "marker_apiname": "A_ReachedLighthouse",
+      "beaten": true,
+      "unlock_time": 1760220012,
+      "no_data_reason": null
+    },
+    "76561198024970451::3839300": {
+      "fetched_at": "2026-09-16T11:55:16.114Z",
+      "marker_apiname": "ACH_WIN_1",
+      "beaten": true,
+      "unlock_time": 1775665248,
+      "no_data_reason": null
+    },
+    "76561198025173613::359870": {
+      "fetched_at": "2026-09-16T11:55:17.205Z",
+      "marker_apiname": "ACH_THE_ETERNAL_CALM",
+      "beaten": true,
+      "unlock_time": 1772149807,
+      "no_data_reason": null
+    },
+    "76561198025173613::1659420": {
+      "fetched_at": "2026-09-16T11:55:18.385Z",
+      "marker_apiname": "TROPHY_NAME_FINISH_NORMAL",
+      "beaten": true,
+      "unlock_time": 1767058290,
+      "no_data_reason": null
+    },
+    "76561198041749780::3839300": {
+      "fetched_at": "2026-09-16T11:55:20.760Z",
+      "marker_apiname": "ACH_WIN_1",
+      "beaten": true,
+      "unlock_time": 1788657573,
+      "no_data_reason": null
+    },
+    "76561198020386807::1240060": {
+      "fetched_at": "2026-09-16T11:55:23.173Z",
+      "marker_apiname": "A_ReachedLighthouse",
+      "beaten": false,
+      "unlock_time": null,
+      "no_data_reason": null
+    },
+    "76561197968806363::359870": {
+      "fetched_at": "2026-09-16T11:55:25.553Z",
+      "marker_apiname": "ACH_THE_ETERNAL_CALM",
+      "beaten": false,
+      "unlock_time": null,
+      "no_data_reason": null
+    },
+    "76561198002504847::359870": {
+      "fetched_at": "2026-09-16T11:55:26.689Z",
+      "marker_apiname": "ACH_THE_ETERNAL_CALM",
+      "beaten": true,
+      "unlock_time": 1761949664,
+      "no_data_reason": null
+    },
+    "76561197975099685::1598780": {
+      "fetched_at": "2026-09-16T11:55:27.771Z",
+      "marker_apiname": "ACHIEVEMENT_ENDING_SAVE_THIS_WORLD_A",
+      "beaten": true,
+      "unlock_time": 1767632532,
+      "no_data_reason": null
+    },
+    "76561197975099685::1659420": {
+      "fetched_at": "2026-09-16T11:55:28.849Z",
+      "marker_apiname": "TROPHY_NAME_FINISH_NORMAL",
+      "beaten": true,
+      "unlock_time": 1767480396,
+      "no_data_reason": null
+    },
+    "76561198117650232::1240060": {
+      "fetched_at": "2026-09-16T11:55:32.235Z",
+      "marker_apiname": "A_ReachedLighthouse",
+      "beaten": true,
+      "unlock_time": 1766270363,
+      "no_data_reason": null
+    },
+    "76561198048238310::359870": {
+      "fetched_at": "2026-09-16T11:55:34.483Z",
+      "marker_apiname": "ACH_THE_ETERNAL_CALM",
+      "beaten": true,
+      "unlock_time": 1755040933,
+      "no_data_reason": null
+    },
+    "76561197989280149::2653940": {
+      "fetched_at": "2026-09-16T11:55:35.563Z",
+      "marker_apiname": "TheMany",
+      "beaten": true,
+      "unlock_time": 1776904559,
+      "no_data_reason": null
+    },
+    "76561197989280149::1659420": {
+      "fetched_at": "2026-09-16T11:55:36.668Z",
+      "marker_apiname": "TROPHY_NAME_FINISH_NORMAL",
+      "beaten": true,
+      "unlock_time": 1755041642,
+      "no_data_reason": null
+    },
+    "76561198352113526::359870": {
+      "fetched_at": "2026-09-16T11:55:41.120Z",
+      "marker_apiname": "ACH_THE_ETERNAL_CALM",
+      "beaten": false,
+      "unlock_time": null,
+      "no_data_reason": null
+    },
+    "76561198303576866::359870": {
+      "fetched_at": "2026-09-16T11:55:42.252Z",
+      "marker_apiname": "ACH_THE_ETERNAL_CALM",
+      "beaten": false,
+      "unlock_time": null,
+      "no_data_reason": null
+    },
+    "76561198444468770::1659420": {
+      "fetched_at": "2026-09-16T11:55:44.464Z",
+      "marker_apiname": "TROPHY_NAME_FINISH_NORMAL",
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null

@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-09-16T06:08:20.445Z",
+  "last_updated": "2026-09-16T11:55:45.466Z",
   "games": {
     "223810": {
       "marker": {
@@ -177,10 +177,17 @@
       "checked_at": "2026-08-24T20:06:38.326Z"
     },
     "359870": {
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
+      "marker": {
+        "apiname": "ACH_THE_ETERNAL_CALM",
+        "name": "The Eternal Calm",
+        "description": "Defeat Yu Yevon",
+        "global_percent": 18.9,
+        "source": "override",
+        "sh_achievement_id": 33
+      },
+      "no_marker_reason": null,
       "story_tag_count": 0,
-      "checked_at": "2026-08-24T17:02:56.383Z"
+      "checked_at": "2026-09-16T11:55:09.345Z"
     },
     "361420": {
       "marker": null,
@@ -1858,10 +1865,17 @@
       "checked_at": "2026-08-24T20:12:28.742Z"
     },
     "1240060": {
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
+      "marker": {
+        "apiname": "A_ReachedLighthouse",
+        "name": "The Sea!",
+        "description": "Reached the lighthouse",
+        "global_percent": 27.2,
+        "source": "override",
+        "sh_achievement_id": 28
+      },
+      "no_marker_reason": null,
       "story_tag_count": 0,
-      "checked_at": "2026-08-24T16:51:12.903Z"
+      "checked_at": "2026-09-16T11:55:07.164Z"
     },
     "1244090": {
       "marker": {
@@ -2882,10 +2896,22 @@
       "checked_at": "2026-08-24T20:05:57.543Z"
     },
     "1598780": {
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
+      "marker": {
+        "apiname": "ACHIEVEMENT_ENDING_SAVE_THIS_WORLD_A",
+        "name": "ENDING SAVE THIS WORLD A",
+        "description": "",
+        "global_percent": 8.5,
+        "source": "override",
+        "any_of_apinames": [
+          "ACHIEVEMENT_ENDING_SAVE_THIS_WORLD_A",
+          "ACHIEVEMENT_ENDING_SAVE_THIS_WORLD_B",
+          "ACHIEVEMENT_ENDING_LEAVE_THIS_WORLD_A",
+          "ACHIEVEMENT_ENDING_LEAVE_THIS_WORLD_B"
+        ]
+      },
+      "no_marker_reason": null,
       "story_tag_count": 0,
-      "checked_at": "2026-08-24T17:03:58.665Z"
+      "checked_at": "2026-09-16T11:55:10.544Z"
     },
     "1599660": {
       "marker": {
@@ -3133,16 +3159,16 @@
     },
     "1659420": {
       "marker": {
-        "apiname": "TROPHY_NAME_FINISH_UHARD",
-        "name": "Charted! - Crushing",
-        "description": "Complete the game in crushing mode",
-        "global_percent": 2.1,
-        "source": "heuristic",
-        "sh_achievement_id": 5
+        "apiname": "TROPHY_NAME_FINISH_NORMAL",
+        "name": "Charted! - Moderate",
+        "description": "Complete the game in moderate mode",
+        "global_percent": 29.9,
+        "source": "override",
+        "sh_achievement_id": 3
       },
       "no_marker_reason": null,
       "story_tag_count": 0,
-      "checked_at": "2026-08-24T18:00:17.059Z"
+      "checked_at": "2026-09-16T11:55:06.057Z"
     },
     "1662480": {
       "marker": null,
@@ -5115,10 +5141,24 @@
       "checked_at": "2026-09-13T18:46:56.809Z"
     },
     "2653940": {
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
+      "marker": {
+        "apiname": "TheMany",
+        "name": "The Many",
+        "description": "",
+        "global_percent": 28.2,
+        "source": "override",
+        "any_of_apinames": [
+          "TheMany",
+          "TheFew",
+          "IKilledHer",
+          "YouKilledHer",
+          "LetMeSaveYou",
+          "DontForgetMe"
+        ]
+      },
+      "no_marker_reason": null,
       "story_tag_count": 0,
-      "checked_at": "2026-09-11T13:47:03.918Z"
+      "checked_at": "2026-09-16T11:55:11.732Z"
     },
     "2658470": {
       "marker": null,
@@ -6182,10 +6222,17 @@
       "checked_at": "2026-08-24T19:32:33.792Z"
     },
     "3839300": {
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
+      "marker": {
+        "apiname": "ACH_WIN_1",
+        "name": "Adequate Dogpiler",
+        "description": "Win a game",
+        "global_percent": 62.7,
+        "source": "override",
+        "sh_achievement_id": 1
+      },
+      "no_marker_reason": null,
       "story_tag_count": 0,
-      "checked_at": "2026-08-24T16:53:22.097Z"
+      "checked_at": "2026-09-16T11:55:08.290Z"
     },
     "3862670": {
       "marker": null,
@@ -6300,7 +6347,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-16T06:06:06.919Z"
+      "checked_at": "2026-09-16T11:55:12.822Z"
     },
     "76561198047330685::1332010": {
       "beaten": true,
@@ -6423,10 +6470,10 @@
       "checked_at": "2026-09-14T14:20:14.276Z"
     },
     "76561199036747433::1659420": {
-      "beaten": false,
-      "unlock_time": null,
+      "beaten": true,
+      "unlock_time": 1764341833,
       "no_data_reason": null,
-      "checked_at": "2026-09-16T06:06:09.136Z"
+      "checked_at": "2026-09-16T11:55:13.929Z"
     },
     "76561199036747433::983970": {
       "beaten": true,
@@ -6482,6 +6529,12 @@
       "no_data_reason": null,
       "checked_at": "2026-08-24T19:32:47.786Z"
     },
+    "76561198055181554::1240060": {
+      "beaten": true,
+      "unlock_time": 1760220012,
+      "no_data_reason": null,
+      "checked_at": "2026-09-16T11:55:15.030Z"
+    },
     "76561198055181554::990080": {
       "beaten": true,
       "unlock_time": 1760918227,
@@ -6535,6 +6588,12 @@
       "unlock_time": 1779463763,
       "no_data_reason": null,
       "checked_at": "2026-09-11T13:54:00.347Z"
+    },
+    "76561198024970451::3839300": {
+      "beaten": true,
+      "unlock_time": 1775665248,
+      "no_data_reason": null,
+      "checked_at": "2026-09-16T11:55:16.114Z"
     },
     "76561198024970451::557600": {
       "beaten": true,
@@ -6644,11 +6703,17 @@
       "no_data_reason": null,
       "checked_at": "2026-09-12T12:09:48.178Z"
     },
-    "76561198025173613::1659420": {
-      "beaten": false,
-      "unlock_time": null,
+    "76561198025173613::359870": {
+      "beaten": true,
+      "unlock_time": 1772149807,
       "no_data_reason": null,
-      "checked_at": "2026-09-16T06:06:15.018Z"
+      "checked_at": "2026-09-16T11:55:17.205Z"
+    },
+    "76561198025173613::1659420": {
+      "beaten": true,
+      "unlock_time": 1767058290,
+      "no_data_reason": null,
+      "checked_at": "2026-09-16T11:55:18.385Z"
     },
     "76561198025173613::1299690": {
       "beaten": true,
@@ -6690,7 +6755,7 @@
       "beaten": null,
       "unlock_time": null,
       "no_data_reason": "no_stats",
-      "checked_at": "2026-09-15T18:22:02.187Z"
+      "checked_at": "2026-09-16T11:55:19.665Z"
     },
     "76561197962863579::1222140": {
       "beaten": null,
@@ -6950,6 +7015,12 @@
       "no_data_reason": null,
       "checked_at": "2026-08-24T17:41:59.869Z"
     },
+    "76561198041749780::3839300": {
+      "beaten": true,
+      "unlock_time": 1788657573,
+      "no_data_reason": null,
+      "checked_at": "2026-09-16T11:55:20.760Z"
+    },
     "76561198041749780::1772830": {
       "beaten": true,
       "unlock_time": 1787432142,
@@ -6984,7 +7055,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-15T18:22:03.307Z"
+      "checked_at": "2026-09-16T11:55:21.894Z"
     },
     "76561198041749780::2420660": {
       "beaten": true,
@@ -7166,6 +7237,12 @@
       "no_data_reason": null,
       "checked_at": "2026-09-14T14:20:28.761Z"
     },
+    "76561198020386807::1240060": {
+      "beaten": false,
+      "unlock_time": null,
+      "no_data_reason": null,
+      "checked_at": "2026-09-16T11:55:23.173Z"
+    },
     "76561198020386807::1164050": {
       "beaten": true,
       "unlock_time": 1758311137,
@@ -7176,7 +7253,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-15T18:22:04.691Z"
+      "checked_at": "2026-09-16T11:55:24.292Z"
     },
     "76561198020386807::1497440": {
       "beaten": true,
@@ -7664,6 +7741,12 @@
       "no_data_reason": "no_stats",
       "checked_at": "2026-09-16T06:06:58.514Z"
     },
+    "76561197968806363::359870": {
+      "beaten": false,
+      "unlock_time": null,
+      "no_data_reason": null,
+      "checked_at": "2026-09-16T11:55:25.553Z"
+    },
     "76561197968806363::2717750": {
       "beaten": true,
       "unlock_time": 1752574530,
@@ -7711,6 +7794,12 @@
       "unlock_time": 1768586007,
       "no_data_reason": null,
       "checked_at": "2026-09-12T12:09:50.440Z"
+    },
+    "76561198002504847::359870": {
+      "beaten": true,
+      "unlock_time": 1761949664,
+      "no_data_reason": null,
+      "checked_at": "2026-09-16T11:55:26.689Z"
     },
     "76561198002504847::1868140": {
       "beaten": true,
@@ -8168,11 +8257,17 @@
       "no_data_reason": null,
       "checked_at": "2026-09-14T15:57:00.762Z"
     },
-    "76561197975099685::1659420": {
-      "beaten": false,
-      "unlock_time": null,
+    "76561197975099685::1598780": {
+      "beaten": true,
+      "unlock_time": 1767632532,
       "no_data_reason": null,
-      "checked_at": "2026-09-16T06:07:08.555Z"
+      "checked_at": "2026-09-16T11:55:27.771Z"
+    },
+    "76561197975099685::1659420": {
+      "beaten": true,
+      "unlock_time": 1767480396,
+      "no_data_reason": null,
+      "checked_at": "2026-09-16T11:55:28.849Z"
     },
     "76561197975099685::913850": {
       "beaten": true,
@@ -8292,7 +8387,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-15T18:22:05.890Z"
+      "checked_at": "2026-09-16T11:55:29.949Z"
     },
     "76561198061661987::3350190": {
       "beaten": true,
@@ -8496,7 +8591,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-15T18:22:07.007Z"
+      "checked_at": "2026-09-16T11:55:31.092Z"
     },
     "76561198027595057::1293160": {
       "beaten": true,
@@ -8690,6 +8785,12 @@
       "no_data_reason": null,
       "checked_at": "2026-09-11T12:27:36.795Z"
     },
+    "76561198117650232::1240060": {
+      "beaten": true,
+      "unlock_time": 1766270363,
+      "no_data_reason": null,
+      "checked_at": "2026-09-16T11:55:32.235Z"
+    },
     "76561198117650232::1164050": {
       "beaten": true,
       "unlock_time": 1757780940,
@@ -8880,7 +8981,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-15T18:22:08.118Z"
+      "checked_at": "2026-09-16T11:55:33.395Z"
     },
     "76561198399974062::1262350": {
       "beaten": true,
@@ -9110,6 +9211,12 @@
       "no_data_reason": null,
       "checked_at": "2026-08-24T17:46:54.360Z"
     },
+    "76561198048238310::359870": {
+      "beaten": true,
+      "unlock_time": 1755040933,
+      "no_data_reason": null,
+      "checked_at": "2026-09-16T11:55:34.483Z"
+    },
     "76561198048238310::1222140": {
       "beaten": true,
       "unlock_time": 1751930957,
@@ -9133,6 +9240,12 @@
       "unlock_time": 1781670773,
       "no_data_reason": null,
       "checked_at": "2026-08-24T19:33:18.761Z"
+    },
+    "76561197989280149::2653940": {
+      "beaten": true,
+      "unlock_time": 1776904559,
+      "no_data_reason": null,
+      "checked_at": "2026-09-16T11:55:35.563Z"
     },
     "76561197989280149::1328840": {
       "beaten": true,
@@ -9183,10 +9296,10 @@
       "checked_at": "2026-09-11T13:54:21.519Z"
     },
     "76561197989280149::1659420": {
-      "beaten": false,
-      "unlock_time": null,
+      "beaten": true,
+      "unlock_time": 1755041642,
       "no_data_reason": null,
-      "checked_at": "2026-09-16T06:07:24.175Z"
+      "checked_at": "2026-09-16T11:55:36.668Z"
     },
     "76561197989280149::740130": {
       "beaten": true,
@@ -9270,7 +9383,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-15T18:22:09.434Z"
+      "checked_at": "2026-09-16T11:55:37.764Z"
     },
     "76561198089973992::3698350": {
       "beaten": true,
@@ -9462,7 +9575,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-15T18:22:10.578Z"
+      "checked_at": "2026-09-16T11:55:38.865Z"
     },
     "76561198077347875::2088840": {
       "beaten": true,
@@ -9546,7 +9659,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-15T18:22:11.715Z"
+      "checked_at": "2026-09-16T11:55:39.955Z"
     },
     "76561198089693705::702670": {
       "beaten": true,
@@ -9733,6 +9846,12 @@
       "unlock_time": 1759463389,
       "no_data_reason": null,
       "checked_at": "2026-08-24T17:48:10.081Z"
+    },
+    "76561198352113526::359870": {
+      "beaten": false,
+      "unlock_time": null,
+      "no_data_reason": null,
+      "checked_at": "2026-09-16T11:55:41.120Z"
     },
     "76561198352113526::1196590": {
       "beaten": true,
@@ -10106,6 +10225,12 @@
       "no_data_reason": null,
       "checked_at": "2026-09-16T06:07:54.717Z"
     },
+    "76561198303576866::359870": {
+      "beaten": false,
+      "unlock_time": null,
+      "no_data_reason": null,
+      "checked_at": "2026-09-16T11:55:42.252Z"
+    },
     "76561198303576866::1574820": {
       "beaten": false,
       "unlock_time": null,
@@ -10164,7 +10289,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-15T18:22:12.831Z"
+      "checked_at": "2026-09-16T11:55:43.361Z"
     },
     "76561197996608804::990080": {
       "beaten": false,
@@ -10200,7 +10325,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-16T06:08:02.561Z"
+      "checked_at": "2026-09-16T11:55:44.464Z"
     },
     "76561198444468770::2760790": {
       "beaten": false,
