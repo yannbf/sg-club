@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-09-16T05:07:52.284Z",
+  "last_updated": "2026-09-16T12:16:02.668Z",
   "giveaways": [
     {
       "id": "skvm1",
@@ -75,7 +75,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 1,
-      "entry_count": 224,
+      "entry_count": 225,
       "creator": "76561198042896883",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -135,7 +135,7 @@
       "end_timestamp": 1789680600,
       "group": true,
       "comment_count": 1,
-      "entry_count": 7,
+      "entry_count": 9,
       "creator": "76561197994025244",
       "cv_status": "FULL_CV",
       "event_type": "september_event_2026",
@@ -156,7 +156,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 63,
+      "entry_count": 64,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -297,7 +297,7 @@
       "end_timestamp": 1789736400,
       "group": true,
       "comment_count": 0,
-      "entry_count": 1,
+      "entry_count": 2,
       "creator": "76561197968806363",
       "required_play": true,
       "cv_status": "FULL_CV",
@@ -358,7 +358,7 @@
       "end_timestamp": 1789761600,
       "group": true,
       "comment_count": 0,
-      "entry_count": 14,
+      "entry_count": 15,
       "creator": "76561198082023389",
       "is_shared": true,
       "cv_status": "FULL_CV",
@@ -398,7 +398,7 @@
       "end_timestamp": 1789761600,
       "group": true,
       "comment_count": 1,
-      "entry_count": 14,
+      "entry_count": 15,
       "creator": "76561198082023389",
       "is_shared": true,
       "cv_status": "FULL_CV",
@@ -664,11 +664,53 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 39,
+      "entry_count": 40,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
       "creator_username": "lockcjwen",
+      "deleted": false
+    },
+    {
+      "id": "8PuAr",
+      "name": "Diablo IV",
+      "points": 50,
+      "copies": 1,
+      "app_id": 2344520,
+      "package_id": null,
+      "link": "8PuAr/diablo-iv",
+      "created_timestamp": 1789552251,
+      "start_timestamp": 1789552251,
+      "end_timestamp": 1789912800,
+      "region_restricted": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 1,
+      "creator": "76561198047330685",
+      "cv_status": "FULL_CV",
+      "event_type": "september_event_2026",
+      "creator_username": "akfas",
+      "deleted": false
+    },
+    {
+      "id": "upN5w",
+      "name": "Crash Bandicoot 4: It’s About Time",
+      "points": 40,
+      "copies": 1,
+      "app_id": 1378990,
+      "package_id": null,
+      "link": "upN5w/crash-bandicoot-4-its-about-time",
+      "created_timestamp": 1789547798,
+      "start_timestamp": 1789547798,
+      "end_timestamp": 1789912800,
+      "region_restricted": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 2,
+      "creator": "76561198047330685",
+      "cv_status": "FULL_CV",
+      "event_type": "september_event_2026",
+      "creator_username": "akfas",
       "deleted": false
     },
     {
@@ -726,7 +768,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 7,
+      "entry_count": 8,
       "creator": "76561198070041813",
       "is_shared": true,
       "cv_status": "FULL_CV",
@@ -837,6 +879,28 @@
       "deleted": false
     },
     {
+      "id": "0wCOw",
+      "name": "FINAL FANTASY XVI",
+      "points": 50,
+      "copies": 1,
+      "app_id": 2515020,
+      "package_id": null,
+      "link": "0wCOw/final-fantasy-xvi",
+      "created_timestamp": 1789538402,
+      "start_timestamp": 1789538402,
+      "end_timestamp": 1790173800,
+      "region_restricted": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 4,
+      "creator": "76561198017660760",
+      "required_play": true,
+      "cv_status": "FULL_CV",
+      "event_type": "september_event_2026",
+      "creator_username": "TempR",
+      "deleted": false
+    },
+    {
       "id": "YzIdW",
       "name": "OMORI",
       "points": 20,
@@ -870,7 +934,7 @@
       "region_restricted": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 2,
+      "entry_count": 4,
       "creator": "76561199036747433",
       "cv_status": "FULL_CV",
       "event_type": "september_event_2026",
@@ -3599,7 +3663,7 @@
       "start_timestamp": 1788283036,
       "end_timestamp": 1788570000,
       "group": true,
-      "comment_count": 15,
+      "comment_count": 16,
       "entry_count": 25,
       "creator": "76561198044300922",
       "hasWinners": true,
@@ -4534,6 +4598,7 @@
           "winner_username": "aez76"
         }
       ],
+      "required_play": false,
       "cv_status": "FULL_CV",
       "creator_username": "Metalhead8489"
     },
@@ -11277,6 +11342,7 @@
           "winner_username": "RaitorHaitor"
         }
       ],
+      "required_play": false,
       "cv_status": "FULL_CV",
       "creator_username": "Foxpile"
     },
@@ -13929,7 +13995,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "lext"
+      "creator_username": "lext",
+      "required_play": false
     },
     {
       "id": "ogu2m",
@@ -14358,7 +14425,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "Casino0"
+      "creator_username": "Casino0",
+      "required_play": false
     },
     {
       "id": "3SkEt",
@@ -14742,7 +14810,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "Foxpile"
+      "creator_username": "Foxpile",
+      "required_play": false
     },
     {
       "id": "TF7Vk",
@@ -14893,7 +14962,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "mourinhos86"
+      "creator_username": "mourinhos86",
+      "required_play": false
     },
     {
       "id": "lJJ3X",
@@ -19215,7 +19285,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "lext"
+      "creator_username": "lext",
+      "required_play": false
     },
     {
       "id": "KwwUs",
@@ -19639,7 +19710,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "aez76"
+      "creator_username": "aez76",
+      "required_play": false
     },
     {
       "id": "mtKD3",
@@ -21231,7 +21303,8 @@
       ],
       "cv_status": "FULL_CV",
       "event_type": "may_event_2026",
-      "creator_username": "BanjoBearLV"
+      "creator_username": "BanjoBearLV",
+      "required_play": false
     },
     {
       "id": "piFzI",
@@ -21285,7 +21358,8 @@
       ],
       "cv_status": "FULL_CV",
       "event_type": "may_event_2026",
-      "creator_username": "TwixClub"
+      "creator_username": "TwixClub",
+      "required_play": false
     },
     {
       "id": "aYrKp",
@@ -22654,7 +22728,8 @@
       ],
       "cv_status": "FULL_CV",
       "event_type": "may_event_2026",
-      "creator_username": "dramainfouracts"
+      "creator_username": "dramainfouracts",
+      "required_play": false
     },
     {
       "id": "3K9Jm",
@@ -22791,7 +22866,8 @@
       ],
       "cv_status": "FULL_CV",
       "event_type": "may_event_2026",
-      "creator_username": "quinnix"
+      "creator_username": "quinnix",
+      "required_play": false
     },
     {
       "id": "iazfF",
@@ -25621,7 +25697,8 @@
         "notes": "Free curator copy"
       },
       "cv_status": "FULL_CV",
-      "creator_username": "VinroyIsViral"
+      "creator_username": "VinroyIsViral",
+      "required_play": false
     },
     {
       "id": "fW7Pq",
@@ -28072,7 +28149,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "Shughes91"
+      "creator_username": "Shughes91",
+      "required_play": false
     },
     {
       "id": "KNJgj",
@@ -28634,7 +28712,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "LightningCount"
+      "creator_username": "LightningCount",
+      "required_play": false
     },
     {
       "id": "TYoeo",
@@ -29180,7 +29259,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "VenomousNyx"
+      "creator_username": "VenomousNyx",
+      "required_play": false
     },
     {
       "id": "yB18E",
@@ -35044,7 +35124,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "VenomousNyx"
+      "creator_username": "VenomousNyx",
+      "required_play": false
     },
     {
       "id": "21gND",
@@ -36132,7 +36213,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "ithamore"
+      "creator_username": "ithamore",
+      "required_play": false
     },
     {
       "id": "0nQpR",
@@ -37722,7 +37804,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "webdak"
+      "creator_username": "webdak",
+      "required_play": false
     },
     {
       "id": "OHxQ2",
@@ -38607,7 +38690,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "Griske14"
+      "creator_username": "Griske14",
+      "required_play": false
     },
     {
       "id": "Jk41u",
@@ -39609,7 +39693,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "Golwar"
+      "creator_username": "Golwar",
+      "required_play": false
     },
     {
       "id": "IShCB",
@@ -42067,7 +42152,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "MedinaRoscoe"
+      "creator_username": "MedinaRoscoe",
+      "required_play": false
     },
     {
       "id": "UOSPZ",
@@ -42761,7 +42847,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "herbesdeprovence"
+      "creator_username": "herbesdeprovence",
+      "required_play": false
     },
     {
       "id": "A1QCm",
@@ -43309,7 +43396,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "Shughes91"
+      "creator_username": "Shughes91",
+      "required_play": false
     },
     {
       "id": "kWMvG",
@@ -44530,7 +44618,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "QuinlanLJ"
+      "creator_username": "QuinlanLJ",
+      "required_play": false
     },
     {
       "id": "GNgMO",
@@ -44557,7 +44646,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "QuinlanLJ"
+      "creator_username": "QuinlanLJ",
+      "required_play": false
     },
     {
       "id": "MZrsp",
@@ -44741,7 +44831,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "Bainsol"
+      "creator_username": "Bainsol",
+      "required_play": false
     },
     {
       "id": "qhQn8",
@@ -46608,7 +46699,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "SirSage"
+      "creator_username": "SirSage",
+      "required_play": false
     },
     {
       "id": "YT9jG",
@@ -55613,7 +55705,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "Ch1cWolf"
+      "creator_username": "Ch1cWolf",
+      "required_play": false
     },
     {
       "id": "KvJ0V",
@@ -57667,7 +57760,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "Lakraj1209"
+      "creator_username": "Lakraj1209",
+      "required_play": false
     },
     {
       "id": "bRRuf",
@@ -58923,7 +59017,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "herbesdeprovence"
+      "creator_username": "herbesdeprovence",
+      "required_play": false
     },
     {
       "id": "mCzgs",
@@ -61897,7 +61992,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "Dobke"
+      "creator_username": "Dobke",
+      "required_play": false
     },
     {
       "id": "wchYe",
@@ -76746,7 +76842,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "Dandellion"
+      "creator_username": "Dandellion",
+      "required_play": false
     },
     {
       "id": "Kqa1u",
@@ -77822,7 +77919,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "insideAfireball"
+      "creator_username": "insideAfireball",
+      "required_play": false
     },
     {
       "id": "eJr8f",
@@ -85983,7 +86081,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "karm2002"
+      "creator_username": "karm2002",
+      "required_play": false
     },
     {
       "id": "KGrTf",
@@ -90071,7 +90170,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "winfryd"
+      "creator_username": "winfryd",
+      "required_play": false
     },
     {
       "id": "Mjl0S",
