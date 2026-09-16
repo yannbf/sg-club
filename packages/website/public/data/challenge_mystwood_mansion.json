@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1788220800,
   "totalAchievements": 20,
-  "generatedAt": 1789568247348,
+  "generatedAt": 1789578879650,
   "challengeOver": false,
   "winnerUsername": "Mahry",
   "participants": [
@@ -1026,7 +1026,7 @@
       "review_recommendationid": "234318556",
       "review_url": "https://steamcommunity.com/profiles/76561198453663783/recommended/2292650",
       "playtime_total_minutes": 169,
-      "playtime_2weeks_minutes": 169,
+      "playtime_2weeks_minutes": 2,
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 169,
       "achievements_total": 20,
@@ -1179,7 +1179,7 @@
       "review_recommendationid": "234319751",
       "review_url": "https://steamcommunity.com/profiles/76561198159198291/recommended/2292650",
       "playtime_total_minutes": 178,
-      "playtime_2weeks_minutes": 128,
+      "playtime_2weeks_minutes": 37,
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 178,
       "achievements_total": 20,
@@ -1485,7 +1485,7 @@
       "review_recommendationid": "234347628",
       "review_url": "https://steamcommunity.com/profiles/76561199036747433/recommended/2292650",
       "playtime_total_minutes": 244,
-      "playtime_2weeks_minutes": 106,
+      "playtime_2weeks_minutes": 13,
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 244,
       "achievements_total": 20,
@@ -3309,7 +3309,7 @@
       "review_recommendationid": "235126698",
       "review_url": "https://steamcommunity.com/profiles/76561198069567036/recommended/2292650",
       "playtime_total_minutes": 369,
-      "playtime_2weeks_minutes": 356,
+      "playtime_2weeks_minutes": 331,
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 369,
       "achievements_total": 20,
@@ -4060,6 +4060,106 @@
       "is_winner": true
     },
     {
+      "username": "vampiresska",
+      "sg_username": "vampiresska",
+      "steam_id": "76561198129984336",
+      "avatar_url": "https://avatars.steamstatic.com/d16eeec7bb6bf326137eb393accdafbb51feb901_medium.jpg",
+      "profile_url": "https://steamcommunity.com/profiles/76561198129984336",
+      "is_guest": false,
+      "owned": true,
+      "stats_available": true,
+      "wrote_review": false,
+      "review_voted_up": null,
+      "review_timestamp": null,
+      "review_recommendationid": null,
+      "review_url": null,
+      "playtime_total_minutes": 400,
+      "playtime_2weeks_minutes": 183,
+      "baseline_playtime_minutes": 217,
+      "playtime_challenge_minutes": 183,
+      "achievements_total": 20,
+      "achievements_unlocked_total": 11,
+      "achievements_before_challenge": 0,
+      "achievements_since_baseline": 11,
+      "challenge_achievements": [
+        {
+          "apiname": "ACH_A_ENTR_COMPL",
+          "displayName": "Let the Escape Begin",
+          "description": "Escape  the Entrance level.",
+          "unlocktime": 1789562821
+        },
+        {
+          "apiname": "ACH_H_FIRE_LOG",
+          "displayName": "Log-ical Fueling",
+          "description": "Add two logs to the fireplace in the office.",
+          "unlocktime": 1789563632
+        },
+        {
+          "apiname": "ACH_F_THROW_PACKAGE",
+          "displayName": "Wait...  Did that say fragile?",
+          "description": "Throw the package.",
+          "unlocktime": 1789566953
+        },
+        {
+          "apiname": "ACH_B_OFFI_COMPL",
+          "displayName": "Out of Office",
+          "description": "Escape the Office level.",
+          "unlocktime": 1789568201
+        },
+        {
+          "apiname": "ACH_T_OBSERVANT",
+          "displayName": "Observant",
+          "description": "Find the secret in the Wine Cellar.",
+          "unlocktime": 1789570019
+        },
+        {
+          "apiname": "ACH_L_CORK_RECYC",
+          "displayName": "Cork Recycling",
+          "description": "Use the cork from the wine cellar to stop the water flow in the storage room.",
+          "unlocktime": 1789570321
+        },
+        {
+          "apiname": "ACH_C_WC_COMPL",
+          "displayName": "Cellar Conqueror",
+          "description": "Escape the Wine Cellar level.",
+          "unlocktime": 1789570655
+        },
+        {
+          "apiname": "ACH_M_FOOD_CIRCLE",
+          "displayName": "Food Chain Expertise",
+          "description": "Turn the food chain statues before opening the door to the greenhouse.",
+          "unlocktime": 1789570872
+        },
+        {
+          "apiname": "ACH_N_NOSEY",
+          "displayName": "Nosy",
+          "description": "Flip the blackboard in the greenhouse until it has had enough...",
+          "unlocktime": 1789571970
+        },
+        {
+          "apiname": "ACH_V_OCD",
+          "displayName": "Organized",
+          "description": "Clean up in the Winter Garden level.",
+          "unlocktime": 1789572316
+        },
+        {
+          "apiname": "ACH_D_WG_COMPL",
+          "displayName": "Botanical Breakout",
+          "description": " Escape the Winter Garden level.",
+          "unlocktime": 1789572714
+        }
+      ],
+      "challenge_achievement_count": 11,
+      "has_started": true,
+      "is_complete": false,
+      "completed_at": null,
+      "completed_before_start": false,
+      "completed_after_deadline": false,
+      "meets_playtime": true,
+      "meets_review": false,
+      "is_winner": false
+    },
+    {
       "username": "yannbz",
       "sg_username": "yannbz",
       "steam_id": "76561198049128535",
@@ -4384,64 +4484,6 @@
         }
       ],
       "challenge_achievement_count": 6,
-      "has_started": true,
-      "is_complete": false,
-      "completed_at": null,
-      "completed_before_start": false,
-      "completed_after_deadline": false,
-      "meets_playtime": true,
-      "meets_review": false,
-      "is_winner": false
-    },
-    {
-      "username": "vampiresska",
-      "sg_username": "vampiresska",
-      "steam_id": "76561198129984336",
-      "avatar_url": "https://avatars.steamstatic.com/d16eeec7bb6bf326137eb393accdafbb51feb901_medium.jpg",
-      "profile_url": "https://steamcommunity.com/profiles/76561198129984336",
-      "is_guest": false,
-      "owned": true,
-      "stats_available": true,
-      "wrote_review": false,
-      "review_voted_up": null,
-      "review_timestamp": null,
-      "review_recommendationid": null,
-      "review_url": null,
-      "playtime_total_minutes": 307,
-      "playtime_2weeks_minutes": 90,
-      "baseline_playtime_minutes": 217,
-      "playtime_challenge_minutes": 90,
-      "achievements_total": 20,
-      "achievements_unlocked_total": 4,
-      "achievements_before_challenge": 0,
-      "achievements_since_baseline": 4,
-      "challenge_achievements": [
-        {
-          "apiname": "ACH_A_ENTR_COMPL",
-          "displayName": "Let the Escape Begin",
-          "description": "Escape  the Entrance level.",
-          "unlocktime": 1789562821
-        },
-        {
-          "apiname": "ACH_H_FIRE_LOG",
-          "displayName": "Log-ical Fueling",
-          "description": "Add two logs to the fireplace in the office.",
-          "unlocktime": 1789563632
-        },
-        {
-          "apiname": "ACH_F_THROW_PACKAGE",
-          "displayName": "Wait...  Did that say fragile?",
-          "description": "Throw the package.",
-          "unlocktime": 1789566953
-        },
-        {
-          "apiname": "ACH_B_OFFI_COMPL",
-          "displayName": "Out of Office",
-          "description": "Escape the Office level.",
-          "unlocktime": 1789568201
-        }
-      ],
-      "challenge_achievement_count": 4,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
