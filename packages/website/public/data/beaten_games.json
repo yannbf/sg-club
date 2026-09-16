@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-09-16T11:55:45.466Z",
+  "last_updated": "2026-09-16T14:16:47.638Z",
   "games": {
     "223810": {
       "marker": {
@@ -190,10 +190,17 @@
       "checked_at": "2026-09-16T11:55:09.345Z"
     },
     "361420": {
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
+      "marker": {
+        "apiname": "BeatGame",
+        "name": "...And Beyond",
+        "description": "",
+        "global_percent": 8.6,
+        "source": "override",
+        "sh_achievement_id": 44
+      },
+      "no_marker_reason": null,
       "story_tag_count": 0,
-      "checked_at": "2026-08-24T16:51:14.413Z"
+      "checked_at": "2026-09-16T14:16:20.013Z"
     },
     "377840": {
       "marker": {
@@ -679,10 +686,17 @@
       "checked_at": "2026-09-11T13:53:13.526Z"
     },
     "721180": {
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
+      "marker": {
+        "apiname": "Coda",
+        "name": "Coda",
+        "description": "Completed issue #10.",
+        "global_percent": 19.4,
+        "source": "override",
+        "sh_achievement_id": 12
+      },
+      "no_marker_reason": null,
       "story_tag_count": 0,
-      "checked_at": "2026-09-11T12:25:08.241Z"
+      "checked_at": "2026-09-16T14:16:29.138Z"
     },
     "725270": {
       "marker": null,
@@ -1676,17 +1690,16 @@
     },
     "1196590": {
       "marker": {
-        "apiname": "9",
-        "name": "The Root of the Matter",
-        "description": "Find the Megamycete in the underground ruins.",
-        "global_percent": 59.2,
-        "source": "steamhunters",
-        "filtered": true,
-        "sh_achievement_id": 9
+        "apiname": "11",
+        "name": "Best Dad Ever",
+        "description": "Finish the story on at least Standard difficulty.",
+        "global_percent": 48.3,
+        "source": "override",
+        "sh_achievement_id": 11
       },
       "no_marker_reason": null,
-      "story_tag_count": 9,
-      "checked_at": "2026-08-24T20:07:51.304Z"
+      "story_tag_count": 0,
+      "checked_at": "2026-09-16T14:16:22.243Z"
     },
     "1203630": {
       "marker": {
@@ -2907,7 +2920,8 @@
           "ACHIEVEMENT_ENDING_SAVE_THIS_WORLD_B",
           "ACHIEVEMENT_ENDING_LEAVE_THIS_WORLD_A",
           "ACHIEVEMENT_ENDING_LEAVE_THIS_WORLD_B"
-        ]
+        ],
+        "sh_achievement_id": 21
       },
       "no_marker_reason": null,
       "story_tag_count": 0,
@@ -3805,10 +3819,17 @@
       "checked_at": "2026-08-24T17:05:24.671Z"
     },
     "1904880": {
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
+      "marker": {
+        "apiname": "FINISHED_GAME",
+        "name": "A Final Bow",
+        "description": "Restore the Kingdom of Theater to glory.",
+        "global_percent": 17.9,
+        "source": "override",
+        "sh_achievement_id": 3
+      },
+      "no_marker_reason": null,
       "story_tag_count": 0,
-      "checked_at": "2026-08-24T19:31:45.805Z"
+      "checked_at": "2026-09-16T14:16:18.931Z"
     },
     "1909750": {
       "marker": {
@@ -4905,10 +4926,17 @@
       "checked_at": "2026-08-24T17:09:04.598Z"
     },
     "2450840": {
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
+      "marker": {
+        "apiname": "ACH_04",
+        "name": "The Truth Seeker",
+        "description": "Solve Case 4",
+        "global_percent": 26.6,
+        "source": "override",
+        "sh_achievement_id": 4
+      },
+      "no_marker_reason": null,
       "story_tag_count": 0,
-      "checked_at": "2026-08-24T19:32:17.641Z"
+      "checked_at": "2026-09-16T14:16:23.343Z"
     },
     "2456350": {
       "marker": {
@@ -4969,10 +4997,17 @@
       "checked_at": "2026-08-24T16:51:30.322Z"
     },
     "2503950": {
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
+      "marker": {
+        "apiname": "001_Trophy_Easy",
+        "name": "Survivor",
+        "description": "Complete the game on normal difficulty",
+        "global_percent": 12,
+        "source": "override",
+        "sh_achievement_id": 1
+      },
+      "no_marker_reason": null,
       "story_tag_count": 0,
-      "checked_at": "2026-08-24T19:31:41.525Z"
+      "checked_at": "2026-09-16T14:16:17.773Z"
     },
     "2515020": {
       "marker": {
@@ -5154,7 +5189,8 @@
           "YouKilledHer",
           "LetMeSaveYou",
           "DontForgetMe"
-        ]
+        ],
+        "sh_achievement_id": 19
       },
       "no_marker_reason": null,
       "story_tag_count": 0,
@@ -6026,10 +6062,17 @@
       "checked_at": "2026-08-24T18:00:58.909Z"
     },
     "3478050": {
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
+      "marker": {
+        "apiname": "Achievement_40070",
+        "name": "Flow of the Past",
+        "description": "Open the Cleared Chapters Summary.",
+        "global_percent": 29,
+        "source": "override",
+        "sh_achievement_id": 35
+      },
+      "no_marker_reason": null,
       "story_tag_count": 0,
-      "checked_at": "2026-08-24T16:54:04.959Z"
+      "checked_at": "2026-09-16T14:16:21.129Z"
     },
     "3480990": {
       "marker": null,
@@ -6337,6 +6380,12 @@
       "no_data_reason": null,
       "checked_at": "2026-08-30T06:41:20.004Z"
     },
+    "76561198053065013::2503950": {
+      "beaten": true,
+      "unlock_time": 1785605462,
+      "no_data_reason": null,
+      "checked_at": "2026-09-16T14:16:31.055Z"
+    },
     "76561198047330685::2592160": {
       "beaten": true,
       "unlock_time": 1779301211,
@@ -6390,6 +6439,12 @@
       "unlock_time": 1781331829,
       "no_data_reason": null,
       "checked_at": "2026-09-14T14:20:12.148Z"
+    },
+    "76561198453663783::1904880": {
+      "beaten": true,
+      "unlock_time": 1786956208,
+      "no_data_reason": null,
+      "checked_at": "2026-09-16T14:16:32.232Z"
     },
     "76561198453663783::2544110": {
       "beaten": true,
@@ -6534,6 +6589,12 @@
       "unlock_time": 1760220012,
       "no_data_reason": null,
       "checked_at": "2026-09-16T11:55:15.030Z"
+    },
+    "76561198055181554::361420": {
+      "beaten": false,
+      "unlock_time": null,
+      "no_data_reason": null,
+      "checked_at": "2026-09-16T14:16:33.303Z"
     },
     "76561198055181554::990080": {
       "beaten": true,
@@ -7297,6 +7358,18 @@
       "no_data_reason": null,
       "checked_at": "2026-08-24T17:42:34.458Z"
     },
+    "76561198056789339::3478050": {
+      "beaten": true,
+      "unlock_time": 1782596069,
+      "no_data_reason": null,
+      "checked_at": "2026-09-16T14:16:34.380Z"
+    },
+    "76561198056789339::361420": {
+      "beaten": false,
+      "unlock_time": null,
+      "no_data_reason": null,
+      "checked_at": "2026-09-16T14:16:35.462Z"
+    },
     "76561198056789339::1941540": {
       "beaten": false,
       "unlock_time": null,
@@ -7316,10 +7389,10 @@
       "checked_at": "2026-08-24T19:55:03.772Z"
     },
     "76561198056789339::1196590": {
-      "beaten": true,
-      "unlock_time": 1757271024,
+      "beaten": false,
+      "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-08-24T17:42:38.123Z"
+      "checked_at": "2026-09-16T14:16:36.623Z"
     },
     "76561198047981011::2062430": {
       "beaten": true,
@@ -7536,6 +7609,12 @@
       "unlock_time": 1787448624,
       "no_data_reason": null,
       "checked_at": "2026-08-24T19:33:00.213Z"
+    },
+    "76561197984532155::2450840": {
+      "beaten": true,
+      "unlock_time": 1784400626,
+      "no_data_reason": null,
+      "checked_at": "2026-09-16T14:16:37.754Z"
     },
     "76561197984532155::1562700": {
       "beaten": true,
@@ -8367,9 +8446,9 @@
     },
     "76561197970969216::1196590": {
       "beaten": true,
-      "unlock_time": 1786842276,
+      "unlock_time": 1786848292,
       "no_data_reason": null,
-      "checked_at": "2026-09-11T12:27:16.956Z"
+      "checked_at": "2026-09-16T14:16:38.831Z"
     },
     "76561197970969216::953490": {
       "beaten": true,
@@ -8526,6 +8605,12 @@
       "unlock_time": 1768832349,
       "no_data_reason": null,
       "checked_at": "2026-09-14T14:20:47.593Z"
+    },
+    "76561198027595057::361420": {
+      "beaten": true,
+      "unlock_time": 1770097122,
+      "no_data_reason": null,
+      "checked_at": "2026-09-16T14:16:39.936Z"
     },
     "76561198027595057::2475490": {
       "beaten": true,
@@ -8937,9 +9022,9 @@
     },
     "76561198054324521::1196590": {
       "beaten": true,
-      "unlock_time": 1752850562,
+      "unlock_time": 1752920462,
       "no_data_reason": null,
-      "checked_at": "2026-08-24T17:46:22.168Z"
+      "checked_at": "2026-09-16T14:16:41.029Z"
     },
     "76561198054324521::1730700": {
       "beaten": true,
@@ -9267,9 +9352,9 @@
     },
     "76561197989280149::1196590": {
       "beaten": true,
-      "unlock_time": 1771307256,
+      "unlock_time": 1771310683,
       "no_data_reason": null,
-      "checked_at": "2026-09-11T13:47:56.419Z"
+      "checked_at": "2026-09-16T14:16:42.159Z"
     },
     "76561197989280149::1373960": {
       "beaten": true,
@@ -9482,10 +9567,10 @@
       "checked_at": "2026-08-24T17:47:26.543Z"
     },
     "76561198089973992::1196590": {
-      "beaten": true,
-      "unlock_time": 1753812986,
+      "beaten": false,
+      "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-08-24T17:47:27.768Z"
+      "checked_at": "2026-09-16T14:16:43.261Z"
     },
     "76561198089973992::1092790": {
       "beaten": true,
@@ -9649,6 +9734,12 @@
       "no_data_reason": null,
       "checked_at": "2026-09-14T15:57:11.388Z"
     },
+    "76561198089693705::3478050": {
+      "beaten": true,
+      "unlock_time": 1764474975,
+      "no_data_reason": null,
+      "checked_at": "2026-09-16T14:16:44.398Z"
+    },
     "76561198089693705::433340": {
       "beaten": true,
       "unlock_time": 1753829480,
@@ -9744,6 +9835,12 @@
       "unlock_time": 1757170483,
       "no_data_reason": null,
       "checked_at": "2026-08-24T17:47:53.712Z"
+    },
+    "76561199141726712::721180": {
+      "beaten": true,
+      "unlock_time": 1763391121,
+      "no_data_reason": null,
+      "checked_at": "2026-09-16T14:16:45.505Z"
     },
     "76561199141726712::524220": {
       "beaten": false,
@@ -9855,9 +9952,9 @@
     },
     "76561198352113526::1196590": {
       "beaten": true,
-      "unlock_time": 1751738916,
+      "unlock_time": 1751742190,
       "no_data_reason": null,
-      "checked_at": "2026-08-24T17:48:11.285Z"
+      "checked_at": "2026-09-16T14:16:46.635Z"
     },
     "76561198183406253::1903340": {
       "beaten": true,

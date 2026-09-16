@@ -190,10 +190,18 @@
       "override_key": "359870:ACH_THE_ETERNAL_CALM"
     },
     "361420": {
-      "fetched_at": "2026-08-24T16:51:14.413Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-09-16T14:16:20.013Z",
+      "marker": {
+        "apiname": "BeatGame",
+        "name": "...And Beyond",
+        "description": "",
+        "global_percent": 8.6,
+        "source": "override",
+        "sh_achievement_id": 44
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0,
+      "override_key": "361420:BeatGame"
     },
     "377840": {
       "fetched_at": "2026-08-24T20:07:41.691Z",
@@ -681,10 +689,18 @@
       "story_tag_count": 13
     },
     "721180": {
-      "fetched_at": "2026-09-11T12:25:08.241Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-09-16T14:16:29.138Z",
+      "marker": {
+        "apiname": "Coda",
+        "name": "Coda",
+        "description": "Completed issue #10.",
+        "global_percent": 19.4,
+        "source": "override",
+        "sh_achievement_id": 12
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0,
+      "override_key": "721180:Coda"
     },
     "725270": {
       "fetched_at": "2026-08-24T16:52:07.055Z",
@@ -1685,18 +1701,18 @@
       "story_tag_count": 1
     },
     "1196590": {
-      "fetched_at": "2026-08-24T20:07:51.304Z",
+      "fetched_at": "2026-09-16T14:16:22.243Z",
       "marker": {
-        "apiname": "9",
-        "name": "The Root of the Matter",
-        "description": "Find the Megamycete in the underground ruins.",
-        "global_percent": 59.2,
-        "source": "steamhunters",
-        "filtered": true,
-        "sh_achievement_id": 9
+        "apiname": "11",
+        "name": "Best Dad Ever",
+        "description": "Finish the story on at least Standard difficulty.",
+        "global_percent": 48.3,
+        "source": "override",
+        "sh_achievement_id": 11
       },
       "no_marker_reason": null,
-      "story_tag_count": 9
+      "story_tag_count": 0,
+      "override_key": "1196590:11"
     },
     "1203630": {
       "fetched_at": "2026-08-24T20:09:11.841Z",
@@ -2932,7 +2948,8 @@
           "ACHIEVEMENT_ENDING_SAVE_THIS_WORLD_B",
           "ACHIEVEMENT_ENDING_LEAVE_THIS_WORLD_A",
           "ACHIEVEMENT_ENDING_LEAVE_THIS_WORLD_B"
-        ]
+        ],
+        "sh_achievement_id": 21
       },
       "no_marker_reason": null,
       "story_tag_count": 0,
@@ -3840,10 +3857,18 @@
       "story_tag_count": 0
     },
     "1904880": {
-      "fetched_at": "2026-08-24T19:31:45.805Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-09-16T14:16:18.931Z",
+      "marker": {
+        "apiname": "FINISHED_GAME",
+        "name": "A Final Bow",
+        "description": "Restore the Kingdom of Theater to glory.",
+        "global_percent": 17.9,
+        "source": "override",
+        "sh_achievement_id": 3
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0,
+      "override_key": "1904880:FINISHED_GAME"
     },
     "1909750": {
       "fetched_at": "2026-08-24T20:10:28.560Z",
@@ -4951,10 +4976,18 @@
       "story_tag_count": 0
     },
     "2450840": {
-      "fetched_at": "2026-08-24T19:32:17.641Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-09-16T14:16:23.343Z",
+      "marker": {
+        "apiname": "ACH_04",
+        "name": "The Truth Seeker",
+        "description": "Solve Case 4",
+        "global_percent": 26.6,
+        "source": "override",
+        "sh_achievement_id": 4
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0,
+      "override_key": "2450840:ACH_04"
     },
     "2456350": {
       "fetched_at": "2026-09-14T14:19:51.750Z",
@@ -5016,10 +5049,18 @@
       "story_tag_count": 0
     },
     "2503950": {
-      "fetched_at": "2026-08-24T19:31:41.525Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-09-16T14:16:17.773Z",
+      "marker": {
+        "apiname": "001_Trophy_Easy",
+        "name": "Survivor",
+        "description": "Complete the game on normal difficulty",
+        "global_percent": 12,
+        "source": "override",
+        "sh_achievement_id": 1
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0,
+      "override_key": "2503950:001_Trophy_Easy"
     },
     "2515020": {
       "fetched_at": "2026-08-25T11:10:27.796Z",
@@ -5208,7 +5249,8 @@
           "YouKilledHer",
           "LetMeSaveYou",
           "DontForgetMe"
-        ]
+        ],
+        "sh_achievement_id": 19
       },
       "no_marker_reason": null,
       "story_tag_count": 0,
@@ -6093,10 +6135,18 @@
       "story_tag_count": 0
     },
     "3478050": {
-      "fetched_at": "2026-08-24T16:54:04.959Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-09-16T14:16:21.129Z",
+      "marker": {
+        "apiname": "Achievement_40070",
+        "name": "Flow of the Past",
+        "description": "Open the Cleared Chapters Summary.",
+        "global_percent": 29,
+        "source": "override",
+        "sh_achievement_id": 35
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0,
+      "override_key": "3478050:Achievement_40070"
     },
     "3480990": {
       "fetched_at": "2026-08-24T16:51:54.718Z",
@@ -6595,13 +6645,6 @@
       "unlock_time": null,
       "no_data_reason": null
     },
-    "76561198056789339::1196590": {
-      "fetched_at": "2026-08-24T17:42:38.123Z",
-      "marker_apiname": "9",
-      "beaten": true,
-      "unlock_time": 1757271024,
-      "no_data_reason": null
-    },
     "76561198047981011::638230": {
       "fetched_at": "2026-08-24T17:42:40.600Z",
       "marker_apiname": "ACH_Rebirth",
@@ -6819,13 +6862,6 @@
       "unlock_time": 1753629154,
       "no_data_reason": null
     },
-    "76561198054324521::1196590": {
-      "fetched_at": "2026-08-24T17:46:22.168Z",
-      "marker_apiname": "9",
-      "beaten": true,
-      "unlock_time": 1752850562,
-      "no_data_reason": null
-    },
     "76561198001969728::1332010": {
       "fetched_at": "2026-08-24T17:46:24.584Z",
       "marker_apiname": "ACH_016",
@@ -6903,13 +6939,6 @@
       "unlock_time": 1754323149,
       "no_data_reason": null
     },
-    "76561198089973992::1196590": {
-      "fetched_at": "2026-08-24T17:47:27.768Z",
-      "marker_apiname": "9",
-      "beaten": true,
-      "unlock_time": 1753812986,
-      "no_data_reason": null
-    },
     "76561198077347875::973810": {
       "fetched_at": "2026-08-24T17:47:35.337Z",
       "marker_apiname": "TeratomoDefeated",
@@ -6936,13 +6965,6 @@
       "marker_apiname": "13",
       "beaten": true,
       "unlock_time": 1759463389,
-      "no_data_reason": null
-    },
-    "76561198352113526::1196590": {
-      "fetched_at": "2026-08-24T17:48:11.285Z",
-      "marker_apiname": "9",
-      "beaten": true,
-      "unlock_time": 1751738916,
       "no_data_reason": null
     },
     "76561198147598321::1623940": {
@@ -9934,13 +9956,6 @@
       "unlock_time": 1787185073,
       "no_data_reason": null
     },
-    "76561197970969216::1196590": {
-      "fetched_at": "2026-09-11T12:27:16.956Z",
-      "marker_apiname": "9",
-      "beaten": true,
-      "unlock_time": 1786842276,
-      "no_data_reason": null
-    },
     "76561198061661987::1567440": {
       "fetched_at": "2026-09-11T12:27:19.391Z",
       "marker_apiname": "ach_ib_w14end",
@@ -10240,13 +10255,6 @@
       "marker_apiname": "STORY_PROGRESS_9",
       "beaten": true,
       "unlock_time": 1773298851,
-      "no_data_reason": null
-    },
-    "76561197989280149::1196590": {
-      "fetched_at": "2026-09-11T13:47:56.419Z",
-      "marker_apiname": "9",
-      "beaten": true,
-      "unlock_time": 1771307256,
       "no_data_reason": null
     },
     "76561197989280149::740130": {
@@ -11542,6 +11550,111 @@
       "marker_apiname": "TROPHY_NAME_FINISH_NORMAL",
       "beaten": false,
       "unlock_time": null,
+      "no_data_reason": null
+    },
+    "76561198053065013::2503950": {
+      "fetched_at": "2026-09-16T14:16:31.055Z",
+      "marker_apiname": "001_Trophy_Easy",
+      "beaten": true,
+      "unlock_time": 1785605462,
+      "no_data_reason": null
+    },
+    "76561198453663783::1904880": {
+      "fetched_at": "2026-09-16T14:16:32.232Z",
+      "marker_apiname": "FINISHED_GAME",
+      "beaten": true,
+      "unlock_time": 1786956208,
+      "no_data_reason": null
+    },
+    "76561198055181554::361420": {
+      "fetched_at": "2026-09-16T14:16:33.303Z",
+      "marker_apiname": "BeatGame",
+      "beaten": false,
+      "unlock_time": null,
+      "no_data_reason": null
+    },
+    "76561198056789339::3478050": {
+      "fetched_at": "2026-09-16T14:16:34.380Z",
+      "marker_apiname": "Achievement_40070",
+      "beaten": true,
+      "unlock_time": 1782596069,
+      "no_data_reason": null
+    },
+    "76561198056789339::361420": {
+      "fetched_at": "2026-09-16T14:16:35.462Z",
+      "marker_apiname": "BeatGame",
+      "beaten": false,
+      "unlock_time": null,
+      "no_data_reason": null
+    },
+    "76561198056789339::1196590": {
+      "fetched_at": "2026-09-16T14:16:36.623Z",
+      "marker_apiname": "11",
+      "beaten": false,
+      "unlock_time": null,
+      "no_data_reason": null
+    },
+    "76561197984532155::2450840": {
+      "fetched_at": "2026-09-16T14:16:37.754Z",
+      "marker_apiname": "ACH_04",
+      "beaten": true,
+      "unlock_time": 1784400626,
+      "no_data_reason": null
+    },
+    "76561197970969216::1196590": {
+      "fetched_at": "2026-09-16T14:16:38.831Z",
+      "marker_apiname": "11",
+      "beaten": true,
+      "unlock_time": 1786848292,
+      "no_data_reason": null
+    },
+    "76561198027595057::361420": {
+      "fetched_at": "2026-09-16T14:16:39.936Z",
+      "marker_apiname": "BeatGame",
+      "beaten": true,
+      "unlock_time": 1770097122,
+      "no_data_reason": null
+    },
+    "76561198054324521::1196590": {
+      "fetched_at": "2026-09-16T14:16:41.029Z",
+      "marker_apiname": "11",
+      "beaten": true,
+      "unlock_time": 1752920462,
+      "no_data_reason": null
+    },
+    "76561197989280149::1196590": {
+      "fetched_at": "2026-09-16T14:16:42.159Z",
+      "marker_apiname": "11",
+      "beaten": true,
+      "unlock_time": 1771310683,
+      "no_data_reason": null
+    },
+    "76561198089973992::1196590": {
+      "fetched_at": "2026-09-16T14:16:43.261Z",
+      "marker_apiname": "11",
+      "beaten": false,
+      "unlock_time": null,
+      "no_data_reason": null
+    },
+    "76561198089693705::3478050": {
+      "fetched_at": "2026-09-16T14:16:44.398Z",
+      "marker_apiname": "Achievement_40070",
+      "beaten": true,
+      "unlock_time": 1764474975,
+      "no_data_reason": null
+    },
+    "76561199141726712::721180": {
+      "fetched_at": "2026-09-16T14:16:45.505Z",
+      "marker_apiname": "Coda",
+      "beaten": true,
+      "unlock_time": 1763391121,
+      "no_data_reason": null
+    },
+    "76561198352113526::1196590": {
+      "fetched_at": "2026-09-16T14:16:46.635Z",
+      "marker_apiname": "11",
+      "beaten": true,
+      "unlock_time": 1751742190,
       "no_data_reason": null
     }
   },
