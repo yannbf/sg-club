@@ -2869,6 +2869,19 @@
       "no_marker_reason": "no_marker_found",
       "story_tag_count": 0
     },
+    "1585180": {
+      "fetched_at": "2026-09-17T06:12:49.600Z",
+      "marker": {
+        "apiname": "3a3764a914e904d44823cf76b86ae6ee",
+        "name": "Iron",
+        "description": "Finish the game with the save mode set to Iron.",
+        "global_percent": 2.1,
+        "source": "heuristic",
+        "sh_achievement_id": 28
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0
+    },
     "1586800": {
       "fetched_at": "2026-08-24T20:12:14.766Z",
       "marker": {
@@ -11661,6 +11674,13 @@
       "marker_apiname": "11",
       "beaten": true,
       "unlock_time": 1751742190,
+      "no_data_reason": null
+    },
+    "76561198250732560::1585180": {
+      "fetched_at": "2026-09-17T06:12:50.771Z",
+      "marker_apiname": "3a3764a914e904d44823cf76b86ae6ee",
+      "beaten": false,
+      "unlock_time": null,
       "no_data_reason": null
     }
   },
