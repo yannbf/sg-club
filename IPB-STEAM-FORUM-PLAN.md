@@ -98,9 +98,9 @@ Before the forum-thread channel, members posted in the `i-play-bro-archive` text
 | Bucket | Count |
 |---|---|
 | Messages after the last verified report | 146 |
-| Group wins matched (poster resolved via the Discord handle map, giveaway or store link matched to their own win) | 97 |
+| Group wins matched (poster resolved via the Discord handle map, giveaway or store link matched to their own win) | 99 |
 | … already flagged `i_played_bro` or already in the list | 0 |
-| Skipped: not group giveaways (Discord key-drop gifts, Secret Santa, invite-only or whitelist GAs) | 11 |
+| Skipped: not group giveaways (Discord key-drop gifts, Secret Santa, invite-only or whitelist GAs) | 9 |
 | Skipped: replies, quotes and follow-ups with no link | 38 |
 
 Seed data: [`packages/scraper/data/ipb-discord-archive.json`](packages/scraper/data/ipb-discord-archive.json),
@@ -108,10 +108,13 @@ same entry shape as the forum seed, `source: 'discord'`, `url` = message permali
 merged by the generator; a live Discord-thread match wins on any key collision, then the forum seed,
 then the archive seed.
 
-The 12 skipped messages that carried a link are listed on the verification page under
+Jztr's STAR WARS Jedi: Fallen Order message (16 Jan) and VinroyIsViral's Assassin's Creed Origins
+message (7 Feb) are matched by title instead: Jztr's message carried only Steam stats/screenshot
+links, and VinroyIsViral's win is the Gold Edition package giveaway `q69gR`, which has no app_id to
+match the store link against.
+
+The 10 skipped messages that carried a link are listed on the verification page under
 "Unmatched submissions that need extra verification" (from the seed's `unmatched` list):
-- Jztr, STAR WARS Jedi: Fallen Order (16 Jan) — no giveaway link and Jztr is not a winner of the linked giveaway's copies.
-- VinroyIsViral, Assassin's Creed Origins (7 Feb) — store link only; no matching group win.
 - Vin3: Amanda the Adventurer, Frog Detective 1 & 2, EMPTY SHELL, XIII, Papetura — Discord key drops or non-group giveaways.
 - DanielStoSve, God of War (15 Jan) — Discord key-drop event.
 - Sakakino, ENDER LILIES (18 Feb) — Secret Santa.
@@ -273,7 +276,7 @@ The 12 skipped messages that carried a link are listed on the verification page 
 | Metalhead8489 | Duskfade | Fsazo/duskfade | 26 hours 7 minutes / 100% ach | [30 Aug 1:23pm](https://steamcommunity.com/groups/TheGiveawaysClub/discussions/1/597404744772814603/?ctp=33#c588436355615446020) |
 | Metalhead8489 | NINJA GAIDEN: Ragebound | p3wZW/ninja-gaiden-ragebound | 11 hours 44 minutes / 61.1% ach | [7 Sep 3:26am](https://steamcommunity.com/groups/TheGiveawaysClub/discussions/1/597404744772814603/?ctp=33#c588437021425583792) |
 
-## Appendix C — 97 wins from the archived Discord channel, pending I Play Bro
+## Appendix C — 99 wins from the archived Discord channel, pending I Play Bro
 
 | Poster | Game | Giveaway | Playtime / achievements | Discord message |
 |---|---|---|---|---|
@@ -282,6 +285,7 @@ The 12 skipped messages that carried a link are listed on the verification page 
 | legolas0041 (SG: mourinhos86(EX)) | Many Nights a Whisper | oHf9d/many-nights-a-whisper | 3 hours 36 minutes / 100% ach | [2026-01-15](https://discord.com/channels/1385346341848350810/1385400003127803995/1461201913986158734) |
 | notvini (SG: Vini1) | Days Gone | A1QCm/days-gone | 53 hours 11 minutes / 67.2% ach | [2026-01-15](https://discord.com/channels/1385346341848350810/1385400003127803995/1461347554175488143) |
 | tikkachanceonme (SG: SunnySideVp) | Hades | gVX47/hades | 14 hours 59 minutes / 57.1% ach | [2026-01-16](https://discord.com/channels/1385346341848350810/1385400003127803995/1461630942698410088) |
+| biotagger (SG: Jztr) | STAR WARS Jedi: Fallen Order | eb8XB/star-wars-jedi-fallen-order | 20 hours 9 minutes / 48.7% ach | [2026-01-16](https://discord.com/channels/1385346341848350810/1385400003127803995/1461778213708628069) |
 | puninup (SG: puninup) | Detroit: Become Human | vFkSK/detroit-become-human | 29 hours 12 minutes / 100% ach | [2026-01-17](https://discord.com/channels/1385346341848350810/1385400003127803995/1461890319724314737) |
 | soullesssoup (SG: SoullessSoup) | Distant Bloom | e0HH7/distant-bloom | 11 hours 56 minutes / 100% ach | [2026-01-21](https://discord.com/channels/1385346341848350810/1385400003127803995/1463628886154678461) |
 | thexder. (SG: Thexder) | The Evil Within 2 | N0eBD/the-evil-within-2 | 33 hours 51 minutes / 68.6% ach | [2026-01-22](https://discord.com/channels/1385346341848350810/1385400003127803995/1463998987580215570) |
@@ -295,6 +299,7 @@ The 12 skipped messages that carried a link are listed on the verification page 
 | biotagger (SG: Jztr) | Organized Inside | vdMOz/organized-inside | 9 hours 10 minutes / 59.1% ach | [2026-01-29](https://discord.com/channels/1385346341848350810/1385400003127803995/1466410302659624970) |
 | sakaki_aya (SG: Sakakino) | Dead Island 2 Ultimate Edition | pNKZC/dead-island-2-ultimate-edition | 35 hours 46 minutes / 74.6% ach | [2026-02-03](https://discord.com/channels/1385346341848350810/1385400003127803995/1468125719069724714) |
 | numaya231_72104 (SG: Almostn33t) | Assassin's Creed Valhalla | snaIZ/assassins-creed-valhalla | 109 hours 3 minutes / 41.3% ach | [2026-02-07](https://discord.com/channels/1385346341848350810/1385400003127803995/1469586687498649631) |
+| beebeecee (SG: VinroyIsViral) | Assassin's Creed Origins - Gold Edition | q69gR/assassins-creed-origins-gold-edition | 92 hours 48 minutes / 100% ach | [2026-02-07](https://discord.com/channels/1385346341848350810/1385400003127803995/1469719740405649408) |
 | damianea103 (SG: damianea103) | Please, Touch The Artwork | 1xDFh/please-touch-the-artwork | 2 hours 21 minutes / 100% ach | [2026-02-08](https://discord.com/channels/1385346341848350810/1385400003127803995/1469910655841730685) |
 | ignition365 (SG: Ignition365) | SANABI | 0wfh1/sanabi | 15 hours 49 minutes / 81% ach | [2026-02-16](https://discord.com/channels/1385346341848350810/1385400003127803995/1472774826333569148) |
 | shofuking (SG: TwixClub) | The Talos Principle 2 | aYXIf/the-talos-principle-2 | 32 hours 1 minute / 100% ach | [2026-02-16](https://discord.com/channels/1385346341848350810/1385400003127803995/1472790589828239460) |

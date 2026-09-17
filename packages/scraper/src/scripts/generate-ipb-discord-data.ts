@@ -27,10 +27,11 @@ import { logError } from '../utils/log-error.js'
  *     app_id that matches one of the thread owner's candidate wins.
  *  3. title — fuzzy match between the thread name and the win's name.
  *
- * A thread whose owner can't be resolved, or whose owner has no matching
- * win, falls through to a last-resort cross-user pass — some threads are
- * submitted on behalf of someone else (thread names suffixed e.g.
- * "[TempR]"), so the owner mapping doesn't apply:
+ * A thread may be about a copy of a game that isn't a group win at all (a
+ * Discord key drop, an event prize), so a resolved owner with no matching
+ * win of their own is left unmatched rather than guessed at. The last-resort
+ * cross-user pass below only runs when the owner couldn't be resolved to a
+ * steamId (no entry in the Discord handle map):
  *  4. app_link_unique — same app/review link, but searched across every
  *     member and ex-member's wins instead of just the owner's. Accepted
  *     only if exactly one win across everyone matches.
@@ -216,18 +217,19 @@ function normalizeGameName(name: string): string {
   return name
     .toLowerCase()
     .replace(/[™®©]/g, '')
+    .replace(/['’]/g, '')
     .replace(/[^\p{L}\p{N}]+/gu, ' ')
     .trim()
     .replace(/\s+/g, ' ')
     .replace(/^the /, '')
 }
 
-/** Strips bracketed suffixes (e.g. "[TempR]", marking a submission made on someone else's behalf). */
+/** Strips bracketed suffixes (e.g. "[TempR]", the poster's SteamGifts username). */
 function stripBracketSuffix(name: string): string {
   return name.replace(/\[[^\]]*\]/g, ' ')
 }
 
-function namesMatch(threadName: string, ...candidates: (string | undefined)[]): boolean {
+export function namesMatch(threadName: string, ...candidates: (string | undefined)[]): boolean {
   const normalizedThread = normalizeGameName(threadName)
   if (!normalizedThread) return false
 
@@ -334,8 +336,8 @@ function findAppLinkUniqueMatch(
 /**
  * Cross-user last resort: same fuzzy title match as `matchThread` step 3,
  * but searched across every member and ex-member's wins instead of just
- * the thread owner's, with bracketed suffixes (e.g. "[TempR]", marking a
- * submission made on someone else's behalf) stripped first. Accepted only
+ * the thread owner's, with bracketed suffixes (e.g. "[TempR]", the poster's
+ * SteamGifts username) stripped first. Accepted only
  * when exactly one win anywhere matches.
  */
 function findTitleUniqueMatch(
@@ -650,11 +652,11 @@ export async function generateIpbDiscordData(): Promise<void> {
       giveawayByLink,
     )
 
-    // Last resort: some threads are submitted on behalf of someone other
-    // than the thread owner, so the owner mapping above never applies.
-    // Search across every member and ex-member's wins instead, accepting
-    // only an unambiguous (exactly one) match.
-    if (matches.length === 0) {
+    // Last resort, only for an owner that couldn't be resolved to a steamId.
+    // A resolved owner with no matching win of their own stays unmatched:
+    // the thread is about a copy of the game that isn't a group win (a
+    // Discord key drop, an event prize), not about someone else's win.
+    if (matches.length === 0 && !ownerSteamId) {
       const appLinkMatch = findAppLinkUniqueMatch(signals, allWinRefs, giveawayByLink)
       if (appLinkMatch) {
         matches = [

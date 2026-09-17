@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { mergeIpbSeed } from './generate-ipb-discord-data'
+import { mergeIpbSeed, namesMatch } from './generate-ipb-discord-data'
 import type { IpbDiscordMatchSource, IpbDiscordWinEntry } from '../types/ipb-discord.js'
 
 const DISCORD_ENTRY: IpbDiscordWinEntry = {
@@ -184,5 +184,17 @@ describe('mergeIpbSeed', () => {
     expect(archiveResult.wins[key]).toEqual(forumResult.wins[key])
     expect(archiveResult.wins[key].source).toBe('steam_forum')
     expect(archiveResult.wins[key].thread_id).toBe('forum-comment-1')
+  })
+})
+
+describe('namesMatch', () => {
+  it('matches names that differ only by apostrophes and a subtitle', () => {
+    expect(
+      namesMatch('Assassins Creed: Origins', "Assassin's Creed Origins - Gold Edition"),
+    ).toBe(true)
+  })
+
+  it('does not match unrelated names', () => {
+    expect(namesMatch('Assassins Creed: Origins', 'Detroit: Become Human')).toBe(false)
   })
 })
