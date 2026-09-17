@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-09-17T18:26:40.066Z",
+  "last_updated": "2026-09-17T20:24:09.069Z",
   "games": {
     "223810": {
       "marker": {
@@ -4211,10 +4211,17 @@
       "checked_at": "2026-08-24T20:11:36.941Z"
     },
     "2057760": {
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
+      "marker": {
+        "apiname": "STORY_ELECTION",
+        "name": "Day of Suffrage",
+        "description": "Make it to election day",
+        "global_percent": 24.5,
+        "source": "override",
+        "sh_achievement_id": 55
+      },
+      "no_marker_reason": null,
       "story_tag_count": 0,
-      "checked_at": "2026-08-24T16:50:33.256Z"
+      "checked_at": "2026-09-17T20:24:05.592Z"
     },
     "2058180": {
       "marker": {
@@ -6411,6 +6418,12 @@
       "no_data_reason": null,
       "checked_at": "2026-09-16T14:16:31.055Z"
     },
+    "76561198047330685::2057760": {
+      "beaten": false,
+      "unlock_time": null,
+      "no_data_reason": null,
+      "checked_at": "2026-09-17T20:24:06.938Z"
+    },
     "76561198047330685::2592160": {
       "beaten": true,
       "unlock_time": 1779301211,
@@ -7250,6 +7263,12 @@
       "unlock_time": 1751331983,
       "no_data_reason": null,
       "checked_at": "2026-08-24T17:42:13.524Z"
+    },
+    "76561198408001048::2057760": {
+      "beaten": true,
+      "unlock_time": 1789225358,
+      "no_data_reason": null,
+      "checked_at": "2026-09-17T20:24:08.066Z"
     },
     "76561198408001048::3376990": {
       "beaten": true,

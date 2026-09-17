@@ -4260,10 +4260,18 @@
       "story_tag_count": 9
     },
     "2057760": {
-      "fetched_at": "2026-08-24T16:50:33.256Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-09-17T20:24:05.592Z",
+      "marker": {
+        "apiname": "STORY_ELECTION",
+        "name": "Day of Suffrage",
+        "description": "Make it to election day",
+        "global_percent": 24.5,
+        "source": "override",
+        "sh_achievement_id": 55
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0,
+      "override_key": "2057760:STORY_ELECTION"
     },
     "2058180": {
       "fetched_at": "2026-08-24T20:10:11.164Z",
@@ -11693,6 +11701,20 @@
       "marker_apiname": "3a3764a914e904d44823cf76b86ae6ee",
       "beaten": false,
       "unlock_time": null,
+      "no_data_reason": null
+    },
+    "76561198047330685::2057760": {
+      "fetched_at": "2026-09-17T20:24:06.938Z",
+      "marker_apiname": "STORY_ELECTION",
+      "beaten": false,
+      "unlock_time": null,
+      "no_data_reason": null
+    },
+    "76561198408001048::2057760": {
+      "fetched_at": "2026-09-17T20:24:08.066Z",
+      "marker_apiname": "STORY_ELECTION",
+      "beaten": true,
+      "unlock_time": 1789225358,
       "no_data_reason": null
     }
   },
