@@ -13,12 +13,12 @@ const play = (
 
 describe('isGamePlayed', () => {
   describe('game with achievements', () => {
-    it('counts as played at 10% unlocked', () => {
-      expect(isGamePlayed(play(60, 5, 50))).toBe(true)
+    it('counts as played at 25% unlocked', () => {
+      expect(isGamePlayed(play(60, 10, 40))).toBe(true)
     })
 
-    it('does not count below 10%, however long it was run', () => {
-      expect(isGamePlayed(play(60 * 40, 4, 50))).toBe(false)
+    it('does not count below 25%, however long it was run', () => {
+      expect(isGamePlayed(play(60 * 40, 9, 40))).toBe(false)
     })
 
     it('ignores HLTB length when achievements exist', () => {

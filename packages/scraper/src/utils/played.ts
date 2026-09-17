@@ -4,7 +4,7 @@
  * Owning a game and launching it once is not playing it, so raw playtime > 0
  * is not enough. Evidence is graded by what Steam can prove:
  *
- * - The game has achievements → at least 10% of them unlocked.
+ * - The game has achievements → at least 25% of them unlocked.
  * - No achievements → at least 25% of HowLongToBeat's main story played,
  *   capped at 15h so an epic-length game can't put the bar out of reach.
  * - No achievements and no HLTB length → at least 2h played.
@@ -14,7 +14,7 @@
  * data supports.
  */
 
-export const PLAYED_ACHIEVEMENT_PERCENT = 10
+export const PLAYED_ACHIEVEMENT_PERCENT = 25
 export const PLAYED_HLTB_FRACTION = 0.25
 export const PLAYED_HLTB_CAP_MINUTES = 15 * 60
 export const UNKNOWN_LENGTH_PLAYED_MINUTES = 2 * 60
