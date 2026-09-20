@@ -79,7 +79,7 @@ interface UserStatsChartsProps {
 const winBucketLabels: Record<WinPlayStatus, string> = {
   finished: 'Finished',
   played: 'Played',
-  never_played: 'Never played',
+  never_played: 'Never / barely played',
   unreleased: 'Unreleased',
 }
 
@@ -123,7 +123,7 @@ export function UserStatsCharts({
     summary.winCounts.played > 0 && { count: summary.winCounts.played, label: 'played' },
     summary.winCounts.never_played > 0 && {
       count: summary.winCounts.never_played,
-      label: 'never played',
+      label: 'never or barely played',
     },
     summary.winCounts.unreleased > 0 && {
       count: summary.winCounts.unreleased,

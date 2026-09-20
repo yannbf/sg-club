@@ -273,8 +273,8 @@ const SECTION_META: Record<
     severity: 'warn',
   },
   quality_unplayed: {
-    title: 'Won great games, never played',
-    description: `Claimed highly-wishlisted games (≥${QUALITY_WISHLIST_MIN} wishlists) and never launched them. Recent wins (under ${QUALITY_LENIENT_MONTHS} months) are forgiven.`,
+    title: 'Won great games, never or barely played',
+    description: `Claimed highly-wishlisted games (≥${QUALITY_WISHLIST_MIN} wishlists) and never played them, or barely touched them. Recent wins (under ${QUALITY_LENIENT_MONTHS} months) are forgiven.`,
     severity: 'warn',
   },
   inactive_member: {
@@ -680,7 +680,7 @@ function analyzeUser(
     }
   }
 
-  // --- 4. Won great games, never played ------------------------------------
+  // --- 4. Won great games, never or barely played ---------------------------
   const qualityUnplayed = won
     .map((g) => ({ g, wc: wishlistCountFor(g.link, g.name) }))
     .filter(({ g, wc }) => {
@@ -706,7 +706,7 @@ function analyzeUser(
     flags.push({
       id: 'quality_unplayed',
       severity: qualityUnplayed.length >= 3 ? 'expel' : 'warn',
-      label: `${qualityUnplayed.length} great game${qualityUnplayed.length > 1 ? 's' : ''} won but never played`,
+      label: `${qualityUnplayed.length} great game${qualityUnplayed.length > 1 ? 's' : ''} won but never or barely played`,
       games: qualityUnplayed.slice(0, 8).map(({ g, wc }) => ({
         name: g.name,
         link: sgGiveawayUrl(g.link),

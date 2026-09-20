@@ -5,7 +5,7 @@ import Image from 'next/image'
 import { Giveaway, GameData, User, GameBreakdownEntry, SteamIdMap, noStatsReasonLabel } from '@/types'
 import type { IpbDiscordWinEntry } from '@/types/ipb-discord'
 import { getCVBadgeColor, getCVLabel, formatPlaytime, formatPlaytimeCompact } from '@/lib/data'
-import { isConfirmedPlayed } from '@/lib/play-status'
+import { isConfirmedPlayed, unplayedLabel, unplayedReason } from '@/lib/play-status'
 import { useIsAdmin } from '@/lib/auth'
 import { PlayTag } from '@/components/WinnerPlayProgress'
 import { createCreatorResolver } from '@/lib/creator-resolver'
@@ -262,7 +262,7 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData, 
                   options={[
                     { value: 'all', label: 'All' },
                     { value: 'played', label: 'Played' },
-                    { value: 'never_played', label: 'Never Played' },
+                    { value: 'never_played', label: 'Never / Barely Played' },
                     { value: 'unplayed_required', label: 'Unplayed Required' },
                   ]}
                 />
@@ -378,8 +378,11 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData, 
                         No stats
                       </LedgerChip>
                     ) : isAdmin ? (
-                      <LedgerChip tone={play.never_played ? 'bad' : 'ok'}>
-                        {play.never_played ? 'Never played' : 'Played'}
+                      <LedgerChip
+                        tone={play.never_played ? 'bad' : 'ok'}
+                        title={play.never_played ? unplayedReason(play, gameData?.hltb_main_story_hours) : undefined}
+                      >
+                        {play.never_played ? unplayedLabel(play) : 'Played'}
                       </LedgerChip>
                     ) : null}
                     {play?.owned && !play.has_no_available_stats && (
@@ -644,15 +647,19 @@ export default function WonGiveawaysClient({ giveaways, wonGiveaways, gameData, 
                           <span
                             className={`ml-1 font-medium ${game.steam_play_data.never_played && !confirmedPlayed ? 'text-error-foreground' : 'text-success-foreground'}`}
                             title={
-                              game.steam_play_data.never_played && confirmedPlayed
-                                ? 'Mod-confirmed play (I played, bro / proof of play) — Steam shows no playtime, likely played elsewhere or on a private profile.'
+                              game.steam_play_data.never_played
+                                ? confirmedPlayed
+                                  ? 'Mod-confirmed play (I played, bro / proof of play) — Steam shows no playtime, likely played elsewhere or on a private profile.'
+                                  : unplayedReason(game.steam_play_data, gameData?.hltb_main_story_hours)
                                 : undefined
                             }
                           >
                             {game.steam_play_data.never_played
                               ? confirmedPlayed
                                 ? 'Confirmed Played'
-                                : 'Never Played'
+                                : unplayedLabel(game.steam_play_data) === 'Barely played'
+                                  ? 'Barely Played'
+                                  : 'Never Played'
                               : 'Played'}
                           </span>
                         </div>

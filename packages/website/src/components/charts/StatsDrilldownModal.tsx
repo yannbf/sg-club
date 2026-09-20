@@ -17,6 +17,7 @@ import UserAvatar from '@/components/UserAvatar'
 import { UserLink } from '@/components/UserLink'
 import { CvStatusIndicator } from '@/components/CvStatusIndicator'
 import { WinnerPlayProgress } from '@/components/WinnerPlayProgress'
+import { unplayedLabel, unplayedReason } from '@/lib/play-status'
 import type { WinnerPlayStats } from '@/lib/winner-play-stats'
 import { formatPlaytimeCompact } from '@/lib/data'
 import { getFullDate } from '@/components/FormattedDate'
@@ -62,6 +63,8 @@ export interface DrilldownGameRow {
   playtimeMinutes?: number
   achievementsUnlocked?: number
   achievementsTotal?: number
+  /** The game's HowLongToBeat main-story length, when known — feeds the never/barely-played badge's hover explanation. */
+  hltbMainStoryHours?: number | null
   /**
    * Minutes of playtime gained during one specific month (hours-per-month
    * chart's drill-down only) — a delta, not the game's total playtime.
@@ -121,9 +124,9 @@ export interface DrilldownGameSection {
    */
   notCountedRows?: DrilldownGameRow[]
   /**
-   * Suppresses the "Never played" badge on every row — used only by the
-   * "never played" wins-bucket modal, where every row is never-played and
-   * the badge would just repeat the section heading.
+   * Suppresses the never/barely-played badge on every row — used only by the
+   * never/barely-played wins-bucket modal, where every row falls in that
+   * bucket and the badge would just repeat the section heading.
    */
   hideNeverPlayedBadge?: boolean
   /**
@@ -193,8 +196,8 @@ function DrilldownRow({
   const hasAchievements = Boolean(row.achievementsTotal && row.achievementsTotal > 0)
   const achievementsCompleted =
     hasAchievements && (row.achievementsUnlocked ?? 0) >= row.achievementsTotal!
-  // "Never played" is a verdict on the member, so only admins see it; the
-  // playtime and achievement facts on the row stay for everyone.
+  // The never/barely-played badge is a verdict on the member, so only admins
+  // see it; the playtime and achievement facts on the row stay for everyone.
   const showNeverPlayedBadge =
     isAdmin && row.neverPlayed && !row.unreleased && !hideNeverPlayedBadge
   const showConfirmedPlayedBadge =
@@ -317,8 +320,22 @@ function DrilldownRow({
               </Badge>
             )}
             {showNeverPlayedBadge && (
-              <Badge variant="error" size="sm">
-                Never played
+              <Badge
+                variant="error"
+                size="sm"
+                title={unplayedReason(
+                  {
+                    playtime_minutes: row.playtimeMinutes,
+                    achievements_unlocked: row.achievementsUnlocked,
+                    achievements_total: row.achievementsTotal,
+                  },
+                  row.hltbMainStoryHours,
+                )}
+              >
+                {unplayedLabel({
+                  playtime_minutes: row.playtimeMinutes,
+                  achievements_unlocked: row.achievementsUnlocked,
+                })}
               </Badge>
             )}
             {showConfirmedPlayedBadge && (

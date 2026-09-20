@@ -542,7 +542,7 @@ export default function UserDetailPageClient({
     const winsBreakdown: WinsBreakdownDatum[] = [
       { name: 'Finished', value: winStatusCounts.finished, color: chartColors.green, bucket: 'finished' as const },
       { name: 'Played', value: winStatusCounts.played, color: chartColors.blue, bucket: 'played' as const },
-      { name: 'Never played', value: winStatusCounts.never_played, color: chartColors.red, bucket: 'never_played' as const },
+      { name: 'Never / barely played', value: winStatusCounts.never_played, color: chartColors.red, bucket: 'never_played' as const },
       { name: 'Unreleased', value: winStatusCounts.unreleased, color: chartColors.orange, bucket: 'unreleased' as const },
     ].filter((d) => d.value > 0)
 
@@ -653,6 +653,7 @@ export default function UserDetailPageClient({
         playtimeMinutes: g.steam_play_data?.playtime_minutes,
         achievementsUnlocked: g.steam_play_data?.achievements_unlocked,
         achievementsTotal: g.steam_play_data?.achievements_total,
+        hltbMainStoryHours: findGameData(ga?.app_id, ga?.package_id, gameDataIndex)?.hltb_main_story_hours,
         neverPlayed: status === 'never_played',
         confirmedPlayed: isConfirmedPlayed(g),
         unreleased: status === 'unreleased',
