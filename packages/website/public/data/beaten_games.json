@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-09-20T18:50:28.975Z",
+  "last_updated": "2026-09-20T19:30:55.213Z",
   "games": {
     "223810": {
       "marker": {
@@ -3208,6 +3208,19 @@
       "no_marker_reason": "no_marker_found",
       "story_tag_count": 0,
       "checked_at": "2026-08-24T16:52:21.636Z"
+    },
+    "1663850": {
+      "marker": {
+        "apiname": "ACH_REFLEXES",
+        "name": "Non-Human Reflexes",
+        "description": "Complete the game on \"Hard\" difficulty.",
+        "global_percent": 6.4,
+        "source": "heuristic",
+        "sh_achievement_id": 23
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0,
+      "checked_at": "2026-09-20T19:30:53.095Z"
     },
     "1669420": {
       "marker": {
@@ -7533,6 +7546,12 @@
       "unlock_time": 1785205673,
       "no_data_reason": null,
       "checked_at": "2026-08-24T17:42:45.550Z"
+    },
+    "76561198013734355::1663850": {
+      "beaten": false,
+      "unlock_time": null,
+      "no_data_reason": null,
+      "checked_at": "2026-09-20T19:30:54.211Z"
     },
     "76561198013734355::1608230": {
       "beaten": false,
