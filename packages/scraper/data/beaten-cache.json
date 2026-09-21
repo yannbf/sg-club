@@ -5703,10 +5703,18 @@
       "story_tag_count": 0
     },
     "2989180": {
-      "fetched_at": "2026-09-18T11:35:53.357Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-09-21T04:53:32.877Z",
+      "marker": {
+        "apiname": "RETURN_TO_THE_SEA",
+        "name": "Fly Me To The Moon",
+        "description": "",
+        "global_percent": 35,
+        "source": "override",
+        "sh_achievement_id": 6
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0,
+      "override_key": "2989180:RETURN_TO_THE_SEA"
     },
     "2996040": {
       "fetched_at": "2026-09-14T15:56:40.659Z",
@@ -11767,6 +11775,13 @@
       "marker_apiname": "ACH_REFLEXES",
       "beaten": false,
       "unlock_time": null,
+      "no_data_reason": null
+    },
+    "76561198035801987::2989180": {
+      "fetched_at": "2026-09-21T04:53:34.033Z",
+      "marker_apiname": "RETURN_TO_THE_SEA",
+      "beaten": true,
+      "unlock_time": 1789687308,
       "no_data_reason": null
     }
   },

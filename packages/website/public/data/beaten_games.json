@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-09-20T19:30:55.213Z",
+  "last_updated": "2026-09-21T04:53:35.037Z",
   "games": {
     "223810": {
       "marker": {
@@ -5634,10 +5634,17 @@
       "checked_at": "2026-08-24T19:32:30.761Z"
     },
     "2989180": {
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
+      "marker": {
+        "apiname": "RETURN_TO_THE_SEA",
+        "name": "Fly Me To The Moon",
+        "description": "",
+        "global_percent": 35,
+        "source": "override",
+        "sh_achievement_id": 6
+      },
+      "no_marker_reason": null,
       "story_tag_count": 0,
-      "checked_at": "2026-09-18T11:35:53.357Z"
+      "checked_at": "2026-09-21T04:53:32.877Z"
     },
     "2996040": {
       "marker": {
@@ -8062,6 +8069,12 @@
       "unlock_time": 1786541672,
       "no_data_reason": null,
       "checked_at": "2026-09-15T11:43:29.821Z"
+    },
+    "76561198035801987::2989180": {
+      "beaten": true,
+      "unlock_time": 1789687308,
+      "no_data_reason": null,
+      "checked_at": "2026-09-21T04:53:34.033Z"
     },
     "76561198035801987::3636770": {
       "beaten": true,
