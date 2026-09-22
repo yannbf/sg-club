@@ -1,45 +1,6 @@
 {
-  "last_updated": "2026-09-22T10:33:38.177Z",
+  "last_updated": "2026-09-22T13:47:52.399Z",
   "giveaways": [
-    {
-      "id": "1XUDO",
-      "name": "Tailside: Cozy Cafe Sim",
-      "points": 10,
-      "copies": 1,
-      "app_id": 2922570,
-      "package_id": null,
-      "link": "1XUDO/tailside-cozy-cafe-sim",
-      "created_timestamp": 1789641268,
-      "start_timestamp": 1789641268,
-      "end_timestamp": 1790076780,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 0,
-      "creator": "76561198056789339",
-      "cv_status": "FULL_CV",
-      "creator_username": "elysium1988",
-      "deleted": false
-    },
-    {
-      "id": "H05fn",
-      "name": "BlazBlue Entropy Effect",
-      "points": 20,
-      "copies": 1,
-      "app_id": 2273430,
-      "package_id": null,
-      "link": "H05fn/blazblue-entropy-effect",
-      "created_timestamp": 1789886294,
-      "start_timestamp": 1789886294,
-      "end_timestamp": 1790076960,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 1,
-      "creator": "76561198453663783",
-      "cv_status": "FULL_CV",
-      "event_type": "september_event_2026",
-      "creator_username": "Almostn33t",
-      "deleted": false
-    },
     {
       "id": "ntbUJ",
       "name": "Well Dweller",
@@ -53,7 +14,7 @@
       "end_timestamp": 1790092800,
       "group": true,
       "comment_count": 3,
-      "entry_count": 22,
+      "entry_count": 23,
       "creator": "76561199644864244",
       "cv_status": "FULL_CV",
       "event_type": "september_event_2026",
@@ -315,7 +276,7 @@
       "end_timestamp": 1790283540,
       "group": true,
       "comment_count": 0,
-      "entry_count": 5,
+      "entry_count": 6,
       "creator": "76561198069420656",
       "cv_status": "FULL_CV",
       "event_type": "september_event_2026",
@@ -460,7 +421,7 @@
       "end_timestamp": 1790427600,
       "group": true,
       "comment_count": 0,
-      "entry_count": 2,
+      "entry_count": 3,
       "creator": "76561197968806363",
       "required_play": true,
       "cv_status": "FULL_CV",
@@ -481,7 +442,7 @@
       "end_timestamp": 1790479800,
       "group": true,
       "comment_count": 1,
-      "entry_count": 3,
+      "entry_count": 5,
       "creator": "76561199036747433",
       "cv_status": "FULL_CV",
       "event_type": "september_event_2026",
@@ -502,7 +463,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 49,
+      "entry_count": 50,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -543,7 +504,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 24,
+      "entry_count": 26,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -564,7 +525,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 2,
-      "entry_count": 30,
+      "entry_count": 33,
       "creator": "76561198001969728",
       "is_shared": true,
       "cv_status": "FULL_CV",
@@ -625,7 +586,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 21,
+      "entry_count": 30,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -769,6 +730,54 @@
       "deleted": false
     },
     {
+      "id": "H05fn",
+      "name": "BlazBlue Entropy Effect",
+      "points": 20,
+      "copies": 1,
+      "app_id": 2273430,
+      "package_id": null,
+      "link": "H05fn/blazblue-entropy-effect",
+      "created_timestamp": 1789886294,
+      "start_timestamp": 1789886294,
+      "end_timestamp": 1790076960,
+      "group": true,
+      "comment_count": 1,
+      "entry_count": 2,
+      "creator": "76561198453663783",
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": "76561198042896883",
+          "status": "received",
+          "winner_username": "Lontaz"
+        }
+      ],
+      "cv_status": "FULL_CV",
+      "event_type": "september_event_2026",
+      "creator_username": "Almostn33t"
+    },
+    {
+      "id": "1XUDO",
+      "name": "Tailside: Cozy Cafe Sim",
+      "points": 10,
+      "copies": 1,
+      "app_id": 2922570,
+      "package_id": null,
+      "link": "1XUDO/tailside-cozy-cafe-sim",
+      "created_timestamp": 1789641268,
+      "start_timestamp": 1789641268,
+      "end_timestamp": 1790076780,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 0,
+      "creator": "76561198056789339",
+      "hasWinners": false,
+      "winners": [],
+      "cv_status": "FULL_CV",
+      "creator_username": "elysium1988",
+      "deleted": false
+    },
+    {
       "id": "ztioO",
       "name": "Hollow Knight: Silksong",
       "points": 20,
@@ -835,20 +844,20 @@
       "start_timestamp": 1789561153,
       "end_timestamp": 1790053140,
       "group": true,
-      "comment_count": 2,
+      "comment_count": 5,
       "entry_count": 18,
       "creator": "76561197991280042",
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "76561198118726910",
+          "status": "received",
+          "winner_username": "Ivannes"
         }
       ],
       "cv_status": "FULL_CV",
       "event_type": "september_event_2026",
-      "creator_username": "SoullessSoup",
-      "deleted": false
+      "creator_username": "SoullessSoup"
     },
     {
       "id": "t6ORn",
@@ -862,20 +871,20 @@
       "start_timestamp": 1789560751,
       "end_timestamp": 1790053140,
       "group": true,
-      "comment_count": 0,
+      "comment_count": 1,
       "entry_count": 14,
       "creator": "76561197991280042",
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "76561198113581790",
+          "status": "received",
+          "winner_username": "damianea103"
         }
       ],
       "cv_status": "FULL_CV",
       "event_type": "september_event_2026",
-      "creator_username": "SoullessSoup",
-      "deleted": false
+      "creator_username": "SoullessSoup"
     },
     {
       "id": "2ioWh",
@@ -916,20 +925,20 @@
       "start_timestamp": 1789559866,
       "end_timestamp": 1790053140,
       "group": true,
-      "comment_count": 0,
+      "comment_count": 2,
       "entry_count": 14,
       "creator": "76561197991280042",
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "76561198869194409",
+          "status": "received",
+          "winner_username": "FragolaPorpora"
         }
       ],
       "cv_status": "FULL_CV",
       "event_type": "september_event_2026",
-      "creator_username": "SoullessSoup",
-      "deleted": false
+      "creator_username": "SoullessSoup"
     },
     {
       "id": "v7TIZ",
@@ -2099,7 +2108,7 @@
       "start_timestamp": 1789560553,
       "end_timestamp": 1789736880,
       "group": true,
-      "comment_count": 1,
+      "comment_count": 2,
       "entry_count": 1,
       "creator": "76561198020386807",
       "hasWinners": true,
