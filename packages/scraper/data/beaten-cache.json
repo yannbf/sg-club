@@ -5871,6 +5871,19 @@
       "no_marker_reason": "no_marker_found",
       "story_tag_count": 0
     },
+    "3087650": {
+      "fetched_at": "2026-09-23T19:43:35.926Z",
+      "marker": {
+        "apiname": "finishgame",
+        "name": "The last one in the party",
+        "description": "Finish the game",
+        "global_percent": 74.8,
+        "source": "heuristic",
+        "sh_achievement_id": 60
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0
+    },
     "3097560": {
       "fetched_at": "2026-08-24T19:49:13.958Z",
       "marker": null,
@@ -11826,7 +11839,7 @@
       "no_data_reason": null
     },
     "76561197970969216::1888930": {
-      "fetched_at": "2026-09-23T04:44:13.766Z",
+      "fetched_at": "2026-09-23T19:43:38.395Z",
       "marker_apiname": "284b17b75ee9e837",
       "beaten": false,
       "unlock_time": null,
@@ -11840,7 +11853,7 @@
       "no_data_reason": null
     },
     "76561197968806363::1030300": {
-      "fetched_at": "2026-09-23T04:44:12.624Z",
+      "fetched_at": "2026-09-23T19:43:37.129Z",
       "marker_apiname": "DEFEATED_LACE_2",
       "beaten": false,
       "unlock_time": null,
@@ -11858,6 +11871,20 @@
       "marker_apiname": "CASEFIVE",
       "beaten": true,
       "unlock_time": 1789968803,
+      "no_data_reason": null
+    },
+    "76561198044300922::2515020": {
+      "fetched_at": "2026-09-23T19:43:39.509Z",
+      "marker_apiname": "1012",
+      "beaten": false,
+      "unlock_time": null,
+      "no_data_reason": null
+    },
+    "76561198101327606::3087650": {
+      "fetched_at": "2026-09-23T19:43:40.643Z",
+      "marker_apiname": "finishgame",
+      "beaten": true,
+      "unlock_time": 1790173813,
       "no_data_reason": null
     }
   },

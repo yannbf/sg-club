@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-09-23T14:18:43.303Z",
+  "last_updated": "2026-09-23T19:43:41.646Z",
   "games": {
     "223810": {
       "marker": {
@@ -5796,6 +5796,19 @@
       "story_tag_count": 0,
       "checked_at": "2026-08-24T17:05:12.296Z"
     },
+    "3087650": {
+      "marker": {
+        "apiname": "finishgame",
+        "name": "The last one in the party",
+        "description": "Finish the game",
+        "global_percent": 74.8,
+        "source": "heuristic",
+        "sh_achievement_id": 60
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0,
+      "checked_at": "2026-09-23T19:43:35.926Z"
+    },
     "3097560": {
       "marker": null,
       "no_marker_reason": "schema_unavailable",
@@ -7962,7 +7975,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-23T04:44:12.624Z"
+      "checked_at": "2026-09-23T19:43:37.129Z"
     },
     "76561197968806363::359870": {
       "beaten": false,
@@ -8604,7 +8617,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-09-23T04:44:13.766Z"
+      "checked_at": "2026-09-23T19:43:38.395Z"
     },
     "76561197970969216::1601570": {
       "beaten": true,
@@ -9602,6 +9615,12 @@
       "no_data_reason": null,
       "checked_at": "2026-08-24T17:47:10.530Z"
     },
+    "76561198044300922::2515020": {
+      "beaten": false,
+      "unlock_time": null,
+      "no_data_reason": null,
+      "checked_at": "2026-09-23T19:43:39.509Z"
+    },
     "76561198070041813::2420110": {
       "beaten": true,
       "unlock_time": 1781951520,
@@ -10051,6 +10070,12 @@
       "unlock_time": 1751221994,
       "no_data_reason": null,
       "checked_at": "2026-08-24T17:47:59.847Z"
+    },
+    "76561198101327606::3087650": {
+      "beaten": true,
+      "unlock_time": 1790173813,
+      "no_data_reason": null,
+      "checked_at": "2026-09-23T19:43:40.643Z"
     },
     "76561198049128535::1817190": {
       "beaten": true,
