@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1788220800,
   "totalAchievements": 20,
-  "generatedAt": 1790316843638,
+  "generatedAt": 1790323472689,
   "challengeOver": false,
   "winnerUsername": "DancingVaquinha",
   "participants": [
@@ -2719,8 +2719,8 @@
       "username": "adam1224",
       "sg_username": "adam1224",
       "steam_id": "76561198025823574",
-      "avatar_url": "https://avatars.steamstatic.com/05ebd1c18d1482bff6f8e520c46131760d93d453_full.jpg",
-      "profile_url": "https://steamcommunity.com/id/adam1224/",
+      "avatar_url": "",
+      "profile_url": "https://steamcommunity.com/profiles/76561198025823574",
       "is_guest": true,
       "owned": true,
       "stats_available": true,
@@ -4713,19 +4713,19 @@
       "is_guest": false,
       "owned": true,
       "stats_available": true,
-      "wrote_review": false,
-      "review_voted_up": null,
-      "review_timestamp": null,
-      "review_recommendationid": null,
-      "review_url": null,
-      "playtime_total_minutes": 323,
-      "playtime_2weeks_minutes": 81,
+      "wrote_review": true,
+      "review_voted_up": true,
+      "review_timestamp": 0,
+      "review_recommendationid": "236126555",
+      "review_url": "https://steamcommunity.com/profiles/76561198049128535/recommended/2292650",
+      "playtime_total_minutes": 337,
+      "playtime_2weeks_minutes": 94,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 323,
+      "playtime_challenge_minutes": 337,
       "achievements_total": 20,
-      "achievements_unlocked_total": 18,
+      "achievements_unlocked_total": 20,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 18,
+      "achievements_since_baseline": 20,
       "challenge_achievements": [
         {
           "apiname": "ACH_A_ENTR_COMPL",
@@ -4833,17 +4833,29 @@
           "apiname": "ACH_Z_OVERSEER",
           "displayName": "First Day On Your New Job!",
           "unlocktime": 1790243923
+        },
+        {
+          "apiname": "ACH_K_NO_LOOSE_ENDS",
+          "displayName": "No Loose Ends",
+          "description": "Solve the wire puzzle in the office without any \"loose ends\" of the wire with electricity running through it.",
+          "unlocktime": 1790317099
+        },
+        {
+          "apiname": "ACH_F_THROW_PACKAGE",
+          "displayName": "Wait...  Did that say fragile?",
+          "description": "Throw the package.",
+          "unlocktime": 1790317170
         }
       ],
-      "challenge_achievement_count": 18,
+      "challenge_achievement_count": 20,
       "has_started": true,
-      "is_complete": false,
-      "completed_at": null,
+      "is_complete": true,
+      "completed_at": 1790317170,
       "completed_before_start": false,
       "completed_after_deadline": false,
       "meets_playtime": true,
-      "meets_review": false,
-      "is_winner": false
+      "meets_review": true,
+      "is_winner": true
     },
     {
       "username": "Sakakino",
@@ -5353,43 +5365,11 @@
       "review_url": null
     },
     {
-      "username": "Waxlor",
-      "steam_id": "76561198116836855",
-      "avatar_url": "https://avatars.steamstatic.com/26869b703faa3876e0c8b45286148f1a60ae2971_medium.jpg",
-      "profile_url": "https://steamcommunity.com/profiles/76561198116836855",
-      "playtime_total_minutes": 201,
-      "playtime_2weeks_minutes": 0,
-      "achievements_unlocked_total": 20,
-      "achievements_total": 20,
-      "challenge_achievement_count": 0,
-      "wrote_review": false,
-      "review_voted_up": null,
-      "review_timestamp": null,
-      "review_recommendationid": null,
-      "review_url": null
-    },
-    {
       "username": "xXShurraXx",
       "steam_id": "76561198101327606",
       "avatar_url": "https://avatars.steamstatic.com/2d4d805c41e77a2a460bf3666fe9cbeedd9c0c2a_medium.jpg",
       "profile_url": "https://steamcommunity.com/profiles/76561198101327606",
       "playtime_total_minutes": 190,
-      "playtime_2weeks_minutes": 0,
-      "achievements_unlocked_total": 20,
-      "achievements_total": 20,
-      "challenge_achievement_count": 0,
-      "wrote_review": false,
-      "review_voted_up": null,
-      "review_timestamp": null,
-      "review_recommendationid": null,
-      "review_url": null
-    },
-    {
-      "username": "vot4ol",
-      "steam_id": "76561199141726712",
-      "avatar_url": "https://avatars.steamstatic.com/fbb7f96a3d40865edfd77243524543bf62214d7d_medium.jpg",
-      "profile_url": "https://steamcommunity.com/profiles/76561199141726712",
-      "playtime_total_minutes": 171,
       "playtime_2weeks_minutes": 0,
       "achievements_unlocked_total": 20,
       "achievements_total": 20,
@@ -5566,7 +5546,8 @@
     "vampiresska",
     "MikeWithAnI",
     "RaitorHaitor",
-    "Metalhead8489"
+    "Metalhead8489",
+    "yannbz"
   ],
   "roster": {
     "participants": [
