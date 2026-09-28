@@ -2,6 +2,7 @@ import type { IncomingMessage, ServerResponse } from 'node:http'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { encodeModalCustomId, encodeSignupCustomId, slugify } from '../_lib/custom-id.js'
 import { FORCED_ANNOUNCE_CHANNEL_ID } from '../_lib/constants.js'
+import { formatChallengeDatesForEdit, formatChallengeDeadlineForEdit } from '../_lib/dates.js'
 import { serializeArchived, serializeChallenge, serializeSignup } from '../_lib/signup-log.js'
 import {
   buildRaffleMessage,
@@ -318,6 +319,77 @@ describe('resolveChallengeEdit', () => {
     const result = resolveChallengeEdit({ ...EMPTY_INPUTS, dates: 'not a range' }, EXISTING, NOW)
     expect(result.ok).toBe(false)
   })
+
+  describe('unchanged prefilled fields are treated as blank', () => {
+    it('name identical to the existing name (trimmed) counts as unchanged', () => {
+      const result = resolveChallengeEdit({ ...EMPTY_INPUTS, name: `  ${EXISTING.name}  ` }, EXISTING, NOW)
+      expect(result.ok).toBe(true)
+      if (!result.ok) return
+      expect(result.resolved.name).toBe(EXISTING.name)
+      expect(result.resolved.changed).not.toContain('name')
+    })
+
+    it('description identical to the existing description counts as unchanged', () => {
+      const existing = { ...EXISTING, description: 'Neo Cab is a rideshare narrative game.' }
+      const result = resolveChallengeEdit(
+        { ...EMPTY_INPUTS, description: existing.description },
+        existing,
+        NOW
+      )
+      expect(result.ok).toBe(true)
+      if (!result.ok) return
+      expect(result.resolved.description).toBeUndefined()
+      expect(result.resolved.changed).not.toContain('description')
+    })
+
+    it('dates identical to the current rendering count as unchanged, even for a running challenge (start in the past)', () => {
+      // EXISTING started Jul 15 and NOW is Jul 20 — already running. Were this
+      // treated as a real edit, re-parsing "Jul 15" as a fresh date string
+      // would fail validateChallengeDates's "start must be today or later"
+      // rule; treating it as unchanged skips that path entirely.
+      const prefill = formatChallengeDatesForEdit(EXISTING.start, EXISTING.end, NOW)
+      expect(prefill).toBe('Jul 15 to Jul 29')
+      const result = resolveChallengeEdit({ ...EMPTY_INPUTS, dates: `  ${prefill}  ` }, EXISTING, NOW)
+      expect(result.ok).toBe(true)
+      if (!result.ok) return
+      expect(result.resolved.start).toBe(EXISTING.start)
+      expect(result.resolved.end).toBe(EXISTING.end)
+      expect(result.resolved.changed).not.toContain('dates')
+    })
+
+    it('signup deadline identical to the current rendering counts as unchanged', () => {
+      const prefill = formatChallengeDeadlineForEdit(EXISTING.deadline, NOW)
+      expect(prefill).toBe('Jul 15')
+      const result = resolveChallengeEdit({ ...EMPTY_INPUTS, signupDeadline: prefill }, EXISTING, NOW)
+      expect(result.ok).toBe(true)
+      if (!result.ok) return
+      expect(result.resolved.deadline).toBe(EXISTING.deadline)
+      expect(result.resolved.changed).not.toContain('signup deadline')
+    })
+
+    it('congrats channel identical to the current pick counts as unchanged', () => {
+      const result = resolveChallengeEdit(
+        { ...EMPTY_INPUTS, congratsChannelId: EXISTING.congrats_channel_id },
+        EXISTING,
+        NOW
+      )
+      expect(result.ok).toBe(true)
+      if (!result.ok) return
+      expect(result.resolved.congrats_channel_id).toBe(EXISTING.congrats_channel_id)
+      expect(result.resolved.changed).not.toContain('congrats channel')
+    })
+
+    it('a genuinely different dates value is still applied as a real change', () => {
+      const result = resolveChallengeEdit(
+        { ...EMPTY_INPUTS, dates: 'Aug 1 2026 to Aug 30 2026' },
+        EXISTING,
+        NOW
+      )
+      expect(result.ok).toBe(true)
+      if (!result.ok) return
+      expect(result.resolved.changed).toEqual(['dates'])
+    })
+  })
 })
 
 describe('MESSAGE_COMPONENT button clicks', () => {
@@ -569,6 +641,12 @@ describe('MODAL_SUBMIT', () => {
 })
 
 describe('MESSAGE_COMPONENT cedit (challenge-edit picker)', () => {
+  interface EditModalComponent {
+    custom_id: string
+    value?: string
+    default_values?: Array<{ id: string; type: string }>
+  }
+
   async function openEditModal(value: string) {
     const req = makeReq({
       type: 3,
@@ -581,7 +659,10 @@ describe('MESSAGE_COMPONENT cedit (challenge-edit picker)', () => {
     await handler(req, res)
     return res.body as {
       type: number
-      data: { custom_id: string; components: Array<{ component: { custom_id: string } }> }
+      data: {
+        custom_id: string
+        components: Array<{ description?: string; component: EditModalComponent }>
+      }
     }
   }
 
@@ -606,6 +687,97 @@ describe('MESSAGE_COMPONENT cedit (challenge-edit picker)', () => {
       'dates',
       'congrats_channel',
     ])
+  })
+
+  describe('prefill', () => {
+    // Oct 2026 is next month from "now" (real clock), so it's a whole
+    // calendar month in the current UTC year — formatChallengeDatesForEdit
+    // collapses it to just "October".
+    const META = {
+      slug: 'vellum',
+      channel_id: 'chan-vellum',
+      message_id: 'msg-vellum',
+      deadline: Math.floor(Date.UTC(2026, 9, 1) / 1000),
+      start: Math.floor(Date.UTC(2026, 9, 1) / 1000),
+      end: Math.floor(Date.UTC(2026, 10, 1) / 1000),
+      name: 'Vellum',
+      congrats_channel_id: 'congrats-9',
+    }
+
+    function byId(body: Awaited<ReturnType<typeof openEditModal>>) {
+      return new Map(body.data.components.map((c) => [c.component.custom_id, c]))
+    }
+
+    it('prefills every field with the challenge current values on a fast lookup', async () => {
+      vi.mocked(discordRest.getAllChannelMessages).mockResolvedValueOnce([
+        { id: '1', channel_id: 'log', content: serializeChallenge(META), timestamp: '' },
+      ])
+      vi.mocked(discordRest.getMessage).mockResolvedValueOnce({
+        id: 'msg-vellum',
+        channel_id: 'chan-vellum',
+        content: '',
+        timestamp: '',
+        embeds: [{ description: 'A cozy interactive fiction game.' }],
+      })
+
+      const body = await openEditModal('vellum')
+      const fields = byId(body)
+      expect(fields.get('name')?.component.value).toBe('Vellum')
+      expect(fields.get('description')?.component.value).toBe('A cozy interactive fiction game.')
+      expect(fields.get('dates')?.component.value).toBe('October')
+      expect(fields.get('signup_deadline')?.component.value).toBe('Oct 1')
+      expect(fields.get('congrats_channel')?.component.default_values).toEqual([
+        { id: 'congrats-9', type: 'channel' },
+      ])
+      // Descriptions read as "edit to change" rather than "empty keeps current".
+      expect(fields.get('name')?.description).toBe('Edit to change, or leave as-is to keep it')
+    })
+
+    it('falls back to the empty modal when the lookup times out', async () => {
+      vi.useFakeTimers()
+      try {
+        // Never resolves within the test — stands in for a slow/cold-start fetch.
+        vi.mocked(discordRest.getAllChannelMessages).mockReturnValueOnce(new Promise(() => {}))
+        const resultPromise = openEditModal('vellum')
+        await vi.advanceTimersByTimeAsync(2100)
+        const body = await resultPromise
+        const fields = byId(body)
+        expect(fields.get('name')?.component.value).toBeUndefined()
+        expect(fields.get('name')?.description).toBe('Leave empty to keep the current name')
+      } finally {
+        vi.useRealTimers()
+      }
+    })
+
+    it('falls back to the empty modal when the lookup errors', async () => {
+      vi.mocked(discordRest.getAllChannelMessages).mockRejectedValueOnce(new Error('discord down'))
+      const body = await openEditModal('vellum')
+      const fields = byId(body)
+      expect(fields.get('name')?.component.value).toBeUndefined()
+      expect(fields.get('congrats_channel')?.component.default_values).toBeUndefined()
+    })
+
+    it('a timed-out fetch that later rejects does not surface as an unhandled rejection', async () => {
+      vi.useFakeTimers()
+      try {
+        let reject!: (err: Error) => void
+        vi.mocked(discordRest.getAllChannelMessages).mockReturnValueOnce(
+          new Promise((_, r) => {
+            reject = r
+          })
+        )
+        const resultPromise = openEditModal('vellum')
+        await vi.advanceTimersByTimeAsync(2100)
+        await resultPromise
+        // Resolves the abandoned fetch after the timeout already won the
+        // race — fetchChallengeEditPrefillSafe's own try/catch must absorb
+        // this rather than leaving a dangling rejected promise.
+        reject(new Error('too late'))
+        await Promise.resolve()
+      } finally {
+        vi.useRealTimers()
+      }
+    })
   })
 })
 

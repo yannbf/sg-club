@@ -435,3 +435,70 @@ export function validateChallengeDates(
 
   return { ok: true, dates: { signupDeadline, start, end } }
 }
+
+const MONTH_ABBR = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+
+function isMidnightUtcSeconds(epochSeconds: number): boolean {
+  return epochSeconds % 86400 === 0
+}
+
+/**
+ * Renders a single epoch-seconds instant the way `parseAdminDate`'s
+ * "Month Day[, Year] [time]" form accepts it back: "Oct 5", "Oct 5 2027", or
+ * with a time suffix ("Oct 5 18:00") when the instant isn't UTC midnight.
+ * The year is included only when it differs from `now`'s UTC year — the
+ * common case (editing a challenge within the current year) stays terse,
+ * and a challenge that spans a year boundary still round-trips.
+ */
+function formatInstantForEdit(epochSeconds: number, now: number): string {
+  const d = new Date(epochSeconds * 1000)
+  const nowYear = new Date(now).getUTCFullYear()
+  let label = `${MONTH_ABBR[d.getUTCMonth()]} ${d.getUTCDate()}`
+  if (d.getUTCFullYear() !== nowYear) label += ` ${d.getUTCFullYear()}`
+  if (!isMidnightUtcSeconds(epochSeconds)) {
+    const hh = String(d.getUTCHours()).padStart(2, '0')
+    const mm = String(d.getUTCMinutes()).padStart(2, '0')
+    label += ` ${hh}:${mm}`
+  }
+  return label
+}
+
+/**
+ * Renders a challenge's stored (start, end) pair the way /challenge-edit
+ * prefills its "Challenge month" field, so re-submitting it unchanged parses
+ * back through `parseDateRangeField` + `validateChallengeDates` to the same
+ * `start`/`end`. `end` is the exclusive cutoff `validateChallengeDates`
+ * stores, so a midnight-aligned end is shown as the inclusive last day
+ * (`end` minus a day) — "Oct 5 to Oct 25" for a run that ends at Oct 26
+ * 00:00 UTC — and a non-midnight end is shown with its own time as-is.
+ *
+ * A whole calendar month (start = the 1st at 00:00 UTC, end = the 1st of the
+ * next month at 00:00 UTC) collapses to just the month name, matching the
+ * bare-month shorthand `parseDateRangeField` accepts ("October").
+ */
+export function formatChallengeDatesForEdit(start: number, end: number, now: number = Date.now()): string {
+  const startDate = new Date(start * 1000)
+  const wholeMonthEnd = Math.floor(Date.UTC(startDate.getUTCFullYear(), startDate.getUTCMonth() + 1, 1) / 1000)
+  const isWholeMonth = isMidnightUtcSeconds(start) && startDate.getUTCDate() === 1 && end === wholeMonthEnd
+
+  if (isWholeMonth) {
+    const monthName = MONTH_NAMES[startDate.getUTCMonth()]!
+    const capitalized = monthName.charAt(0).toUpperCase() + monthName.slice(1)
+    const year = startDate.getUTCFullYear()
+    const nowYear = new Date(now).getUTCFullYear()
+    return year === nowYear ? capitalized : `${capitalized} ${year}`
+  }
+
+  const displayEnd = isMidnightUtcSeconds(end) ? end - 86400 : end
+  return `${formatInstantForEdit(start, now)} to ${formatInstantForEdit(displayEnd, now)}`
+}
+
+/**
+ * Renders a signup deadline the way /challenge-edit prefills its "Signups
+ * close" field — same single-instant format as the non-whole-month branch of
+ * `formatChallengeDatesForEdit` ("Oct 1", or "Oct 1 18:00" when not
+ * midnight-aligned), so it round-trips through `parseAdminDate` unchanged.
+ */
+export function formatChallengeDeadlineForEdit(deadline: number, now: number = Date.now()): string {
+  return formatInstantForEdit(deadline, now)
+}

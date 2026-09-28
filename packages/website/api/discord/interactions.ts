@@ -35,7 +35,13 @@ import {
   validateSlugForCustomId,
   type SignupChoice,
 } from '../_lib/custom-id.js'
-import { parseAdminDate, parseDateRangeField, validateChallengeDates } from '../_lib/dates.js'
+import {
+  formatChallengeDatesForEdit,
+  formatChallengeDeadlineForEdit,
+  parseAdminDate,
+  parseDateRangeField,
+  validateChallengeDates,
+} from '../_lib/dates.js'
 import {
   buildRoster,
   collectChallengeIndex,
@@ -45,6 +51,7 @@ import {
   serializeRaffle,
   serializeSignup,
   type ChallengeIndexEntry,
+  type ChallengeMeta,
   type RosterEntry,
 } from '../_lib/signup-log.js'
 import { resolveDiscordUserToSgUsername, validateSgUsername } from '../_lib/identity.js'
@@ -849,12 +856,163 @@ export function decodeEditSelectValue(value: string): { slug: string; signupsClo
 const EDIT_SELECT_CLOSED_SUFFIX = '|closed'
 
 /**
+ * Discord requires a MODAL response within its 3s interaction window, and a
+ * component interaction can't be deferred and then followed up with a modal
+ * — so the prefill lookup below is raced against this budget and the modal
+ * opens empty (today's behavior) rather than miss the window on a slow
+ * log-channel fetch or a cold start.
+ */
+const EDIT_MODAL_PREFILL_TIMEOUT_MS = 2000
+
+interface ChallengeEditPrefill {
+  meta: ChallengeMeta
+  description: string
+}
+
+/**
+ * Best-effort fetch of the current values for the edit modal's prefill:
+ * the slug's meta (same log-channel scan `finishChallengeEdit` uses to find
+ * `existing`) plus the announcement's live description, which lives only on
+ * the embed and not in the log-channel meta. Returns `null` for "not found"
+ * so the caller falls back to the empty modal exactly as on any other
+ * failure.
+ */
+async function fetchChallengeEditPrefill(slug: string): Promise<ChallengeEditPrefill | null> {
+  const messages = await getAllChannelMessages(getLogChannelId(), 2000)
+  const index = collectChallengeIndex(messages)
+  const entry = index.get(slug)
+  if (!entry || entry.archived) return null
+
+  const message = await getMessage(entry.meta.channel_id, entry.meta.message_id)
+  const embed = message.embeds?.[0] ?? {}
+  const description = typeof embed.description === 'string' ? embed.description : ''
+  return { meta: entry.meta, description }
+}
+
+/** Never rejects — any failure (network, missing channel, malformed data) resolves to `null` so it's always safe to race. */
+async function fetchChallengeEditPrefillSafe(slug: string): Promise<ChallengeEditPrefill | null> {
+  try {
+    return await fetchChallengeEditPrefill(slug)
+  } catch (err) {
+    console.error(`⚠️ Failed to prefill edit modal for "${slug}":`, err)
+    return null
+  }
+}
+
+/** Resolves to `null` after `ms` and never rejects, so racing it can't leave a dangling unhandled rejection once the other side of the race has already settled. */
+function timeoutAfter(ms: number): Promise<null> {
+  return new Promise((resolve) => setTimeout(resolve, ms, null))
+}
+
+function truncateForModal(text: string, limit: number): string {
+  return text.length <= limit ? text : text.slice(0, limit)
+}
+
+/**
+ * Builds the `cemod|<slug>` modal payload, either empty (today's fields and
+ * copy, `prefill: null`) or filled with the slug's current values. The slug
+ * is threaded through via the modal's custom_id since the modal itself
+ * carries no other state.
+ */
+function buildChallengeEditModalData(
+  slug: string,
+  signupsClosed: boolean,
+  prefill: ChallengeEditPrefill | null
+): Record<string, unknown> {
+  const now = Date.now()
+  return {
+    custom_id: `cemod|${slug}`,
+    title: 'Edit Challenge',
+    components: [
+      {
+        type: ComponentType.LABEL,
+        label: 'Challenge name',
+        description: prefill ? 'Edit to change, or leave as-is to keep it' : 'Leave empty to keep the current name',
+        component: {
+          type: 4,
+          custom_id: 'name',
+          style: TextInputStyle.SHORT,
+          required: false,
+          max_length: 100,
+          ...(prefill ? { value: prefill.meta.name } : {}),
+        },
+      },
+      {
+        type: ComponentType.LABEL,
+        label: 'Description',
+        description: prefill
+          ? 'Edit to change, or leave as-is to keep it'
+          : 'Leave empty to keep the current description',
+        component: {
+          type: 4,
+          custom_id: 'description',
+          style: TextInputStyle.PARAGRAPH,
+          required: false,
+          max_length: 2000,
+          ...(prefill ? { value: truncateForModal(prefill.description, 2000) } : {}),
+        },
+      },
+      {
+        type: ComponentType.LABEL,
+        label: 'Challenge month',
+        description: prefill
+          ? 'Edit to change. A range works too: Oct 5 to Oct 25'
+          : 'Empty keeps current. A month runs 1st to last day (UTC); a range works too: Oct 5 to Oct 25',
+        component: {
+          type: 4,
+          custom_id: 'dates',
+          style: TextInputStyle.SHORT,
+          placeholder: 'e.g. October',
+          required: false,
+          ...(prefill ? { value: formatChallengeDatesForEdit(prefill.meta.start, prefill.meta.end, now) } : {}),
+        },
+      },
+      // Signups that already closed stay closed, so there's no deadline to edit.
+      ...(signupsClosed
+        ? []
+        : [
+            {
+              type: ComponentType.LABEL,
+              label: 'Signups close (optional)',
+              description: prefill
+                ? 'Edit to change, or leave as-is to keep it'
+                : 'Empty keeps current, or closes at the new challenge start if the month changes',
+              component: {
+                type: 4,
+                custom_id: 'signup_deadline',
+                style: TextInputStyle.SHORT,
+                placeholder: 'Empty = keep current',
+                required: false,
+                ...(prefill ? { value: formatChallengeDeadlineForEdit(prefill.meta.deadline, now) } : {}),
+              },
+            },
+          ]),
+      {
+        type: ComponentType.LABEL,
+        label: 'Congrats channel (optional)',
+        description: prefill
+          ? 'Current pick is selected. Edit to change'
+          : 'Where finisher congrats go. Empty keeps the current pick',
+        component: {
+          type: ComponentType.CHANNEL_SELECT,
+          custom_id: 'congrats_channel',
+          channel_types: [0], // GUILD_TEXT
+          required: false,
+          min_values: 0,
+          max_values: 1,
+          ...(prefill?.meta.congrats_channel_id
+            ? { default_values: [{ id: prefill.meta.congrats_channel_id, type: 'channel' }] }
+            : {}),
+        },
+      },
+    ],
+  }
+}
+
+/**
  * MESSAGE_COMPONENT entry for the `cedit` string-select — opens the edit
- * modal for the chosen slug. Same constraint as /challenge-setup's modal:
- * Discord doesn't allow deferring a component interaction and then opening a
- * modal as a followup, so this must respond synchronously with no fetches
- * beforehand. The slug is threaded through via the modal's custom_id
- * (`cemod|<slug>`) since the modal itself carries no other state.
+ * modal for the chosen slug, prefilled with its current values when the
+ * lookup finishes inside the time budget.
  */
 async function handleChallengeEditSelect(
   interaction: DiscordInteraction,
@@ -867,82 +1025,14 @@ async function handleChallengeEditSelect(
   }
   const { slug, signupsClosed } = decodeEditSelectValue(selected)
 
+  const prefill = await Promise.race([
+    fetchChallengeEditPrefillSafe(slug),
+    timeoutAfter(EDIT_MODAL_PREFILL_TIMEOUT_MS),
+  ])
+
   respondJson(res, 200, {
     type: InteractionResponseType.MODAL,
-    data: {
-      custom_id: `cemod|${slug}`,
-      title: 'Edit Challenge',
-      components: [
-        {
-          type: ComponentType.LABEL,
-          label: 'Challenge name',
-          description: 'Leave empty to keep the current name',
-          component: {
-            type: 4,
-            custom_id: 'name',
-            style: TextInputStyle.SHORT,
-            required: false,
-            max_length: 100,
-          },
-        },
-        {
-          type: ComponentType.LABEL,
-          label: 'Description',
-          description: 'Leave empty to keep the current description',
-          component: {
-            type: 4,
-            custom_id: 'description',
-            style: TextInputStyle.PARAGRAPH,
-            required: false,
-            max_length: 2000,
-          },
-        },
-        {
-          type: ComponentType.LABEL,
-          label: 'Challenge month',
-          description:
-            'Empty keeps current. A month runs 1st to last day (UTC); a range works too: Oct 5 to Oct 25',
-          component: {
-            type: 4,
-            custom_id: 'dates',
-            style: TextInputStyle.SHORT,
-            placeholder: 'e.g. October',
-            required: false,
-          },
-        },
-        // Signups that already closed stay closed, so there's no deadline to edit.
-        ...(signupsClosed
-          ? []
-          : [
-              {
-                type: ComponentType.LABEL,
-                label: 'Signups close (optional)',
-                description:
-                  'Empty keeps current, or closes at the new challenge start if the month changes',
-                component: {
-                  type: 4,
-                  custom_id: 'signup_deadline',
-                  style: TextInputStyle.SHORT,
-                  placeholder: 'Empty = keep current',
-                  required: false,
-                },
-              },
-            ]),
-        {
-          type: ComponentType.LABEL,
-          label: 'Congrats channel (optional)',
-          description: 'Where finisher congrats go. Empty keeps the current pick',
-          component: {
-            type: ComponentType.CHANNEL_SELECT,
-            custom_id: 'congrats_channel',
-            channel_types: [0], // GUILD_TEXT
-            required: false,
-            min_values: 0,
-            max_values: 1,
-          },
-        },
-      ],
-    },
+    data: buildChallengeEditModalData(slug, signupsClosed, prefill),
   })
 }
 
@@ -956,6 +1046,11 @@ export interface ChallengeEditModalInputs {
 
 export interface ChallengeEditExisting {
   name: string
+  /** Current announcement description, when known — the caller reads it off
+   * the live embed since it isn't part of the log-channel meta. Only used to
+   * recognize an unchanged prefilled value as "keep current"; when absent,
+   * any non-empty description input counts as a change. */
+  description?: string
   start: number
   end: number
   deadline: number
@@ -982,12 +1077,24 @@ export type ChallengeEditResolution =
   | { ok: true; resolved: ChallengeEditResolved }
   | { ok: false; error: string }
 
+/** Collapses internal whitespace runs and trims, so a prefilled value that comes back with incidental whitespace changes still compares equal. */
+function normalizeForCompare(text: string): string {
+  return text.trim().replace(/\s+/g, ' ')
+}
+
 /**
  * Pure merge-decision for /challenge-edit: given the raw (possibly-empty)
  * modal inputs and the challenge's current meta, decides which fields
  * actually change and what the resolved values are. No Discord I/O, so it's
  * unit-testable without mocking anything — `finishChallengeEdit` below is
  * the thin Discord-facing wrapper around this.
+ *
+ * The modal may arrive prefilled with the challenge's current values (see
+ * `fetchChallengeEditPrefill`), so a field that comes back exactly equal to
+ * what its own prefill rendering would produce is treated the same as an
+ * empty field — the admin didn't touch it — rather than as an explicit
+ * resubmission that would re-run validation (and could reject an
+ * already-running challenge's own dates) or wrongly appear in `changed`.
  */
 export function resolveChallengeEdit(
   inputs: ChallengeEditModalInputs,
@@ -996,18 +1103,29 @@ export function resolveChallengeEdit(
 ): ChallengeEditResolution {
   const changed: string[] = []
 
-  const name = inputs.name.trim() ? inputs.name : existing.name
-  if (inputs.name.trim()) changed.push('name')
+  const nameTrimmed = inputs.name.trim()
+  const nameGiven = nameTrimmed !== '' && nameTrimmed !== existing.name.trim()
+  const name = nameGiven ? inputs.name : existing.name
+  if (nameGiven) changed.push('name')
 
-  const description = inputs.description.trim() ? inputs.description : undefined
-  if (description !== undefined) changed.push('description')
+  const descriptionTrimmed = inputs.description.trim()
+  const descriptionUnchanged =
+    existing.description !== undefined && descriptionTrimmed === existing.description.trim()
+  const descriptionGiven = descriptionTrimmed !== '' && !descriptionUnchanged
+  const description = descriptionGiven ? inputs.description : undefined
+  if (descriptionGiven) changed.push('description')
 
   let start = existing.start
   let end = existing.end
   let deadline = existing.deadline
 
-  const datesGiven = Boolean(inputs.dates.trim())
-  const deadlineGiven = Boolean(inputs.signupDeadline.trim())
+  const datesTrimmed = inputs.dates.trim()
+  const datesPrefill = normalizeForCompare(formatChallengeDatesForEdit(existing.start, existing.end, now))
+  const datesGiven = datesTrimmed !== '' && normalizeForCompare(datesTrimmed) !== datesPrefill
+
+  const deadlineTrimmed = inputs.signupDeadline.trim()
+  const deadlinePrefill = normalizeForCompare(formatChallengeDeadlineForEdit(existing.deadline, now))
+  const deadlineGiven = deadlineTrimmed !== '' && normalizeForCompare(deadlineTrimmed) !== deadlinePrefill
 
   if (datesGiven) {
     // Same validation path as /challenge-setup: parseDateRangeField splits
@@ -1055,7 +1173,8 @@ export function resolveChallengeEdit(
     changed.push('signup deadline')
   }
 
-  const congratsGiven = Boolean(inputs.congratsChannelId.trim())
+  const congratsTrimmed = inputs.congratsChannelId.trim()
+  const congratsGiven = congratsTrimmed !== '' && congratsTrimmed !== (existing.congrats_channel_id ?? '')
   const congrats_channel_id = congratsGiven ? inputs.congratsChannelId : existing.congrats_channel_id
   if (congratsGiven) changed.push('congrats channel')
 
@@ -1086,8 +1205,16 @@ async function finishChallengeEdit(interaction: DiscordInteraction, slug: string
       congratsChannelId: extractModalValue(interaction, 'congrats_channel') ?? '',
     }
 
+    // Fetched up front (not just when a description change is confirmed)
+    // because resolveChallengeEdit needs it to recognize a prefilled
+    // description that came back unchanged.
+    const fetchedMessage = await getMessage(meta.channel_id, meta.message_id)
+    const currentEmbed = fetchedMessage.embeds?.[0] ?? {}
+    const currentDescription = typeof currentEmbed.description === 'string' ? currentEmbed.description : ''
+
     const resolution = resolveChallengeEdit(inputs, {
       name: meta.name,
+      description: currentDescription,
       start: meta.start,
       end: meta.end,
       deadline: meta.deadline,
@@ -1106,9 +1233,6 @@ async function finishChallengeEdit(interaction: DiscordInteraction, slug: string
       return
     }
 
-    const fetchedMessage = await getMessage(meta.channel_id, meta.message_id)
-    const currentEmbed = fetchedMessage.embeds?.[0] ?? {}
-    const currentDescription = typeof currentEmbed.description === 'string' ? currentEmbed.description : ''
     const description = resolved.description ?? currentDescription
 
     let embed = buildAnnouncementEmbed({

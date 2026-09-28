@@ -1,5 +1,11 @@
 import { describe, expect, it } from 'vitest'
-import { parseAdminDate, parseDateRangeField, validateChallengeDates } from './dates.js'
+import {
+  formatChallengeDatesForEdit,
+  formatChallengeDeadlineForEdit,
+  parseAdminDate,
+  parseDateRangeField,
+  validateChallengeDates,
+} from './dates.js'
 
 describe('parseAdminDate', () => {
   it('parses YYYY-MM-DD as UTC midnight', () => {
@@ -664,5 +670,97 @@ describe('validateChallengeDates', () => {
         expect(result.dates.end).toBe(Date.UTC(2026, 8, 30, 18, 0) / 1000)
       }
     })
+  })
+})
+
+describe('formatChallengeDatesForEdit', () => {
+  const NOW = Date.UTC(2026, 6, 19, 12, 0) // 2026-07-19
+
+  it('a whole calendar month in the current year renders as just the month name', () => {
+    const start = Date.UTC(2026, 9, 1) / 1000 // Oct 1 2026
+    const end = Date.UTC(2026, 10, 1) / 1000 // Nov 1 2026
+    expect(formatChallengeDatesForEdit(start, end, NOW)).toBe('October')
+  })
+
+  it('a whole calendar month in a different year includes the year', () => {
+    const start = Date.UTC(2027, 9, 1) / 1000
+    const end = Date.UTC(2027, 10, 1) / 1000
+    expect(formatChallengeDatesForEdit(start, end, NOW)).toBe('October 2027')
+  })
+
+  it('a whole calendar month spanning a year boundary (December) still collapses to the month name', () => {
+    const start = Date.UTC(2026, 11, 1) / 1000 // Dec 1 2026
+    const end = Date.UTC(2027, 0, 1) / 1000 // Jan 1 2027
+    expect(formatChallengeDatesForEdit(start, end, NOW)).toBe('December')
+  })
+
+  it('a midnight-aligned partial range renders as "Mon D to Mon D", using the inclusive last day', () => {
+    const start = Date.UTC(2026, 9, 5) / 1000 // Oct 5
+    const end = Date.UTC(2026, 9, 26) / 1000 // exclusive cutoff -> inclusive last day is Oct 25
+    expect(formatChallengeDatesForEdit(start, end, NOW)).toBe('Oct 5 to Oct 25')
+  })
+
+  it('a non-midnight start or end includes its own time', () => {
+    const start = Date.UTC(2026, 9, 5, 18, 0) / 1000
+    const end = Date.UTC(2026, 9, 26) / 1000
+    expect(formatChallengeDatesForEdit(start, end, NOW)).toBe('Oct 5 18:00 to Oct 25')
+  })
+
+  it('includes the year on a partial range in a different year', () => {
+    const start = Date.UTC(2027, 9, 5) / 1000
+    const end = Date.UTC(2027, 9, 26) / 1000
+    expect(formatChallengeDatesForEdit(start, end, NOW)).toBe('Oct 5 2027 to Oct 25 2027')
+  })
+})
+
+describe('formatChallengeDeadlineForEdit', () => {
+  const NOW = Date.UTC(2026, 6, 19, 12, 0)
+
+  it('a midnight-aligned deadline in the current year renders as "Mon D"', () => {
+    expect(formatChallengeDeadlineForEdit(Date.UTC(2026, 9, 1) / 1000, NOW)).toBe('Oct 1')
+  })
+
+  it('a non-midnight deadline includes its time', () => {
+    expect(formatChallengeDeadlineForEdit(Date.UTC(2026, 9, 1, 18, 30) / 1000, NOW)).toBe('Oct 1 18:30')
+  })
+
+  it('a deadline in a different year includes the year', () => {
+    expect(formatChallengeDeadlineForEdit(Date.UTC(2027, 9, 1) / 1000, NOW)).toBe('Oct 1 2027')
+  })
+})
+
+describe('formatChallengeDatesForEdit round-trips through parseDateRangeField + validateChallengeDates', () => {
+  const NOW = Date.UTC(2026, 6, 19, 12, 0) // 2026-07-19, well before every start below
+
+  function expectRoundTrip(start: number, end: number) {
+    const formatted = formatChallengeDatesForEdit(start, end, NOW)
+    const range = parseDateRangeField(formatted, NOW)
+    expect(range.ok).toBe(true)
+    if (!range.ok) return
+    const result = validateChallengeDates(range, NOW)
+    expect(result.ok).toBe(true)
+    if (!result.ok) return
+    expect(result.dates.start).toBe(start)
+    expect(result.dates.end).toBe(end)
+  }
+
+  it('round-trips a whole-month challenge', () => {
+    expectRoundTrip(Date.UTC(2026, 9, 1) / 1000, Date.UTC(2026, 10, 1) / 1000)
+  })
+
+  it('round-trips a whole-month challenge in a future year', () => {
+    expectRoundTrip(Date.UTC(2027, 9, 1) / 1000, Date.UTC(2027, 10, 1) / 1000)
+  })
+
+  it('round-trips a midnight-aligned partial range', () => {
+    expectRoundTrip(Date.UTC(2026, 9, 5) / 1000, Date.UTC(2026, 9, 26) / 1000)
+  })
+
+  it('round-trips a range with a non-midnight start time', () => {
+    expectRoundTrip(Date.UTC(2026, 9, 5, 18, 0) / 1000, Date.UTC(2026, 9, 26) / 1000)
+  })
+
+  it('round-trips a range with a non-midnight end time', () => {
+    expectRoundTrip(Date.UTC(2026, 9, 5) / 1000, Date.UTC(2026, 9, 25, 20, 30) / 1000)
   })
 })
