@@ -1,48 +1,6 @@
 {
-  "last_updated": "2026-09-28T01:27:19.079Z",
+  "last_updated": "2026-09-28T05:43:05.851Z",
   "giveaways": [
-    {
-      "id": "hHhrW",
-      "name": "Battletoads",
-      "points": 20,
-      "copies": 1,
-      "app_id": 1244950,
-      "package_id": null,
-      "link": "hHhrW/battletoads",
-      "created_timestamp": 1789950916,
-      "start_timestamp": 1789950916,
-      "end_timestamp": 1790568000,
-      "whitelist": true,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 39,
-      "creator": "76561198234142828",
-      "is_shared": true,
-      "cv_status": "REDUCED_CV",
-      "creator_username": "lockcjwen",
-      "deleted": false
-    },
-    {
-      "id": "h83eZ",
-      "name": "Cloudscrapers",
-      "points": 8,
-      "copies": 1,
-      "app_id": 3562200,
-      "package_id": null,
-      "link": "h83eZ/cloudscrapers",
-      "created_timestamp": 1789977849,
-      "start_timestamp": 1789977849,
-      "end_timestamp": 1790571600,
-      "whitelist": true,
-      "group": true,
-      "comment_count": 7,
-      "entry_count": 53,
-      "creator": "76561198001969728",
-      "is_shared": true,
-      "cv_status": "FULL_CV",
-      "creator_username": "schmoan",
-      "deleted": false
-    },
     {
       "id": "LrJup",
       "name": "FINAL FANTASY VII REBIRTH",
@@ -56,7 +14,7 @@
       "end_timestamp": 1790575140,
       "group": true,
       "comment_count": 0,
-      "entry_count": 8,
+      "entry_count": 7,
       "creator": "76561198080362358",
       "cv_status": "FULL_CV",
       "event_type": "september_event_2026",
@@ -97,7 +55,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 65,
+      "entry_count": 66,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -197,7 +155,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 60,
+      "entry_count": 59,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -298,7 +256,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 62,
+      "entry_count": 63,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -338,7 +296,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 21,
+      "entry_count": 26,
       "creator": "76561197994770037",
       "is_shared": true,
       "cv_status": "FULL_CV",
@@ -398,7 +356,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 35,
+      "entry_count": 36,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -584,6 +542,62 @@
       "deleted": false
     },
     {
+      "id": "h83eZ",
+      "name": "Cloudscrapers",
+      "points": 8,
+      "copies": 1,
+      "app_id": 3562200,
+      "package_id": null,
+      "link": "h83eZ/cloudscrapers",
+      "created_timestamp": 1789977849,
+      "start_timestamp": 1789977849,
+      "end_timestamp": 1790571600,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 7,
+      "entry_count": 54,
+      "creator": "76561198001969728",
+      "is_shared": true,
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "FULL_CV",
+      "creator_username": "schmoan",
+      "deleted": false
+    },
+    {
+      "id": "hHhrW",
+      "name": "Battletoads",
+      "points": 20,
+      "copies": 1,
+      "app_id": 1244950,
+      "package_id": null,
+      "link": "hHhrW/battletoads",
+      "created_timestamp": 1789950916,
+      "start_timestamp": 1789950916,
+      "end_timestamp": 1790568000,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 40,
+      "creator": "76561198234142828",
+      "is_shared": true,
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "REDUCED_CV",
+      "creator_username": "lockcjwen",
+      "deleted": false
+    },
+    {
       "id": "3vZ16",
       "name": "CHRONO TRIGGER",
       "points": 15,
@@ -595,13 +609,20 @@
       "start_timestamp": 1789954380,
       "end_timestamp": 1790557680,
       "group": true,
-      "comment_count": 0,
+      "comment_count": 2,
       "entry_count": 5,
       "creator": "76561197981107149",
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": "76561198017660760",
+          "status": "received",
+          "winner_username": "TempR"
+        }
+      ],
       "cv_status": "FULL_CV",
       "event_type": "september_event_2026",
-      "creator_username": "ithamore",
-      "deleted": false
+      "creator_username": "ithamore"
     },
     {
       "id": "6rRUG",
@@ -669,20 +690,20 @@
       "start_timestamp": 1790219445,
       "end_timestamp": 1790532000,
       "group": true,
-      "comment_count": 0,
+      "comment_count": 1,
       "entry_count": 55,
       "creator": "76561199141726712",
       "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "ALUSHAL",
+          "status": "received",
+          "winner_username": "ALUSHAL"
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "vot4ol",
-      "deleted": false
+      "creator_username": "vot4ol"
     },
     {
       "id": "BM83c",
