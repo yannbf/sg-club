@@ -477,7 +477,10 @@ describe('validateChallengeDates', () => {
     })
 
     it('accepts a mix of lenient forms across start/end', () => {
-      const result = validateChallengeDates({ start: 'tomorrow', end: 'next friday' }, NOW)
+      // "next friday" alone is only 4 days out, which would trip the
+      // suspicious-short-window guard — "+10d" keeps this test about mixing
+      // lenient forms, not about that guard.
+      const result = validateChallengeDates({ start: 'tomorrow', end: '+10d' }, NOW)
       expect(result.ok).toBe(true)
     })
 
@@ -509,17 +512,20 @@ describe('validateChallengeDates', () => {
       }
     })
 
-    it('allows "<today\'s date> to <tomorrow>" typed on the same day ("July 20 to July 21")', () => {
+    it('allows "<today\'s date> to <a week+ later>" typed on the same day ("July 20 to July 30")', () => {
+      // A 1-2 day immediate window is exactly the suspicious-short-window
+      // shape covered separately below, so this uses a >=7-day span to
+      // isolate the immediate-start + date-only-end-bump mechanic.
       const SAME_DAY_NOW = Date.UTC(2026, 6, 20, 15, 0) // 2026-07-20 15:00 UTC
-      const range = parseDateRangeField('July 20 to July 21')
+      const range = parseDateRangeField('July 20 to July 30')
       expect(range.ok).toBe(true)
       if (!range.ok) return
       const result = validateChallengeDates(range, SAME_DAY_NOW)
       expect(result.ok).toBe(true)
       if (result.ok) {
         expect(result.dates.start).toBe(Date.UTC(2026, 6, 20) / 1000)
-        // "July 21" is a date-only end, runs through July 21, cutoff is July 22.
-        expect(result.dates.end).toBe(Date.UTC(2026, 6, 22) / 1000)
+        // "July 30" is a date-only end, runs through July 30, cutoff is July 31.
+        expect(result.dates.end).toBe(Date.UTC(2026, 6, 31) / 1000)
       }
     })
 
@@ -578,6 +584,48 @@ describe('validateChallengeDates', () => {
         ok: false,
         error: 'Signup deadline must be at or before the start date.',
       })
+    })
+  })
+
+  describe('suspicious short + immediate run windows', () => {
+    // A run that starts within a day of "now" and lasts under a week has the
+    // same shape as a signup window typed into the run-dates field by mistake.
+    const NOW = Date.UTC(2026, 8, 26, 12, 0)
+
+    it('rejects a run that starts today and lasts under a week, with a fix suggestion', () => {
+      const result = validateChallengeDates({ start: 'today', end: 'Sept 30' }, NOW)
+      expect(result.ok).toBe(false)
+      if (result.ok) return
+      expect(result.error).toContain('starts now')
+      expect(result.error).toContain('Challenge month')
+      expect(result.error).toContain('signups stay open until it starts')
+    })
+
+    it('rejects a run starting tomorrow that lasts under a week', () => {
+      const result = validateChallengeDates({ start: 'tomorrow', end: '+3d' }, NOW)
+      expect(result.ok).toBe(false)
+    })
+
+    it('accepts an immediate start with a full-month duration (the normal case)', () => {
+      const result = validateChallengeDates({ start: 'today', end: 'October 31' }, NOW)
+      expect(result.ok).toBe(true)
+    })
+
+    it('accepts a short window that does not start soon', () => {
+      const result = validateChallengeDates({ start: '+2w', end: 'Oct 17' }, NOW)
+      expect(result.ok).toBe(true)
+    })
+
+    it('accepts a duration of exactly the threshold (7 days is not "fewer than 7")', () => {
+      // A non-midnight start/end keeps the inclusive-end-date bump (which
+      // only applies to midnight-aligned ends) from shifting the boundary.
+      const result = validateChallengeDates({ start: 'today at 10:00', end: '+7d' }, NOW)
+      expect(result.ok).toBe(true)
+    })
+
+    it('rejects a duration just under the threshold (6 days)', () => {
+      const result = validateChallengeDates({ start: 'today at 10:00', end: '+6d' }, NOW)
+      expect(result.ok).toBe(false)
     })
   })
 

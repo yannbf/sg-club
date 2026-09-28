@@ -94,6 +94,20 @@ export function buildAnnouncementEmbed(input: AnnouncementInput): Record<string,
   return embed
 }
 
+/**
+ * Renders the signup/run timeline in plain words with Discord timestamps, for
+ * the ephemeral confirmation after /challenge-setup and /challenge-edit, so a
+ * window entered in the wrong field is visible before the crons act on it.
+ */
+export function formatChallengeTimeline(dates: { signupDeadline: number; start: number; end: number }): string {
+  const days = Math.round((dates.end - dates.start) / 86400)
+  const dayLabel = `${days} day${days === 1 ? '' : 's'}`
+  return (
+    `Signups close: <t:${dates.signupDeadline}:F> (<t:${dates.signupDeadline}:R>)\n` +
+    `Challenge: <t:${dates.start}:F> → <t:${dates.end - 1}:F> (${dayLabel})`
+  )
+}
+
 interface ActionRowButton {
   type: typeof ComponentType.BUTTON
   style: number

@@ -53,6 +53,7 @@ import {
   buildChallengeListMessages,
   buildDisabledComponents,
   buildSignupComponents,
+  formatChallengeTimeline,
   withUpdatedSignupCounts,
 } from '../_lib/render.js'
 import {
@@ -375,20 +376,35 @@ async function handleChallengeSetup(
         },
         {
           type: ComponentType.LABEL,
-          label: 'Challenge run dates (UTC), not signup window',
+          label: 'Challenge month',
           description:
-            'September 1 to September 30 (runs through the end date), or just "September"',
+            'Runs the whole month, 1st to last day (UTC). A date range also works: Oct 5 to Oct 25',
           component: {
             type: 4,
             custom_id: 'dates',
             style: TextInputStyle.SHORT,
+            placeholder: 'October',
             required: true,
           },
         },
         {
           type: ComponentType.LABEL,
+          label: 'Signups close (optional)',
+          description:
+            'Leave empty: signups open now and close when the challenge starts',
+          component: {
+            type: 4,
+            custom_id: 'signup_deadline',
+            style: TextInputStyle.SHORT,
+            placeholder: 'Empty = when the challenge starts',
+            required: false,
+          },
+        },
+        {
+          type: ComponentType.LABEL,
           label: 'Congrats channel (optional)',
-          description: "Where 'X finished the challenge' posts go (default: this channel)",
+          description:
+            "Skip for now: set it later with /challenge-edit once the challenge channel exists",
           component: {
             type: ComponentType.CHANNEL_SELECT,
             custom_id: 'congrats_channel',
@@ -411,6 +427,7 @@ async function finishChallengeSetupFromModal(interaction: DiscordInteraction): P
     const name = extractModalValue(interaction, 'name') ?? ''
     const description = extractModalValue(interaction, 'description') ?? ''
     const datesInput = extractModalValue(interaction, 'dates') ?? ''
+    const signupDeadlineInput = extractModalValue(interaction, 'signup_deadline') ?? ''
     const congratsChannelId = extractModalValue(interaction, 'congrats_channel') ?? undefined
 
     const slug = slugify(name)
@@ -430,10 +447,9 @@ async function finishChallengeSetupFromModal(interaction: DiscordInteraction): P
       start: rangeResult.start,
       end: rangeResult.end,
       endExclusive: rangeResult.endExclusive,
-      // The setup modal no longer asks for a signup deadline — the default
-      // rule applies (the start for future challenges, the end for
-      // immediate starts); /challenge-edit can still adjust it afterwards.
-      signupDeadline: undefined,
+      // Empty means the default rule applies (the start for future
+      // challenges, the end for immediate starts).
+      signupDeadline: signupDeadlineInput.trim() ? signupDeadlineInput : undefined,
     })
     if (!datesResult.ok) {
       await editOriginalResponse(appId, token, { content: `❌ ${datesResult.error}` })
@@ -487,8 +503,9 @@ async function finishChallengeSetupFromModal(interaction: DiscordInteraction): P
 
     const announcementLink = `https://discord.com/channels/${GUILD_ID}/${targetChannelId}/${announcement.id}`
     const congratsNote = congratsChannelId ? ` Congrats will post in <#${congratsChannelId}>.` : ''
+    const timeline = formatChallengeTimeline(datesResult.dates)
     await editOriginalResponse(appId, token, {
-      content: `✅ Challenge announced: ${announcementLink}${congratsNote}`,
+      content: `✅ Challenge announced: ${announcementLink}${congratsNote}\n${timeline}`,
     })
   } catch (err) {
     const message = (err as Error).message
@@ -796,7 +813,10 @@ async function finishChallengeEditPicker(interaction: DiscordInteraction): Promi
               custom_id: CHALLENGE_EDIT_SELECT_ID,
               options: challenges.map((entry) => ({
                 label: truncateLabel(entry.meta.name, 100),
-                value: entry.meta.slug,
+                value: encodeEditSelectValue(
+                  entry.meta.slug,
+                  entry.closed || entry.meta.deadline <= nowSeconds
+                ),
                 description: `${isOngoing(entry, nowSeconds) ? 'ongoing' : 'ended'} · ${entry.meta.slug}`,
               })),
             },
@@ -812,6 +832,23 @@ async function finishChallengeEditPicker(interaction: DiscordInteraction): Promi
 }
 
 /**
+ * The `cedit` option value: the slug, plus a `|closed` suffix when the
+ * challenge's signups are already closed. The edit modal must open without
+ * any fetch, so this is how it learns to leave out the signup-deadline field.
+ */
+export function encodeEditSelectValue(slug: string, signupsClosed: boolean): string {
+  return signupsClosed ? `${slug}${EDIT_SELECT_CLOSED_SUFFIX}` : slug
+}
+
+export function decodeEditSelectValue(value: string): { slug: string; signupsClosed: boolean } {
+  return value.endsWith(EDIT_SELECT_CLOSED_SUFFIX)
+    ? { slug: value.slice(0, -EDIT_SELECT_CLOSED_SUFFIX.length), signupsClosed: true }
+    : { slug: value, signupsClosed: false }
+}
+
+const EDIT_SELECT_CLOSED_SUFFIX = '|closed'
+
+/**
  * MESSAGE_COMPONENT entry for the `cedit` string-select — opens the edit
  * modal for the chosen slug. Same constraint as /challenge-setup's modal:
  * Discord doesn't allow deferring a component interaction and then opening a
@@ -823,11 +860,12 @@ async function handleChallengeEditSelect(
   interaction: DiscordInteraction,
   res: ServerResponse
 ): Promise<void> {
-  const slug = interaction.data?.values?.[0]
-  if (!slug) {
+  const selected = interaction.data?.values?.[0]
+  if (!selected) {
     respondJson(res, 400, { error: 'Missing slug' })
     return
   }
+  const { slug, signupsClosed } = decodeEditSelectValue(selected)
 
   respondJson(res, 200, {
     type: InteractionResponseType.MODAL,
@@ -861,30 +899,39 @@ async function handleChallengeEditSelect(
         },
         {
           type: ComponentType.LABEL,
-          label: 'Run dates (UTC), not signup window',
-          description: 'September 1 to September 30 (runs through end) — empty keeps current',
+          label: 'Challenge month',
+          description:
+            'Empty keeps current. A month runs 1st to last day (UTC); a range works too: Oct 5 to Oct 25',
           component: {
             type: 4,
             custom_id: 'dates',
             style: TextInputStyle.SHORT,
+            placeholder: 'e.g. October',
             required: false,
           },
         },
+        // Signups that already closed stay closed, so there's no deadline to edit.
+        ...(signupsClosed
+          ? []
+          : [
+              {
+                type: ComponentType.LABEL,
+                label: 'Signups close (optional)',
+                description:
+                  'Empty keeps current, or closes at the new challenge start if the month changes',
+                component: {
+                  type: 4,
+                  custom_id: 'signup_deadline',
+                  style: TextInputStyle.SHORT,
+                  placeholder: 'Empty = keep current',
+                  required: false,
+                },
+              },
+            ]),
         {
           type: ComponentType.LABEL,
-          label: 'Signup deadline (UTC)',
-          description: 'Empty keeps current (or the default if dates change)',
-          component: {
-            type: 4,
-            custom_id: 'signup_deadline',
-            style: TextInputStyle.SHORT,
-            required: false,
-          },
-        },
-        {
-          type: ComponentType.LABEL,
-          label: 'Congrats channel',
-          description: 'Empty keeps the current pick',
+          label: 'Congrats channel (optional)',
+          description: 'Where finisher congrats go. Empty keeps the current pick',
           component: {
             type: ComponentType.CHANNEL_SELECT,
             custom_id: 'congrats_channel',
@@ -1100,8 +1147,13 @@ async function finishChallengeEdit(interaction: DiscordInteraction, slug: string
     })
 
     const announcementLink = `https://discord.com/channels/${GUILD_ID}/${meta.channel_id}/${meta.message_id}`
+    const timeline = formatChallengeTimeline({
+      signupDeadline: resolved.deadline,
+      start: resolved.start,
+      end: resolved.end,
+    })
     await editOriginalResponse(appId, token, {
-      content: `✅ Updated **${resolved.name}** — changed: ${resolved.changed.join(', ')}. ${announcementLink}`,
+      content: `✅ Updated **${resolved.name}** — changed: ${resolved.changed.join(', ')}. ${announcementLink}\n${timeline}`,
     })
   } catch (err) {
     const message = (err as Error).message

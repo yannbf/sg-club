@@ -5,6 +5,7 @@ import { FORCED_ANNOUNCE_CHANNEL_ID } from '../_lib/constants.js'
 import { serializeArchived, serializeChallenge, serializeSignup } from '../_lib/signup-log.js'
 import {
   buildRaffleMessage,
+  encodeEditSelectValue,
   hasManageGuild,
   isPastDeadline,
   parseNameList,
@@ -567,12 +568,53 @@ describe('MODAL_SUBMIT', () => {
   })
 })
 
+describe('MESSAGE_COMPONENT cedit (challenge-edit picker)', () => {
+  async function openEditModal(value: string) {
+    const req = makeReq({
+      type: 3,
+      token: 'tok',
+      channel_id: 'chan1',
+      member: { user: { id: 'd1', username: 'yannbf' } },
+      data: { custom_id: 'cedit', values: [value] },
+    })
+    const res = makeRes()
+    await handler(req, res)
+    return res.body as {
+      type: number
+      data: { custom_id: string; components: Array<{ component: { custom_id: string } }> }
+    }
+  }
+
+  it('offers the signup deadline while signups are open', async () => {
+    const body = await openEditModal('vellum')
+    expect(body).toMatchObject({ type: 9, data: { custom_id: 'cemod|vellum' } })
+    expect(body.data.components.map((c) => c.component.custom_id)).toEqual([
+      'name',
+      'description',
+      'dates',
+      'signup_deadline',
+      'congrats_channel',
+    ])
+  })
+
+  it('leaves out the signup deadline once signups have closed', async () => {
+    const body = await openEditModal(encodeEditSelectValue('vellum', true))
+    expect(body.data.custom_id).toBe('cemod|vellum')
+    expect(body.data.components.map((c) => c.component.custom_id)).toEqual([
+      'name',
+      'description',
+      'dates',
+      'congrats_channel',
+    ])
+  })
+})
+
 describe('APPLICATION_COMMAND challenge-setup', () => {
   beforeEach(() => {
     vi.clearAllMocks()
   })
 
-  it('responds immediately with a MODAL and 4 Label-wrapped components, without deferring', async () => {
+  it('responds immediately with a MODAL and 5 Label-wrapped components, without deferring', async () => {
     const req = makeReq({
       type: 2,
       token: 'tok',
@@ -592,12 +634,12 @@ describe('APPLICATION_COMMAND challenge-setup', () => {
       data: { components: Array<{ type: number; label: string; component: { custom_id: string; type: number } }> }
     }
     // Components-v2: every field is a Label (type 18) wrapping its input
-    // component. No signup-deadline field — the default rule always applies
-    // at setup (/challenge-edit can still adjust it).
-    expect(body.data.components).toHaveLength(4)
+    // component. The challenge month comes first; signup_deadline is
+    // optional and defaults to the challenge start when left blank.
+    expect(body.data.components).toHaveLength(5)
     expect(body.data.components.every((c) => c.type === 18)).toBe(true)
     const customIds = body.data.components.map((c) => c.component.custom_id)
-    expect(customIds).toEqual(['name', 'description', 'dates', 'congrats_channel'])
+    expect(customIds).toEqual(['name', 'description', 'dates', 'signup_deadline', 'congrats_channel'])
 
     // The congrats-channel field is a Channel Select (type 8), text-channels only.
     const congratsChannel = body.data.components.find((c) => c.component.custom_id === 'congrats_channel')!

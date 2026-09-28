@@ -329,6 +329,12 @@ export interface ChallengeDates {
   end: number
 }
 
+// A run window that starts almost immediately and lasts only a few days is
+// almost always the SIGNUP window typed into the "Challenge month" field; TGC
+// challenges normally run for a month.
+const SUSPICIOUS_WINDOW_START_GRACE_DAYS = 1
+const SUSPICIOUS_WINDOW_MAX_DURATION_DAYS = 7
+
 export type ChallengeDatesResult =
   | { ok: true; dates: ChallengeDates }
   | { ok: false; error: string }
@@ -363,6 +369,10 @@ export type ChallengeDatesResult =
  * midnight. An end with an explicit time of day is used as-is. Callers that
  * already resolved an exclusive cutoff (the bare-month shorthand in
  * `parseDateRangeField`) pass `endExclusive: true` to skip the bump.
+ *
+ * Rejects a run window that starts within `SUSPICIOUS_WINDOW_START_GRACE_DAYS`
+ * of `now` and lasts fewer than `SUSPICIOUS_WINDOW_MAX_DURATION_DAYS` — the
+ * signature of a signup window typed into the run-dates field by mistake.
  */
 export function validateChallengeDates(
   input: { start: string; end: string; signupDeadline?: string; endExclusive?: boolean },
@@ -408,6 +418,19 @@ export function validateChallengeDates(
   }
   if (end <= nowSeconds) {
     return { ok: false, error: 'End date must be in the future.' }
+  }
+
+  const startsImminently = start - nowSeconds <= SUSPICIOUS_WINDOW_START_GRACE_DAYS * ONE_DAY_SECONDS
+  const durationDays = (end - start) / ONE_DAY_SECONDS
+  if (startsImminently && durationDays < SUSPICIOUS_WINDOW_MAX_DURATION_DAYS) {
+    const shownDays = Math.max(1, Math.round(durationDays))
+    return {
+      ok: false,
+      error:
+        `That run is only ${shownDays} day${shownDays === 1 ? '' : 's'} and starts now — did you enter the ` +
+        'signup period? Put the month the challenge is played under "Challenge month" (e.g. "October"); ' +
+        'signups stay open until it starts.',
+    }
   }
 
   return { ok: true, dates: { signupDeadline, start, end } }
