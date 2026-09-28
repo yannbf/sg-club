@@ -431,10 +431,13 @@ function Podium({
   top,
   totalAchievements,
   isCompletion = false,
+  hasGoal = false,
 }: {
   top: ChallengeParticipant[]
   totalAchievements: number
   isCompletion?: boolean
+  /** Single-achievement-goal challenges show unlocked/not-yet, not a fraction. */
+  hasGoal?: boolean
 }) {
   return (
     <div className="grid grid-cols-1 items-end gap-4 sm:grid-cols-3">
@@ -489,17 +492,41 @@ function Podium({
                 {p.is_guest && <GuestTag />}
                 <ReviewBadge p={p} />
               </div>
-              <div className="flex items-center gap-1.5">
-                <Award className={cn('h-4 w-4', style.text)} />
-                <span className="text-lg font-bold tabular-nums-strict text-foreground">
-                  {isCompletion
-                    ? p.achievements_unlocked_total
-                    : p.challenge_achievement_count}
-                </span>
-                <span className="text-xs text-muted-foreground">
-                  / {totalAchievements}
-                </span>
-              </div>
+              {hasGoal ? (
+                <div className="flex flex-col items-center gap-0.5">
+                  <span
+                    className={cn(
+                      'inline-flex items-center gap-1.5 text-sm font-bold',
+                      p.is_complete
+                        ? 'text-[var(--accent-green)]'
+                        : 'text-muted-foreground',
+                    )}
+                  >
+                    {p.is_complete ? (
+                      <BadgeCheck className="h-4 w-4" />
+                    ) : (
+                      <Award className="h-4 w-4" />
+                    )}
+                    {p.is_complete ? 'Unlocked' : 'Not yet'}
+                  </span>
+                  <span className="text-[11px] text-subtle">
+                    {p.achievements_unlocked_total}/{totalAchievements}{' '}
+                    achievements
+                  </span>
+                </div>
+              ) : (
+                <div className="flex items-center gap-1.5">
+                  <Award className={cn('h-4 w-4', style.text)} />
+                  <span className="text-lg font-bold tabular-nums-strict text-foreground">
+                    {isCompletion
+                      ? p.achievements_unlocked_total
+                      : p.challenge_achievement_count}
+                  </span>
+                  <span className="text-xs text-muted-foreground">
+                    / {totalAchievements}
+                  </span>
+                </div>
+              )}
               <span className="inline-flex items-center gap-1 text-xs text-muted-foreground">
                 <Clock className="h-3 w-3" />
                 {fmtMinutes(p.playtime_challenge_minutes)} played
@@ -541,6 +568,7 @@ function LeaderboardRow({
   isCompletion = false,
   minPlaytime = 0,
   requireReview = false,
+  goalAchievement,
 }: {
   p: ChallengeParticipant
   rank: number
@@ -548,6 +576,8 @@ function LeaderboardRow({
   isCompletion?: boolean
   minPlaytime?: number
   requireReview?: boolean
+  /** Single-achievement-goal challenges: shows unlocked/not-yet, not a 100% bar. */
+  goalAchievement?: ChallengeData['goalAchievement']
 }) {
   // Completion races rank by total achievements unlocked (progress toward 100%);
   // achievement challenges by achievements earned since the start. Playtime is
@@ -644,12 +674,14 @@ function LeaderboardRow({
             ) : p.completed_after_deadline ? (
               <span className="mt-1 inline-flex items-center gap-1 text-[11px] font-medium text-[var(--accent-rose)]">
                 <Flag className="h-3 w-3" />
-                Reached 100% after the deadline
+                {goalAchievement
+                  ? 'Reached the goal after the deadline'
+                  : 'Reached 100% after the deadline'}
               </span>
             ) : p.is_complete ? (
               <span className="mt-1 inline-flex items-center gap-1 text-[11px] font-medium text-muted-foreground">
                 <Clock className="h-3 w-3" />
-                100% ·{' '}
+                {goalAchievement ? 'Goal unlocked' : '100%'} ·{' '}
                 {playtimeLeft > 0
                   ? `${fmtMinutes(playtimeLeft)} more play to qualify`
                   : requireReview && !p.wrote_review
@@ -680,19 +712,47 @@ function LeaderboardRow({
 
       {/* Achievements progress (desktop) */}
       <div className="hidden flex-col gap-1 sm:flex">
-        <div className="flex items-center justify-between text-xs">
-          <span className="font-semibold tabular-nums-strict text-foreground">
-            {metric}
-            <span className="text-muted-foreground"> / {totalAchievements}</span>
-          </span>
-          <span className="text-muted-foreground">{pct}%</span>
-        </div>
-        <div className="h-1.5 w-full overflow-hidden rounded-full bg-card-background-hover">
-          <div
-            className="h-full rounded-full bg-[var(--primary)] transition-all"
-            style={{ width: `${pct}%` }}
-          />
-        </div>
+        {goalAchievement ? (
+          <div className="flex items-center gap-1.5 text-xs">
+            <span
+              className={cn(
+                'inline-flex items-center gap-1 font-semibold',
+                p.is_complete
+                  ? 'text-[var(--accent-green)]'
+                  : 'text-muted-foreground',
+              )}
+            >
+              {p.is_complete ? (
+                <BadgeCheck className="h-3.5 w-3.5" />
+              ) : (
+                <Award className="h-3.5 w-3.5" />
+              )}
+              {p.is_complete ? 'Unlocked' : 'Not yet'}
+            </span>
+            <span className="text-[11px] text-subtle">
+              ({metric}/{totalAchievements} achievements)
+            </span>
+          </div>
+        ) : (
+          <>
+            <div className="flex items-center justify-between text-xs">
+              <span className="font-semibold tabular-nums-strict text-foreground">
+                {metric}
+                <span className="text-muted-foreground">
+                  {' '}
+                  / {totalAchievements}
+                </span>
+              </span>
+              <span className="text-muted-foreground">{pct}%</span>
+            </div>
+            <div className="h-1.5 w-full overflow-hidden rounded-full bg-card-background-hover">
+              <div
+                className="h-full rounded-full bg-[var(--primary)] transition-all"
+                style={{ width: `${pct}%` }}
+              />
+            </div>
+          </>
+        )}
       </div>
 
       {/* Playtime (desktop) */}
@@ -713,10 +773,28 @@ function LeaderboardRow({
       <div className="flex items-center justify-end gap-2">
         {/* Mobile: achievements + hours played stacked */}
         <div className="flex flex-col items-end gap-0.5 sm:hidden">
-          <span className="inline-flex items-center gap-1 text-sm font-semibold text-foreground">
-            <Award className="h-3.5 w-3.5 text-primary-hi" />
-            {metric}
-          </span>
+          {goalAchievement ? (
+            <span
+              className={cn(
+                'inline-flex items-center gap-1 text-sm font-semibold',
+                p.is_complete
+                  ? 'text-[var(--accent-green)]'
+                  : 'text-muted-foreground',
+              )}
+            >
+              {p.is_complete ? (
+                <BadgeCheck className="h-3.5 w-3.5" />
+              ) : (
+                <Award className="h-3.5 w-3.5" />
+              )}
+              {p.is_complete ? 'Unlocked' : 'Not yet'}
+            </span>
+          ) : (
+            <span className="inline-flex items-center gap-1 text-sm font-semibold text-foreground">
+              <Award className="h-3.5 w-3.5 text-primary-hi" />
+              {metric}
+            </span>
+          )}
           <span className="inline-flex items-center gap-1 text-[11px] text-muted-foreground tabular-nums-strict">
             <Clock className="h-3 w-3" />
             {fmtMinutes(playtimeMin)}
@@ -980,6 +1058,9 @@ export default function ChallengeClient({
   // Tiered completion challenge (e.g. Bloody Spell): clearing the story
   // achievement wins the lower prize tier, full completion the upper one.
   const tiered = isCompletion && Boolean(data.storyAchievement)
+  // Single-achievement-goal challenge (e.g. Vellum): "complete" means this one
+  // achievement is unlocked, replacing the 100%-of-achievements goal.
+  const hasGoal = isCompletion && Boolean(data.goalAchievement)
   const requiredAchievements = data.requiredAchievements ?? data.totalAchievements
 
   // "Started" semantics differ by challenge kind:
@@ -1124,29 +1205,77 @@ export default function ChallengeClient({
       {/* Win-condition callout */}
       {isCompletion ? (
         <Card className="flex items-start gap-4 p-5">
-          <div className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-xl bg-[color-mix(in_oklab,var(--accent-yellow)_18%,transparent)] text-[var(--accent-yellow)]">
-            <Trophy className="h-6 w-6" />
-          </div>
+          {hasGoal && data.goalAchievement!.iconUrl ? (
+            <Image
+              src={data.goalAchievement!.iconUrl}
+              alt={`${data.goalAchievement!.displayName} achievement`}
+              width={56}
+              height={56}
+              unoptimized
+              className="h-14 w-14 flex-shrink-0 rounded-xl ring-2 ring-[var(--accent-yellow)]/60"
+            />
+          ) : (
+            <div className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-xl bg-[color-mix(in_oklab,var(--accent-yellow)_18%,transparent)] text-[var(--accent-yellow)]">
+              <Trophy className="h-6 w-6" />
+            </div>
+          )}
           <div className="min-w-0 space-y-1">
             <div className="flex flex-wrap items-center gap-2">
               <h2 className="text-base font-semibold text-foreground">
-                {tiered
-                  ? `Clear the story — or go for all ${requiredAchievements} achievements${
+                {hasGoal
+                  ? `Unlock “${data.goalAchievement!.displayName}”${
                       minPlaytime > 0
                         ? ` + play over ${fmtMinutes(minPlaytime)}`
                         : ''
                     }${requireReview ? ' + leave a Steam review' : ''}`
-                  : `Unlock all ${data.totalAchievements} achievements${
-                      minPlaytime > 0
-                        ? ` + play over ${fmtMinutes(minPlaytime)}`
-                        : ''
-                    }${requireReview ? ' + leave a Steam review' : ''}`}
+                  : tiered
+                    ? `Clear the story — or go for all ${requiredAchievements} achievements${
+                        minPlaytime > 0
+                          ? ` + play over ${fmtMinutes(minPlaytime)}`
+                          : ''
+                      }${requireReview ? ' + leave a Steam review' : ''}`
+                    : `Unlock all ${data.totalAchievements} achievements${
+                        minPlaytime > 0
+                          ? ` + play over ${fmtMinutes(minPlaytime)}`
+                          : ''
+                      }${requireReview ? ' + leave a Steam review' : ''}`}
               </h2>
               <Badge variant="amber" size="sm">
                 {winners.length} qualified
               </Badge>
             </div>
-            {tiered ? (
+            {hasGoal ? (
+              <p className="text-sm text-muted-foreground">
+                {data.goalAchievement!.description
+                  ? `${data.goalAchievement!.description} `
+                  : ''}
+                <span className="font-medium text-foreground">
+                  Every participant
+                </span>{' '}
+                wins who unlocks{' '}
+                <span className="font-medium text-foreground">
+                  “{data.goalAchievement!.displayName}”
+                </span>
+                {minPlaytime > 0 ? (
+                  <>
+                    {' '}
+                    <span className="font-medium text-foreground">and</span>{' '}
+                    logs over {fmtMinutes(minPlaytime)} of play
+                  </>
+                ) : null}
+                {requireReview ? (
+                  <>
+                    {' '}
+                    <span className="font-medium text-foreground">and</span>{' '}
+                    leaves a Steam review
+                  </>
+                ) : null}
+                {deadlineDisplay
+                  ? ` by the end of ${fmtDay(deadlineDisplay)} (UTC)`
+                  : ''}
+                . Unlocking it before the challenge counts too.
+              </p>
+            ) : tiered ? (
               <p className="text-sm text-muted-foreground">
                 Two prize tiers, one draw —{' '}
                 <span className="font-medium text-foreground">
@@ -1324,6 +1453,7 @@ export default function ChallengeClient({
             top={podium}
             totalAchievements={data.totalAchievements}
             isCompletion={isCompletion}
+            hasGoal={hasGoal}
           />
         </section>
       )}
@@ -1351,7 +1481,13 @@ export default function ChallengeClient({
             <div className="hidden grid-cols-[2.5rem_1fr_9rem_7rem_4rem] gap-4 px-3 pb-2 pt-1 text-[11px] font-medium uppercase tracking-wide text-muted-foreground sm:grid">
               <span className="text-center">#</span>
               <span>Member</span>
-              <span>{isCompletion ? 'Achievements' : 'Challenge achievements'}</span>
+              <span>
+                {hasGoal
+                  ? 'Goal'
+                  : isCompletion
+                    ? 'Achievements'
+                    : 'Challenge achievements'}
+              </span>
               <span className="inline-flex items-center gap-1">
                 Playtime
                 <Tooltip
@@ -1385,6 +1521,7 @@ export default function ChallengeClient({
                   isCompletion={isCompletion}
                   minPlaytime={minPlaytime}
                   requireReview={requireReview}
+                  goalAchievement={hasGoal ? data.goalAchievement : undefined}
                 />
               ))}
             </div>
@@ -1392,18 +1529,21 @@ export default function ChallengeClient({
         )}
       </section>
 
-      {/* Reached 100% after the deadline — too late to qualify */}
+      {/* Reached 100% (or the goal) after the deadline — too late to qualify */}
       {lateFinishers.length > 0 && (
         <section className="space-y-3">
           <div className="flex items-center gap-2">
             <Flag className="h-4 w-4 text-[var(--accent-rose)]" />
             <h2 className="text-sm font-semibold text-muted-foreground">
-              Reached 100% after the challenge ended ({lateFinishers.length})
+              {hasGoal
+                ? `Reached the goal after the challenge ended (${lateFinishers.length})`
+                : `Reached 100% after the challenge ended (${lateFinishers.length})`}
             </h2>
           </div>
           <p className="text-xs text-muted-foreground">
-            These members completed all achievements after the deadline, so they
-            don&apos;t count as qualifiers.
+            {hasGoal
+              ? "These members unlocked the goal achievement after the deadline, so they don't count as qualifiers."
+              : "These members completed all achievements after the deadline, so they don't count as qualifiers."}
           </p>
           <div className="grid grid-cols-1 gap-1.5 sm:grid-cols-2 lg:grid-cols-3">
             {lateFinishers.map((p) => (
@@ -1423,7 +1563,8 @@ export default function ChallengeClient({
                   </div>
                   {p.completed_at != null && (
                     <span className="text-[11px] text-muted-foreground">
-                      100% on {fmtDate(p.completed_at)}
+                      {hasGoal ? 'Goal unlocked' : '100%'} on{' '}
+                      {fmtDate(p.completed_at)}
                     </span>
                   )}
                 </div>

@@ -388,6 +388,34 @@ export const CHALLENGE_EVENTS: EventMeta[] = [
     // Keep it highlighted in "Happening now" for a week after the deadline.
     keepLiveForDays: 7,
   },
+  {
+    slug: 'gaming-challenge-6-vellum',
+    name: 'Gaming Challenge #6 — Vellum',
+    tagline: 'Great games together',
+    description:
+      'The magical world of Vellum is calling! 📜 This month we\'re trying something a little different: Vellum can be played cooperatively, so grab another TGC member, team up and enjoy the challenge together!\n\n' +
+      "Already own Vellum? You're ready to join. Don't own it? No problem: we have 20 Steam keys available. Sign up on our Discord by September 30 and the challenge begins on October 1. If more people request a key than we have available, we'll hold a raffle to decide who gets them.\n\n" +
+      'The mission: get Vellum (your own copy or a requested key), team up with a TGC buddy, unlock the “The Grey Area” achievement during October and leave a Steam review.\n\n' +
+      'Everyone who completes the challenge enters the same draw — one winner takes home a €10 Steam Gift Card, and every finisher has the same chance. So find your partner, jump into Vellum and see what you can achieve together. Play. Cooperate. Complete. 🔮',
+    websiteUrl: null,
+    kind: 'challenge',
+    monthly: false,
+    accent: 'var(--accent-purple)',
+    emoji: '🔮',
+    imageUrl:
+      'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/917950/header.jpg',
+    bannerUrl: '/events/game_challenge_6.png',
+    challengeSlug: 'vellum',
+    appId: 917950,
+    gameName: 'Vellum',
+    // Sign-up window: requests on Discord until Sept 30, keys delivered and
+    // the challenge starts Oct 1. Window is Oct 1 - Oct 31, exclusive Nov 1
+    // cutoff (same convention as the scraper configs).
+    startTimestamp: Date.UTC(2026, 9, 1) / 1000,
+    endTimestamp: Date.UTC(2026, 10, 1) / 1000,
+    // Keep it highlighted in "Happening now" for a week after the deadline.
+    keepLiveForDays: 7,
+  },
 ]
 
 /** Standalone, non-giveaway "link" events (e.g. the anniversary train). */

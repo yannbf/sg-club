@@ -123,6 +123,19 @@ interface CompletionWin {
     displayName: string
     description?: string
   }
+  /**
+   * Single-achievement goal that replaces the 100%-of-achievements goal above:
+   * "complete" means this one achievement is unlocked (by the deadline, plus
+   * the same playtime/review gates), not every achievement in the game. Used
+   * when 100% completion isn't the intended goal (e.g. Vellum's raid-boss
+   * kill). Mutually exclusive with `storyAchievement` — there is only one
+   * tier, everyone who reaches the goal wins the same draw.
+   */
+  goalAchievement?: {
+    apiname: string
+    displayName: string
+    description?: string
+  }
 }
 
 export type WinTier = 'completion' | 'story'
@@ -259,6 +272,28 @@ const CHALLENGES: ChallengeConfig[] = [
       requireReview: true,
     },
   },
+  {
+    slug: 'gaming-challenge-6-vellum',
+    dataSlug: 'vellum',
+    appId: 917950,
+    gameName: 'Vellum',
+    startTimestamp: Date.UTC(2026, 9, 1) / 1000, // midnight 2026-10-01 UTC
+    roster: 'fixed',
+    win: {
+      type: 'completion',
+      // Challenge window: Oct 1 – Oct 31. The cutoff is Nov 1 00:00 UTC
+      // (exclusive); the site displays the deadline as "31 Oct".
+      deadline: Date.UTC(2026, 10, 1) / 1000,
+      // The goal is a single achievement, not 100%: unlock "The Grey Area"
+      // and leave a Steam review to enter the €10 draw. No playtime floor.
+      goalAchievement: {
+        apiname: 'RAID_COMPLETE_RAVING',
+        displayName: 'The Grey Area',
+        description: 'Defeat Myriad in The Grey Area.',
+      },
+      requireReview: true,
+    },
+  },
 ]
 
 interface Member {
@@ -311,15 +346,21 @@ export async function getJsonWithRetry(url: string, attempts = 4): Promise<any> 
 
 async function getGameSchema(
   appId: number,
-): Promise<Record<string, { displayName: string; description?: string }>> {
+): Promise<
+  Record<string, { displayName: string; description?: string; icon?: string }>
+> {
   const url = `${BASE}/ISteamUserStats/GetSchemaForGame/v2/?key=${API_KEY}&appid=${appId}&format=json`
-  const map: Record<string, { displayName: string; description?: string }> = {}
+  const map: Record<
+    string,
+    { displayName: string; description?: string; icon?: string }
+  > = {}
   try {
     const data = await getJson(url)
     for (const a of data.game?.availableGameStats?.achievements ?? []) {
       map[a.name] = {
         displayName: a.displayName || a.name,
         description: a.description,
+        icon: a.icon,
       }
     }
   } catch (e) {
@@ -665,6 +706,11 @@ function achievementWinFields(p: PlayerProgress, config: ChallengeConfig) {
  * playtime/review gates, also wins — `win_tier` records which tier each winner
  * reached ('completion' beats 'story'). `excludeAchievements` are dropped from
  * the 100% goal entirely.
+ *
+ * A `goalAchievement` config replaces the 100% goal outright: "complete" means
+ * that single achievement is unlocked, not every achievement in the game. It
+ * has no tiers of its own — `is_complete`/`completed_at` just reflect the goal
+ * achievement's own unlock state/time.
  */
 export function completionWinFields(
   p: PlayerProgress,
@@ -686,15 +732,23 @@ export function completionWinFields(
   const effectiveUnlocked = p.achievements_unlocked_total - excludedUnlocked
   const effectiveTotal =
     p.achievements_total > 0 ? p.achievements_total - excluded.size : 0
-  const isComplete =
-    p.stats_available && effectiveTotal > 0 && effectiveUnlocked >= effectiveTotal
-  // The 100% moment is when the final counted achievement unlocked = the latest
-  // unlocktime across the account's non-excluded unlocks.
-  const lastUnlock = p.achieved.reduce(
-    (max, a) =>
-      !excluded.has(a.apiname) && a.unlocktime > max ? a.unlocktime : max,
-    0,
-  )
+  // A `goalAchievement` config replaces the 100%-of-achievements goal with a
+  // single required achievement: "complete" means that one is unlocked.
+  const goalEntry = win.goalAchievement
+    ? p.achieved.find((a) => a.apiname === win.goalAchievement!.apiname)
+    : undefined
+  const isComplete = win.goalAchievement
+    ? Boolean(goalEntry)
+    : p.stats_available && effectiveTotal > 0 && effectiveUnlocked >= effectiveTotal
+  // The completion moment: the goal achievement's own unlocktime, or — for the
+  // 100% goal — the latest unlocktime across the account's non-excluded unlocks.
+  const lastUnlock = win.goalAchievement
+    ? (goalEntry?.unlocktime ?? 0)
+    : p.achieved.reduce(
+        (max, a) =>
+          !excluded.has(a.apiname) && a.unlocktime > max ? a.unlocktime : max,
+        0,
+      )
   const completedAt = isComplete && lastUnlock > 0 ? lastUnlock : null
   const completedBeforeStart = Boolean(
     isComplete && completedAt != null && completedAt < start,
@@ -1293,6 +1347,19 @@ async function generateChallenge(config: ChallengeConfig): Promise<void> {
         apiname: story.apiname,
         displayName: schema[story.apiname]?.displayName ?? story.displayName,
         description: schema[story.apiname]?.description ?? story.description,
+      }
+    }
+    // Single-achievement-goal metadata for the site (schema names/icon win
+    // over the config fallbacks), so the page can render the goal itself
+    // instead of a 100%-of-achievements bar.
+    const goal = config.win.goalAchievement
+    if (goal) {
+      const goalSchema = schema[goal.apiname]
+      output.goalAchievement = {
+        apiname: goal.apiname,
+        displayName: goalSchema?.displayName ?? goal.displayName,
+        description: goalSchema?.description ?? goal.description,
+        ...(goalSchema?.icon ? { iconUrl: goalSchema.icon } : {}),
       }
     }
     const excludedList = config.win.excludeAchievements ?? []

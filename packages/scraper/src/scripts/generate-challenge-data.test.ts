@@ -340,6 +340,86 @@ describe('completionWinFields (tiered)', () => {
   })
 })
 
+// The Vellum setup: a single-achievement goal replaces the 100% goal, review
+// required, no playtime floor.
+const GOAL_START = Date.UTC(2026, 9, 1) / 1000
+const GOAL_DEADLINE = Date.UTC(2026, 10, 1) / 1000
+const GOAL = 'RAID_COMPLETE_RAVING'
+
+const goalConfig = (over: Record<string, unknown> = {}) =>
+  ({
+    slug: 'gaming-challenge-6-vellum',
+    dataSlug: 'vellum',
+    appId: 917950,
+    gameName: 'Vellum',
+    startTimestamp: GOAL_START,
+    roster: 'fixed',
+    win: {
+      type: 'completion',
+      deadline: GOAL_DEADLINE,
+      requireReview: true,
+      goalAchievement: { apiname: GOAL, displayName: 'The Grey Area' },
+      ...over,
+    },
+  }) as any
+
+describe('completionWinFields (goalAchievement)', () => {
+  it('goal unlocked before the challenge start, with a review, wins', () => {
+    const p = player({
+      achieved: [{ apiname: GOAL, unlocktime: GOAL_START - 86400 }],
+      achievements_unlocked_total: 1,
+    })
+    const out = completionWinFields(p, goalConfig(), 0, true) as any
+    expect(out.is_complete).toBe(true)
+    expect(out.completed_at).toBe(GOAL_START - 86400)
+    expect(out.completed_before_start).toBe(true)
+    expect(out.is_winner).toBe(true)
+  })
+
+  it('goal unlocked after the deadline does not qualify', () => {
+    const p = player({
+      achieved: [{ apiname: GOAL, unlocktime: GOAL_DEADLINE + 60 }],
+      achievements_unlocked_total: 1,
+    })
+    const out = completionWinFields(p, goalConfig(), 0, true) as any
+    expect(out.is_complete).toBe(true)
+    expect(out.completed_after_deadline).toBe(true)
+    expect(out.is_winner).toBe(false)
+  })
+
+  it('goal unlocked without the required review does not qualify', () => {
+    const p = player({
+      achieved: [{ apiname: GOAL, unlocktime: GOAL_START + 500 }],
+      achievements_unlocked_total: 1,
+    })
+    const out = completionWinFields(p, goalConfig(), 0, false) as any
+    expect(out.is_complete).toBe(true)
+    expect(out.meets_review).toBe(false)
+    expect(out.is_winner).toBe(false)
+  })
+
+  it('unlocking other achievements does not satisfy the goal', () => {
+    const p = player({
+      achieved: [{ apiname: 'some_other_achievement', unlocktime: GOAL_START + 500 }],
+      achievements_unlocked_total: 1,
+    })
+    const out = completionWinFields(p, goalConfig(), 0, true) as any
+    expect(out.is_complete).toBe(false)
+    expect(out.completed_at).toBe(null)
+    expect(out.is_winner).toBe(false)
+  })
+
+  it('a goal-achievement challenge keeps the untiered field shape', () => {
+    const p = player({
+      achieved: [{ apiname: GOAL, unlocktime: GOAL_START + 500 }],
+      achievements_unlocked_total: 1,
+    })
+    const out = completionWinFields(p, goalConfig(), 0, true) as any
+    expect('win_tier' in out).toBe(false)
+    expect('story_unlocked' in out).toBe(false)
+  })
+})
+
 describe('getJsonWithRetry', () => {
   afterEach(() => {
     vi.restoreAllMocks()

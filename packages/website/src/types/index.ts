@@ -534,6 +534,17 @@ export interface ChallengeData {
     displayName: string
     description?: string
   }
+  /**
+   * Single-achievement-goal completion challenges: the one achievement that
+   * defines "complete", replacing the 100%-of-achievements goal (e.g.
+   * Vellum's boss kill). Absent on challenges that use the 100% goal.
+   */
+  goalAchievement?: {
+    apiname: string
+    displayName: string
+    description?: string
+    iconUrl?: string
+  }
   /** Achievements excluded from the 100% goal (e.g. an unobtainable one). */
   excludedAchievements?: { apiname: string; displayName: string }[]
   /**
