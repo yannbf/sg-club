@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-09-28T06:59:44.401Z",
+  "last_updated": "2026-09-28T15:45:44.598Z",
   "games": {
     "223810": {
       "marker": {
@@ -3445,6 +3445,12 @@
       "story_tag_count": 5,
       "checked_at": "2026-08-24T20:12:19.403Z"
     },
+    "1750710": {
+      "marker": null,
+      "no_marker_reason": "no_marker_found",
+      "story_tag_count": 0,
+      "checked_at": "2026-09-28T15:45:38.797Z"
+    },
     "1755340": {
       "marker": {
         "apiname": "12",
@@ -5373,6 +5379,19 @@
       "no_marker_reason": null,
       "story_tag_count": 11,
       "checked_at": "2026-08-24T20:07:02.024Z"
+    },
+    "2680010": {
+      "marker": {
+        "apiname": "Ending_02",
+        "name": "The Expert's Journey",
+        "description": "Reached the ending after a difficult journey.",
+        "global_percent": 22.4,
+        "source": "heuristic",
+        "sh_achievement_id": 56
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0,
+      "checked_at": "2026-09-28T15:45:42.267Z"
     },
     "2702170": {
       "marker": {
@@ -8510,6 +8529,12 @@
       "unlock_time": 1753142848,
       "no_data_reason": null,
       "checked_at": "2026-08-24T17:44:46.895Z"
+    },
+    "76561197975099685::2680010": {
+      "beaten": false,
+      "unlock_time": null,
+      "no_data_reason": null,
+      "checked_at": "2026-09-28T15:45:43.594Z"
     },
     "76561197975099685::1989270": {
       "beaten": true,

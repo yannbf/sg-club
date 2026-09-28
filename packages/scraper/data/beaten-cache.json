@@ -3481,6 +3481,12 @@
       "no_marker_reason": null,
       "story_tag_count": 5
     },
+    "1750710": {
+      "fetched_at": "2026-09-28T15:45:38.797Z",
+      "marker": null,
+      "no_marker_reason": "no_marker_found",
+      "story_tag_count": 0
+    },
     "1755340": {
       "fetched_at": "2026-08-24T19:32:38.252Z",
       "marker": {
@@ -5443,6 +5449,19 @@
       },
       "no_marker_reason": null,
       "story_tag_count": 11
+    },
+    "2680010": {
+      "fetched_at": "2026-09-28T15:45:42.267Z",
+      "marker": {
+        "apiname": "Ending_02",
+        "name": "The Expert's Journey",
+        "description": "Reached the ending after a difficult journey.",
+        "global_percent": 22.4,
+        "source": "heuristic",
+        "sh_achievement_id": 56
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0
     },
     "2702170": {
       "fetched_at": "2026-09-11T13:53:27.119Z",
@@ -11936,6 +11955,13 @@
       "marker_apiname": "ACH_CREDITS",
       "beaten": true,
       "unlock_time": 1789458901,
+      "no_data_reason": null
+    },
+    "76561197975099685::2680010": {
+      "fetched_at": "2026-09-28T15:45:43.594Z",
+      "marker_apiname": "Ending_02",
+      "beaten": false,
+      "unlock_time": null,
       "no_data_reason": null
     }
   },
