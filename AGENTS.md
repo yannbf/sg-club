@@ -131,6 +131,12 @@ jobs, each auto-committing to `main` when data changed:
 The CI bots push data commits to `main` around the clock (hourly at worst), so
 local pushes are routinely rejected. Learned the hard way:
 
+- **Pull before starting any task.** Run `git pull --rebase origin main`
+  first, so you read the data the bots last committed (`public/data/*.json`,
+  `packages/scraper/data/*` caches) rather than a stale checkout. Analysis on
+  old data gives wrong answers, and a scraper run on it redoes work CI already
+  did. If uncommitted local edits block the rebase, stash only those files
+  (`git stash push <paths>`), pull, then `stash pop`.
 - **Always `git pull --rebase origin main` immediately before pushing.** If the
   working tree has leftovers that block the rebase, stash → rebase → push →
   `stash pop`, and stage/commit *narrowly* (list files explicitly).
