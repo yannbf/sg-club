@@ -99,33 +99,83 @@ describe('nextResultsReadyTs', () => {
 
 describe('buildEndedAdminNudge', () => {
   const NOW = Date.UTC(2026, 7, 1, 14, 50) / 1000
+  const file = (overrides: Record<string, unknown> = {}) => ({
+    slug: 'gaming-challenge-3-neo-cab',
+    gameName: 'Neo Cab',
+    challengeOver: true,
+    participants: [
+      { username: 'Alice', is_winner: true },
+      { username: 'Soul Intent', is_winner: true },
+      { username: 'Carol', is_winner: false },
+    ],
+    ...overrides,
+  })
 
-  it('mentions the challenge, the pasted-list raffle mode, the results page, and where to run it', () => {
-    const nudge = buildEndedAdminNudge('Neo Cab', true, NOW)
+  it('mentions the challenge, the pasted-list raffle mode, the challenge results page, and where to run it', () => {
+    const nudge = buildEndedAdminNudge('Neo Cab', file(), NOW)
     expect(nudge).toContain('Neo Cab challenge just ended')
     expect(nudge).toContain('/raffle')
     expect(nudge).toContain('Paste a list of names')
-    expect(nudge).toContain('https://sg-club.vercel.app/events/')
+    expect(nudge).toContain('(<https://sg-club.vercel.app/events/gaming-challenge-3-neo-cab/>)')
     expect(nudge).toContain('channel where the winners should be announced')
   })
 
-  it('says the results are final when the data file was generated post-deadline', () => {
-    const nudge = buildEndedAdminNudge('Neo Cab', true, NOW)
-    expect(nudge).toContain('The results page is final')
+  it('includes the qualified members as a copyable comma-separated code block when results are final', () => {
+    const nudge = buildEndedAdminNudge('Neo Cab', file(), NOW)
+    expect(nudge).toContain('2 qualified')
+    expect(nudge).toContain('```\nAlice, Soul Intent\n```')
+    expect(nudge).not.toContain('Carol')
     expect(nudge).not.toContain('<t:')
   })
 
-  it('warns about stale results with a concrete relative + local-time timestamp of the next refresh', () => {
-    const nudge = buildEndedAdminNudge('Neo Cab', false, NOW)
+  it('splits a tiered challenge into one block per tier', () => {
+    const nudge = buildEndedAdminNudge(
+      'Neo Cab',
+      file({
+        participants: [
+          { username: 'Alice', is_winner: true, win_tier: 'completion' },
+          { username: 'Bob', is_winner: true, win_tier: 'story' },
+        ],
+      }),
+      NOW,
+    )
+    expect(nudge).toContain('Tier 1 (full completion):\n```\nAlice\n```')
+    expect(nudge).toContain('Tier 2 (story clear):\n```\nBob\n```')
+  })
+
+  it('says there is no draw when nobody qualified', () => {
+    const nudge = buildEndedAdminNudge('Neo Cab', file({ participants: [] }), NOW)
+    expect(nudge).toContain('no member qualified')
+    expect(nudge).not.toContain('/raffle')
+  })
+
+  it('falls back to the results page when the list would overflow a Discord message', () => {
+    const participants = Array.from({ length: 200 }, (_, i) => ({ username: `member_number_${i}`, is_winner: true }))
+    const nudge = buildEndedAdminNudge('Neo Cab', file({ participants }), NOW)
+    expect(nudge.length).toBeLessThanOrEqual(2000)
+    expect(nudge).not.toContain('member_number_0')
+    expect(nudge).toContain('"Copy winners" button')
+    expect(nudge).toContain('The results page is final')
+  })
+
+  it('withholds the list and warns with the next refresh time when the data is not past the deadline', () => {
+    const nudge = buildEndedAdminNudge('Neo Cab', file({ challengeOver: false }), NOW)
     expect(nudge).toContain('has NOT refreshed past the deadline')
     const readyTs = nextResultsReadyTs(NOW)
     expect(nudge).toContain(`<t:${readyTs}:R>`)
     expect(nudge).toContain(`<t:${readyTs}:t>`)
-    expect(nudge).not.toContain('The results page is final')
+    expect(nudge).not.toContain('Alice')
+    expect(nudge).toContain('"Copy winners" button')
+  })
+
+  it('treats a missing data file as not final and links the events index', () => {
+    const nudge = buildEndedAdminNudge('Neo Cab', undefined, NOW)
+    expect(nudge).toContain('has NOT refreshed past the deadline')
+    expect(nudge).toContain('(<https://sg-club.vercel.app/events/>)')
   })
 
   it('applies the same "challenge" phrase dedup as the public messages', () => {
-    expect(buildEndedAdminNudge('Test Challenge', true, NOW)).toContain('The Test Challenge just ended')
+    expect(buildEndedAdminNudge('Test Challenge', file(), NOW)).toContain('The Test Challenge just ended')
   })
 })
 

@@ -23,6 +23,8 @@ interface Participant {
   username: string
   /** Precomputed site qualification — see discord-challenge-congrats.ts. */
   is_winner: boolean
+  /** Which tier a winner qualified in; only set on tiered challenges. */
+  win_tier?: 'completion' | 'story' | null
 }
 
 interface ChallengeFile {
@@ -106,29 +108,74 @@ export function nextResultsReadyTs(nowSeconds: number): number {
   return nextRefresh + DATA_REFRESH_BUFFER_SECONDS
 }
 
+// Discord rejects message content longer than this.
+const DISCORD_MESSAGE_LIMIT = 2000
+
+/** Fenced code block: Discord renders it with a one-click copy button. */
+function nameBlock(names: string[]): string {
+  return '```\n' + names.join(', ') + '\n```'
+}
+
+/**
+ * The qualified members as copyable code blocks in /raffle's pasted-list
+ * format (comma-separated). Tiered challenges draw each tier separately, so
+ * they get one labelled block per tier.
+ */
+function qualifiedBlocks(winners: Participant[]): string {
+  const story = winners.filter((p) => p.win_tier === 'story')
+  if (story.length === 0) return nameBlock(winners.map((p) => p.username))
+  const full = winners.filter((p) => p.win_tier !== 'story')
+  const sections: string[] = []
+  if (full.length > 0) sections.push(`Tier 1 (full completion):\n${nameBlock(full.map((p) => p.username))}`)
+  sections.push(`Tier 2 (story clear):\n${nameBlock(story.map((p) => p.username))}`)
+  return sections.join('\n')
+}
+
 /**
  * Instructional nudge posted to the admin channel alongside the public
- * "challenge over" notice — points mods at /raffle's pasted-list mode for
- * the prize draw among finishers. Plain markdown, no emojis.
+ * "challenge over" notice — hands mods the qualified list for /raffle's
+ * pasted-list mode, so the prize draw needs no trip to the site. Plain
+ * markdown, no emojis.
  *
- * `resultsFinal` reflects whether the matched data file was generated AFTER
- * the deadline (`challengeOver: true`): the site data refreshes hourly at
- * :25 while this notice goes out at :50, so results are normally final — but
- * if that refresh failed or lagged, a member finishing in the last minutes
- * could still be missing from the results page, and the nudge must say so
- * rather than let an admin draw from a stale list.
+ * `file` is the challenge's matched data file. The list is only included
+ * when that file was generated AFTER the deadline (`challengeOver: true`):
+ * the site data refreshes hourly at :25 while this notice goes out at :50, so
+ * results are normally final — but if that refresh failed or lagged, a member
+ * finishing in the last minutes could still be missing, and the nudge must
+ * say so rather than let an admin draw from a stale list. In that case (or
+ * when the list would overflow a Discord message) it points at the
+ * challenge's own results page, whose "Copy winners" button is shown to
+ * signed-in admins only.
  */
-export function buildEndedAdminNudge(name: string, resultsFinal: boolean, nowSeconds: number): string {
-  const readyTs = nextResultsReadyTs(nowSeconds)
-  const freshness = resultsFinal
-    ? 'The results page is final — safe to copy the qualified list.'
-    : `Heads-up: the results data has NOT refreshed past the deadline yet. It should be final <t:${readyTs}:R> (<t:${readyTs}:t>) — wait until then before copying the qualified list, or a last-minute finisher could be missed.`
-  return (
-    `The ${challengePhrase(name)} just ended. For the prize draw, copy the qualified members from ` +
-    `[the results page](<${EVENTS_URL}>) and use /raffle with "Paste a list of names…" plus the number of winners. ` +
-    `Run it in the channel where the winners should be announced (e.g. #challenge-announcements) — the draw result is posted right there, and every draw is logged in the bot log channel.\n` +
-    freshness
-  )
+export function buildEndedAdminNudge(name: string, file: ChallengeFile | undefined, nowSeconds: number): string {
+  const intro = `The ${challengePhrase(name)} just ended.`
+  const where =
+    'Run it in the channel where the winners should be announced (e.g. #challenge-announcements) — the draw result is posted right there, and every draw is logged in the bot log channel.'
+  const resultsUrl = file ? `${EVENTS_URL}${file.slug}/` : EVENTS_URL
+  const fromPage =
+    `${intro} For the prize draw, open [the results page](<${resultsUrl}>) signed in as an admin, use its "Copy winners" button, ` +
+    `and paste the list into /raffle with "Paste a list of names…" plus the number of winners. ${where}\n`
+
+  if (file?.challengeOver !== true) {
+    const readyTs = nextResultsReadyTs(nowSeconds)
+    return (
+      fromPage +
+      `Heads-up: the results data has NOT refreshed past the deadline yet. It should be final <t:${readyTs}:R> (<t:${readyTs}:t>) — wait until then before copying the qualified list, or a last-minute finisher could be missed.`
+    )
+  }
+
+  const winners = file.participants.filter((p) => p.is_winner)
+  if (winners.length === 0) {
+    return `${intro} [The results](<${resultsUrl}>) are final: no member qualified, so there is no prize draw to run.`
+  }
+
+  const withList =
+    `${intro} [The results](<${resultsUrl}>) are final — ${winners.length} qualified. For the prize draw, copy the list below ` +
+    `and use /raffle with "Paste a list of names…" plus the number of winners. ${where}\n` +
+    qualifiedBlocks(winners)
+  return withList.length <= DISCORD_MESSAGE_LIMIT
+    ? withList
+    : fromPage + 'The results page is final — safe to copy the qualified list.'
 }
 
 /**
@@ -210,13 +257,12 @@ export async function postChallengeMilestones(): Promise<void> {
       await createMessage(logChannelId, { content: serializeEnded({ slug: meta.slug, ts: nowSeconds }) })
       // Best-effort admin nudge AFTER the ENDED marker — the notice itself
       // must never be blocked (or duplicated on retry) because the admin
-      // channel was unreachable. `challengeOver` on the matched data file
-      // proves the results were generated after the deadline (see
-      // buildEndedAdminNudge); a missing file counts as not-final.
+      // channel was unreachable. A missing data file counts as not-final
+      // (see buildEndedAdminNudge).
       try {
         const file = matchChallengeFile(meta, challengeFiles)
         await createMessage(getAdminChannelId(), {
-          content: buildEndedAdminNudge(meta.name, file?.challengeOver === true, nowSeconds),
+          content: buildEndedAdminNudge(meta.name, file, nowSeconds),
           flags: 4,
         })
       } catch (err) {
