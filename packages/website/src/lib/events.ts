@@ -161,6 +161,23 @@ export function compareGiveawaysByDate(
 
 /** Per-event descriptive metadata, keyed by `event_type`. */
 const GIVEAWAY_EVENT_META: Record<string, Omit<EventMeta, 'slug' | 'kind'>> = {
+  october_event_2026: {
+    eventType: 'october_event_2026',
+    name: 'October Event',
+    tagline: 'The Crypt',
+    description:
+      'Halloween 2026 at The Giveaways Club: beneath the club lies an ancient crypt, and 10 monsters wait inside, each with a trial of their own. 🎃\n\n' +
+      '🦇 One of the trials is to create a mystery or horror giveaway, with the usual rules of The Giveaways Club. Members who create more than one giveaway earn extra bingo cards for the final bingo and get access to exclusive direct prizes.\n\n' +
+      '👻 Survive the Crypt and you earn an invitation to the TGC Haunted Train and the Bingo of Terror. The Crypt is open until the end of October.',
+    websiteUrl: 'https://halloweentgc.lovable.app/',
+    monthly: true,
+    accent: 'var(--warning)',
+    emoji: '🎃',
+    // Fixed calendar-month window: the header shows October 1–31. Noon UTC
+    // keeps the rendered dates on the right day in every timezone.
+    startTimestamp: Date.UTC(2026, 9, 1, 12) / 1000,
+    endTimestamp: Date.UTC(2026, 9, 31, 12) / 1000,
+  },
   september_event_2026: {
     eventType: 'september_event_2026',
     name: 'September Event',

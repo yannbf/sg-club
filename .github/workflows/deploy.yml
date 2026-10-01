@@ -150,7 +150,7 @@ jobs:
           # giveaway_leavers.json lives outside public/data but is written by
           # the same scrape — without staging it, every run's leaver
           # detections were silently discarded with the runner.
-          git add packages/website/public/data/ packages/website/investigation/giveaway_leavers.json
+          git add packages/website/public/data/ packages/website/investigation/giveaway_leavers.json packages/scraper/data/steam-store-tags-cache.json
           if git diff --staged --quiet; then
             echo "No changes to commit"
           else

@@ -9,6 +9,13 @@ import { logError } from '../utils/log-error'
 import { applyGiveawayExceptions } from '../utils/giveaway-exceptions'
 import { GiveawayPointsManager } from '../api/fetch-proof-of-play'
 import { fileURLToPath } from 'node:url'
+import {
+  fetchSteamTags,
+  getCachedSteamTags,
+  saveSteamTagsCache,
+  steamTagsKey,
+  STEAM_TAGS_DELAY_MS,
+} from '../api/fetch-steam-tags'
 
 /** Group-wishlist entries used to gate September 2026 event membership.
  *  Returns an empty list when the snapshot is missing, which makes the
@@ -369,6 +376,26 @@ export async function generateGiveawaysData(): Promise<void> {
         updatedGiveaways,
         wishlistEntries
       )
+      // The October event needs a mystery/horror Steam tag; games whose tags
+      // aren't cached yet are fetched, and a failed fetch leaves tags alone.
+      const tagGaps = groupGiveawaysScraper.october2026TagGaps(
+        updatedGiveaways,
+        (key) => getCachedSteamTags(key) !== undefined
+      )
+      if (tagGaps.length > 0) {
+        console.log(
+          `🔎 Fetching Steam tags for ${tagGaps.length} October games...`
+        )
+        for (const g of tagGaps) {
+          await fetchSteamTags(g)
+          await delay(STEAM_TAGS_DELAY_MS)
+        }
+        saveSteamTagsCache()
+      }
+      groupGiveawaysScraper.applyOctober2026EventTag(updatedGiveaways, (g) => {
+        const key = steamTagsKey(g)
+        return key ? getCachedSteamTags(key) : undefined
+      })
       const now = Date.now() / 1000
       const activeCount = updatedGiveaways.filter(
         (g) => g.end_timestamp > now

@@ -219,6 +219,52 @@ describe('SteamGiftsHTMLScraper', () => {
         }
       `)
     })
+
+    const pageWithMarker = (endDate: string) => `
+      <script type="application/ld+json">${JSON.stringify({
+        '@type': 'Event',
+        name: 'SILENT HILL 2',
+        startDate: '2025-10-01T00:00:00+00:00',
+        endDate,
+      })}</script>
+      <div class="page__description">OCTOBER EVENT</div>`
+
+    it('tags the OCTOBER EVENT marker on a giveaway that ended in 2025', async () => {
+      const result = await scraper['parseGiveawayDetails'](
+        pageWithMarker('2025-10-20T16:00:00+00:00'),
+      )
+      expect(result.event_type).toBe('october_event')
+    })
+
+    it('ignores the OCTOBER EVENT marker on a giveaway ending in a later year', async () => {
+      const result = await scraper['parseGiveawayDetails'](
+        pageWithMarker('2026-10-14T16:00:00+00:00'),
+      )
+      expect(result.event_type).toBeUndefined()
+    })
+
+    const pageWithText = (text: string, endDate: string) => `
+      <script type="application/ld+json">${JSON.stringify({
+        '@type': 'Event',
+        name: 'Some Game',
+        startDate: '2025-01-01T00:00:00+00:00',
+        endDate,
+      })}</script>
+      <div class="page__description">${text}</div>`
+
+    it.each([
+      ['RPG AUGUST', '2025-08-20T16:00:00+00:00', 'rpg_august'],
+      ['RPG AUGUST', '2026-08-20T16:00:00+00:00', undefined],
+      ['NOVEMBER EVENT ENTRY', '2025-11-20T16:00:00+00:00', 'november_event'],
+      ['NOVEMBER EVENT ENTRY', '2026-11-20T16:00:00+00:00', 'november_event_2026'],
+      ['January event entry', '2026-01-20T16:00:00+00:00', 'january_event_2026'],
+      ['January event entry', '2027-01-20T16:00:00+00:00', 'january_event_2027'],
+    ])('reads %s ending %s as %s', async (text, endDate, expected) => {
+      const result = await scraper['parseGiveawayDetails'](
+        pageWithText(text, endDate),
+      )
+      expect(result.event_type).toBe(expected)
+    })
   })
 
   describe('applyMay2026EventTag', () => {
@@ -507,6 +553,132 @@ describe('SteamGiftsHTMLScraper', () => {
           [] as unknown as WishlistArg,
         )
         expect(gaps).toHaveLength(1)
+      })
+    })
+  })
+
+  describe('applyOctober2026EventTag', () => {
+    const oct15Noon2026 = Math.floor(Date.UTC(2026, 9, 15, 12, 0, 0) / 1000)
+    const nov2Noon2026 = Math.floor(Date.UTC(2026, 10, 2, 12, 0, 0) / 1000)
+    const oct1Noon2026 = Math.floor(Date.UTC(2026, 9, 1, 12, 0, 0) / 1000)
+    const sep29Noon2026 = Math.floor(Date.UTC(2026, 8, 29, 12, 0, 0) / 1000)
+
+    /** App 1 is horror, app 2 is not, app 3 has unknown tags. */
+    const tagsByApp: Record<number, string[]> = {
+      1: ['Atmospheric', 'Psychological Horror'],
+      2: ['Action', 'Mystery Dungeon'],
+    }
+    const tagsFor = (g: { app_id?: number | null }) =>
+      g.app_id != null ? tagsByApp[g.app_id] : undefined
+
+    function makeGA(overrides: Partial<{
+      cv_status: 'FULL_CV' | 'REDUCED_CV' | 'NO_CV'
+      app_id: number | null
+      package_id: number | null
+      created_timestamp: number
+      end_timestamp: number
+      event_type: string
+      is_shared: boolean
+      whitelist: boolean
+    }>) {
+      return {
+        id: 'x',
+        name: 'Test',
+        points: 10,
+        copies: 1,
+        link: 'x/test',
+        created_timestamp: oct1Noon2026,
+        start_timestamp: oct1Noon2026,
+        end_timestamp: oct15Noon2026,
+        entry_count: 10,
+        region_restricted: false,
+        invite_only: false,
+        whitelist: false,
+        group: true,
+        contributor_level: 0,
+        comment_count: 0,
+        creator: 'tester',
+        app_id: 1,
+        cv_status: 'FULL_CV' as const,
+        ...overrides,
+      } as unknown as Parameters<
+        typeof scraper.applyOctober2026EventTag
+      >[0][number]
+    }
+
+    it('tags a FULL_CV October 2026 giveaway of a horror game', () => {
+      const ga = makeGA({})
+      scraper.applyOctober2026EventTag([ga], tagsFor)
+      expect(ga.event_type).toBe('october_event_2026')
+    })
+
+    it('does not tag a giveaway whose game has no mystery or horror tag', () => {
+      const ga = makeGA({ app_id: 2 })
+      scraper.applyOctober2026EventTag([ga], tagsFor)
+      expect(ga.event_type).toBeUndefined()
+    })
+
+    it('does not tag a giveaway created before the event opened', () => {
+      const ga = makeGA({ created_timestamp: sep29Noon2026 })
+      scraper.applyOctober2026EventTag([ga], tagsFor)
+      expect(ga.event_type).toBeUndefined()
+    })
+
+    it('does not tag a giveaway ending in November', () => {
+      const ga = makeGA({ end_timestamp: nov2Noon2026 })
+      scraper.applyOctober2026EventTag([ga], tagsFor)
+      expect(ga.event_type).toBeUndefined()
+    })
+
+    it('does not tag shared, whitelist or reduced-CV giveaways', () => {
+      const shared = makeGA({ is_shared: true })
+      const whitelist = makeGA({ whitelist: true })
+      const reduced = makeGA({ cv_status: 'REDUCED_CV' })
+      scraper.applyOctober2026EventTag([shared, whitelist, reduced], tagsFor)
+      expect(shared.event_type).toBeUndefined()
+      expect(whitelist.event_type).toBeUndefined()
+      expect(reduced.event_type).toBeUndefined()
+    })
+
+    it('leaves a description-based event_type untouched', () => {
+      const ga = makeGA({ event_type: 'rpg_august' })
+      scraper.applyOctober2026EventTag([ga], tagsFor)
+      expect(ga.event_type).toBe('rpg_august')
+    })
+
+    it('removes the tag when the giveaway stops qualifying', () => {
+      const shared = makeGA({ is_shared: true, event_type: 'october_event_2026' })
+      const notHorror = makeGA({ app_id: 2, event_type: 'october_event_2026' })
+      scraper.applyOctober2026EventTag([shared, notHorror], tagsFor)
+      expect(shared.event_type).toBeUndefined()
+      expect(notHorror.event_type).toBeUndefined()
+    })
+
+    it('leaves the tag untouched when the game tags are unknown', () => {
+      const tagged = makeGA({ app_id: 3, event_type: 'october_event_2026' })
+      const untagged = makeGA({ app_id: 3 })
+      scraper.applyOctober2026EventTag([tagged, untagged], tagsFor)
+      expect(tagged.event_type).toBe('october_event_2026')
+      expect(untagged.event_type).toBeUndefined()
+    })
+
+    describe('october2026TagGaps', () => {
+      it('reports candidates without cached tags, once per game', () => {
+        const gaps = scraper.october2026TagGaps(
+          [
+            makeGA({ app_id: 1 }),
+            makeGA({ app_id: 3 }),
+            makeGA({ app_id: 3 }),
+            makeGA({ app_id: null, package_id: 7 }),
+            makeGA({ app_id: 4, is_shared: true }),
+            makeGA({ app_id: 5, created_timestamp: sep29Noon2026 }),
+          ],
+          (key) => key === 'app:1',
+        )
+        expect(gaps.map((g) => g.app_id ?? `sub:${g.package_id}`)).toEqual([
+          3,
+          'sub:7',
+        ])
       })
     })
   })

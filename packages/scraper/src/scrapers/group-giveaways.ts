@@ -9,6 +9,7 @@ import type {
 import { delay, isRateLimitedHtml } from '../utils/common.js'
 import type { WishlistEntry } from './group-wishlist.js'
 import { logError } from '../utils/log-error.js'
+import { isHorrorOrMysteryTag, steamTagsKey } from '../api/fetch-steam-tags.js'
 
 type Creator = string
 
@@ -17,6 +18,13 @@ type Creator = string
 export const SEPTEMBER_EVENT_MIN_WISHERS = 10
 
 const SEPTEMBER_EVENT_TAG = 'september_event_2026'
+
+const OCTOBER_EVENT_TAG = 'october_event_2026'
+
+/** When the October 2026 event opened (2026-09-30 16:29 UTC), in epoch
+ *  seconds. Giveaways created before it can't answer its mystery/horror
+ *  challenge. */
+const OCTOBER_2026_EVENT_OPENED_AT = Date.UTC(2026, 8, 30, 16, 29) / 1000
 
 interface ScrapingStats {
   totalGiveaways: number
@@ -464,21 +472,6 @@ export class SteamGiftsHTMLScraper {
     const required_play = detectPlayRequired(descriptionEl.html() ?? '')
 
     let event_type = undefined
-    if (description.includes('RPG AUGUST')) {
-      event_type = 'rpg_august'
-    }
-
-    if (description.includes('OCTOBER EVENT')) {
-      event_type = 'october_event'
-    }
-
-    if (description.toLowerCase().includes('november event entry')) {
-      event_type = 'november_event'
-    }
-
-    if (description.toLowerCase().includes('january event entry')) {
-      event_type = 'january_event_2026'
-    }
 
     // Check if it's a whitelist giveaway
     const is_whitelist = $('.featured__column--whitelist').length > 0
@@ -491,6 +484,22 @@ export class SteamGiftsHTMLScraper {
       (groupText !== 'The Giveaways Club' && groupText.length > 0)
 
     const metadata = this.extractDataFromDetailedGiveawayPage(html)
+
+    // These markers carry no year and members keep writing them in later
+    // editions, so each only counts on a giveaway ending in its own year.
+    // Later years fall through to the generic `event entry` rule below.
+    if (metadata?.endDate) {
+      const lower = description.toLowerCase()
+      const endYear = new Date(metadata.endDate * 1000).getUTCFullYear()
+      if (endYear === 2025) {
+        if (description.includes('RPG AUGUST')) event_type = 'rpg_august'
+        if (description.includes('OCTOBER EVENT')) event_type = 'october_event'
+        if (lower.includes('november event entry')) event_type = 'november_event'
+      }
+      if (endYear === 2026 && lower.includes('january event entry')) {
+        event_type = 'january_event_2026'
+      }
+    }
 
     if (metadata?.endDate) {
       // if it's within april 2026 it's april_event_2026, we didn't do the tag
@@ -1229,6 +1238,86 @@ export class SteamGiftsHTMLScraper {
     if (tagged > 0 || untagged > 0) {
       console.log(
         `🔥 ${SEPTEMBER_EVENT_TAG} — tagged ${tagged}, untagged ${untagged}`,
+      )
+    }
+    return giveaways
+  }
+
+  /** Everything the October 2026 event asks of a giveaway except the genre,
+   *  which needs the game's Steam tags to check. */
+  private isOctober2026Candidate(g: Giveaway): boolean {
+    // A tag we don't own (description-based events) always wins.
+    if (g.event_type && g.event_type !== OCTOBER_EVENT_TAG) return false
+    return (
+      g.cv_status === 'FULL_CV' &&
+      !g.is_shared &&
+      !g.whitelist &&
+      g.created_timestamp >= OCTOBER_2026_EVENT_OPENED_AT &&
+      this.endedInUtcMonth(g.end_timestamp, 2026, 9 /* October */)
+    )
+  }
+
+  /**
+   * October 2026 candidates whose game has no cached Steam tags yet, so the
+   * caller can fetch them before `applyOctober2026EventTag`. Deduplicated by
+   * app/package id, since a game can have several giveaways.
+   */
+  public october2026TagGaps(
+    giveaways: Giveaway[],
+    hasCachedTags: (key: string) => boolean,
+  ): Giveaway[] {
+    const seen = new Set<string>()
+    const gaps: Giveaway[] = []
+    for (const g of giveaways) {
+      if (!this.isOctober2026Candidate(g)) continue
+      const key = steamTagsKey(g)
+      if (!key || seen.has(key) || hasCachedTags(key)) continue
+      seen.add(key)
+      gaps.push(g)
+    }
+    return gaps
+  }
+
+  /**
+   * October 2026 community event (The Crypt): a FULL_CV non-shared giveaway
+   * created after the event opened and ending in October 2026 belongs to the
+   * event when its game carries a mystery or horror Steam tag
+   * (`isHorrorOrMysteryTag`).
+   *
+   * `tagsFor` returns a giveaway's Steam tags, or undefined when they are
+   * unknown (never fetched, or the fetch failed). Unknown tags leave the
+   * giveaway as it is, so a failed fetch never wipes the event.
+   *
+   * Description-based tags (handled in parseGiveawayDetails) always take
+   * precedence. Self-correcting like the other data-driven tags: a
+   * previously-tagged giveaway that no longer qualifies is untagged.
+   *
+   * Mutates the giveaways in place and returns them for chaining.
+   */
+  public applyOctober2026EventTag(
+    giveaways: Giveaway[],
+    tagsFor: (g: Giveaway) => string[] | undefined,
+  ): Giveaway[] {
+    let tagged = 0
+    let untagged = 0
+    for (const g of giveaways) {
+      const candidate = this.isOctober2026Candidate(g)
+      const tags = candidate ? tagsFor(g) : undefined
+      if (candidate && tags === undefined) continue
+
+      if (candidate && tags!.some(isHorrorOrMysteryTag)) {
+        if (g.event_type !== OCTOBER_EVENT_TAG) {
+          g.event_type = OCTOBER_EVENT_TAG
+          tagged++
+        }
+      } else if (g.event_type === OCTOBER_EVENT_TAG) {
+        delete g.event_type
+        untagged++
+      }
+    }
+    if (tagged > 0 || untagged > 0) {
+      console.log(
+        `🎃 ${OCTOBER_EVENT_TAG} — tagged ${tagged}, untagged ${untagged}`,
       )
     }
     return giveaways
