@@ -222,7 +222,7 @@ jobs:
         run: |
           git config --global user.name 'GitHub Action'
           git config --global user.email 'action@github.com'
-          git add packages/website/public/data/wishlist.json packages/website/public/data/game_insights.json packages/scraper/data/game-insights-cache.json
+          git add packages/website/public/data/wishlist.json packages/website/public/data/game_insights.json packages/scraper/data/game-insights-cache.json packages/scraper/data/steam-store-tags-cache.json
           if git diff --staged --quiet; then
             echo "No changes to commit"
           else

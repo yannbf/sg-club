@@ -8,6 +8,12 @@ import { cn } from '@/lib/cn'
 interface GameImageProps {
   appId?: string | number | null
   packageId?: string | number | null
+  /**
+   * Known header art URL, used instead of the id-only header.jpg. For apps
+   * whose art sits under a content hash the id-only URL answers 200 with a
+   * generic "Header Capsule" placeholder, so it never reaches `fallbackUrl`.
+   */
+  headerUrl?: string | null
   /** Optional pre-known URL to use as a fallback if header.jpg returns 404. */
   fallbackUrl?: string | null
   name: string
@@ -38,6 +44,7 @@ export function getSteamHeader(
 export default function GameImage({
   appId,
   packageId,
+  headerUrl,
   fallbackUrl,
   name,
   fillWidth = false,
@@ -48,7 +55,7 @@ export default function GameImage({
   rounded = false,
   link = true,
 }: GameImageProps) {
-  const primary = getSteamHeader(appId, packageId)
+  const primary = headerUrl || getSteamHeader(appId, packageId)
   const [src, setSrc] = React.useState(primary)
   const [loaded, setLoaded] = React.useState(false)
 

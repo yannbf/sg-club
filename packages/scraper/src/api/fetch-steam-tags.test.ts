@@ -1,5 +1,35 @@
-import { describe, expect, it } from 'vitest'
-import { isHorrorOrMysteryTag, parseSteamStoreTags } from './fetch-steam-tags'
+import { afterEach, describe, expect, it, vi } from 'vitest'
+import {
+  fetchSteamTags,
+  getCachedSteamTags,
+  isHorrorOrMysteryTag,
+  parseSteamStoreTags,
+} from './fetch-steam-tags'
+
+describe('fetchSteamTags', () => {
+  afterEach(() => vi.unstubAllGlobals())
+
+  it('returns null and caches nothing when the request is not OK', async () => {
+    vi.stubGlobal('fetch', vi.fn(async () => new Response('', { status: 429 })))
+    expect(await fetchSteamTags({ app_id: 9000001 })).toBeNull()
+    expect(getCachedSteamTags('app:9000001')).toBeUndefined()
+  })
+
+  it('returns null when the request throws', async () => {
+    vi.stubGlobal('fetch', vi.fn(async () => { throw new Error('network') }))
+    expect(await fetchSteamTags({ app_id: 9000002 })).toBeNull()
+    expect(getCachedSteamTags('app:9000002')).toBeUndefined()
+  })
+
+  it('caches an empty list for a page that loaded but is not an app page', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async () => new Response('<html>Welcome to Steam</html>', { status: 200 })),
+    )
+    expect(await fetchSteamTags({ app_id: 9000003 })).toEqual([])
+    expect(getCachedSteamTags('app:9000003')).toEqual([])
+  })
+})
 
 describe('parseSteamStoreTags', () => {
   it('reads the full list embedded in InitAppTagModal', () => {

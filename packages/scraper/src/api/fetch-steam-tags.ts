@@ -7,8 +7,9 @@
 // redirected to the store home page, which has no tag modal.
 //
 // Every lookup resolves to a tag list, or to `null` when the answer is
-// unknown (request failed, rate limited, not an app page). Callers must not
-// read `null` as "has no tags".
+// unknown (request failed, non-OK status, rate limited). Callers must not
+// read `null` as "has no tags". A page that loaded fine but is not an app page
+// resolves to an empty list, which is cached so the app is not refetched.
 
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
@@ -136,6 +137,7 @@ export function steamTagsKey(ids: {
   return null
 }
 
+/** Tags of an app, `[]` when the store page has none, null when the request failed. */
 async function fetchAppTags(appId: number): Promise<string[] | null> {
   try {
     const response = await fetch(`${STORE_URL}/app/${appId}/?l=english`, {
@@ -147,7 +149,7 @@ async function fetchAppTags(appId: number): Promise<string[] | null> {
       redirect: 'follow',
     })
     if (!response.ok) return null
-    return parseSteamStoreTags(await response.text())
+    return parseSteamStoreTags(await response.text()) ?? []
   } catch (error) {
     logError(error, `Failed to fetch Steam store tags for app ${appId}`)
     return null
@@ -176,8 +178,9 @@ async function fetchPackageAppIds(packageId: number): Promise<number[] | null> {
 
 /**
  * Tags for a game, from cache when present, otherwise from the store (and
- * cached). Returns null when they could not be determined; nothing is cached
- * for those. A package's tags are the union of its first few apps' tags.
+ * cached). Returns null when the request failed; nothing is cached for those.
+ * An app whose page loaded but carries no tag data yields (and caches) an
+ * empty list. A package's tags are the union of its first few apps' tags.
  */
 export async function fetchSteamTags(ids: {
   app_id?: number | null

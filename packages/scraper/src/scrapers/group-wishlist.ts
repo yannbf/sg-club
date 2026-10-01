@@ -12,6 +12,8 @@ export interface WishlistEntry {
   /** ISO timestamp of the last scrape that actually saw this entry. Absent
    *  only in snapshots written before carry-over merging existed. */
   last_seen?: string
+  /** Top Steam user tags, most-voted first. Absent when unknown or none. */
+  tags?: string[]
 }
 
 const BASE_URL = 'https://www.steamgifts.com'

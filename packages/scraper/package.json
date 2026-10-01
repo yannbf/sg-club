@@ -13,6 +13,7 @@
     "generate-giveaways-data": "tsx src/scripts/generate-giveaways-data.ts",
     "generate-wishlist-data": "tsx src/scripts/generate-wishlist-data.ts",
     "wishlist": "tsx src/scripts/generate-wishlist-data.ts",
+    "wishlist-tags": "tsx src/scripts/wishlist-tags.ts",
     "check-deleted-giveaways": "tsx src/scripts/check-deleted-giveaways.ts",
     "members": "tsx src/scripts/generate-members-data.ts",
     "generate-game-data": "tsx src/scripts/generate-game-data.ts",

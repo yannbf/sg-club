@@ -331,6 +331,8 @@ export interface WishlistEntry {
    *  missing from a scrape are carried over from the previous snapshot for a
    *  limited window because SG's wishlist pagination is unstable. */
   last_seen?: string
+  /** Top Steam user tags, most-voted first. Absent when unknown or none. */
+  tags?: string[]
 }
 
 export interface WishlistData {

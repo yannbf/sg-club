@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url'
 import { config as loadEnv } from 'dotenv'
 import { scrapeGroupWishlist } from '../scrapers/group-wishlist'
 import type { WishlistEntry } from '../scrapers/group-wishlist'
+import { attachWishlistTags } from './wishlist-tags'
 import { logError } from '../utils/log-error'
 
 // Without SG_COOKIE the scrape gets a Cloudflare challenge on the very first
@@ -84,6 +85,10 @@ export async function generateWishlistData(): Promise<void> {
         `♻️  Carried over ${carried} entries the scrape missed (unstable SG pagination)`,
       )
     }
+
+    // Tags are re-attached from the cache on every write, so carried-over
+    // and freshly scraped entries alike end up with them.
+    await attachWishlistTags(entries)
 
     const data = {
       last_updated: new Date().toISOString(),

@@ -40,6 +40,13 @@ import {
 import GameImage from '@/components/GameImage'
 import { UserLink } from '@/components/UserLink'
 import { cn } from '@/lib/cn'
+import {
+  countTags,
+  matchesAnyTag,
+  tagsMatchSearch,
+  toggleTag,
+} from '@/lib/wishlist-tags'
+import { TagFilter } from './TagFilter'
 
 export interface GiveawayStats {
   giveawayCount: number
@@ -325,6 +332,9 @@ type CVFilter = 'all' | 'FULL_CV' | 'REDUCED_CV' | 'NO_CV'
 
 const PAGE_SIZE = 60
 
+/** Tags shown on a card; the rest stay searchable and filterable. */
+const CARD_TAG_LIMIT = 5
+
 /** The wishlist scraper only records games with at least this many group
  *  wishers (MIN_COUNT in scrapers/group-wishlist.ts), so a lower floor here
  *  would filter nothing. */
@@ -436,6 +446,13 @@ export default function WishlistClient({
   /** Default ON: hide shared/whitelist giveaways from the per-game
    *  stats (count + avg entries). Click the toggle to include them. */
   const [excludeShared, setExcludeShared] = useState(true)
+  const [selectedTags, setSelectedTags] = useState<string[]>([])
+  const tagCounts = useMemo(
+    () => countTags(uniqueEntries.map((e) => e.tags)),
+    [uniqueEntries],
+  )
+  const toggleSelectedTag = (tag: string) =>
+    setSelectedTags((current) => toggleTag(current, tag))
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE)
 
   useEffect(() => {
@@ -448,6 +465,7 @@ export default function WishlistClient({
     givenFilter,
     cvFilter,
     excludeShared,
+    selectedTags,
   ])
 
   const activeStats = excludeShared
@@ -474,7 +492,14 @@ export default function WishlistClient({
     const term = debouncedSearch.toLowerCase().trim()
     const filtered = ranked.filter((row) => {
       if (row.wishers < minCount) return false
-      if (term && !row.entry.name.toLowerCase().includes(term)) return false
+      if (
+        term &&
+        !row.entry.name.toLowerCase().includes(term) &&
+        !tagsMatchSearch(row.entry.tags, term)
+      ) {
+        return false
+      }
+      if (!matchesAnyTag(row.entry.tags, selectedTags)) return false
       if (givenFilter === 'never_given' && row.giveawayCount > 0) return false
       if (givenFilter === 'given' && row.giveawayCount === 0) return false
       // Games whose CV status hasn't been fetched yet are excluded from every
@@ -548,6 +573,7 @@ export default function WishlistClient({
     minCount,
     givenFilter,
     cvFilter,
+    selectedTags,
     sortKey,
     sortDir,
     gameDataByAppId,
@@ -586,7 +612,8 @@ export default function WishlistClient({
     (debouncedSearch ? 1 : 0) +
     (minCount > MIN_WISHERS ? 1 : 0) +
     (givenFilter !== 'all' ? 1 : 0) +
-    (cvFilter !== 'all' ? 1 : 0)
+    (cvFilter !== 'all' ? 1 : 0) +
+    (selectedTags.length > 0 ? 1 : 0)
 
   const resetFilters = () => {
     setSearchTerm('')
@@ -596,6 +623,7 @@ export default function WishlistClient({
     setSortDir('desc')
     setGivenFilter('all')
     setCvFilter('all')
+    setSelectedTags([])
   }
 
   return (
@@ -627,7 +655,7 @@ export default function WishlistClient({
               type="search"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Search a game..."
+              placeholder="Search a game or tag..."
               className="pl-9"
             />
           </div>
@@ -691,6 +719,12 @@ export default function WishlistClient({
             </SelectContent>
           </Select>
 
+          <TagFilter
+            tagCounts={tagCounts}
+            selected={selectedTags}
+            onToggle={toggleSelectedTag}
+          />
+
           <div className="flex items-center gap-1.5 rounded-md border border-card-border bg-background-elevated px-2 h-9">
             <Heart className="h-4 w-4 text-subtle" />
             <span className="text-xs text-muted-foreground whitespace-nowrap">
@@ -716,6 +750,30 @@ export default function WishlistClient({
           )}
         </div>
       </Toolbar>
+
+      {selectedTags.length > 0 && (
+        <div className="flex flex-wrap items-center gap-1.5">
+          {selectedTags.map((tag) => (
+            <button
+              key={tag}
+              type="button"
+              onClick={() => toggleSelectedTag(tag)}
+              aria-label={`Remove tag filter ${tag}`}
+              className="inline-flex items-center gap-1 rounded-full border border-accent/40 bg-accent/10 px-2.5 py-1 text-xs font-medium text-foreground transition-colors hover:bg-accent/20"
+            >
+              {tag}
+              <X className="h-3 w-3" />
+            </button>
+          ))}
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setSelectedTags([])}
+          >
+            Clear tags
+          </Button>
+        </div>
+      )}
 
       <div className="flex flex-wrap items-center justify-between gap-2 text-sm">
         <p className="text-muted-foreground">
@@ -787,6 +845,10 @@ export default function WishlistClient({
                   <GameImage
                     appId={entry.app_id ?? undefined}
                     packageId={entry.package_id ?? undefined}
+                    headerUrl={
+                      getGameDataForEntry(entry, gameDataByAppId)
+                        ?.header_image_url
+                    }
                     fallbackUrl={entry.image_url}
                     name={entry.name}
                     fillWidth
@@ -905,6 +967,35 @@ export default function WishlistClient({
                       </span>
                     )}
                   </p>
+                )}
+
+                {entry.tags && entry.tags.length > 0 && (
+                  <div className="flex flex-wrap gap-1">
+                    {entry.tags.slice(0, CARD_TAG_LIMIT).map((tag) => {
+                      const active = selectedTags.includes(tag)
+                      return (
+                        <button
+                          key={tag}
+                          type="button"
+                          onClick={() => toggleSelectedTag(tag)}
+                          aria-pressed={active}
+                          title={
+                            active
+                              ? `Remove "${tag}" filter`
+                              : `Filter by "${tag}"`
+                          }
+                          className={cn(
+                            'rounded-full border px-2 py-0.5 text-[10px] transition-colors',
+                            active
+                              ? 'border-accent/40 bg-accent/10 text-foreground'
+                              : 'border-card-border text-muted-foreground hover:border-card-border-strong hover:text-foreground',
+                          )}
+                        >
+                          {tag}
+                        </button>
+                      )
+                    })}
+                  </div>
                 )}
 
                 <div className="mt-auto flex items-end justify-between gap-2">
