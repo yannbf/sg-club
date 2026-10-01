@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1790363703691,
+  "lastUpdated": 1790835350662,
   "users": {
     "76561198343020214": {
       "username": "thesodaer",
@@ -33262,6 +33262,94 @@
       "last_online_at": 1790345672,
       "last_online_checked_at": 1790345672271,
       "left_at_timestamp": 1790363469161
+    },
+    "76561198039810488": {
+      "username": "Palindrome",
+      "profile_url": "/user/Palindrome",
+      "avatar_url": "https://avatars.steamstatic.com/39342ed8ab30cfaaaf31530e5c13ae74bbd8bced_medium.jpg",
+      "steam_id": "76561198039810488",
+      "stats": {
+        "total_sent_count": 2,
+        "total_sent_value": 54.98,
+        "total_received_count": 0,
+        "total_received_value": 0,
+        "total_gift_difference": 2,
+        "total_value_difference": 54.98,
+        "fcv_sent_count": 2,
+        "rcv_sent_count": 0,
+        "ncv_sent_count": 0,
+        "fcv_received_count": 0,
+        "rcv_received_count": 0,
+        "ncv_received_count": 0,
+        "fcv_gift_difference": 0,
+        "real_total_sent_value": 54.98,
+        "real_total_received_value": 0,
+        "real_total_value_difference": 54.98,
+        "real_total_sent_count": 2,
+        "real_total_received_count": 0,
+        "real_total_gift_difference": 2,
+        "giveaway_ratio": 0,
+        "shared_sent_count": 0,
+        "shared_received_count": 0,
+        "giveaways_created": 2,
+        "giveaways_with_no_entries": 0,
+        "last_giveaway_created_at": 1758516165,
+        "last_giveaway_won_at": null,
+        "first_seen_at": 1754403373
+      },
+      "steam_profile_url": "https://steamcommunity.com/profiles/76561198039810488",
+      "steam_profile_is_private": false,
+      "country_code": null,
+      "giveaways_created": [
+        {
+          "name": "Shape of Dreams",
+          "link": "FhmF7/shape-of-dreams",
+          "cv_status": "FULL_CV",
+          "entries": 13,
+          "copies": 1,
+          "created_timestamp": 1758516165,
+          "end_timestamp": 1758778740,
+          "required_play": false,
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "76561198049128535",
+              "winner_username": "yannbz",
+              "status": "received",
+              "activated": true
+            }
+          ]
+        },
+        {
+          "name": "Spirit of the North 2",
+          "link": "w9Xn0/spirit-of-the-north-2",
+          "cv_status": "FULL_CV",
+          "entries": 16,
+          "copies": 1,
+          "created_timestamp": 1754403373,
+          "end_timestamp": 1754493240,
+          "required_play": false,
+          "is_shared": false,
+          "i_played_bro": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "76561197984532155",
+              "winner_username": "Ignition365",
+              "status": "received",
+              "activated": true
+            }
+          ]
+        }
+      ],
+      "registered_at": 1402341581,
+      "last_online_at": 1790781164,
+      "last_online_checked_at": 1790798586059,
+      "warnings": [
+        "no_giveaway_created_in_6_months"
+      ],
+      "left_at_timestamp": 1790835165248
     }
   }
 }
