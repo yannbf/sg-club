@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-10-01T13:09:39.447Z",
+  "last_updated": "2026-10-01T16:32:34.691Z",
   "games": {
     "223810": {
       "marker": {
@@ -4900,10 +4900,17 @@
       "checked_at": "2026-08-24T16:54:25.826Z"
     },
     "2394650": {
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
+      "marker": {
+        "apiname": "15_palace",
+        "name": "Crumbling Towers",
+        "description": "Defeat Kendra",
+        "global_percent": 46.6,
+        "source": "override",
+        "sh_achievement_id": 15
+      },
+      "no_marker_reason": null,
       "story_tag_count": 0,
-      "checked_at": "2026-09-23T04:44:11.449Z"
+      "checked_at": "2026-10-01T16:32:32.495Z"
     },
     "2396240": {
       "marker": {
@@ -8603,6 +8610,12 @@
       "unlock_time": null,
       "no_data_reason": null,
       "checked_at": "2026-10-01T05:50:46.967Z"
+    },
+    "76561197975099685::2394650": {
+      "beaten": true,
+      "unlock_time": 1790118983,
+      "no_data_reason": null,
+      "checked_at": "2026-10-01T16:32:33.685Z"
     },
     "76561197975099685::1989270": {
       "beaten": true,
