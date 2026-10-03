@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1790812800,
   "totalAchievements": 36,
-  "generatedAt": 1791009548627,
+  "generatedAt": 1791015969675,
   "challengeOver": false,
   "winnerUsername": null,
   "participants": [
@@ -23,14 +23,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 340,
-      "playtime_2weeks_minutes": 340,
+      "playtime_total_minutes": 431,
+      "playtime_2weeks_minutes": 431,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 340,
+      "playtime_challenge_minutes": 431,
       "achievements_total": 36,
-      "achievements_unlocked_total": 9,
+      "achievements_unlocked_total": 11,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 9,
+      "achievements_since_baseline": 11,
       "challenge_achievements": [
         {
           "apiname": "TOMES_MENDED_1",
@@ -85,9 +85,21 @@
           "displayName": "High Stakes",
           "description": "Mend a Tome at Binding Level 5.",
           "unlocktime": 1791009081
+        },
+        {
+          "apiname": "INKLEVEL_10",
+          "displayName": "Second Edition",
+          "description": "Reach Ink Level 10.",
+          "unlocktime": 1791011346
+        },
+        {
+          "apiname": "BINDING_COMPLETED_BOSS2",
+          "displayName": "May Thy Knife",
+          "description": "Defeat a Boss with the Shredded Pages Binding active.",
+          "unlocktime": 1791012917
         }
       ],
-      "challenge_achievement_count": 9,
+      "challenge_achievement_count": 11,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
@@ -111,14 +123,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 288,
-      "playtime_2weeks_minutes": 288,
+      "playtime_total_minutes": 355,
+      "playtime_2weeks_minutes": 355,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 288,
+      "playtime_challenge_minutes": 355,
       "achievements_total": 36,
-      "achievements_unlocked_total": 9,
+      "achievements_unlocked_total": 11,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 9,
+      "achievements_since_baseline": 11,
       "challenge_achievements": [
         {
           "apiname": "CORES_1",
@@ -173,9 +185,21 @@
           "displayName": "High Stakes",
           "description": "Mend a Tome at Binding Level 5.",
           "unlocktime": 1791009082
+        },
+        {
+          "apiname": "BINDING_COMPLETED_BOSS2",
+          "displayName": "May Thy Knife",
+          "description": "Defeat a Boss with the Shredded Pages Binding active.",
+          "unlocktime": 1791012918
+        },
+        {
+          "apiname": "TOMES_MENDED_10",
+          "displayName": "All the World's a Stage",
+          "description": "Mend 10 Tomes.",
+          "unlocktime": 1791012919
         }
       ],
-      "challenge_achievement_count": 9,
+      "challenge_achievement_count": 11,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
@@ -558,8 +582,8 @@
       "avatar_url": "https://avatars.steamstatic.com/3347e0dec116bd9ebdf08c7c2a8a2c2551848fe5_medium.jpg",
       "profile_url": "https://steamcommunity.com/profiles/76561197981107149",
       "is_guest": false,
-      "owned": false,
-      "stats_available": false,
+      "owned": true,
+      "stats_available": true,
       "wrote_review": false,
       "review_voted_up": null,
       "review_timestamp": null,
