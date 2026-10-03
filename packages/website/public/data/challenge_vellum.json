@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1790812800,
   "totalAchievements": 36,
-  "generatedAt": 1791004608227,
+  "generatedAt": 1791009548627,
   "challengeOver": false,
   "winnerUsername": null,
   "participants": [
@@ -23,14 +23,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 302,
-      "playtime_2weeks_minutes": 302,
+      "playtime_total_minutes": 340,
+      "playtime_2weeks_minutes": 340,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 302,
+      "playtime_challenge_minutes": 340,
       "achievements_total": 36,
-      "achievements_unlocked_total": 8,
+      "achievements_unlocked_total": 9,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 8,
+      "achievements_since_baseline": 9,
       "challenge_achievements": [
         {
           "apiname": "TOMES_MENDED_1",
@@ -79,9 +79,15 @@
           "displayName": "Regular Shakespeare",
           "description": "Unlock  5 Spells.",
           "unlocktime": 1791003604
+        },
+        {
+          "apiname": "TOMES_MENDED_LVL5",
+          "displayName": "High Stakes",
+          "description": "Mend a Tome at Binding Level 5.",
+          "unlocktime": 1791009081
         }
       ],
-      "challenge_achievement_count": 8,
+      "challenge_achievement_count": 9,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
@@ -105,14 +111,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 185,
-      "playtime_2weeks_minutes": 193,
+      "playtime_total_minutes": 288,
+      "playtime_2weeks_minutes": 288,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 185,
+      "playtime_challenge_minutes": 288,
       "achievements_total": 36,
-      "achievements_unlocked_total": 8,
+      "achievements_unlocked_total": 9,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 8,
+      "achievements_since_baseline": 9,
       "challenge_achievements": [
         {
           "apiname": "CORES_1",
@@ -161,9 +167,15 @@
           "displayName": "Second Edition",
           "description": "Reach Ink Level 10.",
           "unlocktime": 1790999240
+        },
+        {
+          "apiname": "TOMES_MENDED_LVL5",
+          "displayName": "High Stakes",
+          "description": "Mend a Tome at Binding Level 5.",
+          "unlocktime": 1791009082
         }
       ],
-      "challenge_achievement_count": 8,
+      "challenge_achievement_count": 9,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
