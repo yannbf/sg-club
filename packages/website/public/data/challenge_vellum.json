@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1790812800,
   "totalAchievements": 36,
-  "generatedAt": 1791055051298,
+  "generatedAt": 1791057371089,
   "challengeOver": false,
   "winnerUsername": "iHoriZonT",
   "participants": [
@@ -20,7 +20,7 @@
       "stats_available": true,
       "wrote_review": true,
       "review_voted_up": true,
-      "review_timestamp": 1791028620,
+      "review_timestamp": 0,
       "review_recommendationid": "236811638",
       "review_url": "https://steamcommunity.com/profiles/76561198076863473/recommended/917950",
       "playtime_total_minutes": 340,
@@ -365,14 +365,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 155,
-      "playtime_2weeks_minutes": 160,
+      "playtime_total_minutes": 190,
+      "playtime_2weeks_minutes": 190,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 155,
+      "playtime_challenge_minutes": 190,
       "achievements_total": 36,
-      "achievements_unlocked_total": 8,
+      "achievements_unlocked_total": 9,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 8,
+      "achievements_since_baseline": 9,
       "challenge_achievements": [
         {
           "apiname": "SPELLS_1",
@@ -421,9 +421,15 @@
           "displayName": "Rising Action",
           "description": "Mend a Tome at Binding Level 1.",
           "unlocktime": 1791053235
+        },
+        {
+          "apiname": "APPENDIX_1",
+          "displayName": "Going the Distance",
+          "description": "Defeat a Torn Boss at Appendix 1 during an Endless Run.",
+          "unlocktime": 1791056871
         }
       ],
-      "challenge_achievement_count": 8,
+      "challenge_achievement_count": 9,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
@@ -574,6 +580,70 @@
       "is_winner": false
     },
     {
+      "username": "a10i",
+      "sg_username": "a10i",
+      "steam_id": "76561198359284432",
+      "avatar_url": "https://avatars.steamstatic.com/4f6413d2b19dd9b8263e89ac18f3373d027ea521_medium.jpg",
+      "profile_url": "https://steamcommunity.com/profiles/76561198359284432",
+      "is_guest": false,
+      "owned": true,
+      "stats_available": true,
+      "wrote_review": false,
+      "review_voted_up": null,
+      "review_timestamp": null,
+      "review_recommendationid": null,
+      "review_url": null,
+      "playtime_total_minutes": 181,
+      "playtime_2weeks_minutes": 181,
+      "baseline_playtime_minutes": 0,
+      "playtime_challenge_minutes": 181,
+      "achievements_total": 36,
+      "achievements_unlocked_total": 5,
+      "achievements_before_challenge": 0,
+      "achievements_since_baseline": 5,
+      "challenge_achievements": [
+        {
+          "apiname": "STATUS_DAMAGE_30000",
+          "displayName": "The Stacks",
+          "description": "Deal 30,000 Status Damage in a single run.",
+          "unlocktime": 1791047468
+        },
+        {
+          "apiname": "TOMES_MENDED_1",
+          "displayName": "It was the Best of Times",
+          "description": "Mend your first Tome.",
+          "unlocktime": 1791047469
+        },
+        {
+          "apiname": "CORES_1",
+          "displayName": "Ink Exploration",
+          "description": "Unlock a new Signature Ink.",
+          "unlocktime": 1791047469
+        },
+        {
+          "apiname": "APPENDIX_1",
+          "displayName": "Going the Distance",
+          "description": "Defeat a Torn Boss at Appendix 1 during an Endless Run.",
+          "unlocktime": 1791047890
+        },
+        {
+          "apiname": "INKLEVEL_2",
+          "displayName": "Ding!",
+          "description": "Reach Ink Level 2.",
+          "unlocktime": 1791048622
+        }
+      ],
+      "challenge_achievement_count": 5,
+      "has_started": true,
+      "is_complete": false,
+      "completed_at": null,
+      "completed_before_start": false,
+      "completed_after_deadline": false,
+      "meets_playtime": true,
+      "meets_review": false,
+      "is_winner": false
+    },
+    {
       "username": "yugimax",
       "sg_username": "yugimax",
       "steam_id": "76561198352113526",
@@ -625,70 +695,6 @@
           "displayName": "Ding!",
           "description": "Reach Ink Level 2.",
           "unlocktime": 1790955625
-        }
-      ],
-      "challenge_achievement_count": 5,
-      "has_started": true,
-      "is_complete": false,
-      "completed_at": null,
-      "completed_before_start": false,
-      "completed_after_deadline": false,
-      "meets_playtime": true,
-      "meets_review": false,
-      "is_winner": false
-    },
-    {
-      "username": "a10i",
-      "sg_username": "a10i",
-      "steam_id": "76561198359284432",
-      "avatar_url": "https://avatars.steamstatic.com/4f6413d2b19dd9b8263e89ac18f3373d027ea521_medium.jpg",
-      "profile_url": "https://steamcommunity.com/profiles/76561198359284432",
-      "is_guest": false,
-      "owned": true,
-      "stats_available": true,
-      "wrote_review": false,
-      "review_voted_up": null,
-      "review_timestamp": null,
-      "review_recommendationid": null,
-      "review_url": null,
-      "playtime_total_minutes": 121,
-      "playtime_2weeks_minutes": 121,
-      "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 121,
-      "achievements_total": 36,
-      "achievements_unlocked_total": 5,
-      "achievements_before_challenge": 0,
-      "achievements_since_baseline": 5,
-      "challenge_achievements": [
-        {
-          "apiname": "STATUS_DAMAGE_30000",
-          "displayName": "The Stacks",
-          "description": "Deal 30,000 Status Damage in a single run.",
-          "unlocktime": 1791047468
-        },
-        {
-          "apiname": "TOMES_MENDED_1",
-          "displayName": "It was the Best of Times",
-          "description": "Mend your first Tome.",
-          "unlocktime": 1791047469
-        },
-        {
-          "apiname": "CORES_1",
-          "displayName": "Ink Exploration",
-          "description": "Unlock a new Signature Ink.",
-          "unlocktime": 1791047469
-        },
-        {
-          "apiname": "APPENDIX_1",
-          "displayName": "Going the Distance",
-          "description": "Defeat a Torn Boss at Appendix 1 during an Endless Run.",
-          "unlocktime": 1791047890
-        },
-        {
-          "apiname": "INKLEVEL_2",
-          "displayName": "Ding!",
-          "description": "Reach Ink Level 2.",
-          "unlocktime": 1791048622
         }
       ],
       "challenge_achievement_count": 5,
