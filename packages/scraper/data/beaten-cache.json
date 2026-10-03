@@ -3345,6 +3345,19 @@
       "no_marker_reason": "no_marker_found",
       "story_tag_count": 0
     },
+    "1672810": {
+      "fetched_at": "2026-10-03T19:15:56.184Z",
+      "marker": {
+        "apiname": "ACH_BAD_ENDING",
+        "name": "Now we can go on",
+        "description": "Finish the game",
+        "global_percent": 32.2,
+        "source": "heuristic",
+        "sh_achievement_id": 8
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0
+    },
     "1677310": {
       "fetched_at": "2026-08-24T17:05:33.233Z",
       "marker": null,
@@ -5775,6 +5788,12 @@
       },
       "no_marker_reason": null,
       "story_tag_count": 5
+    },
+    "2842040": {
+      "fetched_at": "2026-10-03T19:15:57.468Z",
+      "marker": null,
+      "no_marker_reason": "no_marker_found",
+      "story_tag_count": 0
     },
     "2870350": {
       "fetched_at": "2026-08-24T16:55:13.482Z",
@@ -12034,7 +12053,7 @@
       "no_data_reason": null
     },
     "76561197970969216::1888930": {
-      "fetched_at": "2026-10-03T06:38:39.692Z",
+      "fetched_at": "2026-10-03T19:16:00.898Z",
       "marker_apiname": "284b17b75ee9e837",
       "beaten": false,
       "unlock_time": null,
@@ -12048,7 +12067,7 @@
       "no_data_reason": null
     },
     "76561197968806363::1030300": {
-      "fetched_at": "2026-10-03T06:38:38.551Z",
+      "fetched_at": "2026-10-03T19:15:59.766Z",
       "marker_apiname": "DEFEATED_LACE_2",
       "beaten": false,
       "unlock_time": null,
@@ -12069,7 +12088,7 @@
       "no_data_reason": null
     },
     "76561198044300922::2515020": {
-      "fetched_at": "2026-10-03T06:38:40.845Z",
+      "fetched_at": "2026-10-03T19:16:03.244Z",
       "marker_apiname": "1012",
       "beaten": false,
       "unlock_time": null,
@@ -12090,7 +12109,7 @@
       "no_data_reason": null
     },
     "76561198025798123::1462040": {
-      "fetched_at": "2026-10-03T06:38:37.411Z",
+      "fetched_at": "2026-10-03T19:15:58.589Z",
       "marker_apiname": "ACH_18",
       "beaten": false,
       "unlock_time": null,
@@ -12234,6 +12253,13 @@
       "marker_apiname": "Achievement_10",
       "beaten": true,
       "unlock_time": 1790831884,
+      "no_data_reason": null
+    },
+    "76561198079289651::1672810": {
+      "fetched_at": "2026-10-03T19:16:02.047Z",
+      "marker_apiname": "ACH_BAD_ENDING",
+      "beaten": true,
+      "unlock_time": 1782475401,
       "no_data_reason": null
     }
   },
