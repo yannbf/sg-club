@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1790812800,
   "totalAchievements": 36,
-  "generatedAt": 1791096920944,
+  "generatedAt": 1791103274059,
   "challengeOver": false,
   "winnerUsername": "iHoriZonT",
   "participants": [
@@ -679,14 +679,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 475,
-      "playtime_2weeks_minutes": 475,
+      "playtime_total_minutes": 515,
+      "playtime_2weeks_minutes": 515,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 475,
+      "playtime_challenge_minutes": 515,
       "achievements_total": 36,
-      "achievements_unlocked_total": 11,
+      "achievements_unlocked_total": 12,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 11,
+      "achievements_since_baseline": 12,
       "challenge_achievements": [
         {
           "apiname": "CORES_1",
@@ -753,9 +753,15 @@
           "displayName": "All the World's a Stage",
           "description": "Mend 10 Tomes.",
           "unlocktime": 1791012919
+        },
+        {
+          "apiname": "TOMES_MENDED_LVL10",
+          "displayName": "And In The Darkness...",
+          "description": "Mend a Tome at Binding Level 10.",
+          "unlocktime": 1791096892
         }
       ],
-      "challenge_achievement_count": 11,
+      "challenge_achievement_count": 12,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
