@@ -34,7 +34,8 @@ import type { SteamIdMap } from '../types/steamgifts.js'
  * Progress is treated as monotonic: Steam intermittently hides a member's
  * playtime/achievements when their game-details privacy is toggled, so each run
  * floors playtime and achievement progress at the highest we've previously
- * recorded — an occasionally-private profile can't wipe a qualified member.
+ * recorded, and ownership and goal/story completion stay set once recorded —
+ * an occasionally-private profile can't wipe a qualified member.
  *
  * Re-run regularly with: pnpm --filter scraper challenge
  * Generates every non-dormant challenge by default (finished challenges are
@@ -724,7 +725,8 @@ export function completionWinFields(
   const excluded = new Set(win.excludeAchievements ?? [])
   // Excluded achievements are dropped from BOTH sides of the 100% comparison.
   // When a hidden-profile pull carried a floored count forward we can't see the
-  // per-achievement breakdown, so unobserved excluded unlocks simply aren't
+  // full per-achievement breakdown: only the excluded unlocks recorded in
+  // `challenge_achievements` are re-seeded, so the rest simply aren't
   // subtracted — the benefit of the doubt goes to the member.
   const excludedUnlocked = p.achieved.filter((a) =>
     excluded.has(a.apiname),
@@ -812,6 +814,63 @@ export function completionWinFields(
     meets_playtime: meetsPlaytime,
     meets_review: meetsReview,
     is_winner: winTier != null,
+  }
+}
+
+/**
+ * Progress is monotonic. Steam intermittently hides a member's playtime or
+ * achievements when their game-details privacy is toggled (e.g. Tucs during
+ * Kill The Crows: 11h ↔ 0 between pulls), and an empty library also reads as
+ * "doesn't own the game". Never let a fresh pull regress what the previous run
+ * recorded, so an occasionally-private profile can't wipe a qualified member's
+ * progress. Mutates `p` in place; a no-op without a prior row.
+ *
+ * Goal and story achievements are looked up by apiname in `p.achieved`, so
+ * anything the prior row proves is unlocked is put back there: the in-window
+ * unlocks persisted in `challenge_achievements`, plus goal/story unlocks that
+ * pre-date the challenge start (which that list omits) taken from the prior
+ * row's completion fields.
+ */
+export function carryPriorProgress(
+  p: PlayerProgress,
+  priorP: Record<string, any> | undefined,
+  config: ChallengeConfig,
+): void {
+  if (!priorP) return
+  if (priorP.owned || (priorP.playtime_total_minutes ?? 0) > 0) p.game.owned = true
+  if ((priorP.playtime_total_minutes ?? 0) > p.game.total)
+    p.game.total = priorP.playtime_total_minutes
+  if ((priorP.achievements_unlocked_total ?? 0) > p.achievements_unlocked_total) {
+    p.achievements_unlocked_total = priorP.achievements_unlocked_total
+    p.achievements_total = p.achievements_total || priorP.achievements_total || 0
+    p.achievements_before_challenge =
+      priorP.achievements_before_challenge ?? p.achievements_before_challenge
+    p.challenge_achievements =
+      priorP.challenge_achievements ?? p.challenge_achievements
+    p.challenge_achievement_count =
+      priorP.challenge_achievement_count ?? p.challenge_achievement_count
+    p.stats_available = true
+    // Re-seed the 100% timestamp so completed_at survives a hidden pull:
+    // completionWinFields reads the latest unlocktime from `achieved`.
+    if (priorP.completed_at != null)
+      p.achieved = [
+        ...p.achieved,
+        { apiname: '__carried__', unlocktime: priorP.completed_at },
+      ]
+  }
+
+  const reseed = (apiname: string, unlocktime: number) => {
+    if (!p.achieved.some((a) => a.apiname === apiname))
+      p.achieved = [...p.achieved, { apiname, unlocktime }]
+  }
+  for (const a of priorP.challenge_achievements ?? [])
+    reseed(a.apiname, a.unlocktime)
+  if (config.win.type === 'completion') {
+    const { goalAchievement, storyAchievement } = config.win
+    if (goalAchievement && priorP.is_complete)
+      reseed(goalAchievement.apiname, priorP.completed_at ?? 0)
+    if (storyAchievement && priorP.story_unlocked)
+      reseed(storyAchievement.apiname, priorP.story_unlocktime ?? 0)
   }
 }
 
@@ -1030,38 +1089,12 @@ async function generateChallenge(config: ChallengeConfig): Promise<void> {
       `\r   roster [${i}/${resolved.length}] ${r.display_name.padEnd(22)}`,
     )
     const p = await fetchPlayer(r.steam_id, config, schema, schemaTotal)
+    // A hidden pull is repaired before the open-roster ownership check below,
+    // so a member who went private isn't dropped from the board.
+    carryPriorProgress(p, priorByStemId.get(r.steam_id), config)
     // In an open challenge, or a sign-up-phase preview, you only show up if
     // you own the game.
     if ((config.roster === 'open' || signupPreview) && !p.game.owned) continue
-
-    // Progress is monotonic. Steam intermittently hides a member's playtime or
-    // achievements when their game-details privacy is toggled (e.g. Tucs during
-    // Kill The Crows: 11h ↔ 0 between pulls). Never let a fresh pull regress what
-    // we've already recorded, so an occasionally-private profile can't wipe a
-    // qualified member's progress.
-    const priorP = priorByStemId.get(r.steam_id)
-    if (priorP) {
-      if ((priorP.playtime_total_minutes ?? 0) > p.game.total)
-        p.game.total = priorP.playtime_total_minutes
-      if ((priorP.achievements_unlocked_total ?? 0) > p.achievements_unlocked_total) {
-        p.achievements_unlocked_total = priorP.achievements_unlocked_total
-        p.achievements_total = p.achievements_total || priorP.achievements_total || 0
-        p.achievements_before_challenge =
-          priorP.achievements_before_challenge ?? p.achievements_before_challenge
-        p.challenge_achievements =
-          priorP.challenge_achievements ?? p.challenge_achievements
-        p.challenge_achievement_count =
-          priorP.challenge_achievement_count ?? p.challenge_achievement_count
-        p.stats_available = true
-        // Re-seed the 100% timestamp so completed_at survives a hidden pull:
-        // completionWinFields reads the latest unlocktime from `achieved`.
-        if (priorP.completed_at != null)
-          p.achieved = [
-            ...p.achieved,
-            { apiname: '__carried__', unlocktime: priorP.completed_at },
-          ]
-      }
-    }
 
     // In a sign-up-phase preview, everything played so far IS pre-challenge
     // play — freezing it as the baseline now means it already equals

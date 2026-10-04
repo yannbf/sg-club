@@ -1,5 +1,6 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import {
+  carryPriorProgress,
   completionWinFields,
   getJsonWithRetry,
   parseReviewPage,
@@ -417,6 +418,187 @@ describe('completionWinFields (goalAchievement)', () => {
     const out = completionWinFields(p, goalConfig(), 0, true) as any
     expect('win_tier' in out).toBe(false)
     expect('story_unlocked' in out).toBe(false)
+  })
+})
+
+/** What a fresh pull looks like when Steam hides the member's library. */
+const hiddenPull = () =>
+  player({
+    game: { owned: false, total: 0, twoWeeks: 0 },
+    stats_available: false,
+    achievements_total: 0,
+  })
+
+describe('carryPriorProgress', () => {
+  const GOAL_AT = 1791049400
+
+  // A persisted row that already lost the win: the goal sits in
+  // challenge_achievements but completion was recomputed from a hidden pull.
+  const droppedGoalRow = () => ({
+    owned: false,
+    stats_available: true,
+    playtime_total_minutes: 588,
+    achievements_total: 40,
+    achievements_unlocked_total: 18,
+    achievements_before_challenge: 3,
+    challenge_achievements: [
+      { apiname: 'EARLY', displayName: 'Early', unlocktime: GOAL_START + 100 },
+      { apiname: GOAL, displayName: 'The Grey Area', unlocktime: GOAL_AT },
+    ],
+    challenge_achievement_count: 2,
+    completed_at: null,
+    is_complete: false,
+  })
+
+  it('restores a goal win a previous hidden pull already dropped', () => {
+    const p = hiddenPull()
+    carryPriorProgress(p, droppedGoalRow(), goalConfig())
+    const out = completionWinFields(p, goalConfig(), 0, true) as any
+    expect(out.is_complete).toBe(true)
+    expect(out.completed_at).toBe(GOAL_AT)
+    expect(out.is_winner).toBe(true)
+    expect(p.game.owned).toBe(true)
+    expect(p.game.total).toBe(588)
+    expect(p.achievements_unlocked_total).toBe(18)
+    expect(p.stats_available).toBe(true)
+  })
+
+  it('keeps a goal unlocked before the start, which challenge_achievements omits', () => {
+    const preStart = GOAL_START - 86400
+    const p = hiddenPull()
+    carryPriorProgress(
+      p,
+      {
+        owned: true,
+        playtime_total_minutes: 90,
+        achievements_unlocked_total: 5,
+        challenge_achievements: [],
+        completed_at: preStart,
+        is_complete: true,
+      },
+      goalConfig(),
+    )
+    const out = completionWinFields(p, goalConfig(), 0, true) as any
+    expect(out.is_complete).toBe(true)
+    expect(out.completed_at).toBe(preStart)
+    expect(out.completed_before_start).toBe(true)
+    expect(out.is_winner).toBe(true)
+  })
+
+  it('leaves a fresh public pull that already has the goal untouched', () => {
+    const p = player({
+      achieved: [
+        { apiname: 'EARLY', unlocktime: GOAL_START + 100 },
+        { apiname: GOAL, unlocktime: GOAL_AT },
+      ],
+      achievements_total: 40,
+      achievements_unlocked_total: 18,
+    })
+    carryPriorProgress(
+      p,
+      { ...droppedGoalRow(), completed_at: GOAL_AT, is_complete: true },
+      goalConfig(),
+    )
+    expect(p.achieved.filter((a: any) => a.apiname === GOAL)).toHaveLength(1)
+    expect(p.achieved).toHaveLength(2)
+    const out = completionWinFields(p, goalConfig(), 0, true) as any
+    expect(out.completed_at).toBe(GOAL_AT)
+  })
+
+  it('carries a 100% completion through a hidden pull via the carried timestamp', () => {
+    const last = START + 90000
+    const p = hiddenPull()
+    carryPriorProgress(
+      p,
+      {
+        owned: true,
+        playtime_total_minutes: 600,
+        achievements_total: 60,
+        achievements_unlocked_total: 59,
+        achievements_before_challenge: 0,
+        challenge_achievements: [],
+        completed_at: last,
+      },
+      tieredConfig({ storyAchievement: undefined }),
+    )
+    const out = completionWinFields(
+      p,
+      tieredConfig({ storyAchievement: undefined }),
+      150,
+      true,
+    ) as any
+    expect(p.achieved).toEqual([{ apiname: '__carried__', unlocktime: last }])
+    expect(out.is_complete).toBe(true)
+    expect(out.completed_at).toBe(last)
+    expect(out.is_winner).toBe(true)
+  })
+
+  it('subtracts re-seeded excluded unlocks from a carried 100% count', () => {
+    const last = START + 90000
+    const p = hiddenPull()
+    carryPriorProgress(
+      p,
+      {
+        owned: true,
+        playtime_total_minutes: 600,
+        achievements_total: 60,
+        // 59 countable unlocks plus the excluded one.
+        achievements_unlocked_total: 60,
+        achievements_before_challenge: 0,
+        challenge_achievements: [{ apiname: EXCLUDED, unlocktime: DEADLINE + 999 }],
+        completed_at: last,
+      },
+      tieredConfig({ storyAchievement: undefined }),
+    )
+    const out = completionWinFields(
+      p,
+      tieredConfig({ storyAchievement: undefined }),
+      150,
+      true,
+    ) as any
+    expect(out.is_complete).toBe(true)
+    expect(out.completed_at).toBe(last)
+    expect(out.completed_after_deadline).toBe(false)
+  })
+
+  it('restores a story unlock from before the start on a tiered challenge', () => {
+    const preStart = START - 86400
+    const p = hiddenPull()
+    carryPriorProgress(
+      p,
+      {
+        owned: true,
+        playtime_total_minutes: 300,
+        achievements_unlocked_total: 1,
+        challenge_achievements: [],
+        story_unlocked: true,
+        story_unlocktime: preStart,
+      },
+      tieredConfig(),
+    )
+    const out = completionWinFields(p, tieredConfig(), 150, true) as any
+    expect(out.story_unlocked).toBe(true)
+    expect(out.story_unlocktime).toBe(preStart)
+    expect(out.win_tier).toBe('story')
+  })
+
+  it('treats positive prior playtime as proof of ownership', () => {
+    const p = hiddenPull()
+    carryPriorProgress(p, { owned: false, playtime_total_minutes: 12 }, goalConfig())
+    expect(p.game.owned).toBe(true)
+  })
+
+  it('does not invent ownership for a member who never owned the game', () => {
+    const p = hiddenPull()
+    carryPriorProgress(p, { owned: false, playtime_total_minutes: 0 }, goalConfig())
+    expect(p.game.owned).toBe(false)
+  })
+
+  it('is a no-op without a prior row', () => {
+    const p = hiddenPull()
+    const before = JSON.parse(JSON.stringify(p))
+    carryPriorProgress(p, undefined, goalConfig())
+    expect(p).toEqual(before)
   })
 })
 
