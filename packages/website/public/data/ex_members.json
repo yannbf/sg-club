@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1790947673609,
+  "lastUpdated": 1791080257112,
   "users": {
     "76561198343020214": {
       "username": "thesodaer",
@@ -34580,6 +34580,122 @@
         "low_play_rate_many_wins"
       ],
       "left_at_timestamp": 1790947499893
+    },
+    "76561197983161455": {
+      "username": "zeus9860",
+      "profile_url": "/user/zeus9860",
+      "avatar_url": "https://avatars.steamstatic.com/65b10e04afa417aa7a90b24cff4ad73e135443f1_medium.jpg",
+      "steam_id": "76561197983161455",
+      "stats": {
+        "total_sent_count": 1.5,
+        "total_sent_value": 79.99,
+        "total_received_count": 1,
+        "total_received_value": 19.99,
+        "total_gift_difference": 0.5,
+        "total_value_difference": 60,
+        "fcv_sent_count": 1,
+        "rcv_sent_count": 0,
+        "ncv_sent_count": 0,
+        "fcv_received_count": 1,
+        "rcv_received_count": 0,
+        "ncv_received_count": 0,
+        "fcv_gift_difference": 0,
+        "real_total_sent_value": 69.99,
+        "real_total_received_value": 19.99,
+        "real_total_value_difference": 50,
+        "real_total_sent_count": 1,
+        "real_total_received_count": 1,
+        "real_total_gift_difference": 0,
+        "giveaway_ratio": 0.67,
+        "shared_sent_count": 1,
+        "shared_received_count": 0,
+        "giveaways_created": 2,
+        "giveaways_with_no_entries": 0,
+        "last_giveaway_created_at": 1761560887,
+        "last_giveaway_won_at": 1761274800,
+        "first_seen_at": 1760801500,
+        "total_achievements_percentage": 0,
+        "average_achievements_percentage": 0,
+        "real_total_achievements_percentage": 0,
+        "real_average_achievements_percentage": 0,
+        "has_missing_achievements_data": false
+      },
+      "kicked_pending_sync": true,
+      "kick_detected_at": 1790975600404,
+      "steam_profile_url": "https://steamcommunity.com/profiles/76561197983161455",
+      "steam_profile_is_private": false,
+      "country_code": "pt",
+      "giveaways_won": [
+        {
+          "name": "Arcade Spirits: The New Challengers",
+          "link": "QrUjQ/arcade-spirits-the-new-challengers",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1761274800,
+          "required_play": false,
+          "is_shared": false,
+          "steam_play_data": {
+            "owned": true,
+            "playtime_minutes": 0,
+            "playtime_formatted": "0 minutes",
+            "achievements_unlocked": 0,
+            "achievements_total": 28,
+            "achievements_percentage": 0,
+            "never_played": true,
+            "is_playtime_private": false,
+            "last_checked": 1791011817170
+          }
+        }
+      ],
+      "giveaways_created": [
+        {
+          "name": "Mohrta",
+          "link": "Iehtf/mohrta",
+          "cv_status": "FULL_CV",
+          "entries": 32,
+          "copies": 1,
+          "created_timestamp": 1761560887,
+          "end_timestamp": 1761908580,
+          "required_play": false,
+          "is_shared": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "76561197962863579",
+              "winner_username": "CatzZz",
+              "status": "received",
+              "activated": true
+            }
+          ]
+        },
+        {
+          "name": "Metaphor: ReFantazio",
+          "link": "fRoCi/metaphor-refantazio",
+          "cv_status": "FULL_CV",
+          "entries": 50,
+          "copies": 1,
+          "created_timestamp": 1760801500,
+          "end_timestamp": 1761314400,
+          "required_play": false,
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "76561198193799379",
+              "winner_username": "SteamKeyGiveaway",
+              "status": "received",
+              "activated": true
+            }
+          ]
+        }
+      ],
+      "registered_at": 1317338226,
+      "last_online_at": 1790718445,
+      "last_online_checked_at": 1791052606152,
+      "warnings": [
+        "no_giveaway_created_in_6_months"
+      ],
+      "left_at_timestamp": 1791080080657
     }
   }
 }
