@@ -28,7 +28,13 @@ interface GameData {
   name: string
   app_id: number | null
   package_id: number | null
+  // The game app a package contains. `undefined` = never asked; `null` = the
+  // last ask found no game app, or the store request failed (the two are
+  // indistinguishable), so a null is retried — see isPackageResolutionDue.
   app_id_for_package_id?: number | null
+  // When the package was last resolved; stamped on every attempt, including
+  // ones that returned null.
+  app_id_for_package_checked_at?: string | null
   price_usd_full: number | null
   price_usd_reduced: number | null
   needs_manual_update: boolean
@@ -127,6 +133,10 @@ const RELEASE_STALE_MS = 2 * 24 * 60 * 60 * 1000 // 2 days
 const HEADER_ART_STALE_MS = 30 * 24 * 60 * 60 * 1000 // 30 days
 const HEADER_ART_RETRY_MS = 7 * 24 * 60 * 60 * 1000 // 7 days
 const HEADER_ART_DELAY_MS = 1500
+// How long a null package->app answer is trusted before asking again. A null
+// is either a package with no game app (permanent) or a failed store request
+// (transient); both look the same, so the answer is re-asked at a slow pace.
+const PACKAGE_APP_RETRY_MS = 7 * 24 * 60 * 60 * 1000 // 7 days
 // How long a null HLTB result is trusted before we ask again. Most nulls are
 // games HLTB will never have, so retrying often is pure wasted wallclock.
 const HLTB_NULL_RETRY_MS = 30 * 24 * 60 * 60 * 1000 // 30 days
@@ -164,6 +174,13 @@ function getHeaderArtPerRunCap(): number {
   const raw = process.env.GAME_DATA_HEADER_ART_PER_RUN
   const parsed = raw !== undefined ? Number(raw) : NaN
   return Number.isFinite(parsed) && parsed >= 0 ? parsed : 200
+}
+
+/** How many package->app resolutions are attempted in a single run. */
+function getPackageAppPerRunCap(): number {
+  const raw = process.env.GAME_DATA_PACKAGE_APP_PER_RUN
+  const parsed = raw !== undefined ? Number(raw) : NaN
+  return Number.isFinite(parsed) && parsed >= 0 ? parsed : 25
 }
 
 async function fetchGameData(
@@ -322,9 +339,12 @@ async function fetchHltbData(
  * Fetch a Steam store review summary for a single app, with linear backoff
  * retry on 429/5xx (mirrors getJsonWithRetry in generate-challenge-data.ts).
  * Non-retryable HTTP errors (e.g. 404 for a delisted app) fail fast.
- * Returns null on exhausted retries or a non-retryable failure.
+ * Returns null on exhausted retries, a non-retryable failure, or a 200 body
+ * that is not a usable summary (`success` other than 1, or no `query_summary`):
+ * Steam sends those for transient backend trouble, and reading one as "zero
+ * reviews" would overwrite a good stored summary.
  */
-async function fetchReviewSummary(
+export async function fetchReviewSummary(
   appId: number,
   attempts = 4
 ): Promise<ReviewSummary | null> {
@@ -346,13 +366,20 @@ async function fetchReviewSummary(
         return null
       }
       const data = (await response.json()) as {
+        success?: number
         query_summary?: {
           review_score_desc?: string
           total_positive?: number
           total_reviews?: number
         }
       }
-      const qs = data.query_summary ?? {}
+      const qs = data.query_summary
+      if (data.success !== 1 || !qs) {
+        console.warn(
+          `⚠️ Review response for appid ${appId} has no usable summary (success=${String(data.success)})`
+        )
+        return null
+      }
       const totalReviews = qs.total_reviews ?? 0
       const totalPositive = qs.total_positive ?? 0
       return {
@@ -373,6 +400,19 @@ async function fetchReviewSummary(
     String(lastErr)
   )
   return null
+}
+
+/**
+ * Whether a freshly fetched review summary should replace the stored one. A
+ * game that already has reviews practically never drops to zero, so a zero
+ * against a positive stored count is a bad answer from Steam, not a real change.
+ */
+export function shouldApplyReviewSummary(
+  storedReviewCount: number | null | undefined,
+  fresh: ReviewSummary
+): boolean {
+  if ((fresh.review_count ?? 0) > 0) return true
+  return !(storedReviewCount && storedReviewCount > 0)
 }
 
 /**
@@ -493,6 +533,50 @@ async function fetchHeaderArt(
 
   console.warn(`⚠️ Header art fetch failed for appid ${appId}:`, lastErr)
   return null
+}
+
+/**
+ * Whether a package's backing game app should be (re-)resolved. A resolved id
+ * is permanent; a stored null is retried once the last attempt is older than
+ * PACKAGE_APP_RETRY_MS, and counts as due when no attempt was ever stamped.
+ */
+export function isPackageResolutionDue(
+  game: Pick<
+    GameData,
+    'app_id_for_package_id' | 'app_id_for_package_checked_at'
+  >,
+  now: number
+): boolean {
+  if (game.app_id_for_package_id === undefined) return true
+  if (game.app_id_for_package_id !== null) return false
+  if (!game.app_id_for_package_checked_at) return true
+  const checkedAt = new Date(game.app_id_for_package_checked_at).getTime()
+  if (Number.isNaN(checkedAt)) return true
+  return now - checkedAt > PACKAGE_APP_RETRY_MS
+}
+
+/**
+ * The package-resolution fields to store after an attempt. The attempt is
+ * always stamped; a null answer never replaces an id that was already
+ * resolved, since it cannot be told apart from a failed request.
+ */
+export function applyPackageResolution(
+  stored: number | null | undefined,
+  resolved: number | null,
+  now: number
+): { app_id_for_package_id: number | null; app_id_for_package_checked_at: string } {
+  return {
+    app_id_for_package_id: resolved ?? stored ?? null,
+    app_id_for_package_checked_at: new Date(now).toISOString(),
+  }
+}
+
+/** The URL to store after a lookup: a fresh URL wins, a null answer keeps what was stored. */
+export function resolveHeaderImageUrl(
+  stored: string | null | undefined,
+  fetched: string | null
+): string | null {
+  return fetched ?? stored ?? null
 }
 
 /**
@@ -690,6 +774,10 @@ export async function generateGamePrices() {
     // Runtime cache for this session
     const runtimeCache = new Map<number, GameData>()
 
+    const packageAppCap = getPackageAppPerRunCap()
+    let packageAppResolved = 0
+    let packageAppDeferred = 0
+
     let processed = 0
 
     for (const item of targetItems) {
@@ -738,15 +826,27 @@ export async function generateGamePrices() {
 
       if (
         existingGame?.package_id &&
-        existingGame.app_id_for_package_id === undefined
+        isPackageResolutionDue(existingGame, Date.now())
       ) {
-        const appIdForSubId = await steamChecker.getAppIdForSubId(
-          existingGame.package_id
-        )
-        console.log(
-          `🔍 Found app ID for package ID ${existingGame.package_id}: ${appIdForSubId}`
-        )
-        gameData.app_id_for_package_id = appIdForSubId
+        if (packageAppResolved >= packageAppCap) {
+          packageAppDeferred++
+        } else {
+          packageAppResolved++
+          const appIdForSubId = await steamChecker.getAppIdForSubId(
+            existingGame.package_id
+          )
+          console.log(
+            `🔍 Found app ID for package ID ${existingGame.package_id}: ${appIdForSubId}`
+          )
+          Object.assign(
+            gameData,
+            applyPackageResolution(
+              existingGame.app_id_for_package_id,
+              appIdForSubId,
+              Date.now()
+            )
+          )
+        }
       }
 
       // Fetch HLTB data if we have a valid game name
@@ -780,6 +880,12 @@ export async function generateGamePrices() {
       if (processed % 10 === 0) {
         console.log(`\n🔄 Progress: ${processed} games processed\n`)
       }
+    }
+
+    if (packageAppDeferred > 0) {
+      console.log(
+        `⏳ Deferred ${packageAppDeferred} package->app resolution(s) to a future run (cap ${packageAppCap} reached)\n`
+      )
     }
 
     if (stats.newGamesDeferred > 0) {
@@ -823,7 +929,12 @@ export async function generateGamePrices() {
     for (const game of reviewsToFetch) {
       if (!game.app_id) continue // TypeScript safety
       const summary = await fetchReviewSummary(game.app_id)
-      if (summary) {
+      if (summary && !shouldApplyReviewSummary(game.review_count, summary)) {
+        console.warn(
+          `⚠️ ${game.name}: Steam reported 0 reviews against ${game.review_count} stored — keeping the stored summary`
+        )
+        stats.reviewsFailed++
+      } else if (summary) {
         game.rating_percent = summary.rating_percent
         game.review_count = summary.review_count
         game.review_score_desc = summary.review_score_desc
@@ -909,9 +1020,10 @@ export async function generateGamePrices() {
         )
         break
       }
-      // A null answer is stamped too: it's a real "this app has no store page"
-      // for most candidates, and HEADER_ART_RETRY_MS decides when to ask again.
-      game.header_image_url = art
+      // A null answer is stamped too, so HEADER_ART_RETRY_MS / HEADER_ART_STALE_MS
+      // decide when to ask again, but it never replaces a URL already stored: a
+      // failed lookup is not proof the art went away.
+      game.header_image_url = resolveHeaderImageUrl(game.header_image_url, art)
       game.header_image_checked_at = new Date().toISOString()
       if (art) {
         stats.headerArtFetched++

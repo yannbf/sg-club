@@ -261,6 +261,12 @@ export interface GameData {
   price_usd_reduced: number
   needs_manual_update: boolean
   hltb_main_story_hours: number | null
+  /**
+   * The game app a package-only entry contains, and when that was last asked.
+   * A null answer is retried after a week; a resolved id is permanent.
+   */
+  app_id_for_package_id?: number | null
+  app_id_for_package_checked_at?: string | null
   /** Steam review summary — optional because older data files predate this field. */
   rating_percent?: number | null
   review_count?: number | null
@@ -353,12 +359,24 @@ export interface GameInsight {
   wanters: string[]
 }
 
+/** A member whose owners/wanters entries were copied from the previous run
+ *  because Steam couldn't be read for them. Values are unix seconds of the
+ *  first run that carried the data forward. */
+export interface GameInsightsStaleMember {
+  library_since?: number
+  wishlist_since?: number
+}
+
 /** public/data/game_insights.json — keyed by app_id (as a string). */
 export interface GameInsightsData {
   last_updated: string
   total_members: number
+  /** Members whose library is represented in `owners` (read this run or carried forward). */
   members_with_library_data: number
+  /** Members whose wishlist is represented in `wanters` (read this run or carried forward). */
   members_with_wishlist_data: number
+  /** steam_id -> which data was carried forward. Absent when nothing was. */
+  stale_members?: Record<string, GameInsightsStaleMember>
   games: Record<string, GameInsight>
 }
 

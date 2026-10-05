@@ -10,6 +10,7 @@ import type {
   SteamIdMap,
   SteamIdMapEntry,
   SteamPlayData,
+  NoStatsReason,
 } from '../types/steamgifts.js'
 import { steamChecker, type GamePlayData } from '../api/fetch-steam-data.js'
 import { delay, isRateLimitedHtml } from '../utils/common.js'
@@ -22,6 +23,7 @@ import {
   daysUntilDeadline,
   isUnfulfilledRequiredPlay,
 } from '../../../website/api/_lib/required-play.js'
+import { summarizePlayEvidence } from '../../../website/api/_lib/play-evidence.js'
 
 const debug = (...args: any[]) => {
   if (process.env.DEBUG) {
@@ -319,25 +321,152 @@ export function parseSteamGroupMemberIds(xml: string): Set<string> {
   return ids
 }
 
+type PersistedField =
+  | 'kicked_pending_sync'
+  | 'kick_detected_at'
+  | 'last_played_at'
+  | 'registered_at'
+  | 'contributor_level'
+  | 'last_online_at'
+  | 'last_online_checked_at'
+
 /**
- * Member fields that only the kick-sync pass and the Steam playtime pass
- * write. The SteamGifts roster scrape never sees them, so merging a fresh
- * scrape over an existing record must copy them across.
+ * Member fields the SteamGifts roster scrape never sees: kick-sync state and
+ * play recency come from the kick-sync and Steam playtime passes, and the SG
+ * profile metadata comes from the per-profile fetches that run after the
+ * roster merge. Merging a fresh scrape over an existing record must copy them
+ * across.
  */
+const PERSISTED_FIELDS: readonly PersistedField[] = [
+  'kicked_pending_sync',
+  'kick_detected_at',
+  'last_played_at',
+  'registered_at',
+  'contributor_level',
+  'last_online_at',
+  'last_online_checked_at',
+]
+
+/** The subset of {@link PERSISTED_FIELDS} that comes from an SG profile page. */
+const SG_PROFILE_FIELDS: readonly PersistedField[] = [
+  'registered_at',
+  'contributor_level',
+  'last_online_at',
+  'last_online_checked_at',
+]
+
 export function pickPersistedFields(
   existing: User,
-): Pick<User, 'kicked_pending_sync' | 'kick_detected_at' | 'last_played_at'> {
-  const out: Pick<
-    User,
-    'kicked_pending_sync' | 'kick_detected_at' | 'last_played_at'
-  > = {}
-  if (existing.kicked_pending_sync !== undefined)
-    out.kicked_pending_sync = existing.kicked_pending_sync
-  if (existing.kick_detected_at !== undefined)
-    out.kick_detected_at = existing.kick_detected_at
-  if (existing.last_played_at !== undefined)
-    out.last_played_at = existing.last_played_at
+): Pick<User, PersistedField> {
+  const out: Pick<User, PersistedField> = {}
+  for (const key of PERSISTED_FIELDS) {
+    if (existing[key] !== undefined) {
+      Object.assign(out, { [key]: existing[key] })
+    }
+  }
   return out
+}
+
+/**
+ * Merge a freshly scraped roster entry over the stored record for the same
+ * member. Fields the roster scrape cannot see (kick-sync state, play recency,
+ * SG profile metadata, Steam identity, per-win history) come from the stored
+ * record, except SG profile metadata the scraped entry already carries, which
+ * is newer.
+ */
+export function mergeWithExisting(user: User, existingUser: User): User {
+  const persisted = pickPersistedFields(existingUser)
+  for (const key of SG_PROFILE_FIELDS) {
+    if (user[key] != null) delete persisted[key]
+  }
+  return {
+    ...user,
+    ...persisted,
+    steam_id: existingUser.steam_id,
+    steam_profile_url: existingUser.steam_profile_url,
+    steam_profile_is_private: existingUser.steam_profile_is_private,
+    country_code: existingUser.country_code,
+    giveaways_won: existingUser.giveaways_won?.map((game) => ({
+      ...game,
+      steam_play_data: game.steam_play_data,
+    })),
+    giveaways_created: existingUser.giveaways_created,
+    stats: {
+      ...user.stats,
+      fcv_sent_count: existingUser.stats?.fcv_sent_count || 0,
+      rcv_sent_count: existingUser.stats?.rcv_sent_count || 0,
+      ncv_sent_count: existingUser.stats?.ncv_sent_count || 0,
+      fcv_received_count: existingUser.stats?.fcv_received_count || 0,
+      rcv_received_count: existingUser.stats?.rcv_received_count || 0,
+      ncv_received_count: existingUser.stats?.ncv_received_count || 0,
+      fcv_gift_difference: existingUser.stats?.fcv_gift_difference || 0,
+      giveaway_ratio: existingUser.stats?.giveaway_ratio || 0,
+    },
+  }
+}
+
+/**
+ * The ex-member record a roster entry belongs to, if it has been in the group
+ * before. Real Steam IDs match by key. Records filed under a synthetic
+ * `username:` key (no Steam ID was ever resolved) match by username,
+ * case-insensitively. This is the same rule the rejoin pass uses to retire
+ * ex-member records.
+ */
+export function findRejoinedExMember(
+  exMembers: Record<string, User>,
+  username: string,
+  steamId: string,
+): User | undefined {
+  if (!steamId.startsWith('username:') && exMembers[steamId]) {
+    return exMembers[steamId]
+  }
+  const wanted = username.toLowerCase()
+  for (const [key, exMember] of Object.entries(exMembers)) {
+    if (key.startsWith('username:') && exMember.username.toLowerCase() === wanted) {
+      return exMember
+    }
+  }
+  return undefined
+}
+
+/**
+ * Rebuild a member who returns to the group from their ex-member record, so
+ * their per-win Steam data and play recency survive the absence. State that
+ * only described the departure or the old membership (leave timestamp,
+ * kick-sync flags) is dropped; `first_seen_at` is kept so the join date does
+ * not restart.
+ */
+export function restoreRejoinedMember(user: User, exMember: User): User {
+  const {
+    left_at_timestamp: _leftAt,
+    kicked_pending_sync: _kickedPending,
+    kick_detected_at: _kickDetectedAt,
+    ...returning
+  } = exMember
+  const merged = mergeWithExisting(user, returning)
+  return {
+    ...merged,
+    // Values a later pass already resolved for the scraped entry are not
+    // erased by an ex-member record that never had them.
+    steam_profile_url: returning.steam_profile_url ?? user.steam_profile_url,
+    country_code: returning.country_code ?? user.country_code,
+    stats: {
+      ...merged.stats,
+      first_seen_at:
+        exMember.stats?.first_seen_at ?? Math.floor(Date.now() / 1000),
+    },
+  }
+}
+
+/** Reads the ex-members record (keyed by Steam ID, or `username:<name>`). */
+function loadExMembersRecord(filename: string): Record<string, User> {
+  if (!existsSync(filename)) return {}
+  try {
+    return JSON.parse(readFileSync(filename, 'utf-8')).users || {}
+  } catch (error) {
+    console.warn(`⚠️  Could not load ex-members file: ${error}`)
+    return {}
+  }
 }
 
 export interface KickSyncGuardResult {
@@ -465,6 +594,47 @@ function hasPlayEvidence(data?: SteamPlayData | GamePlayData): boolean {
 }
 
 /**
+ * Results that carry no information about the member's library: the library
+ * read failed or came back empty, or the package could not be resolved to any
+ * app. They look like "owns nothing" but say nothing about it.
+ */
+const UNREADABLE_REASONS: ReadonlySet<NoStatsReason | undefined> =
+  new Set<NoStatsReason | undefined>(['library_unavailable', 'package_delisted'])
+
+/**
+ * Results that tell us nothing about how much the member had played before:
+ * the three unreadable-or-absent states. A later readable pull rising from one
+ * of these is the first real measurement, not play since the last check.
+ */
+const NO_BASELINE_REASONS: ReadonlySet<NoStatsReason | undefined> =
+  new Set<NoStatsReason | undefined>([
+    'library_unavailable',
+    'package_delisted',
+    'not_in_library',
+  ])
+
+/**
+ * Whether a stored snapshot is a real playtime measurement that a later pull
+ * can be compared against.
+ */
+export function hasPlaytimeBaseline(previous?: SteamPlayData): boolean {
+  if (!previous) return false
+  return !NO_BASELINE_REASONS.has(previous.no_stats_reason)
+}
+
+/** Stored snapshot kept as-is, stamped so the UI can tell it is stale. */
+function keepPrevious(prev: SteamPlayData): GamePlayData {
+  // `is_playtime_private` isn't persisted on the stored snapshot, so re-derive
+  // it the same way aggregatePlayData does.
+  return {
+    ...prev,
+    is_playtime_private:
+      prev.playtime_minutes === 0 && prev.achievements_unlocked > 0,
+    stats_hidden_at: Date.now(),
+  }
+}
+
+/**
  * Merge a fresh Steam pull over what we already recorded, treating evidence as
  * monotonic — the same invariant `generate-challenge-data.ts` applies to
  * challenge progress.
@@ -475,39 +645,84 @@ function hasPlayEvidence(data?: SteamPlayData | GamePlayData): boolean {
  * to overwrite, one bad pull erases hours we had already proven and the member
  * reads as a 0% never-played hoarder forever after. So a pull carrying no
  * evidence never replaces a snapshot that had some, and playtime/achievements
- * only ever ratchet up.
+ * only ever ratchet up. A snapshot that proves ownership or an achievement
+ * list without any play is protected from an unreadable pull in the same way,
+ * since the pull would otherwise flip it to "not owned, 0 achievements".
  */
 export function mergePlayData(
   previous: SteamPlayData | undefined,
   fresh: GamePlayData,
 ): GamePlayData {
-  if (!hasPlayEvidence(previous)) return fresh
-  const prev = previous as SteamPlayData
+  if (!previous) return fresh
+  const prev = previous
+
+  if (!hasPlayEvidence(prev)) {
+    const provesLibraryState = prev.owned || prev.achievements_total > 0
+    if (provesLibraryState && UNREADABLE_REASONS.has(fresh.no_stats_reason)) {
+      return keepPrevious(prev)
+    }
+    return fresh
+  }
 
   // The fresh pull can't see the library — keep everything we already knew.
-  // `is_playtime_private` isn't persisted on the stored snapshot, so re-derive
-  // it the same way aggregatePlayData does.
-  if (!hasPlayEvidence(fresh)) {
-    return {
-      ...prev,
-      is_playtime_private:
-        prev.playtime_minutes === 0 && prev.achievements_unlocked > 0,
-      stats_hidden_at: Date.now(),
-    }
-  }
+  if (!hasPlayEvidence(fresh)) return keepPrevious(prev)
 
   // Both readable: floor each metric at its high-water mark. Playtime can only
   // grow in reality, so a drop means a partial read, not a member un-playing.
   const merged: GamePlayData = { ...fresh }
-  if (prev.playtime_minutes > fresh.playtime_minutes) {
+  const playtimeFloored = prev.playtime_minutes > fresh.playtime_minutes
+  const achievementsFloored =
+    prev.achievements_unlocked > fresh.achievements_unlocked
+  if (playtimeFloored) {
     merged.playtime_minutes = prev.playtime_minutes
     merged.playtime_formatted = prev.playtime_formatted
   }
-  if (prev.achievements_unlocked > fresh.achievements_unlocked) {
-    merged.achievements_unlocked = prev.achievements_unlocked
-    merged.achievements_total = fresh.achievements_total || prev.achievements_total
-    merged.achievements_percentage = prev.achievements_percentage
+
+  // A floored metric means the fresh read was incomplete, so its other
+  // figures cannot be trusted either: a package that resolved fewer of its
+  // games also reports smaller achievement totals and a shorter breakdown.
+  if (playtimeFloored || achievementsFloored) {
+    merged.owned = fresh.owned || prev.owned
+    merged.achievements_unlocked = Math.max(
+      prev.achievements_unlocked,
+      fresh.achievements_unlocked,
+    )
+    merged.achievements_total = Math.max(
+      prev.achievements_total,
+      fresh.achievements_total,
+    )
+    merged.achievements_percentage =
+      merged.achievements_total > 0
+        ? Number(
+            (
+              (merged.achievements_unlocked / merged.achievements_total) *
+              100
+            ).toFixed(1),
+          )
+        : 0
+    if (
+      prev.games_breakdown &&
+      (!fresh.games_breakdown ||
+        fresh.games_breakdown.length < prev.games_breakdown.length)
+    ) {
+      merged.games_breakdown = prev.games_breakdown
+    }
   }
+
+  // Library read fine but the achievement list did not this time (fresh
+  // reports none where one was recorded): carry the recorded progress and the
+  // flags that described it rather than the fresh "no stats" markers.
+  if (fresh.achievements_total === 0 && prev.achievements_total > 0) {
+    merged.achievements_unlocked = prev.achievements_unlocked
+    merged.achievements_total = prev.achievements_total
+    merged.achievements_percentage = prev.achievements_percentage
+    merged.has_no_available_stats = prev.has_no_available_stats
+    merged.no_stats_reason = prev.no_stats_reason
+    if (merged.has_no_available_stats === undefined)
+      delete merged.has_no_available_stats
+    if (merged.no_stats_reason === undefined) delete merged.no_stats_reason
+  }
+
   // HLTB length isn't available here; `applyPlayedThresholds` re-derives this
   // for every win once the game data is joined in.
   merged.never_played = !isGamePlayed(merged)
@@ -1267,6 +1482,8 @@ export class SteamGiftsUserFetcher {
         )
         user.steam_profile_is_private = !visibility.is_public
       } catch (error) {
+        // A failed request says nothing about the profile: leave
+        // `steam_profile_is_private` as stored and retry this member next run.
         const errorMessage = `Error checking profile visibility for ${user.username} (${user.steam_id})`
         console.warn(`⚠️  ${errorMessage}:`, error)
         logError(error, errorMessage)
@@ -1337,9 +1554,13 @@ export class SteamGiftsUserFetcher {
 
             // Total playtime never decreases, so any rise since the last
             // snapshot means the member actually played this game recently.
-            const previousPlaytime =
-              wonGame.steam_play_data?.playtime_minutes ?? 0
-            if (mergedPlayData.playtime_minutes > previousPlaytime) {
+            // The first measurement of a win has nothing to compare against,
+            // so it never counts as recent play.
+            if (
+              hasPlaytimeBaseline(wonGame.steam_play_data) &&
+              mergedPlayData.playtime_minutes >
+                wonGame.steam_play_data!.playtime_minutes
+            ) {
               playedSinceLastCheck = true
             }
 
@@ -1372,10 +1593,18 @@ export class SteamGiftsUserFetcher {
               isPotentiallyIdling = false
             }
 
+            // The idling flag is recomputed above from the merged figures; a
+            // snapshot kept from the previous pull must not smuggle its old
+            // flag back in once that logic has cleared it.
+            const { is_potentially_idling: _staleIdling, ...mergedFields } =
+              mergedPlayData as GamePlayData & {
+                is_potentially_idling?: boolean
+              }
+
             updatedGiveawaysWon[idx] = {
               ...wonGame,
               steam_play_data: {
-                ...mergedPlayData,
+                ...mergedFields,
                 last_checked: Date.now(),
                 ...(isPotentiallyIdling !== undefined && {
                   is_potentially_idling: isPotentiallyIdling,
@@ -1887,31 +2116,27 @@ export class SteamGiftsUserFetcher {
     const establishedForMonths = (months: number) =>
       firstSeenMs == null || firstSeenMs <= monthsAgoMs(months)
 
-    // Play rate: share of won games we have evidence the member actually
-    // played. "I played, bro" / proof-of-play attestations always count as
-    // played regardless of Steam data (played elsewhere, private profile...).
-    const wonGames = user.giveaways_won ?? []
-    const totalWins = wonGames.length
-    const playedWins = wonGames.filter(
-      (g) =>
-        g.i_played_bro ||
-        g.required_play_meta?.requirements_met ||
-        (g.steam_play_data &&
-          !g.steam_play_data.never_played &&
-          !g.steam_play_data.has_no_available_stats),
-    ).length
+    // Play rate: share of won games with readable Steam stats that the member
+    // actually played. Wins whose stats are unreadable (private profile, failed
+    // library read, delisted package) and unreleased games are not evidence
+    // either way, so they stay out of the rate and out of the win-count
+    // thresholds. "I played, bro" / proof-of-play attestations count as played
+    // regardless of Steam data (played elsewhere, private profile...).
+    const playSummary = summarizePlayEvidence(user.giveaways_won ?? [])
+    const readableWins = playSummary.played + playSummary.unplayed
     const playPercentage =
-      totalWins > 0 ? Math.round((playedWins / totalWins) * 100) : 0
+      playSummary.rate === null ? null : Math.round(playSummary.rate * 100)
 
-    if (totalWins > 2 && playPercentage === 0 && establishedForMonths(2)) {
-      warnings.push('zero_play_rate_with_wins')
-    } else if (
-      totalWins >= 5 &&
-      playPercentage > 0 &&
-      playPercentage <= 20 &&
-      establishedForMonths(2)
-    ) {
-      warnings.push('low_play_rate_many_wins')
+    if (playPercentage !== null && establishedForMonths(2)) {
+      if (readableWins > 2 && playPercentage === 0) {
+        warnings.push('zero_play_rate_with_wins')
+      } else if (
+        readableWins >= 5 &&
+        playPercentage > 0 &&
+        playPercentage <= 20
+      ) {
+        warnings.push('low_play_rate_many_wins')
+      }
     }
 
     // Hasn't played anything in 4+ months yet is still joining/winning GAs.
@@ -2022,33 +2247,12 @@ export class SteamGiftsUserFetcher {
         steamIdToOldUsername.set(user.steam_id, username)
       }
 
-      // Helper to merge scraped user with existing data. Fields the roster
-      // scrape cannot see (kick-sync state, play recency) must be carried
-      // over explicitly or they vanish on every run.
-      const mergeWithExisting = (user: User, existingUser: User): User => ({
-        ...user,
-        ...pickPersistedFields(existingUser),
-        steam_id: existingUser.steam_id,
-        steam_profile_url: existingUser.steam_profile_url,
-        steam_profile_is_private: existingUser.steam_profile_is_private,
-        country_code: existingUser.country_code,
-        giveaways_won: existingUser.giveaways_won?.map((game) => ({
-          ...game,
-          steam_play_data: game.steam_play_data,
-        })),
-        giveaways_created: existingUser.giveaways_created,
-        stats: {
-          ...user.stats,
-          fcv_sent_count: existingUser.stats?.fcv_sent_count || 0,
-          rcv_sent_count: existingUser.stats?.rcv_sent_count || 0,
-          ncv_sent_count: existingUser.stats?.ncv_sent_count || 0,
-          fcv_received_count: existingUser.stats?.fcv_received_count || 0,
-          rcv_received_count: existingUser.stats?.rcv_received_count || 0,
-          ncv_received_count: existingUser.stats?.ncv_received_count || 0,
-          fcv_gift_difference: existingUser.stats?.fcv_gift_difference || 0,
-          giveaway_ratio: existingUser.stats?.giveaway_ratio || 0,
-        },
-      })
+      // Returning members are restored from this record instead of being
+      // created fresh, which would drop their per-win Steam data when the
+      // rejoin pass below retires their ex-member entry.
+      const exMembersFilename = '../website/public/data/ex_members.json'
+      const exMembersRecord = loadExMembersRecord(exMembersFilename)
+      const newUsernames = new Set<string>()
 
       for (const user of allScrapedUsers) {
         // Look up existing steam_id for this username, or generate a synthetic one
@@ -2080,18 +2284,32 @@ export class SteamGiftsUserFetcher {
             currentGroupSteamIds.add(existingUser.steam_id)
             updatedUsersCount++
           } else {
-            // Genuinely new user — stamp first_seen_at at detection so users
-            // with no activity yet still get a sensible "member since" date.
-            // computeFirstSeenAt will later lower it if older activity surfaces.
-            newUsersCount++
-            console.log(`➕ New: ${user.username}`)
-            existingUsers.set(user.username, {
-              ...user,
-              stats: {
-                ...user.stats,
-                first_seen_at: Math.floor(Date.now() / 1000),
-              },
-            })
+            const exMember = findRejoinedExMember(
+              exMembersRecord,
+              user.username,
+              steamId,
+            )
+            if (exMember) {
+              console.log(`🔄 Returning: ${user.username}`)
+              const restored = restoreRejoinedMember(user, exMember)
+              existingUsers.set(user.username, restored)
+              currentGroupSteamIds.add(restored.steam_id)
+              updatedUsersCount++
+            } else {
+              // Genuinely new user — stamp first_seen_at at detection so users
+              // with no activity yet still get a sensible "member since" date.
+              // computeFirstSeenAt will later lower it if older activity surfaces.
+              newUsersCount++
+              newUsernames.add(user.username)
+              console.log(`➕ New: ${user.username}`)
+              existingUsers.set(user.username, {
+                ...user,
+                stats: {
+                  ...user.stats,
+                  first_seen_at: Math.floor(Date.now() / 1000),
+                },
+              })
+            }
           }
         }
       }
@@ -2367,17 +2585,6 @@ export class SteamGiftsUserFetcher {
       }
 
       // Now save ex-members with final accurate removed list
-      const exMembersFilename = '../website/public/data/ex_members.json'
-      let exMembersRecord: Record<string, User> = {}
-      if (existsSync(exMembersFilename)) {
-        try {
-          const data = readFileSync(exMembersFilename, 'utf-8')
-          exMembersRecord = JSON.parse(data).users || {}
-        } catch (error) {
-          console.warn(`⚠️  Could not load ex-members file: ${error}`)
-        }
-      }
-
       // Backfill first_seen_at for ex-members that pre-date the field.
       let exMembersBackfilled = 0
       for (const [steamId, exUser] of Object.entries(exMembersRecord)) {
@@ -2396,19 +2603,32 @@ export class SteamGiftsUserFetcher {
 
       // Remove any ex-members who have rejoined (by real steam_id or username for synthetic IDs)
       let rejoinedCount = 0
-      const allCurrentSteamIds = new Set(
-        Array.from(existingUsers.values()).map((u) => u.steam_id),
-      )
-      const allCurrentUsernames = new Set(
-        Array.from(existingUsers.values()).map((u) => u.username.toLowerCase()),
-      )
+      const currentUsernameBySteamId = new Map<string, string>()
+      const currentUsernameByLowercase = new Map<string, string>()
+      for (const u of existingUsers.values()) {
+        currentUsernameBySteamId.set(u.steam_id, u.username)
+        currentUsernameByLowercase.set(u.username.toLowerCase(), u.username)
+      }
       for (const steamId of Object.keys(exMembersRecord)) {
-        const isRejoinedBySteamId = allCurrentSteamIds.has(steamId)
-        const isRejoinedByUsername =
-          steamId.startsWith('username:') &&
-          allCurrentUsernames.has(exMembersRecord[steamId].username.toLowerCase())
-        if (isRejoinedBySteamId || isRejoinedByUsername) {
-          console.log(`🔄 Rejoined: ${exMembersRecord[steamId].username}`)
+        const exMember = exMembersRecord[steamId]
+        const bySteamId = currentUsernameBySteamId.get(steamId)
+        const byUsername = steamId.startsWith('username:')
+          ? currentUsernameByLowercase.get(exMember.username.toLowerCase())
+          : undefined
+        const currentUsername = bySteamId ?? byUsername
+        if (currentUsername !== undefined) {
+          console.log(`🔄 Rejoined: ${exMember.username}`)
+          // A member created fresh this run whose Steam ID was only resolved
+          // after the roster merge still needs their history back.
+          if (newUsernames.has(currentUsername)) {
+            existingUsers.set(
+              currentUsername,
+              restoreRejoinedMember(
+                existingUsers.get(currentUsername)!,
+                exMember,
+              ),
+            )
+          }
           delete exMembersRecord[steamId]
           rejoinedCount++
         }

@@ -35,11 +35,15 @@ import { logError } from '../utils/log-error.js'
  * was actually completed, independent of self-reported attestation.
  *
  * Two phases:
- *  1. Marker detection (per app_id, cached ~forever): a manual override from
+ *  1. Marker detection (per app_id): a manual override from
  *     the BEATEN_OVERRIDES sheet tab beats every other signal when present;
  *     otherwise Steam Hunters' community "Main Storyline" tag is the primary
  *     signal, with a description heuristic over the Steam achievement schema
- *     as the fallback.
+ *     as the fallback. A found marker is cached until its override or the
+ *     marker's own data changes; a negative answer (no schema, no
+ *     achievements, no marker found, an unresolved DLC or package) expires
+ *     and is asked again, because a failed request reads the same as Steam
+ *     having nothing. A re-check never replaces a cached marker with none.
  *  2. Player checks (per steam_id::app_id, cached with a re-check window):
  *     has this winner unlocked the marker achievement?
  *
@@ -65,6 +69,10 @@ import { logError } from '../utils/log-error.js'
  *    entries are still used. The BEATEN_OVERRIDES sheet tab is also skipped
  *    (applying an override needs the achievement schema), so a cached
  *    marker is kept even if its override row changed.
+ *
+ * Stored answers are never replaced by an unreadable pull: a failed or
+ * incomplete BEATEN_OVERRIDES read keeps cached override markers, and a
+ * player check that comes back without data keeps a cached definite verdict.
  *  - MARKER_ENRICH_CAP=N — cap the number of cached markers backfilled with
  *    sh_achievement_id per run (default 300). Unaffected by
  *    SKIP_STEAMHUNTERS, since the achievement id comes from the JSON API,
@@ -97,6 +105,16 @@ const PLAYER_CHECK_CAP = 500
 // after submitting — a not-yet-beaten verdict older than this is re-checked
 // each run (achieved verdicts stay cached forever).
 const PLAYER_RECHECK_STALE_MS = 12 * 60 * 60 * 1000 // 12 hours
+const DAY_MS = 24 * 60 * 60 * 1000
+// The Steam fetch layer returns null for a failed request and for "Steam has
+// none" alike, so a cached negative answer may really be a missed one. Each
+// is asked again once it is older than its TTL; positive answers never expire.
+// A missing schema is the likeliest to be a transient failure, hence the
+// shorter window.
+export const SCHEMA_UNAVAILABLE_TTL_MS = 7 * DAY_MS
+// "No marker found" / "no achievements" markers, and unresolved DLC/package
+// lookups.
+export const NEGATIVE_ANSWER_TTL_MS = 30 * DAY_MS
 const STEAM_API_DELAY_MS = 1000
 // appdetails is aggressively rate-limited (~200 req/5min) even without a key.
 const APPDETAILS_DELAY_MS = 1500
@@ -186,7 +204,7 @@ interface TargetWin {
 
 // --- Cache ---
 
-interface MarkerCacheEntry {
+export interface MarkerCacheEntry {
   fetched_at: string
   marker: BeatenMarker | null
   no_marker_reason: NoMarkerReason | null
@@ -198,21 +216,24 @@ interface MarkerCacheEntry {
    * written (resolved app id + sorted apinames, or "<appId>:NONE") — see
    * {@link buildOverrideKey}. Absent when no override applied. A mismatch
    * against the current override state (row changed, or removed) means this
-   * entry is stale and marker detection must re-run for the app.
+   * entry is stale and marker detection must re-run for the app. It is only
+   * compared when the override state is known — see
+   * {@link decideOverrideState}.
    */
   override_key?: string
 }
 
-/** DLC/soundtrack -> base-game appId resolution (store appdetails). Permanent
- *  once determined: `resolved_app_id: null` means "checked, not a DLC (or no
- *  base game listed)", not "not yet checked". */
-interface AppResolutionCacheEntry {
+/** DLC/soundtrack -> base-game appId resolution (store appdetails).
+ *  `resolved_app_id: null` means "checked, not a DLC (or no base game
+ *  listed, or the lookup failed)", not "not yet checked"; it expires after
+ *  {@link NEGATIVE_ANSWER_TTL_MS}. A resolved id never expires. */
+export interface AppResolutionCacheEntry {
   fetched_at: string
   resolved_app_id: number | null
   resolved_app_name?: string
 }
 
-interface PlayerCheckCacheEntry {
+export interface PlayerCheckCacheEntry {
   fetched_at: string
   /** apiname of the marker this entry was checked against; a mismatch with
    *  the current marker (or a missing field, from an older cache) is
@@ -223,16 +244,17 @@ interface PlayerCheckCacheEntry {
   no_data_reason: NoBeatenDataReason | null
 }
 
-/** Package (sub) -> game-app resolution (store packagedetails). Permanent
- *  once determined: `app_id: null` means "checked, unresolvable", not "not
- *  yet checked". */
-interface PackageResolutionCacheEntry {
+/** Package (sub) -> game-app resolution (store packagedetails). `app_id:
+ *  null` means "checked, unresolvable (or the lookup failed)", not "not yet
+ *  checked"; it expires after {@link NEGATIVE_ANSWER_TTL_MS}. A resolved app
+ *  never expires. */
+export interface PackageResolutionCacheEntry {
   fetched_at: string
   app_id: number | null
   app_name?: string
 }
 
-interface BeatenCache {
+export interface BeatenCache {
   markers: Record<string, MarkerCacheEntry>
   player_checks: Record<string, PlayerCheckCacheEntry>
   app_resolutions: Record<string, AppResolutionCacheEntry>
@@ -259,6 +281,86 @@ function loadCache(): BeatenCache {
 function saveCache(cache: BeatenCache): void {
   if (!existsSync(cacheDir)) mkdirSync(cacheDir, { recursive: true })
   writeFileSync(cachePath, JSON.stringify(cache, null, 2))
+}
+
+// --- Negative-answer expiry ---
+
+/** True when `fetchedAt` is missing, unreadable, or at least `ttlMs` before `nowMs`. */
+function isOlderThan(fetchedAt: string | undefined, ttlMs: number, nowMs: number): boolean {
+  const fetchedMs = fetchedAt ? Date.parse(fetchedAt) : NaN
+  return !Number.isFinite(fetchedMs) || nowMs - fetchedMs >= ttlMs
+}
+
+/**
+ * Whether a cached marker entry is a negative answer old enough to ask
+ * again. An entry with a marker, and a negative that is not a request
+ * outcome (`override_none`, `package`), never expires.
+ */
+export function isMarkerEntryExpired(entry: MarkerCacheEntry, nowMs: number): boolean {
+  if (entry.marker != null) return false
+  switch (entry.no_marker_reason) {
+    case 'schema_unavailable':
+      return isOlderThan(entry.fetched_at, SCHEMA_UNAVAILABLE_TTL_MS, nowMs)
+    case 'no_marker_found':
+    case 'no_achievements':
+      return isOlderThan(entry.fetched_at, NEGATIVE_ANSWER_TTL_MS, nowMs)
+    default:
+      return false
+  }
+}
+
+/** Whether a cached DLC resolution is an unresolved answer old enough to ask again. */
+export function isAppResolutionExpired(entry: AppResolutionCacheEntry, nowMs: number): boolean {
+  return entry.resolved_app_id == null && isOlderThan(entry.fetched_at, NEGATIVE_ANSWER_TTL_MS, nowMs)
+}
+
+/** Whether a cached package resolution is an unresolved answer old enough to ask again. */
+export function isPackageResolutionExpired(
+  entry: PackageResolutionCacheEntry,
+  nowMs: number,
+): boolean {
+  return entry.app_id == null && isOlderThan(entry.fetched_at, NEGATIVE_ANSWER_TTL_MS, nowMs)
+}
+
+/**
+ * Whether a re-detected marker must be discarded in favour of the cached
+ * one: a cached marker is never replaced by a fresh answer without one,
+ * since "no marker" may be a failed request. Detection driven by an override
+ * change is exempt — the override rules in {@link decideOverrideState} decide
+ * those.
+ */
+export function shouldKeepCachedMarker(
+  cached: MarkerCacheEntry | undefined,
+  fresh: { marker: BeatenMarker | null },
+  overrideDriven: boolean,
+): boolean {
+  return !overrideDriven && cached?.marker != null && fresh.marker == null
+}
+
+/**
+ * Orders marker work for the per-run fetch cap: every app that is not an
+ * expiry re-check keeps its input order and goes first, so first-time and
+ * override-driven detections are never starved by the re-check backlog; the
+ * re-checks follow, oldest `fetched_at` first (a missing or unreadable
+ * timestamp counts as oldest).
+ */
+export function orderMarkerWork(
+  appIds: number[],
+  markers: Record<string, MarkerCacheEntry>,
+  isExpiryRecheck: (appId: number) => boolean,
+): number[] {
+  const priority: number[] = []
+  const rechecks: Array<{ appId: number; fetchedMs: number }> = []
+  for (const appId of appIds) {
+    if (!isExpiryRecheck(appId)) {
+      priority.push(appId)
+      continue
+    }
+    const parsed = Date.parse(markers[String(appId)]?.fetched_at ?? '')
+    rechecks.push({ appId, fetchedMs: Number.isFinite(parsed) ? parsed : -Infinity })
+  }
+  rechecks.sort((a, b) => (a.fetchedMs === b.fetchedMs ? 0 : a.fetchedMs < b.fetchedMs ? -1 : 1))
+  return [...priority, ...rechecks.map((r) => r.appId)]
 }
 
 // --- Marker detection ---
@@ -325,7 +427,7 @@ async function resolveShAchievementId(
 // --- Beaten marker overrides ---
 
 /** A resolved BEATEN_OVERRIDES sheet row for one app, ready to apply as a marker. */
-type ResolvedOverride =
+export type ResolvedOverride =
   | { none: true }
   | { apinames: string[]; sh_achievement_id?: number }
 
@@ -424,68 +526,114 @@ export function applyShLinkPrecedence(
 /**
  * Resolves Steam Hunters' numeric achievement id (from a STEAMHUNTERS LINK)
  * to its apiname via the JSON achievements API — the reverse of
- * {@link resolveShAchievementId}. Returns undefined on any failure or when
- * the id isn't found.
+ * {@link resolveShAchievementId}. Returns null when the lookup itself failed
+ * (the answer is unknown) and undefined when Steam Hunters answered but has
+ * no achievement with that id.
  */
 async function resolveApinameForShAchievementId(
   appId: number,
   achievementId: number,
-): Promise<string | undefined> {
+): Promise<string | null | undefined> {
   const shAchievements = await fetchSteamHuntersAchievements(appId)
   await delay(STEAMHUNTERS_DELAY_MS)
-  return shAchievements?.find((a) => a.achievementId === achievementId)?.apiName
+  if (shAchievements === null) return null
+  return shAchievements.find((a) => a.achievementId === achievementId)?.apiName
 }
 
 /**
- * Fetches and resolves the BEATEN_OVERRIDES sheet tab into a per-app map
- * ready to apply as markers. A sheet fetch failure, or SKIP_STEAM_API (an
- * override needs the achievement schema), yields an empty map — existing
- * cached markers are used as if no overrides existed. Each row is resolved
- * independently; a row that can't be resolved is skipped with a warning
- * rather than failing the run.
+ * What a run could determine about the BEATEN_OVERRIDES sheet. "No override
+ * for this app" is only known when `authoritative` is set and the app is not
+ * in `undetermined`; otherwise a cached override marker must stay in force.
  */
-async function buildOverridesByAppId(
+export interface OverrideResolution {
+  /** Rows resolved to a marker definition, keyed by app id. */
+  overrides: Map<number, ResolvedOverride>
+  /** Apps with a row that could not be resolved this run (schema or Steam
+   *  Hunters unavailable, achievement text unmatched, resolution threw). */
+  undetermined: Set<number>
+  /** The sheet was read and every row could be attributed to an app. False
+   *  when the sheet was unreadable or empty, when Steam API calls are
+   *  skipped, or when a row failed before its app was known. */
+  authoritative: boolean
+}
+
+/** What to do with one app's override this run — see {@link decideOverrideState}. */
+export interface OverrideDecision {
+  override: ResolvedOverride | undefined
+  /** `override_key` to store on a re-detected marker entry. */
+  overrideKey: string | undefined
+  /** The cached marker was built from an override state that no longer holds,
+   *  so detection must re-run and cached player checks may be outdated. */
+  stale: boolean
+  /** The override state is unknown: the cached override marker stays in force. */
+  held: boolean
+}
+
+/**
+ * Decides one app's override state for this run. A resolved row applies (and
+ * is stale when its key differs from the cached one). An app whose override
+ * could not be determined keeps its cached `override_key` and is never stale.
+ * Only a successfully read sheet with no row for the app clears a cached
+ * override.
+ */
+export function decideOverrideState(
+  appId: number,
+  resolution: OverrideResolution,
+  cachedOverrideKey: string | undefined,
+): OverrideDecision {
+  if (resolution.undetermined.has(appId)) {
+    return { override: undefined, overrideKey: cachedOverrideKey, stale: false, held: true }
+  }
+  const override = resolution.overrides.get(appId)
+  if (override) {
+    const overrideKey = buildOverrideKey(appId, override)
+    return { override, overrideKey, stale: overrideKey !== cachedOverrideKey, held: false }
+  }
+  if (!resolution.authoritative) {
+    return { override: undefined, overrideKey: cachedOverrideKey, stale: false, held: true }
+  }
+  return { override: undefined, overrideKey: undefined, stale: cachedOverrideKey !== undefined, held: false }
+}
+
+type OverrideRowOutcome =
+  | { status: 'resolved'; appId: number; resolved: ResolvedOverride }
+  /** The row can never produce an override (unparseable link). */
+  | { status: 'skipped' }
+  /** The row might be valid, but this run could not resolve it. `appId` is
+   *  absent when the failure happened before the row's app was known. */
+  | { status: 'undetermined'; appId?: number }
+
+async function resolveOverrideRow(
+  row: BeatenOverrideData,
   checker: SteamGameChecker,
   cache: BeatenCache,
-): Promise<Map<number, ResolvedOverride>> {
-  const overridesByAppId = new Map<number, ResolvedOverride>()
-  if (SKIP_STEAM_API) return overridesByAppId
-
-  let rows: BeatenOverrideData[]
-  try {
-    rows = await GiveawayPointsManager.getInstance().fetchBeatenOverrides()
-  } catch (error) {
-    logError(error, 'Failed to fetch BEATEN_OVERRIDES sheet tab')
-    console.warn('⚠️  Could not fetch beaten marker overrides, continuing with none')
-    return overridesByAppId
+): Promise<OverrideRowOutcome> {
+  const rowLabel = `"${row.game}" (${row.steamLink})`
+  const parsedLink = parseOverrideSteamLink(row.steamLink)
+  if (!parsedLink) {
+    console.warn(`⚠️  Override row ${rowLabel}: could not parse STEAM LINK, skipping`)
+    return { status: 'skipped' }
   }
 
-  for (const row of rows) {
-    const rowLabel = `"${row.game}" (${row.steamLink})`
-    const parsedLink = parseOverrideSteamLink(row.steamLink)
-    if (!parsedLink) {
-      console.warn(`⚠️  Override row ${rowLabel}: could not parse STEAM LINK, skipping`)
-      continue
+  let appId: number
+  if (parsedLink.kind === 'sub') {
+    const resolution = await resolvePackageToApp(parsedLink.packageId, checker, cache)
+    if (resolution.app_id == null) {
+      console.warn(
+        `⚠️  Override row ${rowLabel}: could not resolve package ${parsedLink.packageId} to a game app, skipping`,
+      )
+      return { status: 'undetermined' }
     }
+    appId = resolution.app_id
+  } else {
+    appId = parsedLink.appId
+  }
 
-    let appId: number
-    if (parsedLink.kind === 'sub') {
-      const resolution = await resolvePackageToApp(parsedLink.packageId, checker, cache)
-      if (resolution.app_id == null) {
-        console.warn(
-          `⚠️  Override row ${rowLabel}: could not resolve package ${parsedLink.packageId} to a game app, skipping`,
-        )
-        continue
-      }
-      appId = resolution.app_id
-    } else {
-      appId = parsedLink.appId
-    }
-
+  try {
     const achievements = await checker.getSchemaAchievements(appId)
     if (!achievements) {
       console.warn(`⚠️  Override row ${rowLabel}: achievement schema unavailable for appId ${appId}, skipping`)
-      continue
+      return { status: 'undetermined', appId }
     }
 
     const resolvedAchievement = resolveOverrideAchievement(row.achievement, achievements)
@@ -493,47 +641,109 @@ async function buildOverridesByAppId(
       console.warn(
         `⚠️  Override row ${rowLabel}: could not resolve ACHIEVEMENT "${row.achievement}" against the schema, skipping`,
       )
-      continue
+      return { status: 'undetermined', appId }
     }
 
-    let resolved: ResolvedOverride
     if ('none' in resolvedAchievement) {
-      resolved = { none: true }
-    } else {
-      let apinames = resolvedAchievement.apinames
-      let shAchievementId: number | undefined
+      return { status: 'resolved', appId, resolved: { none: true } }
+    }
 
-      const parsedShLink = row.steamHuntersLink ? parseOverrideSteamHuntersLink(row.steamHuntersLink) : null
-      if (parsedShLink) {
-        if (parsedShLink.appId !== appId) {
+    let apinames = resolvedAchievement.apinames
+    let shAchievementId: number | undefined
+
+    const parsedShLink = row.steamHuntersLink ? parseOverrideSteamHuntersLink(row.steamHuntersLink) : null
+    if (parsedShLink) {
+      if (parsedShLink.appId !== appId) {
+        console.warn(
+          `⚠️  Override row ${rowLabel}: STEAMHUNTERS LINK app id ${parsedShLink.appId} differs from resolved app id ${appId}, ignoring the link`,
+        )
+      } else {
+        const shApiname = await resolveApinameForShAchievementId(parsedShLink.appId, parsedShLink.achievementId)
+        if (shApiname === null) {
+          // The link may name a different achievement than ACHIEVEMENT, so a
+          // marker built without it could differ from the intended one.
           console.warn(
-            `⚠️  Override row ${rowLabel}: STEAMHUNTERS LINK app id ${parsedShLink.appId} differs from resolved app id ${appId}, ignoring the link`,
+            `⚠️  Override row ${rowLabel}: Steam Hunters lookup failed for the STEAMHUNTERS LINK, skipping`,
           )
-        } else {
-          const shApiname = await resolveApinameForShAchievementId(parsedShLink.appId, parsedShLink.achievementId)
-          if (shApiname) {
-            shAchievementId = parsedShLink.achievementId
-            const precedence = applyShLinkPrecedence(apinames, shApiname)
-            apinames = precedence.apinames
-            if (precedence.disagreed) {
-              console.warn(
-                `⚠️  Override row ${rowLabel}: STEAMHUNTERS LINK achievement disagrees with ACHIEVEMENT, using the link`,
-              )
-            }
+          return { status: 'undetermined', appId }
+        }
+        if (shApiname) {
+          shAchievementId = parsedShLink.achievementId
+          const precedence = applyShLinkPrecedence(apinames, shApiname)
+          apinames = precedence.apinames
+          if (precedence.disagreed) {
+            console.warn(
+              `⚠️  Override row ${rowLabel}: STEAMHUNTERS LINK achievement disagrees with ACHIEVEMENT, using the link`,
+            )
           }
         }
       }
-
-      resolved = { apinames, ...(shAchievementId != null ? { sh_achievement_id: shAchievementId } : {}) }
     }
 
-    if (overridesByAppId.has(appId)) {
-      console.warn(`⚠️  Override row ${rowLabel}: duplicate override for appId ${appId}, replacing the earlier row`)
+    return {
+      status: 'resolved',
+      appId,
+      resolved: { apinames, ...(shAchievementId != null ? { sh_achievement_id: shAchievementId } : {}) },
     }
-    overridesByAppId.set(appId, resolved)
+  } catch (error) {
+    logError(error, `Failed to resolve BEATEN_OVERRIDES row ${rowLabel}`)
+    return { status: 'undetermined', appId }
+  }
+}
+
+/**
+ * Fetches and resolves the BEATEN_OVERRIDES sheet tab into a per-app map
+ * ready to apply as markers. Each row is resolved independently. A row that
+ * can never yield an override is skipped; a row that could not be resolved
+ * this run is recorded as undetermined for its app, and the result is marked
+ * non-authoritative when the sheet could not be read (fetch failure, no
+ * usable rows, SKIP_STEAM_API) or a row failed before its app was known, so
+ * no cached override is cleared on the strength of an incomplete read.
+ */
+async function buildOverridesByAppId(
+  checker: SteamGameChecker,
+  cache: BeatenCache,
+): Promise<OverrideResolution> {
+  const resolution: OverrideResolution = {
+    overrides: new Map(),
+    undetermined: new Set(),
+    authoritative: false,
+  }
+  if (SKIP_STEAM_API) return resolution
+
+  let rows: BeatenOverrideData[]
+  try {
+    rows = await GiveawayPointsManager.getInstance().fetchBeatenOverrides()
+  } catch (error) {
+    logError(error, 'Failed to fetch BEATEN_OVERRIDES sheet tab')
+    console.warn('⚠️  Could not fetch beaten marker overrides, keeping cached overrides')
+    return resolution
+  }
+  if (rows.length === 0) {
+    console.warn('⚠️  BEATEN_OVERRIDES sheet has no usable rows, keeping cached overrides')
+    return resolution
   }
 
-  return overridesByAppId
+  let attributable = true
+  for (const row of rows) {
+    const outcome = await resolveOverrideRow(row, checker, cache)
+    if (outcome.status === 'undetermined') {
+      if (outcome.appId != null) resolution.undetermined.add(outcome.appId)
+      else attributable = false
+      continue
+    }
+    if (outcome.status === 'skipped') continue
+
+    if (resolution.overrides.has(outcome.appId)) {
+      console.warn(
+        `⚠️  Override row "${row.game}" (${row.steamLink}): duplicate override for appId ${outcome.appId}, replacing the earlier row`,
+      )
+    }
+    resolution.overrides.set(outcome.appId, outcome.resolved)
+  }
+
+  resolution.authoritative = attributable
+  return resolution
 }
 
 /**
@@ -718,10 +928,12 @@ async function detectMarker(
 
 /**
  * Resolves an appId to its base game via the Steam store appdetails
- * endpoint, when it's a DLC or soundtrack with a listed `fullgame`. Result
- * is cached permanently (including negative results) since the answer never
- * changes. Only called for games whose marker detection came back empty —
- * a small set — since appdetails is aggressively rate-limited.
+ * endpoint, when it's a DLC or soundtrack with a listed `fullgame`. A
+ * resolved base game is cached permanently; an unresolved answer is cached
+ * for {@link NEGATIVE_ANSWER_TTL_MS} and then asked again, since a failed
+ * request is indistinguishable from "not a DLC". Only called for games whose
+ * marker detection came back empty — a small set — since appdetails is
+ * aggressively rate-limited.
  */
 async function resolveAppForDlc(
   appId: number,
@@ -730,7 +942,8 @@ async function resolveAppForDlc(
 ): Promise<AppResolutionCacheEntry> {
   const key = String(appId)
   const cached = cache.app_resolutions[key]
-  if (cached) return cached
+  // With Steam calls skipped nothing can be re-asked, so an expired answer stays.
+  if (cached && (SKIP_STEAM_API || !isAppResolutionExpired(cached, Date.now()))) return cached
 
   let entry: AppResolutionCacheEntry
   if (SKIP_STEAM_API) {
@@ -839,8 +1052,10 @@ function pickMainApp(
 /**
  * Resolves a package (sub) appearing on a giveaway with only `package_id`
  * (no `app_id`) to the game app it bundles, via the Steam store
- * packagedetails endpoint. Result is cached permanently (including negative
- * results) since the answer never changes. `getGameAppsForSubId` already
+ * packagedetails endpoint. A resolved app is cached permanently; an
+ * unresolved answer is cached for {@link NEGATIVE_ANSWER_TTL_MS} and then
+ * asked again, since a failed request is indistinguishable from a package
+ * with no game. `getGameAppsForSubId` already
  * does something similar for playtime tracking across every game a package
  * bundles; this instead needs a single "main" app to run marker detection
  * against.
@@ -852,7 +1067,7 @@ async function resolvePackageToApp(
 ): Promise<PackageResolutionCacheEntry> {
   const key = String(packageId)
   const cached = cache.package_resolutions[key]
-  if (cached) return cached
+  if (cached && (SKIP_STEAM_API || !isPackageResolutionExpired(cached, Date.now()))) return cached
 
   let entry: PackageResolutionCacheEntry
   if (SKIP_STEAM_API) {
@@ -912,12 +1127,25 @@ export function checkAnyOfApinamesBeaten(
   return { found, beaten: earliestUnlock != null, unlock_time: earliestUnlock }
 }
 
-async function checkPlayerBeaten(
+/** Outcome of checking one winner against a marker. `beaten: null` means no
+ *  answer could be read (see `no_data_reason`), never "not beaten". */
+export interface PlayerCheckResult {
+  beaten: boolean | null
+  unlock_time: number | null
+  no_data_reason: NoBeatenDataReason | null
+}
+
+/**
+ * Checks one winner against a marker. A request failure surfaces as a
+ * throw from the checker and propagates: the caller keeps whatever it had
+ * stored rather than recording the failure as an answer.
+ */
+export async function checkPlayerBeaten(
   steamId: string,
   appId: number,
   marker: BeatenMarker,
-  checker: SteamGameChecker,
-): Promise<{ beaten: boolean | null; unlock_time: number | null; no_data_reason: NoBeatenDataReason | null }> {
+  checker: Pick<SteamGameChecker, 'getPlayerAchievementsForApp' | 'checkProfileVisibility'>,
+): Promise<PlayerCheckResult> {
   if (SKIP_STEAM_API) {
     return { beaten: null, unlock_time: null, no_data_reason: 'no_stats' }
   }
@@ -937,6 +1165,8 @@ async function checkPlayerBeaten(
     }
   }
 
+  // A successfully read but empty list: the game exposes no achievements
+  // for this player.
   if (achievements.length === 0) {
     return { beaten: null, unlock_time: null, no_data_reason: 'no_stats' }
   }
@@ -948,6 +1178,69 @@ async function checkPlayerBeaten(
   }
 
   return { beaten: result.beaten, unlock_time: result.unlock_time, no_data_reason: null }
+}
+
+// --- Stored-answer selection ---
+
+/** The game entry for a cached marker, as emitted to beaten_games.json. */
+export function cachedMarkerToGameEntry(cached: MarkerCacheEntry): BeatenGameEntry {
+  return {
+    marker: cached.marker,
+    no_marker_reason: cached.no_marker_reason,
+    story_tag_count: cached.story_tag_count,
+    checked_at: cached.fetched_at,
+    ...(cached.resolved_app_id != null ? { resolved_app_id: cached.resolved_app_id } : {}),
+    ...(cached.resolved_app_name ? { resolved_app_name: cached.resolved_app_name } : {}),
+  }
+}
+
+/** The win entry for a cached player check, as emitted to beaten_games.json. */
+export function cachedPlayerCheckToWinEntry(cached: PlayerCheckCacheEntry): BeatenWinEntry {
+  return {
+    beaten: cached.beaten,
+    unlock_time: cached.unlock_time,
+    no_data_reason: cached.no_data_reason,
+    checked_at: cached.fetched_at,
+  }
+}
+
+/**
+ * The cached win entry to emit when a fresh check cannot run or fails, or
+ * undefined when there is none worth emitting: an entry computed against a
+ * different marker answers a different question.
+ */
+export function cachedWinForMarker(
+  cached: PlayerCheckCacheEntry | undefined,
+  marker: BeatenMarker,
+): BeatenWinEntry | undefined {
+  if (!cached || cached.marker_apiname !== marker.apiname) return undefined
+  return cachedPlayerCheckToWinEntry(cached)
+}
+
+/**
+ * Chooses what to store and what to emit after a fresh player check. A fresh
+ * check without an answer (`beaten: null`) never replaces a cached definite
+ * verdict: `store` is then undefined and the cache stays untouched, so a
+ * member who went private keeps their proof. The cached verdict is emitted
+ * only when it was computed against the current marker; otherwise the fresh
+ * result is.
+ */
+export function chooseStoredPlayerCheck(
+  cached: PlayerCheckCacheEntry | undefined,
+  fresh: PlayerCheckResult,
+  marker: BeatenMarker,
+  fetchedAt: string,
+): { store: PlayerCheckCacheEntry | undefined; emit: BeatenWinEntry } {
+  if (fresh.beaten === null && cached != null && cached.beaten !== null) {
+    return {
+      store: undefined,
+      emit: cachedWinForMarker(cached, marker) ?? { ...fresh, checked_at: fetchedAt },
+    }
+  }
+  return {
+    store: { fetched_at: fetchedAt, marker_apiname: marker.apiname, ...fresh },
+    emit: { ...fresh, checked_at: fetchedAt },
+  }
 }
 
 // --- Main pipeline ---
@@ -1061,8 +1354,10 @@ export async function generateBeatenData(): Promise<void> {
   const uniqueAppIdSet = new Set(uniqueAppIds)
 
   // --- Beaten marker overrides ---
-  const overridesByAppId = await buildOverridesByAppId(checker, cache)
-  console.log(`🔧 Resolved ${overridesByAppId.size} beaten marker override(s)`)
+  const overrideResolution = await buildOverridesByAppId(checker, cache)
+  console.log(
+    `🔧 Resolved ${overrideResolution.overrides.size} beaten marker override(s)${overrideResolution.authoritative ? '' : ' (override state incomplete, cached overrides kept)'}`,
+  )
 
   // --- Phase 1: marker detection (cached per appId) ---
   const games: Record<string, BeatenGameEntry> = {}
@@ -1071,33 +1366,78 @@ export async function generateBeatenData(): Promise<void> {
   let markerEnrichCount = 0
   let deferredEnrichments = 0
   let overridesAppliedCount = 0
+  // Apps whose marker was re-detected after an override change: cached
+  // not-beaten answers for them are re-checked this run. Proven verdicts
+  // (beaten: true) stay, and entries computed against another marker are
+  // ignored by marker_apiname.
+  const recheckAppIds = new Set<number>()
   const sourceCounts = { steamhunters: 0, heuristic: 0, override: 0, none: 0 }
 
-  console.log(`🏅 Detecting beaten markers for ${uniqueAppIds.length} game(s)...`)
-  for (let i = 0; i < uniqueAppIds.length; i++) {
-    const appId = uniqueAppIds[i]
+  const markerNowMs = Date.now()
+  // Expiry only applies when Steam can be asked: with SKIP_STEAM_API a
+  // re-check would just re-stamp the same unanswered question.
+  const expiryApplies = !SKIP_STEAM_API
+
+  const assessMarker = (appId: number) => {
     const cached = cache.markers[String(appId)]
 
-    const override = overridesByAppId.get(appId)
-    const overrideKey = override ? buildOverrideKey(appId, override) : undefined
-    // An override applies or changes, or a previously-overridden app's row
-    // was removed — either way the cached override_key no longer matches
-    // the current override state, so detection must re-run.
-    const overrideStale = overrideKey !== cached?.override_key
+    // An override applies or changes, or the sheet was read and a
+    // previously-overridden app's row is gone — either way the cached
+    // override_key no longer matches the current override state, so
+    // detection must re-run. When the override state could not be
+    // determined, the cached entry stays in force.
+    const decision = decideOverrideState(appId, overrideResolution, cached?.override_key)
+    const keepCachedOverride = decision.held && cached?.override_key !== undefined
 
     // A cached "no schema"/"no achievements" verdict predates DLC
     // resolution unless an app_resolutions entry for it already exists and
-    // confirmed it's not a DLC (resolved_app_id: null, permanent). Anything
-    // else — never checked, or checked and found to resolve — is stale and
-    // treated as a miss so it re-detects (possibly against a base game).
+    // confirmed it's not a DLC (resolved_app_id: null, until it expires).
+    // Anything else — never checked, checked and found to resolve, or an
+    // expired not-a-DLC answer — is stale and treated as a miss so it
+    // re-detects (possibly against a base game).
     const appResolution = cache.app_resolutions[String(appId)]
+    const confirmedNotDlc = appResolution != null && appResolution.resolved_app_id == null
+    const resolutionExpired =
+      expiryApplies && confirmedNotDlc && isAppResolutionExpired(appResolution, markerNowMs)
     const staleUnresolved =
       cached != null &&
       (cached.no_marker_reason === 'schema_unavailable' || cached.no_marker_reason === 'no_achievements') &&
       cached.resolved_app_id == null &&
-      !(appResolution != null && appResolution.resolved_app_id == null)
+      !(confirmedNotDlc && !resolutionExpired)
+    const entryExpired =
+      cached != null && expiryApplies && isMarkerEntryExpired(cached, markerNowMs)
 
-    if (cached && !staleUnresolved && !overrideStale) {
+    // Re-detections that only an expired negative answer asks for; they
+    // queue behind everything else for the per-run cap.
+    const expiryRecheck =
+      cached != null &&
+      !keepCachedOverride &&
+      !decision.stale &&
+      (entryExpired || (staleUnresolved && resolutionExpired))
+
+    return { cached, ...decision, keepCachedOverride, staleUnresolved, entryExpired, expiryRecheck }
+  }
+
+  uniqueAppIds = orderMarkerWork(uniqueAppIds, cache.markers, (id) => assessMarker(id).expiryRecheck)
+  const expiryRecheckCount = uniqueAppIds.filter((id) => assessMarker(id).expiryRecheck).length
+  if (expiryRecheckCount > 0) {
+    console.log(`⏳ ${expiryRecheckCount} expired negative marker answer(s) queued for a re-check`)
+  }
+
+  console.log(`🏅 Detecting beaten markers for ${uniqueAppIds.length} game(s)...`)
+  for (let i = 0; i < uniqueAppIds.length; i++) {
+    const appId = uniqueAppIds[i]
+    const {
+      cached,
+      override,
+      overrideKey,
+      stale: overrideStale,
+      keepCachedOverride,
+      staleUnresolved,
+      entryExpired,
+    } = assessMarker(appId)
+
+    if (cached && (keepCachedOverride || (!staleUnresolved && !overrideStale && !entryExpired))) {
       // A cached marker written before sh_achievement_id existed needs only
       // a SH id backfill, not a full re-detection — the marker choice
       // itself is unaffected.
@@ -1126,56 +1466,61 @@ export async function generateBeatenData(): Promise<void> {
         }
       }
 
-      games[String(appId)] = {
-        marker: cached.marker,
-        no_marker_reason: cached.no_marker_reason,
-        story_tag_count: cached.story_tag_count,
-        checked_at: cached.fetched_at,
-        ...(cached.resolved_app_id != null ? { resolved_app_id: cached.resolved_app_id } : {}),
-        ...(cached.resolved_app_name ? { resolved_app_name: cached.resolved_app_name } : {}),
-      }
+      games[String(appId)] = cachedMarkerToGameEntry(cached)
       if (cached.marker) sourceCounts[cached.marker.source]++
       else sourceCounts.none++
       continue
     }
 
+    // A stale cached marker still beats no entry while its refresh is
+    // deferred or failing.
+    const emitCachedMarker = () => {
+      if (!cached) return
+      games[String(appId)] = cachedMarkerToGameEntry(cached)
+      if (cached.marker) sourceCounts[cached.marker.source]++
+      else sourceCounts.none++
+    }
+
     if (markerFetchCount >= MARKER_FETCH_CAP) {
       deferredMarkers++
+      emitCachedMarker()
       continue
     }
 
     try {
       const result = await detectMarkerWithResolution(appId, checker, cache, override)
-      const fetchedAt = new Date().toISOString()
-      cache.markers[String(appId)] = {
-        fetched_at: fetchedAt,
-        ...result,
-        ...(overrideKey !== undefined ? { override_key: overrideKey } : {}),
-      }
-      games[String(appId)] = { ...result, checked_at: fetchedAt }
-      if (result.marker) sourceCounts[result.marker.source]++
-      else sourceCounts.none++
       markerFetchCount++
 
-      if (override) {
-        overridesAppliedCount++
-        console.log(
-          `🔧 Override applied — ${appId}: ${result.marker ? `${result.marker.name} (${result.marker.apiname})` : 'no valid ending achievement (NONE)'}`,
-        )
-      }
-
-      // The app's beaten status may have just changed underneath any cached
-      // player checks — re-check winners against the new marker this run
-      // rather than serving a stale verdict computed against the old one.
-      if (overrideStale) {
-        const suffix = `::${appId}`
-        for (const key of Object.keys(cache.player_checks)) {
-          if (key.endsWith(suffix)) delete cache.player_checks[key]
+      if (shouldKeepCachedMarker(cached, result, overrideStale)) {
+        console.warn(`⚠️  Re-detection found no marker for appid ${appId}, keeping the cached marker`)
+        emitCachedMarker()
+      } else {
+        const fetchedAt = new Date().toISOString()
+        cache.markers[String(appId)] = {
+          fetched_at: fetchedAt,
+          ...result,
+          ...(overrideKey !== undefined ? { override_key: overrideKey } : {}),
         }
+        games[String(appId)] = { ...result, checked_at: fetchedAt }
+        if (result.marker) sourceCounts[result.marker.source]++
+        else sourceCounts.none++
+
+        if (override) {
+          overridesAppliedCount++
+          console.log(
+            `🔧 Override applied — ${appId}: ${result.marker ? `${result.marker.name} (${result.marker.apiname})` : 'no valid ending achievement (NONE)'}`,
+          )
+        }
+
+        // The app's beaten status may have just changed underneath any cached
+        // player checks — re-check winners against the new marker this run
+        // rather than serving a stale not-beaten verdict.
+        if (overrideStale) recheckAppIds.add(appId)
       }
     } catch (error) {
       logError(error, `Failed to detect beaten marker for appId ${appId}`)
       console.warn(`⚠️  Failed to detect marker for appid ${appId}:`, String(error))
+      emitCachedMarker()
     }
 
     if (!SKIP_STEAM_API) await delay(STEAM_API_DELAY_MS)
@@ -1228,15 +1573,11 @@ export async function generateBeatenData(): Promise<void> {
       marker != null &&
       cached.marker_apiname === marker.apiname &&
       (cached.beaten === true ||
-        nowMs - new Date(cached.fetched_at).getTime() < PLAYER_RECHECK_STALE_MS)
+        (!recheckAppIds.has(appId) &&
+          nowMs - new Date(cached.fetched_at).getTime() < PLAYER_RECHECK_STALE_MS))
 
     if (cacheFresh) {
-      wins[key] = {
-        beaten: cached.beaten,
-        unlock_time: cached.unlock_time,
-        no_data_reason: cached.no_data_reason,
-        checked_at: cached.fetched_at,
-      }
+      wins[key] = cachedPlayerCheckToWinEntry(cached)
       continue
     }
 
@@ -1249,26 +1590,23 @@ export async function generateBeatenData(): Promise<void> {
     if (playerCheckCount >= PLAYER_CHECK_CAP) {
       deferredPlayerChecks++
       // Keep the stale cached value (if any) rather than dropping the win.
-      if (cached) {
-        wins[key] = {
-          beaten: cached.beaten,
-          unlock_time: cached.unlock_time,
-          no_data_reason: cached.no_data_reason,
-          checked_at: cached.fetched_at,
-        }
-      }
+      const cachedWin = cachedWinForMarker(cached, marker)
+      if (cachedWin) wins[key] = cachedWin
       continue
     }
 
     try {
       const result = await checkPlayerBeaten(steamId, checkAppId, marker, checker)
       const fetchedAt = new Date().toISOString()
-      cache.player_checks[key] = { fetched_at: fetchedAt, marker_apiname: marker.apiname, ...result }
-      wins[key] = { ...result, checked_at: fetchedAt }
+      const { store, emit } = chooseStoredPlayerCheck(cached, result, marker, fetchedAt)
+      if (store) cache.player_checks[key] = store
+      wins[key] = emit
       playerCheckCount++
     } catch (error) {
       logError(error, `Failed to check beaten status for ${key}`)
       console.warn(`⚠️  Failed to check beaten status for ${key}:`, String(error))
+      const cachedWin = cachedWinForMarker(cached, marker)
+      if (cachedWin) wins[key] = cachedWin
     }
 
     if (!SKIP_STEAM_API) await delay(STEAM_API_DELAY_MS)

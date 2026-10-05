@@ -43,7 +43,10 @@ export interface GroupUsersFile {
   users: Record<string, SnapshotUserLike> | SnapshotUserLike[]
 }
 
-export type MembersMap = Record<string, Record<string, [number, number]>>
+/** [playtime_minutes, achievements_unlocked] */
+export type PlayEntry = [number, number]
+
+export type MembersMap = Record<string, Record<string, PlayEntry>>
 
 export interface PlaytimeSnapshot {
   captured_at: string
@@ -53,6 +56,27 @@ export interface PlaytimeSnapshot {
 /** giveawayId = the short id, i.e. the link segment before the slash. */
 export function giveawayIdFromLink(link: string): string {
   return link.split('/')[0]
+}
+
+/**
+ * Raises `current` to at least `previous`, metric by metric. A snapshot is the
+ * baseline for the next month's delta, so a read that came back lower than
+ * what an earlier snapshot already proved (a private profile or failed pull
+ * reads as zero) must not replace it: the next delta would count the member's
+ * whole lifetime playtime as that month's progress.
+ *
+ * Unreadable wins are stored as zero rather than omitted because the delta
+ * walk in chart-data.ts treats a missing entry as [0, 0] too.
+ */
+export function floorEntry(current: PlayEntry, previous?: PlayEntry): PlayEntry {
+  if (!previous) return current
+  return [Math.max(current[0], previous[0]), Math.max(current[1], previous[1])]
+}
+
+/** The month before a `YYYY-MM` key. */
+export function previousMonthKey(month: string): string {
+  const [year, mon] = month.split('-').map(Number)
+  return mon === 1 ? `${year - 1}-12` : `${year}-${String(mon - 1).padStart(2, '0')}`
 }
 
 /**
@@ -66,6 +90,7 @@ export function collectPlaytime(
   usersFile: GroupUsersFile | null | undefined,
   members: MembersMap,
   fallbackSteamId?: (username: string) => string | undefined,
+  previous?: MembersMap | null,
 ): { unmapped: string[] } {
   const unmapped: string[] = []
   if (!usersFile?.users) return { unmapped }
@@ -82,11 +107,17 @@ export function collectPlaytime(
     }
 
     for (const win of user.giveaways_won ?? []) {
-      const play = win.steam_play_data
-      if (!play) continue
       const giveawayId = giveawayIdFromLink(win.link)
+      const prev = previous?.[steamId]?.[giveawayId]
+      const play = win.steam_play_data
+      // A win with no stats object still carries its previous entry forward,
+      // so the next delta does not restart from zero.
+      if (!play && !prev) continue
       const memberGames = members[steamId] ?? (members[steamId] = {})
-      memberGames[giveawayId] = [play.playtime_minutes ?? 0, play.achievements_unlocked ?? 0]
+      memberGames[giveawayId] = floorEntry(
+        [play?.playtime_minutes ?? 0, play?.achievements_unlocked ?? 0],
+        prev,
+      )
     }
   }
 
@@ -98,11 +129,13 @@ export function buildSnapshot(
   exMembers: GroupUsersFile | null | undefined,
   capturedAt: Date,
   fallbackSteamId?: (username: string) => string | undefined,
+  previous?: PlaytimeSnapshot | null,
 ): { snapshot: PlaytimeSnapshot; unmapped: string[] } {
   const members: MembersMap = {}
+  const prevMembers = previous?.members
   const unmapped = [
-    ...collectPlaytime(groupUsers, members, fallbackSteamId).unmapped,
-    ...collectPlaytime(exMembers, members, fallbackSteamId).unmapped,
+    ...collectPlaytime(groupUsers, members, fallbackSteamId, prevMembers).unmapped,
+    ...collectPlaytime(exMembers, members, fallbackSteamId, prevMembers).unmapped,
   ]
   return { snapshot: { captured_at: capturedAt.toISOString(), members }, unmapped }
 }
@@ -127,6 +160,22 @@ export function writeSnapshotFile(
   return 'written'
 }
 
+/**
+ * The snapshot for the month before `month`, or null when there is none (the
+ * first month tracked, a gap, or an unparseable file). Read on demand so
+ * importing this module touches no files.
+ */
+export function loadPreviousSnapshot(month: string): PlaytimeSnapshot | null {
+  const filePath = snapshotPathForMonth(previousMonthKey(month))
+  if (!existsSync(filePath)) return null
+  try {
+    const parsed = JSON.parse(readFileSync(filePath, 'utf-8')) as PlaytimeSnapshot
+    return parsed?.members ? parsed : null
+  } catch {
+    return null
+  }
+}
+
 export function readGroupUsersFile(path: string): GroupUsersFile | null {
   if (!existsSync(path)) return null
   return JSON.parse(readFileSync(path, 'utf-8'))
@@ -144,7 +193,13 @@ export function captureMonthlySnapshotIfMissing(now = new Date()): void {
 
   const groupUsers = readGroupUsersFile(resolve(dataDir, 'group_users.json'))
   const exMembers = readGroupUsersFile(resolve(dataDir, 'ex_members.json'))
-  const { snapshot, unmapped } = buildSnapshot(groupUsers, exMembers, now)
+  const { snapshot, unmapped } = buildSnapshot(
+    groupUsers,
+    exMembers,
+    now,
+    undefined,
+    loadPreviousSnapshot(month),
+  )
   const result = writeSnapshotFile(month, snapshot)
 
   if (result === 'written') {
@@ -162,7 +217,13 @@ async function main(): Promise<void> {
 
   const groupUsers = readGroupUsersFile(resolve(dataDir, 'group_users.json'))
   const exMembers = readGroupUsersFile(resolve(dataDir, 'ex_members.json'))
-  const { snapshot, unmapped } = buildSnapshot(groupUsers, exMembers, new Date())
+  const { snapshot, unmapped } = buildSnapshot(
+    groupUsers,
+    exMembers,
+    new Date(),
+    undefined,
+    loadPreviousSnapshot(month),
+  )
   const result = writeSnapshotFile(month, snapshot, force)
 
   if (result === 'skipped-exists') {

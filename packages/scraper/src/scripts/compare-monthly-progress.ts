@@ -16,7 +16,9 @@
  * A game counts as "completed in the period" when it is completed in the current
  * snapshot but was NOT completed in the baseline snapshot. Playtime accumulated
  * is the per-game delta (current − baseline), summed per member; games won during
- * the period (absent at baseline) contribute their full current playtime.
+ * the period (absent at baseline) contribute their full current playtime. A game
+ * whose baseline stats were unreadable has an unknown baseline, not a zero one, and
+ * is left out of both playtime and completions (reported as "baseline unknown").
  *
  * The dataset is per-member WON giveaways (group_users.json → giveaways_won[] →
  * steam_play_data). HLTB hours come from game_data.json, matched by game name.
@@ -54,6 +56,8 @@ interface SteamPlayData {
   achievements_unlocked?: number
   achievements_total?: number
   achievements_percentage?: number
+  has_no_available_stats?: boolean
+  no_stats_reason?: string
 }
 interface WonGame {
   name: string
@@ -109,6 +113,58 @@ const meetsHltb = (p: SteamPlayData | undefined, hltbHours?: number): boolean =>
 const isCompleted = (p?: SteamPlayData, hltbHours?: number): boolean =>
   has100(p) || meetsHltb(p, hltbHours)
 
+/** Same evidence test as `hasPlayEvidence` in scrapers/group-members.ts. */
+export const hasPlayEvidence = (p?: SteamPlayData): boolean =>
+  !!p && ((p.playtime_minutes ?? 0) > 0 || (p.achievements_unlocked ?? 0) > 0)
+
+/**
+ * A baseline entry carries no information about earlier play when it holds no
+ * evidence and the read behind it failed: no stats object at all, an
+ * unreadable library, or a stats-less flag with no reason that says the
+ * library was read. An owned or unowned game read cleanly with zero playtime
+ * is a real zero.
+ */
+export function isBaselineUnknown(base: SteamPlayData | null | undefined): boolean {
+  if (base === undefined) return false // not in the baseline: won during the period
+  if (base === null) return true // in the baseline, but without a stats object
+  if (hasPlayEvidence(base)) return false
+  if (base.no_stats_reason === 'library_unavailable') return true
+  return (
+    !!base.has_no_available_stats &&
+    base.no_stats_reason !== 'no_steam_stats' &&
+    base.no_stats_reason !== 'not_in_library'
+  )
+}
+
+export interface WinProgress {
+  baselineUnknown: boolean
+  /** Minutes played in the period (≥ 0); 0 when the baseline is unknown. */
+  minutes: number
+  completedInPeriod: boolean
+}
+
+/**
+ * Period progress for one win. `base` is undefined when the win is absent from
+ * the baseline (it starts at zero) and null when it is present without a stats
+ * object (its baseline is unknown).
+ */
+export function computeWinProgress(
+  cur: SteamPlayData,
+  base: SteamPlayData | null | undefined,
+  hltbHours?: number,
+): WinProgress {
+  if (isBaselineUnknown(base)) {
+    return { baselineUnknown: true, minutes: 0, completedInPeriod: false }
+  }
+  const basePlay = base ?? undefined
+  const delta = (cur.playtime_minutes ?? 0) - (basePlay?.playtime_minutes ?? 0)
+  return {
+    baselineUnknown: false,
+    minutes: delta > 0 ? delta : 0,
+    completedInPeriod: isCompleted(cur, hltbHours) && !isCompleted(basePlay, hltbHours),
+  }
+}
+
 interface CompletedGame {
   name: string
   via_achievements: boolean
@@ -126,6 +182,7 @@ interface UserReport {
   hours_played_in_period: number
   completed_via_achievements: number
   completed_via_hltb_only: number
+  games_baseline_unknown: number
   completed_games: CompletedGame[]
 }
 
@@ -134,12 +191,13 @@ function main(): void {
   const current = loadUsers(resolve(dataDir, 'group_users.json'))
   const hltb = buildHltbMap()
 
-  // Baseline: per steam_id → (normalized game name → play data).
-  const baselineBySteamId = new Map<string, Map<string, SteamPlayData>>()
+  // Baseline: per steam_id → (normalized game name → play data, or null when
+  // the win was recorded without a stats object).
+  const baselineBySteamId = new Map<string, Map<string, SteamPlayData | null>>()
   for (const u of Object.values(baseline.users)) {
-    const m = new Map<string, SteamPlayData>()
+    const m = new Map<string, SteamPlayData | null>()
     for (const w of u.giveaways_won ?? [])
-      if (w.steam_play_data) m.set(norm(w.name), w.steam_play_data)
+      m.set(norm(w.name), w.steam_play_data ?? null)
     baselineBySteamId.set(u.steam_id, m)
   }
 
@@ -147,6 +205,7 @@ function main(): void {
   for (const u of Object.values(current.users)) {
     const base = baselineBySteamId.get(u.steam_id) ?? new Map()
     let hoursMinutes = 0
+    let baselineUnknown = 0
     const completed: CompletedGame[] = []
 
     for (const w of u.giveaways_won ?? []) {
@@ -157,14 +216,11 @@ function main(): void {
       const basePlay = base.get(key)
 
       // Playtime accumulated this period = per-game delta (≥ 0).
-      const delta =
-        (cur.playtime_minutes ?? 0) - (basePlay?.playtime_minutes ?? 0)
-      if (delta > 0) hoursMinutes += delta
-
       // Completed in period = complete now, but not complete at baseline.
-      const completedNow = isCompleted(cur, hltbHours)
-      const completedBefore = isCompleted(basePlay, hltbHours)
-      if (completedNow && !completedBefore) {
+      const progress = computeWinProgress(cur, basePlay, hltbHours)
+      if (progress.baselineUnknown) baselineUnknown++
+      hoursMinutes += progress.minutes
+      if (progress.completedInPeriod) {
         completed.push({
           name: w.name,
           via_achievements: has100(cur),
@@ -189,6 +245,7 @@ function main(): void {
       completed_via_hltb_only: completed.filter(
         (c) => c.via_hltb && !c.via_achievements,
       ).length,
+      games_baseline_unknown: baselineUnknown,
       completed_games: completed,
     })
   }
@@ -219,6 +276,10 @@ function main(): void {
     ),
     hours_played: Math.round(
       reports.reduce((s, r) => s + r.hours_played_in_period, 0),
+    ),
+    games_baseline_unknown: reports.reduce(
+      (s, r) => s + r.games_baseline_unknown,
+      0,
     ),
   }
 
@@ -251,7 +312,10 @@ function main(): void {
   console.log(
     `     ↳ via HLTB time only:        ${totals.games_completed_via_hltb_only}`,
   )
-  console.log(`   Hours played (total):          ${totals.hours_played}h\n`)
+  console.log(`   Hours played (total):          ${totals.hours_played}h`)
+  console.log(
+    `   Wins with unknown baseline:    ${totals.games_baseline_unknown} (excluded from hours and completions)\n`,
+  )
 
   console.log(
     '   ── Per member (completed ≥1) ───────────────────────',
@@ -335,4 +399,6 @@ function main(): void {
   )
 }
 
-main()
+if (import.meta.url.startsWith('file:')) {
+  if (process.argv[1] === fileURLToPath(import.meta.url)) main()
+}

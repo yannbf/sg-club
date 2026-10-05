@@ -87,11 +87,27 @@ export interface GameInsight {
   wanters: string[]
 }
 
+/** A member whose ownership/wishlist memberships in `games` were copied from
+ *  the previous output because Steam couldn't be read for them this run. Each
+ *  value is the unix-seconds time of the first run that carried that data
+ *  forward; the data itself was last read by the run before it. */
+export interface StaleMember {
+  library_since?: number
+  wishlist_since?: number
+}
+
 export interface GameInsightsData {
   last_updated: string
   total_members: number
+  /** Members whose library is represented in `owners`, read this run or
+   *  carried forward. */
   members_with_library_data: number
+  /** Members whose wishlist is represented in `wanters`, read this run or
+   *  carried forward. */
   members_with_wishlist_data: number
+  /** steam_id -> which of the member's data was carried forward. Absent when
+   *  nothing was carried. */
+  stale_members?: Record<string, StaleMember>
   games: Record<string, GameInsight>
 }
 
@@ -167,24 +183,212 @@ async function fetchSteamJson(url: string, label: string): Promise<any | null> {
   return null
 }
 
-async function fetchOwnedGames(steamId: string): Promise<Set<number> | null> {
+/** Result of reading one member's library or wishlist from Steam.
+ *  - `read`: Steam answered with the list (possibly empty).
+ *  - `hidden`: Steam answered but the list isn't exposed — a private profile
+ *    or private game details. For a wishlist this also covers "no items", which
+ *    can't be told apart from a private one on its own.
+ *  - `failed`: the request never produced a usable response. */
+export type SteamListOutcome =
+  | { status: 'read'; appIds: Set<number> }
+  | { status: 'hidden' }
+  | { status: 'failed' }
+
+/** `GetOwnedGames` for a profile with private game details answers 200 with an
+ *  empty `response` object (no `games`, no `game_count`). A public profile with
+ *  no games carries a `games: []` or `game_count: 0`. */
+export function classifyOwnedGames(data: any | null): SteamListOutcome {
+  if (data == null) return { status: 'failed' }
+  const response = data.response
+  const games = response?.games
+  if (Array.isArray(games)) {
+    return {
+      status: 'read',
+      appIds: new Set(games.map((g: { appid: number }) => g.appid)),
+    }
+  }
+  if (response?.game_count === 0) return { status: 'read', appIds: new Set() }
+  return { status: 'hidden' }
+}
+
+/** `GetWishlist` answers an empty `response` both for a private wishlist and
+ *  for a public empty one, so an item-less answer is only `hidden` here;
+ *  `resolveWishlistOutcome` settles it against the library read. */
+export function classifyWishlist(data: any | null): SteamListOutcome {
+  if (data == null) return { status: 'failed' }
+  const items = data.response?.items
+  if (Array.isArray(items)) {
+    return {
+      status: 'read',
+      appIds: new Set(items.map((it: { appid: number }) => it.appid)),
+    }
+  }
+  return { status: 'hidden' }
+}
+
+/** An item-less wishlist answer is a genuinely empty wishlist when the same
+ *  member's library was readable this run (the profile is public), and
+ *  unreadable otherwise. */
+export function resolveWishlistOutcome(
+  wishlist: SteamListOutcome,
+  library: SteamListOutcome,
+): SteamListOutcome {
+  if (wishlist.status === 'hidden' && library.status === 'read') {
+    return { status: 'read', appIds: new Set() }
+  }
+  return wishlist
+}
+
+export async function fetchOwnedGames(steamId: string): Promise<SteamListOutcome> {
   // Without skip_unvetted_apps=false Steam omits apps it hasn't vetted, and a
   // member who owns one reads as not owning it.
   const url = `${STEAM_BASE}/IPlayerService/GetOwnedGames/v0001/?key=${API_KEY}&steamid=${steamId}&format=json&skip_unvetted_apps=false`
-  const data = await fetchSteamJson(url, `owned games (${steamId})`)
-  const games = data?.response?.games
-  if (!Array.isArray(games) || games.length === 0) return null
-  return new Set(games.map((g: { appid: number }) => g.appid))
+  return classifyOwnedGames(await fetchSteamJson(url, `owned games (${steamId})`))
 }
 
-async function fetchWishlist(steamId: string): Promise<Set<number> | null> {
+export async function fetchWishlist(steamId: string): Promise<SteamListOutcome> {
   // Keyed request: anonymous calls fall under much stricter IP-based
   // throttling, which is what starved the wishlist data on the first run.
   const url = `${STEAM_BASE}/IWishlistService/GetWishlist/v1/?key=${API_KEY}&steamid=${steamId}`
-  const data = await fetchSteamJson(url, `wishlist (${steamId})`)
-  const items = data?.response?.items
-  if (!Array.isArray(items) || items.length === 0) return null
-  return new Set(items.map((it: { appid: number }) => it.appid))
+  return classifyWishlist(await fetchSteamJson(url, `wishlist (${steamId})`))
+}
+
+// --- Merging fresh member reads with the previous output ---
+
+export interface MemberSteamOutcome {
+  steamId: string
+  library: SteamListOutcome
+  /** Raw wishlist outcome; `mergeMemberOutcomes` resolves it against `library`. */
+  wishlist: SteamListOutcome
+}
+
+export interface MemberMergeResult {
+  ownersByApp: Map<number, Set<string>>
+  wantersByApp: Map<number, Set<string>>
+  membersWithLibraryData: number
+  membersWithWishlistData: number
+  staleMembers: Record<string, StaleMember>
+}
+
+/** Per member, the target apps they appear under in `previous` for `key`. */
+function previousMemberships(
+  previous: GameInsightsData | null,
+  targetAppIdSet: Set<number>,
+  key: 'owners' | 'wanters',
+): Map<string, Set<number>> {
+  const byMember = new Map<string, Set<number>>()
+  for (const [appKey, game] of Object.entries(previous?.games ?? {})) {
+    const appId = Number(appKey)
+    if (!targetAppIdSet.has(appId)) continue
+    for (const steamId of game[key] ?? []) {
+      let apps = byMember.get(steamId)
+      if (!apps) byMember.set(steamId, (apps = new Set()))
+      apps.add(appId)
+    }
+  }
+  return byMember
+}
+
+/**
+ * Builds owners/wanters per target app from this run's per-member Steam reads.
+ *
+ * A successful read replaces whatever the previous output said about that
+ * member. An unreadable list (private profile or failed request) says nothing
+ * about what the member owns or wants, so their memberships from `previous` are
+ * carried forward instead of being dropped — otherwise one private profile or
+ * Steam outage would erase a member from every game. Only members in
+ * `outcomes` are ever carried, so members who left the group stay gone.
+ *
+ * Carried members are reported in `staleMembers` with the time the data was
+ * first carried; that time survives further carried runs and the entry is
+ * dropped as soon as the list is read again.
+ */
+export function mergeMemberOutcomes(input: {
+  outcomes: MemberSteamOutcome[]
+  previous: GameInsightsData | null
+  targetAppIds: Iterable<number>
+  nowSeconds: number
+}): MemberMergeResult {
+  const { outcomes, previous, nowSeconds } = input
+  const targetAppIdSet = new Set(input.targetAppIds)
+  const ownersByApp = new Map<number, Set<string>>()
+  const wantersByApp = new Map<number, Set<string>>()
+  for (const appId of targetAppIdSet) {
+    ownersByApp.set(appId, new Set())
+    wantersByApp.set(appId, new Set())
+  }
+
+  const previousOwned = previousMemberships(previous, targetAppIdSet, 'owners')
+  const previousWanted = previousMemberships(previous, targetAppIdSet, 'wanters')
+
+  const staleMembers: Record<string, StaleMember> = {}
+  let membersWithLibraryData = 0
+  let membersWithWishlistData = 0
+
+  const apply = (
+    steamId: string,
+    appIds: Iterable<number>,
+    byApp: Map<number, Set<string>>,
+  ) => {
+    for (const appId of appIds) byApp.get(appId)?.add(steamId)
+  }
+
+  for (const { steamId, library, wishlist: rawWishlist } of outcomes) {
+    const wishlist = resolveWishlistOutcome(rawWishlist, library)
+
+    if (library.status === 'read') {
+      membersWithLibraryData++
+      apply(steamId, library.appIds, ownersByApp)
+    } else {
+      const carried = previousOwned.get(steamId)
+      if (carried) {
+        membersWithLibraryData++
+        apply(steamId, carried, ownersByApp)
+        staleMembers[steamId] = {
+          ...staleMembers[steamId],
+          library_since:
+            previous?.stale_members?.[steamId]?.library_since ?? nowSeconds,
+        }
+      }
+    }
+
+    if (wishlist.status === 'read') {
+      membersWithWishlistData++
+      apply(steamId, wishlist.appIds, wantersByApp)
+    } else {
+      const carried = previousWanted.get(steamId)
+      if (carried) {
+        membersWithWishlistData++
+        apply(steamId, carried, wantersByApp)
+        staleMembers[steamId] = {
+          ...staleMembers[steamId],
+          wishlist_since:
+            previous?.stale_members?.[steamId]?.wishlist_since ?? nowSeconds,
+        }
+      }
+    }
+  }
+
+  return {
+    ownersByApp,
+    wantersByApp,
+    membersWithLibraryData,
+    membersWithWishlistData,
+    staleMembers,
+  }
+}
+
+/** The previous run's output, or null on a first run or when it can't be
+ *  parsed. Read lazily so importing this module touches no files. */
+function loadPreviousInsights(): GameInsightsData | null {
+  if (!existsSync(outputPath)) return null
+  try {
+    const raw = JSON.parse(readFileSync(outputPath, 'utf-8'))
+    if (raw && typeof raw.games === 'object' && raw.games !== null) return raw
+  } catch (error) {
+    console.warn('⚠️  Could not parse previous game insights:', error)
+  }
+  return null
 }
 
 // --- SteamGifts bundle-games search (mirrors group-giveaways.ts's
@@ -253,20 +457,51 @@ interface BundleStatus {
   no_value_timestamp: number | null
 }
 
-async function fetchBundleStatus(appId: number): Promise<BundleStatus> {
+/**
+ * Resolves whether the game is in SteamGifts' bundle-games list. A reply with
+ * `success: true` and no match is a real "not bundled". A reply without
+ * `success: true` says nothing about the game, so it throws like the other
+ * unreadable replies (rate limit, HTTP error, non-JSON) instead of being
+ * returned as "not bundled": that answer is cached and read as full CV.
+ */
+export async function fetchBundleStatus(appId: number): Promise<BundleStatus> {
   const unbundled: BundleStatus = {
     bundled: false,
     reduced_value_timestamp: null,
     no_value_timestamp: null,
   }
   const data = await fetchBundleGames(appId)
-  if (!data.success || !data.results?.length) return unbundled
+  if (data?.success !== true) {
+    throw new Error(`bundle-games reply for appid ${appId} has no success flag`)
+  }
+  if (!data.results?.length) return unbundled
   const match = data.results.find((g) => g.app_id === appId)
   if (!match) return unbundled
   return {
     bundled: true,
     reduced_value_timestamp: match.reduced_value_timestamp,
     no_value_timestamp: match.no_value_timestamp,
+  }
+}
+
+/**
+ * Asks SteamGifts again and returns the entry to cache. A failed lookup keeps
+ * the existing entry (or none) and reports `refreshed: false`, so the next run
+ * asks again rather than recording a guess.
+ */
+export async function refreshBundledEntry(
+  appId: number,
+  existing: CacheBundledEntry | undefined,
+): Promise<{ entry: CacheBundledEntry | undefined; refreshed: boolean }> {
+  try {
+    const status = await fetchBundleStatus(appId)
+    return {
+      entry: { fetched_at: new Date().toISOString(), ...status },
+      refreshed: true,
+    }
+  } catch (error) {
+    console.warn(`⚠️  Failed to fetch bundle status for appid ${appId}:`, String(error))
+    return { entry: existing, refreshed: false }
   }
 }
 
@@ -335,16 +570,10 @@ export async function generateGameInsightsData(): Promise<void> {
   }
 
   // --- Per-member Steam data: owners/wanters per target appid ---
-  const ownersByApp = new Map<number, Set<string>>()
-  const wantersByApp = new Map<number, Set<string>>()
-  const targetAppIdSet = new Set(targetAppIds)
-  for (const appId of targetAppIds) {
-    ownersByApp.set(appId, new Set())
-    wantersByApp.set(appId, new Set())
-  }
-
-  let membersWithLibraryData = 0
-  let membersWithWishlistData = 0
+  const previous = loadPreviousInsights()
+  const outcomes: MemberSteamOutcome[] = []
+  let readLibraries = 0
+  let readWishlists = 0
 
   console.log(`👥 Fetching Steam library/wishlist data for ${members.length} member(s)...`)
   for (let i = 0; i < members.length; i++) {
@@ -353,40 +582,43 @@ export async function generateGameInsightsData(): Promise<void> {
       `\r👤 [${i + 1}/${members.length}] ${member.username.padEnd(24)}`,
     )
 
-    const ownedAppIds = await fetchOwnedGames(member.steam_id)
+    const library = await fetchOwnedGames(member.steam_id)
     await delay(300)
-    const wishlistAppIds = await fetchWishlist(member.steam_id)
+    const wishlist = await fetchWishlist(member.steam_id)
     await delay(300)
 
-    if (ownedAppIds) {
-      membersWithLibraryData++
-      for (const appId of ownedAppIds) {
-        if (targetAppIdSet.has(appId)) ownersByApp.get(appId)!.add(member.steam_id)
-      }
-    }
-    if (wishlistAppIds) {
-      membersWithWishlistData++
-      for (const appId of wishlistAppIds) {
-        if (targetAppIdSet.has(appId)) wantersByApp.get(appId)!.add(member.steam_id)
-      }
-    }
+    outcomes.push({ steamId: member.steam_id, library, wishlist })
+    if (library.status === 'read') readLibraries++
+    if (resolveWishlistOutcome(wishlist, library).status === 'read') readWishlists++
 
     if ((i + 1) % 20 === 0) {
       console.log(
-        `\n📊 Progress: ${i + 1}/${members.length} members — ${membersWithLibraryData} public libraries, ${membersWithWishlistData} public wishlists so far`,
+        `\n📊 Progress: ${i + 1}/${members.length} members — ${readLibraries} readable libraries, ${readWishlists} readable wishlists so far`,
       )
     }
   }
   process.stderr.write('\n')
+
+  const nowSeconds = Math.floor(Date.now() / 1000)
+  const {
+    ownersByApp,
+    wantersByApp,
+    membersWithLibraryData,
+    membersWithWishlistData,
+    staleMembers,
+  } = mergeMemberOutcomes({ outcomes, previous, targetAppIds, nowSeconds })
+  const staleCount = Object.keys(staleMembers).length
   console.log(
-    `✅ Member data complete — ${membersWithLibraryData}/${members.length} public libraries, ${membersWithWishlistData}/${members.length} public wishlists`,
+    `✅ Member data complete — ${readLibraries}/${members.length} libraries and ${readWishlists}/${members.length} wishlists read` +
+      (staleCount > 0
+        ? `; ${staleCount} member(s) carried forward from the previous output`
+        : ''),
   )
 
   // --- Per-game bundle data (cached) ---
   const cache = loadCache()
   const skipBundled = process.env.SKIP_BUNDLED === '1'
   const now = Date.now()
-  const nowSeconds = Math.floor(now / 1000)
 
   const games: Record<string, GameInsight> = {}
   let fetchCount = 0
@@ -401,7 +633,7 @@ export async function generateGameInsightsData(): Promise<void> {
     // without CV timestamps also refetches, since its CV status is unknown
     // until they're recorded. Fetches are capped per run; anything over the
     // cap keeps its cached value (or null) and waits for the next run.
-    let bundledEntry = cache.bundled[appId]
+    let bundledEntry: CacheBundledEntry | undefined = cache.bundled[appId]
     const bundledStale =
       !bundledEntry ||
       (bundledEntry.bundled === true &&
@@ -412,13 +644,11 @@ export async function generateGameInsightsData(): Promise<void> {
     if (bundledStale && fetchCount >= MAX_BUNDLED_FETCHES_PER_RUN) {
       deferredBundled++
     } else if (bundledStale && !(skipBundled && !cache.bundled[appId])) {
-      try {
-        const status = await fetchBundleStatus(appId)
-        bundledEntry = { fetched_at: new Date().toISOString(), ...status }
-        cache.bundled[appId] = bundledEntry
+      const refresh = await refreshBundledEntry(appId, bundledEntry)
+      bundledEntry = refresh.entry
+      if (refresh.refreshed && refresh.entry) {
+        cache.bundled[appId] = refresh.entry
         fetchCount++
-      } catch (error) {
-        console.warn(`⚠️  Failed to fetch bundle status for appid ${appId}:`, String(error))
       }
       await delay(2000)
     }
@@ -450,6 +680,7 @@ export async function generateGameInsightsData(): Promise<void> {
     total_members: totalMembers,
     members_with_library_data: membersWithLibraryData,
     members_with_wishlist_data: membersWithWishlistData,
+    ...(staleCount > 0 ? { stale_members: staleMembers } : {}),
     games,
   }
 

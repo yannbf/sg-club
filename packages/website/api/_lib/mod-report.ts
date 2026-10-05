@@ -20,6 +20,7 @@ import {
   requiredPlayDeadlineSec,
   type RequiredPlayWin,
 } from './required-play.js'
+import { classifyPlayEvidence, summarizePlayEvidence, type PlaySnapshot } from './play-evidence.js'
 
 export type Severity = 'error' | 'warn'
 
@@ -104,13 +105,8 @@ export function importanceRank(code: string): number {
 
 interface WonGiveaway extends RequiredPlayWin {
   name: string
-  steam_play_data?: {
-    playtime_minutes?: number
+  steam_play_data?: PlaySnapshot & {
     achievements_percentage?: number
-    /** Set when Steam reports the game as never launched. */
-    never_played?: boolean
-    /** Set when the member's Steam profile/game details are private or otherwise unreadable. */
-    has_no_available_stats?: boolean
   }
   /** A mod-recorded proof-of-play attestation, counted as played regardless of Steam data. */
   i_played_bro?: boolean
@@ -150,7 +146,8 @@ export interface GroupWarningFinding {
 
 /**
  * The play evidence for one won giveaway, as a parenthesized suffix for a
- * game name: " (not launched)" when there's no recorded playtime, otherwise
+ * game name: " (stats unavailable)" when Steam data could not be read,
+ * " (not launched)" when there's no recorded playtime, otherwise
  * " (<X>h played)" with ", <Y>% achievements" appended when known. `extra`
  * (e.g. a deadline clause) is folded into the same parenthetical rather than
  * getting its own, so a game with both reads as one clause: "Factorio (1.2h
@@ -159,7 +156,9 @@ export interface GroupWarningFinding {
 function playEvidence(g: WonGiveaway, extra?: string): string {
   const minutes = g.steam_play_data?.playtime_minutes
   const parts: string[] = []
-  if (!minutes) {
+  if (classifyPlayEvidence(g) === 'unreadable') {
+    parts.push('stats unavailable')
+  } else if (!minutes) {
     parts.push('not launched')
   } else {
     parts.push(`${Math.round(minutes / 6) / 10}h played`)
@@ -214,21 +213,23 @@ export function buildFindingDetails(
     details.required_plays_need_review = named(unmet, (g) => playEvidence(g))
   }
 
-  // Play rate: share of won games (excluding unreleased ones) the member has
-  // evidence of having played. Shared between the two play-rate codes since
-  // only one of them is ever present in a given member's warnings.
-  const wins = (user.giveaways_won ?? []).filter((g) => !g.unreleased)
-  if (wins.length > 0) {
-    const played = wins.filter(
-      (g) =>
-        g.i_played_bro ||
-        g.required_play_meta?.requirements_met ||
-        (g.steam_play_data && !g.steam_play_data.never_played && !g.steam_play_data.has_no_available_stats)
-    )
-    const pct = Math.round((played.length / wins.length) * 100)
-    const playRateDetail = `${played.length} of ${wins.length} wins played (${pct}%)`
+  // Play rate: share of won games with readable Steam stats (unreleased and
+  // unreadable ones excluded) that the member has evidence of having played;
+  // unreadable wins are reported alongside, not folded in. Shared between the
+  // two play-rate codes since only one of them is ever present in a given
+  // member's warnings.
+  const play = summarizePlayEvidence(user.giveaways_won ?? [])
+  const readable = play.played + play.unplayed
+  const unreadableNote = play.unreadable > 0 ? `${play.unreadable} stats unavailable` : ''
+  if (play.rate !== null) {
+    const playRateDetail =
+      `${play.played} of ${readable} wins played (${Math.round(play.rate * 100)}%)` +
+      (unreadableNote && `, ${unreadableNote}`)
     details.low_play_rate_many_wins = playRateDetail
     details.zero_play_rate_with_wins = playRateDetail
+  } else if (unreadableNote) {
+    details.low_play_rate_many_wins = `no readable wins, ${unreadableNote}`
+    details.zero_play_rate_with_wins = details.low_play_rate_many_wins
   }
 
   details.no_giveaway_created_in_6_months = user.stats?.last_giveaway_created_at

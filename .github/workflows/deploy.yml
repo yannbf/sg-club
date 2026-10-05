@@ -143,6 +143,11 @@ jobs:
       - name: Generate website data (no playtime, no wishlist)
         run: pnpm run data
 
+      - name: Check regenerated data for regressions
+        env:
+          DATA_REGRESSION_MODE: warn
+        run: pnpm --filter scraper run check-data-regressions
+
       - name: Commit and push website data changes
         run: |
           git config --global user.name 'GitHub Action'
@@ -217,6 +222,11 @@ jobs:
 
       - name: Generate game insights (ownership, wishlist status, bundled flag)
         run: pnpm --filter scraper run game-insights
+
+      - name: Check regenerated data for regressions
+        env:
+          DATA_REGRESSION_MODE: warn
+        run: pnpm --filter scraper run check-data-regressions
 
       - name: Commit and push wishlist changes
         run: |
@@ -298,6 +308,11 @@ jobs:
       - name: Generate playtime data (${{ env.PLAYTIME_MODE }})
         run: pnpm --filter scraper run playtime
 
+      - name: Check regenerated data for regressions
+        env:
+          DATA_REGRESSION_MODE: warn
+        run: pnpm --filter scraper run check-data-regressions
+
       - name: Commit and push playtime changes
         run: |
           git config --global user.name 'GitHub Action'
@@ -368,6 +383,11 @@ jobs:
 
       - name: Generate gaming challenge leaderboard data
         run: pnpm --filter scraper run challenge
+
+      - name: Check regenerated data for regressions
+        env:
+          DATA_REGRESSION_MODE: warn
+        run: pnpm --filter scraper run check-data-regressions
 
       - name: Commit and push challenge changes
         run: |
@@ -453,6 +473,11 @@ jobs:
 
       - name: Generate beaten-games data
         run: pnpm --filter scraper run beaten
+
+      - name: Check regenerated data for regressions
+        env:
+          DATA_REGRESSION_MODE: warn
+        run: pnpm --filter scraper run check-data-regressions
 
       - name: Commit and push verification data changes
         run: |

@@ -6,10 +6,12 @@ import type {
   WishlistData,
 } from '@/types'
 import { isConfirmedPlayed } from './play-status'
+import { summarizePlayEvidence } from '../../api/_lib/play-evidence'
 
 // NOTE: this module is deliberately kept free of runtime `@/`-aliased imports
 // (types are `import type`, erased at build; `./play-status` is a relative
-// import that resolves without the `@/` alias) so it can also run from a
+// import that resolves without the `@/` alias, as does the dependency-free
+// `api/_lib/play-evidence`) so it can also run from a
 // plain Node script — see scripts/freeze-spring-cleaning.ts.
 
 /**
@@ -127,9 +129,13 @@ export interface UserFlag {
 
 export interface PlayRate {
   played: number
+  /** Wins with readable Steam stats (or an attestation): the rate's denominator. */
   total: number
   percentage: number
-  /** Wins with no Steam stats available (delisted, not in library, private, etc.). */
+  /**
+   * Wins with no readable Steam stats (delisted, not in library, private,
+   * etc.). They are left out of `played`, `total` and `percentage`.
+   */
   noStatsCount: number
 }
 
@@ -377,32 +383,22 @@ function lastEnteredAt(
 }
 
 /**
- * Pure play-rate over a user's wins. "Played" means Steam shows non-zero
- * playtime (achievements are NOT required). Wins with no available stats are
- * counted in the denominator but tracked separately so the UI can caveat them.
- * Wins whose game hasn't released are out of the denominator entirely — an
- * unplayable game is not evidence of anything.
+ * Pure play-rate over a user's wins, built on the shared play-evidence
+ * classification (`api/_lib/play-evidence.ts`): attested wins ("I played,
+ * bro" / proof of play) and wins Steam shows as played count as played, wins
+ * Steam shows as unplayed count against the member, and wins whose stats are
+ * unreadable are tallied in `noStatsCount` but kept out of the rate. Wins
+ * whose game hasn't released are out entirely — an unplayable game is not
+ * evidence of anything.
  */
 export function computePlayRate(user: User): PlayRate {
-  const won = (user.giveaways_won ?? []).filter((g) => !g.unreleased)
-  const total = won.length
-  const noStatsCount = won.filter(
-    (g) => !g.steam_play_data || g.steam_play_data.has_no_available_stats,
-  ).length
-  const played = won.filter(
-    (g) =>
-      // "I played, bro" / proof-of-play attestations count as played
-      // regardless of Steam data (played elsewhere, private profile...).
-      isConfirmedPlayed(g) ||
-      (g.steam_play_data &&
-        !g.steam_play_data.never_played &&
-        !g.steam_play_data.has_no_available_stats),
-  ).length
+  const summary = summarizePlayEvidence(user.giveaways_won ?? [])
+  const total = summary.played + summary.unplayed
   return {
-    played,
+    played: summary.played,
     total,
-    percentage: total > 0 ? Math.round((played / total) * 100) : 0,
-    noStatsCount,
+    percentage: summary.rate === null ? 0 : Math.round(summary.rate * 100),
+    noStatsCount: summary.unreadable,
   }
 }
 
@@ -609,7 +605,7 @@ function analyzeUser(
   const playLabel = `${playRate.percentage}% play rate — ${playRate.played} out of ${playRate.total} wins played`
   const noStatsNote =
     playRate.noStatsCount > 0
-      ? `Note: ${playRate.noStatsCount} of ${playRate.total} wins have no Steam stats available, so the true rate may be higher.`
+      ? `Note: ${playRate.noStatsCount} of ${playRate.total + playRate.noStatsCount} wins have no Steam stats available and are not counted in this rate.`
       : undefined
 
   // "Private" covers an explicitly private profile AND the case where most wins
@@ -647,13 +643,9 @@ function analyzeUser(
         : undefined,
       weight: worse ? FLAG_WEIGHT.bad_play_rate : FLAG_WEIGHT.private_steam,
     })
-  } else if (
-    playRate.total > 2 &&
-    playRate.total - playRate.noStatsCount > 0 &&
-    establishedFor(2)
-  ) {
-    // Need at least one win with usable stats — otherwise we'd be claiming a
-    // play rate with no visibility at all.
+  } else if (playRate.total > 2 && establishedFor(2)) {
+    // `total` counts only wins with usable stats, so a member with no
+    // visibility at all never gets a play-rate flag.
     let severity: FlagSeverity | null = null
     if (playRate.percentage === 0) {
       severity = 'expel'
@@ -665,7 +657,7 @@ function analyzeUser(
     if (severity) {
       // Lower confidence (severity + weight) when many wins simply lack stats.
       const lowConfidence =
-        playRate.noStatsCount / playRate.total >= 0.3
+        playRate.noStatsCount / (playRate.total + playRate.noStatsCount) >= 0.3
       const baseWeight =
         severity === 'expel'
           ? FLAG_WEIGHT.bad_play_rate

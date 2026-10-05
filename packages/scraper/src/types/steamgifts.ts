@@ -311,6 +311,12 @@ export interface GamePrice {
   price_usd_reduced: number
   needs_manual_update: boolean
   hltb_main_story_hours: number | null
+  /**
+   * The game app a package-only entry contains, and when that was last asked.
+   * A null answer is retried after a week; a resolved id is permanent.
+   */
+  app_id_for_package_id?: number | null
+  app_id_for_package_checked_at?: string | null
   /** Steam release status — null until the release pass has seen the game. */
   coming_soon?: boolean | null
   release_date?: string | null

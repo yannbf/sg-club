@@ -35,6 +35,7 @@ vi.mock('./data', () => ({
                 end_timestamp: 1_700_000_000,
                 required_play: true,
                 required_play_meta: {},
+                steam_play_data: { never_played: true },
               },
             ],
           },
@@ -147,6 +148,8 @@ describe('buildFindingDetails', () => {
     end_timestamp: END,
     required_play: true,
     required_play_meta: {},
+    // Readable and never launched; overrides replace it wholesale.
+    steam_play_data: { playtime_minutes: 0, never_played: true },
     ...overrides,
   })
   const userWith = (giveaways_won: object[], overrides: object = {}) => ({
@@ -235,6 +238,43 @@ describe('buildFindingDetails', () => {
     expect(details.unplayed_required_play_giveaways).toBe('Sonic Frontiers (not launched)')
   })
 
+  it('reports "stats unavailable", not "not launched", when Steam data could not be read', () => {
+    const hidden = {
+      playtime_minutes: 0,
+      never_played: true,
+      has_no_available_stats: true,
+      no_stats_reason: 'library_unavailable',
+    }
+    const details = buildFindingDetails(
+      userWith([
+        win({ name: 'No Snapshot', steam_play_data: undefined }),
+        win({ name: 'Private Library', steam_play_data: hidden }),
+        win({ name: 'Never Launched' }),
+      ]),
+      END
+    )
+    expect(details.unplayed_required_play_giveaways).toBe(
+      'No Snapshot (stats unavailable), Private Library (stats unavailable), Never Launched (not launched)'
+    )
+  })
+
+  it('reports retained playtime on a win whose library later became unreadable', () => {
+    const details = buildFindingDetails(
+      userWith([
+        win({
+          steam_play_data: {
+            playtime_minutes: 120,
+            never_played: false,
+            has_no_available_stats: true,
+            no_stats_reason: 'library_unavailable',
+          },
+        }),
+      ]),
+      END
+    )
+    expect(details.unplayed_required_play_giveaways).toBe('Sonic Frontiers (2h played)')
+  })
+
   it('omits the achievements clause when the percentage is unknown', () => {
     const details = buildFindingDetails(
       userWith([win({ steam_play_data: { playtime_minutes: 120 } })]),
@@ -268,6 +308,45 @@ describe('buildFindingDetails', () => {
       END
     )
     expect(details.zero_play_rate_with_wins).toBe('2 of 2 wins played (100%)')
+  })
+
+  it('leaves unreadable wins out of the play-rate fraction and reports them separately', () => {
+    const hidden = { never_played: true, has_no_available_stats: true, no_stats_reason: 'library_unavailable' }
+    const details = buildFindingDetails(
+      userWith([
+        { name: 'Played Game', steam_play_data: { playtime_minutes: 300, never_played: false } },
+        { name: 'Unplayed Game', steam_play_data: { never_played: true } },
+        { name: 'Hidden A', steam_play_data: hidden },
+        { name: 'Hidden B' },
+      ]),
+      END
+    )
+    expect(details.zero_play_rate_with_wins).toBe('1 of 2 wins played (50%), 2 stats unavailable')
+    expect(details.low_play_rate_many_wins).toBe('1 of 2 wins played (50%), 2 stats unavailable')
+  })
+
+  it('counts an achievement-less game with real playtime as played', () => {
+    const details = buildFindingDetails(
+      userWith([
+        {
+          name: 'No Achievements',
+          steam_play_data: {
+            playtime_minutes: 600,
+            never_played: false,
+            has_no_available_stats: true,
+            no_stats_reason: 'no_steam_stats',
+          },
+        },
+        { name: 'Unplayed Game', steam_play_data: { never_played: true } },
+      ]),
+      END
+    )
+    expect(details.zero_play_rate_with_wins).toBe('1 of 2 wins played (50%)')
+  })
+
+  it('says no wins are readable, rather than 0%, when every win is unreadable', () => {
+    const details = buildFindingDetails(userWith([{ name: 'A' }, { name: 'B' }]), END)
+    expect(details.zero_play_rate_with_wins).toBe('no readable wins, 2 stats unavailable')
   })
 
   it('omits play-rate details when the member has no wins', () => {

@@ -33,6 +33,7 @@ import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import {
   buildSnapshot,
+  loadPreviousSnapshot,
   monthKey,
   snapshotPathForMonth,
   writeSnapshotFile,
@@ -138,7 +139,13 @@ async function main(): Promise<void> {
     const exMembers = showFileAtCommit(commit, EX_MEMBERS_PATH)
 
     const capturedAt = commitDate(commit)
-    const { snapshot, unmapped } = buildSnapshot(groupUsers, exMembers, capturedAt, fallbackSteamId)
+    const { snapshot, unmapped } = buildSnapshot(
+      groupUsers,
+      exMembers,
+      capturedAt,
+      fallbackSteamId,
+      loadPreviousSnapshot(month),
+    )
     for (const u of unmapped) allUnmapped.add(u)
 
     writeSnapshotFile(month, snapshot, true)

@@ -1,10 +1,16 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import {
+  achievementWinFields,
   carryPriorProgress,
   completionWinFields,
+  findPriorRowByName,
   getJsonWithRetry,
+  hasPlayedChallengeGame,
   parseReviewPage,
+  resolveBaseline,
+  resolveFixedRoster,
   reviewFields,
+  seedFrozenWinners,
   stickyReviewFields,
   type ReviewFields,
   type ReviewInfo,
@@ -103,6 +109,31 @@ describe('stickyReviewFields', () => {
       stickyReviewFields(SID, APP, reviewMap(), { wrote_review: false })
         .wrote_review,
     ).toBe(false)
+  })
+})
+
+describe('stickyReviewFields (unreadable fields on a found review)', () => {
+  it('keeps the prior timestamp and recommendation id when the fresh ones are empty', () => {
+    const fresh: ReviewInfo = { voted_up: true, timestamp_created: 0, recommendationid: '' }
+    const out = stickyReviewFields(SID, APP, reviewMap({ [SID]: fresh }), MAHRY_PRIOR)
+    expect(out.wrote_review).toBe(true)
+    expect(out.review_timestamp).toBe(1783667986)
+    expect(out.review_recommendationid).toBe('230101341')
+  })
+
+  it('takes whichever fresh field did parse and backfills only the other', () => {
+    const fresh: ReviewInfo = { voted_up: true, timestamp_created: 0, recommendationid: 'new' }
+    const out = stickyReviewFields(SID, APP, reviewMap({ [SID]: fresh }), MAHRY_PRIOR)
+    expect(out.review_recommendationid).toBe('new')
+    expect(out.review_timestamp).toBe(1783667986)
+  })
+
+  it('leaves empty fields empty when there is no prior to backfill from', () => {
+    const fresh: ReviewInfo = { voted_up: true, timestamp_created: 0, recommendationid: '' }
+    const out = stickyReviewFields(SID, APP, reviewMap({ [SID]: fresh }), undefined)
+    expect(out.wrote_review).toBe(true)
+    expect(out.review_timestamp).toBe(0)
+    expect(out.review_recommendationid).toBe('')
   })
 })
 
@@ -518,6 +549,7 @@ describe('carryPriorProgress', () => {
         achievements_before_challenge: 0,
         challenge_achievements: [],
         completed_at: last,
+        is_complete: true,
       },
       tieredConfig({ storyAchievement: undefined }),
     )
@@ -547,6 +579,7 @@ describe('carryPriorProgress', () => {
         achievements_before_challenge: 0,
         challenge_achievements: [{ apiname: EXCLUDED, unlocktime: DEADLINE + 999 }],
         completed_at: last,
+        is_complete: true,
       },
       tieredConfig({ storyAchievement: undefined }),
     )
@@ -633,5 +666,506 @@ describe('getJsonWithRetry', () => {
     await vi.runAllTimersAsync()
     await assertion
     expect(fetchMock).toHaveBeenCalledTimes(3)
+  })
+})
+
+describe('resolveBaseline', () => {
+  const NOW_EARLY = START + 5 * 86400
+  const NOW_LATE = START + 30 * 86400
+  const pull = (over: Record<string, unknown> = {}) =>
+    player({ game: { owned: true, total: 900, twoWeeks: 100 }, ...over })
+  const opts = (nowSeconds: number, signupPreview = false) => ({
+    startTimestamp: START,
+    nowSeconds,
+    signupPreview,
+  })
+
+  it('seeds total minus two weeks when first seen within 14 days of the start', () => {
+    expect(resolveBaseline(pull(), undefined, opts(NOW_EARLY))).toBe(800)
+  })
+
+  it('seeds 0 when first seen later and no achievement predates the start', () => {
+    expect(resolveBaseline(pull(), undefined, opts(NOW_LATE))).toBe(0)
+  })
+
+  it('keeps total minus two weeks when first seen later but pre-start achievements prove earlier play', () => {
+    const p = pull({ achievements_before_challenge: 4 })
+    expect(resolveBaseline(p, undefined, opts(NOW_LATE))).toBe(800)
+  })
+
+  it('uses the current total in a sign-up preview, regardless of timing or prior', () => {
+    expect(resolveBaseline(pull(), undefined, opts(NOW_LATE, true))).toBe(900)
+    expect(
+      resolveBaseline(pull(), { baseline_playtime_minutes: 10 }, opts(NOW_LATE, true)),
+    ).toBe(900)
+  })
+
+  it('trusts a recorded baseline, including a 0 that came with real playtime', () => {
+    const o = opts(NOW_LATE)
+    expect(resolveBaseline(pull(), { baseline_playtime_minutes: 50 }, o)).toBe(50)
+    expect(
+      resolveBaseline(
+        pull(),
+        {
+          baseline_playtime_minutes: 0,
+          playtime_total_minutes: 300,
+          achievements_unlocked_total: 5,
+        },
+        o,
+      ),
+    ).toBe(0)
+  })
+
+  it('keeps a genuine never-played row at 0', () => {
+    const row = {
+      baseline_playtime_minutes: 0,
+      playtime_total_minutes: 0,
+      achievements_unlocked_total: 0,
+    }
+    expect(resolveBaseline(pull(), row, opts(NOW_EARLY))).toBe(0)
+  })
+
+  describe('a row seeded while playtime was hidden', () => {
+    const hiddenRow = {
+      baseline_playtime_minutes: 0,
+      playtime_total_minutes: 0,
+      achievements_unlocked_total: 6,
+    }
+
+    it('is seeded from the first pull that shows playtime (early rule)', () => {
+      expect(resolveBaseline(pull(), hiddenRow, opts(NOW_EARLY))).toBe(800)
+    })
+
+    it('is seeded with the late rule: 0 without pre-start achievements', () => {
+      expect(resolveBaseline(pull(), hiddenRow, opts(NOW_LATE))).toBe(0)
+    })
+
+    it('is seeded with the late rule: total minus two weeks with pre-start achievements', () => {
+      const p = pull({ achievements_before_challenge: 2 })
+      expect(resolveBaseline(p, hiddenRow, opts(NOW_LATE))).toBe(800)
+    })
+
+    it('stays 0 while playtime is still hidden', () => {
+      const p = pull({ game: { owned: true, total: 0, twoWeeks: 0 } })
+      expect(resolveBaseline(p, hiddenRow, opts(NOW_EARLY))).toBe(0)
+    })
+  })
+})
+
+describe('findPriorRowByName and resolveFixedRoster', () => {
+  const GHOST_ID = '76561198000000001'
+  const priorRows = [
+    {
+      steam_id: GHOST_ID,
+      username: 'Ghost Display',
+      sg_username: 'GhostUser',
+      avatar_url: 'https://cdn.test/ghost.jpg',
+      profile_url: 'https://steamcommunity.com/id/ghost',
+    },
+  ]
+
+  const failSteamLookups = () => {
+    vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('steam down')))
+    vi.spyOn(console, 'warn').mockImplementation(() => {})
+  }
+
+  afterEach(() => {
+    vi.restoreAllMocks()
+    vi.unstubAllGlobals()
+  })
+
+  it('matches by sg_username or username, ignoring case', () => {
+    expect(findPriorRowByName(priorRows, ['ghostuser'])?.steam_id).toBe(GHOST_ID)
+    expect(findPriorRowByName(priorRows, [undefined, 'GHOST DISPLAY'])?.steam_id).toBe(
+      GHOST_ID,
+    )
+    expect(findPriorRowByName(priorRows, ['nobody'])).toBeUndefined()
+    expect(findPriorRowByName(priorRows, [undefined])).toBeUndefined()
+  })
+
+  it('recovers an unresolvable roster entry from the prior rows', async () => {
+    failSteamLookups()
+    const out = await resolveFixedRoster(
+      { participants: ['ghostuser'], guests: [] },
+      new Map(),
+      new Map(),
+      new Map(),
+      priorRows,
+    )
+    expect(out).toHaveLength(1)
+    expect(out[0].steam_id).toBe(GHOST_ID)
+    expect(out[0].is_guest).toBe(false)
+    expect(out[0].sg_username).toBe('ghostuser')
+  })
+
+  it('still skips an entry that neither the id sources nor the prior rows know', async () => {
+    failSteamLookups()
+    const out = await resolveFixedRoster(
+      { participants: ['stranger'], guests: [] },
+      new Map(),
+      new Map(),
+      new Map(),
+      priorRows,
+    )
+    expect(out).toEqual([])
+  })
+
+  it('keeps the roster list an entry was written into as its guest status', async () => {
+    failSteamLookups()
+    const out = await resolveFixedRoster(
+      { participants: [], guests: ['ghostuser'] },
+      new Map(),
+      new Map(),
+      new Map(),
+      priorRows,
+    )
+    expect(out[0].is_guest).toBe(true)
+  })
+
+  it('falls back to the prior avatar, profile and name when the Steam lookup fails', async () => {
+    failSteamLookups()
+    const out = await resolveFixedRoster(
+      { participants: [{ steam_id: GHOST_ID }], guests: [] },
+      new Map(),
+      new Map(),
+      new Map(),
+      priorRows,
+    )
+    expect(out[0].avatar_url).toBe('https://cdn.test/ghost.jpg')
+    expect(out[0].profile_url).toBe('https://steamcommunity.com/id/ghost')
+    expect(out[0].display_name).toBe('Ghost Display')
+  })
+
+  it('prefers a successful Steam lookup over the prior row', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue({
+        ok: true,
+        json: async () => ({
+          response: {
+            players: [
+              {
+                personaname: 'Fresh Name',
+                avatarfull: 'https://cdn.test/fresh.jpg',
+                profileurl: 'https://steamcommunity.com/id/fresh',
+              },
+            ],
+          },
+        }),
+      }),
+    )
+    const out = await resolveFixedRoster(
+      { participants: [{ steam_id: GHOST_ID }], guests: [] },
+      new Map(),
+      new Map(),
+      new Map(),
+      priorRows,
+    )
+    expect(out[0].avatar_url).toBe('https://cdn.test/fresh.jpg')
+    expect(out[0].display_name).toBe('Fresh Name')
+  })
+})
+
+describe('hasPlayedChallengeGame (non-participants)', () => {
+  // The shape a persisted nonParticipants row has: no owned/is_complete/
+  // challenge_achievements.
+  const listedRow = () => ({
+    username: 'someone',
+    steam_id: '76561198000000002',
+    playtime_total_minutes: 240,
+    playtime_2weeks_minutes: 0,
+    achievements_unlocked_total: 12,
+    achievements_total: 40,
+    challenge_achievement_count: 3,
+  })
+
+  it('keeps a previously listed member through a hidden pull and carries their numbers', () => {
+    const p = hiddenPull()
+    expect(hasPlayedChallengeGame(p, listedRow(), goalConfig())).toBe(true)
+    expect(p.game.total).toBe(240)
+    expect(p.achievements_unlocked_total).toBe(12)
+    expect(p.achievements_total).toBe(40)
+    expect(p.challenge_achievement_count).toBe(3)
+  })
+
+  it('does not list a member who was never listed and whose pull is hidden', () => {
+    expect(hasPlayedChallengeGame(hiddenPull(), undefined, goalConfig())).toBe(false)
+  })
+
+  it('does not list an owner with no playtime and no prior listing', () => {
+    const p = player({ game: { owned: true, total: 0, twoWeeks: 0 } })
+    expect(hasPlayedChallengeGame(p, undefined, goalConfig())).toBe(false)
+  })
+
+  it('lists a fresh public pull with no prior row', () => {
+    expect(hasPlayedChallengeGame(player(), undefined, goalConfig())).toBe(true)
+  })
+})
+
+describe('seedFrozenWinners', () => {
+  const row = (id: string, over: Record<string, unknown> = {}) => ({
+    steam_id: id,
+    is_winner: false,
+    win_tier: null,
+    ...over,
+  })
+  const prior = (rows: Record<string, any>[]) =>
+    new Map(rows.map((r) => [r.steam_id, r]))
+
+  it('includes a prior winner whose pull was hidden at the freeze run, with their prior tier', () => {
+    const participants = [
+      row('fresh', { is_winner: true, win_tier: 'completion' }),
+      row('hidden'),
+      row('never'),
+    ]
+    const out = seedFrozenWinners(
+      participants,
+      prior([row('hidden', { is_winner: true, win_tier: 'story' })]),
+      true,
+    )
+    expect(out.ids).toEqual(['fresh', 'hidden'])
+    expect(out.tiers).toEqual({ fresh: 'completion', hidden: 'story' })
+  })
+
+  it('excludes a prior winner who completed after the deadline', () => {
+    const out = seedFrozenWinners(
+      [row('late')],
+      prior([row('late', { is_winner: true, completed_after_deadline: true })]),
+      false,
+    )
+    expect(out.ids).toEqual([])
+  })
+
+  it('takes the fresh tier over the prior tier for a member qualifying in both', () => {
+    const out = seedFrozenWinners(
+      [row('up', { is_winner: true, win_tier: 'completion' })],
+      prior([row('up', { is_winner: true, win_tier: 'story' })]),
+      true,
+    )
+    expect(out.tiers).toEqual({ up: 'completion' })
+  })
+
+  it('reports no tier map for untiered challenges and ignores members absent from the pull', () => {
+    const out = seedFrozenWinners(
+      [row('a', { is_winner: true })],
+      prior([row('gone', { is_winner: true })]),
+      false,
+    )
+    expect(out.ids).toEqual(['a'])
+    expect(out.tiers).toBeNull()
+  })
+})
+
+describe('carryPriorProgress (hidden pull and 100% completion)', () => {
+  const noStory = () => tieredConfig({ storyAchievement: undefined })
+
+  it('does not manufacture a win from an excluded unlock that predates the start', () => {
+    // 59 of 60 unlocked, one of them the excluded achievement: effectively 58
+    // of 59, so not complete. The excluded unlock is pre-start, so it is not in
+    // challenge_achievements and a count comparison would read it as 59 of 59.
+    const p = hiddenPull()
+    carryPriorProgress(
+      p,
+      {
+        owned: true,
+        stats_available: true,
+        playtime_total_minutes: 600,
+        achievements_total: 60,
+        achievements_unlocked_total: 59,
+        achievements_before_challenge: 58,
+        challenge_achievements: [{ apiname: 'a1', unlocktime: START + 50 }],
+        challenge_achievement_count: 1,
+        is_complete: false,
+        completed_at: null,
+      },
+      noStory(),
+    )
+    const out = completionWinFields(p, noStory(), 150, true) as any
+    expect(out.is_complete).toBe(false)
+    expect(out.is_winner).toBe(false)
+  })
+
+  it('keeps a prior-complete member complete through a hidden pull', () => {
+    const last = START + 90000
+    const p = hiddenPull()
+    carryPriorProgress(
+      p,
+      {
+        owned: true,
+        stats_available: true,
+        playtime_total_minutes: 600,
+        achievements_total: 60,
+        achievements_unlocked_total: 60,
+        challenge_achievements: [{ apiname: EXCLUDED, unlocktime: START - 5 }],
+        is_complete: true,
+        completed_at: last,
+      },
+      noStory(),
+    )
+    const out = completionWinFields(p, noStory(), 150, true) as any
+    expect(out.is_complete).toBe(true)
+    expect(out.completed_at).toBe(last)
+    expect(out.is_winner).toBe(true)
+  })
+
+  it('uses the count comparison when the fresh pull is not below the prior count', () => {
+    const p = player({
+      achieved: fullClear(START + 90000),
+      achievements_unlocked_total: 59,
+    })
+    carryPriorProgress(
+      p,
+      {
+        owned: true,
+        playtime_total_minutes: 100,
+        achievements_unlocked_total: 40,
+        is_complete: false,
+      },
+      noStory(),
+    )
+    expect(p.carried_is_complete).toBeUndefined()
+    const out = completionWinFields(p, noStory(), 150, true) as any
+    expect(out.is_complete).toBe(true)
+  })
+})
+
+describe('carryPriorProgress (stats_available)', () => {
+  it('keeps stats available for a member with zero achievements on a hidden pull', () => {
+    const p = hiddenPull()
+    carryPriorProgress(
+      p,
+      {
+        owned: true,
+        stats_available: true,
+        playtime_total_minutes: 60,
+        achievements_unlocked_total: 0,
+      },
+      goalConfig(),
+    )
+    expect(p.stats_available).toBe(true)
+  })
+
+  it('does not invent stats availability the prior row never had', () => {
+    const p = hiddenPull()
+    carryPriorProgress(
+      p,
+      {
+        owned: true,
+        stats_available: false,
+        playtime_total_minutes: 60,
+        achievements_unlocked_total: 0,
+      },
+      goalConfig(),
+    )
+    expect(p.stats_available).toBe(false)
+  })
+})
+
+describe('carryPriorProgress (achievement challenge milestones)', () => {
+  const heroConfig = () =>
+    ({
+      slug: 'gaming-challenge-1-backpack-hero',
+      dataSlug: 'backpack_hero',
+      appId: 1970580,
+      gameName: 'Backpack Hero',
+      startTimestamp: START,
+      roster: 'fixed',
+      win: {
+        type: 'achievement',
+        apiname: 'ItemHero',
+        displayName: 'Hero',
+        description: 'Discover at least 700 items',
+        milestones: [
+          { apiname: 'ItemDiscoverer', label: 'Discoverer', items: 200 },
+          { apiname: 'ItemExpert', label: 'Expert', items: 400 },
+          { apiname: 'ItemHero', label: 'Hero', items: 700 },
+        ],
+      },
+    }) as any
+
+  /** Row as achievementWinFields persisted it from a public pull. */
+  const publicRow = (over: Record<string, unknown> = {}) => ({
+    owned: true,
+    stats_available: true,
+    playtime_total_minutes: 900,
+    achievements_total: 30,
+    achievements_unlocked_total: 3,
+    achievements_before_challenge: 1,
+    challenge_achievements: [
+      { apiname: 'ItemExpert', unlocktime: START + 100 },
+      { apiname: 'ItemHero', unlocktime: START + 200 },
+    ],
+    challenge_achievement_count: 2,
+    milestones: [
+      { apiname: 'ItemDiscoverer', label: 'Discoverer', items: 200, unlocked: true, unlocktime: START - 500 },
+      { apiname: 'ItemExpert', label: 'Expert', items: 400, unlocked: true, unlocktime: START + 100 },
+      { apiname: 'ItemHero', label: 'Hero', items: 700, unlocked: true, unlocktime: START + 200 },
+    ],
+    had_hero_before: false,
+    has_hero: true,
+    hero_unlocktime: START + 200,
+    ...over,
+  })
+
+  it('keeps pre-start and in-window milestones and the hero unlock through a hidden pull', () => {
+    const p = hiddenPull()
+    carryPriorProgress(p, publicRow(), heroConfig())
+    const out = achievementWinFields(p, heroConfig())
+    expect(out.milestones.map((m: any) => [m.apiname, m.unlocked, m.unlocktime])).toEqual([
+      ['ItemDiscoverer', true, START - 500],
+      ['ItemExpert', true, START + 100],
+      ['ItemHero', true, START + 200],
+    ])
+    expect(out.has_hero).toBe(true)
+    expect(out.hero_unlocktime).toBe(START + 200)
+    expect(out.had_hero_before).toBe(false)
+  })
+
+  it('keeps had_hero_before when the hero unlock predates the start', () => {
+    const p = hiddenPull()
+    carryPriorProgress(
+      p,
+      publicRow({
+        challenge_achievements: [],
+        challenge_achievement_count: 0,
+        milestones: [
+          { apiname: 'ItemDiscoverer', label: 'Discoverer', items: 200, unlocked: true, unlocktime: START - 900 },
+          { apiname: 'ItemExpert', label: 'Expert', items: 400, unlocked: true, unlocktime: START - 800 },
+          { apiname: 'ItemHero', label: 'Hero', items: 700, unlocked: true, unlocktime: START - 700 },
+        ],
+        had_hero_before: true,
+        has_hero: false,
+        hero_unlocktime: null,
+      }),
+      heroConfig(),
+    )
+    const out = achievementWinFields(p, heroConfig())
+    expect(out.had_hero_before).toBe(true)
+    expect(out.milestones[2].unlocktime).toBe(START - 700)
+  })
+
+  it('records pre-start hero play even when the hero is not a milestone', () => {
+    const cfg = heroConfig()
+    cfg.win.milestones = []
+    const p = hiddenPull()
+    carryPriorProgress(
+      p,
+      publicRow({ challenge_achievements: [], milestones: [], had_hero_before: true }),
+      cfg,
+    )
+    expect(achievementWinFields(p, cfg).had_hero_before).toBe(true)
+  })
+
+  it('leaves a fresh public pull untouched', () => {
+    const p = player({
+      achieved: [
+        { apiname: 'ItemDiscoverer', unlocktime: START - 500 },
+        { apiname: 'ItemExpert', unlocktime: START + 100 },
+      ],
+      achievements_total: 30,
+      achievements_unlocked_total: 3,
+    })
+    carryPriorProgress(p, publicRow(), heroConfig())
+    expect(p.achieved.filter((a: any) => a.apiname === 'ItemDiscoverer')).toHaveLength(1)
   })
 })

@@ -25,17 +25,21 @@ import type { SteamIdMap } from '../types/steamgifts.js'
  * be `open` to every group member who owns the game — see ChallengeConfig.
  *
  * Challenge-window playtime is `current_total − baseline`, where the baseline is
- * seeded on the first run to `playtime_forever − playtime_2weeks` (i.e. play
- * before the recent window) and then frozen, so the figure is meaningful
- * immediately and grows correctly on later runs. Achievement timing uses each
- * achievement's `unlocktime`; for completion challenges total achievements count
- * regardless of when they were unlocked.
+ * seeded on the first pull that shows the member's playtime and then frozen
+ * (see `resolveBaseline`). A seed within 14 days of the start is
+ * `playtime_forever − playtime_2weeks` (play before the recent window), so the
+ * figure is meaningful immediately and grows correctly on later runs. Later
+ * than that the two-week window no longer reaches back to the start, so the
+ * seed is 0 unless achievements dated before the start prove pre-start play.
+ * Achievement timing uses each achievement's `unlocktime`; for completion
+ * challenges total achievements count regardless of when they were unlocked.
  *
  * Progress is treated as monotonic: Steam intermittently hides a member's
  * playtime/achievements when their game-details privacy is toggled, so each run
  * floors playtime and achievement progress at the highest we've previously
- * recorded, and ownership and goal/story completion stay set once recorded —
- * an occasionally-private profile can't wipe a qualified member.
+ * recorded, and ownership, stats availability, milestone/hero unlocks and
+ * goal/story completion stay set once recorded — an occasionally-private
+ * profile can't wipe a qualified member, or manufacture a 100% completion.
  *
  * Re-run regularly with: pnpm --filter scraper challenge
  * Generates every non-dormant challenge by default (finished challenges are
@@ -602,7 +606,19 @@ export function stickyReviewFields(
   prior: Partial<ReviewFields> | undefined,
 ): ReviewFields {
   const fresh = reviewFields(steamId, appId, reviews)
-  if (fresh.wrote_review || !prior?.wrote_review) return fresh
+  if (fresh.wrote_review) {
+    // A review page whose date or vote-button id didn't parse is still a found
+    // review; the fields it couldn't read keep the prior run's values.
+    return {
+      ...fresh,
+      review_timestamp: fresh.review_timestamp || prior?.review_timestamp || fresh.review_timestamp,
+      review_recommendationid:
+        fresh.review_recommendationid ||
+        prior?.review_recommendationid ||
+        fresh.review_recommendationid,
+    }
+  }
+  if (!prior?.wrote_review) return fresh
   return {
     wrote_review: true,
     review_voted_up: prior.review_voted_up ?? null,
@@ -661,10 +677,17 @@ async function fetchPlayer(
   }
 }
 
-type PlayerProgress = Awaited<ReturnType<typeof fetchPlayer>>
+type PlayerProgress = Awaited<ReturnType<typeof fetchPlayer>> & {
+  /**
+   * Set by `carryPriorProgress` when the carried achievement count replaced a
+   * smaller fresh one: this pull holds no new evidence about 100% completion,
+   * so the prior row's verdict is the answer. Never written to the output rows.
+   */
+  carried_is_complete?: boolean
+}
 
 /** Achievement-challenge win view (Hero + item-discovery milestones). */
-function achievementWinFields(p: PlayerProgress, config: ChallengeConfig) {
+export function achievementWinFields(p: PlayerProgress, config: ChallengeConfig) {
   const win = config.win as AchievementWin
   const start = config.startTimestamp
   const heroEntry = p.achieved.find((a) => a.apiname === win.apiname)
@@ -725,9 +748,11 @@ export function completionWinFields(
   const excluded = new Set(win.excludeAchievements ?? [])
   // Excluded achievements are dropped from BOTH sides of the 100% comparison.
   // When a hidden-profile pull carried a floored count forward we can't see the
-  // full per-achievement breakdown: only the excluded unlocks recorded in
-  // `challenge_achievements` are re-seeded, so the rest simply aren't
-  // subtracted — the benefit of the doubt goes to the member.
+  // full per-achievement breakdown: excluded unlocks from before the start
+  // aren't recorded in `challenge_achievements`, so the carried count is
+  // under-subtracted and would read as complete too easily. That pull has no new
+  // evidence either way, so the prior row's verdict (`carried_is_complete`)
+  // stands instead of the count comparison.
   const excludedUnlocked = p.achieved.filter((a) =>
     excluded.has(a.apiname),
   ).length
@@ -741,7 +766,10 @@ export function completionWinFields(
     : undefined
   const isComplete = win.goalAchievement
     ? Boolean(goalEntry)
-    : p.stats_available && effectiveTotal > 0 && effectiveUnlocked >= effectiveTotal
+    : (p.carried_is_complete ??
+      (p.stats_available &&
+        effectiveTotal > 0 &&
+        effectiveUnlocked >= effectiveTotal))
   // The completion moment: the goal achievement's own unlocktime, or — for the
   // 100% goal — the latest unlocktime across the account's non-excluded unlocks.
   const lastUnlock = win.goalAchievement
@@ -825,11 +853,16 @@ export function completionWinFields(
  * recorded, so an occasionally-private profile can't wipe a qualified member's
  * progress. Mutates `p` in place; a no-op without a prior row.
  *
- * Goal and story achievements are looked up by apiname in `p.achieved`, so
- * anything the prior row proves is unlocked is put back there: the in-window
- * unlocks persisted in `challenge_achievements`, plus goal/story unlocks that
- * pre-date the challenge start (which that list omits) taken from the prior
- * row's completion fields.
+ * Goal, story, milestone and hero achievements are looked up by apiname in
+ * `p.achieved`, so anything the prior row proves is unlocked is put back there:
+ * the in-window unlocks persisted in `challenge_achievements`, plus goal/story
+ * unlocks (completion challenges) and milestone/hero unlocks (achievement
+ * challenges) that pre-date the challenge start, which that list omits, taken
+ * from the prior row's own fields.
+ *
+ * Works on non-participant rows too: they carry no `owned` or completion
+ * fields, so ownership comes from their recorded playtime and the completion
+ * re-seeds are skipped.
  */
 export function carryPriorProgress(
   p: PlayerProgress,
@@ -840,6 +873,7 @@ export function carryPriorProgress(
   if (priorP.owned || (priorP.playtime_total_minutes ?? 0) > 0) p.game.owned = true
   if ((priorP.playtime_total_minutes ?? 0) > p.game.total)
     p.game.total = priorP.playtime_total_minutes
+  if (priorP.stats_available) p.stats_available = true
   if ((priorP.achievements_unlocked_total ?? 0) > p.achievements_unlocked_total) {
     p.achievements_unlocked_total = priorP.achievements_unlocked_total
     p.achievements_total = p.achievements_total || priorP.achievements_total || 0
@@ -850,6 +884,7 @@ export function carryPriorProgress(
     p.challenge_achievement_count =
       priorP.challenge_achievement_count ?? p.challenge_achievement_count
     p.stats_available = true
+    p.carried_is_complete = Boolean(priorP.is_complete)
     // Re-seed the 100% timestamp so completed_at survives a hidden pull:
     // completionWinFields reads the latest unlocktime from `achieved`.
     if (priorP.completed_at != null)
@@ -871,7 +906,118 @@ export function carryPriorProgress(
       reseed(goalAchievement.apiname, priorP.completed_at ?? 0)
     if (storyAchievement && priorP.story_unlocked)
       reseed(storyAchievement.apiname, priorP.story_unlocktime ?? 0)
+  } else {
+    // Milestones unlocked before the start aren't in `challenge_achievements`.
+    for (const m of priorP.milestones ?? [])
+      if (m?.unlocked) reseed(m.apiname, m.unlocktime ?? 0)
+    // A pre-start hero unlock keeps its recorded time when the hero is also a
+    // milestone; otherwise only "before the start" is known, which is all
+    // `had_hero_before` reads.
+    if (priorP.had_hero_before)
+      reseed(config.win.apiname, config.startTimestamp - 1)
   }
+}
+
+/**
+ * Whether a group member outside the roster is worth listing as a
+ * non-participant: they must own the game and have played it. The prior
+ * listing is carried in first, so a pull Steam hid doesn't remove someone
+ * already listed.
+ */
+export function hasPlayedChallengeGame(
+  p: PlayerProgress,
+  priorRow: Record<string, any> | undefined,
+  config: ChallengeConfig,
+): boolean {
+  carryPriorProgress(p, priorRow, config)
+  return p.game.owned && p.game.total > 0
+}
+
+const BASELINE_SEED_WINDOW_SECONDS = 14 * 24 * 60 * 60
+
+/**
+ * A row whose first pull hid the member's playtime: it holds achievements but
+ * zero playtime, and its baseline of 0 was never a real measurement. A row with
+ * neither playtime nor achievements is a genuine "never played" and keeps its 0.
+ */
+function hasUnseededBaseline(priorRow: Record<string, any>): boolean {
+  return (
+    priorRow.baseline_playtime_minutes === 0 &&
+    (priorRow.playtime_total_minutes ?? 0) === 0 &&
+    (priorRow.achievements_unlocked_total ?? 0) > 0
+  )
+}
+
+/**
+ * The frozen pre-challenge playtime for a member. A prior row's baseline stands
+ * once it is a real measurement; otherwise it is seeded from this pull:
+ *
+ *  - Sign-up preview: everything played so far is pre-challenge, so the current
+ *    total — exact once the real challenge starts.
+ *  - Seeded within 14 days of the start: `total − twoWeeks`, the play before the
+ *    recent window, which the two-week figure still reaches back to the start of.
+ *  - Seeded later: the two-week window no longer covers the start, so
+ *    `total − twoWeeks` would count challenge play as pre-challenge. Seed 0
+ *    unless achievements unlocked before the start prove pre-start play, in
+ *    which case `total − twoWeeks` is still the best estimate.
+ */
+export function resolveBaseline(
+  p: Pick<PlayerProgress, 'game' | 'achievements_before_challenge'>,
+  priorRow: Record<string, any> | undefined,
+  opts: { startTimestamp: number; nowSeconds: number; signupPreview: boolean },
+): number {
+  if (opts.signupPreview) return p.game.total
+  if (
+    typeof priorRow?.baseline_playtime_minutes === 'number' &&
+    !hasUnseededBaseline(priorRow)
+  )
+    return priorRow.baseline_playtime_minutes
+  const seededLate =
+    opts.nowSeconds - opts.startTimestamp > BASELINE_SEED_WINDOW_SECONDS
+  if (seededLate && p.achievements_before_challenge <= 0) return 0
+  return Math.max(0, p.game.total - p.game.twoWeeks)
+}
+
+/**
+ * Winner set captured the first time a challenge is generated past its
+ * deadline. A member counts when this run's pull qualifies them, or when the
+ * prior row had them as a winner who hadn't completed after the deadline — so a
+ * pull Steam hid at exactly this run can't leave a qualified member out of the
+ * frozen set for good. Tiers (tiered challenges only) come from this run's row,
+ * falling back to the prior row's for members added from it.
+ */
+export function seedFrozenWinners(
+  participants: Record<string, any>[],
+  priorRows: Map<string, Record<string, any>>,
+  tiered: boolean,
+): { ids: string[]; tiers: Record<string, WinTier> | null } {
+  const ids: string[] = []
+  const tiers: Record<string, WinTier> = {}
+  for (const p of participants) {
+    const prior = priorRows.get(p.steam_id)
+    const priorWinner = Boolean(prior?.is_winner && !prior.completed_after_deadline)
+    if (!p.is_winner && !priorWinner) continue
+    ids.push(p.steam_id)
+    const tier = p.is_winner ? p.win_tier : prior?.win_tier
+    if (tiered && tier) tiers[p.steam_id] = tier
+  }
+  return { ids, tiers: tiered ? tiers : null }
+}
+
+/** Case-insensitive lookup of a prior participant row by username. */
+export function findPriorRowByName(
+  priorRows: Record<string, any>[],
+  names: (string | undefined)[],
+): Record<string, any> | undefined {
+  const wanted = new Set(
+    names.filter((n): n is string => Boolean(n)).map((n) => n.toLowerCase()),
+  )
+  if (!wanted.size) return undefined
+  return priorRows.find((row) =>
+    [row.sg_username, row.username].some(
+      (n) => typeof n === 'string' && wanted.has(n.toLowerCase()),
+    ),
+  )
 }
 
 /**
@@ -889,7 +1035,8 @@ function loadHistoricalIdIndex(): Map<string, string> {
   let map: SteamIdMap
   try {
     map = JSON.parse(readFileSync(steamIdMapPath, 'utf-8'))
-  } catch {
+  } catch (e) {
+    console.warn('⚠️  Could not read steam_id_map.json:', String(e))
     return index
   }
   for (const [steamId, entry] of Object.entries(map)) {
@@ -904,13 +1051,21 @@ function loadHistoricalIdIndex(): Map<string, string> {
   return index
 }
 
-/** Resolve a fixed roster (participants + guests) to concrete steam identities. */
-async function resolveFixedRoster(
+/**
+ * Resolve a fixed roster (participants + guests) to concrete steam identities.
+ * An entry no id source can resolve is looked up in the prior file's
+ * participant rows by username, so a member with a recorded row (and frozen
+ * baseline) isn't dropped by a lookup that failed this run; the prior row also
+ * backs up the display fields when the Steam profile lookup fails.
+ */
+export async function resolveFixedRoster(
   roster: { participants: RosterEntry[]; guests: RosterEntry[] },
   bySteamId: Map<string, Member>,
   byUsername: Map<string, Member>,
   historicalIds: Map<string, string>,
+  priorRows: Record<string, any>[] = [],
 ): Promise<ResolvedParticipant[]> {
+  const priorById = new Map(priorRows.map((row) => [row.steam_id as string, row]))
   // Guest-ness is a property of which list an entry was written into, not of
   // whether they are a member today — otherwise every member who later left
   // would be retroactively relabelled a guest on challenges they competed in.
@@ -935,6 +1090,15 @@ async function resolveFixedRoster(
     if (!steamId && usernameHint) {
       const key = usernameHint.toLowerCase()
       steamId = byUsername.get(key)?.steam_id ?? historicalIds.get(key)
+    }
+    if (!steamId) {
+      const recorded = findPriorRowByName(priorRows, [usernameHint, displayName])
+      if (recorded?.steam_id) {
+        steamId = recorded.steam_id
+        console.warn(
+          `⚠️  Resolved participant "${usernameHint ?? displayName}" from the prior data file`,
+        )
+      }
     }
 
     if (!steamId) {
@@ -962,14 +1126,23 @@ async function resolveFixedRoster(
       // Former member or a guest who was never in the group: Steam still has
       // their name and avatar, and the id map still has the username they
       // competed under.
+      // A failed lookup falls back to what the prior run recorded.
       const summary = await getPlayerSummary(steamId)
+      const recorded = priorById.get(steamId)
       resolved.push({
         steam_id: steamId,
-        display_name: displayName ?? summary?.name ?? usernameHint ?? steamId,
-        sg_username: usernameHint ?? null,
-        avatar_url: summary?.avatar ?? '',
+        display_name:
+          displayName ??
+          summary?.name ??
+          recorded?.username ??
+          usernameHint ??
+          steamId,
+        sg_username: usernameHint ?? recorded?.sg_username ?? null,
+        avatar_url: summary?.avatar || recorded?.avatar_url || '',
         profile_url:
-          summary?.profile ?? `https://steamcommunity.com/profiles/${steamId}`,
+          summary?.profile ??
+          recorded?.profile_url ??
+          `https://steamcommunity.com/profiles/${steamId}`,
         is_guest: isGuest,
       })
     }
@@ -1004,13 +1177,11 @@ async function generateChallenge(config: ChallengeConfig): Promise<void> {
     }
   }
 
-  const priorBaselines = new Map<string, number>()
   const priorByStemId = new Map<string, any>()
-  for (const p of prior?.participants ?? []) {
-    if (typeof p.baseline_playtime_minutes === 'number')
-      priorBaselines.set(p.steam_id, p.baseline_playtime_minutes)
-    priorByStemId.set(p.steam_id, p)
-  }
+  for (const p of prior?.participants ?? []) priorByStemId.set(p.steam_id, p)
+  const priorNonParticipantById = new Map<string, any>()
+  for (const p of prior?.nonParticipants ?? [])
+    priorNonParticipantById.set(p.steam_id, p)
 
   // Prior review state for everyone recorded last run — participants AND
   // non-participants — so review stickiness works regardless of which list a
@@ -1060,6 +1231,7 @@ async function generateChallenge(config: ChallengeConfig): Promise<void> {
       bySteamId,
       byUsername,
       loadHistoricalIdIndex(),
+      prior?.participants ?? [],
     )
   }
 
@@ -1096,15 +1268,11 @@ async function generateChallenge(config: ChallengeConfig): Promise<void> {
     // you own the game.
     if ((config.roster === 'open' || signupPreview) && !p.game.owned) continue
 
-    // In a sign-up-phase preview, everything played so far IS pre-challenge
-    // play — freezing it as the baseline now means it already equals
-    // playtime-at-start once the real challenge begins, more accurate than
-    // the total-minus-2weeks seed a normal first run uses.
-    const baseline = signupPreview
-      ? p.game.total
-      : priorBaselines.has(r.steam_id)
-        ? priorBaselines.get(r.steam_id)!
-        : Math.max(0, p.game.total - p.game.twoWeeks) // seed: play before the recent window
+    const baseline = resolveBaseline(p, priorByStemId.get(r.steam_id), {
+      startTimestamp: config.startTimestamp,
+      nowSeconds,
+      signupPreview,
+    })
 
     const playtimeChallengeMinutes = Math.max(0, p.game.total - baseline)
     const achievementsSinceBaseline = Math.max(
@@ -1174,7 +1342,10 @@ async function generateChallenge(config: ChallengeConfig): Promise<void> {
         `\r   others [${j}/${others.length}] ${m.username.padEnd(22)}`,
       )
       const p = await fetchPlayer(m.steam_id, config, schema, schemaTotal)
-      if (!p.game.owned || p.game.total <= 0) continue // only those who actually played
+      // Only those who actually played, judged after the prior listing is
+      // carried in so a hidden pull doesn't remove a listed member.
+      if (!hasPlayedChallengeGame(p, priorNonParticipantById.get(m.steam_id), config))
+        continue
       const review = await fetchUserReview(m.steam_id, config.appId)
       if (review) reviews.set(m.steam_id, review)
       nonParticipants.push({
@@ -1245,15 +1416,9 @@ async function generateChallenge(config: ChallengeConfig): Promise<void> {
     const tiered = Boolean((config.win as CompletionWin).storyAchievement)
     if (challengeOver) {
       if (!frozenWinnerIds) {
-        frozenWinnerIds = participants
-          .filter((p) => p.is_winner)
-          .map((p) => p.steam_id)
-        if (tiered) {
-          frozenWinnerTiers = {}
-          for (const p of participants)
-            if (p.is_winner && p.win_tier)
-              frozenWinnerTiers[p.steam_id] = p.win_tier
-        }
+        const seed = seedFrozenWinners(participants, priorByStemId, tiered)
+        frozenWinnerIds = seed.ids
+        if (tiered) frozenWinnerTiers = seed.tiers
       }
       const frozen = new Set(frozenWinnerIds)
       for (const p of participants) {

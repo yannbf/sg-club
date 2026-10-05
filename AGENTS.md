@@ -269,10 +269,32 @@ never-played hoarder indefinitely.
 
 Anywhere Steam data is written, treat progress as **monotonic**: a pull with no
 evidence must not replace a snapshot that had some, and playtime and
-achievements only ratchet up. `mergePlayData` (`group-members.ts`) does this
-for wins; `generate-challenge-data.ts` does it for challenge progress. Both
-exist because the same bug was found twice — when adding a new place that
-stores Steam results, apply the invariant there too.
+achievements only ratchet up. Every writer of Steam-derived data has its own
+guard, and a new one needs one too:
+
+| Where | What keeps the previous value |
+| --- | --- |
+| `mergePlayData` (`group-members.ts`) | Win playtime, achievements, ownership and package breakdown |
+| `restoreRejoinedMember` (`group-members.ts`) | A member who drops off the roster and returns gets their ex-member record back |
+| `carryPriorProgress`, `resolveBaseline`, `seedFrozenWinners` (`generate-challenge-data.ts`) | Challenge progress, completion, baselines, non-participants, frozen winners |
+| `decideOverrideState`, `chooseStoredPlayerCheck` (`generate-beaten-data.ts`) | Override markers and beaten verdicts |
+| `mergeMemberOutcomes` (`generate-game-insights-data.ts`) | A member's owners/wanters entries, marked in `stale_members` |
+| `shouldApplyReviewSummary`, `resolveHeaderImageUrl` (`fetch-game-prices.ts`) | Review summaries and store art |
+| `floorEntry` (`snapshot-playtime.ts`) | Monthly snapshot entries, floored at the previous month |
+
+The fetch layer has to make this possible: a failed request must be
+distinguishable from a real "nothing". In `fetch-steam-data.ts`,
+`getPlayerAchievements`, `checkProfileVisibility` and strict package resolution
+throw on a transient failure so the caller skips the write; `null` means Steam
+answered "no stats" or "not public", and `[]` means a real empty list.
+
+`check-data-regressions` (`pnpm --filter scraper run check-data-regressions`)
+is the backstop: each CI data job runs it before committing, comparing the
+regenerated files against `HEAD` and reporting playtime, achievements,
+completion, winner or beaten verdicts that went backwards. It runs with
+`DATA_REGRESSION_MODE=warn`; unset that to make a finding fail the job, and set
+`ALLOW_DATA_REGRESSION=1` for an intentional change. `--history <N>` replays it
+over a file's past commits.
 
 Because `public/data/*.json` is committed on every scrape, **git history is a
 recovery tool**: walking `git log` for a data file recovers high-water values

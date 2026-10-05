@@ -226,19 +226,32 @@ export class SteamGameChecker {
    * package can bundle several distinct games (e.g. Kingdom Hearts Integrum =
    * 3 games), and we want to track playtime across every one of them, not just
    * the first. Returns [] when the package can't be resolved at all (delisted).
+   *
+   * By default a member whose appdetails request fails is skipped and the
+   * remaining apps are returned as if they were the whole package. With
+   * `strict`, any request failure (package or member app, HTTP error or
+   * exception) throws instead, so a caller that sums across the result never
+   * mistakes a partial list for a complete one. A member that resolves but is
+   * not a game (DLC, soundtrack) is not a failure.
    */
   public async getGameAppsForSubId(
     subId: number,
+    options: { strict?: boolean } = {},
   ): Promise<{ appId: number; name: string }[]> {
+    const strict = options.strict === true
     const packageDetailsUrl = `https://store.steampowered.com/api/packagedetails/?packageids=${subId}`
 
     try {
       const packageResponse = await fetch(packageDetailsUrl)
       if (!packageResponse.ok) {
+        const httpError = new Error(
+          `HTTP error! status: ${packageResponse.status}`,
+        )
         logError(
-          new Error(`HTTP error! status: ${packageResponse.status}`),
+          httpError,
           `Failed to fetch package details for subId ${subId}`,
         )
+        if (strict) throw httpError
         return []
       }
 
@@ -254,6 +267,7 @@ export class SteamGameChecker {
 
       const apps = packageDetails.data.apps
       const games: { appId: number; name: string }[] = []
+      const failedAppIds: number[] = []
 
       for (const app of apps) {
         const appDetailsUrl = `https://store.steampowered.com/api/appdetails/?appids=${app.id}`
@@ -267,6 +281,7 @@ export class SteamGameChecker {
               new Error(`HTTP error! status: ${appResponse.status}`),
               `Failed to fetch app details for appId ${app.id} (from subId ${subId})`,
             )
+            failedAppIds.push(app.id)
             continue // Try next app
           }
 
@@ -288,7 +303,14 @@ export class SteamGameChecker {
             error,
             `Error processing app details for appId ${app.id} (from subId ${subId})`,
           )
+          failedAppIds.push(app.id)
         }
+      }
+
+      if (strict && failedAppIds.length > 0) {
+        throw new Error(
+          `Could not resolve app(s) ${failedAppIds.join(', ')} of subId ${subId}`,
+        )
       }
 
       if (games.length > 0) {
@@ -315,6 +337,7 @@ export class SteamGameChecker {
     } catch (error) {
       console.log(error, `Failed to get appId from subId ${subId}`)
       logError(error, `Failed to get appId from subId ${subId}`)
+      if (strict) throw error
     }
 
     console.log(`[INFO] No game appID found for subID ${subId}`)
@@ -330,6 +353,13 @@ export class SteamGameChecker {
     return games[0]?.appId ?? null
   }
 
+  /**
+   * Achievements for one app. `null` is the expected "app has no stats" /
+   * "profile not public" state. `[]` means Steam answered successfully and the
+   * app lists no achievements. Any other failure (rate limit, 5xx, timeout, a
+   * `success: false` body) throws: it says nothing about the member, so it must
+   * not be recorded as 0 of 0.
+   */
   private async getPlayerAchievements(
     steamId: string,
     appId: number,
@@ -340,15 +370,12 @@ export class SteamGameChecker {
       const data: PlayerAchievementsResponse =
         await this.fetchSteamAPI(endpoint)
 
-      if (data.playerstats.success) {
-        return data.playerstats.achievements || []
-      } else {
-        logError(
-          data.playerstats,
-          `Failed to get player achievements for Steam ID ${steamId}`,
+      if (!data.playerstats?.success) {
+        throw new Error(
+          `Steam reported success=false for achievements of appId ${appId}`,
         )
-        return []
       }
+      return data.playerstats.achievements || []
     } catch (error) {
       logError(
         error,
@@ -363,7 +390,7 @@ export class SteamGameChecker {
       ) {
         return null
       }
-      return []
+      throw error
     }
   }
 
@@ -394,6 +421,11 @@ export class SteamGameChecker {
     return null
   }
 
+  /**
+   * Whether the member's Steam profile is public. A response with no player
+   * for the ID counts as private. A request that fails throws: it says nothing
+   * about the profile, so callers must not record it as private.
+   */
   public async checkProfileVisibility(
     steamId: string,
   ): Promise<SteamProfileVisibility> {
@@ -412,7 +444,7 @@ export class SteamGameChecker {
       const errorMessage = `Failed to get player summaries for Steam ID ${steamId}`
       logError(error, errorMessage)
       console.error(errorMessage)
-      return { is_public: false, visibility_state: 0 }
+      throw error
     }
   }
 
@@ -440,7 +472,11 @@ export class SteamGameChecker {
 
     if (type === 'sub') {
       console.log(`[INFO] Resolving subId ${appOrSubId} to its game app(s)`)
-      const resolved = await this.getGameAppsForSubId(appOrSubId)
+      // Strict: summing a package that resolved only some of its apps would
+      // shrink the totals, so a failed lookup aborts the pull instead.
+      const resolved = await this.getGameAppsForSubId(appOrSubId, {
+        strict: true,
+      })
 
       if (resolved.length > 0) {
         games = resolved
@@ -732,7 +768,7 @@ export class SteamGameChecker {
   }
 
   /** Public wrapper around the player-achievements lookup. Returns null for
-   *  the expected "no stats" / "profile not public" states, [] on other
+   *  the expected "no stats" / "profile not public" states and throws on other
    *  failures, matching {@link getPlayerAchievements}'s contract. */
   public async getPlayerAchievementsForApp(
     steamId: string,
