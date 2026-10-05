@@ -191,7 +191,7 @@ const GIVEAWAY_EVENT_META: Record<string, Omit<EventMeta, 'slug' | 'kind'>> = {
     monthly: true,
     accent: 'var(--warning)',
     emoji: '🔥',
-    bannerUrl: '/events/september_2026.png',
+    bannerUrl: '/events/september_2026.jpg',
     // Fixed calendar-month window: the header shows September 1–30 rather
     // than the tagged giveaways' min-start/max-end span. Noon UTC keeps the
     // rendered dates on the right day in every timezone.
@@ -208,7 +208,7 @@ const GIVEAWAY_EVENT_META: Record<string, Omit<EventMeta, 'slug' | 'kind'>> = {
     monthly: true,
     accent: 'var(--accent-green)',
     emoji: '🌷',
-    bannerUrl: '/events/may_2026.png',
+    bannerUrl: '/events/may_2026.jpg',
   },
   april_event_2026: {
     eventType: 'april_event_2026',
@@ -222,7 +222,7 @@ const GIVEAWAY_EVENT_META: Record<string, Omit<EventMeta, 'slug' | 'kind'>> = {
     monthly: true,
     accent: 'var(--accent-yellow)',
     emoji: '🫘',
-    bannerUrl: '/events/april_2026.png',
+    bannerUrl: '/events/april_2026.jpg',
   },
   march_event_2026: {
     eventType: 'march_event_2026',
@@ -236,7 +236,7 @@ const GIVEAWAY_EVENT_META: Record<string, Omit<EventMeta, 'slug' | 'kind'>> = {
     monthly: true,
     accent: 'var(--accent-rose)',
     emoji: '🐰',
-    bannerUrl: '/events/march_2026.png',
+    bannerUrl: '/events/march_2026.jpg',
   },
   january_event_2026: {
     eventType: 'january_event_2026',
@@ -278,7 +278,7 @@ const GIVEAWAY_EVENT_META: Record<string, Omit<EventMeta, 'slug' | 'kind'>> = {
     monthly: true,
     accent: 'var(--warning)',
     emoji: '🎃',
-    bannerUrl: '/events/october_2025.png',
+    bannerUrl: '/events/october_2025.jpg',
   },
   rpg_august: {
     eventType: 'rpg_august',
@@ -307,7 +307,7 @@ export const CHALLENGE_EVENTS: EventMeta[] = [
     emoji: '🎒',
     imageUrl:
       'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1970580/header.jpg',
-    bannerUrl: '/events/game_challenge_1.png',
+    bannerUrl: '/events/game_challenge_1.jpg',
     challengeSlug: 'backpack-hero',
     // Keep it highlighted in "Happening now" for a week after the winner is
     // recorded, even though the challenge is already won.
@@ -325,7 +325,7 @@ export const CHALLENGE_EVENTS: EventMeta[] = [
     emoji: '🐦‍⬛',
     imageUrl:
       'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2441270/header.jpg',
-    bannerUrl: '/events/game_challenge_2.png',
+    bannerUrl: '/events/game_challenge_2.jpg',
     challengeSlug: 'kill-the-crows',
     // No linger: once Challenge #3 kicked off the crows left "Happening now".
   },
@@ -344,7 +344,7 @@ export const CHALLENGE_EVENTS: EventMeta[] = [
     emoji: '🚖',
     imageUrl:
       'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/794540/header.jpg',
-    bannerUrl: '/events/game_challenge_3.png',
+    bannerUrl: '/events/game_challenge_3.jpg',
     challengeSlug: 'neo-cab',
     // Keep it highlighted in "Happening now" for a week after the deadline.
     keepLiveForDays: 7,
@@ -365,7 +365,7 @@ export const CHALLENGE_EVENTS: EventMeta[] = [
     emoji: '🩸',
     imageUrl:
       'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/992300/header.jpg',
-    bannerUrl: '/events/game_challenge_4.png',
+    bannerUrl: '/events/game_challenge_4.jpg',
     challengeSlug: 'bloody-spell',
     appId: 992300,
     gameName: 'Bloody Spell',
@@ -393,7 +393,7 @@ export const CHALLENGE_EVENTS: EventMeta[] = [
     emoji: '🗝️',
     imageUrl:
       'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2292650/header.jpg',
-    bannerUrl: '/events/game_challenge_5.png',
+    bannerUrl: '/events/game_challenge_5.jpg',
     challengeSlug: 'mystwood-mansion',
     appId: 2292650,
     gameName: 'Escape From Mystwood Mansion',
@@ -420,7 +420,7 @@ export const CHALLENGE_EVENTS: EventMeta[] = [
     emoji: '🔮',
     imageUrl:
       'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/917950/header.jpg',
-    bannerUrl: '/events/game_challenge_6.png',
+    bannerUrl: '/events/game_challenge_6.jpg',
     challengeSlug: 'vellum',
     appId: 917950,
     gameName: 'Vellum',
@@ -447,7 +447,7 @@ export const SPECIAL_EVENTS: EventMeta[] = [
     monthly: false,
     accent: 'var(--accent-rose)',
     emoji: '🎉',
-    bannerUrl: '/events/june_2026.png',
+    bannerUrl: '/events/june_2026.jpg',
     startTimestamp: Date.UTC(2026, 5, 1, 12) / 1000,
     endTimestamp: Date.UTC(2026, 6, 4, 12) / 1000,
     howToContribute: [
@@ -567,7 +567,7 @@ export const SPECIAL_EVENTS: EventMeta[] = [
     monthly: false,
     accent: 'var(--accent-rose)',
     emoji: '🎮',
-    bannerUrl: '/events/february_2026.png',
+    bannerUrl: '/events/february_2026.jpg',
     startTimestamp: Date.UTC(2026, 1, 1, 0) / 1000,
     endTimestamp: Date.UTC(2026, 1, 28, 16) / 1000,
     howToTitle: 'How to take part',

@@ -282,7 +282,6 @@ export interface GameData {
    * that resolves for them — pass it as GameImage's `fallbackUrl`.
    */
   header_image_url?: string | null
-  header_image_checked_at?: string | null
 }
 
 export interface InsightData {

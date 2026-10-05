@@ -42,6 +42,17 @@ function processUserEntries(input: InputData): UserEntry {
   return output
 }
 
+const DEV_DATA_TTL_MS = 10_000
+let devData: {
+  loadedAt: number
+  data: Promise<{
+    giveaways: Giveaway[]
+    users: UserGroupData | null
+    userEntries: UserEntry | null
+    gameData: GameData[]
+  }>
+} | null = null
+
 async function loadBuildTimeData() {
   if (typeof window !== 'undefined') {
     // Client-side - use fetch
@@ -55,13 +66,23 @@ async function loadBuildTimeData() {
 
   // Server-side during build - import directly
   if (process.env.NODE_ENV === 'development') {
-    // In development, always use fetch to avoid fs module issues
-    return {
-      giveaways: await fetchGiveaways(),
-      users: await fetchUsers(),
-      userEntries: await fetchUserEntries(),
-      gameData: await fetchGameData(),
+    // In development, always use fetch to avoid fs module issues. The files
+    // are fetched from the dev server itself and every getter a page calls
+    // lands here, so one load is shared for a few seconds: otherwise a single
+    // render issues dozens of multi-megabyte requests against the server that
+    // is busy rendering it.
+    if (!devData || Date.now() - devData.loadedAt > DEV_DATA_TTL_MS) {
+      devData = {
+        loadedAt: Date.now(),
+        data: (async () => ({
+          giveaways: await fetchGiveaways(),
+          users: await fetchUsers(),
+          userEntries: await fetchUserEntries(),
+          gameData: await fetchGameData(),
+        }))(),
+      }
     }
+    return devData.data
   }
 
   try {
@@ -396,9 +417,34 @@ export async function getAllUsersAsArray(): Promise<User[]> {
   return Object.values(data.users.users)
 }
 
+// Scraper bookkeeping in game_data.json: when each field was last refreshed.
+// No page reads these, and every page that takes game data as a prop would
+// otherwise serialise them into its HTML.
+const SCRAPER_ONLY_GAME_FIELDS = [
+  'hltb_checked_at',
+  'reviews_updated_at',
+  'release_checked_at',
+  'header_image_checked_at',
+] as const
+
+const strippedGameData = new WeakMap<GameData[], GameData[]>()
+
+function stripScraperOnlyFields(games: GameData[]): GameData[] {
+  let stripped = strippedGameData.get(games)
+  if (!stripped) {
+    stripped = games.map((game) => {
+      const copy: Record<string, unknown> = { ...game }
+      for (const field of SCRAPER_ONLY_GAME_FIELDS) delete copy[field]
+      return copy as unknown as GameData
+    })
+    strippedGameData.set(games, stripped)
+  }
+  return stripped
+}
+
 export async function getGameData(): Promise<GameData[]> {
   const data = await loadBuildTimeData()
-  return data.gameData
+  return stripScraperOnlyFields(data.gameData)
 }
 
 export async function getUser(username: string): Promise<{ user: User; isExMember: boolean } | null> {

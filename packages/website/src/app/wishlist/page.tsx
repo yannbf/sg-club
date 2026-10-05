@@ -56,9 +56,14 @@ export default async function WishlistPage() {
     getAllUsersAsArray(),
   ])
 
+  // Game data is only ever looked up by a wishlist entry's app id, so games
+  // nobody wishlisted stay out of the props.
+  const wishlistedAppIds = new Set(
+    (wishlist?.entries ?? []).map((entry) => String(entry.app_id)),
+  )
   const gameDataByAppId: Record<string, (typeof gameData)[number]> = {}
   for (const game of gameData) {
-    if (game.app_id != null) {
+    if (game.app_id != null && wishlistedAppIds.has(String(game.app_id))) {
       gameDataByAppId[String(game.app_id)] = game
     }
   }

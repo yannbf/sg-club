@@ -3,6 +3,7 @@ import { getUser, getAllGiveaways, getAllUsers, getExMembers, getGameData, getUs
 import type { IpbDiscordWinEntry } from '@/types/ipb-discord'
 import { createCreatorResolver } from '@/lib/creator-resolver'
 import { buildWinnerPlayStats } from '@/lib/winner-play-stats'
+import { buildAvatarLookup, scopeGameDataToGiveaways, scopeGiveawaysToUser } from '@/lib/user-profile-scope'
 import { notFound } from 'next/navigation'
 import UserDetailPageClient from './UserDetailPageClient'
 import { ProfileGate } from '@/components/ProfileGate'
@@ -137,9 +138,6 @@ export default async function UserDetailPage(
     };
   }).filter(id => !!id.giveaway);
 
-  // Convert gameData from object to array
-  const gameData = Object.entries(gameDataObj).map(([, data]) => data)
-
   // Playtime/achievements each winner has on the games this user gave away.
   // Scoped to their own giveaways so the map stays small on every user page.
   const resolver = createCreatorResolver(steamIdMap)
@@ -151,6 +149,17 @@ export default async function UserDetailPage(
     [allUsers, exMembersData],
     resolver,
   )
+
+  // The profile only looks giveaways and game records up for its own
+  // created/won/entered records, so the page carries just those instead of the
+  // full datasets.
+  const profileGiveaways = scopeGiveawaysToUser(
+    giveaways,
+    user,
+    userEntriesForUser.map((e) => e.link),
+    createdGiveaways,
+  )
+  const profileGameData = scopeGameDataToGiveaways(gameDataObj, profileGiveaways)
 
   // "Hours played per month": per-game playtime/achievement deltas between
   // consecutive start-of-month snapshots, summed per month, for this user's
@@ -229,9 +238,9 @@ export default async function UserDetailPage(
     >
       <UserDetailPageClient
         user={user}
-        allUsers={allUsers}
-        giveaways={giveaways}
-        gameData={gameData}
+        userAvatars={buildAvatarLookup(allUsers?.users)}
+        giveaways={profileGiveaways}
+        gameData={profileGameData}
         userEntries={userEntriesForUser}
         lastUpdated={lastUpdated}
         leavers={userLeaversWithGaData}

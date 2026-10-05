@@ -22,7 +22,7 @@ import type { WinnerPlayStats } from '@/lib/winner-play-stats'
 import { isConfirmedPlayed } from '@/lib/play-status'
 import GivenGiveawaysClient from './GivenGiveawaysClient'
 import WonGiveawaysClient from './WonGiveawaysClient'
-import type { User, UserGroupData, UserEntry, SteamIdMap } from '@/types'
+import type { User, UserEntry, SteamIdMap } from '@/types'
 import type { Giveaway, GameData } from '@/types'
 import type { IpbDiscordWinEntry } from '@/types/ipb-discord'
 import FormattedDate, { FormattedDay } from '@/components/FormattedDate'
@@ -82,8 +82,11 @@ import { FilterSelect } from '@/components/ui/FilterSelect'
 
 interface Props {
   user: User
-  allUsers: UserGroupData | null
+  /** steam_id -> avatar URL for every member; its keys double as the current-member roster. */
+  userAvatars: Record<string, string>
+  /** Only the giveaways this profile looks up or lists (scoped server-side). */
   giveaways: Giveaway[]
+  /** Only the game records those giveaways resolve to (scoped server-side). */
   gameData: GameData[]
   /** This user's entries only (scoped server-side — user_entries.json is large). */
   userEntries: UserEntry[string]
@@ -358,7 +361,7 @@ function ratioInfo(user: User) {
 
 export default function UserDetailPageClient({
   user,
-  allUsers,
+  userAvatars: userAvatarsByUser,
   giveaways,
   gameData,
   userEntries,
@@ -435,14 +438,8 @@ export default function UserDetailPageClient({
   )[0]
 
   const userAvatars = useMemo(
-    () =>
-      new Map(
-        Object.values(allUsers?.users || {}).map((u) => [
-          u.steam_id,
-          u.avatar_url,
-        ]),
-      ),
-    [allUsers],
+    () => new Map(Object.entries(userAvatarsByUser)),
+    [userAvatarsByUser],
   )
   const userNames = useMemo(
     () =>
