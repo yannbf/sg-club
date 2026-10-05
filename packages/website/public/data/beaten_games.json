@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-10-05T16:23:00.841Z",
+  "last_updated": "2026-10-05T18:33:59.507Z",
   "games": {
     "223810": {
       "marker": {
@@ -95,7 +95,7 @@
       "marker": null,
       "no_marker_reason": "schema_unavailable",
       "story_tag_count": 0,
-      "checked_at": "2026-09-11T13:47:06.894Z"
+      "checked_at": "2026-10-05T18:33:46.059Z"
     },
     "261550": {
       "marker": null,
@@ -581,7 +581,7 @@
       "marker": null,
       "no_marker_reason": "no_marker_found",
       "story_tag_count": 0,
-      "checked_at": "2026-08-26T02:40:07.467Z"
+      "checked_at": "2026-10-05T18:33:37.415Z"
     },
     "625980": {
       "marker": null,
@@ -1819,7 +1819,7 @@
       "marker": null,
       "no_marker_reason": "schema_unavailable",
       "story_tag_count": 0,
-      "checked_at": "2026-08-24T19:49:34.531Z"
+      "checked_at": "2026-10-05T18:33:26.445Z"
     },
     "1231560": {
       "marker": null,
@@ -2371,7 +2371,7 @@
       "marker": null,
       "no_marker_reason": "no_marker_found",
       "story_tag_count": 0,
-      "checked_at": "2026-08-25T11:05:31.364Z"
+      "checked_at": "2026-10-05T18:33:36.227Z"
     },
     "1371720": {
       "marker": null,
@@ -2475,7 +2475,7 @@
       "marker": null,
       "no_marker_reason": "schema_unavailable",
       "story_tag_count": 0,
-      "checked_at": "2026-08-24T19:49:31.390Z"
+      "checked_at": "2026-10-05T18:33:23.430Z"
     },
     "1424600": {
       "marker": {
@@ -3305,7 +3305,7 @@
       "marker": null,
       "no_marker_reason": "schema_unavailable",
       "story_tag_count": 0,
-      "checked_at": "2026-09-17T13:28:12.263Z"
+      "checked_at": "2026-10-05T18:33:48.352Z"
     },
     "1671720": {
       "marker": null,
@@ -3436,7 +3436,7 @@
       "marker": null,
       "no_marker_reason": "no_marker_found",
       "story_tag_count": 0,
-      "checked_at": "2026-08-30T19:50:52.228Z"
+      "checked_at": "2026-10-05T18:33:40.092Z"
     },
     "1709580": {
       "marker": {
@@ -4496,9 +4496,9 @@
       "marker": null,
       "no_marker_reason": "no_marker_found",
       "story_tag_count": 0,
-      "checked_at": "2026-08-28T20:51:20.191Z",
       "resolved_app_id": 588650,
-      "resolved_app_name": "Dead Cells"
+      "resolved_app_name": "Dead Cells",
+      "checked_at": "2026-10-05T18:33:38.723Z"
     },
     "2106840": {
       "marker": {
@@ -5082,7 +5082,7 @@
       "marker": null,
       "no_marker_reason": "schema_unavailable",
       "story_tag_count": 0,
-      "checked_at": "2026-08-24T19:49:28.505Z"
+      "checked_at": "2026-10-05T18:33:20.690Z"
     },
     "2427450": {
       "marker": {
@@ -5280,7 +5280,7 @@
       "marker": null,
       "no_marker_reason": "schema_unavailable",
       "story_tag_count": 0,
-      "checked_at": "2026-08-24T19:49:49.798Z"
+      "checked_at": "2026-10-05T18:33:34.800Z"
     },
     "2552430": {
       "marker": {
@@ -5416,7 +5416,7 @@
       "marker": null,
       "no_marker_reason": "schema_unavailable",
       "story_tag_count": 0,
-      "checked_at": "2026-08-24T19:49:41.000Z"
+      "checked_at": "2026-10-05T18:33:29.269Z"
     },
     "2666510": {
       "marker": null,
@@ -5553,7 +5553,7 @@
       "marker": null,
       "no_marker_reason": "no_marker_found",
       "story_tag_count": 0,
-      "checked_at": "2026-09-04T05:55:50.431Z"
+      "checked_at": "2026-10-05T18:33:44.935Z"
     },
     "2721890": {
       "marker": {
@@ -5867,7 +5867,7 @@
       "marker": null,
       "no_marker_reason": "schema_unavailable",
       "story_tag_count": 0,
-      "checked_at": "2026-09-14T06:19:56.534Z"
+      "checked_at": "2026-10-05T18:33:47.244Z"
     },
     "3017730": {
       "marker": {
@@ -6105,7 +6105,7 @@
       "marker": null,
       "no_marker_reason": "schema_unavailable",
       "story_tag_count": 0,
-      "checked_at": "2026-08-24T19:49:46.848Z"
+      "checked_at": "2026-10-05T18:33:32.099Z"
     },
     "3244220": {
       "marker": {
@@ -6509,10 +6509,17 @@
       "checked_at": "2026-09-30T21:29:20.760Z"
     },
     "3751260": {
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
+      "marker": {
+        "apiname": "ACH_The_Blood_of_Dawnwalker",
+        "name": "The Blood of Dawnwalker",
+        "description": "Finish the story.",
+        "global_percent": 36.2,
+        "source": "heuristic",
+        "sh_achievement_id": 17
+      },
+      "no_marker_reason": null,
       "story_tag_count": 0,
-      "checked_at": "2026-09-03T12:48:54.708Z"
+      "checked_at": "2026-10-05T18:33:43.659Z"
     },
     "3751950": {
       "marker": {
@@ -6650,7 +6657,7 @@
       "marker": null,
       "no_marker_reason": "schema_unavailable",
       "story_tag_count": 0,
-      "checked_at": "2026-09-25T04:55:40.643Z"
+      "checked_at": "2026-10-05T18:33:49.458Z"
     },
     "4706340": {
       "marker": null,
@@ -6852,7 +6859,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-10-05T05:35:36.432Z"
+      "checked_at": "2026-10-05T18:33:50.632Z"
     },
     "76561199036747433::2592160": {
       "beaten": true,
@@ -8178,7 +8185,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-10-05T05:35:37.573Z"
+      "checked_at": "2026-10-05T18:33:52.253Z"
     },
     "76561197968806363::359870": {
       "beaten": false,
@@ -8556,7 +8563,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-10-05T05:35:38.692Z"
+      "checked_at": "2026-10-05T18:33:53.555Z"
     },
     "76561198069420656::1497440": {
       "beaten": true,
@@ -8868,7 +8875,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-10-05T05:35:39.819Z"
+      "checked_at": "2026-10-05T18:33:55.009Z"
     },
     "76561197970969216::1601570": {
       "beaten": true,
@@ -9006,7 +9013,7 @@
       "beaten": null,
       "unlock_time": null,
       "no_data_reason": "no_stats",
-      "checked_at": "2026-10-05T05:35:41.222Z"
+      "checked_at": "2026-10-05T18:33:56.218Z"
     },
     "76561198027595057::1620730": {
       "beaten": true,
@@ -9930,7 +9937,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-10-05T05:35:42.355Z"
+      "checked_at": "2026-10-05T18:33:57.411Z"
     },
     "76561198070041813::2420110": {
       "beaten": true,
@@ -10081,6 +10088,12 @@
       "unlock_time": 1752391939,
       "no_data_reason": null,
       "checked_at": "2026-08-24T17:47:29.034Z"
+    },
+    "76561198129984336::3751260": {
+      "beaten": false,
+      "unlock_time": null,
+      "no_data_reason": null,
+      "checked_at": "2026-10-05T18:33:58.504Z"
     },
     "76561198129984336::835960": {
       "beaten": true,
