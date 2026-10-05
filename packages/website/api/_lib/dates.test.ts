@@ -650,7 +650,9 @@ describe('validateChallengeDates', () => {
     })
 
     it('month shorthand "September" also stores an Oct 1 cutoff, without a double bump', () => {
-      const range = parseDateRangeField('September')
+      // The bare-month shorthand resolves its year from `now`, so the split
+      // needs the same pinned clock as the validation.
+      const range = parseDateRangeField('September', NOW)
       expect(range.ok).toBe(true)
       if (!range.ok) return
       const result = validateChallengeDates(range, NOW)
