@@ -402,8 +402,7 @@ export const CHALLENGE_EVENTS: EventMeta[] = [
     // Oct 1 cutoff (same convention as the scraper configs).
     startTimestamp: Date.UTC(2026, 8, 1) / 1000,
     endTimestamp: Date.UTC(2026, 9, 1) / 1000,
-    // Keep it highlighted in "Happening now" for a week after the deadline.
-    keepLiveForDays: 7,
+    // No linger: once Challenge #6 kicked off the mansion left "Happening now".
   },
   {
     slug: 'gaming-challenge-6-vellum',
