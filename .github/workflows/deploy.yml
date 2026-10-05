@@ -38,7 +38,9 @@ name: Update Website and Playtime Data
 #      challenge sometimes skipped). Off-peak minutes are far more reliable.
 #   2. Distinct minutes mean no two jobs fire in the same minute, so they don't
 #      race to push. The rebase-retry loop in each push step is the backstop for
-#      the case where a delayed run still overlaps another.
+#      the case where a delayed run still overlaps another. A rebase only helps
+#      when the overlapping jobs wrote different files, so the two that rewrite
+#      group_users.json (website-data, playtime) share a concurrency group.
 #
 # Off-peak minutes reduce the delays but do not remove them: the daily playtime
 # cron has landed as much as 5h late, and the hourly challenge cron produces
@@ -110,6 +112,17 @@ jobs:
       (github.event_name == 'workflow_dispatch' && github.event.inputs.job == 'website') ||
       github.event_name == 'push'
     runs-on: ubuntu-latest
+    # website-data and playtime each rewrite group_users.json in full, so two
+    # of them in flight — in one run or across runs, including two of the same
+    # job — produce commits that cannot be rebased onto each other, and the
+    # later push fails after its scrape is already done. This group runs them
+    # one at a time; a waiting job checks out and syncs only once it starts, so
+    # it builds on what the previous one pushed. `queue: max` keeps every
+    # waiting job instead of cancelling all but the newest.
+    concurrency:
+      group: group-users-writers
+      cancel-in-progress: false
+      queue: max
     # Runs have grown to ~30 min as the giveaways ∪ wishlist set grows (the
     # price/review loop iterates it fresh each run); cap at 50 so a stuck
     # HLTB/SG fetch still can't burn the default 6h runner allowance.
@@ -263,6 +276,11 @@ jobs:
       (github.event_name == 'workflow_dispatch' &&
         (github.event.inputs.job == 'playtime' || github.event.inputs.job == 'playtime-all'))
     runs-on: ubuntu-latest
+    # Shares website-data's group: both rewrite group_users.json in full.
+    concurrency:
+      group: group-users-writers
+      cancel-in-progress: false
+      queue: max
     # PLAYTIME_BUDGET_MINUTES=55 is the soft cap (exits cleanly, commits
     # partial progress, defers leftover wins to tomorrow). It has to clear the
     # ~42 min a full refresh of every member takes, or the tail of the queue

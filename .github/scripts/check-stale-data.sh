@@ -60,14 +60,23 @@ if ! run_ids=$(gh api "repos/$REPO/actions/workflows/$WORKFLOW/runs?per_page=$SC
   exit 0
 fi
 
-# Most recent successful completion per job name.
-declare -A last_run=()
+# Most recent successful completion per job name, plus the jobs another run
+# still has queued or running. A run's jobs only count as in flight once its
+# own plan job has finished: before that they are listed but undecided, and
+# most of them are about to be skipped. That also excludes this run's own jobs.
+declare -A last_run=() in_flight=()
 while read -r id; do
   [[ -z "$id" ]] && continue
   jobs_tsv=$(gh api "repos/$REPO/actions/runs/$id/jobs" \
-               --jq '.jobs[] | select(.conclusion=="success") | [.name, .completed_at] | @tsv' 2>/dev/null || true)
+               --jq '(.jobs | any(.name == "plan" and .status == "completed")) as $planned
+                     | .jobs[]
+                     | if .conclusion == "success" then [.name, .completed_at]
+                       elif $planned and .status != "completed" then [.name, "in_flight"]
+                       else empty end
+                     | @tsv' 2>/dev/null || true)
   while IFS=$'\t' read -r name completed; do
     [[ -z "$name" || -z "$completed" ]] && continue
+    if [[ "$completed" == "in_flight" ]]; then in_flight[$name]=1; continue; fi
     ts=$(date -u -d "$completed" +%s 2>/dev/null || echo 0)
     if (( ts > ${last_run[$name]:-0} )); then last_run[$name]=$ts; fi
   done <<<"$jobs_tsv"
@@ -111,8 +120,18 @@ when() { (( $1 == 0 )) && echo never || date -u -d "@$1" '+%m-%d %H:%M'; }
 # Overdue when the job has not succeeded since its most recent slot. A job
 # missing from the scan window has not run in ~2 days, so its 0 timestamp
 # correctly reports as overdue for every schedule here.
+#
+# A job another run already has in flight is not overdue: the fires that land
+# while it runs would each start a duplicate, and for the long jobs (playtime
+# takes ~45 min) that is several copies rewriting the same data file. If the
+# in-flight job fails it leaves no success behind, so the next fire revives it.
 due_since_slot() {
   local job=$1 slot=$2 last=${last_run[$1]:-0}
+  if [[ -n "${in_flight[$job]:-}" ]]; then
+    printf '  %-18s in flight in another run | slot %s\n' "$job" "$(when "$slot")" >&2
+    echo false
+    return
+  fi
   printf '  %-18s last success %s | slot %s\n' "$job" "$(when "$last")" "$(when "$slot")" >&2
   (( last < slot )) && echo true || echo false
 }
@@ -132,8 +151,13 @@ if [[ -n "$commit_iso" ]]; then
   (( commit_ts > wishlist_ts )) && wishlist_ts=$commit_ts
 fi
 wishlist_slot=$(monthly_slot 15 45 6)
-printf '  %-18s last refresh %s | slot %s\n' wishlist "$(when "$wishlist_ts")" "$(when "$wishlist_slot")" >&2
-emit wishlist_due "$( (( wishlist_ts < wishlist_slot )) && echo true || echo false )"
+if [[ -n "${in_flight[wishlist]:-}" ]]; then
+  printf '  %-18s in flight in another run | slot %s\n' wishlist "$(when "$wishlist_slot")" >&2
+  emit wishlist_due false
+else
+  printf '  %-18s last refresh %s | slot %s\n' wishlist "$(when "$wishlist_ts")" "$(when "$wishlist_slot")" >&2
+  emit wishlist_due "$( (( wishlist_ts < wishlist_slot )) && echo true || echo false )"
+fi
 
 # Dormant challenges refresh on the 1st and 15th. The API cannot distinguish a
 # dormant-inclusive challenge run from a normal one, so this instead fires on
