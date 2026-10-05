@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1790812800,
   "totalAchievements": 36,
-  "generatedAt": 1791225169998,
+  "generatedAt": 1791240757159,
   "challengeOver": false,
   "winnerUsername": "CatzZz",
   "participants": [
@@ -621,14 +621,14 @@
       "review_timestamp": 1791125880,
       "review_recommendationid": "236922773",
       "review_url": "https://steamcommunity.com/profiles/76561198359284432/recommended/917950",
-      "playtime_total_minutes": 972,
-      "playtime_2weeks_minutes": 972,
+      "playtime_total_minutes": 1214,
+      "playtime_2weeks_minutes": 1214,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 972,
+      "playtime_challenge_minutes": 1214,
       "achievements_total": 36,
-      "achievements_unlocked_total": 29,
+      "achievements_unlocked_total": 35,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 29,
+      "achievements_since_baseline": 35,
       "challenge_achievements": [
         {
           "apiname": "STATUS_DAMAGE_30000",
@@ -803,9 +803,45 @@
           "displayName": "The Forgery",
           "description": "Defeat Verse in The Forgery.",
           "unlocktime": 1791222306
+        },
+        {
+          "apiname": "MEND_BOSSRUSH",
+          "displayName": "Decrypted",
+          "description": "Mend the Illegible Tome.",
+          "unlocktime": 1791229908
+        },
+        {
+          "apiname": "RAID_COMPLETE_TANGENT",
+          "displayName": "Yonder",
+          "description": "Defeat Horizon in Yonder.",
+          "unlocktime": 1791233490
+        },
+        {
+          "apiname": "INKLEVEL_25",
+          "displayName": "Cognitively Developed",
+          "description": "Reach Ink Level 30.",
+          "unlocktime": 1791233543
+        },
+        {
+          "apiname": "MASTERY_1",
+          "displayName": "Scribe of the Library",
+          "description": "Unlock 5 Spells, 4 Signature Inks, and reach Ink Level 30.",
+          "unlocktime": 1791233543
+        },
+        {
+          "apiname": "TRIALS_COMPLETE_1",
+          "displayName": "Bingo!",
+          "description": "Complete a full Storyboard.",
+          "unlocktime": 1791234674
+        },
+        {
+          "apiname": "ASCEND_1",
+          "displayName": "Fresh Start",
+          "description": "Ascend for the first time.",
+          "unlocktime": 1791234735
         }
       ],
-      "challenge_achievement_count": 29,
+      "challenge_achievement_count": 35,
       "has_started": true,
       "is_complete": true,
       "completed_at": 1791151019,
@@ -928,6 +964,112 @@
       "is_winner": false
     },
     {
+      "username": "Krystie",
+      "sg_username": "Krystie",
+      "steam_id": "76561198164999453",
+      "avatar_url": "https://avatars.steamstatic.com/8b84adbdb97b0f57819150d36cc300715d8ba5c5_medium.jpg",
+      "profile_url": "https://steamcommunity.com/profiles/76561198164999453",
+      "is_guest": false,
+      "owned": true,
+      "stats_available": true,
+      "wrote_review": false,
+      "review_voted_up": null,
+      "review_timestamp": null,
+      "review_recommendationid": null,
+      "review_url": null,
+      "playtime_total_minutes": 126,
+      "playtime_2weeks_minutes": 126,
+      "baseline_playtime_minutes": 0,
+      "playtime_challenge_minutes": 126,
+      "achievements_total": 36,
+      "achievements_unlocked_total": 12,
+      "achievements_before_challenge": 0,
+      "achievements_since_baseline": 12,
+      "challenge_achievements": [
+        {
+          "apiname": "STATUS_DAMAGE_30000",
+          "displayName": "The Stacks",
+          "description": "Deal 30,000 Status Damage in a single run.",
+          "unlocktime": 1791211518
+        },
+        {
+          "apiname": "TOMES_MENDED_1",
+          "displayName": "It was the Best of Times",
+          "description": "Mend your first Tome.",
+          "unlocktime": 1791211528
+        },
+        {
+          "apiname": "CORES_1",
+          "displayName": "Ink Exploration",
+          "description": "Unlock a new Signature Ink.",
+          "unlocktime": 1791211528
+        },
+        {
+          "apiname": "SPELLS_1",
+          "displayName": "Expanded Vocabulary",
+          "description": "Unlock a new Spell.",
+          "unlocktime": 1791212062
+        },
+        {
+          "apiname": "KNIGHTED",
+          "displayName": "Pen is Knightier",
+          "description": "Complete a Tome with Teal, Foil, and Callback equipped.",
+          "unlocktime": 1791213131
+        },
+        {
+          "apiname": "INKLEVEL_2",
+          "displayName": "Ding!",
+          "description": "Reach Ink Level 2.",
+          "unlocktime": 1791224174
+        },
+        {
+          "apiname": "TOMES_MENDED_LVL1",
+          "displayName": "Rising Action",
+          "description": "Mend a Tome at Binding Level 1.",
+          "unlocktime": 1791225491
+        },
+        {
+          "apiname": "TOMES_MENDED_LVL5",
+          "displayName": "High Stakes",
+          "description": "Mend a Tome at Binding Level 5.",
+          "unlocktime": 1791225491
+        },
+        {
+          "apiname": "TOMES_MENDED_LVL10",
+          "displayName": "And In The Darkness...",
+          "description": "Mend a Tome at Binding Level 10.",
+          "unlocktime": 1791225491
+        },
+        {
+          "apiname": "TOMES_MENDED_LVL15",
+          "displayName": "Darkest Before Dawn",
+          "description": "Mend a Tome at Binding Level 15.",
+          "unlocktime": 1791225491
+        },
+        {
+          "apiname": "BINDING_COMPLETED_BOSS2",
+          "displayName": "May Thy Knife",
+          "description": "Defeat a Boss with the Shredded Pages Binding active.",
+          "unlocktime": 1791225491
+        },
+        {
+          "apiname": "BINDING_COMPLETED_BOSS3",
+          "displayName": "Do Not Go Gentle",
+          "description": "Defeat a Boss with the Broken Spines Binding active.",
+          "unlocktime": 1791225491
+        }
+      ],
+      "challenge_achievement_count": 12,
+      "has_started": true,
+      "is_complete": false,
+      "completed_at": null,
+      "completed_before_start": false,
+      "completed_after_deadline": false,
+      "meets_playtime": true,
+      "meets_review": false,
+      "is_winner": false
+    },
+    {
       "username": "DrTenma",
       "sg_username": "DrTenma",
       "steam_id": "76561198054649894",
@@ -941,14 +1083,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 211,
-      "playtime_2weeks_minutes": 211,
+      "playtime_total_minutes": 253,
+      "playtime_2weeks_minutes": 253,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 211,
+      "playtime_challenge_minutes": 253,
       "achievements_total": 36,
-      "achievements_unlocked_total": 9,
+      "achievements_unlocked_total": 10,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 9,
+      "achievements_since_baseline": 10,
       "challenge_achievements": [
         {
           "apiname": "SPELLS_1",
@@ -1003,9 +1145,191 @@
           "displayName": "High Stakes",
           "description": "Mend a Tome at Binding Level 5.",
           "unlocktime": 1791193194
+        },
+        {
+          "apiname": "APPENDIX_1",
+          "displayName": "Going the Distance",
+          "description": "Defeat a Torn Boss at Appendix 1 during an Endless Run.",
+          "unlocktime": 1791236775
         }
       ],
-      "challenge_achievement_count": 9,
+      "challenge_achievement_count": 10,
+      "has_started": true,
+      "is_complete": false,
+      "completed_at": null,
+      "completed_before_start": false,
+      "completed_after_deadline": false,
+      "meets_playtime": true,
+      "meets_review": false,
+      "is_winner": false
+    },
+    {
+      "username": "CuteEnby",
+      "sg_username": "CuteEnby",
+      "steam_id": "76561198055569704",
+      "avatar_url": "https://avatars.steamstatic.com/d7c961f7ae6d1bccfb8520d569e1bf53f6f9e8f4_medium.jpg",
+      "profile_url": "https://steamcommunity.com/profiles/76561198055569704",
+      "is_guest": false,
+      "owned": true,
+      "stats_available": true,
+      "wrote_review": false,
+      "review_voted_up": null,
+      "review_timestamp": null,
+      "review_recommendationid": null,
+      "review_url": null,
+      "playtime_total_minutes": 65,
+      "playtime_2weeks_minutes": 65,
+      "baseline_playtime_minutes": 0,
+      "playtime_challenge_minutes": 65,
+      "achievements_total": 36,
+      "achievements_unlocked_total": 10,
+      "achievements_before_challenge": 0,
+      "achievements_since_baseline": 10,
+      "challenge_achievements": [
+        {
+          "apiname": "TOMES_MENDED_1",
+          "displayName": "It was the Best of Times",
+          "description": "Mend your first Tome.",
+          "unlocktime": 1791223917
+        },
+        {
+          "apiname": "CORES_1",
+          "displayName": "Ink Exploration",
+          "description": "Unlock a new Signature Ink.",
+          "unlocktime": 1791223917
+        },
+        {
+          "apiname": "INKLEVEL_2",
+          "displayName": "Ding!",
+          "description": "Reach Ink Level 2.",
+          "unlocktime": 1791224096
+        },
+        {
+          "apiname": "STATUS_DAMAGE_30000",
+          "displayName": "The Stacks",
+          "description": "Deal 30,000 Status Damage in a single run.",
+          "unlocktime": 1791225317
+        },
+        {
+          "apiname": "TOMES_MENDED_LVL1",
+          "displayName": "Rising Action",
+          "description": "Mend a Tome at Binding Level 1.",
+          "unlocktime": 1791225491
+        },
+        {
+          "apiname": "TOMES_MENDED_LVL5",
+          "displayName": "High Stakes",
+          "description": "Mend a Tome at Binding Level 5.",
+          "unlocktime": 1791225491
+        },
+        {
+          "apiname": "TOMES_MENDED_LVL10",
+          "displayName": "And In The Darkness...",
+          "description": "Mend a Tome at Binding Level 10.",
+          "unlocktime": 1791225491
+        },
+        {
+          "apiname": "TOMES_MENDED_LVL15",
+          "displayName": "Darkest Before Dawn",
+          "description": "Mend a Tome at Binding Level 15.",
+          "unlocktime": 1791225491
+        },
+        {
+          "apiname": "BINDING_COMPLETED_BOSS2",
+          "displayName": "May Thy Knife",
+          "description": "Defeat a Boss with the Shredded Pages Binding active.",
+          "unlocktime": 1791225491
+        },
+        {
+          "apiname": "BINDING_COMPLETED_BOSS3",
+          "displayName": "Do Not Go Gentle",
+          "description": "Defeat a Boss with the Broken Spines Binding active.",
+          "unlocktime": 1791225491
+        }
+      ],
+      "challenge_achievement_count": 10,
+      "has_started": true,
+      "is_complete": false,
+      "completed_at": null,
+      "completed_before_start": false,
+      "completed_after_deadline": false,
+      "meets_playtime": true,
+      "meets_review": false,
+      "is_winner": false
+    },
+    {
+      "username": "yugimax",
+      "sg_username": "yugimax",
+      "steam_id": "76561198352113526",
+      "avatar_url": "https://avatars.steamstatic.com/501c9213b047cc0e05350b954a78fdfd5dce36c9_medium.jpg",
+      "profile_url": "https://steamcommunity.com/profiles/76561198352113526",
+      "is_guest": false,
+      "owned": true,
+      "stats_available": true,
+      "wrote_review": false,
+      "review_voted_up": null,
+      "review_timestamp": null,
+      "review_recommendationid": null,
+      "review_url": null,
+      "playtime_total_minutes": 267,
+      "playtime_2weeks_minutes": 267,
+      "baseline_playtime_minutes": 0,
+      "playtime_challenge_minutes": 267,
+      "achievements_total": 36,
+      "achievements_unlocked_total": 8,
+      "achievements_before_challenge": 0,
+      "achievements_since_baseline": 8,
+      "challenge_achievements": [
+        {
+          "apiname": "SPELLS_1",
+          "displayName": "Expanded Vocabulary",
+          "description": "Unlock a new Spell.",
+          "unlocktime": 1790948383
+        },
+        {
+          "apiname": "CORES_1",
+          "displayName": "Ink Exploration",
+          "description": "Unlock a new Signature Ink.",
+          "unlocktime": 1790948383
+        },
+        {
+          "apiname": "TOMES_MENDED_1",
+          "displayName": "It was the Best of Times",
+          "description": "Mend your first Tome.",
+          "unlocktime": 1790955404
+        },
+        {
+          "apiname": "SPELLS_5",
+          "displayName": "Regular Shakespeare",
+          "description": "Unlock  5 Spells.",
+          "unlocktime": 1790955404
+        },
+        {
+          "apiname": "INKLEVEL_2",
+          "displayName": "Ding!",
+          "description": "Reach Ink Level 2.",
+          "unlocktime": 1790955625
+        },
+        {
+          "apiname": "INKLING_DAMAGE_20000",
+          "displayName": "Supporting Character",
+          "description": "Deal 20,000 Inkling Damage in a single run.",
+          "unlocktime": 1791237880
+        },
+        {
+          "apiname": "CORES_4",
+          "displayName": "Ink, Lots of Ink",
+          "description": "Unlock 4 Signature Inks.",
+          "unlocktime": 1791240492
+        },
+        {
+          "apiname": "INKLEVEL_10",
+          "displayName": "Second Edition",
+          "description": "Reach Ink Level 10.",
+          "unlocktime": 1791240557
+        }
+      ],
+      "challenge_achievement_count": 8,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
@@ -1156,140 +1480,6 @@
       "is_winner": false
     },
     {
-      "username": "Krystie",
-      "sg_username": "Krystie",
-      "steam_id": "76561198164999453",
-      "avatar_url": "https://avatars.steamstatic.com/8b84adbdb97b0f57819150d36cc300715d8ba5c5_medium.jpg",
-      "profile_url": "https://steamcommunity.com/profiles/76561198164999453",
-      "is_guest": false,
-      "owned": true,
-      "stats_available": true,
-      "wrote_review": false,
-      "review_voted_up": null,
-      "review_timestamp": null,
-      "review_recommendationid": null,
-      "review_url": null,
-      "playtime_total_minutes": 114,
-      "playtime_2weeks_minutes": 114,
-      "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 114,
-      "achievements_total": 36,
-      "achievements_unlocked_total": 6,
-      "achievements_before_challenge": 0,
-      "achievements_since_baseline": 6,
-      "challenge_achievements": [
-        {
-          "apiname": "STATUS_DAMAGE_30000",
-          "displayName": "The Stacks",
-          "description": "Deal 30,000 Status Damage in a single run.",
-          "unlocktime": 1791211518
-        },
-        {
-          "apiname": "TOMES_MENDED_1",
-          "displayName": "It was the Best of Times",
-          "description": "Mend your first Tome.",
-          "unlocktime": 1791211528
-        },
-        {
-          "apiname": "CORES_1",
-          "displayName": "Ink Exploration",
-          "description": "Unlock a new Signature Ink.",
-          "unlocktime": 1791211528
-        },
-        {
-          "apiname": "SPELLS_1",
-          "displayName": "Expanded Vocabulary",
-          "description": "Unlock a new Spell.",
-          "unlocktime": 1791212062
-        },
-        {
-          "apiname": "KNIGHTED",
-          "displayName": "Pen is Knightier",
-          "description": "Complete a Tome with Teal, Foil, and Callback equipped.",
-          "unlocktime": 1791213131
-        },
-        {
-          "apiname": "INKLEVEL_2",
-          "displayName": "Ding!",
-          "description": "Reach Ink Level 2.",
-          "unlocktime": 1791224174
-        }
-      ],
-      "challenge_achievement_count": 6,
-      "has_started": true,
-      "is_complete": false,
-      "completed_at": null,
-      "completed_before_start": false,
-      "completed_after_deadline": false,
-      "meets_playtime": true,
-      "meets_review": false,
-      "is_winner": false
-    },
-    {
-      "username": "yugimax",
-      "sg_username": "yugimax",
-      "steam_id": "76561198352113526",
-      "avatar_url": "https://avatars.steamstatic.com/501c9213b047cc0e05350b954a78fdfd5dce36c9_medium.jpg",
-      "profile_url": "https://steamcommunity.com/profiles/76561198352113526",
-      "is_guest": false,
-      "owned": true,
-      "stats_available": true,
-      "wrote_review": false,
-      "review_voted_up": null,
-      "review_timestamp": null,
-      "review_recommendationid": null,
-      "review_url": null,
-      "playtime_total_minutes": 166,
-      "playtime_2weeks_minutes": 166,
-      "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 166,
-      "achievements_total": 36,
-      "achievements_unlocked_total": 5,
-      "achievements_before_challenge": 0,
-      "achievements_since_baseline": 5,
-      "challenge_achievements": [
-        {
-          "apiname": "SPELLS_1",
-          "displayName": "Expanded Vocabulary",
-          "description": "Unlock a new Spell.",
-          "unlocktime": 1790948383
-        },
-        {
-          "apiname": "CORES_1",
-          "displayName": "Ink Exploration",
-          "description": "Unlock a new Signature Ink.",
-          "unlocktime": 1790948383
-        },
-        {
-          "apiname": "TOMES_MENDED_1",
-          "displayName": "It was the Best of Times",
-          "description": "Mend your first Tome.",
-          "unlocktime": 1790955404
-        },
-        {
-          "apiname": "SPELLS_5",
-          "displayName": "Regular Shakespeare",
-          "description": "Unlock  5 Spells.",
-          "unlocktime": 1790955404
-        },
-        {
-          "apiname": "INKLEVEL_2",
-          "displayName": "Ding!",
-          "description": "Reach Ink Level 2.",
-          "unlocktime": 1790955625
-        }
-      ],
-      "challenge_achievement_count": 5,
-      "has_started": true,
-      "is_complete": false,
-      "completed_at": null,
-      "completed_before_start": false,
-      "completed_after_deadline": false,
-      "meets_playtime": true,
-      "meets_review": false,
-      "is_winner": false
-    },
-    {
       "username": "yannbz",
       "sg_username": "yannbz",
       "steam_id": "76561198049128535",
@@ -1393,6 +1583,64 @@
           "displayName": "It was the Best of Times",
           "description": "Mend your first Tome.",
           "unlocktime": 1790959405
+        }
+      ],
+      "challenge_achievement_count": 4,
+      "has_started": true,
+      "is_complete": false,
+      "completed_at": null,
+      "completed_before_start": false,
+      "completed_after_deadline": false,
+      "meets_playtime": true,
+      "meets_review": false,
+      "is_winner": false
+    },
+    {
+      "username": "LieEater",
+      "sg_username": "LieEater",
+      "steam_id": "76561198067727574",
+      "avatar_url": "https://avatars.steamstatic.com/c86c6e9e4c442122a6cd5ee2159788a8ba77c527_medium.jpg",
+      "profile_url": "https://steamcommunity.com/profiles/76561198067727574",
+      "is_guest": false,
+      "owned": true,
+      "stats_available": true,
+      "wrote_review": false,
+      "review_voted_up": null,
+      "review_timestamp": null,
+      "review_recommendationid": null,
+      "review_url": null,
+      "playtime_total_minutes": 31,
+      "playtime_2weeks_minutes": 31,
+      "baseline_playtime_minutes": 0,
+      "playtime_challenge_minutes": 31,
+      "achievements_total": 36,
+      "achievements_unlocked_total": 4,
+      "achievements_before_challenge": 0,
+      "achievements_since_baseline": 4,
+      "challenge_achievements": [
+        {
+          "apiname": "SPELLS_1",
+          "displayName": "Expanded Vocabulary",
+          "description": "Unlock a new Spell.",
+          "unlocktime": 1791224806
+        },
+        {
+          "apiname": "CORES_1",
+          "displayName": "Ink Exploration",
+          "description": "Unlock a new Signature Ink.",
+          "unlocktime": 1791224806
+        },
+        {
+          "apiname": "STATUS_DAMAGE_30000",
+          "displayName": "The Stacks",
+          "description": "Deal 30,000 Status Damage in a single run.",
+          "unlocktime": 1791225704
+        },
+        {
+          "apiname": "TOMES_MENDED_1",
+          "displayName": "It was the Best of Times",
+          "description": "Mend your first Tome.",
+          "unlocktime": 1791225737
         }
       ],
       "challenge_achievement_count": 4,
@@ -1510,58 +1758,6 @@
       "is_winner": false
     },
     {
-      "username": "CuteEnby",
-      "sg_username": "CuteEnby",
-      "steam_id": "76561198055569704",
-      "avatar_url": "https://avatars.steamstatic.com/d7c961f7ae6d1bccfb8520d569e1bf53f6f9e8f4_medium.jpg",
-      "profile_url": "https://steamcommunity.com/profiles/76561198055569704",
-      "is_guest": false,
-      "owned": true,
-      "stats_available": true,
-      "wrote_review": false,
-      "review_voted_up": null,
-      "review_timestamp": null,
-      "review_recommendationid": null,
-      "review_url": null,
-      "playtime_total_minutes": 30,
-      "playtime_2weeks_minutes": 30,
-      "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 30,
-      "achievements_total": 36,
-      "achievements_unlocked_total": 3,
-      "achievements_before_challenge": 0,
-      "achievements_since_baseline": 3,
-      "challenge_achievements": [
-        {
-          "apiname": "TOMES_MENDED_1",
-          "displayName": "It was the Best of Times",
-          "description": "Mend your first Tome.",
-          "unlocktime": 1791223917
-        },
-        {
-          "apiname": "CORES_1",
-          "displayName": "Ink Exploration",
-          "description": "Unlock a new Signature Ink.",
-          "unlocktime": 1791223917
-        },
-        {
-          "apiname": "INKLEVEL_2",
-          "displayName": "Ding!",
-          "description": "Reach Ink Level 2.",
-          "unlocktime": 1791224096
-        }
-      ],
-      "challenge_achievement_count": 3,
-      "has_started": true,
-      "is_complete": false,
-      "completed_at": null,
-      "completed_before_start": false,
-      "completed_after_deadline": false,
-      "meets_playtime": true,
-      "meets_review": false,
-      "is_winner": false
-    },
-    {
       "username": "Gooberdragon",
       "sg_username": "Gooberdragon",
       "steam_id": "76561198066957402",
@@ -1595,52 +1791,6 @@
           "displayName": "Ding!",
           "description": "Reach Ink Level 2.",
           "unlocktime": 1790914272
-        }
-      ],
-      "challenge_achievement_count": 2,
-      "has_started": true,
-      "is_complete": false,
-      "completed_at": null,
-      "completed_before_start": false,
-      "completed_after_deadline": false,
-      "meets_playtime": true,
-      "meets_review": false,
-      "is_winner": false
-    },
-    {
-      "username": "LieEater",
-      "sg_username": "LieEater",
-      "steam_id": "76561198067727574",
-      "avatar_url": "https://avatars.steamstatic.com/c86c6e9e4c442122a6cd5ee2159788a8ba77c527_medium.jpg",
-      "profile_url": "https://steamcommunity.com/profiles/76561198067727574",
-      "is_guest": false,
-      "owned": true,
-      "stats_available": true,
-      "wrote_review": false,
-      "review_voted_up": null,
-      "review_timestamp": null,
-      "review_recommendationid": null,
-      "review_url": null,
-      "playtime_total_minutes": 0,
-      "playtime_2weeks_minutes": 0,
-      "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 0,
-      "achievements_total": 36,
-      "achievements_unlocked_total": 2,
-      "achievements_before_challenge": 0,
-      "achievements_since_baseline": 2,
-      "challenge_achievements": [
-        {
-          "apiname": "SPELLS_1",
-          "displayName": "Expanded Vocabulary",
-          "description": "Unlock a new Spell.",
-          "unlocktime": 1791224806
-        },
-        {
-          "apiname": "CORES_1",
-          "displayName": "Ink Exploration",
-          "description": "Unlock a new Signature Ink.",
-          "unlocktime": 1791224806
         }
       ],
       "challenge_achievement_count": 2,
