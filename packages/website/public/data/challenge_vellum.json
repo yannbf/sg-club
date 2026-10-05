@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1790812800,
   "totalAchievements": 36,
-  "generatedAt": 1791184887726,
+  "generatedAt": 1791195606541,
   "challengeOver": false,
   "winnerUsername": "CatzZz",
   "participants": [
@@ -20,7 +20,7 @@
       "stats_available": true,
       "wrote_review": true,
       "review_voted_up": true,
-      "review_timestamp": 0,
+      "review_timestamp": 1791036540,
       "review_recommendationid": "236821964",
       "review_url": "https://steamcommunity.com/profiles/76561197962863579/recommended/917950",
       "playtime_total_minutes": 614,
@@ -168,7 +168,7 @@
       "stats_available": true,
       "wrote_review": true,
       "review_voted_up": true,
-      "review_timestamp": 0,
+      "review_timestamp": 1791028620,
       "review_recommendationid": "236811638",
       "review_url": "https://steamcommunity.com/profiles/76561198076863473/recommended/917950",
       "playtime_total_minutes": 340,
@@ -298,17 +298,17 @@
       "stats_available": true,
       "wrote_review": true,
       "review_voted_up": true,
-      "review_timestamp": 0,
+      "review_timestamp": 1791039720,
       "review_recommendationid": "236825691",
       "review_url": "https://steamcommunity.com/profiles/76561198077347875/recommended/917950",
-      "playtime_total_minutes": 978,
-      "playtime_2weeks_minutes": 978,
+      "playtime_total_minutes": 1096,
+      "playtime_2weeks_minutes": 1096,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 978,
+      "playtime_challenge_minutes": 1096,
       "achievements_total": 36,
-      "achievements_unlocked_total": 24,
+      "achievements_unlocked_total": 26,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 24,
+      "achievements_since_baseline": 26,
       "challenge_achievements": [
         {
           "apiname": "TOMES_MENDED_1",
@@ -453,9 +453,21 @@
           "displayName": "Terminator",
           "description": "Finalize for 10,000 Damage.",
           "unlocktime": 1791183184
+        },
+        {
+          "apiname": "RAID_COMPLETE_SPLICE",
+          "displayName": "The Forgery",
+          "description": "Defeat Verse in The Forgery.",
+          "unlocktime": 1791186917
+        },
+        {
+          "apiname": "BOOKCLUB_1",
+          "displayName": "Curated",
+          "description": "Complete a Book Club challenge.",
+          "unlocktime": 1791189908
         }
       ],
-      "challenge_achievement_count": 24,
+      "challenge_achievement_count": 26,
       "has_started": true,
       "is_complete": true,
       "completed_at": 1791064914,
@@ -476,7 +488,7 @@
       "stats_available": true,
       "wrote_review": true,
       "review_voted_up": true,
-      "review_timestamp": 0,
+      "review_timestamp": 1791059520,
       "review_recommendationid": "236843724",
       "review_url": "https://steamcommunity.com/profiles/76561198869194409/recommended/917950",
       "playtime_total_minutes": 447,
@@ -606,7 +618,7 @@
       "stats_available": true,
       "wrote_review": true,
       "review_voted_up": true,
-      "review_timestamp": 0,
+      "review_timestamp": 1791125880,
       "review_recommendationid": "236922773",
       "review_url": "https://steamcommunity.com/profiles/76561198359284432/recommended/917950",
       "playtime_total_minutes": 822,
@@ -910,6 +922,94 @@
       "is_winner": false
     },
     {
+      "username": "DrTenma",
+      "sg_username": "DrTenma",
+      "steam_id": "76561198054649894",
+      "avatar_url": "https://avatars.steamstatic.com/545e37de57389a0c5bd6762e0f6b5bf92d8de31a_medium.jpg",
+      "profile_url": "https://steamcommunity.com/profiles/76561198054649894",
+      "is_guest": false,
+      "owned": true,
+      "stats_available": true,
+      "wrote_review": false,
+      "review_voted_up": null,
+      "review_timestamp": null,
+      "review_recommendationid": null,
+      "review_url": null,
+      "playtime_total_minutes": 211,
+      "playtime_2weeks_minutes": 211,
+      "baseline_playtime_minutes": 0,
+      "playtime_challenge_minutes": 211,
+      "achievements_total": 36,
+      "achievements_unlocked_total": 9,
+      "achievements_before_challenge": 0,
+      "achievements_since_baseline": 9,
+      "challenge_achievements": [
+        {
+          "apiname": "SPELLS_1",
+          "displayName": "Expanded Vocabulary",
+          "description": "Unlock a new Spell.",
+          "unlocktime": 1790955955
+        },
+        {
+          "apiname": "CORES_1",
+          "displayName": "Ink Exploration",
+          "description": "Unlock a new Signature Ink.",
+          "unlocktime": 1790955955
+        },
+        {
+          "apiname": "TOMES_MENDED_1",
+          "displayName": "It was the Best of Times",
+          "description": "Mend your first Tome.",
+          "unlocktime": 1790957056
+        },
+        {
+          "apiname": "INKLEVEL_2",
+          "displayName": "Ding!",
+          "description": "Reach Ink Level 2.",
+          "unlocktime": 1790957217
+        },
+        {
+          "apiname": "FLOURISH_DAMAGE_3000",
+          "displayName": "That's a lot of Damage",
+          "description": "Flourish for more than 3000 Damage.",
+          "unlocktime": 1790960013
+        },
+        {
+          "apiname": "TOMES_MENDED_LVL1",
+          "displayName": "Rising Action",
+          "description": "Mend a Tome at Binding Level 1.",
+          "unlocktime": 1790960348
+        },
+        {
+          "apiname": "TOMES_MENDED_5",
+          "displayName": "Setting the Foundation",
+          "description": "Mend 5 Tomes.",
+          "unlocktime": 1791189202
+        },
+        {
+          "apiname": "INKLEVEL_10",
+          "displayName": "Second Edition",
+          "description": "Reach Ink Level 10.",
+          "unlocktime": 1791191708
+        },
+        {
+          "apiname": "TOMES_MENDED_LVL5",
+          "displayName": "High Stakes",
+          "description": "Mend a Tome at Binding Level 5.",
+          "unlocktime": 1791193194
+        }
+      ],
+      "challenge_achievement_count": 9,
+      "has_started": true,
+      "is_complete": false,
+      "completed_at": null,
+      "completed_before_start": false,
+      "completed_after_deadline": false,
+      "meets_playtime": true,
+      "meets_review": false,
+      "is_winner": false
+    },
+    {
       "username": "adam1224",
       "sg_username": "adam1224",
       "steam_id": "76561198025823574",
@@ -1037,76 +1137,6 @@
           "displayName": "Regular Shakespeare",
           "description": "Unlock  5 Spells.",
           "unlocktime": 1791033262
-        }
-      ],
-      "challenge_achievement_count": 6,
-      "has_started": true,
-      "is_complete": false,
-      "completed_at": null,
-      "completed_before_start": false,
-      "completed_after_deadline": false,
-      "meets_playtime": true,
-      "meets_review": false,
-      "is_winner": false
-    },
-    {
-      "username": "DrTenma",
-      "sg_username": "DrTenma",
-      "steam_id": "76561198054649894",
-      "avatar_url": "https://avatars.steamstatic.com/545e37de57389a0c5bd6762e0f6b5bf92d8de31a_medium.jpg",
-      "profile_url": "https://steamcommunity.com/profiles/76561198054649894",
-      "is_guest": false,
-      "owned": true,
-      "stats_available": true,
-      "wrote_review": false,
-      "review_voted_up": null,
-      "review_timestamp": null,
-      "review_recommendationid": null,
-      "review_url": null,
-      "playtime_total_minutes": 113,
-      "playtime_2weeks_minutes": 113,
-      "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 113,
-      "achievements_total": 36,
-      "achievements_unlocked_total": 6,
-      "achievements_before_challenge": 0,
-      "achievements_since_baseline": 6,
-      "challenge_achievements": [
-        {
-          "apiname": "SPELLS_1",
-          "displayName": "Expanded Vocabulary",
-          "description": "Unlock a new Spell.",
-          "unlocktime": 1790955955
-        },
-        {
-          "apiname": "CORES_1",
-          "displayName": "Ink Exploration",
-          "description": "Unlock a new Signature Ink.",
-          "unlocktime": 1790955955
-        },
-        {
-          "apiname": "TOMES_MENDED_1",
-          "displayName": "It was the Best of Times",
-          "description": "Mend your first Tome.",
-          "unlocktime": 1790957056
-        },
-        {
-          "apiname": "INKLEVEL_2",
-          "displayName": "Ding!",
-          "description": "Reach Ink Level 2.",
-          "unlocktime": 1790957217
-        },
-        {
-          "apiname": "FLOURISH_DAMAGE_3000",
-          "displayName": "That's a lot of Damage",
-          "description": "Flourish for more than 3000 Damage.",
-          "unlocktime": 1790960013
-        },
-        {
-          "apiname": "TOMES_MENDED_LVL1",
-          "displayName": "Rising Action",
-          "description": "Mend a Tome at Binding Level 1.",
-          "unlocktime": 1790960348
         }
       ],
       "challenge_achievement_count": 6,
@@ -1646,6 +1676,39 @@
       "meets_playtime": true,
       "meets_review": false,
       "is_winner": false
+    },
+    {
+      "username": "Krystie",
+      "sg_username": "Krystie",
+      "steam_id": "76561198164999453",
+      "avatar_url": "https://avatars.steamstatic.com/8b84adbdb97b0f57819150d36cc300715d8ba5c5_medium.jpg",
+      "profile_url": "https://steamcommunity.com/profiles/76561198164999453",
+      "is_guest": false,
+      "owned": true,
+      "stats_available": true,
+      "wrote_review": false,
+      "review_voted_up": null,
+      "review_timestamp": null,
+      "review_recommendationid": null,
+      "review_url": null,
+      "playtime_total_minutes": 0,
+      "playtime_2weeks_minutes": 0,
+      "baseline_playtime_minutes": 0,
+      "playtime_challenge_minutes": 0,
+      "achievements_total": 36,
+      "achievements_unlocked_total": 0,
+      "achievements_before_challenge": 0,
+      "achievements_since_baseline": 0,
+      "challenge_achievements": [],
+      "challenge_achievement_count": 0,
+      "has_started": false,
+      "is_complete": false,
+      "completed_at": null,
+      "completed_before_start": false,
+      "completed_after_deadline": false,
+      "meets_playtime": true,
+      "meets_review": false,
+      "is_winner": false
     }
   ],
   "nonParticipants": [
@@ -1736,7 +1799,8 @@
       "yugimax",
       "Carrei",
       "FragolaPorpora",
-      "CuteEnby"
+      "CuteEnby",
+      "Krystie"
     ],
     "guests": [
       {
