@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1790812800,
   "totalAchievements": 36,
-  "generatedAt": 1791162722001,
+  "generatedAt": 1791178542069,
   "challengeOver": false,
   "winnerUsername": "CatzZz",
   "participants": [
@@ -805,14 +805,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 631,
-      "playtime_2weeks_minutes": 631,
+      "playtime_total_minutes": 720,
+      "playtime_2weeks_minutes": 720,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 631,
+      "playtime_challenge_minutes": 720,
       "achievements_total": 36,
-      "achievements_unlocked_total": 12,
+      "achievements_unlocked_total": 13,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 12,
+      "achievements_since_baseline": 13,
       "challenge_achievements": [
         {
           "apiname": "CORES_1",
@@ -885,9 +885,15 @@
           "displayName": "And In The Darkness...",
           "description": "Mend a Tome at Binding Level 10.",
           "unlocktime": 1791096892
+        },
+        {
+          "apiname": "APPENDIX_1",
+          "displayName": "Going the Distance",
+          "description": "Defeat a Torn Boss at Appendix 1 during an Endless Run.",
+          "unlocktime": 1791173909
         }
       ],
-      "challenge_achievement_count": 12,
+      "challenge_achievement_count": 13,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
