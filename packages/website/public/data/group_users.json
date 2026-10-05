@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1791164468855,
+  "lastUpdated": 1791180186342,
   "users": {
     "76561198359284432": {
       "username": "a10i",
@@ -736,7 +736,7 @@
       ],
       "registered_at": 1717855880,
       "last_online_at": 1791149685,
-      "last_online_checked_at": 1791164254835
+      "last_online_checked_at": 1791180069441
     },
     "76561198053065013": {
       "username": "aez76",
@@ -744,26 +744,26 @@
       "avatar_url": "https://avatars.steamstatic.com/b5eae171031d9da84f7a3320ee1c73df6f0cbce1_medium.jpg",
       "steam_id": "76561198053065013",
       "stats": {
-        "total_sent_count": 7.3,
-        "total_sent_value": 267.59,
+        "total_sent_count": 8.3,
+        "total_sent_value": 307.58,
         "total_received_count": 4.3,
         "total_received_value": 111.46,
-        "total_gift_difference": 3.1,
-        "total_value_difference": 156.14,
-        "fcv_sent_count": 6,
+        "total_gift_difference": 4.1,
+        "total_value_difference": 196.13,
+        "fcv_sent_count": 7,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
         "fcv_received_count": 4,
         "rcv_received_count": 0,
         "ncv_received_count": 0,
-        "fcv_gift_difference": 2,
+        "fcv_gift_difference": 3,
         "real_total_sent_value": 230.94,
         "real_total_received_value": 109.96,
         "real_total_value_difference": 120.98,
-        "real_total_sent_count": 6,
+        "real_total_sent_count": 7,
         "real_total_received_count": 4,
-        "real_total_gift_difference": 2,
-        "giveaway_ratio": 5.33,
+        "real_total_gift_difference": 3,
+        "giveaway_ratio": 6.33,
         "shared_sent_count": 2,
         "shared_received_count": 1,
         "giveaways_created": 10,
@@ -918,9 +918,10 @@
           "had_winners": true,
           "winners": [
             {
-              "name": null,
-              "status": "awaiting_feedback",
-              "activated": false
+              "name": "76561197989397004",
+              "winner_username": "Noodles91",
+              "status": "received",
+              "activated": true
             }
           ]
         },
@@ -1140,8 +1141,8 @@
         }
       ],
       "registered_at": 1675845589,
-      "last_online_at": 1791159598,
-      "last_online_checked_at": 1791164255334
+      "last_online_at": 1791170875,
+      "last_online_checked_at": 1791180069897
     },
     "76561198047330685": {
       "username": "akfas",
@@ -2210,7 +2211,7 @@
       ],
       "registered_at": 1387650150,
       "last_online_at": 1791147945,
-      "last_online_checked_at": 1791164255838
+      "last_online_checked_at": 1791180070348
     },
     "76561198453663783": {
       "username": "Almostn33t",
@@ -3461,8 +3462,8 @@
         }
       ],
       "registered_at": 1693165401,
-      "last_online_at": 1791159219,
-      "last_online_checked_at": 1791164256523
+      "last_online_at": 1791178464,
+      "last_online_checked_at": 1791180070806
     },
     "76561198075940587": {
       "username": "Alpha2749",
@@ -3616,7 +3617,7 @@
       ],
       "registered_at": 1461156254,
       "last_online_at": 1785845393,
-      "last_online_checked_at": 1791164257026,
+      "last_online_checked_at": 1791180071260,
       "warnings": [
         "no_giveaway_created_in_6_months"
       ]
@@ -3906,8 +3907,8 @@
         }
       ],
       "registered_at": 1734201280,
-      "last_online_at": 1791157594,
-      "last_online_checked_at": 1791164257513
+      "last_online_at": 1791174262,
+      "last_online_checked_at": 1791180071698
     },
     "76561198063900528": {
       "username": "Atro",
@@ -4281,8 +4282,8 @@
         }
       ],
       "registered_at": 1686500294,
-      "last_online_at": 1791162611,
-      "last_online_checked_at": 1791164258001
+      "last_online_at": 1791170038,
+      "last_online_checked_at": 1791180072142
     },
     "76561198009116714": {
       "username": "atti",
@@ -4345,7 +4346,7 @@
       ],
       "registered_at": 1329064460,
       "last_online_at": 1790975300,
-      "last_online_checked_at": 1791164258493
+      "last_online_checked_at": 1791180072588
     },
     "76561198025798123": {
       "username": "axlnase",
@@ -4790,8 +4791,8 @@
         }
       ],
       "registered_at": 1564326024,
-      "last_online_at": 1791164259,
-      "last_online_checked_at": 1791164259008,
+      "last_online_at": 1791180073,
+      "last_online_checked_at": 1791180073051,
       "warnings": [
         "zero_play_rate_with_wins"
       ]
@@ -6362,8 +6363,8 @@
         }
       ],
       "registered_at": 1733753264,
-      "last_online_at": 1791164259,
-      "last_online_checked_at": 1791164259501
+      "last_online_at": 1791180073,
+      "last_online_checked_at": 1791180073497
     },
     "76561198055181554": {
       "username": "Bainsol",
@@ -6765,7 +6766,8 @@
           "required_play": false,
           "is_shared": false,
           "deleted": true,
-          "deleted_reason": "Selected Incorrect Game or Information"
+          "deleted_reason": "Selected Incorrect Game or Information",
+          "had_winners": false
         },
         {
           "name": "Duskfade",
@@ -7264,8 +7266,8 @@
         }
       ],
       "registered_at": 1387216989,
-      "last_online_at": 1791149982,
-      "last_online_checked_at": 1791164259993
+      "last_online_at": 1791178611,
+      "last_online_checked_at": 1791180073941
     },
     "76561198250732560": {
       "username": "BarbaricGenie",
@@ -7295,9 +7297,9 @@
         "giveaway_ratio": 7.67,
         "shared_sent_count": 23,
         "shared_received_count": 0,
-        "giveaways_created": 29,
+        "giveaways_created": 30,
         "giveaways_with_no_entries": 0,
-        "last_giveaway_created_at": 1790857394,
+        "last_giveaway_created_at": 1791168013,
         "last_giveaway_won_at": 1785772740,
         "first_seen_at": 1750362193,
         "total_achievements_percentage": 41,
@@ -7416,6 +7418,28 @@
       ],
       "giveaways_created": [
         {
+          "name": "Hellblade II: Senua’s Saga",
+          "link": "RJWwY/hellblade-ii-senuas-saga",
+          "cv_status": "FULL_CV",
+          "entries": 4,
+          "copies": 1,
+          "created_timestamp": 1791168013,
+          "end_timestamp": 1791345600,
+          "required_play": true,
+          "is_shared": false
+        },
+        {
+          "name": "How to Fish",
+          "link": "I189Q/how-to-fish",
+          "cv_status": "FULL_CV",
+          "entries": 1,
+          "copies": 1,
+          "created_timestamp": 1791166600,
+          "end_timestamp": 1791345600,
+          "required_play": false,
+          "is_shared": false
+        },
+        {
           "name": "The Outlast Trials",
           "link": "bjQUg/the-outlast-trials",
           "cv_status": "FULL_CV",
@@ -7424,7 +7448,10 @@
           "created_timestamp": 1790857394,
           "end_timestamp": 1791172800,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "deleted": true,
+          "deleted_reason": "Accident",
+          "had_winners": false
         },
         {
           "name": "Dying Light 2 Stay Human: Reloaded Ed...",
@@ -8058,8 +8085,8 @@
         }
       ],
       "registered_at": 1462160899,
-      "last_online_at": 1791162089,
-      "last_online_checked_at": 1791164260495
+      "last_online_at": 1791180074,
+      "last_online_checked_at": 1791180074392
     },
     "76561198024970451": {
       "username": "BorjaGRouco",
@@ -10717,8 +10744,8 @@
         }
       ],
       "registered_at": 1372709126,
-      "last_online_at": 1791148836,
-      "last_online_checked_at": 1791164261005
+      "last_online_at": 1791174960,
+      "last_online_checked_at": 1791180074846
     },
     "76561198025173613": {
       "username": "Carenard",
@@ -12395,8 +12422,8 @@
         }
       ],
       "registered_at": 1356926034,
-      "last_online_at": 1791162154,
-      "last_online_checked_at": 1791164261506
+      "last_online_at": 1791173312,
+      "last_online_checked_at": 1791180075302
     },
     "76561198224589020": {
       "username": "Carrei",
@@ -12404,26 +12431,26 @@
       "avatar_url": "https://avatars.steamstatic.com/a7551363c6eb1d68b4751c34777cecd6cf1657d4_medium.jpg",
       "steam_id": "76561198224589020",
       "stats": {
-        "total_sent_count": 14.7,
-        "total_sent_value": 307.45,
+        "total_sent_count": 15.7,
+        "total_sent_value": 321.44,
         "total_received_count": 6.3,
         "total_received_value": 110.44,
-        "total_gift_difference": 8.4,
-        "total_value_difference": 197.02,
-        "fcv_sent_count": 12,
+        "total_gift_difference": 9.4,
+        "total_value_difference": 211.01,
+        "fcv_sent_count": 13,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
         "fcv_received_count": 5,
         "rcv_received_count": 0,
         "ncv_received_count": 0,
-        "fcv_gift_difference": 7,
-        "real_total_sent_value": 206.39,
+        "fcv_gift_difference": 8,
+        "real_total_sent_value": 220.38,
         "real_total_received_value": 82.95,
-        "real_total_value_difference": 123.44,
-        "real_total_sent_count": 12,
+        "real_total_value_difference": 137.43,
+        "real_total_sent_count": 13,
         "real_total_received_count": 5,
-        "real_total_gift_difference": 7,
-        "giveaway_ratio": 10.67,
+        "real_total_gift_difference": 8,
+        "giveaway_ratio": 11.67,
         "shared_sent_count": 5,
         "shared_received_count": 3,
         "giveaways_created": 18,
@@ -12614,7 +12641,16 @@
           "created_timestamp": 1790984519,
           "end_timestamp": 1791172800,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "76561199434715535",
+              "winner_username": "DancingXmas",
+              "status": "received",
+              "activated": true
+            }
+          ]
         },
         {
           "name": "Endacopia",
@@ -13015,8 +13051,8 @@
         }
       ],
       "registered_at": 1600605500,
-      "last_online_at": 1791142393,
-      "last_online_checked_at": 1791164261996
+      "last_online_at": 1791178256,
+      "last_online_checked_at": 1791180075745
     },
     "76561197982025537": {
       "username": "Casino0",
@@ -13266,7 +13302,7 @@
       ],
       "registered_at": 1357845464,
       "last_online_at": 1791162184,
-      "last_online_checked_at": 1791164262487
+      "last_online_checked_at": 1791180076188
     },
     "76561197962863579": {
       "username": "CatzZz",
@@ -14306,9 +14342,9 @@
           ]
         }
       ],
-      "registered_at": 1376353375,
-      "last_online_at": 1791148139,
-      "last_online_checked_at": 1791164262994
+      "last_online_at": 1791171764,
+      "last_online_checked_at": 1791180076655,
+      "registered_at": 1376353375
     },
     "76561199481088028": {
       "username": "ConanOLion",
@@ -14899,7 +14935,7 @@
       ],
       "registered_at": 1706928212,
       "last_online_at": 1780927501,
-      "last_online_checked_at": 1791164263494,
+      "last_online_checked_at": 1791180077105,
       "warnings": [
         "no_giveaway_created_in_6_months"
       ]
@@ -15590,7 +15626,7 @@
       ],
       "registered_at": 1354213100,
       "last_online_at": 1791138165,
-      "last_online_checked_at": 1791164263995
+      "last_online_checked_at": 1791180077549
     },
     "76561198055569704": {
       "username": "CuteEnby",
@@ -17675,7 +17711,7 @@
       ],
       "registered_at": 1723026742,
       "last_online_at": 1790877329,
-      "last_online_checked_at": 1791164264489,
+      "last_online_checked_at": 1791180077996,
       "warnings": [
         "required_plays_need_review"
       ]
@@ -19429,7 +19465,7 @@
           "name": "Feed the Deep",
           "link": "uae50/feed-the-deep",
           "cv_status": "FULL_CV",
-          "entries": 5,
+          "entries": 4,
           "copies": 1,
           "created_timestamp": 1790786680,
           "end_timestamp": 1791214980,
@@ -20174,7 +20210,7 @@
       ],
       "registered_at": 1459450873,
       "last_online_at": 1791157164,
-      "last_online_checked_at": 1791164264995
+      "last_online_checked_at": 1791180078469
     },
     "76561198066598689": {
       "username": "DancingVaquinha",
@@ -20923,7 +20959,7 @@
       ],
       "registered_at": 1389297430,
       "last_online_at": 1791126828,
-      "last_online_checked_at": 1791164265485,
+      "last_online_checked_at": 1791180078910,
       "warnings": [
         "required_plays_need_review",
         "low_play_rate_many_wins"
@@ -20937,30 +20973,30 @@
       "stats": {
         "total_sent_count": 14.5,
         "total_sent_value": 543.19,
-        "total_received_count": 12.5,
-        "total_received_value": 240.88,
-        "total_gift_difference": 2,
-        "total_value_difference": 302.31,
+        "total_received_count": 13.5,
+        "total_received_value": 254.87,
+        "total_gift_difference": 1,
+        "total_value_difference": 288.32,
         "fcv_sent_count": 11,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
-        "fcv_received_count": 11,
+        "fcv_received_count": 12,
         "rcv_received_count": 0,
         "ncv_received_count": 0,
-        "fcv_gift_difference": 0,
+        "fcv_gift_difference": -1,
         "real_total_sent_value": 444.9,
-        "real_total_received_value": 230.89,
-        "real_total_value_difference": 214.01,
+        "real_total_received_value": 244.88,
+        "real_total_value_difference": 200.02,
         "real_total_sent_count": 11,
-        "real_total_received_count": 11,
-        "real_total_gift_difference": 0,
-        "giveaway_ratio": 8.33,
+        "real_total_received_count": 12,
+        "real_total_gift_difference": -1,
+        "giveaway_ratio": 8,
         "shared_sent_count": 11,
         "shared_received_count": 2,
         "giveaways_created": 25,
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1790790981,
-        "last_giveaway_won_at": 1789869600,
+        "last_giveaway_won_at": 1791172800,
         "first_seen_at": 1780687737,
         "total_achievements_percentage": 29,
         "average_achievements_percentage": 29,
@@ -20973,6 +21009,15 @@
       "steam_profile_is_private": false,
       "country_code": null,
       "giveaways_won": [
+        {
+          "name": "Sol Cesto",
+          "link": "Qz3Fz/sol-cesto",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1791172800,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "OneShot: World Machine Edition",
           "link": "kRd2x/oneshot-world-machine-edition",
@@ -21250,7 +21295,7 @@
           "name": "Cronos: The New Dawn",
           "link": "d2Vfg/cronos-the-new-dawn",
           "cv_status": "FULL_CV",
-          "entries": 23,
+          "entries": 24,
           "copies": 1,
           "created_timestamp": 1790790981,
           "end_timestamp": 1793073540,
@@ -21261,7 +21306,7 @@
           "name": "SILENT HILL 2",
           "link": "dGxdN/silent-hill-2",
           "cv_status": "FULL_CV",
-          "entries": 21,
+          "entries": 22,
           "copies": 1,
           "created_timestamp": 1790790771,
           "end_timestamp": 1793073540,
@@ -21792,8 +21837,8 @@
         }
       ],
       "registered_at": 1742791493,
-      "last_online_at": 1791161470,
-      "last_online_checked_at": 1791164265970
+      "last_online_at": 1791178148,
+      "last_online_checked_at": 1791180079352
     },
     "76561198053885117": {
       "username": "Dandellion",
@@ -22514,7 +22559,7 @@
       ],
       "registered_at": 1366039494,
       "last_online_at": 1779480100,
-      "last_online_checked_at": 1791164266467,
+      "last_online_checked_at": 1791180079795,
       "warnings": [
         "no_giveaway_created_in_6_months"
       ]
@@ -22866,7 +22911,7 @@
       ],
       "registered_at": 1683235340,
       "last_online_at": 1791160867,
-      "last_online_checked_at": 1791164266958
+      "last_online_checked_at": 1791180080244
     },
     "76561198025834664": {
       "username": "decipherer",
@@ -23727,8 +23772,8 @@
         }
       ],
       "registered_at": 1554131200,
-      "last_online_at": 1791164267,
-      "last_online_checked_at": 1791164267457,
+      "last_online_at": 1791180080,
+      "last_online_checked_at": 1791180080695,
       "warnings": [
         "low_play_rate_many_wins"
       ]
@@ -24241,7 +24286,7 @@
       ],
       "registered_at": 1738554041,
       "last_online_at": 1791032737,
-      "last_online_checked_at": 1791164267948
+      "last_online_checked_at": 1791180081142
     },
     "76561198041749780": {
       "username": "doubleomurfy",
@@ -26478,8 +26523,8 @@
         }
       ],
       "registered_at": 1426781554,
-      "last_online_at": 1791164268,
-      "last_online_checked_at": 1791164268460
+      "last_online_at": 1791177076,
+      "last_online_checked_at": 1791180081603
     },
     "76561198408001048": {
       "username": "dramainfouracts",
@@ -27004,8 +27049,8 @@
         }
       ],
       "registered_at": 1767735036,
-      "last_online_at": 1791161389,
-      "last_online_checked_at": 1791164268949
+      "last_online_at": 1791180082,
+      "last_online_checked_at": 1791180082047
     },
     "76561198013676011": {
       "username": "drbeckett",
@@ -27230,8 +27275,8 @@
         }
       ],
       "registered_at": 1332633740,
-      "last_online_at": 1791161605,
-      "last_online_checked_at": 1791164269444,
+      "last_online_at": 1791178520,
+      "last_online_checked_at": 1791180082503,
       "warnings": [
         "no_giveaway_created_in_6_months"
       ]
@@ -27645,7 +27690,7 @@
           "name": "FATAL FRAME II: Crimson Butterfly REMAKE",
           "link": "W9147/fatal-frame-ii-crimson-butterfly-remake",
           "cv_status": "FULL_CV",
-          "entries": 16,
+          "entries": 17,
           "copies": 1,
           "created_timestamp": 1790877208,
           "end_timestamp": 1791226800,
@@ -28440,7 +28485,7 @@
       ],
       "registered_at": 1516788080,
       "last_online_at": 1791111126,
-      "last_online_checked_at": 1791164269950
+      "last_online_checked_at": 1791180082963
     },
     "76561198020386807": {
       "username": "eeev",
@@ -29871,7 +29916,7 @@
       ],
       "registered_at": 1407444209,
       "last_online_at": 1791155217,
-      "last_online_checked_at": 1791164270465,
+      "last_online_checked_at": 1791180083429,
       "warnings": [
         "required_plays_need_review"
       ]
@@ -31271,7 +31316,7 @@
       ],
       "registered_at": 1359729643,
       "last_online_at": 1791131512,
-      "last_online_checked_at": 1791164270973,
+      "last_online_checked_at": 1791180083906,
       "warnings": [
         "required_plays_need_review"
       ]
@@ -32294,7 +32339,7 @@
       ],
       "registered_at": 1376654490,
       "last_online_at": 1791151533,
-      "last_online_checked_at": 1791164271486,
+      "last_online_checked_at": 1791180084374,
       "warnings": [
         "low_play_rate_many_wins"
       ]
@@ -33924,8 +33969,8 @@
         }
       ],
       "registered_at": 1416691927,
-      "last_online_at": 1791159299,
-      "last_online_checked_at": 1791164271998
+      "last_online_at": 1791171972,
+      "last_online_checked_at": 1791180084828
     },
     "76561198047981011": {
       "username": "Foxmonster",
@@ -34659,7 +34704,7 @@
       ],
       "registered_at": 1332544621,
       "last_online_at": 1791115101,
-      "last_online_checked_at": 1791164272492
+      "last_online_checked_at": 1791180085277
     },
     "76561197967055456": {
       "username": "Foxpile",
@@ -34904,7 +34949,7 @@
           "name": "TCG Card Shop Simulator",
           "link": "PaMo5/tcg-card-shop-simulator",
           "cv_status": "FULL_CV",
-          "entries": 54,
+          "entries": 55,
           "copies": 1,
           "created_timestamp": 1790762153,
           "end_timestamp": 1792490400,
@@ -35889,8 +35934,8 @@
         }
       ],
       "registered_at": 1647551922,
-      "last_online_at": 1791162966,
-      "last_online_checked_at": 1791164272987,
+      "last_online_at": 1791166024,
+      "last_online_checked_at": 1791180085725,
       "warnings": [
         "required_plays_need_review",
         "low_play_rate_many_wins"
@@ -36035,8 +36080,8 @@
         }
       ],
       "registered_at": 1768667870,
-      "last_online_at": 1791164273,
-      "last_online_checked_at": 1791164273473
+      "last_online_at": 1791172864,
+      "last_online_checked_at": 1791180086166
     },
     "76561198036424003": {
       "username": "GeekDoesStuff",
@@ -36670,7 +36715,7 @@
       ],
       "registered_at": 1704450043,
       "last_online_at": 1791124591,
-      "last_online_checked_at": 1791164273965
+      "last_online_checked_at": 1791180086615
     },
     "76561198066957402": {
       "username": "Gooberdragon",
@@ -38499,8 +38544,8 @@
         }
       ],
       "registered_at": 1740325672,
-      "last_online_at": 1791163068,
-      "last_online_checked_at": 1791164274458,
+      "last_online_at": 1791164459,
+      "last_online_checked_at": 1791180087062,
       "warnings": [
         "low_play_rate_many_wins"
       ]
@@ -39426,7 +39471,7 @@
       ],
       "registered_at": 1718174609,
       "last_online_at": 1791046385,
-      "last_online_checked_at": 1791164274949
+      "last_online_checked_at": 1791180087511
     },
     "76561198013734355": {
       "username": "gus09",
@@ -41500,7 +41545,7 @@
       ],
       "registered_at": 1717365021,
       "last_online_at": 1791148422,
-      "last_online_checked_at": 1791164275449
+      "last_online_checked_at": 1791180087961
     },
     "76561198027027643": {
       "username": "Hawkingmeister",
@@ -41900,7 +41945,7 @@
       ],
       "registered_at": 1699654104,
       "last_online_at": 1791156034,
-      "last_online_checked_at": 1791164275938
+      "last_online_checked_at": 1791180088404
     },
     "76561198082023389": {
       "username": "herbesdeprovence",
@@ -43567,7 +43612,7 @@
       ],
       "registered_at": 1391665067,
       "last_online_at": 1791155422,
-      "last_online_checked_at": 1791164276434
+      "last_online_checked_at": 1791180088858
     },
     "76561198236260938": {
       "username": "HUMoonlight",
@@ -43730,7 +43775,7 @@
       ],
       "registered_at": 1733586461,
       "last_online_at": 1791129905,
-      "last_online_checked_at": 1791164276924,
+      "last_online_checked_at": 1791180089310,
       "warnings": [
         "no_giveaway_created_in_6_months"
       ]
@@ -45191,8 +45236,8 @@
         }
       ],
       "registered_at": 1454506455,
-      "last_online_at": 1791164277,
-      "last_online_checked_at": 1791164277429,
+      "last_online_at": 1791174870,
+      "last_online_checked_at": 1791180089761,
       "warnings": [
         "required_play_deadline_within_15_days"
       ]
@@ -45318,7 +45363,7 @@
       ],
       "registered_at": 1757465596,
       "last_online_at": 1791071468,
-      "last_online_checked_at": 1791164277924
+      "last_online_checked_at": 1791180090207
     },
     "76561198015261565": {
       "username": "imminiman",
@@ -45948,8 +45993,8 @@
         }
       ],
       "registered_at": 1651359002,
-      "last_online_at": 1791147070,
-      "last_online_checked_at": 1791164278418,
+      "last_online_at": 1791176210,
+      "last_online_checked_at": 1791180090663,
       "warnings": [
         "low_play_rate_many_wins"
       ]
@@ -47177,8 +47222,8 @@
         }
       ],
       "registered_at": 1466572312,
-      "last_online_at": 1791162343,
-      "last_online_checked_at": 1791164278912
+      "last_online_at": 1791174009,
+      "last_online_checked_at": 1791180091111
     },
     "76561198118726910": {
       "username": "Ivannes",
@@ -48409,8 +48454,8 @@
         }
       ],
       "registered_at": 1399133452,
-      "last_online_at": 1791151928,
-      "last_online_checked_at": 1791164279421
+      "last_online_at": 1791171527,
+      "last_online_checked_at": 1791180091572
     },
     "76561198019838591": {
       "username": "jaaydee",
@@ -48656,7 +48701,7 @@
       ],
       "registered_at": 1346711062,
       "last_online_at": 1791144179,
-      "last_online_checked_at": 1791164279910
+      "last_online_checked_at": 1791180092023
     },
     "76561198347852739": {
       "username": "Jztr",
@@ -49578,7 +49623,7 @@
       ],
       "registered_at": 1516796686,
       "last_online_at": 1777105571,
-      "last_online_checked_at": 1791164280407,
+      "last_online_checked_at": 1791180092467,
       "warnings": [
         "no_giveaway_created_in_6_months"
       ]
@@ -49840,6 +49885,7 @@
       ],
       "registered_at": 1566375833,
       "last_online_at": 1781298397,
+      "last_online_checked_at": 1791180092924,
       "warnings": [
         "no_giveaway_created_in_6_months"
       ]
@@ -50393,7 +50439,7 @@
       ],
       "registered_at": 1716588938,
       "last_online_at": 1791153932,
-      "last_online_checked_at": 1791164341835
+      "last_online_checked_at": 1791180093367
     },
     "76561198040188513": {
       "username": "kiseli",
@@ -50873,8 +50919,8 @@
         }
       ],
       "registered_at": 1353457288,
-      "last_online_at": 1791149982,
-      "last_online_checked_at": 1791164342419,
+      "last_online_at": 1791180093,
+      "last_online_checked_at": 1791180093835,
       "warnings": [
         "low_play_rate_many_wins"
       ]
@@ -51229,7 +51275,7 @@
       ],
       "registered_at": 1461923967,
       "last_online_at": 1791114811,
-      "last_online_checked_at": 1791164342919,
+      "last_online_checked_at": 1791180094282,
       "warnings": [
         "no_giveaway_created_in_6_months"
       ]
@@ -52483,7 +52529,7 @@
       ],
       "registered_at": 1687667066,
       "last_online_at": 1791160322,
-      "last_online_checked_at": 1791164343433,
+      "last_online_checked_at": 1791180094732,
       "warnings": [
         "required_plays_need_review"
       ]
@@ -53145,7 +53191,7 @@
       ],
       "registered_at": 1686060569,
       "last_online_at": 1783108309,
-      "last_online_checked_at": 1791164343938,
+      "last_online_checked_at": 1791180095183,
       "warnings": [
         "required_play_deadline_expired"
       ]
@@ -56135,8 +56181,8 @@
         }
       ],
       "registered_at": 1308478596,
-      "last_online_at": 1791164344,
-      "last_online_checked_at": 1791164344482
+      "last_online_at": 1791167055,
+      "last_online_checked_at": 1791180095682
     },
     "76561198067727574": {
       "username": "LieEater",
@@ -56542,7 +56588,7 @@
       ],
       "registered_at": 1687775579,
       "last_online_at": 1791143361,
-      "last_online_checked_at": 1791164344991
+      "last_online_checked_at": 1791180096137
     },
     "76561198002504847": {
       "username": "LightningCount",
@@ -57053,8 +57099,8 @@
         }
       ],
       "registered_at": 1723065508,
-      "last_online_at": 1791145861,
-      "last_online_checked_at": 1791164345499
+      "last_online_at": 1791180096,
+      "last_online_checked_at": 1791180096588
     },
     "76561199028503777": {
       "username": "Lilyhia",
@@ -57084,9 +57130,9 @@
         "giveaway_ratio": 3.67,
         "shared_sent_count": 0,
         "shared_received_count": 0,
-        "giveaways_created": 4,
+        "giveaways_created": 5,
         "giveaways_with_no_entries": 0,
-        "last_giveaway_created_at": 1788393109,
+        "last_giveaway_created_at": 1791169442,
         "last_giveaway_won_at": 1775937600,
         "first_seen_at": 1766085927,
         "total_achievements_percentage": 100,
@@ -57121,6 +57167,17 @@
         }
       ],
       "giveaways_created": [
+        {
+          "name": "REKA",
+          "link": "2l8QV/reka",
+          "cv_status": "FULL_CV",
+          "entries": 1,
+          "copies": 1,
+          "created_timestamp": 1791169442,
+          "end_timestamp": 1791676800,
+          "required_play": false,
+          "is_shared": false
+        },
         {
           "name": "Escape from Ever After",
           "link": "kOvxc/escape-from-ever-after",
@@ -57209,8 +57266,8 @@
         }
       ],
       "registered_at": 1648316716,
-      "last_online_at": 1791164346,
-      "last_online_checked_at": 1791164346004
+      "last_online_at": 1791171787,
+      "last_online_checked_at": 1791180097039
     },
     "76561198000608288": {
       "username": "LinustheBold",
@@ -59194,8 +59251,8 @@
         }
       ],
       "registered_at": 1404925351,
-      "last_online_at": 1791164346,
-      "last_online_checked_at": 1791164346538,
+      "last_online_at": 1791177373,
+      "last_online_checked_at": 1791180097518,
       "warnings": [
         "required_play_deadline_expired"
       ]
@@ -59369,21 +59426,10 @@
       ],
       "giveaways_created": [
         {
-          "name": "Fobia - St. Dinfna Hotel",
-          "link": "tTM8y/fobia-st-dinfna-hotel",
-          "cv_status": "REDUCED_CV",
-          "entries": 23,
-          "copies": 1,
-          "created_timestamp": 1790546495,
-          "end_timestamp": 1791172800,
-          "required_play": false,
-          "is_shared": true
-        },
-        {
           "name": "Golf Peaks",
           "link": "sMcpA/golf-peaks",
           "cv_status": "FULL_CV",
-          "entries": 57,
+          "entries": 58,
           "copies": 1,
           "created_timestamp": 1790636345,
           "end_timestamp": 1791259200,
@@ -59405,7 +59451,7 @@
           "name": "Eastern Exorcist",
           "link": "p9UF7/eastern-exorcist",
           "cv_status": "REDUCED_CV",
-          "entries": 44,
+          "entries": 45,
           "copies": 1,
           "created_timestamp": 1790815742,
           "end_timestamp": 1791432000,
@@ -59433,6 +59479,25 @@
           "end_timestamp": 1791691200,
           "required_play": false,
           "is_shared": true
+        },
+        {
+          "name": "Fobia - St. Dinfna Hotel",
+          "link": "tTM8y/fobia-st-dinfna-hotel",
+          "cv_status": "REDUCED_CV",
+          "entries": 23,
+          "copies": 1,
+          "created_timestamp": 1790546495,
+          "end_timestamp": 1791172800,
+          "required_play": false,
+          "is_shared": true,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "Sonny Legacy Collection",
@@ -64008,8 +64073,8 @@
         }
       ],
       "registered_at": 1544272259,
-      "last_online_at": 1791154307,
-      "last_online_checked_at": 1791164347110
+      "last_online_at": 1791165690,
+      "last_online_checked_at": 1791180098030
     },
     "76561198042896883": {
       "username": "Lontaz",
@@ -65013,7 +65078,7 @@
       ],
       "registered_at": 1527446737,
       "last_online_at": 1791150245,
-      "last_online_checked_at": 1791164347627
+      "last_online_checked_at": 1791180098487
     },
     "76561198143588240": {
       "username": "LumpyCreature",
@@ -65393,7 +65458,7 @@
       ],
       "registered_at": 1744926458,
       "last_online_at": 1791120926,
-      "last_online_checked_at": 1791164348138
+      "last_online_checked_at": 1791180098929
     },
     "76561198117390871": {
       "username": "Mahry",
@@ -65666,7 +65731,7 @@
       ],
       "registered_at": 1708252112,
       "last_online_at": 1791149111,
-      "last_online_checked_at": 1791164348639
+      "last_online_checked_at": 1791180099383
     },
     "76561198035801987": {
       "username": "makki",
@@ -67586,8 +67651,8 @@
         }
       ],
       "registered_at": 1321200933,
-      "last_online_at": 1791164349,
-      "last_online_checked_at": 1791164349153
+      "last_online_at": 1791166224,
+      "last_online_checked_at": 1791180099840
     },
     "76561197999508776": {
       "username": "mathisgreat",
@@ -67895,8 +67960,8 @@
         }
       ],
       "registered_at": 1656204651,
-      "last_online_at": 1791157037,
-      "last_online_checked_at": 1791164349659
+      "last_online_at": 1791169681,
+      "last_online_checked_at": 1791180100288
     },
     "76561198010863049": {
       "username": "MedinaRoscoe",
@@ -68117,7 +68182,7 @@
       ],
       "registered_at": 1678282041,
       "last_online_at": 1791147171,
-      "last_online_checked_at": 1791164350162
+      "last_online_checked_at": 1791180100731
     },
     "76561198069420656": {
       "username": "Metalhead8489",
@@ -70245,8 +70310,8 @@
         }
       ],
       "registered_at": 1396356781,
-      "last_online_at": 1791161154,
-      "last_online_checked_at": 1791164350725
+      "last_online_at": 1791177414,
+      "last_online_checked_at": 1791180101234
     },
     "76561198452519450": {
       "username": "MikeWithAnI",
@@ -71186,7 +71251,7 @@
       ],
       "registered_at": 1615665668,
       "last_online_at": 1791152981,
-      "last_online_checked_at": 1791164351231
+      "last_online_checked_at": 1791180101682
     },
     "76561197975099685": {
       "username": "MrOuiOui",
@@ -72820,7 +72885,7 @@
       ],
       "registered_at": 1468451334,
       "last_online_at": 1791161927,
-      "last_online_checked_at": 1791164351750
+      "last_online_checked_at": 1791180102144
     },
     "76561197994770037": {
       "username": "NateSCC",
@@ -74226,8 +74291,8 @@
         }
       ],
       "registered_at": 1429272664,
-      "last_online_at": 1791164352,
-      "last_online_checked_at": 1791164352284
+      "last_online_at": 1791163191,
+      "last_online_checked_at": 1791180102614
     },
     "76561197989397004": {
       "username": "Noodles91",
@@ -74237,30 +74302,30 @@
       "stats": {
         "total_sent_count": 14,
         "total_sent_value": 407.19,
-        "total_received_count": 4.3,
-        "total_received_value": 92.96,
-        "total_gift_difference": 9.7,
-        "total_value_difference": 314.24,
+        "total_received_count": 5.3,
+        "total_received_value": 132.95,
+        "total_gift_difference": 8.7,
+        "total_value_difference": 274.25,
         "fcv_sent_count": 10,
         "rcv_sent_count": 0,
         "ncv_sent_count": 0,
-        "fcv_received_count": 4,
+        "fcv_received_count": 5,
         "rcv_received_count": 0,
         "ncv_received_count": 0,
-        "fcv_gift_difference": 6,
+        "fcv_gift_difference": 5,
         "real_total_sent_value": 277.9,
         "real_total_received_value": 82.96,
         "real_total_value_difference": 194.94,
         "real_total_sent_count": 10,
-        "real_total_received_count": 4,
-        "real_total_gift_difference": 6,
-        "giveaway_ratio": 9.33,
+        "real_total_received_count": 5,
+        "real_total_gift_difference": 5,
+        "giveaway_ratio": 9,
         "shared_sent_count": 12,
         "shared_received_count": 1,
         "giveaways_created": 20,
         "giveaways_with_no_entries": 0,
         "last_giveaway_created_at": 1790877701,
-        "last_giveaway_won_at": 1766613540,
+        "last_giveaway_won_at": 1790978460,
         "first_seen_at": 1749721466,
         "total_achievements_percentage": 66,
         "average_achievements_percentage": 68,
@@ -74273,6 +74338,17 @@
       "steam_profile_is_private": false,
       "country_code": "kz",
       "giveaways_won": [
+        {
+          "name": "Clive Barker's Hellraiser: Revival",
+          "link": "14xq4/clive-barkers-hellraiser-revival",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1790978460,
+          "required_play": true,
+          "is_shared": false,
+          "unreleased": true,
+          "release_date": "Oct 8, 2026"
+        },
         {
           "name": "The Invincible",
           "link": "HprHp/the-invincible",
@@ -74834,8 +74910,8 @@
         }
       ],
       "registered_at": 1324555348,
-      "last_online_at": 1791148851,
-      "last_online_checked_at": 1791164352790
+      "last_online_at": 1791177211,
+      "last_online_checked_at": 1791180103060
     },
     "76561198047121855": {
       "username": "OlOAyCT",
@@ -75490,7 +75566,7 @@
       ],
       "registered_at": 1457824896,
       "last_online_at": 1787669972,
-      "last_online_checked_at": 1791164353331,
+      "last_online_checked_at": 1791180103528,
       "warnings": [
         "no_giveaway_created_in_6_months"
       ]
@@ -76143,8 +76219,7 @@
         }
       ],
       "registered_at": 1420146212,
-      "last_online_at": 1791164353,
-      "last_online_checked_at": 1791164353850,
+      "last_online_at": 1791177905,
       "warnings": [
         "unplayed_required_play_giveaways"
       ]
@@ -76757,8 +76832,8 @@
         }
       ],
       "registered_at": 1446802313,
-      "last_online_at": 1791155959,
-      "last_online_checked_at": 1791164354362
+      "last_online_at": 1791176036,
+      "last_online_checked_at": 1791180164728
     },
     "76561198315443582": {
       "username": "Patxxv",
@@ -80119,7 +80194,7 @@
       ],
       "registered_at": 1696956849,
       "last_online_at": 1780096675,
-      "last_online_checked_at": 1791164354883,
+      "last_online_checked_at": 1791180165232,
       "warnings": [
         "low_play_rate_many_wins"
       ]
@@ -80974,7 +81049,7 @@
       ],
       "registered_at": 1501153145,
       "last_online_at": 1791153468,
-      "last_online_checked_at": 1791164355397
+      "last_online_checked_at": 1791180165700
     },
     "76561198027595057": {
       "username": "PoeticKatana",
@@ -82966,8 +83041,8 @@
         }
       ],
       "registered_at": 1641833598,
-      "last_online_at": 1791160535,
-      "last_online_checked_at": 1791164355913
+      "last_online_at": 1791180166,
+      "last_online_checked_at": 1791180166176
     },
     "76561197994025244": {
       "username": "PsychoApeMan",
@@ -84195,8 +84270,8 @@
         }
       ],
       "registered_at": 1470063563,
-      "last_online_at": 1791164356,
-      "last_online_checked_at": 1791164356453
+      "last_online_at": 1791167634,
+      "last_online_checked_at": 1791180166673
     },
     "76561198069567036": {
       "username": "puninup",
@@ -84498,7 +84573,7 @@
       ],
       "registered_at": 1702365852,
       "last_online_at": 1791150309,
-      "last_online_checked_at": 1791164356961
+      "last_online_checked_at": 1791180167130
     },
     "76561198048462370": {
       "username": "QuinlanLJ",
@@ -87551,8 +87626,8 @@
         }
       ],
       "registered_at": 1332784435,
-      "last_online_at": 1791155758,
-      "last_online_checked_at": 1791164357470
+      "last_online_at": 1791180167,
+      "last_online_checked_at": 1791180167586
     },
     "76561198117650232": {
       "username": "quinnix",
@@ -88212,7 +88287,7 @@
       ],
       "registered_at": 1406661474,
       "last_online_at": 1791160833,
-      "last_online_checked_at": 1791164357980
+      "last_online_checked_at": 1791180168056
     },
     "76561198411996697": {
       "username": "RaitorHaitor",
@@ -89297,8 +89372,8 @@
         }
       ],
       "registered_at": 1769544921,
-      "last_online_at": 1791161807,
-      "last_online_checked_at": 1791164358480
+      "last_online_at": 1791174598,
+      "last_online_checked_at": 1791180168507
     },
     "76561198075742770": {
       "username": "Realtione",
@@ -89518,7 +89593,7 @@
       ],
       "registered_at": 1358374940,
       "last_online_at": 1787277150,
-      "last_online_checked_at": 1791164359226
+      "last_online_checked_at": 1791180168964
     },
     "76561197960990984": {
       "username": "RePlayBe",
@@ -90216,8 +90291,8 @@
         }
       ],
       "registered_at": 1320937373,
-      "last_online_at": 1791164359,
-      "last_online_checked_at": 1791164359732
+      "last_online_at": 1791172946,
+      "last_online_checked_at": 1791180169429
     },
     "76561198044604507": {
       "username": "Rinocap",
@@ -90956,7 +91031,7 @@
       ],
       "registered_at": 1597572507,
       "last_online_at": 1791162114,
-      "last_online_checked_at": 1791164360239,
+      "last_online_checked_at": 1791180169889,
       "warnings": [
         "required_play_deadline_within_15_days"
       ]
@@ -91919,7 +91994,7 @@
       ],
       "registered_at": 1592258916,
       "last_online_at": 1791147774,
-      "last_online_checked_at": 1791164360757
+      "last_online_checked_at": 1791180170373
     },
     "76561198054324521": {
       "username": "Sakakino",
@@ -92438,12 +92513,20 @@
           "name": "近畿霊務局 - Kinki Spiritual Affairs Bureau",
           "link": "UrwKC/jin-ji-ling-wu-ju-kinki-spiritual-affairs-bureau",
           "cv_status": "FULL_CV",
-          "entries": 3,
+          "entries": 2,
           "copies": 1,
           "created_timestamp": 1790912794,
           "end_timestamp": 1791169200,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "Return of the Obra Dinn",
@@ -92454,7 +92537,15 @@
           "created_timestamp": 1790911198,
           "end_timestamp": 1791169200,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": null,
+              "status": "awaiting_feedback",
+              "activated": false
+            }
+          ]
         },
         {
           "name": "Little Lighthouse of Horror",
@@ -93036,8 +93127,8 @@
         }
       ],
       "registered_at": 1717718902,
-      "last_online_at": 1791161611,
-      "last_online_checked_at": 1791164361262
+      "last_online_at": 1791180170,
+      "last_online_checked_at": 1791180170832
     },
     "76561198001969728": {
       "username": "schmoan",
@@ -93799,7 +93890,7 @@
       ],
       "registered_at": 1510302093,
       "last_online_at": 1790969640,
-      "last_online_checked_at": 1791164361767
+      "last_online_checked_at": 1791180171291
     },
     "76561198061837588": {
       "username": "Serpentus",
@@ -94234,8 +94325,8 @@
         }
       ],
       "registered_at": 1671939321,
-      "last_online_at": 1791164362,
-      "last_online_checked_at": 1791164362275
+      "last_online_at": 1791180171,
+      "last_online_checked_at": 1791180171753
     },
     "76561198329577355": {
       "username": "shandyseggs",
@@ -94328,7 +94419,7 @@
       ],
       "registered_at": 1546834452,
       "last_online_at": 1771254914,
-      "last_online_checked_at": 1791164362775,
+      "last_online_checked_at": 1791180172202,
       "warnings": [
         "no_giveaway_created_in_6_months"
       ]
@@ -94891,7 +94982,7 @@
       ],
       "registered_at": 1720719560,
       "last_online_at": 1791159347,
-      "last_online_checked_at": 1791164363284
+      "last_online_checked_at": 1791180172653
     },
     "76561198118320246": {
       "username": "Shughes91",
@@ -95973,8 +96064,8 @@
         }
       ],
       "registered_at": 1749495173,
-      "last_online_at": 1791152195,
-      "last_online_checked_at": 1791164363792
+      "last_online_at": 1791172657,
+      "last_online_checked_at": 1791180173114
     },
     "76561198081010034": {
       "username": "SirSage",
@@ -96388,8 +96479,8 @@
         }
       ],
       "registered_at": 1412485337,
-      "last_online_at": 1791157333,
-      "last_online_checked_at": 1791164364323
+      "last_online_at": 1791171451,
+      "last_online_checked_at": 1791180173596
     },
     "76561198832209109": {
       "username": "Slenderpoop00",
@@ -96655,8 +96746,8 @@
         }
       ],
       "registered_at": 1735112672,
-      "last_online_at": 1791162422,
-      "last_online_checked_at": 1791164364827
+      "last_online_at": 1791177492,
+      "last_online_checked_at": 1791180174046
     },
     "76561199438702936": {
       "username": "snbac",
@@ -97136,7 +97227,7 @@
       ],
       "registered_at": 1669938150,
       "last_online_at": 1791152106,
-      "last_online_checked_at": 1791164365331
+      "last_online_checked_at": 1791180174497
     },
     "76561197991280042": {
       "username": "SoullessSoup",
@@ -98749,7 +98840,7 @@
       ],
       "registered_at": 1332615851,
       "last_online_at": 1791133507,
-      "last_online_checked_at": 1791164365856
+      "last_online_checked_at": 1791180174977
     },
     "76561198036591983": {
       "username": "Sumnium",
@@ -98833,7 +98924,7 @@
       ],
       "registered_at": 1699976626,
       "last_online_at": 1788482289,
-      "last_online_checked_at": 1791164366360,
+      "last_online_checked_at": 1791180175427,
       "warnings": [
         "no_giveaway_created_in_6_months"
       ]
@@ -99114,7 +99205,7 @@
       ],
       "registered_at": 1673571489,
       "last_online_at": 1791055665,
-      "last_online_checked_at": 1791164366864,
+      "last_online_checked_at": 1791180175881,
       "warnings": [
         "no_giveaway_created_in_6_months"
       ]
@@ -100582,7 +100673,7 @@
       ],
       "registered_at": 1367891169,
       "last_online_at": 1791160937,
-      "last_online_checked_at": 1791164367367
+      "last_online_checked_at": 1791180176331
     },
     "76561198048238310": {
       "username": "TheGr3atUnknown",
@@ -100933,7 +101024,7 @@
       ],
       "registered_at": 1627249031,
       "last_online_at": 1791147417,
-      "last_online_checked_at": 1791164367868
+      "last_online_checked_at": 1791180176782
     },
     "76561197989280149": {
       "username": "Thexder",
@@ -102058,8 +102149,8 @@
         }
       ],
       "registered_at": 1322064486,
-      "last_online_at": 1791162163,
-      "last_online_checked_at": 1791164368387
+      "last_online_at": 1791176645,
+      "last_online_checked_at": 1791180177255
     },
     "76561198140258141": {
       "username": "thoughtfulhippo",
@@ -102235,7 +102326,7 @@
       ],
       "registered_at": 1449483057,
       "last_online_at": 1762243110,
-      "last_online_checked_at": 1791164368909,
+      "last_online_checked_at": 1791180177725,
       "warnings": [
         "no_giveaway_created_in_6_months"
       ]
@@ -102409,8 +102500,8 @@
         }
       ],
       "registered_at": 1576202378,
-      "last_online_at": 1791161536,
-      "last_online_checked_at": 1791164369411
+      "last_online_at": 1791180178,
+      "last_online_checked_at": 1791180178180
     },
     "76561198070041813": {
       "username": "Tucs",
@@ -103040,8 +103131,8 @@
         }
       ],
       "registered_at": 1501332856,
-      "last_online_at": 1791150090,
-      "last_online_checked_at": 1791164369935
+      "last_online_at": 1791178965,
+      "last_online_checked_at": 1791180178650
     },
     "76561198089973992": {
       "username": "TwixClub",
@@ -104770,7 +104861,7 @@
       ],
       "registered_at": 1465889473,
       "last_online_at": 1791156464,
-      "last_online_checked_at": 1791164370448
+      "last_online_checked_at": 1791180179120
     },
     "76561198129984336": {
       "username": "vampiresska",
@@ -105093,7 +105184,7 @@
       ],
       "registered_at": 1501184514,
       "last_online_at": 1791155651,
-      "last_online_checked_at": 1791164370952,
+      "last_online_checked_at": 1791180179567,
       "warnings": [
         "required_plays_need_review"
       ]
@@ -106645,8 +106736,8 @@
         }
       ],
       "registered_at": 1663370083,
-      "last_online_at": 1791159101,
-      "last_online_checked_at": 1791164371466
+      "last_online_at": 1791176082,
+      "last_online_checked_at": 1791180180047
     },
     "76561198077347875": {
       "username": "Vin3",
@@ -107318,7 +107409,7 @@
       ],
       "registered_at": 1728840791,
       "last_online_at": 1791162599,
-      "last_online_checked_at": 1791164371968
+      "last_online_checked_at": 1791180180501
     },
     "76561199261772888": {
       "username": "Vini1",
@@ -107616,7 +107707,7 @@
       ],
       "registered_at": 1732862887,
       "last_online_at": 1783427882,
-      "last_online_checked_at": 1791164372471,
+      "last_online_checked_at": 1791180180959,
       "warnings": [
         "no_giveaway_created_in_6_months"
       ]
@@ -109024,8 +109115,8 @@
         }
       ],
       "registered_at": 1440921686,
-      "last_online_at": 1791162944,
-      "last_online_checked_at": 1791164372979
+      "last_online_at": 1791170675,
+      "last_online_checked_at": 1791180181423
     },
     "76561199141726712": {
       "username": "vot4ol",
@@ -110605,8 +110696,8 @@
         }
       ],
       "registered_at": 1632496809,
-      "last_online_at": 1791159737,
-      "last_online_checked_at": 1791164373485,
+      "last_online_at": 1791174194,
+      "last_online_checked_at": 1791180181884,
       "warnings": [
         "required_plays_need_review"
       ]
@@ -111254,8 +111345,8 @@
         }
       ],
       "registered_at": 1401723483,
-      "last_online_at": 1791154977,
-      "last_online_checked_at": 1791164374029
+      "last_online_at": 1791180182,
+      "last_online_checked_at": 1791180182377
     },
     "76561198057642029": {
       "username": "webdak",
@@ -111619,7 +111710,7 @@
       ],
       "registered_at": 1724767791,
       "last_online_at": 1781797862,
-      "last_online_checked_at": 1791164374530
+      "last_online_checked_at": 1791180182838
     },
     "76561198146290646": {
       "username": "xAlienMaster",
@@ -111659,8 +111750,8 @@
       "steam_profile_is_private": false,
       "country_code": "us",
       "registered_at": 1603435126,
-      "last_online_at": 1790911860,
-      "last_online_checked_at": 1791164375034,
+      "last_online_at": 1791176485,
+      "last_online_checked_at": 1791180183292,
       "warnings": [
         "no_giveaway_created_in_6_months"
       ]
@@ -112104,8 +112195,8 @@
         }
       ],
       "registered_at": 1688511985,
-      "last_online_at": 1791164375,
-      "last_online_checked_at": 1791164375564,
+      "last_online_at": 1791166588,
+      "last_online_checked_at": 1791180183771,
       "warnings": [
         "no_giveaway_created_in_6_months"
       ]
@@ -113706,8 +113797,8 @@
         }
       ],
       "registered_at": 1375041567,
-      "last_online_at": 1791164376,
-      "last_online_checked_at": 1791164376077
+      "last_online_at": 1791180184,
+      "last_online_checked_at": 1791180184224
     },
     "76561198352113526": {
       "username": "yugimax",
@@ -115095,8 +115186,8 @@
         }
       ],
       "registered_at": 1703103274,
-      "last_online_at": 1791154219,
-      "last_online_checked_at": 1791164376580
+      "last_online_at": 1791171897,
+      "last_online_checked_at": 1791180184680
     },
     "76561198183406253": {
       "username": "Yukisuna",
@@ -115369,7 +115460,7 @@
       ],
       "registered_at": 1640644736,
       "last_online_at": 1791147647,
-      "last_online_checked_at": 1791164377087
+      "last_online_checked_at": 1791180185138
     }
   }
 }
