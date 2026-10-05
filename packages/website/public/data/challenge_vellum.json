@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1790812800,
   "totalAchievements": 36,
-  "generatedAt": 1791178542069,
+  "generatedAt": 1791184072679,
   "challengeOver": false,
   "winnerUsername": "CatzZz",
   "participants": [
@@ -301,14 +301,14 @@
       "review_timestamp": 0,
       "review_recommendationid": "236825691",
       "review_url": "https://steamcommunity.com/profiles/76561198077347875/recommended/917950",
-      "playtime_total_minutes": 888,
-      "playtime_2weeks_minutes": 888,
+      "playtime_total_minutes": 948,
+      "playtime_2weeks_minutes": 948,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 888,
+      "playtime_challenge_minutes": 948,
       "achievements_total": 36,
-      "achievements_unlocked_total": 23,
+      "achievements_unlocked_total": 24,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 23,
+      "achievements_since_baseline": 24,
       "challenge_achievements": [
         {
           "apiname": "TOMES_MENDED_1",
@@ -447,9 +447,15 @@
           "displayName": "That's a lot of Damage",
           "description": "Flourish for more than 3000 Damage.",
           "unlocktime": 1791128899
+        },
+        {
+          "apiname": "FINALIZE_DAMAGE_10000",
+          "displayName": "Terminator",
+          "description": "Finalize for 10,000 Damage.",
+          "unlocktime": 1791183184
         }
       ],
-      "challenge_achievement_count": 23,
+      "challenge_achievement_count": 24,
       "has_started": true,
       "is_complete": true,
       "completed_at": 1791064914,
