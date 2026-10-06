@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1790812800,
   "totalAchievements": 36,
-  "generatedAt": 1791283119251,
+  "generatedAt": 1791299518250,
   "challengeOver": false,
   "winnerUsername": "CatzZz",
   "participants": [
@@ -301,14 +301,14 @@
       "review_timestamp": 1791039720,
       "review_recommendationid": "236825691",
       "review_url": "https://steamcommunity.com/profiles/76561198077347875/recommended/917950",
-      "playtime_total_minutes": 1096,
-      "playtime_2weeks_minutes": 1096,
+      "playtime_total_minutes": 1295,
+      "playtime_2weeks_minutes": 1295,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 1096,
+      "playtime_challenge_minutes": 1295,
       "achievements_total": 36,
-      "achievements_unlocked_total": 26,
+      "achievements_unlocked_total": 27,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 26,
+      "achievements_since_baseline": 27,
       "challenge_achievements": [
         {
           "apiname": "TOMES_MENDED_1",
@@ -465,9 +465,15 @@
           "displayName": "Curated",
           "description": "Complete a Book Club challenge.",
           "unlocktime": 1791189908
+        },
+        {
+          "apiname": "KNIGHTED",
+          "displayName": "Pen is Knightier",
+          "description": "Complete a Tome with Teal, Foil, and Callback equipped.",
+          "unlocktime": 1791285177
         }
       ],
-      "challenge_achievement_count": 26,
+      "challenge_achievement_count": 27,
       "has_started": true,
       "is_complete": true,
       "completed_at": 1791064914,
@@ -1271,14 +1277,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 267,
-      "playtime_2weeks_minutes": 267,
+      "playtime_total_minutes": 297,
+      "playtime_2weeks_minutes": 317,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 267,
+      "playtime_challenge_minutes": 297,
       "achievements_total": 36,
-      "achievements_unlocked_total": 8,
+      "achievements_unlocked_total": 9,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 8,
+      "achievements_since_baseline": 9,
       "challenge_achievements": [
         {
           "apiname": "SPELLS_1",
@@ -1327,9 +1333,15 @@
           "displayName": "Second Edition",
           "description": "Reach Ink Level 10.",
           "unlocktime": 1791240557
+        },
+        {
+          "apiname": "APPENDIX_1",
+          "displayName": "Going the Distance",
+          "description": "Defeat a Torn Boss at Appendix 1 during an Endless Run.",
+          "unlocktime": 1791298778
         }
       ],
-      "challenge_achievement_count": 8,
+      "challenge_achievement_count": 9,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
