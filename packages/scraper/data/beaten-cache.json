@@ -969,6 +969,19 @@
       "no_marker_reason": "no_marker_found",
       "story_tag_count": 0
     },
+    "851100": {
+      "fetched_at": "2026-10-06T21:03:18.892Z",
+      "marker": {
+        "apiname": "touhou_10",
+        "name": "Perfect and Elegant Maid",
+        "description": "Beat the game.",
+        "global_percent": 35,
+        "source": "heuristic",
+        "sh_achievement_id": 10
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0
+    },
     "851850": {
       "fetched_at": "2026-08-24T20:07:33.624Z",
       "marker": {
@@ -12072,7 +12085,7 @@
       "no_data_reason": null
     },
     "76561197970969216::1888930": {
-      "fetched_at": "2026-10-06T07:39:46.985Z",
+      "fetched_at": "2026-10-06T21:03:23.578Z",
       "marker_apiname": "284b17b75ee9e837",
       "beaten": false,
       "unlock_time": null,
@@ -12086,7 +12099,7 @@
       "no_data_reason": null
     },
     "76561197968806363::1030300": {
-      "fetched_at": "2026-10-06T07:39:44.734Z",
+      "fetched_at": "2026-10-06T21:03:21.221Z",
       "marker_apiname": "DEFEATED_LACE_2",
       "beaten": false,
       "unlock_time": null,
@@ -12107,7 +12120,7 @@
       "no_data_reason": null
     },
     "76561198044300922::2515020": {
-      "fetched_at": "2026-10-06T07:39:49.204Z",
+      "fetched_at": "2026-10-06T21:03:26.000Z",
       "marker_apiname": "1012",
       "beaten": false,
       "unlock_time": null,
@@ -12128,7 +12141,7 @@
       "no_data_reason": null
     },
     "76561198025798123::1462040": {
-      "fetched_at": "2026-10-06T07:39:43.591Z",
+      "fetched_at": "2026-10-06T21:03:20.070Z",
       "marker_apiname": "ACH_18",
       "beaten": false,
       "unlock_time": null,
@@ -12296,7 +12309,7 @@
       "no_data_reason": null
     },
     "76561198069420656::1262350": {
-      "fetched_at": "2026-10-06T07:39:45.884Z",
+      "fetched_at": "2026-10-06T21:03:22.346Z",
       "marker_apiname": "ACH_7",
       "beaten": false,
       "unlock_time": null,
@@ -12310,7 +12323,7 @@
       "no_data_reason": null
     },
     "76561198129984336::3751260": {
-      "fetched_at": "2026-10-06T07:39:50.621Z",
+      "fetched_at": "2026-10-06T21:03:27.122Z",
       "marker_apiname": "ACH_The_Blood_of_Dawnwalker",
       "beaten": false,
       "unlock_time": null,
@@ -12321,6 +12334,13 @@
       "marker_apiname": "BOSS_FINAL",
       "beaten": true,
       "unlock_time": 1791232598,
+      "no_data_reason": null
+    },
+    "76561198027595057::851100": {
+      "fetched_at": "2026-10-06T21:03:24.716Z",
+      "marker_apiname": "touhou_10",
+      "beaten": true,
+      "unlock_time": 1790845333,
       "no_data_reason": null
     }
   },
