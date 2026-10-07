@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1790812800,
   "totalAchievements": 36,
-  "generatedAt": 1791363788827,
+  "generatedAt": 1791387397432,
   "challengeOver": false,
   "winnerUsername": "CatzZz",
   "participants": [
@@ -301,14 +301,14 @@
       "review_timestamp": 1791039720,
       "review_recommendationid": "236825691",
       "review_url": "https://steamcommunity.com/profiles/76561198077347875/recommended/917950",
-      "playtime_total_minutes": 1385,
-      "playtime_2weeks_minutes": 1385,
+      "playtime_total_minutes": 1679,
+      "playtime_2weeks_minutes": 1679,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 1385,
+      "playtime_challenge_minutes": 1679,
       "achievements_total": 36,
-      "achievements_unlocked_total": 27,
+      "achievements_unlocked_total": 33,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 27,
+      "achievements_since_baseline": 33,
       "challenge_achievements": [
         {
           "apiname": "TOMES_MENDED_1",
@@ -471,9 +471,45 @@
           "displayName": "Pen is Knightier",
           "description": "Complete a Tome with Teal, Foil, and Callback equipped.",
           "unlocktime": 1791285177
+        },
+        {
+          "apiname": "TOMES_MENDED_LVL20",
+          "displayName": "Boundless",
+          "description": "Mend a Tome at Binding Level 20.",
+          "unlocktime": 1791364168
+        },
+        {
+          "apiname": "MEND_BOSSRUSH",
+          "displayName": "Decrypted",
+          "description": "Mend the Illegible Tome.",
+          "unlocktime": 1791364169
+        },
+        {
+          "apiname": "INKLEVEL_25",
+          "displayName": "Cognitively Developed",
+          "description": "Reach Ink Level 30.",
+          "unlocktime": 1791367539
+        },
+        {
+          "apiname": "MASTERY_1",
+          "displayName": "Scribe of the Library",
+          "description": "Unlock 5 Spells, 4 Signature Inks, and reach Ink Level 30.",
+          "unlocktime": 1791367540
+        },
+        {
+          "apiname": "RAID_COMPLETE_TANGENT",
+          "displayName": "Yonder",
+          "description": "Defeat Horizon in Yonder.",
+          "unlocktime": 1791375836
+        },
+        {
+          "apiname": "MEND_SPEEDRUN",
+          "displayName": "Speed Reader",
+          "description": "Mend a Tome in less than 10 minutes.",
+          "unlocktime": 1791385346
         }
       ],
-      "challenge_achievement_count": 27,
+      "challenge_achievement_count": 33,
       "has_started": true,
       "is_complete": true,
       "completed_at": 1791064914,
