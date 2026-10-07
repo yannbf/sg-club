@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1790812800,
   "totalAchievements": 36,
-  "generatedAt": 1791387397432,
+  "generatedAt": 1791391727015,
   "challengeOver": false,
   "winnerUsername": "CatzZz",
   "participants": [
@@ -301,14 +301,14 @@
       "review_timestamp": 1791039720,
       "review_recommendationid": "236825691",
       "review_url": "https://steamcommunity.com/profiles/76561198077347875/recommended/917950",
-      "playtime_total_minutes": 1679,
-      "playtime_2weeks_minutes": 1679,
+      "playtime_total_minutes": 1769,
+      "playtime_2weeks_minutes": 1769,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 1679,
+      "playtime_challenge_minutes": 1769,
       "achievements_total": 36,
-      "achievements_unlocked_total": 33,
+      "achievements_unlocked_total": 35,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 33,
+      "achievements_since_baseline": 35,
       "challenge_achievements": [
         {
           "apiname": "TOMES_MENDED_1",
@@ -507,9 +507,21 @@
           "displayName": "Speed Reader",
           "description": "Mend a Tome in less than 10 minutes.",
           "unlocktime": 1791385346
+        },
+        {
+          "apiname": "TRIALS_COMPLETE_1",
+          "displayName": "Bingo!",
+          "description": "Complete a full Storyboard.",
+          "unlocktime": 1791388134
+        },
+        {
+          "apiname": "ASCEND_1",
+          "displayName": "Fresh Start",
+          "description": "Ascend for the first time.",
+          "unlocktime": 1791388420
         }
       ],
-      "challenge_achievement_count": 33,
+      "challenge_achievement_count": 35,
       "has_started": true,
       "is_complete": true,
       "completed_at": 1791064914,
