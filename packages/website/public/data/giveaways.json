@@ -1,44 +1,6 @@
 {
-  "last_updated": "2026-10-08T09:40:49.973Z",
+  "last_updated": "2026-10-08T21:44:38.896Z",
   "giveaways": [
-    {
-      "id": "Re3VI",
-      "name": "Eden's Last Sunrise",
-      "points": 10,
-      "copies": 2,
-      "app_id": 1865170,
-      "package_id": null,
-      "link": "Re3VI/edens-last-sunrise",
-      "created_timestamp": 1791365785,
-      "start_timestamp": 1791365785,
-      "end_timestamp": 1791452100,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 0,
-      "creator": "76561198411996697",
-      "cv_status": "FULL_CV",
-      "creator_username": "RaitorHaitor",
-      "deleted": false
-    },
-    {
-      "id": "JZYaE",
-      "name": "Palm Sugar: A Village Story",
-      "points": 7,
-      "copies": 1,
-      "app_id": 2778220,
-      "package_id": null,
-      "link": "JZYaE/palm-sugar-a-village-story",
-      "created_timestamp": 1791374438,
-      "start_timestamp": 1791374438,
-      "end_timestamp": 1791460800,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 1,
-      "creator": "76561198411996697",
-      "cv_status": "FULL_CV",
-      "creator_username": "RaitorHaitor",
-      "deleted": false
-    },
     {
       "id": "R71Zc",
       "name": "Golfing Over It with Alva Majo",
@@ -133,7 +95,7 @@
       "end_timestamp": 1791531840,
       "group": true,
       "comment_count": 0,
-      "entry_count": 11,
+      "entry_count": 12,
       "creator": "76561198116836855",
       "cv_status": "FULL_CV",
       "event_type": "october_event_2026",
@@ -318,7 +280,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 58,
+      "entry_count": 61,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -358,7 +320,7 @@
       "end_timestamp": 1791655200,
       "group": true,
       "comment_count": 4,
-      "entry_count": 9,
+      "entry_count": 10,
       "creator": "76561199141726712",
       "cv_status": "FULL_CV",
       "event_type": "october_event_2026",
@@ -398,7 +360,7 @@
       "end_timestamp": 1791662400,
       "group": true,
       "comment_count": 1,
-      "entry_count": 12,
+      "entry_count": 13,
       "creator": "76561198082023389",
       "cv_status": "FULL_CV",
       "event_type": "october_event_2026",
@@ -481,7 +443,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 31,
+      "entry_count": 35,
       "creator": "76561198250732560",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -605,7 +567,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 21,
+      "entry_count": 24,
       "creator": "76561198025173613",
       "required_play": true,
       "is_shared": true,
@@ -627,7 +589,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 16,
+      "entry_count": 17,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -731,7 +693,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 21,
+      "entry_count": 22,
       "creator": "76561198025173613",
       "is_shared": true,
       "cv_status": "FULL_CV",
@@ -832,7 +794,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 3,
-      "entry_count": 66,
+      "entry_count": 68,
       "creator": "76561197967055456",
       "is_shared": true,
       "cv_status": "FULL_CV",
@@ -1142,6 +1104,53 @@
       "deleted": false
     },
     {
+      "id": "JZYaE",
+      "name": "Palm Sugar: A Village Story",
+      "points": 7,
+      "copies": 1,
+      "app_id": 2778220,
+      "package_id": null,
+      "link": "JZYaE/palm-sugar-a-village-story",
+      "created_timestamp": 1791374438,
+      "start_timestamp": 1791374438,
+      "end_timestamp": 1791460800,
+      "group": true,
+      "comment_count": 1,
+      "entry_count": 1,
+      "creator": "76561198411996697",
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": "76561198025107173",
+          "status": "received",
+          "winner_username": "rufioh"
+        }
+      ],
+      "cv_status": "FULL_CV",
+      "creator_username": "RaitorHaitor"
+    },
+    {
+      "id": "Re3VI",
+      "name": "Eden's Last Sunrise",
+      "points": 10,
+      "copies": 2,
+      "app_id": 1865170,
+      "package_id": null,
+      "link": "Re3VI/edens-last-sunrise",
+      "created_timestamp": 1791365785,
+      "start_timestamp": 1791365785,
+      "end_timestamp": 1791452100,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 0,
+      "creator": "76561198411996697",
+      "hasWinners": false,
+      "winners": [],
+      "cv_status": "FULL_CV",
+      "creator_username": "RaitorHaitor",
+      "deleted": false
+    },
+    {
       "id": "jjbrI",
       "name": "Eastshade",
       "points": 25,
@@ -1175,20 +1184,20 @@
       "end_timestamp": 1791446400,
       "region_restricted": true,
       "group": true,
-      "comment_count": 4,
+      "comment_count": 6,
       "entry_count": 3,
       "creator": "76561198048462370",
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "76561197967055456",
+          "status": "received",
+          "winner_username": "Foxpile"
         }
       ],
       "cv_status": "FULL_CV",
       "event_type": "october_event_2026",
-      "creator_username": "QuinlanLJ",
-      "deleted": false
+      "creator_username": "QuinlanLJ"
     },
     {
       "id": "gPUDA",
@@ -1202,20 +1211,20 @@
       "start_timestamp": 1790811032,
       "end_timestamp": 1791442800,
       "group": true,
-      "comment_count": 6,
+      "comment_count": 8,
       "entry_count": 5,
       "creator": "76561198359284432",
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "76561198053065013",
+          "status": "received",
+          "winner_username": "aez76"
         }
       ],
       "cv_status": "FULL_CV",
       "event_type": "october_event_2026",
-      "creator_username": "a10i",
-      "deleted": false
+      "creator_username": "a10i"
     },
     {
       "id": "p9UF7",
@@ -1230,20 +1239,20 @@
       "end_timestamp": 1791432000,
       "whitelist": true,
       "group": true,
-      "comment_count": 0,
+      "comment_count": 2,
       "entry_count": 62,
       "creator": "76561198234142828",
       "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "titi59",
+          "status": "received",
+          "winner_username": "titi59"
         }
       ],
       "cv_status": "REDUCED_CV",
-      "creator_username": "lockcjwen",
-      "deleted": false
+      "creator_username": "lockcjwen"
     },
     {
       "id": "tTAAg",
@@ -1495,7 +1504,7 @@
       "start_timestamp": 1791066821,
       "end_timestamp": 1791356400,
       "group": true,
-      "comment_count": 2,
+      "comment_count": 3,
       "entry_count": 1,
       "creator": "76561197967055456",
       "hasWinners": true,
@@ -1571,7 +1580,7 @@
       "start_timestamp": 1791066735,
       "end_timestamp": 1791356400,
       "group": true,
-      "comment_count": 1,
+      "comment_count": 2,
       "entry_count": 2,
       "creator": "76561197967055456",
       "hasWinners": true,
@@ -4102,6 +4111,7 @@
           "winner_username": "makki"
         }
       ],
+      "required_play": false,
       "cv_status": "FULL_CV",
       "event_type": "september_event_2026",
       "creator_username": "OndrejVasicek"
@@ -8991,7 +9001,7 @@
       "start_timestamp": 1788224121,
       "end_timestamp": 1788840000,
       "group": true,
-      "comment_count": 6,
+      "comment_count": 8,
       "entry_count": 22,
       "creator": "76561198234142828",
       "required_play": true,
