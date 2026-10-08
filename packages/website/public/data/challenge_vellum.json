@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1790812800,
   "totalAchievements": 36,
-  "generatedAt": 1791473950059,
+  "generatedAt": 1791477896166,
   "challengeOver": false,
   "winnerUsername": "CatzZz",
   "participants": [
@@ -925,14 +925,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 378,
-      "playtime_2weeks_minutes": 378,
+      "playtime_total_minutes": 468,
+      "playtime_2weeks_minutes": 468,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 378,
+      "playtime_challenge_minutes": 468,
       "achievements_total": 36,
-      "achievements_unlocked_total": 15,
+      "achievements_unlocked_total": 16,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 15,
+      "achievements_since_baseline": 16,
       "challenge_achievements": [
         {
           "apiname": "SPELLS_1",
@@ -1023,9 +1023,15 @@
           "displayName": "Do Not Go Gentle",
           "description": "Defeat a Boss with the Broken Spines Binding active.",
           "unlocktime": 1791301846
+        },
+        {
+          "apiname": "TOMES_MENDED_5",
+          "displayName": "Setting the Foundation",
+          "description": "Mend 5 Tomes.",
+          "unlocktime": 1791473944
         }
       ],
-      "challenge_achievement_count": 15,
+      "challenge_achievement_count": 16,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
