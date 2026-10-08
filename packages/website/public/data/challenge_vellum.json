@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1790812800,
   "totalAchievements": 36,
-  "generatedAt": 1791425543647,
+  "generatedAt": 1791439252224,
   "challengeOver": false,
   "winnerUsername": "CatzZz",
   "participants": [
@@ -1606,6 +1606,70 @@
       "is_winner": false
     },
     {
+      "username": "Gooberdragon",
+      "sg_username": "Gooberdragon",
+      "steam_id": "76561198066957402",
+      "avatar_url": "https://avatars.steamstatic.com/24fee0a044c5af4b05851707f8badf77dbdc128e_medium.jpg",
+      "profile_url": "https://steamcommunity.com/profiles/76561198066957402",
+      "is_guest": false,
+      "owned": true,
+      "stats_available": true,
+      "wrote_review": false,
+      "review_voted_up": null,
+      "review_timestamp": null,
+      "review_recommendationid": null,
+      "review_url": null,
+      "playtime_total_minutes": 123,
+      "playtime_2weeks_minutes": 123,
+      "baseline_playtime_minutes": 0,
+      "playtime_challenge_minutes": 123,
+      "achievements_total": 36,
+      "achievements_unlocked_total": 5,
+      "achievements_before_challenge": 0,
+      "achievements_since_baseline": 5,
+      "challenge_achievements": [
+        {
+          "apiname": "CORES_1",
+          "displayName": "Ink Exploration",
+          "description": "Unlock a new Signature Ink.",
+          "unlocktime": 1790913986
+        },
+        {
+          "apiname": "INKLEVEL_2",
+          "displayName": "Ding!",
+          "description": "Reach Ink Level 2.",
+          "unlocktime": 1790914272
+        },
+        {
+          "apiname": "TOMES_MENDED_1",
+          "displayName": "It was the Best of Times",
+          "description": "Mend your first Tome.",
+          "unlocktime": 1791437691
+        },
+        {
+          "apiname": "APPENDIX_1",
+          "displayName": "Going the Distance",
+          "description": "Defeat a Torn Boss at Appendix 1 during an Endless Run.",
+          "unlocktime": 1791438169
+        },
+        {
+          "apiname": "ATLAS_BEAM_5000",
+          "displayName": "Envisioned",
+          "description": "Deal 5,000 Damage with a single Atlas signature projection.",
+          "unlocktime": 1791438287
+        }
+      ],
+      "challenge_achievement_count": 5,
+      "has_started": true,
+      "is_complete": false,
+      "completed_at": null,
+      "completed_before_start": false,
+      "completed_after_deadline": false,
+      "meets_playtime": true,
+      "meets_review": false,
+      "is_winner": false
+    },
+    {
       "username": "yannbz",
       "sg_username": "yannbz",
       "steam_id": "76561198049128535",
@@ -1874,52 +1938,6 @@
         }
       ],
       "challenge_achievement_count": 3,
-      "has_started": true,
-      "is_complete": false,
-      "completed_at": null,
-      "completed_before_start": false,
-      "completed_after_deadline": false,
-      "meets_playtime": true,
-      "meets_review": false,
-      "is_winner": false
-    },
-    {
-      "username": "Gooberdragon",
-      "sg_username": "Gooberdragon",
-      "steam_id": "76561198066957402",
-      "avatar_url": "https://avatars.steamstatic.com/24fee0a044c5af4b05851707f8badf77dbdc128e_medium.jpg",
-      "profile_url": "https://steamcommunity.com/profiles/76561198066957402",
-      "is_guest": false,
-      "owned": true,
-      "stats_available": true,
-      "wrote_review": false,
-      "review_voted_up": null,
-      "review_timestamp": null,
-      "review_recommendationid": null,
-      "review_url": null,
-      "playtime_total_minutes": 76,
-      "playtime_2weeks_minutes": 76,
-      "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 76,
-      "achievements_total": 36,
-      "achievements_unlocked_total": 2,
-      "achievements_before_challenge": 0,
-      "achievements_since_baseline": 2,
-      "challenge_achievements": [
-        {
-          "apiname": "CORES_1",
-          "displayName": "Ink Exploration",
-          "description": "Unlock a new Signature Ink.",
-          "unlocktime": 1790913986
-        },
-        {
-          "apiname": "INKLEVEL_2",
-          "displayName": "Ding!",
-          "description": "Reach Ink Level 2.",
-          "unlocktime": 1790914272
-        }
-      ],
-      "challenge_achievement_count": 2,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
