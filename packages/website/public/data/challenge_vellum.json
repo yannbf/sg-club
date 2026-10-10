@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1790812800,
   "totalAchievements": 36,
-  "generatedAt": 1791642671616,
+  "generatedAt": 1791646458286,
   "challengeOver": false,
   "winnerUsername": "CatzZz",
   "participants": [
@@ -1203,14 +1203,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 246,
-      "playtime_2weeks_minutes": 246,
+      "playtime_total_minutes": 290,
+      "playtime_2weeks_minutes": 290,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 246,
+      "playtime_challenge_minutes": 290,
       "achievements_total": 36,
-      "achievements_unlocked_total": 15,
+      "achievements_unlocked_total": 16,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 15,
+      "achievements_since_baseline": 16,
       "challenge_achievements": [
         {
           "apiname": "STATUS_DAMAGE_30000",
@@ -1301,9 +1301,15 @@
           "displayName": "Regular Shakespeare",
           "description": "Unlock  5 Spells.",
           "unlocktime": 1791640096
+        },
+        {
+          "apiname": "INKLEVEL_10",
+          "displayName": "Second Edition",
+          "description": "Reach Ink Level 10.",
+          "unlocktime": 1791644758
         }
       ],
-      "challenge_achievement_count": 15,
+      "challenge_achievement_count": 16,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
