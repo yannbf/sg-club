@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1790812800,
   "totalAchievements": 36,
-  "generatedAt": 1791752604366,
+  "generatedAt": 1791756928561,
   "challengeOver": false,
   "winnerUsername": "CatzZz",
   "participants": [
@@ -1061,14 +1061,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 1074,
-      "playtime_2weeks_minutes": 1074,
+      "playtime_total_minutes": 1104,
+      "playtime_2weeks_minutes": 1134,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 1074,
+      "playtime_challenge_minutes": 1104,
       "achievements_total": 36,
-      "achievements_unlocked_total": 20,
+      "achievements_unlocked_total": 21,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 20,
+      "achievements_since_baseline": 21,
       "challenge_achievements": [
         {
           "apiname": "SPELLS_1",
@@ -1189,9 +1189,15 @@
           "displayName": "The Stacks",
           "description": "Deal 30,000 Status Damage in a single run.",
           "unlocktime": 1791669930
+        },
+        {
+          "apiname": "HEAL_10000",
+          "displayName": "Just a Flesh Wound",
+          "description": "Heal 10,000 Health in a Single Run.",
+          "unlocktime": 1791753835
         }
       ],
-      "challenge_achievement_count": 20,
+      "challenge_achievement_count": 21,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
