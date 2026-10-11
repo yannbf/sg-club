@@ -246,18 +246,18 @@
       "story_tag_count": 10
     },
     "433340": {
-      "fetched_at": "2026-08-24T20:11:26.088Z",
+      "fetched_at": "2026-10-11T13:14:58.144Z",
       "marker": {
-        "apiname": "DISCOVERED_MOSS",
-        "name": "On the Other Side",
-        "description": "Discovered the Moss Blanket",
-        "global_percent": 54.2,
-        "source": "steamhunters",
-        "filtered": true,
-        "sh_achievement_id": 20
+        "apiname": "FIND_HOBSONS_END",
+        "name": "Doors Like These",
+        "description": "Discover where Hobson's journey ended, and started once again.",
+        "global_percent": 20.6,
+        "source": "override",
+        "sh_achievement_id": 56
       },
       "no_marker_reason": null,
-      "story_tag_count": 8
+      "story_tag_count": 0,
+      "override_key": "433340:FIND_HOBSONS_END"
     },
     "457140": {
       "fetched_at": "2026-10-05T16:19:44.938Z",
@@ -593,7 +593,7 @@
       "story_tag_count": 0
     },
     "636320": {
-      "fetched_at": "2026-09-11T12:24:58.980Z",
+      "fetched_at": "2026-10-11T13:15:14.346Z",
       "marker": null,
       "no_marker_reason": "no_marker_found",
       "story_tag_count": 0
@@ -997,10 +997,18 @@
       "story_tag_count": 5
     },
     "852090": {
-      "fetched_at": "2026-10-11T05:44:07.819Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-10-11T13:14:53.624Z",
+      "marker": {
+        "apiname": "achievement_boss_free",
+        "name": "The Soul of the Park",
+        "description": "",
+        "global_percent": 44.9,
+        "source": "override",
+        "sh_achievement_id": 25
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0,
+      "override_key": "852090:achievement_boss_free"
     },
     "860510": {
       "fetched_at": "2026-08-25T11:10:02.470Z",
@@ -1427,10 +1435,18 @@
       "story_tag_count": 21
     },
     "1096530": {
-      "fetched_at": "2026-09-11T12:23:31.648Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-10-11T13:14:51.462Z",
+      "marker": {
+        "apiname": "ACH_FINISHGAME",
+        "name": "Heroes of Solasta",
+        "description": "",
+        "global_percent": 23.3,
+        "source": "override",
+        "sh_achievement_id": 46
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0,
+      "override_key": "1096530:ACH_FINISHGAME"
     },
     "1097100": {
       "fetched_at": "2026-10-05T16:22:23.107Z",
@@ -2416,7 +2432,7 @@
       "story_tag_count": 0
     },
     "1371720": {
-      "fetched_at": "2026-09-11T12:24:03.358Z",
+      "fetched_at": "2026-10-11T13:15:07.872Z",
       "marker": null,
       "no_marker_reason": "no_marker_found",
       "story_tag_count": 0
@@ -2554,18 +2570,18 @@
       "story_tag_count": 0
     },
     "1436700": {
-      "fetched_at": "2026-08-24T20:08:53.997Z",
+      "fetched_at": "2026-10-11T13:14:52.580Z",
       "marker": {
-        "apiname": "FriendsInNotSoHighPlaces",
-        "name": "Friends in High Places, literally",
-        "description": "Meet all the three Astral Observatory Wizards",
-        "global_percent": 25.8,
-        "source": "steamhunters",
-        "filtered": true,
-        "sh_achievement_id": 57
+        "apiname": "CompleteGame",
+        "name": "The Clockwork Conspiracy",
+        "description": "Thwart Sunny's and Goderic's plans",
+        "global_percent": 28.4,
+        "source": "override",
+        "sh_achievement_id": 21
       },
       "no_marker_reason": null,
-      "story_tag_count": 22
+      "story_tag_count": 0,
+      "override_key": "1436700:CompleteGame"
     },
     "1438480": {
       "fetched_at": "2026-08-24T20:05:39.496Z",
@@ -3186,7 +3202,7 @@
       "story_tag_count": 9
     },
     "1624540": {
-      "fetched_at": "2026-09-11T12:24:41.974Z",
+      "fetched_at": "2026-10-11T13:15:11.821Z",
       "marker": null,
       "no_marker_reason": "no_marker_found",
       "story_tag_count": 0
@@ -3947,10 +3963,21 @@
       "story_tag_count": 17
     },
     "1888160": {
-      "fetched_at": "2026-09-11T19:44:32.787Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-10-11T13:14:49.137Z",
+      "marker": {
+        "apiname": "ACH06",
+        "name": "The Fires of Raven",
+        "description": "",
+        "global_percent": 36.6,
+        "source": "override",
+        "any_of_apinames": [
+          "ACH06",
+          "ACH07"
+        ]
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0,
+      "override_key": "1888160:ACH06,ACH07"
     },
     "1888930": {
       "fetched_at": "2026-08-24T20:10:22.212Z",
@@ -4481,7 +4508,7 @@
       "override_key": "2060590:Season8Complete"
     },
     "2060790": {
-      "fetched_at": "2026-09-11T12:24:11.205Z",
+      "fetched_at": "2026-10-11T13:15:09.185Z",
       "marker": null,
       "no_marker_reason": "no_marker_found",
       "story_tag_count": 0
@@ -4519,10 +4546,18 @@
       "story_tag_count": 0
     },
     "2076580": {
-      "fetched_at": "2026-10-06T10:39:07.415Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-10-11T13:14:55.914Z",
+      "marker": {
+        "apiname": "4-BossComplete",
+        "name": "Emperor Naro",
+        "description": "",
+        "global_percent": 27.5,
+        "source": "override",
+        "sh_achievement_id": 7
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0,
+      "override_key": "2076580:4-BossComplete"
     },
     "2084000": {
       "fetched_at": "2026-10-05T16:21:09.142Z",
@@ -4585,17 +4620,21 @@
       "resolved_app_name": "Dead Cells"
     },
     "2101960": {
-      "fetched_at": "2026-10-10T14:30:46.517Z",
+      "fetched_at": "2026-10-11T13:14:57.074Z",
       "marker": {
-        "apiname": "ShellNotCompromised",
-        "name": "Shell Not Compromised",
-        "description": "Finish the game in the Hard Mode.",
-        "global_percent": 4.5,
-        "source": "heuristic",
-        "sh_achievement_id": 23
+        "apiname": "AFlickerOfHope",
+        "name": "A Flicker Of Hope",
+        "description": "",
+        "global_percent": 26,
+        "source": "override",
+        "any_of_apinames": [
+          "AFlickerOfHope",
+          "IAmFree"
+        ]
       },
       "no_marker_reason": null,
-      "story_tag_count": 0
+      "story_tag_count": 0,
+      "override_key": "2101960:AFlickerOfHope,IAmFree"
     },
     "2106840": {
       "fetched_at": "2026-08-24T18:00:40.615Z",
@@ -4842,7 +4881,7 @@
       "story_tag_count": 9
     },
     "2285550": {
-      "fetched_at": "2026-09-11T12:23:33.075Z",
+      "fetched_at": "2026-10-11T13:15:05.254Z",
       "marker": null,
       "no_marker_reason": "no_marker_found",
       "story_tag_count": 0
@@ -4954,7 +4993,7 @@
       "story_tag_count": 0
     },
     "2346840": {
-      "fetched_at": "2026-09-11T12:24:13.998Z",
+      "fetched_at": "2026-10-11T13:15:10.590Z",
       "marker": null,
       "no_marker_reason": "no_marker_found",
       "story_tag_count": 0
@@ -4984,18 +5023,18 @@
       "story_tag_count": 0
     },
     "2358720": {
-      "fetched_at": "2026-08-24T20:11:45.282Z",
+      "fetched_at": "2026-10-11T13:14:50.335Z",
       "marker": {
-        "apiname": "81074",
-        "name": "Six Senses Secured",
-        "description": "After all that strife and struggle, what's truly been gained?",
-        "global_percent": 40.8,
-        "source": "steamhunters",
-        "filtered": true,
-        "sh_achievement_id": 74
+        "apiname": "81072",
+        "name": "A Duel of Destiny",
+        "description": "",
+        "global_percent": 46.5,
+        "source": "override",
+        "sh_achievement_id": 72
       },
       "no_marker_reason": null,
-      "story_tag_count": 20
+      "story_tag_count": 0,
+      "override_key": "2358720:81072"
     },
     "2366970": {
       "fetched_at": "2026-09-11T12:24:40.759Z",
@@ -5228,7 +5267,7 @@
       "story_tag_count": 0
     },
     "2444750": {
-      "fetched_at": "2026-09-11T12:23:20.596Z",
+      "fetched_at": "2026-10-11T13:15:02.817Z",
       "marker": null,
       "no_marker_reason": "no_marker_found",
       "story_tag_count": 0
@@ -5419,13 +5458,13 @@
       "story_tag_count": 0
     },
     "2565550": {
-      "fetched_at": "2026-09-11T12:25:13.342Z",
+      "fetched_at": "2026-10-11T13:15:15.720Z",
       "marker": null,
       "no_marker_reason": "no_marker_found",
       "story_tag_count": 0
     },
     "2580020": {
-      "fetched_at": "2026-09-11T12:23:28.522Z",
+      "fetched_at": "2026-10-11T13:15:04.039Z",
       "marker": null,
       "no_marker_reason": "no_marker_found",
       "story_tag_count": 0
@@ -5747,10 +5786,21 @@
       "story_tag_count": 0
     },
     "2754530": {
-      "fetched_at": "2026-10-07T21:20:00.290Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-10-11T13:14:47.992Z",
+      "marker": {
+        "apiname": "ACH_PART_FOUR",
+        "name": "Catacombs",
+        "description": "Leave the catacombs for good",
+        "global_percent": 41.7,
+        "source": "override",
+        "any_of_apinames": [
+          "ACH_PART_FOUR",
+          "ACH_ALT"
+        ]
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0,
+      "override_key": "2754530:ACH_ALT,ACH_PART_FOUR"
     },
     "2756920": {
       "fetched_at": "2026-10-05T16:19:48.703Z",
@@ -5846,10 +5896,18 @@
       "story_tag_count": 5
     },
     "2842040": {
-      "fetched_at": "2026-10-03T19:15:57.468Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-10-11T13:14:59.317Z",
+      "marker": {
+        "apiname": "Outlaws_Ach_49",
+        "name": "Calling in some favors",
+        "description": "Destroy the Revelator",
+        "global_percent": 19.9,
+        "source": "override",
+        "sh_achievement_id": 49
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0,
+      "override_key": "2842040:Outlaws_Ach_49"
     },
     "2870350": {
       "fetched_at": "2026-10-05T16:20:21.856Z",
@@ -5991,7 +6049,7 @@
       "override_key": "2997230:recovered"
     },
     "3000120": {
-      "fetched_at": "2026-09-11T12:24:50.320Z",
+      "fetched_at": "2026-10-11T13:15:13.088Z",
       "marker": null,
       "no_marker_reason": "no_marker_found",
       "story_tag_count": 0
@@ -6542,7 +6600,7 @@
       "story_tag_count": 0
     },
     "3509230": {
-      "fetched_at": "2026-09-11T12:23:18.983Z",
+      "fetched_at": "2026-10-11T13:15:01.690Z",
       "marker": null,
       "no_marker_reason": "no_marker_found",
       "story_tag_count": 0
@@ -6568,17 +6626,18 @@
       "story_tag_count": 0
     },
     "3570370": {
-      "fetched_at": "2026-10-09T20:55:07.227Z",
+      "fetched_at": "2026-10-11T13:14:54.789Z",
       "marker": {
-        "apiname": "ACH_Speedrun",
-        "name": "NO TIME TO LOSE",
-        "description": "Reach the end in less than 4 minutes.",
-        "global_percent": 19.2,
-        "source": "heuristic",
-        "sh_achievement_id": 15
+        "apiname": "ACH_GoodFriends",
+        "name": "\"They were good friends\"",
+        "description": "",
+        "global_percent": 78.7,
+        "source": "override",
+        "sh_achievement_id": 7
       },
       "no_marker_reason": null,
-      "story_tag_count": 0
+      "story_tag_count": 0,
+      "override_key": "3570370:ACH_GoodFriends"
     },
     "3586660": {
       "fetched_at": "2026-10-05T16:20:08.360Z",
@@ -6599,7 +6658,7 @@
       "story_tag_count": 0
     },
     "3615160": {
-      "fetched_at": "2026-09-11T12:23:34.494Z",
+      "fetched_at": "2026-10-11T13:15:06.625Z",
       "marker": null,
       "no_marker_reason": "no_marker_found",
       "story_tag_count": 0
@@ -6667,10 +6726,18 @@
       "resolved_app_name": "DOOM: The Dark Ages"
     },
     "3699590": {
-      "fetched_at": "2026-09-30T21:29:20.760Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-10-11T13:15:00.435Z",
+      "marker": {
+        "apiname": "18_queen",
+        "name": "The End",
+        "description": "Battle the Queen",
+        "global_percent": 45.1,
+        "source": "override",
+        "sh_achievement_id": 18
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0,
+      "override_key": "3699590:18_queen"
     },
     "3751260": {
       "fetched_at": "2026-10-05T18:33:43.659Z",
@@ -8530,10 +8597,10 @@
       "no_data_reason": null
     },
     "76561198118726910::1436700": {
-      "fetched_at": "2026-08-24T17:43:29.075Z",
-      "marker_apiname": "FriendsInNotSoHighPlaces",
+      "fetched_at": "2026-10-11T13:15:22.667Z",
+      "marker_apiname": "CompleteGame",
       "beaten": true,
-      "unlock_time": 1751989673,
+      "unlock_time": 1752099378,
       "no_data_reason": null
     },
     "76561198019838591::1184760": {
@@ -9146,10 +9213,10 @@
       "no_data_reason": null
     },
     "76561198399974062::433340": {
-      "fetched_at": "2026-08-24T20:12:57.621Z",
-      "marker_apiname": "DISCOVERED_MOSS",
+      "fetched_at": "2026-10-11T13:15:33.191Z",
+      "marker_apiname": "FIND_HOBSONS_END",
       "beaten": true,
-      "unlock_time": 1751572093,
+      "unlock_time": 1752361860,
       "no_data_reason": null
     },
     "76561198118320246::3132930": {
@@ -9265,10 +9332,10 @@
       "no_data_reason": null
     },
     "76561198070041813::2358720": {
-      "fetched_at": "2026-08-24T17:47:14.212Z",
-      "marker_apiname": "81074",
+      "fetched_at": "2026-10-11T13:15:37.753Z",
+      "marker_apiname": "81072",
       "beaten": true,
-      "unlock_time": 1755299014,
+      "unlock_time": 1755291143,
       "no_data_reason": null
     },
     "76561198070041813::798460": {
@@ -9335,10 +9402,10 @@
       "no_data_reason": null
     },
     "76561198089693705::433340": {
-      "fetched_at": "2026-08-24T20:13:02.790Z",
-      "marker_apiname": "DISCOVERED_MOSS",
+      "fetched_at": "2026-10-11T13:15:40.052Z",
+      "marker_apiname": "FIND_HOBSONS_END",
       "beaten": true,
-      "unlock_time": 1753829480,
+      "unlock_time": 1791171220,
       "no_data_reason": null
     },
     "76561198089693705::702670": {
@@ -10217,10 +10284,10 @@
       "no_data_reason": null
     },
     "76561198054649894::2358720": {
-      "fetched_at": "2026-10-11T05:44:37.388Z",
-      "marker_apiname": "81074",
-      "beaten": false,
-      "unlock_time": null,
+      "fetched_at": "2026-10-11T13:15:20.421Z",
+      "marker_apiname": "81072",
+      "beaten": true,
+      "unlock_time": 1791480929,
       "no_data_reason": null
     },
     "76561198063900528::1262350": {
@@ -12135,7 +12202,7 @@
       "no_data_reason": null
     },
     "76561197970969216::1888930": {
-      "fetched_at": "2026-10-10T20:06:31.348Z",
+      "fetched_at": "2026-10-11T13:15:30.851Z",
       "marker_apiname": "284b17b75ee9e837",
       "beaten": false,
       "unlock_time": null,
@@ -12149,7 +12216,7 @@
       "no_data_reason": null
     },
     "76561197968806363::1030300": {
-      "fetched_at": "2026-10-10T20:06:29.029Z",
+      "fetched_at": "2026-10-11T13:15:23.957Z",
       "marker_apiname": "DEFEATED_LACE_2",
       "beaten": false,
       "unlock_time": null,
@@ -12170,7 +12237,7 @@
       "no_data_reason": null
     },
     "76561198044300922::2515020": {
-      "fetched_at": "2026-10-10T20:06:32.431Z",
+      "fetched_at": "2026-10-11T13:15:35.448Z",
       "marker_apiname": "1012",
       "beaten": false,
       "unlock_time": null,
@@ -12191,7 +12258,7 @@
       "no_data_reason": null
     },
     "76561198025798123::1462040": {
-      "fetched_at": "2026-10-10T20:06:27.930Z",
+      "fetched_at": "2026-10-11T13:15:18.072Z",
       "marker_apiname": "ACH_18",
       "beaten": false,
       "unlock_time": null,
@@ -12359,7 +12426,7 @@
       "no_data_reason": null
     },
     "76561198069420656::1262350": {
-      "fetched_at": "2026-10-10T20:06:30.165Z",
+      "fetched_at": "2026-10-11T13:15:28.559Z",
       "marker_apiname": "ACH_7",
       "beaten": false,
       "unlock_time": null,
@@ -12373,7 +12440,7 @@
       "no_data_reason": null
     },
     "76561198129984336::3751260": {
-      "fetched_at": "2026-10-10T20:06:33.546Z",
+      "fetched_at": "2026-10-11T13:15:38.947Z",
       "marker_apiname": "ACH_The_Blood_of_Dawnwalker",
       "beaten": false,
       "unlock_time": null,
@@ -12408,24 +12475,87 @@
       "no_data_reason": null
     },
     "76561198035801987::1436700": {
-      "fetched_at": "2026-10-09T15:19:35.184Z",
-      "marker_apiname": "FriendsInNotSoHighPlaces",
+      "fetched_at": "2026-10-11T13:15:27.345Z",
+      "marker_apiname": "CompleteGame",
       "beaten": true,
-      "unlock_time": 1791363988,
+      "unlock_time": 1791537117,
       "no_data_reason": null
     },
     "76561198035801987::3570370": {
-      "fetched_at": "2026-10-09T20:56:15.388Z",
-      "marker_apiname": "ACH_Speedrun",
+      "fetched_at": "2026-10-11T13:15:26.242Z",
+      "marker_apiname": "ACH_GoodFriends",
       "beaten": true,
-      "unlock_time": 1791577588,
+      "unlock_time": 1791573379,
       "no_data_reason": null
     },
     "76561198054324521::2101960": {
-      "fetched_at": "2026-10-11T05:45:32.792Z",
-      "marker_apiname": "ShellNotCompromised",
+      "fetched_at": "2026-10-11T13:15:32.049Z",
+      "marker_apiname": "AFlickerOfHope",
+      "beaten": true,
+      "unlock_time": 1791555968,
+      "no_data_reason": null
+    },
+    "76561198453663783::2754530": {
+      "fetched_at": "2026-10-11T13:15:16.854Z",
+      "marker_apiname": "ACH_PART_FOUR",
+      "beaten": true,
+      "unlock_time": 1791391424,
+      "no_data_reason": null
+    },
+    "76561198025173613::1888160": {
+      "fetched_at": "2026-10-11T13:15:19.246Z",
+      "marker_apiname": "ACH06",
+      "beaten": true,
+      "unlock_time": 1791241879,
+      "no_data_reason": null
+    },
+    "76561198054649894::1096530": {
+      "fetched_at": "2026-10-11T13:15:21.548Z",
+      "marker_apiname": "ACH_FINISHGAME",
       "beaten": false,
       "unlock_time": null,
+      "no_data_reason": null
+    },
+    "76561198035801987::852090": {
+      "fetched_at": "2026-10-11T13:15:25.075Z",
+      "marker_apiname": "achievement_boss_free",
+      "beaten": true,
+      "unlock_time": 1791636493,
+      "no_data_reason": null
+    },
+    "76561198069420656::2076580": {
+      "fetched_at": "2026-10-11T13:15:29.723Z",
+      "marker_apiname": "4-BossComplete",
+      "beaten": true,
+      "unlock_time": 1791280004,
+      "no_data_reason": null
+    },
+    "76561198118320246::2842040": {
+      "fetched_at": "2026-10-11T13:15:34.338Z",
+      "marker_apiname": "Outlaws_Ach_49",
+      "beaten": true,
+      "unlock_time": 1790986195,
+      "no_data_reason": null
+    },
+    "76561198044300922::1096530": {
+      "fetched_at": "2026-10-11T13:15:36.585Z",
+      "marker_apiname": "ACH_FINISHGAME",
+      "beaten": true,
+      "unlock_time": 1791061431,
+      "no_data_reason": null
+    },
+    "76561199141726712::3699590": {
+      "fetched_at": "2026-10-11T13:15:41.179Z",
+      "marker_apiname": "18_queen",
+      "beaten": true,
+      "unlock_time": 1791427504,
+      "no_data_reason": null
+    },
+    "76561198049128535::3699590": {
+      "fetched_at": "2026-10-11T13:15:42.417Z",
+      "marker_apiname": "18_queen",
+      "beaten": true,
+      "unlock_time": 1790847121,
       "no_data_reason": null
     }
   },
