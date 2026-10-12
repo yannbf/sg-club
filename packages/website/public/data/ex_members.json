@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1791080257112,
+  "lastUpdated": 1791829188827,
   "users": {
     "76561198343020214": {
       "username": "thesodaer",
@@ -34696,6 +34696,164 @@
         "no_giveaway_created_in_6_months"
       ],
       "left_at_timestamp": 1791080080657
+    },
+    "76561198075940587": {
+      "username": "Alpha2749",
+      "profile_url": "/user/Alpha2749",
+      "avatar_url": "https://avatars.steamstatic.com/f2a519a1e32fccb4a7596a7badd3e366e344aedb_medium.jpg",
+      "steam_id": "76561198075940587",
+      "stats": {
+        "total_sent_count": 2,
+        "total_sent_value": 49.98,
+        "total_received_count": 3,
+        "total_received_value": 99.97,
+        "total_gift_difference": -1,
+        "total_value_difference": -49.99,
+        "fcv_sent_count": 2,
+        "rcv_sent_count": 0,
+        "ncv_sent_count": 0,
+        "fcv_received_count": 3,
+        "rcv_received_count": 0,
+        "ncv_received_count": 0,
+        "fcv_gift_difference": -1,
+        "real_total_sent_value": 49.98,
+        "real_total_received_value": 99.97,
+        "real_total_value_difference": -49.99,
+        "real_total_sent_count": 2,
+        "real_total_received_count": 3,
+        "real_total_gift_difference": -1,
+        "giveaway_ratio": 1.33,
+        "shared_sent_count": 0,
+        "shared_received_count": 0,
+        "giveaways_created": 2,
+        "giveaways_with_no_entries": 0,
+        "last_giveaway_created_at": 1767789576,
+        "last_giveaway_won_at": 1778846820,
+        "first_seen_at": 1751290850,
+        "total_achievements_percentage": 86,
+        "average_achievements_percentage": 67,
+        "real_total_achievements_percentage": 86,
+        "real_average_achievements_percentage": 67,
+        "has_missing_achievements_data": false
+      },
+      "kicked_pending_sync": true,
+      "kick_detected_at": 1790975600404,
+      "registered_at": 1461156254,
+      "last_online_at": 1785845393,
+      "last_online_checked_at": 1791788519940,
+      "steam_profile_url": "https://steamcommunity.com/profiles/76561198075940587",
+      "steam_profile_is_private": false,
+      "country_code": "au",
+      "giveaways_won": [
+        {
+          "name": "Marathon",
+          "link": "6wEwJ/marathon",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1778846820,
+          "required_play": false,
+          "is_shared": false,
+          "steam_play_data": {
+            "owned": true,
+            "playtime_minutes": 6383,
+            "playtime_formatted": "106 hours 23 minutes",
+            "achievements_unlocked": 14,
+            "achievements_total": 14,
+            "achievements_percentage": 100,
+            "never_played": false,
+            "is_playtime_private": false,
+            "last_checked": 1791786832020
+          }
+        },
+        {
+          "name": "Blue Prince",
+          "link": "pjsYQ/blue-prince",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1766649600,
+          "required_play": false,
+          "is_shared": false,
+          "steam_play_data": {
+            "owned": true,
+            "playtime_minutes": 313,
+            "playtime_formatted": "5 hours 13 minutes",
+            "achievements_unlocked": 0,
+            "achievements_total": 16,
+            "achievements_percentage": 0,
+            "never_played": true,
+            "is_playtime_private": false,
+            "last_checked": 1791786833156,
+            "is_potentially_idling": true
+          }
+        },
+        {
+          "name": "The Talos Principle 2",
+          "link": "a3i1P/the-talos-principle-2",
+          "cv_status": "FULL_CV",
+          "status": "received",
+          "end_timestamp": 1759571940,
+          "required_play": false,
+          "is_shared": false,
+          "steam_play_data": {
+            "owned": true,
+            "playtime_minutes": 3035,
+            "playtime_formatted": "50 hours 35 minutes",
+            "achievements_unlocked": 87,
+            "achievements_total": 87,
+            "achievements_percentage": 100,
+            "never_played": false,
+            "is_playtime_private": false,
+            "last_checked": 1791786834260
+          },
+          "i_played_bro": true
+        }
+      ],
+      "giveaways_created": [
+        {
+          "name": "Slime Rancher 2",
+          "link": "BlLN1/slime-rancher-2",
+          "cv_status": "FULL_CV",
+          "entries": 16,
+          "copies": 1,
+          "created_timestamp": 1767789576,
+          "end_timestamp": 1767987000,
+          "required_play": false,
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "76561198352113526",
+              "winner_username": "yugimax",
+              "status": "received",
+              "activated": true
+            }
+          ]
+        },
+        {
+          "name": "Bear and Breakfast",
+          "link": "4K60X/bear-and-breakfast",
+          "cv_status": "FULL_CV",
+          "entries": 1,
+          "copies": 1,
+          "created_timestamp": 1753001075,
+          "end_timestamp": 1753176600,
+          "required_play": false,
+          "is_shared": false,
+          "had_winners": true,
+          "winners": [
+            {
+              "name": "76561198048462370",
+              "winner_username": "QuinlanLJ",
+              "status": "received",
+              "activated": true
+            }
+          ]
+        }
+      ],
+      "warnings": [
+        "no_giveaway_created_in_6_months"
+      ],
+      "left_at_timestamp": 1791829114658
     }
   }
 }
