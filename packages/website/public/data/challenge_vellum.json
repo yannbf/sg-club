@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1790812800,
   "totalAchievements": 36,
-  "generatedAt": 1791884430960,
+  "generatedAt": 1791907228050,
   "challengeOver": false,
   "winnerUsername": "CatzZz",
   "participants": [
@@ -1080,19 +1080,19 @@
       "is_guest": false,
       "owned": true,
       "stats_available": true,
-      "wrote_review": false,
-      "review_voted_up": null,
-      "review_timestamp": null,
-      "review_recommendationid": null,
-      "review_url": null,
-      "playtime_total_minutes": 1373,
-      "playtime_2weeks_minutes": 1373,
+      "wrote_review": true,
+      "review_voted_up": true,
+      "review_timestamp": 0,
+      "review_recommendationid": "237629609",
+      "review_url": "https://steamcommunity.com/profiles/76561198352113526/recommended/917950",
+      "playtime_total_minutes": 1534,
+      "playtime_2weeks_minutes": 1534,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 1373,
+      "playtime_challenge_minutes": 1534,
       "achievements_total": 36,
-      "achievements_unlocked_total": 21,
+      "achievements_unlocked_total": 25,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 21,
+      "achievements_since_baseline": 25,
       "challenge_achievements": [
         {
           "apiname": "SPELLS_1",
@@ -1219,17 +1219,41 @@
           "displayName": "Just a Flesh Wound",
           "description": "Heal 10,000 Health in a Single Run.",
           "unlocktime": 1791753835
+        },
+        {
+          "apiname": "INKLEVEL_25",
+          "displayName": "Cognitively Developed",
+          "description": "Reach Ink Level 30.",
+          "unlocktime": 1791894099
+        },
+        {
+          "apiname": "MASTERY_1",
+          "displayName": "Scribe of the Library",
+          "description": "Unlock 5 Spells, 4 Signature Inks, and reach Ink Level 30.",
+          "unlocktime": 1791894099
+        },
+        {
+          "apiname": "MEND_BOSSRUSH",
+          "displayName": "Decrypted",
+          "description": "Mend the Illegible Tome.",
+          "unlocktime": 1791899445
+        },
+        {
+          "apiname": "RAID_COMPLETE_RAVING",
+          "displayName": "The Grey Area",
+          "description": "Defeat Myriad in The Grey Area.",
+          "unlocktime": 1791899445
         }
       ],
-      "challenge_achievement_count": 21,
+      "challenge_achievement_count": 25,
       "has_started": true,
-      "is_complete": false,
-      "completed_at": null,
+      "is_complete": true,
+      "completed_at": 1791899445,
       "completed_before_start": false,
       "completed_after_deadline": false,
       "meets_playtime": true,
-      "meets_review": false,
-      "is_winner": false
+      "meets_review": true,
+      "is_winner": true
     },
     {
       "username": "Krystie",
@@ -2275,7 +2299,8 @@
     "Vin3",
     "FragolaPorpora",
     "a10i",
-    "DrTenma"
+    "DrTenma",
+    "yugimax"
   ],
   "goalAchievement": {
     "apiname": "RAID_COMPLETE_RAVING",
