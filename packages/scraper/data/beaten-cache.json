@@ -6884,6 +6884,19 @@
       "story_tag_count": 0,
       "override_key": "4077060:ACH_15_CREDITS_END"
     },
+    "4197610": {
+      "fetched_at": "2026-10-13T07:47:58.341Z",
+      "marker": {
+        "apiname": "ACH_3HOURS",
+        "name": "Efficiency Librarian",
+        "description": "Completed the game within three hours.",
+        "global_percent": 13.5,
+        "source": "heuristic",
+        "sh_achievement_id": 10
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0
+    },
     "4231820": {
       "fetched_at": "2026-10-12T17:54:26.895Z",
       "marker": null,
@@ -12217,7 +12230,7 @@
       "no_data_reason": null
     },
     "76561197970969216::1888930": {
-      "fetched_at": "2026-10-12T19:08:54.259Z",
+      "fetched_at": "2026-10-13T07:48:06.604Z",
       "marker_apiname": "284b17b75ee9e837",
       "beaten": false,
       "unlock_time": null,
@@ -12231,7 +12244,7 @@
       "no_data_reason": null
     },
     "76561197968806363::1030300": {
-      "fetched_at": "2026-10-12T19:08:51.906Z",
+      "fetched_at": "2026-10-13T07:48:04.254Z",
       "marker_apiname": "DEFEATED_LACE_2",
       "beaten": false,
       "unlock_time": null,
@@ -12252,7 +12265,7 @@
       "no_data_reason": null
     },
     "76561198044300922::2515020": {
-      "fetched_at": "2026-10-12T19:08:55.612Z",
+      "fetched_at": "2026-10-13T07:48:07.751Z",
       "marker_apiname": "1012",
       "beaten": false,
       "unlock_time": null,
@@ -12273,7 +12286,7 @@
       "no_data_reason": null
     },
     "76561198025798123::1462040": {
-      "fetched_at": "2026-10-12T19:08:49.623Z",
+      "fetched_at": "2026-10-13T07:47:59.483Z",
       "marker_apiname": "ACH_18",
       "beaten": false,
       "unlock_time": null,
@@ -12441,7 +12454,7 @@
       "no_data_reason": null
     },
     "76561198069420656::1262350": {
-      "fetched_at": "2026-10-12T19:08:53.088Z",
+      "fetched_at": "2026-10-13T07:48:05.386Z",
       "marker_apiname": "ACH_7",
       "beaten": false,
       "unlock_time": null,
@@ -12455,7 +12468,7 @@
       "no_data_reason": null
     },
     "76561198129984336::3751260": {
-      "fetched_at": "2026-10-12T19:08:56.732Z",
+      "fetched_at": "2026-10-13T07:48:08.856Z",
       "marker_apiname": "ACH_The_Blood_of_Dawnwalker",
       "beaten": false,
       "unlock_time": null,
@@ -12525,7 +12538,7 @@
       "no_data_reason": null
     },
     "76561198054649894::1096530": {
-      "fetched_at": "2026-10-12T19:08:50.729Z",
+      "fetched_at": "2026-10-13T07:48:01.951Z",
       "marker_apiname": "ACH_FINISHGAME",
       "beaten": false,
       "unlock_time": null,
@@ -12571,6 +12584,20 @@
       "marker_apiname": "18_queen",
       "beaten": true,
       "unlock_time": 1790847121,
+      "no_data_reason": null
+    },
+    "76561197984532155::3265700": {
+      "fetched_at": "2026-10-13T07:48:03.192Z",
+      "marker_apiname": "Unlock_CappellaMagna_01",
+      "beaten": true,
+      "unlock_time": 1791328801,
+      "no_data_reason": null
+    },
+    "76561198080362358::4197610": {
+      "fetched_at": "2026-10-13T07:48:09.899Z",
+      "marker_apiname": "ACH_3HOURS",
+      "beaten": true,
+      "unlock_time": 1791858223,
       "no_data_reason": null
     }
   },
