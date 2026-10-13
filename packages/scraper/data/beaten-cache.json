@@ -3712,6 +3712,12 @@
       "no_marker_reason": "no_marker_found",
       "story_tag_count": 0
     },
+    "1805480": {
+      "fetched_at": "2026-10-13T21:55:53.964Z",
+      "marker": null,
+      "no_marker_reason": "no_marker_found",
+      "story_tag_count": 0
+    },
     "1809540": {
       "fetched_at": "2026-08-24T20:08:37.917Z",
       "marker": {
@@ -5178,6 +5184,12 @@
       "no_marker_reason": "no_marker_found",
       "story_tag_count": 0
     },
+    "2408820": {
+      "fetched_at": "2026-10-13T21:55:49.139Z",
+      "marker": null,
+      "no_marker_reason": "no_marker_found",
+      "story_tag_count": 0
+    },
     "2416450": {
       "fetched_at": "2026-10-05T16:22:31.677Z",
       "marker": null,
@@ -5775,6 +5787,12 @@
       "no_marker_reason": "no_marker_found",
       "story_tag_count": 0
     },
+    "2738490": {
+      "fetched_at": "2026-10-13T21:55:46.631Z",
+      "marker": null,
+      "no_marker_reason": "no_marker_found",
+      "story_tag_count": 0
+    },
     "2744010": {
       "fetched_at": "2026-10-05T16:22:27.929Z",
       "marker": null,
@@ -5849,6 +5867,19 @@
       },
       "no_marker_reason": null,
       "story_tag_count": 2
+    },
+    "2767530": {
+      "fetched_at": "2026-10-13T21:55:45.329Z",
+      "marker": {
+        "apiname": "sa_complete_hard_splus",
+        "name": "Empress",
+        "description": "Complete the game on at least Hard difficulty with an S+ rating. New game only.",
+        "global_percent": 4.5,
+        "source": "heuristic",
+        "sh_achievement_id": 22
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0
     },
     "2784470": {
       "fetched_at": "2026-08-24T18:00:49.674Z",
@@ -5967,6 +5998,12 @@
         "sh_achievement_id": 14
       },
       "no_marker_reason": null,
+      "story_tag_count": 0
+    },
+    "2915460": {
+      "fetched_at": "2026-10-13T21:55:47.923Z",
+      "marker": null,
+      "no_marker_reason": "no_marker_found",
       "story_tag_count": 0
     },
     "2922410": {
@@ -6705,6 +6742,19 @@
       },
       "no_marker_reason": null,
       "story_tag_count": 24
+    },
+    "3639650": {
+      "fetched_at": "2026-10-13T21:55:52.585Z",
+      "marker": {
+        "apiname": "136",
+        "name": "Honor Student",
+        "description": "Finish the game on Challenge difficulty.",
+        "global_percent": 11.6,
+        "source": "heuristic",
+        "sh_achievement_id": 36
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0
     },
     "3669870": {
       "fetched_at": "2026-10-05T16:22:44.403Z",
@@ -12598,6 +12648,41 @@
       "marker_apiname": "ACH_3HOURS",
       "beaten": true,
       "unlock_time": 1791858223,
+      "no_data_reason": null
+    },
+    "76561199434715535::2767530": {
+      "fetched_at": "2026-10-13T21:55:56.528Z",
+      "marker_apiname": "sa_complete_hard_splus",
+      "beaten": false,
+      "unlock_time": null,
+      "no_data_reason": null
+    },
+    "76561199434715535::2989180": {
+      "fetched_at": "2026-10-13T21:55:57.631Z",
+      "marker_apiname": "RETURN_TO_THE_SEA",
+      "beaten": false,
+      "unlock_time": null,
+      "no_data_reason": null
+    },
+    "76561199434715535::3198890": {
+      "fetched_at": "2026-10-13T21:55:59.130Z",
+      "marker_apiname": "SD_FINISH_MAIN_GAME",
+      "beaten": false,
+      "unlock_time": null,
+      "no_data_reason": null
+    },
+    "76561199434715535::3639650": {
+      "fetched_at": "2026-10-13T21:56:00.245Z",
+      "marker_apiname": "136",
+      "beaten": false,
+      "unlock_time": null,
+      "no_data_reason": null
+    },
+    "76561199434715535::1293160": {
+      "fetched_at": "2026-10-13T21:56:01.382Z",
+      "marker_apiname": "CantAlwaysSaveEveryone",
+      "beaten": false,
+      "unlock_time": null,
       "no_data_reason": null
     }
   },
