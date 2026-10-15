@@ -1,27 +1,6 @@
 {
-  "last_updated": "2026-10-15T05:41:52.560Z",
+  "last_updated": "2026-10-15T11:46:10.901Z",
   "giveaways": [
-    {
-      "id": "ieytL",
-      "name": "Stray",
-      "points": 30,
-      "copies": 1,
-      "app_id": 1332010,
-      "package_id": null,
-      "link": "ieytL/stray",
-      "created_timestamp": 1791809358,
-      "start_timestamp": 1791809358,
-      "end_timestamp": 1792062000,
-      "region_restricted": true,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 8,
-      "creator": "76561198047330685",
-      "cv_status": "FULL_CV",
-      "event_type": "october_event_2026",
-      "creator_username": "akfas",
-      "deleted": false
-    },
     {
       "id": "INS1f",
       "name": "Corpse Party",
@@ -77,7 +56,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 37,
+      "entry_count": 39,
       "creator": "76561198025173613",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -98,7 +77,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 67,
+      "entry_count": 66,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -140,7 +119,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 70,
+      "entry_count": 72,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -162,7 +141,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 0,
+      "entry_count": 1,
       "creator": "76561198049128535",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -357,6 +336,25 @@
       "deleted": false
     },
     {
+      "id": "jOHYY",
+      "name": "Red Dead Redemption 2",
+      "points": 50,
+      "copies": 1,
+      "app_id": 1174180,
+      "package_id": null,
+      "link": "jOHYY/red-dead-redemption-2",
+      "created_timestamp": 1792053745,
+      "start_timestamp": 1792053745,
+      "end_timestamp": 1792274400,
+      "group": true,
+      "comment_count": 1,
+      "entry_count": 1,
+      "creator": "76561198408001048",
+      "cv_status": "FULL_CV",
+      "creator_username": "dramainfouracts",
+      "deleted": false
+    },
+    {
       "id": "KXC1L",
       "name": "Sticky Business",
       "points": 10,
@@ -474,7 +472,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 19,
+      "entry_count": 21,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -495,7 +493,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 11,
+      "entry_count": 26,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -514,7 +512,7 @@
       "start_timestamp": 1791661595,
       "end_timestamp": 1792731600,
       "group": true,
-      "comment_count": 3,
+      "comment_count": 5,
       "entry_count": 15,
       "creator": "76561198001969728",
       "cv_status": "FULL_CV",
@@ -556,7 +554,7 @@
       "end_timestamp": 1792879140,
       "group": true,
       "comment_count": 5,
-      "entry_count": 4,
+      "entry_count": 5,
       "creator": "76561198047108526",
       "cv_status": "FULL_CV",
       "creator_username": "Scarwiz",
@@ -858,11 +856,39 @@
       "whitelist": true,
       "group": true,
       "comment_count": 3,
-      "entry_count": 69,
+      "entry_count": 70,
       "creator": "76561198053065013",
       "is_shared": true,
       "cv_status": "FULL_CV",
       "creator_username": "aez76",
+      "deleted": false
+    },
+    {
+      "id": "ieytL",
+      "name": "Stray",
+      "points": 30,
+      "copies": 1,
+      "app_id": 1332010,
+      "package_id": null,
+      "link": "ieytL/stray",
+      "created_timestamp": 1791809358,
+      "start_timestamp": 1791809358,
+      "end_timestamp": 1792062000,
+      "region_restricted": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 8,
+      "creator": "76561198047330685",
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "FULL_CV",
+      "event_type": "october_event_2026",
+      "creator_username": "akfas",
       "deleted": false
     },
     {
@@ -1010,20 +1036,20 @@
       "start_timestamp": 1791568480,
       "end_timestamp": 1791972000,
       "group": true,
-      "comment_count": 2,
+      "comment_count": 3,
       "entry_count": 6,
       "creator": "76561198047330685",
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "76561198089973992",
+          "status": "received",
+          "winner_username": "TwixClub"
         }
       ],
       "cv_status": "FULL_CV",
       "event_type": "october_event_2026",
-      "creator_username": "akfas",
-      "deleted": false
+      "creator_username": "akfas"
     },
     {
       "id": "3M6oM",
@@ -1149,7 +1175,7 @@
       "start_timestamp": 1791648012,
       "end_timestamp": 1791946800,
       "group": true,
-      "comment_count": 5,
+      "comment_count": 6,
       "entry_count": 11,
       "creator": "76561198143588240",
       "hasWinners": true,
@@ -1438,7 +1464,8 @@
       "cv_status": "FULL_CV",
       "event_type": "october_event_2026",
       "creator_username": "OndrejVasicek",
-      "deleted": false
+      "deleted": true,
+      "deleted_reason": "Region Restricted Gift"
     },
     {
       "id": "KCwqr",
@@ -7957,7 +7984,7 @@
       "start_timestamp": 1789423300,
       "end_timestamp": 1789657200,
       "group": true,
-      "comment_count": 4,
+      "comment_count": 5,
       "entry_count": 2,
       "creator": "76561198040188513",
       "hasWinners": true,
@@ -7974,7 +8001,6 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "event_type": "september_event_2026",
       "creator_username": "kiseli"
     },
     {
