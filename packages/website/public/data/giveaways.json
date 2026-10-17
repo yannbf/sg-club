@@ -1,26 +1,6 @@
 {
-  "last_updated": "2026-10-17T11:26:21.549Z",
+  "last_updated": "2026-10-17T17:47:05.009Z",
   "giveaways": [
-    {
-      "id": "DxiE4",
-      "name": "Creature Kitchen",
-      "points": 8,
-      "copies": 1,
-      "app_id": 3097300,
-      "package_id": null,
-      "link": "DxiE4/creature-kitchen",
-      "created_timestamp": 1791910513,
-      "start_timestamp": 1791910513,
-      "end_timestamp": 1792252800,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 8,
-      "creator": "76561198054649894",
-      "cv_status": "FULL_CV",
-      "event_type": "october_event_2026",
-      "creator_username": "DrTenma",
-      "deleted": false
-    },
     {
       "id": "jOHYY",
       "name": "Red Dead Redemption 2",
@@ -33,8 +13,8 @@
       "start_timestamp": 1792053745,
       "end_timestamp": 1792274400,
       "group": true,
-      "comment_count": 1,
-      "entry_count": 8,
+      "comment_count": 2,
+      "entry_count": 9,
       "creator": "76561198408001048",
       "cv_status": "FULL_CV",
       "creator_username": "dramainfouracts",
@@ -54,7 +34,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 2,
+      "entry_count": 3,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -175,7 +155,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 4,
-      "entry_count": 77,
+      "entry_count": 80,
       "creator": "76561197967055456",
       "is_shared": true,
       "cv_status": "FULL_CV",
@@ -215,7 +195,7 @@
       "end_timestamp": 1792508400,
       "group": true,
       "comment_count": 1,
-      "entry_count": 5,
+      "entry_count": 6,
       "creator": "76561198040188513",
       "cv_status": "FULL_CV",
       "creator_username": "kiseli",
@@ -256,7 +236,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 51,
+      "entry_count": 53,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -318,7 +298,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 25,
+      "entry_count": 29,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "FULL_CV",
@@ -339,7 +319,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 27,
+      "entry_count": 35,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "FULL_CV",
@@ -660,7 +640,7 @@
       "end_timestamp": 1793419260,
       "group": true,
       "comment_count": 3,
-      "entry_count": 9,
+      "entry_count": 11,
       "creator": "76561198053065013",
       "cv_status": "FULL_CV",
       "event_type": "october_event_2026",
@@ -689,6 +669,33 @@
       "deleted": false
     },
     {
+      "id": "DxiE4",
+      "name": "Creature Kitchen",
+      "points": 8,
+      "copies": 1,
+      "app_id": 3097300,
+      "package_id": null,
+      "link": "DxiE4/creature-kitchen",
+      "created_timestamp": 1791910513,
+      "start_timestamp": 1791910513,
+      "end_timestamp": 1792252800,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 8,
+      "creator": "76561198054649894",
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "FULL_CV",
+      "event_type": "october_event_2026",
+      "creator_username": "DrTenma",
+      "deleted": false
+    },
+    {
       "id": "ZrzDM",
       "name": "The Wanderer: Frankenstein’s Creature",
       "points": 16,
@@ -708,13 +715,13 @@
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "Xiiter",
+          "status": "received",
+          "winner_username": "Xiiter"
         }
       ],
       "cv_status": "REDUCED_CV",
-      "creator_username": "lockcjwen",
-      "deleted": false
+      "creator_username": "lockcjwen"
     },
     {
       "id": "P8SfG",
@@ -728,20 +735,20 @@
       "start_timestamp": 1791703988,
       "end_timestamp": 1792209600,
       "group": true,
-      "comment_count": 1,
+      "comment_count": 2,
       "entry_count": 12,
       "creator": "76561198143588240",
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "76561198002466205",
+          "status": "received",
+          "winner_username": "Ellendyl"
         }
       ],
       "cv_status": "FULL_CV",
       "event_type": "october_event_2026",
-      "creator_username": "LumpyCreature",
-      "deleted": false
+      "creator_username": "LumpyCreature"
     },
     {
       "id": "uCTBy",
@@ -1852,6 +1859,7 @@
           "winner_username": "makki"
         }
       ],
+      "required_play": false,
       "cv_status": "FULL_CV",
       "event_type": "october_event_2026",
       "creator_username": "herbesdeprovence"
@@ -3338,6 +3346,7 @@
           "winner_username": "makki"
         }
       ],
+      "required_play": false,
       "cv_status": "FULL_CV",
       "event_type": "october_event_2026",
       "creator_username": "Metalhead8489"
@@ -3876,6 +3885,7 @@
           "winner_username": "MrOuiOui"
         }
       ],
+      "required_play": false,
       "cv_status": "FULL_CV",
       "event_type": "october_event_2026",
       "creator_username": "Almostn33t"
@@ -7507,6 +7517,7 @@
           "winner_username": "VenomousNyx"
         }
       ],
+      "required_play": false,
       "cv_status": "FULL_CV",
       "event_type": "september_event_2026",
       "creator_username": "MrOuiOui"
@@ -8229,6 +8240,7 @@
           "winner_username": "RaitorHaitor"
         }
       ],
+      "required_play": false,
       "cv_status": "FULL_CV",
       "creator_username": "kiseli"
     },
@@ -11224,6 +11236,7 @@
           "winner_username": "dramainfouracts"
         }
       ],
+      "required_play": false,
       "cv_status": "FULL_CV",
       "event_type": "september_event_2026",
       "creator_username": "herbesdeprovence"
@@ -11578,6 +11591,7 @@
           "winner_username": "VenomousNyx"
         }
       ],
+      "required_play": false,
       "cv_status": "FULL_CV",
       "event_type": "september_event_2026",
       "creator_username": "Almostn33t"
@@ -16710,7 +16724,8 @@
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "LumpyCreature"
+      "creator_username": "LumpyCreature",
+      "required_play": false
     },
     {
       "id": "tKwox",
