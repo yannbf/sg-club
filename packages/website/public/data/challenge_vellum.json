@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1790812800,
   "totalAchievements": 36,
-  "generatedAt": 1792242216617,
+  "generatedAt": 1792247011940,
   "challengeOver": false,
   "winnerUsername": "CatzZz",
   "participants": [
@@ -196,7 +196,7 @@
       "review_recommendationid": "236811638",
       "review_url": "https://steamcommunity.com/profiles/76561198076863473/recommended/917950",
       "playtime_total_minutes": 340,
-      "playtime_2weeks_minutes": 320,
+      "playtime_2weeks_minutes": 240,
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 340,
       "achievements_total": 36,
@@ -955,10 +955,10 @@
       "review_timestamp": 0,
       "review_recommendationid": "237227565",
       "review_url": "https://steamcommunity.com/profiles/76561198054649894/recommended/917950",
-      "playtime_total_minutes": 527,
-      "playtime_2weeks_minutes": 413,
+      "playtime_total_minutes": 584,
+      "playtime_2weeks_minutes": 470,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 527,
+      "playtime_challenge_minutes": 584,
       "achievements_total": 36,
       "achievements_unlocked_total": 17,
       "achievements_before_challenge": 0,
@@ -1541,14 +1541,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 545,
-      "playtime_2weeks_minutes": 492,
+      "playtime_total_minutes": 621,
+      "playtime_2weeks_minutes": 488,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 545,
+      "playtime_challenge_minutes": 621,
       "achievements_total": 36,
-      "achievements_unlocked_total": 10,
+      "achievements_unlocked_total": 13,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 10,
+      "achievements_since_baseline": 13,
       "challenge_achievements": [
         {
           "apiname": "TOMES_MENDED_1",
@@ -1609,9 +1609,133 @@
           "displayName": "Second Edition",
           "description": "Reach Ink Level 10.",
           "unlocktime": 1792238374
+        },
+        {
+          "apiname": "INKLING_DAMAGE_20000",
+          "displayName": "Supporting Character",
+          "description": "Deal 20,000 Inkling Damage in a single run.",
+          "unlocktime": 1792242647
+        },
+        {
+          "apiname": "TOMES_MENDED_10",
+          "displayName": "All the World's a Stage",
+          "description": "Mend 10 Tomes.",
+          "unlocktime": 1792245049
+        },
+        {
+          "apiname": "TOMES_MENDED_LVL10",
+          "displayName": "And In The Darkness...",
+          "description": "Mend a Tome at Binding Level 10.",
+          "unlocktime": 1792245049
         }
       ],
-      "challenge_achievement_count": 10,
+      "challenge_achievement_count": 13,
+      "has_started": true,
+      "is_complete": false,
+      "completed_at": null,
+      "completed_before_start": false,
+      "completed_after_deadline": false,
+      "meets_playtime": true,
+      "meets_review": false,
+      "is_winner": false
+    },
+    {
+      "username": "Carrei",
+      "sg_username": "Carrei",
+      "steam_id": "76561198224589020",
+      "avatar_url": "https://avatars.steamstatic.com/a7551363c6eb1d68b4751c34777cecd6cf1657d4_medium.jpg",
+      "profile_url": "https://steamcommunity.com/profiles/76561198224589020",
+      "is_guest": false,
+      "owned": true,
+      "stats_available": true,
+      "wrote_review": false,
+      "review_voted_up": null,
+      "review_timestamp": null,
+      "review_recommendationid": null,
+      "review_url": null,
+      "playtime_total_minutes": 264,
+      "playtime_2weeks_minutes": 179,
+      "baseline_playtime_minutes": 0,
+      "playtime_challenge_minutes": 264,
+      "achievements_total": 36,
+      "achievements_unlocked_total": 12,
+      "achievements_before_challenge": 0,
+      "achievements_since_baseline": 12,
+      "challenge_achievements": [
+        {
+          "apiname": "SPELLS_1",
+          "displayName": "Expanded Vocabulary",
+          "description": "Unlock a new Spell.",
+          "unlocktime": 1790959197
+        },
+        {
+          "apiname": "CORES_1",
+          "displayName": "Ink Exploration",
+          "description": "Unlock a new Signature Ink.",
+          "unlocktime": 1790959197
+        },
+        {
+          "apiname": "TOMES_MENDED_1",
+          "displayName": "It was the Best of Times",
+          "description": "Mend your first Tome.",
+          "unlocktime": 1790960349
+        },
+        {
+          "apiname": "TOMES_MENDED_LVL1",
+          "displayName": "Rising Action",
+          "description": "Mend a Tome at Binding Level 1.",
+          "unlocktime": 1790960349
+        },
+        {
+          "apiname": "STATUS_DAMAGE_30000",
+          "displayName": "The Stacks",
+          "description": "Deal 30,000 Status Damage in a single run.",
+          "unlocktime": 1790961719
+        },
+        {
+          "apiname": "SPELLS_5",
+          "displayName": "Regular Shakespeare",
+          "description": "Unlock  5 Spells.",
+          "unlocktime": 1791033262
+        },
+        {
+          "apiname": "TOMES_MENDED_LVL5",
+          "displayName": "High Stakes",
+          "description": "Mend a Tome at Binding Level 5.",
+          "unlocktime": 1792236790
+        },
+        {
+          "apiname": "BINDING_COMPLETED_BOSS2",
+          "displayName": "May Thy Knife",
+          "description": "Defeat a Boss with the Shredded Pages Binding active.",
+          "unlocktime": 1792239943
+        },
+        {
+          "apiname": "INKLEVEL_2",
+          "displayName": "Ding!",
+          "description": "Reach Ink Level 2.",
+          "unlocktime": 1792241755
+        },
+        {
+          "apiname": "FLOURISH_DAMAGE_3000",
+          "displayName": "That's a lot of Damage",
+          "description": "Flourish for more than 3000 Damage.",
+          "unlocktime": 1792243360
+        },
+        {
+          "apiname": "TOMES_MENDED_5",
+          "displayName": "Setting the Foundation",
+          "description": "Mend 5 Tomes.",
+          "unlocktime": 1792243370
+        },
+        {
+          "apiname": "CORES_4",
+          "displayName": "Ink, Lots of Ink",
+          "description": "Unlock 4 Signature Inks.",
+          "unlocktime": 1792245486
+        }
+      ],
+      "challenge_achievement_count": 12,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
@@ -1716,94 +1840,6 @@
       "is_winner": false
     },
     {
-      "username": "Carrei",
-      "sg_username": "Carrei",
-      "steam_id": "76561198224589020",
-      "avatar_url": "https://avatars.steamstatic.com/a7551363c6eb1d68b4751c34777cecd6cf1657d4_medium.jpg",
-      "profile_url": "https://steamcommunity.com/profiles/76561198224589020",
-      "is_guest": false,
-      "owned": true,
-      "stats_available": true,
-      "wrote_review": false,
-      "review_voted_up": null,
-      "review_timestamp": null,
-      "review_recommendationid": null,
-      "review_url": null,
-      "playtime_total_minutes": 204,
-      "playtime_2weeks_minutes": 109,
-      "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 204,
-      "achievements_total": 36,
-      "achievements_unlocked_total": 9,
-      "achievements_before_challenge": 0,
-      "achievements_since_baseline": 9,
-      "challenge_achievements": [
-        {
-          "apiname": "SPELLS_1",
-          "displayName": "Expanded Vocabulary",
-          "description": "Unlock a new Spell.",
-          "unlocktime": 1790959197
-        },
-        {
-          "apiname": "CORES_1",
-          "displayName": "Ink Exploration",
-          "description": "Unlock a new Signature Ink.",
-          "unlocktime": 1790959197
-        },
-        {
-          "apiname": "TOMES_MENDED_1",
-          "displayName": "It was the Best of Times",
-          "description": "Mend your first Tome.",
-          "unlocktime": 1790960349
-        },
-        {
-          "apiname": "TOMES_MENDED_LVL1",
-          "displayName": "Rising Action",
-          "description": "Mend a Tome at Binding Level 1.",
-          "unlocktime": 1790960349
-        },
-        {
-          "apiname": "STATUS_DAMAGE_30000",
-          "displayName": "The Stacks",
-          "description": "Deal 30,000 Status Damage in a single run.",
-          "unlocktime": 1790961719
-        },
-        {
-          "apiname": "SPELLS_5",
-          "displayName": "Regular Shakespeare",
-          "description": "Unlock  5 Spells.",
-          "unlocktime": 1791033262
-        },
-        {
-          "apiname": "TOMES_MENDED_LVL5",
-          "displayName": "High Stakes",
-          "description": "Mend a Tome at Binding Level 5.",
-          "unlocktime": 1792236790
-        },
-        {
-          "apiname": "BINDING_COMPLETED_BOSS2",
-          "displayName": "May Thy Knife",
-          "description": "Defeat a Boss with the Shredded Pages Binding active.",
-          "unlocktime": 1792239943
-        },
-        {
-          "apiname": "INKLEVEL_2",
-          "displayName": "Ding!",
-          "description": "Reach Ink Level 2.",
-          "unlocktime": 1792241755
-        }
-      ],
-      "challenge_achievement_count": 9,
-      "has_started": true,
-      "is_complete": false,
-      "completed_at": null,
-      "completed_before_start": false,
-      "completed_after_deadline": false,
-      "meets_playtime": true,
-      "meets_review": false,
-      "is_winner": false
-    },
-    {
       "username": "Gooberdragon",
       "sg_username": "Gooberdragon",
       "steam_id": "76561198066957402",
@@ -1882,7 +1918,7 @@
       "review_recommendationid": null,
       "review_url": null,
       "playtime_total_minutes": 114,
-      "playtime_2weeks_minutes": 52,
+      "playtime_2weeks_minutes": 0,
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 114,
       "achievements_total": 36,
@@ -2108,7 +2144,7 @@
       "review_recommendationid": null,
       "review_url": null,
       "playtime_total_minutes": 73,
-      "playtime_2weeks_minutes": 73,
+      "playtime_2weeks_minutes": 33,
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 73,
       "achievements_total": 36,
