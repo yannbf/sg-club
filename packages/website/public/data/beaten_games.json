@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-10-17T13:03:13.167Z",
+  "last_updated": "2026-10-17T18:31:42.247Z",
   "games": {
     "223810": {
       "marker": {
@@ -685,10 +685,21 @@
       "checked_at": "2026-09-11T13:53:13.526Z"
     },
     "720350": {
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
+      "marker": {
+        "apiname": "ACH_ENDING_AVALANCHE",
+        "name": "Staying Indefinitely",
+        "description": "",
+        "global_percent": 25.7,
+        "source": "override",
+        "any_of_apinames": [
+          "ACH_ENDING_AVALANCHE",
+          "ACH_ENDING_LEAVE_WITH_HEALED_HAND",
+          "ACH_ENDING_LEAVE_WITH_DARK_HAND"
+        ]
+      },
+      "no_marker_reason": null,
       "story_tag_count": 0,
-      "checked_at": "2026-10-12T17:54:24.600Z"
+      "checked_at": "2026-10-17T18:31:01.720Z"
     },
     "721180": {
       "marker": {
@@ -2853,10 +2864,17 @@
       "checked_at": "2026-10-05T16:19:13.596Z"
     },
     "1569580": {
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
+      "marker": {
+        "apiname": "Inheritance Trophy",
+        "name": "Inheritance Trophy",
+        "description": "Reach Room 46",
+        "global_percent": 38,
+        "source": "override",
+        "sh_achievement_id": 1
+      },
+      "no_marker_reason": null,
       "story_tag_count": 0,
-      "checked_at": "2026-10-05T16:18:54.501Z"
+      "checked_at": "2026-10-17T18:31:00.423Z"
     },
     "1571100": {
       "marker": {
@@ -3342,7 +3360,7 @@
       "marker": null,
       "no_marker_reason": "schema_unavailable",
       "story_tag_count": 0,
-      "checked_at": "2026-10-12T19:08:47.397Z"
+      "checked_at": "2026-10-17T18:31:08.460Z"
     },
     "1671720": {
       "marker": null,
@@ -3661,10 +3679,17 @@
       "checked_at": "2026-08-24T20:06:47.657Z"
     },
     "1801110": {
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
+      "marker": {
+        "apiname": "PastWantToChange",
+        "name": "The past I want to change",
+        "description": " ",
+        "global_percent": 45.5,
+        "source": "override",
+        "sh_achievement_id": 12
+      },
+      "no_marker_reason": null,
       "story_tag_count": 0,
-      "checked_at": "2026-10-15T11:25:14.415Z"
+      "checked_at": "2026-10-17T18:31:02.900Z"
     },
     "1802880": {
       "marker": null,
@@ -4675,7 +4700,7 @@
       "marker": null,
       "no_marker_reason": "no_marker_found",
       "story_tag_count": 0,
-      "checked_at": "2026-09-17T18:26:14.316Z"
+      "checked_at": "2026-10-17T18:31:05.653Z"
     },
     "2200410": {
       "marker": {
@@ -5994,10 +6019,17 @@
       "checked_at": "2026-10-05T16:22:35.398Z"
     },
     "2977620": {
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
+      "marker": {
+        "apiname": "ACHIEVEMENT_Portal",
+        "name": "Enter Squirrelvana",
+        "description": "",
+        "global_percent": 25.2,
+        "source": "override",
+        "sh_achievement_id": 5
+      },
+      "no_marker_reason": null,
       "story_tag_count": 0,
-      "checked_at": "2026-10-14T13:44:34.674Z"
+      "checked_at": "2026-10-17T18:31:04.154Z"
     },
     "2989180": {
       "marker": {
@@ -6886,6 +6918,19 @@
       "story_tag_count": 0,
       "checked_at": "2026-08-30T06:41:18.854Z"
     },
+    "4358690": {
+      "marker": {
+        "apiname": "ach_the_end",
+        "name": "The End of the Journey",
+        "description": "You completed the game.",
+        "global_percent": 9.3,
+        "source": "heuristic",
+        "sh_achievement_id": 20
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0,
+      "checked_at": "2026-10-17T18:30:59.242Z"
+    },
     "4704690": {
       "marker": null,
       "no_marker_reason": "schema_unavailable",
@@ -7092,7 +7137,13 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-10-17T04:23:26.480Z"
+      "checked_at": "2026-10-17T18:31:09.787Z"
+    },
+    "76561199036747433::4358690": {
+      "beaten": false,
+      "unlock_time": null,
+      "no_data_reason": null,
+      "checked_at": "2026-10-17T18:31:11.037Z"
     },
     "76561199036747433::2592160": {
       "beaten": true,
@@ -7484,6 +7535,12 @@
       "no_data_reason": null,
       "checked_at": "2026-08-24T17:41:33.738Z"
     },
+    "76561197990462722::1569580": {
+      "beaten": true,
+      "unlock_time": 1751975649,
+      "no_data_reason": null,
+      "checked_at": "2026-10-17T18:31:14.644Z"
+    },
     "76561198055569704::1425350": {
       "beaten": true,
       "unlock_time": 1760623202,
@@ -7620,25 +7677,25 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-10-17T04:23:29.334Z"
+      "checked_at": "2026-10-17T18:31:16.000Z"
     },
     "76561199434715535::2989180": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-10-17T04:23:30.450Z"
+      "checked_at": "2026-10-17T18:31:17.868Z"
     },
     "76561199434715535::3198890": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-10-17T04:23:31.596Z"
+      "checked_at": "2026-10-17T18:31:19.232Z"
     },
     "76561199434715535::3639650": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-10-17T04:23:32.720Z"
+      "checked_at": "2026-10-17T18:31:21.051Z"
     },
     "76561199434715535::4992070": {
       "beaten": true,
@@ -7656,7 +7713,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-10-17T04:23:33.886Z"
+      "checked_at": "2026-10-17T18:31:22.656Z"
     },
     "76561198053885117::501300": {
       "beaten": true,
@@ -7868,6 +7925,12 @@
       "no_data_reason": null,
       "checked_at": "2026-09-17T20:24:08.066Z"
     },
+    "76561198408001048::1569580": {
+      "beaten": true,
+      "unlock_time": 1789756310,
+      "no_data_reason": null,
+      "checked_at": "2026-10-17T18:31:23.925Z"
+    },
     "76561198408001048::3376990": {
       "beaten": true,
       "unlock_time": 1787067805,
@@ -7920,7 +7983,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-10-17T04:23:35.034Z"
+      "checked_at": "2026-10-17T18:31:25.171Z"
     },
     "76561198054649894::851850": {
       "beaten": true,
@@ -8484,7 +8547,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-10-17T04:23:36.260Z"
+      "checked_at": "2026-10-17T18:31:27.786Z"
     },
     "76561197968806363::359870": {
       "beaten": false,
@@ -8653,6 +8716,12 @@
       "unlock_time": 1792009208,
       "no_data_reason": null,
       "checked_at": "2026-10-15T11:26:15.819Z"
+    },
+    "76561198035801987::720350": {
+      "beaten": true,
+      "unlock_time": 1791822926,
+      "no_data_reason": null,
+      "checked_at": "2026-10-17T18:31:29.201Z"
     },
     "76561198035801987::852090": {
       "beaten": true,
@@ -8892,7 +8961,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-10-17T04:23:37.505Z"
+      "checked_at": "2026-10-17T18:31:30.353Z"
     },
     "76561198069420656::1497440": {
       "beaten": true,
@@ -9026,6 +9095,12 @@
       "no_data_reason": null,
       "checked_at": "2026-08-24T17:44:39.478Z"
     },
+    "76561198452519450::1569580": {
+      "beaten": true,
+      "unlock_time": 1789303205,
+      "no_data_reason": null,
+      "checked_at": "2026-10-17T18:31:31.671Z"
+    },
     "76561198452519450::2058180": {
       "beaten": true,
       "unlock_time": 1788569780,
@@ -9067,6 +9142,12 @@
       "unlock_time": 1753142848,
       "no_data_reason": null,
       "checked_at": "2026-08-24T17:44:46.895Z"
+    },
+    "76561197975099685::720350": {
+      "beaten": true,
+      "unlock_time": 1791992612,
+      "no_data_reason": null,
+      "checked_at": "2026-10-17T18:31:32.913Z"
     },
     "76561197975099685::2680010": {
       "beaten": true,
@@ -9210,7 +9291,13 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-10-17T04:23:38.659Z"
+      "checked_at": "2026-10-17T18:31:34.210Z"
+    },
+    "76561197970969216::1801110": {
+      "beaten": true,
+      "unlock_time": 1792013876,
+      "no_data_reason": null,
+      "checked_at": "2026-10-17T18:31:35.379Z"
     },
     "76561197970969216::1601570": {
       "beaten": true,
@@ -9884,6 +9971,12 @@
       "no_data_reason": null,
       "checked_at": "2026-10-17T11:06:59.268Z"
     },
+    "76561198001969728::1569580": {
+      "beaten": true,
+      "unlock_time": 1756576177,
+      "no_data_reason": null,
+      "checked_at": "2026-10-17T18:31:36.519Z"
+    },
     "76561198001969728::1332010": {
       "beaten": true,
       "unlock_time": 1755707862,
@@ -10296,7 +10389,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-10-17T04:23:39.788Z"
+      "checked_at": "2026-10-17T18:31:37.654Z"
     },
     "76561198044300922::1096530": {
       "beaten": true,
@@ -10465,6 +10558,12 @@
       "unlock_time": 1780170136,
       "no_data_reason": null,
       "checked_at": "2026-08-24T17:47:30.296Z"
+    },
+    "76561198080362358::2977620": {
+      "beaten": true,
+      "unlock_time": 1791964363,
+      "no_data_reason": null,
+      "checked_at": "2026-10-17T18:31:38.864Z"
     },
     "76561198080362358::1590230": {
       "beaten": true,
@@ -11360,6 +11459,12 @@
       "no_data_reason": null,
       "checked_at": "2026-10-17T11:07:51.467Z"
     },
+    "76561198029751126::1569580": {
+      "beaten": true,
+      "unlock_time": 1782314934,
+      "no_data_reason": null,
+      "checked_at": "2026-10-17T18:31:40.062Z"
+    },
     "76561198029751126::3180070": {
       "beaten": true,
       "unlock_time": 1776456470,
@@ -11473,6 +11578,12 @@
       "unlock_time": 1752479105,
       "no_data_reason": null,
       "checked_at": "2026-08-24T17:43:40.449Z"
+    },
+    "76561198351673664::1569580": {
+      "beaten": false,
+      "unlock_time": null,
+      "no_data_reason": null,
+      "checked_at": "2026-10-17T18:31:41.243Z"
     },
     "76561198351673664::553420": {
       "beaten": false,
