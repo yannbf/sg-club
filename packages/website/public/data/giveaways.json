@@ -1,25 +1,6 @@
 {
-  "last_updated": "2026-10-17T17:47:05.009Z",
+  "last_updated": "2026-10-18T01:42:09.097Z",
   "giveaways": [
-    {
-      "id": "jOHYY",
-      "name": "Red Dead Redemption 2",
-      "points": 50,
-      "copies": 1,
-      "app_id": 1174180,
-      "package_id": null,
-      "link": "jOHYY/red-dead-redemption-2",
-      "created_timestamp": 1792053745,
-      "start_timestamp": 1792053745,
-      "end_timestamp": 1792274400,
-      "group": true,
-      "comment_count": 2,
-      "entry_count": 9,
-      "creator": "76561198408001048",
-      "cv_status": "FULL_CV",
-      "creator_username": "dramainfouracts",
-      "deleted": false
-    },
     {
       "id": "KXC1L",
       "name": "Sticky Business",
@@ -34,7 +15,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 3,
+      "entry_count": 4,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -73,7 +54,7 @@
       "end_timestamp": 1792360740,
       "group": true,
       "comment_count": 0,
-      "entry_count": 7,
+      "entry_count": 8,
       "creator": "76561198101327606",
       "cv_status": "FULL_CV",
       "creator_username": "xXShurraXx",
@@ -215,7 +196,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 28,
+      "entry_count": 27,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -236,7 +217,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 53,
+      "entry_count": 54,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -298,7 +279,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 29,
+      "entry_count": 34,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "FULL_CV",
@@ -319,7 +300,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 35,
+      "entry_count": 39,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "FULL_CV",
@@ -339,7 +320,7 @@
       "end_timestamp": 1792879140,
       "group": true,
       "comment_count": 5,
-      "entry_count": 6,
+      "entry_count": 7,
       "creator": "76561198047108526",
       "cv_status": "FULL_CV",
       "creator_username": "Scarwiz",
@@ -639,8 +620,8 @@
       "start_timestamp": 1792213788,
       "end_timestamp": 1793419260,
       "group": true,
-      "comment_count": 3,
-      "entry_count": 11,
+      "comment_count": 5,
+      "entry_count": 13,
       "creator": "76561198053065013",
       "cv_status": "FULL_CV",
       "event_type": "october_event_2026",
@@ -661,12 +642,38 @@
       "whitelist": true,
       "group": true,
       "comment_count": 3,
-      "entry_count": 77,
+      "entry_count": 78,
       "creator": "76561198053065013",
       "is_shared": true,
       "cv_status": "FULL_CV",
       "creator_username": "aez76",
       "deleted": false
+    },
+    {
+      "id": "jOHYY",
+      "name": "Red Dead Redemption 2",
+      "points": 50,
+      "copies": 1,
+      "app_id": 1174180,
+      "package_id": null,
+      "link": "jOHYY/red-dead-redemption-2",
+      "created_timestamp": 1792053745,
+      "start_timestamp": 1792053745,
+      "end_timestamp": 1792274400,
+      "group": true,
+      "comment_count": 3,
+      "entry_count": 9,
+      "creator": "76561198408001048",
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": "76561198013676011",
+          "status": "received",
+          "winner_username": "drbeckett"
+        }
+      ],
+      "cv_status": "FULL_CV",
+      "creator_username": "dramainfouracts"
     },
     {
       "id": "DxiE4",
@@ -680,20 +687,20 @@
       "start_timestamp": 1791910513,
       "end_timestamp": 1792252800,
       "group": true,
-      "comment_count": 0,
+      "comment_count": 2,
       "entry_count": 8,
       "creator": "76561198054649894",
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "76561197961485346",
+          "status": "received",
+          "winner_username": "kudomonster"
         }
       ],
       "cv_status": "FULL_CV",
       "event_type": "october_event_2026",
-      "creator_username": "DrTenma",
-      "deleted": false
+      "creator_username": "DrTenma"
     },
     {
       "id": "ZrzDM",
@@ -6417,6 +6424,7 @@
           "winner_username": "Lontaz"
         }
       ],
+      "required_play": false,
       "cv_status": "FULL_CV",
       "event_type": "september_event_2026",
       "creator_username": "kudomonster"
@@ -7205,6 +7213,7 @@
           "winner_username": "VenomousNyx"
         }
       ],
+      "required_play": false,
       "cv_status": "FULL_CV",
       "event_type": "september_event_2026",
       "creator_username": "quinnix"
@@ -13044,6 +13053,7 @@
           "winner_username": "doubleomurfy"
         }
       ],
+      "required_play": false,
       "cv_status": "FULL_CV",
       "creator_username": "yannbz"
     },
