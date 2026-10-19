@@ -3914,6 +3914,19 @@
       "story_tag_count": 0,
       "override_key": "1843110:ACH_Winner"
     },
+    "1849790": {
+      "fetched_at": "2026-10-19T06:18:16.372Z",
+      "marker": {
+        "apiname": "magpieRapidDay4",
+        "name": "Wilbur? More Like Wilmot!",
+        "description": "Complete the final Magpie day in 5 minutes or less.",
+        "global_percent": 2.7,
+        "source": "heuristic",
+        "sh_achievement_id": 25
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0
+    },
     "1866180": {
       "fetched_at": "2026-10-05T16:19:22.025Z",
       "marker": null,
@@ -12860,6 +12873,13 @@
     "76561198351673664::1569580": {
       "fetched_at": "2026-10-19T04:38:15.716Z",
       "marker_apiname": "Inheritance Trophy",
+      "beaten": false,
+      "unlock_time": null,
+      "no_data_reason": null
+    },
+    "76561198080362358::1849790": {
+      "fetched_at": "2026-10-19T06:18:18.967Z",
+      "marker_apiname": "magpieRapidDay4",
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null

@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-10-19T04:38:16.719Z",
+  "last_updated": "2026-10-19T06:18:21.232Z",
   "games": {
     "223810": {
       "marker": {
@@ -3862,6 +3862,19 @@
       "no_marker_reason": null,
       "story_tag_count": 0,
       "checked_at": "2026-10-01T19:43:14.780Z"
+    },
+    "1849790": {
+      "marker": {
+        "apiname": "magpieRapidDay4",
+        "name": "Wilbur? More Like Wilmot!",
+        "description": "Complete the final Magpie day in 5 minutes or less.",
+        "global_percent": 2.7,
+        "source": "heuristic",
+        "sh_achievement_id": 25
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0,
+      "checked_at": "2026-10-19T06:18:16.372Z"
     },
     "1866180": {
       "marker": null,
@@ -10559,6 +10572,12 @@
       "unlock_time": 1780170136,
       "no_data_reason": null,
       "checked_at": "2026-08-24T17:47:30.296Z"
+    },
+    "76561198080362358::1849790": {
+      "beaten": false,
+      "unlock_time": null,
+      "no_data_reason": null,
+      "checked_at": "2026-10-19T06:18:18.967Z"
     },
     "76561198080362358::2977620": {
       "beaten": true,
