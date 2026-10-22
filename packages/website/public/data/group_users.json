@@ -1,5 +1,5 @@
 {
-  "lastUpdated": 1792648468793,
+  "lastUpdated": 1792650414773,
   "users": {
     "76561198359284432": {
       "username": "a10i",
@@ -801,7 +801,18 @@
           "status": "received",
           "end_timestamp": 1792587240,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "steam_play_data": {
+            "owned": true,
+            "playtime_minutes": 0,
+            "playtime_formatted": "0 minutes",
+            "achievements_unlocked": 0,
+            "achievements_total": 16,
+            "achievements_percentage": 0,
+            "never_played": true,
+            "is_playtime_private": false,
+            "last_checked": 1792650392033
+          }
         },
         {
           "name": "Is this Game Trying to Kill Me?",
@@ -18538,7 +18549,7 @@
             "is_playtime_private": false,
             "has_no_available_stats": true,
             "no_stats_reason": "no_steam_stats",
-            "last_checked": 1792473414873
+            "last_checked": 1792650401584
           }
         },
         {
@@ -18883,7 +18894,7 @@
             "is_playtime_private": false,
             "has_no_available_stats": true,
             "no_stats_reason": "no_steam_stats",
-            "last_checked": 1792473434283
+            "last_checked": 1792650402711
           }
         },
         {
@@ -19461,7 +19472,7 @@
             "is_playtime_private": false,
             "has_no_available_stats": true,
             "no_stats_reason": "no_steam_stats",
-            "last_checked": 1792473467599
+            "last_checked": 1792650403863
           },
           "i_played_bro": true
         },
@@ -28264,7 +28275,7 @@
             "is_playtime_private": false,
             "has_no_available_stats": true,
             "no_stats_reason": "not_in_library",
-            "last_checked": 1792473651160
+            "last_checked": 1792650409442
           },
           "i_played_bro": true
         },
@@ -38149,7 +38160,20 @@
           "status": "received",
           "end_timestamp": 1792608000,
           "required_play": false,
-          "is_shared": false
+          "is_shared": false,
+          "steam_play_data": {
+            "owned": true,
+            "playtime_minutes": 0,
+            "playtime_formatted": "0 minutes",
+            "achievements_unlocked": 0,
+            "achievements_total": 0,
+            "achievements_percentage": 0,
+            "never_played": true,
+            "is_playtime_private": false,
+            "has_no_available_stats": true,
+            "no_stats_reason": "no_steam_stats",
+            "last_checked": 1792650390000
+          }
         },
         {
           "name": "Alone in the Dark",
@@ -88400,7 +88424,7 @@
             "is_playtime_private": false,
             "has_no_available_stats": true,
             "no_stats_reason": "no_steam_stats",
-            "last_checked": 1792473605614
+            "last_checked": 1792650406925
           }
         },
         {
@@ -88854,7 +88878,7 @@
             "is_playtime_private": false,
             "has_no_available_stats": true,
             "no_stats_reason": "no_steam_stats",
-            "last_checked": 1792473634208
+            "last_checked": 1792650408058
           }
         },
         {
@@ -106882,7 +106906,7 @@
             "is_playtime_private": false,
             "has_no_available_stats": true,
             "no_stats_reason": "not_in_library",
-            "last_checked": 1792473515397
+            "last_checked": 1792650405407
           },
           "i_played_bro": true,
           "required_play_meta": {
