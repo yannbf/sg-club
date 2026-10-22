@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-10-22T06:12:16.969Z",
+  "last_updated": "2026-10-22T13:49:25.395Z",
   "games": {
     "223810": {
       "marker": {
@@ -5948,10 +5948,20 @@
       "checked_at": "2026-10-11T13:14:59.317Z"
     },
     "2863640": {
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
+      "marker": {
+        "apiname": "BurnOut",
+        "name": "Burn Out",
+        "description": "",
+        "global_percent": 23.3,
+        "source": "override",
+        "any_of_apinames": [
+          "BurnOut",
+          "FadeAway"
+        ]
+      },
+      "no_marker_reason": null,
       "story_tag_count": 0,
-      "checked_at": "2026-10-20T13:36:36.133Z"
+      "checked_at": "2026-10-22T13:49:04.253Z"
     },
     "2870350": {
       "marker": null,
@@ -6376,7 +6386,7 @@
       "marker": null,
       "no_marker_reason": "schema_unavailable",
       "story_tag_count": 0,
-      "checked_at": "2026-10-15T11:25:15.479Z"
+      "checked_at": "2026-10-22T13:49:05.415Z"
     },
     "3265700": {
       "marker": {
@@ -7175,13 +7185,13 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-10-21T18:51:45.068Z"
+      "checked_at": "2026-10-22T13:49:06.586Z"
     },
     "76561199036747433::4358690": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-10-21T18:51:46.228Z"
+      "checked_at": "2026-10-22T13:49:07.726Z"
     },
     "76561199036747433::2592160": {
       "beaten": true,
@@ -7715,25 +7725,25 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-10-21T18:51:48.866Z"
+      "checked_at": "2026-10-22T13:49:10.370Z"
     },
     "76561199434715535::2989180": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-10-21T18:51:49.998Z"
+      "checked_at": "2026-10-22T13:49:11.519Z"
     },
     "76561199434715535::3198890": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-10-21T18:51:51.224Z"
+      "checked_at": "2026-10-22T13:49:12.662Z"
     },
     "76561199434715535::3639650": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-10-21T18:51:52.359Z"
+      "checked_at": "2026-10-22T13:49:13.805Z"
     },
     "76561199434715535::4992070": {
       "beaten": true,
@@ -7751,7 +7761,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-10-21T18:51:53.586Z"
+      "checked_at": "2026-10-22T13:49:14.950Z"
     },
     "76561198053885117::501300": {
       "beaten": true,
@@ -8021,7 +8031,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-10-21T18:51:54.706Z"
+      "checked_at": "2026-10-22T13:49:16.114Z"
     },
     "76561198054649894::851850": {
       "beaten": true,
@@ -8467,6 +8477,12 @@
       "no_data_reason": null,
       "checked_at": "2026-08-24T17:43:26.630Z"
     },
+    "76561198118726910::2863640": {
+      "beaten": true,
+      "unlock_time": 1792458988,
+      "no_data_reason": null,
+      "checked_at": "2026-10-22T13:49:17.260Z"
+    },
     "76561198118726910::2456350": {
       "beaten": true,
       "unlock_time": 1781838286,
@@ -8585,7 +8601,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-10-21T18:51:55.858Z"
+      "checked_at": "2026-10-22T13:49:18.400Z"
     },
     "76561197968806363::359870": {
       "beaten": false,
@@ -9005,7 +9021,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-10-21T18:51:57.011Z"
+      "checked_at": "2026-10-22T13:49:19.557Z"
     },
     "76561198069420656::1497440": {
       "beaten": true,
@@ -9335,7 +9351,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-10-21T18:51:58.149Z"
+      "checked_at": "2026-10-22T13:49:20.709Z"
     },
     "76561197970969216::1801110": {
       "beaten": true,
@@ -10613,7 +10629,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-10-21T18:51:59.278Z"
+      "checked_at": "2026-10-22T13:49:21.860Z"
     },
     "76561198080362358::2977620": {
       "beaten": true,
@@ -11639,7 +11655,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-10-21T18:52:01.784Z"
+      "checked_at": "2026-10-22T13:49:24.393Z"
     },
     "76561198351673664::553420": {
       "beaten": false,
