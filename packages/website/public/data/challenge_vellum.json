@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1790812800,
   "totalAchievements": 36,
-  "generatedAt": 1792780637763,
+  "generatedAt": 1792785685056,
   "challengeOver": false,
   "winnerUsername": "CatzZz",
   "participants": [
@@ -1949,14 +1949,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 218,
-      "playtime_2weeks_minutes": 187,
+      "playtime_total_minutes": 272,
+      "playtime_2weeks_minutes": 240,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 218,
+      "playtime_challenge_minutes": 272,
       "achievements_total": 36,
-      "achievements_unlocked_total": 11,
+      "achievements_unlocked_total": 12,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 11,
+      "achievements_since_baseline": 12,
       "challenge_achievements": [
         {
           "apiname": "SPELLS_1",
@@ -2023,9 +2023,15 @@
           "displayName": "Regular Shakespeare",
           "description": "Unlock  5 Spells.",
           "unlocktime": 1792779186
+        },
+        {
+          "apiname": "INKLING_DAMAGE_20000",
+          "displayName": "Supporting Character",
+          "description": "Deal 20,000 Inkling Damage in a single run.",
+          "unlocktime": 1792782378
         }
       ],
-      "challenge_achievement_count": 11,
+      "challenge_achievement_count": 12,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
