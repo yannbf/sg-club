@@ -1,69 +1,6 @@
 {
-  "last_updated": "2026-10-24T02:09:18.711Z",
+  "last_updated": "2026-10-24T05:39:52.291Z",
   "giveaways": [
-    {
-      "id": "bKf6D",
-      "name": "Wicked Seed",
-      "points": 20,
-      "copies": 1,
-      "app_id": 2767530,
-      "package_id": null,
-      "link": "bKf6D/wicked-seed",
-      "created_timestamp": 1790820574,
-      "start_timestamp": 1790820574,
-      "end_timestamp": 1792812600,
-      "group": true,
-      "comment_count": 2,
-      "entry_count": 2,
-      "creator": "76561199036747433",
-      "cv_status": "FULL_CV",
-      "event_type": "october_event_2026",
-      "creator_username": "BaconChizBurger",
-      "deleted": true,
-      "deleted_reason": "Accident"
-    },
-    {
-      "id": "uZSMj",
-      "name": "ORDER 13",
-      "points": 9,
-      "copies": 1,
-      "app_id": 2259310,
-      "package_id": null,
-      "link": "uZSMj/order-13",
-      "created_timestamp": 1792197448,
-      "start_timestamp": 1792197448,
-      "end_timestamp": 1792814400,
-      "whitelist": true,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 62,
-      "creator": "76561198234142828",
-      "is_shared": true,
-      "cv_status": "FULL_CV",
-      "creator_username": "lockcjwen",
-      "deleted": false
-    },
-    {
-      "id": "Qf7U0",
-      "name": "Kiosk",
-      "points": 4,
-      "copies": 1,
-      "app_id": 3126330,
-      "package_id": null,
-      "link": "Qf7U0/kiosk",
-      "created_timestamp": 1792197414,
-      "start_timestamp": 1792197414,
-      "end_timestamp": 1792814400,
-      "whitelist": true,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 63,
-      "creator": "76561198234142828",
-      "is_shared": true,
-      "cv_status": "FULL_CV",
-      "creator_username": "lockcjwen",
-      "deleted": false
-    },
     {
       "id": "TvmQK",
       "name": "Sovereign Tower",
@@ -76,7 +13,7 @@
       "start_timestamp": 1792014945,
       "end_timestamp": 1792879140,
       "group": true,
-      "comment_count": 6,
+      "comment_count": 7,
       "entry_count": 8,
       "creator": "76561198047108526",
       "cv_status": "FULL_CV",
@@ -218,7 +155,7 @@
       "end_timestamp": 1793039340,
       "group": true,
       "comment_count": 0,
-      "entry_count": 37,
+      "entry_count": 38,
       "creator": "76561198076863473",
       "is_shared": true,
       "cv_status": "FULL_CV",
@@ -361,7 +298,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 37,
+      "entry_count": 39,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -561,7 +498,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 44,
+      "entry_count": 47,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -582,7 +519,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 41,
+      "entry_count": 42,
       "creator": "76561198399974062",
       "is_shared": true,
       "cv_status": "FULL_CV",
@@ -608,6 +545,27 @@
       "cv_status": "FULL_CV",
       "event_type": "october_event_2026",
       "creator_username": "Gooberdragon",
+      "deleted": false
+    },
+    {
+      "id": "JvkLd",
+      "name": "Beasts of Maravilla Island",
+      "points": 10,
+      "copies": 2,
+      "app_id": 1378020,
+      "package_id": null,
+      "link": "JvkLd/beasts-of-maravilla-island",
+      "created_timestamp": 1792813281,
+      "start_timestamp": 1792813281,
+      "end_timestamp": 1793419200,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 4,
+      "creator": "76561198234142828",
+      "is_shared": true,
+      "cv_status": "REDUCED_CV",
+      "creator_username": "lockcjwen",
       "deleted": false
     },
     {
@@ -650,6 +608,83 @@
       "cv_status": "FULL_CV",
       "creator_username": "aez76",
       "deleted": false
+    },
+    {
+      "id": "uZSMj",
+      "name": "ORDER 13",
+      "points": 9,
+      "copies": 1,
+      "app_id": 2259310,
+      "package_id": null,
+      "link": "uZSMj/order-13",
+      "created_timestamp": 1792197448,
+      "start_timestamp": 1792197448,
+      "end_timestamp": 1792814400,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 63,
+      "creator": "76561198234142828",
+      "is_shared": true,
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": "Aerctaure",
+          "status": "received",
+          "winner_username": "Aerctaure"
+        }
+      ],
+      "cv_status": "FULL_CV",
+      "creator_username": "lockcjwen"
+    },
+    {
+      "id": "Qf7U0",
+      "name": "Kiosk",
+      "points": 4,
+      "copies": 1,
+      "app_id": 3126330,
+      "package_id": null,
+      "link": "Qf7U0/kiosk",
+      "created_timestamp": 1792197414,
+      "start_timestamp": 1792197414,
+      "end_timestamp": 1792814400,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 63,
+      "creator": "76561198234142828",
+      "is_shared": true,
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "FULL_CV",
+      "creator_username": "lockcjwen",
+      "deleted": false
+    },
+    {
+      "id": "bKf6D",
+      "name": "Wicked Seed",
+      "points": 20,
+      "copies": 1,
+      "app_id": 2767530,
+      "package_id": null,
+      "link": "bKf6D/wicked-seed",
+      "created_timestamp": 1790820574,
+      "start_timestamp": 1790820574,
+      "end_timestamp": 1792812600,
+      "group": true,
+      "comment_count": 2,
+      "entry_count": 2,
+      "creator": "76561199036747433",
+      "cv_status": "FULL_CV",
+      "event_type": "october_event_2026",
+      "creator_username": "BaconChizBurger",
+      "deleted": true,
+      "deleted_reason": "Accident"
     },
     {
       "id": "JqH8a",
@@ -733,20 +768,20 @@
       "start_timestamp": 1792650621,
       "end_timestamp": 1792774800,
       "group": true,
-      "comment_count": 0,
+      "comment_count": 2,
       "entry_count": 3,
       "creator": "76561198411996697",
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "76561199141726712",
+          "status": "received",
+          "winner_username": "vot4ol"
         }
       ],
       "cv_status": "FULL_CV",
       "event_type": "october_event_2026",
-      "creator_username": "RaitorHaitor",
-      "deleted": false
+      "creator_username": "RaitorHaitor"
     },
     {
       "id": "djAkf",
@@ -760,19 +795,19 @@
       "start_timestamp": 1792649813,
       "end_timestamp": 1792774800,
       "group": true,
-      "comment_count": 0,
+      "comment_count": 1,
       "entry_count": 1,
       "creator": "76561198411996697",
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "76561198047981011",
+          "status": "received",
+          "winner_username": "Foxmonster"
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "RaitorHaitor",
-      "deleted": false
+      "creator_username": "RaitorHaitor"
     },
     {
       "id": "JQJNA",
