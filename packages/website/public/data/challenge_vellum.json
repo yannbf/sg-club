@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1790812800,
   "totalAchievements": 36,
-  "generatedAt": 1792860545471,
+  "generatedAt": 1792867843378,
   "challengeOver": false,
   "winnerUsername": "CatzZz",
   "participants": [
@@ -2389,14 +2389,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 79,
-      "playtime_2weeks_minutes": 79,
+      "playtime_total_minutes": 133,
+      "playtime_2weeks_minutes": 133,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 79,
+      "playtime_challenge_minutes": 133,
       "achievements_total": 36,
-      "achievements_unlocked_total": 4,
+      "achievements_unlocked_total": 5,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 4,
+      "achievements_since_baseline": 5,
       "challenge_achievements": [
         {
           "apiname": "SPELLS_1",
@@ -2421,9 +2421,15 @@
           "displayName": "Ding!",
           "description": "Reach Ink Level 2.",
           "unlocktime": 1792849551
+        },
+        {
+          "apiname": "TOMES_MENDED_1",
+          "displayName": "It was the Best of Times",
+          "description": "Mend your first Tome.",
+          "unlocktime": 1792865722
         }
       ],
-      "challenge_achievement_count": 4,
+      "challenge_achievement_count": 5,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
