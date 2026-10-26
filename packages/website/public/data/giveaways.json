@@ -1,27 +1,6 @@
 {
-  "last_updated": "2026-10-26T01:50:45.838Z",
+  "last_updated": "2026-10-26T05:50:03.986Z",
   "giveaways": [
-    {
-      "id": "etSEz",
-      "name": "House Builder",
-      "points": 20,
-      "copies": 1,
-      "app_id": 1244630,
-      "package_id": null,
-      "link": "etSEz/house-builder",
-      "created_timestamp": 1792370907,
-      "start_timestamp": 1792370907,
-      "end_timestamp": 1792987200,
-      "whitelist": true,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 86,
-      "creator": "76561198234142828",
-      "is_shared": true,
-      "cv_status": "REDUCED_CV",
-      "creator_username": "lockcjwen",
-      "deleted": false
-    },
     {
       "id": "CDaQw",
       "name": "Snufkin: Melody of Moominvalley",
@@ -220,7 +199,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 39,
+      "entry_count": 40,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -420,7 +399,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 60,
+      "entry_count": 61,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -483,7 +462,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 38,
+      "entry_count": 41,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -505,7 +484,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 46,
+      "entry_count": 49,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -546,7 +525,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 5,
-      "entry_count": 97,
+      "entry_count": 98,
       "creator": "76561198053065013",
       "is_shared": true,
       "cv_status": "FULL_CV",
@@ -588,9 +567,37 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 6,
+      "entry_count": 19,
       "creator": "76561198234142828",
       "is_shared": true,
+      "cv_status": "REDUCED_CV",
+      "creator_username": "lockcjwen",
+      "deleted": false
+    },
+    {
+      "id": "etSEz",
+      "name": "House Builder",
+      "points": 20,
+      "copies": 1,
+      "app_id": 1244630,
+      "package_id": null,
+      "link": "etSEz/house-builder",
+      "created_timestamp": 1792370907,
+      "start_timestamp": 1792370907,
+      "end_timestamp": 1792987200,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 88,
+      "creator": "76561198234142828",
+      "is_shared": true,
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
       "cv_status": "REDUCED_CV",
       "creator_username": "lockcjwen",
       "deleted": false
@@ -607,7 +614,7 @@
       "start_timestamp": 1792368455,
       "end_timestamp": 1792976880,
       "group": true,
-      "comment_count": 1,
+      "comment_count": 2,
       "entry_count": 1,
       "creator": "76561197981107149",
       "hasWinners": true,
@@ -634,20 +641,20 @@
       "end_timestamp": 1792944000,
       "whitelist": true,
       "group": true,
-      "comment_count": 0,
+      "comment_count": 1,
       "entry_count": 27,
       "creator": "76561198352113526",
       "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "ProphetFinagle",
+          "status": "received",
+          "winner_username": "ProphetFinagle"
         }
       ],
       "cv_status": "REDUCED_CV",
-      "creator_username": "yugimax",
-      "deleted": false
+      "creator_username": "yugimax"
     },
     {
       "id": "NmwQl",
