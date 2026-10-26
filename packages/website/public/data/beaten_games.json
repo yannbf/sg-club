@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-10-26T06:20:18.339Z",
+  "last_updated": "2026-10-26T14:55:42.803Z",
   "games": {
     "223810": {
       "marker": {
@@ -989,16 +989,17 @@
     },
     "851100": {
       "marker": {
-        "apiname": "touhou_10",
-        "name": "Perfect and Elegant Maid",
-        "description": "Beat the game.",
-        "global_percent": 35,
-        "source": "heuristic",
-        "sh_achievement_id": 10
+        "apiname": "touhou_11",
+        "name": "Extra, Extra!",
+        "description": "Beat the extra stage.",
+        "global_percent": 23.6,
+        "source": "steamhunters",
+        "filtered": true,
+        "sh_achievement_id": 11
       },
       "no_marker_reason": null,
-      "story_tag_count": 0,
-      "checked_at": "2026-10-06T21:03:18.892Z"
+      "story_tag_count": 10,
+      "checked_at": "2026-10-26T14:54:59.761Z"
     },
     "851850": {
       "marker": {
@@ -3344,16 +3345,17 @@
     },
     "1663850": {
       "marker": {
-        "apiname": "ACH_REFLEXES",
-        "name": "Non-Human Reflexes",
-        "description": "Complete the game on \"Hard\" difficulty.",
-        "global_percent": 6.4,
-        "source": "heuristic",
-        "sh_achievement_id": 23
+        "apiname": "ACH_C9",
+        "name": "Lend a Hand",
+        "description": "Complete Chapter 9.",
+        "global_percent": 24.8,
+        "source": "steamhunters",
+        "filtered": true,
+        "sh_achievement_id": 10
       },
       "no_marker_reason": null,
-      "story_tag_count": 0,
-      "checked_at": "2026-09-20T19:30:53.095Z"
+      "story_tag_count": 11,
+      "checked_at": "2026-10-26T14:54:49.391Z"
     },
     "1669420": {
       "marker": {
@@ -3711,10 +3713,18 @@
       "checked_at": "2026-10-05T16:21:45.353Z"
     },
     "1805480": {
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0,
-      "checked_at": "2026-10-13T21:55:53.964Z"
+      "marker": {
+        "apiname": "CLEAR_CHAPTER_ALL",
+        "name": "Hero of a Nation",
+        "description": "Completed the final chapter.",
+        "global_percent": 34,
+        "source": "steamhunters",
+        "filtered": true,
+        "sh_achievement_id": 9
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 8,
+      "checked_at": "2026-10-26T14:54:39.061Z"
     },
     "1809540": {
       "marker": {
@@ -4171,10 +4181,18 @@
       "checked_at": "2026-08-24T18:01:04.524Z"
     },
     "1940340": {
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0,
-      "checked_at": "2026-10-12T17:54:23.431Z"
+      "marker": {
+        "apiname": "run_victory_act05",
+        "name": "Body of Work",
+        "description": "Complete Cowardice",
+        "global_percent": 14.2,
+        "source": "steamhunters",
+        "filtered": true,
+        "sh_achievement_id": 62
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 6,
+      "checked_at": "2026-10-26T14:54:42.535Z"
     },
     "1941540": {
       "marker": {
@@ -4742,10 +4760,18 @@
       "checked_at": "2026-09-14T14:20:07.248Z"
     },
     "2183900": {
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0,
-      "checked_at": "2026-10-17T18:31:05.653Z"
+      "marker": {
+        "apiname": "PVE_DAEMONHOST",
+        "name": "Voice in the Dark",
+        "description": "Eliminate the Daemonhost and restore vox communication",
+        "global_percent": 40.3,
+        "source": "steamhunters",
+        "filtered": true,
+        "sh_achievement_id": 8
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 10,
+      "checked_at": "2026-10-26T14:54:56.379Z"
     },
     "2200410": {
       "marker": {
@@ -5653,10 +5679,18 @@
       "checked_at": "2026-10-05T16:22:21.925Z"
     },
     "2677660": {
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0,
-      "checked_at": "2026-10-19T21:36:52.025Z"
+      "marker": {
+        "apiname": "NEW_ACHIEVEMENT_1_2",
+        "name": "The Stolen Cat Mummy",
+        "description": "Complete \"The Stolen Cat Mummy\".",
+        "global_percent": 55,
+        "source": "steamhunters",
+        "filtered": true,
+        "sh_achievement_id": 3
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 3,
+      "checked_at": "2026-10-26T14:54:52.887Z"
     },
     "2678990": {
       "marker": {
@@ -5907,10 +5941,18 @@
       "checked_at": "2026-08-24T18:00:49.674Z"
     },
     "2806640": {
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0,
-      "checked_at": "2026-10-21T13:48:23.247Z"
+      "marker": {
+        "apiname": "Ascension",
+        "name": "Ascension",
+        "description": "Initiate the ascension process in Road to Gehenna.",
+        "global_percent": 15.3,
+        "source": "steamhunters",
+        "filtered": true,
+        "sh_achievement_id": 5
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 18,
+      "checked_at": "2026-10-26T14:55:03.190Z"
     },
     "2810730": {
       "marker": {
@@ -6035,10 +6077,18 @@
       "checked_at": "2026-09-11T12:24:48.930Z"
     },
     "2915460": {
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0,
-      "checked_at": "2026-10-13T21:55:47.923Z"
+      "marker": {
+        "apiname": "PANCAKES",
+        "name": "Pancakes",
+        "description": "Favorite food.",
+        "global_percent": 48.1,
+        "source": "steamhunters",
+        "filtered": true,
+        "sh_achievement_id": 5
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 1,
+      "checked_at": "2026-10-26T14:54:35.431Z"
     },
     "2922410": {
       "marker": null,
@@ -6267,12 +6317,13 @@
         "name": "The last one in the party",
         "description": "Finish the game",
         "global_percent": 74.8,
-        "source": "heuristic",
+        "source": "steamhunters",
+        "filtered": true,
         "sh_achievement_id": 60
       },
       "no_marker_reason": null,
-      "story_tag_count": 0,
-      "checked_at": "2026-09-23T19:43:35.926Z"
+      "story_tag_count": 23,
+      "checked_at": "2026-10-26T14:55:10.211Z"
     },
     "3097300": {
       "marker": null,
@@ -6287,10 +6338,18 @@
       "checked_at": "2026-10-19T21:05:53.943Z"
     },
     "3105440": {
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0,
-      "checked_at": "2026-10-11T21:02:19.316Z"
+      "marker": {
+        "apiname": "achievement_3",
+        "name": "Act I",
+        "description": "Complete Act I of the campaign.",
+        "global_percent": 10.1,
+        "source": "steamhunters",
+        "filtered": true,
+        "sh_achievement_id": 3
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 4,
+      "checked_at": "2026-10-26T14:54:45.953Z"
     },
     "3132930": {
       "marker": {
@@ -6421,10 +6480,18 @@
       "checked_at": "2026-08-24T20:06:53.788Z"
     },
     "3259780": {
-      "marker": null,
-      "no_marker_reason": "schema_unavailable",
-      "story_tag_count": 0,
-      "checked_at": "2026-10-22T13:49:05.415Z"
+      "marker": {
+        "apiname": "0008",
+        "name": "Aspiration’s End",
+        "description": "Clear chapter 8.",
+        "global_percent": 1.2,
+        "source": "steamhunters",
+        "filtered": true,
+        "sh_achievement_id": 9
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 9,
+      "checked_at": "2026-10-26T14:55:06.702Z"
     },
     "3265700": {
       "marker": {
@@ -7236,13 +7303,13 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-10-25T19:04:04.334Z"
+      "checked_at": "2026-10-26T14:55:11.425Z"
     },
     "76561199036747433::4358690": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-10-25T19:04:05.443Z"
+      "checked_at": "2026-10-26T14:55:12.665Z"
     },
     "76561199036747433::2592160": {
       "beaten": true,
@@ -7782,25 +7849,31 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-10-25T19:04:07.944Z"
+      "checked_at": "2026-10-26T14:55:15.475Z"
+    },
+    "76561199434715535::2915460": {
+      "beaten": false,
+      "unlock_time": null,
+      "no_data_reason": null,
+      "checked_at": "2026-10-26T14:55:16.674Z"
     },
     "76561199434715535::2989180": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-10-25T19:04:09.135Z"
+      "checked_at": "2026-10-26T14:55:17.912Z"
     },
     "76561199434715535::3198890": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-10-25T19:04:10.246Z"
+      "checked_at": "2026-10-26T14:55:19.270Z"
     },
     "76561199434715535::3639650": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-10-25T19:04:11.344Z"
+      "checked_at": "2026-10-26T14:55:20.525Z"
     },
     "76561199434715535::4992070": {
       "beaten": true,
@@ -7818,7 +7891,13 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-10-25T19:04:12.463Z"
+      "checked_at": "2026-10-26T14:55:21.767Z"
+    },
+    "76561199434715535::1805480": {
+      "beaten": false,
+      "unlock_time": null,
+      "no_data_reason": null,
+      "checked_at": "2026-10-26T14:55:23.003Z"
     },
     "76561198053885117::501300": {
       "beaten": true,
@@ -7873,6 +7952,12 @@
       "unlock_time": 1791920622,
       "no_data_reason": null,
       "checked_at": "2026-10-16T14:02:41.110Z"
+    },
+    "76561198041749780::1940340": {
+      "beaten": false,
+      "unlock_time": null,
+      "no_data_reason": null,
+      "checked_at": "2026-10-26T14:55:24.209Z"
     },
     "76561198041749780::3839300": {
       "beaten": true,
@@ -8088,7 +8173,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-10-25T19:04:13.591Z"
+      "checked_at": "2026-10-26T14:55:25.434Z"
     },
     "76561198054649894::851850": {
       "beaten": true,
@@ -8149,6 +8234,12 @@
       "unlock_time": 1750020392,
       "no_data_reason": null,
       "checked_at": "2026-08-24T17:42:28.254Z"
+    },
+    "76561198051248084::3105440": {
+      "beaten": true,
+      "unlock_time": 1792518097,
+      "no_data_reason": null,
+      "checked_at": "2026-10-26T14:55:26.647Z"
     },
     "76561198051248084::1903340": {
       "beaten": false,
@@ -8277,10 +8368,10 @@
       "checked_at": "2026-08-24T17:42:45.550Z"
     },
     "76561198013734355::1663850": {
-      "beaten": false,
-      "unlock_time": null,
+      "beaten": true,
+      "unlock_time": 1792935001,
       "no_data_reason": null,
-      "checked_at": "2026-10-26T04:44:52.146Z"
+      "checked_at": "2026-10-26T14:55:27.924Z"
     },
     "76561198013734355::1608230": {
       "beaten": false,
@@ -8564,6 +8655,12 @@
       "no_data_reason": null,
       "checked_at": "2026-10-11T13:15:22.667Z"
     },
+    "76561198019838591::2677660": {
+      "beaten": true,
+      "unlock_time": 1790367613,
+      "no_data_reason": null,
+      "checked_at": "2026-10-26T14:55:29.139Z"
+    },
     "76561198019838591::1184760": {
       "beaten": true,
       "unlock_time": 1761232801,
@@ -8658,7 +8755,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-10-25T19:04:14.759Z"
+      "checked_at": "2026-10-26T14:55:30.335Z"
     },
     "76561197968806363::359870": {
       "beaten": false,
@@ -8876,6 +8973,12 @@
       "no_data_reason": null,
       "checked_at": "2026-09-21T04:53:34.033Z"
     },
+    "76561198035801987::2183900": {
+      "beaten": true,
+      "unlock_time": 1789602735,
+      "no_data_reason": null,
+      "checked_at": "2026-10-26T14:55:31.538Z"
+    },
     "76561198035801987::1996390": {
       "beaten": true,
       "unlock_time": 1790025064,
@@ -9078,7 +9181,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-10-25T19:04:15.895Z"
+      "checked_at": "2026-10-26T14:55:32.842Z"
     },
     "76561198069420656::3699590": {
       "beaten": true,
@@ -9414,7 +9517,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-10-25T19:04:16.996Z"
+      "checked_at": "2026-10-26T14:55:34.040Z"
     },
     "76561197970969216::1801110": {
       "beaten": true,
@@ -9562,9 +9665,9 @@
     },
     "76561198027595057::851100": {
       "beaten": true,
-      "unlock_time": 1790845333,
+      "unlock_time": 1790900502,
       "no_data_reason": null,
-      "checked_at": "2026-10-06T21:03:24.716Z"
+      "checked_at": "2026-10-26T14:55:35.229Z"
     },
     "76561198027595057::1989270": {
       "beaten": true,
@@ -9908,6 +10011,12 @@
       "no_data_reason": null,
       "checked_at": "2026-10-23T13:28:29.391Z"
     },
+    "76561198411996697::2806640": {
+      "beaten": false,
+      "unlock_time": null,
+      "no_data_reason": null,
+      "checked_at": "2026-10-26T14:55:36.425Z"
+    },
     "76561198411996697::3930190": {
       "beaten": true,
       "unlock_time": 1790358507,
@@ -10225,6 +10334,12 @@
       "unlock_time": 1786436606,
       "no_data_reason": null,
       "checked_at": "2026-09-14T14:20:58.731Z"
+    },
+    "76561199438702936::3259780": {
+      "beaten": false,
+      "unlock_time": null,
+      "no_data_reason": null,
+      "checked_at": "2026-10-26T14:55:37.629Z"
     },
     "76561199438702936::1382070": {
       "beaten": true,
@@ -10704,7 +10819,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-10-25T19:04:18.297Z"
+      "checked_at": "2026-10-26T14:55:38.877Z"
     },
     "76561198080362358::2977620": {
       "beaten": true,
@@ -11730,7 +11845,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-10-25T19:04:21.210Z"
+      "checked_at": "2026-10-26T14:55:41.797Z"
     },
     "76561198351673664::553420": {
       "beaten": false,

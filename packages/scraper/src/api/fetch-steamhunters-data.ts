@@ -12,8 +12,9 @@
 // HTML is therefore parsed for those embedded JSON objects, not for markup.
 //
 // The same bootstrap model embeds an `"updates":[...]` array describing each
-// content update; an update entry carries a `dlcAppId` key when it shipped
-// with a DLC, and has no such key for base-game updates. Cross-referencing
+// content update; an update entry lists the DLC it shipped with under
+// `dlcAppIds` (an empty array for base-game updates; older pages used a
+// single `dlcAppId` key that is absent for base-game updates). Cross-referencing
 // each story-tagged achievement's `updateId` against that array flags
 // DLC-only achievements, which are a common source of bad "beaten" markers
 // (a DLC mission achievement is a poor stand-in for finishing the base
@@ -122,19 +123,26 @@ export async function fetchSteamHuntersTags(
 /** Steam Hunters' numeric id for the "Main Storyline" achievement tag. */
 const MAIN_STORYLINE_TAG_ID = 3
 
+/** An update object that shipped with at least one DLC, in either page format. */
+const DLC_UPDATE_RE = /"dlcAppIds?":\s*(?:\[\s*\d|\d)/
+
 /**
  * Parse the achievements page's embedded JSON model into Main
  * Storyline-tagged candidates, each flagged with whether it shipped as part
  * of a DLC update.
  *
  * Achievement objects appear inline as
- * `"achievementId":N,"updateId":N,"index":N,"apiName":"...","name":"..."[,"description":"..."]...,"tagVotes":[{"tagId":3},…]`.
+ * `"achievementId":N,"updateId":N,...,"apiName":"...","name":"..."[,"description":"..."]...,"tagVotes":[{"tagId":3},…]`;
+ * the keys between `updateId` and `apiName` vary by page version
+ * (`internalKey` appeared in 2026), so only their absence of braces is
+ * relied on.
  * Only the Main Storyline tag is extracted — it's the sole tag the beaten
  * pipeline consumes, and other tag ids' names are not present in the HTML.
  *
  * The `"updates":[...]` array holds flat objects like
- * `{"updateId":N,"updateNumber":N,...}`, with a `"dlcAppId":...` key present
- * only on updates that shipped with a DLC. Achievements are matched to
+ * `{"updateId":N,"updateNumber":N,...,"dlcAppIds":[...]}`; an update shipped
+ * with a DLC when that array is non-empty (or, on older pages, when a
+ * `"dlcAppId":N` key is present). Achievements are matched to
  * updates by `updateId` to derive `isDlc`. These arrays contain JS
  * expressions (e.g. `new Date(...)`) so they are not valid JSON on their
  * own — both are parsed with targeted regexes instead of a single
@@ -146,7 +154,7 @@ export function parseTagsByApiName(html: string): SteamHuntersCandidate[] {
   const updateRe = /\{"updateId":(\d+),"updateNumber"[^{}]*?\}/g
   for (const match of html.matchAll(updateRe)) {
     allUpdateIds.push(Number(match[1]))
-    if (match[0].includes('"dlcAppId":')) {
+    if (DLC_UPDATE_RE.test(match[0])) {
       dlcUpdateIds.add(Number(match[1]))
     }
   }
@@ -154,7 +162,7 @@ export function parseTagsByApiName(html: string): SteamHuntersCandidate[] {
 
   const candidates: SteamHuntersCandidate[] = []
   const achievementRe =
-    /"achievementId":\d+,"updateId":(\d+),"index":\d+,"apiName":"((?:[^"\\]|\\.)*)","name":"(?:[^"\\]|\\.)*"[\s\S]*?"tagVotes":(\[[^\]]*\])/g
+    /"achievementId":\d+,"updateId":(\d+),[^{}]*?"apiName":"((?:[^"\\]|\\.)*)","name":"(?:[^"\\]|\\.)*"[\s\S]*?"tagVotes":(\[[^\]]*\])/g
 
   for (const match of html.matchAll(achievementRe)) {
     try {
