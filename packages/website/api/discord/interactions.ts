@@ -415,7 +415,7 @@ async function handleChallengeSetup(
           component: {
             type: ComponentType.CHANNEL_SELECT,
             custom_id: 'congrats_channel',
-            channel_types: [0], // GUILD_TEXT
+            channel_types: [0, 11, 12], // GUILD_TEXT, PUBLIC_THREAD (forum post), PRIVATE_THREAD
             required: false,
             min_values: 0,
             max_values: 1,
@@ -996,7 +996,7 @@ function buildChallengeEditModalData(
         component: {
           type: ComponentType.CHANNEL_SELECT,
           custom_id: 'congrats_channel',
-          channel_types: [0], // GUILD_TEXT
+          channel_types: [0, 11, 12], // GUILD_TEXT, PUBLIC_THREAD (forum post), PRIVATE_THREAD
           required: false,
           min_values: 0,
           max_values: 1,

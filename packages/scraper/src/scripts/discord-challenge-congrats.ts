@@ -260,10 +260,11 @@ export function batchUsernames(usernames: string[], gameName: string, emoji: str
 }
 
 /**
- * Pure channel-selection logic, split out for testability: a matched
- * challenge posts congrats to its dedicated `congrats_channel_id` when the
- * two-channel split was chosen at setup time, else its `channel_id` like
- * every other challenge message. No match at all (old data, or the log
+ * Pure channel-selection logic, split out for testability: a challenge's
+ * progress messages (congrats, the 24h reminder, the ended notice) post to
+ * its dedicated `congrats_channel_id` when one was chosen at setup or edit
+ * time, else to `channel_id`, where the signup widget lives. The dedicated
+ * channel may be a forum post thread. No match at all (old data, or the log
  * channel couldn't be read) falls back to the env var / test channel.
  */
 export function pickCongratsChannel(

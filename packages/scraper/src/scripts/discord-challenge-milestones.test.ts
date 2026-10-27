@@ -324,4 +324,26 @@ describe('postChallengeMilestones — archived challenges', () => {
       expect.anything()
     )
   })
+
+  it('posts the ended notice to congrats_channel_id when the challenge has one', async () => {
+    vi.mocked(discordRest.getAllChannelMessages).mockResolvedValueOnce([
+      {
+        id: 'l1',
+        channel_id: 'log',
+        content: serializeChallenge({ ...PAST_END_ACTIVE, congrats_channel_id: 'forum-post' }),
+        timestamp: '',
+      },
+    ])
+
+    await postChallengeMilestones()
+
+    expect(discordRest.createMessage).toHaveBeenCalledWith(
+      'forum-post',
+      expect.objectContaining({ content: expect.stringContaining('Active One') })
+    )
+    expect(discordRest.createMessage).not.toHaveBeenCalledWith(
+      'c2',
+      expect.anything()
+    )
+  })
 })

@@ -11,7 +11,7 @@ import {
   type ChallengeMeta,
 } from '../../../website/api/_lib/signup-log.js'
 import { getAdminChannelId, getLogChannelId } from '../../../website/api/_lib/constants.js'
-import { qualifyingUsernames } from './discord-challenge-congrats.js'
+import { pickCongratsChannel, qualifyingUsernames } from './discord-challenge-congrats.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const dataDir = path.resolve(__dirname, '../../..', 'website/public/data')
@@ -243,7 +243,7 @@ export async function postChallengeMilestones(): Promise<void> {
         )
       }
 
-      await createMessage(meta.channel_id, {
+      await createMessage(pickCongratsChannel(meta, meta.channel_id), {
         content: build24hReminderMessage(meta.name, qualifiedCount),
         flags: 4,
       })
@@ -253,7 +253,7 @@ export async function postChallengeMilestones(): Promise<void> {
     }
 
     if (needsEndedNotice(meta, endedSlugs, nowSeconds)) {
-      await createMessage(meta.channel_id, { content: buildEndedMessage(meta.name), flags: 4 })
+      await createMessage(pickCongratsChannel(meta, meta.channel_id), { content: buildEndedMessage(meta.name), flags: 4 })
       await createMessage(logChannelId, { content: serializeEnded({ slug: meta.slug, ts: nowSeconds }) })
       // Best-effort admin nudge AFTER the ENDED marker — the notice itself
       // must never be blocked (or duplicated on retry) because the admin

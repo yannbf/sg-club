@@ -816,7 +816,7 @@ describe('APPLICATION_COMMAND challenge-setup', () => {
     // The congrats-channel field is a Channel Select (type 8), text-channels only.
     const congratsChannel = body.data.components.find((c) => c.component.custom_id === 'congrats_channel')!
     expect(congratsChannel.component.type).toBe(8)
-    expect(congratsChannel.component).toMatchObject({ channel_types: [0], required: false })
+    expect(congratsChannel.component).toMatchObject({ channel_types: [0, 11, 12], required: false })
 
     expect(discordRest.createMessage).not.toHaveBeenCalled()
   })
