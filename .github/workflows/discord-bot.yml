@@ -1,11 +1,11 @@
 name: Discord Bot Cron Jobs
 
 # Most jobs stay workflow_dispatch-only for now — the bot feature is in test
-# phase, running against #bot-test / #bot-test-logs. The weekly mod digest is
+# phase, running against #bot-test-playground / #bot-data-logs. The weekly mod digest is
 # the first to go on a real schedule (Friday 13:00 UTC), mirroring deploy.yml's
 # schedule-condition pattern: the job's `if:` matches either the matching
 # `github.event.schedule` value or a manual dispatch with that job selected.
-# The digest posts to the real #warns channel (WARN_CHANNEL_ID below).
+# The digest posts to the real #mod-reports channel (WARN_CHANNEL_ID below).
 on:
   schedule:
     - cron: '0 13 * * 5'  # weekly mod digest, Friday 13:00 UTC
@@ -72,7 +72,7 @@ jobs:
     timeout-minutes: 10
     env:
       DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
-      ADMIN_CHANNEL_ID: '1385350331327582208' # #admin-stuff
+      ADMIN_CHANNEL_ID: '1385350331327582208' # #admin
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
@@ -105,7 +105,7 @@ jobs:
     timeout-minutes: 10
     env:
       DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
-      ADMIN_CHANNEL_ID: '1385350331327582208' # #admin-stuff
+      ADMIN_CHANNEL_ID: '1385350331327582208' # #admin
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
@@ -197,7 +197,7 @@ jobs:
     timeout-minutes: 10
     env:
       DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
-      WARN_CHANNEL_ID: '1388638737411473498' # #warns
+      WARN_CHANNEL_ID: '1388638737411473498' # #mod-reports
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
@@ -256,7 +256,7 @@ jobs:
     timeout-minutes: 10
     env:
       DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
-      WARN_CHANNEL_ID: '1388638737411473498' # #warns
+      WARN_CHANNEL_ID: '1388638737411473498' # #mod-reports
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7

@@ -4,12 +4,12 @@
 
 export const GUILD_ID = '1385346341848350810'
 
-// #bot-test — used for admin-triggered announcements/summaries in test phase,
+// #bot-test-playground — used for admin-triggered announcements/summaries in test phase,
 // and as the default fallback for CONGRATS_CHANNEL_ID / WARN_CHANNEL_ID.
 export const TEST_ANNOUNCE_CHANNEL_ID = '1528319391391813652'
 
-// #bot-test-logs — the append-only signup-log protocol channel (see
-// signup-log.ts). Default for LOG_CHANNEL_ID.
+// #bot-data-logs — the production append-only signup-log protocol channel
+// (see signup-log.ts). Used when LOG_CHANNEL_ID is unset.
 export const TEST_LOG_CHANNEL_ID = '1528319538016555128'
 
 export function getBotToken(): string {
@@ -30,7 +30,7 @@ export function getAppId(): string {
   return id
 }
 
-/** Signup-log channel. Defaults to the #bot-test-logs test channel. */
+/** Signup-log channel. Defaults to #bot-data-logs, the production log channel. */
 export function getLogChannelId(): string {
   return process.env.LOG_CHANNEL_ID ?? TEST_LOG_CHANNEL_ID
 }
@@ -38,8 +38,8 @@ export function getLogChannelId(): string {
 /**
  * Admin channel for the crons' instructional nudges (signups closed /
  * challenge over → "you can /raffle now"). Same pattern as WARN_CHANNEL_ID:
- * defaults to #bot-test so local/manual runs can't ping the real admin
- * channel; the workflow sets it to #admin-stuff in production.
+ * defaults to #bot-test-playground so local/manual runs can't ping the real admin
+ * channel; the workflow sets it to #admin in production.
  */
 export function getAdminChannelId(): string {
   return process.env.ADMIN_CHANNEL_ID ?? TEST_ANNOUNCE_CHANNEL_ID
@@ -73,15 +73,10 @@ export function isAdminSteamId(id: string): boolean {
 }
 
 /**
- * Production announce-channel override for /challenge-setup. While `null`
- * (test phase), the announcement posts in whatever channel the command was
- * invoked from. For production, set this to the #challenge-announcements
- * channel id so every challenge lands there and it becomes impossible to
- * accidentally announce in the wrong channel. Flipping this is the only
- * change needed — everything downstream (the confirmation link, the log
- * entry) already follows whatever channel the announcement landed in.
+ * #group-events forum. Challenge posts live in this forum; /challenge-setup
+ * must be run inside one of its posts so the signup widget lands in the post.
  */
-export const FORCED_ANNOUNCE_CHANNEL_ID: string | null = '1515075583434948788' // #challenge-announcements
+export const EVENTS_FORUM_ID = '1514303707003617481' // #group-events forum
 
 // Raw Discord interaction/response type + flag numbers. Hardcoded rather than
 // imported from `discord-interactions` so we're not coupled to that package's

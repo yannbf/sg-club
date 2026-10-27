@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { FORCED_ANNOUNCE_CHANNEL_ID } from './constants.js'
+import { EVENTS_FORUM_ID } from './constants.js'
 import { buildBotHelpMessages } from './bot-help.js'
 
 describe('buildBotHelpMessages', () => {
@@ -14,9 +14,7 @@ describe('buildBotHelpMessages', () => {
   it('the first chunk documents /challenge-setup and where its announcement posts', () => {
     const [first] = buildBotHelpMessages()
     expect(first).toContain('/challenge-setup')
-    expect(first).toContain(
-      FORCED_ANNOUNCE_CHANNEL_ID ? `<#${FORCED_ANNOUNCE_CHANNEL_ID}>` : 'the channel you run it in'
-    )
+    expect(first).toContain(`<#${EVENTS_FORUM_ID}>`)
   })
 
   it('documents every command exactly once', () => {

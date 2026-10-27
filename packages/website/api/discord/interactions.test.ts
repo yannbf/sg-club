@@ -1,13 +1,14 @@
 import type { IncomingMessage, ServerResponse } from 'node:http'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { encodeModalCustomId, encodeSignupCustomId, slugify } from '../_lib/custom-id.js'
-import { FORCED_ANNOUNCE_CHANNEL_ID } from '../_lib/constants.js'
+import { EVENTS_FORUM_ID, TEST_ANNOUNCE_CHANNEL_ID } from '../_lib/constants.js'
 import { formatChallengeDatesForEdit, formatChallengeDeadlineForEdit } from '../_lib/dates.js'
 import { serializeArchived, serializeChallenge, serializeSignup } from '../_lib/signup-log.js'
 import {
   buildRaffleMessage,
   encodeEditSelectValue,
   hasManageGuild,
+  isAllowedAnnounceTarget,
   isPastDeadline,
   parseNameList,
   pickWinners,
@@ -833,6 +834,7 @@ describe('MODAL_SUBMIT challenge-setup (csetup)', () => {
     dates?: string
     signup_deadline?: string
     customId?: string
+    channel?: { id: string; type: number; parent_id?: string | null }
   }): IncomingMessage {
     const fields = {
       name: 'Neo Cab',
@@ -844,12 +846,14 @@ describe('MODAL_SUBMIT challenge-setup (csetup)', () => {
       dates: '+1d → +30d',
       signup_deadline: '',
       customId: 'csetup',
+      channel: { id: 'chan1', type: 11, parent_id: EVENTS_FORUM_ID },
       ...overrides,
     }
     return makeReq({
       type: 5,
       token: 'tok',
       channel_id: 'chan1',
+      channel: fields.channel,
       member: { user: { id: 'd1', username: 'yannbf' } },
       data: {
         custom_id: fields.customId,
@@ -879,12 +883,7 @@ describe('MODAL_SUBMIT challenge-setup (csetup)', () => {
     expect(discordRest.createMessage).toHaveBeenCalledTimes(2)
     const [announcementChannel, announcementPayload] = vi.mocked(discordRest.createMessage).mock
       .calls[0]
-    // With the production channel switch flipped, the announcement always
-    // lands in FORCED_ANNOUNCE_CHANNEL_ID rather than the invoking channel
-    // ('chan1'); when the switch is null (test phase) the invoking channel
-    // wins. Asserting against the constant keeps the test valid in BOTH
-    // configurations.
-    expect(announcementChannel).toBe(FORCED_ANNOUNCE_CHANNEL_ID ?? 'chan1')
+    expect(announcementChannel).toBe('chan1')
 
     const embed = (announcementPayload.embeds as Array<Record<string, unknown>>)[0]!
     expect(embed.image).toEqual({ url: 'https://sg-club.vercel.app/game-challenge-banner.png' })
@@ -915,6 +914,18 @@ describe('MODAL_SUBMIT challenge-setup (csetup)', () => {
       'test-app-id',
       'tok',
       expect.objectContaining({ content: expect.stringContaining('✅ Challenge announced:') })
+    )
+  })
+
+  it('refuses to announce when run outside a #group-events post', async () => {
+    const res = makeRes()
+    await handler(makeCsetupReq({ channel: { id: 'chan1', type: 0, parent_id: null } }), res)
+    await drainWaitUntil()
+
+    expect(discordRest.createMessage).not.toHaveBeenCalled()
+    const [, , payload] = vi.mocked(discordRest.editOriginalResponse).mock.calls[0]!
+    expect((payload as { content: string }).content).toContain(
+      `❌ Run /challenge-setup inside the challenge's post in <#${EVENTS_FORUM_ID}>`
     )
   })
 
@@ -958,6 +969,7 @@ describe('MODAL_SUBMIT challenge-setup (csetup)', () => {
       type: 5,
       token: 'tok',
       channel_id: 'chan1',
+      channel: { id: 'chan1', type: 11, parent_id: EVENTS_FORUM_ID },
       member: { user: { id: 'd1', username: 'yannbf' } },
       data: { custom_id: 'csetup', components },
     })
@@ -2255,9 +2267,7 @@ describe('APPLICATION_COMMAND bot-help', () => {
     const [, , payload] = vi.mocked(discordRest.editOriginalResponse).mock.calls[0]!
     const content = (payload as { content: string }).content
     expect(content).toContain('/challenge-setup')
-    expect(content).toContain(
-      FORCED_ANNOUNCE_CHANNEL_ID ? `<#${FORCED_ANNOUNCE_CHANNEL_ID}>` : 'the channel you run it in'
-    )
+    expect(content).toContain(`<#${EVENTS_FORUM_ID}>`)
     expect(content.length).toBeLessThanOrEqual(1900)
     expect(payload).toMatchObject({ flags: 4 })
   })
@@ -2269,5 +2279,37 @@ describe('PING', () => {
     const res = makeRes()
     await handler(req, res)
     expect(res.body).toEqual({ type: 1 })
+  })
+})
+
+describe('isAllowedAnnounceTarget', () => {
+  it('accepts a post inside the #group-events forum', () => {
+    expect(
+      isAllowedAnnounceTarget({
+        channel_id: 't1',
+        channel: { id: 't1', type: 11, parent_id: EVENTS_FORUM_ID },
+      })
+    ).toBe(true)
+  })
+
+  it('accepts the bot-test playground channel', () => {
+    expect(
+      isAllowedAnnounceTarget({
+        channel_id: TEST_ANNOUNCE_CHANNEL_ID,
+        channel: { id: TEST_ANNOUNCE_CHANNEL_ID, type: 0 },
+      })
+    ).toBe(true)
+  })
+
+  it('rejects a thread of another forum and a plain text channel', () => {
+    expect(
+      isAllowedAnnounceTarget({
+        channel_id: 't2',
+        channel: { id: 't2', type: 11, parent_id: 'other-forum' },
+      })
+    ).toBe(false)
+    expect(
+      isAllowedAnnounceTarget({ channel_id: 'c', channel: { id: 'c', type: 0, parent_id: null } })
+    ).toBe(false)
   })
 })

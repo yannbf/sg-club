@@ -86,7 +86,7 @@ describe('closeExpiredSignups — archived challenges', () => {
     expect(discordRest.editMessage).not.toHaveBeenCalledWith('c1', 'm1', expect.anything())
 
     // The instructional admin nudge went out too (to the admin channel —
-    // the #bot-test default in tests, distinct from the challenge channel).
+    // the #bot-test-playground default in tests, distinct from the challenge channel).
     expect(discordRest.createMessage).toHaveBeenCalledWith(
       expect.any(String),
       expect.objectContaining({ content: expect.stringContaining('/raffle') })

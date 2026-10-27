@@ -96,7 +96,7 @@ export async function postKickSyncAlert(): Promise<void> {
   }
 
   // Same pattern as discord-warn-digest: the workflow sets WARN_CHANNEL_ID to
-  // #warns in production; local/manual runs fall back to #bot-test.
+  // #mod-reports in production; local/manual runs fall back to #bot-test-playground.
   const channelId = process.env.WARN_CHANNEL_ID ?? TEST_ANNOUNCE_CHANNEL_ID
   await createMessage(channelId, {
     content: buildKickSyncAlertMessage(pending),

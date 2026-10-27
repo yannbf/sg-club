@@ -9,7 +9,7 @@ import { waitUntil } from '@vercel/functions'
 import { verifyKey } from 'discord-interactions'
 import {
   ComponentType,
-  FORCED_ANNOUNCE_CHANNEL_ID,
+  EVENTS_FORUM_ID,
   getAppId,
   getLogChannelId,
   getPublicKey,
@@ -17,6 +17,7 @@ import {
   InteractionResponseType,
   InteractionType,
   MessageFlags,
+  TEST_ANNOUNCE_CHANNEL_ID,
   TextInputStyle,
 } from '../_lib/constants.js'
 import {
@@ -88,6 +89,8 @@ interface DiscordInteraction {
   type: number
   token: string
   channel_id?: string
+  /** Partial channel object Discord sends on every interaction. */
+  channel?: { id: string; type: number; parent_id?: string | null }
   // `permissions` is Discord's decimal-string bitfield for the invoking
   // member's resolved guild permissions — see `hasManageGuild`.
   member?: { user: DiscordUserPayload; permissions?: string }
@@ -124,6 +127,31 @@ async function readRawBody(req: IncomingMessage): Promise<Buffer> {
     chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk))
   }
   return Buffer.concat(chunks)
+}
+
+// Discord channel types for threads: announcement, public and private threads.
+// A forum post is a public thread whose parent is the forum channel.
+const THREAD_CHANNEL_TYPES = [10, 11, 12]
+
+/**
+ * /challenge-setup posts its signup widget into the channel it is run in, and
+ * only two places are valid: a post (thread) inside the #group-events forum,
+ * or the bot-test playground channel.
+ */
+export function isAllowedAnnounceTarget(
+  interaction: Pick<DiscordInteraction, 'channel_id' | 'channel'>
+): boolean {
+  const channel = interaction.channel
+  if (
+    channel &&
+    THREAD_CHANNEL_TYPES.includes(channel.type) &&
+    channel.parent_id === EVENTS_FORUM_ID
+  ) {
+    return true
+  }
+  return (
+    interaction.channel_id !== undefined && interaction.channel_id === TEST_ANNOUNCE_CHANNEL_ID
+  )
 }
 
 function getInteractionUser(interaction: DiscordInteraction): DiscordUserPayload | undefined {
@@ -474,12 +502,12 @@ async function finishChallengeSetupFromModal(interaction: DiscordInteraction): P
       }
     }
 
-    // FORCED_ANNOUNCE_CHANNEL_ID overrides the invoking channel once flipped
-    // on for production, so a challenge can't land in the wrong place.
-    const targetChannelId = FORCED_ANNOUNCE_CHANNEL_ID ?? interaction.channel_id
-    if (!targetChannelId) {
+    // The widget lands in the channel the command was run in, which must be a
+    // post in the #group-events forum (or the bot-test playground).
+    const targetChannelId = interaction.channel_id
+    if (!targetChannelId || !isAllowedAnnounceTarget(interaction)) {
       await editOriginalResponse(appId, token, {
-        content: '❌ Could not determine a target channel.',
+        content: `❌ Run /challenge-setup inside the challenge's post in <#${EVENTS_FORUM_ID}> so the signup widget lands in that post.`,
       })
       return
     }

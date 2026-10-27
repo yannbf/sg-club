@@ -1,5 +1,5 @@
 // The log-channel protocol: every signup-related event is a single message
-// posted to the log channel (#bot-test-logs in test phase), one event per
+// posted to the log channel (#bot-data-logs), one event per
 // line, in the form `TYPE {json}`. This is the only persisted state for the
 // whole feature — no database.
 
