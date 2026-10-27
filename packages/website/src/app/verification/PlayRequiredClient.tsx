@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { formatDistanceToNow } from 'date-fns'
 import {
   AlertTriangle,
+  Ban,
   CheckCircle2,
   Clock,
   ExternalLink,
@@ -29,6 +30,7 @@ import type {
 import {
   applyVerifyOverrides,
   BEATEN_VERDICT_ORDER,
+  isPrNotApplicable,
   matchesIpbCard,
   matchesPrCard,
   parseVerifyOverrides,
@@ -98,6 +100,7 @@ const IPB_STATUS_ORDER: readonly PlayRequiredRow['ipbStatus'][] = [
   'verified',
   'submitted',
   'not_submitted',
+  'not_applicable',
 ]
 
 const typeLabel: Record<PlayRequiredRow['type'], string> = {
@@ -348,9 +351,14 @@ function BeatenBadge({ row }: { row: PlayRequiredRow }) {
 
 /** "Verified just now — site data refreshes within a few hours" cue for a row whose badge reflects a pending localStorage override rather than the committed JSON yet. */
 function pendingSyncTooltip(state: VerifyOverrideState): string {
-  return state === 'verified'
-    ? 'Verified just now — site data refreshes within a few hours'
-    : 'Unverified just now — site data refreshes within a few hours'
+  switch (state) {
+    case 'verified':
+      return 'Verified just now — site data refreshes within a few hours'
+    case 'not_applicable':
+      return 'Marked not applicable just now — site data refreshes within a few hours'
+    default:
+      return 'Unverified just now — site data refreshes within a few hours'
+  }
 }
 
 function IpbStatusBadge({
@@ -381,6 +389,13 @@ function IpbStatusBadge({
           <Badge variant="outline" size="sm">
             <AlertTriangle className="h-3 w-3" />
             Not submitted
+          </Badge>
+        )
+      case 'not_applicable':
+        return (
+          <Badge variant="silver" size="sm">
+            <Ban className="h-3 w-3" />
+            Not applicable
           </Badge>
         )
     }
@@ -428,6 +443,18 @@ function LinksCell({ row }: { row: PlayRequiredRow }) {
 
 function SignOffCell({ row, pendingSync }: { row: PlayRequiredRow; pendingSync?: VerifyOverrideState }) {
   const { attestation, discord } = row
+  if (isPrNotApplicable(row)) {
+    const badge = (
+      <Badge variant="silver" size="sm">
+        <Ban className="h-3 w-3" />
+        Not applicable
+      </Badge>
+    )
+    const tooltip = pendingSync
+      ? pendingSyncTooltip(pendingSync)
+      : `Marked ${row.prSheetStatus === 'no' ? 'NO' : 'NA'} in the sheet`
+    return <Tooltip content={tooltip}>{badge}</Tooltip>
+  }
   if (attestation.confirmed) {
     const parts: string[] = []
     if (attestation.iPlayedBro) parts.push('I played, bro')
@@ -480,18 +507,23 @@ function NotInSheetCell({
   row,
   state,
   onRegister,
+  onNotApplicable,
 }: {
   row: PlayRequiredRow
   state: VerifyState | undefined
   onRegister: (row: PlayRequiredRow) => void
+  onNotApplicable: (row: PlayRequiredRow) => void
 }) {
+  const badge = (
+    <Badge variant="outline" size="sm">
+      <FileSpreadsheet className="h-3 w-3" />
+      Not in sheet
+    </Badge>
+  )
   if (state?.status === 'verifying' && state.action === 'register') {
     return (
       <div className="space-y-1.5">
-        <Badge variant="outline" size="sm">
-          <FileSpreadsheet className="h-3 w-3" />
-          Not in sheet
-        </Badge>
+        {badge}
         <Button size="sm" variant="outline" disabled>
           <Loader2 className="h-3 w-3 animate-spin" />
           Adding…
@@ -499,19 +531,33 @@ function NotInSheetCell({
       </div>
     )
   }
+  if (state?.status === 'verifying' && state.action === 'not_applicable') {
+    return (
+      <div className="space-y-1.5">
+        {badge}
+        <Button size="sm" variant="outline" disabled>
+          <Loader2 className="h-3 w-3 animate-spin" />
+          Marking…
+        </Button>
+      </div>
+    )
+  }
   return (
     <div className="space-y-1.5">
-      <Badge variant="outline" size="sm">
-        <FileSpreadsheet className="h-3 w-3" />
-        Not in sheet
-      </Badge>
-      <div>
+      {badge}
+      <div className="flex flex-wrap gap-1.5">
         <Button size="sm" variant="outline" onClick={() => onRegister(row)}>
           <FileSpreadsheet className="h-3 w-3" />
           Add to sheet
         </Button>
+        {hasGiveawayCode(row) && (
+          <Button size="sm" variant="outline" onClick={() => onNotApplicable(row)}>
+            <Ban className="h-3 w-3" />
+            Not applicable
+          </Button>
+        )}
       </div>
-      {state?.status === 'error' && state.action === 'register' && (
+      {state?.status === 'error' && (state.action === 'register' || state.action === 'not_applicable') && (
         <p className="max-w-[16rem] text-[11px] text-error-foreground">{state.message}</p>
       )}
     </div>
@@ -539,14 +585,16 @@ function PlayRequiredSignOffColumn({
   const state = verifyStates[stateKey]
   const registerState = state?.action === 'register' ? state : undefined
   const verifyOrUnverifyState = state?.action !== 'register' ? state : undefined
+  const notApplicable = isPrNotApplicable(row)
   const pendingSync = verifyOverrides[verifyOverrideKey(row.key, 'play_required')]?.state
 
   if (!row.prRegistered) {
     return (
       <NotInSheetCell
         row={row}
-        state={registerState}
+        state={state}
         onRegister={(r) => onAction(r, 'play_required', 'register')}
+        onNotApplicable={(r) => onAction(r, 'play_required', 'not_applicable')}
       />
     )
   }
@@ -568,7 +616,9 @@ function PlayRequiredSignOffColumn({
         </p>
       )}
       <SignOffCell row={row} pendingSync={pendingSync === 'registered' ? undefined : pendingSync} />
-      {row.game.unreleased && !row.attestation.confirmed ? (
+      {notApplicable ? (
+        <ReopenControl row={row} type="play_required" state={verifyOrUnverifyState} onAction={onAction} />
+      ) : row.game.unreleased && !row.attestation.confirmed ? (
         <UnreleasedVerifyNote />
       ) : (
         <VerifiedControls
@@ -756,7 +806,7 @@ function AchievementsCell({ row }: { row: PlayRequiredRow }) {
   return <AchievementsLink row={row}>{withTooltip}</AchievementsLink>
 }
 
-type VerifyActionKind = 'verify' | 'unverify' | 'register'
+type VerifyActionKind = 'verify' | 'unverify' | 'register' | 'not_applicable'
 
 /** In-flight/result state for one row's verify/unverify action, keyed by `${row.key}:${type}`. */
 type VerifyState =
@@ -837,12 +887,12 @@ function VerifyControl({
   row,
   type,
   state,
-  onVerify,
+  onAction,
 }: {
   row: PlayRequiredRow
   type: 'ipb' | 'play_required'
   state: VerifyState | undefined
-  onVerify: (row: PlayRequiredRow, type: 'ipb' | 'play_required') => void
+  onAction: (row: PlayRequiredRow, type: 'ipb' | 'play_required', action: VerifyActionKind) => void
 }) {
   if (state?.status === 'verifying' && state.action === 'verify') {
     return (
@@ -852,13 +902,32 @@ function VerifyControl({
       </Button>
     )
   }
+  if (state?.status === 'verifying' && state.action === 'not_applicable') {
+    return (
+      <Button size="sm" variant="outline" disabled className="mt-1.5">
+        <Loader2 className="h-3 w-3 animate-spin" />
+        Marking…
+      </Button>
+    )
+  }
   return (
     <div className="mt-1.5 space-y-1">
-      <Button size="sm" variant="outline" onClick={() => onVerify(row, type)}>
+      <Button size="sm" variant="outline" onClick={() => onAction(row, type, 'verify')}>
         <ShieldCheck className="h-3 w-3" />
         Verify
       </Button>
-      {state?.status === 'error' && state.action === 'verify' && (
+      {hasGiveawayCode(row) && (
+        <div>
+          <button
+            type="button"
+            onClick={() => onAction(row, type, 'not_applicable')}
+            className="text-[11px] text-muted-foreground underline decoration-dotted hover:text-foreground"
+          >
+            Mark not applicable
+          </button>
+        </div>
+      )}
+      {state?.status === 'error' && (state.action === 'verify' || state.action === 'not_applicable') && (
         <p className="max-w-[16rem] text-[11px] text-error-foreground">{state.message}</p>
       )}
       {state?.status === 'done' && state.action === 'unverify' && (
@@ -889,7 +958,7 @@ function VerifiedControls({
   onAction: (row: PlayRequiredRow, type: 'ipb' | 'play_required', action: VerifyActionKind) => void
 }) {
   if (!isVerified) {
-    return <VerifyControl row={row} type={type} state={state} onVerify={(r, t) => onAction(r, t, 'verify')} />
+    return <VerifyControl row={row} type={type} state={state} onAction={onAction} />
   }
 
   if (state?.status === 'done' && state.action === 'verify') {
@@ -925,6 +994,51 @@ function VerifiedControls({
           className="text-[11px] text-muted-foreground underline decoration-dotted hover:text-foreground"
         >
           Unverify
+        </button>
+      )}
+      {state?.status === 'error' && state.action === 'unverify' && (
+        <p className="max-w-[16rem] text-[11px] text-error-foreground">{state.message}</p>
+      )}
+    </div>
+  )
+}
+
+/**
+ * Controls under a "Not applicable" badge: a "Reopen" link that blanks the
+ * sheet status cell (back to pending), plus the in-flight/result notes of
+ * the mark-not-applicable and reopen requests.
+ */
+function ReopenControl({
+  row,
+  type,
+  state,
+  onAction,
+}: {
+  row: PlayRequiredRow
+  type: 'ipb' | 'play_required'
+  state: VerifyState | undefined
+  onAction: (row: PlayRequiredRow, type: 'ipb' | 'play_required', action: VerifyActionKind) => void
+}) {
+  if (state?.status === 'verifying' && state.action === 'unverify') {
+    return (
+      <Button size="sm" variant="outline" disabled className="mt-1.5">
+        <Loader2 className="h-3 w-3 animate-spin" />
+        Reopening…
+      </Button>
+    )
+  }
+  return (
+    <div className="mt-1 space-y-0.5">
+      {state?.status === 'done' && state.action === 'not_applicable' && (
+        <p className="max-w-[16rem] text-[11px] text-success-foreground">{state.message}</p>
+      )}
+      {hasGiveawayCode(row) && (
+        <button
+          type="button"
+          onClick={() => onAction(row, type, 'unverify')}
+          className="text-[11px] text-muted-foreground underline decoration-dotted hover:text-foreground"
+        >
+          Reopen
         </button>
       )}
       {state?.status === 'error' && state.action === 'unverify' && (
@@ -1047,7 +1161,9 @@ function IpbRowView({
       </td>
       <td className="py-2.5 pr-3">
         <IpbStatusBadge status={row.ipbStatus} pendingSync={ipbPendingSync} />
-        {row.game.unreleased && row.ipbStatus !== 'verified' ? (
+        {row.ipbStatus === 'not_applicable' ? (
+          <ReopenControl row={row} type="ipb" state={ipbState} onAction={onAction} />
+        ) : row.game.unreleased && row.ipbStatus !== 'verified' ? (
           <UnreleasedVerifyNote />
         ) : (
           <VerifiedControls
@@ -1227,8 +1343,19 @@ export default function PlayRequiredClient({
 
   const handleAction = useCallback(
     async (row: PlayRequiredRow, type: 'ipb' | 'play_required', action: VerifyActionKind) => {
+      const isVerifiedNow = isRowVerified(row, type)
       if (action === 'unverify') {
-        const confirmed = window.confirm(`Unverify ${row.game.name} for ${row.winner.username}?`)
+        const confirmed = window.confirm(
+          isVerifiedNow
+            ? `Unverify ${row.game.name} for ${row.winner.username}?`
+            : `Reopen ${row.game.name} for ${row.winner.username} (clear its not-applicable mark)?`,
+        )
+        if (!confirmed) return
+      }
+      if (action === 'not_applicable') {
+        const confirmed = window.confirm(
+          `Mark ${row.game.name} for ${row.winner.username} as not applicable?`,
+        )
         if (!confirmed) return
       }
 
@@ -1280,10 +1407,12 @@ export default function PlayRequiredClient({
         }
 
         const verified = action === 'verify'
+        const overrideState: VerifyOverrideState =
+          action === 'not_applicable' ? 'not_applicable' : verified ? 'verified' : 'unverified'
         setVerifyOverrides((prev) => {
           const next: VerifyOverrideMap = {
             ...prev,
-            [stateKey]: { state: verified ? 'verified' : 'unverified', at: new Date().toISOString() },
+            [stateKey]: { state: overrideState, at: new Date().toISOString() },
           }
           try {
             window.localStorage.setItem(VERIFY_OVERRIDES_STORAGE_KEY, JSON.stringify(next))
@@ -1298,13 +1427,14 @@ export default function PlayRequiredClient({
         })
 
         const discordNote = discordNoteFor(data.discord, action)
-        const already = data.already
-          ? action === 'verify'
-            ? 'Already verified.'
-            : 'Already unverified.'
-          : action === 'verify'
-            ? 'Verified.'
-            : 'Unverified.'
+        const already = (() => {
+          if (action === 'not_applicable') {
+            return data.already ? 'Already marked not applicable.' : 'Marked not applicable.'
+          }
+          if (action === 'verify') return data.already ? 'Already verified.' : 'Verified.'
+          if (!isVerifiedNow) return data.already ? 'Already reopened.' : 'Reopened.'
+          return data.already ? 'Already unverified.' : 'Unverified.'
+        })()
         setVerifyStates((prev) => ({
           ...prev,
           [stateKey]: { status: 'done', action, message: `${already}${discordNote}` },
@@ -1436,7 +1566,7 @@ export default function PlayRequiredClient({
       </Tabs>
 
       {tab === 'play_required' ? (
-        <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-4 lg:grid-cols-5">
           <StatCard
             icon={Gamepad2}
             label="Play Required wins"
@@ -1469,9 +1599,17 @@ export default function PlayRequiredClient({
             selected={prCard === 'signed_off'}
             onClick={() => toggleCard('signed_off', prCard, setPrCard)}
           />
+          <StatCard
+            icon={Ban}
+            label="Not applicable"
+            value={summaryState.notApplicable}
+            accent="purple"
+            selected={prCard === 'not_applicable'}
+            onClick={() => toggleCard('not_applicable', prCard, setPrCard)}
+          />
         </div>
       ) : (
-        <div className="grid grid-cols-2 gap-4 lg:grid-cols-3">
+        <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
           <StatCard
             icon={Gamepad2}
             label="IPB wins"
@@ -1495,6 +1633,14 @@ export default function PlayRequiredClient({
             accent="green"
             selected={ipbCard === 'verified'}
             onClick={() => toggleCard('verified', ipbCard, setIpbCard)}
+          />
+          <StatCard
+            icon={Ban}
+            label="Not applicable"
+            value={ipbSummaryState.notApplicable}
+            accent="purple"
+            selected={ipbCard === 'not_applicable'}
+            onClick={() => toggleCard('not_applicable', ipbCard, setIpbCard)}
           />
         </div>
       )}

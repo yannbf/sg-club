@@ -1,9 +1,15 @@
 // Vercel serverless function — plain /api directory support (see
 // api/discord/interactions.ts for why: the site is a static export, so this
 // rides Vercel's generic Node.js Function support rather than Next.js
-// routing). Marks a win as verified — or reverts a mistaken verification —
-// in the group's Google Sheet from the /verification admin page's
-// Verify/Unverify controls. Restricted to admins, identified by the
+// routing). Records a mod's decision about a win in the group's Google Sheet
+// from the /verification admin page. A status cell (COMPLETE PLAYING on the
+// IPB tab, PLAY REQUIREMENTS MET on the Play Required tab) holds one of three
+// outcomes:
+//   - verify          -> YES  (the win counts as played)
+//   - not_applicable  -> NA   (the win is closed without needing a play)
+//   - unverify        -> blank (back to pending; also clears a YES or NA/NO)
+// Cells are read by letters only, so YES, NA, N/A and n.a. are all recognised
+// however a mod typed them. Restricted to admins, identified by the
 // ADMIN_STEAM_IDS allowlist via the Steam-login session cookie.
 
 import type { IncomingMessage, ServerResponse } from 'node:http'
@@ -27,7 +33,8 @@ const PLAY_REQUIRED_STATUS_COLUMN = 'PLAY REQUIREMENTS MET'
 const REGISTER_TODO_NOTE = 'TODO: Add proper requirements or delete this note'
 
 type VerifyType = 'ipb' | 'play_required'
-type VerifyAction = 'verify' | 'unverify' | 'register'
+type VerifyAction = 'verify' | 'unverify' | 'register' | 'not_applicable'
+const VERIFY_ACTIONS: readonly VerifyAction[] = ['verify', 'unverify', 'register', 'not_applicable']
 
 interface VerifyRequestBody {
   type?: VerifyType
@@ -160,6 +167,11 @@ async function readTabValues(accessToken: string, title: string): Promise<string
   const res = await sheetsFetch(accessToken, `/values/${range}`)
   const json = (await res.json()) as { values?: string[][] }
   return json.values ?? []
+}
+
+/** Reads a status cell by its letters only: "yes" -> "YES", "N/A" and "n.a." -> "NA", blank -> "". */
+function normalizeStatusCell(raw: string | undefined): string {
+  return (raw ?? '').toUpperCase().replace(/[^A-Z]/g, '')
 }
 
 function columnIndex(headerRow: string[], name: string): number {
@@ -326,8 +338,7 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
   }
 
   const { type, giveawayId, discordThreadId, winnerSteamId } = body
-  const action: VerifyAction =
-    body.action === 'unverify' ? 'unverify' : body.action === 'register' ? 'register' : 'verify'
+  const action: VerifyAction = body.action ?? 'verify'
 
   const steamId = getSessionSteamId(req)
   if (!steamId) {
@@ -345,6 +356,10 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
   }
   if (!giveawayId) {
     respondJson(res, 400, { error: 'giveawayId is required' })
+    return
+  }
+  if (!VERIFY_ACTIONS.includes(action)) {
+    respondJson(res, 400, { error: `action must be one of ${VERIFY_ACTIONS.join(', ')}` })
     return
   }
   if (action === 'register' && type !== 'play_required') {
@@ -414,14 +429,17 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
           return
         }
         const rowNumber = rowIndex + 1
-        const currentStatus = (values[rowIndex]?.[completeCol] ?? '').trim().toUpperCase()
-        if (currentStatus !== 'YES') {
+        const currentStatus = normalizeStatusCell(values[rowIndex]?.[completeCol])
+        if (currentStatus === '') {
           respondJson(res, 200, { ok: true, action: 'unverified', already: true, discord: 'skipped' })
           return
         }
-        await updateCell(accessToken, title, rowNumber, completeCol, 'NO')
+        await updateCell(accessToken, title, rowNumber, completeCol, '')
         await updateCell(accessToken, title, rowNumber, pointsCol, '')
-        const discord = discordThreadId ? await removeVerifiedReaction(discordThreadId) : 'skipped'
+        const discord =
+          currentStatus === 'YES' && discordThreadId
+            ? await removeVerifiedReaction(discordThreadId)
+            : 'skipped'
         respondJson(res, 200, { ok: true, action: 'unverified', discord })
         return
       }
@@ -435,13 +453,79 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
       }
       const statusCol = columnIndex(headerRow, PLAY_REQUIRED_STATUS_COLUMN)
       const rowNumber = rowIndex + 1
-      const currentStatus = (values[rowIndex]?.[statusCol] ?? '').trim().toUpperCase()
-      if (currentStatus !== 'YES') {
+      const currentStatus = normalizeStatusCell(values[rowIndex]?.[statusCol])
+      if (currentStatus === '') {
         respondJson(res, 200, { ok: true, action: 'unverified', already: true, discord: 'skipped' })
         return
       }
-      await updateCell(accessToken, title, rowNumber, statusCol, 'NO')
+      await updateCell(accessToken, title, rowNumber, statusCol, '')
       respondJson(res, 200, { ok: true, action: 'unverified', discord: 'skipped' })
+      return
+    }
+
+    if (action === 'not_applicable') {
+      const values = await readTabValues(accessToken, title)
+      const headerRow = values[0] ?? []
+      const idCol = columnIndex(headerRow, 'ID')
+      const winnerCol = columnIndex(headerRow, 'WINNER')
+      const gameCol = columnIndex(headerRow, 'GAME')
+      const rowIndex = findRowIndex(values, idCol, winnerCol, giveawayId!, winnerUsername)
+
+      if (type === 'ipb') {
+        const completeCol = columnIndex(headerRow, IPB_COLUMNS[3])
+        const pointsCol = columnIndex(headerRow, IPB_COLUMNS[4])
+
+        if (rowIndex === -1) {
+          await appendRow(accessToken, title, [
+            giveawayId!,
+            giveaway!.name,
+            winnerUsername,
+            'NA',
+            '',
+          ])
+          respondJson(res, 200, { ok: true, action: 'marked_not_applicable', discord: 'skipped' })
+          return
+        }
+        if (normalizeStatusCell(values[rowIndex]?.[completeCol]) === 'NA') {
+          respondJson(res, 200, {
+            ok: true,
+            action: 'marked_not_applicable',
+            already: true,
+            discord: 'skipped',
+          })
+          return
+        }
+        const rowNumber = rowIndex + 1
+        await updateCell(accessToken, title, rowNumber, completeCol, 'NA')
+        await updateCell(accessToken, title, rowNumber, pointsCol, '')
+        respondJson(res, 200, { ok: true, action: 'marked_not_applicable', discord: 'skipped' })
+        return
+      }
+
+      // type === 'play_required'
+      const statusCol = columnIndex(headerRow, PLAY_REQUIRED_STATUS_COLUMN)
+      if (rowIndex === -1) {
+        // Padded to the header width so untouched columns line up.
+        const row = new Array(headerRow.length).fill('')
+        if (idCol !== -1) row[idCol] = giveawayId
+        if (gameCol !== -1) row[gameCol] = giveaway!.name
+        if (winnerCol !== -1) row[winnerCol] = winnerUsername
+        if (statusCol !== -1) row[statusCol] = 'NA'
+        await appendRow(accessToken, title, row)
+        respondJson(res, 200, { ok: true, action: 'marked_not_applicable', discord: 'skipped' })
+        return
+      }
+      if (normalizeStatusCell(values[rowIndex]?.[statusCol]) === 'NA') {
+        respondJson(res, 200, {
+          ok: true,
+          action: 'marked_not_applicable',
+          already: true,
+          discord: 'skipped',
+        })
+        return
+      }
+      await updateCell(accessToken, title, rowIndex + 1, statusCol, 'NA')
+      respondJson(res, 200, { ok: true, action: 'marked_not_applicable', discord: 'skipped' })
       return
     }
 
@@ -470,7 +554,7 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
       }
 
       const rowNumber = rowIndex + 1
-      const currentStatus = (values[rowIndex]?.[completeCol] ?? '').trim().toUpperCase()
+      const currentStatus = normalizeStatusCell(values[rowIndex]?.[completeCol])
       if (currentStatus === 'YES') {
         respondJson(res, 200, { ok: true, action: 'updated', already: true, discord: 'skipped' })
         return
@@ -491,7 +575,7 @@ export default async function handler(req: IncomingMessage, res: ServerResponse)
     }
     const statusCol = columnIndex(headerRow, PLAY_REQUIRED_STATUS_COLUMN)
     const rowNumber = rowIndex + 1
-    const currentStatus = (values[rowIndex]?.[statusCol] ?? '').trim().toUpperCase()
+    const currentStatus = normalizeStatusCell(values[rowIndex]?.[statusCol])
     if (currentStatus === 'YES') {
       respondJson(res, 200, { ok: true, action: 'updated', already: true, discord: 'skipped' })
       return

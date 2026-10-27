@@ -253,7 +253,7 @@ describe('POST /api/verify', () => {
     expect(res.body).toMatchObject({ ok: true, discord: 'failed' })
   })
 
-  it('unverifies an IPB row: sets COMPLETE PLAYING to NO and clears EXTRA POINTS', async () => {
+  it('unverifies an IPB row: clears COMPLETE PLAYING and EXTRA POINTS', async () => {
     const values = [
       ['ID', 'GAME', 'WINNER', 'COMPLETE PLAYING', 'EXTRA POINTS'],
       ['abc12', 'Some Game', 'winnerName', 'YES', '25'],
@@ -274,7 +274,7 @@ describe('POST /api/verify', () => {
     const putCalls = calls.filter((c) => c.init?.method === 'PUT')
     expect(putCalls.length).toBe(2)
     expect(putCalls[0].url).toContain(encodeURIComponent("'I play bro'!D2"))
-    expect(JSON.parse(putCalls[0].init!.body as string)).toMatchObject({ values: [['NO']] })
+    expect(JSON.parse(putCalls[0].init!.body as string)).toMatchObject({ values: [['']] })
     expect(putCalls[1].url).toContain(encodeURIComponent("'I play bro'!E2"))
     expect(JSON.parse(putCalls[1].init!.body as string)).toMatchObject({ values: [['']] })
 
@@ -317,7 +317,7 @@ describe('POST /api/verify', () => {
     expect(res.body).toMatchObject({ ok: true, action: 'unverified', discord: 'failed' })
   })
 
-  it('unverifies a play_required row: sets PLAY REQUIREMENTS MET to NO', async () => {
+  it('unverifies a play_required row: clears PLAY REQUIREMENTS MET', async () => {
     const values = [
       ['ID', 'GAME', 'WINNER', 'PLAY REQUIREMENTS MET'],
       ['abc12', 'Some Game', 'winnerName', 'YES'],
@@ -337,7 +337,7 @@ describe('POST /api/verify', () => {
     const putCalls = calls.filter((c) => c.init?.method === 'PUT')
     expect(putCalls.length).toBe(1)
     expect(putCalls[0].url).toContain(encodeURIComponent("'Play Required'!D2"))
-    expect(JSON.parse(putCalls[0].init!.body as string)).toMatchObject({ values: [['NO']] })
+    expect(JSON.parse(putCalls[0].init!.body as string)).toMatchObject({ values: [['']] })
   })
 
   it('appends a Play Required row with empty status/deadline/requirements cells when registering', async () => {
@@ -510,8 +510,203 @@ describe('POST /api/verify', () => {
     expect(putCalls.length).toBe(2)
     // Row 3 (lext) must be the one updated, not row 2 (dramainfouracts).
     expect(putCalls[0].url).toContain(encodeURIComponent("'I play bro'!D3"))
-    expect(JSON.parse(putCalls[0].init!.body as string)).toMatchObject({ values: [['NO']] })
+    expect(JSON.parse(putCalls[0].init!.body as string)).toMatchObject({ values: [['']] })
     expect(putCalls[1].url).toContain(encodeURIComponent("'I play bro'!E3"))
     expect(JSON.parse(putCalls[1].init!.body as string)).toMatchObject({ values: [['']] })
+  })
+
+  describe('not_applicable', () => {
+    const PR_HEADER = ['ID', 'GAME', 'WINNER', 'PLAY REQUIREMENTS MET', 'DEADLINE', 'NOTES']
+    const IPB_HEADER = ['ID', 'GAME', 'WINNER', 'COMPLETE PLAYING', 'EXTRA POINTS']
+
+    it('writes NA into an existing Play Required row', async () => {
+      const { calls } = mockGoogleFlow('Play Required', [
+        PR_HEADER,
+        ['abc12', 'Some Game', 'winnerName', '', '', ''],
+      ])
+      const res = fakeResponse()
+      await handler(
+        adminRequest({ type: 'play_required', action: 'not_applicable', giveawayId: 'abc12' }),
+        res,
+      )
+
+      expect(res.statusCode).toBe(200)
+      expect(res.body).toMatchObject({
+        ok: true,
+        action: 'marked_not_applicable',
+        discord: 'skipped',
+      })
+      const putCalls = calls.filter((c) => c.init?.method === 'PUT')
+      expect(putCalls.length).toBe(1)
+      expect(putCalls[0].url).toContain(encodeURIComponent("'Play Required'!D2"))
+      expect(JSON.parse(putCalls[0].init!.body as string)).toMatchObject({ values: [['NA']] })
+    })
+
+    it('appends a padded Play Required row with NA when none exists', async () => {
+      const { calls } = mockGoogleFlow('Play Required', [PR_HEADER])
+      const res = fakeResponse()
+      await handler(
+        adminRequest({ type: 'play_required', action: 'not_applicable', giveawayId: 'abc12' }),
+        res,
+      )
+
+      expect(res.statusCode).toBe(200)
+      expect(res.body).toMatchObject({ ok: true, action: 'marked_not_applicable' })
+      const appendCall = calls.find((c) => c.url.includes(':append'))
+      expect(JSON.parse(appendCall!.init!.body as string)).toEqual({
+        values: [['abc12', 'Some Game', 'winnerName', 'NA', '', '']],
+      })
+    })
+
+    it('reports already when the Play Required cell reads N/A', async () => {
+      const { calls } = mockGoogleFlow('Play Required', [
+        PR_HEADER,
+        ['abc12', 'Some Game', 'winnerName', 'N/A', '', ''],
+      ])
+      const res = fakeResponse()
+      await handler(
+        adminRequest({ type: 'play_required', action: 'not_applicable', giveawayId: 'abc12' }),
+        res,
+      )
+
+      expect(res.body).toMatchObject({ ok: true, action: 'marked_not_applicable', already: true })
+      expect(calls.some((c) => c.init?.method === 'PUT' || c.url.includes(':append'))).toBe(false)
+    })
+
+    it('overwrites a NO cell with NA', async () => {
+      const { calls } = mockGoogleFlow('Play Required', [
+        PR_HEADER,
+        ['abc12', 'Some Game', 'winnerName', 'NO', '', ''],
+      ])
+      const res = fakeResponse()
+      await handler(
+        adminRequest({ type: 'play_required', action: 'not_applicable', giveawayId: 'abc12' }),
+        res,
+      )
+
+      expect(res.body).toMatchObject({ ok: true, action: 'marked_not_applicable' })
+      expect(calls.filter((c) => c.init?.method === 'PUT').length).toBe(1)
+    })
+
+    it('sets an IPB row to NA, clears EXTRA POINTS and skips Discord', async () => {
+      const { calls } = mockGoogleFlow('I play bro', [
+        IPB_HEADER,
+        ['abc12', 'Some Game', 'winnerName', 'YES', '25'],
+      ])
+      const res = fakeResponse()
+      await handler(
+        adminRequest({
+          type: 'ipb',
+          action: 'not_applicable',
+          giveawayId: 'abc12',
+          discordThreadId: 'thread1',
+        }),
+        res,
+      )
+
+      expect(res.body).toMatchObject({
+        ok: true,
+        action: 'marked_not_applicable',
+        discord: 'skipped',
+      })
+      const putCalls = calls.filter((c) => c.init?.method === 'PUT')
+      expect(putCalls.length).toBe(2)
+      expect(JSON.parse(putCalls[0].init!.body as string)).toMatchObject({ values: [['NA']] })
+      expect(putCalls[1].url).toContain(encodeURIComponent("'I play bro'!E2"))
+      expect(JSON.parse(putCalls[1].init!.body as string)).toMatchObject({ values: [['']] })
+      expect(addReaction).not.toHaveBeenCalled()
+      expect(removeReaction).not.toHaveBeenCalled()
+    })
+
+    it('appends an IPB row with NA and no points when none exists', async () => {
+      const { calls } = mockGoogleFlow('I play bro', [IPB_HEADER])
+      const res = fakeResponse()
+      await handler(adminRequest({ type: 'ipb', action: 'not_applicable', giveawayId: 'abc12' }), res)
+
+      expect(res.body).toMatchObject({ ok: true, action: 'marked_not_applicable' })
+      const appendCall = calls.find((c) => c.url.includes(':append'))
+      expect(JSON.parse(appendCall!.init!.body as string)).toEqual({
+        values: [['abc12', 'Some Game', 'winnerName', 'NA', '']],
+      })
+    })
+
+    it('reports already when the IPB cell reads NA', async () => {
+      const { calls } = mockGoogleFlow('I play bro', [
+        IPB_HEADER,
+        ['abc12', 'Some Game', 'winnerName', 'n.a.', ''],
+      ])
+      const res = fakeResponse()
+      await handler(adminRequest({ type: 'ipb', action: 'not_applicable', giveawayId: 'abc12' }), res)
+
+      expect(res.body).toMatchObject({ ok: true, action: 'marked_not_applicable', already: true })
+      expect(calls.some((c) => c.init?.method === 'PUT' || c.url.includes(':append'))).toBe(false)
+    })
+  })
+
+  describe('unverify of a closed row', () => {
+    it('clears an NA Play Required row to blank without a Discord call', async () => {
+      const { calls } = mockGoogleFlow('Play Required', [
+        ['ID', 'GAME', 'WINNER', 'PLAY REQUIREMENTS MET'],
+        ['abc12', 'Some Game', 'winnerName', 'N/A'],
+      ])
+      const res = fakeResponse()
+      await handler(
+        adminRequest({
+          type: 'play_required',
+          action: 'unverify',
+          giveawayId: 'abc12',
+          discordThreadId: 'thread1',
+        }),
+        res,
+      )
+
+      expect(res.body).toMatchObject({ ok: true, action: 'unverified', discord: 'skipped' })
+      const putCalls = calls.filter((c) => c.init?.method === 'PUT')
+      expect(putCalls.length).toBe(1)
+      expect(JSON.parse(putCalls[0].init!.body as string)).toMatchObject({ values: [['']] })
+      expect(removeReaction).not.toHaveBeenCalled()
+    })
+
+    it('clears an NA IPB row without removing a Discord reaction', async () => {
+      const { calls } = mockGoogleFlow('I play bro', [
+        ['ID', 'GAME', 'WINNER', 'COMPLETE PLAYING', 'EXTRA POINTS'],
+        ['abc12', 'Some Game', 'winnerName', 'NA', ''],
+      ])
+      const res = fakeResponse()
+      await handler(
+        adminRequest({
+          type: 'ipb',
+          action: 'unverify',
+          giveawayId: 'abc12',
+          discordThreadId: 'thread1',
+        }),
+        res,
+      )
+
+      expect(res.body).toMatchObject({ ok: true, action: 'unverified', discord: 'skipped' })
+      expect(calls.filter((c) => c.init?.method === 'PUT').length).toBe(2)
+      expect(removeReaction).not.toHaveBeenCalled()
+    })
+
+    it('reports already when the cell is blank', async () => {
+      const { calls } = mockGoogleFlow('Play Required', [
+        ['ID', 'GAME', 'WINNER', 'PLAY REQUIREMENTS MET'],
+        ['abc12', 'Some Game', 'winnerName', ''],
+      ])
+      const res = fakeResponse()
+      await handler(
+        adminRequest({ type: 'play_required', action: 'unverify', giveawayId: 'abc12' }),
+        res,
+      )
+
+      expect(res.body).toMatchObject({ ok: true, action: 'unverified', already: true })
+      expect(calls.some((c) => c.init?.method === 'PUT')).toBe(false)
+    })
+  })
+
+  it('rejects an unknown action with 400', async () => {
+    const res = fakeResponse()
+    await handler(adminRequest({ type: 'ipb', action: 'explode', giveawayId: 'abc12' }), res)
+    expect(res.statusCode).toBe(400)
   })
 })

@@ -1793,6 +1793,14 @@ export class SteamGiftsUserFetcher {
               }
 
               if (pointsData) {
+                if (pointsData.ipbStatus) {
+                  giveawayData.ipb_sheet_status = pointsData.ipbStatus
+                }
+                if (pointsData.playRequirements?.status) {
+                  giveawayData.required_play_sheet_status =
+                    pointsData.playRequirements.status
+                }
+
                 if (pointsData.completedIplayBro) {
                   giveawayData.i_played_bro =
                     pointsData.completedIplayBro ?? false
@@ -1820,7 +1828,7 @@ export class SteamGiftsUserFetcher {
                   pointsData.playRequirements &&
                   pointsData.playRequirements.ignoreRequirements
                 ) {
-                  // requirements are ignored if "PLAY REQUIREMENTS MET" in the sheet contains "NA"
+                  // The sheet marks the requirement not applicable ("NA", "N/A", …).
                   giveawayData.required_play = false
                 }
               }

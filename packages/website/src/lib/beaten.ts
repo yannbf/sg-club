@@ -1,4 +1,4 @@
-import type { Giveaway, GameData, NoStatsReason, User } from '@/types'
+import type { Giveaway, GameData, NoStatsReason, SheetStatus, User } from '@/types'
 import type {
   BeatenGameMarker,
   BeatenGamesData,
@@ -90,11 +90,16 @@ export interface PlayRequiredRow {
   isPlayRequired: boolean
   /**
    * Whether this win has a row in the Google Sheet's manually-maintained
-   * PLAY_REQUIRED tab (`won.required_play_meta` exists). Only meaningful for
-   * `isPlayRequired` rows — a detected-but-unregistered win has no sheet row
-   * yet, so the site's verify flow has nothing to update until one is added.
+   * PLAY_REQUIRED tab (`won.required_play_meta` exists, or the row's status
+   * cell reads yes/no/na). Only meaningful for `isPlayRequired` rows — a
+   * detected-but-unregistered win has no sheet row yet, so the site's verify
+   * flow has nothing to update until one is added.
    */
   prRegistered: boolean
+  /** PLAY REQUIREMENTS MET cell of the PLAY_REQUIRED sheet row; null when blank or no row. */
+  prSheetStatus: SheetStatus | null
+  /** COMPLETE PLAYING cell of the I Play Bro sheet row; null when blank or no row. */
+  ipbSheetStatus: SheetStatus | null
   /**
    * `i_played_bro` flag set on the win, or a submission entry exists for it
    * (`discord != null`) — whether this win belongs on the "I Play Bro" tab
@@ -108,9 +113,11 @@ export interface PlayRequiredRow {
    *  - `verified`: `won.i_played_bro` is set.
    *  - `submitted`: not verified, but a submission entry exists (`discord`
    *    is set, regardless of `source`).
-   *  - `not_submitted`: neither verified nor submitted.
+   *  - `not_applicable`: not verified, and the sheet cell reads NO or NA —
+   *    closed without play evidence.
+   *  - `not_submitted`: none of the above.
    */
-  ipbStatus: 'verified' | 'submitted' | 'not_submitted'
+  ipbStatus: 'verified' | 'submitted' | 'not_submitted' | 'not_applicable'
   steam: {
     playtimeMinutes?: number
     playtimeFormatted?: string
@@ -169,13 +176,26 @@ export interface PlayRequiredRow {
  * on that tab; `all` is the "clear filter" card (the Play Required wins
  * total).
  */
-export type PrCardId = 'all' | 'not_in_sheet' | 'pending_verification' | 'signed_off'
+export type PrCardId =
+  | 'all'
+  | 'not_in_sheet'
+  | 'pending_verification'
+  | 'signed_off'
+  | 'not_applicable'
 
 /**
  * Summary-card filters for the I Play Bro tab. Each id names a StatCard on
  * that tab; `all` is the "clear filter" card (the IPB wins total).
  */
-export type IpbCardId = 'all' | 'pending_verification' | 'verified'
+export type IpbCardId = 'all' | 'pending_verification' | 'verified' | 'not_applicable'
+
+/**
+ * A Play Required win a mod closed as not applicable: its sheet status cell
+ * reads NO or NA and no sign-off exists.
+ */
+export function isPrNotApplicable(row: PlayRequiredRow): boolean {
+  return !row.attestation.confirmed && (row.prSheetStatus === 'no' || row.prSheetStatus === 'na')
+}
 
 export function matchesPrCard(row: PlayRequiredRow, card: PrCardId): boolean {
   switch (card) {
@@ -185,8 +205,10 @@ export function matchesPrCard(row: PlayRequiredRow, card: PrCardId): boolean {
       return !row.prRegistered
     case 'signed_off':
       return row.attestation.confirmed
+    case 'not_applicable':
+      return isPrNotApplicable(row)
     case 'pending_verification':
-      return !row.attestation.confirmed && row.prRegistered
+      return !row.attestation.confirmed && row.prRegistered && !isPrNotApplicable(row)
   }
 }
 
@@ -198,6 +220,8 @@ export function matchesIpbCard(row: PlayRequiredRow, card: IpbCardId): boolean {
       return row.ipbStatus === 'submitted'
     case 'verified':
       return row.ipbStatus === 'verified'
+    case 'not_applicable':
+      return row.ipbStatus === 'not_applicable'
   }
 }
 
@@ -366,9 +390,18 @@ export function buildPlayRequiredRows(params: {
       const discord = ipbDiscord?.wins[ipbDiscordWinKey(user.steam_id, won.link)] ?? null
 
       // A win qualifies for a row when it's flagged (Play Required or I Played
-      // Bro) or when a Discord submission exists for it — the latter covers
-      // wins submitted for IPB review but not yet flagged by a mod.
-      if (!won.required_play && !won.i_played_bro && !discord) continue
+      // Bro), has a Discord submission (wins submitted for IPB review but not
+      // yet flagged by a mod), or has a status in either sheet tab (including
+      // NO/NA rows, which carry no flag).
+      if (
+        !won.required_play &&
+        !won.i_played_bro &&
+        !discord &&
+        !won.required_play_sheet_status &&
+        !won.ipb_sheet_status
+      ) {
+        continue
+      }
 
       const giveaway = giveawayByLink.get(won.link)
       if (!giveaway || !isCountedGiveaway(giveaway, now)) continue
@@ -377,12 +410,10 @@ export function buildPlayRequiredRows(params: {
       const packageId = giveaway.package_id ?? null
       const gd = findGameData(appId, packageId, gameDataIndex)
 
+      const isPlayRequired = Boolean(won.required_play) || won.required_play_sheet_status != null
+      const isIpb = Boolean(won.i_played_bro) || discord != null || won.ipb_sheet_status != null
       const type: WinType =
-        won.required_play && won.i_played_bro
-          ? 'both'
-          : won.required_play
-            ? 'required_play'
-            : 'i_played_bro'
+        isPlayRequired && isIpb ? 'both' : isPlayRequired ? 'required_play' : 'i_played_bro'
 
       const play = won.steam_play_data
       const beaten = beatenVerdictFor(appId, packageId, user.steam_id, beatenGames)
@@ -395,9 +426,11 @@ export function buildPlayRequiredRows(params: {
       const confirmed = isConfirmedPlayed(won)
       const ipbStatus: PlayRequiredRow['ipbStatus'] = won.i_played_bro
         ? 'verified'
-        : discord
-          ? 'submitted'
-          : 'not_submitted'
+        : won.ipb_sheet_status === 'no' || won.ipb_sheet_status === 'na'
+          ? 'not_applicable'
+          : discord
+            ? 'submitted'
+            : 'not_submitted'
 
       rows.push({
         key: `${user.steam_id}::${won.link}`,
@@ -421,9 +454,11 @@ export function buildPlayRequiredRows(params: {
         },
         discord,
         type,
-        isPlayRequired: Boolean(won.required_play),
-        prRegistered: won.required_play_meta != null,
-        isIpb: Boolean(won.i_played_bro) || discord != null,
+        isPlayRequired,
+        prRegistered: won.required_play_meta != null || won.required_play_sheet_status != null,
+        prSheetStatus: won.required_play_sheet_status ?? null,
+        ipbSheetStatus: won.ipb_sheet_status ?? null,
+        isIpb,
         ipbStatus,
         steam: play
           ? {
@@ -467,6 +502,8 @@ export interface PlayRequiredSummary {
   signedOff: number
   /** Not signed off, but registered in the PLAY_REQUIRED sheet — see `matchesPrCard('pending_verification')`. */
   pendingVerification: number
+  /** Play Required wins closed as NO/NA in the sheet — see `isPrNotApplicable`. */
+  notApplicable: number
   noData: number
   /** Play Required wins with no PLAY_REQUIRED sheet row yet — see `PlayRequiredRow.prRegistered`. */
   notRegistered: number
@@ -477,19 +514,29 @@ export function summarizeRows(rows: PlayRequiredRow[]): PlayRequiredSummary {
   let totalIPlayedBro = 0
   let signedOff = 0
   let pendingVerification = 0
+  let notApplicable = 0
   let noData = 0
   let notRegistered = 0
 
   for (const row of rows) {
-    if (row.attestation.requiredPlay) totalRequiredPlay++
+    if (row.isPlayRequired) totalRequiredPlay++
     if (row.attestation.iPlayedBro) totalIPlayedBro++
     if (row.attestation.confirmed) signedOff++
+    else if (isPrNotApplicable(row)) notApplicable++
     else if (row.prRegistered) pendingVerification++
     if (row.beaten.verdict === 'no_data' || row.beaten.verdict === 'no_marker') noData++
     if (row.isPlayRequired && !row.prRegistered) notRegistered++
   }
 
-  return { totalRequiredPlay, totalIPlayedBro, signedOff, pendingVerification, noData, notRegistered }
+  return {
+    totalRequiredPlay,
+    totalIPlayedBro,
+    signedOff,
+    pendingVerification,
+    notApplicable,
+    noData,
+    notRegistered,
+  }
 }
 
 /**
@@ -503,6 +550,8 @@ export interface IpbSummary {
   total: number
   submitted: number
   verified: number
+  /** IPB rows whose sheet cell reads NO or NA. */
+  notApplicable: number
 }
 
 /** Which of a row's two independent verify actions an override applies to. */
@@ -512,7 +561,7 @@ export type VerifyOverrideType = 'ipb' | 'play_required'
  * successful `/api/verify` `register` call (a PLAY_REQUIRED sheet row now
  * exists), independently of `verified`/`unverified` sign-off state.
  */
-export type VerifyOverrideState = 'verified' | 'unverified' | 'registered'
+export type VerifyOverrideState = 'verified' | 'unverified' | 'registered' | 'not_applicable'
 
 export interface VerifyOverride {
   state: VerifyOverrideState
@@ -555,7 +604,8 @@ export function parseVerifyOverrides(raw: string | null | undefined): VerifyOver
       typeof value === 'object' &&
       ((value as VerifyOverride).state === 'verified' ||
         (value as VerifyOverride).state === 'unverified' ||
-        (value as VerifyOverride).state === 'registered') &&
+        (value as VerifyOverride).state === 'registered' ||
+        (value as VerifyOverride).state === 'not_applicable') &&
       typeof (value as VerifyOverride).at === 'string'
     ) {
       result[key] = { state: (value as VerifyOverride).state, at: (value as VerifyOverride).at }
@@ -575,6 +625,9 @@ function overrideTypeFromKey(key: string): { rowKey: string; type: VerifyOverrid
 /** Whether `row`'s current JSON-derived status for `type` already matches `state`. */
 function overrideMatchesRow(row: PlayRequiredRow, type: VerifyOverrideType, state: VerifyOverrideState): boolean {
   if (state === 'registered') return row.prRegistered
+  if (state === 'not_applicable') {
+    return type === 'play_required' ? isPrNotApplicable(row) : row.ipbStatus === 'not_applicable'
+  }
   const verified = type === 'play_required' ? row.attestation.confirmed : row.ipbStatus === 'verified'
   return verified === (state === 'verified')
 }
@@ -623,21 +676,33 @@ export function applyVerifyOverrides(
     if (prOverride?.state === 'registered') {
       next = { ...next, prRegistered: true }
     } else if (prOverride) {
-      // A play_required verify/unverify only ever succeeds against an
-      // existing sheet row, so `verified` implies the row is registered too.
+      // verify and not_applicable write to the sheet row (appending it when
+      // missing), so both imply the row is registered; unverify blanks the
+      // status cell.
+      const verified = prOverride.state === 'verified'
+      const notApplicable = prOverride.state === 'not_applicable'
       next = {
         ...next,
-        attestation: { ...next.attestation, confirmed: prOverride.state === 'verified' },
-        prRegistered: prOverride.state === 'verified' ? true : next.prRegistered,
+        attestation: { ...next.attestation, confirmed: verified },
+        prRegistered: verified || notApplicable ? true : next.prRegistered,
+        prSheetStatus: verified ? 'yes' : notApplicable ? 'na' : null,
       }
     }
 
     const ipbOverride = overrides[verifyOverrideKey(row.key, 'ipb')]
     if (ipbOverride) {
       const verified = ipbOverride.state === 'verified'
+      const notApplicable = ipbOverride.state === 'not_applicable'
       next = {
         ...next,
-        ipbStatus: verified ? 'verified' : next.discord ? 'submitted' : 'not_submitted',
+        ipbStatus: verified
+          ? 'verified'
+          : notApplicable
+            ? 'not_applicable'
+            : next.discord
+              ? 'submitted'
+              : 'not_submitted',
+        ipbSheetStatus: verified ? 'yes' : notApplicable ? 'na' : null,
       }
     }
 
@@ -649,13 +714,15 @@ export function summarizeIpbRows(rows: PlayRequiredRow[]): IpbSummary {
   let total = 0
   let submitted = 0
   let verified = 0
+  let notApplicable = 0
 
   for (const row of rows) {
     if (!row.isIpb) continue
     total++
     if (row.ipbStatus === 'submitted') submitted++
     else if (row.ipbStatus === 'verified') verified++
+    else if (row.ipbStatus === 'not_applicable') notApplicable++
   }
 
-  return { total, submitted, verified }
+  return { total, submitted, verified, notApplicable }
 }

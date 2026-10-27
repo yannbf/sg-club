@@ -172,6 +172,10 @@ export interface User {
     deleted?: boolean
     deleted_reason?: string
     i_played_bro?: boolean
+    /** Reading of the sheet's COMPLETE PLAYING cell; absent when blank or no sheet row. */
+    ipb_sheet_status?: SheetStatus
+    /** Reading of the sheet's PLAY REQUIREMENTS MET cell; absent when blank or no sheet row. */
+    required_play_sheet_status?: SheetStatus
     required_play_meta?: {
       requirements_met: boolean
       deadline?: string
@@ -325,3 +329,6 @@ export interface GamePrice {
   header_image_url?: string | null
   header_image_checked_at?: string | null
 }
+
+/** Normalised reading of a hand-typed sheet status cell. */
+export type SheetStatus = 'yes' | 'no' | 'na'

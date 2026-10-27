@@ -1,3 +1,6 @@
+/** Normalised reading of a sheet status cell (COMPLETE PLAYING / PLAY REQUIREMENTS MET). */
+export type SheetStatus = 'yes' | 'no' | 'na'
+
 /**
  * Machine-readable explanation for why a won game has no available stats, so
  * the UI can tell an admin *why* instead of a bare "No stats available".
@@ -140,6 +143,10 @@ export interface User {
     deleted_reason?: string
     i_played_bro?: boolean
     required_play?: boolean
+    /** Reading of the sheet's COMPLETE PLAYING cell; absent when blank or no sheet row. */
+    ipb_sheet_status?: SheetStatus
+    /** Reading of the sheet's PLAY REQUIREMENTS MET cell; absent when blank or no sheet row. */
+    required_play_sheet_status?: SheetStatus
     /**
      * The game had not released on Steam as of the last game-data run, so it
      * is excluded from every required-play rule — a member can't play a game

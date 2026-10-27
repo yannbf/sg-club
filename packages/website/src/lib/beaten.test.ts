@@ -2,6 +2,11 @@ import { describe, expect, it } from 'vitest'
 import {
   applyVerifyOverrides,
   buildPlayRequiredRows,
+  isPrNotApplicable,
+  matchesIpbCard,
+  matchesPrCard,
+  summarizeIpbRows,
+  summarizeRows,
   parseVerifyOverrides,
   pruneVerifyOverrides,
   verifyOverrideKey,
@@ -32,6 +37,8 @@ function makeRow(overrides: Partial<PlayRequiredRow> = {}): PlayRequiredRow {
     type: 'required_play',
     isPlayRequired: true,
     prRegistered: true,
+    prSheetStatus: null,
+    ipbSheetStatus: null,
     isIpb: false,
     ipbStatus: 'not_submitted',
     steam: {},
@@ -443,5 +450,130 @@ describe('buildPlayRequiredRows — beatenVerdictFor via package_resolutions', (
     expect(rows[0].beaten.verdict).toBe('not_beaten')
     expect(rows[0].beaten.resolvedAppId).toBe(42)
     expect(rows[0].beaten.resolvedAppName).toBe('Base Game')
+  })
+})
+
+describe('not applicable', () => {
+  it('isPrNotApplicable is true for NO/NA cells without sign-off only', () => {
+    expect(isPrNotApplicable(makeRow({ prSheetStatus: 'no' }))).toBe(true)
+    expect(isPrNotApplicable(makeRow({ prSheetStatus: 'na' }))).toBe(true)
+    expect(isPrNotApplicable(makeRow({ prSheetStatus: 'yes' }))).toBe(false)
+    expect(isPrNotApplicable(makeRow({ prSheetStatus: null }))).toBe(false)
+    expect(
+      isPrNotApplicable(
+        makeRow({ prSheetStatus: 'na', attestation: { ...makeRow().attestation, confirmed: true } }),
+      ),
+    ).toBe(false)
+  })
+
+  it('matches the not_applicable card and leaves pending_verification', () => {
+    const na = makeRow({ prSheetStatus: 'na' })
+    const pending = makeRow()
+    expect(matchesPrCard(na, 'not_applicable')).toBe(true)
+    expect(matchesPrCard(na, 'pending_verification')).toBe(false)
+    expect(matchesPrCard(pending, 'not_applicable')).toBe(false)
+    expect(matchesPrCard(pending, 'pending_verification')).toBe(true)
+
+    const ipbNa = makeRow({ ipbStatus: 'not_applicable', isIpb: true })
+    expect(matchesIpbCard(ipbNa, 'not_applicable')).toBe(true)
+    expect(matchesIpbCard(ipbNa, 'pending_verification')).toBe(false)
+  })
+
+  it('summaries count not applicable rows separately', () => {
+    const rows = [
+      makeRow({ key: 'a', prSheetStatus: 'na' }),
+      makeRow({ key: 'b', prSheetStatus: 'no' }),
+      makeRow({ key: 'c' }),
+      makeRow({ key: 'd', ipbStatus: 'not_applicable', isIpb: true }),
+    ]
+    const summary = summarizeRows(rows)
+    expect(summary.notApplicable).toBe(2)
+    expect(summary.pendingVerification).toBe(2)
+    expect(summarizeIpbRows(rows).notApplicable).toBe(1)
+  })
+
+  it('parses a not_applicable override', () => {
+    const raw = JSON.stringify({
+      'steam1::abcde/game:play_required': { state: 'not_applicable', at: '2026-01-01T00:00:00.000Z' },
+    })
+    expect(parseVerifyOverrides(raw)['steam1::abcde/game:play_required'].state).toBe('not_applicable')
+  })
+
+  it('applies not_applicable and unverified overrides to both types', () => {
+    const row = makeRow({ prRegistered: false })
+    const overrides: VerifyOverrideMap = {
+      [verifyOverrideKey(row.key, 'play_required')]: { state: 'not_applicable', at: 'x' },
+      [verifyOverrideKey(row.key, 'ipb')]: { state: 'not_applicable', at: 'x' },
+    }
+    const [na] = applyVerifyOverrides([row], overrides)
+    expect(na.attestation.confirmed).toBe(false)
+    expect(na.prRegistered).toBe(true)
+    expect(na.prSheetStatus).toBe('na')
+    expect(na.ipbStatus).toBe('not_applicable')
+    expect(na.ipbSheetStatus).toBe('na')
+
+    const reopened = applyVerifyOverrides([na], {
+      [verifyOverrideKey(row.key, 'play_required')]: { state: 'unverified', at: 'x' },
+      [verifyOverrideKey(row.key, 'ipb')]: { state: 'unverified', at: 'x' },
+    })[0]
+    expect(reopened.prSheetStatus).toBeNull()
+    expect(reopened.ipbSheetStatus).toBeNull()
+    expect(reopened.ipbStatus).toBe('not_submitted')
+  })
+
+  it('verified overrides set the sheet status to yes', () => {
+    const row = makeRow()
+    const [v] = applyVerifyOverrides([row], {
+      [verifyOverrideKey(row.key, 'play_required')]: { state: 'verified', at: 'x' },
+      [verifyOverrideKey(row.key, 'ipb')]: { state: 'verified', at: 'x' },
+    })
+    expect(v.prSheetStatus).toBe('yes')
+    expect(v.ipbSheetStatus).toBe('yes')
+  })
+
+  it('prunes a not_applicable override once the row agrees, keeps it otherwise', () => {
+    const overrides: VerifyOverrideMap = {
+      'steam1::abcde/game:play_required': { state: 'not_applicable', at: new Date().toISOString() },
+    }
+    expect(pruneVerifyOverrides(overrides, [makeRow({ prSheetStatus: 'no' })])).toEqual({})
+    expect(pruneVerifyOverrides(overrides, [makeRow()])).toEqual(overrides)
+
+    const ipbOverrides: VerifyOverrideMap = {
+      'steam1::abcde/game:ipb': { state: 'not_applicable', at: new Date().toISOString() },
+    }
+    expect(pruneVerifyOverrides(ipbOverrides, [makeRow({ ipbStatus: 'not_applicable' })])).toEqual({})
+    expect(pruneVerifyOverrides(ipbOverrides, [makeRow()])).toEqual(ipbOverrides)
+  })
+
+  it('builds rows for wins that carry only a sheet status', () => {
+    const giveaway = makeGiveaway({ app_id: 1 })
+    const user = makeUser({
+      giveaways_won: [
+        {
+          name: 'Game',
+          link: giveaway.link,
+          cv_status: 'FULL_CV',
+          status: 'won',
+          end_timestamp: 0,
+          required_play_sheet_status: 'na',
+          ipb_sheet_status: 'no',
+        },
+      ],
+    })
+    const rows = buildPlayRequiredRows({
+      memberUsers: [user],
+      exMemberUsers: [],
+      giveaways: [giveaway],
+      gameData: [],
+      beatenGames: null,
+    })
+    expect(rows).toHaveLength(1)
+    expect(rows[0].type).toBe('both')
+    expect(rows[0].isPlayRequired).toBe(true)
+    expect(rows[0].prRegistered).toBe(true)
+    expect(rows[0].prSheetStatus).toBe('na')
+    expect(rows[0].ipbSheetStatus).toBe('no')
+    expect(rows[0].ipbStatus).toBe('not_applicable')
+    expect(isPrNotApplicable(rows[0])).toBe(true)
   })
 })

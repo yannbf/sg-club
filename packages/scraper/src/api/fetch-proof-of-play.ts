@@ -1,4 +1,7 @@
 import Papa from 'papaparse'
+import type { SheetStatus } from '../types/steamgifts.js'
+
+export type { SheetStatus }
 
 // ─── Interfaces ───────────────────────────────────────────────────────
 
@@ -41,6 +44,7 @@ interface PlayRequirementData {
   id: string
   game: string
   winner: string
+  status: SheetStatus | null
   playRequirementsMet: boolean
   ignoreRequirements?: boolean
   deadline?: string
@@ -52,6 +56,7 @@ export interface GiveawayData {
   id: string
   game: string
   winner: string
+  ipbStatus: SheetStatus | null
   completedIplayBro: boolean
   extraPoints: number
   playRequirements?: PlayRequirementData
@@ -82,11 +87,25 @@ interface GiveawayDataMap {
     game: string
     winners: {
       name: string
+      ipbStatus: SheetStatus | null
       completedIplayBro: boolean
       extraPoints: number
       playRequirements?: PlayRequirementData
     }[]
   }
+}
+
+/**
+ * Reads a hand-typed status cell (`COMPLETE PLAYING` / `PLAY REQUIREMENTS
+ * MET`). Only letters count, so "N/A", "n.a." and " na " all read as `na`.
+ * Blank or any other text reads as `null`.
+ */
+export function readSheetStatus(raw: string): SheetStatus | null {
+  const letters = (raw ?? '').toUpperCase().replace(/[^A-Z]/g, '')
+  if (letters === 'YES') return 'yes'
+  if (letters === 'NO') return 'no'
+  if (letters === 'NA') return 'na'
+  return null
 }
 
 // ─── Class ────────────────────────────────────────────────────────────
@@ -168,11 +187,13 @@ export class GiveawayPointsManager {
   private parseGiveawayRow(
     row: GiveawayRow
   ): Omit<GiveawayData, 'playRequirements'> {
+    const ipbStatus = readSheetStatus(row['COMPLETE PLAYING'])
     return {
       id: row.ID,
       game: row.GAME,
       winner: row.WINNER,
-      completedIplayBro: row['COMPLETE PLAYING'].toUpperCase() === 'YES',
+      ipbStatus,
+      completedIplayBro: ipbStatus === 'yes',
       extraPoints: parseInt(row['EXTRA POINTS'], 10) || 0,
     }
   }
@@ -221,6 +242,7 @@ export class GiveawayPointsManager {
               id: pr.id,
               game: pr.game,
               winner: pr.winner,
+              ipbStatus: null,
               completedIplayBro: false,
               extraPoints: 0,
               playRequirements: pr,
@@ -253,14 +275,14 @@ export class GiveawayPointsManager {
   private parsePlayRequirementRow(
     row: PlayRequirementRow
   ): PlayRequirementData {
+    const status = readSheetStatus(row['PLAY REQUIREMENTS MET'])
     let data: PlayRequirementData = {
       id: row.ID.trim(),
       game: row.GAME.trim(),
       winner: row.WINNER.trim(),
-      playRequirementsMet:
-        row['PLAY REQUIREMENTS MET'].trim().toUpperCase() === 'YES',
-      ignoreRequirements:
-        row['PLAY REQUIREMENTS MET'].trim().toUpperCase() === 'NA',
+      status,
+      playRequirementsMet: status === 'yes',
+      ignoreRequirements: status === 'na',
       deadline: undefined,
       deadlineInMonths: 2,
       additionalNotes: undefined,
