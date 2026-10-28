@@ -171,6 +171,82 @@ export interface PlayRequiredRow {
   }
 }
 
+/** `PlayRequiredRow` with its repeated nested objects replaced by ids into `PlayRequiredPayload`. */
+export type SerializedPlayRequiredRow = Omit<PlayRequiredRow, 'game' | 'winner' | 'beaten'> & {
+  gameId: string
+  winnerId: string
+  beaten: Omit<PlayRequiredRow['beaten'], 'marker'> & { markerId: string | null }
+}
+
+/**
+ * Wire format for the verification page. The same game is won by many members
+ * and one member wins many games, and a beaten marker is per game, so the
+ * identical `game`, `winner` and `marker` objects repeat verbatim across rows;
+ * the payload stores each distinct object once and rows reference it by id.
+ */
+export interface PlayRequiredPayload {
+  rows: SerializedPlayRequiredRow[]
+  games: Record<string, PlayRequiredRow['game']>
+  winners: Record<string, PlayRequiredRow['winner']>
+  markers: Record<string, BeatenGameMarker>
+}
+
+/**
+ * Stores `value` once per distinct structure (compared via JSON.stringify) in
+ * `table` and returns its id. `preferredId` is used when free or when it
+ * already holds a structurally equal value; otherwise a numeric suffix keeps
+ * differing values apart.
+ */
+function internValue<T>(table: Record<string, T>, preferredId: string, value: T): string {
+  const serialized = JSON.stringify(value)
+  let id = preferredId
+  for (let n = 1; ; n++) {
+    if (!(id in table)) {
+      table[id] = value
+      return id
+    }
+    if (JSON.stringify(table[id]) === serialized) return id
+    id = `${preferredId}#${n}`
+  }
+}
+
+export function serializePlayRequiredRows(rows: PlayRequiredRow[]): PlayRequiredPayload {
+  const games: PlayRequiredPayload['games'] = {}
+  const winners: PlayRequiredPayload['winners'] = {}
+  const markers: PlayRequiredPayload['markers'] = {}
+
+  const serialized = rows.map((row): SerializedPlayRequiredRow => {
+    const { game, winner, beaten, ...rest } = row
+    const gameKey =
+      game.appId != null ? `app:${game.appId}` : game.packageId != null ? `pkg:${game.packageId}` : `ga:${row.giveawayLink}`
+    const { marker, ...beatenRest } = beaten
+    return {
+      ...rest,
+      gameId: internValue(games, gameKey, game),
+      winnerId: internValue(winners, winner.steamId, winner),
+      beaten: {
+        ...beatenRest,
+        markerId: marker ? internValue(markers, gameKey, marker) : null,
+      },
+    }
+  })
+
+  return { rows: serialized, games, winners, markers }
+}
+
+export function hydratePlayRequiredRows(payload: PlayRequiredPayload): PlayRequiredRow[] {
+  return payload.rows.map((row): PlayRequiredRow => {
+    const { gameId, winnerId, beaten, ...rest } = row
+    const { markerId, ...beatenRest } = beaten
+    return {
+      ...rest,
+      game: payload.games[gameId],
+      winner: payload.winners[winnerId],
+      beaten: { ...beatenRest, marker: markerId != null ? payload.markers[markerId] : null },
+    }
+  })
+}
+
 /**
  * Summary-card filters for the Play Required tab. Each id names a StatCard
  * on that tab; `all` is the "clear filter" card (the Play Required wins

@@ -3,6 +3,7 @@ import { Inter, JetBrains_Mono } from 'next/font/google'
 import './globals.css'
 import { ThemeProvider } from '@/components/ThemeProvider'
 import { SiteHeader } from '@/components/SiteHeader'
+import TooltipProvider from '@/components/TooltipProvider'
 import { AuthProvider } from '@/lib/auth'
 import { authHintScript } from '@/lib/auth-hint'
 import { Analytics } from '@vercel/analytics/next'
@@ -47,10 +48,12 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <AuthProvider>
-            <SiteHeader />
-            <main className="mx-auto w-full max-w-screen-2xl px-4 py-6 sm:px-6 lg:px-8">
-              {children}
-            </main>
+            <TooltipProvider>
+              <SiteHeader />
+              <main className="mx-auto w-full max-w-screen-2xl px-4 py-6 sm:px-6 lg:px-8">
+                {children}
+              </main>
+            </TooltipProvider>
           </AuthProvider>
         </ThemeProvider>
         <Analytics />

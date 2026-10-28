@@ -1,6 +1,8 @@
 'use client'
 
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { memo, useCallback, useEffect, useMemo, useState } from 'react'
+import { TableVirtuoso } from 'react-virtuoso'
+import type { TableComponents } from 'react-virtuoso'
 import { formatDistanceToNow } from 'date-fns'
 import {
   AlertTriangle,
@@ -21,6 +23,7 @@ import {
 import type {
   IpbCardId,
   IpbSummary,
+  PlayRequiredPayload,
   PlayRequiredRow,
   PlayRequiredSummary,
   PrCardId,
@@ -30,6 +33,7 @@ import type {
 import {
   applyVerifyOverrides,
   BEATEN_VERDICT_ORDER,
+  hydratePlayRequiredRows,
   isPrNotApplicable,
   matchesIpbCard,
   matchesPrCard,
@@ -62,7 +66,7 @@ import { useDebounce } from '@/lib/hooks'
 import { cn } from '@/lib/cn'
 
 interface Props {
-  rows: PlayRequiredRow[]
+  payload: PlayRequiredPayload
   summary: PlayRequiredSummary
   ipbSummary: IpbSummary
   beatenDataAvailable: boolean
@@ -572,21 +576,18 @@ function NotInSheetCell({
  */
 function PlayRequiredSignOffColumn({
   row,
-  verifyStates,
-  verifyOverrides,
+  state,
+  pendingSync,
   onAction,
 }: {
   row: PlayRequiredRow
-  verifyStates: Record<string, VerifyState>
-  verifyOverrides: VerifyOverrideMap
+  state: VerifyState | undefined
+  pendingSync: VerifyOverrideState | undefined
   onAction: (row: PlayRequiredRow, type: 'ipb' | 'play_required', action: VerifyActionKind) => void
 }) {
-  const stateKey = verifyStateKey(row, 'play_required')
-  const state = verifyStates[stateKey]
   const registerState = state?.action === 'register' ? state : undefined
   const verifyOrUnverifyState = state?.action !== 'register' ? state : undefined
   const notApplicable = isPrNotApplicable(row)
-  const pendingSync = verifyOverrides[verifyOverrideKey(row.key, 'play_required')]?.state
 
   if (!row.prRegistered) {
     return (
@@ -1048,19 +1049,20 @@ function ReopenControl({
   )
 }
 
-function PlayRequiredRowView({
+/** Cells of one Play Required row; the enclosing <tr> comes from the virtualized table. */
+const PlayRequiredRowView = memo(function PlayRequiredRowView({
   row,
-  verifyStates,
-  verifyOverrides,
+  state,
+  pendingSync,
   onAction,
 }: {
   row: PlayRequiredRow
-  verifyStates: Record<string, VerifyState>
-  verifyOverrides: VerifyOverrideMap
+  state: VerifyState | undefined
+  pendingSync: VerifyOverrideState | undefined
   onAction: (row: PlayRequiredRow, type: 'ipb' | 'play_required', action: VerifyActionKind) => void
 }) {
   return (
-    <tr className="border-b border-card-border last:border-0">
+    <>
       <td className="py-2.5 pr-3">
         <GameCell row={row} />
       </td>
@@ -1097,31 +1099,30 @@ function PlayRequiredRowView({
       <td className="py-2.5">
         <PlayRequiredSignOffColumn
           row={row}
-          verifyStates={verifyStates}
-          verifyOverrides={verifyOverrides}
+          state={state}
+          pendingSync={pendingSync}
           onAction={onAction}
         />
       </td>
-    </tr>
+    </>
   )
-}
+})
 
-function IpbRowView({
+/** Cells of one IPB row; the enclosing <tr> comes from the virtualized table. */
+const IpbRowView = memo(function IpbRowView({
   row,
-  verifyStates,
-  verifyOverrides,
+  state: ipbState,
+  pendingSync: ipbPendingSync,
   onAction,
 }: {
   row: PlayRequiredRow
-  verifyStates: Record<string, VerifyState>
-  verifyOverrides: VerifyOverrideMap
+  state: VerifyState | undefined
+  pendingSync: VerifyOverrideState | undefined
   onAction: (row: PlayRequiredRow, type: 'ipb' | 'play_required', action: VerifyActionKind) => void
 }) {
   const submittedAt = row.discord?.thread_created_at
-  const ipbState = verifyStates[verifyStateKey(row, 'ipb')]
-  const ipbPendingSync = verifyOverrides[verifyOverrideKey(row.key, 'ipb')]?.state
   return (
-    <tr className="border-b border-card-border last:border-0">
+    <>
       <td className="py-2.5 pr-3">
         <GameCell row={row} />
       </td>
@@ -1178,9 +1179,18 @@ function IpbRowView({
       <td className="py-2.5">
         <LinksCell row={row} />
       </td>
-    </tr>
+    </>
   )
+})
+
+const virtuosoTableComponents: TableComponents<PlayRequiredRow> = {
+  Table: (props) => <table {...props} className="w-full text-left" />,
+  TableRow: ({ item: _item, ...props }) => (
+    <tr {...props} className="border-b border-card-border last:border-0" />
+  ),
 }
+
+const virtuosoItemKey = (_index: number, row: PlayRequiredRow) => row.key
 
 function sortValue(row: PlayRequiredRow, key: SortKey): number | string | null {
   switch (key) {
@@ -1259,12 +1269,13 @@ function SortableHeader({
 }
 
 export default function PlayRequiredClient({
-  rows,
+  payload,
   beatenDataAvailable,
   beatenLastUpdated,
   lastUpdated,
   unmatchedDiscordThreads,
 }: Props) {
+  const rows = useMemo(() => hydratePlayRequiredRows(payload), [payload])
   const [tab, setTab] = useState<Tab>('ipb')
   const [search, setSearch] = useState('')
   const debouncedSearch = useDebounce(search, 200)
@@ -1713,153 +1724,155 @@ export default function PlayRequiredClient({
           </div>
         ) : tab === 'play_required' ? (
           <div className="overflow-x-auto">
-            <table className="w-full text-left">
-              <thead>
-                <tr className="border-b border-card-border text-[11px] font-medium uppercase tracking-wide text-muted-foreground">
-                  <SortableHeader
-                    label="Game"
-                    sortKey="game"
-                    activeKey={prSort.key}
-                    dir={prSort.dir}
-                    onSort={handleSort(prSort, setPrSort)}
-                    className="sm:pl-6"
-                  />
-                  <SortableHeader
-                    label="Winner"
-                    sortKey="winner"
-                    activeKey={prSort.key}
-                    dir={prSort.dir}
-                    onSort={handleSort(prSort, setPrSort)}
-                  />
-                  <SortableHeader
-                    label="Won"
-                    sortKey="won"
-                    activeKey={prSort.key}
-                    dir={prSort.dir}
-                    onSort={handleSort(prSort, setPrSort)}
-                  />
-                  <th className="px-3 py-2">Type</th>
-                  <SortableHeader
-                    label="Playtime"
-                    sortKey="playtime"
-                    activeKey={prSort.key}
-                    dir={prSort.dir}
-                    onSort={handleSort(prSort, setPrSort)}
-                  />
-                  <SortableHeader
-                    label="Achievements"
-                    sortKey="achievements"
-                    activeKey={prSort.key}
-                    dir={prSort.dir}
-                    onSort={handleSort(prSort, setPrSort)}
-                  />
-                  <SortableHeader
-                    label="Beaten"
-                    sortKey="beaten"
-                    activeKey={prSort.key}
-                    dir={prSort.dir}
-                    onSort={handleSort(prSort, setPrSort)}
-                  />
-                  <SortableHeader
-                    label="Sign-off"
-                    sortKey="signoff"
-                    activeKey={prSort.key}
-                    dir={prSort.dir}
-                    onSort={handleSort(prSort, setPrSort)}
-                    className="sm:pr-6"
-                  />
-                </tr>
-              </thead>
-              <tbody className="px-3">
-                {sortedPrRows.map((row) => (
-                  <PlayRequiredRowView
-                    key={row.key}
-                    row={row}
-                    verifyStates={verifyStates}
-                    verifyOverrides={verifyOverrides}
-                    onAction={handleAction}
-                  />
-                ))}
-              </tbody>
-            </table>
+            <TableVirtuoso
+              useWindowScroll
+              data={sortedPrRows}
+              components={virtuosoTableComponents}
+              computeItemKey={virtuosoItemKey}
+              fixedHeaderContent={() => (
+          <tr className="border-b border-card-border text-[11px] font-medium uppercase tracking-wide text-muted-foreground">
+            <SortableHeader
+              label="Game"
+              sortKey="game"
+              activeKey={prSort.key}
+              dir={prSort.dir}
+              onSort={handleSort(prSort, setPrSort)}
+              className="sm:pl-6"
+            />
+            <SortableHeader
+              label="Winner"
+              sortKey="winner"
+              activeKey={prSort.key}
+              dir={prSort.dir}
+              onSort={handleSort(prSort, setPrSort)}
+            />
+            <SortableHeader
+              label="Won"
+              sortKey="won"
+              activeKey={prSort.key}
+              dir={prSort.dir}
+              onSort={handleSort(prSort, setPrSort)}
+            />
+            <th className="px-3 py-2">Type</th>
+            <SortableHeader
+              label="Playtime"
+              sortKey="playtime"
+              activeKey={prSort.key}
+              dir={prSort.dir}
+              onSort={handleSort(prSort, setPrSort)}
+            />
+            <SortableHeader
+              label="Achievements"
+              sortKey="achievements"
+              activeKey={prSort.key}
+              dir={prSort.dir}
+              onSort={handleSort(prSort, setPrSort)}
+            />
+            <SortableHeader
+              label="Beaten"
+              sortKey="beaten"
+              activeKey={prSort.key}
+              dir={prSort.dir}
+              onSort={handleSort(prSort, setPrSort)}
+            />
+            <SortableHeader
+              label="Sign-off"
+              sortKey="signoff"
+              activeKey={prSort.key}
+              dir={prSort.dir}
+              onSort={handleSort(prSort, setPrSort)}
+              className="sm:pr-6"
+            />
+          </tr>
+              )}
+              itemContent={(_index, row) => (
+                <PlayRequiredRowView
+                  row={row}
+                  state={verifyStates[verifyStateKey(row, 'play_required')]}
+                  pendingSync={verifyOverrides[verifyOverrideKey(row.key, 'play_required')]?.state}
+                  onAction={handleAction}
+                />
+              )}
+            />
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-left">
-              <thead>
-                <tr className="border-b border-card-border text-[11px] font-medium uppercase tracking-wide text-muted-foreground">
-                  <SortableHeader
-                    label="Game"
-                    sortKey="game"
-                    activeKey={ipbSort.key}
-                    dir={ipbSort.dir}
-                    onSort={handleSort(ipbSort, setIpbSort)}
-                    className="sm:pl-6"
-                  />
-                  <SortableHeader
-                    label="Winner"
-                    sortKey="winner"
-                    activeKey={ipbSort.key}
-                    dir={ipbSort.dir}
-                    onSort={handleSort(ipbSort, setIpbSort)}
-                  />
-                  <SortableHeader
-                    label="Won"
-                    sortKey="won"
-                    activeKey={ipbSort.key}
-                    dir={ipbSort.dir}
-                    onSort={handleSort(ipbSort, setIpbSort)}
-                  />
-                  <SortableHeader
-                    label="Submitted"
-                    sortKey="submitted"
-                    activeKey={ipbSort.key}
-                    dir={ipbSort.dir}
-                    onSort={handleSort(ipbSort, setIpbSort)}
-                  />
-                  <SortableHeader
-                    label="Playtime"
-                    sortKey="playtime"
-                    activeKey={ipbSort.key}
-                    dir={ipbSort.dir}
-                    onSort={handleSort(ipbSort, setIpbSort)}
-                  />
-                  <SortableHeader
-                    label="Achievements"
-                    sortKey="achievements"
-                    activeKey={ipbSort.key}
-                    dir={ipbSort.dir}
-                    onSort={handleSort(ipbSort, setIpbSort)}
-                  />
-                  <SortableHeader
-                    label="Beaten"
-                    sortKey="beaten"
-                    activeKey={ipbSort.key}
-                    dir={ipbSort.dir}
-                    onSort={handleSort(ipbSort, setIpbSort)}
-                  />
-                  <SortableHeader
-                    label="Status"
-                    sortKey="status"
-                    activeKey={ipbSort.key}
-                    dir={ipbSort.dir}
-                    onSort={handleSort(ipbSort, setIpbSort)}
-                  />
-                  <th className="px-3 py-2 sm:pr-6">Links</th>
-                </tr>
-              </thead>
-              <tbody className="px-3">
-                {sortedIpbRows.map((row) => (
-                  <IpbRowView
-                    key={row.key}
-                    row={row}
-                    verifyStates={verifyStates}
-                    verifyOverrides={verifyOverrides}
-                    onAction={handleAction}
-                  />
-                ))}
-              </tbody>
-            </table>
+            <TableVirtuoso
+              useWindowScroll
+              data={sortedIpbRows}
+              components={virtuosoTableComponents}
+              computeItemKey={virtuosoItemKey}
+              fixedHeaderContent={() => (
+          <tr className="border-b border-card-border text-[11px] font-medium uppercase tracking-wide text-muted-foreground">
+            <SortableHeader
+              label="Game"
+              sortKey="game"
+              activeKey={ipbSort.key}
+              dir={ipbSort.dir}
+              onSort={handleSort(ipbSort, setIpbSort)}
+              className="sm:pl-6"
+            />
+            <SortableHeader
+              label="Winner"
+              sortKey="winner"
+              activeKey={ipbSort.key}
+              dir={ipbSort.dir}
+              onSort={handleSort(ipbSort, setIpbSort)}
+            />
+            <SortableHeader
+              label="Won"
+              sortKey="won"
+              activeKey={ipbSort.key}
+              dir={ipbSort.dir}
+              onSort={handleSort(ipbSort, setIpbSort)}
+            />
+            <SortableHeader
+              label="Submitted"
+              sortKey="submitted"
+              activeKey={ipbSort.key}
+              dir={ipbSort.dir}
+              onSort={handleSort(ipbSort, setIpbSort)}
+            />
+            <SortableHeader
+              label="Playtime"
+              sortKey="playtime"
+              activeKey={ipbSort.key}
+              dir={ipbSort.dir}
+              onSort={handleSort(ipbSort, setIpbSort)}
+            />
+            <SortableHeader
+              label="Achievements"
+              sortKey="achievements"
+              activeKey={ipbSort.key}
+              dir={ipbSort.dir}
+              onSort={handleSort(ipbSort, setIpbSort)}
+            />
+            <SortableHeader
+              label="Beaten"
+              sortKey="beaten"
+              activeKey={ipbSort.key}
+              dir={ipbSort.dir}
+              onSort={handleSort(ipbSort, setIpbSort)}
+            />
+            <SortableHeader
+              label="Status"
+              sortKey="status"
+              activeKey={ipbSort.key}
+              dir={ipbSort.dir}
+              onSort={handleSort(ipbSort, setIpbSort)}
+            />
+            <th className="px-3 py-2 sm:pr-6">Links</th>
+          </tr>
+              )}
+              itemContent={(_index, row) => (
+                <IpbRowView
+                  row={row}
+                  state={verifyStates[verifyStateKey(row, 'ipb')]}
+                  pendingSync={verifyOverrides[verifyOverrideKey(row.key, 'ipb')]?.state}
+                  onAction={handleAction}
+                />
+              )}
+            />
           </div>
         )}
       </Card>

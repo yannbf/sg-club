@@ -2,6 +2,8 @@ import { describe, expect, it } from 'vitest'
 import {
   applyVerifyOverrides,
   buildPlayRequiredRows,
+  hydratePlayRequiredRows,
+  serializePlayRequiredRows,
   isPrNotApplicable,
   matchesIpbCard,
   matchesPrCard,
@@ -575,5 +577,60 @@ describe('not applicable', () => {
     expect(rows[0].ipbSheetStatus).toBe('no')
     expect(rows[0].ipbStatus).toBe('not_applicable')
     expect(isPrNotApplicable(rows[0])).toBe(true)
+  })
+})
+
+describe('serializePlayRequiredRows / hydratePlayRequiredRows', () => {
+  const marker = {
+    apiname: 'WIN',
+    name: 'Win',
+    description: 'Beat it',
+    global_percent: 12,
+    source: 'steam',
+    sh_achievement_id: null,
+    any_of_apinames: null,
+  } as unknown as NonNullable<PlayRequiredRow['beaten']['marker']>
+
+  function rows(): PlayRequiredRow[] {
+    const base = makeRow()
+    return [
+      makeRow({ key: 'steam1::a/game', giveawayLink: 'a/game', beaten: { ...base.beaten, verdict: 'not_beaten', marker } }),
+      makeRow({
+        key: 'steam2::a/game',
+        giveawayLink: 'a/game',
+        winner: { steamId: 'steam2', username: 'other', isExMember: true, avatarUrl: 'x' },
+        steam: { playtimeMinutes: 90, playtimeFormatted: '1h 30m' },
+        beaten: { ...base.beaten, verdict: 'not_beaten', marker },
+      }),
+      makeRow({
+        key: 'steam1::b/other',
+        giveawayLink: 'b/other',
+        game: { ...base.game, name: 'Other', appId: null, packageId: 7 },
+      }),
+    ]
+  }
+
+  it('round-trips rows exactly', () => {
+    const original = rows()
+    expect(hydratePlayRequiredRows(serializePlayRequiredRows(original))).toEqual(original)
+  })
+
+  it('stores each distinct game, winner and marker once', () => {
+    const payload = serializePlayRequiredRows(rows())
+    expect(Object.keys(payload.games)).toHaveLength(2)
+    expect(Object.keys(payload.winners)).toHaveLength(2)
+    expect(Object.keys(payload.markers)).toHaveLength(1)
+    expect(payload.rows[2].beaten.markerId).toBeNull()
+  })
+
+  it('keeps differing objects under the same key apart', () => {
+    const base = makeRow()
+    const original = [
+      makeRow(),
+      makeRow({ key: 'steam1::c/x', game: { ...base.game, headerImageUrl: 'img' } }),
+    ]
+    const payload = serializePlayRequiredRows(original)
+    expect(Object.keys(payload.games)).toHaveLength(2)
+    expect(hydratePlayRequiredRows(payload)).toEqual(original)
   })
 })

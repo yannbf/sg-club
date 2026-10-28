@@ -7,7 +7,7 @@ import {
   getIpbDiscord,
   getLastUpdated,
 } from '@/lib/data'
-import { buildPlayRequiredRows, summarizeIpbRows, summarizeRows } from '@/lib/beaten'
+import { buildPlayRequiredRows, serializePlayRequiredRows, summarizeIpbRows, summarizeRows } from '@/lib/beaten'
 import { AdminGate } from '@/components/AdminGate'
 import PlayRequiredClient from './PlayRequiredClient'
 
@@ -39,7 +39,7 @@ export default async function PlayRequiredPage() {
   return (
     <AdminGate>
       <PlayRequiredClient
-        rows={rows}
+        payload={serializePlayRequiredRows(rows)}
         summary={summary}
         ipbSummary={ipbSummary}
         beatenDataAvailable={beatenGames != null}
