@@ -15,6 +15,7 @@ import {
   YAxis,
   Cell,
   BarChart,
+  Legend,
 } from 'recharts'
 import type { TooltipContentProps } from 'recharts'
 import { ChartCard, ChartStat } from './ChartCard'
@@ -31,7 +32,7 @@ import {
   tooltipItemStyle,
   tooltipLabelStyle,
 } from './chart-theme'
-import { Gift, Coins, Target, Users, Trophy, Clock, Activity, Award } from 'lucide-react'
+import { Gift, Coins, Target, Users, Trophy, Clock, Activity, Award, Gamepad2 } from 'lucide-react'
 import {
   StatsDrilldownModal,
   type DrilldownGameRow,
@@ -43,6 +44,12 @@ import { SPECIAL_EVENTS, isValidRatioGiveaway } from '@/lib/events'
 import { useIsAdmin } from '@/lib/auth'
 import { steamGiftsProfile } from '@/components/UserLink'
 import { cn } from '@/lib/cn'
+import {
+  playRatePercent,
+  requiredPlayRatePercent,
+  type GroupPlayRate,
+  type PlayRateCounts,
+} from '@/lib/group-play-rate'
 
 export interface MonthDatum {
   month: string
@@ -90,6 +97,35 @@ interface GroupStatsChartsProps {
   achievementsByMonth: Record<string, DrilldownGameRow[]>
   /** "Mon YY" label -> that month's true row count before the top-50 cap. */
   achievementsByMonthCount: Record<string, number>
+  groupPlayRate: GroupPlayRate
+}
+
+/** Stack order, legend names and colors of the play-rate chart. */
+const PLAY_RATE_SERIES: { key: string; name: string; color: string }[] = [
+  { key: 'played', name: 'Played', color: chartColors.green },
+  { key: 'inProgress', name: 'In progress', color: chartColors.yellow },
+  { key: 'unplayed', name: 'Not played', color: chartColors.red },
+]
+
+/** A play-rate row's counts, with mod-confirmed wins folded into played. */
+function foldConfirmed(counts: PlayRateCounts) {
+  return {
+    played: counts.played + counts.confirmed,
+    unplayed: counts.unplayed,
+  }
+}
+
+function sumCounts(counts: Record<string, number>): number {
+  return Object.values(counts).reduce((sum, n) => sum + n, 0)
+}
+
+/** Non-breaking spaces keep Recharts from wrapping the tick label. */
+function playRateLabel(text: string): string {
+  return text.replace(/ /g, '\u00a0')
+}
+
+function percentLabel(label: string, rate: number | null): string {
+  return playRateLabel(`${label} · ${rate == null ? '—' : `${rate}%`}`)
 }
 
 /** Truncates a username tick label so long names don't blow out the axis width. */
@@ -264,14 +300,15 @@ export function GroupStatsCharts({
   achievementsPerMonth,
   achievementsByMonth,
   achievementsByMonthCount,
+  groupPlayRate,
 }: GroupStatsChartsProps) {
   const [membersMonth, setMembersMonth] = useState<string | null>(null)
   const [giveawaysMonth, setGiveawaysMonth] = useState<string | null>(null)
   const [showEvents, setShowEvents] = useState(false)
-  // Shared by the "Giveaways created per month" and "Average entries per
-  // giveaway" cards: restricts both charts to group-exclusive giveaways
-  // (isValidRatioGiveaway) when on.
-  const [exclusiveOnly, setExclusiveOnly] = useState(false)
+  // Shared by the "Giveaways created per month", "Average entries per
+  // giveaway" and "Play rate of won games" cards: restricts all three to
+  // group-exclusive giveaways (isValidRatioGiveaway) when on.
+  const [exclusiveOnly, setExclusiveOnly] = useState(true)
   const [cvMonth, setCvMonth] = useState<string | null>(null)
   const [contributorUser, setContributorUser] = useState<string | null>(null)
   const [hoursMonth, setHoursMonth] = useState<string | null>(null)
@@ -407,8 +444,8 @@ export function GroupStatsCharts({
 
   const topContributor = topContributors[0]
 
-  // Shared by both cards driven by `exclusiveOnly` — flipping either instance
-  // flips the same state.
+  // Shared by the three cards driven by `exclusiveOnly` — flipping any
+  // instance flips the same state.
   const exclusiveOnlyToggle = (
     <button
       type="button"
@@ -441,6 +478,30 @@ export function GroupStatsCharts({
     0,
   )
   const latestAchievements = Number(latestAchievementsMonth?.achievements ?? 0)
+
+  const playRateTable = exclusiveOnly ? groupPlayRate.exclusive : groupPlayRate.all
+  const playRateRows: Record<string, string | number>[] = [
+    {
+      label: percentLabel('All wins', playRatePercent(playRateTable.overall)),
+      ...foldConfirmed(playRateTable.overall),
+    },
+    {
+      label: percentLabel('Play required', requiredPlayRatePercent(playRateTable.required)),
+      // A play-required win is "played" once a mod approved it; Steam play
+      // without approval is still in progress.
+      played: playRateTable.required.approved,
+      inProgress: playRateTable.required.played,
+      unplayed: playRateTable.required.unplayed,
+    },
+  ]
+  if (!exclusiveOnly) {
+    playRateRows.push({
+      label: percentLabel('Shared', playRatePercent(playRateTable.shared)),
+      ...foldConfirmed(playRateTable.shared),
+    })
+  }
+  const overallPlayRate = playRatePercent(playRateTable.overall)
+  const totalWonCounted = sumCounts(playRateTable.overall)
 
   return (
     <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
@@ -773,6 +834,71 @@ export function GroupStatsCharts({
           </ResponsiveContainer>
         </div>
       </ChartCard>
+
+      <ChartCard
+        title="Play rate of won games"
+        description="Current members' wins, by play requirement"
+        summary={
+          <>
+            <ChartStat>{overallPlayRate == null ? '—' : `${overallPlayRate}%`}</ChartStat>{' '}
+            overall · <ChartStat>{formatNumber(totalWonCounted)}</ChartStat> wins counted
+            {' '}
+            · <ChartStat>{formatNumber(playRateTable.ipb.submitted)}</ChartStat> I play bro entries
+          </>
+        }
+        icon={Gamepad2}
+        actions={exclusiveOnlyToggle}
+      >
+        <div className="h-72 w-full">
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart
+              data={playRateRows}
+              layout="vertical"
+              stackOffset="expand"
+              margin={{ left: 8, right: 24, top: 8 }}
+            >
+              <CartesianGrid {...gridProps} horizontal={false} />
+              <XAxis
+                type="number"
+                domain={[0, 1]}
+                {...axisProps}
+                tickFormatter={(v: number) => `${Math.round(v * 100)}%`}
+              />
+              <YAxis type="category" dataKey="label" {...axisProps} width={160} />
+              <Tooltip
+                contentStyle={tooltipContentStyle}
+                labelStyle={tooltipLabelStyle}
+                itemStyle={tooltipItemStyle}
+                formatter={(_value, _name, item) =>
+                  formatNumber(
+                    Number(
+                      (item.payload as Record<string, number>)[String(item.dataKey)] ?? 0,
+                    ),
+                  )
+                }
+                cursor={{ fill: 'color-mix(in oklab, var(--primary) 8%, transparent)' }}
+              />
+              {/* itemSorter={null} keeps the legend in stack order rather than alphabetical. */}
+              <Legend
+                iconType="circle"
+                iconSize={8}
+                itemSorter={null}
+                wrapperStyle={{ fontSize: 12, color: 'var(--muted-foreground)' }}
+              />
+              {PLAY_RATE_SERIES.map(({ key, name, color }) => (
+                <Bar
+                  key={key}
+                  dataKey={key}
+                  name={name}
+                  stackId="play"
+                  fill={color}
+                  maxBarSize={40}
+                />
+              ))}
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+     </ChartCard>
 
       <ChartCard
         title="CV sent per month"

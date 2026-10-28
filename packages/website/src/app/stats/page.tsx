@@ -8,6 +8,7 @@ import {
   getPlaytimeSnapshots,
   getSteamIdMap,
   getUserEntries,
+  getIpbDiscord,
 } from '@/lib/data'
 import { getGiveawayEventMeta, isCountedGiveaway, isValidRatioGiveaway } from '@/lib/events'
 import {
@@ -24,6 +25,7 @@ import {
 } from '@/lib/chart-data'
 import { createCreatorResolver } from '@/lib/creator-resolver'
 import { buildWinnerPlayStats, winnerPlayStatsKey } from '@/lib/winner-play-stats'
+import { buildGroupPlayRate } from '@/lib/group-play-rate'
 import { classifyPerson, personBadgeText } from '@/lib/person'
 import type { MonthDatum, ContributorDatum } from '@/components/charts/GroupStatsCharts'
 import type {
@@ -45,6 +47,7 @@ export default async function StatsPage() {
     steamIdMap,
     playtimeSnapshots,
     userEntries,
+    ipbDiscord,
   ] = await Promise.all([
     getAllGiveaways(),
     getAllUsersAsArray(),
@@ -55,6 +58,7 @@ export default async function StatsPage() {
     getSteamIdMap(),
     getPlaytimeSnapshots(),
     getUserEntries(),
+    getIpbDiscord(),
   ])
   const exMembers = exMembersData ? Object.values(exMembersData.users) : []
 
@@ -574,6 +578,15 @@ export default async function StatsPage() {
     achievements: achievementsPerMonthMap,
   })
 
+  // Current members only: ex-members keep their won-game records but are no
+  // longer part of the group being measured.
+  const groupPlayRate = buildGroupPlayRate(
+    users,
+    giveaways,
+    (g) => findGameData(g.app_id, g.package_id, gameDataIndex)?.hltb_main_story_hours,
+    ipbDiscord,
+  )
+
   return (
     <StatsClient
       totalGiveaways={totalGiveaways}
@@ -601,6 +614,7 @@ export default async function StatsPage() {
       achievementsPerMonth={achievementsPerMonth}
       achievementsByMonth={achievementsByMonth}
       achievementsByMonthCount={achievementsByMonthCount}
+      groupPlayRate={groupPlayRate}
       lastUpdated={lastUpdated}
     />
   )

@@ -10,6 +10,7 @@ import {
 } from '@/components/charts/GroupStatsCharts'
 import type { DrilldownMemberRow, DrilldownGameRow } from '@/components/charts/StatsDrilldownModal'
 import { formatUsd } from '@/components/charts/chart-theme'
+import type { GroupPlayRate } from '@/lib/group-play-rate'
 
 interface StatsClientProps {
   totalGiveaways: number
@@ -50,6 +51,7 @@ interface StatsClientProps {
   achievementsByMonth: Record<string, DrilldownGameRow[]>
   /** "Mon YY" label -> that month's true row count before the top-50 cap. */
   achievementsByMonthCount: Record<string, number>
+  groupPlayRate: GroupPlayRate
   lastUpdated: string | null
 }
 
@@ -81,6 +83,7 @@ export default function StatsClient({
   achievementsPerMonth,
   achievementsByMonth,
   achievementsByMonthCount,
+  groupPlayRate,
   lastUpdated,
 }: StatsClientProps) {
   return (
@@ -149,6 +152,7 @@ export default function StatsClient({
         achievementsPerMonth={achievementsPerMonth}
         achievementsByMonth={achievementsByMonth}
         achievementsByMonthCount={achievementsByMonthCount}
+        groupPlayRate={groupPlayRate}
       />
     </div>
   )
