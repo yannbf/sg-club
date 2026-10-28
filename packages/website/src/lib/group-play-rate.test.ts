@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import {
-  buildGroupPlayRate,
+  buildGroupPlayRate as buildPlayRate,
   classifyWinProgress,
   playRatePercent,
   requiredPlayRatePercent,
@@ -97,15 +97,15 @@ describe('classifyWinProgress', () => {
     ).toBe('complete')
   })
 
-  it('is played at 10% of achievements', () => {
+  it('is played at 25% of achievements, the same bar as never_played', () => {
     expect(
-      classifyWinProgress(withPlay({ achievements_unlocked: 1, achievements_total: 10 })),
+      classifyWinProgress(withPlay({ achievements_unlocked: 25, achievements_total: 100 })),
     ).toBe('played')
   })
 
-  it('is started at 5% of achievements', () => {
+  it('is started at 24% of achievements', () => {
     expect(
-      classifyWinProgress(withPlay({ achievements_unlocked: 5, achievements_total: 100 })),
+      classifyWinProgress(withPlay({ achievements_unlocked: 24, achievements_total: 100 })),
     ).toBe('started')
   })
 
@@ -120,7 +120,7 @@ describe('classifyWinProgress', () => {
   it('ignores never_played and judges from the numbers', () => {
     expect(
       classifyWinProgress(
-        withPlay({ never_played: true, achievements_unlocked: 2, achievements_total: 10 }),
+        withPlay({ never_played: true, achievements_unlocked: 3, achievements_total: 10 }),
       ),
     ).toBe('played')
   })
@@ -240,6 +240,16 @@ describe('classifyWinProgress', () => {
 })
 
 
+function buildGroupPlayRate(
+  memberUsers: Parameters<typeof buildPlayRate>[0]['memberUsers'],
+  giveaways: Parameters<typeof buildPlayRate>[0]['giveaways'],
+  hltbHoursFor: Parameters<typeof buildPlayRate>[0]['hltbHoursFor'],
+  ipbDiscord: Parameters<typeof buildPlayRate>[0]['ipbDiscord'],
+  exMemberUsers: Parameters<typeof buildPlayRate>[0]['memberUsers'] = [],
+) {
+  return buildPlayRate({ memberUsers, exMemberUsers, giveaways, hltbHoursFor, ipbDiscord })
+}
+
 describe('buildGroupPlayRate', () => {
   it('differs between exclusive and all only by shared wins', () => {
     const giveaways = [
@@ -264,14 +274,14 @@ describe('buildGroupPlayRate', () => {
       null,
     )
 
-    expect(result.exclusive.overall).toEqual({ counted: 2, started: 1, played: 1, complete: 0 })
-    expect(result.exclusive.required).toEqual({
+    expect(result.members.exclusive.overall).toEqual({ counted: 2, started: 1, played: 1, complete: 0 })
+    expect(result.members.exclusive.required).toEqual({
       approved: 0,
       played: 0,
       unplayed: 1,
     })
-    expect(result.all.overall).toEqual({ counted: 5, started: 3, played: 3, complete: 0 })
-    expect(result.all.required).toEqual({
+    expect(result.members.all.overall).toEqual({ counted: 5, started: 3, played: 3, complete: 0 })
+    expect(result.members.all.required).toEqual({
       approved: 0,
       played: 1,
       unplayed: 1,
@@ -295,8 +305,8 @@ describe('buildGroupPlayRate', () => {
       noHltb,
       null,
     )
-    expect(result.exclusive.overall.counted).toBe(1)
-    expect(result.all.overall.counted).toBe(3)
+    expect(result.members.exclusive.overall.counted).toBe(1)
+    expect(result.members.all.overall.counted).toBe(3)
   })
 
   it('splits play-required wins three ways, approval beating Steam evidence', () => {
@@ -341,7 +351,7 @@ describe('buildGroupPlayRate', () => {
       noHltb,
       null,
     )
-    expect(result.exclusive.required).toEqual({
+    expect(result.members.exclusive.required).toEqual({
       approved: 2,
       played: 3,
       unplayed: 2,
@@ -379,7 +389,7 @@ describe('buildGroupPlayRate', () => {
       noHltb,
       ipbDiscord,
     )
-    expect(result.exclusive.ipb).toEqual({ submitted: 4 })
+    expect(result.members.exclusive.ipb).toEqual({ submitted: 4 })
   })
 
   it('skips deleted wins and wins whose giveaway is not in the counted list', () => {
@@ -389,8 +399,8 @@ describe('buildGroupPlayRate', () => {
       noHltb,
       null,
     )
-    expect(result.exclusive.overall.played).toBe(1)
-    expect(result.exclusive.overall.counted).toBe(1)
+    expect(result.members.exclusive.overall.played).toBe(1)
+    expect(result.members.exclusive.overall.counted).toBe(1)
   })
 
   it('counts unreleased wins separately and nowhere else', () => {
@@ -401,8 +411,8 @@ describe('buildGroupPlayRate', () => {
       null,
     )
     expect(result.unreleased).toBe(1)
-    expect(result.all.overall.counted).toBe(0)
-    expect(result.all.ipb.submitted).toBe(0)
+    expect(result.members.all.overall.counted).toBe(0)
+    expect(result.members.all.ipb.submitted).toBe(0)
   })
 
   it('judges each win against the supplied HowLongToBeat length', () => {
@@ -422,8 +432,32 @@ describe('buildGroupPlayRate', () => {
       (g) => (g.app_id === 1 ? 40 : 4),
       null,
     )
-    expect(result.exclusive.overall.started).toBe(2)
-    expect(result.exclusive.overall.played).toBe(1)
+    expect(result.members.exclusive.overall.started).toBe(2)
+    expect(result.members.exclusive.overall.played).toBe(1)
+  })
+
+  it('tallies an ex-member win only in the withExMembers tables', () => {
+    const result = buildGroupPlayRate(
+      [user([win('a')])],
+      [giveaway('a'), giveaway('b')],
+      noHltb,
+      null,
+      [user([win('b', { steam_play_data: playData() })])],
+    )
+    expect(result.members.exclusive.overall.counted).toBe(1)
+    expect(result.members.all.overall.counted).toBe(1)
+    expect(result.withExMembers.exclusive.overall.counted).toBe(2)
+    expect(result.withExMembers.all.overall.counted).toBe(2)
+  })
+
+  it('leaves both populations equal when there are no ex-members', () => {
+    const result = buildGroupPlayRate(
+      [user([win('a'), win('s', { required_play: true })])],
+      [giveaway('a'), giveaway('s', { is_shared: true })],
+      noHltb,
+      null,
+    )
+    expect(result.withExMembers).toEqual(result.members)
   })
 
   it('aggregates across users', () => {
@@ -433,7 +467,7 @@ describe('buildGroupPlayRate', () => {
       noHltb,
       null,
     )
-    expect(result.exclusive.overall).toEqual({ counted: 2, started: 1, played: 1, complete: 0 })
+    expect(result.members.exclusive.overall).toEqual({ counted: 2, started: 1, played: 1, complete: 0 })
   })
 
   it('tallies each progress tier and keeps started wins out of the required played split', () => {
@@ -456,9 +490,9 @@ describe('buildGroupPlayRate', () => {
       noHltb,
       null,
     )
-    expect(result.exclusive.overall).toEqual({ counted: 4, started: 3, played: 2, complete: 1 })
-    expect(result.exclusive.required).toEqual({ approved: 0, played: 1, unplayed: 1 })
-    expect(playRatePercent(result.exclusive.overall)).toBe(50)
+    expect(result.members.exclusive.overall).toEqual({ counted: 4, started: 3, played: 2, complete: 1 })
+    expect(result.members.exclusive.required).toEqual({ approved: 0, played: 1, unplayed: 1 })
+    expect(playRatePercent(result.members.exclusive.overall)).toBe(50)
   })
 })
 
@@ -470,8 +504,8 @@ describe('buildGroupPlayRate unreadable evidence', () => {
       noHltb,
       null,
     )
-    expect(result.exclusive.overall).toEqual({ counted: 2, started: 1, played: 1, complete: 0 })
-    expect(playRatePercent(result.exclusive.overall)).toBe(50)
+    expect(result.members.exclusive.overall).toEqual({ counted: 2, started: 1, played: 1, complete: 0 })
+    expect(playRatePercent(result.members.exclusive.overall)).toBe(50)
   })
 })
 

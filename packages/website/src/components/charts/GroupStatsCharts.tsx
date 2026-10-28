@@ -34,7 +34,20 @@ import {
   tooltipItemStyle,
   tooltipLabelStyle,
 } from './chart-theme'
-import { Gift, Coins, Target, Users, Trophy, Clock, Activity, Award, Gamepad2 } from 'lucide-react'
+import {
+  Gift,
+  Coins,
+  Target,
+  Users,
+  Trophy,
+  Clock,
+  Activity,
+  Award,
+  Gamepad2,
+  ChartBar,
+  Funnel as FunnelIcon,
+  CircleDashed,
+} from 'lucide-react'
 import {
   StatsDrilldownModal,
   type DrilldownGameRow,
@@ -46,11 +59,13 @@ import { SPECIAL_EVENTS, isValidRatioGiveaway } from '@/lib/events'
 import { useIsAdmin } from '@/lib/auth'
 import { steamGiftsProfile } from '@/components/UserLink'
 import HoverHint from '@/components/Tooltip'
-import { ToggleGroup, ToggleGroupItem } from '@/components/ui/ToggleGroup'
-import { PLAYED_HLTB_FRACTION, UNKNOWN_LENGTH_PLAYED_MINUTES } from '@/lib/play-status'
+import {
+  PLAYED_ACHIEVEMENT_PERCENT,
+  PLAYED_HLTB_FRACTION,
+  UNKNOWN_LENGTH_PLAYED_MINUTES,
+} from '@/lib/play-status'
 import { cn } from '@/lib/cn'
 import {
-  GROUP_PLAY_RATE_ACHIEVEMENT_PERCENT,
   playRatePercent,
   playShare,
   requiredPlayRatePercent,
@@ -124,7 +139,7 @@ const PLAY_RATE_SERIES: { key: string; name: string; color: string; hint?: strin
     name: 'Played',
     color: chartColors.green,
     hint:
-      `At least ${GROUP_PLAY_RATE_ACHIEVEMENT_PERCENT}% of achievements, or ` +
+      `At least ${PLAYED_ACHIEVEMENT_PERCENT}% of achievements, or ` +
       `${PLAYED_HLTB_FRACTION * 100}% of the HowLongToBeat main story ` +
       `(${UNKNOWN_LENGTH_PLAYED_MINUTES / 60}h when unknown) for games without achievements, ` +
       'or a mod confirmed the play. For play-required wins: approved in the sheet.',
@@ -148,6 +163,18 @@ const PLAY_RATE_HINTS = new Map(PLAY_RATE_SERIES.map((s) => [s.name, s.hint]))
 type PlayRateView = 'bars' | 'funnel' | 'rings'
 const PLAY_RATE_VIEW_KEY = 'stats.playRateView'
 const PLAY_RATE_VIEWS: PlayRateView[] = ['bars', 'funnel', 'rings']
+
+const PLAY_RATE_VIEW_LABELS: Record<PlayRateView, string> = {
+  bars: 'Bars',
+  funnel: 'Funnel',
+  rings: 'Rings',
+}
+
+const PLAY_RATE_VIEW_ICONS = {
+  bars: ChartBar,
+  funnel: FunnelIcon,
+  rings: CircleDashed,
+} as const
 
 /** Series name with its dotted-underline hover hint, when it has one. */
 function PlayRateSeriesName({ name }: { name: string }) {
@@ -436,6 +463,7 @@ export function GroupStatsCharts({
   // group-exclusive giveaways (isValidRatioGiveaway) when on.
   const [exclusiveOnly, setExclusiveOnly] = useState(true)
   const [playRateView, setPlayRateView] = useState<PlayRateView>('bars')
+  const [includeExMembers, setIncludeExMembers] = useState(false)
   // Hydrated after mount so the server-rendered markup matches.
   useEffect(() => {
     try {
@@ -623,11 +651,13 @@ export function GroupStatsCharts({
   )
   const latestAchievements = Number(latestAchievementsMonth?.achievements ?? 0)
 
-  const playRateTable = exclusiveOnly ? groupPlayRate.exclusive : groupPlayRate.all
+  const playRateTable = (includeExMembers ? groupPlayRate.withExMembers : groupPlayRate.members)[
+    exclusiveOnly ? 'exclusive' : 'all'
+  ]
   const playRateRows: Record<string, string | number>[] = [
     tierRow('Started (>0%)', playRateTable.overall, 'started'),
     tierRow(
-      `Played (≥${GROUP_PLAY_RATE_ACHIEVEMENT_PERCENT}%)`,
+      `Played (≥${PLAYED_ACHIEVEMENT_PERCENT}%)`,
       playRateTable.overall,
       'played',
     ),
@@ -693,19 +723,35 @@ export function GroupStatsCharts({
     </div>
   )
 
+  const nextPlayRateView =
+    PLAY_RATE_VIEWS[(PLAY_RATE_VIEWS.indexOf(playRateView) + 1) % PLAY_RATE_VIEWS.length]
+  const PlayRateViewIcon = PLAY_RATE_VIEW_ICONS[playRateView]
   const playRateViewSwitch = (
-    <div className="flex items-center gap-2">
-      <ToggleGroup
-        type="single"
-        size="sm"
-        value={playRateView}
-        onValueChange={(v) => v && changePlayRateView(v as PlayRateView)}
-        aria-label="Play rate view"
+    <div className="flex flex-wrap items-center gap-2">
+      <HoverHint
+        content={`${PLAY_RATE_VIEW_LABELS[playRateView]} · click for ${nextPlayRateView}`}
       >
-        <ToggleGroupItem value="bars">Bars</ToggleGroupItem>
-        <ToggleGroupItem value="funnel">Funnel</ToggleGroupItem>
-        <ToggleGroupItem value="rings">Rings</ToggleGroupItem>
-      </ToggleGroup>
+        <button
+          type="button"
+          onClick={() => changePlayRateView(nextPlayRateView)}
+          aria-label={`Chart style: ${PLAY_RATE_VIEW_LABELS[playRateView]} (click to switch)`}
+          className="shrink-0 rounded-full border border-card-border p-1.5 text-muted-foreground transition-colors hover:bg-card-background-hover"
+        >
+          <PlayRateViewIcon className="h-4 w-4" />
+        </button>
+      </HoverHint>
+      <button
+        type="button"
+        onClick={() => setIncludeExMembers((v) => !v)}
+        className={cn(
+          'shrink-0 rounded-full border px-2.5 py-1 text-xs font-medium transition-colors',
+          includeExMembers
+            ? 'border-[var(--primary)] bg-[color-mix(in_oklab,var(--primary)_12%,transparent)] text-[var(--primary)]'
+            : 'border-card-border bg-transparent text-muted-foreground hover:bg-card-background-hover',
+        )}
+      >
+        Include ex-members
+      </button>
       {exclusiveOnlyToggle}
     </div>
   )
@@ -1044,7 +1090,11 @@ export function GroupStatsCharts({
 
       <ChartCard
         title="Play rate of won games"
-        description="Current members' wins, by play requirement"
+        description={
+          includeExMembers
+            ? "Members' and ex-members' wins, by play requirement"
+            : "Current members' wins, by play requirement"
+        }
         summary={
           <>
             <ChartStat>{overallPlayRate == null ? '—' : `${overallPlayRate}%`}</ChartStat>{' '}

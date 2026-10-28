@@ -1,5 +1,6 @@
 import type { Giveaway, User } from '@/types'
 import {
+  PLAYED_ACHIEVEMENT_PERCENT,
   PLAYED_HLTB_CAP_MINUTES,
   PLAYED_HLTB_FRACTION,
   UNKNOWN_LENGTH_PLAYED_MINUTES,
@@ -9,16 +10,9 @@ import {
 import { ipbDiscordWinKey, type IpbDiscordData } from '@/types/ipb-discord'
 
 /**
- * Achievement percentage that counts a win as played in the group play-rate
- * chart. Lower than `PLAYED_ACHIEVEMENT_PERCENT`. Games without achievements
- * are judged by playtime instead.
- */
-export const GROUP_PLAY_RATE_ACHIEVEMENT_PERCENT = 10
-
-/**
  * How far a won game has been taken, judged from Steam data and mod sign-off:
  * - `complete`: every achievement is unlocked.
- * - `played`: at least `GROUP_PLAY_RATE_ACHIEVEMENT_PERCENT` of achievements,
+ * - `played`: at least `PLAYED_ACHIEVEMENT_PERCENT` of achievements,
  *   or (for a game without achievements) playtime at the HowLongToBeat bar,
  *   or a mod confirmed the play.
  * - `started`: some playtime or achievements, short of the played bar.
@@ -63,13 +57,29 @@ export interface PlayRateTable {
   ipb: { submitted: number }
 }
 
-export interface GroupPlayRate {
+/** The same wins tallied twice: group-exclusive only, and every counted win. */
+export interface PlayRateTables {
   /** Group-exclusive wins only. */
   exclusive: PlayRateTable
   /** Every counted win, shared and whitelist ones included. */
   all: PlayRateTable
+}
+
+export interface GroupPlayRate {
+  /** Current members' wins. */
+  members: PlayRateTables
+  /** Current members' and ex-members' wins. */
+  withExMembers: PlayRateTables
   /** Wins left out because the game hasn't released. */
   unreleased: number
+}
+
+export interface BuildGroupPlayRateOptions {
+  memberUsers: User[]
+  exMemberUsers: User[]
+  giveaways: Giveaway[]
+  hltbHoursFor: (giveaway: Giveaway) => number | null | undefined
+  ipbDiscord: IpbDiscordData | null
 }
 
 /** The fields of a won-game record that decide its progress tier. */
@@ -86,7 +96,7 @@ type PlayData = NonNullable<WinProgressInput['steam_play_data']>
 function meetsAchievementBar(play: PlayData): boolean {
   return (
     play.achievements_total > 0 &&
-    play.achievements_unlocked * 100 >= play.achievements_total * GROUP_PLAY_RATE_ACHIEVEMENT_PERCENT
+    play.achievements_unlocked * 100 >= play.achievements_total * PLAYED_ACHIEVEMENT_PERCENT
   )
 }
 
@@ -182,48 +192,57 @@ function tally(
 }
 
 /**
- * Tallies every current member's wins by progress tier, once counting only
- * group-exclusive giveaways and once counting all of them. `giveaways` is
- * expected to be the already-counted list: wins whose giveaway isn't in it
- * (or that are flagged deleted) are skipped. Unreleased games count toward
- * nothing but `unreleased`. `hltbHoursFor` supplies each game's HowLongToBeat
- * main-story length, so this module needn't load game data.
+ * Tallies wins by progress tier, once counting only group-exclusive giveaways
+ * and once counting all of them, for current members alone and for members
+ * plus ex-members. `giveaways` is expected to be the already-counted list:
+ * wins whose giveaway isn't in it (or that are flagged deleted) are skipped.
+ * Unreleased games count toward nothing but `unreleased`, once per win and
+ * for current members only. `hltbHoursFor` supplies each game's
+ * HowLongToBeat main-story length, so this module needn't load game data.
  */
-export function buildGroupPlayRate(
-  users: User[],
-  giveaways: Giveaway[],
-  hltbHoursFor: (giveaway: Giveaway) => number | null | undefined,
-  ipbDiscord: IpbDiscordData | null,
-): GroupPlayRate {
+export function buildGroupPlayRate({
+  memberUsers,
+  exMemberUsers,
+  giveaways,
+  hltbHoursFor,
+  ipbDiscord,
+}: BuildGroupPlayRateOptions): GroupPlayRate {
   const byLink = new Map(giveaways.map((g) => [g.link, g]))
   const result: GroupPlayRate = {
-    exclusive: emptyTable(),
-    all: emptyTable(),
+    members: { exclusive: emptyTable(), all: emptyTable() },
+    withExMembers: { exclusive: emptyTable(), all: emptyTable() },
     unreleased: 0,
   }
 
-  for (const user of users) {
-    for (const win of user.giveaways_won ?? []) {
-      if (win.deleted) continue
-      const giveaway = byLink.get(win.link)
-      if (!giveaway) continue
-      if (win.unreleased) {
-        result.unreleased++
-        continue
-      }
+  const tallyUsers = (users: User[], isMember: boolean) => {
+    for (const user of users) {
+      for (const win of user.giveaways_won ?? []) {
+        if (win.deleted) continue
+        const giveaway = byLink.get(win.link)
+        if (!giveaway) continue
+        if (win.unreleased) {
+          if (isMember) result.unreleased++
+          continue
+        }
 
-      const hltbHours = hltbHoursFor(giveaway)
-      const progress = classifyWinProgress(win, hltbHours)
-      const steamPlayed = meetsRequiredPlayBar(win, hltbHours)
-      const shared = Boolean(giveaway.is_shared || giveaway.whitelist)
-      const submitted = hasIpbSubmission(
-        win,
-        ipbDiscord?.wins[ipbDiscordWinKey(user.steam_id, win.link)],
-      )
-      tally(result.all, win, progress, steamPlayed, submitted)
-      if (!shared) tally(result.exclusive, win, progress, steamPlayed, submitted)
+        const hltbHours = hltbHoursFor(giveaway)
+        const progress = classifyWinProgress(win, hltbHours)
+        const steamPlayed = meetsRequiredPlayBar(win, hltbHours)
+        const shared = Boolean(giveaway.is_shared || giveaway.whitelist)
+        const submitted = hasIpbSubmission(
+          win,
+          ipbDiscord?.wins[ipbDiscordWinKey(user.steam_id, win.link)],
+        )
+        const populations = isMember ? [result.members, result.withExMembers] : [result.withExMembers]
+        for (const tables of populations) {
+          tally(tables.all, win, progress, steamPlayed, submitted)
+          if (!shared) tally(tables.exclusive, win, progress, steamPlayed, submitted)
+        }
+      }
     }
   }
+  tallyUsers(memberUsers, true)
+  tallyUsers(exMemberUsers, false)
   return result
 }
 

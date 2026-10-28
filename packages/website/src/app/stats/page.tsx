@@ -578,14 +578,16 @@ export default async function StatsPage() {
     achievements: achievementsPerMonthMap,
   })
 
-  // Current members only: ex-members keep their won-game records but are no
-  // longer part of the group being measured.
-  const groupPlayRate = buildGroupPlayRate(
-    users,
+  // Current members by default, ex-members on demand: ex-members keep their
+  // won-game records, so the chart can tally them as a second population.
+  const groupPlayRate = buildGroupPlayRate({
+    memberUsers: users,
+    exMemberUsers: exMembers,
     giveaways,
-    (g) => findGameData(g.app_id, g.package_id, gameDataIndex)?.hltb_main_story_hours,
+    hltbHoursFor: (g) =>
+      findGameData(g.app_id, g.package_id, gameDataIndex)?.hltb_main_story_hours,
     ipbDiscord,
-  )
+  })
 
   return (
     <StatsClient
