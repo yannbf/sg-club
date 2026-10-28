@@ -1,4 +1,4 @@
-import type { Giveaway, NoStatsReason, User } from '@/types'
+import type { Giveaway, User } from '@/types'
 import {
   PLAYED_HLTB_CAP_MINUTES,
   PLAYED_HLTB_FRACTION,
@@ -10,28 +10,38 @@ import { ipbDiscordWinKey, type IpbDiscordData } from '@/types/ipb-discord'
 
 /**
  * Achievement percentage that counts a win as played in the group play-rate
- * chart. Lower than `PLAYED_ACHIEVEMENT_PERCENT`, and the chart accepts either
- * this bar or the playtime bar, whichever is met.
+ * chart. Lower than `PLAYED_ACHIEVEMENT_PERCENT`. Games without achievements
+ * are judged by playtime instead.
  */
 export const GROUP_PLAY_RATE_ACHIEVEMENT_PERCENT = 10
 
 /**
- * What the evidence says about one won game:
- * - `confirmed`: a mod confirmed the play ("I played, bro" or a signed-off
- *   play requirement), whatever Steam shows.
- * - `played`: not confirmed, but Steam shows play that meets the achievement
- *   or playtime bar.
- * - `unplayed`: Steam stats were readable and fall short of the played bar.
- * - `unknown`: Steam stats are unreadable.
+ * How far a won game has been taken, judged from Steam data and mod sign-off:
+ * - `complete`: every achievement is unlocked.
+ * - `played`: at least `GROUP_PLAY_RATE_ACHIEVEMENT_PERCENT` of achievements,
+ *   or (for a game without achievements) playtime at the HowLongToBeat bar,
+ *   or a mod confirmed the play.
+ * - `started`: some playtime or achievements, short of the played bar.
+ * - `notStarted`: no recorded progress. Unreadable Steam stats land here too:
+ *   the chart treats unknown as not played.
+ *
+ * A game without achievements can be started or played but never complete.
  */
-export type WinEvidence = 'played' | 'confirmed' | 'unplayed' | 'unknown'
+export type WinProgress = 'complete' | 'played' | 'started' | 'notStarted'
 
 /**
- * Per-row tallies. A win with unreadable Steam stats (`unknown` evidence)
- * counts as `unplayed`: it has no proof of play, so the chart has no separate
- * bucket for it and the play rate keeps it in the denominator.
+ * Cumulative tallies over counted wins: every complete win is also played, and
+ * every played win is also started.
  */
-export type PlayRateCounts = Record<Exclude<WinEvidence, 'unknown'>, number>
+export interface PlayRateCounts {
+  /** Every counted win. */
+  counted: number
+  /** Any tier above `notStarted`. */
+  started: number
+  /** `played` or `complete`. */
+  played: number
+  complete: number
+}
 
 /** Play-required wins: sign-off beats Steam evidence, which beats nothing. */
 export interface RequiredPlayCounts {
@@ -43,17 +53,14 @@ export interface RequiredPlayCounts {
 }
 
 /**
- * Per-row tallies for one set of wins. `overall` holds every counted win;
- * `required` and `noRequirement` split it by `required_play`; `ipb.submitted`
- * counts wins with an "I Play Bro" submission. `shared` holds the shared and
- * whitelist wins, and is empty in the exclusive-only table.
+ * Tallies for one set of wins. `overall` holds every counted win; `required`
+ * splits the play-required ones; `ipb.submitted` counts wins with an
+ * "I Play Bro" submission.
  */
 export interface PlayRateTable {
   overall: PlayRateCounts
   required: RequiredPlayCounts
   ipb: { submitted: number }
-  noRequirement: PlayRateCounts
-  shared: PlayRateCounts
 }
 
 export interface GroupPlayRate {
@@ -65,29 +72,25 @@ export interface GroupPlayRate {
   unreleased: number
 }
 
-/** The fields of a won-game record that decide its evidence class. */
-export type WinEvidenceInput = ConfirmedPlaySignal & {
+/** The fields of a won-game record that decide its progress tier. */
+export type WinProgressInput = ConfirmedPlaySignal & {
   steam_play_data?: {
     playtime_minutes: number
     achievements_unlocked: number
     achievements_total: number
-    is_playtime_private: boolean
-    has_no_available_stats: boolean
-    no_stats_reason?: NoStatsReason
   }
 }
 
-function meetsPlayedBar(
-  play: NonNullable<WinEvidenceInput['steam_play_data']>,
-  hltbMainStoryHours?: number | null,
-): boolean {
-  if (
+type PlayData = NonNullable<WinProgressInput['steam_play_data']>
+
+function meetsAchievementBar(play: PlayData): boolean {
+  return (
     play.achievements_total > 0 &&
-    play.achievements_unlocked * 100 >=
-      play.achievements_total * GROUP_PLAY_RATE_ACHIEVEMENT_PERCENT
-  ) {
-    return true
-  }
+    play.achievements_unlocked * 100 >= play.achievements_total * GROUP_PLAY_RATE_ACHIEVEMENT_PERCENT
+  )
+}
+
+function meetsPlaytimeBar(play: PlayData, hltbMainStoryHours?: number | null): boolean {
   const requiredMinutes =
     hltbMainStoryHours && hltbMainStoryHours > 0
       ? Math.min(hltbMainStoryHours * 60 * PLAYED_HLTB_FRACTION, PLAYED_HLTB_CAP_MINUTES)
@@ -95,30 +98,48 @@ function meetsPlayedBar(
   return requiredMinutes > 0 && play.playtime_minutes >= requiredMinutes
 }
 
+/** Progress-tier bar: achievements decide when the game has any, playtime otherwise. */
+function meetsPlayedBar(play: PlayData, hltbMainStoryHours?: number | null): boolean {
+  return play.achievements_total > 0
+    ? meetsAchievementBar(play)
+    : meetsPlaytimeBar(play, hltbMainStoryHours)
+}
+
+/**
+ * Play-required bar: either the achievement or the playtime bar counts, so a
+ * long game with few achievements still reads as in progress once played.
+ */
+export function meetsRequiredPlayBar(
+  win: WinProgressInput,
+  hltbMainStoryHours?: number | null,
+): boolean {
+  if (isConfirmedPlayed(win)) return true
+  const play = win.steam_play_data
+  if (!play) return false
+  return meetsAchievementBar(play) || meetsPlaytimeBar(play, hltbMainStoryHours)
+}
+
 /**
  * Judged from the recorded numbers. `hltbMainStoryHours` is the game's
- * HowLongToBeat main-story length, when known.
+ * HowLongToBeat main-story length, when known. A game that has achievements
+ * is judged by them alone; playtime only matters for games without any.
  */
-export function classifyWinEvidence(
-  win: WinEvidenceInput,
+export function classifyWinProgress(
+  win: WinProgressInput,
   hltbMainStoryHours?: number | null,
-): WinEvidence {
+): WinProgress {
   const play = win.steam_play_data
-  if (isConfirmedPlayed(win)) return 'confirmed'
+  if (play && play.achievements_total > 0 && play.achievements_unlocked >= play.achievements_total) {
+    return 'complete'
+  }
   if (play && meetsPlayedBar(play, hltbMainStoryHours)) return 'played'
-  if (!play) return 'unknown'
-
-  const noEvidence = play.playtime_minutes <= 0 && play.achievements_unlocked <= 0
-  // `no_steam_stats` means the library read fine and the zero playtime is
-  // real; the game just exposes no achievements.
-  const unreadable =
-    play.is_playtime_private ||
-    (play.has_no_available_stats && play.no_stats_reason !== 'no_steam_stats')
-  return noEvidence && unreadable ? 'unknown' : 'unplayed'
+  if (isConfirmedPlayed(win)) return 'played'
+  if (play && (play.playtime_minutes > 0 || play.achievements_unlocked > 0)) return 'started'
+  return 'notStarted'
 }
 
 function emptyCounts(): PlayRateCounts {
-  return { played: 0, confirmed: 0, unplayed: 0 }
+  return { counted: 0, started: 0, played: 0, complete: 0 }
 }
 
 function emptyTable(): PlayRateTable {
@@ -126,8 +147,6 @@ function emptyTable(): PlayRateTable {
     overall: emptyCounts(),
     required: { approved: 0, played: 0, unplayed: 0 },
     ipb: { submitted: 0 },
-    noRequirement: emptyCounts(),
-    shared: emptyCounts(),
   }
 }
 
@@ -142,27 +161,28 @@ function hasIpbSubmission(
 function tally(
   table: PlayRateTable,
   win: NonNullable<User['giveaways_won']>[number],
-  evidence: Exclude<WinEvidence, 'unknown'>,
-  shared: boolean,
+  progress: WinProgress,
+  steamPlayed: boolean,
   submitted: boolean,
 ): void {
-  table.overall[evidence]++
+  const { overall } = table
+  overall.counted++
+  if (progress !== 'notStarted') overall.started++
+  if (progress === 'complete' || progress === 'played') overall.played++
+  if (progress === 'complete') overall.complete++
   if (submitted) table.ipb.submitted++
-  if (shared) table.shared[evidence]++
   if (win.required_play) {
     const bucket: keyof RequiredPlayCounts = win.required_play_meta?.requirements_met
       ? 'approved'
-      : evidence === 'played' || evidence === 'confirmed'
+      : steamPlayed
         ? 'played'
         : 'unplayed'
     table.required[bucket]++
-  } else {
-    table.noRequirement[evidence]++
   }
 }
 
 /**
- * Tallies every current member's wins by evidence class, once counting only
+ * Tallies every current member's wins by progress tier, once counting only
  * group-exclusive giveaways and once counting all of them. `giveaways` is
  * expected to be the already-counted list: wins whose giveaway isn't in it
  * (or that are flagged deleted) are skipped. Unreleased games count toward
@@ -192,28 +212,35 @@ export function buildGroupPlayRate(
         continue
       }
 
-      const classified = classifyWinEvidence(win, hltbHoursFor(giveaway))
-      const evidence = classified === 'unknown' ? 'unplayed' : classified
+      const hltbHours = hltbHoursFor(giveaway)
+      const progress = classifyWinProgress(win, hltbHours)
+      const steamPlayed = meetsRequiredPlayBar(win, hltbHours)
       const shared = Boolean(giveaway.is_shared || giveaway.whitelist)
       const submitted = hasIpbSubmission(
         win,
         ipbDiscord?.wins[ipbDiscordWinKey(user.steam_id, win.link)],
       )
-      tally(result.all, win, evidence, shared, submitted)
-      if (!shared) tally(result.exclusive, win, evidence, false, submitted)
+      tally(result.all, win, progress, steamPlayed, submitted)
+      if (!shared) tally(result.exclusive, win, progress, steamPlayed, submitted)
     }
   }
   return result
 }
 
+/** A tier's share of counted wins, as a whole percentage. Null when there are none. */
+export function playShare(
+  counts: PlayRateCounts,
+  tier: 'started' | 'played' | 'complete',
+): number | null {
+  return counts.counted === 0 ? null : Math.round((counts[tier] / counts.counted) * 100)
+}
+
 /**
- * Share of wins with evidence of play, as a whole percentage, over every
- * counted win. Null when there are none.
+ * Share of counted wins that are played (including complete), as a whole
+ * percentage. Null when there are none.
  */
 export function playRatePercent(counts: PlayRateCounts): number | null {
-  const played = counts.played + counts.confirmed
-  const total = played + counts.unplayed
-  return total === 0 ? null : Math.round((played / total) * 100)
+  return playShare(counts, 'played')
 }
 
 /**

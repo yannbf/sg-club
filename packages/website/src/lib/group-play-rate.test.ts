@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import {
   buildGroupPlayRate,
-  classifyWinEvidence,
+  classifyWinProgress,
   playRatePercent,
   requiredPlayRatePercent,
 } from '@/lib/group-play-rate'
@@ -90,197 +90,155 @@ function withPlay(overrides: Partial<PlayData>): Win {
   return win('a', { steam_play_data: playData(overrides) })
 }
 
-describe('classifyWinEvidence', () => {
-  it('is played when unconfirmed but Steam shows play above the bar', () => {
-    expect(classifyWinEvidence(win('a'))).toBe('played')
-  })
-
-  it('is confirmed when Steam-played and also confirmed', () => {
-    expect(classifyWinEvidence(win('a', { i_played_bro: true }))).toBe(
-      'confirmed',
-    )
+describe('classifyWinProgress', () => {
+  it('is complete at 100% of achievements', () => {
     expect(
-      classifyWinEvidence(
-        win('a', { required_play_meta: { requirements_met: true } }),
-      ),
-    ).toBe('confirmed')
+      classifyWinProgress(withPlay({ achievements_unlocked: 10, achievements_total: 10 })),
+    ).toBe('complete')
   })
 
-  it('is confirmed when Steam shows no play but a mod confirmed it', () => {
+  it('is played at 10% of achievements', () => {
     expect(
-      classifyWinEvidence(
-        win('a', { steam_play_data: playData(), i_played_bro: true }),
-      ),
-    ).toBe('confirmed')
+      classifyWinProgress(withPlay({ achievements_unlocked: 1, achievements_total: 10 })),
+    ).toBe('played')
+  })
+
+  it('is started at 5% of achievements', () => {
     expect(
-      classifyWinEvidence(
-        win('a', {
-          steam_play_data: playData(),
-          required_play_meta: { requirements_met: true },
-        }),
-      ),
-    ).toBe('confirmed')
+      classifyWinProgress(withPlay({ achievements_unlocked: 5, achievements_total: 100 })),
+    ).toBe('started')
   })
 
-  it('is confirmed without any Steam data when a mod confirmed play', () => {
+  it('is started with playtime but no achievements unlocked', () => {
+    expect(classifyWinProgress(withPlay({ playtime_minutes: 20 }))).toBe('started')
+  })
+
+  it('is notStarted with no playtime and no achievements', () => {
+    expect(classifyWinProgress(withPlay({}))).toBe('notStarted')
+  })
+
+  it('ignores never_played and judges from the numbers', () => {
     expect(
-      classifyWinEvidence(
-        win('a', { steam_play_data: undefined, i_played_bro: true }),
+      classifyWinProgress(
+        withPlay({ never_played: true, achievements_unlocked: 2, achievements_total: 10 }),
       ),
-    ).toBe('confirmed')
+    ).toBe('played')
   })
 
-  it('is unknown without Steam data', () => {
-    expect(classifyWinEvidence(win('a', { steam_play_data: undefined }))).toBe(
-      'unknown',
-    )
-  })
-
-  it('is unknown when the library was unreadable and nothing was recorded', () => {
+  it('judges a game with achievements by them, not by playtime', () => {
     expect(
-      classifyWinEvidence(
-        win('a', {
-          steam_play_data: playData({
-            has_no_available_stats: true,
-            no_stats_reason: 'library_unavailable',
-          }),
-        }),
+      classifyWinProgress(
+        withPlay({ playtime_minutes: 600, achievements_unlocked: 1, achievements_total: 100 }),
+        8,
       ),
-    ).toBe('unknown')
+    ).toBe('started')
   })
 
-  it('is unknown when playtime is private and nothing was recorded', () => {
-    expect(
-      classifyWinEvidence(
-        win('a', { steam_play_data: playData({ is_playtime_private: true }) }),
-      ),
-    ).toBe('unknown')
-  })
+  describe('games without achievements', () => {
+    const none = { achievements_total: 0, achievements_unlocked: 0 }
 
-  it('is unplayed for zero playtime on a game with no Steam achievement stats', () => {
-    expect(
-      classifyWinEvidence(
-        win('a', {
-          steam_play_data: playData({
-            has_no_available_stats: true,
-            no_stats_reason: 'no_steam_stats',
-          }),
-        }),
-      ),
-    ).toBe('unplayed')
-  })
-
-  it('is unplayed when some playtime was recorded but short of the bar', () => {
-    expect(
-      classifyWinEvidence(
-        win('a', {
-          steam_play_data: playData({
-            playtime_minutes: 20,
-            has_no_available_stats: true,
-            no_stats_reason: 'library_unavailable',
-          }),
-        }),
-      ),
-    ).toBe('unplayed')
-  })
-
-  it('is unplayed for readable stats with no play', () => {
-    expect(classifyWinEvidence(win('a', { steam_play_data: playData() }))).toBe(
-      'unplayed',
-    )
-  })
-
-  describe('played bar', () => {
-    it('passes at 10% of achievements', () => {
-      expect(
-        classifyWinEvidence(
-          withPlay({ achievements_unlocked: 1, achievements_total: 10 }),
-        ),
-      ).toBe('played')
-    })
-
-    it('fails at 9% of achievements when the playtime bar is also unmet', () => {
-      expect(
-        classifyWinEvidence(
-          withPlay({ achievements_unlocked: 9, achievements_total: 100 }),
-        ),
-      ).toBe('unplayed')
-    })
-
-    it('ignores never_played and judges from the numbers', () => {
-      expect(
-        classifyWinEvidence(
-          withPlay({
-            never_played: true,
-            achievements_unlocked: 2,
-            achievements_total: 10,
-          }),
-        ),
-      ).toBe('played')
-    })
-
-    it('passes on playtime at 25% of the HowLongToBeat main story despite low achievements', () => {
-      const play = {
-        playtime_minutes: 120,
-        achievements_unlocked: 1,
-        achievements_total: 100,
-      }
-      expect(classifyWinEvidence(withPlay(play), 8)).toBe('played')
-      expect(
-        classifyWinEvidence(withPlay({ ...play, playtime_minutes: 119 }), 8),
-      ).toBe('unplayed')
+    it('is played at 25% of the HowLongToBeat main story', () => {
+      expect(classifyWinProgress(withPlay({ ...none, playtime_minutes: 120 }), 8)).toBe('played')
+      expect(classifyWinProgress(withPlay({ ...none, playtime_minutes: 119 }), 8)).toBe('started')
     })
 
     it('caps the required playtime at the HowLongToBeat cap', () => {
       expect(
-        classifyWinEvidence(
-          withPlay({ playtime_minutes: PLAYED_HLTB_CAP_MINUTES }),
-          500,
-        ),
+        classifyWinProgress(withPlay({ ...none, playtime_minutes: PLAYED_HLTB_CAP_MINUTES }), 500),
       ).toBe('played')
       expect(
-        classifyWinEvidence(
-          withPlay({ playtime_minutes: PLAYED_HLTB_CAP_MINUTES - 1 }),
+        classifyWinProgress(
+          withPlay({ ...none, playtime_minutes: PLAYED_HLTB_CAP_MINUTES - 1 }),
           500,
         ),
-      ).toBe('unplayed')
+      ).toBe('started')
     })
 
     it('falls back to the unknown-length bar without a HowLongToBeat length', () => {
-      const atBar = withPlay({
-        playtime_minutes: UNKNOWN_LENGTH_PLAYED_MINUTES,
-      })
-      const belowBar = withPlay({
-        playtime_minutes: UNKNOWN_LENGTH_PLAYED_MINUTES - 1,
-      })
-      expect(classifyWinEvidence(atBar)).toBe('played')
-      expect(classifyWinEvidence(atBar, null)).toBe('played')
-      expect(classifyWinEvidence(atBar, 0)).toBe('played')
-      expect(classifyWinEvidence(belowBar, null)).toBe('unplayed')
+      const atBar = withPlay({ ...none, playtime_minutes: UNKNOWN_LENGTH_PLAYED_MINUTES })
+      const belowBar = withPlay({ ...none, playtime_minutes: UNKNOWN_LENGTH_PLAYED_MINUTES - 1 })
+      expect(classifyWinProgress(atBar)).toBe('played')
+      expect(classifyWinProgress(atBar, null)).toBe('played')
+      expect(classifyWinProgress(atBar, 0)).toBe('played')
+      expect(classifyWinProgress(belowBar, null)).toBe('started')
     })
 
-    it('never passes the playtime bar with zero playtime', () => {
-      expect(classifyWinEvidence(withPlay({}), 0.1)).toBe('unplayed')
+    it('stays played, never complete, however long it was played', () => {
+      expect(classifyWinProgress(withPlay({ ...none, playtime_minutes: 6000 }), 8)).toBe('played')
+    })
+
+    it('is notStarted with zero playtime', () => {
+      expect(classifyWinProgress(withPlay(none), 0.1)).toBe('notStarted')
     })
   })
 
-  it('is confirmed when a mod confirmed play that falls below the bar', () => {
-    expect(
-      classifyWinEvidence(
-        win('a', {
-          steam_play_data: playData({
-            playtime_minutes: 20,
-            achievements_unlocked: 1,
-            achievements_total: 100,
+  describe('unreadable Steam stats', () => {
+    it('is notStarted without Steam data', () => {
+      expect(classifyWinProgress(win('a', { steam_play_data: undefined }))).toBe('notStarted')
+    })
+
+    it('is notStarted when the library was unreadable and nothing was recorded', () => {
+      expect(
+        classifyWinProgress(
+          withPlay({ has_no_available_stats: true, no_stats_reason: 'library_unavailable' }),
+        ),
+      ).toBe('notStarted')
+    })
+
+    it('is notStarted when playtime is private and nothing was recorded', () => {
+      expect(classifyWinProgress(withPlay({ is_playtime_private: true }))).toBe('notStarted')
+    })
+  })
+
+  describe('mod confirmation', () => {
+    it('is played when a mod confirmed play with no Steam progress', () => {
+      expect(classifyWinProgress(win('a', { steam_play_data: playData(), i_played_bro: true }))).toBe(
+        'played',
+      )
+      expect(
+        classifyWinProgress(
+          win('a', {
+            steam_play_data: playData(),
+            required_play_meta: { requirements_met: true },
           }),
-          i_played_bro: true,
-        }),
-      ),
-    ).toBe('confirmed')
+        ),
+      ).toBe('played')
+    })
+
+    it('is played without any Steam data when a mod confirmed play', () => {
+      expect(
+        classifyWinProgress(win('a', { steam_play_data: undefined, i_played_bro: true })),
+      ).toBe('played')
+    })
+
+    it('is played when confirmed play falls below the bar', () => {
+      expect(
+        classifyWinProgress(
+          win('a', {
+            steam_play_data: playData({
+              playtime_minutes: 20,
+              achievements_unlocked: 1,
+              achievements_total: 100,
+            }),
+            i_played_bro: true,
+          }),
+        ),
+      ).toBe('played')
+    })
+
+    it('is complete when confirmed and every achievement is unlocked', () => {
+      expect(
+        classifyWinProgress(
+          win('a', {
+            steam_play_data: playData({ achievements_unlocked: 10, achievements_total: 10 }),
+            i_played_bro: true,
+          }),
+        ),
+      ).toBe('complete')
+    })
   })
 })
 
-const sum = (counts: Record<string, number>) => Object.values(counts).reduce((a, b) => a + b, 0)
 
 describe('buildGroupPlayRate', () => {
   it('differs between exclusive and all only by shared wins', () => {
@@ -306,31 +264,13 @@ describe('buildGroupPlayRate', () => {
       null,
     )
 
-    expect(result.exclusive.overall).toEqual({
-      played: 1,
-      confirmed: 0,
-      unplayed: 1,
-    })
-    expect(result.exclusive.noRequirement).toEqual({
-      played: 1,
-      confirmed: 0,
-      unplayed: 0,
-    })
+    expect(result.exclusive.overall).toEqual({ counted: 2, started: 1, played: 1, complete: 0 })
     expect(result.exclusive.required).toEqual({
       approved: 0,
       played: 0,
       unplayed: 1,
     })
-    expect(result.all.overall).toEqual({
-      played: 3,
-      confirmed: 0,
-      unplayed: 2,
-    })
-    expect(result.all.noRequirement).toEqual({
-      played: 2,
-      confirmed: 0,
-      unplayed: 1,
-    })
+    expect(result.all.overall).toEqual({ counted: 5, started: 3, played: 3, complete: 0 })
     expect(result.all.required).toEqual({
       approved: 0,
       played: 1,
@@ -338,7 +278,7 @@ describe('buildGroupPlayRate', () => {
     })
   })
 
-  it('populates the shared row only in the all table', () => {
+  it('counts shared and whitelist wins only in the all table', () => {
     const result = buildGroupPlayRate(
       [
         user([
@@ -355,12 +295,8 @@ describe('buildGroupPlayRate', () => {
       noHltb,
       null,
     )
-    expect(sum(result.exclusive.shared)).toBe(0)
-    expect(result.all.shared).toEqual({
-      played: 1,
-      confirmed: 0,
-      unplayed: 1,
-    })
+    expect(result.exclusive.overall.counted).toBe(1)
+    expect(result.all.overall.counted).toBe(3)
   })
 
   it('splits play-required wins three ways, approval beating Steam evidence', () => {
@@ -371,6 +307,7 @@ describe('buildGroupPlayRate', () => {
       'confirmed',
       'unplayed',
       'unknown',
+      'playtime-only',
     ]
     const result = buildGroupPlayRate(
       [
@@ -392,6 +329,12 @@ describe('buildGroupPlayRate', () => {
           }),
           win('unplayed', { required_play: true, steam_play_data: playData() }),
           win('unknown', { required_play: true, steam_play_data: undefined }),
+          // Few achievements but enough playtime: in progress for the required
+          // row even though the progress tiers judge this game by achievements.
+          win('playtime-only', {
+            required_play: true,
+            steam_play_data: playData({ achievements_unlocked: 0, playtime_minutes: 120 }),
+          }),
         ]),
       ],
       links.map((l) => giveaway(l)),
@@ -400,10 +343,9 @@ describe('buildGroupPlayRate', () => {
     )
     expect(result.exclusive.required).toEqual({
       approved: 2,
-      played: 2,
+      played: 3,
       unplayed: 2,
     })
-    expect(sum(result.exclusive.noRequirement)).toBe(0)
   })
 
   it('counts a submission from Discord, i_played_bro or the sheet once each', () => {
@@ -448,7 +390,7 @@ describe('buildGroupPlayRate', () => {
       null,
     )
     expect(result.exclusive.overall.played).toBe(1)
-    expect(sum(result.exclusive.overall)).toBe(1)
+    expect(result.exclusive.overall.counted).toBe(1)
   })
 
   it('counts unreleased wins separately and nowhere else', () => {
@@ -459,15 +401,15 @@ describe('buildGroupPlayRate', () => {
       null,
     )
     expect(result.unreleased).toBe(1)
-    expect(sum(result.all.overall)).toBe(0)
+    expect(result.all.overall.counted).toBe(0)
     expect(result.all.ipb.submitted).toBe(0)
   })
 
   it('judges each win against the supplied HowLongToBeat length', () => {
     const lowAchievements = {
       playtime_minutes: 120,
-      achievements_unlocked: 1,
-      achievements_total: 100,
+      achievements_unlocked: 0,
+      achievements_total: 0,
     }
     const result = buildGroupPlayRate(
       [
@@ -480,7 +422,7 @@ describe('buildGroupPlayRate', () => {
       (g) => (g.app_id === 1 ? 40 : 4),
       null,
     )
-    expect(result.exclusive.overall.unplayed).toBe(1)
+    expect(result.exclusive.overall.started).toBe(2)
     expect(result.exclusive.overall.played).toBe(1)
   })
 
@@ -491,8 +433,32 @@ describe('buildGroupPlayRate', () => {
       noHltb,
       null,
     )
-    expect(result.exclusive.overall.played).toBe(1)
-    expect(result.exclusive.overall.unplayed).toBe(1)
+    expect(result.exclusive.overall).toEqual({ counted: 2, started: 1, played: 1, complete: 0 })
+  })
+
+  it('tallies each progress tier and keeps started wins out of the required played split', () => {
+    const result = buildGroupPlayRate(
+      [
+        user([
+          win('complete', {
+            required_play: true,
+            steam_play_data: playData({ achievements_unlocked: 10, achievements_total: 10 }),
+          }),
+          win('played'),
+          win('started', {
+            required_play: true,
+            steam_play_data: playData({ playtime_minutes: 5 }),
+          }),
+          win('notStarted', { steam_play_data: playData() }),
+        ]),
+      ],
+      ['complete', 'played', 'started', 'notStarted'].map((l) => giveaway(l)),
+      noHltb,
+      null,
+    )
+    expect(result.exclusive.overall).toEqual({ counted: 4, started: 3, played: 2, complete: 1 })
+    expect(result.exclusive.required).toEqual({ approved: 0, played: 1, unplayed: 1 })
+    expect(playRatePercent(result.exclusive.overall)).toBe(50)
   })
 })
 
@@ -504,18 +470,18 @@ describe('buildGroupPlayRate unreadable evidence', () => {
       noHltb,
       null,
     )
-    expect(result.exclusive.overall).toEqual({ played: 1, confirmed: 0, unplayed: 1 })
+    expect(result.exclusive.overall).toEqual({ counted: 2, started: 1, played: 1, complete: 0 })
     expect(playRatePercent(result.exclusive.overall)).toBe(50)
   })
 })
 
 describe('playRatePercent', () => {
   it('counts played and confirmed over every counted win', () => {
-    expect(playRatePercent({ played: 6, confirmed: 2, unplayed: 2 })).toBe(80)
+    expect(playRatePercent({ counted: 10, started: 9, played: 8, complete: 2 })).toBe(80)
   })
 
   it('is null when there are no wins', () => {
-    expect(playRatePercent({ played: 0, confirmed: 0, unplayed: 0 })).toBeNull()
+    expect(playRatePercent({ counted: 0, started: 0, played: 0, complete: 0 })).toBeNull()
   })
 })
 

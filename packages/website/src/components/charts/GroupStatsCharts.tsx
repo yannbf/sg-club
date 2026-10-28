@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import {
   Area,
@@ -16,6 +16,8 @@ import {
   Cell,
   BarChart,
   Legend,
+  Funnel,
+  FunnelChart,
 } from 'recharts'
 import type { TooltipContentProps } from 'recharts'
 import { ChartCard, ChartStat } from './ChartCard'
@@ -43,9 +45,14 @@ import { monthKey, monthLabel } from '@/lib/chart-data'
 import { SPECIAL_EVENTS, isValidRatioGiveaway } from '@/lib/events'
 import { useIsAdmin } from '@/lib/auth'
 import { steamGiftsProfile } from '@/components/UserLink'
+import HoverHint from '@/components/Tooltip'
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/ToggleGroup'
+import { PLAYED_HLTB_FRACTION, UNKNOWN_LENGTH_PLAYED_MINUTES } from '@/lib/play-status'
 import { cn } from '@/lib/cn'
 import {
+  GROUP_PLAY_RATE_ACHIEVEMENT_PERCENT,
   playRatePercent,
+  playShare,
   requiredPlayRatePercent,
   type GroupPlayRate,
   type PlayRateCounts,
@@ -100,23 +107,142 @@ interface GroupStatsChartsProps {
   groupPlayRate: GroupPlayRate
 }
 
-/** Stack order, legend names and colors of the play-rate chart. */
-const PLAY_RATE_SERIES: { key: string; name: string; color: string }[] = [
-  { key: 'played', name: 'Played', color: chartColors.green },
-  { key: 'inProgress', name: 'In progress', color: chartColors.yellow },
+/**
+ * Legend names and colors of the play-rate chart. A tier row is one `met`
+ * segment against a muted `rest`; the Play required row stacks `played`,
+ * `inProgress` and `unplayed`. `played` serves both rows.
+ */
+const PLAY_RATE_SERIES: { key: string; name: string; color: string; hint?: string }[] = [
+  {
+    key: 'started',
+    name: 'Started',
+    color: chartColors.orange,
+    hint: 'Any playtime or achievement unlocked',
+  },
+  {
+    key: 'played',
+    name: 'Played',
+    color: chartColors.green,
+    hint:
+      `At least ${GROUP_PLAY_RATE_ACHIEVEMENT_PERCENT}% of achievements, or ` +
+      `${PLAYED_HLTB_FRACTION * 100}% of the HowLongToBeat main story ` +
+      `(${UNKNOWN_LENGTH_PLAYED_MINUTES / 60}h when unknown) for games without achievements, ` +
+      'or a mod confirmed the play. For play-required wins: approved in the sheet.',
+  },
+  {
+    key: 'complete',
+    name: 'Complete',
+    color: chartColors.blue,
+    hint: 'All achievements unlocked',
+  },
+  {
+    key: 'inProgress',
+    name: 'In progress',
+    color: chartColors.yellow,
+    hint: 'Play-required win that Steam shows as played but that is not approved yet.',
+  },
   { key: 'unplayed', name: 'Not played', color: chartColors.red },
 ]
+const PLAY_RATE_HINTS = new Map(PLAY_RATE_SERIES.map((s) => [s.name, s.hint]))
 
-/** A play-rate row's counts, with mod-confirmed wins folded into played. */
-function foldConfirmed(counts: PlayRateCounts) {
-  return {
-    played: counts.played + counts.confirmed,
-    unplayed: counts.unplayed,
-  }
+type PlayRateView = 'bars' | 'funnel' | 'rings'
+const PLAY_RATE_VIEW_KEY = 'stats.playRateView'
+const PLAY_RATE_VIEWS: PlayRateView[] = ['bars', 'funnel', 'rings']
+
+/** Series name with its dotted-underline hover hint, when it has one. */
+function PlayRateSeriesName({ name }: { name: string }) {
+  const hint = PLAY_RATE_HINTS.get(name)
+  if (!hint) return <>{name}</>
+  return (
+    <HoverHint content={<span className="block max-w-xs">{hint}</span>}>
+      <span className="cursor-help underline decoration-dotted underline-offset-2">{name}</span>
+    </HoverHint>
+  )
 }
 
-function sumCounts(counts: Record<string, number>): number {
-  return Object.values(counts).reduce((sum, n) => sum + n, 0)
+/** Legend row for the views that have no Recharts legend. */
+function PlayRateLegendRow() {
+  return (
+    <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-xs text-muted-foreground">
+      {PLAY_RATE_SERIES.map(({ key, name, color }) => (
+        <span key={key} className="inline-flex items-center gap-1.5">
+          <span
+            className="inline-block h-2 w-2 rounded-full"
+            style={{ backgroundColor: color }}
+            aria-hidden
+          />
+          <PlayRateSeriesName name={name} />
+        </span>
+      ))}
+    </div>
+  )
+}
+
+/** Ring gauge: `percent` is a whole percentage of the circumference. */
+function PlayRateRing({
+  label,
+  color,
+  count,
+  percent,
+}: {
+  label: string
+  color: string
+  count: number
+  percent: number | null
+}) {
+  const radius = 48
+  const circumference = 2 * Math.PI * radius
+  const filled = Math.max(0, Math.min(1, (percent ?? 0) / 100)) * circumference
+  return (
+    <div className="flex flex-col items-center gap-1">
+      <svg viewBox="0 0 120 120" className="w-full max-w-[140px]" role="img" aria-label={`${label} ${percent == null ? 'no data' : `${percent}%`}`}>
+        <circle
+          cx="60"
+          cy="60"
+          r={radius}
+          fill="none"
+          strokeWidth={12}
+          stroke="color-mix(in oklab, var(--muted-foreground) 18%, transparent)"
+        />
+        <circle
+          cx="60"
+          cy="60"
+          r={radius}
+          fill="none"
+          strokeWidth={12}
+          stroke={color}
+          strokeLinecap="round"
+          strokeDasharray={`${filled} ${circumference}`}
+          transform="rotate(-90 60 60)"
+        />
+        <text
+          x="60"
+          y="60"
+          textAnchor="middle"
+          dominantBaseline="central"
+          className="text-xl font-semibold tabular-nums"
+          fill="var(--foreground)"
+        >
+          {percent == null ? '—' : `${percent}%`}
+        </text>
+      </svg>
+      <div className="text-sm font-medium">{label}</div>
+      <div className="text-xs text-muted-foreground">{formatNumber(count)} wins</div>
+    </div>
+  )
+}
+
+/** Row values for a cumulative tier: `tier` is the series that colours the met share. */
+function tierRow(
+  label: string,
+  counts: PlayRateCounts,
+  tier: 'started' | 'played' | 'complete',
+) {
+  return {
+    label: percentLabel(label, playShare(counts, tier)),
+    [tier]: counts[tier],
+    rest: counts.counted - counts[tier],
+  }
 }
 
 /** Non-breaking spaces keep Recharts from wrapping the tick label. */
@@ -309,6 +435,24 @@ export function GroupStatsCharts({
   // giveaway" and "Play rate of won games" cards: restricts all three to
   // group-exclusive giveaways (isValidRatioGiveaway) when on.
   const [exclusiveOnly, setExclusiveOnly] = useState(true)
+  const [playRateView, setPlayRateView] = useState<PlayRateView>('bars')
+  // Hydrated after mount so the server-rendered markup matches.
+  useEffect(() => {
+    try {
+      const saved = window.localStorage.getItem(PLAY_RATE_VIEW_KEY)
+      if (PLAY_RATE_VIEWS.includes(saved as PlayRateView)) setPlayRateView(saved as PlayRateView)
+    } catch {
+      // Storage can be unavailable (private mode, blocked site data).
+    }
+  }, [])
+  const changePlayRateView = (view: PlayRateView) => {
+    setPlayRateView(view)
+    try {
+      window.localStorage.setItem(PLAY_RATE_VIEW_KEY, view)
+    } catch {
+      // Choice just isn't remembered.
+    }
+  }
   const [cvMonth, setCvMonth] = useState<string | null>(null)
   const [contributorUser, setContributorUser] = useState<string | null>(null)
   const [hoursMonth, setHoursMonth] = useState<string | null>(null)
@@ -481,10 +625,13 @@ export function GroupStatsCharts({
 
   const playRateTable = exclusiveOnly ? groupPlayRate.exclusive : groupPlayRate.all
   const playRateRows: Record<string, string | number>[] = [
-    {
-      label: percentLabel('All wins', playRatePercent(playRateTable.overall)),
-      ...foldConfirmed(playRateTable.overall),
-    },
+    tierRow('Started (>0%)', playRateTable.overall, 'started'),
+    tierRow(
+      `Played (≥${GROUP_PLAY_RATE_ACHIEVEMENT_PERCENT}%)`,
+      playRateTable.overall,
+      'played',
+    ),
+    tierRow('Complete (100%)', playRateTable.overall, 'complete'),
     {
       label: percentLabel('Play required', requiredPlayRatePercent(playRateTable.required)),
       // A play-required win is "played" once a mod approved it; Steam play
@@ -494,14 +641,74 @@ export function GroupStatsCharts({
       unplayed: playRateTable.required.unplayed,
     },
   ]
-  if (!exclusiveOnly) {
-    playRateRows.push({
-      label: percentLabel('Shared', playRatePercent(playRateTable.shared)),
-      ...foldConfirmed(playRateTable.shared),
-    })
-  }
   const overallPlayRate = playRatePercent(playRateTable.overall)
-  const totalWonCounted = sumCounts(playRateTable.overall)
+  const totalWonCounted = playRateTable.overall.counted
+
+  const funnelSteps = (
+    [
+      { name: 'Won', value: totalWonCounted, fill: 'var(--muted-foreground)', fillOpacity: 0.45 },
+      { name: 'Started', value: playRateTable.overall.started, fill: chartColors.orange },
+      { name: 'Played', value: playRateTable.overall.played, fill: chartColors.green },
+      { name: 'Complete', value: playRateTable.overall.complete, fill: chartColors.blue },
+    ] as const
+  ).map((step) => {
+    const pct = totalWonCounted > 0 ? Math.round((step.value / totalWonCounted) * 100) : null
+    return { ...step, pct }
+  })
+
+  const playRateTooltip = {
+    contentStyle: tooltipContentStyle,
+    labelStyle: tooltipLabelStyle,
+    itemStyle: tooltipItemStyle,
+  }
+
+  // Play required split on its own row, shown under the funnel and rings.
+  const requiredBar = (
+    <div className="h-[70px] w-full">
+      <ResponsiveContainer width="100%" height="100%">
+        <BarChart
+          data={playRateRows.slice(3)}
+          layout="vertical"
+          stackOffset="expand"
+          margin={{ left: 8, right: 24, top: 4 }}
+        >
+          <XAxis type="number" domain={[0, 1]} hide />
+          <YAxis type="category" dataKey="label" {...axisProps} width={160} />
+          <Tooltip
+            {...playRateTooltip}
+            formatter={(_value, _name, item) =>
+              formatNumber(
+                Number((item.payload as Record<string, number>)[String(item.dataKey)] ?? 0),
+              )
+            }
+            cursor={{ fill: 'color-mix(in oklab, var(--primary) 8%, transparent)' }}
+          />
+          {PLAY_RATE_SERIES.filter((x) => ['played', 'inProgress', 'unplayed'].includes(x.key)).map(
+            ({ key, name, color }) => (
+              <Bar key={key} dataKey={key} name={name} stackId="play" fill={color} maxBarSize={40} />
+            ),
+          )}
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
+  )
+
+  const playRateViewSwitch = (
+    <div className="flex items-center gap-2">
+      <ToggleGroup
+        type="single"
+        size="sm"
+        value={playRateView}
+        onValueChange={(v) => v && changePlayRateView(v as PlayRateView)}
+        aria-label="Play rate view"
+      >
+        <ToggleGroupItem value="bars">Bars</ToggleGroupItem>
+        <ToggleGroupItem value="funnel">Funnel</ToggleGroupItem>
+        <ToggleGroupItem value="rings">Rings</ToggleGroupItem>
+      </ToggleGroup>
+      {exclusiveOnlyToggle}
+    </div>
+  )
 
   return (
     <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
@@ -847,57 +1054,138 @@ export function GroupStatsCharts({
           </>
         }
         icon={Gamepad2}
-        actions={exclusiveOnlyToggle}
+        actions={playRateViewSwitch}
       >
-        <div className="h-72 w-full">
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart
-              data={playRateRows}
-              layout="vertical"
-              stackOffset="expand"
-              margin={{ left: 8, right: 24, top: 8 }}
-            >
-              <CartesianGrid {...gridProps} horizontal={false} />
-              <XAxis
-                type="number"
-                domain={[0, 1]}
-                {...axisProps}
-                tickFormatter={(v: number) => `${Math.round(v * 100)}%`}
-              />
-              <YAxis type="category" dataKey="label" {...axisProps} width={160} />
-              <Tooltip
-                contentStyle={tooltipContentStyle}
-                labelStyle={tooltipLabelStyle}
-                itemStyle={tooltipItemStyle}
-                formatter={(_value, _name, item) =>
-                  formatNumber(
-                    Number(
-                      (item.payload as Record<string, number>)[String(item.dataKey)] ?? 0,
-                    ),
-                  )
-                }
-                cursor={{ fill: 'color-mix(in oklab, var(--primary) 8%, transparent)' }}
-              />
-              {/* itemSorter={null} keeps the legend in stack order rather than alphabetical. */}
-              <Legend
-                iconType="circle"
-                iconSize={8}
-                itemSorter={null}
-                wrapperStyle={{ fontSize: 12, color: 'var(--muted-foreground)' }}
-              />
-              {PLAY_RATE_SERIES.map(({ key, name, color }) => (
+        {playRateView === 'bars' && (
+          <div className="h-72 w-full">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart
+                data={playRateRows}
+                layout="vertical"
+                stackOffset="expand"
+                margin={{ left: 8, right: 24, top: 8 }}
+              >
+                <CartesianGrid {...gridProps} horizontal={false} />
+                <XAxis
+                  type="number"
+                  domain={[0, 1]}
+                  {...axisProps}
+                  tickFormatter={(v: number) => `${Math.round(v * 100)}%`}
+                />
+                <YAxis type="category" dataKey="label" {...axisProps} width={160} />
+                <Tooltip
+                  contentStyle={tooltipContentStyle}
+                  labelStyle={tooltipLabelStyle}
+                  itemStyle={tooltipItemStyle}
+                  formatter={(_value, _name, item) =>
+                    formatNumber(
+                      Number(
+                        (item.payload as Record<string, number>)[String(item.dataKey)] ?? 0,
+                      ),
+                    )
+                  }
+                  cursor={{ fill: 'color-mix(in oklab, var(--primary) 8%, transparent)' }}
+                />
+                {/* itemSorter={null} keeps the legend in stack order rather than alphabetical. */}
+                <Legend
+                  iconType="circle"
+                  iconSize={8}
+                  itemSorter={null}
+                  wrapperStyle={{ fontSize: 12, color: 'var(--muted-foreground)' }}
+                  formatter={(value: string) => <PlayRateSeriesName name={value} />}
+                />
+                {PLAY_RATE_SERIES.map(({ key, name, color }) => (
+                  <Bar
+                    key={key}
+                    dataKey={key}
+                    name={name}
+                    stackId="play"
+                    fill={color}
+                    maxBarSize={40}
+                  />
+                ))}
                 <Bar
-                  key={key}
-                  dataKey={key}
-                  name={name}
+                  dataKey="rest"
+                  name="Other"
                   stackId="play"
-                  fill={color}
+                  fill="var(--muted-foreground)"
+                  fillOpacity={0.18}
+                  legendType="none"
                   maxBarSize={40}
                 />
-              ))}
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        )}
+        {playRateView === 'funnel' && (
+          <div className="flex flex-col gap-3">
+            <div className="grid grid-cols-[1fr_auto] items-stretch gap-4">
+              <div className="h-56 min-w-0">
+                <ResponsiveContainer width="100%" height="100%">
+                  <FunnelChart margin={{ top: 4, bottom: 4, left: 8, right: 8 }}>
+                  <Tooltip
+                    {...playRateTooltip}
+                    formatter={(value, _name, item) => {
+                      const pct = (item.payload as { pct: number | null }).pct
+                      return `${formatNumber(Number(value))}${pct == null ? '' : ` · ${pct}%`}`
+                    }}
+                  />
+                    <Funnel
+                      data={funnelSteps}
+                      dataKey="value"
+                      nameKey="name"
+                      isAnimationActive={false}
+                    />
+                  </FunnelChart>
+                </ResponsiveContainer>
+              </div>
+              {/* Step labels live beside the funnel: the Complete tip is too narrow to hold text. */}
+              <ul className="flex flex-col justify-around py-1 text-xs text-muted-foreground">
+                {funnelSteps.map((step) => (
+                  <li key={step.name} className="flex items-center gap-2 whitespace-nowrap">
+                    <span
+                      className="inline-block h-2 w-2 rounded-full"
+                      style={{ background: step.fill, opacity: 'fillOpacity' in step ? step.fillOpacity : 1 }}
+                    />
+                    <span className="text-foreground">{step.name}</span>
+                    <span className="tabular-nums">{formatNumber(step.value)}</span>
+                    {step.pct != null && step.name !== 'Won' && (
+                      <span className="tabular-nums">· {step.pct}%</span>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            {requiredBar}
+            <PlayRateLegendRow />
+          </div>
+        )}
+        {playRateView === 'rings' && (
+          <div className="flex flex-col gap-3">
+            <div className="grid grid-cols-3 gap-3 py-2">
+              <PlayRateRing
+                label="Started"
+                color={chartColors.orange}
+                count={playRateTable.overall.started}
+                percent={playShare(playRateTable.overall, 'started')}
+              />
+              <PlayRateRing
+                label="Played"
+                color={chartColors.green}
+                count={playRateTable.overall.played}
+                percent={playShare(playRateTable.overall, 'played')}
+              />
+              <PlayRateRing
+                label="Complete"
+                color={chartColors.blue}
+                count={playRateTable.overall.complete}
+                percent={playShare(playRateTable.overall, 'complete')}
+              />
+            </div>
+            {requiredBar}
+            <PlayRateLegendRow />
+          </div>
+        )}
      </ChartCard>
 
       <ChartCard
