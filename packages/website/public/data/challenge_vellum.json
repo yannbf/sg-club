@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1790812800,
   "totalAchievements": 36,
-  "generatedAt": 1793376097386,
+  "generatedAt": 1793389291456,
   "challengeOver": false,
   "winnerUsername": "CatzZz",
   "participants": [
@@ -2103,14 +2103,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 384,
-      "playtime_2weeks_minutes": 384,
+      "playtime_total_minutes": 446,
+      "playtime_2weeks_minutes": 446,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 384,
+      "playtime_challenge_minutes": 446,
       "achievements_total": 36,
-      "achievements_unlocked_total": 14,
+      "achievements_unlocked_total": 16,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 14,
+      "achievements_since_baseline": 16,
       "challenge_achievements": [
         {
           "apiname": "STATUS_DAMAGE_30000",
@@ -2195,9 +2195,21 @@
           "displayName": "May Thy Knife",
           "description": "Defeat a Boss with the Shredded Pages Binding active.",
           "unlocktime": 1793375221
+        },
+        {
+          "apiname": "TOMES_MENDED_10",
+          "displayName": "All the World's a Stage",
+          "description": "Mend 10 Tomes.",
+          "unlocktime": 1793376358
+        },
+        {
+          "apiname": "TOMES_MENDED_LVL10",
+          "displayName": "And In The Darkness...",
+          "description": "Mend a Tome at Binding Level 10.",
+          "unlocktime": 1793387048
         }
       ],
-      "challenge_achievement_count": 14,
+      "challenge_achievement_count": 16,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
