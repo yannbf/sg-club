@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1790812800,
   "totalAchievements": 36,
-  "generatedAt": 1793389291456,
+  "generatedAt": 1793396216120,
   "challengeOver": false,
   "winnerUsername": "CatzZz",
   "participants": [
@@ -945,7 +945,7 @@
       "username": "DrTenma",
       "sg_username": "DrTenma",
       "steam_id": "76561198054649894",
-      "avatar_url": "https://avatars.steamstatic.com/545e37de57389a0c5bd6762e0f6b5bf92d8de31a_medium.jpg",
+      "avatar_url": "https://avatars.steamstatic.com/7e8b8891d5ac49589467dbf77f47ef4332509c5a_medium.jpg",
       "profile_url": "https://steamcommunity.com/profiles/76561198054649894",
       "is_guest": false,
       "owned": true,
@@ -2554,6 +2554,70 @@
       "is_winner": false
     },
     {
+      "username": "PsychoApeMan",
+      "sg_username": "PsychoApeMan",
+      "steam_id": "76561197994025244",
+      "avatar_url": "https://avatars.steamstatic.com/aad48aaa2c58a177213347eafa719ae01d916c59_medium.jpg",
+      "profile_url": "https://steamcommunity.com/profiles/76561197994025244",
+      "is_guest": false,
+      "owned": true,
+      "stats_available": true,
+      "wrote_review": false,
+      "review_voted_up": null,
+      "review_timestamp": null,
+      "review_recommendationid": null,
+      "review_url": null,
+      "playtime_total_minutes": 163,
+      "playtime_2weeks_minutes": 163,
+      "baseline_playtime_minutes": 0,
+      "playtime_challenge_minutes": 163,
+      "achievements_total": 36,
+      "achievements_unlocked_total": 5,
+      "achievements_before_challenge": 0,
+      "achievements_since_baseline": 5,
+      "challenge_achievements": [
+        {
+          "apiname": "SPELLS_1",
+          "displayName": "Expanded Vocabulary",
+          "description": "Unlock a new Spell.",
+          "unlocktime": 1792845825
+        },
+        {
+          "apiname": "CORES_1",
+          "displayName": "Ink Exploration",
+          "description": "Unlock a new Signature Ink.",
+          "unlocktime": 1792845825
+        },
+        {
+          "apiname": "STATUS_DAMAGE_30000",
+          "displayName": "The Stacks",
+          "description": "Deal 30,000 Status Damage in a single run.",
+          "unlocktime": 1792847915
+        },
+        {
+          "apiname": "INKLEVEL_2",
+          "displayName": "Ding!",
+          "description": "Reach Ink Level 2.",
+          "unlocktime": 1792849551
+        },
+        {
+          "apiname": "TOMES_MENDED_1",
+          "displayName": "It was the Best of Times",
+          "description": "Mend your first Tome.",
+          "unlocktime": 1792865722
+        }
+      ],
+      "challenge_achievement_count": 5,
+      "has_started": true,
+      "is_complete": false,
+      "completed_at": null,
+      "completed_before_start": false,
+      "completed_after_deadline": false,
+      "meets_playtime": true,
+      "meets_review": false,
+      "is_winner": false
+    },
+    {
       "username": "Gooberdragon",
       "sg_username": "Gooberdragon",
       "steam_id": "76561198066957402",
@@ -2605,70 +2669,6 @@
           "displayName": "Envisioned",
           "description": "Deal 5,000 Damage with a single Atlas signature projection.",
           "unlocktime": 1791438287
-        }
-      ],
-      "challenge_achievement_count": 5,
-      "has_started": true,
-      "is_complete": false,
-      "completed_at": null,
-      "completed_before_start": false,
-      "completed_after_deadline": false,
-      "meets_playtime": true,
-      "meets_review": false,
-      "is_winner": false
-    },
-    {
-      "username": "PsychoApeMan",
-      "sg_username": "PsychoApeMan",
-      "steam_id": "76561197994025244",
-      "avatar_url": "https://avatars.steamstatic.com/aad48aaa2c58a177213347eafa719ae01d916c59_medium.jpg",
-      "profile_url": "https://steamcommunity.com/profiles/76561197994025244",
-      "is_guest": false,
-      "owned": true,
-      "stats_available": true,
-      "wrote_review": false,
-      "review_voted_up": null,
-      "review_timestamp": null,
-      "review_recommendationid": null,
-      "review_url": null,
-      "playtime_total_minutes": 133,
-      "playtime_2weeks_minutes": 133,
-      "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 133,
-      "achievements_total": 36,
-      "achievements_unlocked_total": 5,
-      "achievements_before_challenge": 0,
-      "achievements_since_baseline": 5,
-      "challenge_achievements": [
-        {
-          "apiname": "SPELLS_1",
-          "displayName": "Expanded Vocabulary",
-          "description": "Unlock a new Spell.",
-          "unlocktime": 1792845825
-        },
-        {
-          "apiname": "CORES_1",
-          "displayName": "Ink Exploration",
-          "description": "Unlock a new Signature Ink.",
-          "unlocktime": 1792845825
-        },
-        {
-          "apiname": "STATUS_DAMAGE_30000",
-          "displayName": "The Stacks",
-          "description": "Deal 30,000 Status Damage in a single run.",
-          "unlocktime": 1792847915
-        },
-        {
-          "apiname": "INKLEVEL_2",
-          "displayName": "Ding!",
-          "description": "Reach Ink Level 2.",
-          "unlocktime": 1792849551
-        },
-        {
-          "apiname": "TOMES_MENDED_1",
-          "displayName": "It was the Best of Times",
-          "description": "Mend your first Tome.",
-          "unlocktime": 1792865722
         }
       ],
       "challenge_achievement_count": 5,
