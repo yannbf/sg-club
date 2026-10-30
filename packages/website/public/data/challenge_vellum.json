@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1790812800,
   "totalAchievements": 36,
-  "generatedAt": 1793370688691,
+  "generatedAt": 1793376097386,
   "challengeOver": false,
   "winnerUsername": "CatzZz",
   "participants": [
@@ -2103,14 +2103,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 354,
-      "playtime_2weeks_minutes": 354,
+      "playtime_total_minutes": 384,
+      "playtime_2weeks_minutes": 384,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 354,
+      "playtime_challenge_minutes": 384,
       "achievements_total": 36,
-      "achievements_unlocked_total": 13,
+      "achievements_unlocked_total": 14,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 13,
+      "achievements_since_baseline": 14,
       "challenge_achievements": [
         {
           "apiname": "STATUS_DAMAGE_30000",
@@ -2189,9 +2189,15 @@
           "displayName": "Going the Distance",
           "description": "Defeat a Torn Boss at Appendix 1 during an Endless Run.",
           "unlocktime": 1793329532
+        },
+        {
+          "apiname": "BINDING_COMPLETED_BOSS2",
+          "displayName": "May Thy Knife",
+          "description": "Defeat a Boss with the Shredded Pages Binding active.",
+          "unlocktime": 1793375221
         }
       ],
-      "challenge_achievement_count": 13,
+      "challenge_achievement_count": 14,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
