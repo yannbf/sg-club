@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1790812800,
   "totalAchievements": 36,
-  "generatedAt": 1793430273018,
+  "generatedAt": 1793451442765,
   "challengeOver": false,
   "winnerUsername": "CatzZz",
   "participants": [
@@ -956,7 +956,7 @@
       "review_recommendationid": "237227565",
       "review_url": "https://steamcommunity.com/profiles/76561198054649894/recommended/917950",
       "playtime_total_minutes": 815,
-      "playtime_2weeks_minutes": 407,
+      "playtime_2weeks_minutes": 288,
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 815,
       "achievements_total": 36,
@@ -1548,7 +1548,7 @@
       "review_recommendationid": "238871370",
       "review_url": "https://steamcommunity.com/profiles/76561198025823574/recommended/917950",
       "playtime_total_minutes": 1076,
-      "playtime_2weeks_minutes": 650,
+      "playtime_2weeks_minutes": 529,
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 1076,
       "achievements_total": 36,
@@ -1690,7 +1690,7 @@
       "review_recommendationid": "238549884",
       "review_url": "https://steamcommunity.com/profiles/76561198224589020/recommended/917950",
       "playtime_total_minutes": 1471,
-      "playtime_2weeks_minutes": 1356,
+      "playtime_2weeks_minutes": 1243,
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 1471,
       "achievements_total": 36,
@@ -1968,7 +1968,7 @@
       "review_recommendationid": null,
       "review_url": null,
       "playtime_total_minutes": 554,
-      "playtime_2weeks_minutes": 244,
+      "playtime_2weeks_minutes": 155,
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 554,
       "achievements_total": 36,
@@ -2092,6 +2092,148 @@
         }
       ],
       "challenge_achievement_count": 19,
+      "has_started": true,
+      "is_complete": false,
+      "completed_at": null,
+      "completed_before_start": false,
+      "completed_after_deadline": false,
+      "meets_playtime": true,
+      "meets_review": false,
+      "is_winner": false
+    },
+    {
+      "username": "RaitorHaitor",
+      "sg_username": "RaitorHaitor",
+      "steam_id": "76561198411996697",
+      "avatar_url": "https://avatars.steamstatic.com/91843436b24806cd9620d7c4df0dab606ffd9286_medium.jpg",
+      "profile_url": "https://steamcommunity.com/profiles/76561198411996697",
+      "is_guest": false,
+      "owned": true,
+      "stats_available": true,
+      "wrote_review": false,
+      "review_voted_up": null,
+      "review_timestamp": null,
+      "review_recommendationid": null,
+      "review_url": null,
+      "playtime_total_minutes": 525,
+      "playtime_2weeks_minutes": 451,
+      "baseline_playtime_minutes": 0,
+      "playtime_challenge_minutes": 525,
+      "achievements_total": 36,
+      "achievements_unlocked_total": 18,
+      "achievements_before_challenge": 0,
+      "achievements_since_baseline": 18,
+      "challenge_achievements": [
+        {
+          "apiname": "TOMES_MENDED_1",
+          "displayName": "It was the Best of Times",
+          "description": "Mend your first Tome.",
+          "unlocktime": 1791035370
+        },
+        {
+          "apiname": "CORES_1",
+          "displayName": "Ink Exploration",
+          "description": "Unlock a new Signature Ink.",
+          "unlocktime": 1791035371
+        },
+        {
+          "apiname": "INKLEVEL_2",
+          "displayName": "Ding!",
+          "description": "Reach Ink Level 2.",
+          "unlocktime": 1791035584
+        },
+        {
+          "apiname": "TOMES_MENDED_LVL1",
+          "displayName": "Rising Action",
+          "description": "Mend a Tome at Binding Level 1.",
+          "unlocktime": 1792770812
+        },
+        {
+          "apiname": "TOMES_MENDED_LVL5",
+          "displayName": "High Stakes",
+          "description": "Mend a Tome at Binding Level 5.",
+          "unlocktime": 1792770812
+        },
+        {
+          "apiname": "BINDING_COMPLETED_BOSS2",
+          "displayName": "May Thy Knife",
+          "description": "Defeat a Boss with the Shredded Pages Binding active.",
+          "unlocktime": 1792770812
+        },
+        {
+          "apiname": "TOMES_MENDED_LVL10",
+          "displayName": "And In The Darkness...",
+          "description": "Mend a Tome at Binding Level 10.",
+          "unlocktime": 1792772432
+        },
+        {
+          "apiname": "ATLAS_BEAM_5000",
+          "displayName": "Envisioned",
+          "description": "Deal 5,000 Damage with a single Atlas signature projection.",
+          "unlocktime": 1792772476
+        },
+        {
+          "apiname": "SPELLS_1",
+          "displayName": "Expanded Vocabulary",
+          "description": "Unlock a new Spell.",
+          "unlocktime": 1793351844
+        },
+        {
+          "apiname": "TOMES_MENDED_5",
+          "displayName": "Setting the Foundation",
+          "description": "Mend 5 Tomes.",
+          "unlocktime": 1793363950
+        },
+        {
+          "apiname": "APPENDIX_1",
+          "displayName": "Going the Distance",
+          "description": "Defeat a Torn Boss at Appendix 1 during an Endless Run.",
+          "unlocktime": 1793364372
+        },
+        {
+          "apiname": "CORES_4",
+          "displayName": "Ink, Lots of Ink",
+          "description": "Unlock 4 Signature Inks.",
+          "unlocktime": 1793441141
+        },
+        {
+          "apiname": "TOMES_MENDED_LVL15",
+          "displayName": "Darkest Before Dawn",
+          "description": "Mend a Tome at Binding Level 15.",
+          "unlocktime": 1793442343
+        },
+        {
+          "apiname": "BINDING_COMPLETED_BOSS3",
+          "displayName": "Do Not Go Gentle",
+          "description": "Defeat a Boss with the Broken Spines Binding active.",
+          "unlocktime": 1793442343
+        },
+        {
+          "apiname": "TOMES_MENDED_10",
+          "displayName": "All the World's a Stage",
+          "description": "Mend 10 Tomes.",
+          "unlocktime": 1793445575
+        },
+        {
+          "apiname": "STATUS_DAMAGE_30000",
+          "displayName": "The Stacks",
+          "description": "Deal 30,000 Status Damage in a single run.",
+          "unlocktime": 1793449704
+        },
+        {
+          "apiname": "SPELLS_5",
+          "displayName": "Regular Shakespeare",
+          "description": "Unlock  5 Spells.",
+          "unlocktime": 1793450310
+        },
+        {
+          "apiname": "INKLEVEL_10",
+          "displayName": "Second Edition",
+          "description": "Reach Ink Level 10.",
+          "unlocktime": 1793450613
+        }
+      ],
+      "challenge_achievement_count": 18,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
@@ -2228,106 +2370,6 @@
         }
       ],
       "challenge_achievement_count": 17,
-      "has_started": true,
-      "is_complete": false,
-      "completed_at": null,
-      "completed_before_start": false,
-      "completed_after_deadline": false,
-      "meets_playtime": true,
-      "meets_review": false,
-      "is_winner": false
-    },
-    {
-      "username": "RaitorHaitor",
-      "sg_username": "RaitorHaitor",
-      "steam_id": "76561198411996697",
-      "avatar_url": "https://avatars.steamstatic.com/91843436b24806cd9620d7c4df0dab606ffd9286_medium.jpg",
-      "profile_url": "https://steamcommunity.com/profiles/76561198411996697",
-      "is_guest": false,
-      "owned": true,
-      "stats_available": true,
-      "wrote_review": false,
-      "review_voted_up": null,
-      "review_timestamp": null,
-      "review_recommendationid": null,
-      "review_url": null,
-      "playtime_total_minutes": 356,
-      "playtime_2weeks_minutes": 282,
-      "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 356,
-      "achievements_total": 36,
-      "achievements_unlocked_total": 11,
-      "achievements_before_challenge": 0,
-      "achievements_since_baseline": 11,
-      "challenge_achievements": [
-        {
-          "apiname": "TOMES_MENDED_1",
-          "displayName": "It was the Best of Times",
-          "description": "Mend your first Tome.",
-          "unlocktime": 1791035370
-        },
-        {
-          "apiname": "CORES_1",
-          "displayName": "Ink Exploration",
-          "description": "Unlock a new Signature Ink.",
-          "unlocktime": 1791035371
-        },
-        {
-          "apiname": "INKLEVEL_2",
-          "displayName": "Ding!",
-          "description": "Reach Ink Level 2.",
-          "unlocktime": 1791035584
-        },
-        {
-          "apiname": "TOMES_MENDED_LVL1",
-          "displayName": "Rising Action",
-          "description": "Mend a Tome at Binding Level 1.",
-          "unlocktime": 1792770812
-        },
-        {
-          "apiname": "TOMES_MENDED_LVL5",
-          "displayName": "High Stakes",
-          "description": "Mend a Tome at Binding Level 5.",
-          "unlocktime": 1792770812
-        },
-        {
-          "apiname": "BINDING_COMPLETED_BOSS2",
-          "displayName": "May Thy Knife",
-          "description": "Defeat a Boss with the Shredded Pages Binding active.",
-          "unlocktime": 1792770812
-        },
-        {
-          "apiname": "TOMES_MENDED_LVL10",
-          "displayName": "And In The Darkness...",
-          "description": "Mend a Tome at Binding Level 10.",
-          "unlocktime": 1792772432
-        },
-        {
-          "apiname": "ATLAS_BEAM_5000",
-          "displayName": "Envisioned",
-          "description": "Deal 5,000 Damage with a single Atlas signature projection.",
-          "unlocktime": 1792772476
-        },
-        {
-          "apiname": "SPELLS_1",
-          "displayName": "Expanded Vocabulary",
-          "description": "Unlock a new Spell.",
-          "unlocktime": 1793351844
-        },
-        {
-          "apiname": "TOMES_MENDED_5",
-          "displayName": "Setting the Foundation",
-          "description": "Mend 5 Tomes.",
-          "unlocktime": 1793363950
-        },
-        {
-          "apiname": "APPENDIX_1",
-          "displayName": "Going the Distance",
-          "description": "Defeat a Torn Boss at Appendix 1 during an Endless Run.",
-          "unlocktime": 1793364372
-        }
-      ],
-      "challenge_achievement_count": 11,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
