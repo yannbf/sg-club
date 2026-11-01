@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1790812800,
   "totalAchievements": 36,
-  "generatedAt": 1793496073958,
+  "generatedAt": 1793512828441,
   "challengeOver": true,
   "winnerUsername": "CatzZz",
   "participants": [
@@ -1288,7 +1288,7 @@
       "review_recommendationid": "237990675",
       "review_url": "https://steamcommunity.com/profiles/76561197989280149/recommended/917950",
       "playtime_total_minutes": 1224,
-      "playtime_2weeks_minutes": 312,
+      "playtime_2weeks_minutes": 176,
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 1224,
       "achievements_total": 36,
@@ -2399,14 +2399,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 416,
-      "playtime_2weeks_minutes": 416,
+      "playtime_total_minutes": 509,
+      "playtime_2weeks_minutes": 509,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 416,
+      "playtime_challenge_minutes": 509,
       "achievements_total": 36,
-      "achievements_unlocked_total": 12,
+      "achievements_unlocked_total": 13,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 12,
+      "achievements_since_baseline": 13,
       "challenge_achievements": [
         {
           "apiname": "SPELLS_1",
@@ -2479,9 +2479,15 @@
           "displayName": "May Thy Knife",
           "description": "Defeat a Boss with the Shredded Pages Binding active.",
           "unlocktime": 1793493729
+        },
+        {
+          "apiname": "TOMES_MENDED_10",
+          "displayName": "All the World's a Stage",
+          "description": "Mend 10 Tomes.",
+          "unlocktime": 1793496307
         }
       ],
-      "challenge_achievement_count": 12,
+      "challenge_achievement_count": 13,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
