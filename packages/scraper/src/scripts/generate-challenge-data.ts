@@ -284,6 +284,7 @@ const CHALLENGES: ChallengeConfig[] = [
     gameName: 'Vellum',
     startTimestamp: Date.UTC(2026, 9, 1) / 1000, // midnight 2026-10-01 UTC
     roster: 'fixed',
+    dormant: true, // finished — leaderboard frozen, no more data pulls
     win: {
       type: 'completion',
       // Challenge window: Oct 1 – Oct 31. The cutoff is Nov 1 00:00 UTC
@@ -297,6 +298,28 @@ const CHALLENGES: ChallengeConfig[] = [
         description: 'Defeat Myriad in The Grey Area.',
       },
       requireReview: true,
+    },
+  },
+  {
+    slug: 'gaming-challenge-7-coridden',
+    dataSlug: 'coridden',
+    appId: 1656930,
+    gameName: 'Coridden',
+    startTimestamp: Date.UTC(2026, 10, 1) / 1000, // midnight 2026-11-01 UTC
+    roster: 'fixed',
+    win: {
+      type: 'completion',
+      // Challenge window: Nov 1 – Nov 30. The cutoff is Dec 1 00:00 UTC
+      // (exclusive); the site displays the deadline as "30 Nov".
+      deadline: Date.UTC(2026, 11, 1) / 1000,
+      // Two prize tiers, both requiring a Steam review and no playtime floor:
+      // unlock "This Is It" for the €10 draw; 100% completion upgrades the
+      // prize to €20.
+      requireReview: true,
+      storyAchievement: {
+        apiname: 'SaveHeera',
+        displayName: 'This Is It',
+      },
     },
   },
 ]

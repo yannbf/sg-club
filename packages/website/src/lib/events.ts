@@ -429,6 +429,33 @@ export const CHALLENGE_EVENTS: EventMeta[] = [
     // cutoff (same convention as the scraper configs).
     startTimestamp: Date.UTC(2026, 9, 1) / 1000,
     endTimestamp: Date.UTC(2026, 10, 1) / 1000,
+    // No linger: once Challenge #7 kicked off, Vellum left "Happening now".
+  },
+  {
+    slug: 'gaming-challenge-7-coridden',
+    name: 'Gaming Challenge #7 — Coridden',
+    tagline: 'Defeat. Transform. Dominate.',
+    description:
+      'Ready to become the monster? 🐉 This November, things are about to get wild! In Coridden, you can transform into the monsters you defeat: explore a fantasy world, collect equipment, unlock abilities and become a real beast. Play solo or team up with up to 3 friends, including fellow TGC members!\n\n' +
+      "Already own Coridden? You're ready to go. Don't have it? We've got you covered: we have 18 Steam keys available. If requests exceed our supply, we'll hold a raffle to decide who gets a copy. Registration runs until October 31 and the challenge runs November 1–30.\n\n" +
+      'The mission: unlock the “This Is It” achievement (solo or with other TGC members), leave a Steam review, and enter the final prize draw.\n\n' +
+      'Everyone who completes the challenge enters the same draw: unlock “This Is It” for a €10 Steam Gift Card, or get 100% achievements to make it a €20 Steam Gift Card if you win. One draw, one winner. Complete everything to double your potential prize! Defeat monsters, transform into them, and unleash your inner beast. 👹',
+    websiteUrl: null,
+    kind: 'challenge',
+    monthly: false,
+    accent: 'var(--accent-purple)',
+    emoji: '🐉',
+    imageUrl:
+      'https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1656930/header.jpg',
+    bannerUrl: '/events/game_challenge_7.jpg',
+    challengeSlug: 'coridden',
+    appId: 1656930,
+    gameName: 'Coridden',
+    // Sign-up window: requests on Discord until Oct 31, the challenge starts
+    // Nov 1. Window is Nov 1 - Nov 30, exclusive Dec 1 cutoff (same
+    // convention as the scraper configs).
+    startTimestamp: Date.UTC(2026, 10, 1) / 1000,
+    endTimestamp: Date.UTC(2026, 11, 1) / 1000,
     // Keep it highlighted in "Happening now" for a week after the deadline.
     keepLiveForDays: 7,
   },
