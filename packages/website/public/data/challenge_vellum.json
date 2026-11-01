@@ -5,8 +5,8 @@
   "winType": "completion",
   "startTimestamp": 1790812800,
   "totalAchievements": 36,
-  "generatedAt": 1793483493090,
-  "challengeOver": false,
+  "generatedAt": 1793496073958,
+  "challengeOver": true,
   "winnerUsername": "CatzZz",
   "participants": [
     {
@@ -1288,7 +1288,7 @@
       "review_recommendationid": "237990675",
       "review_url": "https://steamcommunity.com/profiles/76561197989280149/recommended/917950",
       "playtime_total_minutes": 1224,
-      "playtime_2weeks_minutes": 329,
+      "playtime_2weeks_minutes": 312,
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 1224,
       "achievements_total": 36,
@@ -2386,6 +2386,112 @@
       "is_winner": false
     },
     {
+      "username": "Bainsol",
+      "sg_username": "Bainsol",
+      "steam_id": "76561198055181554",
+      "avatar_url": "https://avatars.steamstatic.com/c88079bd3c549a28409b228572bc049ffd7c2b68_medium.jpg",
+      "profile_url": "https://steamcommunity.com/profiles/76561198055181554",
+      "is_guest": false,
+      "owned": true,
+      "stats_available": true,
+      "wrote_review": false,
+      "review_voted_up": null,
+      "review_timestamp": null,
+      "review_recommendationid": null,
+      "review_url": null,
+      "playtime_total_minutes": 416,
+      "playtime_2weeks_minutes": 416,
+      "baseline_playtime_minutes": 0,
+      "playtime_challenge_minutes": 416,
+      "achievements_total": 36,
+      "achievements_unlocked_total": 12,
+      "achievements_before_challenge": 0,
+      "achievements_since_baseline": 12,
+      "challenge_achievements": [
+        {
+          "apiname": "SPELLS_1",
+          "displayName": "Expanded Vocabulary",
+          "description": "Unlock a new Spell.",
+          "unlocktime": 1793233103
+        },
+        {
+          "apiname": "CORES_1",
+          "displayName": "Ink Exploration",
+          "description": "Unlock a new Signature Ink.",
+          "unlocktime": 1793233103
+        },
+        {
+          "apiname": "TOMES_MENDED_1",
+          "displayName": "It was the Best of Times",
+          "description": "Mend your first Tome.",
+          "unlocktime": 1793234298
+        },
+        {
+          "apiname": "STATUS_DAMAGE_30000",
+          "displayName": "The Stacks",
+          "description": "Deal 30,000 Status Damage in a single run.",
+          "unlocktime": 1793234298
+        },
+        {
+          "apiname": "INKLEVEL_2",
+          "displayName": "Ding!",
+          "description": "Reach Ink Level 2.",
+          "unlocktime": 1793234528
+        },
+        {
+          "apiname": "APPENDIX_1",
+          "displayName": "Going the Distance",
+          "description": "Defeat a Torn Boss at Appendix 1 during an Endless Run.",
+          "unlocktime": 1793236580
+        },
+        {
+          "apiname": "TOMES_MENDED_LVL1",
+          "displayName": "Rising Action",
+          "description": "Mend a Tome at Binding Level 1.",
+          "unlocktime": 1793477720
+        },
+        {
+          "apiname": "TOMES_MENDED_5",
+          "displayName": "Setting the Foundation",
+          "description": "Mend 5 Tomes.",
+          "unlocktime": 1793483076
+        },
+        {
+          "apiname": "INKLING_DAMAGE_20000",
+          "displayName": "Supporting Character",
+          "description": "Deal 20,000 Inkling Damage in a single run.",
+          "unlocktime": 1793483076
+        },
+        {
+          "apiname": "INKLEVEL_10",
+          "displayName": "Second Edition",
+          "description": "Reach Ink Level 10.",
+          "unlocktime": 1793483736
+        },
+        {
+          "apiname": "TOMES_MENDED_LVL5",
+          "displayName": "High Stakes",
+          "description": "Mend a Tome at Binding Level 5.",
+          "unlocktime": 1793490345
+        },
+        {
+          "apiname": "BINDING_COMPLETED_BOSS2",
+          "displayName": "May Thy Knife",
+          "description": "Defeat a Boss with the Shredded Pages Binding active.",
+          "unlocktime": 1793493729
+        }
+      ],
+      "challenge_achievement_count": 12,
+      "has_started": true,
+      "is_complete": false,
+      "completed_at": null,
+      "completed_before_start": false,
+      "completed_after_deadline": false,
+      "meets_playtime": true,
+      "meets_review": false,
+      "is_winner": false
+    },
+    {
       "username": "CuteEnby",
       "sg_username": "CuteEnby",
       "steam_id": "76561198055569704",
@@ -2470,94 +2576,6 @@
         }
       ],
       "challenge_achievement_count": 10,
-      "has_started": true,
-      "is_complete": false,
-      "completed_at": null,
-      "completed_before_start": false,
-      "completed_after_deadline": false,
-      "meets_playtime": true,
-      "meets_review": false,
-      "is_winner": false
-    },
-    {
-      "username": "Bainsol",
-      "sg_username": "Bainsol",
-      "steam_id": "76561198055181554",
-      "avatar_url": "https://avatars.steamstatic.com/c88079bd3c549a28409b228572bc049ffd7c2b68_medium.jpg",
-      "profile_url": "https://steamcommunity.com/profiles/76561198055181554",
-      "is_guest": false,
-      "owned": true,
-      "stats_available": true,
-      "wrote_review": false,
-      "review_voted_up": null,
-      "review_timestamp": null,
-      "review_recommendationid": null,
-      "review_url": null,
-      "playtime_total_minutes": 210,
-      "playtime_2weeks_minutes": 210,
-      "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 210,
-      "achievements_total": 36,
-      "achievements_unlocked_total": 9,
-      "achievements_before_challenge": 0,
-      "achievements_since_baseline": 9,
-      "challenge_achievements": [
-        {
-          "apiname": "SPELLS_1",
-          "displayName": "Expanded Vocabulary",
-          "description": "Unlock a new Spell.",
-          "unlocktime": 1793233103
-        },
-        {
-          "apiname": "CORES_1",
-          "displayName": "Ink Exploration",
-          "description": "Unlock a new Signature Ink.",
-          "unlocktime": 1793233103
-        },
-        {
-          "apiname": "TOMES_MENDED_1",
-          "displayName": "It was the Best of Times",
-          "description": "Mend your first Tome.",
-          "unlocktime": 1793234298
-        },
-        {
-          "apiname": "STATUS_DAMAGE_30000",
-          "displayName": "The Stacks",
-          "description": "Deal 30,000 Status Damage in a single run.",
-          "unlocktime": 1793234298
-        },
-        {
-          "apiname": "INKLEVEL_2",
-          "displayName": "Ding!",
-          "description": "Reach Ink Level 2.",
-          "unlocktime": 1793234528
-        },
-        {
-          "apiname": "APPENDIX_1",
-          "displayName": "Going the Distance",
-          "description": "Defeat a Torn Boss at Appendix 1 during an Endless Run.",
-          "unlocktime": 1793236580
-        },
-        {
-          "apiname": "TOMES_MENDED_LVL1",
-          "displayName": "Rising Action",
-          "description": "Mend a Tome at Binding Level 1.",
-          "unlocktime": 1793477720
-        },
-        {
-          "apiname": "TOMES_MENDED_5",
-          "displayName": "Setting the Foundation",
-          "description": "Mend 5 Tomes.",
-          "unlocktime": 1793483076
-        },
-        {
-          "apiname": "INKLING_DAMAGE_20000",
-          "displayName": "Supporting Character",
-          "description": "Deal 20,000 Inkling Damage in a single run.",
-          "unlocktime": 1793483076
-        }
-      ],
-      "challenge_achievement_count": 9,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
@@ -2933,6 +2951,21 @@
       "review_recommendationid": null,
       "review_url": null
     }
+  ],
+  "frozenWinnerIds": [
+    "76561197962863579",
+    "76561197989280149",
+    "76561198049128535",
+    "76561197984532155",
+    "76561198076863473",
+    "76561198359284432",
+    "76561198411996697",
+    "76561198054649894",
+    "76561198077347875",
+    "76561198352113526",
+    "76561198224589020",
+    "76561198869194409",
+    "76561198025823574"
   ],
   "deadline": 1793491200,
   "minPlaytimeMinutes": 0,
