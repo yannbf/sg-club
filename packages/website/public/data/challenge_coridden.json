@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1793491200,
   "totalAchievements": 42,
-  "generatedAt": 1793640154621,
+  "generatedAt": 1793643637472,
   "challengeOver": false,
   "winnerUsername": null,
   "participants": [
@@ -61,14 +61,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 68,
-      "playtime_2weeks_minutes": 68,
+      "playtime_total_minutes": 98,
+      "playtime_2weeks_minutes": 98,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 68,
+      "playtime_challenge_minutes": 98,
       "achievements_total": 42,
-      "achievements_unlocked_total": 17,
+      "achievements_unlocked_total": 19,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 17,
+      "achievements_since_baseline": 19,
       "challenge_achievements": [
         {
           "apiname": "LevelUpClassTo5",
@@ -167,9 +167,20 @@
           "displayName": "Tinkerer",
           "description": "Forge an item",
           "unlocktime": 1793568771
+        },
+        {
+          "apiname": "UnlockDragolemMastery",
+          "displayName": "Master Dragolem",
+          "description": "Unlock Dragolem Beast Mastery",
+          "unlocktime": 1793642226
+        },
+        {
+          "apiname": "SeeAashaFromAatma",
+          "displayName": "Aasha Awaits",
+          "unlocktime": 1793642226
         }
       ],
-      "challenge_achievement_count": 17,
+      "challenge_achievement_count": 19,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
@@ -595,10 +606,10 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 150,
-      "playtime_2weeks_minutes": 150,
+      "playtime_total_minutes": 210,
+      "playtime_2weeks_minutes": 210,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 150,
+      "playtime_challenge_minutes": 210,
       "achievements_total": 42,
       "achievements_unlocked_total": 6,
       "achievements_before_challenge": 0,
