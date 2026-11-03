@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1793491200,
   "totalAchievements": 42,
-  "generatedAt": 1793719712750,
+  "generatedAt": 1793725797224,
   "challengeOver": false,
   "winnerUsername": null,
   "participants": [
@@ -252,14 +252,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 668,
-      "playtime_2weeks_minutes": 668,
+      "playtime_total_minutes": 788,
+      "playtime_2weeks_minutes": 788,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 668,
+      "playtime_challenge_minutes": 788,
       "achievements_total": 42,
-      "achievements_unlocked_total": 20,
+      "achievements_unlocked_total": 21,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 20,
+      "achievements_since_baseline": 21,
       "challenge_achievements": [
         {
           "apiname": "RideAMount",
@@ -375,9 +375,15 @@
           "displayName": "Master Dragolem",
           "description": "Unlock Dragolem Beast Mastery",
           "unlocktime": 1793714980
+        },
+        {
+          "apiname": "UnlockCrocoliskMastery",
+          "displayName": "Master Crocolisk",
+          "description": "Unlock Crocolisk Beast Mastery",
+          "unlocktime": 1793721783
         }
       ],
-      "challenge_achievement_count": 20,
+      "challenge_achievement_count": 21,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
@@ -676,14 +682,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 376,
-      "playtime_2weeks_minutes": 376,
+      "playtime_total_minutes": 496,
+      "playtime_2weeks_minutes": 496,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 376,
+      "playtime_challenge_minutes": 496,
       "achievements_total": 42,
-      "achievements_unlocked_total": 8,
+      "achievements_unlocked_total": 12,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 8,
+      "achievements_since_baseline": 12,
       "challenge_achievements": [
         {
           "apiname": "UnlockPantelizMastery",
@@ -729,9 +735,31 @@
           "apiname": "EnterTheBurrow",
           "displayName": "Reunion at The Burrow",
           "unlocktime": 1793716189
+        },
+        {
+          "apiname": "UnlockHoundraMastery",
+          "displayName": "Master Houndra",
+          "description": "Unlock Houndra Beast Mastery",
+          "unlocktime": 1793721690
+        },
+        {
+          "apiname": "ExploreObservatory",
+          "displayName": "Digging Up the Past",
+          "unlocktime": 1793721690
+        },
+        {
+          "apiname": "RideAMount",
+          "displayName": "Catch a Ride",
+          "description": "Ride a mount (friend or conjure)",
+          "unlocktime": 1793722224
+        },
+        {
+          "apiname": "SeeAashaFromAatma",
+          "displayName": "Aasha Awaits",
+          "unlocktime": 1793724260
         }
       ],
-      "challenge_achievement_count": 8,
+      "challenge_achievement_count": 12,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
