@@ -3539,6 +3539,19 @@
       "no_marker_reason": "no_marker_found",
       "story_tag_count": 0
     },
+    "1701800": {
+      "fetched_at": "2026-11-03T17:09:18.008Z",
+      "marker": {
+        "apiname": "ACH_BEAT_TOUKIE",
+        "name": "Back to Eventide",
+        "description": "Beat the game as Toukie",
+        "global_percent": 8.2,
+        "source": "heuristic",
+        "sh_achievement_id": 16
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0
+    },
     "1707400": {
       "fetched_at": "2026-10-05T16:19:07.073Z",
       "marker": null,
@@ -4965,6 +4978,12 @@
       },
       "no_marker_reason": null,
       "story_tag_count": 13
+    },
+    "2231190": {
+      "fetched_at": "2026-11-03T17:09:14.501Z",
+      "marker": null,
+      "no_marker_reason": "no_marker_found",
+      "story_tag_count": 0
     },
     "2231450": {
       "fetched_at": "2026-10-05T16:20:49.393Z",
@@ -13352,6 +13371,13 @@
     "76561198101327606::2810730": {
       "fetched_at": "2026-11-03T08:02:43.848Z",
       "marker_apiname": "lily",
+      "beaten": false,
+      "unlock_time": null,
+      "no_data_reason": null
+    },
+    "76561198411996697::1701800": {
+      "fetched_at": "2026-11-03T17:09:20.554Z",
+      "marker_apiname": "ACH_BEAT_TOUKIE",
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null
