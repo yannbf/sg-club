@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1793491200,
   "totalAchievements": 42,
-  "generatedAt": 1793692828999,
+  "generatedAt": 1793719712750,
   "challengeOver": false,
   "winnerUsername": null,
   "participants": [
@@ -28,14 +28,39 @@
       "baseline_playtime_minutes": 863,
       "playtime_challenge_minutes": 445,
       "achievements_total": 42,
-      "achievements_unlocked_total": 38,
+      "achievements_unlocked_total": 42,
       "achievements_before_challenge": 38,
-      "achievements_since_baseline": 0,
-      "challenge_achievements": [],
-      "challenge_achievement_count": 0,
+      "achievements_since_baseline": 4,
+      "challenge_achievements": [
+        {
+          "apiname": "LevelUpCustomClassTo5",
+          "displayName": "Architect",
+          "description": "Level up Custom Class up to lvl 5",
+          "unlocktime": 1793697567
+        },
+        {
+          "apiname": "CompleteGuardMissionCorrupted",
+          "displayName": "The Guardian We Need",
+          "description": "Complete a Guard Mission in Dusted Zone",
+          "unlocktime": 1793698331
+        },
+        {
+          "apiname": "ImpaleEnemy",
+          "displayName": "Meat Skewer",
+          "description": "Impale an enemy",
+          "unlocktime": 1793698810
+        },
+        {
+          "apiname": "UnlockAllAchievements",
+          "displayName": "Legendary",
+          "description": "Platinum, unlocked all other achievements",
+          "unlocktime": 1793698810
+        }
+      ],
+      "challenge_achievement_count": 4,
       "has_started": true,
-      "is_complete": false,
-      "completed_at": null,
+      "is_complete": true,
+      "completed_at": 1793698810,
       "completed_before_start": false,
       "completed_after_deadline": false,
       "story_unlocked": true,
@@ -214,6 +239,160 @@
       "is_winner": false
     },
     {
+      "username": "elysium1988",
+      "sg_username": "elysium1988",
+      "steam_id": "76561198056789339",
+      "avatar_url": "https://avatars.steamstatic.com/9f37aeb8a2786c3c91ece677fad39430d29cc96c_medium.jpg",
+      "profile_url": "https://steamcommunity.com/profiles/76561198056789339",
+      "is_guest": false,
+      "owned": true,
+      "stats_available": true,
+      "wrote_review": false,
+      "review_voted_up": null,
+      "review_timestamp": null,
+      "review_recommendationid": null,
+      "review_url": null,
+      "playtime_total_minutes": 668,
+      "playtime_2weeks_minutes": 668,
+      "baseline_playtime_minutes": 0,
+      "playtime_challenge_minutes": 668,
+      "achievements_total": 42,
+      "achievements_unlocked_total": 20,
+      "achievements_before_challenge": 0,
+      "achievements_since_baseline": 20,
+      "challenge_achievements": [
+        {
+          "apiname": "RideAMount",
+          "displayName": "Catch a Ride",
+          "description": "Ride a mount (friend or conjure)",
+          "unlocktime": 1793533355
+        },
+        {
+          "apiname": "GrabAndSlamEnemy",
+          "displayName": "WHAM",
+          "description": "Grab and slam an enemy",
+          "unlocktime": 1793533359
+        },
+        {
+          "apiname": "UnlockPantelizMastery",
+          "displayName": "Master Panteliz",
+          "description": "Unlock Panteliz Beast Mastery",
+          "unlocktime": 1793533391
+        },
+        {
+          "apiname": "CompleteIntroArena",
+          "displayName": "Are you not entertained?",
+          "unlocktime": 1793533400
+        },
+        {
+          "apiname": "UnlockHoundraMastery",
+          "displayName": "Master Houndra",
+          "description": "Unlock Houndra Beast Mastery",
+          "unlocktime": 1793554350
+        },
+        {
+          "apiname": "LevelUpClassTo5",
+          "displayName": "Destined For Greatness",
+          "description": "Level up one of the four (non custom) classes up to lvl 5",
+          "unlocktime": 1793556390
+        },
+        {
+          "apiname": "RescueIra",
+          "displayName": "Ira's Hero",
+          "unlocktime": 1793558965
+        },
+        {
+          "apiname": "UnlockRokerMastery",
+          "displayName": "Master Roker",
+          "description": "Unlock Roker Beast Mastery",
+          "unlocktime": 1793560987
+        },
+        {
+          "apiname": "CompleteGuardMission",
+          "displayName": "Mission Possible",
+          "description": "Complete a Guard Mission",
+          "unlocktime": 1793562450
+        },
+        {
+          "apiname": "UnlockScaptorMastery",
+          "displayName": "Master Scaptor",
+          "description": "Unlock Scaptor Beast Mastery",
+          "unlocktime": 1793600009
+        },
+        {
+          "apiname": "ReachHumanLevel10",
+          "displayName": "Novice",
+          "description": "Reach human level 10",
+          "unlocktime": 1793624851
+        },
+        {
+          "apiname": "EnterTheBurrow",
+          "displayName": "Reunion at The Burrow",
+          "unlocktime": 1793626005
+        },
+        {
+          "apiname": "UnlockRamoxMastery",
+          "displayName": "Master Ramox",
+          "description": "Unlock Ramox Beast Mastery",
+          "unlocktime": 1793629434
+        },
+        {
+          "apiname": "ExploreObservatory",
+          "displayName": "Digging Up the Past",
+          "unlocktime": 1793629434
+        },
+        {
+          "apiname": "RamEnemy",
+          "displayName": "Crushed Bones",
+          "description": "Ram an enemy",
+          "unlocktime": 1793629495
+        },
+        {
+          "apiname": "ForgeAnItem",
+          "displayName": "Tinkerer",
+          "description": "Forge an item",
+          "unlocktime": 1793701620
+        },
+        {
+          "apiname": "Find5Perasins",
+          "displayName": "Explorer",
+          "description": "Find 5 perasins",
+          "unlocktime": 1793705849
+        },
+        {
+          "apiname": "ReachBeastMasteryLevel10",
+          "displayName": "The Animal",
+          "description": "Reach level 10 in one beast mastery",
+          "unlocktime": 1793707894
+        },
+        {
+          "apiname": "SeeAashaFromAatma",
+          "displayName": "Aasha Awaits",
+          "unlocktime": 1793708236
+        },
+        {
+          "apiname": "UnlockDragolemMastery",
+          "displayName": "Master Dragolem",
+          "description": "Unlock Dragolem Beast Mastery",
+          "unlocktime": 1793714980
+        }
+      ],
+      "challenge_achievement_count": 20,
+      "has_started": true,
+      "is_complete": false,
+      "completed_at": null,
+      "completed_before_start": false,
+      "completed_after_deadline": false,
+      "story_unlocked": false,
+      "story_unlocktime": null,
+      "story_after_deadline": false,
+      "win_tier": null,
+      "qualified_at": null,
+      "meets_playtime": true,
+      "meets_review": false,
+      "is_winner": false
+    },
+    {
       "username": "DrTenma",
       "sg_username": "DrTenma",
       "steam_id": "76561198054649894",
@@ -363,131 +542,6 @@
       "is_winner": false
     },
     {
-      "username": "elysium1988",
-      "sg_username": "elysium1988",
-      "steam_id": "76561198056789339",
-      "avatar_url": "https://avatars.steamstatic.com/9f37aeb8a2786c3c91ece677fad39430d29cc96c_medium.jpg",
-      "profile_url": "https://steamcommunity.com/profiles/76561198056789339",
-      "is_guest": false,
-      "owned": true,
-      "stats_available": true,
-      "wrote_review": false,
-      "review_voted_up": null,
-      "review_timestamp": null,
-      "review_recommendationid": null,
-      "review_url": null,
-      "playtime_total_minutes": 412,
-      "playtime_2weeks_minutes": 412,
-      "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 412,
-      "achievements_total": 42,
-      "achievements_unlocked_total": 15,
-      "achievements_before_challenge": 0,
-      "achievements_since_baseline": 15,
-      "challenge_achievements": [
-        {
-          "apiname": "RideAMount",
-          "displayName": "Catch a Ride",
-          "description": "Ride a mount (friend or conjure)",
-          "unlocktime": 1793533355
-        },
-        {
-          "apiname": "GrabAndSlamEnemy",
-          "displayName": "WHAM",
-          "description": "Grab and slam an enemy",
-          "unlocktime": 1793533359
-        },
-        {
-          "apiname": "UnlockPantelizMastery",
-          "displayName": "Master Panteliz",
-          "description": "Unlock Panteliz Beast Mastery",
-          "unlocktime": 1793533391
-        },
-        {
-          "apiname": "CompleteIntroArena",
-          "displayName": "Are you not entertained?",
-          "unlocktime": 1793533400
-        },
-        {
-          "apiname": "UnlockHoundraMastery",
-          "displayName": "Master Houndra",
-          "description": "Unlock Houndra Beast Mastery",
-          "unlocktime": 1793554350
-        },
-        {
-          "apiname": "LevelUpClassTo5",
-          "displayName": "Destined For Greatness",
-          "description": "Level up one of the four (non custom) classes up to lvl 5",
-          "unlocktime": 1793556390
-        },
-        {
-          "apiname": "RescueIra",
-          "displayName": "Ira's Hero",
-          "unlocktime": 1793558965
-        },
-        {
-          "apiname": "UnlockRokerMastery",
-          "displayName": "Master Roker",
-          "description": "Unlock Roker Beast Mastery",
-          "unlocktime": 1793560987
-        },
-        {
-          "apiname": "CompleteGuardMission",
-          "displayName": "Mission Possible",
-          "description": "Complete a Guard Mission",
-          "unlocktime": 1793562450
-        },
-        {
-          "apiname": "UnlockScaptorMastery",
-          "displayName": "Master Scaptor",
-          "description": "Unlock Scaptor Beast Mastery",
-          "unlocktime": 1793600009
-        },
-        {
-          "apiname": "ReachHumanLevel10",
-          "displayName": "Novice",
-          "description": "Reach human level 10",
-          "unlocktime": 1793624851
-        },
-        {
-          "apiname": "EnterTheBurrow",
-          "displayName": "Reunion at The Burrow",
-          "unlocktime": 1793626005
-        },
-        {
-          "apiname": "UnlockRamoxMastery",
-          "displayName": "Master Ramox",
-          "description": "Unlock Ramox Beast Mastery",
-          "unlocktime": 1793629434
-        },
-        {
-          "apiname": "ExploreObservatory",
-          "displayName": "Digging Up the Past",
-          "unlocktime": 1793629434
-        },
-        {
-          "apiname": "RamEnemy",
-          "displayName": "Crushed Bones",
-          "description": "Ram an enemy",
-          "unlocktime": 1793629495
-        }
-      ],
-      "challenge_achievement_count": 15,
-      "has_started": true,
-      "is_complete": false,
-      "completed_at": null,
-      "completed_before_start": false,
-      "completed_after_deadline": false,
-      "story_unlocked": false,
-      "story_unlocktime": null,
-      "story_after_deadline": false,
-      "win_tier": null,
-      "qualified_at": null,
-      "meets_playtime": true,
-      "meets_review": false,
-      "is_winner": false
-    },
-    {
       "username": "drbeckett",
       "sg_username": "drbeckett",
       "steam_id": "76561198013676011",
@@ -594,6 +648,90 @@
         }
       ],
       "challenge_achievement_count": 14,
+      "has_started": true,
+      "is_complete": false,
+      "completed_at": null,
+      "completed_before_start": false,
+      "completed_after_deadline": false,
+      "story_unlocked": false,
+      "story_unlocktime": null,
+      "story_after_deadline": false,
+      "win_tier": null,
+      "qualified_at": null,
+      "meets_playtime": true,
+      "meets_review": false,
+      "is_winner": false
+    },
+    {
+      "username": "yugimax",
+      "sg_username": "yugimax",
+      "steam_id": "76561198352113526",
+      "avatar_url": "https://avatars.steamstatic.com/501c9213b047cc0e05350b954a78fdfd5dce36c9_medium.jpg",
+      "profile_url": "https://steamcommunity.com/profiles/76561198352113526",
+      "is_guest": false,
+      "owned": true,
+      "stats_available": true,
+      "wrote_review": false,
+      "review_voted_up": null,
+      "review_timestamp": null,
+      "review_recommendationid": null,
+      "review_url": null,
+      "playtime_total_minutes": 376,
+      "playtime_2weeks_minutes": 376,
+      "baseline_playtime_minutes": 0,
+      "playtime_challenge_minutes": 376,
+      "achievements_total": 42,
+      "achievements_unlocked_total": 8,
+      "achievements_before_challenge": 0,
+      "achievements_since_baseline": 8,
+      "challenge_achievements": [
+        {
+          "apiname": "UnlockPantelizMastery",
+          "displayName": "Master Panteliz",
+          "description": "Unlock Panteliz Beast Mastery",
+          "unlocktime": 1793567788
+        },
+        {
+          "apiname": "CompleteIntroArena",
+          "displayName": "Are you not entertained?",
+          "unlocktime": 1793567789
+        },
+        {
+          "apiname": "LevelUpCustomClassTo5",
+          "displayName": "Architect",
+          "description": "Level up Custom Class up to lvl 5",
+          "unlocktime": 1793652302
+        },
+        {
+          "apiname": "RescueIra",
+          "displayName": "Ira's Hero",
+          "unlocktime": 1793652361
+        },
+        {
+          "apiname": "UnlockScaptorMastery",
+          "displayName": "Master Scaptor",
+          "description": "Unlock Scaptor Beast Mastery",
+          "unlocktime": 1793658245
+        },
+        {
+          "apiname": "ReachHumanLevel10",
+          "displayName": "Novice",
+          "description": "Reach human level 10",
+          "unlocktime": 1793680383
+        },
+        {
+          "apiname": "ReachHumanLevel20",
+          "displayName": "Adept",
+          "description": "Reach human level 20",
+          "unlocktime": 1793712750
+        },
+        {
+          "apiname": "EnterTheBurrow",
+          "displayName": "Reunion at The Burrow",
+          "unlocktime": 1793716189
+        }
+      ],
+      "challenge_achievement_count": 8,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
@@ -764,79 +902,6 @@
         }
       ],
       "challenge_achievement_count": 8,
-      "has_started": true,
-      "is_complete": false,
-      "completed_at": null,
-      "completed_before_start": false,
-      "completed_after_deadline": false,
-      "story_unlocked": false,
-      "story_unlocktime": null,
-      "story_after_deadline": false,
-      "win_tier": null,
-      "qualified_at": null,
-      "meets_playtime": true,
-      "meets_review": false,
-      "is_winner": false
-    },
-    {
-      "username": "yugimax",
-      "sg_username": "yugimax",
-      "steam_id": "76561198352113526",
-      "avatar_url": "https://avatars.steamstatic.com/501c9213b047cc0e05350b954a78fdfd5dce36c9_medium.jpg",
-      "profile_url": "https://steamcommunity.com/profiles/76561198352113526",
-      "is_guest": false,
-      "owned": true,
-      "stats_available": true,
-      "wrote_review": false,
-      "review_voted_up": null,
-      "review_timestamp": null,
-      "review_recommendationid": null,
-      "review_url": null,
-      "playtime_total_minutes": 266,
-      "playtime_2weeks_minutes": 266,
-      "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 266,
-      "achievements_total": 42,
-      "achievements_unlocked_total": 6,
-      "achievements_before_challenge": 0,
-      "achievements_since_baseline": 6,
-      "challenge_achievements": [
-        {
-          "apiname": "UnlockPantelizMastery",
-          "displayName": "Master Panteliz",
-          "description": "Unlock Panteliz Beast Mastery",
-          "unlocktime": 1793567788
-        },
-        {
-          "apiname": "CompleteIntroArena",
-          "displayName": "Are you not entertained?",
-          "unlocktime": 1793567789
-        },
-        {
-          "apiname": "LevelUpCustomClassTo5",
-          "displayName": "Architect",
-          "description": "Level up Custom Class up to lvl 5",
-          "unlocktime": 1793652302
-        },
-        {
-          "apiname": "RescueIra",
-          "displayName": "Ira's Hero",
-          "unlocktime": 1793652361
-        },
-        {
-          "apiname": "UnlockScaptorMastery",
-          "displayName": "Master Scaptor",
-          "description": "Unlock Scaptor Beast Mastery",
-          "unlocktime": 1793658245
-        },
-        {
-          "apiname": "ReachHumanLevel10",
-          "displayName": "Novice",
-          "description": "Reach human level 10",
-          "unlocktime": 1793680383
-        }
-      ],
-      "challenge_achievement_count": 6,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
