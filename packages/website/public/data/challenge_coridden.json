@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1793491200,
   "totalAchievements": 42,
-  "generatedAt": 1793725797224,
+  "generatedAt": 1793740493585,
   "challengeOver": false,
   "winnerUsername": null,
   "participants": [
@@ -65,6 +65,190 @@
       "completed_after_deadline": false,
       "story_unlocked": true,
       "story_unlocktime": 1739386507,
+      "story_after_deadline": false,
+      "win_tier": null,
+      "qualified_at": null,
+      "meets_playtime": true,
+      "meets_review": false,
+      "is_winner": false
+    },
+    {
+      "username": "DrTenma",
+      "sg_username": "DrTenma",
+      "steam_id": "76561198054649894",
+      "avatar_url": "https://avatars.steamstatic.com/9f1c1e3ba04b90bda4c8f462ce90fe9436cfaa72_medium.jpg",
+      "profile_url": "https://steamcommunity.com/profiles/76561198054649894",
+      "is_guest": false,
+      "owned": true,
+      "stats_available": true,
+      "wrote_review": false,
+      "review_voted_up": null,
+      "review_timestamp": null,
+      "review_recommendationid": null,
+      "review_url": null,
+      "playtime_total_minutes": 381,
+      "playtime_2weeks_minutes": 381,
+      "baseline_playtime_minutes": 0,
+      "playtime_challenge_minutes": 381,
+      "achievements_total": 42,
+      "achievements_unlocked_total": 25,
+      "achievements_before_challenge": 0,
+      "achievements_since_baseline": 25,
+      "challenge_achievements": [
+        {
+          "apiname": "UnlockPantelizMastery",
+          "displayName": "Master Panteliz",
+          "description": "Unlock Panteliz Beast Mastery",
+          "unlocktime": 1793546540
+        },
+        {
+          "apiname": "CompleteIntroArena",
+          "displayName": "Are you not entertained?",
+          "unlocktime": 1793546550
+        },
+        {
+          "apiname": "UnlockHoundraMastery",
+          "displayName": "Master Houndra",
+          "description": "Unlock Houndra Beast Mastery",
+          "unlocktime": 1793547366
+        },
+        {
+          "apiname": "CompleteGuardMission",
+          "displayName": "Mission Possible",
+          "description": "Complete a Guard Mission",
+          "unlocktime": 1793547798
+        },
+        {
+          "apiname": "LevelUpClassTo5",
+          "displayName": "Destined For Greatness",
+          "description": "Level up one of the four (non custom) classes up to lvl 5",
+          "unlocktime": 1793548334
+        },
+        {
+          "apiname": "RideAMount",
+          "displayName": "Catch a Ride",
+          "description": "Ride a mount (friend or conjure)",
+          "unlocktime": 1793549215
+        },
+        {
+          "apiname": "RescueIra",
+          "displayName": "Ira's Hero",
+          "unlocktime": 1793550081
+        },
+        {
+          "apiname": "UnlockRokerMastery",
+          "displayName": "Master Roker",
+          "description": "Unlock Roker Beast Mastery",
+          "unlocktime": 1793552135
+        },
+        {
+          "apiname": "Find5Perasins",
+          "displayName": "Explorer",
+          "description": "Find 5 perasins",
+          "unlocktime": 1793554041
+        },
+        {
+          "apiname": "ReachHumanLevel10",
+          "displayName": "Novice",
+          "description": "Reach human level 10",
+          "unlocktime": 1793555376
+        },
+        {
+          "apiname": "EnterTheBurrow",
+          "displayName": "Reunion at The Burrow",
+          "unlocktime": 1793556238
+        },
+        {
+          "apiname": "ForgeAnItem",
+          "displayName": "Tinkerer",
+          "description": "Forge an item",
+          "unlocktime": 1793652658
+        },
+        {
+          "apiname": "UnlockScaptorMastery",
+          "displayName": "Master Scaptor",
+          "description": "Unlock Scaptor Beast Mastery",
+          "unlocktime": 1793652924
+        },
+        {
+          "apiname": "ReachBeastMasteryLevel10",
+          "displayName": "The Animal",
+          "description": "Reach level 10 in one beast mastery",
+          "unlocktime": 1793653245
+        },
+        {
+          "apiname": "UnlockRamoxMastery",
+          "displayName": "Master Ramox",
+          "description": "Unlock Ramox Beast Mastery",
+          "unlocktime": 1793653638
+        },
+        {
+          "apiname": "ExploreObservatory",
+          "displayName": "Digging Up the Past",
+          "unlocktime": 1793654520
+        },
+        {
+          "apiname": "RamEnemy",
+          "displayName": "Crushed Bones",
+          "description": "Ram an enemy",
+          "unlocktime": 1793655238
+        },
+        {
+          "apiname": "GrabAndSlamEnemy",
+          "displayName": "WHAM",
+          "description": "Grab and slam an enemy",
+          "unlocktime": 1793655269
+        },
+        {
+          "apiname": "Find10Perasins",
+          "displayName": "Treasure Hunter",
+          "description": "Find 10 perasins",
+          "unlocktime": 1793655541
+        },
+        {
+          "apiname": "SeeAashaFromAatma",
+          "displayName": "Aasha Awaits",
+          "unlocktime": 1793733696
+        },
+        {
+          "apiname": "UnlockDragolemMastery",
+          "displayName": "Master Dragolem",
+          "description": "Unlock Dragolem Beast Mastery",
+          "unlocktime": 1793734549
+        },
+        {
+          "apiname": "UnlockCrocoliskMastery",
+          "displayName": "Master Crocolisk",
+          "description": "Unlock Crocolisk Beast Mastery",
+          "unlocktime": 1793736596
+        },
+        {
+          "apiname": "ResetSkillsTreeOnce",
+          "displayName": "Fresh Start",
+          "description": "Reset Skills Tree 1 time",
+          "unlocktime": 1793737988
+        },
+        {
+          "apiname": "LevelUpCustomClassTo5",
+          "displayName": "Architect",
+          "description": "Level up Custom Class up to lvl 5",
+          "unlocktime": 1793738859
+        },
+        {
+          "apiname": "ReachHumanLevel20",
+          "displayName": "Adept",
+          "description": "Reach human level 20",
+          "unlocktime": 1793738859
+        }
+      ],
+      "challenge_achievement_count": 25,
+      "has_started": true,
+      "is_complete": false,
+      "completed_at": null,
+      "completed_before_start": false,
+      "completed_after_deadline": false,
+      "story_unlocked": false,
+      "story_unlocktime": null,
       "story_after_deadline": false,
       "win_tier": null,
       "qualified_at": null,
@@ -252,10 +436,10 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 788,
-      "playtime_2weeks_minutes": 788,
+      "playtime_total_minutes": 825,
+      "playtime_2weeks_minutes": 825,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 788,
+      "playtime_challenge_minutes": 825,
       "achievements_total": 42,
       "achievements_unlocked_total": 21,
       "achievements_before_challenge": 0,
@@ -399,11 +583,11 @@
       "is_winner": false
     },
     {
-      "username": "DrTenma",
-      "sg_username": "DrTenma",
-      "steam_id": "76561198054649894",
-      "avatar_url": "https://avatars.steamstatic.com/9f1c1e3ba04b90bda4c8f462ce90fe9436cfaa72_medium.jpg",
-      "profile_url": "https://steamcommunity.com/profiles/76561198054649894",
+      "username": "yugimax",
+      "sg_username": "yugimax",
+      "steam_id": "76561198352113526",
+      "avatar_url": "https://avatars.steamstatic.com/501c9213b047cc0e05350b954a78fdfd5dce36c9_medium.jpg",
+      "profile_url": "https://steamcommunity.com/profiles/76561198352113526",
       "is_guest": false,
       "owned": true,
       "stats_available": true,
@@ -412,127 +596,108 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 264,
-      "playtime_2weeks_minutes": 264,
+      "playtime_total_minutes": 718,
+      "playtime_2weeks_minutes": 718,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 264,
+      "playtime_challenge_minutes": 718,
       "achievements_total": 42,
-      "achievements_unlocked_total": 19,
+      "achievements_unlocked_total": 16,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 19,
+      "achievements_since_baseline": 16,
       "challenge_achievements": [
         {
           "apiname": "UnlockPantelizMastery",
           "displayName": "Master Panteliz",
           "description": "Unlock Panteliz Beast Mastery",
-          "unlocktime": 1793546540
+          "unlocktime": 1793567788
         },
         {
           "apiname": "CompleteIntroArena",
           "displayName": "Are you not entertained?",
-          "unlocktime": 1793546550
+          "unlocktime": 1793567789
         },
         {
-          "apiname": "UnlockHoundraMastery",
-          "displayName": "Master Houndra",
-          "description": "Unlock Houndra Beast Mastery",
-          "unlocktime": 1793547366
-        },
-        {
-          "apiname": "CompleteGuardMission",
-          "displayName": "Mission Possible",
-          "description": "Complete a Guard Mission",
-          "unlocktime": 1793547798
-        },
-        {
-          "apiname": "LevelUpClassTo5",
-          "displayName": "Destined For Greatness",
-          "description": "Level up one of the four (non custom) classes up to lvl 5",
-          "unlocktime": 1793548334
-        },
-        {
-          "apiname": "RideAMount",
-          "displayName": "Catch a Ride",
-          "description": "Ride a mount (friend or conjure)",
-          "unlocktime": 1793549215
+          "apiname": "LevelUpCustomClassTo5",
+          "displayName": "Architect",
+          "description": "Level up Custom Class up to lvl 5",
+          "unlocktime": 1793652302
         },
         {
           "apiname": "RescueIra",
           "displayName": "Ira's Hero",
-          "unlocktime": 1793550081
-        },
-        {
-          "apiname": "UnlockRokerMastery",
-          "displayName": "Master Roker",
-          "description": "Unlock Roker Beast Mastery",
-          "unlocktime": 1793552135
-        },
-        {
-          "apiname": "Find5Perasins",
-          "displayName": "Explorer",
-          "description": "Find 5 perasins",
-          "unlocktime": 1793554041
-        },
-        {
-          "apiname": "ReachHumanLevel10",
-          "displayName": "Novice",
-          "description": "Reach human level 10",
-          "unlocktime": 1793555376
-        },
-        {
-          "apiname": "EnterTheBurrow",
-          "displayName": "Reunion at The Burrow",
-          "unlocktime": 1793556238
-        },
-        {
-          "apiname": "ForgeAnItem",
-          "displayName": "Tinkerer",
-          "description": "Forge an item",
-          "unlocktime": 1793652658
+          "unlocktime": 1793652361
         },
         {
           "apiname": "UnlockScaptorMastery",
           "displayName": "Master Scaptor",
           "description": "Unlock Scaptor Beast Mastery",
-          "unlocktime": 1793652924
+          "unlocktime": 1793658245
+        },
+        {
+          "apiname": "ReachHumanLevel10",
+          "displayName": "Novice",
+          "description": "Reach human level 10",
+          "unlocktime": 1793680383
+        },
+        {
+          "apiname": "ReachHumanLevel20",
+          "displayName": "Adept",
+          "description": "Reach human level 20",
+          "unlocktime": 1793712750
+        },
+        {
+          "apiname": "EnterTheBurrow",
+          "displayName": "Reunion at The Burrow",
+          "unlocktime": 1793716189
+        },
+        {
+          "apiname": "UnlockHoundraMastery",
+          "displayName": "Master Houndra",
+          "description": "Unlock Houndra Beast Mastery",
+          "unlocktime": 1793721690
+        },
+        {
+          "apiname": "ExploreObservatory",
+          "displayName": "Digging Up the Past",
+          "unlocktime": 1793721690
+        },
+        {
+          "apiname": "RideAMount",
+          "displayName": "Catch a Ride",
+          "description": "Ride a mount (friend or conjure)",
+          "unlocktime": 1793722224
+        },
+        {
+          "apiname": "SeeAashaFromAatma",
+          "displayName": "Aasha Awaits",
+          "unlocktime": 1793724260
         },
         {
           "apiname": "ReachBeastMasteryLevel10",
           "displayName": "The Animal",
           "description": "Reach level 10 in one beast mastery",
-          "unlocktime": 1793653245
+          "unlocktime": 1793733169
         },
         {
-          "apiname": "UnlockRamoxMastery",
-          "displayName": "Master Ramox",
-          "description": "Unlock Ramox Beast Mastery",
-          "unlocktime": 1793653638
+          "apiname": "UnlockCrocoliskMastery",
+          "displayName": "Master Crocolisk",
+          "description": "Unlock Crocolisk Beast Mastery",
+          "unlocktime": 1793733169
         },
         {
-          "apiname": "ExploreObservatory",
-          "displayName": "Digging Up the Past",
-          "unlocktime": 1793654520
+          "apiname": "UnlockDragolemMastery",
+          "displayName": "Master Dragolem",
+          "description": "Unlock Dragolem Beast Mastery",
+          "unlocktime": 1793734476
         },
         {
-          "apiname": "RamEnemy",
-          "displayName": "Crushed Bones",
-          "description": "Ram an enemy",
-          "unlocktime": 1793655238
-        },
-        {
-          "apiname": "GrabAndSlamEnemy",
-          "displayName": "WHAM",
-          "description": "Grab and slam an enemy",
-          "unlocktime": 1793655269
-        },
-        {
-          "apiname": "Find10Perasins",
-          "displayName": "Treasure Hunter",
-          "description": "Find 10 perasins",
-          "unlocktime": 1793655541
+          "apiname": "Find5Perasins",
+          "displayName": "Explorer",
+          "description": "Find 5 perasins",
+          "unlocktime": 1793736182
         }
       ],
-      "challenge_achievement_count": 19,
+      "challenge_achievement_count": 16,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
@@ -654,112 +819,6 @@
         }
       ],
       "challenge_achievement_count": 14,
-      "has_started": true,
-      "is_complete": false,
-      "completed_at": null,
-      "completed_before_start": false,
-      "completed_after_deadline": false,
-      "story_unlocked": false,
-      "story_unlocktime": null,
-      "story_after_deadline": false,
-      "win_tier": null,
-      "qualified_at": null,
-      "meets_playtime": true,
-      "meets_review": false,
-      "is_winner": false
-    },
-    {
-      "username": "yugimax",
-      "sg_username": "yugimax",
-      "steam_id": "76561198352113526",
-      "avatar_url": "https://avatars.steamstatic.com/501c9213b047cc0e05350b954a78fdfd5dce36c9_medium.jpg",
-      "profile_url": "https://steamcommunity.com/profiles/76561198352113526",
-      "is_guest": false,
-      "owned": true,
-      "stats_available": true,
-      "wrote_review": false,
-      "review_voted_up": null,
-      "review_timestamp": null,
-      "review_recommendationid": null,
-      "review_url": null,
-      "playtime_total_minutes": 496,
-      "playtime_2weeks_minutes": 496,
-      "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 496,
-      "achievements_total": 42,
-      "achievements_unlocked_total": 12,
-      "achievements_before_challenge": 0,
-      "achievements_since_baseline": 12,
-      "challenge_achievements": [
-        {
-          "apiname": "UnlockPantelizMastery",
-          "displayName": "Master Panteliz",
-          "description": "Unlock Panteliz Beast Mastery",
-          "unlocktime": 1793567788
-        },
-        {
-          "apiname": "CompleteIntroArena",
-          "displayName": "Are you not entertained?",
-          "unlocktime": 1793567789
-        },
-        {
-          "apiname": "LevelUpCustomClassTo5",
-          "displayName": "Architect",
-          "description": "Level up Custom Class up to lvl 5",
-          "unlocktime": 1793652302
-        },
-        {
-          "apiname": "RescueIra",
-          "displayName": "Ira's Hero",
-          "unlocktime": 1793652361
-        },
-        {
-          "apiname": "UnlockScaptorMastery",
-          "displayName": "Master Scaptor",
-          "description": "Unlock Scaptor Beast Mastery",
-          "unlocktime": 1793658245
-        },
-        {
-          "apiname": "ReachHumanLevel10",
-          "displayName": "Novice",
-          "description": "Reach human level 10",
-          "unlocktime": 1793680383
-        },
-        {
-          "apiname": "ReachHumanLevel20",
-          "displayName": "Adept",
-          "description": "Reach human level 20",
-          "unlocktime": 1793712750
-        },
-        {
-          "apiname": "EnterTheBurrow",
-          "displayName": "Reunion at The Burrow",
-          "unlocktime": 1793716189
-        },
-        {
-          "apiname": "UnlockHoundraMastery",
-          "displayName": "Master Houndra",
-          "description": "Unlock Houndra Beast Mastery",
-          "unlocktime": 1793721690
-        },
-        {
-          "apiname": "ExploreObservatory",
-          "displayName": "Digging Up the Past",
-          "unlocktime": 1793721690
-        },
-        {
-          "apiname": "RideAMount",
-          "displayName": "Catch a Ride",
-          "description": "Ride a mount (friend or conjure)",
-          "unlocktime": 1793722224
-        },
-        {
-          "apiname": "SeeAashaFromAatma",
-          "displayName": "Aasha Awaits",
-          "unlocktime": 1793724260
-        }
-      ],
-      "challenge_achievement_count": 12,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
