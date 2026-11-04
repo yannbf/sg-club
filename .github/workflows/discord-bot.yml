@@ -9,6 +9,7 @@ name: Discord Bot Cron Jobs
 on:
   schedule:
     - cron: '0 13 * * 5'  # weekly mod digest, Friday 13:00 UTC
+    - cron: '0 13 * * 3'  # verification queue summary, Wednesday 13:00 UTC
     # Hourly, staggered after deploy.yml's :25 challenge-data refresh so
     # congrats/milestones see fresh completion data.
     - cron: '45 * * * *'  # congrats: announce new challenge completions
@@ -29,6 +30,7 @@ on:
           - warn-digest
           - register-commands
           - kick-sync-alert
+          - verification-queue
 
 permissions:
   contents: write
@@ -306,3 +308,33 @@ jobs:
               sleep 5
             done
           fi
+
+  verification-queue:
+    if: |
+      github.event.schedule == '0 13 * * 3' ||
+      (github.event_name == 'workflow_dispatch' && github.event.inputs.job == 'verification-queue')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
+      WARN_CHANNEL_ID: '1388638737411473498' # #mod-reports
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: 8
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Post verification queue summary
+        run: pnpm --filter scraper run discord:verification-queue
+      # No state file to commit — the counts are derived from public/data.

@@ -5,9 +5,9 @@ import type {
   NoDataReason,
   NoMarkerReason,
 } from '@/types/beaten'
-import { beatenWinKey } from '@/types/beaten'
+import { beatenWinKey } from '../types/beaten'
 import type { IpbDiscordData, IpbDiscordWinEntry } from '@/types/ipb-discord'
-import { ipbDiscordWinKey } from '@/types/ipb-discord'
+import { ipbDiscordWinKey } from '../types/ipb-discord'
 import { isCountedGiveaway } from './events'
 import { isConfirmedPlayed } from './play-status'
 import { buildGameDataIndex, findGameData, type GameDataIndex } from './chart-data'

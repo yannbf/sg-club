@@ -13,7 +13,8 @@
     "resolveJsonModule": true,
     "moduleResolution": "bundler",
     "verbatimModuleSyntax": true,
-    "noEmit": true
+    "noEmit": true,
+    "paths": { "@/*": ["../website/src/*"] }
   },
   "include": ["**/*.ts"],
   "exclude": ["node_modules", "dist", "chrome-profile"]

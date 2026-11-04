@@ -271,7 +271,7 @@ function BeatenBadge({ row }: { row: PlayRequiredRow }) {
     case 'beaten_verified': {
       const badge = (
         <AchievementsLink row={row}>
-          <Badge variant="success" size="sm">
+          <Badge variant="success" size="sm" className="whitespace-normal">
             <CheckCircle2 className="h-3 w-3" />
             Beaten — {beaten.marker?.name}
             {beaten.marker?.global_percent != null && (
@@ -1183,8 +1183,13 @@ const IpbRowView = memo(function IpbRowView({
   )
 })
 
+// Column widths must not depend on the mounted rows, or a width change re-wraps
+// cells, changes row heights and makes Virtuoso mount a different range, which
+// can repeat indefinitely. So the table uses fixed layout, with widths from each
+// header's w-[…] class, and its wrapper hides overflow-y so a vertical scrollbar
+// can't narrow the table.
 const virtuosoTableComponents: TableComponents<PlayRequiredRow> = {
-  Table: (props) => <table {...props} className="w-full text-left" />,
+  Table: (props) => <table {...props} className="w-full min-w-[1100px] table-fixed text-left" />,
   TableRow: ({ item: _item, ...props }) => (
     <tr {...props} className="border-b border-card-border last:border-0" />
   ),
@@ -1279,8 +1284,8 @@ export default function PlayRequiredClient({
   const [tab, setTab] = useState<Tab>('ipb')
   const [search, setSearch] = useState('')
   const debouncedSearch = useDebounce(search, 200)
-  const [prCard, setPrCard] = useState<PrCardId>('all')
-  const [ipbCard, setIpbCard] = useState<IpbCardId>('all')
+  const [prCard, setPrCard] = useState<PrCardId>('pending_verification')
+  const [ipbCard, setIpbCard] = useState<IpbCardId>('pending_verification')
   const [showVerified, setShowVerified] = useState(false)
   const [showExMembers, setShowExMembers] = useState(false)
   const [prSort, setPrSort] = useState<{ key: SortKey; dir: SortDir }>({
@@ -1466,6 +1471,9 @@ export default function PlayRequiredClient({
   // sync it from window.location once mounted and keep it in sync from then on.
   useEffect(() => {
     setTab(readTabFromLocation())
+    if (new URLSearchParams(window.location.search).get('card') === 'not-in-sheet') {
+      setPrCard('not_in_sheet')
+    }
   }, [])
 
   const handleTabChange = (next: Tab) => {
@@ -1579,12 +1587,12 @@ export default function PlayRequiredClient({
       {tab === 'play_required' ? (
         <div className="grid grid-cols-2 gap-4 lg:grid-cols-5">
           <StatCard
-            icon={Gamepad2}
-            label="Play Required wins"
-            value={summaryState.totalRequiredPlay}
-            accent="primary"
-            selected={prCard === 'all'}
-            onClick={() => toggleCard('all', prCard, setPrCard)}
+            icon={AlertTriangle}
+            label="Pending verification"
+            value={summaryState.pendingVerification}
+            accent="amber"
+            selected={prCard === 'pending_verification'}
+            onClick={() => toggleCard('pending_verification', prCard, setPrCard)}
           />
           <StatCard
             icon={FileSpreadsheet}
@@ -1595,12 +1603,12 @@ export default function PlayRequiredClient({
             onClick={() => toggleCard('not_in_sheet', prCard, setPrCard)}
           />
           <StatCard
-            icon={AlertTriangle}
-            label="Pending verification"
-            value={summaryState.pendingVerification}
-            accent="amber"
-            selected={prCard === 'pending_verification'}
-            onClick={() => toggleCard('pending_verification', prCard, setPrCard)}
+            icon={Gamepad2}
+            label="Play Required wins"
+            value={summaryState.totalRequiredPlay}
+            accent="primary"
+            selected={prCard === 'all'}
+            onClick={() => toggleCard('all', prCard, setPrCard)}
           />
           <StatCard
             icon={ShieldCheck}
@@ -1622,20 +1630,20 @@ export default function PlayRequiredClient({
       ) : (
         <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
           <StatCard
-            icon={Gamepad2}
-            label="IPB wins"
-            value={ipbSummaryState.total}
-            accent="primary"
-            selected={ipbCard === 'all'}
-            onClick={() => toggleCard('all', ipbCard, setIpbCard)}
-          />
-          <StatCard
             icon={Clock}
             label="Pending verification"
             value={ipbSummaryState.submitted}
             accent="amber"
             selected={ipbCard === 'pending_verification'}
             onClick={() => toggleCard('pending_verification', ipbCard, setIpbCard)}
+          />
+          <StatCard
+            icon={Gamepad2}
+            label="IPB wins"
+            value={ipbSummaryState.total}
+            accent="primary"
+            selected={ipbCard === 'all'}
+            onClick={() => toggleCard('all', ipbCard, setIpbCard)}
           />
           <StatCard
             icon={ShieldCheck}
@@ -1723,7 +1731,7 @@ export default function PlayRequiredClient({
             </p>
           </div>
         ) : tab === 'play_required' ? (
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto overflow-y-hidden">
             <TableVirtuoso
               useWindowScroll
               data={sortedPrRows}
@@ -1737,14 +1745,15 @@ export default function PlayRequiredClient({
               activeKey={prSort.key}
               dir={prSort.dir}
               onSort={handleSort(prSort, setPrSort)}
-              className="sm:pl-6"
-            />
+              className="w-[23%] sm:pl-6"
+                          />
             <SortableHeader
               label="Winner"
               sortKey="winner"
               activeKey={prSort.key}
               dir={prSort.dir}
               onSort={handleSort(prSort, setPrSort)}
+              className="w-[11%]"
             />
             <SortableHeader
               label="Won"
@@ -1752,14 +1761,16 @@ export default function PlayRequiredClient({
               activeKey={prSort.key}
               dir={prSort.dir}
               onSort={handleSort(prSort, setPrSort)}
+              className="w-[8%]"
             />
-            <th className="px-3 py-2">Type</th>
+            <th className="w-[8%] px-3 py-2">Type</th>
             <SortableHeader
               label="Playtime"
               sortKey="playtime"
               activeKey={prSort.key}
               dir={prSort.dir}
               onSort={handleSort(prSort, setPrSort)}
+              className="w-[8%]"
             />
             <SortableHeader
               label="Achievements"
@@ -1767,6 +1778,7 @@ export default function PlayRequiredClient({
               activeKey={prSort.key}
               dir={prSort.dir}
               onSort={handleSort(prSort, setPrSort)}
+              className="w-[10%]"
             />
             <SortableHeader
               label="Beaten"
@@ -1774,6 +1786,7 @@ export default function PlayRequiredClient({
               activeKey={prSort.key}
               dir={prSort.dir}
               onSort={handleSort(prSort, setPrSort)}
+              className="w-[17%]"
             />
             <SortableHeader
               label="Sign-off"
@@ -1781,8 +1794,8 @@ export default function PlayRequiredClient({
               activeKey={prSort.key}
               dir={prSort.dir}
               onSort={handleSort(prSort, setPrSort)}
-              className="sm:pr-6"
-            />
+              className="w-[15%] sm:pr-6"
+                          />
           </tr>
               )}
               itemContent={(_index, row) => (
@@ -1796,7 +1809,7 @@ export default function PlayRequiredClient({
             />
           </div>
         ) : (
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto overflow-y-hidden">
             <TableVirtuoso
               useWindowScroll
               data={sortedIpbRows}
@@ -1810,14 +1823,15 @@ export default function PlayRequiredClient({
               activeKey={ipbSort.key}
               dir={ipbSort.dir}
               onSort={handleSort(ipbSort, setIpbSort)}
-              className="sm:pl-6"
-            />
+              className="w-[20%] sm:pl-6"
+                          />
             <SortableHeader
               label="Winner"
               sortKey="winner"
               activeKey={ipbSort.key}
               dir={ipbSort.dir}
               onSort={handleSort(ipbSort, setIpbSort)}
+              className="w-[10%]"
             />
             <SortableHeader
               label="Won"
@@ -1825,6 +1839,7 @@ export default function PlayRequiredClient({
               activeKey={ipbSort.key}
               dir={ipbSort.dir}
               onSort={handleSort(ipbSort, setIpbSort)}
+              className="w-[7%]"
             />
             <SortableHeader
               label="Submitted"
@@ -1832,6 +1847,7 @@ export default function PlayRequiredClient({
               activeKey={ipbSort.key}
               dir={ipbSort.dir}
               onSort={handleSort(ipbSort, setIpbSort)}
+              className="w-[8%]"
             />
             <SortableHeader
               label="Playtime"
@@ -1839,6 +1855,7 @@ export default function PlayRequiredClient({
               activeKey={ipbSort.key}
               dir={ipbSort.dir}
               onSort={handleSort(ipbSort, setIpbSort)}
+              className="w-[8%]"
             />
             <SortableHeader
               label="Achievements"
@@ -1846,6 +1863,7 @@ export default function PlayRequiredClient({
               activeKey={ipbSort.key}
               dir={ipbSort.dir}
               onSort={handleSort(ipbSort, setIpbSort)}
+              className="w-[9%]"
             />
             <SortableHeader
               label="Beaten"
@@ -1853,6 +1871,7 @@ export default function PlayRequiredClient({
               activeKey={ipbSort.key}
               dir={ipbSort.dir}
               onSort={handleSort(ipbSort, setIpbSort)}
+              className="w-[15%]"
             />
             <SortableHeader
               label="Status"
@@ -1860,8 +1879,9 @@ export default function PlayRequiredClient({
               activeKey={ipbSort.key}
               dir={ipbSort.dir}
               onSort={handleSort(ipbSort, setIpbSort)}
+              className="w-[12%]"
             />
-            <th className="px-3 py-2 sm:pr-6">Links</th>
+            <th className="w-[11%] px-3 py-2 sm:pr-6">Links</th>
           </tr>
               )}
               itemContent={(_index, row) => (

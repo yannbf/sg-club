@@ -31,6 +31,7 @@ packages/scraper/src/scripts/
 ├── discord-challenge-congrats.ts  # cron: announce challenge completions
 ├── discord-challenge-milestones.ts # cron: 24h-left warning + "challenge over" notice
 ├── discord-warn-digest.ts         # cron: weekly mod digest (errors + upcoming deadlines)
+├── discord-verification-queue.ts  # cron: Wednesday counts of wins awaiting verification, linked to /verification
 └── discord-register-commands.ts   # one-off: register the four slash commands
 
 .github/workflows/discord-bot.yml  # workflow_dispatch runner for the three cron scripts
