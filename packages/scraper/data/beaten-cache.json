@@ -587,7 +587,7 @@
       "story_tag_count": 0
     },
     "609150": {
-      "fetched_at": "2026-10-05T18:33:37.415Z",
+      "fetched_at": "2026-11-04T22:43:39.293Z",
       "marker": null,
       "no_marker_reason": "no_marker_found",
       "story_tag_count": 0
@@ -1891,7 +1891,7 @@
       "story_tag_count": 0
     },
     "1229490": {
-      "fetched_at": "2026-11-03T06:46:01.771Z",
+      "fetched_at": "2026-11-04T22:43:51.284Z",
       "marker": null,
       "no_marker_reason": "schema_unavailable",
       "story_tag_count": 0
@@ -2458,7 +2458,7 @@
       "story_tag_count": 3
     },
     "1369760": {
-      "fetched_at": "2026-10-05T18:33:36.227Z",
+      "fetched_at": "2026-11-04T22:43:37.945Z",
       "marker": null,
       "no_marker_reason": "no_marker_found",
       "story_tag_count": 0
@@ -2562,7 +2562,7 @@
       "story_tag_count": 0
     },
     "1398740": {
-      "fetched_at": "2026-11-03T06:46:00.722Z",
+      "fetched_at": "2026-11-04T22:43:48.622Z",
       "marker": null,
       "no_marker_reason": "schema_unavailable",
       "story_tag_count": 0
@@ -3573,7 +3573,7 @@
       "story_tag_count": 6
     },
     "1708990": {
-      "fetched_at": "2026-10-05T18:33:40.092Z",
+      "fetched_at": "2026-11-04T22:43:41.889Z",
       "marker": null,
       "no_marker_reason": "no_marker_found",
       "story_tag_count": 0
@@ -4782,7 +4782,7 @@
       "story_tag_count": 0
     },
     "2101430": {
-      "fetched_at": "2026-10-05T18:33:38.723Z",
+      "fetched_at": "2026-11-04T22:43:40.621Z",
       "marker": null,
       "no_marker_reason": "no_marker_found",
       "story_tag_count": 0,
@@ -5449,7 +5449,7 @@
       "override_key": "2423270:HOLOBOOK"
     },
     "2425010": {
-      "fetched_at": "2026-11-03T06:45:59.625Z",
+      "fetched_at": "2026-11-04T22:43:45.955Z",
       "marker": null,
       "no_marker_reason": "schema_unavailable",
       "story_tag_count": 0
@@ -5674,7 +5674,7 @@
       "override_key": "2544110:BROKEN_SWORD"
     },
     "2551300": {
-      "fetched_at": "2026-11-03T06:46:05.051Z",
+      "fetched_at": "2026-11-04T22:43:59.792Z",
       "marker": null,
       "no_marker_reason": "schema_unavailable",
       "story_tag_count": 0
@@ -5814,7 +5814,7 @@
       "story_tag_count": 0
     },
     "2661300": {
-      "fetched_at": "2026-11-03T06:46:02.846Z",
+      "fetched_at": "2026-11-04T22:43:53.985Z",
       "marker": null,
       "no_marker_reason": "schema_unavailable",
       "story_tag_count": 0
@@ -5968,7 +5968,7 @@
       "story_tag_count": 3
     },
     "2717880": {
-      "fetched_at": "2026-10-05T18:33:44.935Z",
+      "fetched_at": "2026-11-04T22:43:43.070Z",
       "marker": null,
       "no_marker_reason": "no_marker_found",
       "story_tag_count": 0
@@ -6689,7 +6689,7 @@
       "story_tag_count": 0
     },
     "3241660": {
-      "fetched_at": "2026-11-03T06:46:03.889Z",
+      "fetched_at": "2026-11-04T22:43:56.995Z",
       "marker": null,
       "no_marker_reason": "schema_unavailable",
       "story_tag_count": 0
@@ -7017,6 +7017,19 @@
       "fetched_at": "2026-10-11T13:15:01.690Z",
       "marker": null,
       "no_marker_reason": "no_marker_found",
+      "story_tag_count": 0
+    },
+    "3526710": {
+      "fetched_at": "2026-11-04T22:43:36.706Z",
+      "marker": {
+        "apiname": "ACH_FEATS_CARCINISETHIS",
+        "name": "Carcinise this",
+        "description": "Defeat the Final Boss in under 15 seconds during a run",
+        "global_percent": 24,
+        "source": "heuristic",
+        "sh_achievement_id": 17
+      },
+      "no_marker_reason": null,
       "story_tag_count": 0
     },
     "3527290": {
@@ -13382,10 +13395,17 @@
       "no_data_reason": null
     },
     "76561198411996697::1701800": {
-      "fetched_at": "2026-11-04T06:13:06.047Z",
+      "fetched_at": "2026-11-04T22:44:03.515Z",
       "marker_apiname": "ACH_BEAT_TOUKIE",
       "beaten": false,
       "unlock_time": null,
+      "no_data_reason": null
+    },
+    "76561198054649894::3526710": {
+      "fetched_at": "2026-11-04T22:44:02.392Z",
+      "marker_apiname": "ACH_FEATS_CARCINISETHIS",
+      "beaten": true,
+      "unlock_time": 1793440895,
       "no_data_reason": null
     }
   },
@@ -13395,11 +13415,11 @@
       "resolved_app_id": null
     },
     "1229490": {
-      "fetched_at": "2026-10-05T18:33:26.445Z",
+      "fetched_at": "2026-11-04T22:43:51.284Z",
       "resolved_app_id": null
     },
     "1398740": {
-      "fetched_at": "2026-10-05T18:33:23.430Z",
+      "fetched_at": "2026-11-04T22:43:48.622Z",
       "resolved_app_id": null
     },
     "1551980": {
@@ -13420,15 +13440,15 @@
       "resolved_app_name": "Dead Cells"
     },
     "2425010": {
-      "fetched_at": "2026-10-05T18:33:20.690Z",
+      "fetched_at": "2026-11-04T22:43:45.955Z",
       "resolved_app_id": null
     },
     "2551300": {
-      "fetched_at": "2026-10-05T18:33:34.800Z",
+      "fetched_at": "2026-11-04T22:43:59.792Z",
       "resolved_app_id": null
     },
     "2661300": {
-      "fetched_at": "2026-10-05T18:33:29.269Z",
+      "fetched_at": "2026-11-04T22:43:53.985Z",
       "resolved_app_id": null
     },
     "2713000": {
@@ -13452,7 +13472,7 @@
       "resolved_app_id": null
     },
     "3241660": {
-      "fetched_at": "2026-10-05T18:33:32.099Z",
+      "fetched_at": "2026-11-04T22:43:56.995Z",
       "resolved_app_id": null
     },
     "3259780": {
