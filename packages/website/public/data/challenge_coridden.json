@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1793491200,
   "totalAchievements": 42,
-  "generatedAt": 1793744672567,
+  "generatedAt": 1793756196574,
   "challengeOver": false,
   "winnerUsername": null,
   "participants": [
@@ -596,14 +596,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 808,
-      "playtime_2weeks_minutes": 808,
+      "playtime_total_minutes": 856,
+      "playtime_2weeks_minutes": 856,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 808,
+      "playtime_challenge_minutes": 856,
       "achievements_total": 42,
-      "achievements_unlocked_total": 16,
+      "achievements_unlocked_total": 17,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 16,
+      "achievements_since_baseline": 17,
       "challenge_achievements": [
         {
           "apiname": "UnlockPantelizMastery",
@@ -695,9 +695,14 @@
           "displayName": "Explorer",
           "description": "Find 5 perasins",
           "unlocktime": 1793736182
+        },
+        {
+          "apiname": "CompleteVarunTower",
+          "displayName": "Warden of the West",
+          "unlocktime": 1793747313
         }
       ],
-      "challenge_achievement_count": 16,
+      "challenge_achievement_count": 17,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
@@ -819,6 +824,97 @@
         }
       ],
       "challenge_achievement_count": 14,
+      "has_started": true,
+      "is_complete": false,
+      "completed_at": null,
+      "completed_before_start": false,
+      "completed_after_deadline": false,
+      "story_unlocked": false,
+      "story_unlocktime": null,
+      "story_after_deadline": false,
+      "win_tier": null,
+      "qualified_at": null,
+      "meets_playtime": true,
+      "meets_review": false,
+      "is_winner": false
+    },
+    {
+      "username": "Hawkingmeister",
+      "sg_username": "Hawkingmeister",
+      "steam_id": "76561198027027643",
+      "avatar_url": "https://avatars.steamstatic.com/8a0dce73825477dc17392896ff8433bddf06c85e_medium.jpg",
+      "profile_url": "https://steamcommunity.com/profiles/76561198027027643",
+      "is_guest": false,
+      "owned": true,
+      "stats_available": true,
+      "wrote_review": false,
+      "review_voted_up": null,
+      "review_timestamp": null,
+      "review_recommendationid": null,
+      "review_url": null,
+      "playtime_total_minutes": 179,
+      "playtime_2weeks_minutes": 179,
+      "baseline_playtime_minutes": 0,
+      "playtime_challenge_minutes": 179,
+      "achievements_total": 42,
+      "achievements_unlocked_total": 9,
+      "achievements_before_challenge": 0,
+      "achievements_since_baseline": 9,
+      "challenge_achievements": [
+        {
+          "apiname": "UnlockPantelizMastery",
+          "displayName": "Master Panteliz",
+          "description": "Unlock Panteliz Beast Mastery",
+          "unlocktime": 1793742364
+        },
+        {
+          "apiname": "CompleteIntroArena",
+          "displayName": "Are you not entertained?",
+          "unlocktime": 1793742364
+        },
+        {
+          "apiname": "ResetSkillsTreeOnce",
+          "displayName": "Fresh Start",
+          "description": "Reset Skills Tree 1 time",
+          "unlocktime": 1793743226
+        },
+        {
+          "apiname": "CompleteGuardMission",
+          "displayName": "Mission Possible",
+          "description": "Complete a Guard Mission",
+          "unlocktime": 1793743837
+        },
+        {
+          "apiname": "LevelUpCustomClassTo5",
+          "displayName": "Architect",
+          "description": "Level up Custom Class up to lvl 5",
+          "unlocktime": 1793745297
+        },
+        {
+          "apiname": "UnlockHoundraMastery",
+          "displayName": "Master Houndra",
+          "description": "Unlock Houndra Beast Mastery",
+          "unlocktime": 1793746264
+        },
+        {
+          "apiname": "RescueIra",
+          "displayName": "Ira's Hero",
+          "unlocktime": 1793746642
+        },
+        {
+          "apiname": "UnlockScaptorMastery",
+          "displayName": "Master Scaptor",
+          "description": "Unlock Scaptor Beast Mastery",
+          "unlocktime": 1793748696
+        },
+        {
+          "apiname": "RideAMount",
+          "displayName": "Catch a Ride",
+          "description": "Ride a mount (friend or conjure)",
+          "unlocktime": 1793750339
+        }
+      ],
+      "challenge_achievement_count": 9,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
@@ -989,68 +1085,6 @@
         }
       ],
       "challenge_achievement_count": 8,
-      "has_started": true,
-      "is_complete": false,
-      "completed_at": null,
-      "completed_before_start": false,
-      "completed_after_deadline": false,
-      "story_unlocked": false,
-      "story_unlocktime": null,
-      "story_after_deadline": false,
-      "win_tier": null,
-      "qualified_at": null,
-      "meets_playtime": true,
-      "meets_review": false,
-      "is_winner": false
-    },
-    {
-      "username": "Hawkingmeister",
-      "sg_username": "Hawkingmeister",
-      "steam_id": "76561198027027643",
-      "avatar_url": "https://avatars.steamstatic.com/8a0dce73825477dc17392896ff8433bddf06c85e_medium.jpg",
-      "profile_url": "https://steamcommunity.com/profiles/76561198027027643",
-      "is_guest": false,
-      "owned": true,
-      "stats_available": true,
-      "wrote_review": false,
-      "review_voted_up": null,
-      "review_timestamp": null,
-      "review_recommendationid": null,
-      "review_url": null,
-      "playtime_total_minutes": 69,
-      "playtime_2weeks_minutes": 69,
-      "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 69,
-      "achievements_total": 42,
-      "achievements_unlocked_total": 4,
-      "achievements_before_challenge": 0,
-      "achievements_since_baseline": 4,
-      "challenge_achievements": [
-        {
-          "apiname": "UnlockPantelizMastery",
-          "displayName": "Master Panteliz",
-          "description": "Unlock Panteliz Beast Mastery",
-          "unlocktime": 1793742364
-        },
-        {
-          "apiname": "CompleteIntroArena",
-          "displayName": "Are you not entertained?",
-          "unlocktime": 1793742364
-        },
-        {
-          "apiname": "ResetSkillsTreeOnce",
-          "displayName": "Fresh Start",
-          "description": "Reset Skills Tree 1 time",
-          "unlocktime": 1793743226
-        },
-        {
-          "apiname": "CompleteGuardMission",
-          "displayName": "Mission Possible",
-          "description": "Complete a Guard Mission",
-          "unlocktime": 1793743837
-        }
-      ],
-      "challenge_achievement_count": 4,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
