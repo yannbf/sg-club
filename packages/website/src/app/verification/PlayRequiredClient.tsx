@@ -1063,7 +1063,7 @@ const PlayRequiredRowView = memo(function PlayRequiredRowView({
 }) {
   return (
     <>
-      <td className="py-2.5 pr-3">
+      <td className="py-2.5 pl-3 pr-3 sm:pl-6">
         <GameCell row={row} />
       </td>
       <td className="py-2.5 pr-3">
@@ -1123,7 +1123,7 @@ const IpbRowView = memo(function IpbRowView({
   const submittedAt = row.discord?.thread_created_at
   return (
     <>
-      <td className="py-2.5 pr-3">
+      <td className="py-2.5 pl-3 pr-3 sm:pl-6">
         <GameCell row={row} />
       </td>
       <td className="py-2.5 pr-3">
@@ -1338,12 +1338,17 @@ export default function PlayRequiredClient({
 
   // Mirrors how the server page derives `summary`/`ipbSummary` from `rows`
   // (src/app/verification/page.tsx) — recomputed from `localRows` so the
-  // tiles reflect overridden verify/unverify state too.
-  const summaryState = useMemo(
-    () => summarizeRows(localRows.filter((r) => r.isPlayRequired)),
-    [localRows],
+  // tiles reflect overridden verify/unverify state too, and scoped by the
+  // "Show ex-members" toggle so they agree with the table below them.
+  const countedRows = useMemo(
+    () => (showExMembers ? localRows : localRows.filter((r) => !r.winner.isExMember)),
+    [localRows, showExMembers],
   )
-  const ipbSummaryState = useMemo(() => summarizeIpbRows(localRows), [localRows])
+  const summaryState = useMemo(
+    () => summarizeRows(countedRows.filter((r) => r.isPlayRequired)),
+    [countedRows],
+  )
+  const ipbSummaryState = useMemo(() => summarizeIpbRows(countedRows), [countedRows])
 
   /** Best-effort human-readable note for the request's `discord` reaction-toggle result. */
   function discordNoteFor(discordResult: unknown, action: VerifyActionKind): string {
@@ -1537,7 +1542,7 @@ export default function PlayRequiredClient({
     [ipbVisibility, ipbSort],
   )
 
-  const activeBaseRows = tab === 'play_required' ? prRows : ipbRows
+  const activeTotal = tab === 'play_required' ? summaryState.totalRequiredPlay : ipbSummaryState.total
   const activeSortedRows = tab === 'play_required' ? sortedPrRows : sortedIpbRows
   const activeVisibility = tab === 'play_required' ? prVisibility : ipbVisibility
 
@@ -1700,7 +1705,7 @@ export default function PlayRequiredClient({
 
       <div className="flex flex-wrap items-center justify-end gap-x-3 gap-y-1">
         <p className="whitespace-nowrap text-xs text-subtle">
-          Showing {activeSortedRows.length} of {activeBaseRows.length} wins.
+          Showing {activeSortedRows.length} of {activeTotal} wins.
         </p>
         {activeVisibility.hiddenByExMembers > 0 && (
           <button
