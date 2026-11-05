@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-11-05T07:59:53.934Z",
+  "last_updated": "2026-11-05T15:45:39.028Z",
   "games": {
     "223810": {
       "marker": {
@@ -3497,16 +3497,16 @@
     },
     "1701800": {
       "marker": {
-        "apiname": "ACH_BEAT_TOUKIE",
-        "name": "Back to Eventide",
-        "description": "Beat the game as Toukie",
-        "global_percent": 8.2,
-        "source": "heuristic",
-        "sh_achievement_id": 16
+        "apiname": "ACH_TRUE_ENDING",
+        "name": "System Override",
+        "description": "",
+        "global_percent": 23,
+        "source": "override",
+        "sh_achievement_id": 8
       },
       "no_marker_reason": null,
       "story_tag_count": 0,
-      "checked_at": "2026-11-03T17:09:18.008Z"
+      "checked_at": "2026-11-05T15:45:24.231Z"
     },
     "1707400": {
       "marker": null,
@@ -4609,10 +4609,17 @@
       "checked_at": "2026-11-04T17:22:52.449Z"
     },
     "2073250": {
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
+      "marker": {
+        "apiname": "BacktotheCrypt",
+        "name": "Back to the Crypt!",
+        "description": "",
+        "global_percent": 18.1,
+        "source": "override",
+        "sh_achievement_id": 7
+      },
+      "no_marker_reason": null,
       "story_tag_count": 0,
-      "checked_at": "2026-11-02T06:00:19.972Z"
+      "checked_at": "2026-11-05T15:45:19.751Z"
     },
     "2073910": {
       "marker": null,
@@ -4768,10 +4775,17 @@
       "checked_at": "2026-10-11T15:47:06.898Z"
     },
     "2129530": {
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
+      "marker": {
+        "apiname": "CompleteWar",
+        "name": "All is Well",
+        "description": "",
+        "global_percent": 33.9,
+        "source": "override",
+        "sh_achievement_id": 12
+      },
+      "no_marker_reason": null,
       "story_tag_count": 0,
-      "checked_at": "2026-11-03T15:27:54.683Z"
+      "checked_at": "2026-11-05T15:45:23.110Z"
     },
     "2132450": {
       "marker": null,
@@ -4818,16 +4832,30 @@
       "checked_at": "2026-09-14T14:20:07.248Z"
     },
     "2157830": {
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
+      "marker": {
+        "apiname": "COMPLETED_STORY",
+        "name": "From Beginning to End",
+        "description": "Complete all campaign missions on any difficulty.",
+        "global_percent": 34.9,
+        "source": "override",
+        "sh_achievement_id": 16
+      },
+      "no_marker_reason": null,
       "story_tag_count": 0,
-      "checked_at": "2026-10-29T21:09:51.025Z"
+      "checked_at": "2026-11-05T15:45:27.522Z"
     },
     "2172010": {
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
+      "marker": {
+        "apiname": "TRP_CABIN",
+        "name": "The Cabin in the Blackwoods",
+        "description": "Complete a full playthrough of Until Dawn",
+        "global_percent": 53.2,
+        "source": "override",
+        "sh_achievement_id": 22
+      },
+      "no_marker_reason": null,
       "story_tag_count": 0,
-      "checked_at": "2026-11-04T06:13:03.395Z"
+      "checked_at": "2026-11-05T15:45:26.419Z"
     },
     "2183900": {
       "marker": {
@@ -6297,16 +6325,16 @@
     },
     "3008130": {
       "marker": {
-        "apiname": "ACH_31",
-        "name": "Second Ascent",
-        "description": "Finish the game in NewGame+ mode",
-        "global_percent": 3.4,
-        "source": "heuristic",
-        "sh_achievement_id": 31
+        "apiname": "ACH_7",
+        "name": "Glimpse into the Future",
+        "description": "Complete the main story",
+        "global_percent": 39.3,
+        "source": "override",
+        "sh_achievement_id": 7
       },
       "no_marker_reason": null,
       "story_tag_count": 0,
-      "checked_at": "2026-10-29T05:45:46.823Z"
+      "checked_at": "2026-11-05T15:45:20.845Z"
     },
     "3010850": {
       "marker": null,
@@ -6747,6 +6775,12 @@
       "story_tag_count": 10,
       "checked_at": "2026-08-24T20:11:21.280Z"
     },
+    "3358170": {
+      "marker": null,
+      "no_marker_reason": "no_marker_found",
+      "story_tag_count": 0,
+      "checked_at": "2026-11-05T15:45:22.026Z"
+    },
     "3362960": {
       "marker": null,
       "no_marker_reason": "no_marker_found",
@@ -7015,10 +7049,17 @@
       "checked_at": "2026-10-13T21:55:52.585Z"
     },
     "3642440": {
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
+      "marker": {
+        "apiname": "ID_3",
+        "name": "True Showman",
+        "description": "Win a Run",
+        "global_percent": 9,
+        "source": "override",
+        "sh_achievement_id": 4
+      },
+      "no_marker_reason": null,
       "story_tag_count": 0,
-      "checked_at": "2026-10-29T15:16:27.413Z"
+      "checked_at": "2026-11-05T15:45:25.354Z"
     },
     "3669870": {
       "marker": null,
@@ -7464,6 +7505,12 @@
       "unlock_time": null,
       "no_data_reason": null,
       "checked_at": "2026-11-05T06:42:31.138Z"
+    },
+    "76561199036747433::2073250": {
+      "beaten": true,
+      "unlock_time": 1793548760,
+      "no_data_reason": null,
+      "checked_at": "2026-11-05T15:45:28.610Z"
     },
     "76561199036747433::2090390": {
       "beaten": true,
@@ -8822,10 +8869,10 @@
       "checked_at": "2026-10-22T13:49:17.260Z"
     },
     "76561198118726910::3008130": {
-      "beaten": false,
-      "unlock_time": null,
+      "beaten": true,
+      "unlock_time": 1793227106,
       "no_data_reason": null,
-      "checked_at": "2026-11-05T06:43:35.222Z"
+      "checked_at": "2026-11-05T15:45:30.998Z"
     },
     "76561198118726910::2456350": {
       "beaten": true,
@@ -9108,6 +9155,12 @@
       "unlock_time": 1786541672,
       "no_data_reason": null,
       "checked_at": "2026-09-15T11:43:29.821Z"
+    },
+    "76561198035801987::2129530": {
+      "beaten": true,
+      "unlock_time": 1793654715,
+      "no_data_reason": null,
+      "checked_at": "2026-11-05T15:45:32.111Z"
     },
     "76561198035801987::1170570": {
       "beaten": true,
@@ -10208,16 +10261,22 @@
       "checked_at": "2026-09-11T12:27:37.996Z"
     },
     "76561198411996697::1701800": {
-      "beaten": false,
-      "unlock_time": null,
+      "beaten": true,
+      "unlock_time": 1793718215,
       "no_data_reason": null,
-      "checked_at": "2026-11-04T22:44:03.515Z"
+      "checked_at": "2026-11-05T15:45:33.274Z"
     },
     "76561198411996697::2085540": {
       "beaten": true,
       "unlock_time": 1792708659,
       "no_data_reason": null,
       "checked_at": "2026-10-23T13:28:29.391Z"
+    },
+    "76561198411996697::3642440": {
+      "beaten": true,
+      "unlock_time": 1793141415,
+      "no_data_reason": null,
+      "checked_at": "2026-11-05T15:45:34.379Z"
     },
     "76561198411996697::2806640": {
       "beaten": false,
@@ -10908,6 +10967,18 @@
       "unlock_time": 1750930677,
       "no_data_reason": null,
       "checked_at": "2026-08-24T17:47:17.854Z"
+    },
+    "76561198089973992::2172010": {
+      "beaten": true,
+      "unlock_time": 1793742932,
+      "no_data_reason": null,
+      "checked_at": "2026-11-05T15:45:35.576Z"
+    },
+    "76561198089973992::2157830": {
+      "beaten": true,
+      "unlock_time": 1793290617,
+      "no_data_reason": null,
+      "checked_at": "2026-11-05T15:45:36.654Z"
     },
     "76561198089973992::1627720": {
       "beaten": false,

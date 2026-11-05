@@ -3540,17 +3540,18 @@
       "story_tag_count": 0
     },
     "1701800": {
-      "fetched_at": "2026-11-03T17:09:18.008Z",
+      "fetched_at": "2026-11-05T15:45:24.231Z",
       "marker": {
-        "apiname": "ACH_BEAT_TOUKIE",
-        "name": "Back to Eventide",
-        "description": "Beat the game as Toukie",
-        "global_percent": 8.2,
-        "source": "heuristic",
-        "sh_achievement_id": 16
+        "apiname": "ACH_TRUE_ENDING",
+        "name": "System Override",
+        "description": "",
+        "global_percent": 23,
+        "source": "override",
+        "sh_achievement_id": 8
       },
       "no_marker_reason": null,
-      "story_tag_count": 0
+      "story_tag_count": 0,
+      "override_key": "1701800:ACH_TRUE_ENDING"
     },
     "1707400": {
       "fetched_at": "2026-11-04T17:22:05.080Z",
@@ -4677,10 +4678,18 @@
       "story_tag_count": 0
     },
     "2073250": {
-      "fetched_at": "2026-11-02T06:00:19.972Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-11-05T15:45:19.751Z",
+      "marker": {
+        "apiname": "BacktotheCrypt",
+        "name": "Back to the Crypt!",
+        "description": "",
+        "global_percent": 18.1,
+        "source": "override",
+        "sh_achievement_id": 7
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0,
+      "override_key": "2073250:BacktotheCrypt"
     },
     "2073910": {
       "fetched_at": "2026-11-04T17:24:07.187Z",
@@ -4839,10 +4848,18 @@
       "story_tag_count": 0
     },
     "2129530": {
-      "fetched_at": "2026-11-03T15:27:54.683Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-11-05T15:45:23.110Z",
+      "marker": {
+        "apiname": "CompleteWar",
+        "name": "All is Well",
+        "description": "",
+        "global_percent": 33.9,
+        "source": "override",
+        "sh_achievement_id": 12
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0,
+      "override_key": "2129530:CompleteWar"
     },
     "2132450": {
       "fetched_at": "2026-11-04T17:24:25.759Z",
@@ -4890,16 +4907,32 @@
       "override_key": "2143290:ACHIEVEMENT_HSCR_42_Full"
     },
     "2157830": {
-      "fetched_at": "2026-10-29T21:09:51.025Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-11-05T15:45:27.522Z",
+      "marker": {
+        "apiname": "COMPLETED_STORY",
+        "name": "From Beginning to End",
+        "description": "Complete all campaign missions on any difficulty.",
+        "global_percent": 34.9,
+        "source": "override",
+        "sh_achievement_id": 16
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0,
+      "override_key": "2157830:COMPLETED_STORY"
     },
     "2172010": {
-      "fetched_at": "2026-11-04T06:13:03.395Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-11-05T15:45:26.419Z",
+      "marker": {
+        "apiname": "TRP_CABIN",
+        "name": "The Cabin in the Blackwoods",
+        "description": "Complete a full playthrough of Until Dawn",
+        "global_percent": 53.2,
+        "source": "override",
+        "sh_achievement_id": 22
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0,
+      "override_key": "2172010:TRP_CABIN"
     },
     "2183900": {
       "fetched_at": "2026-10-26T14:54:56.379Z",
@@ -6397,17 +6430,18 @@
       "story_tag_count": 0
     },
     "3008130": {
-      "fetched_at": "2026-10-29T05:45:46.823Z",
+      "fetched_at": "2026-11-05T15:45:20.845Z",
       "marker": {
-        "apiname": "ACH_31",
-        "name": "Second Ascent",
-        "description": "Finish the game in NewGame+ mode",
-        "global_percent": 3.4,
-        "source": "heuristic",
-        "sh_achievement_id": 31
+        "apiname": "ACH_7",
+        "name": "Glimpse into the Future",
+        "description": "Complete the main story",
+        "global_percent": 39.3,
+        "source": "override",
+        "sh_achievement_id": 7
       },
       "no_marker_reason": null,
-      "story_tag_count": 0
+      "story_tag_count": 0,
+      "override_key": "3008130:ACH_7"
     },
     "3010850": {
       "fetched_at": "2026-10-12T19:08:46.293Z",
@@ -6858,6 +6892,12 @@
       "no_marker_reason": null,
       "story_tag_count": 10
     },
+    "3358170": {
+      "fetched_at": "2026-11-05T15:45:22.026Z",
+      "marker": null,
+      "no_marker_reason": "no_marker_found",
+      "story_tag_count": 0
+    },
     "3362960": {
       "fetched_at": "2026-11-04T17:22:19.197Z",
       "marker": null,
@@ -7132,10 +7172,18 @@
       "story_tag_count": 0
     },
     "3642440": {
-      "fetched_at": "2026-10-29T15:16:27.413Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-11-05T15:45:25.354Z",
+      "marker": {
+        "apiname": "ID_3",
+        "name": "True Showman",
+        "description": "Win a Run",
+        "global_percent": 9,
+        "source": "override",
+        "sh_achievement_id": 4
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0,
+      "override_key": "3642440:ID_3"
     },
     "3669870": {
       "fetched_at": "2026-11-04T17:25:47.584Z",
@@ -13367,10 +13415,10 @@
       "no_data_reason": null
     },
     "76561198118726910::3008130": {
-      "fetched_at": "2026-11-05T06:43:35.222Z",
-      "marker_apiname": "ACH_31",
-      "beaten": false,
-      "unlock_time": null,
+      "fetched_at": "2026-11-05T15:45:30.998Z",
+      "marker_apiname": "ACH_7",
+      "beaten": true,
+      "unlock_time": 1793227106,
       "no_data_reason": null
     },
     "76561197994025244::1299460": {
@@ -13395,10 +13443,10 @@
       "no_data_reason": null
     },
     "76561198411996697::1701800": {
-      "fetched_at": "2026-11-04T22:44:03.515Z",
-      "marker_apiname": "ACH_BEAT_TOUKIE",
-      "beaten": false,
-      "unlock_time": null,
+      "fetched_at": "2026-11-05T15:45:33.274Z",
+      "marker_apiname": "ACH_TRUE_ENDING",
+      "beaten": true,
+      "unlock_time": 1793718215,
       "no_data_reason": null
     },
     "76561198054649894::3526710": {
@@ -13406,6 +13454,41 @@
       "marker_apiname": "ACH_FEATS_CARCINISETHIS",
       "beaten": true,
       "unlock_time": 1793440895,
+      "no_data_reason": null
+    },
+    "76561199036747433::2073250": {
+      "fetched_at": "2026-11-05T15:45:28.610Z",
+      "marker_apiname": "BacktotheCrypt",
+      "beaten": true,
+      "unlock_time": 1793548760,
+      "no_data_reason": null
+    },
+    "76561198035801987::2129530": {
+      "fetched_at": "2026-11-05T15:45:32.111Z",
+      "marker_apiname": "CompleteWar",
+      "beaten": true,
+      "unlock_time": 1793654715,
+      "no_data_reason": null
+    },
+    "76561198411996697::3642440": {
+      "fetched_at": "2026-11-05T15:45:34.379Z",
+      "marker_apiname": "ID_3",
+      "beaten": true,
+      "unlock_time": 1793141415,
+      "no_data_reason": null
+    },
+    "76561198089973992::2172010": {
+      "fetched_at": "2026-11-05T15:45:35.576Z",
+      "marker_apiname": "TRP_CABIN",
+      "beaten": true,
+      "unlock_time": 1793742932,
+      "no_data_reason": null
+    },
+    "76561198089973992::2157830": {
+      "fetched_at": "2026-11-05T15:45:36.654Z",
+      "marker_apiname": "COMPLETED_STORY",
+      "beaten": true,
+      "unlock_time": 1793290617,
       "no_data_reason": null
     }
   },
