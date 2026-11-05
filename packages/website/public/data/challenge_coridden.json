@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1793491200,
   "totalAchievements": 42,
-  "generatedAt": 1793893454463,
+  "generatedAt": 1793899848174,
   "challengeOver": false,
   "winnerUsername": "Tucs",
   "participants": [
@@ -366,14 +366,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 485,
-      "playtime_2weeks_minutes": 485,
+      "playtime_total_minutes": 515,
+      "playtime_2weeks_minutes": 515,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 485,
+      "playtime_challenge_minutes": 515,
       "achievements_total": 42,
-      "achievements_unlocked_total": 27,
+      "achievements_unlocked_total": 30,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 27,
+      "achievements_since_baseline": 30,
       "challenge_achievements": [
         {
           "apiname": "UnlockPantelizMastery",
@@ -531,9 +531,25 @@
           "displayName": "The Beast",
           "description": "Reach level 20 in one beast mastery",
           "unlocktime": 1793823905
+        },
+        {
+          "apiname": "CompleteVarunTower",
+          "displayName": "Warden of the West",
+          "unlocktime": 1793897581
+        },
+        {
+          "apiname": "CollectAllAlterantSequences",
+          "displayName": "Alterant Archivist",
+          "description": "Collect 10 Alterant Sequences",
+          "unlocktime": 1793899329
+        },
+        {
+          "apiname": "CompleteChayaTower",
+          "displayName": "Guardian of the East",
+          "unlocktime": 1793899701
         }
       ],
-      "challenge_achievement_count": 27,
+      "challenge_achievement_count": 30,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
@@ -905,10 +921,10 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 1122,
-      "playtime_2weeks_minutes": 1151,
+      "playtime_total_minutes": 1193,
+      "playtime_2weeks_minutes": 1193,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 1122,
+      "playtime_challenge_minutes": 1193,
       "achievements_total": 42,
       "achievements_unlocked_total": 20,
       "achievements_before_challenge": 0,
@@ -1057,14 +1073,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 363,
-      "playtime_2weeks_minutes": 363,
+      "playtime_total_minutes": 483,
+      "playtime_2weeks_minutes": 483,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 363,
+      "playtime_challenge_minutes": 483,
       "achievements_total": 42,
-      "achievements_unlocked_total": 16,
+      "achievements_unlocked_total": 18,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 16,
+      "achievements_since_baseline": 18,
       "challenge_achievements": [
         {
           "apiname": "UnlockPantelizMastery",
@@ -1158,9 +1174,20 @@
           "displayName": "Master Ramox",
           "description": "Unlock Ramox Beast Mastery",
           "unlocktime": 1793893097
+        },
+        {
+          "apiname": "ExploreObservatory",
+          "displayName": "Digging Up the Past",
+          "unlocktime": 1793896088
+        },
+        {
+          "apiname": "Find10Perasins",
+          "displayName": "Treasure Hunter",
+          "description": "Find 10 perasins",
+          "unlocktime": 1793896905
         }
       ],
-      "challenge_achievement_count": 16,
+      "challenge_achievement_count": 18,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
