@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1793491200,
   "totalAchievements": 42,
-  "generatedAt": 1793983887771,
+  "generatedAt": 1793988752707,
   "challengeOver": false,
   "winnerUsername": "Tucs",
   "participants": [
@@ -361,19 +361,19 @@
       "is_guest": false,
       "owned": true,
       "stats_available": true,
-      "wrote_review": false,
-      "review_voted_up": null,
-      "review_timestamp": null,
-      "review_recommendationid": null,
-      "review_url": null,
-      "playtime_total_minutes": 682,
-      "playtime_2weeks_minutes": 682,
+      "wrote_review": true,
+      "review_voted_up": true,
+      "review_timestamp": 0,
+      "review_recommendationid": "239524128",
+      "review_url": "https://steamcommunity.com/profiles/76561198054649894/recommended/1656930",
+      "playtime_total_minutes": 747,
+      "playtime_2weeks_minutes": 747,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 682,
+      "playtime_challenge_minutes": 747,
       "achievements_total": 42,
-      "achievements_unlocked_total": 35,
+      "achievements_unlocked_total": 42,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 35,
+      "achievements_since_baseline": 42,
       "challenge_achievements": [
         {
           "apiname": "UnlockPantelizMastery",
@@ -575,22 +575,62 @@
           "displayName": "The Monster",
           "description": "Reach level 30 in one beast mastery",
           "unlocktime": 1793916678
+        },
+        {
+          "apiname": "ForgeAlterantSequence",
+          "displayName": "Skilled Maker",
+          "description": "Forge an Alterant Sequence",
+          "unlocktime": 1793984202
+        },
+        {
+          "apiname": "ImpaleEnemy",
+          "displayName": "Meat Skewer",
+          "description": "Impale an enemy",
+          "unlocktime": 1793985841
+        },
+        {
+          "apiname": "FindAllLoreLogs",
+          "displayName": "Complete Chronicles",
+          "description": "Find 15 lore logs",
+          "unlocktime": 1793986051
+        },
+        {
+          "apiname": "SaveMaya",
+          "displayName": "She'll Outlive Us All",
+          "unlocktime": 1793986366
+        },
+        {
+          "apiname": "SaveHeera",
+          "displayName": "This Is It",
+          "unlocktime": 1793986532
+        },
+        {
+          "apiname": "CompleteGuardMissionCorrupted",
+          "displayName": "The Guardian We Need",
+          "description": "Complete a Guard Mission in Dusted Zone",
+          "unlocktime": 1793986803
+        },
+        {
+          "apiname": "UnlockAllAchievements",
+          "displayName": "Legendary",
+          "description": "Platinum, unlocked all other achievements",
+          "unlocktime": 1793986804
         }
       ],
-      "challenge_achievement_count": 35,
+      "challenge_achievement_count": 42,
       "has_started": true,
-      "is_complete": false,
-      "completed_at": null,
+      "is_complete": true,
+      "completed_at": 1793986804,
       "completed_before_start": false,
       "completed_after_deadline": false,
-      "story_unlocked": false,
-      "story_unlocktime": null,
+      "story_unlocked": true,
+      "story_unlocktime": 1793986532,
       "story_after_deadline": false,
-      "win_tier": null,
-      "qualified_at": null,
+      "win_tier": "completion",
+      "qualified_at": 1793986804,
       "meets_playtime": true,
-      "meets_review": false,
-      "is_winner": false
+      "meets_review": true,
+      "is_winner": true
     },
     {
       "username": "elysium1988",
@@ -806,14 +846,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 1384,
-      "playtime_2weeks_minutes": 1384,
+      "playtime_total_minutes": 1474,
+      "playtime_2weeks_minutes": 1474,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 1384,
+      "playtime_challenge_minutes": 1474,
       "achievements_total": 42,
-      "achievements_unlocked_total": 25,
+      "achievements_unlocked_total": 27,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 25,
+      "achievements_since_baseline": 27,
       "challenge_achievements": [
         {
           "apiname": "UnlockPantelizMastery",
@@ -957,9 +997,19 @@
           "displayName": "Scavenger",
           "description": "Find 15 perasins",
           "unlocktime": 1793983843
+        },
+        {
+          "apiname": "CompleteJagathaTower",
+          "displayName": "Ranger of the North",
+          "unlocktime": 1793985536
+        },
+        {
+          "apiname": "PassThroughBarrier",
+          "displayName": "Into the Unknown",
+          "unlocktime": 1793986711
         }
       ],
-      "challenge_achievement_count": 25,
+      "challenge_achievement_count": 27,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
@@ -1416,6 +1466,102 @@
       "is_winner": false
     },
     {
+      "username": "Yamaraus",
+      "sg_username": "Yamaraus",
+      "steam_id": "76561198063858039",
+      "avatar_url": "https://avatars.steamstatic.com/ed7fe12fdbe7bfe38540b3bb6ab500b4090048e2_full.jpg",
+      "profile_url": "https://steamcommunity.com/id/yamaraus/",
+      "is_guest": true,
+      "owned": true,
+      "stats_available": true,
+      "wrote_review": false,
+      "review_voted_up": null,
+      "review_timestamp": null,
+      "review_recommendationid": null,
+      "review_url": null,
+      "playtime_total_minutes": 239,
+      "playtime_2weeks_minutes": 239,
+      "baseline_playtime_minutes": 0,
+      "playtime_challenge_minutes": 239,
+      "achievements_total": 42,
+      "achievements_unlocked_total": 10,
+      "achievements_before_challenge": 0,
+      "achievements_since_baseline": 10,
+      "challenge_achievements": [
+        {
+          "apiname": "UnlockPantelizMastery",
+          "displayName": "Master Panteliz",
+          "description": "Unlock Panteliz Beast Mastery",
+          "unlocktime": 1793597260
+        },
+        {
+          "apiname": "CompleteIntroArena",
+          "displayName": "Are you not entertained?",
+          "unlocktime": 1793597264
+        },
+        {
+          "apiname": "UnlockHoundraMastery",
+          "displayName": "Master Houndra",
+          "description": "Unlock Houndra Beast Mastery",
+          "unlocktime": 1793762572
+        },
+        {
+          "apiname": "LevelUpClassTo5",
+          "displayName": "Destined For Greatness",
+          "description": "Level up one of the four (non custom) classes up to lvl 5",
+          "unlocktime": 1793811480
+        },
+        {
+          "apiname": "RescueIra",
+          "displayName": "Ira's Hero",
+          "unlocktime": 1793845301
+        },
+        {
+          "apiname": "UnlockRokerMastery",
+          "displayName": "Master Roker",
+          "description": "Unlock Roker Beast Mastery",
+          "unlocktime": 1793845660
+        },
+        {
+          "apiname": "UnlockScaptorMastery",
+          "displayName": "Master Scaptor",
+          "description": "Unlock Scaptor Beast Mastery",
+          "unlocktime": 1793985895
+        },
+        {
+          "apiname": "RideAMount",
+          "displayName": "Catch a Ride",
+          "description": "Ride a mount (friend or conjure)",
+          "unlocktime": 1793986005
+        },
+        {
+          "apiname": "Find5Perasins",
+          "displayName": "Explorer",
+          "description": "Find 5 perasins",
+          "unlocktime": 1793988381
+        },
+        {
+          "apiname": "EnterTheBurrow",
+          "displayName": "Reunion at The Burrow",
+          "unlocktime": 1793988416
+        }
+      ],
+      "challenge_achievement_count": 10,
+      "has_started": true,
+      "is_complete": false,
+      "completed_at": null,
+      "completed_before_start": false,
+      "completed_after_deadline": false,
+      "story_unlocked": false,
+      "story_unlocktime": null,
+      "story_after_deadline": false,
+      "win_tier": null,
+      "qualified_at": null,
+      "meets_playtime": true,
+      "meets_review": false,
+      "is_winner": false
+    },
+    {
       "username": "Lontaz",
       "sg_username": "Lontaz",
       "steam_id": "76561198042896883",
@@ -1571,79 +1717,6 @@
         }
       ],
       "challenge_achievement_count": 8,
-      "has_started": true,
-      "is_complete": false,
-      "completed_at": null,
-      "completed_before_start": false,
-      "completed_after_deadline": false,
-      "story_unlocked": false,
-      "story_unlocktime": null,
-      "story_after_deadline": false,
-      "win_tier": null,
-      "qualified_at": null,
-      "meets_playtime": true,
-      "meets_review": false,
-      "is_winner": false
-    },
-    {
-      "username": "Yamaraus",
-      "sg_username": "Yamaraus",
-      "steam_id": "76561198063858039",
-      "avatar_url": "https://avatars.steamstatic.com/ed7fe12fdbe7bfe38540b3bb6ab500b4090048e2_full.jpg",
-      "profile_url": "https://steamcommunity.com/id/yamaraus/",
-      "is_guest": true,
-      "owned": true,
-      "stats_available": true,
-      "wrote_review": false,
-      "review_voted_up": null,
-      "review_timestamp": null,
-      "review_recommendationid": null,
-      "review_url": null,
-      "playtime_total_minutes": 194,
-      "playtime_2weeks_minutes": 194,
-      "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 194,
-      "achievements_total": 42,
-      "achievements_unlocked_total": 6,
-      "achievements_before_challenge": 0,
-      "achievements_since_baseline": 6,
-      "challenge_achievements": [
-        {
-          "apiname": "UnlockPantelizMastery",
-          "displayName": "Master Panteliz",
-          "description": "Unlock Panteliz Beast Mastery",
-          "unlocktime": 1793597260
-        },
-        {
-          "apiname": "CompleteIntroArena",
-          "displayName": "Are you not entertained?",
-          "unlocktime": 1793597264
-        },
-        {
-          "apiname": "UnlockHoundraMastery",
-          "displayName": "Master Houndra",
-          "description": "Unlock Houndra Beast Mastery",
-          "unlocktime": 1793762572
-        },
-        {
-          "apiname": "LevelUpClassTo5",
-          "displayName": "Destined For Greatness",
-          "description": "Level up one of the four (non custom) classes up to lvl 5",
-          "unlocktime": 1793811480
-        },
-        {
-          "apiname": "RescueIra",
-          "displayName": "Ira's Hero",
-          "unlocktime": 1793845301
-        },
-        {
-          "apiname": "UnlockRokerMastery",
-          "displayName": "Master Roker",
-          "description": "Unlock Roker Beast Mastery",
-          "unlocktime": 1793845660
-        }
-      ],
-      "challenge_achievement_count": 6,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
@@ -2297,7 +2370,8 @@
   "winnerUnlocktime": 1793698810,
   "winnerUsernames": [
     "Tucs",
-    "drbeckett"
+    "drbeckett",
+    "DrTenma"
   ],
   "storyAchievement": {
     "apiname": "SaveHeera",
