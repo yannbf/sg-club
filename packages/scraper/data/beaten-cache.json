@@ -6970,6 +6970,19 @@
       "no_marker_reason": "no_marker_found",
       "story_tag_count": 0
     },
+    "3419520": {
+      "fetched_at": "2026-11-06T08:01:15.897Z",
+      "marker": {
+        "apiname": "ACH_40",
+        "name": "Is It Over?",
+        "description": "See any ending except the true ending.",
+        "global_percent": 2,
+        "source": "heuristic",
+        "sh_achievement_id": 40
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0
+    },
     "3421300": {
       "fetched_at": "2026-10-31T07:04:55.644Z",
       "marker": null,
@@ -13489,6 +13502,13 @@
       "marker_apiname": "COMPLETED_STORY",
       "beaten": true,
       "unlock_time": 1793290617,
+      "no_data_reason": null
+    },
+    "76561198040188513::3419520": {
+      "fetched_at": "2026-11-06T08:01:18.255Z",
+      "marker_apiname": "ACH_40",
+      "beaten": false,
+      "unlock_time": null,
       "no_data_reason": null
     }
   },

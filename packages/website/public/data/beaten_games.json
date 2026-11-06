@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-11-06T02:45:50.483Z",
+  "last_updated": "2026-11-06T08:01:20.583Z",
   "games": {
     "223810": {
       "marker": {
@@ -6851,6 +6851,19 @@
       "story_tag_count": 0,
       "checked_at": "2026-11-04T17:25:27.530Z"
     },
+    "3419520": {
+      "marker": {
+        "apiname": "ACH_40",
+        "name": "Is It Over?",
+        "description": "See any ending except the true ending.",
+        "global_percent": 2,
+        "source": "heuristic",
+        "sh_achievement_id": 40
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0,
+      "checked_at": "2026-11-06T08:01:15.897Z"
+    },
     "3421300": {
       "marker": null,
       "no_marker_reason": "no_marker_found",
@@ -8963,6 +8976,12 @@
       "unlock_time": 1755693884,
       "no_data_reason": null,
       "checked_at": "2026-08-24T17:43:45.320Z"
+    },
+    "76561198040188513::3419520": {
+      "beaten": false,
+      "unlock_time": null,
+      "no_data_reason": null,
+      "checked_at": "2026-11-06T08:01:18.255Z"
     },
     "76561198164999453::1210320": {
       "beaten": false,
