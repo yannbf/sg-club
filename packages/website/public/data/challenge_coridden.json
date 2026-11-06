@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1793491200,
   "totalAchievements": 42,
-  "generatedAt": 1793963921689,
+  "generatedAt": 1793980711720,
   "challengeOver": false,
   "winnerUsername": "Tucs",
   "participants": [
@@ -606,14 +606,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 1126,
-      "playtime_2weeks_minutes": 1126,
+      "playtime_total_minutes": 1349,
+      "playtime_2weeks_minutes": 1349,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 1126,
+      "playtime_challenge_minutes": 1349,
       "achievements_total": 42,
-      "achievements_unlocked_total": 24,
+      "achievements_unlocked_total": 28,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 24,
+      "achievements_since_baseline": 28,
       "challenge_achievements": [
         {
           "apiname": "RideAMount",
@@ -752,6 +752,205 @@
           "apiname": "CompleteVarunTower",
           "displayName": "Warden of the West",
           "unlocktime": 1793864590
+        },
+        {
+          "apiname": "ForgeAlterantSequence",
+          "displayName": "Skilled Maker",
+          "description": "Forge an Alterant Sequence",
+          "unlocktime": 1793970326
+        },
+        {
+          "apiname": "CollectAllAlterantSequences",
+          "displayName": "Alterant Archivist",
+          "description": "Collect 10 Alterant Sequences",
+          "unlocktime": 1793977389
+        },
+        {
+          "apiname": "Find15Perasins",
+          "displayName": "Scavenger",
+          "description": "Find 15 perasins",
+          "unlocktime": 1793977949
+        },
+        {
+          "apiname": "CompleteChayaTower",
+          "displayName": "Guardian of the East",
+          "unlocktime": 1793979135
+        }
+      ],
+      "challenge_achievement_count": 28,
+      "has_started": true,
+      "is_complete": false,
+      "completed_at": null,
+      "completed_before_start": false,
+      "completed_after_deadline": false,
+      "story_unlocked": false,
+      "story_unlocktime": null,
+      "story_after_deadline": false,
+      "win_tier": null,
+      "qualified_at": null,
+      "meets_playtime": true,
+      "meets_review": false,
+      "is_winner": false
+    },
+    {
+      "username": "yugimax",
+      "sg_username": "yugimax",
+      "steam_id": "76561198352113526",
+      "avatar_url": "https://avatars.steamstatic.com/501c9213b047cc0e05350b954a78fdfd5dce36c9_medium.jpg",
+      "profile_url": "https://steamcommunity.com/profiles/76561198352113526",
+      "is_guest": false,
+      "owned": true,
+      "stats_available": true,
+      "wrote_review": false,
+      "review_voted_up": null,
+      "review_timestamp": null,
+      "review_recommendationid": null,
+      "review_url": null,
+      "playtime_total_minutes": 1354,
+      "playtime_2weeks_minutes": 1354,
+      "baseline_playtime_minutes": 0,
+      "playtime_challenge_minutes": 1354,
+      "achievements_total": 42,
+      "achievements_unlocked_total": 24,
+      "achievements_before_challenge": 0,
+      "achievements_since_baseline": 24,
+      "challenge_achievements": [
+        {
+          "apiname": "UnlockPantelizMastery",
+          "displayName": "Master Panteliz",
+          "description": "Unlock Panteliz Beast Mastery",
+          "unlocktime": 1793567788
+        },
+        {
+          "apiname": "CompleteIntroArena",
+          "displayName": "Are you not entertained?",
+          "unlocktime": 1793567789
+        },
+        {
+          "apiname": "LevelUpCustomClassTo5",
+          "displayName": "Architect",
+          "description": "Level up Custom Class up to lvl 5",
+          "unlocktime": 1793652302
+        },
+        {
+          "apiname": "RescueIra",
+          "displayName": "Ira's Hero",
+          "unlocktime": 1793652361
+        },
+        {
+          "apiname": "UnlockScaptorMastery",
+          "displayName": "Master Scaptor",
+          "description": "Unlock Scaptor Beast Mastery",
+          "unlocktime": 1793658245
+        },
+        {
+          "apiname": "ReachHumanLevel10",
+          "displayName": "Novice",
+          "description": "Reach human level 10",
+          "unlocktime": 1793680383
+        },
+        {
+          "apiname": "ReachHumanLevel20",
+          "displayName": "Adept",
+          "description": "Reach human level 20",
+          "unlocktime": 1793712750
+        },
+        {
+          "apiname": "EnterTheBurrow",
+          "displayName": "Reunion at The Burrow",
+          "unlocktime": 1793716189
+        },
+        {
+          "apiname": "UnlockHoundraMastery",
+          "displayName": "Master Houndra",
+          "description": "Unlock Houndra Beast Mastery",
+          "unlocktime": 1793721690
+        },
+        {
+          "apiname": "ExploreObservatory",
+          "displayName": "Digging Up the Past",
+          "unlocktime": 1793721690
+        },
+        {
+          "apiname": "RideAMount",
+          "displayName": "Catch a Ride",
+          "description": "Ride a mount (friend or conjure)",
+          "unlocktime": 1793722224
+        },
+        {
+          "apiname": "SeeAashaFromAatma",
+          "displayName": "Aasha Awaits",
+          "unlocktime": 1793724260
+        },
+        {
+          "apiname": "ReachBeastMasteryLevel10",
+          "displayName": "The Animal",
+          "description": "Reach level 10 in one beast mastery",
+          "unlocktime": 1793733169
+        },
+        {
+          "apiname": "UnlockCrocoliskMastery",
+          "displayName": "Master Crocolisk",
+          "description": "Unlock Crocolisk Beast Mastery",
+          "unlocktime": 1793733169
+        },
+        {
+          "apiname": "UnlockDragolemMastery",
+          "displayName": "Master Dragolem",
+          "description": "Unlock Dragolem Beast Mastery",
+          "unlocktime": 1793734476
+        },
+        {
+          "apiname": "Find5Perasins",
+          "displayName": "Explorer",
+          "description": "Find 5 perasins",
+          "unlocktime": 1793736182
+        },
+        {
+          "apiname": "CompleteVarunTower",
+          "displayName": "Warden of the West",
+          "unlocktime": 1793747313
+        },
+        {
+          "apiname": "ReachHumanLevel30",
+          "displayName": "Expert",
+          "description": "Reach human level 30",
+          "unlocktime": 1793825517
+        },
+        {
+          "apiname": "UnlockRamoxMastery",
+          "displayName": "Master Ramox",
+          "description": "Unlock Ramox Beast Mastery",
+          "unlocktime": 1793826135
+        },
+        {
+          "apiname": "CompleteChayaTower",
+          "displayName": "Guardian of the East",
+          "unlocktime": 1793892143
+        },
+        {
+          "apiname": "Find10Perasins",
+          "displayName": "Treasure Hunter",
+          "description": "Find 10 perasins",
+          "unlocktime": 1793908778
+        },
+        {
+          "apiname": "UnlockRokerMastery",
+          "displayName": "Master Roker",
+          "description": "Unlock Roker Beast Mastery",
+          "unlocktime": 1793976821
+        },
+        {
+          "apiname": "ResetSkillsTreeOnce",
+          "displayName": "Fresh Start",
+          "description": "Reset Skills Tree 1 time",
+          "unlocktime": 1793977683
+        },
+        {
+          "apiname": "CollectAllAlterantSequences",
+          "displayName": "Alterant Archivist",
+          "description": "Collect 10 Alterant Sequences",
+          "unlocktime": 1793979083
         }
       ],
       "challenge_achievement_count": 24,
@@ -1099,164 +1298,6 @@
         }
       ],
       "challenge_achievement_count": 22,
-      "has_started": true,
-      "is_complete": false,
-      "completed_at": null,
-      "completed_before_start": false,
-      "completed_after_deadline": false,
-      "story_unlocked": false,
-      "story_unlocktime": null,
-      "story_after_deadline": false,
-      "win_tier": null,
-      "qualified_at": null,
-      "meets_playtime": true,
-      "meets_review": false,
-      "is_winner": false
-    },
-    {
-      "username": "yugimax",
-      "sg_username": "yugimax",
-      "steam_id": "76561198352113526",
-      "avatar_url": "https://avatars.steamstatic.com/501c9213b047cc0e05350b954a78fdfd5dce36c9_medium.jpg",
-      "profile_url": "https://steamcommunity.com/profiles/76561198352113526",
-      "is_guest": false,
-      "owned": true,
-      "stats_available": true,
-      "wrote_review": false,
-      "review_voted_up": null,
-      "review_timestamp": null,
-      "review_recommendationid": null,
-      "review_url": null,
-      "playtime_total_minutes": 1264,
-      "playtime_2weeks_minutes": 1264,
-      "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 1264,
-      "achievements_total": 42,
-      "achievements_unlocked_total": 21,
-      "achievements_before_challenge": 0,
-      "achievements_since_baseline": 21,
-      "challenge_achievements": [
-        {
-          "apiname": "UnlockPantelizMastery",
-          "displayName": "Master Panteliz",
-          "description": "Unlock Panteliz Beast Mastery",
-          "unlocktime": 1793567788
-        },
-        {
-          "apiname": "CompleteIntroArena",
-          "displayName": "Are you not entertained?",
-          "unlocktime": 1793567789
-        },
-        {
-          "apiname": "LevelUpCustomClassTo5",
-          "displayName": "Architect",
-          "description": "Level up Custom Class up to lvl 5",
-          "unlocktime": 1793652302
-        },
-        {
-          "apiname": "RescueIra",
-          "displayName": "Ira's Hero",
-          "unlocktime": 1793652361
-        },
-        {
-          "apiname": "UnlockScaptorMastery",
-          "displayName": "Master Scaptor",
-          "description": "Unlock Scaptor Beast Mastery",
-          "unlocktime": 1793658245
-        },
-        {
-          "apiname": "ReachHumanLevel10",
-          "displayName": "Novice",
-          "description": "Reach human level 10",
-          "unlocktime": 1793680383
-        },
-        {
-          "apiname": "ReachHumanLevel20",
-          "displayName": "Adept",
-          "description": "Reach human level 20",
-          "unlocktime": 1793712750
-        },
-        {
-          "apiname": "EnterTheBurrow",
-          "displayName": "Reunion at The Burrow",
-          "unlocktime": 1793716189
-        },
-        {
-          "apiname": "UnlockHoundraMastery",
-          "displayName": "Master Houndra",
-          "description": "Unlock Houndra Beast Mastery",
-          "unlocktime": 1793721690
-        },
-        {
-          "apiname": "ExploreObservatory",
-          "displayName": "Digging Up the Past",
-          "unlocktime": 1793721690
-        },
-        {
-          "apiname": "RideAMount",
-          "displayName": "Catch a Ride",
-          "description": "Ride a mount (friend or conjure)",
-          "unlocktime": 1793722224
-        },
-        {
-          "apiname": "SeeAashaFromAatma",
-          "displayName": "Aasha Awaits",
-          "unlocktime": 1793724260
-        },
-        {
-          "apiname": "ReachBeastMasteryLevel10",
-          "displayName": "The Animal",
-          "description": "Reach level 10 in one beast mastery",
-          "unlocktime": 1793733169
-        },
-        {
-          "apiname": "UnlockCrocoliskMastery",
-          "displayName": "Master Crocolisk",
-          "description": "Unlock Crocolisk Beast Mastery",
-          "unlocktime": 1793733169
-        },
-        {
-          "apiname": "UnlockDragolemMastery",
-          "displayName": "Master Dragolem",
-          "description": "Unlock Dragolem Beast Mastery",
-          "unlocktime": 1793734476
-        },
-        {
-          "apiname": "Find5Perasins",
-          "displayName": "Explorer",
-          "description": "Find 5 perasins",
-          "unlocktime": 1793736182
-        },
-        {
-          "apiname": "CompleteVarunTower",
-          "displayName": "Warden of the West",
-          "unlocktime": 1793747313
-        },
-        {
-          "apiname": "ReachHumanLevel30",
-          "displayName": "Expert",
-          "description": "Reach human level 30",
-          "unlocktime": 1793825517
-        },
-        {
-          "apiname": "UnlockRamoxMastery",
-          "displayName": "Master Ramox",
-          "description": "Unlock Ramox Beast Mastery",
-          "unlocktime": 1793826135
-        },
-        {
-          "apiname": "CompleteChayaTower",
-          "displayName": "Guardian of the East",
-          "unlocktime": 1793892143
-        },
-        {
-          "apiname": "Find10Perasins",
-          "displayName": "Treasure Hunter",
-          "description": "Find 10 perasins",
-          "unlocktime": 1793908778
-        }
-      ],
-      "challenge_achievement_count": 21,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
