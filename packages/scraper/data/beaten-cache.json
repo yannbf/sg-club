@@ -3752,6 +3752,19 @@
       "story_tag_count": 0,
       "override_key": "1781010:CLIMB_MOUNTAIN"
     },
+    "1790930": {
+      "fetched_at": "2026-11-06T18:13:52.844Z",
+      "marker": {
+        "apiname": "ach_chapterfour",
+        "name": "A New Dawn",
+        "description": "Complete the final chapter on any difficulty.",
+        "global_percent": 29.8,
+        "source": "heuristic",
+        "sh_achievement_id": 7
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0
+    },
     "1796220": {
       "fetched_at": "2026-08-24T20:10:44.846Z",
       "marker": {
@@ -13515,6 +13528,13 @@
       "marker_apiname": "ACH_40",
       "beaten": false,
       "unlock_time": null,
+      "no_data_reason": null
+    },
+    "76561198118726910::1790930": {
+      "fetched_at": "2026-11-06T18:13:55.202Z",
+      "marker_apiname": "ach_chapterfour",
+      "beaten": true,
+      "unlock_time": 1793849513,
       "no_data_reason": null
     }
   },
