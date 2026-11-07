@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1793491200,
   "totalAchievements": 42,
-  "generatedAt": 1794070855156,
+  "generatedAt": 1794082536959,
   "challengeOver": false,
   "winnerUsername": "Tucs",
   "participants": [
@@ -879,14 +879,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 1224,
-      "playtime_2weeks_minutes": 1224,
+      "playtime_total_minutes": 1314,
+      "playtime_2weeks_minutes": 1314,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 1224,
+      "playtime_challenge_minutes": 1314,
       "achievements_total": 42,
-      "achievements_unlocked_total": 32,
+      "achievements_unlocked_total": 33,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 32,
+      "achievements_since_baseline": 33,
       "challenge_achievements": [
         {
           "apiname": "UnlockPantelizMastery",
@@ -1072,9 +1072,15 @@
           "displayName": "Gotta Catch 'Em All",
           "description": "Find all creature types",
           "unlocktime": 1794013019
+        },
+        {
+          "apiname": "FindAllLoreLogs",
+          "displayName": "Complete Chronicles",
+          "description": "Find 15 lore logs",
+          "unlocktime": 1794081942
         }
       ],
-      "challenge_achievement_count": 32,
+      "challenge_achievement_count": 33,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
@@ -1303,10 +1309,10 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 791,
-      "playtime_2weeks_minutes": 791,
+      "playtime_total_minutes": 978,
+      "playtime_2weeks_minutes": 978,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 791,
+      "playtime_challenge_minutes": 978,
       "achievements_total": 42,
       "achievements_unlocked_total": 26,
       "achievements_before_challenge": 0,
@@ -1659,14 +1665,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 286,
-      "playtime_2weeks_minutes": 286,
+      "playtime_total_minutes": 296,
+      "playtime_2weeks_minutes": 296,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 286,
+      "playtime_challenge_minutes": 296,
       "achievements_total": 42,
-      "achievements_unlocked_total": 19,
+      "achievements_unlocked_total": 20,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 19,
+      "achievements_since_baseline": 20,
       "challenge_achievements": [
         {
           "apiname": "CompleteIntroArena",
@@ -1774,9 +1780,15 @@
           "displayName": "Explorer",
           "description": "Find 5 perasins",
           "unlocktime": 1794065909
+        },
+        {
+          "apiname": "Find10Perasins",
+          "displayName": "Treasure Hunter",
+          "description": "Find 10 perasins",
+          "unlocktime": 1794072516
         }
       ],
-      "challenge_achievement_count": 19,
+      "challenge_achievement_count": 20,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
@@ -1805,14 +1817,14 @@
       "review_timestamp": 0,
       "review_recommendationid": "239574550",
       "review_url": "https://steamcommunity.com/profiles/76561198063858039/recommended/1656930",
-      "playtime_total_minutes": 450,
-      "playtime_2weeks_minutes": 450,
+      "playtime_total_minutes": 472,
+      "playtime_2weeks_minutes": 472,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 450,
+      "playtime_challenge_minutes": 472,
       "achievements_total": 42,
-      "achievements_unlocked_total": 15,
+      "achievements_unlocked_total": 16,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 15,
+      "achievements_since_baseline": 16,
       "challenge_achievements": [
         {
           "apiname": "UnlockPantelizMastery",
@@ -1899,9 +1911,15 @@
           "displayName": "WHAM",
           "description": "Grab and slam an enemy",
           "unlocktime": 1794067129
+        },
+        {
+          "apiname": "CompleteGuardMission",
+          "displayName": "Mission Possible",
+          "description": "Complete a Guard Mission",
+          "unlocktime": 1794071292
         }
       ],
-      "challenge_achievement_count": 15,
+      "challenge_achievement_count": 16,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
@@ -1914,6 +1932,115 @@
       "qualified_at": null,
       "meets_playtime": true,
       "meets_review": true,
+      "is_winner": false
+    },
+    {
+      "username": "DancingVaquinha",
+      "sg_username": "DancingVaquinha",
+      "steam_id": "76561198066598689",
+      "avatar_url": "https://avatars.steamstatic.com/0836dbdb06e5e447c7f64ec52f4f602cf6d44939_medium.jpg",
+      "profile_url": "https://steamcommunity.com/profiles/76561198066598689",
+      "is_guest": false,
+      "owned": true,
+      "stats_available": true,
+      "wrote_review": false,
+      "review_voted_up": null,
+      "review_timestamp": null,
+      "review_recommendationid": null,
+      "review_url": null,
+      "playtime_total_minutes": 124,
+      "playtime_2weeks_minutes": 124,
+      "baseline_playtime_minutes": 0,
+      "playtime_challenge_minutes": 124,
+      "achievements_total": 42,
+      "achievements_unlocked_total": 12,
+      "achievements_before_challenge": 0,
+      "achievements_since_baseline": 12,
+      "challenge_achievements": [
+        {
+          "apiname": "UnlockPantelizMastery",
+          "displayName": "Master Panteliz",
+          "description": "Unlock Panteliz Beast Mastery",
+          "unlocktime": 1793535984
+        },
+        {
+          "apiname": "CompleteIntroArena",
+          "displayName": "Are you not entertained?",
+          "unlocktime": 1793535984
+        },
+        {
+          "apiname": "RideAMount",
+          "displayName": "Catch a Ride",
+          "description": "Ride a mount (friend or conjure)",
+          "unlocktime": 1793536018
+        },
+        {
+          "apiname": "UnlockHoundraMastery",
+          "displayName": "Master Houndra",
+          "description": "Unlock Houndra Beast Mastery",
+          "unlocktime": 1793549257
+        },
+        {
+          "apiname": "GrabAndSlamEnemy",
+          "displayName": "WHAM",
+          "description": "Grab and slam an enemy",
+          "unlocktime": 1793549918
+        },
+        {
+          "apiname": "LevelUpClassTo5",
+          "displayName": "Destined For Greatness",
+          "description": "Level up one of the four (non custom) classes up to lvl 5",
+          "unlocktime": 1793550134
+        },
+        {
+          "apiname": "RescueIra",
+          "displayName": "Ira's Hero",
+          "unlocktime": 1793550154
+        },
+        {
+          "apiname": "UnlockRokerMastery",
+          "displayName": "Master Roker",
+          "description": "Unlock Roker Beast Mastery",
+          "unlocktime": 1793550789
+        },
+        {
+          "apiname": "CompleteGuardMission",
+          "displayName": "Mission Possible",
+          "description": "Complete a Guard Mission",
+          "unlocktime": 1794076069
+        },
+        {
+          "apiname": "UnlockScaptorMastery",
+          "displayName": "Master Scaptor",
+          "description": "Unlock Scaptor Beast Mastery",
+          "unlocktime": 1794077013
+        },
+        {
+          "apiname": "Find5Perasins",
+          "displayName": "Explorer",
+          "description": "Find 5 perasins",
+          "unlocktime": 1794077918
+        },
+        {
+          "apiname": "ReachHumanLevel10",
+          "displayName": "Novice",
+          "description": "Reach human level 10",
+          "unlocktime": 1794078894
+        }
+      ],
+      "challenge_achievement_count": 12,
+      "has_started": true,
+      "is_complete": false,
+      "completed_at": null,
+      "completed_before_start": false,
+      "completed_after_deadline": false,
+      "story_unlocked": false,
+      "story_unlocktime": null,
+      "story_after_deadline": false,
+      "win_tier": null,
+      "qualified_at": null,
+      "meets_playtime": true,
+      "meets_review": false,
       "is_winner": false
     },
     {
@@ -1984,91 +2111,6 @@
           "displayName": "Mission Possible",
           "description": "Complete a Guard Mission",
           "unlocktime": 1793649083
-        }
-      ],
-      "challenge_achievement_count": 8,
-      "has_started": true,
-      "is_complete": false,
-      "completed_at": null,
-      "completed_before_start": false,
-      "completed_after_deadline": false,
-      "story_unlocked": false,
-      "story_unlocktime": null,
-      "story_after_deadline": false,
-      "win_tier": null,
-      "qualified_at": null,
-      "meets_playtime": true,
-      "meets_review": false,
-      "is_winner": false
-    },
-    {
-      "username": "DancingVaquinha",
-      "sg_username": "DancingVaquinha",
-      "steam_id": "76561198066598689",
-      "avatar_url": "https://avatars.steamstatic.com/0836dbdb06e5e447c7f64ec52f4f602cf6d44939_medium.jpg",
-      "profile_url": "https://steamcommunity.com/profiles/76561198066598689",
-      "is_guest": false,
-      "owned": true,
-      "stats_available": true,
-      "wrote_review": false,
-      "review_voted_up": null,
-      "review_timestamp": null,
-      "review_recommendationid": null,
-      "review_url": null,
-      "playtime_total_minutes": 65,
-      "playtime_2weeks_minutes": 65,
-      "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 65,
-      "achievements_total": 42,
-      "achievements_unlocked_total": 8,
-      "achievements_before_challenge": 0,
-      "achievements_since_baseline": 8,
-      "challenge_achievements": [
-        {
-          "apiname": "UnlockPantelizMastery",
-          "displayName": "Master Panteliz",
-          "description": "Unlock Panteliz Beast Mastery",
-          "unlocktime": 1793535984
-        },
-        {
-          "apiname": "CompleteIntroArena",
-          "displayName": "Are you not entertained?",
-          "unlocktime": 1793535984
-        },
-        {
-          "apiname": "RideAMount",
-          "displayName": "Catch a Ride",
-          "description": "Ride a mount (friend or conjure)",
-          "unlocktime": 1793536018
-        },
-        {
-          "apiname": "UnlockHoundraMastery",
-          "displayName": "Master Houndra",
-          "description": "Unlock Houndra Beast Mastery",
-          "unlocktime": 1793549257
-        },
-        {
-          "apiname": "GrabAndSlamEnemy",
-          "displayName": "WHAM",
-          "description": "Grab and slam an enemy",
-          "unlocktime": 1793549918
-        },
-        {
-          "apiname": "LevelUpClassTo5",
-          "displayName": "Destined For Greatness",
-          "description": "Level up one of the four (non custom) classes up to lvl 5",
-          "unlocktime": 1793550134
-        },
-        {
-          "apiname": "RescueIra",
-          "displayName": "Ira's Hero",
-          "unlocktime": 1793550154
-        },
-        {
-          "apiname": "UnlockRokerMastery",
-          "displayName": "Master Roker",
-          "description": "Unlock Roker Beast Mastery",
-          "unlocktime": 1793550789
         }
       ],
       "challenge_achievement_count": 8,
