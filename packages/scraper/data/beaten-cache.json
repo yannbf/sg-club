@@ -5520,6 +5520,19 @@
       "no_marker_reason": null,
       "story_tag_count": 10
     },
+    "2428980": {
+      "fetched_at": "2026-11-07T15:45:35.976Z",
+      "marker": {
+        "apiname": "achi_013",
+        "name": "Sleeping Beauty",
+        "description": "Finish the game in more than 10 hours",
+        "global_percent": 3.9,
+        "source": "heuristic",
+        "sh_achievement_id": 13
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0
+    },
     "2436940": {
       "fetched_at": "2026-09-14T14:19:39.404Z",
       "marker": {
@@ -6522,6 +6535,12 @@
       },
       "no_marker_reason": null,
       "story_tag_count": 11
+    },
+    "3037930": {
+      "fetched_at": "2026-11-07T15:45:37.205Z",
+      "marker": null,
+      "no_marker_reason": "no_marker_found",
+      "story_tag_count": 0
     },
     "3038340": {
       "fetched_at": "2026-11-04T17:22:02.578Z",
@@ -13535,6 +13554,20 @@
       "marker_apiname": "ach_chapterfour",
       "beaten": true,
       "unlock_time": 1793849513,
+      "no_data_reason": null
+    },
+    "76561198408001048::2428980": {
+      "fetched_at": "2026-11-07T15:45:39.904Z",
+      "marker_apiname": "achi_013",
+      "beaten": false,
+      "unlock_time": null,
+      "no_data_reason": null
+    },
+    "76561198408001048::2863640": {
+      "fetched_at": "2026-11-07T15:45:41.154Z",
+      "marker_apiname": "BurnOut",
+      "beaten": true,
+      "unlock_time": 1793573471,
       "no_data_reason": null
     }
   },
