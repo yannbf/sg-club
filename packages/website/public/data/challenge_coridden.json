@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1793491200,
   "totalAchievements": 42,
-  "generatedAt": 1794063359023,
+  "generatedAt": 1794070855156,
   "challengeOver": false,
   "winnerUsername": "Tucs",
   "participants": [
@@ -1303,14 +1303,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 671,
-      "playtime_2weeks_minutes": 671,
+      "playtime_total_minutes": 791,
+      "playtime_2weeks_minutes": 791,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 671,
+      "playtime_challenge_minutes": 791,
       "achievements_total": 42,
-      "achievements_unlocked_total": 23,
+      "achievements_unlocked_total": 26,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 23,
+      "achievements_since_baseline": 26,
       "challenge_achievements": [
         {
           "apiname": "UnlockPantelizMastery",
@@ -1444,9 +1444,27 @@
           "displayName": "The Beast",
           "description": "Reach level 20 in one beast mastery",
           "unlocktime": 1794060032
+        },
+        {
+          "apiname": "ForgeAlterantSequence",
+          "displayName": "Skilled Maker",
+          "description": "Forge an Alterant Sequence",
+          "unlocktime": 1794064614
+        },
+        {
+          "apiname": "Find15Perasins",
+          "displayName": "Scavenger",
+          "description": "Find 15 perasins",
+          "unlocktime": 1794068130
+        },
+        {
+          "apiname": "ResetSkillsTreeOnce",
+          "displayName": "Fresh Start",
+          "description": "Reset Skills Tree 1 time",
+          "unlocktime": 1794069566
         }
       ],
-      "challenge_achievement_count": 23,
+      "challenge_achievement_count": 26,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
@@ -1641,14 +1659,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 217,
-      "playtime_2weeks_minutes": 217,
+      "playtime_total_minutes": 286,
+      "playtime_2weeks_minutes": 286,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 217,
+      "playtime_challenge_minutes": 286,
       "achievements_total": 42,
-      "achievements_unlocked_total": 16,
+      "achievements_unlocked_total": 19,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 16,
+      "achievements_since_baseline": 19,
       "challenge_achievements": [
         {
           "apiname": "CompleteIntroArena",
@@ -1739,9 +1757,26 @@
           "apiname": "CompleteVarunTower",
           "displayName": "Warden of the West",
           "unlocktime": 1794028117
+        },
+        {
+          "apiname": "CompleteChayaTower",
+          "displayName": "Guardian of the East",
+          "unlocktime": 1794065664
+        },
+        {
+          "apiname": "UnlockCrocoliskMastery",
+          "displayName": "Master Crocolisk",
+          "description": "Unlock Crocolisk Beast Mastery",
+          "unlocktime": 1794065839
+        },
+        {
+          "apiname": "Find5Perasins",
+          "displayName": "Explorer",
+          "description": "Find 5 perasins",
+          "unlocktime": 1794065909
         }
       ],
-      "challenge_achievement_count": 16,
+      "challenge_achievement_count": 19,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
@@ -1770,14 +1805,14 @@
       "review_timestamp": 0,
       "review_recommendationid": "239574550",
       "review_url": "https://steamcommunity.com/profiles/76561198063858039/recommended/1656930",
-      "playtime_total_minutes": 390,
-      "playtime_2weeks_minutes": 390,
+      "playtime_total_minutes": 450,
+      "playtime_2weeks_minutes": 450,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 390,
+      "playtime_challenge_minutes": 450,
       "achievements_total": 42,
-      "achievements_unlocked_total": 14,
+      "achievements_unlocked_total": 15,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 14,
+      "achievements_since_baseline": 15,
       "challenge_achievements": [
         {
           "apiname": "UnlockPantelizMastery",
@@ -1858,9 +1893,15 @@
           "displayName": "Crushed Bones",
           "description": "Ram an enemy",
           "unlocktime": 1794005219
+        },
+        {
+          "apiname": "GrabAndSlamEnemy",
+          "displayName": "WHAM",
+          "description": "Grab and slam an enemy",
+          "unlocktime": 1794067129
         }
       ],
-      "challenge_achievement_count": 14,
+      "challenge_achievement_count": 15,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
