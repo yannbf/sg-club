@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1793491200,
   "totalAchievements": 42,
-  "generatedAt": 1794123599056,
+  "generatedAt": 1794150638480,
   "challengeOver": false,
   "winnerUsername": "Tucs",
   "participants": [
@@ -1165,14 +1165,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 600,
-      "playtime_2weeks_minutes": 600,
+      "playtime_total_minutes": 619,
+      "playtime_2weeks_minutes": 619,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 600,
+      "playtime_challenge_minutes": 619,
       "achievements_total": 42,
-      "achievements_unlocked_total": 30,
+      "achievements_unlocked_total": 32,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 30,
+      "achievements_since_baseline": 32,
       "challenge_achievements": [
         {
           "apiname": "CompleteIntroArena",
@@ -1343,9 +1343,21 @@
           "apiname": "SaveHeera",
           "displayName": "This Is It",
           "unlocktime": 1794119125
+        },
+        {
+          "apiname": "CompleteGuardMissionCorrupted",
+          "displayName": "The Guardian We Need",
+          "description": "Complete a Guard Mission in Dusted Zone",
+          "unlocktime": 1794148963
+        },
+        {
+          "apiname": "CompleteGuardMission",
+          "displayName": "Mission Possible",
+          "description": "Complete a Guard Mission",
+          "unlocktime": 1794149099
         }
       ],
-      "challenge_achievement_count": 30,
+      "challenge_achievement_count": 32,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
