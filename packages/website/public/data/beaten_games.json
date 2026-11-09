@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-11-09T06:22:49.605Z",
+  "last_updated": "2026-11-09T08:04:15.999Z",
   "games": {
     "223810": {
       "marker": {
@@ -5063,6 +5063,19 @@
       "no_marker_reason": "no_marker_found",
       "story_tag_count": 0,
       "checked_at": "2026-10-11T13:15:05.254Z"
+    },
+    "2300340": {
+      "marker": {
+        "apiname": "FINISH_GAME",
+        "name": "The Last Traveler",
+        "description": "Finish the game and make it home",
+        "global_percent": 39.3,
+        "source": "heuristic",
+        "sh_achievement_id": 22
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0,
+      "checked_at": "2026-11-09T08:04:11.120Z"
     },
     "2302320": {
       "marker": {
@@ -10886,6 +10899,12 @@
       "unlock_time": 1751930957,
       "no_data_reason": null,
       "checked_at": "2026-08-24T17:46:55.633Z"
+    },
+    "76561197989280149::2300340": {
+      "beaten": true,
+      "unlock_time": 1794207289,
+      "no_data_reason": null,
+      "checked_at": "2026-11-09T08:04:13.772Z"
     },
     "76561197989280149::1569580": {
       "beaten": true,
