@@ -4115,18 +4115,18 @@
       "override_key": "1888160:ACH06,ACH07"
     },
     "1888930": {
-      "fetched_at": "2026-08-24T20:10:22.212Z",
+      "fetched_at": "2026-11-10T22:28:38.833Z",
       "marker": {
         "apiname": "284b17b75ee9e837",
         "name": "No Matter What",
         "description": "Complete Part 1",
-        "global_percent": 50.9,
-        "source": "steamhunters",
-        "filtered": true,
+        "global_percent": 51.1,
+        "source": "override",
         "sh_achievement_id": 2
       },
       "no_marker_reason": null,
-      "story_tag_count": 1
+      "story_tag_count": 0,
+      "override_key": "1888930:284b17b75ee9e837"
     },
     "1895350": {
       "fetched_at": "2026-11-04T17:22:07.849Z",
@@ -5344,10 +5344,18 @@
       "story_tag_count": 5
     },
     "2377280": {
-      "fetched_at": "2026-11-08T20:31:03.576Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-11-10T22:28:36.477Z",
+      "marker": {
+        "apiname": "Level8_Complete",
+        "name": "By Our Shores",
+        "description": "",
+        "global_percent": 45.2,
+        "source": "override",
+        "sh_achievement_id": 8
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0,
+      "override_key": "2377280:Level8_Complete"
     },
     "2378620": {
       "fetched_at": "2026-08-24T18:00:57.763Z",
@@ -5552,17 +5560,18 @@
       "story_tag_count": 10
     },
     "2428980": {
-      "fetched_at": "2026-11-07T15:45:35.976Z",
+      "fetched_at": "2026-11-10T22:28:35.381Z",
       "marker": {
-        "apiname": "achi_013",
-        "name": "Sleeping Beauty",
-        "description": "Finish the game in more than 10 hours",
-        "global_percent": 3.9,
-        "source": "heuristic",
-        "sh_achievement_id": 13
+        "apiname": "achi_010",
+        "name": "Bye Sweet Carole",
+        "description": "Complete Chapter 10",
+        "global_percent": 23.3,
+        "source": "override",
+        "sh_achievement_id": 10
       },
       "no_marker_reason": null,
-      "story_tag_count": 0
+      "story_tag_count": 0,
+      "override_key": "2428980:achi_010"
     },
     "2436940": {
       "fetched_at": "2026-09-14T14:19:39.404Z",
@@ -5904,10 +5913,22 @@
       "override_key": "2653940:DontForgetMe,IKilledHer,LetMeSaveYou,TheFew,TheMany,YouKilledHer"
     },
     "2658470": {
-      "fetched_at": "2026-11-10T17:09:07.638Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-11-10T22:28:34.287Z",
+      "marker": {
+        "apiname": "EndingMask",
+        "name": "Mask",
+        "description": "You became a part. And you became whole.",
+        "global_percent": 63.2,
+        "source": "override",
+        "any_of_apinames": [
+          "EndingMask",
+          "EndingEscape",
+          "EndingThingIsDead"
+        ]
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0,
+      "override_key": "2658470:EndingEscape,EndingMask,EndingThingIsDead"
     },
     "2661300": {
       "fetched_at": "2026-11-04T22:43:53.985Z",
@@ -6968,10 +6989,18 @@
       "story_tag_count": 10
     },
     "3358170": {
-      "fetched_at": "2026-11-05T15:45:22.026Z",
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
-      "story_tag_count": 0
+      "fetched_at": "2026-11-10T22:28:37.684Z",
+      "marker": {
+        "apiname": "ACH_BACK_TO_THE_ROOST",
+        "name": "Back to the Roost",
+        "description": "Return home with all chickens",
+        "global_percent": 12.8,
+        "source": "override",
+        "sh_achievement_id": 8
+      },
+      "no_marker_reason": null,
+      "story_tag_count": 0,
+      "override_key": "3358170:ACH_BACK_TO_THE_ROOST"
     },
     "3362960": {
       "fetched_at": "2026-11-04T17:22:19.197Z",
@@ -7609,7 +7638,7 @@
       "no_data_reason": null
     },
     "76561198024970451::1820470": {
-      "fetched_at": "2026-11-10T08:30:54.479Z",
+      "fetched_at": "2026-11-10T22:28:53.057Z",
       "marker_apiname": "Nightmare",
       "beaten": false,
       "unlock_time": null,
@@ -7658,14 +7687,14 @@
       "no_data_reason": null
     },
     "76561198424411734::427520": {
-      "fetched_at": "2026-11-10T08:33:24.420Z",
+      "fetched_at": "2026-11-10T22:31:35.632Z",
       "marker_apiname": "smoke-me-a-kipper-i-will-be-back-for-breakfast",
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null
     },
     "76561199481088028::1091500": {
-      "fetched_at": "2026-11-10T08:31:00.418Z",
+      "fetched_at": "2026-11-10T22:28:58.988Z",
       "marker_apiname": "Temperance",
       "beaten": false,
       "unlock_time": null,
@@ -7742,14 +7771,14 @@
       "no_data_reason": null
     },
     "76561198056789339::1941540": {
-      "fetched_at": "2026-11-10T08:31:32.163Z",
+      "fetched_at": "2026-11-10T22:29:33.934Z",
       "marker_apiname": "Achievement_15_Id",
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null
     },
     "76561198056789339::973810": {
-      "fetched_at": "2026-11-10T08:31:33.288Z",
+      "fetched_at": "2026-11-10T22:29:35.326Z",
       "marker_apiname": "TeratomoDefeated",
       "beaten": false,
       "unlock_time": null,
@@ -7826,7 +7855,7 @@
       "no_data_reason": null
     },
     "76561197984532155::3180670": {
-      "fetched_at": "2026-11-10T08:31:43.479Z",
+      "fetched_at": "2026-11-10T22:29:46.053Z",
       "marker_apiname": "THE_FLOWERS_REGRET",
       "beaten": false,
       "unlock_time": null,
@@ -7840,7 +7869,7 @@
       "no_data_reason": null
     },
     "76561197984532155::312540": {
-      "fetched_at": "2026-11-10T08:31:45.733Z",
+      "fetched_at": "2026-11-10T22:29:48.455Z",
       "marker_apiname": "CLEAR_CATASTROPHE",
       "beaten": false,
       "unlock_time": null,
@@ -7868,7 +7897,7 @@
       "no_data_reason": null
     },
     "76561199174167338::1237320": {
-      "fetched_at": "2026-11-10T08:31:53.882Z",
+      "fetched_at": "2026-11-10T22:29:59.826Z",
       "marker_apiname": "MAIN_CLEAR_LAST",
       "beaten": null,
       "unlock_time": null,
@@ -7917,7 +7946,7 @@
       "no_data_reason": null
     },
     "76561198061661987::1030300": {
-      "fetched_at": "2026-11-10T08:32:10.888Z",
+      "fetched_at": "2026-11-10T22:30:18.207Z",
       "marker_apiname": "DEFEATED_LACE_2",
       "beaten": false,
       "unlock_time": null,
@@ -8134,7 +8163,7 @@
       "no_data_reason": null
     },
     "76561198303576866::1623940": {
-      "fetched_at": "2026-11-10T08:33:08.393Z",
+      "fetched_at": "2026-11-10T22:31:18.434Z",
       "marker_apiname": "COMPLETEGAME",
       "beaten": false,
       "unlock_time": null,
@@ -8148,14 +8177,14 @@
       "no_data_reason": null
     },
     "76561198403826603::2396240": {
-      "fetched_at": "2026-11-10T08:33:17.453Z",
+      "fetched_at": "2026-11-10T22:31:27.746Z",
       "marker_apiname": "ach_endgame",
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null
     },
     "76561197981107149::894020": {
-      "fetched_at": "2026-11-10T08:31:46.868Z",
+      "fetched_at": "2026-11-10T22:29:49.621Z",
       "marker_apiname": "ach_game",
       "beaten": false,
       "unlock_time": null,
@@ -8190,7 +8219,7 @@
       "no_data_reason": null
     },
     "76561197968806363::2215430": {
-      "fetched_at": "2026-11-10T08:31:58.415Z",
+      "fetched_at": "2026-11-10T22:30:04.625Z",
       "marker_apiname": "_autoGenTrophy_0012",
       "beaten": false,
       "unlock_time": null,
@@ -8211,14 +8240,14 @@
       "no_data_reason": null
     },
     "76561198000608288::473950": {
-      "fetched_at": "2026-11-10T08:31:59.561Z",
+      "fetched_at": "2026-11-10T22:30:05.860Z",
       "marker_apiname": "TRANSCENDED",
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null
     },
     "76561198035801987::2302320": {
-      "fetched_at": "2026-11-10T08:32:01.842Z",
+      "fetched_at": "2026-11-10T22:30:08.117Z",
       "marker_apiname": "GAME_BEATEN",
       "beaten": false,
       "unlock_time": null,
@@ -8253,7 +8282,7 @@
       "no_data_reason": null
     },
     "76561198069420656::534380": {
-      "fetched_at": "2026-11-10T08:32:05.229Z",
+      "fetched_at": "2026-11-10T22:30:11.915Z",
       "marker_apiname": "ACH_14",
       "beaten": false,
       "unlock_time": null,
@@ -8442,7 +8471,7 @@
       "no_data_reason": null
     },
     "76561198089973992::1157390": {
-      "fetched_at": "2026-11-10T08:32:31.302Z",
+      "fetched_at": "2026-11-10T22:30:38.814Z",
       "marker_apiname": "hardcore",
       "beaten": false,
       "unlock_time": null,
@@ -8456,14 +8485,14 @@
       "no_data_reason": null
     },
     "76561198077347875::3445580": {
-      "fetched_at": "2026-11-10T08:32:34.691Z",
+      "fetched_at": "2026-11-10T22:30:43.473Z",
       "marker_apiname": "randomizer",
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null
     },
     "76561198077347875::1286990": {
-      "fetched_at": "2026-11-10T08:32:35.818Z",
+      "fetched_at": "2026-11-10T22:30:44.720Z",
       "marker_apiname": "ACH_24",
       "beaten": false,
       "unlock_time": null,
@@ -8505,14 +8534,14 @@
       "no_data_reason": null
     },
     "76561198049128535::2050650": {
-      "fetched_at": "2026-11-10T08:32:39.236Z",
+      "fetched_at": "2026-11-10T22:30:48.356Z",
       "marker_apiname": "12",
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null
     },
     "76561198352113526::2950340": {
-      "fetched_at": "2026-11-10T08:32:40.359Z",
+      "fetched_at": "2026-11-10T22:30:49.633Z",
       "marker_apiname": "Complete_Head_Boy",
       "beaten": false,
       "unlock_time": null,
@@ -8526,14 +8555,14 @@
       "no_data_reason": null
     },
     "76561198049797350::894020": {
-      "fetched_at": "2026-11-10T08:32:53.128Z",
+      "fetched_at": "2026-11-10T22:31:03.070Z",
       "marker_apiname": "ach_game",
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null
     },
     "76561199125912770::1679210": {
-      "fetched_at": "2026-11-10T08:32:55.692Z",
+      "fetched_at": "2026-11-10T22:31:05.508Z",
       "marker_apiname": "quest001",
       "beaten": null,
       "unlock_time": null,
@@ -8554,7 +8583,7 @@
       "no_data_reason": null
     },
     "76561198193799379::1259420": {
-      "fetched_at": "2026-11-10T08:32:56.841Z",
+      "fetched_at": "2026-11-10T22:31:06.689Z",
       "marker_apiname": "DG1_ACH_11",
       "beaten": false,
       "unlock_time": null,
@@ -8568,14 +8597,14 @@
       "no_data_reason": null
     },
     "76561198046203998::739080": {
-      "fetched_at": "2026-11-10T08:33:01.365Z",
+      "fetched_at": "2026-11-10T22:31:11.370Z",
       "marker_apiname": "ACHIEVEMENT_FINISHGAME_HARDCORE",
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null
     },
     "76561198054575805::1934680": {
-      "fetched_at": "2026-11-10T08:33:02.506Z",
+      "fetched_at": "2026-11-10T22:31:12.485Z",
       "marker_apiname": "ACHIEVEMENT_AOTG_NOMAD",
       "beaten": false,
       "unlock_time": null,
@@ -8589,7 +8618,7 @@
       "no_data_reason": null
     },
     "76561198444468770::2760790": {
-      "fetched_at": "2026-11-10T08:33:16.321Z",
+      "fetched_at": "2026-11-10T22:31:26.629Z",
       "marker_apiname": "ACH_12",
       "beaten": false,
       "unlock_time": null,
@@ -8673,14 +8702,14 @@
       "no_data_reason": null
     },
     "76561198351673664::553420": {
-      "fetched_at": "2026-11-10T08:33:21.035Z",
+      "fetched_at": "2026-11-10T22:31:32.168Z",
       "marker_apiname": "RELICS",
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null
     },
     "76561198024970451::1313140": {
-      "fetched_at": "2026-11-10T08:30:53.345Z",
+      "fetched_at": "2026-11-10T22:28:51.921Z",
       "marker_apiname": "KILL_BOSS_5",
       "beaten": false,
       "unlock_time": null,
@@ -8722,7 +8751,7 @@
       "no_data_reason": null
     },
     "76561198024970451::1903340": {
-      "fetched_at": "2026-11-10T08:30:55.621Z",
+      "fetched_at": "2026-11-10T22:28:54.164Z",
       "marker_apiname": "THE_END",
       "beaten": false,
       "unlock_time": null,
@@ -8743,7 +8772,7 @@
       "no_data_reason": null
     },
     "76561197982025537::1771300": {
-      "fetched_at": "2026-11-10T08:30:56.754Z",
+      "fetched_at": "2026-11-10T22:28:55.257Z",
       "marker_apiname": "21",
       "beaten": false,
       "unlock_time": null,
@@ -8764,7 +8793,7 @@
       "no_data_reason": null
     },
     "76561199481088028::990080": {
-      "fetched_at": "2026-11-10T08:30:59.290Z",
+      "fetched_at": "2026-11-10T22:28:57.804Z",
       "marker_apiname": "PFA_14",
       "beaten": false,
       "unlock_time": null,
@@ -8785,7 +8814,7 @@
       "no_data_reason": null
     },
     "76561197990462722::1282730": {
-      "fetched_at": "2026-11-10T08:31:01.555Z",
+      "fetched_at": "2026-11-10T22:29:00.189Z",
       "marker_apiname": "NEW_ACHIEVEMENT_3_11",
       "beaten": false,
       "unlock_time": null,
@@ -8799,21 +8828,21 @@
       "no_data_reason": null
     },
     "76561198055569704::990080": {
-      "fetched_at": "2026-11-10T08:31:03.845Z",
+      "fetched_at": "2026-11-10T22:29:02.526Z",
       "marker_apiname": "PFA_14",
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null
     },
     "76561198055569704::1574820": {
-      "fetched_at": "2026-11-10T08:31:04.977Z",
+      "fetched_at": "2026-11-10T22:29:03.608Z",
       "marker_apiname": "ACH_JEEP_100",
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null
     },
     "76561198055569704::1608230": {
-      "fetched_at": "2026-11-10T08:31:06.109Z",
+      "fetched_at": "2026-11-10T22:29:04.866Z",
       "marker_apiname": "shrine01",
       "beaten": false,
       "unlock_time": null,
@@ -8848,7 +8877,7 @@
       "no_data_reason": null
     },
     "76561198066598689::2679460": {
-      "fetched_at": "2026-11-10T08:31:07.241Z",
+      "fetched_at": "2026-11-10T22:29:06.192Z",
       "marker_apiname": "ACHIEVEMENT_2",
       "beaten": false,
       "unlock_time": null,
@@ -8904,14 +8933,14 @@
       "no_data_reason": null
     },
     "76561198041749780::1574820": {
-      "fetched_at": "2026-11-10T08:31:18.516Z",
+      "fetched_at": "2026-11-10T22:29:19.218Z",
       "marker_apiname": "ACH_JEEP_100",
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null
     },
     "76561198041749780::813780": {
-      "fetched_at": "2026-11-10T08:31:19.653Z",
+      "fetched_at": "2026-11-10T22:29:20.384Z",
       "marker_apiname": "ACHIEVEMENT_CAMPAIGN_BURMESE_COMPLETED",
       "beaten": false,
       "unlock_time": null,
@@ -8946,7 +8975,7 @@
       "no_data_reason": null
     },
     "76561198041749780::798460": {
-      "fetched_at": "2026-11-10T08:31:20.787Z",
+      "fetched_at": "2026-11-10T22:29:21.470Z",
       "marker_apiname": "NEW_ACHIEVEMENT_1_6",
       "beaten": false,
       "unlock_time": null,
@@ -8988,7 +9017,7 @@
       "no_data_reason": null
     },
     "76561198054649894::2420110": {
-      "fetched_at": "2026-11-10T08:31:24.240Z",
+      "fetched_at": "2026-11-10T22:29:25.631Z",
       "marker_apiname": "Trophy066",
       "beaten": false,
       "unlock_time": null,
@@ -9002,7 +9031,7 @@
       "no_data_reason": null
     },
     "76561198054649894::1244090": {
-      "fetched_at": "2026-11-10T08:31:25.378Z",
+      "fetched_at": "2026-11-10T22:29:26.727Z",
       "marker_apiname": "SOS_ACHIEVEMENT_21",
       "beaten": false,
       "unlock_time": null,
@@ -9030,7 +9059,7 @@
       "no_data_reason": null
     },
     "76561198051248084::1903340": {
-      "fetched_at": "2026-11-10T08:31:28.779Z",
+      "fetched_at": "2026-11-10T22:29:30.588Z",
       "marker_apiname": "THE_END",
       "beaten": false,
       "unlock_time": null,
@@ -9044,7 +9073,7 @@
       "no_data_reason": null
     },
     "76561198002466205::1313140": {
-      "fetched_at": "2026-11-10T08:31:29.910Z",
+      "fetched_at": "2026-11-10T22:29:31.671Z",
       "marker_apiname": "KILL_BOSS_5",
       "beaten": false,
       "unlock_time": null,
@@ -9065,7 +9094,7 @@
       "no_data_reason": null
     },
     "76561197967055456::2668510": {
-      "fetched_at": "2026-11-10T08:31:35.549Z",
+      "fetched_at": "2026-11-10T22:29:37.557Z",
       "marker_apiname": "ACH08",
       "beaten": false,
       "unlock_time": null,
@@ -9079,7 +9108,7 @@
       "no_data_reason": null
     },
     "76561198013734355::1608230": {
-      "fetched_at": "2026-11-10T08:31:36.682Z",
+      "fetched_at": "2026-11-10T22:29:38.686Z",
       "marker_apiname": "shrine01",
       "beaten": false,
       "unlock_time": null,
@@ -9093,7 +9122,7 @@
       "no_data_reason": null
     },
     "76561198013734355::1574820": {
-      "fetched_at": "2026-11-10T08:31:37.816Z",
+      "fetched_at": "2026-11-10T22:29:40.030Z",
       "marker_apiname": "ACH_JEEP_100",
       "beaten": false,
       "unlock_time": null,
@@ -9107,7 +9136,7 @@
       "no_data_reason": null
     },
     "76561198013734355::462770": {
-      "fetched_at": "2026-11-10T08:31:38.938Z",
+      "fetched_at": "2026-11-10T22:29:41.237Z",
       "marker_apiname": "AchEnding",
       "beaten": false,
       "unlock_time": null,
@@ -9121,7 +9150,7 @@
       "no_data_reason": null
     },
     "76561198027027643::990080": {
-      "fetched_at": "2026-11-10T08:31:40.071Z",
+      "fetched_at": "2026-11-10T22:29:42.431Z",
       "marker_apiname": "PFA_14",
       "beaten": false,
       "unlock_time": null,
@@ -9142,7 +9171,7 @@
       "no_data_reason": null
     },
     "76561198082023389::3527290": {
-      "fetched_at": "2026-11-10T08:31:41.198Z",
+      "fetched_at": "2026-11-10T22:29:43.782Z",
       "marker_apiname": "PeakBadge",
       "beaten": false,
       "unlock_time": null,
@@ -9163,7 +9192,7 @@
       "no_data_reason": null
     },
     "76561198082023389::990080": {
-      "fetched_at": "2026-11-10T08:31:42.345Z",
+      "fetched_at": "2026-11-10T22:29:44.906Z",
       "marker_apiname": "PFA_14",
       "beaten": false,
       "unlock_time": null,
@@ -9198,7 +9227,7 @@
       "no_data_reason": null
     },
     "76561197984532155::1574820": {
-      "fetched_at": "2026-11-10T08:31:44.599Z",
+      "fetched_at": "2026-11-10T22:29:47.371Z",
       "marker_apiname": "ACH_JEEP_100",
       "beaten": false,
       "unlock_time": null,
@@ -9240,7 +9269,7 @@
       "no_data_reason": null
     },
     "76561198347852739::637650": {
-      "fetched_at": "2026-11-10T08:31:48.012Z",
+      "fetched_at": "2026-11-10T22:29:52.249Z",
       "marker_apiname": "ACH_81",
       "beaten": false,
       "unlock_time": null,
@@ -9261,21 +9290,21 @@
       "no_data_reason": null
     },
     "76561198148268245::976730": {
-      "fetched_at": "2026-11-10T08:33:18.777Z",
+      "fetched_at": "2026-11-10T22:31:28.899Z",
       "marker_apiname": "1_9_PEST_CONTROL",
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null
     },
     "76561197965128191::1222140": {
-      "fetched_at": "2026-11-10T08:31:49.143Z",
+      "fetched_at": "2026-11-10T22:29:53.744Z",
       "marker_apiname": "46",
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null
     },
     "76561197965128191::1903340": {
-      "fetched_at": "2026-11-10T08:31:50.274Z",
+      "fetched_at": "2026-11-10T22:29:54.967Z",
       "marker_apiname": "THE_END",
       "beaten": false,
       "unlock_time": null,
@@ -9296,7 +9325,7 @@
       "no_data_reason": null
     },
     "76561198164999453::1210320": {
-      "fetched_at": "2026-11-10T08:31:52.544Z",
+      "fetched_at": "2026-11-10T22:29:58.487Z",
       "marker_apiname": "CompleteChapter10",
       "beaten": false,
       "unlock_time": null,
@@ -9352,7 +9381,7 @@
       "no_data_reason": null
     },
     "76561198143588240::1903340": {
-      "fetched_at": "2026-11-10T08:32:00.699Z",
+      "fetched_at": "2026-11-10T22:30:06.981Z",
       "marker_apiname": "THE_END",
       "beaten": false,
       "unlock_time": null,
@@ -9464,14 +9493,14 @@
       "no_data_reason": null
     },
     "76561198452519450::1092790": {
-      "fetched_at": "2026-11-10T08:32:06.375Z",
+      "fetched_at": "2026-11-10T22:30:13.009Z",
       "marker_apiname": "STORY_PROGRESS_9",
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null
     },
     "76561198452519450::1273540": {
-      "fetched_at": "2026-11-10T08:32:07.507Z",
+      "fetched_at": "2026-11-10T22:30:14.133Z",
       "marker_apiname": "Full Tower 2",
       "beaten": false,
       "unlock_time": null,
@@ -9639,7 +9668,7 @@
       "no_data_reason": null
     },
     "76561197994025244::1210320": {
-      "fetched_at": "2026-11-10T08:32:15.412Z",
+      "fetched_at": "2026-11-10T22:30:22.739Z",
       "marker_apiname": "CompleteChapter10",
       "beaten": false,
       "unlock_time": null,
@@ -9674,7 +9703,7 @@
       "no_data_reason": null
     },
     "76561197994025244::798460": {
-      "fetched_at": "2026-11-10T08:32:16.529Z",
+      "fetched_at": "2026-11-10T22:30:23.878Z",
       "marker_apiname": "NEW_ACHIEVEMENT_1_6",
       "beaten": false,
       "unlock_time": null,
@@ -9695,7 +9724,7 @@
       "no_data_reason": null
     },
     "76561198048462370::524220": {
-      "fetched_at": "2026-11-10T08:32:18.790Z",
+      "fetched_at": "2026-11-10T22:30:26.068Z",
       "marker_apiname": "ACH_TRUE_END",
       "beaten": false,
       "unlock_time": null,
@@ -9709,7 +9738,7 @@
       "no_data_reason": null
     },
     "76561198048462370::812140": {
-      "fetched_at": "2026-11-10T08:32:19.910Z",
+      "fetched_at": "2026-11-10T22:30:27.229Z",
       "marker_apiname": "010",
       "beaten": false,
       "unlock_time": null,
@@ -9849,7 +9878,7 @@
       "no_data_reason": null
     },
     "76561198081010034::1887840": {
-      "fetched_at": "2026-11-10T08:32:24.439Z",
+      "fetched_at": "2026-11-10T22:30:31.901Z",
       "marker_apiname": "BossDefeated_Firth",
       "beaten": false,
       "unlock_time": null,
@@ -9877,7 +9906,7 @@
       "no_data_reason": null
     },
     "76561197991280042::813780": {
-      "fetched_at": "2026-11-10T08:32:26.799Z",
+      "fetched_at": "2026-11-10T22:30:34.172Z",
       "marker_apiname": "ACHIEVEMENT_CAMPAIGN_BURMESE_COMPLETED",
       "beaten": false,
       "unlock_time": null,
@@ -9891,14 +9920,14 @@
       "no_data_reason": null
     },
     "76561199067998064::1601570": {
-      "fetched_at": "2026-11-10T08:32:27.945Z",
+      "fetched_at": "2026-11-10T22:30:35.319Z",
       "marker_apiname": "6",
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null
     },
     "76561199067998064::1574820": {
-      "fetched_at": "2026-11-10T08:32:29.059Z",
+      "fetched_at": "2026-11-10T22:30:36.515Z",
       "marker_apiname": "ACH_JEEP_100",
       "beaten": false,
       "unlock_time": null,
@@ -10059,7 +10088,7 @@
       "no_data_reason": null
     },
     "76561199141726712::524220": {
-      "fetched_at": "2026-11-10T08:32:38.107Z",
+      "fetched_at": "2026-11-10T22:30:47.203Z",
       "marker_apiname": "ACH_TRUE_END",
       "beaten": false,
       "unlock_time": null,
@@ -10094,14 +10123,14 @@
       "no_data_reason": null
     },
     "76561198343020214::1313140": {
-      "fetched_at": "2026-11-10T08:32:42.633Z",
+      "fetched_at": "2026-11-10T22:30:51.924Z",
       "marker_apiname": "KILL_BOSS_5",
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null
     },
     "76561198343020214::485510": {
-      "fetched_at": "2026-11-10T08:32:43.765Z",
+      "fetched_at": "2026-11-10T22:30:53.155Z",
       "marker_apiname": "TROPHY_MISSION_JAPAN_2ND",
       "beaten": false,
       "unlock_time": null,
@@ -10115,35 +10144,35 @@
       "no_data_reason": null
     },
     "76561198147598321::1608230": {
-      "fetched_at": "2026-11-10T08:32:44.888Z",
+      "fetched_at": "2026-11-10T22:30:54.299Z",
       "marker_apiname": "shrine01",
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null
     },
     "76561199208110739::1868140": {
-      "fetched_at": "2026-11-10T08:32:47.437Z",
+      "fetched_at": "2026-11-10T22:30:56.854Z",
       "marker_apiname": "Achievement_14130005",
       "beaten": null,
       "unlock_time": null,
       "no_data_reason": "no_stats"
     },
     "76561199208110739::920210": {
-      "fetched_at": "2026-11-10T08:32:48.576Z",
+      "fetched_at": "2026-11-10T22:30:58.118Z",
       "marker_apiname": "COMPLETE_SKYWALKER_SAGA",
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null
     },
     "76561199208110739::1222140": {
-      "fetched_at": "2026-11-10T08:32:49.697Z",
+      "fetched_at": "2026-11-10T22:30:59.324Z",
       "marker_apiname": "46",
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null
     },
     "76561199208110739::1493640": {
-      "fetched_at": "2026-11-10T08:32:50.814Z",
+      "fetched_at": "2026-11-10T22:31:00.438Z",
       "marker_apiname": "ACH_NIGHTMARE",
       "beaten": false,
       "unlock_time": null,
@@ -10164,7 +10193,7 @@
       "no_data_reason": null
     },
     "76561198065202929::1885110": {
-      "fetched_at": "2026-11-10T08:32:51.981Z",
+      "fetched_at": "2026-11-10T22:31:01.688Z",
       "marker_apiname": "sunlight01",
       "beaten": false,
       "unlock_time": null,
@@ -10185,7 +10214,7 @@
       "no_data_reason": null
     },
     "76561199125912770::1237950": {
-      "fetched_at": "2026-11-10T08:32:54.434Z",
+      "fetched_at": "2026-11-10T22:31:04.317Z",
       "marker_apiname": "Achievement_GOSCC_43",
       "beaten": null,
       "unlock_time": null,
@@ -10206,7 +10235,7 @@
       "no_data_reason": null
     },
     "76561198193799379::1313140": {
-      "fetched_at": "2026-11-10T08:32:57.970Z",
+      "fetched_at": "2026-11-10T22:31:07.813Z",
       "marker_apiname": "KILL_BOSS_5",
       "beaten": false,
       "unlock_time": null,
@@ -10220,7 +10249,7 @@
       "no_data_reason": null
     },
     "76561198193799379::377840": {
-      "fetched_at": "2026-11-10T08:32:59.097Z",
+      "fetched_at": "2026-11-10T22:31:08.911Z",
       "marker_apiname": "CgkIgrPmjcATEAIQKw",
       "beaten": false,
       "unlock_time": null,
@@ -10234,7 +10263,7 @@
       "no_data_reason": null
     },
     "76561198820509240::1903340": {
-      "fetched_at": "2026-11-10T08:33:00.228Z",
+      "fetched_at": "2026-11-10T22:31:10.140Z",
       "marker_apiname": "THE_END",
       "beaten": false,
       "unlock_time": null,
@@ -10304,7 +10333,7 @@
       "no_data_reason": null
     },
     "76561197980988545::1245620": {
-      "fetched_at": "2026-11-10T08:33:03.649Z",
+      "fetched_at": "2026-11-10T22:31:13.661Z",
       "marker_apiname": "ACH15",
       "beaten": false,
       "unlock_time": null,
@@ -10325,14 +10354,14 @@
       "no_data_reason": null
     },
     "76561198303576866::1574820": {
-      "fetched_at": "2026-11-10T08:33:07.263Z",
+      "fetched_at": "2026-11-10T22:31:17.339Z",
       "marker_apiname": "ACH_JEEP_100",
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null
     },
     "76561198065466175::1903340": {
-      "fetched_at": "2026-11-10T08:33:09.523Z",
+      "fetched_at": "2026-11-10T22:31:19.552Z",
       "marker_apiname": "THE_END",
       "beaten": false,
       "unlock_time": null,
@@ -10360,14 +10389,14 @@
       "no_data_reason": null
     },
     "76561197996608804::990080": {
-      "fetched_at": "2026-11-10T08:33:11.799Z",
+      "fetched_at": "2026-11-10T22:31:22.142Z",
       "marker_apiname": "PFA_14",
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null
     },
     "76561197996608804::1574820": {
-      "fetched_at": "2026-11-10T08:33:12.932Z",
+      "fetched_at": "2026-11-10T22:31:23.239Z",
       "marker_apiname": "ACH_JEEP_100",
       "beaten": false,
       "unlock_time": null,
@@ -10381,7 +10410,7 @@
       "no_data_reason": null
     },
     "76561197960948034::1244090": {
-      "fetched_at": "2026-11-10T08:33:14.064Z",
+      "fetched_at": "2026-11-10T22:31:24.360Z",
       "marker_apiname": "SOS_ACHIEVEMENT_21",
       "beaten": false,
       "unlock_time": null,
@@ -10423,7 +10452,7 @@
       "no_data_reason": null
     },
     "76561198453663783::1574820": {
-      "fetched_at": "2026-11-10T08:30:46.523Z",
+      "fetched_at": "2026-11-10T22:28:45.105Z",
       "marker_apiname": "ACH_JEEP_100",
       "beaten": false,
       "unlock_time": null,
@@ -10528,7 +10557,7 @@
       "no_data_reason": null
     },
     "76561197994025244::3874000": {
-      "fetched_at": "2026-11-10T08:32:14.279Z",
+      "fetched_at": "2026-11-10T22:30:21.560Z",
       "marker_apiname": "THE_MOON",
       "beaten": false,
       "unlock_time": null,
@@ -10689,21 +10718,21 @@
       "no_data_reason": null
     },
     "76561198056789339::379430": {
-      "fetched_at": "2026-11-10T08:33:27.835Z",
+      "fetched_at": "2026-11-10T22:31:39.010Z",
       "marker_apiname": "TheEnd",
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null
     },
     "76561197970969216::2050650": {
-      "fetched_at": "2026-11-10T08:33:30.121Z",
+      "fetched_at": "2026-11-10T22:31:41.399Z",
       "marker_apiname": "12",
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null
     },
     "76561197994025244::1903340": {
-      "fetched_at": "2026-11-10T08:33:31.246Z",
+      "fetched_at": "2026-11-10T22:31:43.664Z",
       "marker_apiname": "THE_END",
       "beaten": false,
       "unlock_time": null,
@@ -10738,14 +10767,14 @@
       "no_data_reason": null
     },
     "76561198041749780::775500": {
-      "fetched_at": "2026-11-10T08:33:25.572Z",
+      "fetched_at": "2026-11-10T22:31:36.772Z",
       "marker_apiname": "Trophy_Title_05",
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null
     },
     "76561198051248084::1174180": {
-      "fetched_at": "2026-11-10T08:33:26.702Z",
+      "fetched_at": "2026-11-10T22:31:37.866Z",
       "marker_apiname": "Achievement10",
       "beaten": false,
       "unlock_time": null,
@@ -10766,7 +10795,7 @@
       "no_data_reason": null
     },
     "76561198452519450::775500": {
-      "fetched_at": "2026-11-10T08:33:28.965Z",
+      "fetched_at": "2026-11-10T22:31:40.214Z",
       "marker_apiname": "Trophy_Title_05",
       "beaten": false,
       "unlock_time": null,
@@ -10780,7 +10809,7 @@
       "no_data_reason": null
     },
     "76561198054324521::2515020": {
-      "fetched_at": "2026-11-10T08:33:32.370Z",
+      "fetched_at": "2026-11-10T22:31:44.821Z",
       "marker_apiname": "1012",
       "beaten": false,
       "unlock_time": null,
@@ -10808,14 +10837,14 @@
       "no_data_reason": null
     },
     "76561198057642029::2552430": {
-      "fetched_at": "2026-11-10T08:33:33.500Z",
+      "fetched_at": "2026-11-10T22:31:45.960Z",
       "marker_apiname": "ACH_031",
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null
     },
     "76561198065466175::1265920": {
-      "fetched_at": "2026-11-10T08:33:34.634Z",
+      "fetched_at": "2026-11-10T22:31:47.080Z",
       "marker_apiname": "49",
       "beaten": false,
       "unlock_time": null,
@@ -10899,7 +10928,7 @@
       "no_data_reason": null
     },
     "76561198250732560::2668510": {
-      "fetched_at": "2026-11-10T08:30:51.091Z",
+      "fetched_at": "2026-11-10T22:28:49.702Z",
       "marker_apiname": "ACH08",
       "beaten": false,
       "unlock_time": null,
@@ -10934,7 +10963,7 @@
       "no_data_reason": null
     },
     "76561198041749780::1128920": {
-      "fetched_at": "2026-11-10T08:31:16.254Z",
+      "fetched_at": "2026-11-10T22:29:15.488Z",
       "marker_apiname": "a_06_story_completed",
       "beaten": false,
       "unlock_time": null,
@@ -11039,7 +11068,7 @@
       "no_data_reason": null
     },
     "76561198069420656::748490": {
-      "fetched_at": "2026-11-10T08:32:04.094Z",
+      "fetched_at": "2026-11-10T22:30:10.542Z",
       "marker_apiname": "TROPHY2_CLEAR_HARD",
       "beaten": false,
       "unlock_time": null,
@@ -11312,7 +11341,7 @@
       "no_data_reason": null
     },
     "76561198001969728::1771300": {
-      "fetched_at": "2026-11-10T08:32:22.179Z",
+      "fetched_at": "2026-11-10T22:30:29.610Z",
       "marker_apiname": "21",
       "beaten": false,
       "unlock_time": null,
@@ -11676,7 +11705,7 @@
       "no_data_reason": null
     },
     "76561198399974062::2515020": {
-      "fetched_at": "2026-11-10T08:32:23.304Z",
+      "fetched_at": "2026-11-10T22:30:30.780Z",
       "marker_apiname": "1012",
       "beaten": false,
       "unlock_time": null,
@@ -11830,7 +11859,7 @@
       "no_data_reason": null
     },
     "76561198041749780::2725260": {
-      "fetched_at": "2026-11-10T08:31:17.389Z",
+      "fetched_at": "2026-11-10T22:29:18.106Z",
       "marker_apiname": "ach_ending_a",
       "beaten": false,
       "unlock_time": null,
@@ -11970,7 +11999,7 @@
       "no_data_reason": null
     },
     "76561198027595057::1593030": {
-      "fetched_at": "2026-11-10T08:32:13.149Z",
+      "fetched_at": "2026-11-10T22:30:20.455Z",
       "marker_apiname": "HundredPercentRestored",
       "beaten": false,
       "unlock_time": null,
@@ -12145,7 +12174,7 @@
       "no_data_reason": null
     },
     "76561197996608804::1626620": {
-      "fetched_at": "2026-11-10T08:33:10.662Z",
+      "fetched_at": "2026-11-10T22:31:21.038Z",
       "marker_apiname": "ACH_FINISH_GAME",
       "beaten": false,
       "unlock_time": null,
@@ -12187,7 +12216,7 @@
       "no_data_reason": null
     },
     "76561198020386807::1293160": {
-      "fetched_at": "2026-11-10T08:31:27.648Z",
+      "fetched_at": "2026-11-10T22:29:29.263Z",
       "marker_apiname": "CantAlwaysSaveEveryone",
       "beaten": false,
       "unlock_time": null,
@@ -12229,7 +12258,7 @@
       "no_data_reason": null
     },
     "76561198061661987::1627720": {
-      "fetched_at": "2026-11-10T08:32:09.764Z",
+      "fetched_at": "2026-11-10T22:30:17.104Z",
       "marker_apiname": "LOP_104",
       "beaten": false,
       "unlock_time": null,
@@ -12257,7 +12286,7 @@
       "no_data_reason": null
     },
     "76561198089973992::1627720": {
-      "fetched_at": "2026-11-10T08:32:30.182Z",
+      "fetched_at": "2026-11-10T22:30:37.714Z",
       "marker_apiname": "LOP_104",
       "beaten": false,
       "unlock_time": null,
@@ -12278,7 +12307,7 @@
       "no_data_reason": null
     },
     "76561198185630581::1627720": {
-      "fetched_at": "2026-11-10T08:33:23.297Z",
+      "fetched_at": "2026-11-10T22:31:34.499Z",
       "marker_apiname": "LOP_104",
       "beaten": false,
       "unlock_time": null,
@@ -12292,7 +12321,7 @@
       "no_data_reason": null
     },
     "76561198089693705::1492680": {
-      "fetched_at": "2026-11-10T08:32:36.967Z",
+      "fetched_at": "2026-11-10T22:30:46.029Z",
       "marker_apiname": "TROP041",
       "beaten": false,
       "unlock_time": null,
@@ -12502,7 +12531,7 @@
       "no_data_reason": null
     },
     "76561198147598321::2334730": {
-      "fetched_at": "2026-11-10T08:32:46.024Z",
+      "fetched_at": "2026-11-10T22:30:55.584Z",
       "marker_apiname": "Ach_Trophy_Lady",
       "beaten": false,
       "unlock_time": null,
@@ -12523,14 +12552,14 @@
       "no_data_reason": null
     },
     "76561198413978177::2334730": {
-      "fetched_at": "2026-11-10T08:33:22.172Z",
+      "fetched_at": "2026-11-10T22:31:33.313Z",
       "marker_apiname": "Ach_Trophy_Lady",
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null
     },
     "76561198047330685::1659420": {
-      "fetched_at": "2026-11-10T08:30:45.394Z",
+      "fetched_at": "2026-11-10T22:28:43.993Z",
       "marker_apiname": "TROPHY_NAME_FINISH_NORMAL",
       "beaten": false,
       "unlock_time": null,
@@ -12579,14 +12608,14 @@
       "no_data_reason": null
     },
     "76561198020386807::1240060": {
-      "fetched_at": "2026-11-10T08:31:26.515Z",
+      "fetched_at": "2026-11-10T22:29:28.108Z",
       "marker_apiname": "A_ReachedLighthouse",
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null
     },
     "76561197968806363::359870": {
-      "fetched_at": "2026-11-10T08:31:57.286Z",
+      "fetched_at": "2026-11-10T22:30:03.363Z",
       "marker_apiname": "ACH_THE_ETERNAL_CALM",
       "beaten": false,
       "unlock_time": null,
@@ -12642,21 +12671,21 @@
       "no_data_reason": null
     },
     "76561198352113526::359870": {
-      "fetched_at": "2026-11-10T08:32:41.492Z",
+      "fetched_at": "2026-11-10T22:30:50.725Z",
       "marker_apiname": "ACH_THE_ETERNAL_CALM",
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null
     },
     "76561198303576866::359870": {
-      "fetched_at": "2026-11-10T08:33:06.143Z",
+      "fetched_at": "2026-11-10T22:31:16.244Z",
       "marker_apiname": "ACH_THE_ETERNAL_CALM",
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null
     },
     "76561198444468770::1659420": {
-      "fetched_at": "2026-11-10T08:33:15.193Z",
+      "fetched_at": "2026-11-10T22:31:25.483Z",
       "marker_apiname": "TROPHY_NAME_FINISH_NORMAL",
       "beaten": false,
       "unlock_time": null,
@@ -12677,7 +12706,7 @@
       "no_data_reason": null
     },
     "76561198055181554::361420": {
-      "fetched_at": "2026-11-10T08:30:49.943Z",
+      "fetched_at": "2026-11-10T22:28:48.552Z",
       "marker_apiname": "BeatGame",
       "beaten": false,
       "unlock_time": null,
@@ -12691,14 +12720,14 @@
       "no_data_reason": null
     },
     "76561198056789339::361420": {
-      "fetched_at": "2026-11-10T08:31:31.041Z",
+      "fetched_at": "2026-11-10T22:29:32.802Z",
       "marker_apiname": "BeatGame",
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null
     },
     "76561198056789339::1196590": {
-      "fetched_at": "2026-11-10T08:31:34.416Z",
+      "fetched_at": "2026-11-10T22:29:36.436Z",
       "marker_apiname": "11",
       "beaten": false,
       "unlock_time": null,
@@ -12740,7 +12769,7 @@
       "no_data_reason": null
     },
     "76561198089973992::1196590": {
-      "fetched_at": "2026-11-10T08:32:32.426Z",
+      "fetched_at": "2026-11-10T22:30:39.933Z",
       "marker_apiname": "11",
       "beaten": false,
       "unlock_time": null,
@@ -12768,14 +12797,14 @@
       "no_data_reason": null
     },
     "76561198250732560::1585180": {
-      "fetched_at": "2026-11-10T08:30:52.219Z",
+      "fetched_at": "2026-11-10T22:28:50.799Z",
       "marker_apiname": "3a3764a914e904d44823cf76b86ae6ee",
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null
     },
     "76561198047330685::2057760": {
-      "fetched_at": "2026-11-10T08:30:44.258Z",
+      "fetched_at": "2026-11-10T22:28:42.368Z",
       "marker_apiname": "STORY_ELECTION",
       "beaten": false,
       "unlock_time": null,
@@ -12838,7 +12867,7 @@
       "no_data_reason": null
     },
     "76561197968806363::1030300": {
-      "fetched_at": "2026-11-10T08:31:56.137Z",
+      "fetched_at": "2026-11-10T22:30:02.151Z",
       "marker_apiname": "DEFEATED_LACE_2",
       "beaten": false,
       "unlock_time": null,
@@ -12880,7 +12909,7 @@
       "no_data_reason": null
     },
     "76561198025798123::1462040": {
-      "fetched_at": "2026-11-10T08:30:47.669Z",
+      "fetched_at": "2026-11-10T22:28:46.184Z",
       "marker_apiname": "ACH_18",
       "beaten": false,
       "unlock_time": null,
@@ -13048,7 +13077,7 @@
       "no_data_reason": null
     },
     "76561198069420656::1262350": {
-      "fetched_at": "2026-11-10T08:32:02.974Z",
+      "fetched_at": "2026-11-10T22:30:09.364Z",
       "marker_apiname": "ACH_7",
       "beaten": false,
       "unlock_time": null,
@@ -13090,7 +13119,7 @@
       "no_data_reason": null
     },
     "76561198048462370::2461850": {
-      "fetched_at": "2026-11-10T08:32:17.658Z",
+      "fetched_at": "2026-11-10T22:30:24.959Z",
       "marker_apiname": "Ch6_DefeatGothi",
       "beaten": false,
       "unlock_time": null,
@@ -13132,7 +13161,7 @@
       "no_data_reason": null
     },
     "76561198054649894::1096530": {
-      "fetched_at": "2026-11-10T08:31:23.095Z",
+      "fetched_at": "2026-11-10T22:29:23.939Z",
       "marker_apiname": "ACH_FINISHGAME",
       "beaten": false,
       "unlock_time": null,
@@ -13195,14 +13224,14 @@
       "no_data_reason": null
     },
     "76561199434715535::2767530": {
-      "fetched_at": "2026-11-10T08:31:08.366Z",
+      "fetched_at": "2026-11-10T22:29:07.340Z",
       "marker_apiname": "sa_complete_hard_splus",
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null
     },
     "76561199434715535::2989180": {
-      "fetched_at": "2026-11-10T08:31:10.610Z",
+      "fetched_at": "2026-11-10T22:29:09.678Z",
       "marker_apiname": "RETURN_TO_THE_SEA",
       "beaten": false,
       "unlock_time": null,
@@ -13216,14 +13245,14 @@
       "no_data_reason": null
     },
     "76561199434715535::3639650": {
-      "fetched_at": "2026-11-10T08:31:11.738Z",
+      "fetched_at": "2026-11-10T22:29:10.773Z",
       "marker_apiname": "136",
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null
     },
     "76561199434715535::1293160": {
-      "fetched_at": "2026-11-10T08:31:12.866Z",
+      "fetched_at": "2026-11-10T22:29:11.866Z",
       "marker_apiname": "CantAlwaysSaveEveryone",
       "beaten": false,
       "unlock_time": null,
@@ -13251,7 +13280,7 @@
       "no_data_reason": null
     },
     "76561199036747433::4358690": {
-      "fetched_at": "2026-11-10T08:30:48.789Z",
+      "fetched_at": "2026-11-10T22:28:47.398Z",
       "marker_apiname": "ach_the_end",
       "beaten": false,
       "unlock_time": null,
@@ -13321,14 +13350,14 @@
       "no_data_reason": null
     },
     "76561198351673664::1569580": {
-      "fetched_at": "2026-11-10T08:33:19.906Z",
+      "fetched_at": "2026-11-10T22:31:30.099Z",
       "marker_apiname": "Inheritance Trophy",
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null
     },
     "76561198080362358::1849790": {
-      "fetched_at": "2026-11-10T08:32:33.559Z",
+      "fetched_at": "2026-11-10T22:30:41.169Z",
       "marker_apiname": "magpieRapidDay4",
       "beaten": false,
       "unlock_time": null,
@@ -13384,21 +13413,21 @@
       "no_data_reason": null
     },
     "76561199434715535::2915460": {
-      "fetched_at": "2026-11-10T08:31:09.488Z",
+      "fetched_at": "2026-11-10T22:29:08.546Z",
       "marker_apiname": "PANCAKES",
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null
     },
     "76561199434715535::1805480": {
-      "fetched_at": "2026-11-10T08:31:13.986Z",
+      "fetched_at": "2026-11-10T22:29:13.212Z",
       "marker_apiname": "CLEAR_CHAPTER_ALL",
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null
     },
     "76561198041749780::1940340": {
-      "fetched_at": "2026-11-10T08:31:15.124Z",
+      "fetched_at": "2026-11-10T22:29:14.378Z",
       "marker_apiname": "run_victory_act05",
       "beaten": false,
       "unlock_time": null,
@@ -13426,14 +13455,14 @@
       "no_data_reason": null
     },
     "76561198411996697::2806640": {
-      "fetched_at": "2026-11-10T08:32:21.047Z",
+      "fetched_at": "2026-11-10T22:30:28.379Z",
       "marker_apiname": "Ascension",
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null
     },
     "76561199438702936::3259780": {
-      "fetched_at": "2026-11-10T08:32:25.569Z",
+      "fetched_at": "2026-11-10T22:30:33.039Z",
       "marker_apiname": "0008",
       "beaten": false,
       "unlock_time": null,
@@ -13454,7 +13483,7 @@
       "no_data_reason": null
     },
     "76561198055569704::1904480": {
-      "fetched_at": "2026-11-10T08:31:02.685Z",
+      "fetched_at": "2026-11-10T22:29:01.449Z",
       "marker_apiname": "A37",
       "beaten": false,
       "unlock_time": null,
@@ -13517,7 +13546,7 @@
       "no_data_reason": null
     },
     "76561198053065013::1552550": {
-      "fetched_at": "2026-11-10T08:30:43.109Z",
+      "fetched_at": "2026-11-10T22:28:41.056Z",
       "marker_apiname": "TRP_BYA_20",
       "beaten": false,
       "unlock_time": null,
@@ -13580,7 +13609,7 @@
       "no_data_reason": null
     },
     "76561198040188513::3419520": {
-      "fetched_at": "2026-11-10T08:31:51.408Z",
+      "fetched_at": "2026-11-10T22:29:56.156Z",
       "marker_apiname": "ACH_40",
       "beaten": false,
       "unlock_time": null,
@@ -13594,10 +13623,10 @@
       "no_data_reason": null
     },
     "76561198408001048::2428980": {
-      "fetched_at": "2026-11-10T08:31:21.955Z",
-      "marker_apiname": "achi_013",
-      "beaten": false,
-      "unlock_time": null,
+      "fetched_at": "2026-11-10T22:29:22.550Z",
+      "marker_apiname": "achi_010",
+      "beaten": true,
+      "unlock_time": 1794061068,
       "no_data_reason": null
     },
     "76561198408001048::2863640": {
@@ -13615,7 +13644,7 @@
       "no_data_reason": null
     },
     "76561198061661987::2592160": {
-      "fetched_at": "2026-11-10T08:32:08.629Z",
+      "fetched_at": "2026-11-10T22:30:15.292Z",
       "marker_apiname": "ACH_CONVOY",
       "beaten": false,
       "unlock_time": null,
@@ -13636,14 +13665,14 @@
       "no_data_reason": null
     },
     "76561197968806363::1693980": {
-      "fetched_at": "2026-11-10T08:31:55.013Z",
+      "fetched_at": "2026-11-10T22:30:00.998Z",
       "marker_apiname": "ach12",
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null
     },
     "76561198027595057::2358720": {
-      "fetched_at": "2026-11-10T08:32:12.012Z",
+      "fetched_at": "2026-11-10T22:30:19.361Z",
       "marker_apiname": "81072",
       "beaten": false,
       "unlock_time": null,
@@ -13654,6 +13683,34 @@
       "marker_apiname": "PastWantToChange",
       "beaten": false,
       "unlock_time": null,
+      "no_data_reason": null
+    },
+    "76561198053065013::2658470": {
+      "fetched_at": "2026-11-10T22:28:39.942Z",
+      "marker_apiname": "EndingMask",
+      "beaten": true,
+      "unlock_time": 1794177838,
+      "no_data_reason": null
+    },
+    "76561198019838591::2377280": {
+      "fetched_at": "2026-11-10T22:29:51.064Z",
+      "marker_apiname": "Level8_Complete",
+      "beaten": true,
+      "unlock_time": 1794153791,
+      "no_data_reason": null
+    },
+    "76561198040188513::3358170": {
+      "fetched_at": "2026-11-10T22:29:57.309Z",
+      "marker_apiname": "ACH_BACK_TO_THE_ROOST",
+      "beaten": true,
+      "unlock_time": 1793830897,
+      "no_data_reason": null
+    },
+    "76561198080362358::2658470": {
+      "fetched_at": "2026-11-10T22:30:42.262Z",
+      "marker_apiname": "EndingMask",
+      "beaten": true,
+      "unlock_time": 1779254935,
       "no_data_reason": null
     }
   },

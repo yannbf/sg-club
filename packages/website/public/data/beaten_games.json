@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-11-10T17:09:19.611Z",
+  "last_updated": "2026-11-10T22:31:48.084Z",
   "games": {
     "223810": {
       "marker": {
@@ -4065,14 +4065,13 @@
         "apiname": "284b17b75ee9e837",
         "name": "No Matter What",
         "description": "Complete Part 1",
-        "global_percent": 50.9,
-        "source": "steamhunters",
-        "filtered": true,
+        "global_percent": 51.1,
+        "source": "override",
         "sh_achievement_id": 2
       },
       "no_marker_reason": null,
-      "story_tag_count": 1,
-      "checked_at": "2026-08-24T20:10:22.212Z"
+      "story_tag_count": 0,
+      "checked_at": "2026-11-10T22:28:38.833Z"
     },
     "1895350": {
       "marker": null,
@@ -5264,10 +5263,17 @@
       "checked_at": "2026-08-24T20:11:33.482Z"
     },
     "2377280": {
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
+      "marker": {
+        "apiname": "Level8_Complete",
+        "name": "By Our Shores",
+        "description": "",
+        "global_percent": 45.2,
+        "source": "override",
+        "sh_achievement_id": 8
+      },
+      "no_marker_reason": null,
       "story_tag_count": 0,
-      "checked_at": "2026-11-08T20:31:03.576Z"
+      "checked_at": "2026-11-10T22:28:36.477Z"
     },
     "2378620": {
       "marker": {
@@ -5470,16 +5476,16 @@
     },
     "2428980": {
       "marker": {
-        "apiname": "achi_013",
-        "name": "Sleeping Beauty",
-        "description": "Finish the game in more than 10 hours",
-        "global_percent": 3.9,
-        "source": "heuristic",
-        "sh_achievement_id": 13
+        "apiname": "achi_010",
+        "name": "Bye Sweet Carole",
+        "description": "Complete Chapter 10",
+        "global_percent": 23.3,
+        "source": "override",
+        "sh_achievement_id": 10
       },
       "no_marker_reason": null,
       "story_tag_count": 0,
-      "checked_at": "2026-11-07T15:45:35.976Z"
+      "checked_at": "2026-11-10T22:28:35.381Z"
     },
     "2436940": {
       "marker": {
@@ -5809,10 +5815,21 @@
       "checked_at": "2026-09-16T11:55:11.732Z"
     },
     "2658470": {
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
+      "marker": {
+        "apiname": "EndingMask",
+        "name": "Mask",
+        "description": "You became a part. And you became whole.",
+        "global_percent": 63.2,
+        "source": "override",
+        "any_of_apinames": [
+          "EndingMask",
+          "EndingEscape",
+          "EndingThingIsDead"
+        ]
+      },
+      "no_marker_reason": null,
       "story_tag_count": 0,
-      "checked_at": "2026-11-10T17:09:07.638Z"
+      "checked_at": "2026-11-10T22:28:34.287Z"
     },
     "2661300": {
       "marker": null,
@@ -6851,10 +6868,17 @@
       "checked_at": "2026-08-24T20:11:21.280Z"
     },
     "3358170": {
-      "marker": null,
-      "no_marker_reason": "no_marker_found",
+      "marker": {
+        "apiname": "ACH_BACK_TO_THE_ROOST",
+        "name": "Back to the Roost",
+        "description": "Return home with all chickens",
+        "global_percent": 12.8,
+        "source": "override",
+        "sh_achievement_id": 8
+      },
+      "no_marker_reason": null,
       "story_tag_count": 0,
-      "checked_at": "2026-11-05T15:45:22.026Z"
+      "checked_at": "2026-11-10T22:28:37.684Z"
     },
     "3362960": {
       "marker": null,
@@ -7432,11 +7456,17 @@
       "no_data_reason": null,
       "checked_at": "2026-09-14T15:56:51.405Z"
     },
+    "76561198053065013::2658470": {
+      "beaten": true,
+      "unlock_time": 1794177838,
+      "no_data_reason": null,
+      "checked_at": "2026-11-10T22:28:39.942Z"
+    },
     "76561198053065013::1552550": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:30:43.109Z"
+      "checked_at": "2026-11-10T22:28:41.056Z"
     },
     "76561198053065013::4310610": {
       "beaten": true,
@@ -7454,7 +7484,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:30:44.258Z"
+      "checked_at": "2026-11-10T22:28:42.368Z"
     },
     "76561198047330685::2592160": {
       "beaten": true,
@@ -7466,7 +7496,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:30:45.394Z"
+      "checked_at": "2026-11-10T22:28:43.993Z"
     },
     "76561198047330685::1332010": {
       "beaten": true,
@@ -7538,7 +7568,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:30:46.523Z"
+      "checked_at": "2026-11-10T22:28:45.105Z"
     },
     "76561198453663783::567640": {
       "beaten": true,
@@ -7592,7 +7622,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:30:47.669Z"
+      "checked_at": "2026-11-10T22:28:46.184Z"
     },
     "76561199036747433::2073250": {
       "beaten": true,
@@ -7610,7 +7640,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:30:48.789Z"
+      "checked_at": "2026-11-10T22:28:47.398Z"
     },
     "76561199036747433::2592160": {
       "beaten": true,
@@ -7700,7 +7730,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:30:49.943Z"
+      "checked_at": "2026-11-10T22:28:48.552Z"
     },
     "76561198055181554::990080": {
       "beaten": true,
@@ -7724,7 +7754,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:30:51.091Z"
+      "checked_at": "2026-11-10T22:28:49.702Z"
     },
     "76561198250732560::1145350": {
       "beaten": true,
@@ -7736,7 +7766,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:30:52.219Z"
+      "checked_at": "2026-11-10T22:28:50.799Z"
     },
     "76561198024970451::2989180": {
       "beaten": true,
@@ -7766,7 +7796,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:30:53.345Z"
+      "checked_at": "2026-11-10T22:28:51.921Z"
     },
     "76561198024970451::3326230": {
       "beaten": true,
@@ -7790,7 +7820,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:30:54.479Z"
+      "checked_at": "2026-11-10T22:28:53.057Z"
     },
     "76561198024970451::1231990": {
       "beaten": true,
@@ -7844,7 +7874,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:30:55.621Z"
+      "checked_at": "2026-11-10T22:28:54.164Z"
     },
     "76561198025173613::1888160": {
       "beaten": true,
@@ -7934,7 +7964,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:30:56.754Z"
+      "checked_at": "2026-11-10T22:28:55.257Z"
     },
     "76561197982025537::1774580": {
       "beaten": true,
@@ -7964,13 +7994,13 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:30:59.290Z"
+      "checked_at": "2026-11-10T22:28:57.804Z"
     },
     "76561199481088028::1091500": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:31:00.418Z"
+      "checked_at": "2026-11-10T22:28:58.988Z"
     },
     "76561197990462722::1092790": {
       "beaten": true,
@@ -7994,7 +8024,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:31:01.555Z"
+      "checked_at": "2026-11-10T22:29:00.189Z"
     },
     "76561197990462722::668580": {
       "beaten": true,
@@ -8012,7 +8042,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:31:02.685Z"
+      "checked_at": "2026-11-10T22:29:01.449Z"
     },
     "76561198055569704::1425350": {
       "beaten": true,
@@ -8030,13 +8060,13 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:31:03.845Z"
+      "checked_at": "2026-11-10T22:29:02.526Z"
     },
     "76561198055569704::1574820": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:31:04.977Z"
+      "checked_at": "2026-11-10T22:29:03.608Z"
     },
     "76561198055569704::2214880": {
       "beaten": true,
@@ -8048,7 +8078,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:31:06.109Z"
+      "checked_at": "2026-11-10T22:29:04.866Z"
     },
     "76561198055569704::1213230": {
       "beaten": true,
@@ -8150,7 +8180,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:31:07.241Z"
+      "checked_at": "2026-11-10T22:29:06.192Z"
     },
     "76561198066598689::3244220": {
       "beaten": true,
@@ -8162,19 +8192,19 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:31:08.366Z"
+      "checked_at": "2026-11-10T22:29:07.340Z"
     },
     "76561199434715535::2915460": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:31:09.488Z"
+      "checked_at": "2026-11-10T22:29:08.546Z"
     },
     "76561199434715535::2989180": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:31:10.610Z"
+      "checked_at": "2026-11-10T22:29:09.678Z"
     },
     "76561199434715535::3198890": {
       "beaten": true,
@@ -8186,7 +8216,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:31:11.738Z"
+      "checked_at": "2026-11-10T22:29:10.773Z"
     },
     "76561199434715535::4992070": {
       "beaten": true,
@@ -8204,13 +8234,13 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:31:12.866Z"
+      "checked_at": "2026-11-10T22:29:11.866Z"
     },
     "76561199434715535::1805480": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:31:13.986Z"
+      "checked_at": "2026-11-10T22:29:13.212Z"
     },
     "76561198053885117::501300": {
       "beaten": true,
@@ -8270,7 +8300,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:31:15.124Z"
+      "checked_at": "2026-11-10T22:29:14.378Z"
     },
     "76561198041749780::3839300": {
       "beaten": true,
@@ -8300,7 +8330,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:31:16.254Z"
+      "checked_at": "2026-11-10T22:29:15.488Z"
     },
     "76561198041749780::1170570": {
       "beaten": true,
@@ -8318,7 +8348,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:31:17.389Z"
+      "checked_at": "2026-11-10T22:29:18.106Z"
     },
     "76561198041749780::2420660": {
       "beaten": true,
@@ -8372,13 +8402,13 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:31:18.516Z"
+      "checked_at": "2026-11-10T22:29:19.218Z"
     },
     "76561198041749780::813780": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:31:19.653Z"
+      "checked_at": "2026-11-10T22:29:20.384Z"
     },
     "76561198041749780::953490": {
       "beaten": true,
@@ -8408,7 +8438,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:31:20.787Z"
+      "checked_at": "2026-11-10T22:29:21.470Z"
     },
     "76561198041749780::1567440": {
       "beaten": true,
@@ -8423,10 +8453,10 @@
       "checked_at": "2026-08-24T17:42:13.524Z"
     },
     "76561198408001048::2428980": {
-      "beaten": false,
-      "unlock_time": null,
+      "beaten": true,
+      "unlock_time": 1794061068,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:31:21.955Z"
+      "checked_at": "2026-11-10T22:29:22.550Z"
     },
     "76561198408001048::2863640": {
       "beaten": true,
@@ -8504,7 +8534,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:31:23.095Z"
+      "checked_at": "2026-11-10T22:29:23.939Z"
     },
     "76561198054649894::851850": {
       "beaten": true,
@@ -8516,7 +8546,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:31:24.240Z"
+      "checked_at": "2026-11-10T22:29:25.631Z"
     },
     "76561198054649894::1903340": {
       "beaten": true,
@@ -8528,7 +8558,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:31:25.378Z"
+      "checked_at": "2026-11-10T22:29:26.727Z"
     },
     "76561198020386807::2060590": {
       "beaten": true,
@@ -8540,7 +8570,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:31:26.515Z"
+      "checked_at": "2026-11-10T22:29:28.108Z"
     },
     "76561198020386807::1164050": {
       "beaten": true,
@@ -8552,7 +8582,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:31:27.648Z"
+      "checked_at": "2026-11-10T22:29:29.263Z"
     },
     "76561198020386807::1497440": {
       "beaten": true,
@@ -8576,7 +8606,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:31:28.779Z"
+      "checked_at": "2026-11-10T22:29:30.588Z"
     },
     "76561198051248084::377840": {
       "beaten": true,
@@ -8588,7 +8618,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:31:29.910Z"
+      "checked_at": "2026-11-10T22:29:31.671Z"
     },
     "76561198002466205::3244220": {
       "beaten": true,
@@ -8612,7 +8642,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:31:31.041Z"
+      "checked_at": "2026-11-10T22:29:32.802Z"
     },
     "76561198056789339::2475490": {
       "beaten": true,
@@ -8624,13 +8654,13 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:31:32.163Z"
+      "checked_at": "2026-11-10T22:29:33.934Z"
     },
     "76561198056789339::973810": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:31:33.288Z"
+      "checked_at": "2026-11-10T22:29:35.326Z"
     },
     "76561198056789339::1424600": {
       "beaten": true,
@@ -8642,7 +8672,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:31:34.416Z"
+      "checked_at": "2026-11-10T22:29:36.436Z"
     },
     "76561198047981011::2062430": {
       "beaten": true,
@@ -8678,7 +8708,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:31:35.549Z"
+      "checked_at": "2026-11-10T22:29:37.557Z"
     },
     "76561198869194409::1299460": {
       "beaten": true,
@@ -8714,7 +8744,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:31:36.682Z"
+      "checked_at": "2026-11-10T22:29:38.686Z"
     },
     "76561198013734355::953490": {
       "beaten": true,
@@ -8732,7 +8762,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:31:37.816Z"
+      "checked_at": "2026-11-10T22:29:40.030Z"
     },
     "76561198013734355::1693980": {
       "beaten": true,
@@ -8750,7 +8780,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:31:38.938Z"
+      "checked_at": "2026-11-10T22:29:41.237Z"
     },
     "76561198013734355::589360": {
       "beaten": true,
@@ -8774,7 +8804,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:31:40.071Z"
+      "checked_at": "2026-11-10T22:29:42.431Z"
     },
     "76561198082023389::1693980": {
       "beaten": true,
@@ -8804,7 +8834,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:31:41.198Z"
+      "checked_at": "2026-11-10T22:29:43.782Z"
     },
     "76561198082023389::359510": {
       "beaten": true,
@@ -8822,7 +8852,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:31:42.345Z"
+      "checked_at": "2026-11-10T22:29:44.906Z"
     },
     "76561198236260938::2475490": {
       "beaten": true,
@@ -8888,7 +8918,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:31:43.479Z"
+      "checked_at": "2026-11-10T22:29:46.053Z"
     },
     "76561197984532155::1989270": {
       "beaten": true,
@@ -8918,13 +8948,13 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:31:44.599Z"
+      "checked_at": "2026-11-10T22:29:47.371Z"
     },
     "76561197984532155::312540": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:31:45.733Z"
+      "checked_at": "2026-11-10T22:29:48.455Z"
     },
     "76561197984532155::1669420": {
       "beaten": true,
@@ -8948,7 +8978,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:31:46.868Z"
+      "checked_at": "2026-11-10T22:29:49.621Z"
     },
     "76561197981107149::1213230": {
       "beaten": true,
@@ -9004,6 +9034,12 @@
       "no_data_reason": null,
       "checked_at": "2026-10-11T13:15:22.667Z"
     },
+    "76561198019838591::2377280": {
+      "beaten": true,
+      "unlock_time": 1794153791,
+      "no_data_reason": null,
+      "checked_at": "2026-11-10T22:29:51.064Z"
+    },
     "76561198019838591::2677660": {
       "beaten": true,
       "unlock_time": 1790367613,
@@ -9038,19 +9074,19 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:31:48.012Z"
+      "checked_at": "2026-11-10T22:29:52.249Z"
     },
     "76561197965128191::1222140": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:31:49.143Z"
+      "checked_at": "2026-11-10T22:29:53.744Z"
     },
     "76561197965128191::1903340": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:31:50.274Z"
+      "checked_at": "2026-11-10T22:29:54.967Z"
     },
     "76561198376004004::1203630": {
       "beaten": true,
@@ -9074,13 +9110,19 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:31:51.408Z"
+      "checked_at": "2026-11-10T22:29:56.156Z"
+    },
+    "76561198040188513::3358170": {
+      "beaten": true,
+      "unlock_time": 1793830897,
+      "no_data_reason": null,
+      "checked_at": "2026-11-10T22:29:57.309Z"
     },
     "76561198164999453::1210320": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:31:52.544Z"
+      "checked_at": "2026-11-10T22:29:58.487Z"
     },
     "76561198164999453::1887840": {
       "beaten": true,
@@ -9110,25 +9152,25 @@
       "beaten": null,
       "unlock_time": null,
       "no_data_reason": "no_stats",
-      "checked_at": "2026-11-10T08:31:53.882Z"
+      "checked_at": "2026-11-10T22:29:59.826Z"
     },
     "76561197968806363::1693980": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:31:55.013Z"
+      "checked_at": "2026-11-10T22:30:00.998Z"
     },
     "76561197968806363::1030300": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:31:56.137Z"
+      "checked_at": "2026-11-10T22:30:02.151Z"
     },
     "76561197968806363::359870": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:31:57.286Z"
+      "checked_at": "2026-11-10T22:30:03.363Z"
     },
     "76561197968806363::2717750": {
       "beaten": true,
@@ -9140,7 +9182,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:31:58.415Z"
+      "checked_at": "2026-11-10T22:30:04.625Z"
     },
     "76561197968806363::3228590": {
       "beaten": true,
@@ -9224,7 +9266,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:31:59.561Z"
+      "checked_at": "2026-11-10T22:30:05.860Z"
     },
     "76561198042896883::2416100": {
       "beaten": true,
@@ -9236,7 +9278,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:32:00.699Z"
+      "checked_at": "2026-11-10T22:30:06.981Z"
     },
     "76561198143588240::2240080": {
       "beaten": true,
@@ -9374,7 +9416,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:32:01.842Z"
+      "checked_at": "2026-11-10T22:30:08.117Z"
     },
     "76561198035801987::2997230": {
       "beaten": true,
@@ -9542,7 +9584,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:32:02.974Z"
+      "checked_at": "2026-11-10T22:30:09.364Z"
     },
     "76561198069420656::3699590": {
       "beaten": true,
@@ -9644,13 +9686,13 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:32:04.094Z"
+      "checked_at": "2026-11-10T22:30:10.542Z"
     },
     "76561198069420656::534380": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:32:05.229Z"
+      "checked_at": "2026-11-10T22:30:11.915Z"
     },
     "76561198069420656::1622910": {
       "beaten": true,
@@ -9716,13 +9758,13 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:32:06.375Z"
+      "checked_at": "2026-11-10T22:30:13.009Z"
     },
     "76561198452519450::1273540": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:32:07.507Z"
+      "checked_at": "2026-11-10T22:30:14.133Z"
     },
     "76561198452519450::1623940": {
       "beaten": true,
@@ -9920,13 +9962,13 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:32:08.629Z"
+      "checked_at": "2026-11-10T22:30:15.292Z"
     },
     "76561198061661987::1627720": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:32:09.764Z"
+      "checked_at": "2026-11-10T22:30:17.104Z"
     },
     "76561198061661987::3350190": {
       "beaten": true,
@@ -9968,7 +10010,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:32:10.888Z"
+      "checked_at": "2026-11-10T22:30:18.207Z"
     },
     "76561198061661987::1903340": {
       "beaten": true,
@@ -10052,7 +10094,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:32:12.012Z"
+      "checked_at": "2026-11-10T22:30:19.361Z"
     },
     "76561198027595057::1620730": {
       "beaten": true,
@@ -10166,7 +10208,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:32:13.149Z"
+      "checked_at": "2026-11-10T22:30:20.455Z"
     },
     "76561198027595057::1293160": {
       "beaten": true,
@@ -10202,7 +10244,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:32:14.279Z"
+      "checked_at": "2026-11-10T22:30:21.560Z"
     },
     "76561197994025244::1875580": {
       "beaten": true,
@@ -10238,7 +10280,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:32:15.412Z"
+      "checked_at": "2026-11-10T22:30:22.739Z"
     },
     "76561197994025244::1332010": {
       "beaten": true,
@@ -10280,7 +10322,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:32:16.529Z"
+      "checked_at": "2026-11-10T22:30:23.878Z"
     },
     "76561198069567036::1774580": {
       "beaten": true,
@@ -10298,7 +10340,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:32:17.658Z"
+      "checked_at": "2026-11-10T22:30:24.959Z"
     },
     "76561198048462370::1243850": {
       "beaten": true,
@@ -10334,7 +10376,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:32:18.790Z"
+      "checked_at": "2026-11-10T22:30:26.068Z"
     },
     "76561198048462370::1092790": {
       "beaten": true,
@@ -10346,7 +10388,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:32:19.910Z"
+      "checked_at": "2026-11-10T22:30:27.229Z"
     },
     "76561198048462370::934700": {
       "beaten": true,
@@ -10418,7 +10460,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:32:21.047Z"
+      "checked_at": "2026-11-10T22:30:28.379Z"
     },
     "76561198411996697::3930190": {
       "beaten": true,
@@ -10628,7 +10670,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:32:22.179Z"
+      "checked_at": "2026-11-10T22:30:29.610Z"
     },
     "76561198001969728::1569580": {
       "beaten": true,
@@ -10658,7 +10700,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:32:23.304Z"
+      "checked_at": "2026-11-10T22:30:30.780Z"
     },
     "76561198399974062::1262350": {
       "beaten": true,
@@ -10736,7 +10778,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:32:24.439Z"
+      "checked_at": "2026-11-10T22:30:31.901Z"
     },
     "76561198832209109::1989270": {
       "beaten": true,
@@ -10760,7 +10802,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:32:25.569Z"
+      "checked_at": "2026-11-10T22:30:33.039Z"
     },
     "76561199438702936::1382070": {
       "beaten": true,
@@ -10838,7 +10880,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:32:26.799Z"
+      "checked_at": "2026-11-10T22:30:34.172Z"
     },
     "76561197991280042::1332010": {
       "beaten": true,
@@ -10856,7 +10898,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:32:27.945Z"
+      "checked_at": "2026-11-10T22:30:35.319Z"
     },
     "76561199067998064::2050650": {
       "beaten": true,
@@ -10874,7 +10916,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:32:29.059Z"
+      "checked_at": "2026-11-10T22:30:36.515Z"
     },
     "76561198017660760::2378900": {
       "beaten": true,
@@ -11132,7 +11174,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:32:30.182Z"
+      "checked_at": "2026-11-10T22:30:37.714Z"
     },
     "76561198089973992::3698350": {
       "beaten": true,
@@ -11198,7 +11240,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:32:31.302Z"
+      "checked_at": "2026-11-10T22:30:38.814Z"
     },
     "76561198089973992::1693980": {
       "beaten": true,
@@ -11234,7 +11276,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:32:32.426Z"
+      "checked_at": "2026-11-10T22:30:39.933Z"
     },
     "76561198089973992::1092790": {
       "beaten": true,
@@ -11264,7 +11306,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:32:33.559Z"
+      "checked_at": "2026-11-10T22:30:41.169Z"
     },
     "76561198080362358::2977620": {
       "beaten": true,
@@ -11313,6 +11355,12 @@
       "unlock_time": 1783820386,
       "no_data_reason": null,
       "checked_at": "2026-08-24T17:47:31.519Z"
+    },
+    "76561198080362358::2658470": {
+      "beaten": true,
+      "unlock_time": 1779254935,
+      "no_data_reason": null,
+      "checked_at": "2026-11-10T22:30:42.262Z"
     },
     "76561198080362358::1959390": {
       "beaten": true,
@@ -11396,7 +11444,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:32:34.691Z"
+      "checked_at": "2026-11-10T22:30:43.473Z"
     },
     "76561198077347875::1634080": {
       "beaten": true,
@@ -11414,7 +11462,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:32:35.818Z"
+      "checked_at": "2026-11-10T22:30:44.720Z"
     },
     "76561199261772888::1259420": {
       "beaten": true,
@@ -11450,7 +11498,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:32:36.967Z"
+      "checked_at": "2026-11-10T22:30:46.029Z"
     },
     "76561198089693705::702670": {
       "beaten": true,
@@ -11570,7 +11618,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:32:38.107Z"
+      "checked_at": "2026-11-10T22:30:47.203Z"
     },
     "76561199141726712::2378620": {
       "beaten": true,
@@ -11648,7 +11696,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:32:39.236Z"
+      "checked_at": "2026-11-10T22:30:48.356Z"
     },
     "76561198049128535::1293160": {
       "beaten": true,
@@ -11672,7 +11720,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:32:40.359Z"
+      "checked_at": "2026-11-10T22:30:49.633Z"
     },
     "76561198352113526::1622910": {
       "beaten": true,
@@ -11696,7 +11744,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:32:41.492Z"
+      "checked_at": "2026-11-10T22:30:50.725Z"
     },
     "76561198352113526::1196590": {
       "beaten": true,
@@ -11720,13 +11768,13 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:32:42.633Z"
+      "checked_at": "2026-11-10T22:30:51.924Z"
     },
     "76561198343020214::485510": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:32:43.765Z"
+      "checked_at": "2026-11-10T22:30:53.155Z"
     },
     "76561198147598321::1382070": {
       "beaten": true,
@@ -11738,13 +11786,13 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:32:44.888Z"
+      "checked_at": "2026-11-10T22:30:54.299Z"
     },
     "76561198147598321::2334730": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:32:46.024Z"
+      "checked_at": "2026-11-10T22:30:55.584Z"
     },
     "76561198147598321::1623940": {
       "beaten": true,
@@ -11756,25 +11804,25 @@
       "beaten": null,
       "unlock_time": null,
       "no_data_reason": "no_stats",
-      "checked_at": "2026-11-10T08:32:47.437Z"
+      "checked_at": "2026-11-10T22:30:56.854Z"
     },
     "76561199208110739::920210": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:32:48.576Z"
+      "checked_at": "2026-11-10T22:30:58.118Z"
     },
     "76561199208110739::1222140": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:32:49.697Z"
+      "checked_at": "2026-11-10T22:30:59.324Z"
     },
     "76561199208110739::1493640": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:32:50.814Z"
+      "checked_at": "2026-11-10T22:31:00.438Z"
     },
     "76561198025823574::1868140": {
       "beaten": true,
@@ -11798,7 +11846,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:32:51.981Z"
+      "checked_at": "2026-11-10T22:31:01.688Z"
     },
     "76561198032315186::1359980": {
       "beaten": true,
@@ -11840,19 +11888,19 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:32:53.128Z"
+      "checked_at": "2026-11-10T22:31:03.070Z"
     },
     "76561199125912770::1237950": {
       "beaten": null,
       "unlock_time": null,
       "no_data_reason": "profile_private",
-      "checked_at": "2026-11-10T08:32:54.434Z"
+      "checked_at": "2026-11-10T22:31:04.317Z"
     },
     "76561199125912770::1679210": {
       "beaten": null,
       "unlock_time": null,
       "no_data_reason": "profile_private",
-      "checked_at": "2026-11-10T08:32:55.692Z"
+      "checked_at": "2026-11-10T22:31:05.508Z"
     },
     "76561198979962314::1996010": {
       "beaten": true,
@@ -11882,7 +11930,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:32:56.841Z"
+      "checked_at": "2026-11-10T22:31:06.689Z"
     },
     "76561198193799379::1693980": {
       "beaten": true,
@@ -11894,7 +11942,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:32:57.970Z"
+      "checked_at": "2026-11-10T22:31:07.813Z"
     },
     "76561198193799379::359510": {
       "beaten": true,
@@ -11906,7 +11954,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:32:59.097Z"
+      "checked_at": "2026-11-10T22:31:08.911Z"
     },
     "76561198193799379::3376990": {
       "beaten": true,
@@ -11918,7 +11966,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:33:00.228Z"
+      "checked_at": "2026-11-10T22:31:10.140Z"
     },
     "76561198820509240::2238040": {
       "beaten": true,
@@ -11954,7 +12002,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:33:01.365Z"
+      "checked_at": "2026-11-10T22:31:11.370Z"
     },
     "76561198046203998::992300": {
       "beaten": true,
@@ -11972,7 +12020,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:33:02.506Z"
+      "checked_at": "2026-11-10T22:31:12.485Z"
     },
     "76561198054575805::1492680": {
       "beaten": true,
@@ -12026,7 +12074,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:33:03.649Z"
+      "checked_at": "2026-11-10T22:31:13.661Z"
     },
     "76561197980988545::1293160": {
       "beaten": true,
@@ -12074,25 +12122,25 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:33:06.143Z"
+      "checked_at": "2026-11-10T22:31:16.244Z"
     },
     "76561198303576866::1574820": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:33:07.263Z"
+      "checked_at": "2026-11-10T22:31:17.339Z"
     },
     "76561198303576866::1623940": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:33:08.393Z"
+      "checked_at": "2026-11-10T22:31:18.434Z"
     },
     "76561198065466175::1903340": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:33:09.523Z"
+      "checked_at": "2026-11-10T22:31:19.552Z"
     },
     "76561198072364553::1171320": {
       "beaten": true,
@@ -12134,13 +12182,13 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:33:10.662Z"
+      "checked_at": "2026-11-10T22:31:21.038Z"
     },
     "76561197996608804::990080": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:33:11.799Z"
+      "checked_at": "2026-11-10T22:31:22.142Z"
     },
     "76561197996608804::1693980": {
       "beaten": true,
@@ -12152,7 +12200,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:33:12.932Z"
+      "checked_at": "2026-11-10T22:31:23.239Z"
     },
     "76561197996608804::466630": {
       "beaten": true,
@@ -12164,19 +12212,19 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:33:14.064Z"
+      "checked_at": "2026-11-10T22:31:24.360Z"
     },
     "76561198444468770::1659420": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:33:15.193Z"
+      "checked_at": "2026-11-10T22:31:25.483Z"
     },
     "76561198444468770::2760790": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:33:16.321Z"
+      "checked_at": "2026-11-10T22:31:26.629Z"
     },
     "76561198029751126::1569580": {
       "beaten": true,
@@ -12200,7 +12248,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:33:17.453Z"
+      "checked_at": "2026-11-10T22:31:27.746Z"
     },
     "76561198982150416::740130": {
       "beaten": true,
@@ -12284,7 +12332,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:33:18.777Z"
+      "checked_at": "2026-11-10T22:31:28.899Z"
     },
     "76561198148268245::1693980": {
       "beaten": true,
@@ -12302,19 +12350,19 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:33:19.906Z"
+      "checked_at": "2026-11-10T22:31:30.099Z"
     },
     "76561198351673664::553420": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:33:21.035Z"
+      "checked_at": "2026-11-10T22:31:32.168Z"
     },
     "76561198413978177::2334730": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:33:22.172Z"
+      "checked_at": "2026-11-10T22:31:33.313Z"
     },
     "76561198413978177::3244220": {
       "beaten": true,
@@ -12380,7 +12428,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:33:23.297Z"
+      "checked_at": "2026-11-10T22:31:34.499Z"
     },
     "76561198061381176::1574580": {
       "beaten": true,
@@ -12416,7 +12464,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:33:24.420Z"
+      "checked_at": "2026-11-10T22:31:35.632Z"
     },
     "76561198075940587::835960": {
       "beaten": true,
@@ -12470,19 +12518,19 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:33:25.572Z"
+      "checked_at": "2026-11-10T22:31:36.772Z"
     },
     "76561198051248084::1174180": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:33:26.702Z"
+      "checked_at": "2026-11-10T22:31:37.866Z"
     },
     "76561198056789339::379430": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:33:27.835Z"
+      "checked_at": "2026-11-10T22:31:39.010Z"
     },
     "76561198013734355::860510": {
       "beaten": true,
@@ -12500,19 +12548,19 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:33:28.965Z"
+      "checked_at": "2026-11-10T22:31:40.214Z"
     },
     "76561197970969216::2050650": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:33:30.121Z"
+      "checked_at": "2026-11-10T22:31:41.399Z"
     },
     "76561197994025244::1903340": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:33:31.246Z"
+      "checked_at": "2026-11-10T22:31:43.664Z"
     },
     "76561198069567036::1265920": {
       "beaten": true,
@@ -12524,7 +12572,7 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:33:32.370Z"
+      "checked_at": "2026-11-10T22:31:44.821Z"
     },
     "76561198054324521::934700": {
       "beaten": true,
@@ -12566,13 +12614,13 @@
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:33:33.500Z"
+      "checked_at": "2026-11-10T22:31:45.960Z"
     },
     "76561198065466175::1265920": {
       "beaten": false,
       "unlock_time": null,
       "no_data_reason": null,
-      "checked_at": "2026-11-10T08:33:34.634Z"
+      "checked_at": "2026-11-10T22:31:47.080Z"
     },
     "76561198029751126::883710": {
       "beaten": true,
