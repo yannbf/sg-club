@@ -52,29 +52,40 @@ interface SchemaOrgEvent {
   }
 }
 
-// A giveaway requires play when a line of its description starts with
-// "play required" (block elements and <br> count as line breaks), ignoring
-// case and surrounding punctuation. The rest of the line must be empty
-// ("PLAY REQUIRED!!", "[Play Required]") or separated by punctuation
-// ("PLAY REQUIRED: at least 1 hour"). Lines where the sentence merely
-// continues ("not play required", "play required for 3 months") do not match.
+const PLAY_REQUIRED = /\bplay[^a-z0-9]{1,3}required\b/gi
+// A negation word ending the text just before the phrase, optionally with one
+// word in between: "not play required", "no play required", "isn't really play required".
+const NEGATED_PREFIX =
+  /\b(?:not|no|non|isn'?t|aren'?t|without)\b[^a-z0-9]*(?:[a-z']+[^a-z0-9]+)?$/i
+// A line labelled for this group, as in multi-group descriptions
+// ("TGC: PLAY REQUIRED", "The Giveaways Club : play required").
+const TGC_LABEL = /^[^a-z0-9]*(?:tgc|the giveaways club)\b[^a-z0-9]*:/i
+
+function lineRequiresPlay(line: string): boolean {
+  for (const match of line.matchAll(PLAY_REQUIRED)) {
+    if (!NEGATED_PREFIX.test(line.slice(0, match.index))) return true
+  }
+  return false
+}
+
+// A giveaway requires play when its description says "play required"
+// anywhere, ignoring case and punctuation between the two words, unless that
+// occurrence is negated ("not play required"). Block elements and <br> count
+// as line breaks. When some lines are labelled for TGC, as multi-group
+// descriptions do, only those lines decide, so another group's requirement
+// on its own line does not apply here.
 export function detectPlayRequired(descriptionHtml: string): boolean {
   const withLineBreaks = descriptionHtml.replace(
     /<(?:br\b[^>]*|\/(?:p|div|h[1-6]|li|blockquote|tr))>/gi,
     '$&\n',
   )
-  return load(withLineBreaks)
+  const lines = load(withLineBreaks)
     .root()
     .text()
     .split('\n')
-    .some((line) => {
-      const match = line
-        .trim()
-        .match(/^[^a-z0-9]*play[^a-z0-9]+required([^a-z0-9]*)(.*)$/i)
-      if (!match) return false
-      const [, trailing, rest] = match
-      return rest === '' || /[:\-–—!.;|]/.test(trailing)
-    })
+    .map((line) => line.trim())
+  const tgcLines = lines.filter((line) => TGC_LABEL.test(line))
+  return (tgcLines.length > 0 ? tgcLines : lines).some(lineRequiresPlay)
 }
 
 interface GiveawayDetailedInfo {

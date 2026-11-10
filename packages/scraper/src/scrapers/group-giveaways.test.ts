@@ -9,11 +9,71 @@ describe('detectPlayRequired', () => {
     expect(detectPlayRequired('<p>*** play required ***</p>')).toBe(true)
   })
 
-  it('does not match when the sentence continues without a separator', () => {
+  it('does not match a negated "play required"', () => {
     expect(detectPlayRequired('<p>Not play required</p>')).toBe(false)
-    expect(detectPlayRequired('<p>play required for 3 months</p>')).toBe(false)
     expect(detectPlayRequired('<p>NOT PLAY REQUIRED: 1 month</p>')).toBe(false)
     expect(detectPlayRequired('<p>No play required here!</p>')).toBe(false)
+    expect(detectPlayRequired('<p>This is non-play required</p>')).toBe(false)
+    expect(
+      detectPlayRequired("<p>It isn't really play required, just enjoy</p>"),
+    ).toBe(false)
+    expect(detectPlayRequired('<p>Play is not required</p>')).toBe(false)
+  })
+
+  it('matches "play required" in the middle of a sentence', () => {
+    expect(
+      detectPlayRequired(
+        '<p>Played it myself, and really enjoyed it! It is really short, so PLAY REQUIRED. </p>',
+      ),
+    ).toBe(true)
+    expect(
+      detectPlayRequired(
+        '<p>Once more since I forgot to keep it group only. My bit for the Sep event. PLAY REQUIRED.</p>',
+      ),
+    ).toBe(true)
+    expect(
+      detectPlayRequired(
+        '<p>Door 3 of the Halloween Event. But in any case, PLAY REQUIRED. Done it myself; good stuff.</p>',
+      ),
+    ).toBe(true)
+  })
+
+  it('matches when the sentence continues after "play required"', () => {
+    expect(
+      detectPlayRequired('<p>Play Required but you got 6 months :)</p>'),
+    ).toBe(true)
+    expect(detectPlayRequired('<p>play required for 3 months</p>')).toBe(true)
+    expect(
+      detectPlayRequired(
+        "<p>PLAY REQUIRED  I'd like to see you off the first planet this year</p>",
+      ),
+    ).toBe(true)
+    expect(
+      detectPlayRequired(
+        '<p>PLAY REQUIRED, 4 months? let me know if you need more time</p>',
+      ),
+    ).toBe(true)
+  })
+
+  it('matches a line labelled for the group', () => {
+    expect(
+      detectPlayRequired(
+        '<p>The Giveaways Club : PLAY REQUIRED. Please play and beat the game within 3 months.</p>',
+      ),
+    ).toBe(true)
+    expect(
+      detectPlayRequired(
+        '<p>TP: 3 Months to play<br>PA: 1 Month to play<br>TGC: PLAY REQUIRED<br>PoP: Rules apply</p>',
+      ),
+    ).toBe(true)
+  })
+
+  it('ignores another group\'s requirement when a TGC line is present', () => {
+    expect(
+      detectPlayRequired(
+        '<p>TP: PLAY REQUIRED<br>TGC: no requirements, just have fun</p>',
+      ),
+    ).toBe(false)
   })
 
   it('matches when details follow a punctuation separator', () => {
