@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1793491200,
   "totalAchievements": 42,
-  "generatedAt": 1794437860213,
+  "generatedAt": 1794456134984,
   "challengeOver": false,
   "winnerUsername": "Tucs",
   "participants": [
@@ -2179,14 +2179,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 1037,
-      "playtime_2weeks_minutes": 1037,
+      "playtime_total_minutes": 1168,
+      "playtime_2weeks_minutes": 1190,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 1037,
+      "playtime_challenge_minutes": 1168,
       "achievements_total": 42,
-      "achievements_unlocked_total": 24,
+      "achievements_unlocked_total": 27,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 24,
+      "achievements_since_baseline": 27,
       "challenge_achievements": [
         {
           "apiname": "UnlockPantelizMastery",
@@ -2325,9 +2325,26 @@
           "apiname": "CompleteVarunTower",
           "displayName": "Warden of the West",
           "unlocktime": 1794435995
+        },
+        {
+          "apiname": "CollectAllAlterantSequences",
+          "displayName": "Alterant Archivist",
+          "description": "Collect 10 Alterant Sequences",
+          "unlocktime": 1794445491
+        },
+        {
+          "apiname": "CompleteChayaTower",
+          "displayName": "Guardian of the East",
+          "unlocktime": 1794453916
+        },
+        {
+          "apiname": "ForgeAlterantSequence",
+          "displayName": "Skilled Maker",
+          "description": "Forge an Alterant Sequence",
+          "unlocktime": 1794454812
         }
       ],
-      "challenge_achievement_count": 24,
+      "challenge_achievement_count": 27,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
