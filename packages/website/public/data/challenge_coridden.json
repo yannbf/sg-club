@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1793491200,
   "totalAchievements": 42,
-  "generatedAt": 1794517374664,
+  "generatedAt": 1794535480610,
   "challengeOver": false,
   "winnerUsername": "Tucs",
   "participants": [
@@ -1201,11 +1201,11 @@
       "is_guest": false,
       "owned": true,
       "stats_available": true,
-      "wrote_review": false,
-      "review_voted_up": null,
-      "review_timestamp": null,
-      "review_recommendationid": null,
-      "review_url": null,
+      "wrote_review": true,
+      "review_voted_up": true,
+      "review_timestamp": 0,
+      "review_recommendationid": "240052399",
+      "review_url": "https://steamcommunity.com/profiles/76561198352113526/recommended/1656930",
       "playtime_total_minutes": 1953,
       "playtime_2weeks_minutes": 1953,
       "baseline_playtime_minutes": 0,
@@ -1466,11 +1466,11 @@
       "story_unlocked": true,
       "story_unlocktime": 1793989822,
       "story_after_deadline": false,
-      "win_tier": null,
-      "qualified_at": null,
+      "win_tier": "completion",
+      "qualified_at": 1794258555,
       "meets_playtime": true,
-      "meets_review": false,
-      "is_winner": false
+      "meets_review": true,
+      "is_winner": true
     },
     {
       "username": "PsychoApeMan",
@@ -3325,7 +3325,8 @@
     "drbeckett",
     "DrTenma",
     "Hawkingmeister",
-    "Lilyhia"
+    "Lilyhia",
+    "yugimax"
   ],
   "storyAchievement": {
     "apiname": "SaveHeera",
