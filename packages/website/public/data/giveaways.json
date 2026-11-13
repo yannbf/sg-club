@@ -1,25 +1,6 @@
 {
-  "last_updated": "2026-11-13T07:43:11.055Z",
+  "last_updated": "2026-11-13T10:11:44.183Z",
   "giveaways": [
-    {
-      "id": "pm4Dl",
-      "name": "Ocean's Heart",
-      "points": 15,
-      "copies": 1,
-      "app_id": 1393750,
-      "package_id": null,
-      "link": "pm4Dl/oceans-heart",
-      "created_timestamp": 1794256949,
-      "start_timestamp": 1794256949,
-      "end_timestamp": 1794556800,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 2,
-      "creator": "76561198066957402",
-      "cv_status": "FULL_CV",
-      "creator_username": "Gooberdragon",
-      "deleted": false
-    },
     {
       "id": "wpMHW",
       "name": "Well Dweller",
@@ -551,7 +532,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 75,
+      "entry_count": 76,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -614,7 +595,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 27,
+      "entry_count": 28,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "FULL_CV",
@@ -720,6 +701,32 @@
       "deleted": false
     },
     {
+      "id": "pm4Dl",
+      "name": "Ocean's Heart",
+      "points": 15,
+      "copies": 1,
+      "app_id": 1393750,
+      "package_id": null,
+      "link": "pm4Dl/oceans-heart",
+      "created_timestamp": 1794256949,
+      "start_timestamp": 1794256949,
+      "end_timestamp": 1794556800,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 2,
+      "creator": "76561198066957402",
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "FULL_CV",
+      "creator_username": "Gooberdragon",
+      "deleted": false
+    },
+    {
       "id": "TwaVF",
       "name": "Bound By Blades",
       "points": 11,
@@ -732,7 +739,7 @@
       "end_timestamp": 1794542400,
       "whitelist": true,
       "group": true,
-      "comment_count": 1,
+      "comment_count": 2,
       "entry_count": 84,
       "creator": "76561198234142828",
       "is_shared": true,
