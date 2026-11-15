@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1793491200,
   "totalAchievements": 42,
-  "generatedAt": 1794711438952,
+  "generatedAt": 1794723879481,
   "challengeOver": false,
   "winnerUsername": "Tucs",
   "participants": [
@@ -2852,14 +2852,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 60,
-      "playtime_2weeks_minutes": 60,
+      "playtime_total_minutes": 183,
+      "playtime_2weeks_minutes": 183,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 60,
+      "playtime_challenge_minutes": 183,
       "achievements_total": 42,
-      "achievements_unlocked_total": 2,
+      "achievements_unlocked_total": 6,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 2,
+      "achievements_since_baseline": 6,
       "challenge_achievements": [
         {
           "apiname": "UnlockPantelizMastery",
@@ -2871,9 +2871,32 @@
           "apiname": "CompleteIntroArena",
           "displayName": "Are you not entertained?",
           "unlocktime": 1794709554
+        },
+        {
+          "apiname": "UnlockHoundraMastery",
+          "displayName": "Master Houndra",
+          "description": "Unlock Houndra Beast Mastery",
+          "unlocktime": 1794712530
+        },
+        {
+          "apiname": "LevelUpClassTo5",
+          "displayName": "Destined For Greatness",
+          "description": "Level up one of the four (non custom) classes up to lvl 5",
+          "unlocktime": 1794715134
+        },
+        {
+          "apiname": "RescueIra",
+          "displayName": "Ira's Hero",
+          "unlocktime": 1794716634
+        },
+        {
+          "apiname": "UnlockRokerMastery",
+          "displayName": "Master Roker",
+          "description": "Unlock Roker Beast Mastery",
+          "unlocktime": 1794717865
         }
       ],
-      "challenge_achievement_count": 2,
+      "challenge_achievement_count": 6,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
