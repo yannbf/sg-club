@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1793491200,
   "totalAchievements": 42,
-  "generatedAt": 1794810183643,
+  "generatedAt": 1794816270986,
   "challengeOver": false,
   "winnerUsername": "Tucs",
   "participants": [
@@ -87,7 +87,7 @@
       "review_recommendationid": "239425682",
       "review_url": "https://steamcommunity.com/profiles/76561198013676011/recommended/1656930",
       "playtime_total_minutes": 1158,
-      "playtime_2weeks_minutes": 1158,
+      "playtime_2weeks_minutes": 1132,
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 1158,
       "achievements_total": 42,
@@ -2767,14 +2767,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 383,
-      "playtime_2weeks_minutes": 383,
+      "playtime_total_minutes": 459,
+      "playtime_2weeks_minutes": 459,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 383,
+      "playtime_challenge_minutes": 459,
       "achievements_total": 42,
-      "achievements_unlocked_total": 14,
+      "achievements_unlocked_total": 15,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 14,
+      "achievements_since_baseline": 15,
       "challenge_achievements": [
         {
           "apiname": "UnlockPantelizMastery",
@@ -2855,9 +2855,15 @@
           "apiname": "ExploreObservatory",
           "displayName": "Digging Up the Past",
           "unlocktime": 1794810073
+        },
+        {
+          "apiname": "ReachBeastMasteryLevel10",
+          "displayName": "The Animal",
+          "description": "Reach level 10 in one beast mastery",
+          "unlocktime": 1794811586
         }
       ],
-      "challenge_achievement_count": 14,
+      "challenge_achievement_count": 15,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
