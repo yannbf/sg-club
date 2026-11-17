@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1793491200,
   "totalAchievements": 42,
-  "generatedAt": 1794868150533,
+  "generatedAt": 1794890836185,
   "challengeOver": false,
   "winnerUsername": "Tucs",
   "participants": [
@@ -87,7 +87,7 @@
       "review_recommendationid": "239425682",
       "review_url": "https://steamcommunity.com/profiles/76561198013676011/recommended/1656930",
       "playtime_total_minutes": 1158,
-      "playtime_2weeks_minutes": 991,
+      "playtime_2weeks_minutes": 840,
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 1158,
       "achievements_total": 42,
@@ -1207,7 +1207,7 @@
       "review_recommendationid": "240052399",
       "review_url": "https://steamcommunity.com/profiles/76561198352113526/recommended/1656930",
       "playtime_total_minutes": 1953,
-      "playtime_2weeks_minutes": 1706,
+      "playtime_2weeks_minutes": 1686,
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 1953,
       "achievements_total": 42,
@@ -2023,10 +2023,10 @@
       "review_timestamp": 0,
       "review_recommendationid": "239574550",
       "review_url": "https://steamcommunity.com/profiles/76561198063858039/recommended/1656930",
-      "playtime_total_minutes": 1281,
-      "playtime_2weeks_minutes": 1236,
+      "playtime_total_minutes": 1355,
+      "playtime_2weeks_minutes": 1310,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 1281,
+      "playtime_challenge_minutes": 1355,
       "achievements_total": 42,
       "achievements_unlocked_total": 30,
       "achievements_before_challenge": 0,
@@ -2443,7 +2443,7 @@
       "review_recommendationid": null,
       "review_url": null,
       "playtime_total_minutes": 226,
-      "playtime_2weeks_minutes": 63,
+      "playtime_2weeks_minutes": 37,
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 226,
       "achievements_total": 42,
@@ -2767,14 +2767,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 459,
-      "playtime_2weeks_minutes": 459,
+      "playtime_total_minutes": 602,
+      "playtime_2weeks_minutes": 602,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 459,
+      "playtime_challenge_minutes": 602,
       "achievements_total": 42,
-      "achievements_unlocked_total": 15,
+      "achievements_unlocked_total": 19,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 15,
+      "achievements_since_baseline": 19,
       "challenge_achievements": [
         {
           "apiname": "UnlockPantelizMastery",
@@ -2861,9 +2861,32 @@
           "displayName": "The Animal",
           "description": "Reach level 10 in one beast mastery",
           "unlocktime": 1794811586
+        },
+        {
+          "apiname": "RamEnemy",
+          "displayName": "Crushed Bones",
+          "description": "Ram an enemy",
+          "unlocktime": 1794881996
+        },
+        {
+          "apiname": "SeeAashaFromAatma",
+          "displayName": "Aasha Awaits",
+          "unlocktime": 1794885870
+        },
+        {
+          "apiname": "Find10Perasins",
+          "displayName": "Treasure Hunter",
+          "description": "Find 10 perasins",
+          "unlocktime": 1794886104
+        },
+        {
+          "apiname": "ResetSkillsTreeOnce",
+          "displayName": "Fresh Start",
+          "description": "Reset Skills Tree 1 time",
+          "unlocktime": 1794890363
         }
       ],
-      "challenge_achievement_count": 15,
+      "challenge_achievement_count": 19,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
