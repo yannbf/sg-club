@@ -1,27 +1,6 @@
 {
-  "last_updated": "2026-11-16T18:50:09.229Z",
+  "last_updated": "2026-11-17T05:49:28.119Z",
   "giveaways": [
-    {
-      "id": "9njkH",
-      "name": "Dwarf Journey",
-      "points": 10,
-      "copies": 1,
-      "app_id": 1501410,
-      "package_id": null,
-      "link": "9njkH/dwarf-journey",
-      "created_timestamp": 1794275174,
-      "start_timestamp": 1794275174,
-      "end_timestamp": 1794888000,
-      "whitelist": true,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 83,
-      "creator": "76561198234142828",
-      "is_shared": true,
-      "cv_status": "REDUCED_CV",
-      "creator_username": "lockcjwen",
-      "deleted": false
-    },
     {
       "id": "TnbKn",
       "name": "Transport Fever 2",
@@ -132,7 +111,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 60,
+      "entry_count": 64,
       "creator": "76561198027595057",
       "is_shared": true,
       "cv_status": "FULL_CV",
@@ -212,7 +191,7 @@
       "end_timestamp": 1795024800,
       "group": true,
       "comment_count": 0,
-      "entry_count": 0,
+      "entry_count": 2,
       "creator": "76561198049128535",
       "cv_status": "FULL_CV",
       "creator_username": "yannbz",
@@ -321,6 +300,25 @@
       "deleted": false
     },
     {
+      "id": "7hF3L",
+      "name": "9 Kings",
+      "points": 20,
+      "copies": 1,
+      "app_id": 2784470,
+      "package_id": null,
+      "link": "7hF3L/9-kings",
+      "created_timestamp": 1794865440,
+      "start_timestamp": 1794865440,
+      "end_timestamp": 1795214460,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 3,
+      "creator": "76561198224589020",
+      "cv_status": "FULL_CV",
+      "creator_username": "Carrei",
+      "deleted": false
+    },
+    {
       "id": "RcGaT",
       "name": "Abandon Ship",
       "points": 25,
@@ -334,7 +332,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 65,
+      "entry_count": 67,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -355,7 +353,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 57,
+      "entry_count": 59,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -395,7 +393,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 54,
+      "entry_count": 58,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "FULL_CV",
@@ -444,6 +442,27 @@
       "deleted": false
     },
     {
+      "id": "Rntzg",
+      "name": "Neon City Riders",
+      "points": 10,
+      "copies": 1,
+      "app_id": 1102650,
+      "package_id": null,
+      "link": "Rntzg/neon-city-riders",
+      "created_timestamp": 1794872052,
+      "start_timestamp": 1794872052,
+      "end_timestamp": 1795492800,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 22,
+      "creator": "76561198234142828",
+      "is_shared": true,
+      "cv_status": "FULL_CV",
+      "creator_username": "lockcjwen",
+      "deleted": false
+    },
+    {
       "id": "aMeVH",
       "name": "Silver Pines",
       "points": 25,
@@ -456,7 +475,26 @@
       "end_timestamp": 1795838340,
       "group": true,
       "comment_count": 1,
-      "entry_count": 21,
+      "entry_count": 22,
+      "creator": "76561199434715535",
+      "cv_status": "FULL_CV",
+      "creator_username": "DancingXmas",
+      "deleted": false
+    },
+    {
+      "id": "9INoh",
+      "name": "Phantom Blade Zero",
+      "points": 50,
+      "copies": 1,
+      "app_id": 4115450,
+      "package_id": null,
+      "link": "9INoh/phantom-blade-zero",
+      "created_timestamp": 1794878554,
+      "start_timestamp": 1794878554,
+      "end_timestamp": 1795838340,
+      "group": true,
+      "comment_count": 1,
+      "entry_count": 13,
       "creator": "76561199434715535",
       "cv_status": "FULL_CV",
       "creator_username": "DancingXmas",
@@ -482,6 +520,34 @@
       "deleted": false
     },
     {
+      "id": "9njkH",
+      "name": "Dwarf Journey",
+      "points": 10,
+      "copies": 1,
+      "app_id": 1501410,
+      "package_id": null,
+      "link": "9njkH/dwarf-journey",
+      "created_timestamp": 1794275174,
+      "start_timestamp": 1794275174,
+      "end_timestamp": 1794888000,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 89,
+      "creator": "76561198234142828",
+      "is_shared": true,
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "REDUCED_CV",
+      "creator_username": "lockcjwen",
+      "deleted": false
+    },
+    {
       "id": "JZO9m",
       "name": "Keep Driving",
       "points": 18,
@@ -493,19 +559,19 @@
       "start_timestamp": 1794283067,
       "end_timestamp": 1794852000,
       "group": true,
-      "comment_count": 4,
+      "comment_count": 5,
       "entry_count": 13,
       "creator": "76561199141726712",
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "76561198051248084",
+          "status": "received",
+          "winner_username": "Eindirk"
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "vot4ol",
-      "deleted": false
+      "creator_username": "vot4ol"
     },
     {
       "id": "NFeMu",
@@ -8852,7 +8918,7 @@
           "winner_username": "noonemakesnoise"
         }
       ],
-      "cv_status": "FULL_CV",
+      "cv_status": "NO_CV",
       "creator_username": "lockcjwen"
     },
     {
