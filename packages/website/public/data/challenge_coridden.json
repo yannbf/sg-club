@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1793491200,
   "totalAchievements": 42,
-  "generatedAt": 1794991123587,
+  "generatedAt": 1795012122227,
   "challengeOver": false,
   "winnerUsername": "Tucs",
   "participants": [
@@ -87,7 +87,7 @@
       "review_recommendationid": "239425682",
       "review_url": "https://steamcommunity.com/profiles/76561198013676011/recommended/1656930",
       "playtime_total_minutes": 1158,
-      "playtime_2weeks_minutes": 665,
+      "playtime_2weeks_minutes": 554,
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 1158,
       "achievements_total": 42,
@@ -2023,14 +2023,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 1213,
-      "playtime_2weeks_minutes": 1213,
+      "playtime_total_minutes": 1426,
+      "playtime_2weeks_minutes": 1426,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 1213,
+      "playtime_challenge_minutes": 1426,
       "achievements_total": 42,
-      "achievements_unlocked_total": 31,
+      "achievements_unlocked_total": 42,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 31,
+      "achievements_since_baseline": 42,
       "challenge_achievements": [
         {
           "apiname": "UnlockPantelizMastery",
@@ -2210,16 +2210,78 @@
           "apiname": "CompleteChayaTower",
           "displayName": "Guardian of the East",
           "unlocktime": 1794982028
+        },
+        {
+          "apiname": "ReachHumanLevel30",
+          "displayName": "Expert",
+          "description": "Reach human level 30",
+          "unlocktime": 1794992171
+        },
+        {
+          "apiname": "LevelUpCustomClassTo5",
+          "displayName": "Architect",
+          "description": "Level up Custom Class up to lvl 5",
+          "unlocktime": 1794997637
+        },
+        {
+          "apiname": "FindAllLoreLogs",
+          "displayName": "Complete Chronicles",
+          "description": "Find 15 lore logs",
+          "unlocktime": 1794998100
+        },
+        {
+          "apiname": "ReachBeastMasteryLevel30",
+          "displayName": "The Monster",
+          "description": "Reach level 30 in one beast mastery",
+          "unlocktime": 1794998631
+        },
+        {
+          "apiname": "CompleteJagathaTower",
+          "displayName": "Ranger of the North",
+          "unlocktime": 1794998658
+        },
+        {
+          "apiname": "FindAllCreatureTypes",
+          "displayName": "Gotta Catch 'Em All",
+          "description": "Find all creature types",
+          "unlocktime": 1794999659
+        },
+        {
+          "apiname": "PassThroughBarrier",
+          "displayName": "Into the Unknown",
+          "unlocktime": 1795000692
+        },
+        {
+          "apiname": "SaveMaya",
+          "displayName": "She'll Outlive Us All",
+          "unlocktime": 1795002080
+        },
+        {
+          "apiname": "SaveHeera",
+          "displayName": "This Is It",
+          "unlocktime": 1795002305
+        },
+        {
+          "apiname": "CompleteGuardMissionCorrupted",
+          "displayName": "The Guardian We Need",
+          "description": "Complete a Guard Mission in Dusted Zone",
+          "unlocktime": 1795002559
+        },
+        {
+          "apiname": "UnlockAllAchievements",
+          "displayName": "Legendary",
+          "description": "Platinum, unlocked all other achievements",
+          "unlocktime": 1795002560
         }
       ],
-      "challenge_achievement_count": 31,
+      "challenge_achievement_count": 42,
       "has_started": true,
-      "is_complete": false,
-      "completed_at": null,
+      "is_complete": true,
+      "completed_at": 1795002560,
       "completed_before_start": false,
       "completed_after_deadline": false,
-      "story_unlocked": false,
-      "story_unlocktime": null,
+      "story_unlocked": true,
+      "story_unlocktime": 1795002305,
       "story_after_deadline": false,
       "win_tier": null,
       "qualified_at": null,
@@ -2455,7 +2517,7 @@
       "review_recommendationid": null,
       "review_url": null,
       "playtime_total_minutes": 1468,
-      "playtime_2weeks_minutes": 643,
+      "playtime_2weeks_minutes": 471,
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 1468,
       "achievements_total": 42,
@@ -2661,7 +2723,7 @@
       "review_recommendationid": null,
       "review_url": null,
       "playtime_total_minutes": 246,
-      "playtime_2weeks_minutes": 57,
+      "playtime_2weeks_minutes": 54,
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 246,
       "achievements_total": 42,
