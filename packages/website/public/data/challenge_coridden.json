@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1793491200,
   "totalAchievements": 42,
-  "generatedAt": 1795060086441,
+  "generatedAt": 1795072839053,
   "challengeOver": false,
   "winnerUsername": "Tucs",
   "participants": [
@@ -87,7 +87,7 @@
       "review_recommendationid": "239425682",
       "review_url": "https://steamcommunity.com/profiles/76561198013676011/recommended/1656930",
       "playtime_total_minutes": 1158,
-      "playtime_2weeks_minutes": 458,
+      "playtime_2weeks_minutes": 245,
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 1158,
       "achievements_total": 42,
@@ -2303,10 +2303,10 @@
       "review_timestamp": 0,
       "review_recommendationid": "239574550",
       "review_url": "https://steamcommunity.com/profiles/76561198063858039/recommended/1656930",
-      "playtime_total_minutes": 1547,
-      "playtime_2weeks_minutes": 1380,
+      "playtime_total_minutes": 1663,
+      "playtime_2weeks_minutes": 1468,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 1547,
+      "playtime_challenge_minutes": 1663,
       "achievements_total": 42,
       "achievements_unlocked_total": 30,
       "achievements_before_challenge": 0,
@@ -2517,7 +2517,7 @@
       "review_recommendationid": null,
       "review_url": null,
       "playtime_total_minutes": 1468,
-      "playtime_2weeks_minutes": 467,
+      "playtime_2weeks_minutes": 367,
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 1468,
       "achievements_total": 42,
@@ -3119,6 +3119,79 @@
       "is_winner": false
     },
     {
+      "username": "adam1224",
+      "sg_username": "adam1224",
+      "steam_id": "76561198025823574",
+      "avatar_url": "https://avatars.steamstatic.com/05ebd1c18d1482bff6f8e520c46131760d93d453_full.jpg",
+      "profile_url": "https://steamcommunity.com/id/adam1224/",
+      "is_guest": true,
+      "owned": true,
+      "stats_available": true,
+      "wrote_review": false,
+      "review_voted_up": null,
+      "review_timestamp": null,
+      "review_recommendationid": null,
+      "review_url": null,
+      "playtime_total_minutes": 207,
+      "playtime_2weeks_minutes": 207,
+      "baseline_playtime_minutes": 0,
+      "playtime_challenge_minutes": 207,
+      "achievements_total": 42,
+      "achievements_unlocked_total": 6,
+      "achievements_before_challenge": 0,
+      "achievements_since_baseline": 6,
+      "challenge_achievements": [
+        {
+          "apiname": "UnlockPantelizMastery",
+          "displayName": "Master Panteliz",
+          "description": "Unlock Panteliz Beast Mastery",
+          "unlocktime": 1795033894
+        },
+        {
+          "apiname": "CompleteIntroArena",
+          "displayName": "Are you not entertained?",
+          "unlocktime": 1795033894
+        },
+        {
+          "apiname": "CompleteGuardMission",
+          "displayName": "Mission Possible",
+          "description": "Complete a Guard Mission",
+          "unlocktime": 1795037341
+        },
+        {
+          "apiname": "LevelUpClassTo5",
+          "displayName": "Destined For Greatness",
+          "description": "Level up one of the four (non custom) classes up to lvl 5",
+          "unlocktime": 1795067457
+        },
+        {
+          "apiname": "RescueIra",
+          "displayName": "Ira's Hero",
+          "unlocktime": 1795069380
+        },
+        {
+          "apiname": "RideAMount",
+          "displayName": "Catch a Ride",
+          "description": "Ride a mount (friend or conjure)",
+          "unlocktime": 1795069807
+        }
+      ],
+      "challenge_achievement_count": 6,
+      "has_started": true,
+      "is_complete": false,
+      "completed_at": null,
+      "completed_before_start": false,
+      "completed_after_deadline": false,
+      "story_unlocked": false,
+      "story_unlocktime": null,
+      "story_after_deadline": false,
+      "win_tier": null,
+      "qualified_at": null,
+      "meets_playtime": true,
+      "meets_review": false,
+      "is_winner": false
+    },
+    {
       "username": "Bainsol",
       "sg_username": "Bainsol",
       "steam_id": "76561198055181554",
@@ -3157,62 +3230,6 @@
           "apiname": "CompleteIntroArena",
           "displayName": "Are you not entertained?",
           "unlocktime": 1794760784
-        }
-      ],
-      "challenge_achievement_count": 3,
-      "has_started": true,
-      "is_complete": false,
-      "completed_at": null,
-      "completed_before_start": false,
-      "completed_after_deadline": false,
-      "story_unlocked": false,
-      "story_unlocktime": null,
-      "story_after_deadline": false,
-      "win_tier": null,
-      "qualified_at": null,
-      "meets_playtime": true,
-      "meets_review": false,
-      "is_winner": false
-    },
-    {
-      "username": "adam1224",
-      "sg_username": "adam1224",
-      "steam_id": "76561198025823574",
-      "avatar_url": "https://avatars.steamstatic.com/05ebd1c18d1482bff6f8e520c46131760d93d453_full.jpg",
-      "profile_url": "https://steamcommunity.com/id/adam1224/",
-      "is_guest": true,
-      "owned": true,
-      "stats_available": true,
-      "wrote_review": false,
-      "review_voted_up": null,
-      "review_timestamp": null,
-      "review_recommendationid": null,
-      "review_url": null,
-      "playtime_total_minutes": 139,
-      "playtime_2weeks_minutes": 139,
-      "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 139,
-      "achievements_total": 42,
-      "achievements_unlocked_total": 3,
-      "achievements_before_challenge": 0,
-      "achievements_since_baseline": 3,
-      "challenge_achievements": [
-        {
-          "apiname": "UnlockPantelizMastery",
-          "displayName": "Master Panteliz",
-          "description": "Unlock Panteliz Beast Mastery",
-          "unlocktime": 1795033894
-        },
-        {
-          "apiname": "CompleteIntroArena",
-          "displayName": "Are you not entertained?",
-          "unlocktime": 1795033894
-        },
-        {
-          "apiname": "CompleteGuardMission",
-          "displayName": "Mission Possible",
-          "description": "Complete a Guard Mission",
-          "unlocktime": 1795037341
         }
       ],
       "challenge_achievement_count": 3,
