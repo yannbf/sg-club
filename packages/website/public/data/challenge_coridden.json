@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1793491200,
   "totalAchievements": 42,
-  "generatedAt": 1795181036044,
+  "generatedAt": 1795193969922,
   "challengeOver": false,
   "winnerUsername": "Tucs",
   "participants": [
@@ -367,7 +367,7 @@
       "review_recommendationid": "239524128",
       "review_url": "https://steamcommunity.com/profiles/76561198054649894/recommended/1656930",
       "playtime_total_minutes": 747,
-      "playtime_2weeks_minutes": 65,
+      "playtime_2weeks_minutes": 41,
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 747,
       "achievements_total": 42,
@@ -1207,7 +1207,7 @@
       "review_recommendationid": "240052399",
       "review_url": "https://steamcommunity.com/profiles/76561198352113526/recommended/1656930",
       "playtime_total_minutes": 1953,
-      "playtime_2weeks_minutes": 688,
+      "playtime_2weeks_minutes": 537,
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 1953,
       "achievements_total": 42,
@@ -2517,7 +2517,7 @@
       "review_recommendationid": null,
       "review_url": null,
       "playtime_total_minutes": 1468,
-      "playtime_2weeks_minutes": 251,
+      "playtime_2weeks_minutes": 119,
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 1468,
       "achievements_total": 42,
@@ -3047,14 +3047,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 479,
-      "playtime_2weeks_minutes": 479,
+      "playtime_total_minutes": 626,
+      "playtime_2weeks_minutes": 626,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 479,
+      "playtime_challenge_minutes": 626,
       "achievements_total": 42,
-      "achievements_unlocked_total": 9,
+      "achievements_unlocked_total": 13,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 9,
+      "achievements_since_baseline": 13,
       "challenge_achievements": [
         {
           "apiname": "UnlockPantelizMastery",
@@ -3106,9 +3106,32 @@
           "displayName": "The Animal",
           "description": "Reach level 10 in one beast mastery",
           "unlocktime": 1795126389
+        },
+        {
+          "apiname": "Find5Perasins",
+          "displayName": "Explorer",
+          "description": "Find 5 perasins",
+          "unlocktime": 1795185327
+        },
+        {
+          "apiname": "ExploreObservatory",
+          "displayName": "Digging Up the Past",
+          "unlocktime": 1795186589
+        },
+        {
+          "apiname": "RamEnemy",
+          "displayName": "Crushed Bones",
+          "description": "Ram an enemy",
+          "unlocktime": 1795189443
+        },
+        {
+          "apiname": "GrabAndSlamEnemy",
+          "displayName": "WHAM",
+          "description": "Grab and slam an enemy",
+          "unlocktime": 1795193531
         }
       ],
-      "challenge_achievement_count": 9,
+      "challenge_achievement_count": 13,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
