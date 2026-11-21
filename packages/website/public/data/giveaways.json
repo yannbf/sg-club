@@ -1,25 +1,6 @@
 {
-  "last_updated": "2026-11-21T16:28:51.694Z",
+  "last_updated": "2026-11-21T21:59:11.057Z",
   "giveaways": [
-    {
-      "id": "S1W08",
-      "name": "DREADMOOR",
-      "points": 20,
-      "copies": 1,
-      "app_id": 3629430,
-      "package_id": null,
-      "link": "S1W08/dreadmoor",
-      "created_timestamp": 1794942282,
-      "start_timestamp": 1794942282,
-      "end_timestamp": 1795287600,
-      "group": true,
-      "comment_count": 3,
-      "entry_count": 14,
-      "creator": "76561198040188513",
-      "cv_status": "FULL_CV",
-      "creator_username": "kiseli",
-      "deleted": false
-    },
     {
       "id": "lCP4l",
       "name": "FINAL FANTASY VII REMAKE IN...",
@@ -93,7 +74,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 769,
+      "entry_count": 806,
       "creator": "76561198143588240",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -231,7 +212,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 73,
+      "entry_count": 72,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "FULL_CV",
@@ -292,7 +273,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 68,
+      "entry_count": 69,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -352,7 +333,7 @@
       "end_timestamp": 1795838340,
       "group": true,
       "comment_count": 4,
-      "entry_count": 33,
+      "entry_count": 34,
       "creator": "76561199434715535",
       "cv_status": "FULL_CV",
       "creator_username": "DancingXmas",
@@ -378,6 +359,32 @@
       "deleted": false
     },
     {
+      "id": "S1W08",
+      "name": "DREADMOOR",
+      "points": 20,
+      "copies": 1,
+      "app_id": 3629430,
+      "package_id": null,
+      "link": "S1W08/dreadmoor",
+      "created_timestamp": 1794942282,
+      "start_timestamp": 1794942282,
+      "end_timestamp": 1795287600,
+      "group": true,
+      "comment_count": 4,
+      "entry_count": 14,
+      "creator": "76561198040188513",
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": "76561197967055456",
+          "status": "received",
+          "winner_username": "Foxpile"
+        }
+      ],
+      "cv_status": "FULL_CV",
+      "creator_username": "kiseli"
+    },
+    {
       "id": "RcGaT",
       "name": "Abandon Ship",
       "points": 25,
@@ -397,13 +404,13 @@
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "SevenTian",
+          "status": "received",
+          "winner_username": "SevenTian"
         }
       ],
       "cv_status": "REDUCED_CV",
-      "creator_username": "lockcjwen",
-      "deleted": false
+      "creator_username": "lockcjwen"
     },
     {
       "id": "KqbO4",
@@ -418,20 +425,20 @@
       "end_timestamp": 1795233600,
       "whitelist": true,
       "group": true,
-      "comment_count": 0,
+      "comment_count": 2,
       "entry_count": 70,
       "creator": "76561198234142828",
       "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "Rootwater",
+          "status": "received",
+          "winner_username": "Rootwater"
         }
       ],
       "cv_status": "REDUCED_CV",
-      "creator_username": "lockcjwen",
-      "deleted": false
+      "creator_username": "lockcjwen"
     },
     {
       "id": "uqAqN",
@@ -570,19 +577,19 @@
       "start_timestamp": 1794805221,
       "end_timestamp": 1795154280,
       "group": true,
-      "comment_count": 0,
+      "comment_count": 1,
       "entry_count": 5,
       "creator": "76561198056789339",
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "76561198020386807",
+          "status": "received",
+          "winner_username": "eeev"
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "elysium1988",
-      "deleted": false
+      "creator_username": "elysium1988"
     },
     {
       "id": "FDXID",
@@ -7483,7 +7490,7 @@
       "start_timestamp": 1790838435,
       "end_timestamp": 1791550800,
       "group": true,
-      "comment_count": 2,
+      "comment_count": 3,
       "entry_count": 4,
       "creator": "76561197968806363",
       "required_play": true,
