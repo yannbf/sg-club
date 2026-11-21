@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1793491200,
   "totalAchievements": 42,
-  "generatedAt": 1795260900695,
+  "generatedAt": 1795277415809,
   "challengeOver": false,
   "winnerUsername": "Tucs",
   "participants": [
@@ -927,7 +927,7 @@
       "review_recommendationid": "239758327",
       "review_url": "https://steamcommunity.com/profiles/76561199028503777/recommended/1656930",
       "playtime_total_minutes": 862,
-      "playtime_2weeks_minutes": 645,
+      "playtime_2weeks_minutes": 575,
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 862,
       "achievements_total": 42,
@@ -1487,7 +1487,7 @@
       "review_recommendationid": "240484320",
       "review_url": "https://steamcommunity.com/profiles/76561197994025244/recommended/1656930",
       "playtime_total_minutes": 1948,
-      "playtime_2weeks_minutes": 1367,
+      "playtime_2weeks_minutes": 1188,
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 1948,
       "achievements_total": 42,
@@ -2303,14 +2303,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 1264,
-      "playtime_2weeks_minutes": 1264,
+      "playtime_total_minutes": 1506,
+      "playtime_2weeks_minutes": 1506,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 1264,
+      "playtime_challenge_minutes": 1506,
       "achievements_total": 42,
-      "achievements_unlocked_total": 32,
+      "achievements_unlocked_total": 38,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 32,
+      "achievements_since_baseline": 38,
       "challenge_achievements": [
         {
           "apiname": "UnlockPantelizMastery",
@@ -2495,16 +2495,49 @@
           "apiname": "CompleteJagathaTower",
           "displayName": "Ranger of the North",
           "unlocktime": 1795260208
+        },
+        {
+          "apiname": "ForgeAlterantSequence",
+          "displayName": "Skilled Maker",
+          "description": "Forge an Alterant Sequence",
+          "unlocktime": 1795261754
+        },
+        {
+          "apiname": "PassThroughBarrier",
+          "displayName": "Into the Unknown",
+          "unlocktime": 1795262968
+        },
+        {
+          "apiname": "SaveMaya",
+          "displayName": "She'll Outlive Us All",
+          "unlocktime": 1795266291
+        },
+        {
+          "apiname": "SaveHeera",
+          "displayName": "This Is It",
+          "unlocktime": 1795266897
+        },
+        {
+          "apiname": "ImpaleEnemy",
+          "displayName": "Meat Skewer",
+          "description": "Impale an enemy",
+          "unlocktime": 1795269593
+        },
+        {
+          "apiname": "CompleteGuardMissionCorrupted",
+          "displayName": "The Guardian We Need",
+          "description": "Complete a Guard Mission in Dusted Zone",
+          "unlocktime": 1795274708
         }
       ],
-      "challenge_achievement_count": 32,
+      "challenge_achievement_count": 38,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
       "completed_before_start": false,
       "completed_after_deadline": false,
-      "story_unlocked": false,
-      "story_unlocktime": null,
+      "story_unlocked": true,
+      "story_unlocktime": 1795266897,
       "story_after_deadline": false,
       "win_tier": null,
       "qualified_at": null,
@@ -2527,7 +2560,7 @@
       "review_recommendationid": "239574550",
       "review_url": "https://steamcommunity.com/profiles/76561198063858039/recommended/1656930",
       "playtime_total_minutes": 1703,
-      "playtime_2weeks_minutes": 1312,
+      "playtime_2weeks_minutes": 1290,
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 1703,
       "achievements_total": 42,
