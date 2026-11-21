@@ -1,63 +1,6 @@
 {
-  "last_updated": "2026-11-20T17:18:13.804Z",
+  "last_updated": "2026-11-21T03:01:51.317Z",
   "giveaways": [
-    {
-      "id": "7hF3L",
-      "name": "9 Kings",
-      "points": 20,
-      "copies": 1,
-      "app_id": 2784470,
-      "package_id": null,
-      "link": "7hF3L/9-kings",
-      "created_timestamp": 1794865440,
-      "start_timestamp": 1794865440,
-      "end_timestamp": 1795214460,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 5,
-      "creator": "76561198224589020",
-      "cv_status": "FULL_CV",
-      "creator_username": "Carrei",
-      "deleted": false
-    },
-    {
-      "id": "w2iVM",
-      "name": "Peace, Death! 2",
-      "points": 5,
-      "copies": 2,
-      "app_id": 1546790,
-      "package_id": null,
-      "link": "w2iVM/peace-death-2",
-      "created_timestamp": 1795100974,
-      "start_timestamp": 1795100974,
-      "end_timestamp": 1795219200,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 0,
-      "creator": "76561198411996697",
-      "cv_status": "FULL_CV",
-      "creator_username": "RaitorHaitor",
-      "deleted": false
-    },
-    {
-      "id": "uqAqN",
-      "name": "Ravenswatch",
-      "points": 25,
-      "copies": 1,
-      "app_id": 2071280,
-      "package_id": null,
-      "link": "uqAqN/ravenswatch",
-      "created_timestamp": 1794960946,
-      "start_timestamp": 1794960946,
-      "end_timestamp": 1795220100,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 2,
-      "creator": "76561199028503777",
-      "cv_status": "FULL_CV",
-      "creator_username": "Lilyhia",
-      "deleted": false
-    },
     {
       "id": "RcGaT",
       "name": "Abandon Ship",
@@ -72,7 +15,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 82,
+      "entry_count": 80,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -93,7 +36,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 70,
+      "entry_count": 69,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -112,8 +55,8 @@
       "start_timestamp": 1794942282,
       "end_timestamp": 1795287600,
       "group": true,
-      "comment_count": 2,
-      "entry_count": 12,
+      "comment_count": 3,
+      "entry_count": 14,
       "creator": "76561198040188513",
       "cv_status": "FULL_CV",
       "creator_username": "kiseli",
@@ -171,7 +114,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 74,
+      "entry_count": 75,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "FULL_CV",
@@ -192,7 +135,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 716,
+      "entry_count": 727,
       "creator": "76561198143588240",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -290,7 +233,7 @@
       "start_timestamp": 1795155172,
       "end_timestamp": 1795417800,
       "group": true,
-      "comment_count": 0,
+      "comment_count": 2,
       "entry_count": 1,
       "creator": "76561198453663783",
       "cv_status": "FULL_CV",
@@ -311,7 +254,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 67,
+      "entry_count": 71,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "FULL_CV",
@@ -458,6 +401,79 @@
       "deleted": false
     },
     {
+      "id": "uqAqN",
+      "name": "Ravenswatch",
+      "points": 25,
+      "copies": 1,
+      "app_id": 2071280,
+      "package_id": null,
+      "link": "uqAqN/ravenswatch",
+      "created_timestamp": 1794960946,
+      "start_timestamp": 1794960946,
+      "end_timestamp": 1795220100,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 2,
+      "creator": "76561199028503777",
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "FULL_CV",
+      "creator_username": "Lilyhia",
+      "deleted": false
+    },
+    {
+      "id": "w2iVM",
+      "name": "Peace, Death! 2",
+      "points": 5,
+      "copies": 2,
+      "app_id": 1546790,
+      "package_id": null,
+      "link": "w2iVM/peace-death-2",
+      "created_timestamp": 1795100974,
+      "start_timestamp": 1795100974,
+      "end_timestamp": 1795219200,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 0,
+      "creator": "76561198411996697",
+      "hasWinners": false,
+      "winners": [],
+      "cv_status": "FULL_CV",
+      "creator_username": "RaitorHaitor",
+      "deleted": false
+    },
+    {
+      "id": "7hF3L",
+      "name": "9 Kings",
+      "points": 20,
+      "copies": 1,
+      "app_id": 2784470,
+      "package_id": null,
+      "link": "7hF3L/9-kings",
+      "created_timestamp": 1794865440,
+      "start_timestamp": 1794865440,
+      "end_timestamp": 1795214460,
+      "group": true,
+      "comment_count": 1,
+      "entry_count": 5,
+      "creator": "76561198224589020",
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": "76561198013734355",
+          "status": "received",
+          "winner_username": "gus09"
+        }
+      ],
+      "cv_status": "FULL_CV",
+      "creator_username": "Carrei"
+    },
+    {
       "id": "FwHsc",
       "name": "Hades II",
       "points": 30,
@@ -469,19 +485,19 @@
       "start_timestamp": 1793499751,
       "end_timestamp": 1795172400,
       "group": true,
-      "comment_count": 0,
+      "comment_count": 2,
       "entry_count": 16,
       "creator": "76561198042896883",
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "76561198048238310",
+          "status": "received",
+          "winner_username": "TheGr3atUnknown"
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "Lontaz",
-      "deleted": false
+      "creator_username": "Lontaz"
     },
     {
       "id": "x7666",
@@ -501,13 +517,13 @@
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "76561198066957402",
+          "status": "received",
+          "winner_username": "Gooberdragon"
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "Foxpile",
-      "deleted": false
+      "creator_username": "Foxpile"
     },
     {
       "id": "RuFA5",
