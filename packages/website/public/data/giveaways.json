@@ -1,25 +1,6 @@
 {
-  "last_updated": "2026-11-22T07:00:10.115Z",
+  "last_updated": "2026-11-22T16:33:48.828Z",
   "giveaways": [
-    {
-      "id": "gz7xr",
-      "name": "Shelldiver",
-      "points": 5,
-      "copies": 2,
-      "app_id": 3862670,
-      "package_id": null,
-      "link": "gz7xr/shelldiver",
-      "created_timestamp": 1795231946,
-      "start_timestamp": 1795231946,
-      "end_timestamp": 1795345200,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 2,
-      "creator": "76561198411996697",
-      "cv_status": "FULL_CV",
-      "creator_username": "RaitorHaitor",
-      "deleted": false
-    },
     {
       "id": "nXLic",
       "name": "Into the Dead: Our Darkest Days",
@@ -33,7 +14,7 @@
       "end_timestamp": 1795374000,
       "group": true,
       "comment_count": 1,
-      "entry_count": 8,
+      "entry_count": 9,
       "creator": "76561198013734355",
       "cv_status": "FULL_CV",
       "creator_username": "gus09",
@@ -53,7 +34,7 @@
       "region_restricted": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 26,
+      "entry_count": 28,
       "creator": "76561198118320246",
       "is_shared": true,
       "cv_status": "FULL_CV",
@@ -93,7 +74,7 @@
       "end_timestamp": 1795390620,
       "group": true,
       "comment_count": 0,
-      "entry_count": 3,
+      "entry_count": 4,
       "creator": "76561197989280149",
       "cv_status": "FULL_CV",
       "creator_username": "Thexder",
@@ -132,7 +113,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 73,
+      "entry_count": 72,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "FULL_CV",
@@ -193,7 +174,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 71,
+      "entry_count": 74,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -214,7 +195,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 9,
+      "entry_count": 10,
       "creator": "76561198017660760",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -273,7 +254,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 15,
+      "entry_count": 27,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -293,11 +274,37 @@
       "end_timestamp": 1796011140,
       "group": true,
       "comment_count": 0,
-      "entry_count": 38,
+      "entry_count": 39,
       "creator": "76561198053065013",
       "cv_status": "FULL_CV",
       "creator_username": "aez76",
       "deleted": false
+    },
+    {
+      "id": "gz7xr",
+      "name": "Shelldiver",
+      "points": 5,
+      "copies": 2,
+      "app_id": 3862670,
+      "package_id": null,
+      "link": "gz7xr/shelldiver",
+      "created_timestamp": 1795231946,
+      "start_timestamp": 1795231946,
+      "end_timestamp": 1795345200,
+      "group": true,
+      "comment_count": 1,
+      "entry_count": 2,
+      "creator": "76561198411996697",
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": "76561198117390871",
+          "status": "received",
+          "winner_username": "Mahry"
+        }
+      ],
+      "cv_status": "FULL_CV",
+      "creator_username": "RaitorHaitor"
     },
     {
       "id": "kQ27a",
@@ -347,13 +354,13 @@
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "thanolis",
+          "status": "received",
+          "winner_username": "thanolis"
         }
       ],
       "cv_status": "REDUCED_CV",
-      "creator_username": "LumpyCreature",
-      "deleted": false
+      "creator_username": "LumpyCreature"
     },
     {
       "id": "hwfqN",
@@ -367,19 +374,19 @@
       "start_timestamp": 1793476211,
       "end_timestamp": 1795319940,
       "group": true,
-      "comment_count": 0,
+      "comment_count": 2,
       "entry_count": 14,
       "creator": "76561198053065013",
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "76561198035801987",
+          "status": "received",
+          "winner_username": "makki"
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "aez76",
-      "deleted": false
+      "creator_username": "aez76"
     },
     {
       "id": "lCP4l",
@@ -393,7 +400,7 @@
       "start_timestamp": 1795027938,
       "end_timestamp": 1795304220,
       "group": true,
-      "comment_count": 1,
+      "comment_count": 2,
       "entry_count": 5,
       "creator": "76561197989280149",
       "hasWinners": true,
@@ -1148,7 +1155,7 @@
     {
       "id": "Y5514",
       "name": "Little Nightmares III",
-      "points": 40,
+      "points": 50,
       "copies": 1,
       "app_id": 1392860,
       "package_id": null,
@@ -1185,19 +1192,19 @@
       "end_timestamp": 1794729540,
       "region_restricted": true,
       "group": true,
-      "comment_count": 0,
+      "comment_count": 1,
       "entry_count": 4,
       "creator": "76561198066957402",
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "76561198453663783",
+          "status": "received",
+          "winner_username": "Almostn33t"
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "Gooberdragon",
-      "deleted": false
+      "creator_username": "Gooberdragon"
     },
     {
       "id": "R3Rnm",
@@ -1212,19 +1219,19 @@
       "end_timestamp": 1794729540,
       "region_restricted": true,
       "group": true,
-      "comment_count": 0,
+      "comment_count": 1,
       "entry_count": 2,
       "creator": "76561198066957402",
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "76561198040188513",
+          "status": "received",
+          "winner_username": "kiseli"
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "Gooberdragon",
-      "deleted": false
+      "creator_username": "Gooberdragon"
     },
     {
       "id": "j127u",
@@ -1283,19 +1290,19 @@
       "end_timestamp": 1794729540,
       "region_restricted": true,
       "group": true,
-      "comment_count": 0,
+      "comment_count": 3,
       "entry_count": 1,
       "creator": "76561198066957402",
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "76561198411996697",
+          "status": "received",
+          "winner_username": "RaitorHaitor"
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "Gooberdragon",
-      "deleted": false
+      "creator_username": "Gooberdragon"
     },
     {
       "id": "EnW6Z",
@@ -1332,19 +1339,19 @@
       "end_timestamp": 1794729540,
       "region_restricted": true,
       "group": true,
-      "comment_count": 0,
+      "comment_count": 1,
       "entry_count": 1,
       "creator": "76561198066957402",
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "76561198048462370",
+          "status": "received",
+          "winner_username": "QuinlanLJ"
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "Gooberdragon",
-      "deleted": false
+      "creator_username": "Gooberdragon"
     },
     {
       "id": "AsnmR",
@@ -1359,19 +1366,19 @@
       "end_timestamp": 1794729540,
       "region_restricted": true,
       "group": true,
-      "comment_count": 0,
+      "comment_count": 1,
       "entry_count": 1,
       "creator": "76561198066957402",
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "76561198069420656",
+          "status": "received",
+          "winner_username": "Metalhead8489"
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "Gooberdragon",
-      "deleted": false
+      "creator_username": "Gooberdragon"
     },
     {
       "id": "mFhjq",
