@@ -1,25 +1,6 @@
 {
-  "last_updated": "2026-11-22T22:06:30.577Z",
+  "last_updated": "2026-11-23T04:12:01.945Z",
   "giveaways": [
-    {
-      "id": "sjGnQ",
-      "name": "FINAL FANTASY VII REBIRTH",
-      "points": 50,
-      "copies": 2,
-      "app_id": 2909400,
-      "package_id": null,
-      "link": "sjGnQ/final-fantasy-vii-rebirth",
-      "created_timestamp": 1795028068,
-      "start_timestamp": 1795028068,
-      "end_timestamp": 1795390620,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 5,
-      "creator": "76561197989280149",
-      "cv_status": "FULL_CV",
-      "creator_username": "Thexder",
-      "deleted": false
-    },
     {
       "id": "8TiNU",
       "name": "Fe",
@@ -53,7 +34,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 74,
+      "entry_count": 78,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "FULL_CV",
@@ -114,7 +95,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 77,
+      "entry_count": 78,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -194,7 +175,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 32,
+      "entry_count": 34,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -221,6 +202,32 @@
       "deleted": false
     },
     {
+      "id": "sjGnQ",
+      "name": "FINAL FANTASY VII REBIRTH",
+      "points": 50,
+      "copies": 2,
+      "app_id": 2909400,
+      "package_id": null,
+      "link": "sjGnQ/final-fantasy-vii-rebirth",
+      "created_timestamp": 1795028068,
+      "start_timestamp": 1795028068,
+      "end_timestamp": 1795390620,
+      "group": true,
+      "comment_count": 4,
+      "entry_count": 5,
+      "creator": "76561197989280149",
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": "76561197975099685",
+          "status": "received",
+          "winner_username": "MrOuiOui"
+        }
+      ],
+      "cv_status": "FULL_CV",
+      "creator_username": "Thexder"
+    },
+    {
       "id": "O8NBC",
       "name": "Shape of Dreams",
       "points": 25,
@@ -233,20 +240,20 @@
       "end_timestamp": 1795381200,
       "region_restricted": true,
       "group": true,
-      "comment_count": 0,
+      "comment_count": 1,
       "entry_count": 28,
       "creator": "76561198118320246",
       "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "76561198982150416",
+          "status": "received",
+          "winner_username": "vlbastos"
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "Shughes91",
-      "deleted": false
+      "creator_username": "Shughes91"
     },
     {
       "id": "TVmcA",
@@ -313,7 +320,7 @@
       "start_timestamp": 1795231946,
       "end_timestamp": 1795345200,
       "group": true,
-      "comment_count": 1,
+      "comment_count": 2,
       "entry_count": 2,
       "creator": "76561198411996697",
       "hasWinners": true,
@@ -322,6 +329,11 @@
           "name": "76561198117390871",
           "status": "received",
           "winner_username": "Mahry"
+        },
+        {
+          "name": "76561198832209109",
+          "status": "received",
+          "winner_username": "Slenderpoop00"
         }
       ],
       "cv_status": "FULL_CV",
@@ -421,7 +433,7 @@
       "start_timestamp": 1795027938,
       "end_timestamp": 1795304220,
       "group": true,
-      "comment_count": 3,
+      "comment_count": 4,
       "entry_count": 5,
       "creator": "76561197989280149",
       "hasWinners": true,
