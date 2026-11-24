@@ -1,27 +1,6 @@
 {
-  "last_updated": "2026-11-24T03:36:07.592Z",
+  "last_updated": "2026-11-24T10:07:37.696Z",
   "giveaways": [
-    {
-      "id": "Rntzg",
-      "name": "Neon City Riders",
-      "points": 10,
-      "copies": 1,
-      "app_id": 1102650,
-      "package_id": null,
-      "link": "Rntzg/neon-city-riders",
-      "created_timestamp": 1794872052,
-      "start_timestamp": 1794872052,
-      "end_timestamp": 1795492800,
-      "whitelist": true,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 83,
-      "creator": "76561198234142828",
-      "is_shared": true,
-      "cv_status": "FULL_CV",
-      "creator_username": "lockcjwen",
-      "deleted": false
-    },
     {
       "id": "UAOS8",
       "name": "The Alters",
@@ -75,7 +54,7 @@
       "end_timestamp": 1795600800,
       "group": true,
       "comment_count": 0,
-      "entry_count": 9,
+      "entry_count": 13,
       "creator": "76561197967055456",
       "cv_status": "FULL_CV",
       "creator_username": "Foxpile",
@@ -94,7 +73,7 @@
       "end_timestamp": 1795600800,
       "group": true,
       "comment_count": 0,
-      "entry_count": 6,
+      "entry_count": 8,
       "creator": "76561197967055456",
       "cv_status": "FULL_CV",
       "creator_username": "Foxpile",
@@ -133,7 +112,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 85,
+      "entry_count": 87,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -259,6 +238,34 @@
       "deleted": false
     },
     {
+      "id": "Rntzg",
+      "name": "Neon City Riders",
+      "points": 10,
+      "copies": 1,
+      "app_id": 1102650,
+      "package_id": null,
+      "link": "Rntzg/neon-city-riders",
+      "created_timestamp": 1794872052,
+      "start_timestamp": 1794872052,
+      "end_timestamp": 1795492800,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 84,
+      "creator": "76561198234142828",
+      "is_shared": true,
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "FULL_CV",
+      "creator_username": "lockcjwen",
+      "deleted": false
+    },
+    {
       "id": "8TiNU",
       "name": "Fe",
       "points": 20,
@@ -368,7 +375,8 @@
       ],
       "cv_status": "FULL_CV",
       "creator_username": "Shughes91",
-      "deleted": false
+      "deleted": true,
+      "deleted_reason": "Region Restricted Gift"
     },
     {
       "id": "nXLic",
@@ -440,20 +448,20 @@
       "end_timestamp": 1795320000,
       "whitelist": true,
       "group": true,
-      "comment_count": 0,
+      "comment_count": 2,
       "entry_count": 77,
       "creator": "76561198234142828",
       "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "Tronics",
+          "status": "received",
+          "winner_username": "Tronics"
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "lockcjwen",
-      "deleted": false
+      "creator_username": "lockcjwen"
     },
     {
       "id": "MSm2t",
