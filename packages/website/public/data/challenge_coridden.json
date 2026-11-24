@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1793491200,
   "totalAchievements": 42,
-  "generatedAt": 1795513920924,
+  "generatedAt": 1795518110869,
   "challengeOver": false,
   "winnerUsername": "Tucs",
   "participants": [
@@ -3718,14 +3718,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 316,
-      "playtime_2weeks_minutes": 316,
+      "playtime_total_minutes": 389,
+      "playtime_2weeks_minutes": 389,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 316,
+      "playtime_challenge_minutes": 389,
       "achievements_total": 42,
-      "achievements_unlocked_total": 11,
+      "achievements_unlocked_total": 16,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 11,
+      "achievements_since_baseline": 16,
       "challenge_achievements": [
         {
           "apiname": "UnlockPantelizMastery",
@@ -3789,9 +3789,38 @@
           "displayName": "The Animal",
           "description": "Reach level 10 in one beast mastery",
           "unlocktime": 1795513660
+        },
+        {
+          "apiname": "ExploreObservatory",
+          "displayName": "Digging Up the Past",
+          "unlocktime": 1795515262
+        },
+        {
+          "apiname": "UnlockRamoxMastery",
+          "displayName": "Master Ramox",
+          "description": "Unlock Ramox Beast Mastery",
+          "unlocktime": 1795515982
+        },
+        {
+          "apiname": "RamEnemy",
+          "displayName": "Crushed Bones",
+          "description": "Ram an enemy",
+          "unlocktime": 1795515982
+        },
+        {
+          "apiname": "ForgeAnItem",
+          "displayName": "Tinkerer",
+          "description": "Forge an item",
+          "unlocktime": 1795517444
+        },
+        {
+          "apiname": "ResetSkillsTreeOnce",
+          "displayName": "Fresh Start",
+          "description": "Reset Skills Tree 1 time",
+          "unlocktime": 1795517951
         }
       ],
-      "challenge_achievement_count": 11,
+      "challenge_achievement_count": 16,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
