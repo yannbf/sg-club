@@ -1,44 +1,6 @@
 {
-  "last_updated": "2026-11-24T23:55:27.972Z",
+  "last_updated": "2026-11-25T10:33:08.591Z",
   "giveaways": [
-    {
-      "id": "yepBT",
-      "name": "Moss: The Forgotten Relic",
-      "points": 20,
-      "copies": 1,
-      "app_id": 3914860,
-      "package_id": null,
-      "link": "yepBT/moss-the-forgotten-relic",
-      "created_timestamp": 1795471710,
-      "start_timestamp": 1795471710,
-      "end_timestamp": 1795600800,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 16,
-      "creator": "76561197967055456",
-      "cv_status": "FULL_CV",
-      "creator_username": "Foxpile",
-      "deleted": false
-    },
-    {
-      "id": "pOGEq",
-      "name": "Momodora: Moonlit Farewell",
-      "points": 17,
-      "copies": 1,
-      "app_id": 1747760,
-      "package_id": null,
-      "link": "pOGEq/momodora-moonlit-farewell",
-      "created_timestamp": 1795471664,
-      "start_timestamp": 1795471664,
-      "end_timestamp": 1795600800,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 9,
-      "creator": "76561197967055456",
-      "cv_status": "FULL_CV",
-      "creator_username": "Foxpile",
-      "deleted": false
-    },
     {
       "id": "c3SwD",
       "name": "The Rabbit Haul",
@@ -52,7 +14,7 @@
       "end_timestamp": 1795654140,
       "group": true,
       "comment_count": 0,
-      "entry_count": 3,
+      "entry_count": 4,
       "creator": "76561198453663783",
       "cv_status": "FULL_CV",
       "creator_username": "Almostn33t",
@@ -113,7 +75,7 @@
       "end_timestamp": 1795795800,
       "group": true,
       "comment_count": 1,
-      "entry_count": 9,
+      "entry_count": 10,
       "creator": "76561199028503777",
       "cv_status": "FULL_CV",
       "creator_username": "Lilyhia",
@@ -151,7 +113,7 @@
       "end_timestamp": 1795838340,
       "group": true,
       "comment_count": 4,
-      "entry_count": 35,
+      "entry_count": 36,
       "creator": "76561199434715535",
       "cv_status": "FULL_CV",
       "creator_username": "DancingXmas",
@@ -190,7 +152,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 39,
+      "entry_count": 41,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -230,11 +192,63 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 14,
+      "entry_count": 19,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
       "creator_username": "lockcjwen",
+      "deleted": false
+    },
+    {
+      "id": "yepBT",
+      "name": "Moss: The Forgotten Relic",
+      "points": 20,
+      "copies": 1,
+      "app_id": 3914860,
+      "package_id": null,
+      "link": "yepBT/moss-the-forgotten-relic",
+      "created_timestamp": 1795471710,
+      "start_timestamp": 1795471710,
+      "end_timestamp": 1795600800,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 17,
+      "creator": "76561197967055456",
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "FULL_CV",
+      "creator_username": "Foxpile",
+      "deleted": false
+    },
+    {
+      "id": "pOGEq",
+      "name": "Momodora: Moonlit Farewell",
+      "points": 17,
+      "copies": 1,
+      "app_id": 1747760,
+      "package_id": null,
+      "link": "pOGEq/momodora-moonlit-farewell",
+      "created_timestamp": 1795471664,
+      "start_timestamp": 1795471664,
+      "end_timestamp": 1795600800,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 11,
+      "creator": "76561197967055456",
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "FULL_CV",
+      "creator_username": "Foxpile",
       "deleted": false
     },
     {
@@ -250,19 +264,19 @@
       "end_timestamp": 1795561200,
       "region_restricted": true,
       "group": true,
-      "comment_count": 2,
+      "comment_count": 3,
       "entry_count": 5,
       "creator": "76561198408001048",
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "76561197989280149",
+          "status": "received",
+          "winner_username": "Thexder"
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "dramainfouracts",
-      "deleted": false
+      "creator_username": "dramainfouracts"
     },
     {
       "id": "UAOS8",
@@ -277,7 +291,7 @@
       "end_timestamp": 1795546620,
       "region_restricted": true,
       "group": true,
-      "comment_count": 1,
+      "comment_count": 2,
       "entry_count": 9,
       "creator": "76561198183406253",
       "hasWinners": true,
@@ -3192,7 +3206,7 @@
       "start_timestamp": 1793502156,
       "end_timestamp": 1794022200,
       "group": true,
-      "comment_count": 3,
+      "comment_count": 4,
       "entry_count": 20,
       "creator": "76561199036747433",
       "hasWinners": true,
@@ -5473,7 +5487,7 @@
       "end_timestamp": 1792868400,
       "whitelist": true,
       "group": true,
-      "comment_count": 3,
+      "comment_count": 4,
       "entry_count": 31,
       "creator": "76561197967055456",
       "is_shared": true,
