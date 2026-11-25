@@ -1,46 +1,6 @@
 {
-  "last_updated": "2026-11-24T10:07:37.696Z",
+  "last_updated": "2026-11-24T23:55:27.972Z",
   "giveaways": [
-    {
-      "id": "UAOS8",
-      "name": "The Alters",
-      "points": 35,
-      "copies": 1,
-      "app_id": 1601570,
-      "package_id": null,
-      "link": "UAOS8/the-alters",
-      "created_timestamp": 1794938486,
-      "start_timestamp": 1794938486,
-      "end_timestamp": 1795546620,
-      "region_restricted": true,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 9,
-      "creator": "76561198183406253",
-      "cv_status": "FULL_CV",
-      "creator_username": "Yukisuna",
-      "deleted": false
-    },
-    {
-      "id": "kKCCw",
-      "name": "Persona 3 Reload",
-      "points": 50,
-      "copies": 1,
-      "app_id": 2161700,
-      "package_id": null,
-      "link": "kKCCw/persona-3-reload",
-      "created_timestamp": 1795012471,
-      "start_timestamp": 1795012471,
-      "end_timestamp": 1795561200,
-      "region_restricted": true,
-      "group": true,
-      "comment_count": 2,
-      "entry_count": 5,
-      "creator": "76561198408001048",
-      "cv_status": "FULL_CV",
-      "creator_username": "dramainfouracts",
-      "deleted": false
-    },
     {
       "id": "yepBT",
       "name": "Moss: The Forgotten Relic",
@@ -54,7 +14,7 @@
       "end_timestamp": 1795600800,
       "group": true,
       "comment_count": 0,
-      "entry_count": 13,
+      "entry_count": 16,
       "creator": "76561197967055456",
       "cv_status": "FULL_CV",
       "creator_username": "Foxpile",
@@ -73,7 +33,7 @@
       "end_timestamp": 1795600800,
       "group": true,
       "comment_count": 0,
-      "entry_count": 8,
+      "entry_count": 9,
       "creator": "76561197967055456",
       "cv_status": "FULL_CV",
       "creator_username": "Foxpile",
@@ -112,7 +72,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 87,
+      "entry_count": 84,
       "creator": "76561198234142828",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -138,6 +98,25 @@
       "is_shared": true,
       "cv_status": "REDUCED_CV",
       "creator_username": "TempR",
+      "deleted": false
+    },
+    {
+      "id": "KwHv1",
+      "name": "Duck Detective: The Secret Salami",
+      "points": 10,
+      "copies": 1,
+      "app_id": 2637990,
+      "package_id": null,
+      "link": "KwHv1/duck-detective-the-secret-salami",
+      "created_timestamp": 1795536653,
+      "start_timestamp": 1795536653,
+      "end_timestamp": 1795795800,
+      "group": true,
+      "comment_count": 1,
+      "entry_count": 9,
+      "creator": "76561199028503777",
+      "cv_status": "FULL_CV",
+      "creator_username": "Lilyhia",
       "deleted": false
     },
     {
@@ -238,6 +217,81 @@
       "deleted": false
     },
     {
+      "id": "qpEw4",
+      "name": "The Coma 2: Vicious Sisters",
+      "points": 15,
+      "copies": 1,
+      "app_id": 1045720,
+      "package_id": null,
+      "link": "qpEw4/the-coma-2-vicious-sisters",
+      "created_timestamp": 1795519808,
+      "start_timestamp": 1795519808,
+      "end_timestamp": 1796097600,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 14,
+      "creator": "76561198234142828",
+      "is_shared": true,
+      "cv_status": "REDUCED_CV",
+      "creator_username": "lockcjwen",
+      "deleted": false
+    },
+    {
+      "id": "kKCCw",
+      "name": "Persona 3 Reload",
+      "points": 50,
+      "copies": 1,
+      "app_id": 2161700,
+      "package_id": null,
+      "link": "kKCCw/persona-3-reload",
+      "created_timestamp": 1795012471,
+      "start_timestamp": 1795012471,
+      "end_timestamp": 1795561200,
+      "region_restricted": true,
+      "group": true,
+      "comment_count": 2,
+      "entry_count": 5,
+      "creator": "76561198408001048",
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
+      "cv_status": "FULL_CV",
+      "creator_username": "dramainfouracts",
+      "deleted": false
+    },
+    {
+      "id": "UAOS8",
+      "name": "The Alters",
+      "points": 35,
+      "copies": 1,
+      "app_id": 1601570,
+      "package_id": null,
+      "link": "UAOS8/the-alters",
+      "created_timestamp": 1794938486,
+      "start_timestamp": 1794938486,
+      "end_timestamp": 1795546620,
+      "region_restricted": true,
+      "group": true,
+      "comment_count": 1,
+      "entry_count": 9,
+      "creator": "76561198183406253",
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": "76561198070041813",
+          "status": "received",
+          "winner_username": "Tucs"
+        }
+      ],
+      "cv_status": "FULL_CV",
+      "creator_username": "Yukisuna"
+    },
+    {
       "id": "Rntzg",
       "name": "Neon City Riders",
       "points": 10,
@@ -250,20 +304,20 @@
       "end_timestamp": 1795492800,
       "whitelist": true,
       "group": true,
-      "comment_count": 0,
+      "comment_count": 2,
       "entry_count": 84,
       "creator": "76561198234142828",
       "is_shared": true,
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "EzZz3",
+          "status": "received",
+          "winner_username": "EzZz3"
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "lockcjwen",
-      "deleted": false
+      "creator_username": "lockcjwen"
     },
     {
       "id": "8TiNU",
@@ -390,19 +444,19 @@
       "start_timestamp": 1794936362,
       "end_timestamp": 1795374000,
       "group": true,
-      "comment_count": 1,
+      "comment_count": 2,
       "entry_count": 9,
       "creator": "76561198013734355",
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "76561197994025244",
+          "status": "received",
+          "winner_username": "PsychoApeMan"
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "gus09",
-      "deleted": false
+      "creator_username": "gus09"
     },
     {
       "id": "gz7xr",
@@ -3138,7 +3192,7 @@
       "start_timestamp": 1793502156,
       "end_timestamp": 1794022200,
       "group": true,
-      "comment_count": 2,
+      "comment_count": 3,
       "entry_count": 20,
       "creator": "76561199036747433",
       "hasWinners": true,
@@ -5419,7 +5473,7 @@
       "end_timestamp": 1792868400,
       "whitelist": true,
       "group": true,
-      "comment_count": 2,
+      "comment_count": 3,
       "entry_count": 31,
       "creator": "76561197967055456",
       "is_shared": true,
@@ -5475,7 +5529,7 @@
       "end_timestamp": 1792868400,
       "whitelist": true,
       "group": true,
-      "comment_count": 4,
+      "comment_count": 5,
       "entry_count": 47,
       "creator": "76561197967055456",
       "is_shared": true,
