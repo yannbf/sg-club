@@ -1,27 +1,6 @@
 {
-  "last_updated": "2026-11-26T03:19:16.409Z",
+  "last_updated": "2026-11-26T08:27:43.549Z",
   "giveaways": [
-    {
-      "id": "ew5EX",
-      "name": "A Tiny Sticker Tale",
-      "points": 10,
-      "copies": 1,
-      "app_id": 2322180,
-      "package_id": null,
-      "link": "ew5EX/a-tiny-sticker-tale",
-      "created_timestamp": 1795031320,
-      "start_timestamp": 1795031320,
-      "end_timestamp": 1795665600,
-      "whitelist": true,
-      "group": true,
-      "comment_count": 0,
-      "entry_count": 87,
-      "creator": "76561198234142828",
-      "is_shared": true,
-      "cv_status": "REDUCED_CV",
-      "creator_username": "lockcjwen",
-      "deleted": false
-    },
     {
       "id": "irAkx",
       "name": "BAD END THEATER",
@@ -36,7 +15,7 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 11,
+      "entry_count": 12,
       "creator": "76561198017660760",
       "is_shared": true,
       "cv_status": "REDUCED_CV",
@@ -75,7 +54,7 @@
       "end_timestamp": 1795838340,
       "group": true,
       "comment_count": 1,
-      "entry_count": 22,
+      "entry_count": 23,
       "creator": "76561199434715535",
       "cv_status": "FULL_CV",
       "creator_username": "DancingXmas",
@@ -173,9 +152,37 @@
       "whitelist": true,
       "group": true,
       "comment_count": 0,
-      "entry_count": 22,
+      "entry_count": 23,
       "creator": "76561198234142828",
       "is_shared": true,
+      "cv_status": "REDUCED_CV",
+      "creator_username": "lockcjwen",
+      "deleted": false
+    },
+    {
+      "id": "ew5EX",
+      "name": "A Tiny Sticker Tale",
+      "points": 10,
+      "copies": 1,
+      "app_id": 2322180,
+      "package_id": null,
+      "link": "ew5EX/a-tiny-sticker-tale",
+      "created_timestamp": 1795031320,
+      "start_timestamp": 1795031320,
+      "end_timestamp": 1795665600,
+      "whitelist": true,
+      "group": true,
+      "comment_count": 0,
+      "entry_count": 87,
+      "creator": "76561198234142828",
+      "is_shared": true,
+      "hasWinners": true,
+      "winners": [
+        {
+          "name": null,
+          "status": "awaiting_feedback"
+        }
+      ],
       "cv_status": "REDUCED_CV",
       "creator_username": "lockcjwen",
       "deleted": false
@@ -192,19 +199,19 @@
       "start_timestamp": 1795438448,
       "end_timestamp": 1795654140,
       "group": true,
-      "comment_count": 0,
+      "comment_count": 1,
       "entry_count": 5,
       "creator": "76561198453663783",
       "hasWinners": true,
       "winners": [
         {
-          "name": null,
-          "status": "awaiting_feedback"
+          "name": "76561198040188513",
+          "status": "received",
+          "winner_username": "kiseli"
         }
       ],
       "cv_status": "FULL_CV",
-      "creator_username": "Almostn33t",
-      "deleted": false
+      "creator_username": "Almostn33t"
     },
     {
       "id": "yepBT",
