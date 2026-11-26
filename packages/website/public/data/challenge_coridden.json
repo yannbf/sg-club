@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1793491200,
   "totalAchievements": 42,
-  "generatedAt": 1795685787012,
+  "generatedAt": 1795698170821,
   "challengeOver": false,
   "winnerUsername": "Tucs",
   "participants": [
@@ -3746,14 +3746,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 630,
-      "playtime_2weeks_minutes": 630,
+      "playtime_total_minutes": 712,
+      "playtime_2weeks_minutes": 712,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 630,
+      "playtime_challenge_minutes": 712,
       "achievements_total": 42,
-      "achievements_unlocked_total": 18,
+      "achievements_unlocked_total": 19,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 18,
+      "achievements_since_baseline": 19,
       "challenge_achievements": [
         {
           "apiname": "UnlockPantelizMastery",
@@ -3857,9 +3857,15 @@
           "displayName": "Treasure Hunter",
           "description": "Find 10 perasins",
           "unlocktime": 1795539791
+        },
+        {
+          "apiname": "UnlockCrocoliskMastery",
+          "displayName": "Master Crocolisk",
+          "description": "Unlock Crocolisk Beast Mastery",
+          "unlocktime": 1795688873
         }
       ],
-      "challenge_achievement_count": 18,
+      "challenge_achievement_count": 19,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
