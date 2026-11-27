@@ -5,7 +5,7 @@
   "winType": "completion",
   "startTimestamp": 1793491200,
   "totalAchievements": 42,
-  "generatedAt": 1795793363057,
+  "generatedAt": 1795823082470,
   "challengeOver": false,
   "winnerUsername": "Tucs",
   "participants": [
@@ -3126,7 +3126,7 @@
       "review_recommendationid": null,
       "review_url": null,
       "playtime_total_minutes": 1650,
-      "playtime_2weeks_minutes": 219,
+      "playtime_2weeks_minutes": 181,
       "baseline_playtime_minutes": 0,
       "playtime_challenge_minutes": 1650,
       "achievements_total": 42,
@@ -3568,14 +3568,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 985,
-      "playtime_2weeks_minutes": 985,
+      "playtime_total_minutes": 1122,
+      "playtime_2weeks_minutes": 1122,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 985,
+      "playtime_challenge_minutes": 1122,
       "achievements_total": 42,
-      "achievements_unlocked_total": 26,
+      "achievements_unlocked_total": 27,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 26,
+      "achievements_since_baseline": 27,
       "challenge_achievements": [
         {
           "apiname": "UnlockPantelizMastery",
@@ -3726,9 +3726,14 @@
           "displayName": "Master Scaptor",
           "description": "Unlock Scaptor Beast Mastery",
           "unlocktime": 1795790446
+        },
+        {
+          "apiname": "CompleteVarunTower",
+          "displayName": "Warden of the West",
+          "unlocktime": 1795799135
         }
       ],
-      "challenge_achievement_count": 26,
+      "challenge_achievement_count": 27,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
@@ -4082,14 +4087,14 @@
       "review_timestamp": null,
       "review_recommendationid": null,
       "review_url": null,
-      "playtime_total_minutes": 153,
-      "playtime_2weeks_minutes": 153,
+      "playtime_total_minutes": 340,
+      "playtime_2weeks_minutes": 340,
       "baseline_playtime_minutes": 0,
-      "playtime_challenge_minutes": 153,
+      "playtime_challenge_minutes": 340,
       "achievements_total": 42,
-      "achievements_unlocked_total": 9,
+      "achievements_unlocked_total": 19,
       "achievements_before_challenge": 0,
-      "achievements_since_baseline": 9,
+      "achievements_since_baseline": 19,
       "challenge_achievements": [
         {
           "apiname": "RideAMount",
@@ -4142,9 +4147,68 @@
           "apiname": "RescueIra",
           "displayName": "Ira's Hero",
           "unlocktime": 1795755379
+        },
+        {
+          "apiname": "UnlockHoundraMastery",
+          "displayName": "Master Houndra",
+          "description": "Unlock Houndra Beast Mastery",
+          "unlocktime": 1795812406
+        },
+        {
+          "apiname": "ReachHumanLevel10",
+          "displayName": "Novice",
+          "description": "Reach human level 10",
+          "unlocktime": 1795813200
+        },
+        {
+          "apiname": "UnlockRokerMastery",
+          "displayName": "Master Roker",
+          "description": "Unlock Roker Beast Mastery",
+          "unlocktime": 1795814727
+        },
+        {
+          "apiname": "ImpaleEnemy",
+          "displayName": "Meat Skewer",
+          "description": "Impale an enemy",
+          "unlocktime": 1795817616
+        },
+        {
+          "apiname": "UnlockScaptorMastery",
+          "displayName": "Master Scaptor",
+          "description": "Unlock Scaptor Beast Mastery",
+          "unlocktime": 1795817830
+        },
+        {
+          "apiname": "Find5Perasins",
+          "displayName": "Explorer",
+          "description": "Find 5 perasins",
+          "unlocktime": 1795818507
+        },
+        {
+          "apiname": "ReachBeastMasteryLevel10",
+          "displayName": "The Animal",
+          "description": "Reach level 10 in one beast mastery",
+          "unlocktime": 1795820487
+        },
+        {
+          "apiname": "ForgeAnItem",
+          "displayName": "Tinkerer",
+          "description": "Forge an item",
+          "unlocktime": 1795820551
+        },
+        {
+          "apiname": "EnterTheBurrow",
+          "displayName": "Reunion at The Burrow",
+          "unlocktime": 1795821009
+        },
+        {
+          "apiname": "UnlockRamoxMastery",
+          "displayName": "Master Ramox",
+          "description": "Unlock Ramox Beast Mastery",
+          "unlocktime": 1795822302
         }
       ],
-      "challenge_achievement_count": 9,
+      "challenge_achievement_count": 19,
       "has_started": true,
       "is_complete": false,
       "completed_at": null,
